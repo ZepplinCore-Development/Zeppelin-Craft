@@ -1,0 +1,63 @@
+{
+  "_comment": "Per-(class, role) stat allowlists for F-013 item generator. Stat IDs follow stat_types.json (verified against AC source and gem data 2026-05-21). 'primary' stats are always picked when the item's stat count >= len(primary); 'secondary' fills remaining slots via uniform sampling without replacement.",
+
+  "_stat_ids": {
+    "agility": 3, "strength": 4, "intellect": 5, "spirit": 6, "stamina": 7,
+    "defense": 12, "dodge": 13, "parry": 14, "block_rating": 15,
+    "hit": 31, "crit": 32, "resilience": 35, "haste": 36, "expertise": 37,
+    "attack_power": 38, "ranged_attack_power": 39, "mp5": 43,
+    "armor_pen": 44, "spell_power": 45, "hp5": 46, "spell_pen": 47,
+    "block_value": 48
+  },
+
+  "warrior": {
+    "tank":   {"primary": [4, 7],  "secondary": [12, 13, 14, 15, 31, 32, 35, 36, 37, 38, 44, 48]},
+    "melee":  {"primary": [4, 7],  "secondary": [31, 32, 36, 37, 38, 44]}
+  },
+
+  "paladin": {
+    "tank":   {"primary": [4, 7],  "secondary": [12, 13, 14, 15, 31, 32, 35, 36, 37, 38, 44, 48]},
+    "melee":  {"primary": [4, 7],  "secondary": [31, 32, 36, 37, 38, 44]},
+    "healer": {"primary": [5, 7],  "secondary": [6, 32, 36, 43, 45]}
+  },
+
+  "hunter": {
+    "melee":  {"primary": [3, 7],  "secondary": [5, 31, 32, 36, 38, 44]}
+  },
+
+  "rogue": {
+    "melee":  {"primary": [3, 7],  "secondary": [31, 32, 35, 36, 37, 38, 44]}
+  },
+
+  "priest": {
+    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]},
+    "healer": {"primary": [5, 7],  "secondary": [6, 32, 36, 43, 45]}
+  },
+
+  "deathknight": {
+    "tank":   {"primary": [4, 7],  "secondary": [12, 13, 14, 31, 32, 35, 36, 37, 38, 44]},
+    "melee":  {"primary": [4, 7],  "secondary": [31, 32, 36, 37, 38, 44]}
+  },
+
+  "shaman": {
+    "tank":   {"primary": [4, 7],  "secondary": [12, 13, 14, 15, 31, 32, 35, 36, 37, 38, 44, 48]},
+    "melee":  {"primary": [3, 7],  "secondary": [4, 5, 31, 32, 36, 37, 38, 44, 45]},
+    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]},
+    "healer": {"primary": [5, 7],  "secondary": [6, 32, 36, 43, 45]}
+  },
+
+  "mage": {
+    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]}
+  },
+
+  "warlock": {
+    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]}
+  },
+
+  "druid": {
+    "tank":   {"primary": [3, 7],  "secondary": [4, 31, 32, 35, 36, 37, 38, 44]},
+    "melee":  {"primary": [3, 7],  "secondary": [4, 31, 32, 36, 37, 38, 44]},
+    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]},
+    "healer": {"primary": [5, 7],  "secondary": [6, 32, 36, 43, 45]}
+  }
+}

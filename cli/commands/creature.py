@@ -157,6 +157,19 @@ def creature_heroic(ctx, output, seed, quiet):
             click.echo(click.style(f"Not found: {not_found} creatures", fg='yellow'))
         click.echo(click.style(f"Output written: {output_path}", fg='green'))
 
+        # F-074 Phase 1: regenerate the class-conditional dungeon caches in the
+        # same step. Bosses and trash mobs reference the caches via lootid, so
+        # the two files must be kept in sync.
+        from lib.loot.satchel import OUTPUT_FILENAME as CACHE_FILENAME, generate
+        cache_path = output_path.parent / CACHE_FILENAME
+        click.echo()
+        click.echo("F-074 dungeon caches")
+        click.echo(f"Output: {cache_path}")
+        num_caches, items_total = generate(cache_path)
+        click.echo(f"Caches: {num_caches}")
+        click.echo(f"Items in pools: {items_total}")
+        click.echo(click.style(f"Output written: {cache_path}", fg='green'))
+
     except FileNotFoundError as e:
         raise click.ClickException(str(e))
     except Exception as e:

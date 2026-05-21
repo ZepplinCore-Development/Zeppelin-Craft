@@ -23,10 +23,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 11320,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.87,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9100000;
 
@@ -66,10 +66,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 11321,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9100001;
 
@@ -109,10 +109,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 11319,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.81,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9100002;
 
@@ -152,10 +152,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 11318,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9100003;
 
@@ -195,10 +195,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 11322,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 3.43,
     `ScriptName` = ''
 WHERE `entry` = 9100004;
 
@@ -238,10 +238,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 11323,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9100005;
 
@@ -281,10 +281,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 11324,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9100006;
 
@@ -324,10 +324,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.3,
+    `HealthModifier` = 6.08,
     `ScriptName` = ''
 WHERE `entry` = 9100007;
 
@@ -367,10 +367,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.36,
+    `HealthModifier` = 6.31,
     `ScriptName` = ''
 WHERE `entry` = 9100008;
 
@@ -410,10 +410,10 @@ UPDATE `creature_template` SET
     `subname` = 'Ragefire Chieftain',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.1,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.13,
+    `HealthModifier` = 6.12,
     `ScriptName` = ''
 WHERE `entry` = 9100009;
 
@@ -453,10 +453,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.04,
+    `HealthModifier` = 5.87,
     `ScriptName` = ''
 WHERE `entry` = 9100010;
 
@@ -496,10 +496,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.03,
+    `HealthModifier` = 6.15,
     `ScriptName` = ''
 WHERE `entry` = 9100011;
 
@@ -539,10 +539,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 0,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.31,
+    `HealthModifier` = 2.48,
     `ScriptName` = ''
 WHERE `entry` = 9100012;
 
@@ -582,10 +582,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.45,
+    `HealthModifier` = 2.39,
     `ScriptName` = ''
 WHERE `entry` = 9100013;
 
@@ -625,10 +625,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 11320,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.15,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9100014;
 
@@ -669,9 +669,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.94,
-    `lootid` = 11321,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.91,
+    `HealthModifier` = 4.21,
     `ScriptName` = ''
 WHERE `entry` = 9100015;
 
@@ -711,10 +711,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 11319,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.2,
+    `HealthModifier` = 4.34,
     `ScriptName` = ''
 WHERE `entry` = 9100016;
 
@@ -754,10 +754,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 11318,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.14,
+    `HealthModifier` = 3.93,
     `ScriptName` = ''
 WHERE `entry` = 9100017;
 
@@ -797,10 +797,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 11322,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 4.4,
     `ScriptName` = ''
 WHERE `entry` = 9100018;
 
@@ -840,10 +840,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 11323,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.12,
+    `HealthModifier` = 4.31,
     `ScriptName` = ''
 WHERE `entry` = 9100019;
 
@@ -883,10 +883,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 11324,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.24,
+    `HealthModifier` = 4.02,
     `ScriptName` = ''
 WHERE `entry` = 9100020;
 
@@ -926,10 +926,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.41,
+    `HealthModifier` = 7.82,
     `ScriptName` = ''
 WHERE `entry` = 9100021;
 
@@ -969,10 +969,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.1,
+    `HealthModifier` = 8.03,
     `ScriptName` = ''
 WHERE `entry` = 9100022;
 
@@ -1012,10 +1012,10 @@ UPDATE `creature_template` SET
     `subname` = 'Ragefire Chieftain',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.17,
+    `HealthModifier` = 8.01,
     `ScriptName` = ''
 WHERE `entry` = 9100023;
 
@@ -1055,10 +1055,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.42,
+    `HealthModifier` = 8.25,
     `ScriptName` = ''
 WHERE `entry` = 9100024;
 
@@ -1098,10 +1098,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.0,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.97,
+    `HealthModifier` = 8.43,
     `ScriptName` = ''
 WHERE `entry` = 9100025;
 
@@ -1142,9 +1142,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9100026;
 
@@ -1184,10 +1184,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 0,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9100027;
 
@@ -1229,10 +1229,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 5048,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 2.93,
     `ScriptName` = ''
 WHERE `entry` = 9100100;
 
@@ -1272,10 +1272,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 5056,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.48,
     `ScriptName` = ''
 WHERE `entry` = 9100101;
 
@@ -1316,9 +1316,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.05,
-    `lootid` = 3637,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9100102;
 
@@ -1359,9 +1359,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.06,
-    `lootid` = 5762,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.23,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9100103;
 
@@ -1401,10 +1401,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 3636,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.08,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9100104;
 
@@ -1444,10 +1444,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 5761,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9100105;
 
@@ -1487,10 +1487,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 5756,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9100106;
 
@@ -1530,10 +1530,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 5755,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.48,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9100107;
 
@@ -1573,10 +1573,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9100108;
 
@@ -1616,10 +1616,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 3840,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9100109;
 
@@ -1659,10 +1659,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 3640,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.98,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9100110;
 
@@ -1702,10 +1702,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 5763,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.35,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9100111;
 
@@ -1745,10 +1745,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.43,
+    `HealthModifier` = 5.83,
     `ScriptName` = ''
 WHERE `entry` = 9100112;
 
@@ -1788,10 +1788,10 @@ UPDATE `creature_template` SET
     `subname` = 'Fanglord',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.84,
+    `HealthModifier` = 6.08,
     `ScriptName` = ''
 WHERE `entry` = 9100113;
 
@@ -1831,10 +1831,10 @@ UPDATE `creature_template` SET
     `subname` = 'Fanglord',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.5,
+    `HealthModifier` = 5.84,
     `ScriptName` = ''
 WHERE `entry` = 9100114;
 
@@ -1874,10 +1874,10 @@ UPDATE `creature_template` SET
     `subname` = 'Fanglord',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.22,
+    `HealthModifier` = 5.93,
     `ScriptName` = ''
 WHERE `entry` = 9100115;
 
@@ -1917,10 +1917,10 @@ UPDATE `creature_template` SET
     `subname` = 'Fanglord',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.06,
+    `HealthModifier` = 6.3,
     `ScriptName` = ''
 WHERE `entry` = 9100116;
 
@@ -1960,10 +1960,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.34,
+    `HealthModifier` = 6.43,
     `ScriptName` = ''
 WHERE `entry` = 9100117;
 
@@ -2003,10 +2003,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.47,
+    `HealthModifier` = 6.39,
     `ScriptName` = ''
 WHERE `entry` = 9100118;
 
@@ -2046,10 +2046,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.29,
+    `HealthModifier` = 6.48,
     `ScriptName` = ''
 WHERE `entry` = 9100119;
 
@@ -2089,10 +2089,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.07,
-    `lootid` = 5912,
+    `DamageModifier` = 3.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.11,
+    `HealthModifier` = 4.99,
     `ScriptName` = ''
 WHERE `entry` = 9100120;
 
@@ -2132,10 +2132,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 8886,
+    `DamageModifier` = 0.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.34,
+    `HealthModifier` = 2.23,
     `ScriptName` = ''
 WHERE `entry` = 9100121;
 
@@ -2175,10 +2175,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.08,
-    `lootid` = 5053,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.35,
+    `HealthModifier` = 1.97,
     `ScriptName` = ''
 WHERE `entry` = 9100122;
 
@@ -2218,10 +2218,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 5055,
+    `DamageModifier` = 1.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.21,
+    `HealthModifier` = 1.89,
     `ScriptName` = ''
 WHERE `entry` = 9100123;
 
@@ -2261,10 +2261,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.94,
-    `lootid` = 0,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.06,
+    `HealthModifier` = 1.9,
     `ScriptName` = ''
 WHERE `entry` = 9100124;
 
@@ -2304,10 +2304,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 5048,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.4,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9100125;
 
@@ -2348,9 +2348,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.03,
-    `lootid` = 5056,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.41,
+    `HealthModifier` = 3.87,
     `ScriptName` = ''
 WHERE `entry` = 9100126;
 
@@ -2390,10 +2390,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 3637,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 4.09,
     `ScriptName` = ''
 WHERE `entry` = 9100127;
 
@@ -2433,10 +2433,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 5762,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 4.21,
     `ScriptName` = ''
 WHERE `entry` = 9100128;
 
@@ -2476,10 +2476,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 3636,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9100129;
 
@@ -2519,10 +2519,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 5761,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.9,
+    `HealthModifier` = 3.85,
     `ScriptName` = ''
 WHERE `entry` = 9100130;
 
@@ -2562,10 +2562,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 5756,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9100131;
 
@@ -2605,10 +2605,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 5755,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9100132;
 
@@ -2648,10 +2648,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 0,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 4.05,
     `ScriptName` = ''
 WHERE `entry` = 9100133;
 
@@ -2691,10 +2691,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 3840,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.15,
+    `HealthModifier` = 4.36,
     `ScriptName` = ''
 WHERE `entry` = 9100134;
 
@@ -2734,10 +2734,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 3640,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.17,
+    `HealthModifier` = 4.18,
     `ScriptName` = ''
 WHERE `entry` = 9100135;
 
@@ -2777,10 +2777,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 5763,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.16,
+    `HealthModifier` = 4.46,
     `ScriptName` = ''
 WHERE `entry` = 9100136;
 
@@ -2820,10 +2820,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.1,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.18,
+    `HealthModifier` = 7.88,
     `ScriptName` = ''
 WHERE `entry` = 9100137;
 
@@ -2863,10 +2863,10 @@ UPDATE `creature_template` SET
     `subname` = 'Fanglord',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.92,
+    `HealthModifier` = 8.0,
     `ScriptName` = ''
 WHERE `entry` = 9100138;
 
@@ -2906,10 +2906,10 @@ UPDATE `creature_template` SET
     `subname` = 'Fanglord',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.35,
+    `HealthModifier` = 8.21,
     `ScriptName` = ''
 WHERE `entry` = 9100139;
 
@@ -2949,10 +2949,10 @@ UPDATE `creature_template` SET
     `subname` = 'Fanglord',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.48,
+    `HealthModifier` = 8.08,
     `ScriptName` = ''
 WHERE `entry` = 9100140;
 
@@ -2992,10 +2992,10 @@ UPDATE `creature_template` SET
     `subname` = 'Fanglord',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.82,
+    `HealthModifier` = 8.3,
     `ScriptName` = ''
 WHERE `entry` = 9100141;
 
@@ -3035,10 +3035,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.86,
+    `HealthModifier` = 8.48,
     `ScriptName` = ''
 WHERE `entry` = 9100142;
 
@@ -3078,10 +3078,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.46,
+    `HealthModifier` = 8.39,
     `ScriptName` = ''
 WHERE `entry` = 9100143;
 
@@ -3121,10 +3121,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.0,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.1,
+    `HealthModifier` = 8.3,
     `ScriptName` = ''
 WHERE `entry` = 9100144;
 
@@ -3164,10 +3164,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.94,
-    `lootid` = 5912,
+    `DamageModifier` = 5.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.18,
+    `HealthModifier` = 7.27,
     `ScriptName` = ''
 WHERE `entry` = 9100145;
 
@@ -3207,10 +3207,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 8886,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.1,
+    `HealthModifier` = 3.34,
     `ScriptName` = ''
 WHERE `entry` = 9100146;
 
@@ -3250,10 +3250,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 5053,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9100147;
 
@@ -3293,10 +3293,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 5055,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.34,
     `ScriptName` = ''
 WHERE `entry` = 9100148;
 
@@ -3336,10 +3336,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 3.34,
     `ScriptName` = ''
 WHERE `entry` = 9100149;
 
@@ -3381,10 +3381,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 636,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9100200;
 
@@ -3424,10 +3424,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 1732,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9100201;
 
@@ -3467,10 +3467,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 3947,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9100202;
 
@@ -3510,10 +3510,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 4417,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.08,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9100203;
 
@@ -3553,10 +3553,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 4418,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9100204;
 
@@ -3596,10 +3596,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 1731,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9100205;
 
@@ -3639,10 +3639,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 622,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.48,
     `ScriptName` = ''
 WHERE `entry` = 9100206;
 
@@ -3682,10 +3682,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 641,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9100207;
 
@@ -3725,10 +3725,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9100208;
 
@@ -3768,10 +3768,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 1729,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9100209;
 
@@ -3811,10 +3811,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 634,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.34,
     `ScriptName` = ''
 WHERE `entry` = 9100210;
 
@@ -3854,10 +3854,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 1725,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9100211;
 
@@ -3897,10 +3897,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 657,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9100212;
 
@@ -3940,7 +3940,7 @@ UPDATE `creature_template` SET
     `subname` = 'Defias Kingpin',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
     `HealthModifier` = 6.26,
@@ -3983,10 +3983,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.08,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.96,
+    `HealthModifier` = 5.88,
     `ScriptName` = ''
 WHERE `entry` = 9100214;
 
@@ -4026,10 +4026,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Ship''s Cook',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.11,
+    `HealthModifier` = 5.81,
     `ScriptName` = ''
 WHERE `entry` = 9100215;
 
@@ -4069,10 +4069,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Smelter',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.39,
+    `HealthModifier` = 6.44,
     `ScriptName` = ''
 WHERE `entry` = 9100216;
 
@@ -4112,10 +4112,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Ship''s First Mate',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.08,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.24,
+    `HealthModifier` = 6.39,
     `ScriptName` = ''
 WHERE `entry` = 9100217;
 
@@ -4155,10 +4155,10 @@ UPDATE `creature_template` SET
     `subname` = 'Lumbermaster',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.93,
+    `HealthModifier` = 6.22,
     `ScriptName` = ''
 WHERE `entry` = 9100218;
 
@@ -4198,10 +4198,10 @@ UPDATE `creature_template` SET
     `subname` = 'Lumbermaster',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.22,
+    `HealthModifier` = 5.82,
     `ScriptName` = ''
 WHERE `entry` = 9100219;
 
@@ -4241,10 +4241,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Foreman',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.08,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.14,
+    `HealthModifier` = 6.48,
     `ScriptName` = ''
 WHERE `entry` = 9100220;
 
@@ -4284,10 +4284,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.99,
-    `lootid` = 3586,
+    `DamageModifier` = 4.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.46,
+    `HealthModifier` = 5.18,
     `ScriptName` = ''
 WHERE `entry` = 9100221;
 
@@ -4327,10 +4327,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.99,
-    `lootid` = 4416,
+    `DamageModifier` = 1.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.17,
+    `HealthModifier` = 2.1,
     `ScriptName` = ''
 WHERE `entry` = 9100222;
 
@@ -4370,10 +4370,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.07,
-    `lootid` = 598,
+    `DamageModifier` = 1.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.28,
+    `HealthModifier` = 2.21,
     `ScriptName` = ''
 WHERE `entry` = 9100223;
 
@@ -4413,10 +4413,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.02,
+    `HealthModifier` = 2.27,
     `ScriptName` = ''
 WHERE `entry` = 9100224;
 
@@ -4456,10 +4456,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 636,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 4.23,
     `ScriptName` = ''
 WHERE `entry` = 9100225;
 
@@ -4500,9 +4500,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.02,
-    `lootid` = 1732,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.46,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9100226;
 
@@ -4543,9 +4543,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.94,
-    `lootid` = 3947,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9100227;
 
@@ -4585,10 +4585,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4417,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.14,
     `ScriptName` = ''
 WHERE `entry` = 9100228;
 
@@ -4628,10 +4628,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4418,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.96,
+    `HealthModifier` = 4.05,
     `ScriptName` = ''
 WHERE `entry` = 9100229;
 
@@ -4671,10 +4671,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 1731,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.94,
+    `HealthModifier` = 4.49,
     `ScriptName` = ''
 WHERE `entry` = 9100230;
 
@@ -4714,10 +4714,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 622,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9100231;
 
@@ -4757,10 +4757,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 641,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.26,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9100232;
 
@@ -4800,10 +4800,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 0,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.1,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9100233;
 
@@ -4843,10 +4843,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 1729,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.39,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9100234;
 
@@ -4886,10 +4886,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 634,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.02,
+    `HealthModifier` = 3.91,
     `ScriptName` = ''
 WHERE `entry` = 9100235;
 
@@ -4929,10 +4929,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 1725,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.38,
+    `HealthModifier` = 4.1,
     `ScriptName` = ''
 WHERE `entry` = 9100236;
 
@@ -4972,10 +4972,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 657,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 3.99,
     `ScriptName` = ''
 WHERE `entry` = 9100237;
 
@@ -5015,10 +5015,10 @@ UPDATE `creature_template` SET
     `subname` = 'Defias Kingpin',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.33,
+    `HealthModifier` = 8.07,
     `ScriptName` = ''
 WHERE `entry` = 9100238;
 
@@ -5058,10 +5058,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.25,
+    `HealthModifier` = 8.22,
     `ScriptName` = ''
 WHERE `entry` = 9100239;
 
@@ -5101,10 +5101,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Ship''s Cook',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.09,
+    `HealthModifier` = 8.43,
     `ScriptName` = ''
 WHERE `entry` = 9100240;
 
@@ -5144,10 +5144,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Smelter',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.9,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.94,
+    `HealthModifier` = 8.06,
     `ScriptName` = ''
 WHERE `entry` = 9100241;
 
@@ -5230,10 +5230,10 @@ UPDATE `creature_template` SET
     `subname` = 'Lumbermaster',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.95,
+    `HealthModifier` = 8.27,
     `ScriptName` = ''
 WHERE `entry` = 9100243;
 
@@ -5273,10 +5273,10 @@ UPDATE `creature_template` SET
     `subname` = 'Lumbermaster',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 6.93,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.43,
+    `HealthModifier` = 8.23,
     `ScriptName` = ''
 WHERE `entry` = 9100244;
 
@@ -5316,10 +5316,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Foreman',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.9,
+    `HealthModifier` = 8.44,
     `ScriptName` = ''
 WHERE `entry` = 9100245;
 
@@ -5359,10 +5359,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.99,
-    `lootid` = 3586,
+    `DamageModifier` = 6.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.17,
+    `HealthModifier` = 7.15,
     `ScriptName` = ''
 WHERE `entry` = 9100246;
 
@@ -5402,10 +5402,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 4416,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9100247;
 
@@ -5445,10 +5445,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 598,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9100248;
 
@@ -5488,10 +5488,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9100249;
 
@@ -5533,10 +5533,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 3861,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 3.46,
     `ScriptName` = ''
 WHERE `entry` = 9100300;
 
@@ -5576,10 +5576,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 3868,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 3.32,
     `ScriptName` = ''
 WHERE `entry` = 9100301;
 
@@ -5619,10 +5619,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 3849,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 3.08,
     `ScriptName` = ''
 WHERE `entry` = 9100302;
 
@@ -5662,10 +5662,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 3864,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9100303;
 
@@ -5705,10 +5705,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 3875,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.44,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9100304;
 
@@ -5748,10 +5748,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 3863,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9100305;
 
@@ -5791,10 +5791,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 3865,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9100306;
 
@@ -5834,10 +5834,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 3855,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.34,
+    `HealthModifier` = 2.93,
     `ScriptName` = ''
 WHERE `entry` = 9100307;
 
@@ -5877,10 +5877,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 3857,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9100308;
 
@@ -5920,10 +5920,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 3853,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.47,
     `ScriptName` = ''
 WHERE `entry` = 9100309;
 
@@ -5963,10 +5963,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 3859,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9100310;
 
@@ -6006,10 +6006,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 3851,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.25,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9100311;
 
@@ -6049,10 +6049,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 3854,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 3.47,
     `ScriptName` = ''
 WHERE `entry` = 9100312;
 
@@ -6092,10 +6092,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 3862,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 2.8,
     `ScriptName` = ''
 WHERE `entry` = 9100313;
 
@@ -6135,10 +6135,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 2529,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.46,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9100314;
 
@@ -6178,10 +6178,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 3850,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.27,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9100315;
 
@@ -6221,10 +6221,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 3873,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.03,
+    `HealthModifier` = 3.45,
     `ScriptName` = ''
 WHERE `entry` = 9100316;
 
@@ -6264,8 +6264,8 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 3866,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100419,
     `AIName` = '',
     `HealthModifier` = 2.82,
     `ScriptName` = ''
@@ -6307,10 +6307,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 3877,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9100318;
 
@@ -6350,10 +6350,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Cell Keeper',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 5.08,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.9,
+    `HealthModifier` = 6.43,
     `ScriptName` = ''
 WHERE `entry` = 9100319;
 
@@ -6393,10 +6393,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.16,
+    `HealthModifier` = 6.5,
     `ScriptName` = ''
 WHERE `entry` = 9100320;
 
@@ -6436,10 +6436,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.94,
+    `HealthModifier` = 6.16,
     `ScriptName` = ''
 WHERE `entry` = 9100321;
 
@@ -6479,10 +6479,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.32,
+    `HealthModifier` = 6.12,
     `ScriptName` = ''
 WHERE `entry` = 9100322;
 
@@ -6525,7 +6525,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.33,
+    `HealthModifier` = 5.84,
     `ScriptName` = ''
 WHERE `entry` = 9100323;
 
@@ -6565,10 +6565,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.03,
+    `HealthModifier` = 6.04,
     `ScriptName` = ''
 WHERE `entry` = 9100324;
 
@@ -6608,10 +6608,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.06,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.08,
+    `HealthModifier` = 5.87,
     `ScriptName` = ''
 WHERE `entry` = 9100325;
 
@@ -6651,10 +6651,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.88,
+    `HealthModifier` = 6.28,
     `ScriptName` = ''
 WHERE `entry` = 9100326;
 
@@ -6694,10 +6694,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.08,
+    `HealthModifier` = 6.28,
     `ScriptName` = ''
 WHERE `entry` = 9100327;
 
@@ -6737,10 +6737,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.07,
-    `lootid` = 4627,
+    `DamageModifier` = 1.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.23,
+    `HealthModifier` = 2.44,
     `ScriptName` = ''
 WHERE `entry` = 9100328;
 
@@ -6780,10 +6780,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.93,
-    `lootid` = 0,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.14,
+    `HealthModifier` = 2.21,
     `ScriptName` = ''
 WHERE `entry` = 9100329;
 
@@ -6823,10 +6823,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 0,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.37,
+    `HealthModifier` = 2.01,
     `ScriptName` = ''
 WHERE `entry` = 9100330;
 
@@ -6866,10 +6866,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.1,
-    `lootid` = 0,
+    `DamageModifier` = 0.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.04,
+    `HealthModifier` = 2.12,
     `ScriptName` = ''
 WHERE `entry` = 9100331;
 
@@ -6909,10 +6909,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.99,
-    `lootid` = 5058,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.24,
+    `HealthModifier` = 2.27,
     `ScriptName` = ''
 WHERE `entry` = 9100332;
 
@@ -6952,10 +6952,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 3861,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.89,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9100333;
 
@@ -6995,10 +6995,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 3868,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.47,
     `ScriptName` = ''
 WHERE `entry` = 9100334;
 
@@ -7038,10 +7038,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 3849,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.18,
     `ScriptName` = ''
 WHERE `entry` = 9100335;
 
@@ -7081,10 +7081,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 3864,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.28,
+    `HealthModifier` = 3.95,
     `ScriptName` = ''
 WHERE `entry` = 9100336;
 
@@ -7124,10 +7124,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 3875,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.8,
+    `HealthModifier` = 4.39,
     `ScriptName` = ''
 WHERE `entry` = 9100337;
 
@@ -7167,10 +7167,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 3863,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.0,
+    `HealthModifier` = 3.84,
     `ScriptName` = ''
 WHERE `entry` = 9100338;
 
@@ -7210,10 +7210,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 3865,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.2,
+    `HealthModifier` = 4.4,
     `ScriptName` = ''
 WHERE `entry` = 9100339;
 
@@ -7254,9 +7254,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.98,
-    `lootid` = 3855,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9100340;
 
@@ -7296,10 +7296,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 3857,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.33,
+    `HealthModifier` = 3.94,
     `ScriptName` = ''
 WHERE `entry` = 9100341;
 
@@ -7339,10 +7339,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 3853,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.91,
+    `HealthModifier` = 4.04,
     `ScriptName` = ''
 WHERE `entry` = 9100342;
 
@@ -7382,10 +7382,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 3859,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.22,
     `ScriptName` = ''
 WHERE `entry` = 9100343;
 
@@ -7425,10 +7425,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 3851,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.02,
+    `HealthModifier` = 4.39,
     `ScriptName` = ''
 WHERE `entry` = 9100344;
 
@@ -7468,10 +7468,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 3854,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9100345;
 
@@ -7511,10 +7511,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 3862,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.48,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9100346;
 
@@ -7554,10 +7554,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 2529,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 4.31,
     `ScriptName` = ''
 WHERE `entry` = 9100347;
 
@@ -7597,10 +7597,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 3850,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.94,
+    `HealthModifier` = 4.26,
     `ScriptName` = ''
 WHERE `entry` = 9100348;
 
@@ -7640,10 +7640,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 3873,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.21,
+    `HealthModifier` = 4.33,
     `ScriptName` = ''
 WHERE `entry` = 9100349;
 
@@ -7683,10 +7683,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 3866,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9100350;
 
@@ -7726,10 +7726,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 3877,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.14,
+    `HealthModifier` = 4.1,
     `ScriptName` = ''
 WHERE `entry` = 9100351;
 
@@ -7769,10 +7769,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Cell Keeper',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.83,
+    `HealthModifier` = 7.85,
     `ScriptName` = ''
 WHERE `entry` = 9100352;
 
@@ -7812,10 +7812,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.01,
+    `HealthModifier` = 7.95,
     `ScriptName` = ''
 WHERE `entry` = 9100353;
 
@@ -7855,10 +7855,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.82,
+    `HealthModifier` = 8.28,
     `ScriptName` = ''
 WHERE `entry` = 9100354;
 
@@ -7898,10 +7898,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.95,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.86,
+    `HealthModifier` = 8.39,
     `ScriptName` = ''
 WHERE `entry` = 9100355;
 
@@ -7941,10 +7941,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 6.99,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.9,
+    `HealthModifier` = 8.26,
     `ScriptName` = ''
 WHERE `entry` = 9100356;
 
@@ -7984,10 +7984,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.89,
+    `HealthModifier` = 8.27,
     `ScriptName` = ''
 WHERE `entry` = 9100357;
 
@@ -8027,10 +8027,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.39,
+    `HealthModifier` = 8.36,
     `ScriptName` = ''
 WHERE `entry` = 9100358;
 
@@ -8070,10 +8070,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.04,
+    `HealthModifier` = 8.17,
     `ScriptName` = ''
 WHERE `entry` = 9100359;
 
@@ -8113,10 +8113,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 6.91,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.98,
+    `HealthModifier` = 7.92,
     `ScriptName` = ''
 WHERE `entry` = 9100360;
 
@@ -8156,10 +8156,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 4627,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.1,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9100361;
 
@@ -8199,10 +8199,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9100362;
 
@@ -8242,10 +8242,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9100363;
 
@@ -8285,10 +8285,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 0,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.27,
+    `HealthModifier` = 3.0,
     `ScriptName` = ''
 WHERE `entry` = 9100364;
 
@@ -8328,10 +8328,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 5058,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9100365;
 
@@ -8373,10 +8373,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 1706,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9100400;
 
@@ -8416,10 +8416,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 1707,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 3.12,
     `ScriptName` = ''
 WHERE `entry` = 9100401;
 
@@ -8459,10 +8459,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 1708,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.03,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9100402;
 
@@ -8502,10 +8502,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 1711,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9100403;
 
@@ -8545,10 +8545,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 1715,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9100404;
 
@@ -8588,10 +8588,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.98,
+    `HealthModifier` = 6.29,
     `ScriptName` = ''
 WHERE `entry` = 9100405;
 
@@ -8631,10 +8631,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.23,
+    `HealthModifier` = 6.46,
     `ScriptName` = ''
 WHERE `entry` = 9100406;
 
@@ -8674,10 +8674,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.06,
+    `DamageModifier` = 4.99,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.82,
+    `HealthModifier` = 6.27,
     `ScriptName` = ''
 WHERE `entry` = 9100407;
 
@@ -8717,10 +8717,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.05,
+    `HealthModifier` = 6.29,
     `ScriptName` = ''
 WHERE `entry` = 9100408;
 
@@ -8760,10 +8760,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.98,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.49,
+    `HealthModifier` = 6.48,
     `ScriptName` = ''
 WHERE `entry` = 9100409;
 
@@ -8803,10 +8803,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.16,
+    `HealthModifier` = 6.33,
     `ScriptName` = ''
 WHERE `entry` = 9100410;
 
@@ -8846,10 +8846,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 1706,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9100411;
 
@@ -8889,10 +8889,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 1707,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9100412;
 
@@ -8932,10 +8932,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 1708,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.83,
+    `HealthModifier` = 4.23,
     `ScriptName` = ''
 WHERE `entry` = 9100413;
 
@@ -8975,10 +8975,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 1711,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9100414;
 
@@ -9018,10 +9018,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 1715,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.85,
+    `HealthModifier` = 4.32,
     `ScriptName` = ''
 WHERE `entry` = 9100415;
 
@@ -9064,7 +9064,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.43,
+    `HealthModifier` = 8.0,
     `ScriptName` = ''
 WHERE `entry` = 9100416;
 
@@ -9104,10 +9104,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.34,
+    `HealthModifier` = 7.99,
     `ScriptName` = ''
 WHERE `entry` = 9100417;
 
@@ -9147,10 +9147,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.29,
+    `HealthModifier` = 8.45,
     `ScriptName` = ''
 WHERE `entry` = 9100418;
 
@@ -9190,10 +9190,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.98,
+    `HealthModifier` = 8.17,
     `ScriptName` = ''
 WHERE `entry` = 9100419;
 
@@ -9233,10 +9233,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.21,
+    `HealthModifier` = 8.37,
     `ScriptName` = ''
 WHERE `entry` = 9100420;
 
@@ -9276,10 +9276,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.22,
+    `HealthModifier` = 8.19,
     `ScriptName` = ''
 WHERE `entry` = 9100421;
 
@@ -9321,10 +9321,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 4821,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9100500;
 
@@ -9364,10 +9364,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 4815,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9100501;
 
@@ -9407,10 +9407,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4818,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9100502;
 
@@ -9450,10 +9450,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 4807,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 3.0,
     `ScriptName` = ''
 WHERE `entry` = 9100503;
 
@@ -9493,10 +9493,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 4812,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9100504;
 
@@ -9536,10 +9536,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 4809,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9100505;
 
@@ -9579,10 +9579,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4822,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9100506;
 
@@ -9622,10 +9622,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 4798,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.35,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9100507;
 
@@ -9665,10 +9665,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 4799,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.32,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9100508;
 
@@ -9708,10 +9708,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 4827,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9100509;
 
@@ -9751,10 +9751,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4978,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9100510;
 
@@ -9794,10 +9794,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 4825,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9100511;
 
@@ -9837,10 +9837,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4823,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 2.86,
     `ScriptName` = ''
 WHERE `entry` = 9100512;
 
@@ -9880,10 +9880,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 4819,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9100513;
 
@@ -9923,10 +9923,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 4820,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9100514;
 
@@ -9966,10 +9966,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 4811,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.15,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9100515;
 
@@ -10009,10 +10009,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4814,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.26,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9100516;
 
@@ -10052,10 +10052,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4810,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9100517;
 
@@ -10095,10 +10095,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 4813,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.8,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9100518;
 
@@ -10138,10 +10138,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 4824,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.46,
     `ScriptName` = ''
 WHERE `entry` = 9100519;
 
@@ -10181,10 +10181,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 4805,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9100520;
 
@@ -10224,10 +10224,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.23,
+    `HealthModifier` = 5.84,
     `ScriptName` = ''
 WHERE `entry` = 9100521;
 
@@ -10267,10 +10267,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.24,
+    `HealthModifier` = 6.34,
     `ScriptName` = ''
 WHERE `entry` = 9100522;
 
@@ -10310,10 +10310,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.07,
+    `HealthModifier` = 6.2,
     `ScriptName` = ''
 WHERE `entry` = 9100523;
 
@@ -10353,10 +10353,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.86,
+    `HealthModifier` = 6.31,
     `ScriptName` = ''
 WHERE `entry` = 9100524;
 
@@ -10396,10 +10396,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.24,
+    `HealthModifier` = 6.47,
     `ScriptName` = ''
 WHERE `entry` = 9100525;
 
@@ -10439,10 +10439,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.82,
+    `HealthModifier` = 6.45,
     `ScriptName` = ''
 WHERE `entry` = 9100526;
 
@@ -10482,10 +10482,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.23,
+    `HealthModifier` = 6.33,
     `ScriptName` = ''
 WHERE `entry` = 9100527;
 
@@ -10525,10 +10525,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.03,
+    `HealthModifier` = 6.47,
     `ScriptName` = ''
 WHERE `entry` = 9100528;
 
@@ -10568,10 +10568,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 0,
+    `DamageModifier` = 1.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.18,
+    `HealthModifier` = 2.38,
     `ScriptName` = ''
 WHERE `entry` = 9100529;
 
@@ -10611,10 +10611,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Argent Dawn',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.09,
-    `lootid` = 4787,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.85,
+    `HealthModifier` = 2.37,
     `ScriptName` = ''
 WHERE `entry` = 9100530;
 
@@ -10654,10 +10654,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 0,
+    `DamageModifier` = 1.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.29,
+    `HealthModifier` = 1.84,
     `ScriptName` = ''
 WHERE `entry` = 9100531;
 
@@ -10697,10 +10697,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.05,
-    `lootid` = 4977,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.11,
+    `HealthModifier` = 2.41,
     `ScriptName` = ''
 WHERE `entry` = 9100532;
 
@@ -10740,10 +10740,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.05,
-    `lootid` = 0,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.02,
+    `HealthModifier` = 2.15,
     `ScriptName` = ''
 WHERE `entry` = 9100533;
 
@@ -10783,10 +10783,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4821,
+    `DamageModifier` = 2.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9100534;
 
@@ -10826,10 +10826,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 4815,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 3.8,
     `ScriptName` = ''
 WHERE `entry` = 9100535;
 
@@ -10869,10 +10869,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 4818,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.95,
+    `HealthModifier` = 3.89,
     `ScriptName` = ''
 WHERE `entry` = 9100536;
 
@@ -10912,10 +10912,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 4807,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 4.15,
     `ScriptName` = ''
 WHERE `entry` = 9100537;
 
@@ -10955,10 +10955,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 4812,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.95,
+    `HealthModifier` = 4.4,
     `ScriptName` = ''
 WHERE `entry` = 9100538;
 
@@ -10998,10 +10998,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4809,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.84,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9100539;
 
@@ -11041,10 +11041,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 4822,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9100540;
 
@@ -11084,10 +11084,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 4798,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.89,
+    `HealthModifier` = 3.93,
     `ScriptName` = ''
 WHERE `entry` = 9100541;
 
@@ -11127,10 +11127,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 4799,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.28,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9100542;
 
@@ -11170,10 +11170,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 4827,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9100543;
 
@@ -11214,9 +11214,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.0,
-    `lootid` = 4978,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.29,
     `ScriptName` = ''
 WHERE `entry` = 9100544;
 
@@ -11256,10 +11256,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 4825,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.95,
+    `HealthModifier` = 4.14,
     `ScriptName` = ''
 WHERE `entry` = 9100545;
 
@@ -11299,10 +11299,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4823,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.41,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9100546;
 
@@ -11342,10 +11342,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 4819,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.96,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9100547;
 
@@ -11385,10 +11385,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 4820,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.49,
+    `HealthModifier` = 4.28,
     `ScriptName` = ''
 WHERE `entry` = 9100548;
 
@@ -11429,9 +11429,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.99,
-    `lootid` = 4811,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9100549;
 
@@ -11471,10 +11471,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 4814,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.86,
+    `HealthModifier` = 3.92,
     `ScriptName` = ''
 WHERE `entry` = 9100550;
 
@@ -11514,10 +11514,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 4810,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.33,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9100551;
 
@@ -11557,10 +11557,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4813,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9100552;
 
@@ -11600,10 +11600,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 4824,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.0,
     `ScriptName` = ''
 WHERE `entry` = 9100553;
 
@@ -11644,9 +11644,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.07,
-    `lootid` = 4805,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 3.92,
     `ScriptName` = ''
 WHERE `entry` = 9100554;
 
@@ -11686,10 +11686,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 6.93,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.28,
+    `HealthModifier` = 8.35,
     `ScriptName` = ''
 WHERE `entry` = 9100555;
 
@@ -11729,10 +11729,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.26,
+    `HealthModifier` = 8.34,
     `ScriptName` = ''
 WHERE `entry` = 9100556;
 
@@ -11772,10 +11772,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.02,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.95,
+    `HealthModifier` = 7.92,
     `ScriptName` = ''
 WHERE `entry` = 9100557;
 
@@ -11815,10 +11815,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.08,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.31,
+    `HealthModifier` = 8.06,
     `ScriptName` = ''
 WHERE `entry` = 9100558;
 
@@ -11858,10 +11858,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.18,
+    `HealthModifier` = 8.06,
     `ScriptName` = ''
 WHERE `entry` = 9100559;
 
@@ -11901,10 +11901,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.41,
+    `HealthModifier` = 8.44,
     `ScriptName` = ''
 WHERE `entry` = 9100560;
 
@@ -11944,10 +11944,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 6.93,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.03,
+    `HealthModifier` = 8.16,
     `ScriptName` = ''
 WHERE `entry` = 9100561;
 
@@ -11987,10 +11987,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.26,
+    `HealthModifier` = 8.47,
     `ScriptName` = ''
 WHERE `entry` = 9100562;
 
@@ -12031,9 +12031,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9100563;
 
@@ -12073,10 +12073,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Argent Dawn',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4787,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.81,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9100564;
 
@@ -12116,10 +12116,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 0,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.03,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9100565;
 
@@ -12159,10 +12159,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4977,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 3.34,
     `ScriptName` = ''
 WHERE `entry` = 9100566;
 
@@ -12202,10 +12202,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 0,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 3.39,
     `ScriptName` = ''
 WHERE `entry` = 9100567;
 
@@ -12247,10 +12247,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 6232,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.87,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9100600;
 
@@ -12290,10 +12290,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 2.87,
     `ScriptName` = ''
 WHERE `entry` = 9100601;
 
@@ -12333,10 +12333,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 6206,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 3.43,
     `ScriptName` = ''
 WHERE `entry` = 9100602;
 
@@ -12376,10 +12376,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 6211,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9100603;
 
@@ -12419,10 +12419,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 6215,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.04,
     `ScriptName` = ''
 WHERE `entry` = 9100604;
 
@@ -12462,10 +12462,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 6219,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 3.46,
     `ScriptName` = ''
 WHERE `entry` = 9100605;
 
@@ -12506,9 +12506,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.96,
-    `lootid` = 6212,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 2.94,
     `ScriptName` = ''
 WHERE `entry` = 9100606;
 
@@ -12548,10 +12548,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 6392,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9100607;
 
@@ -12591,10 +12591,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 6407,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9100608;
 
@@ -12634,10 +12634,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 6391,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9100609;
 
@@ -12677,10 +12677,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 6220,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.03,
+    `HealthModifier` = 3.39,
     `ScriptName` = ''
 WHERE `entry` = 9100610;
 
@@ -12720,10 +12720,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 6329,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9100611;
 
@@ -12763,10 +12763,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 6218,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.09,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9100612;
 
@@ -12806,10 +12806,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 6223,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9100613;
 
@@ -12849,10 +12849,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 6234,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.39,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9100614;
 
@@ -12892,10 +12892,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 6233,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.89,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9100615;
 
@@ -12935,10 +12935,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 6226,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9100616;
 
@@ -12978,10 +12978,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 6227,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 3.24,
     `ScriptName` = ''
 WHERE `entry` = 9100617;
 
@@ -13021,10 +13021,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 6225,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9100618;
 
@@ -13064,10 +13064,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 6230,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.95,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9100619;
 
@@ -13107,10 +13107,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.14,
+    `HealthModifier` = 6.44,
     `ScriptName` = ''
 WHERE `entry` = 9100620;
 
@@ -13150,10 +13150,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.37,
+    `HealthModifier` = 6.04,
     `ScriptName` = ''
 WHERE `entry` = 9100621;
 
@@ -13193,10 +13193,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 4.99,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.81,
+    `HealthModifier` = 6.07,
     `ScriptName` = ''
 WHERE `entry` = 9100622;
 
@@ -13236,10 +13236,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.18,
+    `HealthModifier` = 6.23,
     `ScriptName` = ''
 WHERE `entry` = 9100623;
 
@@ -13279,10 +13279,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.94,
+    `HealthModifier` = 6.02,
     `ScriptName` = ''
 WHERE `entry` = 9100624;
 
@@ -13322,10 +13322,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.03,
-    `lootid` = 6228,
+    `DamageModifier` = 4.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 4.87,
+    `HealthModifier` = 5.29,
     `ScriptName` = ''
 WHERE `entry` = 9100625;
 
@@ -13365,10 +13365,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 0,
+    `DamageModifier` = 1.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.06,
+    `HealthModifier` = 2.47,
     `ScriptName` = ''
 WHERE `entry` = 9100626;
 
@@ -13408,10 +13408,10 @@ UPDATE `creature_template` SET
     `subname` = 'Engineering Supplies',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 9676,
+    `DamageModifier` = 1.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.25,
+    `HealthModifier` = 2.37,
     `ScriptName` = ''
 WHERE `entry` = 9100627;
 
@@ -13451,10 +13451,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.07,
-    `lootid` = 7849,
+    `DamageModifier` = 0.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.03,
+    `HealthModifier` = 2.13,
     `ScriptName` = ''
 WHERE `entry` = 9100628;
 
@@ -13494,10 +13494,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 6222,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.06,
+    `HealthModifier` = 2.41,
     `ScriptName` = ''
 WHERE `entry` = 9100629;
 
@@ -13537,10 +13537,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.1,
-    `lootid` = 6224,
+    `DamageModifier` = 1.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.35,
+    `HealthModifier` = 2.23,
     `ScriptName` = ''
 WHERE `entry` = 9100630;
 
@@ -13580,10 +13580,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.91,
-    `lootid` = 7603,
+    `DamageModifier` = 1.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.85,
+    `HealthModifier` = 2.33,
     `ScriptName` = ''
 WHERE `entry` = 9100631;
 
@@ -13623,10 +13623,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 0,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.35,
+    `HealthModifier` = 1.84,
     `ScriptName` = ''
 WHERE `entry` = 9100632;
 
@@ -13666,10 +13666,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.95,
-    `lootid` = 0,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.31,
+    `HealthModifier` = 2.38,
     `ScriptName` = ''
 WHERE `entry` = 9100633;
 
@@ -13709,10 +13709,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.98,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.37,
+    `HealthModifier` = 1.89,
     `ScriptName` = ''
 WHERE `entry` = 9100634;
 
@@ -13752,10 +13752,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 6207,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.96,
+    `HealthModifier` = 2.06,
     `ScriptName` = ''
 WHERE `entry` = 9100635;
 
@@ -13795,10 +13795,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.94,
-    `lootid` = 0,
+    `DamageModifier` = 0.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.04,
+    `HealthModifier` = 1.95,
     `ScriptName` = ''
 WHERE `entry` = 9100636;
 
@@ -13838,10 +13838,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 0,
+    `DamageModifier` = 1.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.14,
+    `HealthModifier` = 2.37,
     `ScriptName` = ''
 WHERE `entry` = 9100637;
 
@@ -13881,10 +13881,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 6232,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.43,
+    `HealthModifier` = 4.22,
     `ScriptName` = ''
 WHERE `entry` = 9100638;
 
@@ -13924,10 +13924,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 0,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.95,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9100639;
 
@@ -13967,10 +13967,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 6206,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.85,
+    `HealthModifier` = 4.34,
     `ScriptName` = ''
 WHERE `entry` = 9100640;
 
@@ -14010,10 +14010,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 6211,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.43,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9100641;
 
@@ -14053,10 +14053,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 6215,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.28,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9100642;
 
@@ -14096,10 +14096,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 6219,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 4.21,
     `ScriptName` = ''
 WHERE `entry` = 9100643;
 
@@ -14139,10 +14139,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 6212,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.06,
+    `HealthModifier` = 3.8,
     `ScriptName` = ''
 WHERE `entry` = 9100644;
 
@@ -14182,10 +14182,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 6392,
+    `DamageModifier` = 2.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.04,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9100645;
 
@@ -14225,10 +14225,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 6407,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.26,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9100646;
 
@@ -14268,10 +14268,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 6391,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.38,
+    `HealthModifier` = 4.08,
     `ScriptName` = ''
 WHERE `entry` = 9100647;
 
@@ -14311,10 +14311,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 6220,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 3.81,
     `ScriptName` = ''
 WHERE `entry` = 9100648;
 
@@ -14354,10 +14354,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 6329,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.98,
+    `HealthModifier` = 4.23,
     `ScriptName` = ''
 WHERE `entry` = 9100649;
 
@@ -14397,10 +14397,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 6218,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.97,
+    `HealthModifier` = 4.49,
     `ScriptName` = ''
 WHERE `entry` = 9100650;
 
@@ -14440,10 +14440,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 6223,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.01,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9100651;
 
@@ -14483,10 +14483,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 6234,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.06,
+    `HealthModifier` = 3.99,
     `ScriptName` = ''
 WHERE `entry` = 9100652;
 
@@ -14526,10 +14526,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 6233,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 4.1,
     `ScriptName` = ''
 WHERE `entry` = 9100653;
 
@@ -14569,10 +14569,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 6226,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.14,
+    `HealthModifier` = 4.43,
     `ScriptName` = ''
 WHERE `entry` = 9100654;
 
@@ -14612,10 +14612,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 6227,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9100655;
 
@@ -14655,10 +14655,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 6225,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 4.04,
     `ScriptName` = ''
 WHERE `entry` = 9100656;
 
@@ -14698,10 +14698,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 6230,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.15,
+    `HealthModifier` = 4.43,
     `ScriptName` = ''
 WHERE `entry` = 9100657;
 
@@ -14741,10 +14741,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.0,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.25,
+    `HealthModifier` = 7.81,
     `ScriptName` = ''
 WHERE `entry` = 9100658;
 
@@ -14784,10 +14784,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.1,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.47,
+    `HealthModifier` = 7.84,
     `ScriptName` = ''
 WHERE `entry` = 9100659;
 
@@ -14827,10 +14827,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.93,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.8,
+    `HealthModifier` = 8.35,
     `ScriptName` = ''
 WHERE `entry` = 9100660;
 
@@ -14870,10 +14870,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.16,
+    `HealthModifier` = 8.03,
     `ScriptName` = ''
 WHERE `entry` = 9100661;
 
@@ -14913,10 +14913,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.09,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.17,
+    `HealthModifier` = 8.36,
     `ScriptName` = ''
 WHERE `entry` = 9100662;
 
@@ -14956,10 +14956,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.92,
-    `lootid` = 6228,
+    `DamageModifier` = 6.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.16,
+    `HealthModifier` = 7.03,
     `ScriptName` = ''
 WHERE `entry` = 9100663;
 
@@ -14999,8 +14999,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 2.85,
     `ScriptName` = ''
@@ -15042,10 +15042,10 @@ UPDATE `creature_template` SET
     `subname` = 'Engineering Supplies',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 9676,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.81,
+    `HealthModifier` = 3.17,
     `ScriptName` = ''
 WHERE `entry` = 9100665;
 
@@ -15085,10 +15085,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 7849,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9100666;
 
@@ -15128,10 +15128,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 6222,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 3.07,
     `ScriptName` = ''
 WHERE `entry` = 9100667;
 
@@ -15171,10 +15171,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 6224,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.27,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9100668;
 
@@ -15214,10 +15214,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 7603,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.46,
     `ScriptName` = ''
 WHERE `entry` = 9100669;
 
@@ -15257,10 +15257,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.81,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9100670;
 
@@ -15300,10 +15300,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9100671;
 
@@ -15343,10 +15343,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.27,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9100672;
 
@@ -15386,10 +15386,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 6207,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 2.9,
     `ScriptName` = ''
 WHERE `entry` = 9100673;
 
@@ -15429,10 +15429,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9100674;
 
@@ -15472,10 +15472,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 0,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.34,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9100675;
 
@@ -15517,10 +15517,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 4511,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.8,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9100700;
 
@@ -15560,10 +15560,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 4541,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9100701;
 
@@ -15603,10 +15603,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.03,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9100702;
 
@@ -15646,10 +15646,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 4515,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 2.88,
     `ScriptName` = ''
 WHERE `entry` = 9100703;
 
@@ -15689,10 +15689,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 4516,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 3.24,
     `ScriptName` = ''
 WHERE `entry` = 9100704;
 
@@ -15732,10 +15732,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 4517,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.23,
+    `HealthModifier` = 3.43,
     `ScriptName` = ''
 WHERE `entry` = 9100705;
 
@@ -15775,10 +15775,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4518,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.26,
+    `HealthModifier` = 2.86,
     `ScriptName` = ''
 WHERE `entry` = 9100706;
 
@@ -15818,10 +15818,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 4519,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9100707;
 
@@ -15861,10 +15861,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 4539,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9100708;
 
@@ -15904,10 +15904,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 4538,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.8,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9100709;
 
@@ -15947,10 +15947,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 4623,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.03,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9100710;
 
@@ -15990,10 +15990,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4514,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9100711;
 
@@ -16033,10 +16033,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 4531,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.12,
     `ScriptName` = ''
 WHERE `entry` = 9100712;
 
@@ -16076,10 +16076,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 4532,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9100713;
 
@@ -16119,10 +16119,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4442,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.39,
     `ScriptName` = ''
 WHERE `entry` = 9100714;
 
@@ -16162,10 +16162,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 4522,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.12,
     `ScriptName` = ''
 WHERE `entry` = 9100715;
 
@@ -16205,10 +16205,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 4525,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9100716;
 
@@ -16248,10 +16248,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 4520,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9100717;
 
@@ -16291,10 +16291,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 4523,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9100718;
 
@@ -16334,10 +16334,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 4530,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9100719;
 
@@ -16377,10 +16377,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 4436,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 3.01,
     `ScriptName` = ''
 WHERE `entry` = 9100720;
 
@@ -16420,10 +16420,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 4438,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9100721;
 
@@ -16463,10 +16463,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 6035,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9100722;
 
@@ -16506,10 +16506,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 4440,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9100723;
 
@@ -16549,10 +16549,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 4437,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9100724;
 
@@ -16592,10 +16592,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 4435,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.95,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9100725;
 
@@ -16635,10 +16635,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 4512,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9100726;
 
@@ -16678,8 +16678,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
     `HealthModifier` = 3.03,
     `ScriptName` = ''
@@ -16721,10 +16721,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 0,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9100728;
 
@@ -16764,10 +16764,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 3.39,
     `ScriptName` = ''
 WHERE `entry` = 9100729;
 
@@ -16807,10 +16807,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 4427,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.44,
+    `HealthModifier` = 3.24,
     `ScriptName` = ''
 WHERE `entry` = 9100730;
 
@@ -16851,9 +16851,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.98,
+    `HealthModifier` = 3.04,
     `ScriptName` = ''
 WHERE `entry` = 9100731;
 
@@ -16893,10 +16893,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 0,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.98,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9100732;
 
@@ -16939,7 +16939,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.12,
+    `HealthModifier` = 6.28,
     `ScriptName` = ''
 WHERE `entry` = 9100733;
 
@@ -16979,10 +16979,10 @@ UPDATE `creature_template` SET
     `subname` = 'Death''s Head Prophet',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.01,
+    `HealthModifier` = 5.93,
     `ScriptName` = ''
 WHERE `entry` = 9100734;
 
@@ -17022,10 +17022,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Crone',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.07,
+    `HealthModifier` = 5.89,
     `ScriptName` = ''
 WHERE `entry` = 9100735;
 
@@ -17065,10 +17065,10 @@ UPDATE `creature_template` SET
     `subname` = 'Death''s Head Captain',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.99,
+    `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.11,
+    `HealthModifier` = 6.5,
     `ScriptName` = ''
 WHERE `entry` = 9100736;
 
@@ -17108,10 +17108,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 4.96,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.89,
+    `HealthModifier` = 6.12,
     `ScriptName` = ''
 WHERE `entry` = 9100737;
 
@@ -17151,10 +17151,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.06,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.11,
+    `HealthModifier` = 5.83,
     `ScriptName` = ''
 WHERE `entry` = 9100738;
 
@@ -17194,10 +17194,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.97,
-    `lootid` = 4425,
+    `DamageModifier` = 4.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.27,
+    `HealthModifier` = 5.25,
     `ScriptName` = ''
 WHERE `entry` = 9100739;
 
@@ -17237,10 +17237,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.91,
-    `lootid` = 4842,
+    `DamageModifier` = 3.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.08,
+    `HealthModifier` = 5.28,
     `ScriptName` = ''
 WHERE `entry` = 9100740;
 
@@ -17280,10 +17280,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 0,
+    `DamageModifier` = 1.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.47,
+    `HealthModifier` = 2.18,
     `ScriptName` = ''
 WHERE `entry` = 9100741;
 
@@ -17323,10 +17323,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.93,
-    `lootid` = 0,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.24,
+    `HealthModifier` = 2.05,
     `ScriptName` = ''
 WHERE `entry` = 9100742;
 
@@ -17366,10 +17366,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 4511,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.99,
+    `HealthModifier` = 4.16,
     `ScriptName` = ''
 WHERE `entry` = 9100743;
 
@@ -17409,10 +17409,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 4541,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 4.14,
     `ScriptName` = ''
 WHERE `entry` = 9100744;
 
@@ -17452,8 +17452,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 0,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 4.36,
     `ScriptName` = ''
@@ -17496,9 +17496,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.93,
-    `lootid` = 4515,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.48,
+    `HealthModifier` = 3.88,
     `ScriptName` = ''
 WHERE `entry` = 9100746;
 
@@ -17538,10 +17538,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 4516,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 4.21,
     `ScriptName` = ''
 WHERE `entry` = 9100747;
 
@@ -17581,10 +17581,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4517,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9100748;
 
@@ -17624,10 +17624,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 4518,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9100749;
 
@@ -17667,10 +17667,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 4519,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.09,
     `ScriptName` = ''
 WHERE `entry` = 9100750;
 
@@ -17710,10 +17710,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4539,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9100751;
 
@@ -17753,10 +17753,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 4538,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.14,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9100752;
 
@@ -17796,10 +17796,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4623,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.05,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9100753;
 
@@ -17839,10 +17839,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 4514,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9100754;
 
@@ -17882,8 +17882,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4531,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 4.28,
     `ScriptName` = ''
@@ -17925,10 +17925,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 4532,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.46,
     `ScriptName` = ''
 WHERE `entry` = 9100756;
 
@@ -17968,10 +17968,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 4442,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 4.16,
     `ScriptName` = ''
 WHERE `entry` = 9100757;
 
@@ -18011,10 +18011,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 4522,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.99,
+    `HealthModifier` = 4.17,
     `ScriptName` = ''
 WHERE `entry` = 9100758;
 
@@ -18054,10 +18054,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 4525,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9100759;
 
@@ -18097,10 +18097,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 4520,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.01,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9100760;
 
@@ -18140,10 +18140,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 4523,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 4.21,
     `ScriptName` = ''
 WHERE `entry` = 9100761;
 
@@ -18183,10 +18183,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 4530,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.34,
+    `HealthModifier` = 4.39,
     `ScriptName` = ''
 WHERE `entry` = 9100762;
 
@@ -18226,10 +18226,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 4436,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.8,
+    `HealthModifier` = 4.28,
     `ScriptName` = ''
 WHERE `entry` = 9100763;
 
@@ -18269,10 +18269,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 4438,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 3.84,
     `ScriptName` = ''
 WHERE `entry` = 9100764;
 
@@ -18312,10 +18312,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 6035,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.02,
+    `HealthModifier` = 4.36,
     `ScriptName` = ''
 WHERE `entry` = 9100765;
 
@@ -18355,10 +18355,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 4440,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 3.92,
     `ScriptName` = ''
 WHERE `entry` = 9100766;
 
@@ -18398,10 +18398,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 4437,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.98,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9100767;
 
@@ -18441,10 +18441,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4435,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.16,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9100768;
 
@@ -18484,10 +18484,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4512,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.38,
+    `HealthModifier` = 3.87,
     `ScriptName` = ''
 WHERE `entry` = 9100769;
 
@@ -18527,10 +18527,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 0,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9100770;
 
@@ -18570,10 +18570,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 0,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 3.96,
     `ScriptName` = ''
 WHERE `entry` = 9100771;
 
@@ -18613,10 +18613,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9100772;
 
@@ -18656,10 +18656,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 4427,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.34,
+    `HealthModifier` = 4.43,
     `ScriptName` = ''
 WHERE `entry` = 9100773;
 
@@ -18699,10 +18699,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 0,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.96,
+    `HealthModifier` = 4.47,
     `ScriptName` = ''
 WHERE `entry` = 9100774;
 
@@ -18742,10 +18742,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 0,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 3.99,
     `ScriptName` = ''
 WHERE `entry` = 9100775;
 
@@ -18785,10 +18785,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.1,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.39,
+    `HealthModifier` = 8.12,
     `ScriptName` = ''
 WHERE `entry` = 9100776;
 
@@ -18828,10 +18828,10 @@ UPDATE `creature_template` SET
     `subname` = 'Death''s Head Prophet',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.18,
+    `HealthModifier` = 7.92,
     `ScriptName` = ''
 WHERE `entry` = 9100777;
 
@@ -18871,10 +18871,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Crone',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.13,
+    `HealthModifier` = 8.25,
     `ScriptName` = ''
 WHERE `entry` = 9100778;
 
@@ -18914,7 +18914,7 @@ UPDATE `creature_template` SET
     `subname` = 'Death''s Head Captain',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
     `HealthModifier` = 8.22,
@@ -18960,7 +18960,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.2,
+    `HealthModifier` = 8.35,
     `ScriptName` = ''
 WHERE `entry` = 9100780;
 
@@ -19000,10 +19000,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.1,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.04,
+    `HealthModifier` = 8.44,
     `ScriptName` = ''
 WHERE `entry` = 9100781;
 
@@ -19043,10 +19043,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.09,
-    `lootid` = 4425,
+    `DamageModifier` = 6.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.39,
+    `HealthModifier` = 7.43,
     `ScriptName` = ''
 WHERE `entry` = 9100782;
 
@@ -19086,10 +19086,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.9,
-    `lootid` = 4842,
+    `DamageModifier` = 6.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.03,
+    `HealthModifier` = 7.15,
     `ScriptName` = ''
 WHERE `entry` = 9100783;
 
@@ -19129,10 +19129,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9100784;
 
@@ -19172,10 +19172,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 0,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 3.01,
     `ScriptName` = ''
 WHERE `entry` = 9100785;
 
@@ -19217,10 +19217,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4306,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9100800;
 
@@ -19260,10 +19260,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 4293,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 3.45,
     `ScriptName` = ''
 WHERE `entry` = 9100801;
 
@@ -19303,10 +19303,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 6426,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.15,
+    `HealthModifier` = 3.45,
     `ScriptName` = ''
 WHERE `entry` = 9100802;
 
@@ -19346,10 +19346,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 6427,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9100803;
 
@@ -19389,10 +19389,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9100804;
 
@@ -19432,10 +19432,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 4304,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9100805;
 
@@ -19475,10 +19475,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4287,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9100806;
 
@@ -19518,10 +19518,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4296,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9100807;
 
@@ -19561,10 +19561,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 4303,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9100808;
 
@@ -19604,10 +19604,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4302,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9100809;
 
@@ -19647,10 +19647,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 4301,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.26,
+    `HealthModifier` = 3.32,
     `ScriptName` = ''
 WHERE `entry` = 9100810;
 
@@ -19690,10 +19690,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 4300,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.38,
+    `HealthModifier` = 3.07,
     `ScriptName` = ''
 WHERE `entry` = 9100811;
 
@@ -19733,10 +19733,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 4298,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9100812;
 
@@ -19776,10 +19776,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 4295,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9100813;
 
@@ -19819,10 +19819,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 4294,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9100814;
 
@@ -19862,10 +19862,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4289,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9100815;
 
@@ -19905,10 +19905,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 4290,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.98,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9100816;
 
@@ -19948,10 +19948,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4292,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9100817;
 
@@ -19991,10 +19991,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 4297,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9100818;
 
@@ -20034,10 +20034,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 4540,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9100819;
 
@@ -20077,10 +20077,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 4286,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 3.46,
     `ScriptName` = ''
 WHERE `entry` = 9100820;
 
@@ -20120,10 +20120,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 4299,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.48,
+    `HealthModifier` = 2.94,
     `ScriptName` = ''
 WHERE `entry` = 9100821;
 
@@ -20163,10 +20163,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 4288,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9100822;
 
@@ -20206,10 +20206,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 4291,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9100823;
 
@@ -20249,10 +20249,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.98,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.34,
+    `HealthModifier` = 5.89,
     `ScriptName` = ''
 WHERE `entry` = 9100824;
 
@@ -20292,10 +20292,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.35,
+    `HealthModifier` = 6.01,
     `ScriptName` = ''
 WHERE `entry` = 9100825;
 
@@ -20335,10 +20335,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.06,
+    `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.38,
+    `HealthModifier` = 6.32,
     `ScriptName` = ''
 WHERE `entry` = 9100826;
 
@@ -20378,10 +20378,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Scarlet Champion',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.98,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.41,
+    `HealthModifier` = 5.99,
     `ScriptName` = ''
 WHERE `entry` = 9100827;
 
@@ -20421,10 +20421,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.36,
+    `HealthModifier` = 5.84,
     `ScriptName` = ''
 WHERE `entry` = 9100828;
 
@@ -20464,10 +20464,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.45,
+    `HealthModifier` = 6.0,
     `ScriptName` = ''
 WHERE `entry` = 9100829;
 
@@ -20507,10 +20507,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.2,
+    `HealthModifier` = 6.26,
     `ScriptName` = ''
 WHERE `entry` = 9100830;
 
@@ -20550,10 +20550,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.41,
+    `HealthModifier` = 6.46,
     `ScriptName` = ''
 WHERE `entry` = 9100831;
 
@@ -20593,10 +20593,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.97,
-    `lootid` = 6488,
+    `DamageModifier` = 4.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.07,
+    `HealthModifier` = 5.16,
     `ScriptName` = ''
 WHERE `entry` = 9100832;
 
@@ -20636,10 +20636,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.9,
-    `lootid` = 6490,
+    `DamageModifier` = 4.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 4.82,
+    `HealthModifier` = 4.9,
     `ScriptName` = ''
 WHERE `entry` = 9100833;
 
@@ -20679,10 +20679,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.9,
-    `lootid` = 6489,
+    `DamageModifier` = 3.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 4.98,
+    `HealthModifier` = 5.36,
     `ScriptName` = ''
 WHERE `entry` = 9100834;
 
@@ -20722,10 +20722,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 0,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.31,
+    `HealthModifier` = 2.21,
     `ScriptName` = ''
 WHERE `entry` = 9100835;
 
@@ -20765,10 +20765,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 4308,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.39,
+    `HealthModifier` = 1.93,
     `ScriptName` = ''
 WHERE `entry` = 9100836;
 
@@ -20808,10 +20808,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 6575,
+    `DamageModifier` = 0.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.41,
+    `HealthModifier` = 2.39,
     `ScriptName` = ''
 WHERE `entry` = 9100837;
 
@@ -20851,10 +20851,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 4306,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.85,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9100838;
 
@@ -20895,9 +20895,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.03,
-    `lootid` = 4293,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 4.43,
     `ScriptName` = ''
 WHERE `entry` = 9100839;
 
@@ -20937,10 +20937,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 6426,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9100840;
 
@@ -20980,10 +20980,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 6427,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.07,
+    `HealthModifier` = 3.82,
     `ScriptName` = ''
 WHERE `entry` = 9100841;
 
@@ -21023,10 +21023,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 0,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9100842;
 
@@ -21066,10 +21066,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 4304,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.17,
+    `HealthModifier` = 3.91,
     `ScriptName` = ''
 WHERE `entry` = 9100843;
 
@@ -21109,10 +21109,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 4287,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 4.47,
     `ScriptName` = ''
 WHERE `entry` = 9100844;
 
@@ -21152,10 +21152,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 4296,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.9,
+    `HealthModifier` = 4.22,
     `ScriptName` = ''
 WHERE `entry` = 9100845;
 
@@ -21195,10 +21195,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 4303,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.9,
+    `HealthModifier` = 4.27,
     `ScriptName` = ''
 WHERE `entry` = 9100846;
 
@@ -21238,10 +21238,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4302,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9100847;
 
@@ -21281,10 +21281,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 4301,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9100848;
 
@@ -21324,10 +21324,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 4300,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.24,
+    `HealthModifier` = 4.33,
     `ScriptName` = ''
 WHERE `entry` = 9100849;
 
@@ -21367,10 +21367,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 4298,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.07,
+    `HealthModifier` = 3.82,
     `ScriptName` = ''
 WHERE `entry` = 9100850;
 
@@ -21410,10 +21410,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 4295,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 4.19,
     `ScriptName` = ''
 WHERE `entry` = 9100851;
 
@@ -21453,10 +21453,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4294,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 3.8,
     `ScriptName` = ''
 WHERE `entry` = 9100852;
 
@@ -21496,10 +21496,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 4289,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 4.33,
     `ScriptName` = ''
 WHERE `entry` = 9100853;
 
@@ -21539,10 +21539,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4290,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 3.88,
     `ScriptName` = ''
 WHERE `entry` = 9100854;
 
@@ -21582,10 +21582,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 4292,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9100855;
 
@@ -21625,10 +21625,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 4297,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 3.85,
     `ScriptName` = ''
 WHERE `entry` = 9100856;
 
@@ -21668,10 +21668,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 4540,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 4.09,
     `ScriptName` = ''
 WHERE `entry` = 9100857;
 
@@ -21711,10 +21711,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4286,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 4.19,
     `ScriptName` = ''
 WHERE `entry` = 9100858;
 
@@ -21754,10 +21754,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 4299,
+    `DamageModifier` = 2.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 4.17,
     `ScriptName` = ''
 WHERE `entry` = 9100859;
 
@@ -21797,10 +21797,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 4288,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9100860;
 
@@ -21840,10 +21840,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 4291,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 3.85,
     `ScriptName` = ''
 WHERE `entry` = 9100861;
 
@@ -21883,10 +21883,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.08,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.35,
+    `HealthModifier` = 7.87,
     `ScriptName` = ''
 WHERE `entry` = 9100862;
 
@@ -21926,10 +21926,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.86,
+    `HealthModifier` = 7.98,
     `ScriptName` = ''
 WHERE `entry` = 9100863;
 
@@ -21969,10 +21969,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.12,
+    `HealthModifier` = 8.45,
     `ScriptName` = ''
 WHERE `entry` = 9100864;
 
@@ -22012,10 +22012,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Scarlet Champion',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.0,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.82,
+    `HealthModifier` = 8.33,
     `ScriptName` = ''
 WHERE `entry` = 9100865;
 
@@ -22055,10 +22055,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.05,
+    `HealthModifier` = 8.15,
     `ScriptName` = ''
 WHERE `entry` = 9100866;
 
@@ -22098,10 +22098,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.86,
+    `HealthModifier` = 7.84,
     `ScriptName` = ''
 WHERE `entry` = 9100867;
 
@@ -22141,10 +22141,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.93,
+    `HealthModifier` = 8.19,
     `ScriptName` = ''
 WHERE `entry` = 9100868;
 
@@ -22184,10 +22184,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.24,
+    `HealthModifier` = 8.43,
     `ScriptName` = ''
 WHERE `entry` = 9100869;
 
@@ -22227,10 +22227,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.08,
-    `lootid` = 6488,
+    `DamageModifier` = 6.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 6.8,
+    `HealthModifier` = 7.43,
     `ScriptName` = ''
 WHERE `entry` = 9100870;
 
@@ -22270,10 +22270,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.06,
-    `lootid` = 6490,
+    `DamageModifier` = 6.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.3,
+    `HealthModifier` = 7.34,
     `ScriptName` = ''
 WHERE `entry` = 9100871;
 
@@ -22313,10 +22313,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.04,
-    `lootid` = 6489,
+    `DamageModifier` = 6.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.23,
+    `HealthModifier` = 6.92,
     `ScriptName` = ''
 WHERE `entry` = 9100872;
 
@@ -22356,10 +22356,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.27,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9100873;
 
@@ -22399,10 +22399,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 4308,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9100874;
 
@@ -22442,10 +22442,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 6575,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9100875;
 
@@ -22487,10 +22487,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 7347,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.95,
+    `HealthModifier` = 3.49,
     `ScriptName` = ''
 WHERE `entry` = 9100900;
 
@@ -22530,10 +22530,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 7335,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9100901;
 
@@ -22573,10 +22573,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 7337,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9100902;
 
@@ -22616,10 +22616,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 7353,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9100903;
 
@@ -22659,10 +22659,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 7352,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.0,
     `ScriptName` = ''
 WHERE `entry` = 9100904;
 
@@ -22702,10 +22702,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 7341,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9100905;
 
@@ -22745,10 +22745,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 7342,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.33,
     `ScriptName` = ''
 WHERE `entry` = 9100906;
 
@@ -22788,10 +22788,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 7345,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 2.88,
     `ScriptName` = ''
 WHERE `entry` = 9100907;
 
@@ -22831,10 +22831,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 7344,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 3.49,
     `ScriptName` = ''
 WHERE `entry` = 9100908;
 
@@ -22874,10 +22874,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 7348,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.89,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9100909;
 
@@ -22917,10 +22917,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 7351,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9100910;
 
@@ -22960,10 +22960,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 7329,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.23,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9100911;
 
@@ -23003,10 +23003,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 7328,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.95,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9100912;
 
@@ -23046,10 +23046,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 7332,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.34,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9100913;
 
@@ -23089,10 +23089,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 7327,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9100914;
 
@@ -23132,10 +23132,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.18,
+    `HealthModifier` = 6.31,
     `ScriptName` = ''
 WHERE `entry` = 9100915;
 
@@ -23175,10 +23175,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.87,
+    `HealthModifier` = 5.86,
     `ScriptName` = ''
 WHERE `entry` = 9100916;
 
@@ -23218,10 +23218,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.05,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.86,
+    `HealthModifier` = 6.08,
     `ScriptName` = ''
 WHERE `entry` = 9100917;
 
@@ -23261,10 +23261,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.37,
+    `HealthModifier` = 6.15,
     `ScriptName` = ''
 WHERE `entry` = 9100918;
 
@@ -23304,10 +23304,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 5.01,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.2,
+    `HealthModifier` = 6.1,
     `ScriptName` = ''
 WHERE `entry` = 9100919;
 
@@ -23347,10 +23347,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.07,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.95,
+    `HealthModifier` = 5.81,
     `ScriptName` = ''
 WHERE `entry` = 9100920;
 
@@ -23390,10 +23390,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.48,
+    `HealthModifier` = 6.26,
     `ScriptName` = ''
 WHERE `entry` = 9100921;
 
@@ -23433,10 +23433,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 7334,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.14,
+    `HealthModifier` = 1.82,
     `ScriptName` = ''
 WHERE `entry` = 9100922;
 
@@ -23476,10 +23476,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.07,
-    `lootid` = 0,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.89,
+    `HealthModifier` = 1.93,
     `ScriptName` = ''
 WHERE `entry` = 9100923;
 
@@ -23519,10 +23519,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.88,
+    `HealthModifier` = 2.05,
     `ScriptName` = ''
 WHERE `entry` = 9100924;
 
@@ -23562,10 +23562,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 0,
+    `DamageModifier` = 1.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.94,
+    `HealthModifier` = 2.28,
     `ScriptName` = ''
 WHERE `entry` = 9100925;
 
@@ -23605,10 +23605,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 0,
+    `DamageModifier` = 0.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.98,
+    `HealthModifier` = 2.01,
     `ScriptName` = ''
 WHERE `entry` = 9100926;
 
@@ -23648,10 +23648,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.28,
+    `HealthModifier` = 1.85,
     `ScriptName` = ''
 WHERE `entry` = 9100927;
 
@@ -23691,10 +23691,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 7340,
+    `DamageModifier` = 1.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.27,
+    `HealthModifier` = 1.86,
     `ScriptName` = ''
 WHERE `entry` = 9100928;
 
@@ -23734,10 +23734,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 7346,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.24,
+    `HealthModifier` = 1.97,
     `ScriptName` = ''
 WHERE `entry` = 9100929;
 
@@ -23777,10 +23777,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 0,
+    `DamageModifier` = 1.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.13,
+    `HealthModifier` = 2.32,
     `ScriptName` = ''
 WHERE `entry` = 9100930;
 
@@ -23820,10 +23820,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.05,
-    `lootid` = 7349,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.12,
+    `HealthModifier` = 2.39,
     `ScriptName` = ''
 WHERE `entry` = 9100931;
 
@@ -23863,10 +23863,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 7333,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.89,
+    `HealthModifier` = 1.81,
     `ScriptName` = ''
 WHERE `entry` = 9100932;
 
@@ -23906,10 +23906,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 7347,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.12,
+    `HealthModifier` = 3.84,
     `ScriptName` = ''
 WHERE `entry` = 9100933;
 
@@ -23949,10 +23949,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 7335,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.39,
+    `HealthModifier` = 3.8,
     `ScriptName` = ''
 WHERE `entry` = 9100934;
 
@@ -23992,10 +23992,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 7337,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.39,
+    `HealthModifier` = 3.84,
     `ScriptName` = ''
 WHERE `entry` = 9100935;
 
@@ -24035,10 +24035,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 7353,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 3.87,
     `ScriptName` = ''
 WHERE `entry` = 9100936;
 
@@ -24078,10 +24078,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 7352,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.94,
+    `HealthModifier` = 3.82,
     `ScriptName` = ''
 WHERE `entry` = 9100937;
 
@@ -24121,10 +24121,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 7341,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9100938;
 
@@ -24164,10 +24164,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 7342,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 4.49,
     `ScriptName` = ''
 WHERE `entry` = 9100939;
 
@@ -24207,10 +24207,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 7345,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 3.87,
     `ScriptName` = ''
 WHERE `entry` = 9100940;
 
@@ -24250,10 +24250,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 7344,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9100941;
 
@@ -24294,9 +24294,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.97,
-    `lootid` = 7348,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9100942;
 
@@ -24336,8 +24336,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 7351,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 4.43,
     `ScriptName` = ''
@@ -24379,10 +24379,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 7329,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 4.26,
     `ScriptName` = ''
 WHERE `entry` = 9100944;
 
@@ -24422,10 +24422,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 7328,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9100945;
 
@@ -24465,10 +24465,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 7332,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 4.38,
     `ScriptName` = ''
 WHERE `entry` = 9100946;
 
@@ -24509,9 +24509,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.96,
-    `lootid` = 7327,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.49,
     `ScriptName` = ''
 WHERE `entry` = 9100947;
 
@@ -24551,10 +24551,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.05,
+    `HealthModifier` = 8.23,
     `ScriptName` = ''
 WHERE `entry` = 9100948;
 
@@ -24594,10 +24594,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.88,
+    `HealthModifier` = 8.09,
     `ScriptName` = ''
 WHERE `entry` = 9100949;
 
@@ -24637,10 +24637,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.89,
+    `HealthModifier` = 8.05,
     `ScriptName` = ''
 WHERE `entry` = 9100950;
 
@@ -24680,10 +24680,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.96,
+    `HealthModifier` = 8.15,
     `ScriptName` = ''
 WHERE `entry` = 9100951;
 
@@ -24723,10 +24723,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.28,
+    `HealthModifier` = 8.42,
     `ScriptName` = ''
 WHERE `entry` = 9100952;
 
@@ -24766,10 +24766,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.18,
+    `HealthModifier` = 8.24,
     `ScriptName` = ''
 WHERE `entry` = 9100953;
 
@@ -24809,10 +24809,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 6.99,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.42,
+    `HealthModifier` = 8.24,
     `ScriptName` = ''
 WHERE `entry` = 9100954;
 
@@ -24852,10 +24852,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 7334,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9100955;
 
@@ -24895,10 +24895,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9100956;
 
@@ -24938,10 +24938,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9100957;
 
@@ -24981,10 +24981,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9100958;
 
@@ -25024,10 +25024,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.48,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9100959;
 
@@ -25067,10 +25067,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.43,
     `ScriptName` = ''
 WHERE `entry` = 9100960;
 
@@ -25110,10 +25110,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 7340,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 2.87,
     `ScriptName` = ''
 WHERE `entry` = 9100961;
 
@@ -25153,10 +25153,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 7346,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9100962;
 
@@ -25196,10 +25196,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9100963;
 
@@ -25239,10 +25239,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 7349,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.32,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9100964;
 
@@ -25282,10 +25282,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 7333,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.98,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9100965;
 
@@ -25327,10 +25327,10 @@ UPDATE `creature_template` SET
     `subname` = 'Master Enchanter',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9101000;
 
@@ -25370,10 +25370,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4863,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9101001;
 
@@ -25414,9 +25414,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.96,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9101002;
 
@@ -25456,10 +25456,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 3.43,
     `ScriptName` = ''
 WHERE `entry` = 9101003;
 
@@ -25499,10 +25499,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9101004;
 
@@ -25542,10 +25542,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 7091,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9101005;
 
@@ -25585,10 +25585,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 4849,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9101006;
 
@@ -25628,10 +25628,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 4848,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101007;
 
@@ -25671,10 +25671,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 7030,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.46,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101008;
 
@@ -25715,9 +25715,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.92,
-    `lootid` = 4847,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 3.04,
     `ScriptName` = ''
 WHERE `entry` = 9101009;
 
@@ -25757,10 +25757,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 7290,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.32,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9101010;
 
@@ -25800,10 +25800,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 4861,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 3.04,
     `ScriptName` = ''
 WHERE `entry` = 9101011;
 
@@ -25843,10 +25843,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4860,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.87,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9101012;
 
@@ -25886,10 +25886,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 4855,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9101013;
 
@@ -25929,10 +25929,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 4850,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9101014;
 
@@ -25972,10 +25972,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 7321,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9101015;
 
@@ -26015,10 +26015,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 4853,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9101016;
 
@@ -26058,10 +26058,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 7320,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9101017;
 
@@ -26101,10 +26101,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 4852,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9101018;
 
@@ -26144,10 +26144,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 10120,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 2.93,
     `ScriptName` = ''
 WHERE `entry` = 9101019;
 
@@ -26187,10 +26187,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 7022,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.94,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9101020;
 
@@ -26230,10 +26230,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.06,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.33,
+    `HealthModifier` = 6.46,
     `ScriptName` = ''
 WHERE `entry` = 9101021;
 
@@ -26273,10 +26273,10 @@ UPDATE `creature_template` SET
     `subname` = 'Ancient Stone Watcher',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.08,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.17,
+    `HealthModifier` = 5.95,
     `ScriptName` = ''
 WHERE `entry` = 9101022;
 
@@ -26316,10 +26316,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.21,
+    `HealthModifier` = 6.3,
     `ScriptName` = ''
 WHERE `entry` = 9101023;
 
@@ -26359,10 +26359,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.1,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.12,
+    `HealthModifier` = 5.85,
     `ScriptName` = ''
 WHERE `entry` = 9101024;
 
@@ -26402,10 +26402,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.22,
+    `HealthModifier` = 6.13,
     `ScriptName` = ''
 WHERE `entry` = 9101025;
 
@@ -26445,10 +26445,10 @@ UPDATE `creature_template` SET
     `subname` = 'Stonevault Chieftain',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.36,
+    `HealthModifier` = 6.1,
     `ScriptName` = ''
 WHERE `entry` = 9101026;
 
@@ -26488,10 +26488,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.87,
+    `HealthModifier` = 5.9,
     `ScriptName` = ''
 WHERE `entry` = 9101027;
 
@@ -26531,10 +26531,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.08,
+    `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.99,
+    `HealthModifier` = 6.04,
     `ScriptName` = ''
 WHERE `entry` = 9101028;
 
@@ -26574,10 +26574,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.07,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.34,
+    `HealthModifier` = 5.9,
     `ScriptName` = ''
 WHERE `entry` = 9101029;
 
@@ -26617,10 +26617,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.07,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.34,
+    `HealthModifier` = 5.88,
     `ScriptName` = ''
 WHERE `entry` = 9101030;
 
@@ -26660,10 +26660,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.29,
+    `HealthModifier` = 6.34,
     `ScriptName` = ''
 WHERE `entry` = 9101031;
 
@@ -26703,10 +26703,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 7078,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.14,
+    `HealthModifier` = 1.94,
     `ScriptName` = ''
 WHERE `entry` = 9101032;
 
@@ -26746,10 +26746,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 7405,
+    `DamageModifier` = 0.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.39,
+    `HealthModifier` = 2.38,
     `ScriptName` = ''
 WHERE `entry` = 9101033;
 
@@ -26789,10 +26789,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.93,
-    `lootid` = 7309,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.88,
+    `HealthModifier` = 2.03,
     `ScriptName` = ''
 WHERE `entry` = 9101034;
 
@@ -26832,10 +26832,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 7076,
+    `DamageModifier` = 1.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.26,
+    `HealthModifier` = 2.32,
     `ScriptName` = ''
 WHERE `entry` = 9101035;
 
@@ -26875,10 +26875,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.08,
-    `lootid` = 7077,
+    `DamageModifier` = 0.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.38,
+    `HealthModifier` = 1.82,
     `ScriptName` = ''
 WHERE `entry` = 9101036;
 
@@ -26918,10 +26918,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 7011,
+    `DamageModifier` = 1.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.92,
+    `HealthModifier` = 2.25,
     `ScriptName` = ''
 WHERE `entry` = 9101037;
 
@@ -26961,10 +26961,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 7012,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.98,
+    `HealthModifier` = 2.11,
     `ScriptName` = ''
 WHERE `entry` = 9101038;
 
@@ -27004,10 +27004,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 7396,
+    `DamageModifier` = 1.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.92,
+    `HealthModifier` = 1.82,
     `ScriptName` = ''
 WHERE `entry` = 9101039;
 
@@ -27047,10 +27047,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 7397,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.03,
+    `HealthModifier` = 1.86,
     `ScriptName` = ''
 WHERE `entry` = 9101040;
 
@@ -27090,10 +27090,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.93,
-    `lootid` = 4851,
+    `DamageModifier` = 1.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.27,
+    `HealthModifier` = 2.11,
     `ScriptName` = ''
 WHERE `entry` = 9101041;
 
@@ -27133,10 +27133,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 7175,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.13,
+    `HealthModifier` = 2.42,
     `ScriptName` = ''
 WHERE `entry` = 9101042;
 
@@ -27176,10 +27176,10 @@ UPDATE `creature_template` SET
     `subname` = 'Master Enchanter',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 0,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9101043;
 
@@ -27219,10 +27219,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 4863,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.85,
+    `HealthModifier` = 3.89,
     `ScriptName` = ''
 WHERE `entry` = 9101044;
 
@@ -27262,10 +27262,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 0,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 4.15,
     `ScriptName` = ''
 WHERE `entry` = 9101045;
 
@@ -27305,10 +27305,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 0,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.86,
+    `HealthModifier` = 4.07,
     `ScriptName` = ''
 WHERE `entry` = 9101046;
 
@@ -27348,10 +27348,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 0,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.26,
+    `HealthModifier` = 3.87,
     `ScriptName` = ''
 WHERE `entry` = 9101047;
 
@@ -27391,10 +27391,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 7091,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.91,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9101048;
 
@@ -27434,10 +27434,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 4849,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.95,
+    `HealthModifier` = 4.2,
     `ScriptName` = ''
 WHERE `entry` = 9101049;
 
@@ -27477,10 +27477,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 4848,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 4.15,
     `ScriptName` = ''
 WHERE `entry` = 9101050;
 
@@ -27520,10 +27520,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 7030,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.2,
+    `HealthModifier` = 4.16,
     `ScriptName` = ''
 WHERE `entry` = 9101051;
 
@@ -27563,10 +27563,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 4847,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 4.0,
     `ScriptName` = ''
 WHERE `entry` = 9101052;
 
@@ -27606,10 +27606,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 7290,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.0,
+    `HealthModifier` = 4.18,
     `ScriptName` = ''
 WHERE `entry` = 9101053;
 
@@ -27649,10 +27649,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 4861,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.24,
+    `HealthModifier` = 3.8,
     `ScriptName` = ''
 WHERE `entry` = 9101054;
 
@@ -27692,10 +27692,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 4860,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.89,
+    `HealthModifier` = 3.91,
     `ScriptName` = ''
 WHERE `entry` = 9101055;
 
@@ -27735,10 +27735,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4855,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.33,
+    `HealthModifier` = 4.43,
     `ScriptName` = ''
 WHERE `entry` = 9101056;
 
@@ -27778,10 +27778,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 4850,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.17,
+    `HealthModifier` = 4.28,
     `ScriptName` = ''
 WHERE `entry` = 9101057;
 
@@ -27821,10 +27821,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 7321,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9101058;
 
@@ -27864,10 +27864,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 4853,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.95,
+    `HealthModifier` = 4.07,
     `ScriptName` = ''
 WHERE `entry` = 9101059;
 
@@ -27907,10 +27907,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 7320,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.11,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9101060;
 
@@ -27950,10 +27950,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 4852,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 3.88,
     `ScriptName` = ''
 WHERE `entry` = 9101061;
 
@@ -27993,10 +27993,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 10120,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9101062;
 
@@ -28036,10 +28036,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 7022,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9101063;
 
@@ -28079,10 +28079,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.38,
+    `HealthModifier` = 8.06,
     `ScriptName` = ''
 WHERE `entry` = 9101064;
 
@@ -28122,10 +28122,10 @@ UPDATE `creature_template` SET
     `subname` = 'Ancient Stone Watcher',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.39,
+    `HealthModifier` = 8.12,
     `ScriptName` = ''
 WHERE `entry` = 9101065;
 
@@ -28165,10 +28165,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.93,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.1,
+    `HealthModifier` = 8.39,
     `ScriptName` = ''
 WHERE `entry` = 9101066;
 
@@ -28208,10 +28208,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.27,
+    `HealthModifier` = 7.81,
     `ScriptName` = ''
 WHERE `entry` = 9101067;
 
@@ -28251,10 +28251,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.95,
+    `DamageModifier` = 6.93,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.45,
+    `HealthModifier` = 8.28,
     `ScriptName` = ''
 WHERE `entry` = 9101068;
 
@@ -28294,10 +28294,10 @@ UPDATE `creature_template` SET
     `subname` = 'Stonevault Chieftain',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.93,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.25,
+    `HealthModifier` = 7.92,
     `ScriptName` = ''
 WHERE `entry` = 9101069;
 
@@ -28337,10 +28337,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.22,
+    `HealthModifier` = 8.1,
     `ScriptName` = ''
 WHERE `entry` = 9101070;
 
@@ -28380,10 +28380,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.84,
+    `HealthModifier` = 7.89,
     `ScriptName` = ''
 WHERE `entry` = 9101071;
 
@@ -28423,10 +28423,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.34,
+    `HealthModifier` = 8.3,
     `ScriptName` = ''
 WHERE `entry` = 9101072;
 
@@ -28466,10 +28466,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.86,
+    `HealthModifier` = 8.02,
     `ScriptName` = ''
 WHERE `entry` = 9101073;
 
@@ -28509,10 +28509,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.47,
+    `HealthModifier` = 8.18,
     `ScriptName` = ''
 WHERE `entry` = 9101074;
 
@@ -28552,10 +28552,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 7078,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 2.86,
     `ScriptName` = ''
 WHERE `entry` = 9101075;
 
@@ -28595,10 +28595,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 7405,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.19,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9101076;
 
@@ -28638,10 +28638,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 7309,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.39,
+    `HealthModifier` = 2.9,
     `ScriptName` = ''
 WHERE `entry` = 9101077;
 
@@ -28681,10 +28681,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 7076,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.5,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9101078;
 
@@ -28724,10 +28724,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 7077,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9101079;
 
@@ -28767,10 +28767,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 7011,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 3.08,
     `ScriptName` = ''
 WHERE `entry` = 9101080;
 
@@ -28810,10 +28810,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 7012,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.98,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9101081;
 
@@ -28853,10 +28853,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 7396,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.04,
     `ScriptName` = ''
 WHERE `entry` = 9101082;
 
@@ -28897,9 +28897,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.98,
-    `lootid` = 7397,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9101083;
 
@@ -28939,10 +28939,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 4851,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9101084;
 
@@ -28982,10 +28982,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 7175,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9101085;
 
@@ -29027,10 +29027,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 7274,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9101100;
 
@@ -29070,10 +29070,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 7608,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 3.17,
     `ScriptName` = ''
 WHERE `entry` = 9101101;
 
@@ -29113,10 +29113,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 7606,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9101102;
 
@@ -29156,10 +29156,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 7605,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101103;
 
@@ -29199,10 +29199,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 5649,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9101104;
 
@@ -29242,10 +29242,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 7789,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.87,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9101105;
 
@@ -29285,10 +29285,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 7268,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.48,
     `ScriptName` = ''
 WHERE `entry` = 9101106;
 
@@ -29328,10 +29328,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 5648,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.81,
+    `HealthModifier` = 3.49,
     `ScriptName` = ''
 WHERE `entry` = 9101107;
 
@@ -29371,10 +29371,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 7246,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9101108;
 
@@ -29414,10 +29414,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 7247,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.08,
     `ScriptName` = ''
 WHERE `entry` = 9101109;
 
@@ -29457,10 +29457,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 5650,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.33,
     `ScriptName` = ''
 WHERE `entry` = 9101110;
 
@@ -29500,10 +29500,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 7604,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9101111;
 
@@ -29543,10 +29543,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.46,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9101112;
 
@@ -29586,10 +29586,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 8120,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9101113;
 
@@ -29629,10 +29629,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9101114;
 
@@ -29672,10 +29672,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 8095,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9101115;
 
@@ -29715,10 +29715,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 7607,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 3.47,
     `ScriptName` = ''
 WHERE `entry` = 9101116;
 
@@ -29758,10 +29758,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 7286,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9101117;
 
@@ -29801,10 +29801,10 @@ UPDATE `creature_template` SET
     `subname` = 'Overseer of Sul',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.08,
+    `HealthModifier` = 6.18,
     `ScriptName` = ''
 WHERE `entry` = 9101118;
 
@@ -29844,10 +29844,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.91,
+    `HealthModifier` = 5.85,
     `ScriptName` = ''
 WHERE `entry` = 9101119;
 
@@ -29887,10 +29887,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.99,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.23,
+    `HealthModifier` = 6.42,
     `ScriptName` = ''
 WHERE `entry` = 9101120;
 
@@ -29930,10 +29930,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.36,
+    `HealthModifier` = 6.03,
     `ScriptName` = ''
 WHERE `entry` = 9101121;
 
@@ -29973,10 +29973,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.05,
+    `HealthModifier` = 6.35,
     `ScriptName` = ''
 WHERE `entry` = 9101122;
 
@@ -30016,10 +30016,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.06,
+    `HealthModifier` = 6.49,
     `ScriptName` = ''
 WHERE `entry` = 9101123;
 
@@ -30059,10 +30059,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.29,
+    `HealthModifier` = 6.11,
     `ScriptName` = ''
 WHERE `entry` = 9101124;
 
@@ -30105,7 +30105,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.25,
+    `HealthModifier` = 6.06,
     `ScriptName` = ''
 WHERE `entry` = 9101125;
 
@@ -30145,10 +30145,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.49,
+    `HealthModifier` = 6.12,
     `ScriptName` = ''
 WHERE `entry` = 9101126;
 
@@ -30188,10 +30188,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.96,
-    `lootid` = 10080,
+    `DamageModifier` = 4.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 4.82,
+    `HealthModifier` = 5.5,
     `ScriptName` = ''
 WHERE `entry` = 9101127;
 
@@ -30231,10 +30231,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.07,
-    `lootid` = 10081,
+    `DamageModifier` = 3.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.15,
+    `HealthModifier` = 5.37,
     `ScriptName` = ''
 WHERE `entry` = 9101128;
 
@@ -30274,10 +30274,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.09,
-    `lootid` = 10082,
+    `DamageModifier` = 3.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.29,
+    `HealthModifier` = 4.94,
     `ScriptName` = ''
 WHERE `entry` = 9101129;
 
@@ -30317,10 +30317,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.91,
-    `lootid` = 0,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.09,
+    `HealthModifier` = 1.92,
     `ScriptName` = ''
 WHERE `entry` = 9101130;
 
@@ -30360,10 +30360,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.15,
+    `HealthModifier` = 1.83,
     `ScriptName` = ''
 WHERE `entry` = 9101131;
 
@@ -30403,10 +30403,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 8179,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.92,
+    `HealthModifier` = 2.44,
     `ScriptName` = ''
 WHERE `entry` = 9101132;
 
@@ -30446,10 +30446,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 8876,
+    `DamageModifier` = 1.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.81,
+    `HealthModifier` = 2.27,
     `ScriptName` = ''
 WHERE `entry` = 9101133;
 
@@ -30489,10 +30489,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.95,
-    `lootid` = 7788,
+    `DamageModifier` = 1.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.17,
+    `HealthModifier` = 2.45,
     `ScriptName` = ''
 WHERE `entry` = 9101134;
 
@@ -30532,10 +30532,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.1,
-    `lootid` = 7787,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.42,
+    `HealthModifier` = 2.27,
     `ScriptName` = ''
 WHERE `entry` = 9101135;
 
@@ -30575,10 +30575,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 8877,
+    `DamageModifier` = 0.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.06,
+    `HealthModifier` = 1.95,
     `ScriptName` = ''
 WHERE `entry` = 9101136;
 
@@ -30618,10 +30618,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.08,
-    `lootid` = 7269,
+    `DamageModifier` = 0.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.2,
+    `HealthModifier` = 2.49,
     `ScriptName` = ''
 WHERE `entry` = 9101137;
 
@@ -30661,10 +30661,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 0,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.96,
+    `HealthModifier` = 2.22,
     `ScriptName` = ''
 WHERE `entry` = 9101138;
 
@@ -30704,10 +30704,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 8138,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.88,
+    `HealthModifier` = 1.97,
     `ScriptName` = ''
 WHERE `entry` = 9101139;
 
@@ -30747,10 +30747,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 0,
+    `DamageModifier` = 1.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.05,
+    `HealthModifier` = 1.85,
     `ScriptName` = ''
 WHERE `entry` = 9101140;
 
@@ -30791,9 +30791,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 0.93,
-    `lootid` = 7276,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.83,
+    `HealthModifier` = 2.24,
     `ScriptName` = ''
 WHERE `entry` = 9101141;
 
@@ -30833,10 +30833,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 7274,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.18,
+    `HealthModifier` = 4.23,
     `ScriptName` = ''
 WHERE `entry` = 9101142;
 
@@ -30876,10 +30876,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 7608,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.95,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9101143;
 
@@ -30919,10 +30919,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 7606,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.39,
+    `HealthModifier` = 4.38,
     `ScriptName` = ''
 WHERE `entry` = 9101144;
 
@@ -30962,10 +30962,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 7605,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 4.1,
     `ScriptName` = ''
 WHERE `entry` = 9101145;
 
@@ -31005,10 +31005,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 5649,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 4.09,
     `ScriptName` = ''
 WHERE `entry` = 9101146;
 
@@ -31048,10 +31048,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 7789,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.98,
+    `HealthModifier` = 4.11,
     `ScriptName` = ''
 WHERE `entry` = 9101147;
 
@@ -31091,10 +31091,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 7268,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.46,
     `ScriptName` = ''
 WHERE `entry` = 9101148;
 
@@ -31134,10 +31134,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 5648,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.17,
     `ScriptName` = ''
 WHERE `entry` = 9101149;
 
@@ -31177,10 +31177,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 7246,
+    `DamageModifier` = 2.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9101150;
 
@@ -31220,10 +31220,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 7247,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.04,
     `ScriptName` = ''
 WHERE `entry` = 9101151;
 
@@ -31263,10 +31263,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 5650,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 4.4,
     `ScriptName` = ''
 WHERE `entry` = 9101152;
 
@@ -31306,10 +31306,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 7604,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.94,
+    `HealthModifier` = 4.03,
     `ScriptName` = ''
 WHERE `entry` = 9101153;
 
@@ -31349,10 +31349,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 0,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9101154;
 
@@ -31392,10 +31392,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 8120,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.2,
+    `HealthModifier` = 4.47,
     `ScriptName` = ''
 WHERE `entry` = 9101155;
 
@@ -31435,10 +31435,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 0,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.49,
+    `HealthModifier` = 3.81,
     `ScriptName` = ''
 WHERE `entry` = 9101156;
 
@@ -31478,10 +31478,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 8095,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.32,
+    `HealthModifier` = 3.94,
     `ScriptName` = ''
 WHERE `entry` = 9101157;
 
@@ -31521,10 +31521,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 7607,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.4,
     `ScriptName` = ''
 WHERE `entry` = 9101158;
 
@@ -31564,10 +31564,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 7286,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.99,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9101159;
 
@@ -31607,10 +31607,10 @@ UPDATE `creature_template` SET
     `subname` = 'Overseer of Sul',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.36,
+    `HealthModifier` = 8.33,
     `ScriptName` = ''
 WHERE `entry` = 9101160;
 
@@ -31650,10 +31650,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 7.09,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.83,
+    `HealthModifier` = 8.26,
     `ScriptName` = ''
 WHERE `entry` = 9101161;
 
@@ -31693,10 +31693,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 6.91,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.0,
+    `HealthModifier` = 8.06,
     `ScriptName` = ''
 WHERE `entry` = 9101162;
 
@@ -31736,10 +31736,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.35,
+    `HealthModifier` = 7.94,
     `ScriptName` = ''
 WHERE `entry` = 9101163;
 
@@ -31779,10 +31779,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.02,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.31,
+    `HealthModifier` = 8.46,
     `ScriptName` = ''
 WHERE `entry` = 9101164;
 
@@ -31822,10 +31822,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.97,
+    `HealthModifier` = 8.26,
     `ScriptName` = ''
 WHERE `entry` = 9101165;
 
@@ -31865,10 +31865,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.1,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.04,
+    `HealthModifier` = 8.15,
     `ScriptName` = ''
 WHERE `entry` = 9101166;
 
@@ -31908,10 +31908,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.01,
+    `HealthModifier` = 7.95,
     `ScriptName` = ''
 WHERE `entry` = 9101167;
 
@@ -31954,7 +31954,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 6.91,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.15,
+    `HealthModifier` = 7.91,
     `ScriptName` = ''
 WHERE `entry` = 9101168;
 
@@ -31994,10 +31994,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.1,
-    `lootid` = 10080,
+    `DamageModifier` = 6.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.43,
+    `HealthModifier` = 6.88,
     `ScriptName` = ''
 WHERE `entry` = 9101169;
 
@@ -32037,10 +32037,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.05,
-    `lootid` = 10081,
+    `DamageModifier` = 6.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.18,
+    `HealthModifier` = 7.3,
     `ScriptName` = ''
 WHERE `entry` = 9101170;
 
@@ -32080,10 +32080,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.91,
-    `lootid` = 10082,
+    `DamageModifier` = 5.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 6.91,
+    `HealthModifier` = 6.96,
     `ScriptName` = ''
 WHERE `entry` = 9101171;
 
@@ -32123,10 +32123,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9101172;
 
@@ -32166,10 +32166,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9101173;
 
@@ -32209,10 +32209,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 8179,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9101174;
 
@@ -32252,10 +32252,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 8876,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9101175;
 
@@ -32295,10 +32295,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 7788,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9101176;
 
@@ -32338,10 +32338,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 7787,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9101177;
 
@@ -32381,10 +32381,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 8877,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9101178;
 
@@ -32424,10 +32424,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 7269,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9101179;
 
@@ -32467,10 +32467,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 0,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 3.12,
     `ScriptName` = ''
 WHERE `entry` = 9101180;
 
@@ -32510,10 +32510,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 8138,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9101181;
 
@@ -32553,10 +32553,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101182;
 
@@ -32596,10 +32596,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 7276,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.15,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9101183;
 
@@ -32641,10 +32641,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 11792,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.09,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9101200;
 
@@ -32684,10 +32684,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 13141,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.15,
+    `HealthModifier` = 3.45,
     `ScriptName` = ''
 WHERE `entry` = 9101201;
 
@@ -32727,10 +32727,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 11790,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.32,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101202;
 
@@ -32770,10 +32770,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 12219,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9101203;
 
@@ -32813,10 +32813,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 13142,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.89,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9101204;
 
@@ -32856,10 +32856,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 11791,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9101205;
 
@@ -32899,10 +32899,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 12223,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.08,
+    `HealthModifier` = 2.87,
     `ScriptName` = ''
 WHERE `entry` = 9101206;
 
@@ -32942,10 +32942,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 11793,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.33,
     `ScriptName` = ''
 WHERE `entry` = 9101207;
 
@@ -32985,10 +32985,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 12220,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.25,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101208;
 
@@ -33028,10 +33028,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 12222,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 3.48,
     `ScriptName` = ''
 WHERE `entry` = 9101209;
 
@@ -33071,10 +33071,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 13533,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9101210;
 
@@ -33115,9 +33115,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.05,
-    `lootid` = 12242,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 3.39,
     `ScriptName` = ''
 WHERE `entry` = 9101211;
 
@@ -33157,10 +33157,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 13599,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 2.87,
     `ScriptName` = ''
 WHERE `entry` = 9101212;
 
@@ -33200,10 +33200,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 12224,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9101213;
 
@@ -33243,10 +33243,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 12221,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.12,
     `ScriptName` = ''
 WHERE `entry` = 9101214;
 
@@ -33286,10 +33286,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 11794,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.42,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9101215;
 
@@ -33329,10 +33329,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 12207,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9101216;
 
@@ -33372,10 +33372,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 13323,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.08,
     `ScriptName` = ''
 WHERE `entry` = 9101217;
 
@@ -33415,10 +33415,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 11784,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.33,
     `ScriptName` = ''
 WHERE `entry` = 9101218;
 
@@ -33458,10 +33458,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Fifth Kahn',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 12243,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9101219;
 
@@ -33501,10 +33501,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 12206,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9101220;
 
@@ -33544,10 +33544,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.12,
     `ScriptName` = ''
 WHERE `entry` = 9101221;
 
@@ -33587,10 +33587,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9101222;
 
@@ -33630,10 +33630,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.91,
+    `HealthModifier` = 6.34,
     `ScriptName` = ''
 WHERE `entry` = 9101223;
 
@@ -33673,10 +33673,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.07,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.92,
+    `HealthModifier` = 6.23,
     `ScriptName` = ''
 WHERE `entry` = 9101224;
 
@@ -33716,10 +33716,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.88,
+    `HealthModifier` = 6.24,
     `ScriptName` = ''
 WHERE `entry` = 9101225;
 
@@ -33759,10 +33759,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.0,
+    `HealthModifier` = 6.18,
     `ScriptName` = ''
 WHERE `entry` = 9101226;
 
@@ -33802,10 +33802,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.9,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.45,
+    `HealthModifier` = 6.06,
     `ScriptName` = ''
 WHERE `entry` = 9101227;
 
@@ -33845,10 +33845,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.01,
+    `HealthModifier` = 6.17,
     `ScriptName` = ''
 WHERE `entry` = 9101228;
 
@@ -33888,10 +33888,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.04,
+    `HealthModifier` = 6.14,
     `ScriptName` = ''
 WHERE `entry` = 9101229;
 
@@ -33931,10 +33931,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.02,
+    `HealthModifier` = 6.48,
     `ScriptName` = ''
 WHERE `entry` = 9101230;
 
@@ -33974,10 +33974,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.06,
-    `lootid` = 12237,
+    `DamageModifier` = 3.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.02,
+    `HealthModifier` = 5.0,
     `ScriptName` = ''
 WHERE `entry` = 9101231;
 
@@ -34017,10 +34017,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 11783,
+    `DamageModifier` = 1.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.49,
+    `HealthModifier` = 2.44,
     `ScriptName` = ''
 WHERE `entry` = 9101232;
 
@@ -34061,9 +34061,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.03,
-    `lootid` = 12218,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.93,
+    `HealthModifier` = 2.43,
     `ScriptName` = ''
 WHERE `entry` = 9101233;
 
@@ -34103,10 +34103,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.1,
-    `lootid` = 12216,
+    `DamageModifier` = 1.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.04,
+    `HealthModifier` = 2.39,
     `ScriptName` = ''
 WHERE `entry` = 9101234;
 
@@ -34146,10 +34146,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 13696,
+    `DamageModifier` = 1.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.92,
+    `HealthModifier` = 2.1,
     `ScriptName` = ''
 WHERE `entry` = 9101235;
 
@@ -34189,10 +34189,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.37,
+    `HealthModifier` = 2.48,
     `ScriptName` = ''
 WHERE `entry` = 9101236;
 
@@ -34233,9 +34233,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 0.98,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.91,
+    `HealthModifier` = 2.48,
     `ScriptName` = ''
 WHERE `entry` = 9101237;
 
@@ -34275,10 +34275,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.95,
-    `lootid` = 11789,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.94,
+    `HealthModifier` = 2.15,
     `ScriptName` = ''
 WHERE `entry` = 9101238;
 
@@ -34318,10 +34318,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.05,
-    `lootid` = 12217,
+    `DamageModifier` = 1.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.39,
+    `HealthModifier` = 2.04,
     `ScriptName` = ''
 WHERE `entry` = 9101239;
 
@@ -34361,10 +34361,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 0,
+    `DamageModifier` = 1.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.81,
+    `HealthModifier` = 2.2,
     `ScriptName` = ''
 WHERE `entry` = 9101240;
 
@@ -34404,10 +34404,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 11792,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.89,
+    `HealthModifier` = 3.94,
     `ScriptName` = ''
 WHERE `entry` = 9101241;
 
@@ -34447,10 +34447,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 13141,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 3.85,
     `ScriptName` = ''
 WHERE `entry` = 9101242;
 
@@ -34490,10 +34490,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 11790,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.32,
+    `HealthModifier` = 4.49,
     `ScriptName` = ''
 WHERE `entry` = 9101243;
 
@@ -34533,10 +34533,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 12219,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.99,
+    `HealthModifier` = 3.81,
     `ScriptName` = ''
 WHERE `entry` = 9101244;
 
@@ -34576,10 +34576,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 13142,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.11,
+    `HealthModifier` = 3.81,
     `ScriptName` = ''
 WHERE `entry` = 9101245;
 
@@ -34619,10 +34619,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 11791,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.42,
+    `HealthModifier` = 3.96,
     `ScriptName` = ''
 WHERE `entry` = 9101246;
 
@@ -34662,10 +34662,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 12223,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9101247;
 
@@ -34705,10 +34705,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 11793,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.06,
+    `HealthModifier` = 4.02,
     `ScriptName` = ''
 WHERE `entry` = 9101248;
 
@@ -34748,10 +34748,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 12220,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.25,
+    `HealthModifier` = 3.96,
     `ScriptName` = ''
 WHERE `entry` = 9101249;
 
@@ -34791,10 +34791,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 12222,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.39,
+    `HealthModifier` = 4.22,
     `ScriptName` = ''
 WHERE `entry` = 9101250;
 
@@ -34834,10 +34834,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 13533,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.02,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9101251;
 
@@ -34877,10 +34877,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Fourth Kahn',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 12242,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9101252;
 
@@ -34920,10 +34920,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 13599,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9101253;
 
@@ -34963,10 +34963,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 12224,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.14,
     `ScriptName` = ''
 WHERE `entry` = 9101254;
 
@@ -35006,10 +35006,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 12221,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9101255;
 
@@ -35049,10 +35049,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 11794,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 4.2,
     `ScriptName` = ''
 WHERE `entry` = 9101256;
 
@@ -35092,10 +35092,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 12207,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.86,
+    `HealthModifier` = 4.32,
     `ScriptName` = ''
 WHERE `entry` = 9101257;
 
@@ -35135,10 +35135,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 13323,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9101258;
 
@@ -35178,10 +35178,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 11784,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 4.05,
     `ScriptName` = ''
 WHERE `entry` = 9101259;
 
@@ -35221,10 +35221,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Fifth Kahn',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 12243,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.24,
+    `HealthModifier` = 3.93,
     `ScriptName` = ''
 WHERE `entry` = 9101260;
 
@@ -35264,10 +35264,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 12206,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.14,
+    `HealthModifier` = 3.91,
     `ScriptName` = ''
 WHERE `entry` = 9101261;
 
@@ -35307,10 +35307,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 0,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.32,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9101262;
 
@@ -35350,10 +35350,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 0,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.11,
+    `HealthModifier` = 4.13,
     `ScriptName` = ''
 WHERE `entry` = 9101263;
 
@@ -35393,10 +35393,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.96,
+    `HealthModifier` = 8.29,
     `ScriptName` = ''
 WHERE `entry` = 9101264;
 
@@ -35436,10 +35436,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.37,
+    `HealthModifier` = 8.34,
     `ScriptName` = ''
 WHERE `entry` = 9101265;
 
@@ -35479,10 +35479,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.0,
+    `HealthModifier` = 7.94,
     `ScriptName` = ''
 WHERE `entry` = 9101266;
 
@@ -35522,10 +35522,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.41,
+    `HealthModifier` = 8.45,
     `ScriptName` = ''
 WHERE `entry` = 9101267;
 
@@ -35568,7 +35568,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.93,
+    `HealthModifier` = 8.06,
     `ScriptName` = ''
 WHERE `entry` = 9101268;
 
@@ -35608,10 +35608,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 6.99,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.01,
+    `HealthModifier` = 8.05,
     `ScriptName` = ''
 WHERE `entry` = 9101269;
 
@@ -35651,10 +35651,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.96,
+    `HealthModifier` = 8.09,
     `ScriptName` = ''
 WHERE `entry` = 9101270;
 
@@ -35694,10 +35694,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.08,
+    `DamageModifier` = 7.1,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.02,
+    `HealthModifier` = 8.29,
     `ScriptName` = ''
 WHERE `entry` = 9101271;
 
@@ -35737,10 +35737,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.03,
-    `lootid` = 12237,
+    `DamageModifier` = 6.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 6.9,
+    `HealthModifier` = 7.39,
     `ScriptName` = ''
 WHERE `entry` = 9101272;
 
@@ -35780,10 +35780,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 11783,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9101273;
 
@@ -35823,10 +35823,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 12218,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.8,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9101274;
 
@@ -35866,10 +35866,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 12216,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9101275;
 
@@ -35909,10 +35909,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 13696,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.37,
     `ScriptName` = ''
 WHERE `entry` = 9101276;
 
@@ -35952,10 +35952,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.8,
+    `HealthModifier` = 3.0,
     `ScriptName` = ''
 WHERE `entry` = 9101277;
 
@@ -35995,10 +35995,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9101278;
 
@@ -36038,10 +36038,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 11789,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9101279;
 
@@ -36081,10 +36081,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 12217,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9101280;
 
@@ -36124,10 +36124,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9101281;
 
@@ -36169,10 +36169,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 5270,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9101300;
 
@@ -36213,9 +36213,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.99,
-    `lootid` = 5271,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 2.88,
     `ScriptName` = ''
 WHERE `entry` = 9101301;
 
@@ -36255,10 +36255,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9101302;
 
@@ -36298,10 +36298,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 5273,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101303;
 
@@ -36341,10 +36341,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 5256,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9101304;
 
@@ -36384,10 +36384,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 5259,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.09,
+    `HealthModifier` = 3.08,
     `ScriptName` = ''
 WHERE `entry` = 9101305;
 
@@ -36427,10 +36427,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 8384,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 3.08,
     `ScriptName` = ''
 WHERE `entry` = 9101306;
 
@@ -36470,10 +36470,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 8438,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9101307;
 
@@ -36513,10 +36513,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 5291,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9101308;
 
@@ -36556,10 +36556,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 8336,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 3.01,
     `ScriptName` = ''
 WHERE `entry` = 9101309;
 
@@ -36599,10 +36599,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9101310;
 
@@ -36643,9 +36643,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.02,
-    `lootid` = 5226,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9101311;
 
@@ -36685,10 +36685,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 5277,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9101312;
 
@@ -36728,10 +36728,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 8497,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9101313;
 
@@ -36771,10 +36771,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 5283,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 3.47,
     `ScriptName` = ''
 WHERE `entry` = 9101314;
 
@@ -36814,10 +36814,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 5280,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.32,
+    `HealthModifier` = 3.4,
     `ScriptName` = ''
 WHERE `entry` = 9101315;
 
@@ -36857,10 +36857,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 5228,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9101316;
 
@@ -36900,10 +36900,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.09,
+    `HealthModifier` = 3.34,
     `ScriptName` = ''
 WHERE `entry` = 9101317;
 
@@ -36943,10 +36943,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 5708,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.0,
     `ScriptName` = ''
 WHERE `entry` = 9101318;
 
@@ -36986,10 +36986,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 5267,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9101319;
 
@@ -37032,7 +37032,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.86,
+    `HealthModifier` = 5.81,
     `ScriptName` = ''
 WHERE `entry` = 9101320;
 
@@ -37072,10 +37072,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.81,
+    `HealthModifier` = 5.98,
     `ScriptName` = ''
 WHERE `entry` = 9101321;
 
@@ -37115,10 +37115,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.88,
+    `HealthModifier` = 6.44,
     `ScriptName` = ''
 WHERE `entry` = 9101322;
 
@@ -37158,10 +37158,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.3,
+    `HealthModifier` = 5.87,
     `ScriptName` = ''
 WHERE `entry` = 9101323;
 
@@ -37201,10 +37201,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.48,
+    `HealthModifier` = 6.23,
     `ScriptName` = ''
 WHERE `entry` = 9101324;
 
@@ -37244,10 +37244,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.05,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.86,
+    `HealthModifier` = 6.18,
     `ScriptName` = ''
 WHERE `entry` = 9101325;
 
@@ -37287,10 +37287,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.08,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.33,
+    `HealthModifier` = 5.96,
     `ScriptName` = ''
 WHERE `entry` = 9101326;
 
@@ -37330,10 +37330,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.19,
+    `HealthModifier` = 5.86,
     `ScriptName` = ''
 WHERE `entry` = 9101327;
 
@@ -37373,10 +37373,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.01,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.02,
+    `HealthModifier` = 6.09,
     `ScriptName` = ''
 WHERE `entry` = 9101328;
 
@@ -37419,7 +37419,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.16,
+    `HealthModifier` = 6.23,
     `ScriptName` = ''
 WHERE `entry` = 9101329;
 
@@ -37459,10 +37459,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.08,
+    `HealthModifier` = 6.2,
     `ScriptName` = ''
 WHERE `entry` = 9101330;
 
@@ -37502,10 +37502,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.12,
+    `HealthModifier` = 6.38,
     `ScriptName` = ''
 WHERE `entry` = 9101331;
 
@@ -37545,10 +37545,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.43,
+    `HealthModifier` = 5.96,
     `ScriptName` = ''
 WHERE `entry` = 9101332;
 
@@ -37588,10 +37588,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.89,
+    `HealthModifier` = 6.25,
     `ScriptName` = ''
 WHERE `entry` = 9101333;
 
@@ -37631,10 +37631,10 @@ UPDATE `creature_template` SET
     `subname` = 'Guardian of the Idol',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.05,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.91,
+    `HealthModifier` = 6.35,
     `ScriptName` = ''
 WHERE `entry` = 9101334;
 
@@ -37674,10 +37674,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.05,
-    `lootid` = 0,
+    `DamageModifier` = 0.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.98,
+    `HealthModifier` = 2.2,
     `ScriptName` = ''
 WHERE `entry` = 9101335;
 
@@ -37717,10 +37717,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 8318,
+    `DamageModifier` = 0.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.21,
+    `HealthModifier` = 2.36,
     `ScriptName` = ''
 WHERE `entry` = 9101336;
 
@@ -37760,10 +37760,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 0,
+    `DamageModifier` = 1.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.88,
+    `HealthModifier` = 2.1,
     `ScriptName` = ''
 WHERE `entry` = 9101337;
 
@@ -37804,9 +37804,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 0.95,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.07,
+    `HealthModifier` = 2.11,
     `ScriptName` = ''
 WHERE `entry` = 9101338;
 
@@ -37846,10 +37846,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 0,
+    `DamageModifier` = 1.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.34,
+    `HealthModifier` = 1.83,
     `ScriptName` = ''
 WHERE `entry` = 9101339;
 
@@ -37889,10 +37889,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.34,
+    `HealthModifier` = 2.16,
     `ScriptName` = ''
 WHERE `entry` = 9101340;
 
@@ -37932,10 +37932,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 0,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.26,
+    `HealthModifier` = 1.98,
     `ScriptName` = ''
 WHERE `entry` = 9101341;
 
@@ -37975,10 +37975,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.05,
-    `lootid` = 8319,
+    `DamageModifier` = 1.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.89,
+    `HealthModifier` = 2.07,
     `ScriptName` = ''
 WHERE `entry` = 9101342;
 
@@ -38018,10 +38018,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.05,
-    `lootid` = 0,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.19,
+    `HealthModifier` = 2.49,
     `ScriptName` = ''
 WHERE `entry` = 9101343;
 
@@ -38061,10 +38061,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 8311,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.27,
+    `HealthModifier` = 1.84,
     `ScriptName` = ''
 WHERE `entry` = 9101344;
 
@@ -38104,10 +38104,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 5270,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.27,
     `ScriptName` = ''
 WHERE `entry` = 9101345;
 
@@ -38147,10 +38147,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 5271,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.0,
+    `HealthModifier` = 3.93,
     `ScriptName` = ''
 WHERE `entry` = 9101346;
 
@@ -38190,10 +38190,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 0,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9101347;
 
@@ -38233,10 +38233,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 5273,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.96,
+    `HealthModifier` = 4.17,
     `ScriptName` = ''
 WHERE `entry` = 9101348;
 
@@ -38276,10 +38276,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 5256,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.41,
+    `HealthModifier` = 4.07,
     `ScriptName` = ''
 WHERE `entry` = 9101349;
 
@@ -38319,10 +38319,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 5259,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.16,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9101350;
 
@@ -38362,10 +38362,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 8384,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.07,
+    `HealthModifier` = 3.89,
     `ScriptName` = ''
 WHERE `entry` = 9101351;
 
@@ -38405,10 +38405,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 8438,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.02,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9101352;
 
@@ -38448,10 +38448,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 5291,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.49,
+    `HealthModifier` = 4.22,
     `ScriptName` = ''
 WHERE `entry` = 9101353;
 
@@ -38491,10 +38491,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 8336,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.02,
+    `HealthModifier` = 3.93,
     `ScriptName` = ''
 WHERE `entry` = 9101354;
 
@@ -38534,10 +38534,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 0,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.45,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9101355;
 
@@ -38577,10 +38577,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 5226,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.24,
+    `HealthModifier` = 4.33,
     `ScriptName` = ''
 WHERE `entry` = 9101356;
 
@@ -38620,10 +38620,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 5277,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.0,
+    `HealthModifier` = 4.39,
     `ScriptName` = ''
 WHERE `entry` = 9101357;
 
@@ -38663,10 +38663,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 8497,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9101358;
 
@@ -38706,10 +38706,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 5283,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.25,
+    `HealthModifier` = 3.88,
     `ScriptName` = ''
 WHERE `entry` = 9101359;
 
@@ -38749,10 +38749,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 5280,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.4,
+    `HealthModifier` = 4.1,
     `ScriptName` = ''
 WHERE `entry` = 9101360;
 
@@ -38792,10 +38792,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 5228,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9101361;
 
@@ -38835,10 +38835,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 0,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.21,
+    `HealthModifier` = 4.27,
     `ScriptName` = ''
 WHERE `entry` = 9101362;
 
@@ -38878,10 +38878,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 5708,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.84,
+    `HealthModifier` = 4.36,
     `ScriptName` = ''
 WHERE `entry` = 9101363;
 
@@ -38921,10 +38921,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 5267,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.89,
+    `HealthModifier` = 4.31,
     `ScriptName` = ''
 WHERE `entry` = 9101364;
 
@@ -38964,10 +38964,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.08,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.41,
+    `HealthModifier` = 8.07,
     `ScriptName` = ''
 WHERE `entry` = 9101365;
 
@@ -39007,10 +39007,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 6.96,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.96,
+    `HealthModifier` = 8.49,
     `ScriptName` = ''
 WHERE `entry` = 9101366;
 
@@ -39050,10 +39050,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.9,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.96,
+    `HealthModifier` = 8.22,
     `ScriptName` = ''
 WHERE `entry` = 9101367;
 
@@ -39093,10 +39093,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.41,
+    `HealthModifier` = 8.23,
     `ScriptName` = ''
 WHERE `entry` = 9101368;
 
@@ -39136,10 +39136,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.87,
+    `HealthModifier` = 8.31,
     `ScriptName` = ''
 WHERE `entry` = 9101369;
 
@@ -39179,10 +39179,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.02,
+    `HealthModifier` = 8.01,
     `ScriptName` = ''
 WHERE `entry` = 9101370;
 
@@ -39222,10 +39222,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.0,
+    `HealthModifier` = 8.39,
     `ScriptName` = ''
 WHERE `entry` = 9101371;
 
@@ -39265,10 +39265,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.93,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.48,
+    `HealthModifier` = 8.09,
     `ScriptName` = ''
 WHERE `entry` = 9101372;
 
@@ -39308,10 +39308,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 6.91,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.41,
+    `HealthModifier` = 8.23,
     `ScriptName` = ''
 WHERE `entry` = 9101373;
 
@@ -39351,10 +39351,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.95,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.13,
+    `HealthModifier` = 8.02,
     `ScriptName` = ''
 WHERE `entry` = 9101374;
 
@@ -39394,10 +39394,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.04,
+    `HealthModifier` = 8.44,
     `ScriptName` = ''
 WHERE `entry` = 9101375;
 
@@ -39437,10 +39437,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 6.93,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.26,
+    `HealthModifier` = 8.27,
     `ScriptName` = ''
 WHERE `entry` = 9101376;
 
@@ -39480,10 +39480,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.08,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.91,
+    `HealthModifier` = 7.89,
     `ScriptName` = ''
 WHERE `entry` = 9101377;
 
@@ -39523,10 +39523,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.25,
+    `HealthModifier` = 7.85,
     `ScriptName` = ''
 WHERE `entry` = 9101378;
 
@@ -39566,10 +39566,10 @@ UPDATE `creature_template` SET
     `subname` = 'Guardian of the Idol',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 6.91,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.02,
+    `HealthModifier` = 8.41,
     `ScriptName` = ''
 WHERE `entry` = 9101379;
 
@@ -39609,10 +39609,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9101380;
 
@@ -39652,10 +39652,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 8318,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9101381;
 
@@ -39695,10 +39695,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9101382;
 
@@ -39738,10 +39738,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.48,
+    `HealthModifier` = 3.43,
     `ScriptName` = ''
 WHERE `entry` = 9101383;
 
@@ -39781,10 +39781,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 0,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.07,
     `ScriptName` = ''
 WHERE `entry` = 9101384;
 
@@ -39825,9 +39825,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.96,
-    `lootid` = 0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9101385;
 
@@ -39867,10 +39867,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9101386;
 
@@ -39910,10 +39910,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 8319,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9101387;
 
@@ -39953,10 +39953,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9101388;
 
@@ -39996,10 +39996,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 8311,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9101389;
 
@@ -40041,10 +40041,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 8903,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.1,
+    `HealthModifier` = 3.5,
     `ScriptName` = ''
 WHERE `entry` = 9101400;
 
@@ -40084,10 +40084,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 8892,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9101401;
 
@@ -40127,10 +40127,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 8891,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9101402;
 
@@ -40170,10 +40170,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 8898,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 3.49,
     `ScriptName` = ''
 WHERE `entry` = 9101403;
 
@@ -40213,10 +40213,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 8894,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 3.45,
     `ScriptName` = ''
 WHERE `entry` = 9101404;
 
@@ -40256,10 +40256,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 8895,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9101405;
 
@@ -40299,10 +40299,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 8889,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.36,
     `ScriptName` = ''
 WHERE `entry` = 9101406;
 
@@ -40342,10 +40342,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 8893,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9101407;
 
@@ -40385,10 +40385,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 8890,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9101408;
 
@@ -40428,10 +40428,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 9541,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.1,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9101409;
 
@@ -40471,10 +40471,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 8910,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9101410;
 
@@ -40514,10 +40514,10 @@ UPDATE `creature_template` SET
     `subname` = 'Kargath Expeditionary Force',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 0,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.15,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9101411;
 
@@ -40557,10 +40557,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 9680,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9101412;
 
@@ -40601,9 +40601,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.01,
-    `lootid` = 9445,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9101413;
 
@@ -40643,10 +40643,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 8899,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 2.86,
     `ScriptName` = ''
 WHERE `entry` = 9101414;
 
@@ -40686,10 +40686,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9101415;
 
@@ -40729,10 +40729,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 8909,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.48,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9101416;
 
@@ -40772,10 +40772,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 8911,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101417;
 
@@ -40815,10 +40815,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 9547,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9101418;
 
@@ -40858,10 +40858,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 9554,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9101419;
 
@@ -40901,10 +40901,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9101420;
 
@@ -40944,10 +40944,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 9681,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.26,
+    `HealthModifier` = 3.24,
     `ScriptName` = ''
 WHERE `entry` = 9101421;
 
@@ -40987,10 +40987,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9101422;
 
@@ -41030,10 +41030,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 0,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.81,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101423;
 
@@ -41073,10 +41073,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.08,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9101424;
 
@@ -41117,9 +41117,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.39,
+    `HealthModifier` = 3.5,
     `ScriptName` = ''
 WHERE `entry` = 9101425;
 
@@ -41159,10 +41159,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9101426;
 
@@ -41202,10 +41202,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.43,
     `ScriptName` = ''
 WHERE `entry` = 9101427;
 
@@ -41245,10 +41245,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 8908,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9101428;
 
@@ -41288,10 +41288,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 9677,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9101429;
 
@@ -41331,10 +41331,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 3.4,
     `ScriptName` = ''
 WHERE `entry` = 9101430;
 
@@ -41374,10 +41374,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 8906,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101431;
 
@@ -41417,10 +41417,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 0,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.94,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9101432;
 
@@ -41460,10 +41460,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 10043,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9101433;
 
@@ -41503,10 +41503,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.45,
     `ScriptName` = ''
 WHERE `entry` = 9101434;
 
@@ -41546,10 +41546,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 8902,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9101435;
 
@@ -41590,9 +41590,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.93,
-    `lootid` = 9956,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.17,
     `ScriptName` = ''
 WHERE `entry` = 9101436;
 
@@ -41632,10 +41632,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 8896,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101437;
 
@@ -41675,10 +41675,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 8904,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.19,
+    `HealthModifier` = 2.88,
     `ScriptName` = ''
 WHERE `entry` = 9101438;
 
@@ -41718,10 +41718,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 9678,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.87,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9101439;
 
@@ -41761,10 +41761,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 2.93,
     `ScriptName` = ''
 WHERE `entry` = 9101440;
 
@@ -41804,10 +41804,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.25,
+    `HealthModifier` = 2.94,
     `ScriptName` = ''
 WHERE `entry` = 9101441;
 
@@ -41848,9 +41848,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.94,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9101442;
 
@@ -41890,10 +41890,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.44,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9101443;
 
@@ -41933,10 +41933,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 0,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9101444;
 
@@ -41976,10 +41976,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 8914,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.19,
+    `HealthModifier` = 3.48,
     `ScriptName` = ''
 WHERE `entry` = 9101445;
 
@@ -42019,10 +42019,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 8913,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9101446;
 
@@ -42062,10 +42062,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 8915,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.48,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9101447;
 
@@ -42105,10 +42105,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 9398,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9101448;
 
@@ -42148,10 +42148,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 8912,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9101449;
 
@@ -42191,10 +42191,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9101450;
 
@@ -42234,10 +42234,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.27,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9101451;
 
@@ -42277,10 +42277,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 8905,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9101452;
 
@@ -42320,10 +42320,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 8920,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9101453;
 
@@ -42363,10 +42363,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 8907,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9101454;
 
@@ -42406,10 +42406,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.15,
+    `HealthModifier` = 6.31,
     `ScriptName` = ''
 WHERE `entry` = 9101455;
 
@@ -42449,10 +42449,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.11,
+    `HealthModifier` = 6.01,
     `ScriptName` = ''
 WHERE `entry` = 9101456;
 
@@ -42492,10 +42492,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.2,
+    `HealthModifier` = 5.88,
     `ScriptName` = ''
 WHERE `entry` = 9101457;
 
@@ -42535,10 +42535,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.87,
+    `HealthModifier` = 6.35,
     `ScriptName` = ''
 WHERE `entry` = 9101458;
 
@@ -42578,10 +42578,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.09,
+    `HealthModifier` = 6.03,
     `ScriptName` = ''
 WHERE `entry` = 9101459;
 
@@ -42621,10 +42621,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 5.01,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.43,
+    `HealthModifier` = 6.28,
     `ScriptName` = ''
 WHERE `entry` = 9101460;
 
@@ -42664,10 +42664,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.13,
+    `HealthModifier` = 6.42,
     `ScriptName` = ''
 WHERE `entry` = 9101461;
 
@@ -42707,10 +42707,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.45,
+    `HealthModifier` = 6.44,
     `ScriptName` = ''
 WHERE `entry` = 9101462;
 
@@ -42753,7 +42753,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.44,
+    `HealthModifier` = 6.02,
     `ScriptName` = ''
 WHERE `entry` = 9101463;
 
@@ -42793,10 +42793,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.25,
+    `HealthModifier` = 6.02,
     `ScriptName` = ''
 WHERE `entry` = 9101464;
 
@@ -42836,10 +42836,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.49,
+    `HealthModifier` = 5.96,
     `ScriptName` = ''
 WHERE `entry` = 9101465;
 
@@ -42879,10 +42879,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.94,
+    `HealthModifier` = 6.16,
     `ScriptName` = ''
 WHERE `entry` = 9101466;
 
@@ -42922,10 +42922,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.83,
+    `HealthModifier` = 5.8,
     `ScriptName` = ''
 WHERE `entry` = 9101467;
 
@@ -42965,10 +42965,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.35,
+    `HealthModifier` = 6.42,
     `ScriptName` = ''
 WHERE `entry` = 9101468;
 
@@ -43008,10 +43008,10 @@ UPDATE `creature_template` SET
     `subname` = 'Chief Architect',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 5.01,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.97,
+    `HealthModifier` = 6.42,
     `ScriptName` = ''
 WHERE `entry` = 9101469;
 
@@ -43051,10 +43051,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.9,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.93,
+    `HealthModifier` = 5.99,
     `ScriptName` = ''
 WHERE `entry` = 9101470;
 
@@ -43094,10 +43094,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.1,
+    `DamageModifier` = 5.08,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.24,
+    `HealthModifier` = 5.83,
     `ScriptName` = ''
 WHERE `entry` = 9101471;
 
@@ -43137,10 +43137,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.21,
+    `HealthModifier` = 6.28,
     `ScriptName` = ''
 WHERE `entry` = 9101472;
 
@@ -43180,10 +43180,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.1,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.88,
+    `HealthModifier` = 6.09,
     `ScriptName` = ''
 WHERE `entry` = 9101473;
 
@@ -43223,10 +43223,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.99,
+    `HealthModifier` = 5.88,
     `ScriptName` = ''
 WHERE `entry` = 9101474;
 
@@ -43269,7 +43269,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.09,
+    `HealthModifier` = 6.47,
     `ScriptName` = ''
 WHERE `entry` = 9101475;
 
@@ -43309,10 +43309,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.01,
+    `HealthModifier` = 5.92,
     `ScriptName` = ''
 WHERE `entry` = 9101476;
 
@@ -43352,10 +43352,10 @@ UPDATE `creature_template` SET
     `subname` = 'Twilight''s Hammer Interrogator',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.35,
+    `HealthModifier` = 6.06,
     `ScriptName` = ''
 WHERE `entry` = 9101477;
 
@@ -43395,10 +43395,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.15,
+    `HealthModifier` = 6.18,
     `ScriptName` = ''
 WHERE `entry` = 9101478;
 
@@ -43438,10 +43438,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.32,
+    `HealthModifier` = 6.45,
     `ScriptName` = ''
 WHERE `entry` = 9101479;
 
@@ -43481,10 +43481,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.32,
+    `HealthModifier` = 6.42,
     `ScriptName` = ''
 WHERE `entry` = 9101480;
 
@@ -43524,10 +43524,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.2,
+    `HealthModifier` = 5.9,
     `ScriptName` = ''
 WHERE `entry` = 9101481;
 
@@ -43567,10 +43567,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.08,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.04,
+    `HealthModifier` = 5.89,
     `ScriptName` = ''
 WHERE `entry` = 9101482;
 
@@ -43610,10 +43610,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.02,
+    `HealthModifier` = 5.9,
     `ScriptName` = ''
 WHERE `entry` = 9101483;
 
@@ -43653,10 +43653,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.12,
+    `HealthModifier` = 6.1,
     `ScriptName` = ''
 WHERE `entry` = 9101484;
 
@@ -43696,10 +43696,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.17,
+    `HealthModifier` = 6.4,
     `ScriptName` = ''
 WHERE `entry` = 9101485;
 
@@ -43739,10 +43739,10 @@ UPDATE `creature_template` SET
     `subname` = 'Princess of Ironforge',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.05,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.22,
+    `HealthModifier` = 6.02,
     `ScriptName` = ''
 WHERE `entry` = 9101486;
 
@@ -43782,10 +43782,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 5.03,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.96,
+    `HealthModifier` = 6.36,
     `ScriptName` = ''
 WHERE `entry` = 9101487;
 
@@ -43825,10 +43825,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.05,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.31,
+    `HealthModifier` = 6.26,
     `ScriptName` = ''
 WHERE `entry` = 9101488;
 
@@ -43868,10 +43868,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.07,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.14,
+    `HealthModifier` = 5.92,
     `ScriptName` = ''
 WHERE `entry` = 9101489;
 
@@ -43911,10 +43911,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.01,
+    `HealthModifier` = 6.35,
     `ScriptName` = ''
 WHERE `entry` = 9101490;
 
@@ -43954,10 +43954,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.34,
+    `HealthModifier` = 6.33,
     `ScriptName` = ''
 WHERE `entry` = 9101491;
 
@@ -43997,10 +43997,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.98,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.85,
+    `HealthModifier` = 6.16,
     `ScriptName` = ''
 WHERE `entry` = 9101492;
 
@@ -44040,10 +44040,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.07,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.23,
+    `HealthModifier` = 6.24,
     `ScriptName` = ''
 WHERE `entry` = 9101493;
 
@@ -44083,10 +44083,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 4.96,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.86,
+    `HealthModifier` = 5.8,
     `ScriptName` = ''
 WHERE `entry` = 9101494;
 
@@ -44126,10 +44126,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.96,
-    `lootid` = 8923,
+    `DamageModifier` = 4.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.18,
+    `HealthModifier` = 5.36,
     `ScriptName` = ''
 WHERE `entry` = 9101495;
 
@@ -44169,10 +44169,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 0,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.39,
+    `HealthModifier` = 2.35,
     `ScriptName` = ''
 WHERE `entry` = 9101496;
 
@@ -44212,10 +44212,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.05,
-    `lootid` = 0,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.17,
+    `HealthModifier` = 2.46,
     `ScriptName` = ''
 WHERE `entry` = 9101497;
 
@@ -44255,10 +44255,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 0,
+    `DamageModifier` = 0.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.09,
+    `HealthModifier` = 1.86,
     `ScriptName` = ''
 WHERE `entry` = 9101498;
 
@@ -44298,10 +44298,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 8916,
+    `DamageModifier` = 0.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.81,
+    `HealthModifier` = 2.17,
     `ScriptName` = ''
 WHERE `entry` = 9101499;
 
@@ -44341,10 +44341,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.98,
-    `lootid` = 8921,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.95,
+    `HealthModifier` = 2.07,
     `ScriptName` = ''
 WHERE `entry` = 9101500;
 
@@ -44384,10 +44384,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.08,
-    `lootid` = 8922,
+    `DamageModifier` = 1.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.93,
+    `HealthModifier` = 1.81,
     `ScriptName` = ''
 WHERE `entry` = 9101501;
 
@@ -44427,10 +44427,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 8932,
+    `DamageModifier` = 1.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.21,
+    `HealthModifier` = 1.9,
     `ScriptName` = ''
 WHERE `entry` = 9101502;
 
@@ -44470,10 +44470,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 0,
+    `DamageModifier` = 1.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.9,
+    `HealthModifier` = 2.36,
     `ScriptName` = ''
 WHERE `entry` = 9101503;
 
@@ -44513,10 +44513,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.07,
-    `lootid` = 8928,
+    `DamageModifier` = 1.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.34,
+    `HealthModifier` = 2.18,
     `ScriptName` = ''
 WHERE `entry` = 9101504;
 
@@ -44556,10 +44556,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 8933,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.03,
+    `HealthModifier` = 2.21,
     `ScriptName` = ''
 WHERE `entry` = 9101505;
 
@@ -44599,10 +44599,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Thorium Brotherhood',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 0,
+    `DamageModifier` = 0.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.15,
+    `HealthModifier` = 2.3,
     `ScriptName` = ''
 WHERE `entry` = 9101506;
 
@@ -44642,10 +44642,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 9545,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.07,
+    `HealthModifier` = 1.83,
     `ScriptName` = ''
 WHERE `entry` = 9101507;
 
@@ -44685,10 +44685,10 @@ UPDATE `creature_template` SET
     `subname` = 'Malgen Longspear''s Pet',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.95,
+    `HealthModifier` = 1.92,
     `ScriptName` = ''
 WHERE `entry` = 9101508;
 
@@ -44728,10 +44728,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.4,
+    `HealthModifier` = 2.39,
     `ScriptName` = ''
 WHERE `entry` = 9101509;
 
@@ -44771,10 +44771,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.47,
+    `HealthModifier` = 1.99,
     `ScriptName` = ''
 WHERE `entry` = 9101510;
 
@@ -44814,10 +44814,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 8925,
+    `DamageModifier` = 1.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.81,
+    `HealthModifier` = 1.83,
     `ScriptName` = ''
 WHERE `entry` = 9101511;
 
@@ -44857,10 +44857,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 8897,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.14,
+    `HealthModifier` = 1.99,
     `ScriptName` = ''
 WHERE `entry` = 9101512;
 
@@ -44900,10 +44900,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.09,
-    `lootid` = 8900,
+    `DamageModifier` = 0.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.47,
+    `HealthModifier` = 2.2,
     `ScriptName` = ''
 WHERE `entry` = 9101513;
 
@@ -44943,10 +44943,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.0,
-    `lootid` = 8926,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.0,
+    `HealthModifier` = 2.29,
     `ScriptName` = ''
 WHERE `entry` = 9101514;
 
@@ -44986,10 +44986,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 8927,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.0,
+    `HealthModifier` = 2.27,
     `ScriptName` = ''
 WHERE `entry` = 9101515;
 
@@ -45029,10 +45029,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 8903,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.26,
+    `HealthModifier` = 3.94,
     `ScriptName` = ''
 WHERE `entry` = 9101516;
 
@@ -45072,10 +45072,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 8892,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 4.49,
     `ScriptName` = ''
 WHERE `entry` = 9101517;
 
@@ -45115,10 +45115,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 8891,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.18,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9101518;
 
@@ -45158,10 +45158,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 8898,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9101519;
 
@@ -45201,10 +45201,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 8894,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.42,
+    `HealthModifier` = 4.14,
     `ScriptName` = ''
 WHERE `entry` = 9101520;
 
@@ -45244,10 +45244,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 8895,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.0,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9101521;
 
@@ -45287,10 +45287,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 8889,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.01,
+    `HealthModifier` = 4.2,
     `ScriptName` = ''
 WHERE `entry` = 9101522;
 
@@ -45330,10 +45330,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 8893,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.4,
+    `HealthModifier` = 4.46,
     `ScriptName` = ''
 WHERE `entry` = 9101523;
 
@@ -45373,10 +45373,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 8890,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 4.03,
     `ScriptName` = ''
 WHERE `entry` = 9101524;
 
@@ -45416,10 +45416,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 9541,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9101525;
 
@@ -45459,10 +45459,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 8910,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.46,
+    `HealthModifier` = 4.33,
     `ScriptName` = ''
 WHERE `entry` = 9101526;
 
@@ -45502,10 +45502,10 @@ UPDATE `creature_template` SET
     `subname` = 'Kargath Expeditionary Force',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 0,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.02,
+    `HealthModifier` = 4.0,
     `ScriptName` = ''
 WHERE `entry` = 9101527;
 
@@ -45545,10 +45545,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 9680,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 3.81,
     `ScriptName` = ''
 WHERE `entry` = 9101528;
 
@@ -45588,10 +45588,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 9445,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 4.03,
     `ScriptName` = ''
 WHERE `entry` = 9101529;
 
@@ -45631,10 +45631,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 8899,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.8,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9101530;
 
@@ -45674,10 +45674,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 0,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.33,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9101531;
 
@@ -45717,10 +45717,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 8909,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9101532;
 
@@ -45760,10 +45760,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 8911,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9101533;
 
@@ -45803,10 +45803,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 9547,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.94,
+    `HealthModifier` = 4.07,
     `ScriptName` = ''
 WHERE `entry` = 9101534;
 
@@ -45846,10 +45846,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 9554,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9101535;
 
@@ -45889,10 +45889,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 0,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 3.87,
     `ScriptName` = ''
 WHERE `entry` = 9101536;
 
@@ -45932,10 +45932,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 9681,
+    `DamageModifier` = 2.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.99,
+    `HealthModifier` = 4.27,
     `ScriptName` = ''
 WHERE `entry` = 9101537;
 
@@ -45975,10 +45975,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 0,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.46,
+    `HealthModifier` = 4.04,
     `ScriptName` = ''
 WHERE `entry` = 9101538;
 
@@ -46018,10 +46018,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 0,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.33,
+    `HealthModifier` = 4.03,
     `ScriptName` = ''
 WHERE `entry` = 9101539;
 
@@ -46061,10 +46061,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 0,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9101540;
 
@@ -46104,10 +46104,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 0,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.49,
+    `HealthModifier` = 3.81,
     `ScriptName` = ''
 WHERE `entry` = 9101541;
 
@@ -46147,10 +46147,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 0,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 4.11,
     `ScriptName` = ''
 WHERE `entry` = 9101542;
 
@@ -46190,10 +46190,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 0,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.26,
     `ScriptName` = ''
 WHERE `entry` = 9101543;
 
@@ -46233,10 +46233,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 8908,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9101544;
 
@@ -46276,10 +46276,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 9677,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9101545;
 
@@ -46319,10 +46319,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 0,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9101546;
 
@@ -46362,10 +46362,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 8906,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 4.26,
     `ScriptName` = ''
 WHERE `entry` = 9101547;
 
@@ -46405,10 +46405,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 0,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.1,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9101548;
 
@@ -46448,10 +46448,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 10043,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.86,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9101549;
 
@@ -46491,10 +46491,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 0,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.28,
+    `HealthModifier` = 3.91,
     `ScriptName` = ''
 WHERE `entry` = 9101550;
 
@@ -46534,10 +46534,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 8902,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.98,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9101551;
 
@@ -46577,10 +46577,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 9956,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.91,
+    `HealthModifier` = 4.09,
     `ScriptName` = ''
 WHERE `entry` = 9101552;
 
@@ -46620,10 +46620,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 8896,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.32,
+    `HealthModifier` = 4.03,
     `ScriptName` = ''
 WHERE `entry` = 9101553;
 
@@ -46663,10 +46663,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 8904,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 3.96,
     `ScriptName` = ''
 WHERE `entry` = 9101554;
 
@@ -46706,10 +46706,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 9678,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 4.11,
     `ScriptName` = ''
 WHERE `entry` = 9101555;
 
@@ -46750,9 +46750,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.02,
-    `lootid` = 0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9101556;
 
@@ -46792,10 +46792,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 0,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.21,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9101557;
 
@@ -46835,8 +46835,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 0,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 4.29,
     `ScriptName` = ''
@@ -46878,8 +46878,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 0,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 4.47,
     `ScriptName` = ''
@@ -46921,10 +46921,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 0,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.96,
+    `HealthModifier` = 4.19,
     `ScriptName` = ''
 WHERE `entry` = 9101560;
 
@@ -46964,10 +46964,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 8914,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.84,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9101561;
 
@@ -47007,10 +47007,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 8913,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9101562;
 
@@ -47051,9 +47051,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.01,
-    `lootid` = 8915,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.26,
+    `HealthModifier` = 4.11,
     `ScriptName` = ''
 WHERE `entry` = 9101563;
 
@@ -47093,10 +47093,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 9398,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9101564;
 
@@ -47136,10 +47136,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 8912,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 4.43,
     `ScriptName` = ''
 WHERE `entry` = 9101565;
 
@@ -47179,10 +47179,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 0,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.18,
+    `HealthModifier` = 4.34,
     `ScriptName` = ''
 WHERE `entry` = 9101566;
 
@@ -47222,10 +47222,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 0,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9101567;
 
@@ -47265,10 +47265,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 8905,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 4.23,
     `ScriptName` = ''
 WHERE `entry` = 9101568;
 
@@ -47308,10 +47308,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 8920,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.97,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9101569;
 
@@ -47351,10 +47351,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 8907,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.18,
+    `HealthModifier` = 4.02,
     `ScriptName` = ''
 WHERE `entry` = 9101570;
 
@@ -47394,10 +47394,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.04,
+    `HealthModifier` = 8.5,
     `ScriptName` = ''
 WHERE `entry` = 9101571;
 
@@ -47437,7 +47437,7 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.08,
+    `DamageModifier` = 6.9,
     `lootid` = 9100500,
     `AIName` = '',
     `HealthModifier` = 8.42,
@@ -47480,10 +47480,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.17,
+    `HealthModifier` = 8.16,
     `ScriptName` = ''
 WHERE `entry` = 9101573;
 
@@ -47523,10 +47523,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 6.96,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.91,
+    `HealthModifier` = 8.0,
     `ScriptName` = ''
 WHERE `entry` = 9101574;
 
@@ -47566,10 +47566,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.1,
+    `HealthModifier` = 8.29,
     `ScriptName` = ''
 WHERE `entry` = 9101575;
 
@@ -47609,10 +47609,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.38,
+    `HealthModifier` = 8.46,
     `ScriptName` = ''
 WHERE `entry` = 9101576;
 
@@ -47652,10 +47652,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.94,
+    `HealthModifier` = 8.14,
     `ScriptName` = ''
 WHERE `entry` = 9101577;
 
@@ -47695,10 +47695,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.93,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.26,
+    `HealthModifier` = 8.43,
     `ScriptName` = ''
 WHERE `entry` = 9101578;
 
@@ -47738,10 +47738,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.31,
+    `HealthModifier` = 8.29,
     `ScriptName` = ''
 WHERE `entry` = 9101579;
 
@@ -47781,10 +47781,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.33,
+    `HealthModifier` = 7.95,
     `ScriptName` = ''
 WHERE `entry` = 9101580;
 
@@ -47824,10 +47824,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 6.96,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.27,
+    `HealthModifier` = 7.86,
     `ScriptName` = ''
 WHERE `entry` = 9101581;
 
@@ -47867,7 +47867,7 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
     `HealthModifier` = 8.35,
@@ -47910,10 +47910,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 6.96,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.4,
+    `HealthModifier` = 8.32,
     `ScriptName` = ''
 WHERE `entry` = 9101583;
 
@@ -47953,10 +47953,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 6.96,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.37,
+    `HealthModifier` = 8.23,
     `ScriptName` = ''
 WHERE `entry` = 9101584;
 
@@ -47996,10 +47996,10 @@ UPDATE `creature_template` SET
     `subname` = 'Chief Architect',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 6.9,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.21,
+    `HealthModifier` = 8.0,
     `ScriptName` = ''
 WHERE `entry` = 9101585;
 
@@ -48039,10 +48039,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.95,
+    `DamageModifier` = 6.9,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.4,
+    `HealthModifier` = 8.12,
     `ScriptName` = ''
 WHERE `entry` = 9101586;
 
@@ -48082,10 +48082,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.02,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.19,
+    `HealthModifier` = 8.1,
     `ScriptName` = ''
 WHERE `entry` = 9101587;
 
@@ -48125,10 +48125,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.01,
+    `HealthModifier` = 8.3,
     `ScriptName` = ''
 WHERE `entry` = 9101588;
 
@@ -48168,10 +48168,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.09,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.34,
+    `HealthModifier` = 8.32,
     `ScriptName` = ''
 WHERE `entry` = 9101589;
 
@@ -48211,7 +48211,7 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
     `HealthModifier` = 8.46,
@@ -48254,10 +48254,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.83,
+    `HealthModifier` = 7.89,
     `ScriptName` = ''
 WHERE `entry` = 9101591;
 
@@ -48297,10 +48297,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 6.9,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.92,
+    `HealthModifier` = 8.37,
     `ScriptName` = ''
 WHERE `entry` = 9101592;
 
@@ -48340,10 +48340,10 @@ UPDATE `creature_template` SET
     `subname` = 'Twilight''s Hammer Interrogator',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.17,
+    `HealthModifier` = 8.5,
     `ScriptName` = ''
 WHERE `entry` = 9101593;
 
@@ -48383,10 +48383,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 6.99,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.43,
+    `HealthModifier` = 8.4,
     `ScriptName` = ''
 WHERE `entry` = 9101594;
 
@@ -48426,10 +48426,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.31,
+    `HealthModifier` = 8.42,
     `ScriptName` = ''
 WHERE `entry` = 9101595;
 
@@ -48469,10 +48469,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.0,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.87,
+    `HealthModifier` = 8.02,
     `ScriptName` = ''
 WHERE `entry` = 9101596;
 
@@ -48512,10 +48512,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.13,
+    `HealthModifier` = 8.05,
     `ScriptName` = ''
 WHERE `entry` = 9101597;
 
@@ -48555,10 +48555,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.95,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.12,
+    `HealthModifier` = 8.31,
     `ScriptName` = ''
 WHERE `entry` = 9101598;
 
@@ -48598,10 +48598,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.96,
+    `HealthModifier` = 7.99,
     `ScriptName` = ''
 WHERE `entry` = 9101599;
 
@@ -48641,10 +48641,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.15,
+    `HealthModifier` = 7.97,
     `ScriptName` = ''
 WHERE `entry` = 9101600;
 
@@ -48684,10 +48684,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.26,
+    `HealthModifier` = 7.95,
     `ScriptName` = ''
 WHERE `entry` = 9101601;
 
@@ -48727,10 +48727,10 @@ UPDATE `creature_template` SET
     `subname` = 'Princess of Ironforge',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.91,
+    `HealthModifier` = 8.49,
     `ScriptName` = ''
 WHERE `entry` = 9101602;
 
@@ -48770,10 +48770,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.45,
+    `HealthModifier` = 8.4,
     `ScriptName` = ''
 WHERE `entry` = 9101603;
 
@@ -48813,10 +48813,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.11,
+    `HealthModifier` = 7.89,
     `ScriptName` = ''
 WHERE `entry` = 9101604;
 
@@ -48856,10 +48856,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.27,
+    `HealthModifier` = 8.14,
     `ScriptName` = ''
 WHERE `entry` = 9101605;
 
@@ -48899,10 +48899,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.99,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.44,
+    `HealthModifier` = 7.98,
     `ScriptName` = ''
 WHERE `entry` = 9101606;
 
@@ -48942,10 +48942,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.25,
+    `HealthModifier` = 8.41,
     `ScriptName` = ''
 WHERE `entry` = 9101607;
 
@@ -48985,10 +48985,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.89,
+    `HealthModifier` = 8.42,
     `ScriptName` = ''
 WHERE `entry` = 9101608;
 
@@ -49028,10 +49028,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.06,
+    `HealthModifier` = 7.99,
     `ScriptName` = ''
 WHERE `entry` = 9101609;
 
@@ -49071,10 +49071,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.31,
+    `HealthModifier` = 8.12,
     `ScriptName` = ''
 WHERE `entry` = 9101610;
 
@@ -49114,10 +49114,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.95,
-    `lootid` = 8923,
+    `DamageModifier` = 6.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.5,
+    `HealthModifier` = 7.14,
     `ScriptName` = ''
 WHERE `entry` = 9101611;
 
@@ -49157,10 +49157,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9101612;
 
@@ -49200,10 +49200,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101613;
 
@@ -49243,10 +49243,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.26,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9101614;
 
@@ -49286,10 +49286,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 8916,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9101615;
 
@@ -49329,10 +49329,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 8921,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9101616;
 
@@ -49372,10 +49372,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 8922,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9101617;
 
@@ -49415,10 +49415,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 8932,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.19,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9101618;
 
@@ -49458,10 +49458,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9101619;
 
@@ -49501,10 +49501,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 8928,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.36,
     `ScriptName` = ''
 WHERE `entry` = 9101620;
 
@@ -49545,9 +49545,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.91,
-    `lootid` = 8933,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9101621;
 
@@ -49587,10 +49587,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Thorium Brotherhood',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9101622;
 
@@ -49630,10 +49630,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 9545,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.5,
+    `HealthModifier` = 2.94,
     `ScriptName` = ''
 WHERE `entry` = 9101623;
 
@@ -49673,10 +49673,10 @@ UPDATE `creature_template` SET
     `subname` = 'Malgen Longspear''s Pet',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.01,
     `ScriptName` = ''
 WHERE `entry` = 9101624;
 
@@ -49716,10 +49716,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 0,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9101625;
 
@@ -49759,10 +49759,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.33,
     `ScriptName` = ''
 WHERE `entry` = 9101626;
 
@@ -49802,10 +49802,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 8925,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9101627;
 
@@ -49845,10 +49845,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 8897,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9101628;
 
@@ -49888,10 +49888,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 8900,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 2.88,
     `ScriptName` = ''
 WHERE `entry` = 9101629;
 
@@ -49932,9 +49932,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.92,
-    `lootid` = 8926,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.09,
+    `HealthModifier` = 2.87,
     `ScriptName` = ''
 WHERE `entry` = 9101630;
 
@@ -49974,10 +49974,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 8927,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9101631;
 
@@ -50019,10 +50019,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 9045,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101700;
 
@@ -50062,10 +50062,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9101701;
 
@@ -50105,8 +50105,8 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 9097,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
     `HealthModifier` = 3.29,
     `ScriptName` = ''
@@ -50148,10 +50148,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 9098,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9101703;
 
@@ -50191,10 +50191,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 9257,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.89,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9101704;
 
@@ -50234,10 +50234,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 9199,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 3.36,
     `ScriptName` = ''
 WHERE `entry` = 9101705;
 
@@ -50277,10 +50277,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 9201,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9101706;
 
@@ -50320,10 +50320,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 10601,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9101707;
 
@@ -50363,10 +50363,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 10602,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.08,
     `ScriptName` = ''
 WHERE `entry` = 9101708;
 
@@ -50406,10 +50406,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 10375,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 3.32,
     `ScriptName` = ''
 WHERE `entry` = 9101709;
 
@@ -50449,10 +50449,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 9258,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.08,
+    `HealthModifier` = 3.0,
     `ScriptName` = ''
 WHERE `entry` = 9101710;
 
@@ -50492,10 +50492,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 9267,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9101711;
 
@@ -50535,10 +50535,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 9239,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101712;
 
@@ -50578,10 +50578,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 9240,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.46,
     `ScriptName` = ''
 WHERE `entry` = 9101713;
 
@@ -50621,10 +50621,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 9198,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9101714;
 
@@ -50664,10 +50664,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 9200,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.46,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9101715;
 
@@ -50707,10 +50707,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 9261,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9101716;
 
@@ -50750,10 +50750,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 9259,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9101717;
 
@@ -50793,10 +50793,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 9262,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.87,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101718;
 
@@ -50836,10 +50836,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 9241,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9101719;
 
@@ -50879,10 +50879,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 9269,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 3.32,
     `ScriptName` = ''
 WHERE `entry` = 9101720;
 
@@ -50922,10 +50922,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 9265,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9101721;
 
@@ -50965,10 +50965,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 9266,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9101722;
 
@@ -51008,10 +51008,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9101723;
 
@@ -51051,10 +51051,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 2.87,
     `ScriptName` = ''
 WHERE `entry` = 9101724;
 
@@ -51094,10 +51094,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 9692,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9101725;
 
@@ -51137,10 +51137,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 9717,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9101726;
 
@@ -51180,10 +51180,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 9716,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.44,
+    `HealthModifier` = 3.01,
     `ScriptName` = ''
 WHERE `entry` = 9101727;
 
@@ -51223,10 +51223,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 9263,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9101728;
 
@@ -51266,10 +51266,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 9260,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.46,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9101729;
 
@@ -51309,10 +51309,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 9264,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9101730;
 
@@ -51352,10 +51352,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 9268,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9101731;
 
@@ -51395,10 +51395,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 10374,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9101732;
 
@@ -51438,10 +51438,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 9197,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9101733;
 
@@ -51481,10 +51481,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 9216,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9101734;
 
@@ -51524,10 +51524,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 0,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.38,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9101735;
 
@@ -51567,10 +51567,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 9693,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9101736;
 
@@ -51610,10 +51610,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 9583,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9101737;
 
@@ -51653,10 +51653,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 9096,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 2.9,
     `ScriptName` = ''
 WHERE `entry` = 9101738;
 
@@ -51696,10 +51696,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 10083,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.9,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9101739;
 
@@ -51739,10 +51739,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 10258,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 3.37,
     `ScriptName` = ''
 WHERE `entry` = 9101740;
 
@@ -51782,10 +51782,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 10683,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9101741;
 
@@ -51825,10 +51825,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 10742,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9101742;
 
@@ -51868,10 +51868,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 9817,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9101743;
 
@@ -51912,9 +51912,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.05,
-    `lootid` = 9818,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9101744;
 
@@ -51954,10 +51954,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 9819,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9101745;
 
@@ -51997,10 +51997,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 10447,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.98,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9101746;
 
@@ -52040,10 +52040,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 10814,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 3.47,
     `ScriptName` = ''
 WHERE `entry` = 9101747;
 
@@ -52083,10 +52083,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 10680,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9101748;
 
@@ -52126,10 +52126,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 10681,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.15,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9101749;
 
@@ -52170,9 +52170,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9101750;
 
@@ -52212,10 +52212,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Cursed',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 0,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9101751;
 
@@ -52255,10 +52255,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 10762,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.35,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9101752;
 
@@ -52298,8 +52298,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 0,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
     `HealthModifier` = 3.07,
     `ScriptName` = ''
@@ -52341,10 +52341,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 10318,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.44,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9101754;
 
@@ -52384,10 +52384,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 10317,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.49,
     `ScriptName` = ''
 WHERE `entry` = 9101755;
 
@@ -52427,10 +52427,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 10319,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9101756;
 
@@ -52470,10 +52470,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 10366,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9101757;
 
@@ -52513,10 +52513,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 10372,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.81,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9101758;
 
@@ -52556,10 +52556,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 10371,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.09,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9101759;
 
@@ -52599,10 +52599,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.1,
+    `HealthModifier` = 2.8,
     `ScriptName` = ''
 WHERE `entry` = 9101760;
 
@@ -52642,10 +52642,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 3.17,
     `ScriptName` = ''
 WHERE `entry` = 9101761;
 
@@ -52685,10 +52685,10 @@ UPDATE `creature_template` SET
     `subname` = 'Lord of Blackrock',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9101762;
 
@@ -52728,10 +52728,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 5.01,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.23,
+    `HealthModifier` = 6.12,
     `ScriptName` = ''
 WHERE `entry` = 9101763;
 
@@ -52771,10 +52771,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 4.99,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.08,
+    `HealthModifier` = 6.48,
     `ScriptName` = ''
 WHERE `entry` = 9101764;
 
@@ -52814,10 +52814,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.89,
+    `HealthModifier` = 5.99,
     `ScriptName` = ''
 WHERE `entry` = 9101765;
 
@@ -52857,10 +52857,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 4.96,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.32,
+    `HealthModifier` = 6.21,
     `ScriptName` = ''
 WHERE `entry` = 9101766;
 
@@ -52900,10 +52900,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 4.99,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.96,
+    `HealthModifier` = 5.89,
     `ScriptName` = ''
 WHERE `entry` = 9101767;
 
@@ -52943,10 +52943,10 @@ UPDATE `creature_template` SET
     `subname` = 'Rend Blackhand''s Mount',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.23,
+    `HealthModifier` = 6.24,
     `ScriptName` = ''
 WHERE `entry` = 9101768;
 
@@ -52986,10 +52986,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.07,
+    `HealthModifier` = 5.83,
     `ScriptName` = ''
 WHERE `entry` = 9101769;
 
@@ -53029,10 +53029,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.96,
+    `HealthModifier` = 6.38,
     `ScriptName` = ''
 WHERE `entry` = 9101770;
 
@@ -53072,10 +53072,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.05,
+    `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.02,
+    `HealthModifier` = 6.43,
     `ScriptName` = ''
 WHERE `entry` = 9101771;
 
@@ -53115,10 +53115,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.89,
+    `HealthModifier` = 5.82,
     `ScriptName` = ''
 WHERE `entry` = 9101772;
 
@@ -53158,10 +53158,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 4.96,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.93,
+    `HealthModifier` = 6.42,
     `ScriptName` = ''
 WHERE `entry` = 9101773;
 
@@ -53201,10 +53201,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.28,
+    `HealthModifier` = 6.15,
     `ScriptName` = ''
 WHERE `entry` = 9101774;
 
@@ -53244,10 +53244,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.1,
+    `HealthModifier` = 5.85,
     `ScriptName` = ''
 WHERE `entry` = 9101775;
 
@@ -53287,10 +53287,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.06,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.31,
+    `HealthModifier` = 6.16,
     `ScriptName` = ''
 WHERE `entry` = 9101776;
 
@@ -53330,10 +53330,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.36,
+    `HealthModifier` = 6.26,
     `ScriptName` = ''
 WHERE `entry` = 9101777;
 
@@ -53376,7 +53376,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.82,
+    `HealthModifier` = 6.45,
     `ScriptName` = ''
 WHERE `entry` = 9101778;
 
@@ -53416,10 +53416,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.49,
+    `HealthModifier` = 6.2,
     `ScriptName` = ''
 WHERE `entry` = 9101779;
 
@@ -53459,10 +53459,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion Champion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.92,
-    `lootid` = 9596,
+    `DamageModifier` = 4.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.24,
+    `HealthModifier` = 5.17,
     `ScriptName` = ''
 WHERE `entry` = 9101780;
 
@@ -53502,10 +53502,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.05,
-    `lootid` = 10263,
+    `DamageModifier` = 4.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.16,
+    `HealthModifier` = 5.39,
     `ScriptName` = ''
 WHERE `entry` = 9101781;
 
@@ -53545,10 +53545,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.08,
-    `lootid` = 10376,
+    `DamageModifier` = 3.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.38,
+    `HealthModifier` = 4.86,
     `ScriptName` = ''
 WHERE `entry` = 9101782;
 
@@ -53588,10 +53588,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Champion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.98,
-    `lootid` = 9718,
+    `DamageModifier` = 3.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.23,
+    `HealthModifier` = 4.86,
     `ScriptName` = ''
 WHERE `entry` = 9101783;
 
@@ -53631,10 +53631,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.91,
-    `lootid` = 9218,
+    `DamageModifier` = 4.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 4.92,
+    `HealthModifier` = 5.4,
     `ScriptName` = ''
 WHERE `entry` = 9101784;
 
@@ -53674,10 +53674,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.05,
-    `lootid` = 9219,
+    `DamageModifier` = 3.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.47,
+    `HealthModifier` = 4.98,
     `ScriptName` = ''
 WHERE `entry` = 9101785;
 
@@ -53717,10 +53717,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.91,
-    `lootid` = 9217,
+    `DamageModifier` = 3.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.47,
+    `HealthModifier` = 5.48,
     `ScriptName` = ''
 WHERE `entry` = 9101786;
 
@@ -53760,10 +53760,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.0,
-    `lootid` = 10509,
+    `DamageModifier` = 4.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 4.99,
+    `HealthModifier` = 5.08,
     `ScriptName` = ''
 WHERE `entry` = 9101787;
 
@@ -53803,10 +53803,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion Armorsmith',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.98,
-    `lootid` = 10899,
+    `DamageModifier` = 3.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 4.86,
+    `HealthModifier` = 5.16,
     `ScriptName` = ''
 WHERE `entry` = 9101788;
 
@@ -53846,10 +53846,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.99,
-    `lootid` = 9701,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.17,
+    `HealthModifier` = 2.06,
     `ScriptName` = ''
 WHERE `entry` = 9101789;
 
@@ -53889,10 +53889,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 10177,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.46,
+    `HealthModifier` = 2.44,
     `ScriptName` = ''
 WHERE `entry` = 9101790;
 
@@ -53932,10 +53932,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 0,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.92,
+    `HealthModifier` = 2.47,
     `ScriptName` = ''
 WHERE `entry` = 9101791;
 
@@ -53975,10 +53975,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.91,
-    `lootid` = 9416,
+    `DamageModifier` = 1.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.95,
+    `HealthModifier` = 2.01,
     `ScriptName` = ''
 WHERE `entry` = 9101792;
 
@@ -54018,10 +54018,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.28,
+    `HealthModifier` = 2.3,
     `ScriptName` = ''
 WHERE `entry` = 9101793;
 
@@ -54062,9 +54062,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.03,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.42,
+    `HealthModifier` = 2.05,
     `ScriptName` = ''
 WHERE `entry` = 9101794;
 
@@ -54104,10 +54104,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.1,
-    `lootid` = 10442,
+    `DamageModifier` = 1.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.13,
+    `HealthModifier` = 2.24,
     `ScriptName` = ''
 WHERE `entry` = 9101795;
 
@@ -54147,10 +54147,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.08,
-    `lootid` = 0,
+    `DamageModifier` = 1.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.36,
+    `HealthModifier` = 2.07,
     `ScriptName` = ''
 WHERE `entry` = 9101796;
 
@@ -54190,10 +54190,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 0,
+    `DamageModifier` = 1.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.96,
+    `HealthModifier` = 1.9,
     `ScriptName` = ''
 WHERE `entry` = 9101797;
 
@@ -54233,10 +54233,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.08,
-    `lootid` = 10221,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.92,
+    `HealthModifier` = 2.13,
     `ScriptName` = ''
 WHERE `entry` = 9101798;
 
@@ -54276,10 +54276,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 9696,
+    `DamageModifier` = 1.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.07,
+    `HealthModifier` = 2.0,
     `ScriptName` = ''
 WHERE `entry` = 9101799;
 
@@ -54319,10 +54319,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 10316,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.16,
+    `HealthModifier` = 2.09,
     `ScriptName` = ''
 WHERE `entry` = 9101800;
 
@@ -54363,9 +54363,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.05,
-    `lootid` = 9045,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.17,
+    `HealthModifier` = 3.93,
     `ScriptName` = ''
 WHERE `entry` = 9101801;
 
@@ -54405,10 +54405,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 0,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.39,
+    `HealthModifier` = 4.12,
     `ScriptName` = ''
 WHERE `entry` = 9101802;
 
@@ -54448,10 +54448,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 9097,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9101803;
 
@@ -54491,10 +54491,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 9098,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.02,
+    `HealthModifier` = 4.13,
     `ScriptName` = ''
 WHERE `entry` = 9101804;
 
@@ -54534,10 +54534,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 9257,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 3.85,
     `ScriptName` = ''
 WHERE `entry` = 9101805;
 
@@ -54577,10 +54577,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 9199,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.48,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9101806;
 
@@ -54620,10 +54620,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 9201,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.5,
     `ScriptName` = ''
 WHERE `entry` = 9101807;
 
@@ -54663,10 +54663,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 10601,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.06,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9101808;
 
@@ -54706,10 +54706,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 10602,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9101809;
 
@@ -54749,10 +54749,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 10375,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.28,
+    `HealthModifier` = 4.23,
     `ScriptName` = ''
 WHERE `entry` = 9101810;
 
@@ -54792,10 +54792,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 9258,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.83,
+    `HealthModifier` = 4.46,
     `ScriptName` = ''
 WHERE `entry` = 9101811;
 
@@ -54835,10 +54835,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 9267,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.96,
+    `HealthModifier` = 4.03,
     `ScriptName` = ''
 WHERE `entry` = 9101812;
 
@@ -54878,10 +54878,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 9239,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.4,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9101813;
 
@@ -54921,10 +54921,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 9240,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.98,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9101814;
 
@@ -54964,10 +54964,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 9198,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.98,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9101815;
 
@@ -55007,10 +55007,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 9200,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.38,
     `ScriptName` = ''
 WHERE `entry` = 9101816;
 
@@ -55050,10 +55050,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 9261,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.47,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9101817;
 
@@ -55093,10 +55093,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 9259,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.48,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9101818;
 
@@ -55137,9 +55137,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.08,
-    `lootid` = 9262,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.02,
     `ScriptName` = ''
 WHERE `entry` = 9101819;
 
@@ -55179,10 +55179,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 9241,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.86,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9101820;
 
@@ -55222,10 +55222,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 9269,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.89,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9101821;
 
@@ -55265,10 +55265,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 9265,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.38,
+    `HealthModifier` = 4.08,
     `ScriptName` = ''
 WHERE `entry` = 9101822;
 
@@ -55308,10 +55308,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 9266,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9101823;
 
@@ -55351,10 +55351,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 0,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.01,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9101824;
 
@@ -55394,10 +55394,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 0,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.28,
     `ScriptName` = ''
 WHERE `entry` = 9101825;
 
@@ -55437,10 +55437,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 9692,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9101826;
 
@@ -55480,10 +55480,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 9717,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9101827;
 
@@ -55523,10 +55523,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 9716,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9101828;
 
@@ -55566,10 +55566,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 9263,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.8,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9101829;
 
@@ -55609,10 +55609,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 9260,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.86,
+    `HealthModifier` = 4.02,
     `ScriptName` = ''
 WHERE `entry` = 9101830;
 
@@ -55652,10 +55652,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 9264,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.45,
+    `HealthModifier` = 3.93,
     `ScriptName` = ''
 WHERE `entry` = 9101831;
 
@@ -55695,10 +55695,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 9268,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.28,
+    `HealthModifier` = 4.47,
     `ScriptName` = ''
 WHERE `entry` = 9101832;
 
@@ -55738,10 +55738,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 10374,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.34,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9101833;
 
@@ -55781,10 +55781,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 9197,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.21,
+    `HealthModifier` = 4.32,
     `ScriptName` = ''
 WHERE `entry` = 9101834;
 
@@ -55824,10 +55824,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 9216,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.2,
+    `HealthModifier` = 3.84,
     `ScriptName` = ''
 WHERE `entry` = 9101835;
 
@@ -55867,10 +55867,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 0,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.11,
+    `HealthModifier` = 3.8,
     `ScriptName` = ''
 WHERE `entry` = 9101836;
 
@@ -55910,10 +55910,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 9693,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9101837;
 
@@ -55953,10 +55953,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 9583,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.07,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9101838;
 
@@ -55996,10 +55996,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 9096,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.43,
+    `HealthModifier` = 4.4,
     `ScriptName` = ''
 WHERE `entry` = 9101839;
 
@@ -56039,10 +56039,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 10083,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 3.95,
     `ScriptName` = ''
 WHERE `entry` = 9101840;
 
@@ -56082,10 +56082,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 10258,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9101841;
 
@@ -56125,10 +56125,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 10683,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.05,
     `ScriptName` = ''
 WHERE `entry` = 9101842;
 
@@ -56168,10 +56168,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 10742,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.88,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9101843;
 
@@ -56211,10 +56211,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 9817,
+    `DamageModifier` = 2.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.07,
+    `HealthModifier` = 4.12,
     `ScriptName` = ''
 WHERE `entry` = 9101844;
 
@@ -56254,10 +56254,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 9818,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.85,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9101845;
 
@@ -56297,10 +56297,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 9819,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.25,
+    `HealthModifier` = 4.08,
     `ScriptName` = ''
 WHERE `entry` = 9101846;
 
@@ -56340,10 +56340,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 10447,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9101847;
 
@@ -56383,8 +56383,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 10814,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 3.99,
     `ScriptName` = ''
@@ -56426,10 +56426,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 10680,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.5,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9101849;
 
@@ -56469,10 +56469,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 10681,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.2,
+    `HealthModifier` = 4.18,
     `ScriptName` = ''
 WHERE `entry` = 9101850;
 
@@ -56512,10 +56512,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.06,
+    `HealthModifier` = 4.27,
     `ScriptName` = ''
 WHERE `entry` = 9101851;
 
@@ -56555,10 +56555,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Cursed',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 0,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.88,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9101852;
 
@@ -56598,10 +56598,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 10762,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.14,
     `ScriptName` = ''
 WHERE `entry` = 9101853;
 
@@ -56641,10 +56641,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 0,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.01,
+    `HealthModifier` = 4.16,
     `ScriptName` = ''
 WHERE `entry` = 9101854;
 
@@ -56685,9 +56685,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.0,
-    `lootid` = 10318,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 3.87,
     `ScriptName` = ''
 WHERE `entry` = 9101855;
 
@@ -56727,10 +56727,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 10317,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.48,
+    `HealthModifier` = 4.08,
     `ScriptName` = ''
 WHERE `entry` = 9101856;
 
@@ -56770,10 +56770,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 10319,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.45,
+    `HealthModifier` = 4.08,
     `ScriptName` = ''
 WHERE `entry` = 9101857;
 
@@ -56813,10 +56813,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 10366,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.91,
+    `HealthModifier` = 3.85,
     `ScriptName` = ''
 WHERE `entry` = 9101858;
 
@@ -56856,10 +56856,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 10372,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.21,
+    `HealthModifier` = 4.32,
     `ScriptName` = ''
 WHERE `entry` = 9101859;
 
@@ -56899,10 +56899,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 10371,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.3,
+    `HealthModifier` = 3.96,
     `ScriptName` = ''
 WHERE `entry` = 9101860;
 
@@ -56942,10 +56942,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 0,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.91,
+    `HealthModifier` = 4.36,
     `ScriptName` = ''
 WHERE `entry` = 9101861;
 
@@ -56985,10 +56985,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 0,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.96,
+    `HealthModifier` = 4.47,
     `ScriptName` = ''
 WHERE `entry` = 9101862;
 
@@ -57028,10 +57028,10 @@ UPDATE `creature_template` SET
     `subname` = 'Lord of Blackrock',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.18,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9101863;
 
@@ -57071,10 +57071,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.93,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.93,
+    `HealthModifier` = 8.16,
     `ScriptName` = ''
 WHERE `entry` = 9101864;
 
@@ -57114,10 +57114,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.01,
+    `HealthModifier` = 8.47,
     `ScriptName` = ''
 WHERE `entry` = 9101865;
 
@@ -57157,10 +57157,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.9,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.07,
+    `HealthModifier` = 8.42,
     `ScriptName` = ''
 WHERE `entry` = 9101866;
 
@@ -57200,10 +57200,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.93,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.37,
+    `HealthModifier` = 8.2,
     `ScriptName` = ''
 WHERE `entry` = 9101867;
 
@@ -57243,10 +57243,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.9,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.22,
+    `HealthModifier` = 8.46,
     `ScriptName` = ''
 WHERE `entry` = 9101868;
 
@@ -57286,10 +57286,10 @@ UPDATE `creature_template` SET
     `subname` = 'Rend Blackhand''s Mount',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.03,
+    `HealthModifier` = 7.86,
     `ScriptName` = ''
 WHERE `entry` = 9101869;
 
@@ -57329,10 +57329,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.97,
+    `HealthModifier` = 8.46,
     `ScriptName` = ''
 WHERE `entry` = 9101870;
 
@@ -57372,10 +57372,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.04,
+    `HealthModifier` = 8.24,
     `ScriptName` = ''
 WHERE `entry` = 9101871;
 
@@ -57415,10 +57415,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 6.9,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.22,
+    `HealthModifier` = 8.31,
     `ScriptName` = ''
 WHERE `entry` = 9101872;
 
@@ -57458,10 +57458,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.99,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.86,
+    `HealthModifier` = 8.15,
     `ScriptName` = ''
 WHERE `entry` = 9101873;
 
@@ -57501,10 +57501,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.1,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.19,
+    `HealthModifier` = 8.49,
     `ScriptName` = ''
 WHERE `entry` = 9101874;
 
@@ -57544,10 +57544,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Legion',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.19,
+    `HealthModifier` = 8.1,
     `ScriptName` = ''
 WHERE `entry` = 9101875;
 
@@ -57587,10 +57587,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 6.9,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.32,
+    `HealthModifier` = 7.97,
     `ScriptName` = ''
 WHERE `entry` = 9101876;
 
@@ -57630,10 +57630,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.22,
+    `HealthModifier` = 7.85,
     `ScriptName` = ''
 WHERE `entry` = 9101877;
 
@@ -57673,10 +57673,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.24,
+    `HealthModifier` = 8.09,
     `ScriptName` = ''
 WHERE `entry` = 9101878;
 
@@ -57716,10 +57716,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.43,
+    `HealthModifier` = 8.04,
     `ScriptName` = ''
 WHERE `entry` = 9101879;
 
@@ -57759,10 +57759,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.11,
+    `HealthModifier` = 7.99,
     `ScriptName` = ''
 WHERE `entry` = 9101880;
 
@@ -57802,10 +57802,10 @@ UPDATE `creature_template` SET
     `subname` = 'Firebrand Legion Champion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.96,
-    `lootid` = 9596,
+    `DamageModifier` = 6.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.04,
+    `HealthModifier` = 7.32,
     `ScriptName` = ''
 WHERE `entry` = 9101881;
 
@@ -57845,10 +57845,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.96,
-    `lootid` = 10263,
+    `DamageModifier` = 5.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.14,
+    `HealthModifier` = 7.36,
     `ScriptName` = ''
 WHERE `entry` = 9101882;
 
@@ -57889,9 +57889,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 5.97,
-    `lootid` = 10376,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 6.96,
+    `HealthModifier` = 6.95,
     `ScriptName` = ''
 WHERE `entry` = 9101883;
 
@@ -57931,10 +57931,10 @@ UPDATE `creature_template` SET
     `subname` = 'Bloodaxe Champion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.05,
-    `lootid` = 9718,
+    `DamageModifier` = 5.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.14,
+    `HealthModifier` = 7.24,
     `ScriptName` = ''
 WHERE `entry` = 9101884;
 
@@ -57974,10 +57974,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.01,
-    `lootid` = 9218,
+    `DamageModifier` = 6.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.45,
+    `HealthModifier` = 7.15,
     `ScriptName` = ''
 WHERE `entry` = 9101885;
 
@@ -58017,10 +58017,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.98,
-    `lootid` = 9219,
+    `DamageModifier` = 5.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.49,
+    `HealthModifier` = 6.84,
     `ScriptName` = ''
 WHERE `entry` = 9101886;
 
@@ -58060,10 +58060,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.08,
-    `lootid` = 9217,
+    `DamageModifier` = 5.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.18,
+    `HealthModifier` = 6.81,
     `ScriptName` = ''
 WHERE `entry` = 9101887;
 
@@ -58103,10 +58103,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.91,
-    `lootid` = 10509,
+    `DamageModifier` = 5.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 6.96,
+    `HealthModifier` = 6.87,
     `ScriptName` = ''
 WHERE `entry` = 9101888;
 
@@ -58146,10 +58146,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion Armorsmith',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.06,
-    `lootid` = 10899,
+    `DamageModifier` = 6.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 6.99,
+    `HealthModifier` = 7.21,
     `ScriptName` = ''
 WHERE `entry` = 9101889;
 
@@ -58189,10 +58189,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 9701,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101890;
 
@@ -58232,10 +58232,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 10177,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 2.86,
     `ScriptName` = ''
 WHERE `entry` = 9101891;
 
@@ -58275,10 +58275,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.38,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9101892;
 
@@ -58318,10 +58318,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 9416,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9101893;
 
@@ -58361,10 +58361,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9101894;
 
@@ -58404,10 +58404,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9101895;
 
@@ -58447,10 +58447,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 10442,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9101896;
 
@@ -58490,10 +58490,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9101897;
 
@@ -58533,10 +58533,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9101898;
 
@@ -58576,10 +58576,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 10221,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9101899;
 
@@ -58619,10 +58619,10 @@ UPDATE `creature_template` SET
     `subname` = 'Scarshield Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 9696,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.13,
+    `HealthModifier` = 3.46,
     `ScriptName` = ''
 WHERE `entry` = 9101900;
 
@@ -58662,10 +58662,10 @@ UPDATE `creature_template` SET
     `subname` = 'Blackhand Legion',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 10316,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 3.39,
     `ScriptName` = ''
 WHERE `entry` = 9101901;
 
@@ -58707,10 +58707,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9102000;
 
@@ -58750,10 +58750,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 14516,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.46,
+    `HealthModifier` = 2.83,
     `ScriptName` = ''
 WHERE `entry` = 9102001;
 
@@ -58793,10 +58793,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 3.22,
     `ScriptName` = ''
 WHERE `entry` = 9102002;
 
@@ -58836,10 +58836,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 14861,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.45,
     `ScriptName` = ''
 WHERE `entry` = 9102003;
 
@@ -58879,10 +58879,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 10486,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9102004;
 
@@ -58922,10 +58922,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 10500,
+    `DamageModifier` = 1.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.23,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9102005;
 
@@ -58965,10 +58965,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 10488,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9102006;
 
@@ -59008,10 +59008,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.89,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9102007;
 
@@ -59051,10 +59051,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.01,
     `ScriptName` = ''
 WHERE `entry` = 9102008;
 
@@ -59094,10 +59094,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 14521,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 2.87,
     `ScriptName` = ''
 WHERE `entry` = 9102009;
 
@@ -59137,10 +59137,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 14520,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9102010;
 
@@ -59180,10 +59180,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 14519,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9102011;
 
@@ -59223,10 +59223,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 14518,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9102012;
 
@@ -59266,10 +59266,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 10478,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9102013;
 
@@ -59309,10 +59309,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 11257,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9102014;
 
@@ -59352,10 +59352,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.5,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9102015;
 
@@ -59395,10 +59395,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.5,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9102016;
 
@@ -59439,9 +59439,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.96,
-    `lootid` = 10498,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9102017;
 
@@ -59481,10 +59481,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 10499,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9102018;
 
@@ -59524,10 +59524,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 10487,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 2.87,
     `ScriptName` = ''
 WHERE `entry` = 9102019;
 
@@ -59568,9 +59568,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.0,
-    `lootid` = 11551,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.26,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9102020;
 
@@ -59610,10 +59610,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 10475,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9102021;
 
@@ -59653,10 +59653,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 10472,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.44,
+    `HealthModifier` = 3.39,
     `ScriptName` = ''
 WHERE `entry` = 9102022;
 
@@ -59696,10 +59696,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 10477,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 2.94,
     `ScriptName` = ''
 WHERE `entry` = 9102023;
 
@@ -59739,10 +59739,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 11582,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 2.9,
     `ScriptName` = ''
 WHERE `entry` = 9102024;
 
@@ -59782,10 +59782,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 10469,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.23,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9102025;
 
@@ -59825,10 +59825,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 10491,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9102026;
 
@@ -59868,10 +59868,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 10495,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.34,
+    `HealthModifier` = 3.07,
     `ScriptName` = ''
 WHERE `entry` = 9102027;
 
@@ -59911,10 +59911,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 10489,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.02,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9102028;
 
@@ -59954,10 +59954,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 10470,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.94,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9102029;
 
@@ -59997,10 +59997,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 10476,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 3.17,
     `ScriptName` = ''
 WHERE `entry` = 9102030;
 
@@ -60040,10 +60040,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 10471,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9102031;
 
@@ -60083,10 +60083,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.89,
+    `HealthModifier` = 6.32,
     `ScriptName` = ''
 WHERE `entry` = 9102032;
 
@@ -60129,7 +60129,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 5.01,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.0,
+    `HealthModifier` = 5.85,
     `ScriptName` = ''
 WHERE `entry` = 9102033;
 
@@ -60169,10 +60169,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.36,
+    `HealthModifier` = 5.93,
     `ScriptName` = ''
 WHERE `entry` = 9102034;
 
@@ -60212,10 +60212,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.89,
+    `HealthModifier` = 5.9,
     `ScriptName` = ''
 WHERE `entry` = 9102035;
 
@@ -60255,10 +60255,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.1,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.82,
+    `HealthModifier` = 6.35,
     `ScriptName` = ''
 WHERE `entry` = 9102036;
 
@@ -60298,10 +60298,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.06,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.36,
+    `HealthModifier` = 5.95,
     `ScriptName` = ''
 WHERE `entry` = 9102037;
 
@@ -60341,7 +60341,7 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.92,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
     `HealthModifier` = 5.88,
@@ -60384,10 +60384,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Butcher',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.24,
+    `HealthModifier` = 6.43,
     `ScriptName` = ''
 WHERE `entry` = 9102039;
 
@@ -60427,10 +60427,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.94,
+    `HealthModifier` = 5.88,
     `ScriptName` = ''
 WHERE `entry` = 9102040;
 
@@ -60470,10 +60470,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.05,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.09,
+    `HealthModifier` = 6.39,
     `ScriptName` = ''
 WHERE `entry` = 9102041;
 
@@ -60513,10 +60513,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.93,
+    `DamageModifier` = 5.08,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.43,
+    `HealthModifier` = 6.24,
     `ScriptName` = ''
 WHERE `entry` = 9102042;
 
@@ -60556,10 +60556,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.1,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.17,
+    `HealthModifier` = 6.05,
     `ScriptName` = ''
 WHERE `entry` = 9102043;
 
@@ -60602,7 +60602,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 4.99,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.87,
+    `HealthModifier` = 5.81,
     `ScriptName` = ''
 WHERE `entry` = 9102044;
 
@@ -60642,10 +60642,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.09,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.06,
+    `HealthModifier` = 5.83,
     `ScriptName` = ''
 WHERE `entry` = 9102045;
 
@@ -60685,10 +60685,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.08,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.14,
+    `HealthModifier` = 5.82,
     `ScriptName` = ''
 WHERE `entry` = 9102046;
 
@@ -60728,10 +60728,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.1,
-    `lootid` = 0,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.95,
+    `HealthModifier` = 1.9,
     `ScriptName` = ''
 WHERE `entry` = 9102047;
 
@@ -60771,10 +60771,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.9,
-    `lootid` = 0,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.04,
+    `HealthModifier` = 1.91,
     `ScriptName` = ''
 WHERE `entry` = 9102048;
 
@@ -60815,9 +60815,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 0.98,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.21,
+    `HealthModifier` = 1.83,
     `ScriptName` = ''
 WHERE `entry` = 9102049;
 
@@ -60857,10 +60857,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.9,
-    `lootid` = 0,
+    `DamageModifier` = 1.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.19,
+    `HealthModifier` = 2.36,
     `ScriptName` = ''
 WHERE `entry` = 9102050;
 
@@ -60900,8 +60900,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.05,
+    `lootid` = 9100419,
     `AIName` = '',
     `HealthModifier` = 2.43,
     `ScriptName` = ''
@@ -60943,10 +60943,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.97,
-    `lootid` = 10678,
+    `DamageModifier` = 0.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.3,
+    `HealthModifier` = 2.45,
     `ScriptName` = ''
 WHERE `entry` = 9102052;
 
@@ -60986,10 +60986,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.09,
-    `lootid` = 10481,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.49,
+    `HealthModifier` = 1.98,
     `ScriptName` = ''
 WHERE `entry` = 9102053;
 
@@ -61029,10 +61029,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 10485,
+    `DamageModifier` = 1.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.34,
+    `HealthModifier` = 2.03,
     `ScriptName` = ''
 WHERE `entry` = 9102054;
 
@@ -61073,9 +61073,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.09,
-    `lootid` = 11598,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.47,
+    `HealthModifier` = 1.96,
     `ScriptName` = ''
 WHERE `entry` = 9102055;
 
@@ -61115,10 +61115,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.94,
-    `lootid` = 10482,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.47,
+    `HealthModifier` = 2.14,
     `ScriptName` = ''
 WHERE `entry` = 9102056;
 
@@ -61158,10 +61158,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.07,
-    `lootid` = 0,
+    `DamageModifier` = 1.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.4,
+    `HealthModifier` = 2.18,
     `ScriptName` = ''
 WHERE `entry` = 9102057;
 
@@ -61201,10 +61201,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 10480,
+    `DamageModifier` = 1.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.82,
+    `HealthModifier` = 2.45,
     `ScriptName` = ''
 WHERE `entry` = 9102058;
 
@@ -61244,10 +61244,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 0,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 3.84,
     `ScriptName` = ''
 WHERE `entry` = 9102059;
 
@@ -61287,10 +61287,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 14516,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.34,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9102060;
 
@@ -61331,9 +61331,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.02,
-    `lootid` = 0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9102061;
 
@@ -61373,10 +61373,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 14861,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.49,
+    `HealthModifier` = 4.13,
     `ScriptName` = ''
 WHERE `entry` = 9102062;
 
@@ -61416,10 +61416,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 10486,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.05,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9102063;
 
@@ -61459,10 +61459,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 10500,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.01,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9102064;
 
@@ -61502,10 +61502,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 10488,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.26,
     `ScriptName` = ''
 WHERE `entry` = 9102065;
 
@@ -61545,10 +61545,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 0,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.34,
     `ScriptName` = ''
 WHERE `entry` = 9102066;
 
@@ -61588,10 +61588,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 0,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.9,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9102067;
 
@@ -61631,10 +61631,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 14521,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.97,
+    `HealthModifier` = 4.19,
     `ScriptName` = ''
 WHERE `entry` = 9102068;
 
@@ -61674,10 +61674,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 14520,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.21,
+    `HealthModifier` = 4.11,
     `ScriptName` = ''
 WHERE `entry` = 9102069;
 
@@ -61717,10 +61717,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 14519,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.34,
+    `HealthModifier` = 4.47,
     `ScriptName` = ''
 WHERE `entry` = 9102070;
 
@@ -61760,10 +61760,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 14518,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 4.24,
     `ScriptName` = ''
 WHERE `entry` = 9102071;
 
@@ -61803,10 +61803,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 10478,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.21,
+    `HealthModifier` = 4.43,
     `ScriptName` = ''
 WHERE `entry` = 9102072;
 
@@ -61847,9 +61847,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.97,
-    `lootid` = 11257,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 3.93,
     `ScriptName` = ''
 WHERE `entry` = 9102073;
 
@@ -61889,10 +61889,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 0,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 4.16,
     `ScriptName` = ''
 WHERE `entry` = 9102074;
 
@@ -61932,10 +61932,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 0,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.27,
+    `HealthModifier` = 4.05,
     `ScriptName` = ''
 WHERE `entry` = 9102075;
 
@@ -61975,10 +61975,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 10498,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.0,
+    `HealthModifier` = 4.21,
     `ScriptName` = ''
 WHERE `entry` = 9102076;
 
@@ -62018,10 +62018,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 10499,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9102077;
 
@@ -62061,10 +62061,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 10487,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 4.2,
     `ScriptName` = ''
 WHERE `entry` = 9102078;
 
@@ -62104,10 +62104,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 11551,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 3.91,
     `ScriptName` = ''
 WHERE `entry` = 9102079;
 
@@ -62147,10 +62147,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 10475,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.83,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9102080;
 
@@ -62190,10 +62190,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 10472,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.48,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9102081;
 
@@ -62233,10 +62233,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 10477,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.46,
+    `HealthModifier` = 4.11,
     `ScriptName` = ''
 WHERE `entry` = 9102082;
 
@@ -62277,9 +62277,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.97,
-    `lootid` = 11582,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 4.04,
     `ScriptName` = ''
 WHERE `entry` = 9102083;
 
@@ -62319,10 +62319,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 10469,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.83,
+    `HealthModifier` = 4.18,
     `ScriptName` = ''
 WHERE `entry` = 9102084;
 
@@ -62362,10 +62362,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 10491,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 4.17,
     `ScriptName` = ''
 WHERE `entry` = 9102085;
 
@@ -62405,10 +62405,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 10495,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 3.85,
     `ScriptName` = ''
 WHERE `entry` = 9102086;
 
@@ -62448,10 +62448,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 10489,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.94,
+    `HealthModifier` = 4.29,
     `ScriptName` = ''
 WHERE `entry` = 9102087;
 
@@ -62491,10 +62491,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 10470,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.89,
+    `HealthModifier` = 4.29,
     `ScriptName` = ''
 WHERE `entry` = 9102088;
 
@@ -62534,10 +62534,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 10476,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 4.28,
     `ScriptName` = ''
 WHERE `entry` = 9102089;
 
@@ -62577,10 +62577,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 10471,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.21,
+    `HealthModifier` = 4.19,
     `ScriptName` = ''
 WHERE `entry` = 9102090;
 
@@ -62620,10 +62620,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 6.99,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.23,
+    `HealthModifier` = 8.37,
     `ScriptName` = ''
 WHERE `entry` = 9102091;
 
@@ -62663,10 +62663,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.3,
+    `HealthModifier` = 8.04,
     `ScriptName` = ''
 WHERE `entry` = 9102092;
 
@@ -62709,7 +62709,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.86,
+    `HealthModifier` = 8.47,
     `ScriptName` = ''
 WHERE `entry` = 9102093;
 
@@ -62749,10 +62749,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.88,
+    `HealthModifier` = 7.93,
     `ScriptName` = ''
 WHERE `entry` = 9102094;
 
@@ -62792,10 +62792,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.39,
+    `HealthModifier` = 8.27,
     `ScriptName` = ''
 WHERE `entry` = 9102095;
 
@@ -62835,10 +62835,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.29,
+    `HealthModifier` = 8.33,
     `ScriptName` = ''
 WHERE `entry` = 9102096;
 
@@ -62878,10 +62878,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.02,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.4,
+    `HealthModifier` = 7.97,
     `ScriptName` = ''
 WHERE `entry` = 9102097;
 
@@ -62921,10 +62921,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Butcher',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.35,
+    `HealthModifier` = 8.26,
     `ScriptName` = ''
 WHERE `entry` = 9102098;
 
@@ -62964,10 +62964,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 6.9,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.84,
+    `HealthModifier` = 8.34,
     `ScriptName` = ''
 WHERE `entry` = 9102099;
 
@@ -63007,10 +63007,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 6.99,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.39,
+    `HealthModifier` = 8.13,
     `ScriptName` = ''
 WHERE `entry` = 9102100;
 
@@ -63050,10 +63050,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 6.96,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.42,
+    `HealthModifier` = 8.33,
     `ScriptName` = ''
 WHERE `entry` = 9102101;
 
@@ -63093,10 +63093,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.08,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.34,
+    `HealthModifier` = 8.47,
     `ScriptName` = ''
 WHERE `entry` = 9102102;
 
@@ -63136,10 +63136,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.02,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.28,
+    `HealthModifier` = 7.9,
     `ScriptName` = ''
 WHERE `entry` = 9102103;
 
@@ -63179,10 +63179,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 6.97,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.48,
+    `HealthModifier` = 8.17,
     `ScriptName` = ''
 WHERE `entry` = 9102104;
 
@@ -63222,10 +63222,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.04,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.47,
+    `HealthModifier` = 8.09,
     `ScriptName` = ''
 WHERE `entry` = 9102105;
 
@@ -63265,10 +63265,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9102106;
 
@@ -63308,10 +63308,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.03,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9102107;
 
@@ -63351,10 +63351,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9102108;
 
@@ -63394,10 +63394,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.1,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9102109;
 
@@ -63437,10 +63437,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9102110;
 
@@ -63480,8 +63480,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 10678,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 3.45,
     `ScriptName` = ''
@@ -63523,10 +63523,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 10481,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.99,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9102112;
 
@@ -63566,10 +63566,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 10485,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9102113;
 
@@ -63609,10 +63609,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 11598,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9102114;
 
@@ -63652,10 +63652,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 10482,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.23,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9102115;
 
@@ -63695,10 +63695,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.06,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9102116;
 
@@ -63738,10 +63738,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 10480,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9102117;
 
@@ -63783,10 +63783,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 1.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9102200;
 
@@ -63826,10 +63826,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9102201;
 
@@ -63869,10 +63869,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 10416,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.19,
+    `HealthModifier` = 3.4,
     `ScriptName` = ''
 WHERE `entry` = 9102202;
 
@@ -63912,10 +63912,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 10394,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9102203;
 
@@ -63955,10 +63955,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 3.38,
     `ScriptName` = ''
 WHERE `entry` = 9102204;
 
@@ -63998,10 +63998,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 10425,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9102205;
 
@@ -64041,10 +64041,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 10419,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.05,
+    `HealthModifier` = 3.33,
     `ScriptName` = ''
 WHERE `entry` = 9102206;
 
@@ -64084,10 +64084,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 10421,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 3.26,
     `ScriptName` = ''
 WHERE `entry` = 9102207;
 
@@ -64127,10 +64127,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 10424,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.33,
+    `HealthModifier` = 2.9,
     `ScriptName` = ''
 WHERE `entry` = 9102208;
 
@@ -64170,10 +64170,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 10418,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 3.33,
     `ScriptName` = ''
 WHERE `entry` = 9102209;
 
@@ -64213,10 +64213,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 10420,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9102210;
 
@@ -64256,10 +64256,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 10426,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9102211;
 
@@ -64299,10 +64299,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 11043,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9102212;
 
@@ -64342,10 +64342,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 10423,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9102213;
 
@@ -64385,10 +64385,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 10422,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.46,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9102214;
 
@@ -64428,10 +64428,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 10413,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9102215;
 
@@ -64471,10 +64471,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 10412,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9102216;
 
@@ -64515,9 +64515,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 3.04,
     `ScriptName` = ''
 WHERE `entry` = 9102217;
 
@@ -64557,10 +64557,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 2.8,
     `ScriptName` = ''
 WHERE `entry` = 9102218;
 
@@ -64600,10 +64600,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 10407,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9102219;
 
@@ -64643,10 +64643,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 10385,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 2.86,
     `ScriptName` = ''
 WHERE `entry` = 9102220;
 
@@ -64686,10 +64686,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 10406,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9102221;
 
@@ -64729,10 +64729,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.08,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9102222;
 
@@ -64772,10 +64772,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9102223;
 
@@ -64815,10 +64815,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9102224;
 
@@ -64858,10 +64858,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.87,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9102225;
 
@@ -64901,10 +64901,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 10382,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9102226;
 
@@ -64945,9 +64945,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.48,
+    `HealthModifier` = 2.94,
     `ScriptName` = ''
 WHERE `entry` = 9102227;
 
@@ -64987,10 +64987,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 10414,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.95,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9102228;
 
@@ -65030,10 +65030,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 10405,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.28,
     `ScriptName` = ''
 WHERE `entry` = 9102229;
 
@@ -65073,10 +65073,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 10381,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9102230;
 
@@ -65116,10 +65116,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 10408,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 3.34,
     `ScriptName` = ''
 WHERE `entry` = 9102231;
 
@@ -65159,10 +65159,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 10409,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9102232;
 
@@ -65202,10 +65202,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 10463,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.27,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9102233;
 
@@ -65245,10 +65245,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 10384,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.89,
+    `HealthModifier` = 3.01,
     `ScriptName` = ''
 WHERE `entry` = 9102234;
 
@@ -65288,10 +65288,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 0,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9102235;
 
@@ -65331,10 +65331,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9102236;
 
@@ -65375,9 +65375,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.9,
-    `lootid` = 10400,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9102237;
 
@@ -65418,9 +65418,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.97,
-    `lootid` = 10398,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9102238;
 
@@ -65460,10 +65460,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 11142,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.46,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9102239;
 
@@ -65503,10 +65503,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 10417,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.23,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9102240;
 
@@ -65546,10 +65546,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.38,
+    `HealthModifier` = 3.12,
     `ScriptName` = ''
 WHERE `entry` = 9102241;
 
@@ -65589,10 +65589,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 10464,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9102242;
 
@@ -65632,10 +65632,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 5.04,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.13,
+    `HealthModifier` = 6.02,
     `ScriptName` = ''
 WHERE `entry` = 9102243;
 
@@ -65675,10 +65675,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.06,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.26,
+    `HealthModifier` = 6.11,
     `ScriptName` = ''
 WHERE `entry` = 9102244;
 
@@ -65718,10 +65718,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.27,
+    `HealthModifier` = 5.95,
     `ScriptName` = ''
 WHERE `entry` = 9102245;
 
@@ -65764,7 +65764,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 4.98,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.31,
+    `HealthModifier` = 6.39,
     `ScriptName` = ''
 WHERE `entry` = 9102246;
 
@@ -65804,10 +65804,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.29,
+    `HealthModifier` = 6.14,
     `ScriptName` = ''
 WHERE `entry` = 9102247;
 
@@ -65847,10 +65847,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.36,
+    `HealthModifier` = 5.95,
     `ScriptName` = ''
 WHERE `entry` = 9102248;
 
@@ -65890,10 +65890,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 4.9,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.07,
+    `HealthModifier` = 6.17,
     `ScriptName` = ''
 WHERE `entry` = 9102249;
 
@@ -65933,10 +65933,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.04,
+    `HealthModifier` = 6.47,
     `ScriptName` = ''
 WHERE `entry` = 9102250;
 
@@ -65976,10 +65976,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.05,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.93,
+    `HealthModifier` = 5.95,
     `ScriptName` = ''
 WHERE `entry` = 9102251;
 
@@ -66019,10 +66019,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.45,
+    `HealthModifier` = 6.23,
     `ScriptName` = ''
 WHERE `entry` = 9102252;
 
@@ -66062,10 +66062,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.07,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.96,
+    `HealthModifier` = 5.91,
     `ScriptName` = ''
 WHERE `entry` = 9102253;
 
@@ -66105,10 +66105,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.8,
+    `HealthModifier` = 5.87,
     `ScriptName` = ''
 WHERE `entry` = 9102254;
 
@@ -66148,10 +66148,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 4.96,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.21,
+    `HealthModifier` = 5.97,
     `ScriptName` = ''
 WHERE `entry` = 9102255;
 
@@ -66191,10 +66191,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 4.97,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.4,
+    `HealthModifier` = 6.3,
     `ScriptName` = ''
 WHERE `entry` = 9102256;
 
@@ -66234,10 +66234,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.1,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.88,
+    `HealthModifier` = 5.89,
     `ScriptName` = ''
 WHERE `entry` = 9102257;
 
@@ -66277,10 +66277,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.99,
+    `DamageModifier` = 5.0,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.82,
+    `HealthModifier` = 6.21,
     `ScriptName` = ''
 WHERE `entry` = 9102258;
 
@@ -66320,10 +66320,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 4.96,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.24,
+    `HealthModifier` = 5.88,
     `ScriptName` = ''
 WHERE `entry` = 9102259;
 
@@ -66366,7 +66366,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.45,
+    `HealthModifier` = 5.95,
     `ScriptName` = ''
 WHERE `entry` = 9102260;
 
@@ -66406,10 +66406,10 @@ UPDATE `creature_template` SET
     `subname` = 'Hand of Sargeras',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.48,
+    `HealthModifier` = 6.28,
     `ScriptName` = ''
 WHERE `entry` = 9102261;
 
@@ -66449,10 +66449,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 5.1,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.81,
+    `HealthModifier` = 6.13,
     `ScriptName` = ''
 WHERE `entry` = 9102262;
 
@@ -66492,10 +66492,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.48,
+    `HealthModifier` = 6.17,
     `ScriptName` = ''
 WHERE `entry` = 9102263;
 
@@ -66535,10 +66535,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.91,
-    `lootid` = 10558,
+    `DamageModifier` = 3.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 4.98,
+    `HealthModifier` = 5.13,
     `ScriptName` = ''
 WHERE `entry` = 9102264;
 
@@ -66578,10 +66578,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.01,
-    `lootid` = 10393,
+    `DamageModifier` = 4.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.38,
+    `HealthModifier` = 5.35,
     `ScriptName` = ''
 WHERE `entry` = 9102265;
 
@@ -66621,10 +66621,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 4.08,
-    `lootid` = 10809,
+    `DamageModifier` = 4.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 5.27,
+    `HealthModifier` = 5.21,
     `ScriptName` = ''
 WHERE `entry` = 9102266;
 
@@ -66664,10 +66664,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.07,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.5,
+    `HealthModifier` = 1.96,
     `ScriptName` = ''
 WHERE `entry` = 9102267;
 
@@ -66707,10 +66707,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.94,
-    `lootid` = 0,
+    `DamageModifier` = 0.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.2,
+    `HealthModifier` = 2.46,
     `ScriptName` = ''
 WHERE `entry` = 9102268;
 
@@ -66750,10 +66750,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.1,
-    `lootid` = 0,
+    `DamageModifier` = 0.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.95,
+    `HealthModifier` = 1.94,
     `ScriptName` = ''
 WHERE `entry` = 9102269;
 
@@ -66793,10 +66793,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.91,
-    `lootid` = 0,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.27,
+    `HealthModifier` = 2.26,
     `ScriptName` = ''
 WHERE `entry` = 9102270;
 
@@ -66836,10 +66836,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.95,
-    `lootid` = 10411,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.02,
+    `HealthModifier` = 2.18,
     `ScriptName` = ''
 WHERE `entry` = 9102271;
 
@@ -66879,10 +66879,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 0,
+    `DamageModifier` = 0.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.09,
+    `HealthModifier` = 2.06,
     `ScriptName` = ''
 WHERE `entry` = 9102272;
 
@@ -66922,10 +66922,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.98,
-    `lootid` = 0,
+    `DamageModifier` = 1.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.85,
+    `HealthModifier` = 2.19,
     `ScriptName` = ''
 WHERE `entry` = 9102273;
 
@@ -66965,10 +66965,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 0,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.23,
+    `HealthModifier` = 2.41,
     `ScriptName` = ''
 WHERE `entry` = 9102274;
 
@@ -67008,10 +67008,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.09,
-    `lootid` = 0,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.88,
+    `HealthModifier` = 2.0,
     `ScriptName` = ''
 WHERE `entry` = 9102275;
 
@@ -67052,9 +67052,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 0.94,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.25,
+    `HealthModifier` = 1.93,
     `ScriptName` = ''
 WHERE `entry` = 9102276;
 
@@ -67094,10 +67094,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.93,
-    `lootid` = 0,
+    `DamageModifier` = 1.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.18,
+    `HealthModifier` = 2.2,
     `ScriptName` = ''
 WHERE `entry` = 9102277;
 
@@ -67137,10 +67137,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 10391,
+    `DamageModifier` = 1.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.27,
+    `HealthModifier` = 2.18,
     `ScriptName` = ''
 WHERE `entry` = 9102278;
 
@@ -67180,10 +67180,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 10390,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.01,
+    `HealthModifier` = 2.41,
     `ScriptName` = ''
 WHERE `entry` = 9102279;
 
@@ -67224,7 +67224,7 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 1.04,
-    `lootid` = 0,
+    `lootid` = 9100419,
     `AIName` = '',
     `HealthModifier` = 2.32,
     `ScriptName` = ''
@@ -67266,10 +67266,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.01,
-    `lootid` = 0,
+    `DamageModifier` = 1.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.43,
+    `HealthModifier` = 2.2,
     `ScriptName` = ''
 WHERE `entry` = 9102281;
 
@@ -67309,10 +67309,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.09,
-    `lootid` = 0,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.09,
+    `HealthModifier` = 2.02,
     `ScriptName` = ''
 WHERE `entry` = 9102282;
 
@@ -67352,10 +67352,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 10399,
+    `DamageModifier` = 1.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.94,
+    `HealthModifier` = 2.37,
     `ScriptName` = ''
 WHERE `entry` = 9102283;
 
@@ -67395,10 +67395,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.98,
-    `lootid` = 0,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.92,
+    `HealthModifier` = 1.84,
     `ScriptName` = ''
 WHERE `entry` = 9102284;
 
@@ -67438,10 +67438,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 10387,
+    `DamageModifier` = 0.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.43,
+    `HealthModifier` = 2.08,
     `ScriptName` = ''
 WHERE `entry` = 9102285;
 
@@ -67481,10 +67481,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 0,
+    `DamageModifier` = 1.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.29,
+    `HealthModifier` = 2.02,
     `ScriptName` = ''
 WHERE `entry` = 9102286;
 
@@ -67524,10 +67524,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.02,
-    `lootid` = 0,
+    `DamageModifier` = 1.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.01,
+    `HealthModifier` = 2.08,
     `ScriptName` = ''
 WHERE `entry` = 9102287;
 
@@ -67567,10 +67567,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 0,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 4.33,
     `ScriptName` = ''
 WHERE `entry` = 9102288;
 
@@ -67610,10 +67610,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 0,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.18,
+    `HealthModifier` = 4.06,
     `ScriptName` = ''
 WHERE `entry` = 9102289;
 
@@ -67653,10 +67653,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 10416,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.12,
+    `HealthModifier` = 4.03,
     `ScriptName` = ''
 WHERE `entry` = 9102290;
 
@@ -67696,10 +67696,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 10394,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.07,
+    `HealthModifier` = 3.88,
     `ScriptName` = ''
 WHERE `entry` = 9102291;
 
@@ -67739,10 +67739,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 0,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9102292;
 
@@ -67782,10 +67782,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 10425,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 4.18,
     `ScriptName` = ''
 WHERE `entry` = 9102293;
 
@@ -67825,10 +67825,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 10419,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.91,
+    `HealthModifier` = 4.37,
     `ScriptName` = ''
 WHERE `entry` = 9102294;
 
@@ -67868,10 +67868,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 10421,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.36,
     `ScriptName` = ''
 WHERE `entry` = 9102295;
 
@@ -67911,10 +67911,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 10424,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.49,
+    `HealthModifier` = 4.04,
     `ScriptName` = ''
 WHERE `entry` = 9102296;
 
@@ -67954,10 +67954,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 10418,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 4.07,
     `ScriptName` = ''
 WHERE `entry` = 9102297;
 
@@ -67997,10 +67997,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 10420,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.07,
+    `HealthModifier` = 4.06,
     `ScriptName` = ''
 WHERE `entry` = 9102298;
 
@@ -68040,10 +68040,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 10426,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.86,
+    `HealthModifier` = 4.38,
     `ScriptName` = ''
 WHERE `entry` = 9102299;
 
@@ -68083,10 +68083,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 11043,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.2,
+    `HealthModifier` = 4.45,
     `ScriptName` = ''
 WHERE `entry` = 9102300;
 
@@ -68126,10 +68126,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 10423,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.34,
+    `HealthModifier` = 4.06,
     `ScriptName` = ''
 WHERE `entry` = 9102301;
 
@@ -68169,10 +68169,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 10422,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.95,
+    `HealthModifier` = 4.15,
     `ScriptName` = ''
 WHERE `entry` = 9102302;
 
@@ -68212,10 +68212,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 10413,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.12,
+    `HealthModifier` = 3.89,
     `ScriptName` = ''
 WHERE `entry` = 9102303;
 
@@ -68255,10 +68255,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 10412,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.88,
+    `HealthModifier` = 4.26,
     `ScriptName` = ''
 WHERE `entry` = 9102304;
 
@@ -68298,10 +68298,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 0,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.37,
+    `HealthModifier` = 3.96,
     `ScriptName` = ''
 WHERE `entry` = 9102305;
 
@@ -68341,10 +68341,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 0,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.46,
+    `HealthModifier` = 4.42,
     `ScriptName` = ''
 WHERE `entry` = 9102306;
 
@@ -68384,8 +68384,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 10407,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
     `HealthModifier` = 4.42,
     `ScriptName` = ''
@@ -68427,10 +68427,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 10385,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.5,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9102308;
 
@@ -68470,10 +68470,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 10406,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.26,
+    `HealthModifier` = 4.02,
     `ScriptName` = ''
 WHERE `entry` = 9102309;
 
@@ -68513,10 +68513,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 0,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.05,
+    `HealthModifier` = 3.87,
     `ScriptName` = ''
 WHERE `entry` = 9102310;
 
@@ -68556,10 +68556,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 0,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9102311;
 
@@ -68599,10 +68599,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 0,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.04,
+    `HealthModifier` = 4.02,
     `ScriptName` = ''
 WHERE `entry` = 9102312;
 
@@ -68642,10 +68642,10 @@ UPDATE `creature_template` SET
     `subname` = '',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 0,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.4,
+    `HealthModifier` = 4.11,
     `ScriptName` = ''
 WHERE `entry` = 9102313;
 
@@ -68685,10 +68685,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 10382,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9102314;
 
@@ -68728,10 +68728,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 0,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.24,
+    `HealthModifier` = 3.95,
     `ScriptName` = ''
 WHERE `entry` = 9102315;
 
@@ -68771,10 +68771,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 10414,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.97,
+    `HealthModifier` = 4.17,
     `ScriptName` = ''
 WHERE `entry` = 9102316;
 
@@ -68815,9 +68815,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 3.03,
-    `lootid` = 10405,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.33,
     `ScriptName` = ''
 WHERE `entry` = 9102317;
 
@@ -68857,10 +68857,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 10381,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.47,
+    `HealthModifier` = 4.27,
     `ScriptName` = ''
 WHERE `entry` = 9102318;
 
@@ -68900,10 +68900,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 10408,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.12,
     `ScriptName` = ''
 WHERE `entry` = 9102319;
 
@@ -68944,9 +68944,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.96,
-    `lootid` = 10409,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.28,
+    `HealthModifier` = 4.31,
     `ScriptName` = ''
 WHERE `entry` = 9102320;
 
@@ -68986,10 +68986,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 10463,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.94,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9102321;
 
@@ -69029,10 +69029,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 10384,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.85,
+    `HealthModifier` = 4.19,
     `ScriptName` = ''
 WHERE `entry` = 9102322;
 
@@ -69072,10 +69072,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 0,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 3.97,
     `ScriptName` = ''
 WHERE `entry` = 9102323;
 
@@ -69115,10 +69115,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 0,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.03,
+    `HealthModifier` = 4.33,
     `ScriptName` = ''
 WHERE `entry` = 9102324;
 
@@ -69158,10 +69158,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 10400,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.14,
+    `HealthModifier` = 4.0,
     `ScriptName` = ''
 WHERE `entry` = 9102325;
 
@@ -69201,10 +69201,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 10398,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.09,
+    `HealthModifier` = 4.32,
     `ScriptName` = ''
 WHERE `entry` = 9102326;
 
@@ -69244,10 +69244,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 11142,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9102327;
 
@@ -69287,10 +69287,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 10417,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.43,
+    `HealthModifier` = 4.01,
     `ScriptName` = ''
 WHERE `entry` = 9102328;
 
@@ -69330,10 +69330,10 @@ UPDATE `creature_template` SET
     `subname` = 'Order of the Silver Hand',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 0,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.41,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9102329;
 
@@ -69373,10 +69373,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 10464,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.99,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9102330;
 
@@ -69416,10 +69416,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.42,
+    `HealthModifier` = 7.95,
     `ScriptName` = ''
 WHERE `entry` = 9102331;
 
@@ -69459,10 +69459,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.08,
+    `HealthModifier` = 8.34,
     `ScriptName` = ''
 WHERE `entry` = 9102332;
 
@@ -69502,10 +69502,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.06,
+    `HealthModifier` = 8.18,
     `ScriptName` = ''
 WHERE `entry` = 9102333;
 
@@ -69545,10 +69545,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.08,
+    `DamageModifier` = 6.93,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.13,
+    `HealthModifier` = 8.49,
     `ScriptName` = ''
 WHERE `entry` = 9102334;
 
@@ -69588,10 +69588,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.39,
+    `HealthModifier` = 7.95,
     `ScriptName` = ''
 WHERE `entry` = 9102335;
 
@@ -69631,10 +69631,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.1,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.09,
+    `HealthModifier` = 8.03,
     `ScriptName` = ''
 WHERE `entry` = 9102336;
 
@@ -69674,10 +69674,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.25,
+    `HealthModifier` = 8.04,
     `ScriptName` = ''
 WHERE `entry` = 9102337;
 
@@ -69717,10 +69717,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.09,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.13,
+    `HealthModifier` = 7.89,
     `ScriptName` = ''
 WHERE `entry` = 9102338;
 
@@ -69760,10 +69760,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.06,
+    `DamageModifier` = 7.09,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.03,
+    `HealthModifier` = 8.09,
     `ScriptName` = ''
 WHERE `entry` = 9102339;
 
@@ -69803,10 +69803,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.95,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.27,
+    `HealthModifier` = 8.05,
     `ScriptName` = ''
 WHERE `entry` = 9102340;
 
@@ -69846,10 +69846,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.91,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.24,
+    `HealthModifier` = 8.07,
     `ScriptName` = ''
 WHERE `entry` = 9102341;
 
@@ -69889,10 +69889,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.44,
+    `HealthModifier` = 7.99,
     `ScriptName` = ''
 WHERE `entry` = 9102342;
 
@@ -69932,10 +69932,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.93,
+    `DamageModifier` = 6.92,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.25,
+    `HealthModifier` = 7.82,
     `ScriptName` = ''
 WHERE `entry` = 9102343;
 
@@ -69975,10 +69975,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.46,
+    `HealthModifier` = 8.2,
     `ScriptName` = ''
 WHERE `entry` = 9102344;
 
@@ -70018,10 +70018,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.96,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.07,
+    `HealthModifier` = 7.93,
     `ScriptName` = ''
 WHERE `entry` = 9102345;
 
@@ -70061,10 +70061,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.41,
+    `HealthModifier` = 8.47,
     `ScriptName` = ''
 WHERE `entry` = 9102346;
 
@@ -70104,10 +70104,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 7.0,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.35,
+    `HealthModifier` = 7.88,
     `ScriptName` = ''
 WHERE `entry` = 9102347;
 
@@ -70147,10 +70147,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.0,
+    `DamageModifier` = 7.09,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.99,
+    `HealthModifier` = 8.19,
     `ScriptName` = ''
 WHERE `entry` = 9102348;
 
@@ -70190,10 +70190,10 @@ UPDATE `creature_template` SET
     `subname` = 'Hand of Sargeras',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 7.09,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.93,
+    `HealthModifier` = 7.97,
     `ScriptName` = ''
 WHERE `entry` = 9102349;
 
@@ -70233,10 +70233,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.91,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.41,
+    `HealthModifier` = 8.37,
     `ScriptName` = ''
 WHERE `entry` = 9102350;
 
@@ -70276,10 +70276,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 6.93,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.45,
+    `HealthModifier` = 7.97,
     `ScriptName` = ''
 WHERE `entry` = 9102351;
 
@@ -70320,9 +70320,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 6.07,
-    `lootid` = 10558,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.3,
+    `HealthModifier` = 7.13,
     `ScriptName` = ''
 WHERE `entry` = 9102352;
 
@@ -70362,10 +70362,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 5.93,
-    `lootid` = 10393,
+    `DamageModifier` = 5.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 7.02,
+    `HealthModifier` = 7.07,
     `ScriptName` = ''
 WHERE `entry` = 9102353;
 
@@ -70405,10 +70405,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 6.03,
-    `lootid` = 10809,
+    `DamageModifier` = 6.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 6.87,
+    `HealthModifier` = 7.31,
     `ScriptName` = ''
 WHERE `entry` = 9102354;
 
@@ -70448,10 +70448,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9102355;
 
@@ -70491,10 +70491,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.92,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9102356;
 
@@ -70534,10 +70534,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 3.25,
     `ScriptName` = ''
 WHERE `entry` = 9102357;
 
@@ -70577,10 +70577,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 3.37,
     `ScriptName` = ''
 WHERE `entry` = 9102358;
 
@@ -70620,10 +70620,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 10411,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9102359;
 
@@ -70663,10 +70663,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.04,
+    `HealthModifier` = 3.18,
     `ScriptName` = ''
 WHERE `entry` = 9102360;
 
@@ -70706,10 +70706,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.08,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9102361;
 
@@ -70749,10 +70749,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 2.89,
     `ScriptName` = ''
 WHERE `entry` = 9102362;
 
@@ -70792,10 +70792,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.45,
+    `HealthModifier` = 3.46,
     `ScriptName` = ''
 WHERE `entry` = 9102363;
 
@@ -70835,10 +70835,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 3.02,
     `ScriptName` = ''
 WHERE `entry` = 9102364;
 
@@ -70878,10 +70878,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9102365;
 
@@ -70921,10 +70921,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 10391,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.25,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9102366;
 
@@ -70964,10 +70964,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 10390,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 3.0,
     `ScriptName` = ''
 WHERE `entry` = 9102367;
 
@@ -71007,10 +71007,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 3.0,
     `ScriptName` = ''
 WHERE `entry` = 9102368;
 
@@ -71050,10 +71050,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 3.14,
     `ScriptName` = ''
 WHERE `entry` = 9102369;
 
@@ -71093,10 +71093,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.32,
+    `HealthModifier` = 3.49,
     `ScriptName` = ''
 WHERE `entry` = 9102370;
 
@@ -71136,10 +71136,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 10399,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9102371;
 
@@ -71179,10 +71179,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9102372;
 
@@ -71222,10 +71222,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 10387,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 2.93,
     `ScriptName` = ''
 WHERE `entry` = 9102373;
 
@@ -71265,10 +71265,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.95,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9102374;
 
@@ -71308,10 +71308,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.36,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9102375;
 
@@ -71353,10 +71353,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.29,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9102400;
 
@@ -71396,10 +71396,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 14502,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.15,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9102401;
 
@@ -71439,10 +71439,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 11450,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.86,
+    `HealthModifier` = 3.48,
     `ScriptName` = ''
 WHERE `entry` = 9102402;
 
@@ -71482,10 +71482,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 14308,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.25,
+    `HealthModifier` = 2.98,
     `ScriptName` = ''
 WHERE `entry` = 9102403;
 
@@ -71525,10 +71525,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9102404;
 
@@ -71568,10 +71568,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.38,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9102405;
 
@@ -71611,10 +71611,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.82,
+    `HealthModifier` = 3.27,
     `ScriptName` = ''
 WHERE `entry` = 9102406;
 
@@ -71654,10 +71654,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.21,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9102407;
 
@@ -71697,10 +71697,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 0,
+    `DamageModifier` = 2.0,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9102408;
 
@@ -71740,10 +71740,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 0,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.09,
+    `HealthModifier` = 3.24,
     `ScriptName` = ''
 WHERE `entry` = 9102409;
 
@@ -71783,10 +71783,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.19,
     `ScriptName` = ''
 WHERE `entry` = 9102410;
 
@@ -71826,10 +71826,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 3.36,
     `ScriptName` = ''
 WHERE `entry` = 9102411;
 
@@ -71869,10 +71869,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 14690,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.41,
+    `HealthModifier` = 3.2,
     `ScriptName` = ''
 WHERE `entry` = 9102412;
 
@@ -71912,10 +71912,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 0,
+    `DamageModifier` = 2.08,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.01,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9102413;
 
@@ -71955,10 +71955,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 11480,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 2.97,
     `ScriptName` = ''
 WHERE `entry` = 9102414;
 
@@ -71998,10 +71998,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 14399,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 2.88,
     `ScriptName` = ''
 WHERE `entry` = 9102415;
 
@@ -72041,10 +72041,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 11445,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.04,
     `ScriptName` = ''
 WHERE `entry` = 9102416;
 
@@ -72084,10 +72084,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 11448,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.94,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9102417;
 
@@ -72127,10 +72127,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 11484,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.26,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9102418;
 
@@ -72170,8 +72170,8 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 0,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
     `HealthModifier` = 3.48,
     `ScriptName` = ''
@@ -72213,10 +72213,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 14398,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.19,
+    `HealthModifier` = 3.47,
     `ScriptName` = ''
 WHERE `entry` = 9102420;
 
@@ -72256,10 +72256,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.97,
-    `lootid` = 11475,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9102421;
 
@@ -72299,10 +72299,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 11469,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9102422;
 
@@ -72342,10 +72342,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 11470,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9102423;
 
@@ -72385,10 +72385,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 11473,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.89,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9102424;
 
@@ -72428,10 +72428,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 14351,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.83,
+    `HealthModifier` = 3.06,
     `ScriptName` = ''
 WHERE `entry` = 9102425;
 
@@ -72471,10 +72471,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 11477,
+    `DamageModifier` = 2.07,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.09,
+    `HealthModifier` = 3.07,
     `ScriptName` = ''
 WHERE `entry` = 9102426;
 
@@ -72514,10 +72514,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 11459,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.4,
     `ScriptName` = ''
 WHERE `entry` = 9102427;
 
@@ -72557,10 +72557,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.96,
-    `lootid` = 11483,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.16,
+    `HealthModifier` = 3.37,
     `ScriptName` = ''
 WHERE `entry` = 9102428;
 
@@ -72600,10 +72600,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 14303,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.95,
+    `HealthModifier` = 3.11,
     `ScriptName` = ''
 WHERE `entry` = 9102429;
 
@@ -72643,10 +72643,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 11458,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.1,
+    `HealthModifier` = 3.3,
     `ScriptName` = ''
 WHERE `entry` = 9102430;
 
@@ -72686,10 +72686,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 13036,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.14,
+    `HealthModifier` = 3.43,
     `ScriptName` = ''
 WHERE `entry` = 9102431;
 
@@ -72729,10 +72729,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 2.9,
     `ScriptName` = ''
 WHERE `entry` = 9102432;
 
@@ -72772,10 +72772,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 0,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.34,
+    `HealthModifier` = 2.88,
     `ScriptName` = ''
 WHERE `entry` = 9102433;
 
@@ -72815,10 +72815,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 13285,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.35,
     `ScriptName` = ''
 WHERE `entry` = 9102434;
 
@@ -72859,9 +72859,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.09,
-    `lootid` = 11471,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 2.84,
     `ScriptName` = ''
 WHERE `entry` = 9102435;
 
@@ -72901,10 +72901,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 11472,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.93,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9102436;
 
@@ -72944,10 +72944,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 11441,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.97,
+    `HealthModifier` = 3.17,
     `ScriptName` = ''
 WHERE `entry` = 9102437;
 
@@ -72987,10 +72987,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.02,
-    `lootid` = 11444,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 2.86,
     `ScriptName` = ''
 WHERE `entry` = 9102438;
 
@@ -73030,10 +73030,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 11461,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.37,
+    `HealthModifier` = 3.41,
     `ScriptName` = ''
 WHERE `entry` = 9102439;
 
@@ -73073,10 +73073,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 11465,
+    `DamageModifier` = 1.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.31,
+    `HealthModifier` = 2.92,
     `ScriptName` = ''
 WHERE `entry` = 9102440;
 
@@ -73116,10 +73116,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.1,
+    `HealthModifier` = 3.21,
     `ScriptName` = ''
 WHERE `entry` = 9102441;
 
@@ -73159,10 +73159,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 11457,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.35,
+    `HealthModifier` = 3.05,
     `ScriptName` = ''
 WHERE `entry` = 9102442;
 
@@ -73202,8 +73202,8 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.92,
-    `lootid` = 11452,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100419,
     `AIName` = '',
     `HealthModifier` = 3.06,
     `ScriptName` = ''
@@ -73245,10 +73245,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.07,
-    `lootid` = 11453,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.87,
+    `HealthModifier` = 3.44,
     `ScriptName` = ''
 WHERE `entry` = 9102444;
 
@@ -73288,10 +73288,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 13197,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.96,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9102445;
 
@@ -73331,10 +73331,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 13021,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.44,
+    `HealthModifier` = 3.47,
     `ScriptName` = ''
 WHERE `entry` = 9102446;
 
@@ -73374,10 +73374,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 11456,
+    `DamageModifier` = 1.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.81,
+    `HealthModifier` = 3.47,
     `ScriptName` = ''
 WHERE `entry` = 9102447;
 
@@ -73417,10 +73417,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.12,
+    `HealthModifier` = 3.27,
     `ScriptName` = ''
 WHERE `entry` = 9102448;
 
@@ -73460,10 +73460,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.95,
-    `lootid` = 13276,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.17,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9102449;
 
@@ -73503,10 +73503,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.08,
-    `lootid` = 11464,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.43,
+    `HealthModifier` = 3.29,
     `ScriptName` = ''
 WHERE `entry` = 9102450;
 
@@ -73546,10 +73546,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.9,
-    `lootid` = 11454,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.84,
+    `HealthModifier` = 3.16,
     `ScriptName` = ''
 WHERE `entry` = 9102451;
 
@@ -73589,10 +73589,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 11455,
+    `DamageModifier` = 2.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.47,
+    `HealthModifier` = 3.15,
     `ScriptName` = ''
 WHERE `entry` = 9102452;
 
@@ -73632,10 +73632,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 11451,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.22,
+    `HealthModifier` = 2.96,
     `ScriptName` = ''
 WHERE `entry` = 9102453;
 
@@ -73675,10 +73675,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.4,
+    `HealthModifier` = 3.48,
     `ScriptName` = ''
 WHERE `entry` = 9102454;
 
@@ -73718,10 +73718,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 13196,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.18,
+    `HealthModifier` = 2.95,
     `ScriptName` = ''
 WHERE `entry` = 9102455;
 
@@ -73761,10 +73761,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.05,
-    `lootid` = 11462,
+    `DamageModifier` = 1.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9102456;
 
@@ -73804,10 +73804,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 13022,
+    `DamageModifier` = 2.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.23,
     `ScriptName` = ''
 WHERE `entry` = 9102457;
 
@@ -73847,10 +73847,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 3.15,
+    `HealthModifier` = 3.31,
     `ScriptName` = ''
 WHERE `entry` = 9102458;
 
@@ -73890,10 +73890,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 4.99,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.46,
+    `HealthModifier` = 6.02,
     `ScriptName` = ''
 WHERE `entry` = 9102459;
 
@@ -73933,10 +73933,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.02,
+    `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.08,
+    `HealthModifier` = 6.25,
     `ScriptName` = ''
 WHERE `entry` = 9102460;
 
@@ -73976,10 +73976,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.98,
+    `DamageModifier` = 5.02,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.81,
+    `HealthModifier` = 6.47,
     `ScriptName` = ''
 WHERE `entry` = 9102461;
 
@@ -74019,10 +74019,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.97,
+    `HealthModifier` = 6.07,
     `ScriptName` = ''
 WHERE `entry` = 9102462;
 
@@ -74062,10 +74062,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.97,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.17,
+    `HealthModifier` = 5.9,
     `ScriptName` = ''
 WHERE `entry` = 9102463;
 
@@ -74105,10 +74105,10 @@ UPDATE `creature_template` SET
     `subname` = 'Ruler of the Shen''dralar',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.91,
+    `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.22,
+    `HealthModifier` = 6.19,
     `ScriptName` = ''
 WHERE `entry` = 9102464;
 
@@ -74148,10 +74148,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.04,
+    `HealthModifier` = 6.14,
     `ScriptName` = ''
 WHERE `entry` = 9102465;
 
@@ -74191,10 +74191,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.96,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.0,
+    `HealthModifier` = 5.82,
     `ScriptName` = ''
 WHERE `entry` = 9102466;
 
@@ -74234,10 +74234,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 4.92,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.93,
+    `HealthModifier` = 5.97,
     `ScriptName` = ''
 WHERE `entry` = 9102467;
 
@@ -74277,10 +74277,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 4.91,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.15,
+    `HealthModifier` = 6.47,
     `ScriptName` = ''
 WHERE `entry` = 9102468;
 
@@ -74323,7 +74323,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 4.93,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.28,
+    `HealthModifier` = 6.3,
     `ScriptName` = ''
 WHERE `entry` = 9102469;
 
@@ -74363,10 +74363,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.01,
+    `DamageModifier` = 4.95,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.26,
+    `HealthModifier` = 6.15,
     `ScriptName` = ''
 WHERE `entry` = 9102470;
 
@@ -74406,10 +74406,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.94,
+    `DamageModifier` = 4.99,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.28,
+    `HealthModifier` = 6.45,
     `ScriptName` = ''
 WHERE `entry` = 9102471;
 
@@ -74449,10 +74449,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 5.08,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.33,
+    `HealthModifier` = 6.36,
     `ScriptName` = ''
 WHERE `entry` = 9102472;
 
@@ -74492,10 +74492,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Drunk',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.07,
+    `DamageModifier` = 4.94,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.29,
+    `HealthModifier` = 5.85,
     `ScriptName` = ''
 WHERE `entry` = 9102473;
 
@@ -74535,10 +74535,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.08,
+    `DamageModifier` = 5.07,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.93,
+    `HealthModifier` = 6.17,
     `ScriptName` = ''
 WHERE `entry` = 9102474;
 
@@ -74578,10 +74578,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.04,
+    `DamageModifier` = 5.09,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.97,
+    `HealthModifier` = 6.49,
     `ScriptName` = ''
 WHERE `entry` = 9102475;
 
@@ -74621,10 +74621,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.95,
+    `DamageModifier` = 4.96,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 5.95,
+    `HealthModifier` = 5.82,
     `ScriptName` = ''
 WHERE `entry` = 9102476;
 
@@ -74664,10 +74664,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.0,
+    `DamageModifier` = 5.01,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.35,
+    `HealthModifier` = 6.03,
     `ScriptName` = ''
 WHERE `entry` = 9102477;
 
@@ -74707,10 +74707,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 5.03,
+    `DamageModifier` = 5.01,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.14,
+    `HealthModifier` = 6.3,
     `ScriptName` = ''
 WHERE `entry` = 9102478;
 
@@ -74750,10 +74750,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 4.98,
+    `DamageModifier` = 5.06,
     `lootid` = 9100400,
     `AIName` = '',
-    `HealthModifier` = 6.06,
+    `HealthModifier` = 6.37,
     `ScriptName` = ''
 WHERE `entry` = 9102479;
 
@@ -74793,10 +74793,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.96,
-    `lootid` = 0,
+    `DamageModifier` = 1.06,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.01,
+    `HealthModifier` = 2.04,
     `ScriptName` = ''
 WHERE `entry` = 9102480;
 
@@ -74836,10 +74836,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.91,
-    `lootid` = 0,
+    `DamageModifier` = 0.9,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.49,
+    `HealthModifier` = 1.89,
     `ScriptName` = ''
 WHERE `entry` = 9102481;
 
@@ -74879,10 +74879,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.91,
-    `lootid` = 0,
+    `DamageModifier` = 0.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.3,
+    `HealthModifier` = 2.26,
     `ScriptName` = ''
 WHERE `entry` = 9102482;
 
@@ -74922,10 +74922,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.95,
-    `lootid` = 0,
+    `DamageModifier` = 0.91,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.44,
+    `HealthModifier` = 2.19,
     `ScriptName` = ''
 WHERE `entry` = 9102483;
 
@@ -74965,10 +74965,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.03,
-    `lootid` = 0,
+    `DamageModifier` = 0.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.47,
+    `HealthModifier` = 2.15,
     `ScriptName` = ''
 WHERE `entry` = 9102484;
 
@@ -75008,10 +75008,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.06,
-    `lootid` = 0,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.28,
+    `HealthModifier` = 2.45,
     `ScriptName` = ''
 WHERE `entry` = 9102485;
 
@@ -75051,10 +75051,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.07,
-    `lootid` = 0,
+    `DamageModifier` = 0.96,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.99,
+    `HealthModifier` = 1.81,
     `ScriptName` = ''
 WHERE `entry` = 9102486;
 
@@ -75094,10 +75094,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.99,
-    `lootid` = 0,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.98,
+    `HealthModifier` = 2.07,
     `ScriptName` = ''
 WHERE `entry` = 9102487;
 
@@ -75137,10 +75137,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.04,
-    `lootid` = 0,
+    `DamageModifier` = 0.92,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.39,
+    `HealthModifier` = 1.83,
     `ScriptName` = ''
 WHERE `entry` = 9102488;
 
@@ -75180,10 +75180,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.98,
-    `lootid` = 14400,
+    `DamageModifier` = 0.99,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.14,
+    `HealthModifier` = 2.27,
     `ScriptName` = ''
 WHERE `entry` = 9102489;
 
@@ -75223,10 +75223,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.94,
-    `lootid` = 14385,
+    `DamageModifier` = 0.93,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.43,
+    `HealthModifier` = 2.04,
     `ScriptName` = ''
 WHERE `entry` = 9102490;
 
@@ -75266,10 +75266,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.1,
-    `lootid` = 0,
+    `DamageModifier` = 0.94,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.89,
+    `HealthModifier` = 1.86,
     `ScriptName` = ''
 WHERE `entry` = 9102491;
 
@@ -75309,10 +75309,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.94,
-    `lootid` = 0,
+    `DamageModifier` = 1.03,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.11,
+    `HealthModifier` = 2.28,
     `ScriptName` = ''
 WHERE `entry` = 9102492;
 
@@ -75352,10 +75352,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.91,
-    `lootid` = 13160,
+    `DamageModifier` = 1.01,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 1.83,
+    `HealthModifier` = 1.84,
     `ScriptName` = ''
 WHERE `entry` = 9102493;
 
@@ -75395,10 +75395,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 0.92,
-    `lootid` = 11476,
+    `DamageModifier` = 1.04,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.48,
+    `HealthModifier` = 2.16,
     `ScriptName` = ''
 WHERE `entry` = 9102494;
 
@@ -75438,10 +75438,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.09,
-    `lootid` = 0,
+    `DamageModifier` = 1.05,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.42,
+    `HealthModifier` = 2.2,
     `ScriptName` = ''
 WHERE `entry` = 9102495;
 
@@ -75481,10 +75481,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.08,
-    `lootid` = 0,
+    `DamageModifier` = 1.1,
+    `lootid` = 9100419,
     `AIName` = '',
-    `HealthModifier` = 2.27,
+    `HealthModifier` = 2.19,
     `ScriptName` = ''
 WHERE `entry` = 9102496;
 
@@ -75524,10 +75524,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 0,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.13,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9102497;
 
@@ -75567,10 +75567,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 14502,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.12,
+    `HealthModifier` = 4.27,
     `ScriptName` = ''
 WHERE `entry` = 9102498;
 
@@ -75610,10 +75610,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 11450,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 4.46,
     `ScriptName` = ''
 WHERE `entry` = 9102499;
 
@@ -75653,10 +75653,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 14308,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.5,
+    `HealthModifier` = 4.32,
     `ScriptName` = ''
 WHERE `entry` = 9102500;
 
@@ -75696,10 +75696,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 0,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.49,
     `ScriptName` = ''
 WHERE `entry` = 9102501;
 
@@ -75739,10 +75739,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.93,
-    `lootid` = 0,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.11,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9102502;
 
@@ -75782,10 +75782,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 0,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.35,
+    `HealthModifier` = 4.32,
     `ScriptName` = ''
 WHERE `entry` = 9102503;
 
@@ -75825,10 +75825,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 0,
+    `DamageModifier` = 3.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.4,
+    `HealthModifier` = 3.92,
     `ScriptName` = ''
 WHERE `entry` = 9102504;
 
@@ -75868,10 +75868,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 0,
+    `DamageModifier` = 3.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.05,
+    `HealthModifier` = 3.95,
     `ScriptName` = ''
 WHERE `entry` = 9102505;
 
@@ -75911,10 +75911,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 0,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.14,
     `ScriptName` = ''
 WHERE `entry` = 9102506;
 
@@ -75954,10 +75954,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 0,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.25,
+    `HealthModifier` = 4.15,
     `ScriptName` = ''
 WHERE `entry` = 9102507;
 
@@ -75997,10 +75997,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 0,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.09,
     `ScriptName` = ''
 WHERE `entry` = 9102508;
 
@@ -76040,10 +76040,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 14690,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 3.81,
     `ScriptName` = ''
 WHERE `entry` = 9102509;
 
@@ -76083,10 +76083,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 0,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 3.83,
     `ScriptName` = ''
 WHERE `entry` = 9102510;
 
@@ -76126,10 +76126,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 11480,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 3.85,
     `ScriptName` = ''
 WHERE `entry` = 9102511;
 
@@ -76169,10 +76169,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.95,
-    `lootid` = 14399,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9102512;
 
@@ -76212,10 +76212,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 11445,
+    `DamageModifier` = 2.96,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.08,
+    `HealthModifier` = 3.84,
     `ScriptName` = ''
 WHERE `entry` = 9102513;
 
@@ -76255,10 +76255,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 11448,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.26,
+    `HealthModifier` = 3.82,
     `ScriptName` = ''
 WHERE `entry` = 9102514;
 
@@ -76298,10 +76298,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 11484,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.4,
+    `HealthModifier` = 4.31,
     `ScriptName` = ''
 WHERE `entry` = 9102515;
 
@@ -76341,10 +76341,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 0,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.18,
+    `HealthModifier` = 4.5,
     `ScriptName` = ''
 WHERE `entry` = 9102516;
 
@@ -76384,10 +76384,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 14398,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.18,
+    `HealthModifier` = 4.02,
     `ScriptName` = ''
 WHERE `entry` = 9102517;
 
@@ -76427,10 +76427,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.09,
-    `lootid` = 11475,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.32,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9102518;
 
@@ -76470,10 +76470,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 11469,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.26,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9102519;
 
@@ -76513,10 +76513,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.01,
-    `lootid` = 11470,
+    `DamageModifier` = 2.9,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.88,
+    `HealthModifier` = 4.13,
     `ScriptName` = ''
 WHERE `entry` = 9102520;
 
@@ -76556,10 +76556,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 11473,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.38,
+    `HealthModifier` = 3.8,
     `ScriptName` = ''
 WHERE `entry` = 9102521;
 
@@ -76599,10 +76599,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 14351,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.45,
+    `HealthModifier` = 3.92,
     `ScriptName` = ''
 WHERE `entry` = 9102522;
 
@@ -76642,10 +76642,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 11477,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.92,
+    `HealthModifier` = 4.32,
     `ScriptName` = ''
 WHERE `entry` = 9102523;
 
@@ -76685,10 +76685,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.03,
-    `lootid` = 11459,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.87,
+    `HealthModifier` = 4.27,
     `ScriptName` = ''
 WHERE `entry` = 9102524;
 
@@ -76728,10 +76728,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 11483,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.9,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9102525;
 
@@ -76771,10 +76771,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 14303,
+    `DamageModifier` = 2.99,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.32,
+    `HealthModifier` = 3.86,
     `ScriptName` = ''
 WHERE `entry` = 9102526;
 
@@ -76814,10 +76814,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 11458,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.23,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9102527;
 
@@ -76857,10 +76857,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.96,
-    `lootid` = 13036,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.93,
+    `HealthModifier` = 3.89,
     `ScriptName` = ''
 WHERE `entry` = 9102528;
 
@@ -76900,10 +76900,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.02,
-    `lootid` = 0,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.31,
+    `HealthModifier` = 4.25,
     `ScriptName` = ''
 WHERE `entry` = 9102529;
 
@@ -76943,10 +76943,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 0,
+    `DamageModifier` = 2.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.25,
+    `HealthModifier` = 4.16,
     `ScriptName` = ''
 WHERE `entry` = 9102530;
 
@@ -76986,10 +76986,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 13285,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.84,
+    `HealthModifier` = 4.15,
     `ScriptName` = ''
 WHERE `entry` = 9102531;
 
@@ -77029,10 +77029,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.99,
-    `lootid` = 11471,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.44,
+    `HealthModifier` = 4.21,
     `ScriptName` = ''
 WHERE `entry` = 9102532;
 
@@ -77072,10 +77072,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 11472,
+    `DamageModifier` = 3.08,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.19,
+    `HealthModifier` = 4.06,
     `ScriptName` = ''
 WHERE `entry` = 9102533;
 
@@ -77115,10 +77115,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 11441,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.11,
+    `HealthModifier` = 3.88,
     `ScriptName` = ''
 WHERE `entry` = 9102534;
 
@@ -77158,10 +77158,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 11444,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.85,
+    `HealthModifier` = 3.98,
     `ScriptName` = ''
 WHERE `entry` = 9102535;
 
@@ -77201,10 +77201,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 11461,
+    `DamageModifier` = 3.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.29,
+    `HealthModifier` = 4.07,
     `ScriptName` = ''
 WHERE `entry` = 9102536;
 
@@ -77244,10 +77244,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.0,
-    `lootid` = 11465,
+    `DamageModifier` = 2.91,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.41,
+    `HealthModifier` = 4.43,
     `ScriptName` = ''
 WHERE `entry` = 9102537;
 
@@ -77287,10 +77287,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 0,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.06,
+    `HealthModifier` = 4.22,
     `ScriptName` = ''
 WHERE `entry` = 9102538;
 
@@ -77330,10 +77330,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.1,
-    `lootid` = 11457,
+    `DamageModifier` = 2.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.06,
+    `HealthModifier` = 3.84,
     `ScriptName` = ''
 WHERE `entry` = 9102539;
 
@@ -77373,10 +77373,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 11452,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 4.16,
     `ScriptName` = ''
 WHERE `entry` = 9102540;
 
@@ -77417,9 +77417,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.91,
-    `lootid` = 11453,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 4.06,
     `ScriptName` = ''
 WHERE `entry` = 9102541;
 
@@ -77459,10 +77459,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.98,
-    `lootid` = 13197,
+    `DamageModifier` = 3.04,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.25,
+    `HealthModifier` = 3.81,
     `ScriptName` = ''
 WHERE `entry` = 9102542;
 
@@ -77502,10 +77502,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.92,
-    `lootid` = 13021,
+    `DamageModifier` = 2.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.2,
+    `HealthModifier` = 4.44,
     `ScriptName` = ''
 WHERE `entry` = 9102543;
 
@@ -77545,10 +77545,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.04,
-    `lootid` = 11456,
+    `DamageModifier` = 3.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.41,
+    `HealthModifier` = 4.0,
     `ScriptName` = ''
 WHERE `entry` = 9102544;
 
@@ -77588,10 +77588,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.06,
-    `lootid` = 0,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.07,
+    `HealthModifier` = 4.48,
     `ScriptName` = ''
 WHERE `entry` = 9102545;
 
@@ -77631,10 +77631,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 13276,
+    `DamageModifier` = 2.93,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 4.41,
     `ScriptName` = ''
 WHERE `entry` = 9102546;
 
@@ -77674,10 +77674,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 11464,
+    `DamageModifier` = 3.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.32,
+    `HealthModifier` = 3.9,
     `ScriptName` = ''
 WHERE `entry` = 9102547;
 
@@ -77717,10 +77717,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.07,
-    `lootid` = 11454,
+    `DamageModifier` = 3.1,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.81,
+    `HealthModifier` = 3.96,
     `ScriptName` = ''
 WHERE `entry` = 9102548;
 
@@ -77760,10 +77760,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.9,
-    `lootid` = 11455,
+    `DamageModifier` = 3.0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.32,
+    `HealthModifier` = 4.18,
     `ScriptName` = ''
 WHERE `entry` = 9102549;
 
@@ -77803,10 +77803,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.97,
-    `lootid` = 11451,
+    `DamageModifier` = 3.07,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.46,
+    `HealthModifier` = 4.07,
     `ScriptName` = ''
 WHERE `entry` = 9102550;
 
@@ -77846,10 +77846,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 0,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.36,
+    `HealthModifier` = 4.3,
     `ScriptName` = ''
 WHERE `entry` = 9102551;
 
@@ -77889,10 +77889,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.08,
-    `lootid` = 13196,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.4,
+    `HealthModifier` = 4.35,
     `ScriptName` = ''
 WHERE `entry` = 9102552;
 
@@ -77932,10 +77932,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.91,
-    `lootid` = 11462,
+    `DamageModifier` = 2.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.22,
+    `HealthModifier` = 4.29,
     `ScriptName` = ''
 WHERE `entry` = 9102553;
 
@@ -77975,10 +77975,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.94,
-    `lootid` = 13022,
+    `DamageModifier` = 2.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.82,
+    `HealthModifier` = 4.34,
     `ScriptName` = ''
 WHERE `entry` = 9102554;
 
@@ -78018,10 +78018,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 3.05,
-    `lootid` = 0,
+    `DamageModifier` = 3.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 4.12,
+    `HealthModifier` = 3.99,
     `ScriptName` = ''
 WHERE `entry` = 9102555;
 
@@ -78061,10 +78061,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.05,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.43,
+    `HealthModifier` = 7.89,
     `ScriptName` = ''
 WHERE `entry` = 9102556;
 
@@ -78104,10 +78104,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.91,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.0,
+    `HealthModifier` = 8.38,
     `ScriptName` = ''
 WHERE `entry` = 9102557;
 
@@ -78147,10 +78147,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.92,
+    `DamageModifier` = 6.96,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.99,
+    `HealthModifier` = 8.34,
     `ScriptName` = ''
 WHERE `entry` = 9102558;
 
@@ -78190,10 +78190,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.02,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.09,
+    `HealthModifier` = 8.28,
     `ScriptName` = ''
 WHERE `entry` = 9102559;
 
@@ -78233,10 +78233,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.0,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.91,
+    `HealthModifier` = 8.45,
     `ScriptName` = ''
 WHERE `entry` = 9102560;
 
@@ -78276,10 +78276,10 @@ UPDATE `creature_template` SET
     `subname` = 'Ruler of the Shen''dralar',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.0,
+    `DamageModifier` = 7.05,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.36,
+    `HealthModifier` = 7.97,
     `ScriptName` = ''
 WHERE `entry` = 9102561;
 
@@ -78319,10 +78319,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.09,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.85,
+    `HealthModifier` = 8.01,
     `ScriptName` = ''
 WHERE `entry` = 9102562;
 
@@ -78362,10 +78362,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.03,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.16,
+    `HealthModifier` = 7.87,
     `ScriptName` = ''
 WHERE `entry` = 9102563;
 
@@ -78405,10 +78405,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.1,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.48,
+    `HealthModifier` = 7.99,
     `ScriptName` = ''
 WHERE `entry` = 9102564;
 
@@ -78448,10 +78448,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.98,
+    `DamageModifier` = 6.96,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.11,
+    `HealthModifier` = 7.85,
     `ScriptName` = ''
 WHERE `entry` = 9102565;
 
@@ -78491,10 +78491,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 7.06,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.35,
+    `HealthModifier` = 7.91,
     `ScriptName` = ''
 WHERE `entry` = 9102566;
 
@@ -78534,10 +78534,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 6.99,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.82,
+    `HealthModifier` = 8.31,
     `ScriptName` = ''
 WHERE `entry` = 9102567;
 
@@ -78577,10 +78577,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.97,
+    `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.31,
+    `HealthModifier` = 7.91,
     `ScriptName` = ''
 WHERE `entry` = 9102568;
 
@@ -78620,10 +78620,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.31,
+    `HealthModifier` = 7.96,
     `ScriptName` = ''
 WHERE `entry` = 9102569;
 
@@ -78663,10 +78663,10 @@ UPDATE `creature_template` SET
     `subname` = 'The Drunk',
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.03,
+    `DamageModifier` = 6.98,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.38,
+    `HealthModifier` = 8.44,
     `ScriptName` = ''
 WHERE `entry` = 9102570;
 
@@ -78706,10 +78706,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.04,
+    `DamageModifier` = 7.01,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 7.81,
+    `HealthModifier` = 7.94,
     `ScriptName` = ''
 WHERE `entry` = 9102571;
 
@@ -78749,10 +78749,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.01,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.42,
+    `HealthModifier` = 8.0,
     `ScriptName` = ''
 WHERE `entry` = 9102572;
 
@@ -78792,10 +78792,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 6.94,
+    `DamageModifier` = 7.07,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.17,
+    `HealthModifier` = 8.5,
     `ScriptName` = ''
 WHERE `entry` = 9102573;
 
@@ -78835,10 +78835,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 7.08,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.22,
+    `HealthModifier` = 7.94,
     `ScriptName` = ''
 WHERE `entry` = 9102574;
 
@@ -78878,10 +78878,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 63,
     `maxlevel` = 63,
-    `DamageModifier` = 7.07,
+    `DamageModifier` = 6.95,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.25,
+    `HealthModifier` = 7.8,
     `ScriptName` = ''
 WHERE `entry` = 9102575;
 
@@ -78924,7 +78924,7 @@ UPDATE `creature_template` SET
     `DamageModifier` = 6.94,
     `lootid` = 9100500,
     `AIName` = '',
-    `HealthModifier` = 8.03,
+    `HealthModifier` = 8.08,
     `ScriptName` = ''
 WHERE `entry` = 9102576;
 
@@ -78964,10 +78964,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.99,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.2,
+    `HealthModifier` = 2.91,
     `ScriptName` = ''
 WHERE `entry` = 9102577;
 
@@ -79007,10 +79007,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.91,
+    `HealthModifier` = 2.85,
     `ScriptName` = ''
 WHERE `entry` = 9102578;
 
@@ -79050,10 +79050,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 0,
+    `DamageModifier` = 1.95,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.49,
+    `HealthModifier` = 3.07,
     `ScriptName` = ''
 WHERE `entry` = 9102579;
 
@@ -79093,10 +79093,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.04,
-    `lootid` = 0,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 2.81,
     `ScriptName` = ''
 WHERE `entry` = 9102580;
 
@@ -79136,10 +79136,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 0,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.24,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9102581;
 
@@ -79179,10 +79179,10 @@ UPDATE `creature_template` SET
     `subname` = 'House of Shen''dralar',
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.98,
-    `lootid` = 0,
+    `DamageModifier` = 2.06,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.39,
+    `HealthModifier` = 3.01,
     `ScriptName` = ''
 WHERE `entry` = 9102582;
 
@@ -79222,10 +79222,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.03,
-    `lootid` = 0,
+    `DamageModifier` = 1.94,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.98,
+    `HealthModifier` = 3.45,
     `ScriptName` = ''
 WHERE `entry` = 9102583;
 
@@ -79265,10 +79265,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.0,
-    `lootid` = 0,
+    `DamageModifier` = 2.09,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.88,
+    `HealthModifier` = 3.13,
     `ScriptName` = ''
 WHERE `entry` = 9102584;
 
@@ -79308,10 +79308,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.01,
-    `lootid` = 0,
+    `DamageModifier` = 1.98,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.32,
+    `HealthModifier` = 2.82,
     `ScriptName` = ''
 WHERE `entry` = 9102585;
 
@@ -79351,10 +79351,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 14400,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.07,
+    `HealthModifier` = 3.08,
     `ScriptName` = ''
 WHERE `entry` = 9102586;
 
@@ -79394,10 +79394,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.94,
-    `lootid` = 14385,
+    `DamageModifier` = 1.97,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.3,
+    `HealthModifier` = 2.86,
     `ScriptName` = ''
 WHERE `entry` = 9102587;
 
@@ -79437,10 +79437,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.91,
-    `lootid` = 0,
+    `DamageModifier` = 2.02,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.94,
+    `HealthModifier` = 3.09,
     `ScriptName` = ''
 WHERE `entry` = 9102588;
 
@@ -79480,10 +79480,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.06,
-    `lootid` = 0,
+    `DamageModifier` = 2.05,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.11,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9102589;
 
@@ -79523,10 +79523,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 1.93,
-    `lootid` = 13160,
+    `DamageModifier` = 2.03,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.23,
+    `HealthModifier` = 3.42,
     `ScriptName` = ''
 WHERE `entry` = 9102590;
 
@@ -79566,10 +79566,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.09,
-    `lootid` = 11476,
+    `DamageModifier` = 1.92,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.28,
+    `HealthModifier` = 3.03,
     `ScriptName` = ''
 WHERE `entry` = 9102591;
 
@@ -79610,9 +79610,9 @@ UPDATE `creature_template` SET
     `minlevel` = 60,
     `maxlevel` = 60,
     `DamageModifier` = 2.04,
-    `lootid` = 0,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 2.85,
+    `HealthModifier` = 3.1,
     `ScriptName` = ''
 WHERE `entry` = 9102592;
 
@@ -79652,10 +79652,10 @@ UPDATE `creature_template` SET
     `subname` = NULL,
     `minlevel` = 60,
     `maxlevel` = 60,
-    `DamageModifier` = 2.1,
-    `lootid` = 0,
+    `DamageModifier` = 2.01,
+    `lootid` = 9100519,
     `AIName` = '',
-    `HealthModifier` = 3.0,
+    `HealthModifier` = 2.99,
     `ScriptName` = ''
 WHERE `entry` = 9102593;
 

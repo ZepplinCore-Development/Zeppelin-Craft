@@ -1,0 +1,24 @@
+{
+  "_comment": "Per-tier item-level and required-level configuration for F-013 item generator. Heroic ilvl is the tier's high-end normal loot; mythic is one step above. RequiredLevel matches the upper bound of the dungeon level bracket.",
+
+  "azeroth": {
+    "level_range": [1, 60],
+    "required_level": 60,
+    "heroic_item_level": 66,
+    "mythic_item_level": 76
+  },
+
+  "outland": {
+    "level_range": [60, 70],
+    "required_level": 68,
+    "heroic_item_level": 130,
+    "mythic_item_level": 146
+  },
+
+  "northrend": {
+    "level_range": [70, 80],
+    "required_level": 78,
+    "heroic_item_level": 200,
+    "mythic_item_level": 232
+  }
+}

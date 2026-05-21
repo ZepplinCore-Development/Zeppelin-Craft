@@ -1,10 +1,8 @@
 {
     "_comment": "Creature definitions for Heroic Creature Convertor. Creates heroic/mythic versions of dungeon creatures with scaled stats.",
-
     "Ragefire_Chasm": {
         "entry_start": 9100000,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 389,
         "boss": [11519, 11518, 11517, 11520, 17830],
         "rare": [],
@@ -13,8 +11,7 @@
     },
     "Wailing_Caverns": {
         "entry_start": 9100100,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 43,
         "boss": [3653, 3671, 3669, 3670, 3673, 3654, 3674, 5775],
         "rare": [5912],
@@ -23,8 +20,7 @@
     },
     "The_Deadmines": {
         "entry_start": 9100200,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 36,
         "boss": [639, 647, 645, 1763, 646, 643, 642, 644],
         "rare": [3586],
@@ -33,8 +29,7 @@
     },
     "Shadowfang_Keep": {
         "entry_start": 9100300,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 33,
         "boss": [3914, 3886, 3887, 4278, 4279, 3872, 4274, 3927, 4275],
         "rare": [],
@@ -43,8 +38,7 @@
     },
     "The_Stockade": {
         "entry_start": 9100400,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 34,
         "boss": [1696, 1663, 1720, 1666, 1717, 1716],
         "rare": [],
@@ -53,8 +47,7 @@
     },
     "Blackfathom_Deeps": {
         "entry_start": 9100500,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 48,
         "boss": [4829, 12876, 6243, 12902, 4830, 4832, 4887, 4831],
         "rare": [],
@@ -63,8 +56,7 @@
     },
     "Gnomeregan": {
         "entry_start": 9100600,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 90,
         "boss": [6229, 6235, 7361, 7800, 7079],
         "rare": [6228],
@@ -73,8 +65,7 @@
     },
     "Razorfen_Kraul": {
         "entry_start": 9100700,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 47,
         "boss": [4422, 4424, 4421, 4428, 4420, 6168],
         "rare": [4425, 4842],
@@ -83,8 +74,7 @@
     },
     "Scarlet_Monastery": {
         "entry_start": 9100800,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 189,
         "boss": [3983, 3977, 3976, 3975, 4542, 6487, 4543, 3974],
         "rare": [6488, 6490, 6489],
@@ -93,8 +83,7 @@
     },
     "Razorfen_Downs": {
         "entry_start": 9100900,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 129,
         "boss": [7358, 8567, 14686, 7357, 7356, 7354, 7355],
         "rare": [],
@@ -103,8 +92,7 @@
     },
     "Uldaman": {
         "entry_start": 9101000,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 70,
         "boss": [7206, 2748, 6906, 6907, 7291, 4854, 7228, 7023, 6908, 6910, 4857],
         "rare": [],
@@ -113,8 +101,7 @@
     },
     "Zul_Farrak": {
         "entry_start": 9101100,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 209,
         "boss": [8127, 7267, 7273, 7795, 7796, 7797, 7275, 7272, 7271],
         "rare": [10080, 10081, 10082],
@@ -123,8 +110,7 @@
     },
     "Maraudon": {
         "entry_start": 9101200,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 349,
         "boss": [12225, 12203, 12236, 13282, 12201, 12258, 13596, 13601],
         "rare": [12237],
@@ -133,8 +119,7 @@
     },
     "Sunken_Temple": {
         "entry_start": 9101300,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 109,
         "boss": [8443, 5721, 5722, 5710, 5719, 5711, 5709, 5720, 5715, 5714, 5717, 5712, 5716, 5713, 8580],
         "rare": [],
@@ -143,8 +128,7 @@
     },
     "Blackrock_Depths": {
         "entry_start": 9101400,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 230,
         "boss": [9156, 9035, 9031, 9016, 9438, 9442, 9443, 9439, 9437, 9441, 9039, 9040, 9019, 9029, 9056, 9033, 9037, 8983, 9027, 9028, 9034, 9032, 9018, 9319, 9537, 9017, 9025, 9938, 9030, 9502, 9499, 8929, 9024, 9543, 9038, 16059, 9042, 9036, 9041, 9476],
         "rare": [8923],
@@ -153,8 +137,7 @@
     },
     "Blackrock_Spire": {
         "entry_start": 9101700,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 229,
         "boss": [10363, 16042, 9816, 10430, 10429, 10339, 10584, 10268, 16080, 9568, 10264, 9736, 10220, 9196, 10596, 9237, 9236],
         "rare": [9596, 10263, 10376, 9718, 9218, 9219, 9217, 10509, 10899],
@@ -163,8 +146,7 @@
     },
     "Scholomance": {
         "entry_start": 9102000,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 289,
         "boss": [10506, 10503, 11622, 10433, 10432, 10508, 10505, 11261, 10901, 10507, 10504, 10502, 1853, 16118, 14695],
         "rare": [],
@@ -173,8 +155,7 @@
     },
     "Stratholme": {
         "entry_start": 9102200,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 329,
         "boss": [10811, 10813, 10436, 11121, 10997, 11120, 11058, 16101, 10435, 10438, 11032, 10437, 11143, 10439, 16102, 11082, 10516, 10808, 16387, 14684, 10440],
         "rare": [10558, 10393, 10809],
@@ -183,8 +164,7 @@
     },
     "Dire_Maul": {
         "entry_start": 9102400,
-        "loot_id": 9100400,
-        "mythic_loot_id": 9100500,
+        "tier": "azeroth",
         "map_id": 429,
         "boss": [16097, 14506, 11501, 14325, 11496, 11486, 14324, 11488, 11487, 11489, 11467, 14321, 14326, 14323, 14322, 11492, 13280, 14327, 14354, 11490, 14349],
         "rare": [],
