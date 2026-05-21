@@ -1,9 +1,7 @@
 {
   "_comment": "AtlasLoot section mappings - CLI shortcuts to Lua section names and creature IDs",
-
   "dungeon_sections": {
     "_comment": "Maps CLI shortcut -> AtlasLoot section name (multi-boss sections with BabbleBoss)",
-
     "rfc_taragaman": "RFCTaragaman",
     "rfc_jergosh": "RFCJergosh",
     "wc_magglish": "WCMagglish",
@@ -49,7 +47,6 @@
     "stock_bazil": "StockBazil",
     "stock_dextren": "StockDextren",
     "stock_bruegal": "StockBruegal",
-
     "gnome_techbot": "GnomeTechbot",
     "gnome_grubbis": "GnomeGrubbis",
     "gnome_viscousfallout": "GnomeViscousFallout",
@@ -88,7 +85,6 @@
     "mara_gizlock": "MaraGizlock",
     "mara_rotgrip": "MaraRotgrip",
     "mara_theradras": "MaraTheradras",
-
     "zf_antusul": "ZFAntusul",
     "zf_theka": "ZFThekatheMartyr",
     "zf_zumrah": "ZFWitchDoctorZumrah",
@@ -101,7 +97,6 @@
     "zf_zerillis": "ZFZerillis",
     "zf_bly": "ZFSergeantBly",
     "zf_velratha": "ZFHydromancerVelratha",
-
     "uld_revelosh": "UldRevelosh",
     "uld_ironaya": "UldIronaya",
     "uld_sentinel": "UldObsidianSentinel",
@@ -110,7 +105,6 @@
     "uld_grimlok": "UldGrimlok",
     "uld_archaedas": "UldArchaedas",
     "uld_baelog": "UldBaelog",
-
     "st_atalalarion": "STAtalalarion",
     "st_dreamscythe": "STDreamscytheWeaver",
     "st_hazzas": "STHazzasMorphaz",
@@ -119,7 +113,6 @@
     "st_avatar": "STAvatarofHakkar",
     "st_eranikus": "STEranikus",
     "st_trolls": "STTrollMinibosses",
-
     "brd_roccor": "BRDLordRoccor",
     "brd_pyron": "BRDPyron",
     "brd_gerstahn": "BRDHighInterrogatorGerstahn",
@@ -148,7 +141,6 @@
     "brd_fineous": "BRDFineousDarkvire",
     "brd_lyceum": "BRDLyceum",
     "brd_forgewright": "BRDForgewright",
-
     "lbrs_omokk": "LBRSOmokk",
     "lbrs_slavener": "LBRSSlavener",
     "lbrs_vosh": "LBRSVosh",
@@ -166,7 +158,6 @@
     "lbrs_zigris": "LBRSZigris",
     "lbrs_bashguud": "LBRSBashguud",
     "lbrs_lordmagus": "LBRSLordMagus",
-
     "ubrs_emberseer": "UBRSEmberseer",
     "ubrs_runewatcher": "UBRSRunewatcher",
     "ubrs_solakar": "UBRSSolakar",
@@ -175,7 +166,6 @@
     "ubrs_beast": "UBRSBeast",
     "ubrs_drakkisath": "UBRSDrakkisath",
     "ubrs_valthalak": "UBRSValthalak",
-
     "dme_pusillin": "DMEPusillin",
     "dme_zevrim": "DMEZevrimThornhoof",
     "dme_hydro": "DMEHydro",
@@ -183,7 +173,6 @@
     "dme_pimgib": "DMEPimgib",
     "dme_alzzin": "DMEAlzzin",
     "dme_isalien": "DMEIsalien",
-
     "dmn_fengus": "DMNGuardFengus",
     "dmn_slipkik": "DMNGuardSlipkik",
     "dmn_kromcrush": "DMNCaptainKromcrush",
@@ -192,7 +181,6 @@
     "dmn_chorush": "DMNChoRush",
     "dmn_gordok": "DMNKingGordok",
     "dmn_thimblejack": "DMNThimblejack",
-
     "dmw_tendris": "DMWTendrisWarpwood",
     "dmw_illyanna": "DMWIllyannaRavenoak",
     "dmw_magister": "DMWMagisterKalendris",
@@ -200,7 +188,6 @@
     "dmw_prince": "DMWPrinceTortheldrin",
     "dmw_helnurath": "DMWHelnurath",
     "dmw_tsuzee": "DMWTsuzee",
-
     "strat_courier": "STRATStratholmeCourier",
     "strat_fras": "STRATFrasSiabi",
     "strat_hearthsinger": "STRATHearthsingerForresten",
@@ -218,118 +205,166 @@
     "strat_balnazzar": "STRATBalnazzar",
     "strat_stonespine": "STRATStonespine",
     "strat_sothos": "STRATSothosJarien",
-
     "zg_edge_of_madness": "ZGEdgeofMadness"
   },
-
   "single_boss_sections": {
     "_comment": "Maps AtlasLoot section name -> creature ID (vanilla raids, single-boss sections)",
-
     "VCMarisa": 599,
     "VCNoble": 596,
     "VCThistlenettle": 626,
     "VCRhahkZor": 644,
+    "VCRhahkZorHEROIC": 644,
     "VCMinerJohnson": 3586,
     "VCGilnid": 1763,
+    "VCGilnidHEROIC": 1763,
     "VCSmite": 646,
+    "VCSmiteHEROIC": 646,
     "VCCookie": 645,
+    "VCCookieHEROIC": 645,
     "VCGreenskin": 647,
+    "VCGreenskinHEROIC": 647,
     "VCVanCleef": 639,
-
+    "VCVanCleefHEROIC": 639,
     "_comment_smc": "Scarlet Monastery Cathedral bosses",
     "SMCFairbanks": 4542,
-
+    "SMCFairbanksHEROIC": 4542,
     "_comment_smg": "Scarlet Monastery Graveyard bosses",
     "SMGVishas": 3983,
+    "SMGVishasHEROIC": 3983,
     "SMGThalnos": 4543,
+    "SMGThalnosHEROIC": 4543,
     "SMGIronspine": 6489,
     "SMGAzshir": 6490,
     "SMGFallenChampion": 6488,
-
     "_comment_sml": "Scarlet Monastery Library bosses",
     "SMLLoksey": 3974,
+    "SMLLokseyHEROIC": 3974,
     "SMLDoan": 6487,
-
+    "SMLDoanHEROIC": 6487,
     "_comment_rfc": "Ragefire Chasm bosses",
     "RFCTaragaman": 11520,
+    "RFCTaragamanHEROIC": 11520,
     "RFCJergosh": 11518,
-
+    "RFCJergoshHEROIC": 11518,
     "_comment_bfd": "Blackfathom Deeps bosses",
     "BFDGhamoora": 4887,
+    "BFDGhamooraHEROIC": 4887,
     "BFDSarevess": 4831,
+    "BFDSarevessHEROIC": 4831,
     "BFDGelihast": 6243,
+    "BFDGelihastHEROIC": 6243,
     "BFDAquanis": 12876,
+    "BFDAquanisHEROIC": 12876,
     "BFDKelris": 4832,
+    "BFDKelrisHEROIC": 4832,
     "BFDSerrakis": 4830,
+    "BFDSerrakisHEROIC": 4830,
     "BFDAkumai": 4829,
-
+    "BFDAkumaiHEROIC": 4829,
     "_comment_gnome": "Gnomeregan bosses",
     "GnomeTechbot": 6231,
     "GnomeGrubbis": 7361,
+    "GnomeGrubbisHEROIC": 7361,
     "GnomeViscousFallout": 7079,
+    "GnomeViscousFalloutHEROIC": 7079,
     "GnomeElectrocutioner": 6235,
+    "GnomeElectrocutionerHEROIC": 6235,
     "GnomeCrowdPummeler": 6229,
+    "GnomeCrowdPummelerHEROIC": 6229,
     "GnomeDarkIronAmbassador": 6228,
     "GnomeThermaplugg": 7800,
-
+    "GnomeThermapluggHEROIC": 7800,
     "_comment_mara": "Maraudon bosses",
     "MaraNoxxion": 13282,
+    "MaraNoxxionHEROIC": 13282,
     "MaraRazorlash": 12258,
+    "MaraRazorlashHEROIC": 12258,
     "MaraVyletongue": 12236,
+    "MaraVyletongueHEROIC": 12236,
     "MaraMeshlok": 12237,
     "MaraCelebras": 12225,
+    "MaraCelebrasHEROIC": 12225,
     "MaraLandslide": 12203,
+    "MaraLandslideHEROIC": 12203,
     "MaraGizlock": 13601,
+    "MaraGizlockHEROIC": 13601,
     "MaraRotgrip": 13596,
+    "MaraRotgripHEROIC": 13596,
     "MaraTheradras": 12201,
-
+    "MaraTheradrasHEROIC": 12201,
     "_comment_wc": "Wailing Caverns bosses",
     "WCMagglish": 3655,
     "WCTrigore": 3652,
     "WCBoahn": 3672,
     "WCCobrahn": 3669,
+    "WCCobrahnHEROIC": 3669,
     "WCAnacondra": 3671,
+    "WCAnacondraHEROIC": 3671,
     "WCKresh": 3653,
+    "WCKreshHEROIC": 3653,
     "WCPythas": 3670,
+    "WCPythasHEROIC": 3670,
     "WCSkum": 3674,
+    "WCSkumHEROIC": 3674,
     "WCSerpentis": 3673,
+    "WCSerpentisHEROIC": 3673,
     "WCVerdan": 5775,
+    "WCVerdanHEROIC": 5775,
     "WCMutanus": 3654,
+    "WCMutanusHEROIC": 3654,
     "WCFaerie": 5912,
-
     "_comment_rfd": "Razorfen Downs bosses",
     "RFDTutenkash": 7355,
+    "RFDTutenkashHEROIC": 7355,
     "RFDMordresh": 7357,
+    "RFDMordreshHEROIC": 7357,
     "RFDGlutton": 8567,
+    "RFDGluttonHEROIC": 8567,
     "RFDRagglesnout": 7354,
+    "RFDRagglesnoutHEROIC": 7354,
     "RFDAmnennar": 7358,
+    "RFDAmnennarHEROIC": 7358,
     "RFDPlaguemaw": 7356,
-
+    "RFDPlaguemawHEROIC": 7356,
     "_comment_rfk": "Razorfen Kraul bosses",
     "RFKJargba": 4428,
+    "RFKJargbaHEROIC": 4428,
     "RFKRamtusk": 4420,
+    "RFKRamtuskHEROIC": 4420,
     "RFKAgathelos": 4422,
+    "RFKAgathelosHEROIC": 4422,
     "RFKBlindHunter": 4425,
     "RFKCharlga": 4421,
+    "RFKCharlgaHEROIC": 4421,
     "RFKHalmgar": 4842,
-
     "_comment_sfk": "Shadowfang Keep bosses",
     "SFKDeathsworn": 3872,
+    "SFKDeathswornHEROIC": 3872,
     "SFKRazorclaw": 3886,
+    "SFKRazorclawHEROIC": 3886,
     "SFKSilverlaine": 3887,
+    "SFKSilverlaineHEROIC": 3887,
     "SFKSpringvale": 4278,
+    "SFKSpringvaleHEROIC": 4278,
     "SFKOdo": 4279,
+    "SFKOdoHEROIC": 4279,
     "SFKFenrus": 4274,
+    "SFKFenrusHEROIC": 4274,
     "SFKNandos": 3927,
+    "SFKNandosHEROIC": 3927,
     "SFKArugal": 4275,
-
+    "SFKArugalHEROIC": 4275,
     "_comment_stock": "The Stockade bosses",
     "StockTargorr": 1696,
+    "StockTargorrHEROIC": 1696,
     "StockKam": 1666,
+    "StockKamHEROIC": 1666,
     "StockBazil": 1716,
+    "StockBazilHEROIC": 1716,
     "StockDextren": 1663,
+    "StockDextrenHEROIC": 1663,
     "StockBruegal": 1720,
-
+    "StockBruegalHEROIC": 1720,
     "BWLRazorgore": 12435,
     "BWLVaelastrasz": 13020,
     "BWLLashlayer": 12017,
@@ -339,7 +374,6 @@
     "BWLChromaggus": 14020,
     "BWLNefarian1": 11583,
     "BWLNefarian2": 11583,
-
     "MCLucifron": 12118,
     "MCMagmadar": 11982,
     "MCGehennas": 12259,
@@ -349,7 +383,6 @@
     "MCGolemagg": 11988,
     "MCSulfuron": 12098,
     "MCRagnaros": 11502,
-
     "ZGJeklik": 14517,
     "ZGVenoxis": 14507,
     "ZGMarli": 14510,
@@ -359,14 +392,12 @@
     "ZGHakkar": 14834,
     "ZGJindo": 11380,
     "ZGGahzranka": 15114,
-
     "AQ20Kurinnaxx": 15348,
     "AQ20Rajaxx": 15341,
     "AQ20Moam": 15340,
     "AQ20Buru": 15370,
     "AQ20Ayamiss": 15369,
     "AQ20Ossirian": 15339,
-
     "AQ40Skeram": 15263,
     "AQ40Vem": 15543,
     "AQ40Sartura": 15516,
@@ -376,7 +407,6 @@
     "AQ40Emperors": 15276,
     "AQ40Ouro": 15517,
     "AQ40CThun": 15727,
-
     "_comment_naxx40": "Naxxramas (Original) bosses - IPP level 60 versions",
     "Naxx40AnubRekhan": 351009,
     "Naxx40Faerlina": 351007,
@@ -392,165 +422,253 @@
     "Naxx40Thaddius": 351000,
     "Naxx40Sapphiron": 351018,
     "Naxx40KelThuzad": 351019,
-
     "_comment_zf": "Zul'Farrak bosses",
     "ZFAntusul": 8127,
+    "ZFAntusulHEROIC": 8127,
     "ZFThekatheMartyr": 7272,
+    "ZFThekatheMartyrHEROIC": 7272,
     "ZFWitchDoctorZumrah": 7271,
+    "ZFWitchDoctorZumrahHEROIC": 7271,
     "ZFNekrumGutchewer": 7796,
+    "ZFNekrumGutchewerHEROIC": 7796,
     "ZFSezzziz": 7275,
+    "ZFSezzzizHEROIC": 7275,
     "ZFChiefUkorzSandscalp": 7267,
+    "ZFChiefUkorzSandscalpHEROIC": 7267,
     "ZFSandfury": 7274,
     "ZFGahzrilla": 7273,
+    "ZFGahzrillaHEROIC": 7273,
     "ZFDustwraith": 10081,
     "ZFZerillis": 10082,
     "ZFSergeantBly": 7604,
     "ZFHydromancerVelratha": 7795,
-
+    "ZFHydromancerVelrathaHEROIC": 7795,
     "_comment_uld": "Uldaman bosses",
     "UldRevelosh": 6910,
+    "UldReveloshHEROIC": 6910,
     "UldIronaya": 7228,
+    "UldIronayaHEROIC": 7228,
     "UldObsidianSentinel": 7023,
+    "UldObsidianSentinelHEROIC": 7023,
     "UldAncientStoneKeeper": 7206,
+    "UldAncientStoneKeeperHEROIC": 7206,
     "UldGalgannFirehammer": 7291,
+    "UldGalgannFirehammerHEROIC": 7291,
     "UldGrimlok": 4854,
+    "UldGrimlokHEROIC": 4854,
     "UldArchaedas": 2748,
+    "UldArchaedasHEROIC": 2748,
     "UldBaelog": 6906,
-
+    "UldBaelogHEROIC": 6906,
     "_comment_st": "Sunken Temple bosses (Dreamscythe+Weaver, Hazzas+Morphaz, Jammalan+Ogom are in vanilla_multi_source_sections)",
     "STAtalalarion": 8580,
+    "STAtalalarionHEROIC": 8580,
     "STAvatarofHakkar": 8443,
+    "STAvatarofHakkarHEROIC": 8443,
     "STEranikus": 5709,
-
+    "STEranikusHEROIC": 5709,
     "_comment_brd": "Blackrock Depths bosses",
     "BRDAnubshiah": 9031,
+    "BRDAnubshiahHEROIC": 9031,
     "BRDEviscerator": 9029,
+    "BRDEvisceratorHEROIC": 9029,
     "BRDGorosh": 9027,
+    "BRDGoroshHEROIC": 9027,
     "BRDGrizzle": 9028,
+    "BRDGrizzleHEROIC": 9028,
     "BRDHedrum": 9032,
+    "BRDHedrumHEROIC": 9032,
     "BRDOkthor": 9030,
+    "BRDOkthorHEROIC": 9030,
     "BRDLordRoccor": 9025,
+    "BRDLordRoccorHEROIC": 9025,
     "BRDPyromantLoregrain": 9024,
+    "BRDPyromantLoregrainHEROIC": 9024,
     "BRDHighInterrogatorGerstahn": 9018,
+    "BRDHighInterrogatorGerstahnHEROIC": 9018,
     "BRDHoundmaster": 9319,
+    "BRDHoundmasterHEROIC": 9319,
     "BRDBaelGar": 9016,
+    "BRDBaelGarHEROIC": 9016,
     "BRDLordIncendius": 9017,
+    "BRDLordIncendiusHEROIC": 9017,
     "BRDGeneralAngerforge": 9033,
+    "BRDGeneralAngerforgeHEROIC": 9033,
     "BRDGolemLordArgelmach": 8983,
+    "BRDGolemLordArgelmachHEROIC": 8983,
     "BRDFlamelash": 9156,
+    "BRDFlamelashHEROIC": 9156,
     "BRDPanzor": 8923,
     "BRDWarderStilgiss": 9041,
+    "BRDWarderStilgissHEROIC": 9041,
     "BRDVerek": 9042,
+    "BRDVerekHEROIC": 9042,
     "BRDFineousDarkvire": 9056,
+    "BRDFineousDarkvireHEROIC": 9056,
     "BRDMagmus": 9938,
+    "BRDMagmusHEROIC": 9938,
     "BRDTheldren": 16059,
-
+    "BRDTheldrenHEROIC": 16059,
     "_comment_lbrs": "Lower Blackrock Spire bosses",
     "LBRSOmokk": 9196,
+    "LBRSOmokkHEROIC": 9196,
     "LBRSSlavener": 10268,
+    "LBRSSlavenerHEROIC": 10268,
     "LBRSVosh": 9236,
+    "LBRSVoshHEROIC": 9236,
     "LBRSGrayhoof": 16080,
+    "LBRSGrayhoofHEROIC": 16080,
     "LBRSFelguard": 10263,
     "LBRSSmolderweb": 10596,
+    "LBRSSmolderwebHEROIC": 10596,
     "LBRSCrystalFang": 10376,
     "LBRSDoomhowl": 10584,
+    "LBRSDoomhowlHEROIC": 10584,
     "LBRSGrimaxe": 9596,
     "LBRSSpirestoneButcher": 9219,
     "LBRSSpirestoneLord": 9218,
     "LBRSHalycon": 10220,
+    "LBRSHalyconHEROIC": 10220,
     "LBRSVoone": 9237,
+    "LBRSVooneHEROIC": 9237,
     "LBRSWyrmthalak": 9568,
+    "LBRSWyrmthalakHEROIC": 9568,
     "LBRSZigris": 9736,
+    "LBRSZigrisHEROIC": 9736,
     "LBRSBashguud": 9718,
-
     "_comment_ubrs": "Upper Blackrock Spire bosses (Rend+Gyth is in vanilla_multi_source_sections)",
     "UBRSEmberseer": 9816,
+    "UBRSEmberseerHEROIC": 9816,
     "UBRSRunewatcher": 10509,
     "UBRSSolakar": 10264,
+    "UBRSSolakarHEROIC": 10264,
     "UBRSAnvilcrack": 10899,
     "UBRSBeast": 10430,
+    "UBRSBeastHEROIC": 10430,
     "UBRSDrakkisath": 10363,
+    "UBRSDrakkisathHEROIC": 10363,
     "UBRSValthalak": 16042,
-
+    "UBRSValthalakHEROIC": 16042,
     "_comment_dme": "Dire Maul East bosses",
     "DMEPusillin": 14354,
+    "DMEPusillinHEROIC": 14354,
     "DMEZevrimThornhoof": 11490,
+    "DMEZevrimThornhoofHEROIC": 11490,
     "DMEHydro": 13280,
+    "DMEHydroHEROIC": 13280,
     "DMELethtendris": 14327,
+    "DMELethtendrisHEROIC": 14327,
     "DMEPimgib": 14349,
+    "DMEPimgibHEROIC": 14349,
     "DMEAlzzin": 11492,
+    "DMEAlzzinHEROIC": 11492,
     "DMEIsalien": 16097,
-
+    "DMEIsalienHEROIC": 16097,
     "_comment_dmn": "Dire Maul North bosses",
     "DMNGuardFengus": 14321,
+    "DMNGuardFengusHEROIC": 14321,
     "DMNGuardSlipkik": 14323,
+    "DMNGuardSlipkikHEROIC": 14323,
     "DMNCaptainKromcrush": 14325,
+    "DMNCaptainKromcrushHEROIC": 14325,
     "DMNGuardMoldar": 14326,
+    "DMNGuardMoldarHEROIC": 14326,
     "DMNStomperKreeg": 14322,
+    "DMNStomperKreegHEROIC": 14322,
     "DMNChoRush": 14324,
+    "DMNChoRushHEROIC": 14324,
     "DMNKingGordok": 11501,
-
+    "DMNKingGordokHEROIC": 11501,
     "_comment_dmw": "Dire Maul West bosses",
     "DMWTendrisWarpwood": 11489,
+    "DMWTendrisWarpwoodHEROIC": 11489,
     "DMWIllyannaRavenoak": 11488,
+    "DMWIllyannaRavenoakHEROIC": 11488,
     "DMWMagisterKalendris": 11487,
+    "DMWMagisterKalendrisHEROIC": 11487,
     "DMWImmolthar": 11496,
+    "DMWImmoltharHEROIC": 11496,
     "DMWPrinceTortheldrin": 11486,
+    "DMWPrinceTortheldrinHEROIC": 11486,
     "DMWHelnurath": 14506,
+    "DMWHelnurathHEROIC": 14506,
     "DMWTsuzee": 11467,
-
+    "DMWTsuzeeHEROIC": 11467,
     "_comment_strat": "Stratholme bosses",
     "STRATStratholmeCourier": 11082,
+    "STRATStratholmeCourierHEROIC": 11082,
     "STRATFrasSiabi": 11058,
+    "STRATFrasSiabiHEROIC": 11058,
     "STRATHearthsingerForresten": 10558,
     "STRATTheUnforgiven": 10516,
+    "STRATTheUnforgivenHEROIC": 10516,
     "STRATTimmytheCruel": 10808,
+    "STRATTimmytheCruelHEROIC": 10808,
     "STRATMagistrateBarthilas": 10435,
+    "STRATMagistrateBarthilasHEROIC": 10435,
     "STRATRamsteintheGorger": 10439,
+    "STRATRamsteintheGorgerHEROIC": 10439,
     "STRATBaronRivendare": 10440,
+    "STRATBaronRivendareHEROIC": 10440,
     "STRATNerubenkan": 10437,
+    "STRATNerubenkanHEROIC": 10437,
     "STRATMalekithePallid": 10438,
+    "STRATMalekithePallidHEROIC": 10438,
     "STRATBaronessAnastari": 10436,
+    "STRATBaronessAnastariHEROIC": 10436,
     "STRATCannonMasterWilley": 10997,
+    "STRATCannonMasterWilleyHEROIC": 10997,
     "STRATArchivistGalford": 10811,
+    "STRATArchivistGalfordHEROIC": 10811,
     "STRATBalnazzar": 10813,
+    "STRATBalnazzarHEROIC": 10813,
     "STRATStonespine": 10809,
-
     "_comment_scholo": "Scholomance bosses",
     "SCHOLOKirtonostheHerald": 10506,
+    "SCHOLOKirtonostheHeraldHEROIC": 10506,
     "SCHOLOJandiceBarov": 10503,
+    "SCHOLOJandiceBarovHEROIC": 10503,
     "SCHOLORattlegore": 11622,
+    "SCHOLORattlegoreHEROIC": 11622,
     "SCHOLOMarduk": 10433,
+    "SCHOLOMardukHEROIC": 10433,
     "SCHOLOVectus": 10432,
+    "SCHOLOVectusHEROIC": 10432,
     "SCHOLORasFrostwhisper": 10508,
+    "SCHOLORasFrostwhisperHEROIC": 10508,
     "SCHOLOInstructorMalicia": 10505,
+    "SCHOLOInstructorMaliciaHEROIC": 10505,
     "SCHOLODoctorTheolenKrastinov": 11261,
+    "SCHOLODoctorTheolenKrastinovHEROIC": 11261,
     "SCHOLOLorekeeperPolkelt": 10901,
+    "SCHOLOLorekeeperPolkeltHEROIC": 10901,
     "SCHOLOTheRavenian": 10507,
+    "SCHOLOTheRavenianHEROIC": 10507,
     "SCHOLOLordAlexeiBarov": 10504,
+    "SCHOLOLordAlexeiBarovHEROIC": 10504,
     "SCHOLOLadyIlluciaBarov": 10502,
+    "SCHOLOLadyIlluciaBarovHEROIC": 10502,
     "SCHOLODarkmasterGandling": 1853,
+    "SCHOLODarkmasterGandlingHEROIC": 1853,
     "SCHOLOGandling": 1853,
-    "SCHOLOKormok": 16118
+    "SCHOLOGandlingHEROIC": 1853,
+    "SCHOLOKormok": 16118,
+    "SCHOLOKormokHEROIC": 16118
   },
-
   "tbc_single_boss_sections": {
     "_comment": "Maps AtlasLoot section name -> creature ID (TBC dungeons/raids). Only include sections that EXIST in burningcrusade.lua!",
-
     "HCRampWatchkeeper": 17306,
     "HCRampWatchkeeperHEROIC": 17306,
     "HCRampOmor": 17308,
     "HCRampOmorHEROIC": 17308,
     "HCRampVazruden": 17537,
     "HCRampVazrudenHEROIC": 17537,
-
     "HCFurnaceMaker": 17381,
     "HCFurnaceMakerHEROIC": 17381,
     "HCFurnaceBroggok": 17380,
     "HCFurnaceBroggokHEROIC": 17380,
     "HCFurnaceBreaker": 17377,
     "HCFurnaceBreakerHEROIC": 17377,
-
     "HCHallsNethekurse": 16807,
     "HCHallsNethekurseHEROIC": 16807,
     "HCHallsPorung": 20923,
@@ -558,14 +676,12 @@
     "HCHallsOmroggHEROIC": 16809,
     "HCHallsKargath": 16808,
     "HCHallsKargathHEROIC": 16808,
-
     "CFRSlaveMennu": 17941,
     "CFRSlaveMennuHEROIC": 17941,
     "CFRSlaveRokmar": 17991,
     "CFRSlaveRokmarHEROIC": 17991,
     "CFRSlaveQuagmirran": 17942,
     "CFRSlaveQuagmirranHEROIC": 17942,
-
     "CFRUnderHungarfen": 17770,
     "CFRUnderHungarfenHEROIC": 17770,
     "CFRUnderGhazan": 18105,
@@ -574,14 +690,12 @@
     "CFRUnderSwamplordHEROIC": 17826,
     "CFRUnderStalker": 17882,
     "CFRUnderStalkerHEROIC": 17882,
-
     "CFRSteamThespia": 17797,
     "CFRSteamThespiaHEROIC": 17797,
     "CFRSteamSteamrigger": 17796,
     "CFRSteamSteamriggerHEROIC": 17796,
     "CFRSteamWarlord": 17798,
     "CFRSteamWarlordHEROIC": 17798,
-
     "AuchManaPandemonius": 18341,
     "AuchManaPandemoniusHEROIC": 18341,
     "AuchManaTavarok": 18343,
@@ -589,19 +703,16 @@
     "AuchManaNexusPrince": 18344,
     "AuchManaNexusPrinceHEROIC": 18344,
     "AuchManaYor": 22930,
-
     "AuchCryptsShirrak": 18371,
     "AuchCryptsShirrakHEROIC": 18371,
     "AuchCryptsExarch": 18373,
     "AuchCryptsExarchHEROIC": 18373,
     "AuchCryptsAvatar": 18478,
-
     "AuchSethekkDarkweaver": 18472,
     "AuchSethekkDarkweaverHEROIC": 18472,
     "AuchSethekkTalonKing": 18473,
     "AuchSethekkTalonKingHEROIC": 18473,
     "AuchSethekkRavenGod": 23035,
-
     "AuchShadowHellmaw": 18731,
     "AuchShadowHellmawHEROIC": 18731,
     "AuchShadowBlackheart": 18667,
@@ -610,28 +721,24 @@
     "AuchShadowGrandmasterHEROIC": 18732,
     "AuchShadowMurmur": 18708,
     "AuchShadowMurmurHEROIC": 18708,
-
     "CoTHillsbradDrake": 17848,
     "CoTHillsbradDrakeHEROIC": 17848,
     "CoTHillsbradSkarloc": 17862,
     "CoTHillsbradSkarlocHEROIC": 17862,
     "CoTHillsbradHunter": 18096,
     "CoTHillsbradHunterHEROIC": 18096,
-
     "CoTMorassDeja": 17879,
     "CoTMorassDejaHEROIC": 17879,
     "CoTMorassTemporus": 17880,
     "CoTMorassTemporusHEROIC": 17880,
     "CoTMorassAeonus": 17881,
     "CoTMorassAeonusHEROIC": 17881,
-
     "TKMechSepethrea": 19221,
     "TKMechSepethreaHEROIC": 19221,
     "TKMechCapacitus": 19219,
     "TKMechCapacitusHEROIC": 19219,
     "TKMechCalc": 19220,
     "TKMechCalcHEROIC": 19220,
-
     "TKBotSarannis": 17976,
     "TKBotSarannisHEROIC": 17976,
     "TKBotFreywinn": 17975,
@@ -642,7 +749,6 @@
     "TKBotThorngrinHEROIC": 17978,
     "TKBotSplinter": 17977,
     "TKBotSplinterHEROIC": 17977,
-
     "TKArcUnbound": 20870,
     "TKArcUnboundHEROIC": 20870,
     "TKArcDalliah": 20885,
@@ -651,7 +757,6 @@
     "TKArcScryerHEROIC": 20886,
     "TKArcHarbinger": 20912,
     "TKArcHarbingerHEROIC": 20912,
-
     "SMTFireheart": 24723,
     "SMTFireheartHEROIC": 24723,
     "SMTVexallus": 24744,
@@ -660,7 +765,6 @@
     "SMTDelrissaHEROIC": 24560,
     "SMTKaelthas": 24664,
     "SMTKaelthasHEROIC": 24664,
-
     "KaraAttumen": 16152,
     "KaraMoroes": 15687,
     "KaraMaiden": 16457,
@@ -671,30 +775,24 @@
     "KaraNightbane": 17225,
     "KaraPrince": 15690,
     "KaraChess": 0,
-
     "GruulsLairHighKingMaulgar": 18831,
     "GruulGruul": 19044,
-
     "HCMagtheridon": 17257,
-
     "CFRSerpentHydross": 21216,
     "CFRSerpentLurker": 21217,
     "CFRSerpentLeotheras": 21215,
     "CFRSerpentKarathress": 21214,
     "CFRSerpentMorogrim": 21213,
     "CFRSerpentVashj": 21212,
-
     "TKEyeAlar": 19514,
     "TKEyeVoidReaver": 19516,
     "TKEyeSolarian": 18805,
     "TKEyeKaelthas": 19622,
-
     "MountHyjalWinterchill": 17767,
     "MountHyjalAnetheron": 17808,
     "MountHyjalKazrogal": 17888,
     "MountHyjalAzgalor": 17842,
     "MountHyjalArchimonde": 17968,
-
     "BTNajentus": 22887,
     "BTSupremus": 22898,
     "BTAkama": 22841,
@@ -704,14 +802,12 @@
     "BTShahraz": 22947,
     "BTCouncil": 22950,
     "BTIllidanStormrage": 22917,
-
     "SPKalecgos": 24892,
     "SPBrutallus": 24882,
     "SPFelmyst": 25038,
     "SPEredarTwins": 25165,
     "SPMuru": 25840,
     "SPKiljaeden": 25315,
-
     "ZANalorakk": 23576,
     "ZAAkilZon": 23574,
     "ZAJanAlai": 23578,
@@ -719,131 +815,253 @@
     "ZAMalacrass": 24239,
     "ZAZuljin": 23863
   },
-
   "tbc_gameobject_sections": {
     "_comment": "Maps AtlasLoot section name -> gameobject entry ID (chest loot)",
-
     "HCRampReinforcedChest": 185168,
     "HCRampReinforcedChestHEROIC": 185169,
     "AuchSethekkTalonKingCoffer": 187372
   },
-
   "tbc_multi_source_sections": {
     "_comment": "Multi-source encounters with headers for each loot source. Sources are processed in order.",
-
     "HCRampVazruden": {
       "sources": [
-        {"type": "creature", "id": 17537, "header": "Vazruden the Herald", "header_sub": "Quest Item"},
-        {"type": "creature", "id": 17536, "header": "Nazan", "header_sub": "Quest Item"},
-        {"type": "gameobject", "id": 185168, "header": "Reinforced Fel Iron Chest", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 17537,
+          "header": "Vazruden the Herald",
+          "header_sub": "Quest Item"
+        },
+        {
+          "type": "creature",
+          "id": 17536,
+          "header": "Nazan",
+          "header_sub": "Quest Item"
+        },
+        {
+          "type": "gameobject",
+          "id": 185168,
+          "header": "Reinforced Fel Iron Chest",
+          "header_sub": ""
+        }
       ]
     },
     "HCRampVazrudenHEROIC": {
       "sources": [
-        {"type": "creature", "id": 18434, "header": "Vazruden the Herald", "header_sub": "Quest Item"},
-        {"type": "creature", "id": 18432, "header": "Nazan", "header_sub": "Quest Item"},
-        {"type": "gameobject", "id": 185169, "header": "Reinforced Fel Iron Chest", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 18434,
+          "header": "Vazruden the Herald",
+          "header_sub": "Quest Item"
+        },
+        {
+          "type": "creature",
+          "id": 18432,
+          "header": "Nazan",
+          "header_sub": "Quest Item"
+        },
+        {
+          "type": "gameobject",
+          "id": 185169,
+          "header": "Reinforced Fel Iron Chest",
+          "header_sub": ""
+        }
       ]
     }
   },
-
   "single_boss_go_sections": {
     "_comment": "Single boss sections where loot comes from a gameobject, not the creature. Uses single-boss layout with Guaranteed/Variable/Pool headers.",
-
     "MCMajordomo": 179703,
     "Naxx40FourHorsemen": 361000
   },
-
   "vanilla_multi_source_sections": {
     "_comment": "Vanilla multi-source encounters (shared encounters like Sneed's Shredder -> Sneed)",
-
     "VCSneed": {
       "sources": [
-        {"type": "creature", "id": 642, "header": "Sneed's Shredder", "header_sub": ""},
-        {"type": "creature", "id": 643, "header": "Sneed", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 642,
+          "header": "Sneed's Shredder",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 643,
+          "header": "Sneed",
+          "header_sub": ""
+        }
       ]
     },
-
     "SMCMograineWhitemane": {
       "sources": [
-        {"type": "creature", "id": 3976, "header": "Scarlet Commander Mograine", "header_sub": ""},
-        {"type": "creature", "id": 3977, "header": "High Inquisitor Whitemane", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 3976,
+          "header": "Scarlet Commander Mograine",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 3977,
+          "header": "High Inquisitor Whitemane",
+          "header_sub": ""
+        }
       ]
     },
-
     "SMHerod": {
       "sources": [
-        {"type": "creature", "id": 3975, "header": "Herod", "header_sub": ""},
-        {"type": "creature", "id": 6575, "header": "Scarlet Trainee", "header_sub": "", "is_babble": false}
+        {
+          "type": "creature",
+          "id": 3975,
+          "header": "Herod",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 6575,
+          "header": "Scarlet Trainee",
+          "header_sub": "",
+          "is_babble": false
+        }
       ]
     },
-
     "STDreamscytheWeaver": {
       "_comment": "Sunken Temple dragonkin pair - fought simultaneously",
       "sources": [
-        {"type": "creature", "id": 5721, "header": "Dreamscythe", "header_sub": ""},
-        {"type": "creature", "id": 5720, "header": "Weaver", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 5721,
+          "header": "Dreamscythe",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 5720,
+          "header": "Weaver",
+          "header_sub": ""
+        }
       ]
     },
-
     "STHazzasMorphaz": {
       "_comment": "Sunken Temple dragonkin pair - fought simultaneously",
       "sources": [
-        {"type": "creature", "id": 5722, "header": "Hazzas", "header_sub": ""},
-        {"type": "creature", "id": 5719, "header": "Morphaz", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 5722,
+          "header": "Hazzas",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 5719,
+          "header": "Morphaz",
+          "header_sub": ""
+        }
       ]
     },
-
     "STJammalanOgom": {
       "_comment": "Sunken Temple prophet + bodyguard - same encounter",
       "sources": [
-        {"type": "creature", "id": 5710, "header": "Jammal'an the Prophet", "header_sub": ""},
-        {"type": "creature", "id": 5711, "header": "Ogom the Wretched", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 5710,
+          "header": "Jammal'an the Prophet",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 5711,
+          "header": "Ogom the Wretched",
+          "header_sub": ""
+        }
       ]
     },
-
     "UBRSRendGyth": {
       "_comment": "UBRS rider/mount sequential encounter (like Sneed's Shredder -> Sneed)",
       "sources": [
-        {"type": "creature", "id": 10339, "header": "Gyth", "header_sub": ""},
-        {"type": "creature", "id": 10429, "header": "Warchief Rend Blackhand", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 10339,
+          "header": "Gyth",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 10429,
+          "header": "Warchief Rend Blackhand",
+          "header_sub": ""
+        }
       ]
     },
-
     "BRDEmperorPrincess": {
       "_comment": "BRD throne room encounter - Emperor + Princess fought together",
       "sources": [
-        {"type": "creature", "id": 9019, "header": "Emperor Dagran Thaurissan", "header_sub": ""},
-        {"type": "creature", "id": 8929, "header": "Princess Moira Bronzebeard", "header_sub": ""}
+        {
+          "type": "creature",
+          "id": 9019,
+          "header": "Emperor Dagran Thaurissan",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 8929,
+          "header": "Princess Moira Bronzebeard",
+          "header_sub": ""
+        }
       ]
     },
-
     "STRATSothosJarien": {
       "_comment": "Stratholme T0.5 summoning event - chest loot + quest items from ghosts",
       "sources": [
-        {"type": "gameobject", "id": 181083, "header": "Sothos and Jarien's Heirlooms", "header_sub": ""},
-        {"type": "creature", "id": 16102, "header": "Sothos", "header_sub": ""},
-        {"type": "creature", "id": 16101, "header": "Jarien", "header_sub": ""}
+        {
+          "type": "gameobject",
+          "id": 181083,
+          "header": "Sothos and Jarien's Heirlooms",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 16102,
+          "header": "Sothos",
+          "header_sub": ""
+        },
+        {
+          "type": "creature",
+          "id": 16101,
+          "header": "Jarien",
+          "header_sub": ""
+        }
       ]
     }
   },
-
   "item_whitelist": {
     "_comment": "Items to always include regardless of quality/drop rate filters",
     "items": [
-      {"id": 23192, "comment": "Tabard of the Scarlet Crusade - rare cosmetic from Scarlet Trainee"},
-      {"id": 5187, "comment": "Rhahk'Zor's Hammer - Deadmines boss drop (Common quality filtered out)"},
-      {"id": 872, "comment": "Rockslicer - Rhahk'Zor (5% drop rate below threshold)"},
-      {"id": 2169, "comment": "Buzzer Blade - Sneed's Shredder (Common quality filtered out)"},
-      {"id": 8490, "comment": "Cat Carrier (Siamese) - Cookie (collectible pet)"}
+      {
+        "id": 23192,
+        "comment": "Tabard of the Scarlet Crusade - rare cosmetic from Scarlet Trainee"
+      },
+      {
+        "id": 5187,
+        "comment": "Rhahk'Zor's Hammer - Deadmines boss drop (Common quality filtered out)"
+      },
+      {
+        "id": 872,
+        "comment": "Rockslicer - Rhahk'Zor (5% drop rate below threshold)"
+      },
+      {
+        "id": 2169,
+        "comment": "Buzzer Blade - Sneed's Shredder (Common quality filtered out)"
+      },
+      {
+        "id": 8490,
+        "comment": "Cat Carrier (Siamese) - Cookie (collectible pet)"
+      }
     ]
   },
-
   "item_blacklist": {
     "_comment": "Items to always exclude even if they meet filter criteria",
     "items": []
   },
-
   "loot_thresholds": {
     "_comment": "Minimum drop chance thresholds by item quality/type",
     "quest_item_min_chance": 50,
@@ -854,10 +1072,8 @@
     "_comment2": "Custom items (ID >= this) always shown",
     "custom_item_min_id": 900000
   },
-
   "rep_factions": {
     "_comment": "Faction reputation vendor mappings. section_base = AtlasLoot section prefix, faction_id = WoW faction ID, icon = header icon texture, vendor_id = primary quartermaster creature entry (optional), lua_file = target expansion file, back_menu = navigation back target",
-
     "tbc": {
       "Aldor": {
         "faction_id": 932,
@@ -960,11 +1176,9 @@
         "vendor_id": 18255
       }
     },
-
     "wotlk": {
       "_comment": "WotLK factions - can be added later for full automation"
     },
-
     "vanilla": {
       "_comment": "Vanilla factions - can be added later for full automation"
     }
