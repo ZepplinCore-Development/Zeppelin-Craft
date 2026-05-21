@@ -846,6 +846,7 @@ DELETE FROM `spell` WHERE `id` = 900129;
 INSERT INTO `spell` SET
     `id` = 900129,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -887,6 +888,7 @@ DELETE FROM `spell` WHERE `id` = 900130;
 INSERT INTO `spell` SET
     `id` = 900130,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1529,6 +1531,7 @@ DELETE FROM `spell` WHERE `id` = 900147;
 INSERT INTO `spell` SET
     `id` = 900147,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `proc_flags` = 40,
     `proc_chance` = 25,
     `cast_time_index` = 1,
@@ -1559,6 +1562,7 @@ DELETE FROM `spell` WHERE `id` = 900148;
 INSERT INTO `spell` SET
     `id` = 900148,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `proc_flags` = 40,
     `proc_chance` = 25,
     `cast_time_index` = 1,
@@ -1589,6 +1593,7 @@ DELETE FROM `spell` WHERE `id` = 900149;
 INSERT INTO `spell` SET
     `id` = 900149,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `proc_flags` = 40,
     `proc_chance` = 25,
     `cast_time_index` = 1,
@@ -2723,6 +2728,7 @@ INSERT INTO `spell` SET
     `attributes` = 0x00000440,
     `attributes_ex_1` = 0x00000400,
     `attributes_ex_3` = 0x10000000,
+    `attributes_ex_4` = 0x00008000,
     `cast_time_index` = 1,
     `proc_flags` = 2,
     `proc_chance` = 100,
@@ -3390,12 +3396,510 @@ INSERT INTO `spell` SET
 -- only seen at low level — discrepancy is cosmetic).
 -- ============================================================================
 
+-- Variable 191: SP-scaled damage + Earthen Power talent-aware slow display
+-- $total = base damage + SP scaling (for spell_desc_enus)
+-- $ep_r1/$ep_r2 = per-rank conditional addends — must be defined as separate
+-- sub-variables (F-005 riding crop pattern, var 182). $?a inside a ${}
+-- arithmetic block doesn't resolve; only ${$<var>+$<var>} arithmetic works.
+-- $ep_total = base 10% + (5% if EP R1) + (10% if EP R2)
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 191;
 INSERT INTO `spelldescriptionvariables` SET
     `id` = 191,
-    `var` = '$spbonus=${$sp*0.386}\n$total=${$m2+$<spbonus>}';
+    `var` = '$spbonus=${$sp*0.386}\n$total=${$m2+$<spbonus>}\n$ep_r1=$?s51523[${5}][${0}]\n$ep_r2=$?s51524[${10}][${0}]\n$ep_total=${10+$<ep_r1>+$<ep_r2>}';
 
 UPDATE `spell` SET
     `spell_desc_variable_id` = 191,
-    `spell_desc_enus` = 'Instantly shocks the target with concussive force, causing $<total> Nature damage and reducing melee attack speed by $s1% for $d.  Damage scales with spell power.'
+    `spell_desc_enus` = 'Instantly shocks the target with concussive force, causing $<total> Nature damage and reducing melee attack speed by $<ep_total>% for $d.  Damage scales with spell power.',
+    `spell_tooltip_enus` = 'Time between attacks increased by $<ep_total>%.'
 WHERE `id` IN (8042, 8044, 8045, 8046, 10412, 10413, 10414, 25454, 49230, 49231);
+
+-- ============================================================================
+-- Enhancement Talent Tree Additions (F-164)
+-- ============================================================================
+-- R1 (T0): Shock and Awe (900210-900212) replaces Earth's Grasp 16043
+-- R2 (T1): Wolf's Hunger (900216) replaces Guardian Totems 16258
+-- Deep (T8 C1): Improved Lava Lash (900217-900219) replaces Shamanistic Rage slot
+--   - Shamanistic Rage (talent 1693) moves T8 C1 -> T8 C2
+--   - Earthen Power (talent 2056) removed from Enhancement
+--
+-- Shock and Awe debuff spells (900213-900215) are triggered by the talent passive.
+-- ============================================================================
+
+-- ----------------------------------------------------------------------------
+-- Shock and Awe (900210-900212) - Talent passive
+-- 3 ranks. E1: ADD_PCT_MODIFIER SPELLMOD_DAMAGE on Shaman shock spells (bits
+-- 20/28/31 in mask_1 = Earth/Flame/Frost Shock, combined 2416967680).
+-- E2: PROC_TRIGGER_SPELL → debuff (900213/214/215). spell_proc filters to
+-- shock casts only (SpellPhaseMask=1 CAST, excludes Flame Shock periodic ticks).
+-- Pattern: Concussion (16035-16108) for shock damage boost.
+-- ----------------------------------------------------------------------------
+
+-- Shock and Awe R1 (+2% shock damage, triggers -2% armor debuff)
+DELETE FROM `spell` WHERE `id` = 900210;
+
+INSERT INTO `spell` SET
+    `id` = 900210,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 1,
+    `effect_base_points_2` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 42,
+    `effect_misc_value_a_1` = 0,
+    `effect_trigger_spell_2` = 900213,
+    `effect_spell_class_mask_a_1` = 2416967680,
+    `spell_icon_id` = 5445,
+    `spell_name_enus` = 'Shock and Awe',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage of your shock spells by $s1%. Your shock spells also reduce the target''s armor by 2% for $900213d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1;
+
+-- Shock and Awe R2 (+4% shock damage, triggers -4% armor debuff)
+DELETE FROM `spell` WHERE `id` = 900211;
+
+INSERT INTO `spell` SET
+    `id` = 900211,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 3,
+    `effect_base_points_2` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 42,
+    `effect_misc_value_a_1` = 0,
+    `effect_trigger_spell_2` = 900214,
+    `effect_spell_class_mask_a_1` = 2416967680,
+    `spell_icon_id` = 5445,
+    `spell_name_enus` = 'Shock and Awe',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage of your shock spells by $s1%. Your shock spells also reduce the target''s armor by 4% for $900214d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1;
+
+-- Shock and Awe R3 (+6% shock damage, triggers -6% armor debuff)
+DELETE FROM `spell` WHERE `id` = 900212;
+
+INSERT INTO `spell` SET
+    `id` = 900212,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 5,
+    `effect_base_points_2` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 42,
+    `effect_misc_value_a_1` = 0,
+    `effect_trigger_spell_2` = 900215,
+    `effect_spell_class_mask_a_1` = 2416967680,
+    `spell_icon_id` = 5445,
+    `spell_name_enus` = 'Shock and Awe',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage of your shock spells by $s1%. Your shock spells also reduce the target''s armor by 6% for $900215d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Shock and Awe Debuffs (900213-900215) - Applied on target by shock casts
+-- Reduces target armor via aura 142 (MOD_BASE_RESISTANCE_PCT) misc 1.
+-- Duration 10s (matches Earth Shock CD).
+-- NOT_IN_SPELLBOOK (attributes_ex_4 = 32768) so it doesn't appear in player UI.
+-- ----------------------------------------------------------------------------
+
+-- Shock and Awe Debuff R1 (-2% armor, 10s)
+DELETE FROM `spell` WHERE `id` = 900213;
+
+INSERT INTO `spell` SET
+    `id` = 900213,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `duration_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -3,
+    `effect_implicit_target_a_1` = 6,
+    `effect_apply_aura_name_1` = 142,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5445,
+    `spell_name_enus` = 'Shock and Awe',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Armor reduced by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Armor reduced by $s1%.',
+    `spell_tooltip_flags` = 16712190,
+    `damage_class` = 1,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- Shock and Awe Debuff R2 (-4% armor, 10s)
+DELETE FROM `spell` WHERE `id` = 900214;
+
+INSERT INTO `spell` SET
+    `id` = 900214,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `duration_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -5,
+    `effect_implicit_target_a_1` = 6,
+    `effect_apply_aura_name_1` = 142,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5445,
+    `spell_name_enus` = 'Shock and Awe',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Armor reduced by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Armor reduced by $s1%.',
+    `spell_tooltip_flags` = 16712190,
+    `damage_class` = 1,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- Shock and Awe Debuff R3 (-6% armor, 10s)
+DELETE FROM `spell` WHERE `id` = 900215;
+
+INSERT INTO `spell` SET
+    `id` = 900215,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `duration_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -7,
+    `effect_implicit_target_a_1` = 6,
+    `effect_apply_aura_name_1` = 142,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5445,
+    `spell_name_enus` = 'Shock and Awe',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Armor reduced by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Armor reduced by $s1%.',
+    `spell_tooltip_flags` = 16712190,
+    `damage_class` = 1,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Wolf's Hunger (900216) - 1-min CD melee damage CD
+-- 12 sec duration. Aura 79 (MOD_DAMAGE_PERCENT_DONE), school mask 1 (physical).
+-- Boosts auto-attacks, Stormstrike physical hit, Lava Lash — not shocks/LB/CL.
+-- ----------------------------------------------------------------------------
+
+DELETE FROM `spell` WHERE `id` = 900216;
+
+INSERT INTO `spell` SET
+    `id` = 900216,
+    `attributes` = 16,
+    `cast_time_index` = 1,
+    `duration_index` = 29,
+    `recovery_time` = 60000,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 29,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 79,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5318,
+    `spell_name_enus` = 'Wolf''s Hunger',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Embrace the spirit of the wolf, increasing your physical damage done by $s1% for $d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Physical damage increased by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Improved Lava Lash (900217-900219) - Talent passive
+-- 3 ranks. Boosts Lava Lash crit damage (aura 108 misc 15) and crit chance
+-- (aura 108 misc 7), masked to Lava Lash family (spell_class_mask_3 = 4).
+-- ----------------------------------------------------------------------------
+
+-- Improved Lava Lash R1 (+10% crit damage, +2% crit chance)
+DELETE FROM `spell` WHERE `id` = 900217;
+
+INSERT INTO `spell` SET
+    `id` = 900217,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 9,
+    `effect_base_points_2` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_1` = 15,
+    `effect_misc_value_a_2` = 7,
+    `effect_spell_class_mask_c_1` = 4,
+    `effect_spell_class_mask_c_2` = 4,
+    `spell_icon_id` = 5289,
+    `spell_name_enus` = 'Improved Lava Lash',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the critical strike damage of your Lava Lash by $s1% and its critical strike chance by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1;
+
+-- Improved Lava Lash R2 (+20% crit damage, +4% crit chance)
+DELETE FROM `spell` WHERE `id` = 900218;
+
+INSERT INTO `spell` SET
+    `id` = 900218,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 19,
+    `effect_base_points_2` = 3,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_1` = 15,
+    `effect_misc_value_a_2` = 7,
+    `effect_spell_class_mask_c_1` = 4,
+    `effect_spell_class_mask_c_2` = 4,
+    `spell_icon_id` = 5289,
+    `spell_name_enus` = 'Improved Lava Lash',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the critical strike damage of your Lava Lash by $s1% and its critical strike chance by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Earthwarden-tree clones of shared talents (F-164)
+-- Stock Spirit Weapons (16268) and Shamanistic Focus (43338) live in BOTH the
+-- Enhancement and Earthwarden trees. Because both talent rows reference the
+-- same spell ID, the client incorrectly displays the talent as allocated in
+-- both trees when the player only spends a point in one.
+--
+-- Fix: clone the spells with new IDs (900220, 900221) and point the
+-- Earthwarden talent rows at the clones. Identical mechanics, decoupled
+-- identity — UI shows each tree's allocation independently.
+-- ----------------------------------------------------------------------------
+
+-- Spirit Weapons clone (900220) — Earthwarden tree. Learns 18848 (parry passive),
+-- same as stock 16268. Icon and description match.
+DELETE FROM `spell` WHERE `id` = 900220;
+
+INSERT INTO `spell` SET
+    `id` = 900220,
+    `attributes` = 159646096,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 36,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_trigger_spell_1` = 18848,
+    `spell_icon_id` = 558,
+    `spell_name_enus` = 'Spirit Weapons',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Gives a chance to parry enemy melee attacks.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- Shamanistic Focus clone (900221) — Earthwarden tree. -45% shock mana cost,
+-- same as stock 43338.
+DELETE FROM `spell` WHERE `id` = 900221;
+
+INSERT INTO `spell` SET
+    `id` = 900221,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -46,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 14,
+    `effect_spell_class_mask_a_1` = 2416967680,
+    `spell_icon_id` = 2016,
+    `spell_name_enus` = 'Shamanistic Focus',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces the mana cost of your Shock spells by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Shields - remove charge counters (F-164)
+-- Lightning Shield, Water Shield, and Earth Shield are made charge-less so
+-- the buff is just a persistent 10-min aura. No charge consumption on damage
+-- taken / heal-on-hit. Includes WotLK ranks 10 (49280) and 11 (49281) of LS
+-- which were missed in the earlier pass, and all Earth Shield player ranks.
+-- ----------------------------------------------------------------------------
+UPDATE `spell` SET `proc_charges` = 0 WHERE `id` IN (49280, 49281, 974, 32593, 32594, 49283, 49284);
+
+-- ----------------------------------------------------------------------------
+-- Static Shock (51525/51526/51527) - remove +charges to Lightning Shield
+-- Stock effect 2 = aura 107 (ADD_FLAT_MODIFIER) misc 4 (SPELLMOD_CHARGES) adds
+-- +2/+4/+6 max charges to LS, re-introducing the charge mechanic on top of our
+-- DBC chargeless LS (proc_charges=0). Zero out effect 2 so Static Shock keeps
+-- the on-melee-strike LS proc (handled by spell_sha_static_shock SpellScript
+-- via effect 1 dummy) but does NOT add max charges back.
+-- ----------------------------------------------------------------------------
+UPDATE `spell` SET
+    `effect_2` = 0,
+    `effect_apply_aura_name_2` = 0,
+    `effect_misc_value_a_2` = 0,
+    `effect_base_points_2` = 0,
+    `spell_desc_enus` = 'You have a $s1% chance to hit your target with a Lightning Shield orb when you deal damage with melee attacks and abilities.'
+WHERE `id` IN (51525, 51526, 51527);
+
+-- ----------------------------------------------------------------------------
+-- Lightning Bolt tooltip — show SP-scaled damage range (F-164)
+-- Mirrors the Earth Shock tooltip rewrite. Variable 192 adds spell power
+-- scaling to both min and max damage via the canonical 0.714 (5/7) coefficient
+-- used by ranks 4-14. R1-R3 use lower coefficients due to level penalty —
+-- displayed value is mildly optimistic at those low ranks (cosmetic only).
+-- Shows range "X to Y" using $m1 (min) and $M1 (max).
+-- ----------------------------------------------------------------------------
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 192;
+INSERT INTO `spelldescriptionvariables` SET
+    `id` = 192,
+    `var` = '$spbonus=${$sp*0.714}\n$dmgmin=${$m1+$<spbonus>}\n$dmgmax=${$M1+$<spbonus>}';
+
+UPDATE `spell` SET
+    `spell_desc_variable_id` = 192,
+    `spell_desc_enus` = 'Casts a bolt of lightning at the target for $<dmgmin> to $<dmgmax> Nature damage. Damage scales with spell power.'
+WHERE `id` IN (403, 529, 548, 915, 943, 6041, 10391, 10392, 15207, 15208, 25448, 25449, 49237, 49238);
+
+-- ----------------------------------------------------------------------------
+-- Restore Enhancement Spirit Weapons (16268) threat reduction (F-164)
+-- Earlier F-164 work removed effect 2 to disable the -30% threat passive
+-- (36591) to support Enhancement tanking. User decision: Enhancement keeps
+-- the threat reduction (DPS spec context); Earthwarden version (900220 clone)
+-- has NO threat reduction (parry only). Restore effect 2 on stock 16268.
+-- ----------------------------------------------------------------------------
+UPDATE `spell` SET
+    `effect_2` = 36,
+    `effect_trigger_spell_2` = 36591,
+    `effect_implicit_target_a_2` = 1,
+    `effect_die_sides_2` = 1,
+    `spell_desc_enus` = 'Gives a chance to parry enemy melee attacks and reduces threat generated by 30%.'
+WHERE `id` = 16268;
+
+-- Improved Lava Lash R3 (+30% crit damage, +5% crit chance)
+DELETE FROM `spell` WHERE `id` = 900219;
+
+INSERT INTO `spell` SET
+    `id` = 900219,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 29,
+    `effect_base_points_2` = 4,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_1` = 15,
+    `effect_misc_value_a_2` = 7,
+    `effect_spell_class_mask_c_1` = 4,
+    `effect_spell_class_mask_c_2` = 4,
+    `spell_icon_id` = 5289,
+    `spell_name_enus` = 'Improved Lava Lash',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the critical strike damage of your Lava Lash by $s1% and its critical strike chance by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1;

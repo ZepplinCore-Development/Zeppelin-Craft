@@ -13,6 +13,8 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200069, 9001, 900124, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- Improved Rockbiter Weapon (900129-900130) on Earthwarden skill line
+-- Passive — kept on SLA for skillline membership; the spells themselves have
+-- attributes_ex_4 = 0x8000 (NOT_IN_SPELLBOOK) so they don't render in the tab.
 DELETE FROM `skilllineability` WHERE `id` IN (200076, 200077);
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200076, 9001, 900129, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -54,6 +56,8 @@ DELETE FROM `skilllineability` WHERE `id` = 200045;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (200045, 9001, 900114, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0);
 
 -- Bastion of Earth (ranks 1-3) on Earthwarden skill line
+-- Passive — same pattern as Improved Rockbiter Weapon above (NOT_IN_SPELLBOOK
+-- on the spell, SLA preserves skillline membership).
 DELETE FROM `skilllineability` WHERE `id` IN (200080, 200081, 200082);
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200080, 9001, 900147, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -72,7 +76,26 @@ WHERE `id` IN (8764, 8765, 8766, 8767, 8769, 8770, 13295, 13297, 20070, 20071);
 -- Passive (900183) is taught via spell_linked_spell type=2 when active is learned —
 -- acquire_method=0 here keeps it off the auto-learn path so low-level shamans don't
 -- get the Spirited proc before they have the active to consume it.
+-- Only the active (900185) needs an SLA — the passive (900183) is taught via
+-- spell_linked_spell type=2 when 900185 is learned, and is hidden from the
+-- spellbook via attributes_ex_4 = 0x8000 (NOT_IN_SPELLBOOK) on the spell.
 DELETE FROM `skilllineability` WHERE `id` IN (200083, 200084);
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200083, 374, 900185, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(200084, 374, 900183, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(200083, 374, 900185, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+-- Wolf's Hunger (900216) on Enhancement skill line (373) - talent-granted active
+DELETE FROM `skilllineability` WHERE `id` = 200085;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200085, 373, 900216, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+-- Move Rockbiter Weapon (all 4 player ranks) from Enhancement (373) to Earthwarden (9001)
+UPDATE `skilllineability` SET `skill_line` = 9001
+WHERE `id` IN (8747, 8748, 8749, 8750);
+
+-- Move Earthbind Totem from Elemental Combat (375) to Earthwarden (9001)
+UPDATE `skilllineability` SET `skill_line` = 9001
+WHERE `id` = 4481;
+
+-- Move Earth Shock (all 10 player ranks) from Elemental Combat (375) to Earthwarden (9001)
+UPDATE `skilllineability` SET `skill_line` = 9001
+WHERE `id` IN (4468, 4469, 4470, 4471, 5576, 5577, 5578, 13276, 16962, 16963);
