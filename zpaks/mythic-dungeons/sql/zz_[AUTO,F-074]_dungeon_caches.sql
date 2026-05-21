@@ -1481,16 +1481,6 @@ INSERT INTO `item_loot_template` SET `Entry` = 66201, `Item` = 7, `Reference` = 
 INSERT INTO `item_loot_template` SET `Entry` = 66201, `Item` = 8, `Reference` = 9100417, `Chance` = 0, `GroupId` = 8, `Comment` = 'Azeroth Heroic Weapon Cache - Warlock';
 INSERT INTO `item_loot_template` SET `Entry` = 66201, `Item` = 9, `Reference` = 9100418, `Chance` = 0, `GroupId` = 9, `Comment` = 'Azeroth Heroic Weapon Cache - Druid';
 
--- Boss loot table 9100400: both caches at 100%
-DELETE FROM `creature_loot_template` WHERE `Entry` = 9100400;
-INSERT INTO `creature_loot_template` SET `Entry` = 9100400, `Item` = 66200, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'azeroth heroic boss armor cache';
-INSERT INTO `creature_loot_template` SET `Entry` = 9100400, `Item` = 66201, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'azeroth heroic boss weapon cache';
-
--- Trash loot table 9100419: 1% total, 50/50 armor/weapon split
-DELETE FROM `creature_loot_template` WHERE `Entry` = 9100419;
-INSERT INTO `creature_loot_template` SET `Entry` = 9100419, `Item` = 66200, `Reference` = 0, `Chance` = 0.5, `GroupId` = 1, `MaxCount` = 1, `Comment` = 'azeroth heroic trash armor cache (0.5%)';
-INSERT INTO `creature_loot_template` SET `Entry` = 9100419, `Item` = 66201, `Reference` = 0, `Chance` = 0.5, `GroupId` = 1, `MaxCount` = 1, `Comment` = 'azeroth heroic trash weapon cache (0.5%)';
-
 -- ============================================================================
 -- Azeroth mythic caches
 -- ============================================================================
@@ -2967,14 +2957,4 @@ INSERT INTO `item_loot_template` SET `Entry` = 66203, `Item` = 6, `Reference` = 
 INSERT INTO `item_loot_template` SET `Entry` = 66203, `Item` = 7, `Reference` = 9100516, `Chance` = 0, `GroupId` = 7, `Comment` = 'Azeroth Mythic Weapon Cache - Mage';
 INSERT INTO `item_loot_template` SET `Entry` = 66203, `Item` = 8, `Reference` = 9100517, `Chance` = 0, `GroupId` = 8, `Comment` = 'Azeroth Mythic Weapon Cache - Warlock';
 INSERT INTO `item_loot_template` SET `Entry` = 66203, `Item` = 9, `Reference` = 9100518, `Chance` = 0, `GroupId` = 9, `Comment` = 'Azeroth Mythic Weapon Cache - Druid';
-
--- Boss loot table 9100500: both caches at 100%
-DELETE FROM `creature_loot_template` WHERE `Entry` = 9100500;
-INSERT INTO `creature_loot_template` SET `Entry` = 9100500, `Item` = 66202, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'azeroth mythic boss armor cache';
-INSERT INTO `creature_loot_template` SET `Entry` = 9100500, `Item` = 66203, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'azeroth mythic boss weapon cache';
-
--- Trash loot table 9100519: 1% total, 50/50 armor/weapon split
-DELETE FROM `creature_loot_template` WHERE `Entry` = 9100519;
-INSERT INTO `creature_loot_template` SET `Entry` = 9100519, `Item` = 66202, `Reference` = 0, `Chance` = 0.5, `GroupId` = 1, `MaxCount` = 1, `Comment` = 'azeroth mythic trash armor cache (0.5%)';
-INSERT INTO `creature_loot_template` SET `Entry` = 9100519, `Item` = 66203, `Reference` = 0, `Chance` = 0.5, `GroupId` = 1, `MaxCount` = 1, `Comment` = 'azeroth mythic trash weapon cache (0.5%)';
 

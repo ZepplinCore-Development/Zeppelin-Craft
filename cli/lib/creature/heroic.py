@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 from .common import DATA_DIR, get_db_connection, seed_random, write_sql_file
-from ..loot.satchel import boss_loot_id_for_tier, trash_loot_id_for_tier
+from ..loot.satchel import cache_items_for_tier
 
 OUTPUT_FILENAME = "zz_[AUTO,F-074]_heroic_convertor.sql"
 
@@ -113,13 +113,19 @@ def fetch_creature(cursor, entry: int) -> Optional[Dict]:
 
 
 def modify_creature(
-    row: Dict, challenge: str, is_mythic: bool,
-    boss_loot_id: int, trash_loot_id: int
-) -> Tuple[Dict, str, str]:
+    row: Dict, challenge: str, is_mythic: bool, new_entry: int
+) -> Tuple[Dict, str, str, int]:
     """Modify creature stats based on challenge type and difficulty.
 
-    Returns (modified_row, original_name, prefixed_name).
+    The clone's lootid is set to its own entry (new_entry) so each clone
+    has a unique creature_loot_template that mirrors the base creature's
+    loot rows and adds cache references on top. The base lootid is
+    returned so the caller can emit the copy-from-base SQL.
+
+    Returns (modified_row, original_name, prefixed_name, base_lootid).
     """
+    base_lootid = row["lootid"]
+
     creature_name = row["name"]
     prefix = "Mythic " if is_mythic else "Heroic "
     row["name"] = f"{prefix}{creature_name}"
@@ -145,9 +151,11 @@ def modify_creature(
             random.uniform(getattr(stats, hp_min), getattr(stats, hp_max)), 2
         )
 
-        row["lootid"] = boss_loot_id if challenge == "boss" else trash_loot_id
+    # Clone gets its own lootid (= its own entry) so we can preserve base
+    # creature drops AND bolt on cache references.
+    row["lootid"] = new_entry
 
-    return row, creature_name, prefixed_name
+    return row, creature_name, prefixed_name, base_lootid
 
 
 def generate_sql(
@@ -216,6 +224,71 @@ def generate_sql(
     lines.append(f"WHERE `id1` = {entry} AND `map` = {map_id};")
     lines.append("")
 
+    return lines
+
+
+def generate_loot_sql(
+    new_entry: int, base_lootid: int, challenge: str,
+    cache_armor_entry: int, cache_weapon_entry: int,
+    creature_name: str,
+) -> List[str]:
+    """Emit creature_loot_template rows for the clone's own lootid.
+
+    Each clone uses its own creature entry as its lootid. The loot table:
+      1. Copies all rows from the base creature's lootid (preserves vanilla
+         drops including quest items, cloth, coins, etc.)
+      2. Adds the heroic/mythic cache references on top.
+
+    Bosses get both caches at 100% (GroupId=0, independent guaranteed drops).
+    Trash gets one cache at 0.5% via GroupId=1 (1% combined, 50/50 split).
+    """
+    is_boss = challenge == "boss"
+    lines = [
+        f"-- Loot table for {creature_name} (lootid {new_entry})",
+        f"DELETE FROM `creature_loot_template` WHERE `Entry` = {new_entry};",
+    ]
+    if base_lootid and base_lootid != new_entry:
+        lines.append(
+            f"-- Inherit base creature loot from lootid {base_lootid}"
+        )
+        lines.append(
+            f"INSERT INTO `creature_loot_template` "
+            f"(`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, "
+            f"`LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`)"
+        )
+        lines.append(
+            f"SELECT {new_entry}, `Item`, `Reference`, `Chance`, `QuestRequired`, "
+            f"`LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment` "
+            f"FROM `creature_loot_template` WHERE `Entry` = {base_lootid};"
+        )
+    # Cache references — boss = 100% each, trash = 0.5% each (GroupId=1 for 1% total)
+    if is_boss:
+        lines.append(
+            f"INSERT INTO `creature_loot_template` SET "
+            f"`Entry` = {new_entry}, `Item` = {cache_armor_entry}, "
+            f"`Reference` = 0, `Chance` = 100, `MaxCount` = 1, "
+            f"`Comment` = 'boss armor cache';"
+        )
+        lines.append(
+            f"INSERT INTO `creature_loot_template` SET "
+            f"`Entry` = {new_entry}, `Item` = {cache_weapon_entry}, "
+            f"`Reference` = 0, `Chance` = 100, `MaxCount` = 1, "
+            f"`Comment` = 'boss weapon cache';"
+        )
+    else:
+        lines.append(
+            f"INSERT INTO `creature_loot_template` SET "
+            f"`Entry` = {new_entry}, `Item` = {cache_armor_entry}, "
+            f"`Reference` = 0, `Chance` = 0.5, `GroupId` = 1, `MaxCount` = 1, "
+            f"`Comment` = 'trash armor cache (0.5%)';"
+        )
+        lines.append(
+            f"INSERT INTO `creature_loot_template` SET "
+            f"`Entry` = {new_entry}, `Item` = {cache_weapon_entry}, "
+            f"`Reference` = 0, `Chance` = 0.5, `GroupId` = 1, `MaxCount` = 1, "
+            f"`Comment` = 'trash weapon cache (0.5%)';"
+        )
+    lines.append("")
     return lines
 
 
@@ -312,11 +385,9 @@ def run(
 
             new_entry = dungeon_data["entry_start"]
             map_id = dungeon_data["map_id"]
-            tier = dungeon_data["tier"]
-            heroic_boss_loot_id = boss_loot_id_for_tier(tier, is_mythic=False)
-            mythic_boss_loot_id = boss_loot_id_for_tier(tier, is_mythic=True)
-            heroic_trash_loot_id = trash_loot_id_for_tier(tier, is_mythic=False)
-            mythic_trash_loot_id = trash_loot_id_for_tier(tier, is_mythic=True)
+            dungeon_tier = dungeon_data["tier"]
+            cache_h_armor, cache_h_weapon = cache_items_for_tier(dungeon_tier, is_mythic=False)
+            cache_m_armor, cache_m_weapon = cache_items_for_tier(dungeon_tier, is_mythic=True)
 
             creature_groups = [
                 (tier, dungeon_data.get(tier, []))
@@ -334,10 +405,8 @@ def run(
                         new_entry += 1
                         continue
 
-                    modified, name, prefixed = modify_creature(
-                        creature, challenge, is_mythic=False,
-                        boss_loot_id=heroic_boss_loot_id,
-                        trash_loot_id=heroic_trash_loot_id,
+                    modified, name, prefixed, base_lootid = modify_creature(
+                        creature, challenge, is_mythic=False, new_entry=new_entry,
                     )
                     queries = generate_sql(
                         modified, new_entry, entry_id,
@@ -345,6 +414,10 @@ def run(
                         creature_name=name, prefixed_name=prefixed
                     )
                     all_queries.extend(queries)
+                    all_queries.extend(generate_loot_sql(
+                        new_entry, base_lootid, challenge,
+                        cache_h_armor, cache_h_weapon, prefixed
+                    ))
                     processed += 1
                     new_entry += 1
 
@@ -362,10 +435,8 @@ def run(
                         new_entry += 1
                         continue
 
-                    modified, name, prefixed = modify_creature(
-                        creature, challenge, is_mythic=True,
-                        boss_loot_id=mythic_boss_loot_id,
-                        trash_loot_id=mythic_trash_loot_id,
+                    modified, name, prefixed, base_lootid = modify_creature(
+                        creature, challenge, is_mythic=True, new_entry=new_entry,
                     )
                     queries = generate_sql(
                         modified, new_entry, entry_id,
@@ -373,6 +444,10 @@ def run(
                         creature_name=name, prefixed_name=prefixed
                     )
                     all_queries.extend(queries)
+                    all_queries.extend(generate_loot_sql(
+                        new_entry, base_lootid, challenge,
+                        cache_m_armor, cache_m_weapon, prefixed
+                    ))
                     processed += 1
                     new_entry += 1
 

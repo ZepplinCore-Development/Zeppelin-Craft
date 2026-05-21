@@ -318,10 +318,12 @@ def _spec_block(spec: CacheSpec, pool: Dict[Tuple[str, str, int, int], List[int]
         lines.extend(_item_loot_sql(spec, cache_kind))
         lines.append("")
 
-    lines.extend(_boss_loot_sql(spec))
-    lines.append("")
-    lines.extend(_trash_loot_sql(spec))
-    lines.append("")
+    # Per-clone lootid wiring lives in heroic.py: each clone uses its own
+    # entry as lootid and emits a creature_loot_template that copies the
+    # base creature's loot rows + adds cache references. The shared boss/
+    # trash loot IDs (spec.boss_loot_id / spec.trash_loot_id) are no longer
+    # written to creature_loot_template here — they remain reserved in case
+    # we want to revert to the shared-pool model.
     return lines
 
 
@@ -349,19 +351,17 @@ def generate(output_path: Path) -> Tuple[int, int]:
     return len(CACHE_SPECS) * 2, items_total
 
 
-def boss_loot_id_for_tier(tier: str, is_mythic: bool) -> int:
-    """Look up the creature_loot_template entry that a boss should use."""
+def cache_items_for_tier(tier: str, is_mythic: bool):
+    """Return (armor_cache_entry, weapon_cache_entry) for the given tier and difficulty.
+
+    Bosses and trash both use the clone's own entry as its lootid; the
+    creature_loot_template rows are built per-clone in heroic.py (copy of
+    base creature loot + cache references). The shared boss/trash loot IDs
+    on CacheSpec (9100400 etc.) are kept for compatibility but no longer
+    referenced by creature_template.lootid.
+    """
     difficulty = "mythic" if is_mythic else "heroic"
     for spec in CACHE_SPECS:
         if spec.tier == tier and spec.difficulty == difficulty:
-            return spec.boss_loot_id
-    raise ValueError(f"No cache spec for tier={tier!r}, mythic={is_mythic}")
-
-
-def trash_loot_id_for_tier(tier: str, is_mythic: bool) -> int:
-    """Look up the creature_loot_template entry that trash should use."""
-    difficulty = "mythic" if is_mythic else "heroic"
-    for spec in CACHE_SPECS:
-        if spec.tier == tier and spec.difficulty == difficulty:
-            return spec.trash_loot_id
+            return spec.armor_cache.entry, spec.weapon_cache.entry
     raise ValueError(f"No cache spec for tier={tier!r}, mythic={is_mythic}")

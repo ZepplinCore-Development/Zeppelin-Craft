@@ -201,7 +201,11 @@ def _pick_stat_ids(cell: MatrixCell, rng: random.Random) -> List[int]:
 
 
 def _allowable_class(class_id: int) -> int:
-    return CLASS_BITMASK.get(class_id, -1)
+    # Items are not class-restricted at the item level. The cache opens with
+    # class-conditional refs (F-074), so a player only ever gets items their
+    # class-pool can equip. Leaving the item itself unrestricted (-1) keeps
+    # cross-class transmog and trades open.
+    return -1
 
 
 def generate_row(
