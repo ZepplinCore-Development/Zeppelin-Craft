@@ -261,6 +261,20 @@ def generate_loot_sql(
             f"`LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment` "
             f"FROM `creature_loot_template` WHERE `Entry` = {base_lootid};"
         )
+
+    # Skip cache drops on bosses with no creature loot table (lootid=0).
+    # These are multi-add or event-driven encounters where the actual
+    # encounter reward lives on a gameobject chest (e.g. Seven Hidden /
+    # Chest of the Seven, Atiesh / Strath summoning event). Cache drops
+    # should be added to the GO chest instead.
+    if is_boss and base_lootid == 0:
+        lines.append(
+            f"-- {creature_name} has no creature loot (lootid=0); "
+            f"cache drops belong on the encounter's GO chest, not this kill"
+        )
+        lines.append("")
+        return lines
+
     # Cache references — boss = 100% each, trash = 0.5% each (GroupId=1 for 1% total)
     if is_boss:
         lines.append(
