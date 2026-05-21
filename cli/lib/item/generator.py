@@ -15,10 +15,13 @@ from typing import Dict, List, Optional
 from .matrix import MatrixCell
 from .scaler import (
     DPS_BUDGET_WEIGHT,
+    compute_armor,
     compute_budget,
+    compute_shield_block,
     compute_weapon_damage,
     compute_weapon_dps,
     distribute_stats,
+    get_disenchant,
 )
 
 DATA_DIR = Path(__file__).parent / "data"
@@ -241,6 +244,8 @@ def generate_row(
 
     stats = distribute_stats(stat_ids, stat_budget, rng)
 
+    de_id, de_skill = get_disenchant(tier)
+
     row = {
         "entry": entry_id,
         "class": cell.item_class,
@@ -257,11 +262,21 @@ def generate_row(
         "stats": stats,
         "flagsCustom": 0,
         "VerifiedBuild": 0,
+        "DisenchantID": de_id,
+        "RequiredDisenchantSkill": de_skill,
     }
 
     # Weapons get damage and speed. Skip relics, off-hands, shields, etc.
     weapon = compute_weapon_damage(cell.item_class, cell.subclass, item_level, cell.role)
     if weapon is not None:
         row["dmg_min1"], row["dmg_max1"], row["delay"] = weapon
+
+    # Armor-class items get an armor value; shields also get a block value.
+    armor = compute_armor(cell.item_class, cell.subclass, cell.inventory_type, item_level)
+    if armor > 0:
+        row["armor"] = armor
+    block = compute_shield_block(cell.subclass, item_level)
+    if block > 0:
+        row["block"] = block
 
     return row

@@ -490,8 +490,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BFDGhamooraHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Ghamoo-ra", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Ghamoo-ra", "=q5=CHANCE TO DROP"};
     { 6, 23720, "", "=q3=Riding Turtle", "=ds=#e10#", "", "50.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Ghamoo-ra", "=q5=ONE WILL DROP"};
@@ -510,8 +510,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BFDSarevessHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lady Sarevess", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Lady Sarevess", "=q5=CHANCE TO DROP"};
     { 6, 5952, "", "=q1=Corrupted Brain Stem", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Lady Sarevess", "=q5=ONE WILL DROP"};
@@ -530,8 +530,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BFDGelihastHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Gelihast", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Gelihast", "=q5=CHANCE TO DROP"};
     { 6, 58100, "", "=q3=Giant Murloc", "=ds=#e10#", "", "50.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Gelihast", "=q5=ONE WILL DROP"};
@@ -547,8 +547,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["BFDAquanisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Baron Aquanis", "=q5=ALL WILL DROP"};
     { 2, 16782, "", "=q2=Strange Water Globe", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
 	};
 
 	AtlasLoot_Data["BFDKelris"] = {
@@ -562,8 +562,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["BFDKelrisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Twilight Lord Kelris", "=q5=ALL WILL DROP"};
     { 2, 5881, "", "=q1=Head of Kelris", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Twilight Lord Kelris", "=q5=ONE WILL DROP"};
     { 7, 1155, "", "=q3=Rod of the Sleepwalker", "=ds=#w9#", "", "60.0%" };
     { 8, 6903, "", "=q3=Gaze Dreamer Pants", "=ds=#a1#", "", "40.0%" };
@@ -578,8 +578,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BFDSerrakisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Old Serra'kis", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Old Serra'kis", "=q5=ONE WILL DROP"};
     { 6, 6901, "", "=q3=Glowing Thresher Cape", "=ds=#a1#", "", "40.0%" };
     { 7, 6902, "", "=q3=Bands of Serra'kis", "=ds=#a2#", "", "30.0%" };
@@ -597,8 +597,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BFDAkumaiHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Aku'mai", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901709, "", "=q1=Void Pearl", "=ds=#m3#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Aku'mai", "=q5=ONE WILL DROP"};
     { 7, 6910, "", "=q3=Leech Pants", "=ds=#a1#", "", "40.0%" };
@@ -629,8 +629,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDLordRoccorHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Roccor", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Lord Roccor", "=q5=CHANCE TO DROP"};
     { 6, 11129, "", "=q1=Essence of the Elements", "=ds=#m3#", "", "80.0%" };
     { 7, 22527, "", "=q1=Core of Elements", "=ds=#m3#", "", "55.0%" };
@@ -653,8 +653,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDHighInterrogatorGerstahnHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic High Interrogator Gerstahn", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic High Interrogator Gerstahn", "=q5=ONE WILL DROP"};
     { 6, 11624, "", "=q3=Kentic Amice", "=ds=#a1#", "", "25.0%" };
     { 7, 11625, "", "=q3=Enthralled Sphere", "=ds=#s15#", "", "25.0%" };
@@ -674,8 +674,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDAnubshiahHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Anub'shiah", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Anub'shiah", "=q5=CHANCE TO DROP"};
     { 6, 22525, "", "=q1=Crypt Fiend Parts", "=ds=#m3#", "", "57.0%" };
     { 7, 11678, "", "=q3=Carapace of Anub'shiah", "=ds=#a4#", "", "15.0%" };
@@ -695,8 +695,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDEvisceratorHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Eviscerator", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Eviscerator", "=q5=ONE WILL DROP"};
     { 6, 11679, "", "=q3=Rubicund Armguards", "=ds=#a3#", "", "35.0%" };
     { 7, 11685, "", "=q3=Splinthide Shoulders", "=ds=#a2#", "", "35.0%" };
@@ -714,8 +714,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDGoroshHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Gorosh the Dervish", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Gorosh the Dervish", "=q5=ONE WILL DROP"};
     { 6, 22257, "", "=q3=Bloodclot Band", "=ds=#s13#", "", "35.0%" };
     { 7, 22271, "", "=q3=Leggings of Frenzied Magic", "=ds=#a2#", "", "35.0%" };
@@ -736,8 +736,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["BRDGrizzleHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Grizzle", "=q5=ALL WILL DROP"};
     { 2, 11610, "", "=q3=Plans: Dark Iron Pulverizer", "=ds=#e2#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Grizzle", "=q5=ONE WILL DROP"};
     { 7, 11702, "", "=q3=Grizzle's Skinner", "=ds=#w1#", "", "35.0%" };
     { 8, 11703, "", "=q3=Stonewall Girdle", "=ds=#a4#", "", "35.0%" };
@@ -755,8 +755,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDHedrumHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Hedrum the Creeper", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Hedrum the Creeper", "=q5=ONE WILL DROP"};
     { 6, 11633, "", "=q3=Spiderfang Carapace", "=ds=#a4#", "", "35.0%" };
     { 7, 11634, "", "=q3=Silkweb Gloves", "=ds=#a1#", "", "35.0%" };
@@ -774,8 +774,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDOkthorHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Ok'thor the Breaker", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Ok'thor the Breaker", "=q5=ONE WILL DROP"};
     { 6, 11662, "", "=q3=Ban'thok Sash", "=ds=#a1#", "", "35.0%" };
     { 7, 11665, "", "=q3=Ogreseer Fists", "=ds=#a2#", "", "35.0%" };
@@ -791,8 +791,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["BRDTheldrenHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Theldren", "=q5=ALL WILL DROP"};
     { 2, 22047, "", "=q1=Top Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
 	};
 
 	AtlasLoot_Data["BRDHoundmaster"] = {
@@ -805,8 +805,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDHoundmasterHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Houndmaster Grebmar", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Houndmaster Grebmar", "=q5=ONE WILL DROP"};
     { 6, 11623, "", "=q3=Spritecaster Cape", "=ds=#a1#", "", "35.0%" };
     { 7, 11627, "", "=q3=Fleetfoot Greaves", "=ds=#a3#", "", "35.0%" };
@@ -831,8 +831,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDPyromantLoregrainHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Pyromancer Loregrain", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Pyromancer Loregrain", "=q5=CHANCE TO DROP"};
     { 6, 11207, "", "=q2=Formula: Enchant Weapon - Fiery Weapon", "=ds=#e2#", "", "16.0%" };
     { 7, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
@@ -873,8 +873,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDWarderStilgissHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Warder Stilgiss", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Warder Stilgiss", "=q5=CHANCE TO DROP"};
     { 6, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Warder Stilgiss", "=q5=ONE WILL DROP"};
@@ -892,8 +892,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDVerekHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Verek", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Verek", "=q5=CHANCE TO DROP"};
     { 6, 22242, "", "=q3=Verek's Leash", "=ds=#a3#", "", "13.0%" };
     { 7, 11755, "", "=q3=Verek's Collar", "=ds=#s2#", "", "12.0%" };
@@ -914,8 +914,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["BRDFineousDarkvireHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Fineous Darkvire", "=q5=ALL WILL DROP"};
     { 2, 10999, "", "=q1=Ironfel", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Fineous Darkvire", "=q5=CHANCE TO DROP"};
     { 7, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Fineous Darkvire", "=q5=ONE WILL DROP"};
@@ -944,8 +944,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Incendius", "=q5=ALL WILL DROP"};
     { 2, 11126, "", "=q1=Tablet of Kurniya", "=ds=#m3#", "", "100%" };
     { 3, 21987, "", "=q1=Incendicite of Incendius", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 901714, "", "=q1=Incendiary Core", "=ds=#m3#", "", "100%" };
     { 8, 0, "RoM_stellar_dice", "=q6=Heroic Lord Incendius", "=q5=CHANCE TO DROP"};
     { 9, 11129, "", "=q1=Essence of the Elements", "=ds=#m3#", "", "80.0%" };
@@ -967,8 +967,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDBaelGarHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Bael'Gar", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Bael'Gar", "=q5=ONE WILL DROP"};
     { 6, 11802, "", "=q3=Lavacrest Leggings", "=ds=#a4#", "", "32.0%" };
     { 7, 11803, "", "=q3=Force of Magma", "=ds=#w6#", "", "32.0%" };
@@ -992,8 +992,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["BRDGeneralAngerforgeHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic General Angerforge", "=q5=ALL WILL DROP"};
     { 2, 11464, "", "=q1=Marshal Windsor's Lost Information", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic General Angerforge", "=q5=CHANCE TO DROP"};
     { 7, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic General Angerforge", "=q5=ONE WILL DROP"};
@@ -1022,8 +1022,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Golem Lord Argelmach", "=q5=ALL WILL DROP"};
     { 2, 11268, "", "=q1=Head of Argelmach", "=ds=#m3#", "", "100%" };
     { 3, 11465, "", "=q1=Marshal Windsor's Lost Information", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Golem Lord Argelmach", "=q5=CHANCE TO DROP"};
     { 8, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "80.0%" };
     { 9, 21956, "", "=q3=Design: Dark Iron Scorpid", "=ds=#e2#", "", "60.0%" };
@@ -1074,8 +1074,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDFlamelashHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Ambassador Flamelash", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Ambassador Flamelash", "=q5=CHANCE TO DROP"};
     { 6, 11129, "", "=q1=Essence of the Elements", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Ambassador Flamelash", "=q5=ONE WILL DROP"};
@@ -1125,8 +1125,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDMagmusHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Magmus", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Magmus", "=q5=ONE WILL DROP"};
     { 6, 11746, "", "=q3=Golem Skull Helm", "=ds=#a4#", "", "20.0%" };
     { 7, 11935, "", "=q3=Magmus Stone", "=ds=#s15#", "", "20.0%" };
@@ -1238,8 +1238,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["LBRSOmokkHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Highlord Omokk", "=q5=ALL WILL DROP"};
     { 2, 12534, "", "=q1=Omokk's Head", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Highlord Omokk", "=q5=CHANCE TO DROP"};
     { 7, 21982, "", "=q1=Ogre Warbeads", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Highlord Omokk", "=q5=ONE WILL DROP"};
@@ -1282,8 +1282,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["LBRSVoshHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Shadow Hunter Vosh'gajin", "=q5=ALL WILL DROP"};
     { 2, 13352, "", "=q1=Vosh'gajin's Snakestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Shadow Hunter Vosh'gajin", "=q5=CHANCE TO DROP"};
     { 7, 12654, "", "=q3=Doomshot", "=ds=#e6#", "", "30.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Shadow Hunter Vosh'gajin", "=q5=ONE WILL DROP"};
@@ -1309,8 +1309,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["LBRSVooneHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic War Master Voone", "=q5=ALL WILL DROP"};
     { 2, 28972, "", "=q3=Flightblade Throwing Axe", "=ds=#w11#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic War Master Voone", "=q5=ONE WILL DROP"};
     { 7, 12582, "", "=q3=Keris of Zul'Serak", "=ds=#w4#", "", "20.0%" };
     { 8, 13177, "", "=q3=Talisman of Evasion", "=ds=#s2#", "", "20.0%" };
@@ -1335,8 +1335,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Mor Grayhoof", "=q5=ALL WILL DROP"};
     { 2, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
     { 3, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 7, 0, "AO_Unknown", "=q6=Heroic Mor Grayhoof", "=q5=ONE WILL DROP"};
     { 8, 22306, "", "=q3=Ironweave Belt", "=ds=#a1#", "", "20.0%" };
     { 9, 22319, "", "=q3=Tome of Divine Right", "=ds=#s15#", "", "20.0%" };
@@ -1365,8 +1365,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["LBRSSmolderwebHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Mother Smolderweb", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Mother Smolderweb", "=q5=ONE WILL DROP"};
     { 6, 13213, "", "=q3=Smolderweb's Eye", "=ds=#s14#", "", "35.0%" };
     { 7, 13244, "", "=q3=Gilded Gauntlets", "=ds=#a3#", "", "35.0%" };
@@ -1393,8 +1393,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["LBRSDoomhowlHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Urok Doomhowl", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Urok Doomhowl", "=q5=CHANCE TO DROP"};
     { 6, 21982, "", "=q1=Ogre Warbeads", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Urok Doomhowl", "=q5=ONE WILL DROP"};
@@ -1415,8 +1415,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["LBRSZigrisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Quartermaster Zigris", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Quartermaster Zigris", "=q5=CHANCE TO DROP"};
     { 6, 22138, "", "=q1=Blackrock Bracer", "=ds=#m3#", "", "80.0%" };
     { 7, 21955, "", "=q3=Design: Black Diamond Crab", "=ds=#e2#", "", "60.0%" };
@@ -1435,8 +1435,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["LBRSSlavenerHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Gizrul the Slavener", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Gizrul the Slavener", "=q5=ONE WILL DROP"};
     { 6, 13205, "", "=q3=Rhombeard Protector", "=ds=#w8#", "", "28.3%" };
     { 7, 13206, "", "=q3=Wolfshear Leggings", "=ds=#a1#", "", "28.3%" };
@@ -1454,8 +1454,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["LBRSHalyconHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Halycon", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Halycon", "=q5=ONE WILL DROP"};
     { 6, 13211, "", "=q3=Slashclaw Bracers", "=ds=#a3#", "", "28.7%" };
     { 7, 13212, "", "=q3=Halycon's Spiked Collar", "=ds=#s2#", "", "28.7%" };
@@ -1491,8 +1491,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["LBRSWyrmthalakHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Overlord Wyrmthalak", "=q5=ALL WILL DROP"};
     { 2, 12780, "", "=q1=General Drakkisath's Command", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901715, "", "=q1=Wyrmthalak's War Horn", "=ds=#m3#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Overlord Wyrmthalak", "=q5=CHANCE TO DROP"};
     { 8, 16786, "", "=q1=Black Dragonspawn Eye", "=ds=#m3#", "", "80.0%" };
@@ -1548,8 +1548,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Pyroguard Emberseer", "=q5=ALL WILL DROP"};
     { 2, 17322, "", "=q1=Eye of the Emberseer", "=ds=#m3#", "", "100%" };
     { 3, 21988, "", "=q1=Ember of Emberseer", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Pyroguard Emberseer", "=q5=CHANCE TO DROP"};
     { 8, 23320, "", "=q3=Tablet of Flame Shock VI", "=ds=#e2#", "", "8.00%" };
     { 10, 0, "AO_Unknown", "=q6=Heroic Pyroguard Emberseer", "=q5=ONE WILL DROP"};
@@ -1574,8 +1574,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["UBRSSolakarHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Solakar Flamewreath", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Solakar Flamewreath", "=q5=CHANCE TO DROP"};
     { 6, 16786, "", "=q1=Black Dragonspawn Eye", "=ds=#m3#", "", "80.0%" };
     { 7, 18657, "", "=q3=Schematic: Hyper-Radiant Flame Reflector", "=ds=#e2#", "", "6.00%" };
@@ -1663,8 +1663,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["UBRSBeastHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic The Beast", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic The Beast", "=q5=CHANCE TO DROP"};
     { 6, 24101, "", "=q3=Book of Ferocious Bite V", "=ds=#e2#", "", "13.0%" };
     { 16, 0, "AO_Unknown", "=q6=Heroic The Beast", "=q5=ONE WILL DROP"};
@@ -1694,8 +1694,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["UBRSValthalakHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Valthalak", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Lord Valthalak", "=q5=ONE WILL DROP"};
     { 6, 22302, "", "=q3=Ironweave Cowl", "=ds=#a1#", "", "12.5%" };
     { 7, 22335, "", "=q3=Lord Valthalak's Staff of Command", "=ds=#w9#", "", "12.5%" };
@@ -1730,8 +1730,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["UBRSDrakkisathHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic General Drakkisath", "=q5=ALL WILL DROP"};
     { 2, 16663, "", "=q1=Blood of the Black Dragon Champion", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901720, "", "=q1=Black Dragonflight Cipher", "=ds=#m3#", "", "100%" };
     { 6, 59001, "", "=q3=Drakkisath's Armor Cache - Chest", "=ds=#e10#", "", "100%" };
     { 8, 0, "RoM_stellar_dice", "=q6=Heroic General Drakkisath", "=q5=CHANCE TO DROP"};
@@ -2217,8 +2217,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["DMEPusillinHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Pusillin", "=q5=ALL WILL DROP"};
     { 2, 18261, "", "=q1=Book of Incantations", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
 	};
 
 	AtlasLoot_Data["DMEZevrimThornhoof"] = {
@@ -2232,8 +2232,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMEZevrimThornhoofHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Zevrim Thornhoof", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Zevrim Thornhoof", "=q5=ONE WILL DROP"};
     { 6, 18306, "", "=q2=Gloves of Shadowy Mist", "=ds=#a1#", "", "26.0%" };
     { 7, 18308, "", "=q2=Clever Hat", "=ds=#a2#", "", "26.0%" };
@@ -2255,8 +2255,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["DMELethtendrisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lethtendris", "=q5=ALL WILL DROP"};
     { 2, 18426, "", "=q1=Lethtendris's Web", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Lethtendris", "=q5=ONE WILL DROP"};
     { 7, 18301, "", "=q2=Lethtendris's Wand", "=ds=#w12#", "", "30.0%" };
     { 8, 18302, "", "=q2=Band of Vigor", "=ds=#s13#", "", "30.0%" };
@@ -2271,8 +2271,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMEPimgibHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Pimgib", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Pimgib", "=q5=CHANCE TO DROP"};
     { 6, 18354, "", "=q3=Pimgib's Collar", "=ds=#s14#", "", "14.0%" };
 	};
@@ -2294,8 +2294,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["DMEHydroHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Hydrospawn", "=q5=ALL WILL DROP"};
     { 2, 18299, "", "=q1=Hydrospawn Essence", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Hydrospawn", "=q5=CHANCE TO DROP"};
     { 7, 22527, "", "=q1=Core of Elements", "=ds=#m3#", "", "63.0%" };
     { 8, 7080, "", "=q2=Essence of Water", "=ds=#e7#", "", "11.0%" };
@@ -2325,8 +2325,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMEAlzzinHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Alzzin the Wildshaper", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901716, "", "=q1=Scepter of Sylvan Corruption", "=ds=#m3#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Alzzin the Wildshaper", "=q5=ONE WILL DROP"};
     { 7, 18309, "", "=q3=Gloves of Restoration", "=ds=#a2#", "", "10.0%" };
@@ -2358,8 +2358,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Isalien", "=q5=ALL WILL DROP"};
     { 2, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
     { 3, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 7, 0, "AO_Unknown", "=q6=Heroic Isalien", "=q5=ONE WILL DROP"};
     { 8, 22304, "", "=q3=Ironweave Gloves", "=ds=#a1#", "", "16.7%" };
     { 9, 22314, "", "=q3=Huntsman's Harpoon", "=ds=#w7#", "", "16.7%" };
@@ -2392,8 +2392,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMNGuardMoldarHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Guard Mol'dar", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Guard Mol'dar", "=q5=CHANCE TO DROP"};
     { 6, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
     { 7, 18493, "", "=q3=Bulky Iron Spaulders", "=ds=#a4#", "", "7.69%" };
@@ -2410,8 +2410,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMNStomperKreegHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Stomper Kreeg", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Stomper Kreeg", "=q5=CHANCE TO DROP"};
     { 6, 18425, "", "=q2=Kreeg's Mug", "=ds=#s15#", "", "40.0%" };
 	};
@@ -2432,8 +2432,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMNGuardFengusHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Guard Fengus", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Guard Fengus", "=q5=CHANCE TO DROP"};
     { 6, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Guard Fengus", "=q5=ONE WILL DROP"};
@@ -2486,8 +2486,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMNGuardSlipkikHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Guard Slip'kik", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Guard Slip'kik", "=q5=CHANCE TO DROP"};
     { 6, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
     { 7, 18493, "", "=q3=Bulky Iron Spaulders", "=ds=#a4#", "", "7.69%" };
@@ -2509,8 +2509,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMNCaptainKromcrushHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Captain Kromcrush", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Captain Kromcrush", "=q5=CHANCE TO DROP"};
     { 6, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Captain Kromcrush", "=q5=ONE WILL DROP"};
@@ -2530,8 +2530,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMNChoRushHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Cho'Rush the Observer", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Cho'Rush the Observer", "=q5=ONE WILL DROP"};
     { 6, 18483, "", "=q3=Mana Channeling Wand", "=ds=#w12#", "", "25.0%" };
     { 7, 18484, "", "=q3=Cho'Rush's Blade", "=ds=#w10#", "", "25.0%" };
@@ -2558,8 +2558,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMNKingGordokHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic King Gordok", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901718, "", "=q1=Gordok's Skull Goblet", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic King Gordok", "=q5=CHANCE TO DROP"};
     { 7, 21982, "", "=q1=Ogre Warbeads", "=ds=#m3#", "", "80.0%" };
@@ -2613,8 +2613,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMWTendrisWarpwoodHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Tendris Warpwood", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Tendris Warpwood", "=q5=ONE WILL DROP"};
     { 6, 18352, "", "=q2=Petrified Bark Shield", "=ds=#w8#", "", "25.0%" };
     { 7, 18353, "", "=q2=Stoneflower Staff", "=ds=#w9#", "", "25.0%" };
@@ -2632,8 +2632,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMWIllyannaRavenoakHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Illyanna Ravenoak", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Illyanna Ravenoak", "=q5=ONE WILL DROP"};
     { 6, 18347, "", "=q2=Well Balanced Axe", "=ds=#w1#", "", "25.0%" };
     { 7, 18349, "", "=q2=Gauntlets of Accuracy", "=ds=#a3#", "", "25.0%" };
@@ -2653,8 +2653,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 	AtlasLoot_Data["DMWMagisterKalendrisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Magister Kalendris", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Magister Kalendris", "=q5=CHANCE TO DROP"};
     { 6, 22309, "", "=q2=Pattern: Big Bag of Enchantment", "=ds=#e2#", "", "15.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Magister Kalendris", "=q5=ONE WILL DROP"};
@@ -2674,8 +2674,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMWTsuzeeHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Tsu'zee", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Tsu'zee", "=q5=ONE WILL DROP"};
     { 6, 18345, "", "=q2=Murmuring Ring", "=ds=#s13#", "", "33.3%" };
     { 7, 18346, "", "=q2=Threadbare Trousers", "=ds=#a1#", "", "33.3%" };
@@ -2702,8 +2702,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMWImmoltharHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Immol'thar", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901717, "", "=q1=Immol'thar's Fel Essence", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Immol'thar", "=q5=CHANCE TO DROP"};
     { 7, 24345, "", "=q3=Book of Cower IV", "=ds=#e2#", "", "13.0%" };
@@ -2730,8 +2730,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMWHelnurathHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Hel'nurath", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Lord Hel'nurath", "=q5=ONE WILL DROP"};
     { 6, 18754, "", "=q3=Fel Hardened Bracers", "=ds=#a4#", "", "25.0%" };
     { 7, 18755, "", "=q3=Xorothian Firestick", "=ds=#w5#", "", "25.0%" };
@@ -2755,8 +2755,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["DMWPrinceTortheldrinHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Prince Tortheldrin", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Prince Tortheldrin", "=q5=ONE WILL DROP"};
     { 6, 18373, "", "=q3=Chestplate of Tranquility", "=ds=#a2#", "", "10.0%" };
     { 7, 18375, "", "=q3=Bracers of the Eclipse", "=ds=#a2#", "", "10.0%" };
@@ -2800,8 +2800,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["GnomeGrubbisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Grubbis", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Grubbis", "=q5=CHANCE TO DROP"};
     { 6, 9445, "", "=q3=Grubbis Paws", "=ds=#a3#", "", "10.0%" };
 	};
@@ -2817,8 +2817,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["GnomeViscousFalloutHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Viscous Fallout", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Viscous Fallout", "=q5=CHANCE TO DROP"};
     { 6, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Viscous Fallout", "=q5=ONE WILL DROP"};
@@ -2836,8 +2836,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["GnomeElectrocutionerHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Electrocutioner 6000", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Electrocutioner 6000", "=q5=ONE WILL DROP"};
     { 6, 9446, "", "=q3=Electrocutioner Leg", "=ds=#w10#", "", "33.3%" };
     { 7, 9447, "", "=q3=Electrocutioner Lagnut", "=ds=#s13#", "", "33.3%" };
@@ -2852,8 +2852,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["GnomeCrowdPummelerHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Crowd Pummeler 9-60", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Crowd Pummeler 9-60", "=q5=ONE WILL DROP"};
     { 6, 9450, "", "=q3=Gnomebot Operating Boots", "=ds=#a2#", "", "60.0%" };
     { 7, 9449, "", "=q3=Manual Crowd Pummeler", "=ds=#w6#", "", "40.0%" };
@@ -2880,8 +2880,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["GnomeThermapluggHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Mekgineer Thermaplugg", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901708, "", "=q1=Plugg Nuts", "=ds=#m3#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Mekgineer Thermaplugg", "=q5=ONE WILL DROP"};
     { 7, 9458, "", "=q3=Thermaplugg's Central Core", "=ds=#w8#", "", "30.0%" };
@@ -2908,8 +2908,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["MaraNoxxionHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Noxxion", "=q5=ALL WILL DROP"};
     { 2, 17702, "", "=q1=Celebrian Rod", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Noxxion", "=q5=CHANCE TO DROP"};
     { 7, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Noxxion", "=q5=ONE WILL DROP"};
@@ -2933,8 +2933,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["MaraRazorlashHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Razorlash", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901700, "", "=q1=Razor Petal", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Razorlash", "=q5=CHANCE TO DROP"};
     { 7, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
@@ -2960,8 +2960,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["MaraVyletongueHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Vyletongue", "=q5=ALL WILL DROP"};
     { 2, 17703, "", "=q1=Celebrian Diamond", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Lord Vyletongue", "=q5=CHANCE TO DROP"};
     { 7, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Lord Vyletongue", "=q5=ONE WILL DROP"};
@@ -2993,8 +2993,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["MaraCelebrasHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Celebras the Cursed", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901701, "", "=q1=Carved Horn of Remulos", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Celebras the Cursed", "=q5=CHANCE TO DROP"};
     { 7, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
@@ -3016,8 +3016,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["MaraLandslideHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Landslide", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Landslide", "=q5=CHANCE TO DROP"};
     { 6, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Landslide", "=q5=ONE WILL DROP"};
@@ -3038,8 +3038,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["MaraGizlockHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Tinkerer Gizlock", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Tinkerer Gizlock", "=q5=CHANCE TO DROP"};
     { 6, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Tinkerer Gizlock", "=q5=ONE WILL DROP"};
@@ -3059,8 +3059,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["MaraRotgripHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Rotgrip", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Rotgrip", "=q5=CHANCE TO DROP"};
     { 6, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Rotgrip", "=q5=ONE WILL DROP"};
@@ -3086,8 +3086,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["MaraTheradrasHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Princess Theradras", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901746, "", "=q1=Face of Theradras", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Princess Theradras", "=q5=CHANCE TO DROP"};
     { 7, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
@@ -3117,8 +3117,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["RFCTaragamanHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Taragaman the Hungerer", "=q5=ALL WILL DROP"};
     { 2, 14540, "", "=q1=Taragaman the Hungerer's Heart", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Taragaman the Hungerer", "=q5=ONE WILL DROP"};
     { 7, 14148, "", "=q3=Crystalline Cuffs", "=ds=#a1#", "", "40.0%" };
     { 8, 14149, "", "=q3=Subterranean Cape", "=ds=#a1#", "", "40.0%" };
@@ -3136,8 +3136,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFCJergoshHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Jergosh the Invoker", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901707, "", "=q1=Searing Stone", "=ds=#m3#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Jergosh the Invoker", "=q5=ONE WILL DROP"};
     { 7, 14147, "", "=q3=Cavedweller Bracers", "=ds=#a3#", "", "40.0%" };
@@ -3158,8 +3158,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFDTutenkashHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Tuten'kash", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Tuten'kash", "=q5=ONE WILL DROP"};
     { 6, 10775, "", "=q3=Carapace of Tuten'kash", "=ds=#a4#", "", "33.3%" };
     { 7, 10776, "", "=q3=Silky Spider Cape", "=ds=#a1#", "", "33.3%" };
@@ -3177,8 +3177,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFDMordreshHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Mordresh Fire Eye", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Mordresh Fire Eye", "=q5=CHANCE TO DROP"};
     { 6, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Mordresh Fire Eye", "=q5=ONE WILL DROP"};
@@ -3195,8 +3195,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFDGluttonHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Glutton", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Glutton", "=q5=ONE WILL DROP"};
     { 6, 10772, "", "=q3=Glutton's Cleaver", "=ds=#w1#", "", "50.0%" };
     { 7, 10774, "", "=q3=Fleshhide Shoulders", "=ds=#a2#", "", "50.0%" };
@@ -3213,8 +3213,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFDRagglesnoutHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Ragglesnout", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Ragglesnout", "=q5=CHANCE TO DROP"};
     { 6, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Ragglesnout", "=q5=ONE WILL DROP"};
@@ -3240,8 +3240,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["RFDAmnennarHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Amnennar the Coldbringer", "=q5=ALL WILL DROP"};
     { 2, 10420, "", "=q1=Skull of the Coldbringer", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901705, "", "=q1=Frozen Bone", "=ds=#m3#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Amnennar the Coldbringer", "=q5=CHANCE TO DROP"};
     { 8, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
@@ -3261,8 +3261,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFDPlaguemawHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Plaguemaw the Rotting", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Plaguemaw the Rotting", "=q5=ONE WILL DROP"};
     { 6, 10760, "", "=q3=Swine Fists", "=ds=#a2#", "", "60.0%" };
     { 7, 10766, "", "=q3=Plaguerot Sprig", "=ds=#w12#", "", "40.0%" };
@@ -3281,8 +3281,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFKJargbaHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Death Speaker Jargba", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Death Speaker Jargba", "=q5=ONE WILL DROP"};
     { 6, 6682, "", "=q3=Death Speaker Robes", "=ds=#a1#", "", "40.0%" };
     { 7, 6685, "", "=q3=Death Speaker Mantle", "=ds=#a1#", "", "40.0%" };
@@ -3297,8 +3297,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFKRamtuskHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Overlord Ramtusk", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Overlord Ramtusk", "=q5=ONE WILL DROP"};
     { 6, 6686, "", "=q3=Tusken Helm", "=ds=#a3#", "", "60.0%" };
     { 7, 6687, "", "=q3=Corpsemaker", "=ds=#w1#", "", "40.0%" };
@@ -3312,8 +3312,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["RFKAgathelosHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Agathelos the Raging", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Agathelos the Raging", "=q5=ONE WILL DROP"};
     { 6, 6690, "", "=q3=Ferine Leggings", "=ds=#a2#", "", "60.0%" };
     { 7, 6691, "", "=q3=Swinetusk Shank", "=ds=#w4#", "", "40.0%" };
@@ -3343,8 +3343,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Charlga Razorflank", "=q5=ALL WILL DROP"};
     { 2, 5792, "", "=q1=Razorflank's Medallion", "=ds=#m3#", "", "100%" };
     { 3, 5793, "", "=q1=Razorflank's Heart", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 901704, "", "=q1=Gauntlets of Growth", "=ds=#m3#", "", "100%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Charlga Razorflank", "=q5=ONE WILL DROP"};
     { 9, 6693, "", "=q3=Agamaggan's Clutch", "=ds=#s13#", "", "40.0%" };
@@ -3385,8 +3385,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SMCFairbanksHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic High Inquisitor Fairbanks", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic High Inquisitor Fairbanks", "=q5=ONE WILL DROP"};
     { 6, 19507, "", "=q3=Inquisitor's Shawl", "=ds=#a1#", "", "33.3%" };
     { 7, 19508, "", "=q3=Branded Leather Bracers", "=ds=#a2#", "", "33.3%" };
@@ -3418,8 +3418,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SMGVishasHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Interrogator Vishas", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Interrogator Vishas", "=q5=ONE WILL DROP"};
     { 6, 7683, "", "=q3=Bloody Brass Knuckles", "=ds=#w13#", "", "90.0%" };
     { 7, 7682, "", "=q3=Torturing Poker", "=ds=#w4#", "", "10.0%" };
@@ -3435,8 +3435,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SMGThalnosHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Bloodmage Thalnos", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901710, "", "=q1=Bloodfire Amulet", "=ds=#m3#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Bloodmage Thalnos", "=q5=ONE WILL DROP"};
     { 7, 7684, "", "=q3=Bloodmage Mantle", "=ds=#a1#", "", "50.0%" };
@@ -3479,8 +3479,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SMLLokseyHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Houndmaster Loksey", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Houndmaster Loksey", "=q5=ONE WILL DROP"};
     { 6, 7756, "", "=q3=Dog Training Gloves", "=ds=#a2#", "", "60.0%" };
     { 7, 3456, "", "=q3=Dog Whistle", "=ds=#e0#", "", "30.0%" };
@@ -3500,8 +3500,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SMLDoanHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Arcanist Doan", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901723, "", "=q1=Arcane Orb of Doan", "=ds=#m3#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Arcanist Doan", "=q5=ONE WILL DROP"};
     { 7, 7711, "", "=q3=Robe of Doan", "=ds=#a1#", "", "24.0%" };
@@ -3563,8 +3563,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["WCMutanusHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Mutanus the Devourer", "=q5=ALL WILL DROP"};
     { 2, 10441, "", "=q1=Glowing Shard", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Mutanus the Devourer", "=q5=CHANCE TO DROP"};
     { 7, 6443, "", "=q1=Deviate Hide", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Mutanus the Devourer", "=q5=ONE WILL DROP"};
@@ -3586,8 +3586,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["WCVerdanHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Verdan the Everliving", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901706, "", "=q1=Everliving Spore", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Verdan the Everliving", "=q5=CHANCE TO DROP"};
     { 7, 6443, "", "=q1=Deviate Hide", "=ds=#m3#", "", "80.0%" };
@@ -3610,8 +3610,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["WCSerpentisHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Serpentis", "=q5=ALL WILL DROP"};
     { 2, 9741, "", "=q1=Gem of Serpentis", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Lord Serpentis", "=q5=ONE WILL DROP"};
     { 7, 5970, "", "=q3=Serpent Gloves", "=ds=#a1#", "", "25.0%" };
     { 8, 6459, "", "=q3=Savage Trodders", "=ds=#a3#", "", "25.0%" };
@@ -3629,8 +3629,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["WCSkumHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Skum", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Skum", "=q5=CHANCE TO DROP"};
     { 6, 6443, "", "=q1=Deviate Hide", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Skum", "=q5=ONE WILL DROP"};
@@ -3649,8 +3649,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["WCPythasHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Pythas", "=q5=ALL WILL DROP"};
     { 2, 9740, "", "=q1=Gem of Pythas", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Lord Pythas", "=q5=ONE WILL DROP"};
     { 7, 6473, "", "=q3=Armor of the Fang", "=ds=#a2#", "", "60.0%" };
     { 8, 6472, "", "=q3=Stinging Viper", "=ds=#w6#", "", "40.0%" };
@@ -3666,8 +3666,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["WCKreshHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Kresh", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Kresh", "=q5=CHANCE TO DROP"};
     { 6, 6443, "", "=q1=Deviate Hide", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Kresh", "=q5=ONE WILL DROP"};
@@ -3687,8 +3687,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["WCAnacondraHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lady Anacondra", "=q5=ALL WILL DROP"};
     { 2, 9739, "", "=q1=Gem of Anacondra", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Lady Anacondra", "=q5=ONE WILL DROP"};
     { 7, 5404, "", "=q3=Serpent's Shoulders", "=ds=#a2#", "", "80.0%" };
     { 8, 6446, "", "=q3=Snakeskin Bag", "=ds=#e1#", "", "10.0%" };
@@ -3707,8 +3707,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["WCCobrahnHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Cobrahn", "=q5=ALL WILL DROP"};
     { 2, 9738, "", "=q1=Gem of Cobrahn", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Lord Cobrahn", "=q5=ONE WILL DROP"};
     { 7, 6465, "", "=q3=Robe of the Moccasin", "=ds=#a1#", "", "60.0%" };
     { 8, 6460, "", "=q3=Cobrahn's Grasp", "=ds=#a3#", "", "20.0%" };
@@ -4015,8 +4015,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOGandlingHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Darkmaster Gandling", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901726, "", "=q1=Gandling's Plague Formula", "=ds=#m3#", "", "100%" };
     { 6, 59000, "", "=q3=Gandling's Armor Cache - Helm", "=ds=#e10#", "", "100%" };
     { 8, 0, "RoM_stellar_dice", "=q6=Heroic Darkmaster Gandling", "=q5=CHANCE TO DROP"};
@@ -4047,8 +4047,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Edwin VanCleef", "=q5=ALL WILL DROP"};
     { 2, 2874, "", "=q1=An Unsent Letter", "=ds=#m3#", "", "100%" };
     { 3, 3637, "", "=q1=Head of VanCleef", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 7, 0, "AO_Unknown", "=q6=Heroic Edwin VanCleef", "=q5=ONE WILL DROP"};
     { 8, 5193, "", "=q3=Cape of the Brotherhood", "=ds=#a1#", "", "30.0%" };
     { 9, 5202, "", "=q3=Corsair's Overshirt", "=ds=#a1#", "", "30.0%" };
@@ -4065,8 +4065,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["VCGreenskinHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Captain Greenskin", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Captain Greenskin", "=q5=ONE WILL DROP"};
     { 6, 5201, "", "=q3=Emberstone Staff", "=ds=#w9#", "", "40.0%" };
     { 7, 5200, "", "=q3=Impaling Harpoon", "=ds=#w7#", "", "30.0%" };
@@ -4085,8 +4085,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["VCCookieHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Cookie", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901727, "", "=q1=Stabby Patty Secret Formula", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Cookie", "=q5=CHANCE TO DROP"};
     { 7, 8490, "", "=q1=Cat Carrier (Siamese)", "=ds=#e10#", "", "15.0%" };
@@ -4104,8 +4104,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["VCSmiteHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Mr. Smite", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Mr. Smite", "=q5=ONE WILL DROP"};
     { 6, 5192, "", "=q3=Thief's Blade", "=ds=#w10#", "", "40.0%" };
     { 7, 5196, "", "=q3=Smite's Reaver", "=ds=#w1#", "", "40.0%" };
@@ -4120,8 +4120,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["VCGilnidHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Gilnid", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Gilnid", "=q5=ONE WILL DROP"};
     { 6, 5199, "", "=q3=Smelting Pants", "=ds=#a2#", "", "55.0%" };
     { 7, 1156, "", "=q3=Lavishly Jeweled Ring", "=ds=#s13#", "", "45.0%" };
@@ -4163,8 +4163,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["VCRhahkZorHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Rhahk'Zor", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Rhahk'Zor", "=q5=ONE WILL DROP"};
     { 6, 5187, "", "=q3=Rhahk'Zor's Hammer", "=ds=#w6#", "", "95.0%" };
     { 7, 872, "", "=q3=Rockslicer", "=ds=#w1#", "", "5.00%" };
@@ -4198,8 +4198,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOKirtonostheHeraldHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Kirtonos the Herald", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Kirtonos the Herald", "=q5=ONE WILL DROP"};
     { 7, 13955, "", "=q3=Stoneform Shoulders", "=ds=#a4#", "", "11.1%" };
     { 8, 13956, "", "=q3=Clutch of Andros", "=ds=#a1#", "", "11.1%" };
@@ -4232,8 +4232,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 3, 13523, "", "=q1=Blood of Innocents", "=ds=#m3#", "", "100%" };
     { 4, 13725, "", "=q1=Krastinov's Bag of Horrors", "=ds=#m3#", "", "100%" };
-    { 5, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 6, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Jandice Barov", "=q5=ONE WILL DROP"};
     { 9, 16701, "", "=q3=Dreadmist Mantle", "=ds=#a1#", "", "17.0%" };
     { 10, 14541, "", "=q3=Barovian Family Sword", "=ds=#w10#", "", "13.8%" };
@@ -4257,8 +4257,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SCHOLORattlegoreHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Rattlegore", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Rattlegore", "=q5=ONE WILL DROP"};
     { 6, 16711, "", "=q3=Shadowcraft Boots", "=ds=#a2#", "", "16.0%" };
     { 7, 14528, "", "=q3=Rattlecage Buckler", "=ds=#w8#", "", "14.0%" };
@@ -4289,8 +4289,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOVectusHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Vectus", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Vectus", "=q5=CHANCE TO DROP"};
     { 7, 22526, "", "=q1=Bone Fragments", "=ds=#m3#", "", "50.0%" };
     { 8, 14577, "", "=q3=Skullsmoke Pants", "=ds=#a1#", "", "7.00%" };
@@ -4308,8 +4308,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOMardukHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Marduk Blackpool", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Marduk Blackpool", "=q5=CHANCE TO DROP"};
     { 7, 14576, "", "=q3=Ebon Hilt of Marduk", "=ds=#w10#", "", "8.00%" };
     { 8, 18692, "", "=q3=Death Knight Sabatons", "=ds=#a4#", "", "5.00%" };
@@ -4338,8 +4338,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Ras Frostwhisper", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 3, 13626, "", "=q1=Human Head of Ras Frostwhisper", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 16, 0, "AO_Unknown", "=q6=Heroic Ras Frostwhisper", "=q5=ONE WILL DROP"};
     { 17, 13952, "", "=q3=Iceblade Hacker", "=ds=#w1#", "", "8.30%" };
     { 18, 14340, "", "=q3=Freezing Lich Robes", "=ds=#a1#", "", "8.30%" };
@@ -4371,8 +4371,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Kormok", "=q5=ALL WILL DROP"};
     { 2, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
     { 3, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 7, 0, "AO_Unknown", "=q6=Heroic Kormok", "=q5=ONE WILL DROP"};
     { 8, 22303, "", "=q3=Ironweave Pants", "=ds=#a1#", "", "20.0%" };
     { 9, 22326, "", "=q3=Amalgam's Band", "=ds=#s13#", "", "20.0%" };
@@ -4392,8 +4392,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOInstructorMaliciaHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Instructor Malicia", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Instructor Malicia", "=q5=CHANCE TO DROP"};
     { 7, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 8, 16710, "", "=q3=Shadowcraft Bracers", "=ds=#a2#", "", "5.00%" };
@@ -4411,8 +4411,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Doctor Theolen Krastinov", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 3, 13523, "", "=q1=Blood of Innocents", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Doctor Theolen Krastinov", "=q5=CHANCE TO DROP"};
     { 8, 16684, "", "=q3=Magister's Gloves", "=ds=#a1#", "", "14.0%" };
 	};
@@ -4425,8 +4425,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SCHOLOLorekeeperPolkeltHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lorekeeper Polkelt", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Lorekeeper Polkelt", "=q5=CHANCE TO DROP"};
     { 6, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 7, 16705, "", "=q3=Dreadmist Wraps", "=ds=#a1#", "", "17.0%" };
@@ -4443,8 +4443,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOTheRavenianHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic The Ravenian", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic The Ravenian", "=q5=CHANCE TO DROP"};
     { 7, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "44.0%" };
     { 8, 16716, "", "=q3=Wildheart Belt", "=ds=#a2#", "", "4.00%" };
@@ -4460,8 +4460,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOLordAlexeiBarovHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lord Alexei Barov", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Lord Alexei Barov", "=q5=CHANCE TO DROP"};
     { 7, 16722, "", "=q3=Lightforge Bracers", "=ds=#a4#", "", "5.00%" };
 	};
@@ -4476,8 +4476,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLOLadyIlluciaBarovHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Lady Illucia Barov", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Lady Illucia Barov", "=q5=CHANCE TO DROP"};
     { 7, 20520, "", "=q2=Dark Rune", "=ds=#e7#", "", "48.0%" };
 	};
@@ -4503,8 +4503,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SCHOLODarkmasterGandlingHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Darkmaster Gandling", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901726, "", "=q1=Gandling's Plague Formula", "=ds=#m3#", "", "100%" };
     { 6, 59000, "", "=q3=Gandling's Armor Cache - Helm", "=ds=#e10#", "", "100%" };
     { 8, 0, "RoM_stellar_dice", "=q6=Heroic Darkmaster Gandling", "=q5=CHANCE TO DROP"};
@@ -4556,8 +4556,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SFKDeathswornHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Deathsworn Captain", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Deathsworn Captain", "=q5=CHANCE TO DROP"};
     { 6, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Deathsworn Captain", "=q5=ONE WILL DROP"};
@@ -4574,8 +4574,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SFKRazorclawHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Razorclaw the Butcher", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Razorclaw the Butcher", "=q5=ONE WILL DROP"};
     { 6, 6226, "", "=q3=Bloody Apron", "=ds=#a1#", "", "45.0%" };
     { 7, 6633, "", "=q3=Butcher's Slicer", "=ds=#w10#", "", "45.0%" };
@@ -4590,8 +4590,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SFKSilverlaineHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Baron Silverlaine", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Baron Silverlaine", "=q5=ONE WILL DROP"};
     { 6, 6323, "", "=q3=Baron's Scepter", "=ds=#w6#", "", "70.0%" };
     { 7, 6321, "", "=q3=Silverlaine's Family Seal", "=ds=#s13#", "", "30.0%" };
@@ -4605,8 +4605,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SFKSpringvaleHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Commander Springvale", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Commander Springvale", "=q5=ONE WILL DROP"};
     { 6, 3191, "", "=q3=Arced War Axe", "=ds=#w1#", "", "50.0%" };
     { 7, 6320, "", "=q3=Commander's Crest", "=ds=#w8#", "", "50.0%" };
@@ -4620,8 +4620,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SFKOdoHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Odo the Blindwatcher", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Odo the Blindwatcher", "=q5=ONE WILL DROP"};
     { 6, 6319, "", "=q3=Girdle of the Blindwatcher", "=ds=#a2#", "", "60.0%" };
     { 7, 6318, "", "=q3=Odo's Ley Staff", "=ds=#w9#", "", "40.0%" };
@@ -4635,8 +4635,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SFKFenrusHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Fenrus the Devourer", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Fenrus the Devourer", "=q5=ONE WILL DROP"};
     { 6, 6340, "", "=q3=Fenrus' Hide", "=ds=#a1#", "", "70.0%" };
     { 7, 3230, "", "=q3=Black Wolf Bracers", "=ds=#a2#", "", "30.0%" };
@@ -4650,8 +4650,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["SFKNandosHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Wolf Master Nandos", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Wolf Master Nandos", "=q5=ONE WILL DROP"};
     { 6, 3748, "", "=q3=Feline Mantle", "=ds=#a1#", "", "60.0%" };
     { 7, 6314, "", "=q3=Wolfmaster Cape", "=ds=#a1#", "", "40.0%" };
@@ -4670,8 +4670,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SFKArugalHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Archmage Arugal", "=q5=ALL WILL DROP"};
     { 2, 5442, "", "=q1=Head of Arugal", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901703, "", "=q1=Fangfire Amulet", "=ds=#m3#", "", "100%" };
     { 7, 0, "AO_Unknown", "=q6=Heroic Archmage Arugal", "=q5=ONE WILL DROP"};
     { 8, 6324, "", "=q3=Robes of Arugal", "=ds=#a1#", "", "40.0%" };
@@ -4703,8 +4703,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["STRATStratholmeCourierHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Stratholme Courier", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Stratholme Courier", "=q5=ONE WILL DROP"};
     { 6, 13306, "", "=q1=King's Square Postbox Key", "=ds=#e5#", "", "50.0%" };
     { 7, 13307, "", "=q1=Fras Siabi's Postbox Key", "=ds=#e5#", "", "50.0%" };
@@ -4726,8 +4726,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Fras Siabi", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 3, 13172, "", "=q1=Siabi's Premium Tobacco", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
 	};
 
 	AtlasLoot_Data["STRATAtiesh"] = {
@@ -4763,8 +4763,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STRATTheUnforgivenHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic The Unforgiven", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic The Unforgiven", "=q5=CHANCE TO DROP"};
     { 7, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic The Unforgiven", "=q5=ONE WILL DROP"};
@@ -4791,8 +4791,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STRATTimmytheCruelHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Timmy the Cruel", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Timmy the Cruel", "=q5=CHANCE TO DROP"};
     { 7, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Timmy the Cruel", "=q5=ONE WILL DROP"};
@@ -4840,8 +4840,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STRATCannonMasterWilleyHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Cannon Master Willey", "=q5=ALL WILL DROP"};
     { 2, 13377, "", "=q3=Miniature Cannon Balls", "=ds=#e6#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Cannon Master Willey", "=q5=CHANCE TO DROP"};
     { 7, 12839, "", "=q3=Plans: Heartseeker", "=ds=#e2#", "", "6.00%" };
     { 16, 0, "AO_Unknown", "=q6=Heroic Cannon Master Willey", "=q5=ONE WILL DROP"};
@@ -4870,8 +4870,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["STRATArchivistGalfordHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Archivist Galford", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Archivist Galford", "=q5=CHANCE TO DROP"};
     { 6, 12811, "", "=q2=Righteous Orb", "=ds=#e7#", "", "66.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Archivist Galford", "=q5=ONE WILL DROP"};
@@ -4905,8 +4905,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STRATBalnazzarHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Balnazzar", "=q5=ALL WILL DROP"};
     { 2, 13250, "", "=q1=Head of Balnazzar", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901719, "", "=q1=Dathrohan's Tainted Medallion", "=ds=#m3#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Balnazzar", "=q5=CHANCE TO DROP"};
     { 8, 14512, "", "=q4=Pattern: Truefaith Vestments", "=ds=#e2#", "", "6.00%" };
@@ -4971,8 +4971,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STRATBaronessAnastariHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Baroness Anastari", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Baroness Anastari", "=q5=CHANCE TO DROP"};
     { 7, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 8, 100003, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "12.0%" };
@@ -5023,8 +5023,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STRATNerubenkanHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Nerub'enkan", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Nerub'enkan", "=q5=CHANCE TO DROP"};
     { 7, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Nerub'enkan", "=q5=ONE WILL DROP"};
@@ -5064,8 +5064,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STRATMalekithePallidHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Maleki the Pallid", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Maleki the Pallid", "=q5=CHANCE TO DROP"};
     { 7, 100003, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "10.0%" };
     { 8, 12833, "", "=q3=Plans: Hammer of the Titans", "=ds=#e2#", "", "6.00%" };
@@ -5102,8 +5102,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Magistrate Barthilas", "=q5=ALL WILL DROP"};
     { 2, 12382, "", "=q2=Key to the City", "=ds=#e5#", "", "100%" };
     { 3, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Magistrate Barthilas", "=q5=CHANCE TO DROP"};
     { 8, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 10, 0, "AO_Unknown", "=q6=Heroic Magistrate Barthilas", "=q5=ONE WILL DROP"};
@@ -5137,8 +5137,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 12735, "", "=q2=Frayed Abomination Stitching", "=ds=#m3#", "", "100%" };
     { 3, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 4, 15880, "", "=q1=Head of Ramstein the Gorger", "=ds=#m3#", "", "100%" };
-    { 5, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 6, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 6, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 8, 0, "RoM_stellar_dice", "=q6=Heroic Ramstein the Gorger", "=q5=CHANCE TO DROP"};
     { 9, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 16, 0, "AO_Unknown", "=q6=Heroic Ramstein the Gorger", "=q5=ONE WILL DROP"};
@@ -5182,8 +5182,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Baron Rivendare", "=q5=ALL WILL DROP"};
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 3, 13251, "", "=q1=Head of Baron Rivendare", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 901724, "", "=q1=Rivendare's Runeblade", "=ds=#m3#", "", "100%" };
     { 7, 59002, "", "=q3=Rivendare's Armor Cache - Legs", "=ds=#e10#", "", "100%" };
     { 9, 0, "RoM_stellar_dice", "=q6=Heroic Baron Rivendare", "=q5=CHANCE TO DROP"};
@@ -5251,8 +5251,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["StockTargorrHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Targorr the Dread", "=q5=ALL WILL DROP"};
     { 2, 3630, "", "=q1=Head of Targorr", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Targorr the Dread", "=q5=CHANCE TO DROP"};
     { 7, 24062, "", "=q3=Enduring Talasite", "", "", "5.00%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Targorr the Dread", "=q5=ONE WILL DROP"};
@@ -5272,8 +5272,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["StockKamHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Kam Deepfury", "=q5=ALL WILL DROP"};
     { 2, 3640, "", "=q1=Head of Deepfury", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Kam Deepfury", "=q5=ONE WILL DROP"};
     { 7, 2280, "", "=q3=Walking Stick of Kam", "=ds=#w9#", "", "33.3%" };
     { 8, 901102, "", "=q3=Tim Kam Slam", "=ds=#w6#", "", "33.3%" };
@@ -5294,8 +5294,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["StockBazilHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Bazil Thredd", "=q5=ALL WILL DROP"};
     { 2, 2926, "", "=q1=Head of Bazil Thredd", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901702, "", "=q1=Prison Wallet", "=ds=#m3#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Bazil Thredd", "=q5=CHANCE TO DROP"};
     { 8, 2909, "", "=q1=Red Wool Bandana", "=ds=#m3#", "", "80.0%" };
@@ -5315,8 +5315,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["StockDextrenHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Dextren Ward", "=q5=ALL WILL DROP"};
     { 2, 3628, "", "=q1=Hand of Dextren Ward", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Dextren Ward", "=q5=ONE WILL DROP"};
     { 7, 901107, "", "=q3=Grave Digging Shovel", "=ds=#w6#", "", "50.0%" };
     { 8, 901108, "", "=q3=Coffin Splinter", "=ds=#w12#", "", "50.0%" };
@@ -5334,8 +5334,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["StockBruegalHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Bruegal Ironknuckle", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Bruegal Ironknuckle", "=q5=CHANCE TO DROP"};
     { 6, 2909, "", "=q1=Red Wool Bandana", "=ds=#m3#", "", "80.0%" };
     { 7, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
@@ -5379,8 +5379,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["STAtalalarionHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Atal'alarion", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901729, "", "=q1=Shirvallah's Tear", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Atal'alarion", "=q5=CHANCE TO DROP"};
     { 7, 6181, "", "=q1=Fetish of Hakkar", "=ds=#m3#", "", "80.0%" };
@@ -5424,8 +5424,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["STAvatarofHakkarHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Avatar of Hakkar", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Avatar of Hakkar", "=q5=ONE WILL DROP"};
     { 6, 10842, "", "=q3=Windscale Sarong", "=ds=#a2#", "", "17.2%" };
     { 7, 10843, "", "=q3=Featherskin Cape", "=ds=#a1#", "", "17.2%" };
@@ -5493,8 +5493,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STEranikusHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Shade of Eranikus", "=q5=ALL WILL DROP"};
     { 2, 10454, "", "=q2=Essence of Eranikus", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901713, "", "=q1=Dream Seed", "=ds=#m3#", "", "100%" };
     { 7, 0, "AO_Unknown", "=q6=Heroic Shade of Eranikus", "=q5=ONE WILL DROP"};
     { 8, 10829, "", "=q3=The Dragon's Eye", "=ds=#s2#", "", "17.2%" };
@@ -5562,8 +5562,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["UldBaelogHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Baelog", "=q5=ALL WILL DROP"};
     { 2, 9399, "", "=q2=Precision Arrow", "=ds=#e6#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Baelog", "=q5=ONE WILL DROP"};
     { 7, 9400, "", "=q3=Baelog's Shortbow", "=ds=#w2#", "", "90.0%" };
     { 8, 9401, "", "=q3=Nordic Longshank", "=ds=#w10#", "", "10.0%" };
@@ -5582,8 +5582,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["UldReveloshHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Revelosh", "=q5=ALL WILL DROP"};
     { 2, 7741, "", "=q3=The Shaft of Tsol", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Revelosh", "=q5=CHANCE TO DROP"};
     { 7, 9387, "", "=q3=Revelosh's Boots", "=ds=#a4#", "", "23.0%" };
     { 8, 9389, "", "=q3=Revelosh's Spaulders", "=ds=#a2#", "", "23.0%" };
@@ -5604,8 +5604,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["UldIronayaHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Ironaya", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901728, "", "=q1=Titanforged Beacon", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Ironaya", "=q5=CHANCE TO DROP"};
     { 7, 100017, "", "=q2=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
@@ -5625,8 +5625,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["UldObsidianSentinelHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Obsidian Sentinel", "=q5=ALL WILL DROP"};
     { 2, 8053, "", "=q1=Obsidian Power Source", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Obsidian Sentinel", "=q5=CHANCE TO DROP"};
     { 7, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
 	};
@@ -5641,8 +5641,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["UldAncientStoneKeeperHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Ancient Stone Keeper", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Ancient Stone Keeper", "=q5=CHANCE TO DROP"};
     { 6, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Ancient Stone Keeper", "=q5=ONE WILL DROP"};
@@ -5660,8 +5660,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["UldGalgannFirehammerHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Galgann Firehammer", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Galgann Firehammer", "=q5=ONE WILL DROP"};
     { 6, 11311, "", "=q3=Emberscale Cape", "=ds=#a1#", "", "40.0%" };
     { 7, 9412, "", "=q3=Galgann's Fireblaster", "=ds=#w5#", "", "20.0%" };
@@ -5689,8 +5689,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["UldGrimlokHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Grimlok", "=q5=ALL WILL DROP"};
     { 2, 7670, "", "=q1=Shattered Necklace Sapphire", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Grimlok", "=q5=ONE WILL DROP"};
     { 7, 9414, "", "=q3=Oilskin Leggings", "=ds=#a2#", "", "40.0%" };
     { 8, 9415, "", "=q3=Grimlok's Tribal Vestments", "=ds=#a1#", "", "40.0%" };
@@ -5710,8 +5710,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["UldArchaedasHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Archaedas", "=q5=ALL WILL DROP"};
     { 2, 7672, "", "=q1=Shattered Necklace Power Source", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 901711, "", "=q1=Resonating Stone of Unity", "=ds=#m3#", "", "100%" };
     { 7, 0, "AO_Unknown", "=q6=Heroic Archaedas", "=q5=ONE WILL DROP"};
     { 8, 11118, "", "=q3=Archaedic Stone", "=ds=#s13#", "", "60.0%" };
@@ -5827,8 +5827,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["ZFAntusulHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Antu'sul", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Antu'sul", "=q5=CHANCE TO DROP"};
     { 6, 9523, "", "=q1=Troll Temper", "=ds=#m3#", "", "55.0%" };
     { 8, 0, "AO_Unknown", "=q6=Heroic Antu'sul", "=q5=ONE WILL DROP"};
@@ -5848,8 +5848,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["ZFThekatheMartyrHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Theka the Martyr", "=q5=ALL WILL DROP"};
     { 2, 10660, "", "=q1=First Mosh'aru Tablet", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Theka the Martyr", "=q5=CHANCE TO DROP"};
     { 7, 9523, "", "=q1=Troll Temper", "=ds=#m3#", "", "55.0%" };
 	};
@@ -5862,8 +5862,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["ZFWitchDoctorZumrahHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Witch Doctor Zum'rah", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Heroic Witch Doctor Zum'rah", "=q5=CHANCE TO DROP"};
     { 6, 18083, "", "=q3=Jumanza Grips", "=ds=#a1#", "", "30.0%" };
     { 7, 18082, "", "=q3=Zum'rah's Vexing Cane", "=ds=#w9#", "", "15.0%" };
@@ -5879,8 +5879,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["ZFNekrumGutchewerHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Nekrum Gutchewer", "=q5=ALL WILL DROP"};
     { 2, 9471, "", "=q1=Nekrum's Medallion", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Nekrum Gutchewer", "=q5=CHANCE TO DROP"};
     { 7, 9523, "", "=q1=Troll Temper", "=ds=#m3#", "", "55.0%" };
 	};
@@ -5895,8 +5895,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["ZFSezzzizHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Shadowpriest Sezz'ziz", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Heroic Shadowpriest Sezz'ziz", "=q5=ONE WILL DROP"};
     { 6, 9470, "", "=q3=Bad Mojo Mask", "=ds=#a1#", "", "25.0%" };
     { 7, 9473, "", "=q3=Jinxed Hoodoo Skin", "=ds=#a2#", "", "25.0%" };
@@ -5934,8 +5934,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Hydromancer Velratha", "=q5=ALL WILL DROP"};
     { 2, 9234, "", "=q1=Tiara of the Deep", "=ds=#m3#", "", "100%" };
     { 3, 10661, "", "=q1=Second Mosh'aru Tablet", "=ds=#m3#", "", "100%" };
-    { 4, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 5, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
 	};
 
 	AtlasLoot_Data["ZFGahzrilla"] = {
@@ -5949,8 +5949,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["ZFGahzrillaHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Gahz'rilla", "=q5=ALL WILL DROP"};
     { 2, 8707, "", "=q1=Gahz'rilla's Electrified Scale", "=ds=#m3#", "", "100%" };
-    { 3, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 4, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Gahz'rilla", "=q5=ONE WILL DROP"};
     { 7, 9467, "", "=q3=Gahz'rilla Fang", "=ds=#w4#", "", "50.0%" };
     { 8, 9469, "", "=q3=Gahz'rilla Scale Armor", "=ds=#a3#", "", "50.0%" };
@@ -5971,8 +5971,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["ZFChiefUkorzSandscalpHEROIC"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Heroic Chief Ukorz Sandscalp", "=q5=ALL WILL DROP"};
-    { 2, 66200, "", "=q3=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
-    { 3, 66201, "", "=q3=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 901712, "", "=q1=Sandfury War Drum", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Chief Ukorz Sandscalp", "=q5=CHANCE TO DROP"};
     { 7, 9523, "", "=q1=Troll Temper", "=ds=#m3#", "", "55.0%" };

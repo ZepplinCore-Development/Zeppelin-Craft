@@ -90,7 +90,7 @@ WEAPON_TOKEN_CONFIG = {
 CLASS_ORDER = ("warrior", "paladin", "hunter", "rogue", "priest",
                "deathknight", "shaman", "mage", "warlock", "druid")
 ROLE_ORDER = ("tank", "melee", "caster", "healer")
-QUALITY_ORDER = (3, 4)  # rare, epic
+QUALITY_ORDER = (4,)  # epic only — heroic and mythic both = epic quality
 
 QUALITY_LABEL = {3: "Rare", 4: "Epic"}
 

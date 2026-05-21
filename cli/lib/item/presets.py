@@ -20,11 +20,15 @@ COLUMN_ORDER = [
     "displayid", "Quality", "InventoryType", "AllowableClass",
     "AllowableRace", "ItemLevel", "RequiredLevel",
     "flagsCustom", "VerifiedBuild",
+    "DisenchantID", "RequiredDisenchantSkill",
 ]
 
 # Weapon-only columns (emitted when generator.compute_weapon_damage returns
 # values for the cell). Non-weapons leave these at item_template defaults.
 WEAPON_COLUMNS = ["dmg_min1", "dmg_max1", "delay"]
+
+# Armor / shield columns (only emitted when generator computes them for the cell).
+ARMOR_COLUMNS = ["armor", "block"]
 
 
 def _load_tier_config():
@@ -49,6 +53,10 @@ def _format_row(row: dict) -> str:
         var_lines.append(f"  `{col}` = {_format_value(row[col])}")
     # Weapon damage (only present for class=2 weapons)
     for col in WEAPON_COLUMNS:
+        if col in row:
+            var_lines.append(f"  `{col}` = {_format_value(row[col])}")
+    # Armor / block (only present for class=4 armor items + shields)
+    for col in ARMOR_COLUMNS:
         if col in row:
             var_lines.append(f"  `{col}` = {_format_value(row[col])}")
     # Stats: stat_type1/stat_value1 ... stat_typeN/stat_valueN

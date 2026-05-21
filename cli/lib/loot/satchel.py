@@ -89,7 +89,7 @@ CACHE_SPECS: Tuple[CacheSpec, ...] = (
         armor_cache=CacheItem(
             entry=66200,
             name="Azeroth Heroic Armor Cache",
-            quality=3,
+            quality=4,
             display_id=134788,
             item_level=66,
             required_level=60,
@@ -97,7 +97,7 @@ CACHE_SPECS: Tuple[CacheSpec, ...] = (
         weapon_cache=CacheItem(
             entry=66201,
             name="Azeroth Heroic Weapon Cache",
-            quality=3,
+            quality=4,
             display_id=134455,
             item_level=66,
             required_level=60,
@@ -151,7 +151,12 @@ def _build_pool() -> Dict[Tuple[str, str, int, str], List[int]]:
 
 
 def _cache_item_sql(item: CacheItem) -> List[str]:
-    """Emit DELETE + INSERT SET for one cache item."""
+    """Emit DELETE + INSERT SET for one cache item.
+
+    MaxCount=0 (unlimited inventory) + stackable=5 makes caches loot-friendly
+    on bosses that drop them at 100% (otherwise the second cache wouldn't
+    drop because the player already holds the first).
+    """
     return [
         f"DELETE FROM `item_template` WHERE `entry` = {item.entry};",
         "INSERT INTO `item_template` SET",
@@ -165,7 +170,8 @@ def _cache_item_sql(item: CacheItem) -> List[str]:
         f"  `ItemLevel` = {item.item_level},",
         f"  `RequiredLevel` = {item.required_level},",
         f"  `bonding` = 1,",
-        f"  `MaxCount` = 1,",
+        f"  `MaxCount` = 0,",
+        f"  `stackable` = 20,",
         f"  `delay` = 0;",
     ]
 

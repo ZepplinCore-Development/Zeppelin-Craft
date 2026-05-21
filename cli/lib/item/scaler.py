@@ -114,6 +114,88 @@ def stat_weight(stat_id: int) -> float:
     return STAT_WEIGHT.get(stat_id, 1.0)
 
 
+# Armor scaling for armor-class items (item_class=4). Derived from stock AC
+# data: plate chest armor ≈ 10.4 * ilvl + 157 across vanilla through ICC.
+# Subclass multipliers vs plate chest (queried at ilvl 80):
+#   cloth=0.135, leather=0.26, mail=0.56, plate=1.0
+# Slot multipliers vs chest:
+#   head/shoulders=0.83, chest/robe=1.0, waist=0.66, legs=0.92,
+#   feet/hands=0.75, wrists/back=0.50
+# Shields use their own curve: armor ≈ 25*ilvl + 1275 (ilvl 65 = ~2900).
+# Block value (on shields) scales ≈ 0.9 * ilvl.
+ARMOR_BASE_SLOPE = 10.4
+ARMOR_BASE_INTERCEPT = 157.0
+
+ARMOR_CLASS_MULTIPLIER = {
+    1: 0.135,  # cloth
+    2: 0.26,   # leather
+    3: 0.56,   # mail
+    4: 1.0,    # plate
+}
+
+ARMOR_SLOT_MULTIPLIER = {
+    1:  0.83,  # head
+    3:  0.83,  # shoulders
+    5:  1.00,  # chest
+    20: 1.00,  # robe
+    6:  0.66,  # waist
+    7:  0.92,  # legs
+    8:  0.75,  # feet
+    9:  0.50,  # wrists
+    10: 0.75,  # hands
+    16: 0.50,  # back
+}
+
+SHIELD_ARMOR_SLOPE = 25.0
+SHIELD_ARMOR_INTERCEPT = 1275.0
+SHIELD_BLOCK_SLOPE = 0.9
+SHIELD_BLOCK_INTERCEPT = 0.0
+
+
+# Disenchant routing per tier — reuses stock disenchant_loot_template entries.
+# (verified 2026-05-21: entry 65 = 1-2 Nexus Crystal, 67 = 1 Void Crystal,
+# 68 = 1 Abyss Crystal).
+DISENCHANT_BY_TIER = {
+    "azeroth":   {"id": 65, "skill": 225},   # 1-2 Nexus Crystal (vanilla epic)
+    "outland":   {"id": 67, "skill": 300},   # 1 Void Crystal (TBC epic)
+    "northrend": {"id": 68, "skill": 375},   # 1 Abyss Crystal (WotLK epic)
+}
+
+
+def get_disenchant(tier: str):
+    """Return (DisenchantID, RequiredDisenchantSkill) for the given tier."""
+    cfg = DISENCHANT_BY_TIER.get(tier)
+    if cfg is None:
+        return (0, -1)  # not disenchantable
+    return (cfg["id"], cfg["skill"])
+
+
+def compute_armor(item_class: int, subclass: int, inventory_type: int, item_level: int) -> int:
+    """Return the armor value for an armor-class item, or 0 for non-armor.
+
+    Shields (subclass=6, InventoryType=14) use their own curve; relics
+    (subclass 7-10) and held off-hands have no armor.
+    """
+    if item_class != 4:
+        return 0
+    if subclass == 6:  # shield
+        return max(0, int(round(SHIELD_ARMOR_SLOPE * item_level + SHIELD_ARMOR_INTERCEPT)))
+    class_mult = ARMOR_CLASS_MULTIPLIER.get(subclass)
+    slot_mult = ARMOR_SLOT_MULTIPLIER.get(inventory_type)
+    if class_mult is None or slot_mult is None:
+        # Accessory slots (neck/finger/trinket) and relics — no armor value
+        return 0
+    base = max(0.0, ARMOR_BASE_SLOPE * item_level + ARMOR_BASE_INTERCEPT)
+    return int(round(base * class_mult * slot_mult))
+
+
+def compute_shield_block(subclass: int, item_level: int) -> int:
+    """Return the block value for a shield, or 0 for non-shields."""
+    if subclass != 6:
+        return 0
+    return max(0, int(round(SHIELD_BLOCK_SLOPE * item_level + SHIELD_BLOCK_INTERCEPT)))
+
+
 # Weapon DPS profiles derived from stock AC weapons (queried 2026-05-21).
 # Each entry: subclass -> {role -> (delay_ms, dps_slope, dps_intercept)}.
 # DPS(ilvl) = slope * ilvl + intercept; damage_avg = DPS * speed / 1000.
@@ -236,22 +318,64 @@ def compute_budget(
     return _legacy_budget(inventory_type, item_level, quality)
 
 
+MIN_STAT_BUDGET_PCT = 0.15  # Each stat gets at least 15% of the total budget
+MAX_STAT_BUDGET_PCT = 0.35  # No stat exceeds 35% of the total budget
+
+
 def distribute_stats(
     stat_ids: List[int],
     budget: float,
     rng,
 ) -> List[Tuple[int, int]]:
-    """Split `budget` across `stat_ids` by random allocation, returning
-    integer (stat_id, value) tuples. Values floor at 1 so we never emit
-    +0 stats. Order preserved from input."""
+    """Split `budget` across `stat_ids`, with each stat constrained to
+    [MIN_STAT_BUDGET_PCT, MAX_STAT_BUDGET_PCT] of total budget.
+
+    Floor prevents token +3 Int / +5 Spirit junk values.
+    Ceiling prevents one stat from gobbling up everything (e.g. +154 Stam
+    on an ilvl 66 item). Excess over the ceiling is redistributed to
+    uncapped stats iteratively until stable.
+
+    Order preserved from input. Returns integer (stat_id, value) tuples;
+    value floors at 1 to avoid +0 stats."""
     if not stat_ids:
         return []
 
-    allocs = [rng.randint(1, 10) for _ in stat_ids]
-    total_alloc = sum(allocs)
+    n = len(stat_ids)
+    # Bounds need to be feasible: floor*n <= 100% and ceiling*n >= 100%.
+    floor_pct = min(MIN_STAT_BUDGET_PCT, 1.0 / n)
+    ceil_pct = max(MAX_STAT_BUDGET_PCT, 1.0 / n)
+
+    # Reserve floor for each, distribute remainder randomly.
+    extra_pool = 1.0 - floor_pct * n  # remaining percentage after floors
+    max_extra_per_stat = ceil_pct - floor_pct
+    raw = [rng.random() + 0.01 for _ in stat_ids]
+    total_raw = sum(raw)
+    extras = [(r / total_raw) * extra_pool for r in raw]
+
+    # Iteratively cap excess and redistribute to uncapped stats.
+    for _ in range(8):
+        overflow = 0.0
+        for i, e in enumerate(extras):
+            if e > max_extra_per_stat:
+                overflow += e - max_extra_per_stat
+                extras[i] = max_extra_per_stat
+        if overflow <= 1e-4:
+            break
+        uncapped = [i for i, e in enumerate(extras) if e < max_extra_per_stat - 1e-6]
+        if not uncapped:
+            break
+        per_stat = overflow / len(uncapped)
+        for i in uncapped:
+            headroom = max_extra_per_stat - extras[i]
+            adj = min(headroom, per_stat)
+            extras[i] += adj
+            overflow -= adj
+
+    pcts = [floor_pct + e for e in extras]
+
     out: List[Tuple[int, int]] = []
-    for sid, alloc in zip(stat_ids, allocs):
-        share = (alloc / total_alloc) * budget
+    for sid, pct in zip(stat_ids, pcts):
+        share = pct * budget
         value = int(round(share / stat_weight(sid)))
         out.append((sid, max(1, value)))
     return out

@@ -885,7 +885,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["CFRSlaveMennu"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Mennu the Betrayer", "=q5=CHANCE TO DROP"};
     { 2, 29674, "", "=q2=Pattern: Nature Armor Kit", "=ds=#e2#", "", "10.0%" };
-    { 3, 100019, "", "=q6=Pattern: Master Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 3, 100019, "", "=q2=Pattern: Master Riding Crop", "=ds=#e2#", "", "10.0%" };
     { 5, 0, "AO_Unknown", "=q6=Mennu the Betrayer", "=q5=ONE WILL DROP"};
     { 6, 24356, "", "=q3=Wastewalker Shiv", "=ds=#w4#", "", "20.0%" };
     { 7, 24357, "", "=q3=Vest of Living Lightning", "=ds=#a3#", "", "20.0%" };
