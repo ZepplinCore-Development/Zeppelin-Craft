@@ -1,6 +1,12 @@
 -- Feeding Stromgarde
 SET @QUESTID := 90007;
-SET @ITEMID := 902200;
+SET @ITEMID := 58310;
+
+-- Compliance migration (May 2026): renumber Raptor Flank 902200 → 58310 (Misc reservation row 58300-58399).
+-- Drop stale rows from the prior generation. Idempotent: NO-OP after first apply.
+DELETE FROM `item_template` WHERE `entry` = 902200;
+DELETE FROM `creature_questitem` WHERE `ItemId` = 902200;
+DELETE FROM `creature_loot_template` WHERE `Item` = 902200;
 
 -- QUEST TEMPLATE
 DELETE FROM `quest_template` WHERE `ID` = @QUESTID;
@@ -21,7 +27,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Bring 30 Raptor Flanks to Prince Galen Trollbane at Stromgarde in Arathi Highlands.',
     `QuestDescription` = 'In these trying times, the salvation of Stromgarde lies in the wilderness of Arathi Highlands. The people starve, and I call upon your bravery to gather Raptor Flanks from these cunning creatures. Hunt them in the treacherous wilds, for you might be our only hope. Become the hero Stromgarde desperately needs!',
     `QuestCompletionLog` = 'Return to Prince Galen Trollbane at Stromgarde in Arathi Highlands.',
-    `RequiredItemId1` = 902200,
+    `RequiredItemId1` = @ITEMID,
     `RequiredItemCount1` = 30,
     `VerifiedBuild` = '0';
 

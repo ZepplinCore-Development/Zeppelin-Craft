@@ -13,7 +13,7 @@
 58000,58099,First Aid,Done
 58100,58199,Mounts,58100 Giant Murloc | 58101 reserved for Butt Zeppelin (902800 migration in zz_defunct_item_replacement.sql) | 58102-58103 Worgoblin Mountain Horses [I-184] (UPDATE renumber from upstream 73838/73839) | 58104-58105 Worgoblin Goblin Trike Keys [I-184] (INSERT fresh from upstream content; upstream IDs 62461/62462 are shadowed by F-013 Outland Heroic loot Greaves/Treads) | Next item: 58106
 58200,58299,Currencies,Done
-58300,58399,Miscellaneous,58300-58308 (Satchels + Azerite + Qiraji) | 58309 Nefarian's Massive Sack (I-061) | Next: 58310
+58300,58399,Miscellaneous,58300-58308 (Satchels + Azerite + Qiraji) | 58309 Nefarian's Massive Sack (I-061) | 58310 Raptor Flank [F-094] (renumbered from 902200) | Next: 58311
 58400,58499,Arcane Wards,
 58500,58599,City Teleport Scrolls,Done
 58600,58699,Dungeon Teleport Orbs,

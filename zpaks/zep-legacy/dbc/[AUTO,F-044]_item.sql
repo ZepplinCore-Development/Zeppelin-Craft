@@ -192,6 +192,7 @@ INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `mater
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (58307, 7, 11, -1, 0, 54317, 0, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (58308, 7, 11, -1, 0, 54315, 0, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (58309, 15, 0, -1, 0, 134803, 0, 0);
+INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (58310, 12, 0, -1, -1, 1762, 0, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (58500, 0, 0, -1, 0, 137642, 0, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (58501, 0, 0, -1, 0, 140307, 0, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (58502, 0, 0, -1, 0, 140306, 0, 0);
@@ -4105,4 +4106,3 @@ INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `mater
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (902106, 0, 0, -1, 0, 54063, 23, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (902107, 0, 0, -1, 0, 54063, 23, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (902108, 0, 0, -1, 0, 54063, 23, 0);
-INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (902200, 12, 0, -1, -1, 1762, 0, 0);

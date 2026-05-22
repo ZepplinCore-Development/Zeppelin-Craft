@@ -84,7 +84,8 @@ SET `itemEntry` = CASE
     -- Vanilla Recipes
     WHEN `itemEntry` = 900105 THEN 902300
     -- Quest Items Vanilla
-    WHEN `itemEntry` = 900191 THEN 902200
+    WHEN `itemEntry` = 900191 THEN 58310    -- Raptor Flank (F-094): reroute 900xxx → 58xxx (skip defunct 902200 gen)
+    WHEN `itemEntry` = 902200 THEN 58310    -- Raptor Flank (F-094): 902xxx → 58xxx compliance fix May 2026
     WHEN `itemEntry` = 900284 THEN 902224
     -- Add more conditions as needed
     ELSE `itemEntry`
