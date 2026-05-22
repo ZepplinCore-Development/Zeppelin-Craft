@@ -1,7 +1,7 @@
 -- New Item Templates
-DELETE FROM `item_template` WHERE (`entry` = 901109);
+DELETE FROM `item_template` WHERE (`entry` = 59100);
 INSERT INTO `item_template` SET
-    `entry` = 901109,
+    `entry` = 59100,
     `class` = 4,
     `subclass` = 2,
     `name` = 'Thredded Belt',
@@ -25,9 +25,9 @@ INSERT INTO `item_template` SET
     `DisenchantID` = 4,
     `VerifiedBuild` = '12340';
 
-DELETE FROM `item_template` WHERE (`entry` = 901110);
+DELETE FROM `item_template` WHERE (`entry` = 59101);
 INSERT INTO `item_template` SET
-    `entry` = 901110,
+    `entry` = 59101,
     `class` = 2,
     `subclass` = 18,
     `name` = 'Needle Thredder',
@@ -53,18 +53,18 @@ INSERT INTO `item_template` SET
     `VerifiedBuild` = '12340';
 
 -- Update Loot Table
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 1716 AND (`Item` = 901109 OR `Item` = 901110));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 1716 AND (`Item` = 59100 OR `Item` = 59101));
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1716,
-    `Item` = 901109,
+    `Item` = 59100,
     `Chance` = 0,
     `GroupId` = 2,
     `Comment` = 'Bazil Thredd - Thredded Belt';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1716,
-    `Item` = 901110,
+    `Item` = 59101,
     `Chance` = 0,
     `GroupId` = 2,
     `Comment` = 'Bazil Thredd - Needle Thredder';

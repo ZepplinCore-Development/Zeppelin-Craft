@@ -57,18 +57,30 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900117 THEN 901201
     WHEN `itemEntry` = 900189 THEN 901203
     WHEN `itemEntry` = 900214 THEN 901205
-    -- Stockades
-    WHEN `itemEntry` = 900106 THEN 901100
-    WHEN `itemEntry` = 900107 THEN 901101
-    WHEN `itemEntry` = 900108 THEN 901102
-    WHEN `itemEntry` = 900109 THEN 901103
-    WHEN `itemEntry` = 900110 THEN 901104
-    WHEN `itemEntry` = 900111 THEN 901105
-    WHEN `itemEntry` = 900112 THEN 901106
-    WHEN `itemEntry` = 900113 THEN 901107
-    WHEN `itemEntry` = 900114 THEN 901108
-    WHEN `itemEntry` = 900115 THEN 901109
-    WHEN `itemEntry` = 900116 THEN 901110
+    -- Stockades (F-063): 900xxx -> 59xxx (skip the defunct 901xxx generation)
+    WHEN `itemEntry` = 900106 THEN 59091
+    WHEN `itemEntry` = 900107 THEN 59092
+    WHEN `itemEntry` = 900108 THEN 59093
+    WHEN `itemEntry` = 900109 THEN 59094
+    WHEN `itemEntry` = 900110 THEN 59095
+    WHEN `itemEntry` = 900111 THEN 59096
+    WHEN `itemEntry` = 900112 THEN 59097
+    WHEN `itemEntry` = 900113 THEN 59098
+    WHEN `itemEntry` = 900114 THEN 59099
+    WHEN `itemEntry` = 900115 THEN 59100
+    WHEN `itemEntry` = 900116 THEN 59101
+    -- Stockades (F-063): 901xxx -> 59xxx (compliance fix, May 2026)
+    WHEN `itemEntry` = 901100 THEN 59091
+    WHEN `itemEntry` = 901101 THEN 59092
+    WHEN `itemEntry` = 901102 THEN 59093
+    WHEN `itemEntry` = 901103 THEN 59094
+    WHEN `itemEntry` = 901104 THEN 59095
+    WHEN `itemEntry` = 901105 THEN 59096
+    WHEN `itemEntry` = 901106 THEN 59097
+    WHEN `itemEntry` = 901107 THEN 59098
+    WHEN `itemEntry` = 901108 THEN 59099
+    WHEN `itemEntry` = 901109 THEN 59100
+    WHEN `itemEntry` = 901110 THEN 59101
     -- Vanilla Recipes
     WHEN `itemEntry` = 900105 THEN 902300
     -- Quest Items Vanilla

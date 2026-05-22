@@ -20,7 +20,7 @@
 58700,58799,Azeroth Daily Dungeon Items,
 58800,58899,Outland Daily Dungeon Items,
 58900,58999,Northrend Daily Dungeon Items,
-59000,59099,Azeroth Normal Dungeon Loot,59000-59002 T0 Caches (3) | Refs 59010-59038 (27) [F-025] | 59039-59090 Low-Level Relic Drops (52) [F-028] | Next item: 59091 | Next ref: 59091 (F-028 anchor: stock item 46978 + custom spell 900356; effect-mod spells 900357-900408 in 900xxx custom range)
+59000,59199,Azeroth Normal Dungeon Loot,59000-59002 T0 Caches (3) | Refs 59010-59038 (27) [F-025] | 59039-59090 Low-Level Relic Drops (52) [F-028] | 59091-59101 Stockades Boss Loot (11) [F-063] | Next item: 59102 | Next ref: 59102 (F-028 anchor: stock item 46978 + custom spell 900356; effect-mod spells 900357-900408 in 900xxx custom range) (range widened from 59099->59199 May 2026 to accommodate F-063 overflow)
 59300,59399,Azeroth Raid Loot,59300-59305 T1 (6) | 59306-59313 T2 (8) | 59314-59320 T2.5 (7 = 5 caches + 2 artifacts) | 59339 KT Ring Box | Refs 59310-59370 T1 | Refs 59380-59458 T2 | Refs 59459-59503 T2.5 | Refs 59602-59610 KT Rings (9) | Next item: 59340 | Next ref: 59611 (F-025)
 59400,59499,Outland Normal Dungeon Loot,
 59700,59799,Outland Raid Loot,

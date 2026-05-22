@@ -5266,8 +5266,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 4, 0, "RoM_stellar_dice", "=q6=Targorr the Dread", "=q5=CHANCE TO DROP"};
     { 5, 24062, "", "=q3=Enduring Talasite", "", "", "5.00%" };
     { 7, 0, "AO_Unknown", "=q6=Targorr the Dread", "=q5=ONE WILL DROP"};
-    { 8, 901100, "", "=q3=Dread Sword", "=ds=#w10#", "", "50.0%" };
-    { 9, 901101, "", "=q3=Dread Shoulders", "=ds=#a2#", "", "50.0%" };
+    { 8, 59091, "", "=q3=Dread Sword", "=ds=#w10#", "", "50.0%" };
+    { 9, 59092, "", "=q3=Dread Shoulders", "=ds=#a2#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["StockTargorrHEROIC"] = {
@@ -5278,8 +5278,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 6, 0, "RoM_stellar_dice", "=q6=Heroic Targorr the Dread", "=q5=CHANCE TO DROP"};
     { 7, 24062, "", "=q3=Enduring Talasite", "", "", "5.00%" };
     { 9, 0, "AO_Unknown", "=q6=Heroic Targorr the Dread", "=q5=ONE WILL DROP"};
-    { 10, 901100, "", "=q3=Dread Sword", "=ds=#w10#", "", "50.0%" };
-    { 11, 901101, "", "=q3=Dread Shoulders", "=ds=#a2#", "", "50.0%" };
+    { 10, 59091, "", "=q3=Dread Sword", "=ds=#w10#", "", "50.0%" };
+    { 11, 59092, "", "=q3=Dread Shoulders", "=ds=#a2#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["StockKam"] = {
@@ -5287,8 +5287,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 3640, "", "=q1=Head of Deepfury", "=ds=#m3#", "", "100%" };
     { 4, 0, "AO_Unknown", "=q6=Kam Deepfury", "=q5=ONE WILL DROP"};
     { 5, 2280, "", "=q3=Walking Stick of Kam", "=ds=#w9#", "", "33.3%" };
-    { 6, 901102, "", "=q3=Tim Kam Slam", "=ds=#w6#", "", "33.3%" };
-    { 7, 901103, "", "=q3=Deepfury Mantle", "=ds=#a3#", "", "33.3%" };
+    { 6, 59093, "", "=q3=Tim Kam Slam", "=ds=#w6#", "", "33.3%" };
+    { 7, 59094, "", "=q3=Deepfury Mantle", "=ds=#a3#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["StockKamHEROIC"] = {
@@ -5298,8 +5298,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Kam Deepfury", "=q5=ONE WILL DROP"};
     { 7, 2280, "", "=q3=Walking Stick of Kam", "=ds=#w9#", "", "33.3%" };
-    { 8, 901102, "", "=q3=Tim Kam Slam", "=ds=#w6#", "", "33.3%" };
-    { 9, 901103, "", "=q3=Deepfury Mantle", "=ds=#a3#", "", "33.3%" };
+    { 8, 59093, "", "=q3=Tim Kam Slam", "=ds=#w6#", "", "33.3%" };
+    { 9, 59094, "", "=q3=Deepfury Mantle", "=ds=#a3#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["StockBazil"] = {
@@ -5309,8 +5309,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 0, "RoM_stellar_dice", "=q6=Bazil Thredd", "=q5=CHANCE TO DROP"};
     { 6, 2909, "", "=q1=Red Wool Bandana", "=ds=#m3#", "", "80.0%" };
     { 8, 0, "AO_Unknown", "=q6=Bazil Thredd", "=q5=ONE WILL DROP"};
-    { 9, 901109, "", "=q3=Thredded Belt", "=ds=#a2#", "", "50.0%" };
-    { 10, 901110, "", "=q3=Needle Thredder", "=ds=#w3#", "", "50.0%" };
+    { 9, 59100, "", "=q3=Thredded Belt", "=ds=#a2#", "", "50.0%" };
+    { 10, 59101, "", "=q3=Needle Thredder", "=ds=#w3#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["StockBazilHEROIC"] = {
@@ -5322,16 +5322,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 0, "RoM_stellar_dice", "=q6=Heroic Bazil Thredd", "=q5=CHANCE TO DROP"};
     { 8, 2909, "", "=q1=Red Wool Bandana", "=ds=#m3#", "", "80.0%" };
     { 10, 0, "AO_Unknown", "=q6=Heroic Bazil Thredd", "=q5=ONE WILL DROP"};
-    { 11, 901109, "", "=q3=Thredded Belt", "=ds=#a2#", "", "50.0%" };
-    { 12, 901110, "", "=q3=Needle Thredder", "=ds=#w3#", "", "50.0%" };
+    { 11, 59100, "", "=q3=Thredded Belt", "=ds=#a2#", "", "50.0%" };
+    { 12, 59101, "", "=q3=Needle Thredder", "=ds=#w3#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["StockDextren"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Dextren Ward", "=q5=ALL WILL DROP"};
     { 2, 3628, "", "=q1=Hand of Dextren Ward", "=ds=#m3#", "", "100%" };
     { 4, 0, "AO_Unknown", "=q6=Dextren Ward", "=q5=ONE WILL DROP"};
-    { 5, 901107, "", "=q3=Grave Digging Shovel", "=ds=#w6#", "", "50.0%" };
-    { 6, 901108, "", "=q3=Coffin Splinter", "=ds=#w12#", "", "50.0%" };
+    { 5, 59098, "", "=q3=Grave Digging Shovel", "=ds=#w6#", "", "50.0%" };
+    { 6, 59099, "", "=q3=Coffin Splinter", "=ds=#w12#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["StockDextrenHEROIC"] = {
@@ -5340,8 +5340,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
     { 4, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Heroic Dextren Ward", "=q5=ONE WILL DROP"};
-    { 7, 901107, "", "=q3=Grave Digging Shovel", "=ds=#w6#", "", "50.0%" };
-    { 8, 901108, "", "=q3=Coffin Splinter", "=ds=#w12#", "", "50.0%" };
+    { 7, 59098, "", "=q3=Grave Digging Shovel", "=ds=#w6#", "", "50.0%" };
+    { 8, 59099, "", "=q3=Coffin Splinter", "=ds=#w12#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["StockBruegal"] = {

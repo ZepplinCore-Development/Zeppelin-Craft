@@ -1,7 +1,7 @@
 -- Add New Items
-DELETE FROM `item_template` WHERE (`entry` = 901100);
+DELETE FROM `item_template` WHERE (`entry` = 59091);
 INSERT INTO `item_template` SET
-    `entry` = 901100,
+    `entry` = 59091,
     `class` = 2,
     `subclass` = 7,
     `name` = 'Dread Sword',
@@ -26,9 +26,9 @@ INSERT INTO `item_template` SET
     `DisenchantID` = 4,
     `VerifiedBuild` = '12340';
 
-DELETE FROM `item_template` WHERE (`entry` = 901101);
+DELETE FROM `item_template` WHERE (`entry` = 59092);
 INSERT INTO `item_template` SET
-    `entry` = 901101,
+    `entry` = 59092,
     `class` = 4,
     `subclass` = 2,
     `name` = 'Dread Shoulders',
@@ -51,17 +51,17 @@ INSERT INTO `item_template` SET
     `VerifiedBuild` = '12340';
 
 -- Update Loot Table
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 1696) AND (`Item` IN (901100, 901101));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 1696) AND (`Item` IN (59091, 59092));
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1696,
-    `Item` = 901100,
+    `Item` = 59091,
     `Chance` = 0,
     `GroupId` = 4,
     `Comment` = 'Targorr the Dread - Dread Sword';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1696,
-    `Item` = 901101,
+    `Item` = 59092,
     `Chance` = 0,
     `GroupId` = 4,
     `Comment` = 'Targorr the Dread - Dread Shoulders';

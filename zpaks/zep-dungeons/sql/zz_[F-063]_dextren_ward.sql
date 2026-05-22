@@ -1,7 +1,7 @@
 -- New Item Templates
-DELETE FROM `item_template` WHERE (`entry` = 901107);
+DELETE FROM `item_template` WHERE (`entry` = 59098);
 INSERT INTO `item_template` SET
-    `entry` = 901107,
+    `entry` = 59098,
     `class` = 2,
     `subclass` = 5,
     `name` = 'Grave Digging Shovel',
@@ -27,9 +27,9 @@ INSERT INTO `item_template` SET
     `DisenchantID` = 42,
     `VerifiedBuild` = '12340';
 
-DELETE FROM `item_template` WHERE (`entry` = 901108);
+DELETE FROM `item_template` WHERE (`entry` = 59099);
 INSERT INTO `item_template` SET
-    `entry` = 901108,
+    `entry` = 59099,
     `class` = 2,
     `subclass` = 19,
     `name` = 'Coffin Splinter',
@@ -53,18 +53,18 @@ INSERT INTO `item_template` SET
     `VerifiedBuild` = '12340';
 
 -- Update Loot Table
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 1663 AND (`Item` = 901107 OR `Item` = 901108));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 1663 AND (`Item` = 59098 OR `Item` = 59099));
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1663,
-    `Item` = 901107,
+    `Item` = 59098,
     `Chance` = 0,
     `GroupId` = 3,
     `Comment` = 'Dextren Ward - Grave Robber Shovel';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1663,
-    `Item` = 901108,
+    `Item` = 59099,
     `Chance` = 0,
     `GroupId` = 3,
     `Comment` = 'Dextren Ward - Coffin Splinter';

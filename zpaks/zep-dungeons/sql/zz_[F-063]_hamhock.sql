@@ -1,7 +1,7 @@
 -- Add New Items
-DELETE FROM `item_template` WHERE (`entry` = 901104);
+DELETE FROM `item_template` WHERE (`entry` = 59095);
 INSERT INTO `item_template` SET
-    `entry` = 901104,
+    `entry` = 59095,
     `class` = 4,
     `subclass` = 1,
     `name` = 'Ogre Bracelets',
@@ -25,9 +25,9 @@ INSERT INTO `item_template` SET
     `DisenchantID` = 43,
     `VerifiedBuild` = '12340';
 
-DELETE FROM `item_template` WHERE (`entry` = 901105);
+DELETE FROM `item_template` WHERE (`entry` = 59096);
 INSERT INTO `item_template` SET
-    `entry` = 901105,
+    `entry` = 59096,
     `class` = 4,
     `subclass` = 6,
     `name` = 'Ogre Bowl',
@@ -54,9 +54,9 @@ INSERT INTO `item_template` SET
     `DisenchantID` = 41,
     `VerifiedBuild` = '12340';
 
-DELETE FROM `item_template` WHERE (`entry` = 901106);
+DELETE FROM `item_template` WHERE (`entry` = 59097);
 INSERT INTO `item_template` SET
-    `entry` = 901106,
+    `entry` = 59097,
     `class` = 4,
     `subclass` = 1,
     `name` = 'Ogre Mantle',
@@ -81,25 +81,25 @@ INSERT INTO `item_template` SET
     `VerifiedBuild` = '12340';
 
 -- Update Loot Table
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 1717 AND (`Item` = 901104 OR `Item` = 901105 OR `Item` = 901106));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 1717 AND (`Item` = 59095 OR `Item` = 59096 OR `Item` = 59097));
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1717,
-    `Item` = 901104,
+    `Item` = 59095,
     `Chance` = 0,
     `GroupId` = 2,
     `Comment` = 'Hamhock - Ogre Bracelets';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1717,
-    `Item` = 901105,
+    `Item` = 59096,
     `Chance` = 0,
     `GroupId` = 2,
     `Comment` = 'Hamhock - Ogre Bowl';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1717,
-    `Item` = 901106,
+    `Item` = 59097,
     `Chance` = 0,
     `GroupId` = 2,
     `Comment` = 'Hamhock - Ogre Mantle';

@@ -12,9 +12,9 @@ UPDATE `item_template` SET
 WHERE (`entry` = 2280);
 
 -- Add New Items
-DELETE FROM `item_template` WHERE (`entry` = 901102);
+DELETE FROM `item_template` WHERE (`entry` = 59093);
 INSERT INTO `item_template` SET
-    `entry` = 901102,
+    `entry` = 59093,
     `class` = 2,
     `subclass` = 4,
     `name` = 'Tim Kam Slam',
@@ -40,9 +40,9 @@ INSERT INTO `item_template` SET
     `DisenchantID` = 41,
     `VerifiedBuild` = '12340';
 
-DELETE FROM `item_template` WHERE (`entry` = 901103);
+DELETE FROM `item_template` WHERE (`entry` = 59094);
 INSERT INTO `item_template` SET
-    `entry` = 901103,
+    `entry` = 59094,
     `class` = 4,
     `subclass` = 3,
     `name` = 'Deepfury Mantle',
@@ -67,7 +67,7 @@ INSERT INTO `item_template` SET
     `VerifiedBuild` = '12340';
 
 -- Update loot tables   
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 1666) AND `Item` IN (2280, 901102, 901103);
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 1666) AND `Item` IN (2280, 59093, 59094);
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1666,
@@ -78,14 +78,14 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1666,
-    `Item` = 901102,
+    `Item` = 59093,
     `Chance` = 0,
     `GroupId` = 5,
     `Comment` = 'Kam Deepfury - Tim Kam Slam';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 1666,
-    `Item` = 901103,
+    `Item` = 59094,
     `Chance` = 0,
     `GroupId` = 5,
     `Comment` = 'Kam Deepfury - Deepfury Mantle';
