@@ -12,7 +12,7 @@ import random
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from .matrix import MatrixCell
+from .matrix import MatrixCell, iter_cells
 from .scaler import (
     DPS_BUDGET_WEIGHT,
     compute_armor,
@@ -23,6 +23,58 @@ from .scaler import (
     distribute_stats,
     get_disenchant,
 )
+from .relic_generator import (
+    PHASE6_DEFAULTS as RELIC_PHASE6_DEFAULTS,
+    build_relic_for_cell,
+    load_relic_effects_data,
+    pick_display_for_class,
+)
+
+# F-013 Phase 6: relic gear tokens trigger the effect-aura authoring path
+# instead of the stat/armor/weapon path.
+RELIC_TOKENS = frozenset({"libram", "idol", "totem", "sigil"})
+
+# Spell-ID base per (tier, difficulty) for F-013-emitted relic auras.
+# Each (tier, difficulty) has a 15-slot reservation; 11 relic cells per
+# tier × difficulty (paladin 3 + shaman 4 + druid 4); 4 IDs of headroom.
+RELIC_SPELL_BASE = {
+    ("azeroth",   "heroic"): 900500,
+    ("azeroth",   "mythic"): 900515,
+    ("outland",   "heroic"): 900530,
+    ("outland",   "mythic"): 900545,
+    ("northrend", "heroic"): 900560,
+    ("northrend", "mythic"): 900575,
+}
+
+_relic_data_cache = None
+_relic_cell_position_cache = None  # cell.matrix_index -> position-among-relics
+
+
+def _relic_data():
+    global _relic_data_cache
+    if _relic_data_cache is None:
+        _relic_data_cache = load_relic_effects_data()
+    return _relic_data_cache
+
+
+def _relic_cell_positions():
+    """Build a stable map from matrix_index -> (position-among-relics,
+    per-class relic position). Computed once on first call."""
+    global _relic_cell_position_cache
+    if _relic_cell_position_cache is None:
+        positions = {}
+        relic_idx = 0
+        per_class_idx = {}
+        for c in iter_cells():
+            if c.gear_token in RELIC_TOKENS:
+                positions[c.matrix_index] = (
+                    relic_idx,
+                    per_class_idx.get(c.class_name, 0),
+                )
+                relic_idx += 1
+                per_class_idx[c.class_name] = per_class_idx.get(c.class_name, 0) + 1
+        _relic_cell_position_cache = positions
+    return _relic_cell_position_cache
 
 DATA_DIR = Path(__file__).parent / "data"
 
@@ -211,6 +263,78 @@ def _allowable_class(class_id: int) -> int:
     return -1
 
 
+def _generate_relic_row(
+    cell: MatrixCell,
+    entry_id: int,
+    item_level: int,
+    required_level: int,
+    tier: str,
+    difficulty: str,
+) -> Optional[Dict]:
+    """F-013 Phase 6: emit a relic row using F-028's authoring helper.
+
+    Returns None if (class, role) has no relic preset (cell is silently
+    skipped — the SQL just won't include that entry).
+    """
+    positions = _relic_cell_positions()
+    if cell.matrix_index not in positions:
+        return None
+    _, per_class_idx = positions[cell.matrix_index]
+    spell_base = RELIC_SPELL_BASE.get((tier, difficulty))
+    if spell_base is None:
+        return None
+    # Spell ID = base + matrix-position-mod-15. matrix_index uniquely places
+    # this cell in iter_cells(), but we want a per-tier-difficulty offset.
+    # Use the relic-position-within-class as the offset since per-class counts
+    # match across (tier, difficulty) and 11 cells fit in 15 slots.
+    spell_id = spell_base + positions[cell.matrix_index][0] % 15
+
+    display_id = pick_display_for_class(cell.class_name, per_class_idx)
+    relic = build_relic_for_cell(
+        cls=cell.class_name,
+        role=cell.role,
+        ilvl=item_level,
+        required_level=required_level,
+        quality=cell.quality,
+        spell_id=spell_id,
+        item_id=entry_id,
+        display_id=display_id,
+        tier=tier,
+        difficulty=difficulty,
+        relic_effects_data=_relic_data(),
+    )
+    if relic is None:
+        return None
+
+    de_id, de_skill = get_disenchant(tier)
+    return {
+        "entry": relic.item_id,
+        "class": relic.item_class,
+        "subclass": relic.item_subclass,
+        "SoundOverrideSubclass": -1,
+        "name": relic.item_name,
+        "displayid": relic.display_id,
+        "Quality": relic.quality,
+        "InventoryType": relic.inventory_type,
+        "AllowableClass": -1,
+        "AllowableRace": -1,
+        "ItemLevel": relic.item_level,
+        "RequiredLevel": relic.required_level,
+        "stats": [],
+        "flagsCustom": 0,
+        "VerifiedBuild": 0,
+        "DisenchantID": de_id,
+        "RequiredDisenchantSkill": de_skill,
+        # Relic-specific columns (emitted via RELIC_COLUMNS in presets.py)
+        "spellid_1": relic.spell_id,
+        "spelltrigger_1": relic.spell_trigger,
+        "TotemCategory": relic.totem_category,
+        "description": relic.description,
+        # Side-channel for presets.py to collect the spell SQL
+        "_relic_spell_sql": relic.spell_sql,
+    }
+
+
 def generate_row(
     cell: MatrixCell,
     entry_id: int,
@@ -219,8 +343,14 @@ def generate_row(
     seed_base: int = 0,
     tier: str = "",
     difficulty: str = "",
-) -> Dict:
-    """Return a dict of item_template column -> value for one matrix cell."""
+) -> Optional[Dict]:
+    """Return a dict of item_template column -> value for one matrix cell,
+    or None if the cell should be skipped (e.g. relic cell with no preset).
+    """
+    # F-013 Phase 6 — relic cells diverge to effect-aura authoring path
+    if cell.gear_token in RELIC_TOKENS:
+        return _generate_relic_row(cell, entry_id, item_level, required_level, tier, difficulty)
+
     rng = _cell_rng(cell, seed_base, tier=tier, difficulty=difficulty)
     displayid = _pick_display(cell, rng)
     name = _pick_name(cell, rng)

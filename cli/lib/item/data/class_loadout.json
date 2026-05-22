@@ -105,7 +105,8 @@
         "1h-axe",
         "1h-mace",
         "1h-sword",
-        "shield"
+        "shield",
+        "libram"
       ]
     },
     "melee": {
@@ -128,7 +129,8 @@
         "2h-axe",
         "2h-mace",
         "2h-sword",
-        "polearm"
+        "polearm",
+        "libram"
       ]
     },
     "healer": {
@@ -150,7 +152,8 @@
       "weapons": [
         "1h-mace",
         "1h-sword",
-        "held"
+        "held",
+        "libram"
       ]
     }
   },
@@ -340,7 +343,8 @@
         "1h-axe",
         "1h-mace",
         "fist",
-        "shield"
+        "shield",
+        "totem"
       ]
     },
     "melee": {
@@ -362,7 +366,8 @@
       "weapons": [
         "1h-axe",
         "1h-mace",
-        "fist"
+        "fist",
+        "totem"
       ]
     },
     "caster": {
@@ -385,7 +390,8 @@
         "1h-mace",
         "dagger",
         "staff",
-        "shield"
+        "shield",
+        "totem"
       ]
     },
     "healer": {
@@ -408,7 +414,8 @@
         "1h-mace",
         "dagger",
         "staff",
-        "shield"
+        "shield",
+        "totem"
       ]
     }
   },
@@ -485,7 +492,8 @@
         "1h-mace",
         "2h-mace",
         "polearm",
-        "staff"
+        "staff",
+        "idol"
       ]
     },
     "melee": {
@@ -510,7 +518,8 @@
         "polearm",
         "staff",
         "fist",
-        "dagger"
+        "dagger",
+        "idol"
       ]
     },
     "caster": {
@@ -532,7 +541,8 @@
       "weapons": [
         "1h-mace",
         "dagger",
-        "staff"
+        "staff",
+        "idol"
       ]
     },
     "healer": {
@@ -554,7 +564,8 @@
       "weapons": [
         "1h-mace",
         "dagger",
-        "staff"
+        "staff",
+        "idol"
       ]
     }
   }

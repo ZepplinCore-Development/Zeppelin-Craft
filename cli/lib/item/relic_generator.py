@@ -12,11 +12,18 @@ Then apply:
     zep dbc edit modify "zpaks/zep-items/dbc/[F-028]_spell.sql"
     zep world sql changed
     zep build patch-mpq -p Z --build
+
+Also exposes `build_relic_for_cell()` as a helper consumed by F-013 Phase 6
+(see cli/lib/item/generator.py) so heroic/mythic relic cells in the F-013
+matrix can produce effect-aura items via this same authoring methodology
+without forking the pipeline.
 """
 
 import json
 import re
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
 # Resolve project root from this file's location (cli/lib/item/relic_generator.py)
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -131,6 +138,162 @@ def resolve_target_mask(target_str: str, cls: str, class_spells: dict) -> tuple[
     if not sp:
         raise ValueError(f"Spell '{target_str}' not in {cls} class_spells")
     return sp["mask_1"], sp["mask_2"], target_str
+
+
+# -- Per-(class, role) defaults for F-013 Phase 6 ------------------------------
+#
+# Maps a matrix cell's (class, role) to a default (effect_template, target).
+# Target strings must resolve via resolve_target_mask (see class_spells in
+# relic_effects.json or use the "(mask N)" / "Spell A + Spell B" forms).
+# These are the canonical heroic/mythic relics F-013 emits — same per
+# (class, role) across all six (tier, difficulty) outputs, just scaled by ilvl.
+
+PHASE6_DEFAULTS = {
+    ("paladin", "tank"):   {"effect": "ability_damage_bonus", "target": "Consecration",                  "relic_name": "Libram"},
+    ("paladin", "melee"):  {"effect": "ability_damage_bonus", "target": "Hammer of Wrath",               "relic_name": "Libram"},
+    ("paladin", "healer"): {"effect": "spell_power_heal",     "target": "Holy Light + Flash of Light",   "relic_name": "Libram"},
+    ("shaman",  "tank"):   {"effect": "ability_damage_bonus", "target": "Earth Shock",                   "relic_name": "Totem"},
+    ("shaman",  "melee"):  {"effect": "ability_damage_bonus", "target": "Earth Shock + Flame Shock + Frost Shock", "relic_name": "Totem"},
+    ("shaman",  "caster"): {"effect": "spell_power_damage",   "target": "Lightning Bolt + Chain Lightning", "relic_name": "Totem"},
+    ("shaman",  "healer"): {"effect": "spell_power_heal",     "target": "Healing Wave + Lesser Healing Wave", "relic_name": "Totem"},
+    ("druid",   "tank"):   {"effect": "ability_damage_bonus", "target": "Maul + Swipe (Bear)",           "relic_name": "Idol"},
+    ("druid",   "melee"):  {"effect": "ability_damage_bonus", "target": "Rake",                          "relic_name": "Idol"},
+    ("druid",   "caster"): {"effect": "spell_power_damage",   "target": "Wrath + Starfire",              "relic_name": "Idol"},
+    ("druid",   "healer"): {"effect": "spell_power_heal",     "target": "Healing Touch + Rejuvenation",  "relic_name": "Idol"},
+}
+
+TIER_LABELS = {
+    ("azeroth",   "heroic"): "Azerothian Heroic",
+    ("azeroth",   "mythic"): "Azerothian Mythic",
+    ("outland",   "heroic"): "Outland Heroic",
+    ("outland",   "mythic"): "Outland Mythic",
+    ("northrend", "heroic"): "Northrend Heroic",
+    ("northrend", "mythic"): "Northrend Mythic",
+}
+
+
+@dataclass
+class RelicSpec:
+    """Per-cell result from build_relic_for_cell: everything F-013 needs to
+    emit one heroic/mythic relic item plus its effect-aura spell."""
+    # Item fields
+    item_id: int
+    item_name: str
+    item_class: int           # 4 = ARMOR
+    item_subclass: int        # 7 libram, 8 idol, 9 totem
+    inventory_type: int       # 28 = RANGED_RIGHT / relic
+    quality: int              # 4 = Epic
+    display_id: int
+    item_level: int
+    required_level: int
+    totem_category: int
+    description: str
+    # Spell linkage
+    spell_id: int             # custom 900xxx in F-013 reserve range
+    spell_trigger: int        # 1 = ON_EQUIP
+    # Spell row content (for spell.sql emission)
+    spell_sql: str            # full DELETE+INSERT block, ready to write
+
+
+def build_relic_for_cell(
+    cls: str,
+    role: str,
+    ilvl: int,
+    required_level: int,
+    quality: int,
+    spell_id: int,
+    item_id: int,
+    display_id: int,
+    tier: str,
+    difficulty: str,
+    relic_effects_data: dict,
+) -> Optional[RelicSpec]:
+    """Build the full RelicSpec for a single F-013 matrix cell.
+
+    Returns None if (cls, role) has no relic preset (e.g. DK currently — its
+    sigil hooks are deferred to a future phase that covers Outland/Northrend).
+    """
+    preset = PHASE6_DEFAULTS.get((cls, role))
+    if preset is None:
+        return None
+
+    effect = preset["effect"]
+    target = preset["target"]
+    relic_kind = preset["relic_name"]
+    tier_label = TIER_LABELS.get((tier, difficulty), f"{tier.title()} {difficulty.title()}")
+
+    class_spells = relic_effects_data["class_spells"]
+    class_set_dbc = relic_effects_data["_class_set_dbc"]
+    mask1, mask2, display_target = resolve_target_mask(target, cls, class_spells)
+    tpl = EFFECT_TPL[effect]
+    displayed = scale_value(effect, ilvl)
+    base_points = displayed - 1
+    desc = EFFECT_DESC_TPL[effect].format(target=display_target)
+    cls_set = class_set_dbc[cls]
+
+    item_name = f"{tier_label} {cls.title()} {relic_kind} of {role.title()}"
+
+    spell_sql = f"""DELETE FROM `spell` WHERE `id` = {spell_id};
+INSERT INTO `spell` SET
+    `id` = {spell_id},
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `duration_index` = 21,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = {base_points},
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = {tpl['aura']},
+    `effect_item_type_1` = 0,
+    `effect_misc_value_a_1` = {tpl['misc']},
+    `effect_spell_class_mask_a_1` = {mask1},
+    `effect_spell_class_mask_a_2` = {mask2},
+    `spell_icon_id` = 13,
+    `spell_name_enus` = '{sql_escape(item_name)}',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_flags` = 16712188,
+    `spell_desc_enus` = '{sql_escape(desc)}',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `spell_class_set` = {cls_set},
+    `spell_class_mask_1` = 0,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = {tpl['school_mask']},
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_3` = 1.0;
+"""
+
+    return RelicSpec(
+        item_id=item_id,
+        item_name=item_name,
+        item_class=4,
+        item_subclass=SUBCLASS[cls],
+        inventory_type=28,
+        quality=quality,
+        display_id=display_id,
+        item_level=ilvl,
+        required_level=required_level,
+        totem_category=TOTEM_CATEGORY[cls],
+        description="Counts as an Air, Earth, Fire, and Water totem." if cls == "shaman" else "",
+        spell_id=spell_id,
+        spell_trigger=1,
+        spell_sql=spell_sql,
+    )
+
+
+def load_relic_effects_data() -> dict:
+    """Convenience loader used by F-013's relic branch."""
+    return json.loads(DATA.read_text())
+
+
+def pick_display_for_class(cls: str, index: int) -> int:
+    """Pick a deterministic display_id from the class pool by index."""
+    pool = RELIC_DISPLAY_POOL[cls]
+    return pool[index % len(pool)]
 
 
 # -- SQL helpers ---------------------------------------------------------------

@@ -9,6 +9,11 @@ from .generator import generate_row
 from .matrix import MatrixCell, iter_cells
 from .reservations import RESERVATIONS, entry_id
 
+# F-013 Phase 6: relic spell SQL file (effect-aura spells used by relic items
+# emitted via build_relic_for_cell). Lives in the zep-items zpak alongside
+# F-028's own spell file so PATCH-Z picks them up via the same DBC pipeline.
+RELIC_SPELL_FILENAME = "[AUTO,F-013]_relic_spells.sql"
+
 DATA_DIR = Path(__file__).parent / "data"
 
 OUTPUT_FILENAME_TEMPLATE = "zz_[AUTO,F-013]_{tier}_{difficulty}_items.sql"
@@ -29,6 +34,9 @@ WEAPON_COLUMNS = ["dmg_min1", "dmg_max1", "delay"]
 
 # Armor / shield columns (only emitted when generator computes them for the cell).
 ARMOR_COLUMNS = ["armor", "block"]
+
+# Relic columns (only emitted for F-013 Phase 6 relic cells).
+RELIC_COLUMNS = ["spellid_1", "spelltrigger_1", "TotemCategory", "description"]
 
 
 def _load_tier_config():
@@ -59,6 +67,10 @@ def _format_row(row: dict) -> str:
     for col in ARMOR_COLUMNS:
         if col in row:
             var_lines.append(f"  `{col}` = {_format_value(row[col])}")
+    # Relic columns (only present for F-013 Phase 6 effect-aura relics)
+    for col in RELIC_COLUMNS:
+        if col in row:
+            var_lines.append(f"  `{col}` = {_format_value(row[col])}")
     # Stats: stat_type1/stat_value1 ... stat_typeN/stat_valueN
     for i, (stat_type, stat_value) in enumerate(row["stats"], start=1):
         var_lines.append(f"  `stat_type{i}` = {stat_type}")
@@ -68,14 +80,20 @@ def _format_row(row: dict) -> str:
     return "\n".join(lines)
 
 
-def _generate_for(tier: str, difficulty: str, seed: int, verbose: bool) -> List[str]:
-    """Generate SQL statements for one (tier, difficulty) — does not write."""
+def _generate_for(
+    tier: str, difficulty: str, seed: int, verbose: bool
+) -> Tuple[List[str], List[str]]:
+    """Generate SQL statements for one (tier, difficulty) — does not write.
+
+    Returns (item_statements, relic_spell_statements). Relic cells emit a
+    spell SQL block alongside the item; non-relic cells contribute only items.
+    """
     tier_cfg = _load_tier_config()[tier]
     required_level = tier_cfg["required_level"]
     item_level = tier_cfg[f"{difficulty}_item_level"]
 
-    statements = []
-    count = 0
+    item_statements: List[str] = []
+    spell_statements: List[str] = []
     for cell in iter_cells():
         eid = entry_id(tier, difficulty, cell.matrix_index)
         row = generate_row(
@@ -87,12 +105,18 @@ def _generate_for(tier: str, difficulty: str, seed: int, verbose: bool) -> List[
             tier=tier,
             difficulty=difficulty,
         )
-        statements.append(_format_row(row))
-        count += 1
+        if row is None:
+            # Cell skipped (e.g. relic cell with no preset)
+            continue
+        # Side-channel: a relic row carries its spell SQL; collect & strip
+        spell_sql = row.pop("_relic_spell_sql", None)
+        if spell_sql:
+            spell_statements.append(spell_sql)
+        item_statements.append(_format_row(row))
         if verbose:
             print(f"  [{tier}/{difficulty}] {eid} {cell.label}")
 
-    return statements
+    return item_statements, spell_statements
 
 
 def _write_file(output_path: Path, header: str, statements: Iterable[str]):
@@ -110,7 +134,11 @@ def run(
     output_path: Path = None,
     verbose: bool = False,
 ) -> Tuple[Path, int]:
-    """Generate one (tier, difficulty) SQL file. Returns (path, item_count)."""
+    """Generate one (tier, difficulty) SQL file. Returns (path, item_count).
+
+    Also accumulates relic spell SQL — caller passes via run_all() which
+    writes a single consolidated relic spell file after all tiers run.
+    """
     if (tier, difficulty) not in RESERVATIONS:
         raise ValueError(f"Unknown (tier, difficulty): ({tier}, {difficulty})")
 
@@ -118,10 +146,29 @@ def run(
         filename = OUTPUT_FILENAME_TEMPLATE.format(tier=tier, difficulty=difficulty)
         output_path = craft_root / "zpaks" / "zep-dungeons" / "sql" / filename
 
-    statements = _generate_for(tier, difficulty, seed, verbose)
+    item_statements, _spell_statements = _generate_for(tier, difficulty, seed, verbose)
     header = f"F-013 Heroic and Mythic Item Generator: {tier} {difficulty}"
-    _write_file(output_path, header, statements)
-    return output_path, len(statements)
+    _write_file(output_path, header, item_statements)
+    return output_path, len(item_statements)
+
+
+def _relic_spell_path(craft_root: Path) -> Path:
+    """Where F-013 writes its relic spell DBC SQL — under the zep-items zpak
+    alongside F-028's spell file, so PATCH-Z picks them up identically."""
+    return craft_root / "zpaks" / "zep-items" / "dbc" / RELIC_SPELL_FILENAME
+
+
+def _write_relic_spells(craft_root: Path, spell_statements: List[str]) -> Path:
+    """Write the accumulated relic spell statements to a single DBC SQL file."""
+    path = _relic_spell_path(craft_root)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    header = ("-- F-013 Phase 6 relic effect-aura spells\n"
+              "-- AUTO-generated by `zep world item generate` (F-013 via F-028 helper).\n"
+              "-- One spell per (tier, difficulty, class, role) relic matrix cell.\n"
+              "-- DO NOT EDIT.\n")
+    body = "\n".join(spell_statements)
+    path.write_text(header + "\n" + body + "\n", encoding="utf-8")
+    return path
 
 
 def run_all(
@@ -131,10 +178,28 @@ def run_all(
     seed: int = 0,
     verbose: bool = False,
 ):
-    """Run a subset of (tier, difficulty) combos. Yields (tier, difficulty, path, count)."""
+    """Run a subset of (tier, difficulty) combos. Yields (tier, difficulty, path, count).
+
+    Also writes a single consolidated relic spell SQL file after all tiers
+    complete (relic spells are deterministic — full overwrite each run).
+    """
+    all_spell_statements: List[str] = []
     for tier in tiers:
         for difficulty in difficulties:
             if (tier, difficulty) not in RESERVATIONS:
                 continue
-            path, count = run(craft_root, tier, difficulty, seed=seed, verbose=verbose)
-            yield tier, difficulty, path, count
+            # Inline run() so we can capture spell statements too
+            filename = OUTPUT_FILENAME_TEMPLATE.format(tier=tier, difficulty=difficulty)
+            output_path = craft_root / "zpaks" / "zep-dungeons" / "sql" / filename
+            item_statements, spell_statements = _generate_for(tier, difficulty, seed, verbose)
+            header = f"F-013 Heroic and Mythic Item Generator: {tier} {difficulty}"
+            _write_file(output_path, header, item_statements)
+            all_spell_statements.extend(spell_statements)
+            yield tier, difficulty, output_path, len(item_statements)
+
+    # Write the consolidated relic spell file (Phase 6) — only when any tier
+    # generated relic spells. Skips writing if no relic cells fired.
+    if all_spell_statements:
+        spell_path = _write_relic_spells(craft_root, all_spell_statements)
+        if verbose:
+            print(f"  Wrote {len(all_spell_statements)} relic spells → {spell_path.name}")
