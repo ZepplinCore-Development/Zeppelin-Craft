@@ -136,9 +136,9 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["AuchCryptsExarch"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Exarch Maladaar", "=q5=ALL WILL DROP"};
     { 2, 28558, "", "=q1=Spirit Shard", "=ds=#m3#", "", "100%" };
-    { 3, 901735, "", "=q1=Mark of the Fallen Exarch", "=ds=#m3#", "", "100%" };
+    { 3, 58735, "", "=q1=Mark of the Fallen Exarch", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Exarch Maladaar", "=q5=CHANCE TO DROP"};
-    { 6, 100004, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "15.0%" };
+    { 6, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "15.0%" };
     { 8, 0, "AO_Unknown", "=q6=Exarch Maladaar", "=q5=ONE WILL DROP"};
     { 9, 27411, "", "=q3=Slippers of Serenity", "=ds=#a1#", "", "16.7%" };
     { 10, 27412, "", "=q3=Ironstaff of Regeneration", "=ds=#w9#", "", "16.7%" };
@@ -156,7 +156,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 5, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Exarch Maladaar (1)", "=q5=CHANCE TO DROP"};
     { 8, 59338, "", "=q3=Ornate Gem Cache", "=ds=#e10#", "", "46.0%" };
-    { 9, 100004, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
+    { 9, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
     { 16, 0, "AO_Unknown", "=q6=Exarch Maladaar (1)", "=q5=ONE WILL DROP"};
     { 17, 27523, "", "=q3=Exarch's Diamond Band", "=ds=#s13#", "", "16.7%" };
     { 18, 27867, "", "=q3=Boots of the Unjust", "=ds=#a2#", "", "16.7%" };
@@ -174,7 +174,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Nexus-Prince Shaffar", "=q5=ALL WILL DROP"};
     { 2, 28490, "", "=q1=Shaffar's Wrappings", "=ds=#m3#", "", "100%" };
     { 3, 28558, "", "=q1=Spirit Shard", "=ds=#m3#", "", "100%" };
-    { 4, 901733, "", "=q1=Ring of Shaffar", "=ds=#m3#", "", "100%" };
+    { 4, 58733, "", "=q1=Ring of Shaffar", "=ds=#m3#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Nexus-Prince Shaffar", "=q5=ONE WILL DROP"};
     { 7, 25953, "", "=q3=Ethereal Warp-Bow", "=ds=#w2#", "", "16.7%" };
     { 8, 25954, "", "=q3=Sigil of Shaffar", "=ds=#s2#", "", "16.7%" };
@@ -335,7 +335,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Talon King Ikiss", "=q5=ALL WILL DROP"};
     { 2, 27632, "", "=q1=Terokk's Quill", "=ds=#m3#", "", "100%" };
     { 3, 28558, "", "=q1=Spirit Shard", "=ds=#m3#", "", "100%" };
-    { 4, 901737, "", "=q1=Arakkoa Crown", "=ds=#m3#", "", "100%" };
+    { 4, 58737, "", "=q1=Arakkoa Crown", "=ds=#m3#", "", "100%" };
     { 6, 0, "AO_Unknown", "=q6=Talon King Ikiss", "=q5=ONE WILL DROP"};
     { 7, 27925, "", "=q3=Ravenclaw Band", "=ds=#s13#", "", "16.7%" };
     { 8, 27946, "", "=q3=Avian Cloak of Feathers", "=ds=#a1#", "", "16.7%" };
@@ -588,7 +588,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 
 	AtlasLoot_Data["CoTHillsbradHunter"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Epoch Hunter", "=q5=ALL WILL DROP"};
-    { 2, 901736, "", "=q1=Infinite Drake Head", "=ds=#m3#", "", "100%" };
+    { 2, 58736, "", "=q1=Infinite Drake Head", "=ds=#m3#", "", "100%" };
     { 4, 0, "AO_Unknown", "=q6=Epoch Hunter", "=q5=ONE WILL DROP"};
     { 5, 27431, "", "=q3=Time-Shifted Dagger", "=ds=#w4#", "", "20.0%" };
     { 6, 27432, "", "=q3=Broxigar's Ring of Valor", "=ds=#s13#", "", "20.0%" };
@@ -663,7 +663,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 
 	AtlasLoot_Data["CoTMorassAeonus"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Aeonus", "=q5=ALL WILL DROP"};
-    { 2, 901741, "", "=q1=Infinite Membrane", "=ds=#m3#", "", "100%" };
+    { 2, 58741, "", "=q1=Infinite Membrane", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Aeonus", "=q5=CHANCE TO DROP"};
     { 5, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
     { 7, 0, "AO_Unknown", "=q6=Aeonus", "=q5=ONE WILL DROP"};
@@ -885,7 +885,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["CFRSlaveMennu"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Mennu the Betrayer", "=q5=CHANCE TO DROP"};
     { 2, 29674, "", "=q2=Pattern: Nature Armor Kit", "=ds=#e2#", "", "10.0%" };
-    { 3, 100019, "", "=q2=Pattern: Master Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 3, 57626, "", "=q2=Pattern: Master Riding Crop", "=ds=#e2#", "", "10.0%" };
     { 5, 0, "AO_Unknown", "=q6=Mennu the Betrayer", "=q5=ONE WILL DROP"};
     { 6, 24356, "", "=q3=Wastewalker Shiv", "=ds=#w4#", "", "20.0%" };
     { 7, 24357, "", "=q3=Vest of Living Lightning", "=ds=#a3#", "", "20.0%" };
@@ -910,7 +910,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 
 	AtlasLoot_Data["CFRSlaveQuagmirran"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Quagmirran", "=q5=ALL WILL DROP"};
-    { 2, 901732, "", "=q1=Ancient Fungus", "=ds=#m3#", "", "100%" };
+    { 2, 58732, "", "=q1=Ancient Fungus", "=ds=#m3#", "", "100%" };
     { 4, 0, "AO_Unknown", "=q6=Quagmirran", "=q5=ONE WILL DROP"};
     { 5, 24362, "", "=q3=Spore-Soaked Vaneer", "=ds=#a1#", "", "20.0%" };
     { 6, 24363, "", "=q3=Unscarred Breastplate", "=ds=#a4#", "", "20.0%" };
@@ -962,7 +962,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 
 	AtlasLoot_Data["CFRSteamWarlord"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Warlord Kalithresh", "=q5=ALL WILL DROP"};
-    { 2, 901738, "", "=q1=Opressor Trident", "=ds=#m3#", "", "100%" };
+    { 2, 58738, "", "=q1=Opressor Trident", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Warlord Kalithresh", "=q5=CHANCE TO DROP"};
     { 5, 24313, "", "=q4=Pattern: Battlecast Hood", "=ds=#e2#", "", "10.0%" };
     { 6, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
@@ -1116,7 +1116,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["CFRUnderStalker"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=The Black Stalker", "=q5=ALL WILL DROP"};
     { 2, 24248, "", "=q1=Brain of the Black Stalker", "=ds=#m3#", "", "100%" };
-    { 3, 901734, "", "=q1=Stalker Tendril", "=ds=#m3#", "", "100%" };
+    { 3, 58734, "", "=q1=Stalker Tendril", "=ds=#m3#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=The Black Stalker", "=q5=ONE WILL DROP"};
     { 6, 24463, "", "=q3=Pauldrons of Brute Force", "=ds=#a4#", "", "20.0%" };
     { 7, 24464, "", "=q3=The Stalker's Fangs", "=ds=#w4#", "", "20.0%" };
@@ -1322,7 +1322,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["HCFurnaceBreaker"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Keli'dan the Breaker", "=q5=ALL WILL DROP"};
     { 2, 23894, "", "=q1=Fel Orc Blood Vial", "=ds=#m3#", "", "100%" };
-    { 3, 901731, "", "=q1=Blood Crucible", "=ds=#m3#", "", "100%" };
+    { 3, 58731, "", "=q1=Blood Crucible", "=ds=#m3#", "", "100%" };
     { 5, 0, "AO_Unknown", "=q6=Keli'dan the Breaker", "=q5=ONE WILL DROP"};
     { 6, 24394, "", "=q3=Warsong Howling Axe", "=ds=#w1#", "", "20.0%" };
     { 7, 24395, "", "=q3=Mindfire Waistband", "=ds=#a1#", "", "20.0%" };
@@ -1675,7 +1675,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["SMTKaelthas"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Kael'thas Sunstrider", "=q5=ALL WILL DROP"};
     { 2, 34157, "", "=q1=Head of Kael'thas", "=ds=#m3#", "", "100%" };
-    { 3, 901745, "", "=q1=Necro-demon Crystal", "=ds=#m3#", "", "100%" };
+    { 3, 58745, "", "=q1=Necro-demon Crystal", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Kael'thas Sunstrider", "=q5=CHANCE TO DROP"};
     { 6, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
     { 7, 35504, "", "=q3=Phoenix Hatchling", "=ds=#e10#", "", "8.00%" };
@@ -2010,7 +2010,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["TKBotSplinter"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Warp Splinter", "=q5=ALL WILL DROP"};
     { 2, 31085, "", "=q1=Top Shard of the Arcatraz Key", "=ds=#m3#", "", "100%" };
-    { 3, 901742, "", "=q1=Arcane Warp Shard", "=ds=#m3#", "", "100%" };
+    { 3, 58742, "", "=q1=Arcane Warp Shard", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Warp Splinter", "=q5=CHANCE TO DROP"};
     { 6, 24311, "", "=q4=Pattern: Whitemend Hood", "=ds=#e2#", "", "10.0%" };
     { 7, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
@@ -2101,7 +2101,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["TKMechCalc"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Pathaleon the Calculator", "=q5=ALL WILL DROP"};
     { 2, 31086, "", "=q1=Bottom Shard of the Arcatraz Key", "=ds=#m3#", "", "100%" };
-    { 3, 901743, "", "=q1=Arcane Abacus", "=ds=#m3#", "", "100%" };
+    { 3, 58743, "", "=q1=Arcane Abacus", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Pathaleon the Calculator", "=q5=CHANCE TO DROP"};
     { 6, 21907, "", "=q3=Pattern: Arcanoweave Robe", "=ds=#e2#", "", "10.0%" };
     { 7, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
@@ -2522,7 +2522,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["HCHallsKargath"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Warchief Kargath Bladefist", "=q5=ALL WILL DROP"};
     { 2, 23723, "", "=q1=Warchief Kargath's Fist", "=ds=#m3#", "", "100%" };
-    { 3, 901740, "", "=q1=Warchief Insignia", "=ds=#m3#", "", "100%" };
+    { 3, 58740, "", "=q1=Warchief Insignia", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Warchief Kargath Bladefist", "=q5=CHANCE TO DROP"};
     { 6, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
     { 16, 0, "AO_Unknown", "=q6=Warchief Kargath Bladefist", "=q5=ONE WILL DROP"};
@@ -2634,7 +2634,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 2, 28558, "", "=q1=Spirit Shard", "=ds=#m3#", "", "100%" };
     { 3, 30827, "", "=q1=Lexicon Demonica", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Grandmaster Vorpil", "=q5=CHANCE TO DROP"};
-    { 6, 100004, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "12.0%" };
+    { 6, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "12.0%" };
     { 8, 0, "AO_Unknown", "=q6=Grandmaster Vorpil", "=q5=ONE WILL DROP"};
     { 9, 27775, "", "=q3=Hallowed Pauldrons", "=ds=#a1#", "", "20.0%" };
     { 10, 27897, "", "=q3=Breastplate of Many Graces", "=ds=#a4#", "", "20.0%" };
@@ -2649,7 +2649,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 3, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
     { 4, 30827, "", "=q1=Lexicon Demonica", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Grandmaster Vorpil (1)", "=q5=CHANCE TO DROP"};
-    { 7, 100004, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
+    { 7, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
     { 9, 0, "AO_Unknown", "=q6=Grandmaster Vorpil (1)", "=q5=ONE WILL DROP"};
     { 10, 27775, "", "=q3=Hallowed Pauldrons", "=ds=#a1#", "", "20.0%" };
     { 11, 27897, "", "=q3=Breastplate of Many Graces", "=ds=#a4#", "", "20.0%" };
@@ -2661,10 +2661,10 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["AuchShadowMurmur"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Murmur", "=q5=ALL WILL DROP"};
     { 2, 28558, "", "=q1=Spirit Shard", "=ds=#m3#", "", "100%" };
-    { 3, 901739, "", "=q1=Primordial Essence", "=ds=#m3#", "", "100%" };
+    { 3, 58739, "", "=q1=Primordial Essence", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Murmur", "=q5=CHANCE TO DROP"};
     { 6, 24309, "", "=q4=Pattern: Spellstrike Pants", "=ds=#e2#", "", "10.0%" };
-    { 7, 100004, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "10.0%" };
+    { 7, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "10.0%" };
     { 8, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
     { 16, 0, "AO_Unknown", "=q6=Murmur", "=q5=ONE WILL DROP"};
     { 17, 27778, "", "=q3=Spaulders of Oblivion", "=ds=#a1#", "", "8.33%" };
@@ -2690,7 +2690,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 6, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "100%" };
     { 8, 0, "RoM_stellar_dice", "=q6=Murmur (1)", "=q5=CHANCE TO DROP"};
     { 9, 59338, "", "=q3=Ornate Gem Cache", "=ds=#e10#", "", "46.0%" };
-    { 10, 100004, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
+    { 10, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
     { 11, 24309, "", "=q4=Pattern: Spellstrike Pants", "=ds=#e2#", "", "10.0%" };
     { 13, 0, "AO_Unknown", "=q6=Murmur (1)", "=q5=ONE WILL DROP"};
     { 14, 29261, "", "=q4=Girdle of Ferocity", "=ds=#a3#", "", "25.0%" };
@@ -3021,7 +3021,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 
 	AtlasLoot_Data["TKArcHarbinger"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Harbinger Skyriss", "=q5=ALL WILL DROP"};
-    { 2, 901744, "", "=q1=Qiraji Hive Mind", "=ds=#m3#", "", "100%" };
+    { 2, 58744, "", "=q1=Qiraji Hive Mind", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Harbinger Skyriss", "=q5=CHANCE TO DROP"};
     { 5, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
     { 7, 0, "AO_Unknown", "=q6=Harbinger Skyriss", "=q5=ONE WILL DROP"};

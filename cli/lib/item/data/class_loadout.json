@@ -1,174 +1,561 @@
 {
   "_comment": "Per-(class, role) gear loadouts for F-013 item generator matrix. armor_type controls armor subclass (cloth/leather/mail/plate). slots lists symbolic gear slot tokens; weapons lists symbolic weapon tokens. Both resolve to (inventory_type, item_class, subclass) in lib/item/matrix.py. Cloak (back) is always cloth (subclass=1) regardless of armor_type.",
-
   "_class_ids": {
-    "warrior": 1, "paladin": 2, "hunter": 3, "rogue": 4, "priest": 5,
-    "deathknight": 6, "shaman": 7, "mage": 8, "warlock": 9, "druid": 11
+    "warrior": 1,
+    "paladin": 2,
+    "hunter": 3,
+    "rogue": 4,
+    "priest": 5,
+    "deathknight": 6,
+    "shaman": 7,
+    "mage": 8,
+    "warlock": 9,
+    "druid": 11
   },
-
-  "_armor_slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands"],
-  "_accessory_slots": ["neck", "finger", "trinket", "back"],
-
+  "_armor_slots": [
+    "head",
+    "shoulders",
+    "chest",
+    "waist",
+    "legs",
+    "feet",
+    "wrists",
+    "hands"
+  ],
+  "_accessory_slots": [
+    "neck",
+    "finger",
+    "trinket",
+    "back"
+  ],
   "warrior": {
     "tank": {
       "armor_type": "plate",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-axe", "1h-mace", "1h-sword", "shield"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-axe",
+        "1h-mace",
+        "1h-sword",
+        "shield"
+      ]
     },
     "melee": {
       "armor_type": "plate",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-axe", "1h-mace", "1h-sword", "dagger",
-                  "2h-axe", "2h-mace", "2h-sword", "polearm",
-                  "bow", "gun", "crossbow", "thrown"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-axe",
+        "1h-mace",
+        "1h-sword",
+        "dagger",
+        "2h-axe",
+        "2h-mace",
+        "2h-sword",
+        "polearm",
+        "bow",
+        "gun",
+        "crossbow",
+        "thrown"
+      ]
     }
   },
-
   "paladin": {
     "tank": {
       "armor_type": "plate",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-axe", "1h-mace", "1h-sword", "shield", "libram"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-axe",
+        "1h-mace",
+        "1h-sword",
+        "shield"
+      ]
     },
     "melee": {
       "armor_type": "plate",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["2h-axe", "2h-mace", "2h-sword", "polearm", "libram"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "2h-axe",
+        "2h-mace",
+        "2h-sword",
+        "polearm"
+      ]
     },
     "healer": {
       "armor_type": "plate",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "1h-sword", "held", "libram"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "1h-sword",
+        "held"
+      ]
     }
   },
-
   "hunter": {
     "melee": {
       "armor_type": "mail",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-axe", "1h-sword", "dagger", "fist",
-                  "2h-axe", "2h-sword", "polearm", "staff",
-                  "bow", "gun", "crossbow"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-axe",
+        "1h-sword",
+        "dagger",
+        "fist",
+        "2h-axe",
+        "2h-sword",
+        "polearm",
+        "staff",
+        "bow",
+        "gun",
+        "crossbow"
+      ]
     }
   },
-
   "rogue": {
     "melee": {
       "armor_type": "leather",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "1h-sword", "dagger", "fist",
-                  "bow", "gun", "crossbow", "thrown"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "1h-sword",
+        "dagger",
+        "fist",
+        "bow",
+        "gun",
+        "crossbow",
+        "thrown"
+      ]
     }
   },
-
   "priest": {
     "caster": {
       "armor_type": "cloth",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "dagger", "staff", "wand", "held"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "dagger",
+        "staff",
+        "wand",
+        "held"
+      ]
     },
     "healer": {
       "armor_type": "cloth",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "dagger", "staff", "wand", "held"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "dagger",
+        "staff",
+        "wand",
+        "held"
+      ]
     }
   },
-
   "deathknight": {
     "tank": {
       "armor_type": "plate",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-axe", "1h-mace", "1h-sword",
-                  "2h-axe", "2h-mace", "2h-sword", "polearm", "sigil"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-axe",
+        "1h-mace",
+        "1h-sword",
+        "2h-axe",
+        "2h-mace",
+        "2h-sword",
+        "polearm"
+      ]
     },
     "melee": {
       "armor_type": "plate",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-axe", "1h-mace", "1h-sword",
-                  "2h-axe", "2h-mace", "2h-sword", "polearm", "sigil"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-axe",
+        "1h-mace",
+        "1h-sword",
+        "2h-axe",
+        "2h-mace",
+        "2h-sword",
+        "polearm"
+      ]
     }
   },
-
   "shaman": {
     "tank": {
       "armor_type": "mail",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-axe", "1h-mace", "fist", "shield", "totem"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-axe",
+        "1h-mace",
+        "fist",
+        "shield"
+      ]
     },
     "melee": {
       "armor_type": "mail",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-axe", "1h-mace", "fist", "totem"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-axe",
+        "1h-mace",
+        "fist"
+      ]
     },
     "caster": {
       "armor_type": "mail",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "dagger", "staff", "shield", "totem"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "dagger",
+        "staff",
+        "shield"
+      ]
     },
     "healer": {
       "armor_type": "mail",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "dagger", "staff", "shield", "totem"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "dagger",
+        "staff",
+        "shield"
+      ]
     }
   },
-
   "mage": {
     "caster": {
       "armor_type": "cloth",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-sword", "dagger", "staff", "wand", "held"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-sword",
+        "dagger",
+        "staff",
+        "wand",
+        "held"
+      ]
     }
   },
-
   "warlock": {
     "caster": {
       "armor_type": "cloth",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-sword", "dagger", "staff", "wand", "held"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-sword",
+        "dagger",
+        "staff",
+        "wand",
+        "held"
+      ]
     }
   },
-
   "druid": {
     "tank": {
       "armor_type": "leather",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "2h-mace", "polearm", "staff", "idol"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "2h-mace",
+        "polearm",
+        "staff"
+      ]
     },
     "melee": {
       "armor_type": "leather",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "2h-mace", "polearm", "staff", "fist", "dagger", "idol"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "2h-mace",
+        "polearm",
+        "staff",
+        "fist",
+        "dagger"
+      ]
     },
     "caster": {
       "armor_type": "leather",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "dagger", "staff", "idol"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "dagger",
+        "staff"
+      ]
     },
     "healer": {
       "armor_type": "leather",
-      "slots": ["head", "shoulders", "chest", "waist", "legs", "feet", "wrists", "hands",
-                "neck", "finger", "trinket", "back"],
-      "weapons": ["1h-mace", "dagger", "staff", "idol"]
+      "slots": [
+        "head",
+        "shoulders",
+        "chest",
+        "waist",
+        "legs",
+        "feet",
+        "wrists",
+        "hands",
+        "neck",
+        "finger",
+        "trinket",
+        "back"
+      ],
+      "weapons": [
+        "1h-mace",
+        "dagger",
+        "staff"
+      ]
     }
   }
 }
