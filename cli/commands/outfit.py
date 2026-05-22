@@ -47,7 +47,7 @@ ZPAK_NAME = 'zep-legacy'
 ZPAK_DIR = CRAFT_ROOT / 'zpaks' / ZPAK_NAME
 
 # Worgoblin baseline for Goblin/Worgen races
-WORGOBLIN_CSO_SQL = CRAFT_ROOT / 'zpaks' / 'worgoblin' / 'dbc' / '[BASE,F-030]_charstartoutfit.sql'
+WORGOBLIN_CSO_SQL = CRAFT_ROOT / 'zpaks' / 'mod-worgoblin' / 'dbc' / '[BASE,F-030]_charstartoutfit.sql'
 
 
 def _parse_class_list(value):

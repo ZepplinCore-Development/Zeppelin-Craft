@@ -846,7 +846,7 @@ def collect_dbc_sources(craft_root: Path) -> List[Tuple[int, str, Path, List[Pat
     """Collect all DBC sources from zpaks, sorted by priority.
 
     DBC files use flat structure with optional feature prefix:
-        zpaks/worgoblin/dbc/spell.sql           (module - no prefix)
+        zpaks/mod-worgoblin/dbc/spell.sql           (module - no prefix)
         zpaks/my-zpak/dbc/F-004_spell.sql       (feature - with prefix)
         zpaks/my-zpak/dbc/F-004_skillline.sql
 
@@ -1798,7 +1798,7 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
     Examples:
         zep dbc info conflicts                    # Scan all zpaks
         zep dbc info conflicts -o conflicts.log  # Write to custom file
-        zep dbc info conflicts -z worgoblin      # Check specific zpak
+        zep dbc info conflicts -z mod-worgoblin      # Check specific zpak
         zep dbc info conflicts -t spell          # Check only spell table
     """
     from datetime import datetime
@@ -2906,7 +2906,7 @@ def dbc_import_module(ctx, name: Optional[str], import_all: bool, priority: int)
 
     Examples:
         zep dbc bin import                    # Interactive zpak selection
-        zep dbc bin import --name worgoblin   # Import specific zpak
+        zep dbc bin import --name mod-worgoblin   # Import specific zpak
         zep dbc bin import --all              # Re-import all zpaks
     """
     craft_root = ctx.obj['craft_root']

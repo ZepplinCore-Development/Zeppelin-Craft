@@ -207,7 +207,7 @@ def main():
     sql_text = '\n'.join(output_lines)
 
     # Write output
-    outpath = "/workspace/project/Zeppelin-Craft/zpaks/ah-bot/sql/zz_enchant_scroll_prices.sql"
+    outpath = "/workspace/project/Zeppelin-Craft/zpaks/mod-ah-bot/sql/zz_enchant_scroll_prices.sql"
     with open(outpath, 'w') as f:
         f.write(sql_text + '\n')
 

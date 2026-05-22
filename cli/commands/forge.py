@@ -38,16 +38,16 @@ from lib.forge import (
 # Mapping from zpak name to old fork_config module name (for migration compatibility)
 ZPAK_TO_MODULE = {
     "azerothcore": "azerothcore",
-    "individual-progression": "mod-individual-progression",
-    "accountbound": "mod-accountbound",
-    "racial-trait-swap": "mod-racial-trait-swap",
-    "reagent-bank-account": "mod-reagent-bank-account",
-    "worgoblin": "mod-worgoblin",
-    "dungeon-respawn": "DungeonRespawn",
-    "reusable-potion": "ReusablePotion",
-    "autobalance": "mod-autobalance",
-    "ah-bot": "mod-ah-bot-plus",
-    "starter-guild": "mod-starter-guild"
+    "mod-individual-progression": "mod-individual-progression",
+    "mod-accountbound": "mod-accountbound",
+    "mod-racial-trait-swap": "mod-racial-trait-swap",
+    "mod-reagent-bank-account": "mod-reagent-bank-account",
+    "mod-worgoblin": "mod-worgoblin",
+    "mod-dungeon-respawn": "DungeonRespawn",
+    "mod-reusable-potion": "ReusablePotion",
+    "mod-autobalance": "mod-autobalance",
+    "mod-ah-bot": "mod-ah-bot-plus",
+    "mod-starter-guild": "mod-starter-guild"
 }
 
 
@@ -131,8 +131,8 @@ def get_patch_files(zpak_path: Path) -> List[Path]:
 def normalize_zpak_name(name: str) -> str:
     """Normalize a name to zpak name format.
 
-    Accepts both zpak names (e.g., 'accountbound') and old module names
-    (e.g., 'mod-accountbound') for backwards compatibility.
+    Accepts both new zpak names (e.g., 'mod-accountbound') and bare module
+    names (e.g., 'accountbound') for backwards compatibility with older calls.
 
     Args:
         name: Input name
