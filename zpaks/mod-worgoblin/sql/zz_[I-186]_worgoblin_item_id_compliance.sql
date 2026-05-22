@@ -1,4 +1,4 @@
--- I-184 Worgoblin Mount Item ID Compliance
+-- I-186 Worgoblin Mount Item ID Compliance
 -- Renumbers upstream mod-worgoblin mount items into the Mounts reservation row
 -- (56900-66499 scope) via in-place UPDATE.
 --
@@ -17,7 +17,7 @@
 -- at those IDs.
 --
 -- If the live DB has F-013 content at 62461/62462 (because F-013 was applied
--- historically BEFORE this I-184 file existed and overwrote the upstream Trike
+-- historically BEFORE this I-186 file existed and overwrote the upstream Trike
 -- Keys), the renumber will misroute. Recovery: clear the AC updates-tracker
 -- rows for both worgoblin.sql and zz_[AUTO,F-013]_outland_heroic_items.sql,
 -- then run `zep world sql changed` so all three files re-apply in priority order.

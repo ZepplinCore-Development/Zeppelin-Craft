@@ -6,7 +6,7 @@
 -- Passive effect when in inventory
 -- =====================================================
 
--- Compliance migration (I-185, May 2026): renumber item entries 100010-100021 → 57617-57628
+-- Compliance migration (I-186, May 2026): renumber item entries 100010-100021 → 57617-57628
 -- (Leatherworking reservation row 57600-57699). Spell IDs (100010-100015, 100020-100025) remain
 -- unchanged — that is a separate compliance concern, not addressed here.
 -- Idempotent: NO-OP after first apply (no rows match the defunct IDs).

@@ -6,12 +6,12 @@
 57300,57399,Herbalism,Done
 57400,57499,Inscription,Next available: 57486 (57408-57485 used by F-015 Resistance Scrolls)
 57500,57599,Jewelcrafting,Done
-57600,57699,Leatherworking,57600-57611 Drums (6 items + 6 patterns) | 57612-57616 Leathering Kits (5 items) | 57617-57628 Riding Crops [F-005/I-185] (5 crops + 5 patterns + GM crop + GM pattern, renumbered from 100010-100021) | Next item: 57629
+57600,57699,Leatherworking,57600-57611 Drums (6 items + 6 patterns) | 57612-57616 Leathering Kits (5 items) | 57617-57628 Riding Crops [F-005/I-186] (5 crops + 5 patterns + GM crop + GM pattern, renumbered from 100010-100021) | Next item: 57629
 57700,57799,Mining,57700-57703 Mining Picks (F-001) | Next: 57704
 57800,57899,Skinning,Done
 57900,57999,Cooking,Done
 58000,58099,First Aid,Done
-58100,58199,Mounts,58100 Giant Murloc | 58101 reserved for Butt Zeppelin (902800 migration in zz_defunct_item_replacement.sql) | 58102-58103 Worgoblin Mountain Horses [I-184] (UPDATE renumber from upstream 73838/73839) | 58104-58105 Worgoblin Goblin Trike Keys [I-184] (INSERT fresh from upstream content; upstream IDs 62461/62462 are shadowed by F-013 Outland Heroic loot Greaves/Treads) | Next item: 58106
+58100,58199,Mounts,58100 Giant Murloc | 58101 reserved for Butt Zeppelin (902800 migration in zz_defunct_item_replacement.sql) | 58102-58103 Worgoblin Mountain Horses [I-186] (UPDATE renumber from upstream 73838/73839) | 58104-58105 Worgoblin Goblin Trike Keys [I-186] (INSERT fresh from upstream content; upstream IDs 62461/62462 are shadowed by F-013 Outland Heroic loot Greaves/Treads) | Next item: 58106
 58200,58299,Currencies,Done
 58300,58399,Miscellaneous,58300-58308 (Satchels + Azerite + Qiraji) | 58309 Nefarian's Massive Sack (I-061) | 58310 Raptor Flank [F-094] (renumbered from 902200) | Next: 58311
 58400,58499,Arcane Wards,

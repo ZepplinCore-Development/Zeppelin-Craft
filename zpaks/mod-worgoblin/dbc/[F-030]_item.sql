@@ -1,4 +1,4 @@
--- I-184 override for [BASE,F-030]_item.sql — strip stale upstream-ID DBC item rows for
+-- I-186 override for [BASE,F-030]_item.sql — strip stale upstream-ID DBC item rows for
 -- Mountain Horse (73838) and Swift Mountain Horse (73839). The new 58102-58103 rows
 -- get synced into DBC item by [AUTO,F-044] in zep-legacy (priority 999, applies last).
 --

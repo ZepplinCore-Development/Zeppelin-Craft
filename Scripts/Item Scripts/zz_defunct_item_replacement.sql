@@ -69,7 +69,7 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900114 THEN 59099
     WHEN `itemEntry` = 900115 THEN 59100
     WHEN `itemEntry` = 900116 THEN 59101
-    -- Riding Crops (F-005, I-185): 1000xx -> 576xx (compliance fix, May 2026)
+    -- Riding Crops (F-005, I-186): 1000xx -> 576xx (compliance fix, May 2026)
     WHEN `itemEntry` = 100010 THEN 57617    -- Apprentice Riding Crop
     WHEN `itemEntry` = 100011 THEN 57618    -- Journeyman Riding Crop
     WHEN `itemEntry` = 100012 THEN 57619    -- Expert Riding Crop
