@@ -32,7 +32,7 @@ def item_generate(ctx, tier, difficulty, seed, quiet):
     """Generate item_template SQL for the heroic/mythic loot matrix.
 
     Writes one AUTO file per (tier, difficulty) into
-    zpaks/mythic-dungeons/sql/. Re-running with the same data files and
+    zpaks/zep-dungeons/sql/. Re-running with the same data files and
     seed produces byte-identical output.
     """
     from lib.item.presets import run_all

@@ -20,7 +20,7 @@ def dungeon(ctx):
 
 @dungeon.command('teleports')
 @click.option('--output', '-o', type=click.Path(), default=None,
-              help='Output SQL file path (default: zpaks/zepcraft-legacy/sql/...)')
+              help='Output SQL file path (default: zpaks/zep-dungeons/sql/...)')
 @click.option('--seed', '-s', type=int, default=None,
               help='Random seed for reproducible orb icon selection')
 @click.option('--quiet', '-q', is_flag=True, help='Suppress per-dungeon output')
@@ -40,7 +40,7 @@ def dungeon_teleports(ctx, output, seed, quiet):
 
     if output is None:
         from lib.dungeon.teleports import OUTPUT_FILENAME
-        output_path = craft_root / 'zpaks' / 'zepcraft-legacy' / 'sql' / OUTPUT_FILENAME
+        output_path = craft_root / 'zpaks' / 'zep-dungeons' / 'sql' / OUTPUT_FILENAME
     else:
         output_path = Path(output)
 
@@ -70,7 +70,7 @@ def dungeon_teleports(ctx, output, seed, quiet):
 
 @dungeon.command('quests')
 @click.option('--output', '-o', type=click.Path(), default=None,
-              help='Output SQL file path (default: zpaks/zepcraft-legacy/sql/...)')
+              help='Output SQL file path (default: zpaks/zep-dungeons/sql/...)')
 @click.option('--quiet', '-q', is_flag=True, help='Suppress per-quest output')
 @click.pass_context
 def dungeon_quests(ctx, output, quiet):
@@ -89,7 +89,7 @@ def dungeon_quests(ctx, output, quiet):
 
     if output is None:
         from lib.dungeon.quests import OUTPUT_FILENAME
-        output_path = craft_root / 'zpaks' / 'zepcraft-legacy' / 'sql' / OUTPUT_FILENAME
+        output_path = craft_root / 'zpaks' / 'zep-dungeons' / 'sql' / OUTPUT_FILENAME
     else:
         output_path = Path(output)
 

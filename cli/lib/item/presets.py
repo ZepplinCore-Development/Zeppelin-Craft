@@ -116,7 +116,7 @@ def run(
 
     if output_path is None:
         filename = OUTPUT_FILENAME_TEMPLATE.format(tier=tier, difficulty=difficulty)
-        output_path = craft_root / "zpaks" / "mythic-dungeons" / "sql" / filename
+        output_path = craft_root / "zpaks" / "zep-dungeons" / "sql" / filename
 
     statements = _generate_for(tier, difficulty, seed, verbose)
     header = f"F-013 Heroic and Mythic Item Generator: {tier} {difficulty}"
