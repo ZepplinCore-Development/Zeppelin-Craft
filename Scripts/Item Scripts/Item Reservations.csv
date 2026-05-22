@@ -14,7 +14,7 @@
 58100,58199,Mounts,58100 Giant Murloc | 58101 reserved for Butt Zeppelin (902800 migration in zz_defunct_item_replacement.sql) | 58102-58103 Worgoblin Mountain Horses [I-186] (UPDATE renumber from upstream 73838/73839) | 58104-58105 Worgoblin Goblin Trike Keys [I-186] (INSERT fresh from upstream content; upstream IDs 62461/62462 are shadowed by F-013 Outland Heroic loot Greaves/Treads) | Next item: 58106
 58200,58299,Currencies,Done
 58300,58399,Miscellaneous,58300-58308 (Satchels + Azerite + Qiraji) | 58309 Nefarian's Massive Sack (I-061) | 58310 Raptor Flank [F-094] (renumbered from 902200) | 58311-58329 Clan Centaur Faction Loot [I-179/I-186] (Magram + Gelkis vendor items, renumbered from 200300-200318) | 58330-58334 Custom Reputation Tabards [F-019/I-186] (Netherwing, Violet Eye, Tranquillien, Ashtongue Deathsworn, Scale of the Sands; renumbered from 902001-902005) | Next: 58335
-58400,58499,Arcane Wards,
+58400,58499,Arcane Wards,58400-58408 Arcane Ward I-IX [F-014/I-186] (mage Conjure Arcane Ward spells 91058-91066 create these; renumbered from 902100-902108 with paired spell.effect_item_type_1 update in zep-legacy/dbc/[F-014]_spell.sql) | Next: 58409
 58500,58599,City Teleport Scrolls,Done
 58600,58699,Dungeon Teleport Orbs,58600-58661 Daily Dungeon Teleport Orbs [F-018/I-186] (62 orbs, one per dungeon; renumbered from 901901-901962; auto-generated from cli/lib/dungeon/data/Dungeon Daily Teleports.csv via `zep world dungeon teleports`) | Next: 58662
 58700,58799,Azeroth Daily Dungeon Items,58700-58746 Daily Dungeon Quest Rewards [F-018/I-186] (47 items: vanilla dungeon trinkets/quest items renumbered from 901700-901746; auto-generated from cli/lib/dungeon/data/Dungeon Daily Quests.csv via `zep world dungeon quests`) | Next: 58747

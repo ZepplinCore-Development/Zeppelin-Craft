@@ -69,6 +69,18 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900114 THEN 59099
     WHEN `itemEntry` = 900115 THEN 59100
     WHEN `itemEntry` = 900116 THEN 59101
+    -- Arcane Ward (F-014, I-186): 9021xx -> 584xx (compliance fix, May 2026)
+    -- Also requires spell.effect_item_type_1 update in zep-legacy/dbc/[F-014]_spell.sql
+    -- so Conjure Arcane Ward spells (91058-91066) create the new item IDs.
+    WHEN `itemEntry` = 902100 THEN 58400    -- Arcane Ward I
+    WHEN `itemEntry` = 902101 THEN 58401    -- Arcane Ward II
+    WHEN `itemEntry` = 902102 THEN 58402    -- Arcane Ward III
+    WHEN `itemEntry` = 902103 THEN 58403    -- Arcane Ward IV
+    WHEN `itemEntry` = 902104 THEN 58404    -- Arcane Ward V
+    WHEN `itemEntry` = 902105 THEN 58405    -- Arcane Ward VI
+    WHEN `itemEntry` = 902106 THEN 58406    -- Arcane Ward VII
+    WHEN `itemEntry` = 902107 THEN 58407    -- Arcane Ward VIII
+    WHEN `itemEntry` = 902108 THEN 58408    -- Arcane Ward IX
     -- Reputation Tabards (F-019, I-186): 9020xx -> 583xx (compliance fix, May 2026)
     WHEN `itemEntry` = 902001 THEN 58330    -- Netherwing Tabard
     WHEN `itemEntry` = 902002 THEN 58331    -- Violet Eye Tabard
