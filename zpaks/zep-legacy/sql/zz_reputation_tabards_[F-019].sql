@@ -1,6 +1,13 @@
 -- Outland Reputation Tabards - Complete Implementation
 -- All 21 Outland faction tabards with 25% reputation bonuses
 --
+-- Compliance migration (I-186, May 2026): renumbered custom tabards 902001-902005 → 58330-58334 (Misc reservation row 58300-58399).
+-- Idempotent cleanup of stale rows below — NO-OP after first apply.
+
+DELETE FROM `item_template` WHERE `entry` BETWEEN 902001 AND 902005;
+DELETE FROM `npc_vendor` WHERE `item` BETWEEN 902001 AND 902005;
+
+--
 -- This file contains:
 --   1. Updates to 16 existing tabards
 --   2. Creation of 5 custom tabards for factions without existing tabards
@@ -173,12 +180,12 @@
 -- These tabards use existing models from other tabards that fit the faction theme
 
 -- Delete any existing custom tabard entries first
-DELETE FROM `item_template` WHERE `entry` IN (902001, 902002, 902003, 902004, 902005);
+DELETE FROM `item_template` WHERE `entry` IN (58330, 58331, 58332, 58333, 58334);
 
 -- Netherwing Tabard (uses Purple Trophy Tabard of the Illidari model - displayid 43950)
 -- Sold by: Drake Dealer Hurlunk (23489)
 INSERT INTO `item_template` SET
-    `entry` = 902001,
+    `entry` = 58330,
     `class` = 4,
     `name` = 'Netherwing Tabard',
     `displayid` = 43950,
@@ -197,7 +204,7 @@ INSERT INTO `item_template` SET
 -- Violet Eye Tabard (uses Tabard of the Kirin Tor model - displayid 54176)
 -- Sold by: Apprentice Darius (18255)
 INSERT INTO `item_template` SET
-    `entry` = 902002,
+    `entry` = 58331,
     `class` = 4,
     `name` = 'Violet Eye Tabard',
     `displayid` = 54176,
@@ -216,7 +223,7 @@ INSERT INTO `item_template` SET
 -- Tranquillien Tabard (uses Cataclysm Tranquillien Tabard model - displayid 35929)
 -- Sold by: Provisioner Vredigar (16528)
 INSERT INTO `item_template` SET
-    `entry` = 902003,
+    `entry` = 58332,
     `class` = 4,
     `name` = 'Tranquillien Tabard',
     `displayid` = 35929,
@@ -235,7 +242,7 @@ INSERT INTO `item_template` SET
 -- Ashtongue Deathsworn Tabard (uses Green Trophy Tabard of the Illidari model - displayid 43794)
 -- Sold by: Okuno (23159)
 INSERT INTO `item_template` SET
-    `entry` = 902004,
+    `entry` = 58333,
     `class` = 4,
     `name` = 'Ashtongue Deathsworn Tabard',
     `displayid` = 43794,
@@ -254,7 +261,7 @@ INSERT INTO `item_template` SET
 -- Scale of the Sands Tabard (uses Keepers of Time Tabard model - displayid 44437)
 -- Sold by: Indormi (23437)
 INSERT INTO `item_template` SET
-    `entry` = 902005,
+    `entry` = 58334,
     `class` = 4,
     `name` = 'Scale of the Sands Tabard',
     `displayid` = 44437,
@@ -276,32 +283,32 @@ INSERT INTO `item_template` SET
 -- Add custom reputation tabards to appropriate faction vendors
 
 -- Delete any existing vendor entries first
-DELETE FROM `npc_vendor` WHERE `item` IN (902001, 902002, 902003, 902004, 902005);
+DELETE FROM `npc_vendor` WHERE `item` IN (58330, 58331, 58332, 58333, 58334);
 
 -- Drake Dealer Hurlunk (23489) - Netherwing vendor
 INSERT INTO `npc_vendor` SET
     `entry` = 23489,
-    `item` = 902001;
+    `item` = 58330;
 
 -- Indormi (23437) - The Scale of the Sands vendor
 INSERT INTO `npc_vendor` SET
     `entry` = 23437,
-    `item` = 902005;
+    `item` = 58334;
 
 -- Okuno (23159) - Ashtongue Deathsworn vendor
 INSERT INTO `npc_vendor` SET
     `entry` = 23159,
-    `item` = 902004;
+    `item` = 58333;
 
 -- Apprentice Darius (18255) - The Violet Eye vendor
 INSERT INTO `npc_vendor` SET
     `entry` = 18255,
-    `item` = 902002;
+    `item` = 58331;
 
 -- Provisioner Vredigar (16528) - Tranquillien vendor
 INSERT INTO `npc_vendor` SET
     `entry` = 16528,
-    `item` = 902003;
+    `item` = 58332;
 
 -- ==============================================================================
 -- PART 4: STANDARDIZE CITY TABARD VENDORS
@@ -409,62 +416,62 @@ INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
 -- ==============================================================================
 -- PART 6: ADD CUSTOM OUTLAND TABARDS TO CITY VENDORS
 -- ==============================================================================
--- Add the 5 custom tabards (902001-902005) to all city vendors for convenience
--- Note: Tranquillien (902003) is Horde-only faction
+-- Add the 5 custom tabards (58330-58334) to all city vendors for convenience
+-- Note: Tranquillien (58332) is Horde-only faction
 
 -- Delete existing custom tabard entries for city vendors to allow re-running
 DELETE FROM `npc_vendor` WHERE `entry` IN (5049, 5191, 16766, 5193, 5190, 16610, 5188, 5189)
-    AND `item` IN (902001, 902002, 902003, 902004, 902005);
+    AND `item` IN (58330, 58331, 58332, 58333, 58334);
 
 -- Alliance City Vendors (4 custom tabards - excluding Tranquillien)
 INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
     -- Lyesa Steelbrow (5049) - Ironforge
-    (5049, 902001),  -- Netherwing Tabard
-    (5049, 902002),  -- Violet Eye Tabard
-    (5049, 902004),  -- Ashtongue Deathsworn Tabard
-    (5049, 902005),  -- Scale of the Sands Tabard
+    (5049, 58330),  -- Netherwing Tabard
+    (5049, 58331),  -- Violet Eye Tabard
+    (5049, 58333),  -- Ashtongue Deathsworn Tabard
+    (5049, 58334),  -- Scale of the Sands Tabard
     -- Shalumon (5191) - Darnassus
-    (5191, 902001),  -- Netherwing Tabard
-    (5191, 902002),  -- Violet Eye Tabard
-    (5191, 902004),  -- Ashtongue Deathsworn Tabard
-    (5191, 902005),  -- Scale of the Sands Tabard
+    (5191, 58330),  -- Netherwing Tabard
+    (5191, 58331),  -- Violet Eye Tabard
+    (5191, 58333),  -- Ashtongue Deathsworn Tabard
+    (5191, 58334),  -- Scale of the Sands Tabard
     -- Issca (16766) - Exodar
-    (16766, 902001), -- Netherwing Tabard
-    (16766, 902002), -- Violet Eye Tabard
-    (16766, 902004), -- Ashtongue Deathsworn Tabard
-    (16766, 902005), -- Scale of the Sands Tabard
+    (16766, 58330), -- Netherwing Tabard
+    (16766, 58331), -- Violet Eye Tabard
+    (16766, 58333), -- Ashtongue Deathsworn Tabard
+    (16766, 58334), -- Scale of the Sands Tabard
     -- Rebecca Laughlin (5193) - Stormwind
-    (5193, 902001),  -- Netherwing Tabard
-    (5193, 902002),  -- Violet Eye Tabard
-    (5193, 902004),  -- Ashtongue Deathsworn Tabard
-    (5193, 902005);  -- Scale of the Sands Tabard
+    (5193, 58330),  -- Netherwing Tabard
+    (5193, 58331),  -- Violet Eye Tabard
+    (5193, 58333),  -- Ashtongue Deathsworn Tabard
+    (5193, 58334);  -- Scale of the Sands Tabard
 
 -- Horde City Vendors (all 5 custom tabards including Tranquillien)
 INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
     -- Merill Pleasance (5190) - Undercity
-    (5190, 902001),  -- Netherwing Tabard
-    (5190, 902002),  -- Violet Eye Tabard
-    (5190, 902003),  -- Tranquillien Tabard
-    (5190, 902004),  -- Ashtongue Deathsworn Tabard
-    (5190, 902005),  -- Scale of the Sands Tabard
+    (5190, 58330),  -- Netherwing Tabard
+    (5190, 58331),  -- Violet Eye Tabard
+    (5190, 58332),  -- Tranquillien Tabard
+    (5190, 58333),  -- Ashtongue Deathsworn Tabard
+    (5190, 58334),  -- Scale of the Sands Tabard
     -- Kredis (16610) - Silvermoon
-    (16610, 902001), -- Netherwing Tabard
-    (16610, 902002), -- Violet Eye Tabard
-    (16610, 902003), -- Tranquillien Tabard
-    (16610, 902004), -- Ashtongue Deathsworn Tabard
-    (16610, 902005), -- Scale of the Sands Tabard
+    (16610, 58330), -- Netherwing Tabard
+    (16610, 58331), -- Violet Eye Tabard
+    (16610, 58332), -- Tranquillien Tabard
+    (16610, 58333), -- Ashtongue Deathsworn Tabard
+    (16610, 58334), -- Scale of the Sands Tabard
     -- Garyl (5188) - Orgrimmar
-    (5188, 902001),  -- Netherwing Tabard
-    (5188, 902002),  -- Violet Eye Tabard
-    (5188, 902003),  -- Tranquillien Tabard
-    (5188, 902004),  -- Ashtongue Deathsworn Tabard
-    (5188, 902005),  -- Scale of the Sands Tabard
+    (5188, 58330),  -- Netherwing Tabard
+    (5188, 58331),  -- Violet Eye Tabard
+    (5188, 58332),  -- Tranquillien Tabard
+    (5188, 58333),  -- Ashtongue Deathsworn Tabard
+    (5188, 58334),  -- Scale of the Sands Tabard
     -- Thrumn (5189) - Thunder Bluff
-    (5189, 902001),  -- Netherwing Tabard
-    (5189, 902002),  -- Violet Eye Tabard
-    (5189, 902003),  -- Tranquillien Tabard
-    (5189, 902004),  -- Ashtongue Deathsworn Tabard
-    (5189, 902005);  -- Scale of the Sands Tabard
+    (5189, 58330),  -- Netherwing Tabard
+    (5189, 58331),  -- Violet Eye Tabard
+    (5189, 58332),  -- Tranquillien Tabard
+    (5189, 58333),  -- Ashtongue Deathsworn Tabard
+    (5189, 58334);  -- Scale of the Sands Tabard
 
 -- ==============================================================================
 -- PART 7: ADD CITY TABARDS TO CITY VENDORS

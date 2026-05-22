@@ -69,6 +69,12 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900114 THEN 59099
     WHEN `itemEntry` = 900115 THEN 59100
     WHEN `itemEntry` = 900116 THEN 59101
+    -- Reputation Tabards (F-019, I-186): 9020xx -> 583xx (compliance fix, May 2026)
+    WHEN `itemEntry` = 902001 THEN 58330    -- Netherwing Tabard
+    WHEN `itemEntry` = 902002 THEN 58331    -- Violet Eye Tabard
+    WHEN `itemEntry` = 902003 THEN 58332    -- Tranquillien Tabard
+    WHEN `itemEntry` = 902004 THEN 58333    -- Ashtongue Deathsworn Tabard
+    WHEN `itemEntry` = 902005 THEN 58334    -- Scale of the Sands Tabard
     -- Daily Dungeon Teleport Orbs (F-018, I-186): 9019xx -> 586xx (compliance fix, May 2026)
     WHEN `itemEntry` = 901901 THEN 58600
     WHEN `itemEntry` = 901902 THEN 58601
