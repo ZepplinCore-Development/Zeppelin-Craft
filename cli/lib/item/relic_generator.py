@@ -27,9 +27,12 @@ ITEM_OUT = PROJECT_ROOT / "zpaks" / "zep-items" / "sql" / "zz_[F-028]_low_level_
 
 # -- Per-class lookups ---------------------------------------------------------
 
-ALLOWABLE_CLASS = {"paladin": 2, "shaman": 64, "druid": 1024}
 SUBCLASS = {"paladin": 7, "druid": 8, "shaman": 9}  # Libram / Idol / Totem
 TOTEM_CATEGORY = {"shaman": 21, "druid": 0, "paladin": 0}
+# AllowableClass = -1 (no restriction) — the relic slot itself is class-gated
+# by InventoryType=28, so explicit class locks are redundant and would block
+# legitimate use by other classes that may gain the slot.
+ALLOWABLE_CLASS = -1
 
 # Per-class display pools, sourced from stock relic items in the live DB
 # (item_template WHERE InventoryType=28 AND subclass IN (7,8,9), excluding NPC/
@@ -195,13 +198,11 @@ def gen_item(entry: dict, per_class_idx: int) -> str:
     pool = RELIC_DISPLAY_POOL[cls]
     disp = pool[per_class_idx % len(pool)]
     sub = SUBCLASS[cls]
-    allow = ALLOWABLE_CLASS[cls]
     totcat = TOTEM_CATEGORY[cls]
     sell = ilvl * 100
     buy = sell * 5
     # Quality: req_level < 30 → green (2), req_level >= 30 → rare/blue (3)
     quality = 2 if req < 30 else 3
-    desc = f"A {cls} relic, dropped in {entry['dungeon']}."
 
     return f"""DELETE FROM `item_template` WHERE `entry` = {eid};
 INSERT INTO `item_template` SET
@@ -218,7 +219,7 @@ INSERT INTO `item_template` SET
     `BuyPrice` = {buy},
     `SellPrice` = {sell},
     `InventoryType` = 28,
-    `AllowableClass` = {allow},
+    `AllowableClass` = {ALLOWABLE_CLASS},
     `AllowableRace` = -1,
     `ItemLevel` = {ilvl},
     `RequiredLevel` = {req},
@@ -231,7 +232,6 @@ INSERT INTO `item_template` SET
     `spellcategory_1` = 0,
     `spellcategorycooldown_1` = -1,
     `bonding` = 1,
-    `description` = '{sql_escape(desc)}',
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = {totcat},
