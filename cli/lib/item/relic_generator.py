@@ -203,6 +203,9 @@ def gen_item(entry: dict, per_class_idx: int) -> str:
     buy = sell * 5
     # Quality: req_level < 30 → green (2), req_level >= 30 → rare/blue (3)
     quality = 2 if req < 30 else 3
+    # Shaman totems get the stock "Counts as Air/Earth/Fire/Water" flavor text
+    # (TotemCategory 21 = Master Totem, mask 15 covers all four elements).
+    description = "Counts as an Air, Earth, Fire, and Water totem." if cls == "shaman" else ""
 
     return f"""DELETE FROM `item_template` WHERE `entry` = {eid};
 INSERT INTO `item_template` SET
@@ -211,6 +214,7 @@ INSERT INTO `item_template` SET
     `subclass` = {sub},
     `SoundOverrideSubclass` = -1,
     `name` = '{sql_escape(name)}',
+    `description` = '{sql_escape(description)}',
     `displayid` = {disp},
     `Quality` = {quality},
     `Flags` = 0,
