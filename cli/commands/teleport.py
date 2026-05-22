@@ -19,7 +19,7 @@ def teleport(ctx):
 
 @teleport.command('generate')
 @click.option('--output', '-o', type=click.Path(), default=None,
-              help='Output SQL file path (default: zpaks/zepcraft-legacy/sql/...)')
+              help='Output SQL file path (default: zpaks/zep-legacy/sql/...)')
 @click.option('--quiet', '-q', is_flag=True, help='Suppress per-city output')
 @click.pass_context
 def teleport_generate(ctx, output, quiet):
@@ -38,7 +38,7 @@ def teleport_generate(ctx, output, quiet):
 
     if output is None:
         from lib.teleport.core import OUTPUT_FILENAME
-        output_path = craft_root / 'zpaks' / 'zepcraft-legacy' / 'sql' / OUTPUT_FILENAME
+        output_path = craft_root / 'zpaks' / 'zep-legacy' / 'sql' / OUTPUT_FILENAME
     else:
         output_path = Path(output)
 

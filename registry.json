@@ -7,17 +7,18 @@
     "F-049": "hd-everything",
     "F-136": "open-azeroth",
     "F-030": "worgoblin",
-    "F-044": "zepcraft-legacy",
+    "F-044": "zep-legacy",
     "F-150": "dbc-f-150",
-    "F-022": "zepcraft-legacy",
-    "F-001": "zepcraft-legacy",
-    "F-006": "zepcraft-legacy",
+    "F-022": "zep-legacy",
+    "F-001": "zep-legacy",
+    "F-006": "zep-legacy",
     "F-157": "fishing-bag-mechanic",
-    "F-160": "zepcraft-legacy",
-    "F-052": "zepcraft-legacy",
+    "F-160": "zep-legacy",
+    "F-052": "zep-legacy",
     "F-164": "class-changes",
-    "F-062": "zepcraft-legacy",
-    "F-031": "zepcraft-legacy",
-    "F-005": "zepcraft-legacy"
+    "F-062": "zep-legacy",
+    "F-031": "zep-legacy",
+    "F-005": "zep-legacy",
+    "F-028": "low-level-relics"
   }
 }

@@ -823,7 +823,7 @@ def zpak_feature(ctx, name):
 
     Examples:
         zep zpak feature                    # Interactive
-        zep zpak feature zepcraft-legacy    # Toggle features in specific zpak
+        zep zpak feature zep-legacy    # Toggle features in specific zpak
     """
     craft_root = ctx.obj['craft_root']
 

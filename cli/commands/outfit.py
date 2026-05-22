@@ -43,7 +43,7 @@ OUTFIT_STARTING_AMMO = int(os.getenv('OUTFIT_STARTING_AMMO', '2000'))
 CRAFT_ROOT = _cli_dir.parent
 
 # F-022 zpak location
-ZPAK_NAME = 'zepcraft-legacy'
+ZPAK_NAME = 'zep-legacy'
 ZPAK_DIR = CRAFT_ROOT / 'zpaks' / ZPAK_NAME
 
 # Worgoblin baseline for Goblin/Worgen races
@@ -269,7 +269,7 @@ def fix(spreadsheet):
     1. Resets all item + invtype slots to stock WOTLK values (preserves tier displays)
     2. Validates weapons against the CSV spreadsheet
     3. Applies weapon fixes to the live database
-    4. Saves idempotent SQL to the zepcraft-legacy zpak
+    4. Saves idempotent SQL to the zep-legacy zpak
 
     Generated zpak files:
       dbc/[AUTO,F-022]_skillraceclassinfo.sql       DBC trainer skills

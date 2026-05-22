@@ -664,7 +664,7 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str],
         zep dbc diff
         zep dbc diff --sql
         zep dbc diff --table spell
-        zep dbc diff --save --task F-164 --zpak zepcraft-legacy --table talent
+        zep dbc diff --save --task F-164 --zpak zep-legacy --table talent
     """
     config = get_dbc_config(ctx)
 
@@ -1238,8 +1238,8 @@ def dbc_clean(ctx, name: Optional[str], dry_run: bool):
     that are exact duplicates of rows in other zpaks.
 
     Examples:
-        zep dbc db clean --name zepcraft-legacy --dry-run   # Preview cleanup
-        zep dbc db clean --name zepcraft-legacy              # Remove duplicates
+        zep dbc db clean --name zep-legacy --dry-run   # Preview cleanup
+        zep dbc db clean --name zep-legacy              # Remove duplicates
     """
     from lib.dbc_utils import (
         detect_dbc_conflicts,
@@ -1397,9 +1397,9 @@ def dbc_strip_base(ctx, zpak_name: Optional[str], table_name: Optional[str],
 
     Examples:
         zep dbc db strip-base                                # Interactive
-        zep dbc db strip-base -z zepcraft-legacy -n          # Dry-run preview
-        zep dbc db strip-base -z zepcraft-legacy -t spell    # Only spell table
-        zep dbc db strip-base -z zepcraft-legacy -o log.txt  # Save log
+        zep dbc db strip-base -z zep-legacy -n          # Dry-run preview
+        zep dbc db strip-base -z zep-legacy -t spell    # Only spell table
+        zep dbc db strip-base -z zep-legacy -o log.txt  # Save log
     """
     from lib.dbc_utils import (
         extract_table_from_filename,

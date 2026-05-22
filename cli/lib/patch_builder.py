@@ -59,7 +59,7 @@ def discover_patches(craft_root: Path) -> Dict[str, List[Dict[str, Any]]]:
 
     Returns:
         Dict mapping patch letters to lists of zpak info dicts.
-        Example: {"Z": [{"name": "zepcraft-legacy", "path": ..., "manifest": ...}]}
+        Example: {"Z": [{"name": "zep-legacy", "path": ..., "manifest": ...}]}
     """
     patches = {}
 
