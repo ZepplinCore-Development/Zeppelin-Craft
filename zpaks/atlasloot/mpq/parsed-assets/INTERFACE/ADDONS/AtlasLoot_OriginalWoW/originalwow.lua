@@ -1114,6 +1114,23 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		{ 2, 11885, "", "=q1=Shadowforge Torch", "=ds=#m20#"};
 	};
 
+	AtlasLoot_Data["BRDChestOfTheSeven"] = {
+    { 1, 0, "AO_ChestWithTreasures", "=q6=Chest of The Seven", "=q5=ALL WILL DROP"};
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 7, 0, "AO_Unknown", "=q6=Chest of The Seven", "=q5=ONE WILL DROP"};
+    { 8, 11920, "", "=q3=Wraith Scythe", "=ds=#w1#", "", "12.5%" };
+    { 9, 11921, "", "=q3=Impervious Giant", "=ds=#w6#", "", "12.5%" };
+    { 10, 11922, "", "=q3=Blood-etched Blade", "=ds=#w4#", "", "12.5%" };
+    { 11, 11923, "", "=q3=The Hammer of Grace", "=ds=#w6#", "", "12.5%" };
+    { 12, 11925, "", "=q3=Ghostshroud", "=ds=#a2#", "", "12.5%" };
+    { 13, 11926, "", "=q3=Deathdealer Breastplate", "=ds=#a3#", "", "12.5%" };
+    { 14, 11927, "", "=q3=Legplates of the Eternal Guardian", "=ds=#a4#", "", "12.5%" };
+    { 15, 11929, "", "=q3=Haunting Specter Leggings", "=ds=#a1#", "", "12.5%" };
+	};
+
 	AtlasLoot_Data["BRDMagmus"] = {
     { 1, 0, "AO_Unknown", "=q6=Magmus", "=q5=ONE WILL DROP"};
     { 2, 11746, "", "=q3=Golem Skull Helm", "=ds=#a4#", "", "20.0%" };

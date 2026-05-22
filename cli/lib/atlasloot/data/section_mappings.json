@@ -140,6 +140,7 @@
     "brd_verek": "BRDVerek",
     "brd_fineous": "BRDFineousDarkvire",
     "brd_lyceum": "BRDLyceum",
+    "brd_chest_seven": "BRDChestOfTheSeven",
     "brd_forgewright": "BRDForgewright",
     "lbrs_omokk": "LBRSOmokk",
     "lbrs_slavener": "LBRSSlavener",
@@ -816,65 +817,16 @@
     "ZAZuljin": 23863
   },
   "tbc_gameobject_sections": {
-    "_comment": "Maps AtlasLoot section name -> gameobject entry ID (chest loot)",
-    "HCRampReinforcedChest": 185168,
-    "HCRampReinforcedChestHEROIC": 185169,
-    "AuchSethekkTalonKingCoffer": 187372
+    "_comment": "Maps AtlasLoot section name -> gameobject entry ID (chest loot) (note: entries now sourced from cli/lib/loot/data/encounter_chests.json)"
   },
   "tbc_multi_source_sections": {
-    "_comment": "Multi-source encounters with headers for each loot source. Sources are processed in order.",
-    "HCRampVazruden": {
-      "sources": [
-        {
-          "type": "creature",
-          "id": 17537,
-          "header": "Vazruden the Herald",
-          "header_sub": "Quest Item"
-        },
-        {
-          "type": "creature",
-          "id": 17536,
-          "header": "Nazan",
-          "header_sub": "Quest Item"
-        },
-        {
-          "type": "gameobject",
-          "id": 185168,
-          "header": "Reinforced Fel Iron Chest",
-          "header_sub": ""
-        }
-      ]
-    },
-    "HCRampVazrudenHEROIC": {
-      "sources": [
-        {
-          "type": "creature",
-          "id": 18434,
-          "header": "Vazruden the Herald",
-          "header_sub": "Quest Item"
-        },
-        {
-          "type": "creature",
-          "id": 18432,
-          "header": "Nazan",
-          "header_sub": "Quest Item"
-        },
-        {
-          "type": "gameobject",
-          "id": 185169,
-          "header": "Reinforced Fel Iron Chest",
-          "header_sub": ""
-        }
-      ]
-    }
+    "_comment": "Multi-source encounters with headers for each loot source. Sources are processed in order. (note: entries now sourced from cli/lib/loot/data/encounter_chests.json)"
   },
   "single_boss_go_sections": {
-    "_comment": "Single boss sections where loot comes from a gameobject, not the creature. Uses single-boss layout with Guaranteed/Variable/Pool headers.",
-    "MCMajordomo": 179703,
-    "Naxx40FourHorsemen": 361000
+    "_comment": "Single boss sections where loot comes from a gameobject, not the creature. Uses single-boss layout with Guaranteed/Variable/Pool headers. (note: entries now sourced from cli/lib/loot/data/encounter_chests.json)"
   },
   "vanilla_multi_source_sections": {
-    "_comment": "Vanilla multi-source encounters (shared encounters like Sneed's Shredder -> Sneed)",
+    "_comment": "Vanilla multi-source encounters (shared encounters like Sneed's Shredder -> Sneed) (note: entries now sourced from cli/lib/loot/data/encounter_chests.json)",
     "VCSneed": {
       "sources": [
         {
@@ -1005,29 +957,6 @@
           "type": "creature",
           "id": 8929,
           "header": "Princess Moira Bronzebeard",
-          "header_sub": ""
-        }
-      ]
-    },
-    "STRATSothosJarien": {
-      "_comment": "Stratholme T0.5 summoning event - chest loot + quest items from ghosts",
-      "sources": [
-        {
-          "type": "gameobject",
-          "id": 181083,
-          "header": "Sothos and Jarien's Heirlooms",
-          "header_sub": ""
-        },
-        {
-          "type": "creature",
-          "id": 16102,
-          "header": "Sothos",
-          "header_sub": ""
-        },
-        {
-          "type": "creature",
-          "id": 16101,
-          "header": "Jarien",
           "header_sub": ""
         }
       ]

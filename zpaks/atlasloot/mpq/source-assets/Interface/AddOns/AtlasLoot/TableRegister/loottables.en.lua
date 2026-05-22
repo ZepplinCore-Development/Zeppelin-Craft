@@ -696,6 +696,7 @@ end
 	AtlasLoot_TableNames["BRDPanzor"] = { BabbleBoss["Panzor the Invincible"].." ("..AL["Rare"]..")", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["BRDTomb"] = { "Summoner's Tomb", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["BRDLyceum"] = { AL["Shadowforge Flame Keeper"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["BRDChestOfTheSeven"] = { "Chest of the Seven", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["BRDMagmus"] = { BabbleBoss["Magmus"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["BRDMagmusHEROIC"] = { "Heroic Magmus (Heroic)", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["BRDEmperorPrincess"] = { BabbleBoss["Emperor Dagran Thaurissan"].." & "..BabbleBoss["Princess Moira Bronzebeard"], "AtlasLootOriginalWoW" };

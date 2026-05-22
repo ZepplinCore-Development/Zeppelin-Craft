@@ -2901,12 +2901,9 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	};
 
 	AtlasLoot_Data["HCRampVazruden"] = {
-    { 1, 0, "AO_ChestWithTreasures", "=q6=Vazruden the Herald", "=q5=ALL WILL DROP"};
-    { 2, 23890, "", "=q1=Ominous Letter", "=ds=#m3#", "", "100%" };
-    { 3, 23892, "", "=q1=Ominous Letter", "=ds=#m3#", "", "100%" };
-    { 5, 0, "AO_ChestWithTreasures", "=q6=Nazan", "=q5=ALL WILL DROP"};
-    { 6, 23901, "", "=q1=Nazan's Head", "=ds=#m3#", "", "100%" };
-    { 7, 901730, "", "=q1=Fel Nether Essence", "=ds=#m3#", "", "100%" };
+    { 1, 0, "AO_ChestWithTreasures", "=q6=Nazan", "=q5=ALL WILL DROP"};
+    { 2, 23901, "", "=q1=Nazan's Head", "=ds=#m3#", "", "100%" };
+    { 3, 33833, "", "=q1=Nazan's Riding Crop", "=ds=#m3#", "", "100%" };
     { 16, 0, "AO_Unknown", "=q6=Reinforced Fel Iron Chest", "=q5=ONE WILL DROP"};
     { 17, 24044, "", "=q3=Hellreaver", "=ds=#w7#", "", "10.0%" };
     { 18, 24045, "", "=q3=Band of Renewal", "=ds=#s13#", "", "10.0%" };

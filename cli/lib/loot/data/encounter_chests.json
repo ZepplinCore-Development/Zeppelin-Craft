@@ -1,0 +1,143 @@
+{
+  "_comment": "Shared encounter chest registry — single source of truth for boss encounters where the actual reward is a gameobject chest rather than (or in addition to) creature drops. Consumed by F-074 cache wiring (cli/lib/loot/satchel.py) and F-007 AtlasLoot generator (cli/lib/atlasloot/core.py). Add new chests here once; both subsystems pick them up automatically.",
+
+  "_schema": {
+    "key": "AtlasLoot section name used in Lua tables (e.g. BRDChestOfTheSeven)",
+    "gameobject_id": "gameobject_template entry — the lootable chest itself",
+    "loot_id": "gameobject_loot_template entry the chest pulls from (for F-074 cache wiring)",
+    "name": "Display name for SQL comments and AtlasLoot headers",
+    "tier": "F-074 tier classification: azeroth | outland | northrend | raid_vanilla | raid_tbc | raid_wotlk",
+    "dungeon": "Source-of-truth dungeon key in creatures_heroic.json (when f074_in_scope=true)",
+    "encounter_label": "Human-readable encounter name (e.g. 'Seven Hidden')",
+    "encounter_bosses": "Creature IDs in the encounter — these are the bosses with empty creature_loot_template",
+    "f074_in_scope": "true if F-074 should add heroic/mythic caches to this chest",
+    "atlasloot_section_type": "single_boss_go | tbc_gameobject | vanilla_multi_source | tbc_multi_source",
+    "atlasloot_sources": "(multi_source types only) list of {type, id, header} for AtlasLoot to render"
+  },
+
+  "chests": [
+    {
+      "key": "BRDChestOfTheSeven",
+      "gameobject_id": 169243,
+      "loot_id": 12260,
+      "name": "Chest of the Seven",
+      "tier": "azeroth",
+      "dungeon": "Blackrock_Depths",
+      "encounter_label": "Seven Hidden",
+      "encounter_bosses": [9034, 9035, 9036, 9037, 9038, 9039, 9040],
+      "f074_in_scope": true,
+      "atlasloot_section_type": "single_boss_go"
+    },
+    {
+      "key": "STRATSothosJarien",
+      "gameobject_id": 181083,
+      "loot_id": 17919,
+      "name": "Sothos and Jarien's Heirlooms",
+      "tier": "azeroth",
+      "dungeon": "Stratholme",
+      "encounter_label": "Atiesh summoning event",
+      "encounter_bosses": [16101, 16102, 16387],
+      "f074_in_scope": true,
+      "atlasloot_section_type": "vanilla_multi_source",
+      "atlasloot_sources": [
+        {"type": "gameobject", "id": 181083, "header": "Sothos and Jarien's Heirlooms"},
+        {"type": "creature", "id": 16102, "header": "Sothos"},
+        {"type": "creature", "id": 16101, "header": "Jarien"}
+      ]
+    },
+    {
+      "key": "MCMajordomo",
+      "gameobject_id": 179703,
+      "loot_id": 0,
+      "name": "Cache of the Firelord",
+      "tier": "raid_vanilla",
+      "dungeon": "MoltenCore",
+      "encounter_label": "Majordomo Executus",
+      "encounter_bosses": [],
+      "f074_in_scope": false,
+      "atlasloot_section_type": "single_boss_go"
+    },
+    {
+      "key": "Naxx40FourHorsemen",
+      "gameobject_id": 361000,
+      "loot_id": 0,
+      "name": "Four Horsemen chest",
+      "tier": "raid_vanilla",
+      "dungeon": "Naxxramas",
+      "encounter_label": "Four Horsemen",
+      "encounter_bosses": [],
+      "f074_in_scope": false,
+      "atlasloot_section_type": "single_boss_go"
+    },
+    {
+      "key": "HCRampReinforcedChest",
+      "gameobject_id": 185168,
+      "loot_id": 0,
+      "name": "Reinforced Fel Iron Chest",
+      "tier": "outland_dungeon",
+      "dungeon": "Hellfire Ramparts",
+      "encounter_label": "Vazruden the Herald (Normal)",
+      "encounter_bosses": [],
+      "f074_in_scope": false,
+      "atlasloot_section_type": "tbc_gameobject"
+    },
+    {
+      "key": "HCRampReinforcedChestHEROIC",
+      "gameobject_id": 185169,
+      "loot_id": 0,
+      "name": "Reinforced Fel Iron Chest (Heroic)",
+      "tier": "outland_dungeon",
+      "dungeon": "Hellfire Ramparts (Heroic)",
+      "encounter_label": "Vazruden the Herald (Heroic)",
+      "encounter_bosses": [],
+      "f074_in_scope": false,
+      "atlasloot_section_type": "tbc_gameobject"
+    },
+    {
+      "key": "AuchSethekkTalonKingCoffer",
+      "gameobject_id": 187372,
+      "loot_id": 0,
+      "name": "Talon King's Coffer",
+      "tier": "outland_dungeon",
+      "dungeon": "Sethekk Halls",
+      "encounter_label": "Talon King Ikiss",
+      "encounter_bosses": [],
+      "f074_in_scope": false,
+      "atlasloot_section_type": "tbc_gameobject"
+    },
+    {
+      "key": "HCRampVazruden",
+      "gameobject_id": 185169,
+      "loot_id": 0,
+      "name": "Vazruden + Reinforced Fel Iron Chest",
+      "tier": "outland_dungeon",
+      "dungeon": "Hellfire Ramparts",
+      "encounter_label": "Vazruden the Herald (multi-source, Normal)",
+      "encounter_bosses": [18434, 18432],
+      "f074_in_scope": false,
+      "atlasloot_section_type": "tbc_multi_source",
+      "atlasloot_sources": [
+        {"type": "creature", "id": 18434, "header": "Vazruden the Herald", "header_sub": "Quest Item"},
+        {"type": "creature", "id": 18432, "header": "Nazan", "header_sub": "Quest Item"},
+        {"type": "gameobject", "id": 185168, "header": "Reinforced Fel Iron Chest", "header_sub": ""}
+      ]
+    },
+    {
+      "key": "HCRampVazrudenHEROIC",
+      "gameobject_id": 185169,
+      "loot_id": 0,
+      "name": "Vazruden + Reinforced Fel Iron Chest (Heroic)",
+      "tier": "outland_dungeon",
+      "dungeon": "Hellfire Ramparts (Heroic)",
+      "encounter_label": "Vazruden the Herald (multi-source, Heroic)",
+      "encounter_bosses": [18434, 18432],
+      "f074_in_scope": false,
+      "atlasloot_section_type": "tbc_multi_source",
+      "atlasloot_sources": [
+        {"type": "creature", "id": 18434, "header": "Vazruden the Herald", "header_sub": "Quest Item"},
+        {"type": "creature", "id": 18432, "header": "Nazan", "header_sub": "Quest Item"},
+        {"type": "gameobject", "id": 185169, "header": "Reinforced Fel Iron Chest", "header_sub": ""}
+      ]
+    }
+  ]
+}

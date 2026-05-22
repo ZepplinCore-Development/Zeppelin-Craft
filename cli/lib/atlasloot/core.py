@@ -10,7 +10,7 @@ import os
 import json
 import logging
 from pathlib import Path
-from typing import Tuple, Optional
+from typing import Dict, Tuple, Optional
 
 from .lua_parser import AtlasLootParser
 from .loot_query import LootDatabase
@@ -75,11 +75,45 @@ def _clean_mapping(d):
 DUNGEON_SECTIONS = _clean_mapping(_mappings['dungeon_sections'])
 SINGLE_BOSS_SECTIONS = _clean_mapping(_mappings['single_boss_sections'])
 TBC_SINGLE_BOSS_SECTIONS = _clean_mapping(_mappings['tbc_single_boss_sections'])
-TBC_GAMEOBJECT_SECTIONS = _clean_mapping(_mappings['tbc_gameobject_sections'])
-TBC_MULTI_SOURCE_SECTIONS = {k: v for k, v in _mappings.get('tbc_multi_source_sections', {}).items() if not k.startswith('_')}
-VANILLA_MULTI_SOURCE_SECTIONS = {k: v for k, v in _mappings.get('vanilla_multi_source_sections', {}).items() if not k.startswith('_')}
-SINGLE_BOSS_GO_SECTIONS = _clean_mapping(_mappings.get('single_boss_go_sections', {}))
 REP_FACTIONS = _mappings.get('rep_factions', {})
+
+# GO-loot encounter sections are sourced from the shared
+# cli/lib/loot/data/encounter_chests.json registry (also consumed by F-074
+# satchel.py). section_mappings.json keeps any legacy entries that haven't
+# been migrated yet; the shared chests file takes precedence on overlaps.
+from ..loot import chests as _encounter_chests
+
+
+def _merge_chests(legacy: Dict, section_type: str) -> Dict:
+    """Combine legacy section_mappings.json entries with shared chests
+    registry entries of the given AtlasLoot section_type."""
+    merged = dict(legacy)
+    for key, entry in _encounter_chests.by_atlasloot_section_type(section_type).items():
+        if section_type in ('single_boss_go', 'tbc_gameobject'):
+            merged[key] = entry['gameobject_id']
+        else:  # multi_source — preserve the full sources list
+            merged[key] = {'sources': entry.get('atlasloot_sources', [])}
+    return merged
+
+
+TBC_GAMEOBJECT_SECTIONS = _merge_chests(
+    _clean_mapping(_mappings.get('tbc_gameobject_sections', {})),
+    'tbc_gameobject',
+)
+TBC_MULTI_SOURCE_SECTIONS = _merge_chests(
+    {k: v for k, v in _mappings.get('tbc_multi_source_sections', {}).items()
+     if not k.startswith('_')},
+    'tbc_multi_source',
+)
+VANILLA_MULTI_SOURCE_SECTIONS = _merge_chests(
+    {k: v for k, v in _mappings.get('vanilla_multi_source_sections', {}).items()
+     if not k.startswith('_')},
+    'vanilla_multi_source',
+)
+SINGLE_BOSS_GO_SECTIONS = _merge_chests(
+    _clean_mapping(_mappings.get('single_boss_go_sections', {})),
+    'single_boss_go',
+)
 
 
 # =============================================================================

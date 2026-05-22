@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+from . import chests as encounter_chests
 from ..item.generator import CLASS_BITMASK
 from ..item.matrix import WEAPON_TOKEN_CONFIG, iter_cells
 from ..item.reservations import entry_id as f013_entry_id
@@ -88,18 +89,10 @@ class CacheSpec:
 DIFFICULTY_HEROIC = 1
 DIFFICULTY_MYTHIC = 2
 
-# GO chests whose creature counterparts have empty creature_loot_template
-# (audited 2026-05-21). For these encounters the kill itself drops nothing
-# in heroic/mythic mode (heroic.py skips cache emission when base_lootid=0);
-# the encounter reward is instead the chest, so we add cache references here
-# gated on heroic/mythic difficulty via CONDITION_DIFFICULTY_ID.
-GO_CHESTS_BY_TIER = {
-    'azeroth': [
-        # (chest_loot_id, gameobject_template entry, chest name for comment)
-        (12260, 169243, "Chest of the Seven (BRD Seven Hidden)"),
-        (17919, 181083, "Sothos and Jarien's Heirlooms (Strath Atiesh event)"),
-    ],
-}
+# GO chests for F-074 cache wiring now come from the shared registry at
+# cli/lib/loot/data/encounter_chests.json (also consumed by AtlasLoot).
+# For each tier we pick chests with f074_in_scope=true and add cache
+# references gated by CONDITION_DIFFICULTY_ID = 49 (1=heroic, 2=mythic).
 
 
 CACHE_SPECS: Tuple[CacheSpec, ...] = (
@@ -318,7 +311,7 @@ def _go_chest_block(tier: str) -> List[str]:
     players in the matching difficulty instance see the corresponding tier
     of cache (and normal-mode players see nothing extra).
     """
-    chests = GO_CHESTS_BY_TIER.get(tier, [])
+    chests = encounter_chests.for_f074_tier(tier)
     if not chests:
         return []
 
@@ -344,7 +337,10 @@ def _go_chest_block(tier: str) -> List[str]:
         (mythic_weapon, DIFFICULTY_MYTHIC, 'mythic weapon cache'),
     ]
 
-    for chest_loot_id, chest_go_entry, chest_name in chests:
+    for chest in chests:
+        chest_loot_id = chest["loot_id"]
+        chest_go_entry = chest["gameobject_id"]
+        chest_name = chest["name"]
         escaped_name = chest_name.replace("'", "''")
         lines.append(f"-- {chest_name} (gameobject {chest_go_entry}, loot {chest_loot_id})")
         cache_ids_csv = ", ".join(str(e) for e, _, _ in cache_entries)
@@ -442,8 +438,8 @@ def generate(output_path: Path) -> Tuple[int, int]:
 
     # Phase 1.5: GO chest cache integration for encounters whose creature
     # kills have empty creature_loot_template (heroic.py skips cache emission
-    # there). One block per tier with GO chest entries configured.
-    for tier in sorted(GO_CHESTS_BY_TIER):
+    # there). Chests come from the shared encounter_chests registry.
+    for tier in encounter_chests.f074_tiers():
         lines.extend(_go_chest_block(tier))
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
