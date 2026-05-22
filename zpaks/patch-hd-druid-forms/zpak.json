@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "hd-druid-forms",
+  "name": "patch-hd-druid-forms",
   "version": "1.0.0",
   "description": "HD druid form model replacements",
   "author": "Leeviathan",

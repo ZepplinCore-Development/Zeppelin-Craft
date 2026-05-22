@@ -37,7 +37,7 @@ from lib.forge import (
 
 # Mapping from zpak name to old fork_config module name (for migration compatibility)
 ZPAK_TO_MODULE = {
-    "azerothcore": "azerothcore",
+    "core-azerothcore": "azerothcore",
     "mod-individual-progression": "mod-individual-progression",
     "mod-accountbound": "mod-accountbound",
     "mod-racial-trait-swap": "mod-racial-trait-swap",

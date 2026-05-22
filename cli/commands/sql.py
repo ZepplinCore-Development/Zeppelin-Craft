@@ -407,7 +407,7 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
                 if not base_path.exists() and not updates_path.exists():
                     sql_paths.append((module_chars_sql, 'chars_root'))
 
-    # 1c. Check explicit sql_path / sql_updates_path from manifest (used by azerothcore zpak)
+    # 1c. Check explicit sql_path / sql_updates_path from manifest (used by core-azerothcore zpak)
     if 'sql_path' in manifest:
         base_dir = (craft_root / manifest['sql_path']).resolve()
         if base_dir.exists():
@@ -570,7 +570,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
     sql_files = collect_all_sql_files(craft_root)
     sql_files = [
         (f, z, s, db) for f, z, s, db in sql_files
-        if z != 'azerothcore' or s in AC_ALLOWED_SOURCES
+        if z != 'core-azerothcore' or s in AC_ALLOWED_SOURCES
     ]
 
     if not sql_files:
@@ -663,12 +663,12 @@ def _execute_reset(craft_root: Path) -> bool:
 
     # Step 3: Execute BASE files
     click.echo("\n[2/3] Executing base SQL files...")
-    base_files = collect_all_sql_files(craft_root, 'azerothcore', source_filter=['base'])
+    base_files = collect_all_sql_files(craft_root, 'core-azerothcore', source_filter=['base'])
 
     if not base_files:
         raise click.ClickException(
-            "No base SQL files found in azerothcore zpak!\n"
-            "Check that zpaks/azerothcore/zpak.json has correct sql_path settings."
+            "No base SQL files found in core-azerothcore zpak!\n"
+            "Check that zpaks/core-azerothcore/zpak.json has correct sql_path settings."
         )
 
     click.echo(f"  Found {len(base_files)} base SQL files\n")
@@ -702,7 +702,7 @@ def _execute_reset(craft_root: Path) -> bool:
 
     # Step 4: Execute UPDATE files (skip those already in updates table from base)
     click.echo("\n[3/3] Executing update SQL files...")
-    update_files = collect_all_sql_files(craft_root, 'azerothcore', source_filter=['updates'])
+    update_files = collect_all_sql_files(craft_root, 'core-azerothcore', source_filter=['updates'])
     click.echo(f"  Found {len(update_files)} update SQL files")
 
     updates_to_apply = []
@@ -985,8 +985,8 @@ def tool_list(ctx, zpak_name, changed):
             return
 
         sql_files = collect_all_sql_files(craft_root, zpak_name)
-        if zpak_name != 'azerothcore':
-            sql_files = [(f, z, s, db) for f, z, s, db in sql_files if z != 'azerothcore' or s in ('updates', 'zpak')]
+        if zpak_name != 'core-azerothcore':
+            sql_files = [(f, z, s, db) for f, z, s, db in sql_files if z != 'core-azerothcore' or s in ('updates', 'zpak')]
 
         if not sql_files:
             click.echo("No SQL files found")

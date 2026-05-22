@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "hd-creatures-mounts",
+  "name": "patch-hd-creatures-mounts",
   "version": "0.1.0",
   "description": "HD creature and mount model replacements (Nexus mod 891). Trial alternative to the creature portion of hd-everything.",
   "author": "Nexusmods (mod 891)",

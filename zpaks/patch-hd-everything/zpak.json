@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "hd-everything",
+  "name": "patch-hd-everything",
   "version": "2.0.0",
   "description": "HD textures and models from Maribeth's Odyssey Mods pack (Nexus 850). See F-049 note for context.",
   "author": "Maribeth (Odyssey Mods)",

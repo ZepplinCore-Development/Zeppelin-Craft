@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "azerothcore",
+  "name": "core-azerothcore",
   "version": "0.1.0",
   "description": "AzerothCore base SQL and DBC baseline",
   "author": "Zeppelin Team",

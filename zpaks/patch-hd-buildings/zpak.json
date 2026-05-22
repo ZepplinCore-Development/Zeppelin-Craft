@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "hd-buildings",
+  "name": "patch-hd-buildings",
   "version": "1.0.0",
   "description": "HD building and structure model replacements",
   "author": "Classic HD Appletrey",
