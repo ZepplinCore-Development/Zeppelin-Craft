@@ -6,15 +6,23 @@
 -- Passive effect when in inventory
 -- =====================================================
 
+-- Compliance migration (I-185, May 2026): renumber item entries 100010-100021 → 57617-57628
+-- (Leatherworking reservation row 57600-57699). Spell IDs (100010-100015, 100020-100025) remain
+-- unchanged — that is a separate compliance concern, not addressed here.
+-- Idempotent: NO-OP after first apply (no rows match the defunct IDs).
+DELETE FROM `item_template` WHERE `entry` BETWEEN 100010 AND 100021;
+DELETE FROM `npc_vendor` WHERE `item` BETWEEN 100010 AND 100021;
+DELETE FROM `creature_loot_template` WHERE `Item` BETWEEN 100010 AND 100021;
+
 -- =====================================================
 -- RIDING CROP ITEMS (Final Products)
 -- =====================================================
 
 -- Tier 1: Apprentice Riding Crop (+5% mount speed)
-DELETE FROM `item_template` WHERE `entry` = 100010;
+DELETE FROM `item_template` WHERE `entry` = 57617;
 
 INSERT INTO `item_template` SET
-    `entry` = 100010,
+    `entry` = 57617,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Apprentice Riding Crop',
@@ -32,10 +40,10 @@ INSERT INTO `item_template` SET
 
 
 -- Tier 2: Journeyman Riding Crop (+10% mount speed)
-DELETE FROM `item_template` WHERE `entry` = 100011;
+DELETE FROM `item_template` WHERE `entry` = 57618;
 
 INSERT INTO `item_template` SET
-    `entry` = 100011,
+    `entry` = 57618,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Journeyman Riding Crop',
@@ -53,10 +61,10 @@ INSERT INTO `item_template` SET
 
 
 -- Tier 3: Expert Riding Crop (+15% mount speed)
-DELETE FROM `item_template` WHERE `entry` = 100012;
+DELETE FROM `item_template` WHERE `entry` = 57619;
 
 INSERT INTO `item_template` SET
-    `entry` = 100012,
+    `entry` = 57619,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Expert Riding Crop',
@@ -74,10 +82,10 @@ INSERT INTO `item_template` SET
 
 
 -- Tier 4: Artisan Riding Crop (+20% mount speed)
-DELETE FROM `item_template` WHERE `entry` = 100013;
+DELETE FROM `item_template` WHERE `entry` = 57620;
 
 INSERT INTO `item_template` SET
-    `entry` = 100013,
+    `entry` = 57620,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Artisan Riding Crop',
@@ -95,10 +103,10 @@ INSERT INTO `item_template` SET
 
 
 -- Tier 5: Master Riding Crop (+25% mount speed)
-DELETE FROM `item_template` WHERE `entry` = 100014;
+DELETE FROM `item_template` WHERE `entry` = 57621;
 
 INSERT INTO `item_template` SET
-    `entry` = 100014,
+    `entry` = 57621,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Master Riding Crop',
@@ -120,10 +128,10 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 -- Pattern: Apprentice Riding Crop
-DELETE FROM `item_template` WHERE `entry` = 100015;
+DELETE FROM `item_template` WHERE `entry` = 57622;
 
 INSERT INTO `item_template` SET
-    `entry` = 100015,
+    `entry` = 57622,
     `class` = 9,
     `subclass` = 1,
     `name` = 'Pattern: Apprentice Riding Crop',
@@ -146,10 +154,10 @@ INSERT INTO `item_template` SET
 
 
 -- Pattern: Journeyman Riding Crop
-DELETE FROM `item_template` WHERE `entry` = 100016;
+DELETE FROM `item_template` WHERE `entry` = 57623;
 
 INSERT INTO `item_template` SET
-    `entry` = 100016,
+    `entry` = 57623,
     `class` = 9,
     `subclass` = 1,
     `name` = 'Pattern: Journeyman Riding Crop',
@@ -172,10 +180,10 @@ INSERT INTO `item_template` SET
 
 
 -- Pattern: Expert Riding Crop
-DELETE FROM `item_template` WHERE `entry` = 100017;
+DELETE FROM `item_template` WHERE `entry` = 57624;
 
 INSERT INTO `item_template` SET
-    `entry` = 100017,
+    `entry` = 57624,
     `class` = 9,
     `subclass` = 1,
     `name` = 'Pattern: Expert Riding Crop',
@@ -198,10 +206,10 @@ INSERT INTO `item_template` SET
 
 
 -- Pattern: Artisan Riding Crop
-DELETE FROM `item_template` WHERE `entry` = 100018;
+DELETE FROM `item_template` WHERE `entry` = 57625;
 
 INSERT INTO `item_template` SET
-    `entry` = 100018,
+    `entry` = 57625,
     `class` = 9,
     `subclass` = 1,
     `name` = 'Pattern: Artisan Riding Crop',
@@ -224,10 +232,10 @@ INSERT INTO `item_template` SET
 
 
 -- Pattern: Master Riding Crop
-DELETE FROM `item_template` WHERE `entry` = 100019;
+DELETE FROM `item_template` WHERE `entry` = 57626;
 
 INSERT INTO `item_template` SET
-    `entry` = 100019,
+    `entry` = 57626,
     `class` = 9,
     `subclass` = 1,
     `name` = 'Pattern: Master Riding Crop',
@@ -250,10 +258,10 @@ INSERT INTO `item_template` SET
 
 
 -- Tier 6: Grand Master Riding Crop (+24% mount speed)
-DELETE FROM `item_template` WHERE `entry` = 100020;
+DELETE FROM `item_template` WHERE `entry` = 57627;
 
 INSERT INTO `item_template` SET
-    `entry` = 100020,
+    `entry` = 57627,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Grand Master Riding Crop',
@@ -271,10 +279,10 @@ INSERT INTO `item_template` SET
 
 
 -- Pattern: Grand Master Riding Crop
-DELETE FROM `item_template` WHERE `entry` = 100021;
+DELETE FROM `item_template` WHERE `entry` = 57628;
 
 INSERT INTO `item_template` SET
-    `entry` = 100021,
+    `entry` = 57628,
     `class` = 9,
     `subclass` = 1,
     `name` = 'Pattern: Grand Master Riding Crop',
@@ -301,82 +309,82 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 -- Tier 1-2: Sold by Leatherworking Supply Vendors (all capitals)
-DELETE FROM `npc_vendor` WHERE `item` IN (100015, 100016);
+DELETE FROM `npc_vendor` WHERE `item` IN (57622, 57623);
 
 INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`) VALUES
 -- Stormwind - Jillian Tanner (5565)
-(5565, 0, 100015, 0, 0, 0),
-(5565, 0, 100016, 0, 0, 0),
+(5565, 0, 57622, 0, 0, 0),
+(5565, 0, 57623, 0, 0, 0),
 -- Ironforge - Bombus Finespindle (5128)
-(5128, 0, 100015, 0, 0, 0),
-(5128, 0, 100016, 0, 0, 0),
+(5128, 0, 57622, 0, 0, 0),
+(5128, 0, 57623, 0, 0, 0),
 -- Darnassus - Saenorion (4225)
-(4225, 0, 100015, 0, 0, 0),
-(4225, 0, 100016, 0, 0, 0),
+(4225, 0, 57622, 0, 0, 0),
+(4225, 0, 57623, 0, 0, 0),
 -- Exodar - Haferet (16748)
-(16748, 0, 100015, 0, 0, 0),
-(16748, 0, 100016, 0, 0, 0),
+(16748, 0, 57622, 0, 0, 0),
+(16748, 0, 57623, 0, 0, 0),
 -- Orgrimmar - Tamar (3366)
-(3366, 0, 100015, 0, 0, 0),
-(3366, 0, 100016, 0, 0, 0),
+(3366, 0, 57622, 0, 0, 0),
+(3366, 0, 57623, 0, 0, 0),
 -- Thunder Bluff - Mahu (3005)
-(3005, 0, 100015, 0, 0, 0),
-(3005, 0, 100016, 0, 0, 0),
+(3005, 0, 57622, 0, 0, 0),
+(3005, 0, 57623, 0, 0, 0),
 -- Undercity - Joseph Moore (4589)
-(4589, 0, 100015, 0, 0, 0),
-(4589, 0, 100016, 0, 0, 0),
+(4589, 0, 57622, 0, 0, 0),
+(4589, 0, 57623, 0, 0, 0),
 -- Silvermoon - Zaralda (16689)
-(16689, 0, 100015, 0, 0, 0),
-(16689, 0, 100016, 0, 0, 0),
+(16689, 0, 57622, 0, 0, 0),
+(16689, 0, 57623, 0, 0, 0),
 -- Shattrath - Cro Threadstrong (19196)
-(19196, 0, 100015, 0, 0, 0),
-(19196, 0, 100016, 0, 0, 0),
+(19196, 0, 57622, 0, 0, 0),
+(19196, 0, 57623, 0, 0, 0),
 -- Dalaran - Ranid Glowergold (28718)
-(28718, 0, 100015, 0, 0, 0),
-(28718, 0, 100016, 0, 0, 0);
+(28718, 0, 57622, 0, 0, 0),
+(28718, 0, 57623, 0, 0, 0);
 
 
 
 -- Tier 3: Expert Pattern - Drop from classic dungeon bosses (10%)
-DELETE FROM `creature_loot_template` WHERE `Item` = 100017;
+DELETE FROM `creature_loot_template` WHERE `Item` = 57624;
 
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(7604,  100017, 10.0, 'Sergeant Bly (Zul''Farrak) - Pattern: Expert Riding Crop'),
-(7228,  100017, 10.0, 'Ironaya (Uldaman) - Pattern: Expert Riding Crop'),
-(3977,  100017, 10.0, 'High Inquisitor Whitemane (SM Cathedral) - Pattern: Expert Riding Crop');
+(7604,  57624, 10.0, 'Sergeant Bly (Zul''Farrak) - Pattern: Expert Riding Crop'),
+(7228,  57624, 10.0, 'Ironaya (Uldaman) - Pattern: Expert Riding Crop'),
+(3977,  57624, 10.0, 'High Inquisitor Whitemane (SM Cathedral) - Pattern: Expert Riding Crop');
 
 
 
 -- Tier 4: Artisan Pattern - Drop from level 60 dungeon bosses (10%), DM North guards (5%)
-DELETE FROM `creature_loot_template` WHERE `Item` = 100018;
+DELETE FROM `creature_loot_template` WHERE `Item` = 57625;
 
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(10363, 100018, 10.0, 'General Drakkisath (UBRS) - Pattern: Artisan Riding Crop'),
-(10440, 100018, 10.0, 'Baron Rivendare (Stratholme) - Pattern: Artisan Riding Crop'),
-(9568,  100018, 10.0, 'Overlord Wyrmthalak (LBRS) - Pattern: Artisan Riding Crop'),
-(14321, 100018,  5.0, 'Guard Fengus (DM North) - Pattern: Artisan Riding Crop'),
-(14323, 100018,  5.0, 'Guard Slip''kik (DM North) - Pattern: Artisan Riding Crop'),
-(14326, 100018,  5.0, 'Guard Mol''dar (DM North) - Pattern: Artisan Riding Crop');
+(10363, 57625, 10.0, 'General Drakkisath (UBRS) - Pattern: Artisan Riding Crop'),
+(10440, 57625, 10.0, 'Baron Rivendare (Stratholme) - Pattern: Artisan Riding Crop'),
+(9568,  57625, 10.0, 'Overlord Wyrmthalak (LBRS) - Pattern: Artisan Riding Crop'),
+(14321, 57625,  5.0, 'Guard Fengus (DM North) - Pattern: Artisan Riding Crop'),
+(14323, 57625,  5.0, 'Guard Slip''kik (DM North) - Pattern: Artisan Riding Crop'),
+(14326, 57625,  5.0, 'Guard Mol''dar (DM North) - Pattern: Artisan Riding Crop');
 
 
 
 -- Tier 5: Master Pattern - Drop from TBC dungeon boss (10%)
-DELETE FROM `creature_loot_template` WHERE `Item` = 100019;
+DELETE FROM `creature_loot_template` WHERE `Item` = 57626;
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 17941,
-    `Item` = 100019,
+    `Item` = 57626,
     `Chance` = 10.0,
     `Comment` = 'Mennu the Betrayer (Slave Pens) - Pattern: Master Riding Crop';
 
 
 
 -- Tier 6: Grand Master Pattern - Drop from WotLK dungeon boss (10%)
-DELETE FROM `creature_loot_template` WHERE `Item` = 100021;
+DELETE FROM `creature_loot_template` WHERE `Item` = 57628;
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 26693,
-    `Item` = 100021,
+    `Item` = 57628,
     `Chance` = 10.0,
     `Comment` = 'Skadi the Ruthless (Utgarde Pinnacle) - Pattern: Grand Master Riding Crop';
 

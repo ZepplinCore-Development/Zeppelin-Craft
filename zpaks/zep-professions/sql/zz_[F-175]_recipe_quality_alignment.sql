@@ -33,4 +33,4 @@ UPDATE item_template SET Quality = 4 WHERE entry IN (47011, 47012, 47015, 47016,
 UPDATE item_template SET Quality = 5 WHERE entry IN (44956);
 
 -- Align 9 recipes to Artifact (Quality=6)
-UPDATE item_template SET Quality = 6 WHERE entry IN (16243, 25848, 25849, 100015, 100016, 100017, 100018, 100019, 100021);
+UPDATE item_template SET Quality = 6 WHERE entry IN (16243, 25848, 25849, 57622, 57623, 57624, 57625, 57626, 57628);

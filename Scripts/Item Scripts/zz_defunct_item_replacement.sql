@@ -69,6 +69,19 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900114 THEN 59099
     WHEN `itemEntry` = 900115 THEN 59100
     WHEN `itemEntry` = 900116 THEN 59101
+    -- Riding Crops (F-005, I-185): 1000xx -> 576xx (compliance fix, May 2026)
+    WHEN `itemEntry` = 100010 THEN 57617    -- Apprentice Riding Crop
+    WHEN `itemEntry` = 100011 THEN 57618    -- Journeyman Riding Crop
+    WHEN `itemEntry` = 100012 THEN 57619    -- Expert Riding Crop
+    WHEN `itemEntry` = 100013 THEN 57620    -- Artisan Riding Crop
+    WHEN `itemEntry` = 100014 THEN 57621    -- Master Riding Crop
+    WHEN `itemEntry` = 100015 THEN 57622    -- Pattern: Apprentice Riding Crop
+    WHEN `itemEntry` = 100016 THEN 57623    -- Pattern: Journeyman Riding Crop
+    WHEN `itemEntry` = 100017 THEN 57624    -- Pattern: Expert Riding Crop
+    WHEN `itemEntry` = 100018 THEN 57625    -- Pattern: Artisan Riding Crop
+    WHEN `itemEntry` = 100019 THEN 57626    -- Pattern: Master Riding Crop
+    WHEN `itemEntry` = 100020 THEN 57627    -- Grand Master Riding Crop
+    WHEN `itemEntry` = 100021 THEN 57628    -- Pattern: Grand Master Riding Crop
     -- Stockades (F-063): 901xxx -> 59xxx (compliance fix, May 2026)
     WHEN `itemEntry` = 901100 THEN 59091
     WHEN `itemEntry` = 901101 THEN 59092
