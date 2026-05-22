@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-creatures",
+  "version": "0.1.0",
+  "description": "Creature tuning & world spawn adjustments \u2014 base class-level stats, spawn removals, individual creature HP/damage tweaks, Normal Creature Convertor output (paired with mod-autobalance for difficulty scaling)",
+  "author": "Zeppelin Team",
+  "type": "native",
+  "features": ["F-080"],
+  "contents": {
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ]
+  },
+  "enabled": true,
+  "priority": 100
+}

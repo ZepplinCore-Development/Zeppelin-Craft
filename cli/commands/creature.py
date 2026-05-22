@@ -22,7 +22,7 @@ def creature(ctx):
 
 @creature.command('normal')
 @click.option('--output', '-o', type=click.Path(), default=None,
-              help='Output SQL file path (default: zpaks/game-balancing/sql/zz_de-L33TER.sql)')
+              help='Output SQL file path (default: zpaks/zep-creatures/sql/zz_de-L33TER.sql)')
 @click.option('--seed', '-s', type=int, default=None,
               help='Random seed for reproducible output')
 @click.option('--quiet', '-q', is_flag=True, help='Suppress per-creature output')
@@ -38,7 +38,7 @@ def creature_normal(ctx, output, seed, quiet):
 
     if output is None:
         from lib.creature.normal import OUTPUT_FILENAME
-        output_path = craft_root / 'zpaks' / 'game-balancing' / 'sql' / OUTPUT_FILENAME
+        output_path = craft_root / 'zpaks' / 'zep-creatures' / 'sql' / OUTPUT_FILENAME
     else:
         output_path = Path(output)
 
@@ -70,7 +70,7 @@ def creature_normal(ctx, output, seed, quiet):
 
 @creature.command('elite')
 @click.option('--output', '-o', type=click.Path(), default=None,
-              help='Output SQL file path (default: zpaks/game-balancing/sql/...)')
+              help='Output SQL file path (default: zpaks/zep-creatures/sql/...)')
 @click.option('--seed', '-s', type=int, default=None,
               help='Random seed for reproducible output')
 @click.option('--quiet', '-q', is_flag=True, help='Suppress per-creature output')
@@ -85,7 +85,7 @@ def creature_elite(ctx, output, seed, quiet):
 
     if output is None:
         from lib.creature.elite import OUTPUT_FILENAME
-        output_path = craft_root / 'zpaks' / 'game-balancing' / 'sql' / OUTPUT_FILENAME
+        output_path = craft_root / 'zpaks' / 'zep-creatures' / 'sql' / OUTPUT_FILENAME
     else:
         output_path = Path(output)
 

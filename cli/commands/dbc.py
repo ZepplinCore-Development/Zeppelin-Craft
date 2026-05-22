@@ -354,7 +354,7 @@ def dbc_modify(ctx, sql_file: str, task_id: Optional[str]):
     For bulk application of new/modified files, use 'zep dbc db apply --changed'.
 
     Examples:
-        zep dbc edit modify zpaks/class-changes/dbc/[F-164]_spell.sql
+        zep dbc edit modify zpaks/zep-classes/dbc/[F-164]_spell.sql
         zep dbc edit modify path/to/file.sql --task F-004
     """
     sql_path = Path(sql_file).resolve()
