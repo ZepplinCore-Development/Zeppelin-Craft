@@ -647,7 +647,7 @@ INSERT INTO `spell` SET
     `effect_1` = 24,
     `effect_die_sides_1` = 1,
     `effect_implicit_target_a_1` = 1,
-    `effect_item_type_1` = 100010,
+    `effect_item_type_1` = 57617,                   -- Apprentice Riding Crop item (I-186 renumbered from 100010)
     `spell_icon_id` = 346,
     `spell_name_enus` = 'Apprentice Riding Crop',
     `spell_name_flags` = 16712190,
@@ -679,7 +679,7 @@ INSERT INTO `spell` SET
     `effect_1` = 24,
     `effect_die_sides_1` = 1,
     `effect_implicit_target_a_1` = 1,
-    `effect_item_type_1` = 100011,
+    `effect_item_type_1` = 57618,                   -- Journeyman Riding Crop item (I-186 renumbered from 100011)
     `spell_icon_id` = 346,
     `spell_name_enus` = 'Journeyman Riding Crop',
     `spell_name_flags` = 16712190,
@@ -711,7 +711,7 @@ INSERT INTO `spell` SET
     `effect_1` = 24,
     `effect_die_sides_1` = 1,
     `effect_implicit_target_a_1` = 1,
-    `effect_item_type_1` = 100012,
+    `effect_item_type_1` = 57619,                   -- Expert Riding Crop item (I-186 renumbered from 100012)
     `spell_icon_id` = 346,
     `spell_name_enus` = 'Expert Riding Crop',
     `spell_name_flags` = 16712190,
@@ -743,7 +743,7 @@ INSERT INTO `spell` SET
     `effect_1` = 24,
     `effect_die_sides_1` = 1,
     `effect_implicit_target_a_1` = 1,
-    `effect_item_type_1` = 100013,
+    `effect_item_type_1` = 57620,                   -- Artisan Riding Crop item (I-186 renumbered from 100013)
     `spell_icon_id` = 346,
     `spell_name_enus` = 'Artisan Riding Crop',
     `spell_name_flags` = 16712190,
@@ -775,7 +775,7 @@ INSERT INTO `spell` SET
     `effect_1` = 24,
     `effect_die_sides_1` = 1,
     `effect_implicit_target_a_1` = 1,
-    `effect_item_type_1` = 100014,
+    `effect_item_type_1` = 57621,                   -- Master Riding Crop item (I-186 renumbered from 100014)
     `spell_icon_id` = 346,
     `spell_name_enus` = 'Master Riding Crop',
     `spell_name_flags` = 16712190,
@@ -861,7 +861,7 @@ INSERT INTO `spell` SET
     `effect_1` = 24,
     `effect_die_sides_1` = 1,
     `effect_implicit_target_a_1` = 1,
-    `effect_item_type_1` = 100020,
+    `effect_item_type_1` = 57627,                   -- Grand Master Riding Crop item (I-186 renumbered from 100020)
     `spell_icon_id` = 346,
     `spell_name_enus` = 'Grand Master Riding Crop',
     `spell_name_flags` = 16712190,
