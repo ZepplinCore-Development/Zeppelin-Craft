@@ -1,0 +1,1106 @@
+{
+  "_comment": "F-028 Low-Level Relic Slot Drops \u2014 Phase 1 cross-reference. Effect templates are the stock 52+ relic aura spells we'll clone and scale down. Class spell ladders list relic-targetable spells with their first-trainer level and SpellClassMask family flag. relic_plan is the proposed Phase 2 authoring list (level band, class, effect template, target spell, name hint, dungeon).",
+  "_class_ids": {
+    "paladin": 2,
+    "shaman": 7,
+    "druid": 11
+  },
+  "_class_set_dbc": {
+    "druid": 7,
+    "paladin": 10,
+    "shaman": 11
+  },
+  "effect_templates": {
+    "spell_power_damage": {
+      "stock_spell_id": 28857,
+      "stock_name": "Increased Lightning Damage (Totem of the Storm)",
+      "effect_aura": 112,
+      "misc_value_a": 4554,
+      "stock_base_points": 32,
+      "notes": "SP boost to specific damage spell(s). Use class_mask to scope target."
+    },
+    "spell_power_heal": {
+      "stock_spell_id": 28856,
+      "stock_name": "Increased Lesser Healing Wave (Totem of Sustaining)",
+      "effect_aura": 112,
+      "misc_value_a": 3736,
+      "stock_base_points": 52,
+      "notes": "SP boost to specific healing spell."
+    },
+    "mana_cost_reduction": {
+      "stock_spell_id": 27847,
+      "stock_name": "Cleanse Cost Reduced (Libram of Grace)",
+      "effect_aura": 107,
+      "misc_value_a": 14,
+      "stock_base_points": -26,
+      "notes": "Flat mana cost reduction. base_points is negative; final value = base_points + die_sides. Used by Earthen Ring's Embrace (900356)."
+    },
+    "ability_damage_bonus": {
+      "stock_spell_id": 27851,
+      "stock_name": "Claw and Rake Damage Bonus (Idol of Ferocity)",
+      "effect_aura": 107,
+      "misc_value_a": 3,
+      "stock_base_points": 19,
+      "notes": "Flat damage add to physical/melee ability."
+    },
+    "mana_refund_proc": {
+      "stock_spell_id": 28849,
+      "stock_name": "Lesser Healing Wave mana refund (Totem of Flowing Water)",
+      "effect_aura": 4,
+      "misc_value_a": 0,
+      "stock_base_points": -1,
+      "notes": "Dummy aura \u2014 proc handler returns mana on cast of target spell. Linked triggered spell (e.g. 28850) holds the mana amount."
+    },
+    "cooldown_reduction": {
+      "stock_spell_id": 27797,
+      "stock_name": "Reduced Reincarnation Cooldown (Totem of Rebirth)",
+      "effect_aura": 107,
+      "misc_value_a": 11,
+      "stock_base_points": -300001,
+      "notes": "Flat CD reduction in ms. -300001 + die_sides(1) = -300000 = -5 min."
+    }
+  },
+  "class_spells": {
+    "shaman": {
+      "Lightning Bolt": {
+        "level": 1,
+        "mask_1": 1,
+        "mask_2": 0,
+        "rank1_id": 403,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Healing Wave": {
+        "level": 1,
+        "mask_1": 64,
+        "mask_2": 0,
+        "rank1_id": 331,
+        "effects": [
+          "spell_power_heal",
+          "mana_cost_reduction"
+        ]
+      },
+      "Earth Shock": {
+        "level": 4,
+        "mask_1": 1048576,
+        "mask_2": 0,
+        "rank1_id": 8042,
+        "effects": [
+          "spell_power_damage",
+          "mana_cost_reduction"
+        ]
+      },
+      "Stoneclaw Totem": {
+        "level": 8,
+        "mask_1": 8,
+        "mask_2": 0,
+        "rank1_id": 5730,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Searing Totem": {
+        "level": 10,
+        "mask_1": 16,
+        "mask_2": 0,
+        "rank1_id": 3599,
+        "effects": [
+          "spell_power_damage",
+          "mana_cost_reduction"
+        ]
+      },
+      "Flame Shock": {
+        "level": 10,
+        "mask_1": 268435456,
+        "mask_2": 0,
+        "rank1_id": 8050,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Fire Nova": {
+        "level": 12,
+        "mask_1": 134217728,
+        "mask_2": 0,
+        "rank1_id": 1535,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Lesser Healing Wave": {
+        "level": 20,
+        "mask_1": 128,
+        "mask_2": 0,
+        "rank1_id": 8004,
+        "effects": [
+          "spell_power_heal",
+          "mana_refund_proc"
+        ]
+      },
+      "Frost Shock": {
+        "level": 20,
+        "mask_1": 2147483648,
+        "mask_2": 0,
+        "rank1_id": 8056,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Healing Stream Totem": {
+        "level": 20,
+        "mask_1": 524288,
+        "mask_2": 0,
+        "rank1_id": 5394,
+        "effects": [
+          "spell_power_heal"
+        ]
+      },
+      "Magma Totem": {
+        "level": 26,
+        "mask_1": 4096,
+        "mask_2": 0,
+        "rank1_id": 8190,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Chain Lightning": {
+        "level": 32,
+        "mask_1": 2,
+        "mask_2": 0,
+        "rank1_id": 421,
+        "effects": [
+          "spell_power_damage",
+          "mana_cost_reduction"
+        ]
+      },
+      "Chain Heal": {
+        "level": 40,
+        "mask_1": 256,
+        "mask_2": 0,
+        "rank1_id": 1064,
+        "effects": [
+          "spell_power_heal"
+        ]
+      },
+      "_shock_mask_combined": {
+        "_note": "Earth+Flame+Frost shocks combined mask_1 = 2416967680 (used by stock Totem of Rage 27859)"
+      }
+    },
+    "druid": {
+      "Wrath": {
+        "level": 1,
+        "mask_1": 1,
+        "mask_2": 0,
+        "rank1_id": 5176,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Moonfire": {
+        "level": 4,
+        "mask_1": 2,
+        "mask_2": 0,
+        "rank1_id": 8921,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Rejuvenation": {
+        "level": 4,
+        "mask_1": 16,
+        "mask_2": 0,
+        "rank1_id": 774,
+        "effects": [
+          "spell_power_heal"
+        ]
+      },
+      "Thorns": {
+        "level": 6,
+        "mask_1": 256,
+        "mask_2": 0,
+        "rank1_id": 467,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Healing Touch": {
+        "level": 8,
+        "mask_1": 32,
+        "mask_2": 0,
+        "rank1_id": 5186,
+        "effects": [
+          "spell_power_heal",
+          "mana_refund_proc"
+        ]
+      },
+      "Maul": {
+        "level": 10,
+        "mask_1": 2048,
+        "mask_2": 0,
+        "rank1_id": 6807,
+        "effects": [
+          "ability_damage_bonus"
+        ]
+      },
+      "Regrowth": {
+        "level": 12,
+        "mask_1": 64,
+        "mask_2": 0,
+        "rank1_id": 8936,
+        "effects": [
+          "spell_power_heal"
+        ]
+      },
+      "Swipe (Bear)": {
+        "level": 16,
+        "mask_1": 0,
+        "mask_2": 1048576,
+        "rank1_id": 779,
+        "effects": [
+          "ability_damage_bonus"
+        ]
+      },
+      "Faerie Fire": {
+        "level": 18,
+        "mask_1": 1024,
+        "mask_2": 0,
+        "rank1_id": 770,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Starfire": {
+        "level": 20,
+        "mask_1": 4,
+        "mask_2": 0,
+        "rank1_id": 2912,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Insect Swarm": {
+        "level": 20,
+        "mask_1": 2097152,
+        "mask_2": 0,
+        "rank1_id": 5570,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Rake": {
+        "level": 24,
+        "mask_1": 4096,
+        "mask_2": 0,
+        "rank1_id": 1822,
+        "effects": [
+          "ability_damage_bonus"
+        ]
+      },
+      "_claw_rake_mask": {
+        "_note": "Claw+Rake combined mask_1 = 4096 (used by stock Idol of Ferocity 27851)"
+      }
+    },
+    "paladin": {
+      "Devotion Aura": {
+        "level": 1,
+        "mask_1": 64,
+        "mask_2": 0,
+        "rank1_id": 465,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Holy Light": {
+        "level": 1,
+        "mask_1": 2147483648,
+        "mask_2": 0,
+        "rank1_id": 635,
+        "effects": [
+          "spell_power_heal",
+          "mana_cost_reduction"
+        ]
+      },
+      "Blessing of Might": {
+        "level": 4,
+        "mask_1": 2,
+        "mask_2": 0,
+        "rank1_id": 19740,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Judgement of Light": {
+        "level": 4,
+        "mask_1": 8388608,
+        "mask_2": 0,
+        "rank1_id": 20271,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Purify": {
+        "level": 8,
+        "mask_1": 4096,
+        "mask_2": 0,
+        "rank1_id": 1152,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Hammer of Justice": {
+        "level": 8,
+        "mask_1": 2048,
+        "mask_2": 0,
+        "rank1_id": 853,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Lay on Hands": {
+        "level": 10,
+        "mask_1": 32768,
+        "mask_2": 0,
+        "rank1_id": 633,
+        "effects": [
+          "cooldown_reduction"
+        ]
+      },
+      "Blessing of Wisdom": {
+        "level": 14,
+        "mask_1": 65536,
+        "mask_2": 0,
+        "rank1_id": 19742,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Retribution Aura": {
+        "level": 16,
+        "mask_1": 8,
+        "mask_2": 0,
+        "rank1_id": 7294,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Hand of Freedom": {
+        "level": 18,
+        "mask_1": 16,
+        "mask_2": 0,
+        "rank1_id": 1044,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Exorcism": {
+        "level": 20,
+        "mask_1": 0,
+        "mask_2": 2,
+        "rank1_id": 879,
+        "effects": [
+          "spell_power_damage"
+        ]
+      },
+      "Flash of Light": {
+        "level": 20,
+        "mask_1": 1073741824,
+        "mask_2": 0,
+        "rank1_id": 19750,
+        "effects": [
+          "spell_power_heal",
+          "mana_cost_reduction"
+        ]
+      },
+      "Consecration": {
+        "level": 20,
+        "mask_1": 32,
+        "mask_2": 0,
+        "rank1_id": 26573,
+        "effects": [
+          "spell_power_damage",
+          "mana_cost_reduction"
+        ]
+      },
+      "Cleanse": {
+        "level": 42,
+        "mask_1": 4096,
+        "mask_2": 0,
+        "rank1_id": 4987,
+        "effects": [
+          "mana_cost_reduction"
+        ]
+      },
+      "Hammer of Wrath": {
+        "level": 44,
+        "mask_1": 0,
+        "mask_2": 128,
+        "rank1_id": 24275,
+        "effects": [
+          "spell_power_damage",
+          "mana_cost_reduction"
+        ]
+      },
+      "Holy Shock": {
+        "level": 40,
+        "mask_1": 2097152,
+        "mask_2": 0,
+        "rank1_id": 20473,
+        "effects": [
+          "spell_power_damage",
+          "spell_power_heal"
+        ]
+      },
+      "Avenger's Shield": {
+        "level": 50,
+        "mask_1": 16384,
+        "mask_2": 0,
+        "rank1_id": 31935,
+        "effects": [
+          "spell_power_damage"
+        ]
+      }
+    }
+  },
+  "dungeon_bosses": {
+    "_comment": "Phase 3 boss assignments. Each dungeon has two bosses; first relic of the dungeon (in relic_plan order) drops from boss_a, second from boss_b. SM Armory is the one exception — only 1 named boss (Herod), both relics fall on him.",
+    "_drop_chance_pct": 10.0,
+    "Deadmines":              { "boss_a": ["Mr. Smite", 646],                   "boss_b": ["Edwin VanCleef", 639] },
+    "Wailing Caverns":        { "boss_a": ["Lord Cobrahn", 3669],               "boss_b": ["Mutanus the Devourer", 3654] },
+    "Shadowfang Keep":        { "boss_a": ["Fenrus the Devourer", 4274],       "boss_b": ["Archmage Arugal", 4275] },
+    "Blackfathom Deeps":      { "boss_a": ["Twilight Lord Kelris", 4832],      "boss_b": ["Aku'mai", 4829] },
+    "Stockades":              { "boss_a": ["Targorr the Dread", 1696],         "boss_b": ["Bazil Thredd", 1716] },
+    "Gnomeregan":             { "boss_a": ["Crowd Pummeler 9-60", 6229],       "boss_b": ["Mekgineer Thermaplugg", 7800] },
+    "Razorfen Kraul":         { "boss_a": ["Earthcaller Halmgar", 4842],       "boss_b": ["Charlga Razorflank", 4421] },
+    "SM Graveyard":           { "boss_a": ["Interrogator Vishas", 3983],       "boss_b": ["Bloodmage Thalnos", 4543] },
+    "SM Library":             { "boss_a": ["Houndmaster Loksey", 3974],        "boss_b": ["Arcanist Doan", 6487] },
+    "SM Armory":              { "boss_a": ["Herod", 3975],                     "boss_b": ["Herod", 3975] },
+    "SM Cathedral":           { "boss_a": ["Scarlet Commander Mograine", 3976],"boss_b": ["High Inquisitor Whitemane", 3977] },
+    "Razorfen Downs":         { "boss_a": ["Tuten'kash", 7355],                "boss_b": ["Amnennar the Coldbringer", 7358] },
+    "Uldaman East":           { "boss_a": ["Revelosh", 6910],                  "boss_b": ["Ironaya", 7228] },
+    "Uldaman West":           { "boss_a": ["Galgann Firehammer", 7291],        "boss_b": ["Archaedas", 2748] },
+    "Zul'Farrak":             { "boss_a": ["Hydromancer Velratha", 7795],     "boss_b": ["Chief Ukorz Sandscalp", 7267] },
+    "Maraudon":               { "boss_a": ["Noxxion", 13282],                  "boss_b": ["Princess Theradras", 12201] },
+    "Sunken Temple Lower":    { "boss_a": ["Atal'alarion", 8580],              "boss_b": ["Jammal'an the Prophet", 5710] },
+    "Sunken Temple Upper":    { "boss_a": ["Avatar of Hakkar", 8443],          "boss_b": ["Shade of Eranikus", 5709] },
+    "Blackrock Depths":       { "boss_a": ["Ambassador Flamelash", 9156],      "boss_b": ["Emperor Dagran Thaurissan", 9019] },
+    "Lower Blackrock Spire":  { "boss_a": ["Mother Smolderweb", 10596],        "boss_b": ["Overlord Wyrmthalak", 9568] },
+    "Upper Blackrock Spire":  { "boss_a": ["The Beast", 10430],                "boss_b": ["General Drakkisath", 10363] },
+    "Dire Maul East":         { "boss_a": ["Zevrim Thornhoof", 11490],         "boss_b": ["Alzzin the Wildshaper", 11492] },
+    "Dire Maul North":        { "boss_a": ["Guard Fengus", 14321],             "boss_b": ["King Gordok", 11501] },
+    "Dire Maul West":         { "boss_a": ["Tendris Warpwood", 11489],         "boss_b": ["Prince Tortheldrin", 11486] },
+    "Stratholme":             { "boss_a": ["Balnazzar (Live side)", 10813],    "boss_b": ["Baron Rivendare (Undead side)", 10440] },
+    "Scholomance":            { "boss_a": ["Rattlegore", 11622],               "boss_b": ["Darkmaster Gandling", 1853] }
+  },
+
+  "relic_plan": {
+    "_comment": "Phase 2 authoring list. 2 drops per dungeon. 26 dungeons total accounting for Zeppelin splits (Uldaman E/W, Sunken Temple Upper/Lower, Dire Maul E/N/W, UBRS). 52 items total + 1 anchor upgrade (Totem of the Earthen Ring entry 46978 via spell 900356). Class distribution targets ~17 items each across shaman/druid/paladin.",
+    "anchor_upgrade": {
+      "class": "shaman",
+      "req_level": 30,
+      "ilvl": 1,
+      "effect": "mana_cost_reduction",
+      "target": "Earth Shock + Flame Shock + Frost Shock (mask 2416967680)",
+      "name_hint": "Totem of the Earthen Ring (UPGRADE \u2014 entry 46978, spell 900356)",
+      "dungeon": "Quest 14100/14111",
+      "_already_done": true
+    },
+    "level_band_20_30": [
+      {
+        "class": "paladin",
+        "req_level": 20,
+        "ilvl": 24,
+        "effect": "spell_power_heal",
+        "target": "Holy Light",
+        "name_hint": "Libram of Dawn's Grace",
+        "dungeon": "Deadmines",
+        "item_id": 59039,
+        "spell_id": 900357
+      },
+      {
+        "class": "druid",
+        "req_level": 20,
+        "ilvl": 24,
+        "effect": "spell_power_damage",
+        "target": "Wrath",
+        "name_hint": "Idol of the Brackish Tide",
+        "dungeon": "Deadmines",
+        "item_id": 59040,
+        "spell_id": 900358
+      },
+      {
+        "class": "druid",
+        "req_level": 20,
+        "ilvl": 24,
+        "effect": "spell_power_heal",
+        "target": "Rejuvenation",
+        "name_hint": "Idol of the Wailing Grove",
+        "dungeon": "Wailing Caverns",
+        "item_id": 59041,
+        "spell_id": 900359
+      },
+      {
+        "class": "shaman",
+        "req_level": 20,
+        "ilvl": 24,
+        "effect": "spell_power_damage",
+        "target": "Lightning Bolt",
+        "name_hint": "Tongue-Lasher Totem",
+        "dungeon": "Wailing Caverns",
+        "item_id": 59042,
+        "spell_id": 900360
+      },
+      {
+        "class": "druid",
+        "req_level": 22,
+        "ilvl": 26,
+        "effect": "spell_power_damage",
+        "target": "Moonfire",
+        "name_hint": "Idol of Lunar Embrace",
+        "dungeon": "Shadowfang Keep",
+        "item_id": 59043,
+        "spell_id": 900361
+      },
+      {
+        "class": "paladin",
+        "req_level": 22,
+        "ilvl": 26,
+        "effect": "mana_cost_reduction",
+        "target": "Holy Light",
+        "name_hint": "Libram of Shadow's End",
+        "dungeon": "Shadowfang Keep",
+        "item_id": 59044,
+        "spell_id": 900362
+      },
+      {
+        "class": "shaman",
+        "req_level": 24,
+        "ilvl": 28,
+        "effect": "spell_power_damage",
+        "target": "Lightning Bolt",
+        "name_hint": "Stormcaller's Stone",
+        "dungeon": "Blackfathom Deeps",
+        "item_id": 59045,
+        "spell_id": 900363
+      },
+      {
+        "class": "druid",
+        "req_level": 24,
+        "ilvl": 28,
+        "effect": "mana_cost_reduction",
+        "target": "Thorns",
+        "name_hint": "Idol of Tidesong",
+        "dungeon": "Blackfathom Deeps",
+        "item_id": 59046,
+        "spell_id": 900364
+      },
+      {
+        "class": "paladin",
+        "req_level": 25,
+        "ilvl": 29,
+        "effect": "spell_power_heal",
+        "target": "Holy Light",
+        "name_hint": "Libram of Justice's Edge",
+        "dungeon": "Stockades",
+        "item_id": 59047,
+        "spell_id": 900365
+      },
+      {
+        "class": "shaman",
+        "req_level": 25,
+        "ilvl": 29,
+        "effect": "spell_power_damage",
+        "target": "Earth Shock",
+        "name_hint": "Inmate's Carved Totem",
+        "dungeon": "Stockades",
+        "item_id": 59048,
+        "spell_id": 900366
+      }
+    ],
+    "level_band_30_40": [
+      {
+        "class": "shaman",
+        "req_level": 32,
+        "ilvl": 38,
+        "effect": "spell_power_damage",
+        "target": "Flame Shock",
+        "name_hint": "Searing Totem of Embers",
+        "dungeon": "Gnomeregan",
+        "item_id": 59049,
+        "spell_id": 900367
+      },
+      {
+        "class": "paladin",
+        "req_level": 32,
+        "ilvl": 38,
+        "effect": "spell_power_damage",
+        "target": "Consecration",
+        "name_hint": "Libram of Mechanized Faith",
+        "dungeon": "Gnomeregan",
+        "item_id": 59050,
+        "spell_id": 900368
+      },
+      {
+        "class": "druid",
+        "req_level": 32,
+        "ilvl": 38,
+        "effect": "spell_power_heal",
+        "target": "Rejuvenation",
+        "name_hint": "Idol of Greenleaf",
+        "dungeon": "Razorfen Kraul",
+        "item_id": 59051,
+        "spell_id": 900369
+      },
+      {
+        "class": "shaman",
+        "req_level": 30,
+        "ilvl": 36,
+        "effect": "spell_power_damage",
+        "target": "Flame Shock",
+        "name_hint": "Boar-Tusk Totem",
+        "dungeon": "Razorfen Kraul",
+        "item_id": 59052,
+        "spell_id": 900370
+      },
+      {
+        "class": "paladin",
+        "req_level": 30,
+        "ilvl": 35,
+        "effect": "mana_cost_reduction",
+        "target": "Devotion Aura",
+        "name_hint": "Libram of Steadfast Devotion",
+        "dungeon": "SM Graveyard",
+        "item_id": 59053,
+        "spell_id": 900371
+      },
+      {
+        "class": "druid",
+        "req_level": 30,
+        "ilvl": 35,
+        "effect": "spell_power_damage",
+        "target": "Moonfire",
+        "name_hint": "Idol of Restless Grove",
+        "dungeon": "SM Graveyard",
+        "item_id": 59054,
+        "spell_id": 900372
+      },
+      {
+        "class": "paladin",
+        "req_level": 34,
+        "ilvl": 40,
+        "effect": "spell_power_heal",
+        "target": "Flash of Light",
+        "name_hint": "Libram of Scholarly Light",
+        "dungeon": "SM Library",
+        "item_id": 59055,
+        "spell_id": 900373
+      },
+      {
+        "class": "shaman",
+        "req_level": 36,
+        "ilvl": 42,
+        "effect": "spell_power_damage",
+        "target": "Lightning Bolt + Chain Lightning (mask 3, post-32 ladder)",
+        "name_hint": "Forbidden Tome of Tempests",
+        "dungeon": "SM Library",
+        "item_id": 59056,
+        "spell_id": 900374
+      }
+    ],
+    "level_band_40_50": [
+      {
+        "class": "druid",
+        "req_level": 40,
+        "ilvl": 46,
+        "effect": "ability_damage_bonus",
+        "target": "Rake + Claw (mask 4096)",
+        "name_hint": "Idol of the Feral Hunt",
+        "dungeon": "SM Armory",
+        "item_id": 59057,
+        "spell_id": 900375
+      },
+      {
+        "class": "paladin",
+        "req_level": 40,
+        "ilvl": 46,
+        "effect": "spell_power_damage",
+        "target": "Holy Shock",
+        "name_hint": "Libram of Sudden Wrath",
+        "dungeon": "SM Armory",
+        "item_id": 59058,
+        "spell_id": 900376
+      },
+      {
+        "class": "paladin",
+        "req_level": 42,
+        "ilvl": 48,
+        "effect": "spell_power_heal",
+        "target": "Flash of Light",
+        "name_hint": "Libram of Radiant Flash",
+        "dungeon": "SM Cathedral",
+        "item_id": 59059,
+        "spell_id": 900377
+      },
+      {
+        "class": "shaman",
+        "req_level": 42,
+        "ilvl": 48,
+        "effect": "spell_power_heal",
+        "target": "Healing Wave",
+        "name_hint": "Totem of Cleansing Streams",
+        "dungeon": "SM Cathedral",
+        "item_id": 59060,
+        "spell_id": 900378
+      },
+      {
+        "class": "shaman",
+        "req_level": 42,
+        "ilvl": 48,
+        "effect": "spell_power_damage",
+        "target": "Flame Shock",
+        "name_hint": "Tuskcrack Totem",
+        "dungeon": "Razorfen Downs",
+        "item_id": 59061,
+        "spell_id": 900379
+      },
+      {
+        "class": "druid",
+        "req_level": 42,
+        "ilvl": 48,
+        "effect": "spell_power_heal",
+        "target": "Regrowth",
+        "name_hint": "Idol of the Sleeping Wood",
+        "dungeon": "Razorfen Downs",
+        "item_id": 59062,
+        "spell_id": 900380
+      },
+      {
+        "class": "druid",
+        "req_level": 44,
+        "ilvl": 50,
+        "effect": "spell_power_damage",
+        "target": "Wrath + Starfire (mask 5)",
+        "name_hint": "Idol of Buried Stars",
+        "dungeon": "Uldaman East",
+        "item_id": 59063,
+        "spell_id": 900381
+      },
+      {
+        "class": "paladin",
+        "req_level": 44,
+        "ilvl": 50,
+        "effect": "mana_cost_reduction",
+        "target": "Consecration",
+        "name_hint": "Libram of the Discsmith",
+        "dungeon": "Uldaman East",
+        "item_id": 59064,
+        "spell_id": 900382
+      },
+      {
+        "class": "shaman",
+        "req_level": 45,
+        "ilvl": 51,
+        "effect": "spell_power_damage",
+        "target": "Lightning Bolt",
+        "name_hint": "Totem of the Earth-Forged",
+        "dungeon": "Uldaman West",
+        "item_id": 59065,
+        "spell_id": 900383
+      },
+      {
+        "class": "druid",
+        "req_level": 45,
+        "ilvl": 51,
+        "effect": "ability_damage_bonus",
+        "target": "Maul + Swipe (Bear)",
+        "name_hint": "Idol of the Stone Ursine",
+        "dungeon": "Uldaman West",
+        "item_id": 59066,
+        "spell_id": 900384
+      },
+      {
+        "class": "shaman",
+        "req_level": 46,
+        "ilvl": 52,
+        "effect": "spell_power_damage",
+        "target": "Chain Lightning",
+        "name_hint": "Totem of Forking Bolts",
+        "dungeon": "Zul'Farrak",
+        "item_id": 59067,
+        "spell_id": 900385
+      },
+      {
+        "class": "paladin",
+        "req_level": 46,
+        "ilvl": 52,
+        "effect": "spell_power_damage",
+        "target": "Hammer of Wrath",
+        "name_hint": "Libram of the Trollbane",
+        "dungeon": "Zul'Farrak",
+        "item_id": 59068,
+        "spell_id": 900386
+      },
+      {
+        "class": "druid",
+        "req_level": 48,
+        "ilvl": 54,
+        "effect": "spell_power_heal",
+        "target": "Healing Touch",
+        "name_hint": "Idol of the Earthmother",
+        "dungeon": "Maraudon",
+        "item_id": 59069,
+        "spell_id": 900387
+      },
+      {
+        "class": "paladin",
+        "req_level": 48,
+        "ilvl": 54,
+        "effect": "mana_cost_reduction",
+        "target": "Consecration",
+        "name_hint": "Libram of Sacred Ground",
+        "dungeon": "Maraudon",
+        "item_id": 59070,
+        "spell_id": 900388
+      }
+    ],
+    "level_band_50_60": [
+      {
+        "class": "shaman",
+        "req_level": 50,
+        "ilvl": 56,
+        "effect": "spell_power_heal",
+        "target": "Healing Wave",
+        "name_hint": "Totem of Restoring Waters",
+        "dungeon": "Sunken Temple Lower",
+        "item_id": 59071,
+        "spell_id": 900389
+      },
+      {
+        "class": "paladin",
+        "req_level": 50,
+        "ilvl": 56,
+        "effect": "spell_power_heal",
+        "target": "Holy Light",
+        "name_hint": "Libram of the Inner Sanctum",
+        "dungeon": "Sunken Temple Lower",
+        "item_id": 59072,
+        "spell_id": 900390
+      },
+      {
+        "class": "druid",
+        "req_level": 52,
+        "ilvl": 57,
+        "effect": "spell_power_damage",
+        "target": "Insect Swarm",
+        "name_hint": "Idol of the Hakkari Swarm",
+        "dungeon": "Sunken Temple Upper",
+        "item_id": 59073,
+        "spell_id": 900391
+      },
+      {
+        "class": "shaman",
+        "req_level": 52,
+        "ilvl": 57,
+        "effect": "spell_power_damage",
+        "target": "Frost Shock",
+        "name_hint": "Totem of Atal'ai's Bite",
+        "dungeon": "Sunken Temple Upper",
+        "item_id": 59074,
+        "spell_id": 900392
+      },
+      {
+        "class": "druid",
+        "req_level": 52,
+        "ilvl": 57,
+        "effect": "spell_power_damage",
+        "target": "Moonfire",
+        "name_hint": "Idol of the Deep Vein",
+        "dungeon": "Blackrock Depths",
+        "item_id": 59075,
+        "spell_id": 900393
+      },
+      {
+        "class": "paladin",
+        "req_level": 54,
+        "ilvl": 59,
+        "effect": "mana_cost_reduction",
+        "target": "Flash of Light",
+        "name_hint": "Libram of Molten Devotion",
+        "dungeon": "Blackrock Depths",
+        "item_id": 59076,
+        "spell_id": 900394
+      },
+      {
+        "class": "paladin",
+        "req_level": 54,
+        "ilvl": 59,
+        "effect": "spell_power_damage",
+        "target": "Hammer of Wrath",
+        "name_hint": "Libram of Righteous Hammer",
+        "dungeon": "Lower Blackrock Spire",
+        "item_id": 59077,
+        "spell_id": 900395
+      },
+      {
+        "class": "shaman",
+        "req_level": 54,
+        "ilvl": 59,
+        "effect": "spell_power_damage",
+        "target": "Magma Totem",
+        "name_hint": "Totem of Lava Surge",
+        "dungeon": "Lower Blackrock Spire",
+        "item_id": 59078,
+        "spell_id": 900396
+      },
+      {
+        "class": "shaman",
+        "req_level": 56,
+        "ilvl": 61,
+        "effect": "spell_power_damage",
+        "target": "Lightning Bolt",
+        "name_hint": "Totem of Drakkisath's Wrath",
+        "dungeon": "Upper Blackrock Spire",
+        "item_id": 59079,
+        "spell_id": 900397
+      },
+      {
+        "class": "druid",
+        "req_level": 56,
+        "ilvl": 61,
+        "effect": "ability_damage_bonus",
+        "target": "Rake + Claw (mask 4096)",
+        "name_hint": "Idol of the Beast Lord",
+        "dungeon": "Upper Blackrock Spire",
+        "item_id": 59080,
+        "spell_id": 900398
+      },
+      {
+        "class": "druid",
+        "req_level": 56,
+        "ilvl": 61,
+        "effect": "spell_power_heal",
+        "target": "Regrowth",
+        "name_hint": "Idol of Verdant Renewal",
+        "dungeon": "Dire Maul East",
+        "item_id": 59081,
+        "spell_id": 900399
+      },
+      {
+        "class": "shaman",
+        "req_level": 56,
+        "ilvl": 61,
+        "effect": "spell_power_damage",
+        "target": "Earth Shock",
+        "name_hint": "Totem of the Warpwood",
+        "dungeon": "Dire Maul East",
+        "item_id": 59082,
+        "spell_id": 900400
+      },
+      {
+        "class": "paladin",
+        "req_level": 57,
+        "ilvl": 62,
+        "effect": "spell_power_damage",
+        "target": "Avenger's Shield",
+        "name_hint": "Libram of the Ogre's Crest",
+        "dungeon": "Dire Maul North",
+        "item_id": 59083,
+        "spell_id": 900401
+      },
+      {
+        "class": "shaman",
+        "req_level": 57,
+        "ilvl": 62,
+        "effect": "spell_power_heal",
+        "target": "Chain Heal",
+        "name_hint": "Totem of Tribal Bonds",
+        "dungeon": "Dire Maul North",
+        "item_id": 59084,
+        "spell_id": 900402
+      },
+      {
+        "class": "druid",
+        "req_level": 57,
+        "ilvl": 62,
+        "effect": "spell_power_damage",
+        "target": "Starfire",
+        "name_hint": "Idol of the Eldreth",
+        "dungeon": "Dire Maul West",
+        "item_id": 59085,
+        "spell_id": 900403
+      },
+      {
+        "class": "paladin",
+        "req_level": 57,
+        "ilvl": 62,
+        "effect": "mana_cost_reduction",
+        "target": "Holy Light",
+        "name_hint": "Libram of Athenaeum Light",
+        "dungeon": "Dire Maul West",
+        "item_id": 59086,
+        "spell_id": 900404
+      },
+      {
+        "class": "shaman",
+        "req_level": 58,
+        "ilvl": 63,
+        "effect": "spell_power_damage",
+        "target": "Magma Totem",
+        "name_hint": "Totem of Erupting Fury",
+        "dungeon": "Stratholme",
+        "item_id": 59087,
+        "spell_id": 900405
+      },
+      {
+        "class": "paladin",
+        "req_level": 58,
+        "ilvl": 63,
+        "effect": "spell_power_damage",
+        "target": "Holy Shock",
+        "name_hint": "Libram of the Crusader's Spire",
+        "dungeon": "Stratholme",
+        "item_id": 59088,
+        "spell_id": 900406
+      },
+      {
+        "class": "paladin",
+        "req_level": 58,
+        "ilvl": 63,
+        "effect": "spell_power_damage",
+        "target": "Holy Light",
+        "name_hint": "Libram of the Shielded Avenger",
+        "dungeon": "Scholomance",
+        "item_id": 59089,
+        "spell_id": 900407
+      },
+      {
+        "class": "druid",
+        "req_level": 58,
+        "ilvl": 63,
+        "effect": "spell_power_heal",
+        "target": "Healing Touch",
+        "name_hint": "Idol of Scholar's Renewal",
+        "dungeon": "Scholomance",
+        "item_id": 59090,
+        "spell_id": 900408
+      }
+    ],
+    "_distribution_summary": {
+      "_note": "Class distribution check \u2014 should be balanced across the 52 items + 1 anchor.",
+      "anchor": "shaman x1 (entry 46978 upgrade)",
+      "shaman": "17 items",
+      "druid": "17 items",
+      "paladin": "18 items",
+      "dungeons_counted": 26,
+      "items_per_dungeon": 2
+    },
+    "_id_assignments": {
+      "item_id_range": "59039-59090 (52 items, 59091-59099 headroom)",
+      "spell_id_range": "900357-900408 (52 effect-mod auras)",
+      "anchor_item": 46978,
+      "anchor_spell": 900356,
+      "reservation_block": "59000-59099 Azeroth Normal Dungeon Loot (per Scripts/Item Scripts/Item Reservations.csv)"
+    }
+  }
+}

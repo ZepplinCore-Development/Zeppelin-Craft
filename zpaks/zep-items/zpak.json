@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-items",
+  "version": "0.1.0",
+  "description": "Zeppelin item content — both new custom items and tweaks to existing items. Non-profession scope.",
+  "author": "Zeppelin Team",
+  "type": "hybrid",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ],
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ]
+  },
+  "client_patch": "PATCH-Z",
+  "enabled": true,
+  "priority": 100
+}
