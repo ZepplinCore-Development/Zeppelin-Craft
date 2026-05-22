@@ -69,6 +69,26 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900114 THEN 59099
     WHEN `itemEntry` = 900115 THEN 59100
     WHEN `itemEntry` = 900116 THEN 59101
+    -- Clan Centaur (I-179, I-186): 2003xx -> 583xx (compliance fix, May 2026)
+    WHEN `itemEntry` = 200300 THEN 58311
+    WHEN `itemEntry` = 200301 THEN 58312
+    WHEN `itemEntry` = 200302 THEN 58313
+    WHEN `itemEntry` = 200303 THEN 58314
+    WHEN `itemEntry` = 200304 THEN 58315
+    WHEN `itemEntry` = 200305 THEN 58316
+    WHEN `itemEntry` = 200306 THEN 58317
+    WHEN `itemEntry` = 200307 THEN 58318
+    WHEN `itemEntry` = 200308 THEN 58319
+    WHEN `itemEntry` = 200309 THEN 58320
+    WHEN `itemEntry` = 200310 THEN 58321
+    WHEN `itemEntry` = 200311 THEN 58322
+    WHEN `itemEntry` = 200312 THEN 58323
+    WHEN `itemEntry` = 200313 THEN 58324
+    WHEN `itemEntry` = 200314 THEN 58325
+    WHEN `itemEntry` = 200315 THEN 58326
+    WHEN `itemEntry` = 200316 THEN 58327
+    WHEN `itemEntry` = 200317 THEN 58328
+    WHEN `itemEntry` = 200318 THEN 58329
     -- Riding Crops (F-005, I-186): 1000xx -> 576xx (compliance fix, May 2026)
     WHEN `itemEntry` = 100010 THEN 57617    -- Apprentice Riding Crop
     WHEN `itemEntry` = 100011 THEN 57618    -- Journeyman Riding Crop
