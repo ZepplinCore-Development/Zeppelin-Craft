@@ -1,0 +1,18 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-dungeons",
+  "version": "0.1.0",
+  "description": "Dungeon content \u2014 boss tuning, instance encounters, LFG, daily quests, heroic/mythic difficulties, dungeon caches",
+  "author": "Zeppelin Team",
+  "type": "hybrid",
+  "features": ["F-013", "F-018", "F-052", "F-055", "F-058", "F-059", "F-060", "F-061", "F-062", "F-074", "I-106"],
+  "contents": {
+    "patches": ["patches/*.patch"],
+    "sql": ["sql/*.sql"],
+    "dbc": ["dbc/*.sql"],
+    "mpq": ["mpq/**/*"]
+  },
+  "client_patch": "PATCH-A",
+  "enabled": true,
+  "priority": 100
+}
