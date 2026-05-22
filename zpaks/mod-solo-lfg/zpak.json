@@ -5,7 +5,7 @@
   "description": "Solo dungeon finder queue support",
   "author": "AzerothCore",
   "type": "acore-extension",
-  "client_patch": "PATCH-Z",
+  "client_patch": "PATCH-A",
   "acore": {
     "module": "mod-solo-lfg",
     "source": "https://github.com/azerothcore/mod-solo-lfg.git",

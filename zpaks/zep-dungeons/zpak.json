@@ -12,7 +12,7 @@
     "dbc": ["dbc/*.sql"],
     "mpq": ["mpq/**/*"]
   },
-  "client_patch": "PATCH-A",
+  "client_patch": "PATCH-Z",
   "enabled": true,
   "priority": 100
 }
