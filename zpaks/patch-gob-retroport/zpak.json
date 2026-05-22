@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "gob-retroport",
+  "name": "patch-gob-retroport",
   "version": "0.1.0",
   "description": "Retroported gameobjects, doodads, and WMOs from newer WoW expansions (Cata-DF) backported to 3.3.5a by GmFactoryWoW.",
   "author": "GmFactoryWoW (+ Appletrey for some WMOs)",

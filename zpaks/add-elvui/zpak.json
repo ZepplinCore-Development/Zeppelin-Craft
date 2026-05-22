@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "elvui",
+  "name": "add-elvui",
   "version": "1.0.0",
   "description": "ElvUI addon suite for 3.3.5a with ProjectZidras enhancements",
   "author": "Zeppelin Team",

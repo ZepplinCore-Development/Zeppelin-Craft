@@ -3,9 +3,9 @@
   "azerothcore_modules_path": "../Zeppelin-Core/modules",
   "packages": {},
   "feature_index": {
-    "F-143": "character-creator",
+    "F-143": "patch-character-creator",
     "F-049": "hd-everything",
-    "F-136": "open-azeroth",
+    "F-136": "patch-open-azeroth",
     "F-030": "mod-worgoblin",
     "F-044": "zep-legacy",
     "F-150": "dbc-f-150",

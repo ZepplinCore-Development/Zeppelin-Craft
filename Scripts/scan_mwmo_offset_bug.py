@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 from collections import defaultdict
 
-MAPS_DIR = Path("/workspace/project/Zeppelin-Craft/zpaks/open-azeroth/mpq/parsed-assets/WORLD/MAPS/")
+MAPS_DIR = Path("/workspace/project/Zeppelin-Craft/zpaks/patch-open-azeroth/mpq/parsed-assets/WORLD/MAPS/")
 
 # Chunk magics as they appear in the file (reversed from the logical name)
 MWMO_MAGIC = b'OMWM'

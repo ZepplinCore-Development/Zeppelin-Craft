@@ -712,7 +712,7 @@ def terrain_fix(ctx, spawn_type, map_id, offset, entry, zone_name, maps_dir, mma
 
     # Reset to stock positions if raw files exist (so re-runs scan from original)
     craft_root = Path(__file__).parent.parent.parent
-    zpak_sql_dir = craft_root / 'zpaks' / 'open-azeroth' / 'sql'
+    zpak_sql_dir = craft_root / 'zpaks' / 'patch-open-azeroth' / 'sql'
     zone_slug = _re.sub(r'[^a-z0-9]+', '_', zone_name.lower()).strip('_')
     issue_tag = TERRAIN_ISSUE_ID
 

@@ -1,22 +1,21 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "character-creator",
-  "feature_id": "F-143",
-  "version": "0.1.0",
-  "description": "HD character creation and login screens",
+  "name": "patch-modern-login",
+  "feature_id": "F-151",
+  "version": "1.0.0",
+  "description": "Modern login UI with custom loading screens",
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-L",
   "patch_display_name": "Modern Login",
+  "enabled": true,
+  "priority": 30,
   "launcher": {
     "mandatory": true,
     "enabled_by_default": true,
-    "auto_update": false,
-    "requires": []
+    "auto_update": false
   },
   "contents": {
     "mpq": ["mpq/**/*"]
-  },
-  "enabled": false,
-  "priority": 30
+  }
 }

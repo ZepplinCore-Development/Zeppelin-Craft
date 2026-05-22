@@ -523,7 +523,7 @@ def _run_regenerate(craft_root: Path, nginx_path: Path, dry_run: bool):
 # build atlasloot
 # =============================================================================
 
-@build.command('atlasloot')
+@build.command('add-atlasloot')
 @click.option('--dry-run', '-n', is_flag=True, help='Preview without modifying files')
 @click.option('--verbose', '-v', is_flag=True, help='Detailed output')
 @click.option('--rep', type=str, default=None,
@@ -532,7 +532,7 @@ def _run_regenerate(craft_root: Path, nginx_path: Path, dry_run: bool):
 def build_atlasloot(ctx, dry_run, verbose, rep):
     """Generate AtlasLoot Lua tables from database."""
     craft_root = ctx.obj['craft_root']
-    addon_dir = craft_root / 'zpaks' / 'atlasloot' / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
+    addon_dir = craft_root / 'zpaks' / 'add-atlasloot' / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
 
     if not addon_dir.exists():
         click.echo(click.style(f"AddOns directory not found: {addon_dir}", fg='red'))

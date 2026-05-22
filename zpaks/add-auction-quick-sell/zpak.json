@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "auction-quick-sell",
+  "name": "add-auction-quick-sell",
   "version": "1.0.0",
   "description": "Quick sell addon for AH bot - auto-lists items at bot buy prices",
   "author": "Zeppelin Team",

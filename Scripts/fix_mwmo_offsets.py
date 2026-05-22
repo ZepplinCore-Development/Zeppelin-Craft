@@ -113,7 +113,7 @@ def fix_adt_file(filepath):
 
 
 def main():
-    base_dir = '/workspace/project/Zeppelin-Craft/zpaks/open-azeroth/mpq/parsed-assets/WORLD/MAPS/'
+    base_dir = '/workspace/project/Zeppelin-Craft/zpaks/patch-open-azeroth/mpq/parsed-assets/WORLD/MAPS/'
 
     if not os.path.isdir(base_dir):
         print(f"ERROR: Directory not found: {base_dir}")

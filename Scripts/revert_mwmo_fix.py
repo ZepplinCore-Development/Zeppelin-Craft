@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 
-MAPS_DIR = Path("/workspace/project/Zeppelin-Craft/zpaks/open-azeroth/mpq/parsed-assets/WORLD/MAPS")
+MAPS_DIR = Path("/workspace/project/Zeppelin-Craft/zpaks/patch-open-azeroth/mpq/parsed-assets/WORLD/MAPS")
 
 MAGIC_MWMO = b'OMWM'
 MAGIC_MWID = b'DIWM'

@@ -1,16 +1,16 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "music",
-  "feature_id": "F-144",
+  "name": "patch-custom-icons",
+  "feature_id": "F-142",
   "version": "0.1.0",
-  "description": "Additional music tracks",
+  "description": "Custom spell, item, and ability icons",
   "author": "Zeppelin Team",
   "type": "mpq",
-  "client_patch": "PATCH-M",
-  "patch_display_name": "Music",
+  "client_patch": "PATCH-I",
+  "patch_display_name": "Custom Icons",
   "launcher": {
-    "mandatory": false,
-    "enabled_by_default": false,
+    "mandatory": true,
+    "enabled_by_default": true,
     "auto_update": false,
     "requires": []
   },

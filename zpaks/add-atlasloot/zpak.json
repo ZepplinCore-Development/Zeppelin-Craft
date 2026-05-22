@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "atlasloot",
+  "name": "add-atlasloot",
   "version": "1.0.0",
   "description": "Loot table browser for dungeons and raids",
   "author": "Zeppelin Team",

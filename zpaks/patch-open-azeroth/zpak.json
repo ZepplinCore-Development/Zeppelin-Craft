@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "open-azeroth",
+  "name": "patch-open-azeroth",
   "version": "1.0.0",
   "description": "Opens inaccessible areas of Kalimdor and Eastern Kingdoms",
   "author": "Open Azeroth Project",
