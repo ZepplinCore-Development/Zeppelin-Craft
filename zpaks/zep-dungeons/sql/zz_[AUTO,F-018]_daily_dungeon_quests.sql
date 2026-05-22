@@ -45,7 +45,7 @@ SET `ID` = 441155,
     `QuestDescription` = 'The Horde is in need of champions, and I''ve got a task fit for those who wish to prove their mettle. Deep within the treacherous Maraudon, there lurks a vile creature known as Razorlash, a twisted plant with razor-sharp petals near the cursed orange crystals. Bring me a Razor Petal from its heart, and show me your strength. The Horde welcomes those who can face the perils of the dungeons and emerge victorious. Are you up for the challenge, or will you crumble like the weak?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Razor Petal to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901700,
+    `RequiredItemId1` = 58700,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -94,9 +94,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441155, 0, 0, 1568, -4406, 0);
 
 -- Maraudon Orange - Razorlash - Razor Petal - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901700);
+DELETE FROM `item_template` WHERE (`entry` = 58700);
 INSERT INTO `item_template`
-SET `entry` = 901700,
+SET `entry` = 58700,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Razor Petal',
@@ -106,17 +106,17 @@ SET `entry` = 901700,
     `bonding` = 4;
 
 -- Maraudon Orange - Razorlash - Razor Petal - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12258) AND (`ItemId` = 901700);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12258) AND (`ItemId` = 58700);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 12258,
     `Idx` = 1,
-    `ItemId` = 901700;
+    `ItemId` = 58700;
 
 -- Maraudon Orange - Razorlash - Razor Petal - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 12258) AND (`Item` IN (901700));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 12258) AND (`Item` IN (58700));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 12258,
-    `Item` = 901700,
+    `Item` = 58700,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -164,7 +164,7 @@ SET `ID` = 441195,
     `QuestDescription` = 'Howdy, partner! Just got word that Zuglord Runthak and his Horde gang are aimin'' to get their hands on the Razor Petal. It only grows from a special plant called Razorlash, near them orange crystals in Maraudon. We can''t let ''em beat us to it! Ride on over, pluck that Razor Petal from Razorlash, and bring it back. We''ll make sure you''re well rewarded. Let''s outpace them Horde varmints and secure that Razor Petal!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Razor Petal to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901700,
+    `RequiredItemId1` = 58700,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -251,7 +251,7 @@ SET `ID` = 441156,
     `QuestDescription` = 'The Horde demands more from its champions, and your next test lies in the Poison Falls of Maraudon. Seek out Celebras the Cursed, son of Remulos, within the shadows of the purple crystal-marked entrance. Your target is the Carved Horn of Remulos. Only those who can navigate the dangers and confront Celebras will be deemed worthy. The Horde seeks strength and resilience. Do you possess these qualities, or will you falter in the face of adversity?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Carved Horn of Remulos to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901701,
+    `RequiredItemId1` = 58701,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -300,9 +300,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441156, 0, 0, 1568, -4406, 0);
 
 -- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901701);
+DELETE FROM `item_template` WHERE (`entry` = 58701);
 INSERT INTO `item_template`
-SET `entry` = 901701,
+SET `entry` = 58701,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Carved Horn of Remulos',
@@ -312,17 +312,17 @@ SET `entry` = 901701,
     `bonding` = 4;
 
 -- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12225) AND (`ItemId` = 901701);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12225) AND (`ItemId` = 58701);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 12225,
     `Idx` = 1,
-    `ItemId` = 901701;
+    `ItemId` = 58701;
 
 -- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 12225) AND (`Item` IN (901701));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 12225) AND (`Item` IN (58701));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 12225,
-    `Item` = 901701,
+    `Item` = 58701,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -370,7 +370,7 @@ SET `ID` = 441207,
     `QuestDescription` = 'Howdy, partner! Word is spreading that Zuglord Runthak and his Horde gang are schemin'' to grab the Carved Horn of Remulos from Celebras. We can''t let ''em use it for who knows what maybe as a toothpick. Ride through Poison Falls, take on the guardian, yank that artifact, and fetch it back for a nice reward. Time to put a stop to their Horde shenanigans and secure the Carved Horn!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Carved Horn of Remulos to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901701,
+    `RequiredItemId1` = 58701,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -457,7 +457,7 @@ SET `ID` = 441157,
     `QuestDescription` = 'Mighty adventurer, a crucial task awaits you in the depths of Stormwind Stockades. Confront Bazil Thredd and claim the Prison Wallet from his grasp. This stone possesses the fiery essence needed to aid our zeppelin''s journey to Borean Tundra, where the freezing winds of Northrend threaten to ground us. Our goblin engineers struggle to keep the air hot enough for the zeppelin to stay airborne. Your mission is clear: defeat Jergosh, retrieve the Prison Wallet, and ensure our zeppelin''s success in reaching its destination. As you embark on this quest, remember to utilize the enchanted orb provided. It will transport you swiftly to Stormwind Stockades from anywhere in Azeroth. May your valor light the fires of triumph, champion of the Horde!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Prison Wallet to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901702,
+    `RequiredItemId1` = 58702,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -506,9 +506,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441157, 0, 0, 1568, -4406, 0);
 
 -- Stormwind Stockade - Bazil Thredd - Prison Wallet - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901702);
+DELETE FROM `item_template` WHERE (`entry` = 58702);
 INSERT INTO `item_template`
-SET `entry` = 901702,
+SET `entry` = 58702,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Prison Wallet',
@@ -518,17 +518,17 @@ SET `entry` = 901702,
     `bonding` = 4;
 
 -- Stormwind Stockade - Bazil Thredd - Prison Wallet - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 1716) AND (`ItemId` = 901702);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 1716) AND (`ItemId` = 58702);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 1716,
     `Idx` = 2,
-    `ItemId` = 901702;
+    `ItemId` = 58702;
 
 -- Stormwind Stockade - Bazil Thredd - Prison Wallet - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 1716) AND (`Item` IN (901702));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 1716) AND (`Item` IN (58702));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 1716,
-    `Item` = 901702,
+    `Item` = 58702,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -576,7 +576,7 @@ SET `ID` = 441184,
     `QuestDescription` = 'Howdy, adventurer! I''ve got a mighty task for ya, straight from the heart of Stormwind. We need to head into the Stockades and face off against Bazil Thredd. The job? Retrieve his prison wallet. Now, why''s this so crucial, ya ask? Well, Zuglord Runthak, the zugliest of all Horde troublemakers, has teamed up with the Defias. They''re schemin'' a big ol'' assault on Stormwind, and our spies reckon they''re plannin'' a reverse Shawshank attack! Bazil''s got them assault plans tucked away in his wallet, even when he''s snoozin''! We gotta get our hands on that wallet and snag them plans. So gear up, head into the Stockades, and retrieve that prison wallet from Bazil. Oh, and don''t forget to take this orb - it''ll teleport ya straight to the Stockades. Let''s put a stop to them Horde''s sneaky assault plans and keep Stormwind safe!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Prison Wallet to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901702,
+    `RequiredItemId1` = 58702,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -663,7 +663,7 @@ SET `ID` = 441158,
     `QuestDescription` = 'Adventurer, a vital mission awaits you within the ominous halls of Shadowfang Keep. Your objective: to secure the Fangfire Amulet from the clutches of Archmage Arugal. This legendary artifact grants unparalleled mastery over wolf-like creatures, enabling the bearer to communicate with and command not only wolves but also other lupine beings such as worgs. With the Fangfire Amulet in our possession, the Horde can forge stronger bonds with these primal allies, creating a formidable wolf pack that defends and assists the denizens of Kalimdor. Waste no time, for the enchanted orb provided shall whisk you away to Shadowfang Keep from any corner of Azeroth. Forge ahead, brave soul, and let the howls of victory echo through the land!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Fangfire Amulet to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901703,
+    `RequiredItemId1` = 58703,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -712,9 +712,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441158, 0, 0, 1568, -4406, 0);
 
 -- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901703);
+DELETE FROM `item_template` WHERE (`entry` = 58703);
 INSERT INTO `item_template`
-SET `entry` = 901703,
+SET `entry` = 58703,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Fangfire Amulet',
@@ -724,17 +724,17 @@ SET `entry` = 901703,
     `bonding` = 4;
 
 -- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4275) AND (`ItemId` = 901703);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4275) AND (`ItemId` = 58703);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 4275,
     `Idx` = 1,
-    `ItemId` = 901703;
+    `ItemId` = 58703;
 
 -- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 4275) AND (`Item` IN (901703));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 4275) AND (`Item` IN (58703));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 4275,
-    `Item` = 901703,
+    `Item` = 58703,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -782,7 +782,7 @@ SET `ID` = 441185,
     `QuestDescription` = 'Howdy, partner! Listen up and listen good. There''s a troublesome situation brewin'' over at Shadowfang Keep. Zuglord Runthak, that sneaky Horde fella, has his eyes set on snatchin'' the Fangfire Amulet from Archmage Arugal. Now, what''s he plannin'' to do with it? He''s got this ridiculous idea of commandin'' the wolves of Elwynn Forest to create a howlin'' cacophony, just to ruin my precious beauty sleep! Can ya believe the audacity? We can''t let that happen, no sirree! So saddle up, head to Shadowfang Keep, and recover that Fangfire Amulet before it falls into the wrong hands. Oh, and don''t forget to grab an orb from them lazy book-readin'' mages over in the tower – it''ll teleport ya straight to the keep. We''ll make sure you''re well rewarded. Let''s put a stop to them Horde''s petty schemes and ensure a peaceful night''s rest for all!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Fangfire Amulet to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901703,
+    `RequiredItemId1` = 58703,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -869,7 +869,7 @@ SET `ID` = 441159,
     `QuestDescription` = 'Esteemed adventurer, a crucial mission beckons within the heart of Razorfen Kraul. Your task is to recover the Gauntlets of Growth from Charlga Razorflank, a formidable foe lurking amidst the thorns. These gauntlets bestow upon the wearer the powers of plant growth, a boon that could revolutionize agriculture in Durotar and feed the Horde. Your success will not only secure a powerful artifact but also pave the way for prosperity. Use the enchanted orb provided—it shall transport you swiftly to the depths of Razorfen Kraul from any corner of Azeroth. Go forth with resolve, and may your efforts yield bountiful harvests for our people.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Gauntlets of Growth to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901704,
+    `RequiredItemId1` = 58704,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -918,9 +918,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441159, 0, 0, 1568, -4406, 0);
 
 -- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901704);
+DELETE FROM `item_template` WHERE (`entry` = 58704);
 INSERT INTO `item_template`
-SET `entry` = 901704,
+SET `entry` = 58704,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Gauntlets of Growth',
@@ -930,17 +930,17 @@ SET `entry` = 901704,
     `bonding` = 4;
 
 -- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4421) AND (`ItemId` = 901704);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4421) AND (`ItemId` = 58704);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 4421,
     `Idx` = 3,
-    `ItemId` = 901704;
+    `ItemId` = 58704;
 
 -- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 4421) AND (`Item` IN (901704));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 4421) AND (`Item` IN (58704));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 4421,
-    `Item` = 901704,
+    `Item` = 58704,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -988,7 +988,7 @@ SET `ID` = 441186,
     `QuestDescription` = 'Howdy there, adventurer! Got a mighty task for ya that''ll test your mettle and grit. Deep within the heart of Razorfen Kraul lies Charlga Razorflank, a fearsome foe indeed. Your mission? Retrieve the Gauntlets of Growth from her clutches. Now, why are these gauntlets so darn important, ya ask? Well, they bestow the wearer with the powers of plant growth. But here''s the kicker – Zuglord Runthak, has got his eye on ''em. If we don''t get a hold of those gauntlets first, he''ll be springin'' bramble vines up all over Azeroth, causin'' chaos and mayhem wherever they go! We can''t let that happen, no sirree! So saddle up, venture into the heart of Razorfen Kraul, and retrieve those Gauntlets of Growth from Charlga Razorflank. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance of the Kraul. Let''s put a stop to them Horde''s wild plans and keep Azeroth bramble-free!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Gauntlets of Growth to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901704,
+    `RequiredItemId1` = 58704,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1075,7 +1075,7 @@ SET `ID` = 441160,
     `QuestDescription` = 'Mighty adventurer, your next mission awaits in Razorfen Downs. Your objective: retrieve a Frozen Bone from Amnennar the Coldbringer, a powerful Lich dwelling within the depths. The Undercity mages have a keen interest in studying the remains of such a formidable undead being, hoping to gain insights into the process of their creation. Use the enchanted orb provided—it shall swiftly transport you to Razorfen Downs from any part of Azeroth. Forge ahead with determination, and may your journey yield valuable knowledge for the Horde.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Frozen Bone to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901705,
+    `RequiredItemId1` = 58705,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1124,9 +1124,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441160, 0, 0, 1568, -4406, 0);
 
 -- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901705);
+DELETE FROM `item_template` WHERE (`entry` = 58705);
 INSERT INTO `item_template`
-SET `entry` = 901705,
+SET `entry` = 58705,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Frozen Bone',
@@ -1136,17 +1136,17 @@ SET `entry` = 901705,
     `bonding` = 4;
 
 -- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7358) AND (`ItemId` = 901705);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7358) AND (`ItemId` = 58705);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 7358,
     `Idx` = 1,
-    `ItemId` = 901705;
+    `ItemId` = 58705;
 
 -- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 7358) AND (`Item` IN (901705));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 7358) AND (`Item` IN (58705));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 7358,
-    `Item` = 901705,
+    `Item` = 58705,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -1194,7 +1194,7 @@ SET `ID` = 441187,
     `QuestDescription` = 'Howdy, adventurer! Got a new mission that''s as cold as a Frostwolf''s breath. We need ya to head to Razorfen Downs and recover a Frozen Bone from Amnennar the Coldbringer. Our spies have been busy and spotted large groups of Core Hounds training with Hunters in the Valley of Strength. We suspect they''re preparin'' for an assault on the Frozen Throne! Now, Zuglord Runthak has some wild ideas. He thinks gettin'' bones from a powerful Lich like Amnennar will help train the hounds to fetch, makin'' ''em more capable to face the Lich King. Can ya believe it? We can''t let them Horde''s schemes come to fruition. So saddle up, head to Razorfen Downs, and recover that Frozen Bone. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance. Let''s put a stop to that ludicrous zug plan',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Frozen Bone to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901705,
+    `RequiredItemId1` = 58705,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1281,7 +1281,7 @@ SET `ID` = 441161,
     `QuestDescription` = 'Brave adventurer, a daunting challenge awaits you within the depths of the Wailing Caverns. Your mission is to vanquish Verdan the Everliving and secure an Everliving Spore from his domain. This spore, tainted by the corruption of the Emerald Nightmare, holds the potential for renewal. The shamans of the Horde seek to cleanse it of corruption and nurture it into a new guardian for the Wailing Caverns, free from darkness. Enter the caverns, confront Verdan, and claim the Everliving Spore. With the enchanted orb provided, you can swiftly teleport to the Wailing Caverns from anywhere in Azeroth. May your bravery pave the way for a new era of protection and purity in those ancient caves',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Everliving Spore to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901706,
+    `RequiredItemId1` = 58706,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1330,9 +1330,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441161, 0, 0, 1568, -4406, 0);
 
 -- Wailing Caverns - Verdan the Everliving - Everliving Spore - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901706);
+DELETE FROM `item_template` WHERE (`entry` = 58706);
 INSERT INTO `item_template`
-SET `entry` = 901706,
+SET `entry` = 58706,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Everliving Spore',
@@ -1342,17 +1342,17 @@ SET `entry` = 901706,
     `bonding` = 4;
 
 -- Wailing Caverns - Verdan the Everliving - Everliving Spore - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 5775) AND (`ItemId` = 901706);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 5775) AND (`ItemId` = 58706);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 5775,
     `Idx` = 1,
-    `ItemId` = 901706;
+    `ItemId` = 58706;
 
 -- Wailing Caverns - Verdan the Everliving - Everliving Spore - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 5775) AND (`Item` IN (901706));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 5775) AND (`Item` IN (58706));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 5775,
-    `Item` = 901706,
+    `Item` = 58706,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -1400,7 +1400,7 @@ SET `ID` = 441188,
     `QuestDescription` = 'Howdy, brave one! Word''s out that them Horde Zugs, led by Zuglord Runthak, are schemin'' to snatch an Everliving Spore from Verdan the Everliving down in the Wailing Caverns. Can ya believe it? They''re talkin'' ''bout stealin'' it to use as some elemental battle pet! Now that''s downright disrespectful, ain''t it? We gotta get that spore first and keep it as a tiny mascot. We can teach it tricks and have it cheer us on in battle! Saddle up, face Verdan, and bring back that Everliving Spore. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower – it''ll teleport ya straight to the caverns. We''ll make sure you''re well rewarded. Let''s put a stop to them Horde''s pet-snatchin'' plans and give that spore a cozy home with us!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Everliving Spore to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901706,
+    `RequiredItemId1` = 58706,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1487,7 +1487,7 @@ SET `ID` = 441162,
     `QuestDescription` = 'Mighty adventurer, a crucial task awaits you in the depths of Ragefire Chasm. Confront Jergosh the Invoker and claim the Searing Stone from his grasp. This stone possesses the fiery essence needed to aid our zeppelin''s journey to Borean Tundra, where the freezing winds of Northrend threaten to ground us. Our goblin engineers struggle to keep the air hot enough for the zeppelin to stay airborne. Your mission is clear: defeat Jergosh, retrieve the Searing Stone, and ensure our zeppelin''s success in reaching its destination. As you embark on this quest, remember to utilize the enchanted orb provided. It will transport you swiftly to Ragefire Chasm from anywhere in Azeroth. May your valor light the fires of triumph, champion of the Horde!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Searing Stone to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901707,
+    `RequiredItemId1` = 58707,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1536,9 +1536,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441162, 0, 0, 1568, -4406, 0);
 
 -- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901707);
+DELETE FROM `item_template` WHERE (`entry` = 58707);
 INSERT INTO `item_template`
-SET `entry` = 901707,
+SET `entry` = 58707,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Searing Stone',
@@ -1548,17 +1548,17 @@ SET `entry` = 901707,
     `bonding` = 4;
 
 -- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11518) AND (`ItemId` = 901707);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11518) AND (`ItemId` = 58707);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 11518,
     `Idx` = 0,
-    `ItemId` = 901707;
+    `ItemId` = 58707;
 
 -- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 11518) AND (`Item` IN (901707));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 11518) AND (`Item` IN (58707));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 11518,
-    `Item` = 901707,
+    `Item` = 58707,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -1606,7 +1606,7 @@ SET `ID` = 441189,
     `QuestDescription` = 'Howdy, brave one! Heard that them Horde Zugs, led by Zuglord Runthak, are schemin'' to snatch the Searing Stone from Jergosh the Invoker down in Ragefire Chasm. Can ya believe it? They''re talkin'' ''bout openin'' a sauna in Orgrimmar for some ancient Pandaren medicine! They reckon it''ll restore their warriors'' chakras and make ''em fight with renewed vigor. We can''t let that happen! Saddle up, face Jergosh, and bring back the Searing Stone. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower – it''ll teleport ya straight to the chasm. We''ll make sure you''re well rewarded. Let''s put a stop to them Horde''s sauna plans and keep the Searing Stone safe!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Searing Stone to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901707,
+    `RequiredItemId1` = 58707,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1693,7 +1693,7 @@ SET `ID` = 441163,
     `QuestDescription` = 'Adventurer, a critical task awaits you in the depths of Gnomeregan. Your mission is to recover the Plugg Nuts from the devious Mekgineer Thermaplugg. Our Goblin Engineers are eager to get their hands on these specialized nuts, vital for their torque multiplier—whatever that means. Roxxik, one of our top engineers, has important plans for these nuts. He''s developing a new class of shredder for the Horde and needs them to complete his project. Use the enchanted orb provided to teleport swiftly to Gnomeregan from anywhere in Azeroth. Embark on this mission with determination, and may your efforts bring technological advancements to the Horde!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Plugg Nuts to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901708,
+    `RequiredItemId1` = 58708,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1742,9 +1742,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441163, 0, 0, 1568, -4406, 0);
 
 -- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901708);
+DELETE FROM `item_template` WHERE (`entry` = 58708);
 INSERT INTO `item_template`
-SET `entry` = 901708,
+SET `entry` = 58708,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Plugg Nuts',
@@ -1754,17 +1754,17 @@ SET `entry` = 901708,
     `bonding` = 4;
 
 -- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7800) AND (`ItemId` = 901708);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7800) AND (`ItemId` = 58708);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 7800,
     `Idx` = 2,
-    `ItemId` = 901708;
+    `ItemId` = 58708;
 
 -- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 7800) AND (`Item` IN (901708));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 7800) AND (`Item` IN (58708));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 7800,
-    `Item` = 901708,
+    `Item` = 58708,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -1812,7 +1812,7 @@ SET `ID` = 441190,
     `QuestDescription` = 'Howdy, adventurer! Got a mighty important mission for ya. We need ya to head into Gnomeregan and recover Plugg Nuts from Mekgineer Thermaplugg. Now, here''s the kicker – Zuglord Runthak has teamed up with them Zuglin "engineers" to build a giant Mech. They''re callin'' it Mecha Gahz''rilla. Those Plugg Nuts are the final piece they need to complete that mecha-monstrosity! We can''t let that happen. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance. Let''s put a stop to them Zug plans and keep Azeroth safe from Mecha Gahz''rilla!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Plugg Nuts to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901708,
+    `RequiredItemId1` = 58708,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1899,7 +1899,7 @@ SET `ID` = 441164,
     `QuestDescription` = 'Valiant adventurer, a crucial mission awaits you in the dark depths of Blackfathom Depths. Your task is to retrieve the Void Pearl from the clutches of Aku''mai, the ancient horror that lurks within. The Blood Elves have sought our aid in recovering this pearl, as they wish to extract the void energy within and cleanse it. Once a relic used in worship of Elune, this pearl holds great significance to the night elves. By returning the cleansed pearl to them, we show our goodwill. Prepare yourself, for the enchanted orb provided will transport you to Blackfathom Depths from any location in Azeroth. Go forth with courage, and may your actions pave the way for harmony among Kalimdor.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Void Pearl to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901709,
+    `RequiredItemId1` = 58709,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -1948,9 +1948,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441164, 0, 0, 1568, -4406, 0);
 
 -- Blackfathom Deeps - Aku''mai - Void Pearl - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901709);
+DELETE FROM `item_template` WHERE (`entry` = 58709);
 INSERT INTO `item_template`
-SET `entry` = 901709,
+SET `entry` = 58709,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Void Pearl',
@@ -1960,17 +1960,17 @@ SET `entry` = 901709,
     `bonding` = 4;
 
 -- Blackfathom Deeps - Aku''mai - Void Pearl - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4829) AND (`ItemId` = 901709);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4829) AND (`ItemId` = 58709);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 4829,
     `Idx` = 0,
-    `ItemId` = 901709;
+    `ItemId` = 58709;
 
 -- Blackfathom Deeps - Aku''mai - Void Pearl - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 4829) AND (`Item` IN (901709));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 4829) AND (`Item` IN (58709));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 4829,
-    `Item` = 901709,
+    `Item` = 58709,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -2018,7 +2018,7 @@ SET `ID` = 441191,
     `QuestDescription` = 'Howdy, partner! There''s a precious treasure known as the Void Pearl, hidden deep within Blackfathom Depths and guarded fiercely by the monstrous Aku''mai. But here''s the twist. Zuglord Runthak, that sneaky Horde rascal, has teamed up with none other than the Mad Goblin Engineer Thrush Clocktron. Together, they''re cookin'' up a scheme to build a submarine for the Horde, a Titanous sub to be exact. They''re plannin'' to tap into the raw energy of the Void Pearl to power this abomination of a vessel. Can ya imagine the chaos that''ll unleash? We can''t let that happen, no sirree! So saddle up, get in there, and recover that Void Pearl before it falls into the wrong hands. Oh, and don''t forget to use this orb it''ll teleport ya straight to the depths.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Void Pearl to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901709,
+    `RequiredItemId1` = 58709,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2105,7 +2105,7 @@ SET `ID` = 441165,
     `QuestDescription` = 'Adventurer, a vital task awaits you within the grim confines of Scarlet Monastery Graveyard. Your mission is to recover the Bloodfire Amulet from the clutches of Bloodmage Thalnos, a corrupted foe lurking in the shadows. The Blood Elves have beseeched us to reclaim this amulet, intending to restore it to its rightful place in Quel''thalas after purging it of Thalnos''s dark influence. Your success will not only aid our allies but also cleanse a relic of great significance. Ready yourself, for the enchanted orb provided will transport you swiftly to the Scarlet Monastery Graveyard from anywhere in Azeroth. Go forth with determination, and may your actions herald a new dawn of purity and unity among our people.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Bloodfire Amulet to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901710,
+    `RequiredItemId1` = 58710,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2154,9 +2154,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441165, 0, 0, 1568, -4406, 0);
 
 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901710);
+DELETE FROM `item_template` WHERE (`entry` = 58710);
 INSERT INTO `item_template`
-SET `entry` = 901710,
+SET `entry` = 58710,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Bloodfire Amulet',
@@ -2166,17 +2166,17 @@ SET `entry` = 901710,
     `bonding` = 4;
 
 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4543) AND (`ItemId` = 901710);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4543) AND (`ItemId` = 58710);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 4543,
     `Idx` = 0,
-    `ItemId` = 901710;
+    `ItemId` = 58710;
 
 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 4543) AND (`Item` IN (901710));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 4543) AND (`Item` IN (58710));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 4543,
-    `Item` = 901710,
+    `Item` = 58710,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -2224,7 +2224,7 @@ SET `ID` = 441192,
     `QuestDescription` = 'Howdy, adventurer! I''ve got a crucial task for ya that''ll test your mettle and bravery. Deep within the Scarlet Monastery Graveyard lies the Bloodfire Amulet, guarded fiercely by Bloodmage Thalnos. Now, why''s this amulet so dang important, ya ask? Well, Zuglord Runthak, has got his eyes set on it. He''s plannin'' to use that amulet to unleash a blight on Westfall! Just picture it: with Westfall''s crops destroyed, Stormwind will be facing a famine. It''s a disaster in the makin''! We can''t let that happen, no sirree! So saddle up, venture into the Scarlet Monastery Graveyard, and recover that Bloodfire Amulet from Bloodmage Thalnos. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the graveyard. Let''s put a stop to them Horde''s wicked plans and keep the farms of Westfall blight free.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Bloodfire Amulet to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901710,
+    `RequiredItemId1` = 58710,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2311,7 +2311,7 @@ SET `ID` = 441166,
     `QuestDescription` = 'The Horde bestows upon you a magicked orb, enchanted by the most powerful mages in our ranks. Use it to transport yourself to the ancient halls of Uldaman, where Archaedas, the Ancient Stone Watcher, stands as guardian. The Resonating Stone of Unity lies in his watchful care, a relic left by the titans. Your mission is to face Archaedas, retrieve the stone, and bring it back to the Horde. This artifact possesses the power to unify the races of Kalimdor in peace. Will you be the conduit for this harmony, or will the stone remain under the silent gaze of the ancient watcher?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Resonating Stone of Unity to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901711,
+    `RequiredItemId1` = 58711,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2360,9 +2360,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441166, 0, 0, 1568, -4406, 0);
 
 -- Uldaman West - Archaedas - Resonating Stone of Unity - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901711);
+DELETE FROM `item_template` WHERE (`entry` = 58711);
 INSERT INTO `item_template`
-SET `entry` = 901711,
+SET `entry` = 58711,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Resonating Stone of Unity',
@@ -2372,17 +2372,17 @@ SET `entry` = 901711,
     `bonding` = 4;
 
 -- Uldaman West - Archaedas - Resonating Stone of Unity - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 2748) AND (`ItemId` = 901711);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 2748) AND (`ItemId` = 58711);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 2748,
     `Idx` = 1,
-    `ItemId` = 901711;
+    `ItemId` = 58711;
 
 -- Uldaman West - Archaedas - Resonating Stone of Unity - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 2748) AND (`Item` IN (901711));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 2748) AND (`Item` IN (58711));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 2748,
-    `Item` = 901711,
+    `Item` = 58711,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -2430,7 +2430,7 @@ SET `ID` = 441193,
     `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'' to grab the Resonating Stone of Unity from Archaedas, the Ancient Stone Watcher in Uldaman. And get this, they''re thinkin'' ''bout usin'' it to unify all the races of Kalimdor in peace! Can''t let that kind of foolhardy dream go down. Ride on over, face Archaedas, and fetch that Resonating Stone. Oh, and afore ya go, we snatched an orb from them lazy book-readin'' mages over in the tower. It''ll teleport ya straight to Uldaman. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s fanciful peace dreams and keep the Resonating Stone safe!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Resonating Stone of Unity to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901711,
+    `RequiredItemId1` = 58711,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2517,7 +2517,7 @@ SET `ID` = 441167,
     `QuestDescription` = 'The call to greatness echoes through the sands of Zul''Farrak as Chief Ukorz Sandscalp beats the formidable Sandfury War Drum. Your mission is clear: recover this potent artifact and showcase your strength in the heart of Zul''Farrak. The Horde seeks champions who can face the challenges that lie ahead and emerge victorious. Confront Chief Ukorz Sandscalp, seize the Sandfury War Drum, and prove that you are a force to be reckoned with. Are you ready to drum up success for the Horde?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Sandfury War Drum to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901712,
+    `RequiredItemId1` = 58712,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2566,9 +2566,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441167, 0, 0, 1568, -4406, 0);
 
 -- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901712);
+DELETE FROM `item_template` WHERE (`entry` = 58712);
 INSERT INTO `item_template`
-SET `entry` = 901712,
+SET `entry` = 58712,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Sandfury War Drum',
@@ -2578,17 +2578,17 @@ SET `entry` = 901712,
     `bonding` = 4;
 
 -- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7267) AND (`ItemId` = 901712);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7267) AND (`ItemId` = 58712);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 7267,
     `Idx` = 1,
-    `ItemId` = 901712;
+    `ItemId` = 58712;
 
 -- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 7267) AND (`Item` IN (901712));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 7267) AND (`Item` IN (58712));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 7267,
-    `Item` = 901712,
+    `Item` = 58712,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -2636,7 +2636,7 @@ SET `ID` = 441194,
     `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are fixin'' to grab the Sandfury War Drum from Chief Ukorz Sandscalp. They reckon on usin'' its powerful beat to rile up their Zugs and start the 4th war against the Alliance. We can''t let that chaos loose! Ride on over, face Chief Ukorz Sandscalp, and fetch that war drum. There''s a mighty fine reward for ya. Let''s put a halt to them Horde notions and keep the peace.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Sandfury War Drum to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901712,
+    `RequiredItemId1` = 58712,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2723,7 +2723,7 @@ SET `ID` = 441168,
     `QuestDescription` = 'Rumors have surfaced of a mystical artifact, concealed within the shadows of the Temple of Atal''Hakkar. The Dream Seed, extracted from the heart of the Dreamgrove. It possesses the remarkable ability to breathe life into desolate lands. Guarded by the spectral Shade of Eranikus, this seed signifies Eranikus''s commitment to healing the scars left by Hakkar. Your mission is to recover the Dream Seed from this ethereal guardian. Bring forth the Dream Seed and prove that you are not only a formidable champion but also a bearer of hope for the Horde''s future.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Dream Seed to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901713,
+    `RequiredItemId1` = 58713,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2731,7 +2731,7 @@ SET `ID` = 441168,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441168);
 INSERT INTO `quest_template_addon`
 SET `ID` = 441168,
-    `ProvidedItemCount` = 0,
+    `ProvidedItemCount` = 1,
     `MaxLevel` = 58,
     `SpecialFlags` = 1;
 
@@ -2772,9 +2772,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441168, 0, 0, 1568, -4406, 0);
 
 -- Sunken Temple Upper - Shade of Eranikus - Dream Seed - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901713);
+DELETE FROM `item_template` WHERE (`entry` = 58713);
 INSERT INTO `item_template`
-SET `entry` = 901713,
+SET `entry` = 58713,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Dream Seed',
@@ -2784,17 +2784,17 @@ SET `entry` = 901713,
     `bonding` = 4;
 
 -- Sunken Temple Upper - Shade of Eranikus - Dream Seed - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 5709) AND (`ItemId` = 901713);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 5709) AND (`ItemId` = 58713);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 5709,
     `Idx` = 1,
-    `ItemId` = 901713;
+    `ItemId` = 58713;
 
 -- Sunken Temple Upper - Shade of Eranikus - Dream Seed - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 5709) AND (`Item` IN (901713));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 5709) AND (`Item` IN (58713));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 5709,
-    `Item` = 901713,
+    `Item` = 58713,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -2842,7 +2842,7 @@ SET `ID` = 441196,
     `QuestDescription` = 'Howdy there, brave one! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'' to snatch the Dream Seed from the Shade of Eranikus in the Temple of Atal''Hakkar. And get this they''re thinkin'' ''bout startin'' a garden! Can''t let that happen! Head on down, confront the Shade of Eranikus, and bring back that Dream Seed. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s gardening dreams and keep the Dream Seed safe!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Dream Seed to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901713,
+    `RequiredItemId1` = 58713,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2850,7 +2850,7 @@ SET `ID` = 441196,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441196);
 INSERT INTO `quest_template_addon`
 SET `ID` = 441196,
-    `ProvidedItemCount` = 0,
+    `ProvidedItemCount` = 1,
     `MaxLevel` = 58,
     `SpecialFlags` = 1;
 
@@ -2929,7 +2929,7 @@ SET `ID` = 441169,
     `QuestDescription` = 'Prepare yourself, for a task of great significance lies ahead. Deep within the molten heart of Blackrock Depths, Lord Incendius guards the Incendiary Core, a potent source of flame. Retrieve this core and bring it back to the Horde, where it will fuel a new Black Forge. The Black Forge, powered by the fiery essence, shall become the crucible for crafting mighty weapons and armor for our warriors. Venture into the inferno, secure the Incendiary Core, and be a part of forging a powerful future for the Horde.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Incendiary Core to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901714,
+    `RequiredItemId1` = 58714,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -2978,9 +2978,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441169, 0, 0, 1568, -4406, 0);
 
 -- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901714);
+DELETE FROM `item_template` WHERE (`entry` = 58714);
 INSERT INTO `item_template`
-SET `entry` = 901714,
+SET `entry` = 58714,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Incendiary Core',
@@ -2990,17 +2990,17 @@ SET `entry` = 901714,
     `bonding` = 4;
 
 -- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9017) AND (`ItemId` = 901714);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9017) AND (`ItemId` = 58714);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 9017,
     `Idx` = 3,
-    `ItemId` = 901714;
+    `ItemId` = 58714;
 
 -- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 9017) AND (`Item` IN (901714));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 9017) AND (`Item` IN (58714));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 9017,
-    `Item` = 901714,
+    `Item` = 58714,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -3048,7 +3048,7 @@ SET `ID` = 441197,
     `QuestDescription` = 'Howdy, adventurer! Just got wind that them Horde Zugs are schemin'' to snag an Incendiary Core from Lord Incendius. Believe it or not, they''re talkin'' ''bout squanderin'' it on a bonfire! We can''t have that kind of nonsense. Ride through, take on Lord Incendius, and bring back that Incendiary Core. There''s a hefty reward in it for ya. Let''s show them Horde dreamers we mean business and keep the Incendiary Core safe from their bonfire follies!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Incendiary Core to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901714,
+    `RequiredItemId1` = 58714,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3135,7 +3135,7 @@ SET `ID` = 441170,
     `QuestDescription` = 'The Dark Horde are a stain upon our people. Orcs who abandoned their honor to serve dragons, betraying everything we have fought to rebuild. Overlord Wyrmthalak uses an ancient war horn to rally these traitors in Lower Blackrock Spire. That horn is orcish. It belongs to the true Horde, not to dragon-servants. Enter the Spire, slay Wyrmthalak, and reclaim the war horn. We will silence the traitors'' call forever and restore this relic to its rightful place. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Spire from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Wyrmthalak''s War Horn to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901715,
+    `RequiredItemId1` = 58715,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3184,9 +3184,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441170, 0, 0, 1568, -4406, 0);
 
 -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901715);
+DELETE FROM `item_template` WHERE (`entry` = 58715);
 INSERT INTO `item_template`
-SET `entry` = 901715,
+SET `entry` = 58715,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Wyrmthalak''s War Horn',
@@ -3196,17 +3196,17 @@ SET `entry` = 901715,
     `bonding` = 4;
 
 -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9568) AND (`ItemId` = 901715);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9568) AND (`ItemId` = 58715);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 9568,
     `Idx` = 1,
-    `ItemId` = 901715;
+    `ItemId` = 58715;
 
 -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 9568) AND (`Item` IN (901715));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 9568) AND (`Item` IN (58715));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 9568,
-    `Item` = 901715,
+    `Item` = 58715,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -3254,7 +3254,7 @@ SET `ID` = 441198,
     `QuestDescription` = 'Howdy, partner! You ain''t gonna believe this one. Zuglord Runthak''s planning to start himself a heavy metal band called "Runthak and the Gronslayers." Word is, he''s been scoutin'' for the perfect war horn to really get that "authentic orcish sound," and he''s set his sights on Wyrmthalak''s War Horn down in Lower Blackrock Spire. Now here''s the kicker. Once that band gets goin'', them night elves over in Ashenvale ain''t never gonna sleep again! Can you imagine? That racket echoin'' through the forest every night? We''ll have angry elves marchin'' on Stormwind demandin'' we do somethin'' about it! Saddle up, get into that Spire, and grab that war horn before Runthak''s musical dreams come true. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Wyrmthalak''s War Horn to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901715,
+    `RequiredItemId1` = 58715,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3341,7 +3341,7 @@ SET `ID` = 441171,
     `QuestDescription` = 'Embrace the call, brave champion! The Horde has deemed you worthy of a task of great importance. Travel to Dire Maul, where Alzzin the Wildshaper guards the malevolent Scepter of Sylvan Corruption. This foul artifact must be recovered swiftly to prevent further corruption. Shamans of the Horde stand ready to destroy it, cleansing the land of its taint. Wield your strength and face Alzzin, secure the scepter, and bring it back to the Horde. The fate of Azeroth hangs in the balance. The mages have enchanted an orb for you; use it wisely, and may it transport you safely to Dire Maul from anywhere in our vast world. Go forth, champion, and may victory be yours!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Scepter of Sylvan Corruption to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901716,
+    `RequiredItemId1` = 58716,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3390,9 +3390,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441171, 0, 0, 1568, -4406, 0);
 
 -- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901716);
+DELETE FROM `item_template` WHERE (`entry` = 58716);
 INSERT INTO `item_template`
-SET `entry` = 901716,
+SET `entry` = 58716,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Scepter of Sylvan Corruption',
@@ -3402,17 +3402,17 @@ SET `entry` = 901716,
     `bonding` = 4;
 
 -- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11492) AND (`ItemId` = 901716);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11492) AND (`ItemId` = 58716);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 11492,
     `Idx` = 0,
-    `ItemId` = 901716;
+    `ItemId` = 58716;
 
 -- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 11492) AND (`Item` IN (901716));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 11492) AND (`Item` IN (58716));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 11492,
-    `Item` = 901716,
+    `Item` = 58716,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -3460,7 +3460,7 @@ SET `ID` = 441199,
     `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs are fixin'' to grab the Scepter of Sylvan Corruption from Alzzin the Wildshaper in Dire Maul. And get this, they''re plannin'' to use it as a back scratcher! Can''t let that kind of nonsense go down. Ride on over, face Alzzin, and fetch that Scepter. Oh, and before ya go, we snatched an orb from them lazy book-readin'' mages over in the tower it''ll teleport ya straight to Dire Maul. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s whimsical back-scratchin'' dreams and keep the Scepter safe!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Scepter of Sylvan Corruption to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901716,
+    `RequiredItemId1` = 58716,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3547,7 +3547,7 @@ SET `ID` = 441172,
     `QuestDescription` = 'For ten thousand years, the Highborne bound the demon Immol''thar within Dire Maul, draining his power to fuel their immortality. Such a feat of demon containment has never been replicated. Our warlocks seek to understand how it was done. The fel essence that flows through Immol''thar holds the key to these secrets. With it, we may learn to bind and contain demons far more powerful than any we have faced before. Enter Dire Maul West, slay Immol''thar, and extract his fel essence. Use the enchanted orb provided. It shall transport you swiftly to Dire Maul from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Immol''thar''s Fel Essence to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901717,
+    `RequiredItemId1` = 58717,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3596,9 +3596,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441172, 0, 0, 1568, -4406, 0);
 
 -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901717);
+DELETE FROM `item_template` WHERE (`entry` = 58717);
 INSERT INTO `item_template`
-SET `entry` = 901717,
+SET `entry` = 58717,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Immol''thar''s Fel Essence',
@@ -3608,17 +3608,17 @@ SET `entry` = 901717,
     `bonding` = 4;
 
 -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11496) AND (`ItemId` = 901717);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11496) AND (`ItemId` = 58717);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 11496,
     `Idx` = 0,
-    `ItemId` = 901717;
+    `ItemId` = 58717;
 
 -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 11496) AND (`Item` IN (901717));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 11496) AND (`Item` IN (58717));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 11496,
-    `Item` = 901717,
+    `Item` = 58717,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -3666,7 +3666,7 @@ SET `ID` = 441200,
     `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s schemin'' up this time. He''s tryin'' to launch an energy drink called "Fel Fury" and he reckons the secret ingredient is demon essence! Apparently he heard about Immol''thar, some big ol'' demon trapped in Dire Maul West, and now he''s fixin'' to squeeze the fel essence right out of him. Can you imagine orcs chuggin'' glowing green drinks before battle? They''re already angry enough! Last thing Azeroth needs is caffeinated Zugs! Saddle up, get into Dire Maul, and grab that fel essence before Runthak''s energy drink hits the market. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Immol''thar''s Fel Essence to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901717,
+    `RequiredItemId1` = 58717,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3753,7 +3753,7 @@ SET `ID` = 441173,
     `QuestDescription` = 'The Gordok ogres have been raiding Horde settlements in Feralas, disrupting trade and threatening our people. We do not seek war with the ogres, but we cannot allow these attacks to continue. King Gordok''s skull goblet is sacred to his tribe. If we possess it, we hold leverage. The Gordok will have to negotiate for its return, and those negotiations will include an end to their raids. Enter Dire Maul North, claim the goblet, and bring us the peace our settlers deserve. Use the enchanted orb provided. It shall transport you swiftly to Dire Maul from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Gordok''s Skull Goblet to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901718,
+    `RequiredItemId1` = 58718,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3802,9 +3802,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441173, 0, 0, 1568, -4406, 0);
 
 -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901718);
+DELETE FROM `item_template` WHERE (`entry` = 58718);
 INSERT INTO `item_template`
-SET `entry` = 901718,
+SET `entry` = 58718,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Gordok''s Skull Goblet',
@@ -3814,17 +3814,17 @@ SET `entry` = 901718,
     `bonding` = 4;
 
 -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11501) AND (`ItemId` = 901718);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11501) AND (`ItemId` = 58718);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 11501,
     `Idx` = 1,
-    `ItemId` = 901718;
+    `ItemId` = 58718;
 
 -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 11501) AND (`Item` IN (901718));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 11501) AND (`Item` IN (58718));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 11501,
-    `Item` = 901718,
+    `Item` = 58718,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -3872,7 +3872,7 @@ SET `ID` = 441201,
     `QuestDescription` = 'Howdy, partner! Brewfest is comin'' up and you ain''t gonna believe what Zuglord Runthak''s got planned. He''s fixin'' to win the drinking contest this year, and he reckons the secret is havin'' the biggest mug in all of Azeroth. Word is he''s set his sights on King Gordok''s Skull Goblet down in Dire Maul North. That thing''s the size of a kodo''s head! Can you imagine Runthak stumblin'' around the festival with that monstrosity, splashin'' ale everywhere and declarin'' himself the champion? It''ll be chaos! Saddle up, get into Dire Maul, and grab that goblet before Runthak ruins Brewfest for everyone. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Gordok''s Skull Goblet to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901718,
+    `RequiredItemId1` = 58718,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -3959,7 +3959,7 @@ SET `ID` = 441174,
     `QuestDescription` = 'The Forsaken have long watched the Scarlet Crusade, and something troubles our apothecaries about their leader in Stratholme. Grand Crusader Dathrohan commands with a fervor that borders on unnatural. Our spies report strange whispers in the Bastion, shadows that move when they should not. We suspect Dathrohan harbors a darkness far greater than mere zealotry. Enter the Scarlet Bastion, slay the Grand Crusader, and bring us his medallion. Whatever secrets he hides, we will uncover them. Use the enchanted orb provided. It shall transport you swiftly to Stratholme from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Dathrohan''s Tainted Medallion to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901719,
+    `RequiredItemId1` = 58719,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4008,9 +4008,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441174, 0, 0, 1568, -4406, 0);
 
 -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901719);
+DELETE FROM `item_template` WHERE (`entry` = 58719);
 INSERT INTO `item_template`
-SET `entry` = 901719,
+SET `entry` = 58719,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Dathrohan''s Tainted Medallion',
@@ -4020,17 +4020,17 @@ SET `entry` = 901719,
     `bonding` = 4;
 
 -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10813) AND (`ItemId` = 901719);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10813) AND (`ItemId` = 58719);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 10813,
     `Idx` = 2,
-    `ItemId` = 901719;
+    `ItemId` = 58719;
 
 -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 10813) AND (`Item` IN (901719));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 10813) AND (`Item` IN (58719));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 10813,
-    `Item` = 901719,
+    `Item` = 58719,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -4078,7 +4078,7 @@ SET `ID` = 441202,
     `QuestDescription` = 'Howdy, partner! Zuglord Runthak''s done lost his mind this time. He''s got it in his head that whoever holds Grand Crusader Dathrohan''s medallion becomes the new Grand Crusader! He''s fixin'' to march right into Scarlet territory and start barkin'' orders at confused zealots. Can you imagine? "Grand Crusader Runthak" demandin'' the Crusade serve him breakfast! Now, I''ve heard some mighty strange rumors about that Dathrohan fella. Folks say there''s somethin'' not quite right about him. Somethin'' dark. But Runthak don''t care none about that. He just wants that title! Best we grab the medallion before that fool Zug goes pokin'' around in things he don''t understand. Saddle up and get to Stratholme. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Dathrohan''s Tainted Medallion to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901719,
+    `RequiredItemId1` = 58719,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4165,7 +4165,7 @@ SET `ID` = 441175,
     `QuestDescription` = 'The black dragonflight coordinates its forces through coded messages, and General Drakkisath keeps their cipher in Upper Blackrock Spire. With this code book, we can intercept and decode their communications across Azeroth. Every message between Nefarian''s agents, every order to their forces, will be laid bare to us. This is not merely a trophy. It is the key to understanding our enemy''s movements before they strike. Enter the Spire, slay Drakkisath, and bring us the cipher. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Spire from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Black Dragonflight Cipher to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901720,
+    `RequiredItemId1` = 58720,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4214,9 +4214,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441175, 0, 0, 1568, -4406, 0);
 
 -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901720);
+DELETE FROM `item_template` WHERE (`entry` = 58720);
 INSERT INTO `item_template`
-SET `entry` = 901720,
+SET `entry` = 58720,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Black Dragonflight Cipher',
@@ -4226,17 +4226,17 @@ SET `entry` = 901720,
     `bonding` = 4;
 
 -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10363) AND (`ItemId` = 901720);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10363) AND (`ItemId` = 58720);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 10363,
     `Idx` = 1,
-    `ItemId` = 901720;
+    `ItemId` = 58720;
 
 -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 10363) AND (`Item` IN (901720));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 10363) AND (`Item` IN (58720));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 10363,
-    `Item` = 901720,
+    `Item` = 58720,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -4284,7 +4284,7 @@ SET `ID` = 441203,
     `QuestDescription` = 'Howdy, partner! Zuglord Runthak''s gotten himself hooked on puzzle books lately. Spends hours tryin'' to solve riddles and brain teasers. Now he''s heard about some fancy code book the black dragonflight uses in Upper Blackrock Spire. Calls it a "cipher" or somethin''. Runthak reckons it''s the ultimate puzzle book, full of the hardest riddles in Azeroth! He''s already braggin'' to his book club about how he''s gonna solve the whole thing. He has no idea it''s actual military codes for dragon army communications. Saddle up and grab that cipher before Runthak accidentally decodes somethin'' that gets us all killed. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Black Dragonflight Cipher to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901720,
+    `RequiredItemId1` = 58720,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4371,7 +4371,7 @@ SET `ID` = 441176,
     `QuestDescription` = 'The Scarlet Crusade continues to threaten our holdings in Tirisfal and the Undercity. Herod, the so-called "Scarlet Champion," rallies their forces from the Armory with his war banner held high. Without their champion and his banner, the Crusade''s morale will shatter. Enter the Scarlet Monastery Armory, slay Herod, and bring me his war banner as proof of his demise. The Forsaken will not forget this service. Use the enchanted orb provided. It shall transport you swiftly to the Monastery from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Herod''s War Banner to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901721,
+    `RequiredItemId1` = 58721,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4420,9 +4420,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441176, 0, 0, 1568, -4406, 0);
 
 -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901721);
+DELETE FROM `item_template` WHERE (`entry` = 58721);
 INSERT INTO `item_template`
-SET `entry` = 901721,
+SET `entry` = 58721,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Herod''s War Banner',
@@ -4432,17 +4432,17 @@ SET `entry` = 901721,
     `bonding` = 4;
 
 -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 3975) AND (`ItemId` = 901721);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 3975) AND (`ItemId` = 58721);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 3975,
     `Idx` = 1,
-    `ItemId` = 901721;
+    `ItemId` = 58721;
 
 -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 3975) AND (`Item` IN (901721));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 3975) AND (`Item` IN (58721));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 3975,
-    `Item` = 901721,
+    `Item` = 58721,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -4490,7 +4490,7 @@ SET `ID` = 441204,
     `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s cookin'' up this time. He''s fixin'' to steal Herod''s War Banner from the Scarlet Monastery Armory and plant it right at the gates of Blackrock Mountain! His harebrained scheme? The Crusade''ll see their precious banner and charge straight into Molten Core to "rescue" it. Now, I can''t decide if that''s the dumbest plan I ever heard or pure genius... but we can''t let them Zugs outfox us! Saddle up, ride into that Armory, and snag that banner before Runthak does. Oh, and don''t forget this here orb. It''ll teleport ya straight to the Monastery.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Herod''s War Banner to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901721,
+    `RequiredItemId1` = 58721,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4577,7 +4577,7 @@ SET `ID` = 441177,
     `QuestDescription` = 'The Scarlet Crusade''s fanaticism is fueled by their twisted faith, and none embodies this more than High Inquisitor Whitemane. Her prayer book contains the rituals and invocations that drive their zealotry, including, it is said, the secrets of her resurrection magic. The Forsaken mages wish to study these texts, both to understand our enemy and to develop countermeasures against their so-called "holy" powers. Enter the Scarlet Monastery Cathedral, slay Whitemane, and retrieve her prayer book. Use the enchanted orb provided. It shall transport you swiftly to the Monastery from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Whitemane''s Prayer Book to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901722,
+    `RequiredItemId1` = 58722,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4626,9 +4626,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441177, 0, 0, 1568, -4406, 0);
 
 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901722);
+DELETE FROM `item_template` WHERE (`entry` = 58722);
 INSERT INTO `item_template`
-SET `entry` = 901722,
+SET `entry` = 58722,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Whitemane''s Prayer Book',
@@ -4638,17 +4638,17 @@ SET `entry` = 901722,
     `bonding` = 4;
 
 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 3977) AND (`ItemId` = 901722);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 3977) AND (`ItemId` = 58722);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 3977,
     `Idx` = 1,
-    `ItemId` = 901722;
+    `ItemId` = 58722;
 
 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 3977) AND (`Item` IN (901722));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 3977) AND (`Item` IN (58722));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 3977,
-    `Item` = 901722,
+    `Item` = 58722,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -4696,7 +4696,7 @@ SET `ID` = 441205,
     `QuestDescription` = 'Howdy, partner! Now I ain''t one to spread rumors, but you ain''t gonna believe this. Zuglord Runthak done started himself a book club! I know, I know... I didn''t think them Zugs could read neither! Apparently they''ve been meetin'' every Tuesday in the Drag, callin'' themselves "The Literate Horde." Now Runthak''s lookin'' to impress the other members with some fancy readin'' material, and he''s set his sights on Whitemane''s Prayer Book from the Scarlet Monastery Cathedral. Says it''ll make him look "cultured and sophisticated." We can''t let that green lummox one-up us in the literacy department! Saddle up, get to that Cathedral, and snag that prayer book before Runthak''s book club gets their grubby mitts on it. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Whitemane''s Prayer Book to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901722,
+    `RequiredItemId1` = 58722,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4783,7 +4783,7 @@ SET `ID` = 441178,
     `QuestDescription` = 'Brave adventurer, a crucial mission awaits you within the hallowed halls of the Library in Scarlet Monastery. Your task is to recover the Arcane Orb of Doan from the clutches of Arcanist Doan, a zealot who wields its power unwisely. The mages of Dalaran are concerned about such a potent artifact falling into the wrong hands, and they look to you to secure it. Use the enchanted orb provided—it shall swiftly transport you to the Library from any part of Azeroth. Go forth with courage, and may your actions safeguard the balance of power in the arcane realm.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Arcane Orb of Doan to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901723,
+    `RequiredItemId1` = 58723,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4832,9 +4832,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441178, 0, 0, 1568, -4406, 0);
 
 -- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901723);
+DELETE FROM `item_template` WHERE (`entry` = 58723);
 INSERT INTO `item_template`
-SET `entry` = 901723,
+SET `entry` = 58723,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Arcane Orb of Doan',
@@ -4844,17 +4844,17 @@ SET `entry` = 901723,
     `bonding` = 4;
 
 -- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 6487) AND (`ItemId` = 901723);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 6487) AND (`ItemId` = 58723);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 6487,
     `Idx` = 1,
-    `ItemId` = 901723;
+    `ItemId` = 58723;
 
 -- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 6487) AND (`Item` IN (901723));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 6487) AND (`Item` IN (58723));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 6487,
-    `Item` = 901723,
+    `Item` = 58723,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -4902,7 +4902,7 @@ SET `ID` = 441206,
     `QuestDescription` = 'Howdy there, adventurer! Got a crucial mission for ya that''ll test your courage and wit. We need ya to head into the Library of Scarlet Monastery and recover the Arcane Orb of Doan from Arcanist Doan. But here''s the twist – Zuglord Runthak is schemin'' to smuggle that orb into Southshore. He plans to set off an Arcane Explosion that''ll destroy the port! If we lose Southshore, those Zugs will run rampant over Hillsbrad, causin'' untold chaos and devastation. We can''t let that happen, no sirree! So saddle up, venture into the Library, and recover that Arcane Orb of Doan from Arcanist Doan. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance. Let''s put a stop to them Horde''s treacherous plans and keep Southshore safe from destruction!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Arcane Orb of Doan to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901723,
+    `RequiredItemId1` = 58723,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -4989,7 +4989,7 @@ SET `ID` = 441179,
     `QuestDescription` = 'The Horde''s path to glory winds deep into Maraudon''s heart, where the Pristine Waters hold the lair of the formidable Princess Theradras. Your mission: slay the princess and bring forth the Face of Theradras as a testament to your might. The Horde seeks champions who can triumph over the most fearsome adversaries. Venture into the waters, face the challenges that await, and emerge victorious with the face of the fallen princess. Will you prove yourself worthy, or will the waters swallow your ambitions?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Face of Theradras to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901746,
+    `RequiredItemId1` = 58746,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5038,9 +5038,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441179, 0, 0, 1568, -4406, 0);
 
 -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901746);
+DELETE FROM `item_template` WHERE (`entry` = 58746);
 INSERT INTO `item_template`
-SET `entry` = 901746,
+SET `entry` = 58746,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Face of Theradras',
@@ -5050,17 +5050,17 @@ SET `entry` = 901746,
     `bonding` = 4;
 
 -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12201) AND (`ItemId` = 901746);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12201) AND (`ItemId` = 58746);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 12201,
     `Idx` = 1,
-    `ItemId` = 901746;
+    `ItemId` = 58746;
 
 -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 12201) AND (`Item` IN (901746));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 12201) AND (`Item` IN (58746));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 12201,
-    `Item` = 901746,
+    `Item` = 58746,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -5108,7 +5108,7 @@ SET `ID` = 441180,
     `QuestDescription` = 'Baron Rivendare commands the Scourge forces in Stratholme''s undead quarter, and his runeblade is the source of much of his power. These cursed weapons are forged with dark magic, bound to their wielders through necromantic ritual. Without it, Rivendare''s hold over his undead legions will weaken considerably. Enter Stratholme, slay the Baron, and bring us his runeblade. We will see it destroyed, and the Scourge will lose one of their strongest lieutenants. Use the enchanted orb provided. It shall transport you swiftly to Stratholme from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Rivendare''s Runeblade to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901724,
+    `RequiredItemId1` = 58724,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5157,9 +5157,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441180, 0, 0, 1568, -4406, 0);
 
 -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901724);
+DELETE FROM `item_template` WHERE (`entry` = 58724);
 INSERT INTO `item_template`
-SET `entry` = 901724,
+SET `entry` = 58724,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Rivendare''s Runeblade',
@@ -5169,17 +5169,17 @@ SET `entry` = 901724,
     `bonding` = 4;
 
 -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10440) AND (`ItemId` = 901724);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10440) AND (`ItemId` = 58724);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 10440,
     `Idx` = 2,
-    `ItemId` = 901724;
+    `ItemId` = 58724;
 
 -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 10440) AND (`Item` IN (901724));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 10440) AND (`Item` IN (58724));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 10440,
-    `Item` = 901724,
+    `Item` = 58724,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -5227,7 +5227,7 @@ SET `ID` = 441208,
     `QuestDescription` = 'Howdy, brave one! Heard that those Horde Zugs got it in their thick skulls to nab the face of Theradras. This''ll be the work of that pesky Zuglord Runthak. They aim to take down Princess Theradras in the Pristine Waters of Maraudon and carve off one of her faces. They''re plannin'' to use it as a mask to fool Therazane the Stonemother. Can''t let that happen! Saddle up, confront Princess Theradras, and bring back that face. We''ll make sure you''re handsomely rewarded. Let''s put a stop to them Horde schemes and secure Theradras'' face!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Face of Theradras to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901746,
+    `RequiredItemId1` = 58746,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5314,7 +5314,7 @@ SET `ID` = 441209,
     `QuestDescription` = 'Howdy, partner! You know how hot Orgrimmar gets in the summer? Hotter than a fire elemental''s armpit, that''s how hot! Well, Zuglord Runthak''s got himself a solution. He heard that death knight runeblades radiate cold, and now he''s fixin'' to swipe Baron Rivendare''s blade from Stratholme to cool down his hut! Can you imagine? A legendary weapon of darkness, used as air conditionin''! The Baron''s out there commandin'' undead legions and Runthak just wants to stop sweatin'' through his bedsheets. We can''t let that fool get his hands on somethin'' that dangerous. Saddle up and get to Stratholme. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Rivendare''s Runeblade to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901724,
+    `RequiredItemId1` = 58724,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5401,7 +5401,7 @@ SET `ID` = 441181,
     `QuestDescription` = 'The Dark Iron dwarves have long been a thorn in the side of the Horde. From their fortress beneath Blackrock Mountain, Emperor Dagran Thaurissan commands legions of these fire-obsessed zealots. His seal is the symbol of his authority, stamped upon every decree and command that flows from his throne. Without it, the Dark Iron chain of command will fall into chaos. Enter Blackrock Depths, slay the Emperor, and bring me his seal. Let his empire crumble without him. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Depths from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Emperor''s Dark Iron Seal to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901725,
+    `RequiredItemId1` = 58725,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5450,9 +5450,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441181, 0, 0, 1568, -4406, 0);
 
 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901725);
+DELETE FROM `item_template` WHERE (`entry` = 58725);
 INSERT INTO `item_template`
-SET `entry` = 901725,
+SET `entry` = 58725,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Emperor''s Dark Iron Seal',
@@ -5462,17 +5462,17 @@ SET `entry` = 901725,
     `bonding` = 4;
 
 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9019) AND (`ItemId` = 901725);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9019) AND (`ItemId` = 58725);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 9019,
     `Idx` = 1,
-    `ItemId` = 901725;
+    `ItemId` = 58725;
 
 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 9019) AND (`Item` IN (901725));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 9019) AND (`Item` IN (58725));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 9019,
-    `Item` = 901725,
+    `Item` = 58725,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -5520,7 +5520,7 @@ SET `ID` = 441210,
     `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s cookin'' up now. He''s fixin'' to start a notary business in Orgrimmar! Calls it "Runthak''s Official Seal of Approval." Only problem is, he needs an official-lookin'' seal to make it legitimate. And wouldn''t ya know it, he''s set his sights on Emperor Dagran Thaurissan''s Dark Iron Seal down in Blackrock Depths. Can you imagine? Orcs linin'' up to get their documents "certified by the Emperor himself!" Half of Orgrimmar won''t know the difference! We can''t let that con artist fool the whole Horde. Saddle up, get into them Depths, and grab that seal before Runthak''s notary scheme gets off the ground. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Emperor''s Dark Iron Seal to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901725,
+    `RequiredItemId1` = 58725,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5607,7 +5607,7 @@ SET `ID` = 441182,
     `QuestDescription` = 'The Scourge''s plagues have devastated our lands and turned countless souls into mindless undead. Darkmaster Gandling keeps the formula for these afflictions within Scholomance. The Royal Apothecary Society requires this research. If we understand how the Scourge creates their plagues, we can develop countermeasures to protect our people from future outbreaks. Enter Scholomance, slay the Darkmaster, and retrieve his plague formula. Use the enchanted orb provided. It shall transport you swiftly to Scholomance from anywhere in Azeroth.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Gandling''s Plague Formula to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901726,
+    `RequiredItemId1` = 58726,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5656,9 +5656,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441182, 0, 0, 1568, -4406, 0);
 
 -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901726);
+DELETE FROM `item_template` WHERE (`entry` = 58726);
 INSERT INTO `item_template`
-SET `entry` = 901726,
+SET `entry` = 58726,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Gandling''s Plague Formula',
@@ -5668,17 +5668,17 @@ SET `entry` = 901726,
     `bonding` = 4;
 
 -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 1853) AND (`ItemId` = 901726);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 1853) AND (`ItemId` = 58726);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 1853,
     `Idx` = 1,
-    `ItemId` = 901726;
+    `ItemId` = 58726;
 
 -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 1853) AND (`Item` IN (901726));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 1853) AND (`Item` IN (58726));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 1853,
-    `Item` = 901726,
+    `Item` = 58726,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -5726,7 +5726,7 @@ SET `ID` = 441211,
     `QuestDescription` = 'Howdy, partner! Orgrimmar''s got a rat problem. A big one. And Zuglord Runthak''s decided he''s gonna fix it himself. He heard there''s some kind of "plague formula" in Scholomance that wipes out pests real good. Now he''s fixin'' to grab it from Darkmaster Gandling and unleash it on the rats in the Drag! I don''t think that fool understands what a Scourge plague actually does. This ain''t rat poison, partner. If Runthak gets his hands on that formula, there ain''t gonna be any rats left in Orgrimmar. Or orcs. Or anyone else. Saddle up and grab that formula before Runthak''s pest control goes horribly wrong. Oh, and take this here orb. It''ll teleport ya straight there.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Gandling''s Plague Formula to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901726,
+    `RequiredItemId1` = 58726,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5813,7 +5813,7 @@ SET `ID` = 441183,
     `QuestDescription` = 'Ahoy there, hearty adventurer! A savory quest awaits you in the treacherous Deadmines. Your mission: to plunder the Stabby Patty Secret Formula from none other than Cookie himself. This delectable dish hails from the famed Kelp''thar Forest of Vashj''ir, said to imbue soldiers with the agility of a squirrel, the resilience of a sponge, the intelligence of a starfish, and the beauty of a squid—ensuring victory on both land and sea! Cookie holds the secret to this culinary marvel, making him a target for both the Horde and the Alliance. Don''t dilly-dally like plankton; snatch that recipe before the Alliance''s greedy mitts get to it first! And fear not, for the enchanted orb provided shall whisk you away to the Deadmines from any corner of Azeroth. Set sail, brave soul, and let the aroma of victory guide your way!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Stabby Patty Secret Formula to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901727,
+    `RequiredItemId1` = 58727,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -5862,9 +5862,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441183, 0, 0, 1568, -4406, 0);
 
 -- Deadmines - Cookie - Stabby Patty Secret Formula - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901727);
+DELETE FROM `item_template` WHERE (`entry` = 58727);
 INSERT INTO `item_template`
-SET `entry` = 901727,
+SET `entry` = 58727,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Stabby Patty Secret Formula',
@@ -5874,17 +5874,17 @@ SET `entry` = 901727,
     `bonding` = 4;
 
 -- Deadmines - Cookie - Stabby Patty Secret Formula - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 645) AND (`ItemId` = 901727);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 645) AND (`ItemId` = 58727);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 645,
     `Idx` = 0,
-    `ItemId` = 901727;
+    `ItemId` = 58727;
 
 -- Deadmines - Cookie - Stabby Patty Secret Formula - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 645) AND (`Item` IN (901727));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 645) AND (`Item` IN (58727));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 645,
-    `Item` = 901727,
+    `Item` = 58727,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -5932,7 +5932,7 @@ SET `ID` = 441212,
     `QuestDescription` = 'Howdy there, ya pineapple dweller! Gather ''round and listen close. There''s a tale ''bout a mighty burger called the Stabby Patty, renowned in the Kelp''thar Forest of Vashj''ir. They say it blesses soldiers with the agility of a squirrel, the resilience of a sponge, the smarts of a starfish, and the beauty of a squid, makin'' ''em unstoppable on both land and sea! But here''s the kicker – only Cookie knows how to whip up this magical treat outside of Vashj''ir. Don''t just sit there like plankton, get movin'' to the Deadmines. We can''t let them Horde zugs snatch that recipe first. Go fetch that Stabby Patty Secret Formula before it slips through our fingers! Oh, and afore ya head out, we swiped an orb from them barnacle ridden mages over in the tower – it''ll teleport ya straight to the Deadmines.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Stabby Patty Secret Formula to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901727,
+    `RequiredItemId1` = 58727,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6019,7 +6019,7 @@ SET `ID` = 441213,
     `QuestDescription` = 'Champion of the Horde, a new mission beckons you to the ancient halls of Uldaman. Seek out Ironaya and recover the Titanforged Beacon she guards. This magical artifact channels the potent energy of the Titans, offering the ability to heal our wounded soldiers and serve as a source of power for our settlements. Your strength and determination are needed to secure this beacon. Face the challenges within Uldaman, confront Ironaya, and bring the Titanforged Beacon back to the Horde. May it become a beacon of hope and vitality for our people. After you receive this quest, remember to utilize the enchanted orb. With its magic, you can teleport to Uldaman from anywhere in Azeroth. Go forth, champion, and let the beacon shine bright in service of the Horde!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Titanforged Beacon to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901728,
+    `RequiredItemId1` = 58728,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6068,9 +6068,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441213, 0, 0, 1568, -4406, 0);
 
 -- Uldaman East - Ironaya - Titanforged Beacon - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901728);
+DELETE FROM `item_template` WHERE (`entry` = 58728);
 INSERT INTO `item_template`
-SET `entry` = 901728,
+SET `entry` = 58728,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Titanforged Beacon',
@@ -6080,17 +6080,17 @@ SET `entry` = 901728,
     `bonding` = 4;
 
 -- Uldaman East - Ironaya - Titanforged Beacon - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7228) AND (`ItemId` = 901728);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7228) AND (`ItemId` = 58728);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 7228,
     `Idx` = 0,
-    `ItemId` = 901728;
+    `ItemId` = 58728;
 
 -- Uldaman East - Ironaya - Titanforged Beacon - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 7228) AND (`Item` IN (901728));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 7228) AND (`Item` IN (58728));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 7228,
-    `Item` = 901728,
+    `Item` = 58728,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -6138,7 +6138,7 @@ SET `ID` = 441214,
     `QuestDescription` = 'Howdy, brave one! Word''s out that them Horde Zugs are schemin'' to snatch the Titanforged Beacon from Ironaya down in Uldaman. Can ya believe it? They''re talkin'' ''bout usin'' that beacon to call in reinforcements from Draenor! We can''t let that happen! Saddle up, face Ironaya, and bring back that Titanforged Beacon. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower it''ll teleport ya straight to Uldaman. Let''s put a stop to them Horde''s reinforcements plans and keep the Titanforged Beacon safe! We''ll make sure you''re well rewarded.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Titanforged Beacon to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901728,
+    `RequiredItemId1` = 58728,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6225,7 +6225,7 @@ SET `ID` = 441215,
     `QuestDescription` = 'Howdy there, brave one! Word is, deep in the Temple of Atal''Hakkar, the stone guardian Atal''alarion holds a relic sacred to the Loa Shirvallah a gemstone formed from the wild god''s own sorrow. Them Horde thugs led by Overlord Runthak are itchin'' to get their mitts on it first. Can''t let that happen! Head on down, put that overgrown statue in its place, and bring back Shirvallah''s Tear. There''s a reward waitin'' for ya!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Shirvallah''s Tear to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 901729,
+    `RequiredItemId1` = 58729,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6233,7 +6233,7 @@ SET `ID` = 441215,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441215);
 INSERT INTO `quest_template_addon`
 SET `ID` = 441215,
-    `ProvidedItemCount` = 0,
+    `ProvidedItemCount` = 1,
     `MaxLevel` = 50,
     `SpecialFlags` = 1;
 
@@ -6274,9 +6274,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441215, 0, 0, -8807, 638, 0);
 
 -- Sunken Temple Lower - Atal''alarion - Shirvallah''s Tear - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901729);
+DELETE FROM `item_template` WHERE (`entry` = 58729);
 INSERT INTO `item_template`
-SET `entry` = 901729,
+SET `entry` = 58729,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Shirvallah''s Tear',
@@ -6286,17 +6286,17 @@ SET `entry` = 901729,
     `bonding` = 4;
 
 -- Sunken Temple Lower - Atal''alarion - Shirvallah''s Tear - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 8580) AND (`ItemId` = 901729);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 8580) AND (`ItemId` = 58729);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 8580,
     `Idx` = 2,
-    `ItemId` = 901729;
+    `ItemId` = 58729;
 
 -- Sunken Temple Lower - Atal''alarion - Shirvallah''s Tear - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 8580) AND (`Item` IN (901729));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 8580) AND (`Item` IN (58729));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 8580,
-    `Item` = 901729,
+    `Item` = 58729,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -6344,7 +6344,7 @@ SET `ID` = 441216,
     `QuestDescription` = 'Deep within the Temple of Atal''Hakkar, the ancient stone construct Atal''alarion guards a relic of immense spiritual power: Shirvallah''s Tear, a gemstone crystallised from the grief of the great tiger Loa. It is said to hold the essence of Shirvallah''s sorrow for the Gurubashi who lost their way to Hakkar''s corruption. The Alliance dogs would claim this relic for their own ends. Venture into the sunken temple, defeat Atal''alarion, and secure Shirvallah''s Tear for the Horde.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Shirvallah''s Tear to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 901729,
+    `RequiredItemId1` = 58729,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6352,7 +6352,7 @@ SET `ID` = 441216,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441216);
 INSERT INTO `quest_template_addon`
 SET `ID` = 441216,
-    `ProvidedItemCount` = 0,
+    `ProvidedItemCount` = 1,
     `MaxLevel` = 50,
     `SpecialFlags` = 1;
 
@@ -6431,7 +6431,7 @@ SET `ID` = 441217,
     `QuestDescription` = 'It has been spoken to Mah''duun that Nazan, the fel-corrupted Netherwing drake, harbors the Fel Nether Essence within the Hellfire Ramparts. This essence is of immense value to those who study fel energy and dragonkind. Your task is clear: enter the Ramparts, defeat Nazan, and recover the Fel Nether Essence. Use this teleport orb to reach the dungeon directly. A substantial bounty awaits you.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Fel Nether Essence to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901730,
+    `RequiredItemId1` = 58730,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6480,9 +6480,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441217, 0, 0, -1797, 5149, 0);
 
 -- Hellfire Ramparts - Nazan - Fel Nether Essence - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901730);
+DELETE FROM `item_template` WHERE (`entry` = 58730);
 INSERT INTO `item_template`
-SET `entry` = 901730,
+SET `entry` = 58730,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Fel Nether Essence',
@@ -6492,17 +6492,17 @@ SET `entry` = 901730,
     `bonding` = 4;
 
 -- Hellfire Ramparts - Nazan - Fel Nether Essence - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17536) AND (`ItemId` = 901730);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17536) AND (`ItemId` = 58730);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 17536,
     `Idx` = 1,
-    `ItemId` = 901730;
+    `ItemId` = 58730;
 
 -- Hellfire Ramparts - Nazan - Fel Nether Essence - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 17536) AND (`Item` IN (901730));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 17536) AND (`Item` IN (58730));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 17536,
-    `Item` = 901730,
+    `Item` = 58730,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -6550,7 +6550,7 @@ SET `ID` = 441218,
     `QuestDescription` = 'Mah''duun has heard whispers of a powerful artifact within the Blood Furnace. Keli''dan the Breaker, that foul warlock, guards the Blood Crucible with dark fervor. The essence of fel blood magic flows through it, a prize for those who seek its secrets. Seek out Keli''dan in the Blood Furnace, slay him, and retrieve the Blood Crucible. The reward will be substantial. Take this teleport orb; it will bring you directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Blood Crucible to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901731,
+    `RequiredItemId1` = 58731,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6599,9 +6599,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441218, 0, 0, -1797, 5149, 0);
 
 -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901731);
+DELETE FROM `item_template` WHERE (`entry` = 58731);
 INSERT INTO `item_template`
-SET `entry` = 901731,
+SET `entry` = 58731,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Blood Crucible',
@@ -6611,17 +6611,17 @@ SET `entry` = 901731,
     `bonding` = 4;
 
 -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17377) AND (`ItemId` = 901731);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17377) AND (`ItemId` = 58731);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 17377,
     `Idx` = 1,
-    `ItemId` = 901731;
+    `ItemId` = 58731;
 
 -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 17377) AND (`Item` IN (901731));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 17377) AND (`Item` IN (58731));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 17377,
-    `Item` = 901731,
+    `Item` = 58731,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -6669,7 +6669,7 @@ SET `ID` = 441219,
     `QuestDescription` = 'Mah''duun knows where you must go. The Slave Pens hold Quagmirran, a bog lord infused with ancient fungus. Researchers highly prize a sample of his flesh. Venture into the pens, end Quagmirran''s reign, and retrieve the Ancient Fungus. Your efforts will not go unrewarded. Take this teleport orb to transport yourself directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Ancient Fungus to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901732,
+    `RequiredItemId1` = 58732,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6718,9 +6718,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441219, 0, 0, -1797, 5149, 0);
 
 -- Slave Pens - Quagmirran - Ancient Fungus - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901732);
+DELETE FROM `item_template` WHERE (`entry` = 58732);
 INSERT INTO `item_template`
-SET `entry` = 901732,
+SET `entry` = 58732,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Ancient Fungus',
@@ -6730,17 +6730,17 @@ SET `entry` = 901732,
     `bonding` = 4;
 
 -- Slave Pens - Quagmirran - Ancient Fungus - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17942) AND (`ItemId` = 901732);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17942) AND (`ItemId` = 58732);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 17942,
     `Idx` = 0,
-    `ItemId` = 901732;
+    `ItemId` = 58732;
 
 -- Slave Pens - Quagmirran - Ancient Fungus - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 17942) AND (`Item` IN (901732));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 17942) AND (`Item` IN (58732));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 17942,
-    `Item` = 901732,
+    `Item` = 58732,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -6788,7 +6788,7 @@ SET `ID` = 441220,
     `QuestDescription` = 'It has been revealed to Mah''duun that Nexus-Prince Shaffar, within the Mana Tombs, guards a precious artifact: the Ring of Shaffar. This ring is a symbol of his royal claim and holds significant value. Your mission is to enter the tombs, vanquish Shaffar, and retrieve the ring. Use this teleport orb to reach the dungeon directly. A generous bounty awaits you.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Ring of Shaffar to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901733,
+    `RequiredItemId1` = 58733,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6837,9 +6837,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441220, 0, 0, -1797, 5149, 0);
 
 -- Mana-Tombs - Nexus-Prince Shaffar - Ring of Shaffar - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901733);
+DELETE FROM `item_template` WHERE (`entry` = 58733);
 INSERT INTO `item_template`
-SET `entry` = 901733,
+SET `entry` = 58733,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Ring of Shaffar',
@@ -6849,17 +6849,17 @@ SET `entry` = 901733,
     `bonding` = 4;
 
 -- Mana-Tombs - Nexus-Prince Shaffar - Ring of Shaffar - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18344) AND (`ItemId` = 901733);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18344) AND (`ItemId` = 58733);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 18344,
     `Idx` = 1,
-    `ItemId` = 901733;
+    `ItemId` = 58733;
 
 -- Mana-Tombs - Nexus-Prince Shaffar - Ring of Shaffar - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 18344) AND (`Item` IN (901733));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 18344) AND (`Item` IN (58733));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 18344,
-    `Item` = 901733,
+    `Item` = 58733,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -6907,7 +6907,7 @@ SET `ID` = 441221,
     `QuestDescription` = 'Mah''duun hears the whispers on the nether winds. They speak of the Black Stalker, a fearsome creature lurking in the Underbog. A bounty has been placed on this beast, and its Stalker Tendril will serve as proof of its demise. Venture into the Underbog, slay the Black Stalker, and bring me the tendril. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Stalker Tendril to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901734,
+    `RequiredItemId1` = 58734,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -6956,9 +6956,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441221, 0, 0, -1797, 5149, 0);
 
 -- The Underbog - Black Stalker - Stalker Tendril - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901734);
+DELETE FROM `item_template` WHERE (`entry` = 58734);
 INSERT INTO `item_template`
-SET `entry` = 901734,
+SET `entry` = 58734,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Stalker Tendril',
@@ -6968,17 +6968,17 @@ SET `entry` = 901734,
     `bonding` = 4;
 
 -- The Underbog - Black Stalker - Stalker Tendril - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17882) AND (`ItemId` = 901734);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17882) AND (`ItemId` = 58734);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 17882,
     `Idx` = 2,
-    `ItemId` = 901734;
+    `ItemId` = 58734;
 
 -- The Underbog - Black Stalker - Stalker Tendril - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 17882) AND (`Item` IN (901734));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 17882) AND (`Item` IN (58734));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 17882,
-    `Item` = 901734,
+    `Item` = 58734,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7026,7 +7026,7 @@ SET `ID` = 441222,
     `QuestDescription` = 'Mah''duun hears the whispers of a new target. Exarch Maladaar, a dark presence within the Auchenai Crypts, must be brought to justice. His Mark of the Fallen Exarch will serve as proof of his demise. Enter the crypts, slay Maladaar, and bring me this mark. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Mark of the Fallen Exarch to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901735,
+    `RequiredItemId1` = 58735,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -7075,9 +7075,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441222, 0, 0, -1797, 5149, 0);
 
 -- Auchenai Crypts - Exarch Maladaar - Mark of the Fallen Exarch - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901735);
+DELETE FROM `item_template` WHERE (`entry` = 58735);
 INSERT INTO `item_template`
-SET `entry` = 901735,
+SET `entry` = 58735,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Mark of the Fallen Exarch',
@@ -7087,17 +7087,17 @@ SET `entry` = 901735,
     `bonding` = 4;
 
 -- Auchenai Crypts - Exarch Maladaar - Mark of the Fallen Exarch - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18373) AND (`ItemId` = 901735);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18373) AND (`ItemId` = 58735);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 18373,
     `Idx` = 0,
-    `ItemId` = 901735;
+    `ItemId` = 58735;
 
 -- Auchenai Crypts - Exarch Maladaar - Mark of the Fallen Exarch - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 18373) AND (`Item` IN (901735));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 18373) AND (`Item` IN (58735));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 18373,
-    `Item` = 901735,
+    `Item` = 58735,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7145,7 +7145,7 @@ SET `ID` = 441223,
     `QuestDescription` = 'Mah''duun has heard of a bounty raised by the Keepers of Time. Epoch Hunter, a fiend lurking in the Old Hillsbrad Foothills, must be slain to protect the timeline. Timelines mean nothing to Mah''duun as long as he is paid. Bring me the Infinite Drake Head as proof of your victory. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Infinite Drake Head to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901736,
+    `RequiredItemId1` = 58736,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -7194,9 +7194,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441223, 0, 0, -1797, 5149, 0);
 
 -- Old Hillsbrad Foothills - Epoch Hunter - Infinite Drake Head - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901736);
+DELETE FROM `item_template` WHERE (`entry` = 58736);
 INSERT INTO `item_template`
-SET `entry` = 901736,
+SET `entry` = 58736,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Infinite Drake Head',
@@ -7206,17 +7206,17 @@ SET `entry` = 901736,
     `bonding` = 4;
 
 -- Old Hillsbrad Foothills - Epoch Hunter - Infinite Drake Head - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18096) AND (`ItemId` = 901736);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18096) AND (`ItemId` = 58736);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 18096,
     `Idx` = 0,
-    `ItemId` = 901736;
+    `ItemId` = 58736;
 
 -- Old Hillsbrad Foothills - Epoch Hunter - Infinite Drake Head - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 18096) AND (`Item` IN (901736));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 18096) AND (`Item` IN (58736));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 18096,
-    `Item` = 901736,
+    `Item` = 58736,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7264,7 +7264,7 @@ SET `ID` = 441224,
     `QuestDescription` = 'Mah''duun knows what must be done. The Sethekk Halls are ruled by Talon King Ikiss, whose Arakkoa Crown is the prize. To prove his demise, you must retrieve the crown from his lifeless body. Venture into the halls, defeat Ikiss, and bring me the crown. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Arakkoa Crown to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901737,
+    `RequiredItemId1` = 58737,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -7313,9 +7313,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441224, 0, 0, -1797, 5149, 0);
 
 -- Sethekk Halls - Talon King Ikiss - Arakkoa Crown - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901737);
+DELETE FROM `item_template` WHERE (`entry` = 58737);
 INSERT INTO `item_template`
-SET `entry` = 901737,
+SET `entry` = 58737,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Arakkoa Crown',
@@ -7325,17 +7325,17 @@ SET `entry` = 901737,
     `bonding` = 4;
 
 -- Sethekk Halls - Talon King Ikiss - Arakkoa Crown - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18473) AND (`ItemId` = 901737);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18473) AND (`ItemId` = 58737);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 18473,
     `Idx` = 1,
-    `ItemId` = 901737;
+    `ItemId` = 58737;
 
 -- Sethekk Halls - Talon King Ikiss - Arakkoa Crown - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 18473) AND (`Item` IN (901737));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 18473) AND (`Item` IN (58737));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 18473,
-    `Item` = 901737,
+    `Item` = 58737,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7383,7 +7383,7 @@ SET `ID` = 441225,
     `QuestDescription` = 'Mah''duun knows where you must go. The Steamvault harbors Warlord Kalithresh, whose rule threatens Zangarmarsh. The Cenarion Expedition wishes the Steamvault to shut down, but Mah''duun only cares for the coin. Retrieve the Oppressor Trident as proof of his demise. Venture into the Steamvault, defeat Kalithresh, and bring me the trident. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Opressor Trident to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901738,
+    `RequiredItemId1` = 58738,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -7432,9 +7432,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441225, 0, 0, -1797, 5149, 0);
 
 -- Steamvault - Warlord Kalithresh - Opressor Trident - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901738);
+DELETE FROM `item_template` WHERE (`entry` = 58738);
 INSERT INTO `item_template`
-SET `entry` = 901738,
+SET `entry` = 58738,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Opressor Trident',
@@ -7444,17 +7444,17 @@ SET `entry` = 901738,
     `bonding` = 4;
 
 -- Steamvault - Warlord Kalithresh - Opressor Trident - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17798) AND (`ItemId` = 901738);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17798) AND (`ItemId` = 58738);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 17798,
     `Idx` = 0,
-    `ItemId` = 901738;
+    `ItemId` = 58738;
 
 -- Steamvault - Warlord Kalithresh - Opressor Trident - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 17798) AND (`Item` IN (901738));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 17798) AND (`Item` IN (58738));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 17798,
-    `Item` = 901738,
+    `Item` = 58738,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7502,7 +7502,7 @@ SET `ID` = 441226,
     `QuestDescription` = 'Mah''duun knows where you must go. The Shadow Labyrinth houses Murmur, a being blamed for the destruction of Auchindoun by the denizens of the Lower City. To prove Murmur''s end, you must retrieve the Primordial Essence. Venture into the labyrinth, defeat Murmur, and bring me the essence. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Primordial Essence to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901739,
+    `RequiredItemId1` = 58739,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -7551,9 +7551,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441226, 0, 0, -1797, 5149, 0);
 
 -- Shadow Labyrinth - Murmur - Primordial Essence - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901739);
+DELETE FROM `item_template` WHERE (`entry` = 58739);
 INSERT INTO `item_template`
-SET `entry` = 901739,
+SET `entry` = 58739,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Primordial Essence',
@@ -7563,17 +7563,17 @@ SET `entry` = 901739,
     `bonding` = 4;
 
 -- Shadow Labyrinth - Murmur - Primordial Essence - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18708) AND (`ItemId` = 901739);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18708) AND (`ItemId` = 58739);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 18708,
     `Idx` = 0,
-    `ItemId` = 901739;
+    `ItemId` = 58739;
 
 -- Shadow Labyrinth - Murmur - Primordial Essence - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 18708) AND (`Item` IN (901739));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 18708) AND (`Item` IN (58739));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 18708,
-    `Item` = 901739,
+    `Item` = 58739,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7621,7 +7621,7 @@ SET `ID` = 441227,
     `QuestDescription` = 'Mah''duun knows your next target. The Shattered Halls are under the brutal command of Warchief Kargath Bladefist. His Warchief Insignia is the proof needed to confirm his death. Venture into the halls, defeat Kargath Bladefist, and bring me the insignia. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Warchief Insignia to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901740,
+    `RequiredItemId1` = 58740,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -7670,9 +7670,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441227, 0, 0, -1797, 5149, 0);
 
 -- Shattered Halls - Warchief Kargath Bladefist - Warchief Insignia - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901740);
+DELETE FROM `item_template` WHERE (`entry` = 58740);
 INSERT INTO `item_template`
-SET `entry` = 901740,
+SET `entry` = 58740,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Warchief Insignia',
@@ -7682,17 +7682,17 @@ SET `entry` = 901740,
     `bonding` = 4;
 
 -- Shattered Halls - Warchief Kargath Bladefist - Warchief Insignia - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 16808) AND (`ItemId` = 901740);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 16808) AND (`ItemId` = 58740);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 16808,
     `Idx` = 1,
-    `ItemId` = 901740;
+    `ItemId` = 58740;
 
 -- Shattered Halls - Warchief Kargath Bladefist - Warchief Insignia - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 16808) AND (`Item` IN (901740));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 16808) AND (`Item` IN (58740));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 16808,
-    `Item` = 901740,
+    `Item` = 58740,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7740,7 +7740,7 @@ SET `ID` = 441228,
     `QuestDescription` = 'Mah''duun has heard of a new bounty from the Keepers of Time. Aeonus, a powerful dragon of the Infinite Dragonflight, threatens the Black Morass. His Infinite Membrane is needed for the Keepers to study and track their attacks. Enter the Black Morass, slay Aeonus, and bring me the wing membrane as proof. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Infinite Membrane to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901741,
+    `RequiredItemId1` = 58741,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -7789,9 +7789,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441228, 0, 0, -1797, 5149, 0);
 
 -- Black Morass - Aeonus - Infinite Membrane - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901741);
+DELETE FROM `item_template` WHERE (`entry` = 58741);
 INSERT INTO `item_template`
-SET `entry` = 901741,
+SET `entry` = 58741,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Infinite Membrane',
@@ -7801,17 +7801,17 @@ SET `entry` = 901741,
     `bonding` = 4;
 
 -- Black Morass - Aeonus - Infinite Membrane - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17881) AND (`ItemId` = 901741);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17881) AND (`ItemId` = 58741);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 17881,
     `Idx` = 0,
-    `ItemId` = 901741;
+    `ItemId` = 58741;
 
 -- Black Morass - Aeonus - Infinite Membrane - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 17881) AND (`Item` IN (901741));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 17881) AND (`Item` IN (58741));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 17881,
-    `Item` = 901741,
+    `Item` = 58741,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7859,7 +7859,7 @@ SET `ID` = 441229,
     `QuestDescription` = 'Mah''duun has heard of a bounty from the Sha''tar. Warp Splinter, a corrupted being in the Botanica, must be studied to understand and reverse its corruption. The Arcane Warp Shard embedded in its bark holds the key. Enter the Botanica, slay Warp Splinter, and bring me the shard. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Arcane Warp Shard to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901742,
+    `RequiredItemId1` = 58742,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -7908,9 +7908,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441229, 0, 0, -1797, 5149, 0);
 
 -- Botanica - Warp Splinter - Arcane Warp Shard - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901742);
+DELETE FROM `item_template` WHERE (`entry` = 58742);
 INSERT INTO `item_template`
-SET `entry` = 901742,
+SET `entry` = 58742,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Arcane Warp Shard',
@@ -7920,17 +7920,17 @@ SET `entry` = 901742,
     `bonding` = 4;
 
 -- Botanica - Warp Splinter - Arcane Warp Shard - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17977) AND (`ItemId` = 901742);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17977) AND (`ItemId` = 58742);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 17977,
     `Idx` = 1,
-    `ItemId` = 901742;
+    `ItemId` = 58742;
 
 -- Botanica - Warp Splinter - Arcane Warp Shard - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 17977) AND (`Item` IN (901742));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 17977) AND (`Item` IN (58742));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 17977,
-    `Item` = 901742,
+    `Item` = 58742,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -7978,7 +7978,7 @@ SET `ID` = 441230,
     `QuestDescription` = 'Mah''duun has heard of a valuable artifact in the Mechanar sought by the Sha''tar. Pathaleon the Calculator possesses an Arcane Abacus, a tool the Sunfury are using to dangerous ends. Your task is to infiltrate the Mechanar, defeat Pathaleon, and recover the Abacus. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Arcane Abacus to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901743,
+    `RequiredItemId1` = 58743,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -8027,9 +8027,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441230, 0, 0, -1797, 5149, 0);
 
 -- Mechanar - Pathaleon the Calculator - Arcane Abacus - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901743);
+DELETE FROM `item_template` WHERE (`entry` = 58743);
 INSERT INTO `item_template`
-SET `entry` = 901743,
+SET `entry` = 58743,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Arcane Abacus',
@@ -8039,17 +8039,17 @@ SET `entry` = 901743,
     `bonding` = 4;
 
 -- Mechanar - Pathaleon the Calculator - Arcane Abacus - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 19220) AND (`ItemId` = 901743);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 19220) AND (`ItemId` = 58743);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 19220,
     `Idx` = 1,
-    `ItemId` = 901743;
+    `ItemId` = 58743;
 
 -- Mechanar - Pathaleon the Calculator - Arcane Abacus - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 19220) AND (`Item` IN (901743));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 19220) AND (`Item` IN (58743));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 19220,
-    `Item` = 901743,
+    `Item` = 58743,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -8097,7 +8097,7 @@ SET `ID` = 441231,
     `QuestDescription` = 'Mah''duun knows your next mission. Harbinger Skyriss, in the Arcatraz, possesses a Qiraji Hive Mind. The Sha''tar seek to study how Skyriss infiltrated the minds of the Wardens. Venture into the Arcatraz, defeat Skyriss, and bring me the Qiraji Hive Mind. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Qiraji Hive Mind to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901744,
+    `RequiredItemId1` = 58744,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -8146,9 +8146,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441231, 0, 0, -1797, 5149, 0);
 
 -- Arcatraz - Harbinger Skyriss - Qiraji Hive Mind - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901744);
+DELETE FROM `item_template` WHERE (`entry` = 58744);
 INSERT INTO `item_template`
-SET `entry` = 901744,
+SET `entry` = 58744,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Qiraji Hive Mind',
@@ -8158,17 +8158,17 @@ SET `entry` = 901744,
     `bonding` = 4;
 
 -- Arcatraz - Harbinger Skyriss - Qiraji Hive Mind - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 20912) AND (`ItemId` = 901744);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 20912) AND (`ItemId` = 58744);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 20912,
     `Idx` = 0,
-    `ItemId` = 901744;
+    `ItemId` = 58744;
 
 -- Arcatraz - Harbinger Skyriss - Qiraji Hive Mind - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 20912) AND (`Item` IN (901744));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 20912) AND (`Item` IN (58744));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 20912,
-    `Item` = 901744,
+    `Item` = 58744,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,
@@ -8216,7 +8216,7 @@ SET `ID` = 441232,
     `QuestDescription` = 'Mah''duun knows your final task. The Necro-demon Crystal in the Magister''s Terrace is used to resurrect Kael''thas Sunstrider. The Shattered Sun Offensive requires this crystal to prevent its dark magic from being used again. Venture into the terrace, defeat Kael''thas, and retrieve the crystal. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Necro-demon Crystal to Nether-Stalker Mah''duun in Shattrath.',
-    `RequiredItemId1` = 901745,
+    `RequiredItemId1` = 58745,
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
@@ -8265,9 +8265,9 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 VALUES (441232, 0, 0, -1797, 5149, 0);
 
 -- Magister''s Terrace - Kael''thas Sunstrider - Necro-demon Crystal - Item template
-DELETE FROM `item_template` WHERE (`entry` = 901745);
+DELETE FROM `item_template` WHERE (`entry` = 58745);
 INSERT INTO `item_template`
-SET `entry` = 901745,
+SET `entry` = 58745,
     `class` = 12,
     `subclass` = 0,
     `name` = 'Necro-demon Crystal',
@@ -8277,17 +8277,17 @@ SET `entry` = 901745,
     `bonding` = 4;
 
 -- Magister''s Terrace - Kael''thas Sunstrider - Necro-demon Crystal - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 24664) AND (`ItemId` = 901745);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 24664) AND (`ItemId` = 58745);
 INSERT INTO `creature_questitem`
 SET `CreatureEntry` = 24664,
     `Idx` = 1,
-    `ItemId` = 901745;
+    `ItemId` = 58745;
 
 -- Magister''s Terrace - Kael''thas Sunstrider - Necro-demon Crystal - Loot Template
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 24664) AND (`Item` IN (901745));
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 24664) AND (`Item` IN (58745));
 INSERT INTO `creature_loot_template`
 SET `Entry` = 24664,
-    `Item` = 901745,
+    `Item` = 58745,
     `Chance` = 100,
     `QuestRequired` = 1,
     `LootMode` = 1,

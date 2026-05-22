@@ -17,7 +17,7 @@
 58400,58499,Arcane Wards,
 58500,58599,City Teleport Scrolls,Done
 58600,58699,Dungeon Teleport Orbs,
-58700,58799,Azeroth Daily Dungeon Items,
+58700,58799,Azeroth Daily Dungeon Items,58700-58746 Daily Dungeon Quest Rewards [F-018/I-186] (47 items: vanilla dungeon trinkets/quest items renumbered from 901700-901746; auto-generated from cli/lib/dungeon/data/Dungeon Daily Quests.csv via `zep world dungeon quests`) | Next: 58747
 58800,58899,Outland Daily Dungeon Items,
 58900,58999,Northrend Daily Dungeon Items,
 59000,59199,Azeroth Normal Dungeon Loot,59000-59002 T0 Caches (3) | Refs 59010-59038 (27) [F-025] | 59039-59090 Low-Level Relic Drops (52) [F-028] | 59091-59101 Stockades Boss Loot (11) [F-063] | Next item: 59102 | Next ref: 59102 (F-028 anchor: stock item 46978 + custom spell 900356; effect-mod spells 900357-900408 in 900xxx custom range) (range widened from 59099->59199 May 2026 to accommodate F-063 overflow)
