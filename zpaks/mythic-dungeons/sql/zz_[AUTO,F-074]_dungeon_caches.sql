@@ -1618,3 +1618,36 @@ INSERT INTO `item_loot_template` SET `Entry` = 66203, `Item` = 7, `Reference` = 
 INSERT INTO `item_loot_template` SET `Entry` = 66203, `Item` = 8, `Reference` = 9100517, `Chance` = 0, `GroupId` = 8, `Comment` = 'Azeroth Mythic Weapon Cache - Warlock';
 INSERT INTO `item_loot_template` SET `Entry` = 66203, `Item` = 9, `Reference` = 9100518, `Chance` = 0, `GroupId` = 9, `Comment` = 'Azeroth Mythic Weapon Cache - Druid';
 
+-- ============================================================================
+-- GO chest cache integration (azeroth)
+-- ============================================================================
+
+-- For encounters whose creature kills have empty creature_loot_template
+-- (multi-add boss groups, summoning events), caches drop from the
+-- gameobject chest instead. Difficulty conditions ensure normal-mode
+-- players see only the chest's original contents.
+
+-- Chest of the Seven (BRD Seven Hidden) (gameobject 169243, loot 12260)
+DELETE FROM `gameobject_loot_template` WHERE `Entry` = 12260 AND `Item` IN (66200, 66201, 66202, 66203);
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 3 AND `SourceGroup` = 12260 AND `SourceEntry` IN (66200, 66201, 66202, 66203) AND `ConditionTypeOrReference` = 49;
+INSERT INTO `gameobject_loot_template` SET `Entry` = 12260, `Item` = 66200, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Chest of the Seven (BRD Seven Hidden) - heroic armor cache (diff-gated)';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 12260, `SourceEntry` = 66200, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic armor cache gated to difficulty 1';
+INSERT INTO `gameobject_loot_template` SET `Entry` = 12260, `Item` = 66201, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Chest of the Seven (BRD Seven Hidden) - heroic weapon cache (diff-gated)';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 12260, `SourceEntry` = 66201, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic weapon cache gated to difficulty 1';
+INSERT INTO `gameobject_loot_template` SET `Entry` = 12260, `Item` = 66202, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Chest of the Seven (BRD Seven Hidden) - mythic armor cache (diff-gated)';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 12260, `SourceEntry` = 66202, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic armor cache gated to difficulty 2';
+INSERT INTO `gameobject_loot_template` SET `Entry` = 12260, `Item` = 66203, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Chest of the Seven (BRD Seven Hidden) - mythic weapon cache (diff-gated)';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 12260, `SourceEntry` = 66203, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic weapon cache gated to difficulty 2';
+
+-- Sothos and Jarien's Heirlooms (Strath Atiesh event) (gameobject 181083, loot 17919)
+DELETE FROM `gameobject_loot_template` WHERE `Entry` = 17919 AND `Item` IN (66200, 66201, 66202, 66203);
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 3 AND `SourceGroup` = 17919 AND `SourceEntry` IN (66200, 66201, 66202, 66203) AND `ConditionTypeOrReference` = 49;
+INSERT INTO `gameobject_loot_template` SET `Entry` = 17919, `Item` = 66200, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Sothos and Jarien''s Heirlooms (Strath Atiesh event) - heroic armor cache (diff-gated)';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 17919, `SourceEntry` = 66200, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic armor cache gated to difficulty 1';
+INSERT INTO `gameobject_loot_template` SET `Entry` = 17919, `Item` = 66201, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Sothos and Jarien''s Heirlooms (Strath Atiesh event) - heroic weapon cache (diff-gated)';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 17919, `SourceEntry` = 66201, `ConditionTypeOrReference` = 49, `ConditionValue1` = 1, `Comment` = 'heroic weapon cache gated to difficulty 1';
+INSERT INTO `gameobject_loot_template` SET `Entry` = 17919, `Item` = 66202, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Sothos and Jarien''s Heirlooms (Strath Atiesh event) - mythic armor cache (diff-gated)';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 17919, `SourceEntry` = 66202, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic armor cache gated to difficulty 2';
+INSERT INTO `gameobject_loot_template` SET `Entry` = 17919, `Item` = 66203, `Reference` = 0, `Chance` = 100, `MaxCount` = 1, `Comment` = 'Sothos and Jarien''s Heirlooms (Strath Atiesh event) - mythic weapon cache (diff-gated)';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 3, `SourceGroup` = 17919, `SourceEntry` = 66203, `ConditionTypeOrReference` = 49, `ConditionValue1` = 2, `Comment` = 'mythic weapon cache gated to difficulty 2';
+

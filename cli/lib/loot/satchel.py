@@ -82,6 +82,26 @@ class CacheSpec:
 #   9100400 boss loot table, 9100401-9100409 armor class refs (1-9),
 #   9100410-9100418 weapon class refs (1-9), 9100419 trash loot table
 # Mythic block: 9100500-9100519 (same layout)
+# Difficulty IDs used by CONDITION_DIFFICULTY_ID (type 49) for our 5-man
+# dungeons. Stock AC uses 0 = Normal / 1 = Heroic for 5-mans; Zeppelin
+# extends with 2 = Mythic.
+DIFFICULTY_HEROIC = 1
+DIFFICULTY_MYTHIC = 2
+
+# GO chests whose creature counterparts have empty creature_loot_template
+# (audited 2026-05-21). For these encounters the kill itself drops nothing
+# in heroic/mythic mode (heroic.py skips cache emission when base_lootid=0);
+# the encounter reward is instead the chest, so we add cache references here
+# gated on heroic/mythic difficulty via CONDITION_DIFFICULTY_ID.
+GO_CHESTS_BY_TIER = {
+    'azeroth': [
+        # (chest_loot_id, gameobject_template entry, chest name for comment)
+        (12260, 169243, "Chest of the Seven (BRD Seven Hidden)"),
+        (17919, 181083, "Sothos and Jarien's Heirlooms (Strath Atiesh event)"),
+    ],
+}
+
+
 CACHE_SPECS: Tuple[CacheSpec, ...] = (
     CacheSpec(
         tier="azeroth",
@@ -289,6 +309,75 @@ def _trash_loot_sql(spec: CacheSpec) -> List[str]:
     ]
 
 
+def _go_chest_block(tier: str) -> List[str]:
+    """Emit gameobject_loot_template + conditions for cache references on
+    GO chests whose creature encounters have empty creature_loot_template.
+
+    Each chest gets four cache references (both heroic and both mythic caches)
+    plus four conditions gating each by CONDITION_DIFFICULTY_ID so only
+    players in the matching difficulty instance see the corresponding tier
+    of cache (and normal-mode players see nothing extra).
+    """
+    chests = GO_CHESTS_BY_TIER.get(tier, [])
+    if not chests:
+        return []
+
+    heroic_armor, heroic_weapon = cache_items_for_tier(tier, is_mythic=False)
+    mythic_armor, mythic_weapon = cache_items_for_tier(tier, is_mythic=True)
+
+    lines = [
+        "-- " + "=" * 76,
+        f"-- GO chest cache integration ({tier})",
+        "-- " + "=" * 76,
+        "",
+        "-- For encounters whose creature kills have empty creature_loot_template",
+        "-- (multi-add boss groups, summoning events), caches drop from the",
+        "-- gameobject chest instead. Difficulty conditions ensure normal-mode",
+        "-- players see only the chest's original contents.",
+        "",
+    ]
+
+    cache_entries = [
+        (heroic_armor,  DIFFICULTY_HEROIC, 'heroic armor cache'),
+        (heroic_weapon, DIFFICULTY_HEROIC, 'heroic weapon cache'),
+        (mythic_armor,  DIFFICULTY_MYTHIC, 'mythic armor cache'),
+        (mythic_weapon, DIFFICULTY_MYTHIC, 'mythic weapon cache'),
+    ]
+
+    for chest_loot_id, chest_go_entry, chest_name in chests:
+        escaped_name = chest_name.replace("'", "''")
+        lines.append(f"-- {chest_name} (gameobject {chest_go_entry}, loot {chest_loot_id})")
+        cache_ids_csv = ", ".join(str(e) for e, _, _ in cache_entries)
+        lines.append(
+            f"DELETE FROM `gameobject_loot_template` "
+            f"WHERE `Entry` = {chest_loot_id} AND `Item` IN ({cache_ids_csv});"
+        )
+        lines.append(
+            f"DELETE FROM `conditions` "
+            f"WHERE `SourceTypeOrReferenceId` = 3 "
+            f"AND `SourceGroup` = {chest_loot_id} "
+            f"AND `SourceEntry` IN ({cache_ids_csv}) "
+            f"AND `ConditionTypeOrReference` = 49;"
+        )
+        for cache_entry, diff_value, label in cache_entries:
+            lines.append(
+                f"INSERT INTO `gameobject_loot_template` SET "
+                f"`Entry` = {chest_loot_id}, `Item` = {cache_entry}, "
+                f"`Reference` = 0, `Chance` = 100, `MaxCount` = 1, "
+                f"`Comment` = '{escaped_name} - {label} (diff-gated)';"
+            )
+            lines.append(
+                f"INSERT INTO `conditions` SET "
+                f"`SourceTypeOrReferenceId` = 3, `SourceGroup` = {chest_loot_id}, "
+                f"`SourceEntry` = {cache_entry}, `ConditionTypeOrReference` = 49, "
+                f"`ConditionValue1` = {diff_value}, "
+                f"`Comment` = '{label} gated to difficulty {diff_value}';"
+            )
+        lines.append("")
+
+    return lines
+
+
 def _spec_block(spec: CacheSpec, pool: Dict[Tuple[str, str, int, int], List[int]]) -> List[str]:
     """Emit all SQL lines for one (tier, difficulty) cache spec."""
     lines = [
@@ -350,6 +439,12 @@ def generate(output_path: Path) -> Tuple[int, int]:
         for cache_kind in (CACHE_KIND_ARMOR, CACHE_KIND_WEAPON):
             for class_id, _ in CACHE_CLASSES:
                 items_total += len(pool[(spec.tier, spec.difficulty, class_id, cache_kind)])
+
+    # Phase 1.5: GO chest cache integration for encounters whose creature
+    # kills have empty creature_loot_template (heroic.py skips cache emission
+    # there). One block per tier with GO chest entries configured.
+    for tier in sorted(GO_CHESTS_BY_TIER):
+        lines.extend(_go_chest_block(tier))
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")

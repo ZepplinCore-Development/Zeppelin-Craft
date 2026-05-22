@@ -4925,18 +4925,23 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["STRATSothosJarien"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Sothos and Jarien's Heirlooms", "=q5=CHANCE TO DROP"};
-    { 2, 22301, "", "=q3=Ironweave Robe", "=ds=#a1#", "", "" };
-    { 3, 22327, "", "=q3=Amulet of the Redeemed", "=ds=#s2#", "", "" };
-    { 4, 22328, "", "=q3=Legplates of Vigilance", "=ds=#a4#", "", "" };
-    { 5, 22329, "", "=q3=Scepter of Interminable Focus", "=ds=#s15#", "", "" };
-    { 6, 22334, "", "=q3=Band of Mending", "=ds=#s13#", "", "" };
-    { 8, 0, "AO_ChestWithTreasures", "=q6=Sothos", "=q5=ALL WILL DROP"};
-    { 9, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
-    { 10, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
-    { 12, 0, "AO_ChestWithTreasures", "=q6=Jarien", "=q5=ALL WILL DROP"};
-    { 13, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
-    { 14, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
+    { 1, 0, "AO_ChestWithTreasures", "=q6=Sothos and Jarien's Heirlooms", "=q5=ALL WILL DROP"};
+    { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "100%" };
+    { 5, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 7, 0, "RoM_stellar_dice", "=q6=Sothos and Jarien's Heirlooms", "=q5=CHANCE TO DROP"};
+    { 8, 22301, "", "=q3=Ironweave Robe", "=ds=#a1#", "", "" };
+    { 9, 22327, "", "=q3=Amulet of the Redeemed", "=ds=#s2#", "", "" };
+    { 10, 22328, "", "=q3=Legplates of Vigilance", "=ds=#a4#", "", "" };
+    { 11, 22329, "", "=q3=Scepter of Interminable Focus", "=ds=#s15#", "", "" };
+    { 12, 22334, "", "=q3=Band of Mending", "=ds=#s13#", "", "" };
+    { 16, 0, "AO_ChestWithTreasures", "=q6=Sothos", "=q5=ALL WILL DROP"};
+    { 17, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
+    { 18, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
+    { 20, 0, "AO_ChestWithTreasures", "=q6=Jarien", "=q5=ALL WILL DROP"};
+    { 21, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
+    { 22, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
 	};
 
 	AtlasLoot_Data["STRATStonespine"] = {
