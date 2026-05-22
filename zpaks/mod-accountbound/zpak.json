@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "accountbound",
+  "name": "mod-accountbound",
   "version": "0.1.0",
   "description": "Account-bound item sharing between characters",
   "author": "Zeppelin Team",

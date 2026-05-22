@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "individual-progression",
+  "name": "mod-individual-progression",
   "version": "0.1.0",
   "description": "Individual progression module customizations for progression gating",
   "author": "Zeppelin Team",

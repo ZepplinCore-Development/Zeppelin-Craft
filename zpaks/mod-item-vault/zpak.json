@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "item-vault",
+  "name": "mod-item-vault",
   "version": "1.0.0",
   "description": "Personal item vault storage system",
   "author": "ShatteredDawn",

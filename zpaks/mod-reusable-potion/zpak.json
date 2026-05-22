@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "reusable-potion",
+  "name": "mod-reusable-potion",
   "version": "0.1.0",
   "description": "Reusable potion system module",
   "author": "Zeppelin Team",

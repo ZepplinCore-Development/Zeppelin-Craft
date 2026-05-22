@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "autofish",
+  "name": "mod-autofish",
   "version": "0.1.0",
   "description": "Auto-recast fishing bobber with auto-loot support",
   "author": "Flerp",

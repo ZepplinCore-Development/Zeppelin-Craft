@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "worgoblin",
+  "name": "mod-worgoblin",
   "version": "1.0.0",
   "description": "Worgen and Goblin playable races - DBC modifications",
   "author": "Worgoblin Team",

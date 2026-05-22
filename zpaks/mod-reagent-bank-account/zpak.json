@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "reagent-bank-account",
+  "name": "mod-reagent-bank-account",
   "version": "0.1.0",
   "description": "Account-wide reagent bank storage",
   "author": "Zeppelin Team",

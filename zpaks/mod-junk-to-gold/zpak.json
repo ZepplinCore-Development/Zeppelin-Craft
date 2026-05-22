@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "junk-to-gold",
+  "name": "mod-junk-to-gold",
   "version": "0.1.0",
   "description": "Auto-sell grey junk items to vendors",
   "author": "noisiver",

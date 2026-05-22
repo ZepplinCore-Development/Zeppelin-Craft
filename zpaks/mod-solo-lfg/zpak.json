@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "solo-lfg",
+  "name": "mod-solo-lfg",
   "version": "1.0.0",
   "description": "Solo dungeon finder queue support",
   "author": "AzerothCore",

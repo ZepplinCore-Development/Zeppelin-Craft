@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "ah-bot",
+  "name": "mod-ah-bot",
   "version": "0.1.0",
   "description": "Auction house bot for market simulation",
   "author": "Zeppelin Team",

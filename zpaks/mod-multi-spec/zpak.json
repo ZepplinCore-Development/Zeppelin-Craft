@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "multi-spec",
+  "name": "mod-multi-spec",
   "version": "1.0.0",
   "description": "Multiple talent specializations per character",
   "author": "ZepplinCore-Development",

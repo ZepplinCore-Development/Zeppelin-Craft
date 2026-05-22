@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "raid-teleporter",
+  "name": "mod-raid-teleporter",
   "version": "1.0.0",
   "description": "Teleport to raid instances via NPC",
   "author": "ZepplinCore-Development",

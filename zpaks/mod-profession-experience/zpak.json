@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "profession-experience",
+  "name": "mod-profession-experience",
   "version": "0.1.0",
   "description": "Gain experience from crafting and gathering professions",
   "author": "Tereneckla",

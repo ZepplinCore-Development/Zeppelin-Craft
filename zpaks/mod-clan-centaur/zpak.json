@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "clan-centaur",
+  "name": "mod-clan-centaur",
   "version": "1.0.0",
   "description": "Gelkis & Magram Centaur reputation and vendor system for Desolace",
   "author": "araxiaonline",

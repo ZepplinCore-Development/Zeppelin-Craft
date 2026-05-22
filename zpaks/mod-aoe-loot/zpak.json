@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "aoe-loot",
+  "name": "mod-aoe-loot",
   "version": "0.1.0",
   "description": "AOE looting - loot all nearby corpses from a single interact",
   "author": "azerothcore",

@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "starter-guild",
+  "name": "mod-starter-guild",
   "version": "0.1.0",
   "description": "Auto-join guild for new characters",
   "author": "Zeppelin Team",

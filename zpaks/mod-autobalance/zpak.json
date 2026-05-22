@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "game-balancing",
+  "name": "mod-autobalance",
   "version": "1.0.0",
   "description": "Difficulty tuning, boss adjustments, and instance loot simplification (F-080 Solo World, F-083 Simplified Instance Loot)",
   "author": "Zeppelin Team",

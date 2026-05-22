@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "csmh",
+  "name": "mod-csmh",
   "version": "2.0.0",
   "description": "Client-server addon messaging framework",
   "author": "Foereaper, Stoneharry, Terrorblade",

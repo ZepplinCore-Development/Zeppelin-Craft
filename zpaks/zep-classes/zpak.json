@@ -1,6 +1,6 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "class-changes",
+  "name": "zep-classes",
   "version": "0.1.0",
   "description": "Class balance changes - Shaman Earthwarden spec, Deflection/Anticipation tuning",
   "author": "Zeppelin Team",
