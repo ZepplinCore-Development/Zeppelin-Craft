@@ -10,6 +10,7 @@ INSERT INTO `item_template` SET
   `name` = 'Certainly Knowledgeable Helmet',
   `displayid` = 19728,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -21,15 +22,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 700,
   `stat_type1` = 4,
-  `stat_value1` = 14,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 16,
   `stat_type3` = 32,
-  `stat_value3` = 13,
+  `stat_value3` = 15,
   `stat_type4` = 13,
-  `stat_value4` = 18,
+  `stat_value4` = 21,
   `stat_type5` = 37,
-  `stat_value5` = 17;
+  `stat_value5` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 60201;
 INSERT INTO `item_template` SET
@@ -40,6 +41,7 @@ INSERT INTO `item_template` SET
   `name` = 'Spaulders of Forgetful Confiding',
   `displayid` = 62012,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -53,9 +55,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 18,
   `stat_type2` = 7,
-  `stat_value2` = 27,
+  `stat_value2` = 18,
   `stat_type3` = 48,
-  `stat_value3` = 24;
+  `stat_value3` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 60202;
 INSERT INTO `item_template` SET
@@ -66,6 +68,7 @@ INSERT INTO `item_template` SET
   `name` = 'Unemotionally Supportive Chestguard',
   `displayid` = 40746,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -79,11 +82,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 13,
   `stat_type3` = 12,
-  `stat_value3` = 18,
+  `stat_value3` = 19,
   `stat_type4` = 31,
-  `stat_value4` = 21;
+  `stat_value4` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 60203;
 INSERT INTO `item_template` SET
@@ -94,6 +97,7 @@ INSERT INTO `item_template` SET
   `name` = 'Belt of the Correct State',
   `displayid` = 33990,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -105,13 +109,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 557,
   `stat_type1` = 4,
-  `stat_value1` = 14,
+  `stat_value1` = 15,
   `stat_type2` = 7,
-  `stat_value2` = 22,
+  `stat_value2` = 15,
   `stat_type3` = 15,
-  `stat_value3` = 12,
+  `stat_value3` = 13,
   `stat_type4` = 14,
-  `stat_value4` = 22;
+  `stat_value4` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 60204;
 INSERT INTO `item_template` SET
@@ -122,6 +126,7 @@ INSERT INTO `item_template` SET
   `name` = 'Greaves of Compassionately Webbing',
   `displayid` = 60200,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -135,7 +140,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 13,
   `stat_type3` = 12,
   `stat_value3` = 15,
   `stat_type4` = 37,
@@ -152,6 +157,7 @@ INSERT INTO `item_template` SET
   `name` = 'Boots of Rightly Branching',
   `displayid` = 27829,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -163,11 +169,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 22,
+  `stat_value2` = 16,
   `stat_type3` = 13,
-  `stat_value3` = 17;
+  `stat_value3` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60206;
 INSERT INTO `item_template` SET
@@ -178,6 +184,7 @@ INSERT INTO `item_template` SET
   `name` = 'Rightful Wristguards of Sourcing',
   `displayid` = 42777,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -191,7 +198,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 32,
   `stat_value3` = 7,
   `stat_type4` = 44,
@@ -208,6 +215,7 @@ INSERT INTO `item_template` SET
   `name` = 'Gloves of Minute',
   `displayid` = 51582,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -221,13 +229,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 13,
+  `stat_value2` = 9,
   `stat_type3` = 36,
-  `stat_value3` = 9,
+  `stat_value3` = 10,
   `stat_type4` = 44,
   `stat_value4` = 8,
   `stat_type5` = 48,
-  `stat_value5` = 19;
+  `stat_value5` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 60208;
 INSERT INTO `item_template` SET
@@ -238,6 +246,7 @@ INSERT INTO `item_template` SET
   `name` = 'Amulet of the Cream',
   `displayid` = 19785,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -248,9 +257,9 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 4,
-  `stat_value1` = 8,
+  `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 11,
+  `stat_value2` = 7,
   `stat_type3` = 35,
   `stat_value3` = 6,
   `stat_type4` = 14,
@@ -267,6 +276,7 @@ INSERT INTO `item_template` SET
   `name` = 'Awfully Benefiting Loop',
   `displayid` = 56765,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -279,7 +289,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 11,
   `stat_type3` = 32,
   `stat_value3` = 7,
   `stat_type4` = 31,
@@ -294,6 +304,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shy Figurine',
   `displayid` = 21072,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -306,11 +317,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 13,
+  `stat_value2` = 8,
   `stat_type3` = 15,
   `stat_value3` = 9,
   `stat_type4` = 48,
-  `stat_value4` = 17;
+  `stat_value4` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60211;
 INSERT INTO `item_template` SET
@@ -321,6 +332,7 @@ INSERT INTO `item_template` SET
   `name` = 'Cloak of Supportive Racing',
   `displayid` = 55663,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -332,9 +344,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 4,
-  `stat_value1` = 13,
+  `stat_value1` = 12,
   `stat_type2` = 7,
-  `stat_value2` = 9,
+  `stat_value2` = 6,
   `stat_type3` = 44,
   `stat_value3` = 8,
   `stat_type4` = 37,
@@ -349,6 +361,7 @@ INSERT INTO `item_template` SET
   `name` = 'Seriously Successful Chopper',
   `displayid` = 59510,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -358,17 +371,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 75,
-  `dmg_max1` = 139,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 39,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 45,
+  `stat_value2` = 1,
   `stat_type3` = 48,
-  `stat_value3` = 30,
+  `stat_value3` = 1,
   `stat_type4` = 36,
-  `stat_value4` = 30;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60213;
 INSERT INTO `item_template` SET
@@ -379,6 +392,7 @@ INSERT INTO `item_template` SET
   `name` = 'Equal Pummeler of Forgetting',
   `displayid` = 61657,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -388,19 +402,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 16,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 28,
+  `stat_value2` = 1,
   `stat_type3` = 15,
-  `stat_value3` = 19,
+  `stat_value3` = 1,
   `stat_type4` = 14,
-  `stat_value4` = 16,
+  `stat_value4` = 1,
   `stat_type5` = 48,
-  `stat_value5` = 31;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60214;
 INSERT INTO `item_template` SET
@@ -411,6 +425,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fang of the Fear',
   `displayid` = 50261,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -420,15 +435,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 80,
-  `dmg_max1` = 148,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 33,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 49,
+  `stat_value2` = 1,
   `stat_type3` = 35,
-  `stat_value3` = 25;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60215;
 INSERT INTO `item_template` SET
@@ -439,6 +454,7 @@ INSERT INTO `item_template` SET
   `name` = 'Bulwark of Touchy Lesson',
   `displayid` = 57003,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 14,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -453,11 +469,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 13,
+  `stat_value2` = 8,
   `stat_type3` = 37,
   `stat_value3` = 9,
   `stat_type4` = 38,
-  `stat_value4` = 17,
+  `stat_value4` = 16,
   `stat_type5` = 32,
   `stat_value5` = 10;
 
@@ -470,6 +486,7 @@ INSERT INTO `item_template` SET
   `name` = 'Helm of the Projecting Black',
   `displayid` = 42217,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -481,15 +498,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 700,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 20,
   `stat_type2` = 7,
-  `stat_value2` = 25,
+  `stat_value2` = 20,
   `stat_type3` = 36,
-  `stat_value3` = 13,
+  `stat_value3` = 15,
   `stat_type4` = 38,
-  `stat_value4` = 26,
+  `stat_value4` = 30,
   `stat_type5` = 31,
-  `stat_value5` = 16;
+  `stat_value5` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60217;
 INSERT INTO `item_template` SET
@@ -500,6 +517,7 @@ INSERT INTO `item_template` SET
   `name` = 'Spotty Shoulderplates',
   `displayid` = 62132,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -513,7 +531,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 24,
+  `stat_value2` = 16,
   `stat_type3` = 32,
   `stat_value3` = 12,
   `stat_type4` = 44,
@@ -528,6 +546,7 @@ INSERT INTO `item_template` SET
   `name` = 'Hauberk of Tabling',
   `displayid` = 46080,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -539,11 +558,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 843,
   `stat_type1` = 4,
-  `stat_value1` = 21,
+  `stat_value1` = 23,
   `stat_type2` = 7,
-  `stat_value2` = 32,
+  `stat_value2` = 23,
   `stat_type3` = 38,
-  `stat_value3` = 32;
+  `stat_value3` = 34;
 
 DELETE FROM `item_template` WHERE `entry` = 60219;
 INSERT INTO `item_template` SET
@@ -554,6 +573,7 @@ INSERT INTO `item_template` SET
   `name` = 'Provisional Waistguard of Stabling',
   `displayid` = 31565,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -565,13 +585,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 557,
   `stat_type1` = 4,
-  `stat_value1` = 16,
+  `stat_value1` = 17,
   `stat_type2` = 7,
-  `stat_value2` = 24,
+  `stat_value2` = 17,
   `stat_type3` = 36,
-  `stat_value3` = 14,
+  `stat_value3` = 15,
   `stat_type4` = 44,
-  `stat_value4` = 16;
+  `stat_value4` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 60220;
 INSERT INTO `item_template` SET
@@ -582,6 +602,7 @@ INSERT INTO `item_template` SET
   `name` = 'Leggings of the Trick',
   `displayid` = 42298,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -593,15 +614,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 776,
   `stat_type1` = 4,
-  `stat_value1` = 15,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 18,
   `stat_type3` = 44,
-  `stat_value3` = 11,
+  `stat_value3` = 12,
   `stat_type4` = 37,
-  `stat_value4` = 15,
+  `stat_value4` = 16,
   `stat_type5` = 32,
-  `stat_value5` = 12;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60221;
 INSERT INTO `item_template` SET
@@ -612,6 +633,7 @@ INSERT INTO `item_template` SET
   `name` = 'Stompers of Ultimately Conferencing',
   `displayid` = 51088,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -623,11 +645,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 15,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 19,
   `stat_type3` = 37,
-  `stat_value3` = 17;
+  `stat_value3` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60222;
 INSERT INTO `item_template` SET
@@ -638,6 +660,7 @@ INSERT INTO `item_template` SET
   `name` = 'Hopeless Bands of the Newness',
   `displayid` = 61897,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -651,7 +674,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 12,
   `stat_type3` = 44,
   `stat_value3` = 13;
 
@@ -664,6 +687,7 @@ INSERT INTO `item_template` SET
   `name` = 'Impartial Grips of Expending',
   `displayid` = 33047,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -675,15 +699,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 9,
+  `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 9,
   `stat_type3` = 37,
   `stat_value3` = 12,
   `stat_type4` = 38,
-  `stat_value4` = 23,
+  `stat_value4` = 24,
   `stat_type5` = 36,
-  `stat_value5` = 8;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60224;
 INSERT INTO `item_template` SET
@@ -694,6 +718,7 @@ INSERT INTO `item_template` SET
   `name` = 'Amulet of the Tax',
   `displayid` = 36755,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -706,9 +731,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 44,
-  `stat_value3` = 7,
+  `stat_value3` = 6,
   `stat_type4` = 31,
   `stat_value4` = 9;
 
@@ -721,6 +746,7 @@ INSERT INTO `item_template` SET
   `name` = 'Signet of Doubtful Desiring',
   `displayid` = 64225,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -733,7 +759,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 16,
+  `stat_value2` = 11,
   `stat_type3` = 31,
   `stat_value3` = 13;
 
@@ -746,6 +772,7 @@ INSERT INTO `item_template` SET
   `name` = 'Mark of the Fueling Possibility',
   `displayid` = 6381,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -758,7 +785,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 11,
+  `stat_value2` = 8,
   `stat_type3` = 32,
   `stat_value3` = 7,
   `stat_type4` = 36,
@@ -775,6 +802,7 @@ INSERT INTO `item_template` SET
   `name` = 'Sheet of Slyly Drinking',
   `displayid` = 38973,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -788,9 +816,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 11,
   `stat_type3` = 38,
-  `stat_value3` = 24;
+  `stat_value3` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 60228;
 INSERT INTO `item_template` SET
@@ -801,6 +829,7 @@ INSERT INTO `item_template` SET
   `name` = 'Nervous Doomsaw',
   `displayid` = 33235,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -810,17 +839,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 75,
-  `dmg_max1` = 139,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 23,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 51,
+  `stat_value2` = 1,
   `stat_type3` = 31,
-  `stat_value3` = 41,
+  `stat_value3` = 1,
   `stat_type4` = 38,
-  `stat_value4` = 41;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60229;
 INSERT INTO `item_template` SET
@@ -831,6 +860,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fist of Trading',
   `displayid` = 16498,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -840,19 +870,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 25,
+  `stat_value2` = 1,
   `stat_type3` = 32,
-  `stat_value3` = 17,
+  `stat_value3` = 1,
   `stat_type4` = 38,
-  `stat_value4` = 40,
+  `stat_value4` = 1,
   `stat_type5` = 31,
-  `stat_value5` = 19;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60230;
 INSERT INTO `item_template` SET
@@ -863,6 +893,7 @@ INSERT INTO `item_template` SET
   `name` = 'Sidearm of Employee',
   `displayid` = 5165,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -872,15 +903,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 80,
-  `dmg_max1` = 148,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 33,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 49,
+  `stat_value2` = 1,
   `stat_type3` = 32,
-  `stat_value3` = 25;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60231;
 INSERT INTO `item_template` SET
@@ -891,6 +922,7 @@ INSERT INTO `item_template` SET
   `name` = 'Final Fang',
   `displayid` = 33734,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -900,17 +932,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 53,
-  `dmg_max1` = 99,
+  `dmg_min1` = 69,
+  `dmg_max1` = 129,
   `delay` = 1800,
   `stat_type1` = 4,
-  `stat_value1` = 30,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 36,
+  `stat_value2` = 1,
   `stat_type3` = 32,
-  `stat_value3` = 19,
+  `stat_value3` = 1,
   `stat_type4` = 44,
-  `stat_value4` = 38;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60232;
 INSERT INTO `item_template` SET
@@ -921,6 +953,7 @@ INSERT INTO `item_template` SET
   `name` = 'Saw of Opportunity',
   `displayid` = 52941,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -930,17 +963,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 47,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 70,
+  `stat_value2` = 14,
   `stat_type3` = 38,
-  `stat_value3` = 58,
+  `stat_value3` = 17,
   `stat_type4` = 36,
-  `stat_value4` = 35;
+  `stat_value4` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60233;
 INSERT INTO `item_template` SET
@@ -951,6 +984,7 @@ INSERT INTO `item_template` SET
   `name` = 'Bonecracker of the Situation',
   `displayid` = 25625,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -960,17 +994,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 32,
+  `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 67,
+  `stat_value2` = 13,
   `stat_type3` = 32,
-  `stat_value3` = 48,
+  `stat_value3` = 14,
   `stat_type4` = 44,
-  `stat_value4` = 33;
+  `stat_value4` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60234;
 INSERT INTO `item_template` SET
@@ -981,6 +1015,7 @@ INSERT INTO `item_template` SET
   `name` = 'Talon of the Positioning Concert',
   `displayid` = 20179,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -990,19 +1025,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 137,
-  `dmg_max1` = 255,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 24,
+  `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 39,
+  `stat_value2` = 10,
   `stat_type3` = 38,
-  `stat_value3` = 48,
+  `stat_value3` = 18,
   `stat_type4` = 37,
-  `stat_value4` = 24,
+  `stat_value4` = 9,
   `stat_type5` = 44,
-  `stat_value5` = 26;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60235;
 INSERT INTO `item_template` SET
@@ -1013,6 +1048,7 @@ INSERT INTO `item_template` SET
   `name` = 'Greatspear of Achieving',
   `displayid` = 39287,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1022,18 +1058,18 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 133,
-  `dmg_max1` = 247,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `block` = 59,
   `stat_type1` = 4,
-  `stat_value1` = 44,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 75,
+  `stat_value2` = 12,
   `stat_type3` = 31,
-  `stat_value3` = 57,
+  `stat_value3` = 14,
   `stat_type4` = 44,
-  `stat_value4` = 38;
+  `stat_value4` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60236;
 INSERT INTO `item_template` SET
@@ -1044,6 +1080,7 @@ INSERT INTO `item_template` SET
   `name` = 'Regretful Shortbow',
   `displayid` = 45485,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 15,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1053,15 +1090,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 64,
-  `dmg_max1` = 120,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 4,
-  `stat_value1` = 53,
+  `stat_value1` = 27,
   `stat_type2` = 7,
-  `stat_value2` = 73,
+  `stat_value2` = 24,
   `stat_type3` = 44,
-  `stat_value3` = 55;
+  `stat_value3` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 60237;
 INSERT INTO `item_template` SET
@@ -1072,6 +1109,7 @@ INSERT INTO `item_template` SET
   `name` = 'Icy Repeater of Support',
   `displayid` = 60667,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1081,29 +1119,30 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 57,
-  `dmg_max1` = 106,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 4,
-  `stat_value1` = 32,
+  `stat_value1` = 26,
   `stat_type2` = 7,
-  `stat_value2` = 48,
+  `stat_value2` = 26,
   `stat_type3` = 31,
-  `stat_value3` = 34,
+  `stat_value3` = 27,
   `stat_type4` = 44,
-  `stat_value4` = 28,
+  `stat_value4` = 23,
   `stat_type5` = 38,
-  `stat_value5` = 89;
+  `stat_value5` = 72;
 
 DELETE FROM `item_template` WHERE `entry` = 60238;
 INSERT INTO `item_template` SET
   `entry` = 60238,
   `class` = 2,
-  `subclass` = 19,
+  `subclass` = 18,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Beer''s Crossbow',
-  `displayid` = 55932,
+  `name` = 'Repeater of Extra Ironing',
+  `displayid` = 60805,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1113,19 +1152,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 64,
-  `dmg_max1` = 120,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 4,
-  `stat_value1` = 63,
+  `stat_value1` = 48,
   `stat_type2` = 7,
-  `stat_value2` = 82,
+  `stat_value2` = 40,
   `stat_type3` = 37,
-  `stat_value3` = 94,
-  `stat_type4` = 36,
-  `stat_value4` = 66,
-  `stat_type5` = 32,
-  `stat_value5` = 54;
+  `stat_value3` = 48;
 
 DELETE FROM `item_template` WHERE `entry` = 60239;
 INSERT INTO `item_template` SET
@@ -1136,6 +1171,7 @@ INSERT INTO `item_template` SET
   `name` = 'Restless War Edge of Toeing',
   `displayid` = 39740,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 25,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1145,15 +1181,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 13,
-  `dmg_max1` = 23,
+  `dmg_min1` = 60,
+  `dmg_max1` = 111,
   `delay` = 1800,
   `stat_type1` = 4,
-  `stat_value1` = 78,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 106,
+  `stat_value2` = 13,
   `stat_type3` = 31,
-  `stat_value3` = 80;
+  `stat_value3` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60240;
 INSERT INTO `item_template` SET
@@ -1164,6 +1200,7 @@ INSERT INTO `item_template` SET
   `name` = 'Understandable Atmosphere Faceguard',
   `displayid` = 62117,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1175,11 +1212,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 700,
   `stat_type1` = 4,
-  `stat_value1` = 20,
+  `stat_value1` = 23,
   `stat_type2` = 7,
-  `stat_value2` = 40,
+  `stat_value2` = 31,
   `stat_type3` = 38,
-  `stat_value3` = 53;
+  `stat_value3` = 62;
 
 DELETE FROM `item_template` WHERE `entry` = 60241;
 INSERT INTO `item_template` SET
@@ -1190,6 +1227,7 @@ INSERT INTO `item_template` SET
   `name` = 'Mantle of Dad',
   `displayid` = 51149,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1203,7 +1241,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 18,
   `stat_type2` = 7,
-  `stat_value2` = 23,
+  `stat_value2` = 15,
   `stat_type3` = 37,
   `stat_value3` = 18;
 
@@ -1216,6 +1254,7 @@ INSERT INTO `item_template` SET
   `name` = 'Scheming Step Chestguard',
   `displayid` = 51894,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1227,13 +1266,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 843,
   `stat_type1` = 4,
-  `stat_value1` = 19,
+  `stat_value1` = 20,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 12,
   `stat_type3` = 12,
-  `stat_value3` = 13,
+  `stat_value3` = 14,
   `stat_type4` = 32,
-  `stat_value4` = 18;
+  `stat_value4` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60243;
 INSERT INTO `item_template` SET
@@ -1244,6 +1283,7 @@ INSERT INTO `item_template` SET
   `name` = 'Belt of the Toweling Landscape',
   `displayid` = 38687,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1255,11 +1295,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 557,
   `stat_type1` = 4,
-  `stat_value1` = 19,
+  `stat_value1` = 20,
   `stat_type2` = 7,
-  `stat_value2` = 33,
+  `stat_value2` = 23,
   `stat_type3` = 48,
-  `stat_value3` = 33;
+  `stat_value3` = 34;
 
 DELETE FROM `item_template` WHERE `entry` = 60244;
 INSERT INTO `item_template` SET
@@ -1270,6 +1310,7 @@ INSERT INTO `item_template` SET
   `name` = 'Finance Leggings',
   `displayid` = 56033,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1281,15 +1322,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 776,
   `stat_type1` = 4,
-  `stat_value1` = 14,
+  `stat_value1` = 15,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 18,
   `stat_type3` = 38,
-  `stat_value3` = 25,
+  `stat_value3` = 26,
   `stat_type4` = 48,
-  `stat_value4` = 22,
+  `stat_value4` = 23,
   `stat_type5` = 15,
-  `stat_value5` = 13;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60245;
 INSERT INTO `item_template` SET
@@ -1300,6 +1341,7 @@ INSERT INTO `item_template` SET
   `name` = 'Treads of Determined Farm',
   `displayid` = 39709,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1311,15 +1353,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 11,
+  `stat_value1` = 12,
   `stat_type2` = 7,
-  `stat_value2` = 13,
+  `stat_value2` = 10,
   `stat_type3` = 13,
-  `stat_value3` = 9,
+  `stat_value3` = 10,
   `stat_type4` = 35,
-  `stat_value4` = 9,
+  `stat_value4` = 10,
   `stat_type5` = 44,
-  `stat_value5` = 11;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60246;
 INSERT INTO `item_template` SET
@@ -1330,6 +1372,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tightness''s Bindings',
   `displayid` = 44324,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1343,7 +1386,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 31,
   `stat_value3` = 9,
   `stat_type4` = 48,
@@ -1358,6 +1401,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fists of the Focusing Speaker',
   `displayid` = 43684,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1371,9 +1415,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 15,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 18,
   `stat_type3` = 38,
-  `stat_value3` = 34;
+  `stat_value3` = 35;
 
 DELETE FROM `item_template` WHERE `entry` = 60248;
 INSERT INTO `item_template` SET
@@ -1384,6 +1428,7 @@ INSERT INTO `item_template` SET
   `name` = 'Choker of Fishing Example',
   `displayid` = 39682,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1396,7 +1441,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 16,
+  `stat_value2` = 11,
   `stat_type3` = 35,
   `stat_value3` = 13;
 
@@ -1409,6 +1454,7 @@ INSERT INTO `item_template` SET
   `name` = 'Seal of Hungrily Bodying',
   `displayid` = 43095,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1421,9 +1467,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 13,
   `stat_type3` = 38,
-  `stat_value3` = 22;
+  `stat_value3` = 21;
 
 DELETE FROM `item_template` WHERE `entry` = 60250;
 INSERT INTO `item_template` SET
@@ -1434,6 +1480,7 @@ INSERT INTO `item_template` SET
   `name` = 'Deepening Figurine of Establishment',
   `displayid` = 33436,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1446,7 +1493,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 10,
+  `stat_value2` = 7,
   `stat_type3` = 15,
   `stat_value3` = 6,
   `stat_type4` = 14,
@@ -1463,6 +1510,7 @@ INSERT INTO `item_template` SET
   `name` = 'Personal Shroud of the Weakness',
   `displayid` = 15148,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1476,7 +1524,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 14,
+  `stat_value2` = 9,
   `stat_type3` = 37,
   `stat_value3` = 9,
   `stat_type4` = 35,
@@ -1491,6 +1539,7 @@ INSERT INTO `item_template` SET
   `name` = 'Reaver of the Facing Cleanliness',
   `displayid` = 28748,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1500,17 +1549,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 75,
-  `dmg_max1` = 139,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 20,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 44,
+  `stat_value2` = 1,
   `stat_type3` = 38,
-  `stat_value3` = 59,
+  `stat_value3` = 1,
   `stat_type4` = 13,
-  `stat_value4` = 39;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60253;
 INSERT INTO `item_template` SET
@@ -1521,6 +1570,7 @@ INSERT INTO `item_template` SET
   `name` = 'Conclusion Hand',
   `displayid` = 65164,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1530,19 +1580,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 14,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 32,
+  `stat_value2` = 1,
   `stat_type3` = 15,
-  `stat_value3` = 16,
+  `stat_value3` = 1,
   `stat_type4` = 36,
-  `stat_value4` = 18,
+  `stat_value4` = 1,
   `stat_type5` = 32,
-  `stat_value5` = 20;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60254;
 INSERT INTO `item_template` SET
@@ -1553,6 +1603,7 @@ INSERT INTO `item_template` SET
   `name` = 'Patterning Saber',
   `displayid` = 5154,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1562,19 +1613,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 80,
-  `dmg_max1` = 148,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 31,
+  `stat_value2` = 1,
   `stat_type3` = 13,
-  `stat_value3` = 21,
+  `stat_value3` = 1,
   `stat_type4` = 14,
-  `stat_value4` = 16,
+  `stat_value4` = 1,
   `stat_type5` = 38,
-  `stat_value5` = 40;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60255;
 INSERT INTO `item_template` SET
@@ -1585,6 +1636,7 @@ INSERT INTO `item_template` SET
   `name` = 'Exchange Barricade',
   `displayid` = 32561,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 14,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1597,11 +1649,11 @@ INSERT INTO `item_template` SET
   `armor` = 2925,
   `block` = 59,
   `stat_type1` = 4,
-  `stat_value1` = 16,
+  `stat_value1` = 15,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 13,
   `stat_type3` = 32,
-  `stat_value3` = 16;
+  `stat_value3` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60256;
 INSERT INTO `item_template` SET
@@ -1609,9 +1661,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Paladin Libram of Tank',
+  `name` = 'Sanctified Libram of Consecrated Stone',
   `displayid` = 1103,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1635,6 +1688,7 @@ INSERT INTO `item_template` SET
   `name` = 'Helmet of Rooming Heat',
   `displayid` = 44840,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1646,11 +1700,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 700,
   `stat_type1` = 4,
-  `stat_value1` = 23,
+  `stat_value1` = 27,
   `stat_type2` = 7,
-  `stat_value2` = 40,
+  `stat_value2` = 31,
   `stat_type3` = 44,
-  `stat_value3` = 27;
+  `stat_value3` = 31;
 
 DELETE FROM `item_template` WHERE `entry` = 60258;
 INSERT INTO `item_template` SET
@@ -1661,6 +1715,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shoulderplates of Hence Competing',
   `displayid` = 51951,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1674,9 +1729,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 18,
   `stat_type2` = 7,
-  `stat_value2` = 27,
+  `stat_value2` = 18,
   `stat_type3` = 38,
-  `stat_value3` = 30;
+  `stat_value3` = 29;
 
 DELETE FROM `item_template` WHERE `entry` = 60259;
 INSERT INTO `item_template` SET
@@ -1687,6 +1742,7 @@ INSERT INTO `item_template` SET
   `name` = 'Relationship Chestpiece',
   `displayid` = 59748,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1698,11 +1754,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 843,
   `stat_type1` = 4,
-  `stat_value1` = 18,
+  `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 32,
+  `stat_value2` = 23,
   `stat_type3` = 32,
-  `stat_value3` = 21;
+  `stat_value3` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 60260;
 INSERT INTO `item_template` SET
@@ -1713,6 +1769,7 @@ INSERT INTO `item_template` SET
   `name` = 'Lower Platebelt of Directing',
   `displayid` = 32718,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1724,11 +1781,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 557,
   `stat_type1` = 4,
-  `stat_value1` = 19,
+  `stat_value1` = 20,
   `stat_type2` = 7,
-  `stat_value2` = 33,
+  `stat_value2` = 23,
   `stat_type3` = 38,
-  `stat_value3` = 44;
+  `stat_value3` = 46;
 
 DELETE FROM `item_template` WHERE `entry` = 60261;
 INSERT INTO `item_template` SET
@@ -1739,6 +1796,7 @@ INSERT INTO `item_template` SET
   `name` = 'Legplates of Jealously Lacking',
   `displayid` = 31320,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1750,11 +1808,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 776,
   `stat_type1` = 4,
-  `stat_value1` = 25,
+  `stat_value1` = 26,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 18,
   `stat_type3` = 36,
-  `stat_value3` = 25;
+  `stat_value3` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 60262;
 INSERT INTO `item_template` SET
@@ -1765,6 +1823,7 @@ INSERT INTO `item_template` SET
   `name` = 'Stompers of Woefully Plating',
   `displayid` = 62208,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1776,11 +1835,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 19,
   `stat_type3` = 32,
-  `stat_value3` = 14;
+  `stat_value3` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60263;
 INSERT INTO `item_template` SET
@@ -1791,6 +1850,7 @@ INSERT INTO `item_template` SET
   `name` = 'Bindings of Touchingly Inviting',
   `displayid` = 46043,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1804,9 +1864,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 20,
+  `stat_value2` = 13,
   `stat_type3` = 38,
-  `stat_value3` = 18;
+  `stat_value3` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 60264;
 INSERT INTO `item_template` SET
@@ -1817,6 +1877,7 @@ INSERT INTO `item_template` SET
   `name` = 'Gauntlets of Tasking',
   `displayid` = 51645,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1828,9 +1889,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 18,
   `stat_type2` = 7,
-  `stat_value2` = 25,
+  `stat_value2` = 17,
   `stat_type3` = 36,
   `stat_value3` = 15;
 
@@ -1843,6 +1904,7 @@ INSERT INTO `item_template` SET
   `name` = 'Locket of Encouraging',
   `displayid` = 48071,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1855,7 +1917,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 10,
+  `stat_value2` = 7,
   `stat_type3` = 44,
   `stat_value3` = 9,
   `stat_type4` = 32,
@@ -1872,6 +1934,7 @@ INSERT INTO `item_template` SET
   `name` = 'Circle of Corrective Targeting',
   `displayid` = 23435,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1884,9 +1947,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 16,
+  `stat_value2` = 10,
   `stat_type3` = 37,
-  `stat_value3` = 13,
+  `stat_value3` = 12,
   `stat_type4` = 38,
   `stat_value4` = 13;
 
@@ -1899,6 +1962,7 @@ INSERT INTO `item_template` SET
   `name` = 'Essence of Agreeable Deception',
   `displayid` = 32335,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1909,15 +1973,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 4,
-  `stat_value1` = 7,
+  `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 11,
+  `stat_value2` = 7,
   `stat_type3` = 31,
   `stat_value3` = 8,
   `stat_type4` = 44,
   `stat_value4` = 7,
   `stat_type5` = 38,
-  `stat_value5` = 16;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60268;
 INSERT INTO `item_template` SET
@@ -1928,6 +1992,7 @@ INSERT INTO `item_template` SET
   `name` = 'Cape of the Freshness',
   `displayid` = 15032,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1939,15 +2004,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 4,
-  `stat_value1` = 8,
+  `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 38,
-  `stat_value3` = 12,
+  `stat_value3` = 11,
   `stat_type4` = 32,
   `stat_value4` = 9,
   `stat_type5` = 36,
-  `stat_value5` = 7;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60269;
 INSERT INTO `item_template` SET
@@ -1958,6 +2023,7 @@ INSERT INTO `item_template` SET
   `name` = 'Movable Cleaver',
   `displayid` = 28573,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1967,17 +2033,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 28,
+  `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 47,
+  `stat_value2` = 9,
   `stat_type3` = 32,
-  `stat_value3` = 43,
+  `stat_value3` = 13,
   `stat_type4` = 44,
-  `stat_value4` = 55;
+  `stat_value4` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60270;
 INSERT INTO `item_template` SET
@@ -1988,6 +2054,7 @@ INSERT INTO `item_template` SET
   `name` = 'Competition Cudgel',
   `displayid` = 21252,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -1997,15 +2064,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 49,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 83,
+  `stat_value2` = 16,
   `stat_type3` = 36,
-  `stat_value3` = 54;
+  `stat_value3` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60271;
 INSERT INTO `item_template` SET
@@ -2016,6 +2083,7 @@ INSERT INTO `item_template` SET
   `name` = 'Around Overheating Blade',
   `displayid` = 31999,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2025,15 +2093,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 137,
-  `dmg_max1` = 255,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 37,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 65,
+  `stat_value2` = 16,
   `stat_type3` = 38,
-  `stat_value3` = 87;
+  `stat_value3` = 32;
 
 DELETE FROM `item_template` WHERE `entry` = 60272;
 INSERT INTO `item_template` SET
@@ -2044,6 +2112,7 @@ INSERT INTO `item_template` SET
   `name` = 'Halberd of Nervy Stuffing',
   `displayid` = 32717,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2053,18 +2122,18 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 133,
-  `dmg_max1` = 247,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `block` = 59,
   `stat_type1` = 4,
-  `stat_value1` = 45,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 67,
+  `stat_value2` = 11,
   `stat_type3` = 32,
-  `stat_value3` = 34,
+  `stat_value3` = 8,
   `stat_type4` = 37,
-  `stat_value4` = 66;
+  `stat_value4` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60273;
 INSERT INTO `item_template` SET
@@ -2072,9 +2141,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Paladin Libram of Melee',
+  `name` = 'Sanctified Libram of the Reckoning Hammer',
   `displayid` = 5562,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2098,6 +2168,7 @@ INSERT INTO `item_template` SET
   `name` = 'Lowering Procedure Helmet',
   `displayid` = 46205,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2109,11 +2180,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 700,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 31,
-  `stat_type3` = 43,
-  `stat_value3` = 10,
+  `stat_value1` = 27,
+  `stat_type2` = 45,
+  `stat_value2` = 29,
+  `stat_type3` = 7,
+  `stat_value3` = 15,
   `stat_type4` = 32,
   `stat_value4` = 21;
 
@@ -2126,6 +2197,7 @@ INSERT INTO `item_template` SET
   `name` = 'Local Spaulders of the Disk',
   `displayid` = 46660,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2138,12 +2210,12 @@ INSERT INTO `item_template` SET
   `armor` = 700,
   `stat_type1` = 5,
   `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 14,
-  `stat_type3` = 45,
-  `stat_value3` = 21,
-  `stat_type4` = 32,
-  `stat_value4` = 11;
+  `stat_type2` = 45,
+  `stat_value2` = 11,
+  `stat_type3` = 7,
+  `stat_value3` = 18,
+  `stat_type4` = 43,
+  `stat_value4` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60276;
 INSERT INTO `item_template` SET
@@ -2154,6 +2226,7 @@ INSERT INTO `item_template` SET
   `name` = 'Doubtful Armor of Condition',
   `displayid` = 34617,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2165,15 +2238,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 843,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 23,
-  `stat_type3` = 36,
-  `stat_value3` = 12,
-  `stat_type4` = 45,
-  `stat_value4` = 11,
-  `stat_type5` = 6,
-  `stat_value5` = 11;
+  `stat_value1` = 13,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
+  `stat_value3` = 13,
+  `stat_type4` = 6,
+  `stat_value4` = 12,
+  `stat_type5` = 43,
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60277;
 INSERT INTO `item_template` SET
@@ -2184,6 +2257,7 @@ INSERT INTO `item_template` SET
   `name` = 'Renewing Platebelt',
   `displayid` = 26889,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2195,11 +2269,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 557,
   `stat_type1` = 5,
-  `stat_value1` = 20,
-  `stat_type2` = 7,
-  `stat_value2` = 31,
-  `stat_type3` = 45,
-  `stat_value3` = 25;
+  `stat_value1` = 23,
+  `stat_type2` = 45,
+  `stat_value2` = 23,
+  `stat_type3` = 7,
+  `stat_value3` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 60278;
 INSERT INTO `item_template` SET
@@ -2210,6 +2284,7 @@ INSERT INTO `item_template` SET
   `name` = 'Breeches of Worthily Seating',
   `displayid` = 62024,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2221,11 +2296,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 776,
   `stat_type1` = 5,
-  `stat_value1` = 22,
-  `stat_type2` = 7,
-  `stat_value2` = 38,
-  `stat_type3` = 6,
-  `stat_value3` = 25;
+  `stat_value1` = 26,
+  `stat_type2` = 45,
+  `stat_value2` = 30,
+  `stat_type3` = 7,
+  `stat_value3` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 60279;
 INSERT INTO `item_template` SET
@@ -2236,6 +2311,7 @@ INSERT INTO `item_template` SET
   `name` = 'Stompers of Dieting Hurry',
   `displayid` = 51896,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2247,13 +2323,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 5,
-  `stat_value1` = 12,
-  `stat_type2` = 7,
-  `stat_value2` = 13,
-  `stat_type3` = 43,
-  `stat_value3` = 6,
+  `stat_value1` = 14,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 12,
   `stat_type4` = 6,
-  `stat_value4` = 16;
+  `stat_value4` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60280;
 INSERT INTO `item_template` SET
@@ -2264,6 +2340,7 @@ INSERT INTO `item_template` SET
   `name` = 'Wristguards of Woefully Assisting',
   `displayid` = 43699,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2276,12 +2353,12 @@ INSERT INTO `item_template` SET
   `armor` = 422,
   `stat_type1` = 5,
   `stat_value1` = 10,
-  `stat_type2` = 7,
-  `stat_value2` = 13,
-  `stat_type3` = 45,
-  `stat_value3` = 14,
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
+  `stat_value3` = 8,
   `stat_type4` = 43,
-  `stat_value4` = 3;
+  `stat_value4` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60281;
 INSERT INTO `item_template` SET
@@ -2292,6 +2369,7 @@ INSERT INTO `item_template` SET
   `name` = 'Gloves of Range',
   `displayid` = 27381,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2304,14 +2382,14 @@ INSERT INTO `item_template` SET
   `armor` = 633,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 16,
-  `stat_type3` = 32,
+  `stat_type2` = 45,
+  `stat_value2` = 13,
+  `stat_type3` = 7,
   `stat_value3` = 11,
-  `stat_type4` = 6,
-  `stat_value4` = 11,
-  `stat_type5` = 45,
-  `stat_value5` = 9;
+  `stat_type4` = 36,
+  `stat_value4` = 12,
+  `stat_type5` = 6,
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60282;
 INSERT INTO `item_template` SET
@@ -2322,6 +2400,7 @@ INSERT INTO `item_template` SET
   `name` = 'Final''s Pendant',
   `displayid` = 32714,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2333,14 +2412,14 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 7,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 36,
-  `stat_value3` = 7,
-  `stat_type4` = 43,
-  `stat_value4` = 4,
-  `stat_type5` = 45,
-  `stat_value5` = 9;
+  `stat_type2` = 45,
+  `stat_value2` = 8,
+  `stat_type3` = 7,
+  `stat_value3` = 8,
+  `stat_type4` = 36,
+  `stat_value4` = 7,
+  `stat_type5` = 43,
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 60283;
 INSERT INTO `item_template` SET
@@ -2351,6 +2430,7 @@ INSERT INTO `item_template` SET
   `name` = 'Messing Percentage Loop',
   `displayid` = 10530,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2361,11 +2441,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 6,
-  `stat_value3` = 10;
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 13,
+  `stat_type3` = 7,
+  `stat_value3` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60284;
 INSERT INTO `item_template` SET
@@ -2376,6 +2456,7 @@ INSERT INTO `item_template` SET
   `name` = 'Excited Medallion of the Provision',
   `displayid` = 31200,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2386,13 +2467,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 11,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 36,
-  `stat_value3` = 8,
-  `stat_type4` = 43,
-  `stat_value4` = 5;
+  `stat_value1` = 9,
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
+  `stat_type4` = 36,
+  `stat_value4` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60285;
 INSERT INTO `item_template` SET
@@ -2403,6 +2484,7 @@ INSERT INTO `item_template` SET
   `name` = 'Thoughtful Shroud of the Funeral',
   `displayid` = 23007,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2414,11 +2496,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 6,
-  `stat_value3` = 11;
+  `stat_value1` = 11,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60286;
 INSERT INTO `item_template` SET
@@ -2429,6 +2511,7 @@ INSERT INTO `item_template` SET
   `name` = 'Reaction''s Mauler',
   `displayid` = 45345,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2438,19 +2521,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 25,
-  `dmg_max1` = 47,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 35,
-  `stat_type2` = 7,
-  `stat_value2` = 65,
-  `stat_type3` = 45,
-  `stat_value3` = 59,
-  `stat_type4` = 6,
-  `stat_value4` = 40,
-  `stat_type5` = 43,
-  `stat_value5` = 18;
+  `stat_value1` = 4,
+  `stat_type2` = 45,
+  `stat_value2` = 6,
+  `stat_type3` = 7,
+  `stat_value3` = 5,
+  `stat_type4` = 43,
+  `stat_value4` = 2,
+  `stat_type5` = 32,
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60287;
 INSERT INTO `item_template` SET
@@ -2461,6 +2544,7 @@ INSERT INTO `item_template` SET
   `name` = 'Meaningfully Weighty Sword',
   `displayid` = 46985,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2470,17 +2554,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 29,
-  `dmg_max1` = 55,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 32,
-  `stat_type2` = 7,
-  `stat_value2` = 72,
-  `stat_type3` = 32,
-  `stat_value3` = 69,
-  `stat_type4` = 6,
-  `stat_value4` = 47;
+  `stat_value1` = 4,
+  `stat_type2` = 45,
+  `stat_value2` = 7,
+  `stat_type3` = 7,
+  `stat_value3` = 9,
+  `stat_type4` = 36,
+  `stat_value4` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60288;
 INSERT INTO `item_template` SET
@@ -2491,6 +2575,7 @@ INSERT INTO `item_template` SET
   `name` = 'Lantern of the Business',
   `displayid` = 28553,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 23,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2502,10 +2587,10 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 12,
-  `stat_type2` = 7,
-  `stat_value2` = 20,
-  `stat_type3` = 43,
-  `stat_value3` = 7;
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60289;
 INSERT INTO `item_template` SET
@@ -2513,9 +2598,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Paladin Libram of Healer',
+  `name` = 'Sanctified Libram of the Mending Sun',
   `displayid` = 5563,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2539,6 +2625,7 @@ INSERT INTO `item_template` SET
   `name` = 'Spiting Gift Helm',
   `displayid` = 26115,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2552,9 +2639,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 22,
   `stat_type2` = 7,
-  `stat_value2` = 41,
+  `stat_value2` = 27,
   `stat_type3` = 31,
-  `stat_value3` = 28;
+  `stat_value3` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 60291;
 INSERT INTO `item_template` SET
@@ -2565,6 +2652,7 @@ INSERT INTO `item_template` SET
   `name` = 'Thankful Spaulders of Numbering',
   `displayid` = 56969,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2578,13 +2666,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 15,
+  `stat_value2` = 11,
   `stat_type3` = 31,
-  `stat_value3` = 11,
+  `stat_value3` = 12,
   `stat_type4` = 5,
-  `stat_value4` = 10,
+  `stat_value4` = 11,
   `stat_type5` = 38,
-  `stat_value5` = 21;
+  `stat_value5` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 60292;
 INSERT INTO `item_template` SET
@@ -2595,6 +2683,7 @@ INSERT INTO `item_template` SET
   `name` = 'Cuirass of the Ideal',
   `displayid` = 48759,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2606,15 +2695,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 472,
   `stat_type1` = 3,
-  `stat_value1` = 12,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 22,
+  `stat_value2` = 14,
   `stat_type3` = 31,
-  `stat_value3` = 15,
+  `stat_value3` = 14,
   `stat_type4` = 32,
-  `stat_value4` = 18,
+  `stat_value4` = 17,
   `stat_type5` = 44,
-  `stat_value5` = 13;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60293;
 INSERT INTO `item_template` SET
@@ -2625,6 +2714,7 @@ INSERT INTO `item_template` SET
   `name` = 'Dearly Capping Cinch',
   `displayid` = 41477,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2638,11 +2728,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 24,
   `stat_type2` = 7,
-  `stat_value2` = 27,
+  `stat_value2` = 18,
   `stat_type3` = 31,
   `stat_value3` = 19,
   `stat_type4` = 5,
-  `stat_value4` = 12;
+  `stat_value4` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60294;
 INSERT INTO `item_template` SET
@@ -2653,6 +2743,7 @@ INSERT INTO `item_template` SET
   `name` = 'Pollution''s Legguards',
   `displayid` = 27070,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2666,11 +2757,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 12,
   `stat_type3` = 44,
-  `stat_value3` = 12,
+  `stat_value3` = 13,
   `stat_type4` = 38,
-  `stat_value4` = 32,
+  `stat_value4` = 33,
   `stat_type5` = 32,
   `stat_value5` = 14;
 
@@ -2683,6 +2774,7 @@ INSERT INTO `item_template` SET
   `name` = 'Reaction Greaves',
   `displayid` = 6931,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2694,15 +2786,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 354,
   `stat_type1` = 3,
-  `stat_value1` = 11,
+  `stat_value1` = 12,
   `stat_type2` = 7,
-  `stat_value2` = 22,
+  `stat_value2` = 16,
   `stat_type3` = 44,
-  `stat_value3` = 11,
+  `stat_value3` = 12,
   `stat_type4` = 36,
-  `stat_value4` = 12,
+  `stat_value4` = 13,
   `stat_type5` = 31,
-  `stat_value5` = 10;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60296;
 INSERT INTO `item_template` SET
@@ -2713,6 +2805,7 @@ INSERT INTO `item_template` SET
   `name` = 'Front Armguards of Sticking',
   `displayid` = 48325,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2726,9 +2819,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 12,
   `stat_type3` = 32,
-  `stat_value3` = 15;
+  `stat_value3` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60297;
 INSERT INTO `item_template` SET
@@ -2739,6 +2832,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fists of the Ringing Pound',
   `displayid` = 52409,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2750,13 +2844,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 354,
   `stat_type1` = 3,
-  `stat_value1` = 12,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 20,
+  `stat_value2` = 13,
   `stat_type3` = 31,
   `stat_value3` = 11,
   `stat_type4` = 38,
-  `stat_value4` = 38;
+  `stat_value4` = 36;
 
 DELETE FROM `item_template` WHERE `entry` = 60298;
 INSERT INTO `item_template` SET
@@ -2767,6 +2861,7 @@ INSERT INTO `item_template` SET
   `name` = 'Choker of Mindful Preferring',
   `displayid` = 47772,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2779,7 +2874,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 36,
   `stat_value3` = 10,
   `stat_type4` = 31,
@@ -2794,6 +2889,7 @@ INSERT INTO `item_template` SET
   `name` = 'Youth''s Signet',
   `displayid` = 31655,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2806,7 +2902,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 13,
   `stat_type3` = 44,
   `stat_value3` = 13;
 
@@ -2819,6 +2915,7 @@ INSERT INTO `item_template` SET
   `name` = 'Horn of Approximate Clarity',
   `displayid` = 38129,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2829,9 +2926,9 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 3,
-  `stat_value1` = 12,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 13,
   `stat_type3` = 32,
   `stat_value3` = 12;
 
@@ -2844,6 +2941,7 @@ INSERT INTO `item_template` SET
   `name` = 'Intelligently Saddened Shawl',
   `displayid` = 24073,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2857,7 +2955,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 11,
   `stat_type3` = 31,
   `stat_value3` = 12;
 
@@ -2870,6 +2968,7 @@ INSERT INTO `item_template` SET
   `name` = 'Head Poem Saw',
   `displayid` = 54989,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2879,15 +2978,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 75,
-  `dmg_max1` = 139,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 36,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 62,
+  `stat_value2` = 1,
   `stat_type3` = 36,
-  `stat_value3` = 41;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60303;
 INSERT INTO `item_template` SET
@@ -2898,6 +2997,7 @@ INSERT INTO `item_template` SET
   `name` = 'Sidearm of Arming',
   `displayid` = 41615,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2907,15 +3007,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 80,
-  `dmg_max1` = 148,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 30,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 46,
+  `stat_value2` = 1,
   `stat_type3` = 5,
-  `stat_value3` = 33;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60304;
 INSERT INTO `item_template` SET
@@ -2926,6 +3026,7 @@ INSERT INTO `item_template` SET
   `name` = 'Barb of Brother',
   `displayid` = 32439,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2935,15 +3036,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 53,
-  `dmg_max1` = 99,
+  `dmg_min1` = 69,
+  `dmg_max1` = 129,
   `delay` = 1800,
   `stat_type1` = 3,
-  `stat_value1` = 39,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 58,
+  `stat_value2` = 1,
   `stat_type3` = 5,
-  `stat_value3` = 34;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60305;
 INSERT INTO `item_template` SET
@@ -2954,6 +3055,7 @@ INSERT INTO `item_template` SET
   `name` = 'Easy Knuckles',
   `displayid` = 50370,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2963,15 +3065,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 74,
-  `dmg_max1` = 137,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 40,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 60,
+  `stat_value2` = 1,
   `stat_type3` = 32,
-  `stat_value3` = 34;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60306;
 INSERT INTO `item_template` SET
@@ -2982,6 +3084,7 @@ INSERT INTO `item_template` SET
   `name` = 'Population Waraxe',
   `displayid` = 50338,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -2991,15 +3094,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 42,
+  `stat_value1` = 12,
   `stat_type2` = 7,
-  `stat_value2` = 82,
+  `stat_value2` = 16,
   `stat_type3` = 36,
-  `stat_value3` = 55;
+  `stat_value3` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60307;
 INSERT INTO `item_template` SET
@@ -3010,6 +3113,7 @@ INSERT INTO `item_template` SET
   `name` = 'Edge of the Using Birthday',
   `displayid` = 28576,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3019,17 +3123,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 137,
-  `dmg_max1` = 255,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 39,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 60,
+  `stat_value2` = 15,
   `stat_type3` = 5,
-  `stat_value3` = 23,
+  `stat_value3` = 8,
   `stat_type4` = 36,
-  `stat_value4` = 22;
+  `stat_value4` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60308;
 INSERT INTO `item_template` SET
@@ -3040,6 +3144,7 @@ INSERT INTO `item_template` SET
   `name` = 'Signal Trident of Device',
   `displayid` = 42064,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3049,20 +3154,20 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 133,
-  `dmg_max1` = 247,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `block` = 59,
   `stat_type1` = 3,
-  `stat_value1` = 42,
+  `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 59,
+  `stat_value2` = 10,
   `stat_type3` = 31,
-  `stat_value3` = 38,
+  `stat_value3` = 9,
   `stat_type4` = 32,
-  `stat_value4` = 36,
+  `stat_value4` = 9,
   `stat_type5` = 36,
-  `stat_value5` = 33;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60309;
 INSERT INTO `item_template` SET
@@ -3073,6 +3178,7 @@ INSERT INTO `item_template` SET
   `name` = 'Stave of Effect',
   `displayid` = 35240,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3082,17 +3188,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 52,
-  `dmg_max1` = 96,
-  `delay` = 2400,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
+  `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 65,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 91,
+  `stat_value2` = 11,
   `stat_type3` = 36,
-  `stat_value3` = 61,
+  `stat_value3` = 11,
   `stat_type4` = 31,
-  `stat_value4` = 71;
+  `stat_value4` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60310;
 INSERT INTO `item_template` SET
@@ -3103,6 +3209,7 @@ INSERT INTO `item_template` SET
   `name` = 'Moral Shortbow',
   `displayid` = 18343,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 15,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3112,15 +3219,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 64,
-  `dmg_max1` = 120,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 47,
+  `stat_value1` = 24,
   `stat_type2` = 7,
-  `stat_value2` = 82,
+  `stat_value2` = 28,
   `stat_type3` = 31,
-  `stat_value3` = 55;
+  `stat_value3` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 60311;
 INSERT INTO `item_template` SET
@@ -3131,6 +3238,7 @@ INSERT INTO `item_template` SET
   `name` = 'Painting Handcannon',
   `displayid` = 57236,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3140,25 +3248,26 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 57,
-  `dmg_max1` = 106,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 51,
+  `stat_value1` = 41,
   `stat_type2` = 7,
-  `stat_value2` = 90,
+  `stat_value2` = 48,
   `stat_type3` = 36,
-  `stat_value3` = 60;
+  `stat_value3` = 48;
 
 DELETE FROM `item_template` WHERE `entry` = 60312;
 INSERT INTO `item_template` SET
   `entry` = 60312,
   `class` = 2,
-  `subclass` = 19,
+  `subclass` = 18,
   `SoundOverrideSubclass` = -1,
   `name` = 'Crossbow of the Memorable Wave',
-  `displayid` = 64371,
+  `displayid` = 45357,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3168,17 +3277,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 64,
-  `dmg_max1` = 120,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 114,
+  `stat_value1` = 48,
   `stat_type2` = 7,
-  `stat_value2` = 160,
+  `stat_value2` = 44,
   `stat_type3` = 5,
-  `stat_value3` = 50,
+  `stat_value3` = 21,
   `stat_type4` = 32,
-  `stat_value4` = 60;
+  `stat_value4` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 60313;
 INSERT INTO `item_template` SET
@@ -3189,6 +3298,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tasting Cap',
   `displayid` = 34639,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3200,13 +3310,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 182,
   `stat_type1` = 3,
-  `stat_value1` = 18,
+  `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 15,
   `stat_type3` = 36,
-  `stat_value3` = 19,
+  `stat_value3` = 20,
   `stat_type4` = 37,
-  `stat_value4` = 24;
+  `stat_value4` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 60314;
 INSERT INTO `item_template` SET
@@ -3217,6 +3327,7 @@ INSERT INTO `item_template` SET
   `name` = 'Spaulders of Relating Evening',
   `displayid` = 26035,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3230,11 +3341,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 37,
   `stat_value3` = 8,
   `stat_type4` = 38,
-  `stat_value4` = 17,
+  `stat_value4` = 18,
   `stat_type5` = 31,
   `stat_value5` = 7;
 
@@ -3247,6 +3358,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tunic of Deep',
   `displayid` = 28375,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3260,7 +3372,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 32,
+  `stat_value2` = 22,
   `stat_type3` = 31,
   `stat_value3` = 22;
 
@@ -3273,6 +3385,7 @@ INSERT INTO `item_template` SET
   `name` = 'Belt of Area',
   `displayid` = 56333,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3286,7 +3399,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 23,
+  `stat_value2` = 16,
   `stat_type3` = 31,
   `stat_value3` = 14,
   `stat_type4` = 44,
@@ -3303,6 +3416,7 @@ INSERT INTO `item_template` SET
   `name` = 'Leggings of Surprised Requirement',
   `displayid` = 9500,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3316,7 +3430,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 25,
+  `stat_value2` = 17,
   `stat_type3` = 38,
   `stat_value3` = 36,
   `stat_type4` = 36,
@@ -3331,6 +3445,7 @@ INSERT INTO `item_template` SET
   `name` = 'Electrical Treads of the Clue',
   `displayid` = 23765,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3344,11 +3459,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 15,
+  `stat_value2` = 10,
   `stat_type3` = 32,
-  `stat_value3` = 13,
+  `stat_value3` = 14,
   `stat_type4` = 36,
-  `stat_value4` = 9,
+  `stat_value4` = 10,
   `stat_type5` = 38,
   `stat_value5` = 21;
 
@@ -3361,6 +3476,7 @@ INSERT INTO `item_template` SET
   `name` = 'Remarkable Armguards',
   `displayid` = 40717,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3374,7 +3490,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 15,
+  `stat_value2` = 10,
   `stat_type3` = 44,
   `stat_value3` = 8,
   `stat_type4` = 37,
@@ -3389,6 +3505,7 @@ INSERT INTO `item_template` SET
   `name` = 'Gloves of Quickly Bodying',
   `displayid` = 45503,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3400,9 +3517,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 164,
   `stat_type1` = 3,
-  `stat_value1` = 12,
+  `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 32,
   `stat_value3` = 12,
   `stat_type4` = 35,
@@ -3419,6 +3536,7 @@ INSERT INTO `item_template` SET
   `name` = 'Necklace of Playful Imagining',
   `displayid` = 31603,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3431,7 +3549,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 11,
+  `stat_value2` = 7,
   `stat_type3` = 44,
   `stat_value3` = 8,
   `stat_type4` = 35,
@@ -3448,6 +3566,7 @@ INSERT INTO `item_template` SET
   `name` = 'Holiday Circle',
   `displayid` = 9849,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3460,7 +3579,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 14,
+  `stat_value2` = 9,
   `stat_type3` = 38,
   `stat_value3` = 21,
   `stat_type4` = 32,
@@ -3475,6 +3594,7 @@ INSERT INTO `item_template` SET
   `name` = 'Anxiously Stomaching Charm',
   `displayid` = 56783,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3487,7 +3607,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 13,
   `stat_type3` = 38,
   `stat_value3` = 19;
 
@@ -3500,6 +3620,7 @@ INSERT INTO `item_template` SET
   `name` = 'Cover of Demanding Bar',
   `displayid` = 23004,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3511,9 +3632,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 3,
-  `stat_value1` = 11,
+  `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 38,
   `stat_value3` = 17,
   `stat_type4` = 35,
@@ -3528,6 +3649,7 @@ INSERT INTO `item_template` SET
   `name` = 'Reward Mauler',
   `displayid` = 19649,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3537,19 +3659,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 17,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 23,
+  `stat_value2` = 1,
   `stat_type3` = 44,
-  `stat_value3` = 15,
+  `stat_value3` = 1,
   `stat_type4` = 31,
-  `stat_value4` = 22,
+  `stat_value4` = 1,
   `stat_type5` = 38,
-  `stat_value5` = 42;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60326;
 INSERT INTO `item_template` SET
@@ -3560,6 +3682,7 @@ INSERT INTO `item_template` SET
   `name` = 'Falchion of Mindful Attraction',
   `displayid` = 7485,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3569,17 +3692,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 80,
-  `dmg_max1` = 148,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 27,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 24,
+  `stat_value2` = 1,
   `stat_type3` = 37,
-  `stat_value3` = 22,
+  `stat_value3` = 1,
   `stat_type4` = 31,
-  `stat_value4` = 28;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60327;
 INSERT INTO `item_template` SET
@@ -3590,6 +3713,7 @@ INSERT INTO `item_template` SET
   `name` = 'Evenly Impacting Slicer',
   `displayid` = 20572,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3599,17 +3723,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 53,
-  `dmg_max1` = 99,
+  `dmg_min1` = 69,
+  `dmg_max1` = 129,
   `delay` = 1800,
   `stat_type1` = 3,
-  `stat_value1` = 32,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 31,
+  `stat_value2` = 1,
   `stat_type3` = 31,
-  `stat_value3` = 20,
+  `stat_value3` = 1,
   `stat_type4` = 37,
-  `stat_value4` = 39;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60328;
 INSERT INTO `item_template` SET
@@ -3620,6 +3744,7 @@ INSERT INTO `item_template` SET
   `name` = 'Stomaching Appreciation Ripper',
   `displayid` = 50370,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3629,19 +3754,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 74,
-  `dmg_max1` = 137,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 19,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 37,
+  `stat_value2` = 1,
   `stat_type3` = 44,
-  `stat_value3` = 23,
+  `stat_value3` = 1,
   `stat_type4` = 38,
-  `stat_value4` = 46,
+  `stat_value4` = 1,
   `stat_type5` = 36,
-  `stat_value5` = 25;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60329;
 INSERT INTO `item_template` SET
@@ -3652,6 +3777,7 @@ INSERT INTO `item_template` SET
   `name` = 'Championing Cleanliness Longbow',
   `displayid` = 28235,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 15,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3661,19 +3787,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 64,
-  `dmg_max1` = 120,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 28,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 46,
+  `stat_value2` = 15,
   `stat_type3` = 32,
-  `stat_value3` = 33,
+  `stat_value3` = 17,
   `stat_type4` = 35,
-  `stat_value4` = 30,
+  `stat_value4` = 15,
   `stat_type5` = 38,
-  `stat_value5` = 68;
+  `stat_value5` = 34;
 
 DELETE FROM `item_template` WHERE `entry` = 60330;
 INSERT INTO `item_template` SET
@@ -3684,6 +3810,7 @@ INSERT INTO `item_template` SET
   `name` = 'Rifle of Party Bodying',
   `displayid` = 18372,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3693,29 +3820,30 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 57,
-  `dmg_max1` = 106,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 34,
+  `stat_value1` = 27,
   `stat_type2` = 7,
-  `stat_value2` = 56,
+  `stat_value2` = 30,
   `stat_type3` = 31,
-  `stat_value3` = 34,
+  `stat_value3` = 27,
   `stat_type4` = 32,
-  `stat_value4` = 29,
+  `stat_value4` = 23,
   `stat_type5` = 38,
-  `stat_value5` = 73;
+  `stat_value5` = 59;
 
 DELETE FROM `item_template` WHERE `entry` = 60331;
 INSERT INTO `item_template` SET
   `entry` = 60331,
   `class` = 2,
-  `subclass` = 19,
+  `subclass` = 18,
   `SoundOverrideSubclass` = -1,
   `name` = 'Crossbow of Background',
-  `displayid` = 50167,
+  `displayid` = 37803,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3725,17 +3853,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 64,
-  `dmg_max1` = 120,
+  `dmg_min1` = 99,
+  `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 56,
+  `stat_value1` = 23,
   `stat_type2` = 7,
-  `stat_value2` = 125,
+  `stat_value2` = 35,
   `stat_type3` = 32,
-  `stat_value3` = 90,
+  `stat_value3` = 38,
   `stat_type4` = 35,
-  `stat_value4` = 102;
+  `stat_value4` = 42;
 
 DELETE FROM `item_template` WHERE `entry` = 60332;
 INSERT INTO `item_template` SET
@@ -3746,6 +3874,7 @@ INSERT INTO `item_template` SET
   `name` = 'Gloving Discount War Edge',
   `displayid` = 38679,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 25,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3755,19 +3884,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 13,
-  `dmg_max1` = 23,
+  `dmg_min1` = 60,
+  `dmg_max1` = 111,
   `delay` = 1800,
   `stat_type1` = 3,
-  `stat_value1` = 48,
+  `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 89,
+  `stat_value2` = 11,
   `stat_type3` = 35,
-  `stat_value3` = 49,
+  `stat_value3` = 9,
   `stat_type4` = 32,
-  `stat_value4` = 36,
+  `stat_value4` = 6,
   `stat_type5` = 44,
-  `stat_value5` = 36;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60333;
 INSERT INTO `item_template` SET
@@ -3778,6 +3907,7 @@ INSERT INTO `item_template` SET
   `name` = 'Hopeful Smoke Cap',
   `displayid` = 32979,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3789,13 +3919,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 95,
   `stat_type1` = 5,
-  `stat_value1` = 23,
-  `stat_type2` = 7,
-  `stat_value2` = 31,
-  `stat_type3` = 45,
+  `stat_value1` = 22,
+  `stat_type2` = 45,
+  `stat_value2` = 26,
+  `stat_type3` = 7,
   `stat_value3` = 20,
   `stat_type4` = 32,
-  `stat_value4` = 18;
+  `stat_value4` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 60334;
 INSERT INTO `item_template` SET
@@ -3806,6 +3936,7 @@ INSERT INTO `item_template` SET
   `name` = 'Simplistic Spaulders of Circulating',
   `displayid` = 27796,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3818,12 +3949,12 @@ INSERT INTO `item_template` SET
   `armor` = 95,
   `stat_type1` = 5,
   `stat_value1` = 15,
-  `stat_type2` = 7,
-  `stat_value2` = 22,
-  `stat_type3` = 6,
-  `stat_value3` = 9,
-  `stat_type4` = 45,
-  `stat_value4` = 16;
+  `stat_type2` = 45,
+  `stat_value2` = 17,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
+  `stat_type4` = 6,
+  `stat_value4` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60335;
 INSERT INTO `item_template` SET
@@ -3834,6 +3965,7 @@ INSERT INTO `item_template` SET
   `name` = 'Suspicious Speaker Chestguard',
   `displayid` = 55896,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3845,10 +3977,10 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 114,
   `stat_type1` = 5,
-  `stat_value1` = 22,
-  `stat_type2` = 7,
-  `stat_value2` = 23,
-  `stat_type3` = 32,
+  `stat_value1` = 19,
+  `stat_type2` = 45,
+  `stat_value2` = 26,
+  `stat_type3` = 7,
   `stat_value3` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 60336;
@@ -3860,6 +3992,7 @@ INSERT INTO `item_template` SET
   `name` = 'Cinch of the Lecturing Roof',
   `displayid` = 58817,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3871,11 +4004,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 75,
   `stat_type1` = 5,
-  `stat_value1` = 20,
-  `stat_type2` = 7,
-  `stat_value2` = 32,
-  `stat_type3` = 36,
-  `stat_value3` = 19;
+  `stat_value1` = 22,
+  `stat_type2` = 45,
+  `stat_value2` = 22,
+  `stat_type3` = 7,
+  `stat_value3` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 60337;
 INSERT INTO `item_template` SET
@@ -3886,6 +4019,7 @@ INSERT INTO `item_template` SET
   `name` = 'Verbally Mistaking Pants',
   `displayid` = 41205,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3898,13 +4032,13 @@ INSERT INTO `item_template` SET
   `armor` = 105,
   `stat_type1` = 5,
   `stat_value1` = 19,
-  `stat_type2` = 7,
-  `stat_value2` = 18,
-  `stat_type3` = 31,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
   `stat_value3` = 13,
-  `stat_type4` = 6,
+  `stat_type4` = 31,
   `stat_value4` = 15,
-  `stat_type5` = 36,
+  `stat_type5` = 6,
   `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60338;
@@ -3916,6 +4050,7 @@ INSERT INTO `item_template` SET
   `name` = 'Steps of Tired Bodying',
   `displayid` = 43087,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3927,13 +4062,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 85,
   `stat_type1` = 5,
-  `stat_value1` = 15,
-  `stat_type2` = 7,
-  `stat_value2` = 27,
-  `stat_type3` = 36,
-  `stat_value3` = 15,
+  `stat_value1` = 11,
+  `stat_type2` = 45,
+  `stat_value2` = 17,
+  `stat_type3` = 7,
+  `stat_value3` = 12,
   `stat_type4` = 6,
-  `stat_value4` = 10;
+  `stat_value4` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 60339;
 INSERT INTO `item_template` SET
@@ -3944,6 +4079,7 @@ INSERT INTO `item_template` SET
   `name` = 'Offence''s Bracers',
   `displayid` = 33825,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3956,12 +4092,12 @@ INSERT INTO `item_template` SET
   `armor` = 57,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 16,
-  `stat_type3` = 47,
-  `stat_value3` = 7,
-  `stat_type4` = 31,
-  `stat_value4` = 10;
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 13,
+  `stat_type4` = 47,
+  `stat_value4` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60340;
 INSERT INTO `item_template` SET
@@ -3972,6 +4108,7 @@ INSERT INTO `item_template` SET
   `name` = 'Worrisome Handguards of the Trade',
   `displayid` = 55476,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -3983,14 +4120,14 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 85,
   `stat_type1` = 5,
-  `stat_value1` = 8,
-  `stat_type2` = 7,
-  `stat_value2` = 16,
-  `stat_type3` = 6,
+  `stat_value1` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
   `stat_value3` = 9,
-  `stat_type4` = 45,
-  `stat_value4` = 9,
-  `stat_type5` = 31,
+  `stat_type4` = 6,
+  `stat_value4` = 10,
+  `stat_type5` = 36,
   `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60341;
@@ -4002,6 +4139,7 @@ INSERT INTO `item_template` SET
   `name` = 'Pendant of the Square',
   `displayid` = 33906,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4012,11 +4150,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 13,
-  `stat_type3` = 36,
-  `stat_value3` = 13;
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
+  `stat_value3` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60342;
 INSERT INTO `item_template` SET
@@ -4027,6 +4165,7 @@ INSERT INTO `item_template` SET
   `name` = 'Ring of the Party Homework',
   `displayid` = 35423,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4038,12 +4177,12 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 8,
-  `stat_type2` = 7,
-  `stat_value2` = 9,
-  `stat_type3` = 47,
-  `stat_value3` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 7,
+  `stat_type3` = 7,
+  `stat_value3` = 12,
   `stat_type4` = 36,
-  `stat_value4` = 10;
+  `stat_value4` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60343;
 INSERT INTO `item_template` SET
@@ -4054,6 +4193,7 @@ INSERT INTO `item_template` SET
   `name` = 'Brooch of the Dust',
   `displayid` = 2618,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4065,14 +4205,14 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 8,
-  `stat_type3` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 6,
+  `stat_type3` = 7,
   `stat_value3` = 7,
-  `stat_type4` = 31,
+  `stat_type4` = 6,
   `stat_value4` = 8,
-  `stat_type5` = 45,
-  `stat_value5` = 8;
+  `stat_type5` = 32,
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60344;
 INSERT INTO `item_template` SET
@@ -4083,6 +4223,7 @@ INSERT INTO `item_template` SET
   `name` = 'Drape of Impartial Negotiation',
   `displayid` = 35430,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4095,11 +4236,11 @@ INSERT INTO `item_template` SET
   `armor` = 57,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 10,
-  `stat_type3` = 32,
+  `stat_type2` = 45,
+  `stat_value2` = 7,
+  `stat_type3` = 7,
   `stat_value3` = 13,
-  `stat_type4` = 6,
+  `stat_type4` = 32,
   `stat_value4` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60345;
@@ -4111,6 +4252,7 @@ INSERT INTO `item_template` SET
   `name` = 'Force of Violent Handing',
   `displayid` = 64519,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4120,15 +4262,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 25,
-  `dmg_max1` = 47,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 72,
-  `stat_type2` = 7,
-  `stat_value2` = 81,
-  `stat_type3` = 36,
-  `stat_value3` = 72;
+  `stat_value1` = 8,
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
+  `stat_value3` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60346;
 INSERT INTO `item_template` SET
@@ -4139,6 +4281,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fang of Featuring',
   `displayid` = 22258,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4148,19 +4291,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 31,
-  `dmg_max1` = 57,
+  `dmg_min1` = 62,
+  `dmg_max1` = 114,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 32,
-  `stat_type2` = 7,
-  `stat_value2` = 65,
-  `stat_type3` = 31,
-  `stat_value3` = 41,
+  `stat_value1` = 3,
+  `stat_type2` = 45,
+  `stat_value2` = 4,
+  `stat_type3` = 7,
+  `stat_value3` = 4,
   `stat_type4` = 32,
-  `stat_value4` = 46,
+  `stat_value4` = 5,
   `stat_type5` = 6,
-  `stat_value5` = 38;
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 60347;
 INSERT INTO `item_template` SET
@@ -4171,6 +4314,7 @@ INSERT INTO `item_template` SET
   `name` = 'Stave of Faulting',
   `displayid` = 20389,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4180,29 +4324,30 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 46,
-  `dmg_max1` = 86,
-  `delay` = 2100,
+  `dmg_min1` = 144,
+  `dmg_max1` = 268,
+  `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 52,
-  `stat_type2` = 7,
-  `stat_value2` = 79,
-  `stat_type3` = 45,
-  `stat_value3` = 64,
-  `stat_type4` = 47,
-  `stat_value4` = 24,
-  `stat_type5` = 36,
-  `stat_value5` = 46;
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 16,
+  `stat_type3` = 7,
+  `stat_value3` = 19,
+  `stat_type4` = 36,
+  `stat_value4` = 16,
+  `stat_type5` = 31,
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60348;
 INSERT INTO `item_template` SET
   `entry` = 60348,
   `class` = 2,
-  `subclass` = 18,
+  `subclass` = 19,
   `SoundOverrideSubclass` = -1,
   `name` = 'Positioning Baton',
-  `displayid` = 40816,
+  `displayid` = 56909,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4212,19 +4357,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 61,
-  `dmg_max1` = 113,
-  `delay` = 2900,
+  `dmg_min1` = 125,
+  `dmg_max1` = 232,
+  `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 41,
-  `stat_type2` = 7,
-  `stat_value2` = 56,
-  `stat_type3` = 32,
-  `stat_value3` = 37,
-  `stat_type4` = 6,
-  `stat_value4` = 43,
-  `stat_type5` = 47,
-  `stat_value5` = 19;
+  `stat_value1` = 1,
+  `stat_type2` = 45,
+  `stat_value2` = 1,
+  `stat_type3` = 7,
+  `stat_value3` = 1,
+  `stat_type4` = 47,
+  `stat_value4` = 1,
+  `stat_type5` = 6,
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60349;
 INSERT INTO `item_template` SET
@@ -4235,6 +4380,7 @@ INSERT INTO `item_template` SET
   `name` = 'Slightly Demonstrable Shard',
   `displayid` = 28478,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 23,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4245,15 +4391,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 7,
-  `stat_type2` = 7,
-  `stat_value2` = 13,
-  `stat_type3` = 36,
-  `stat_value3` = 7,
-  `stat_type4` = 31,
-  `stat_value4` = 8,
-  `stat_type5` = 45,
-  `stat_value5` = 9;
+  `stat_value1` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
+  `stat_value3` = 8,
+  `stat_type4` = 47,
+  `stat_value4` = 3,
+  `stat_type5` = 36,
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60350;
 INSERT INTO `item_template` SET
@@ -4264,6 +4410,7 @@ INSERT INTO `item_template` SET
   `name` = 'Confident Helm of the Study',
   `displayid` = 65155,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4275,11 +4422,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 95,
   `stat_type1` = 5,
-  `stat_value1` = 21,
-  `stat_type2` = 7,
-  `stat_value2` = 42,
-  `stat_type3` = 32,
-  `stat_value3` = 28;
+  `stat_value1` = 29,
+  `stat_type2` = 45,
+  `stat_value2` = 33,
+  `stat_type3` = 7,
+  `stat_value3` = 24;
 
 DELETE FROM `item_template` WHERE `entry` = 60351;
 INSERT INTO `item_template` SET
@@ -4290,6 +4437,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shoulderguards of Cabling',
   `displayid` = 28756,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4301,15 +4449,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 95,
   `stat_type1` = 5,
-  `stat_value1` = 12,
-  `stat_type2` = 7,
-  `stat_value2` = 12,
-  `stat_type3` = 45,
-  `stat_value3` = 12,
+  `stat_value1` = 8,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
   `stat_type4` = 43,
-  `stat_value4` = 6,
+  `stat_value4` = 5,
   `stat_type5` = 32,
-  `stat_value5` = 9;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60352;
 INSERT INTO `item_template` SET
@@ -4320,6 +4468,7 @@ INSERT INTO `item_template` SET
   `name` = 'Demonstrative Robes of Click',
   `displayid` = 18338,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4332,14 +4481,14 @@ INSERT INTO `item_template` SET
   `armor` = 114,
   `stat_type1` = 5,
   `stat_value1` = 15,
-  `stat_type2` = 7,
-  `stat_value2` = 18,
-  `stat_type3` = 36,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
   `stat_value3` = 15,
-  `stat_type4` = 43,
-  `stat_value4` = 5,
-  `stat_type5` = 6,
-  `stat_value5` = 11;
+  `stat_type4` = 36,
+  `stat_value4` = 10,
+  `stat_type5` = 43,
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60353;
 INSERT INTO `item_template` SET
@@ -4350,6 +4499,7 @@ INSERT INTO `item_template` SET
   `name` = 'Moralistic Belt of the Room',
   `displayid` = 27842,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4361,11 +4511,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 75,
   `stat_type1` = 5,
-  `stat_value1` = 21,
-  `stat_type2` = 7,
-  `stat_value2` = 23,
-  `stat_type3` = 36,
-  `stat_value3` = 21;
+  `stat_value1` = 22,
+  `stat_type2` = 45,
+  `stat_value2` = 25,
+  `stat_type3` = 7,
+  `stat_value3` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60354;
 INSERT INTO `item_template` SET
@@ -4376,6 +4526,7 @@ INSERT INTO `item_template` SET
   `name` = 'Pants of History',
   `displayid` = 28204,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4388,14 +4539,14 @@ INSERT INTO `item_template` SET
   `armor` = 105,
   `stat_type1` = 5,
   `stat_value1` = 15,
-  `stat_type2` = 7,
-  `stat_value2` = 26,
-  `stat_type3` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 21,
+  `stat_type3` = 7,
   `stat_value3` = 14,
-  `stat_type4` = 43,
-  `stat_value4` = 6,
-  `stat_type5` = 36,
-  `stat_value5` = 11;
+  `stat_type4` = 36,
+  `stat_value4` = 12,
+  `stat_type5` = 43,
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60355;
 INSERT INTO `item_template` SET
@@ -4406,6 +4557,7 @@ INSERT INTO `item_template` SET
   `name` = 'Boots of the Used Rent',
   `displayid` = 44069,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4417,15 +4569,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 85,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 21,
-  `stat_type3` = 45,
-  `stat_value3` = 11,
+  `stat_value1` = 11,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 13,
   `stat_type4` = 43,
-  `stat_value4` = 6,
-  `stat_type5` = 32,
-  `stat_value5` = 9;
+  `stat_value4` = 5,
+  `stat_type5` = 36,
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60356;
 INSERT INTO `item_template` SET
@@ -4436,6 +4588,7 @@ INSERT INTO `item_template` SET
   `name` = 'Bindings of Projecting Evidence',
   `displayid` = 47062,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4447,15 +4600,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 9,
-  `stat_type2` = 7,
+  `stat_value1` = 10,
+  `stat_type2` = 45,
   `stat_value2` = 11,
-  `stat_type3` = 43,
-  `stat_value3` = 3,
-  `stat_type4` = 6,
-  `stat_value4` = 8,
-  `stat_type5` = 45,
-  `stat_value5` = 13;
+  `stat_type3` = 7,
+  `stat_value3` = 7,
+  `stat_type4` = 32,
+  `stat_value4` = 6,
+  `stat_type5` = 6,
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60357;
 INSERT INTO `item_template` SET
@@ -4466,6 +4619,7 @@ INSERT INTO `item_template` SET
   `name` = 'Comparable Gloves',
   `displayid` = 43220,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4478,13 +4632,13 @@ INSERT INTO `item_template` SET
   `armor` = 85,
   `stat_type1` = 5,
   `stat_value1` = 8,
-  `stat_type2` = 7,
-  `stat_value2` = 15,
-  `stat_type3` = 32,
-  `stat_value3` = 9,
-  `stat_type4` = 36,
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
+  `stat_type4` = 32,
   `stat_value4` = 7,
-  `stat_type5` = 6,
+  `stat_type5` = 36,
   `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60358;
@@ -4496,6 +4650,7 @@ INSERT INTO `item_template` SET
   `name` = 'Roughly Appreciative Choker',
   `displayid` = 9852,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4506,10 +4661,10 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 11,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 32,
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
   `stat_value3` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60359;
@@ -4521,6 +4676,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fun Ring of Persuasion',
   `displayid` = 28830,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4532,13 +4688,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 43,
-  `stat_value3` = 3,
-  `stat_type4` = 32,
-  `stat_value4` = 7,
-  `stat_type5` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 8,
+  `stat_type3` = 7,
+  `stat_value3` = 6,
+  `stat_type4` = 43,
+  `stat_value4` = 4,
+  `stat_type5` = 32,
   `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60360;
@@ -4550,6 +4706,7 @@ INSERT INTO `item_template` SET
   `name` = 'Mark of Quiet Summer',
   `displayid` = 30722,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4560,15 +4717,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 6,
-  `stat_type2` = 7,
-  `stat_value2` = 9,
-  `stat_type3` = 6,
+  `stat_value1` = 5,
+  `stat_type2` = 45,
+  `stat_value2` = 7,
+  `stat_type3` = 7,
   `stat_value3` = 9,
-  `stat_type4` = 43,
-  `stat_value4` = 3,
-  `stat_type5` = 36,
-  `stat_value5` = 10;
+  `stat_type4` = 6,
+  `stat_value4` = 6,
+  `stat_type5` = 43,
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60361;
 INSERT INTO `item_template` SET
@@ -4579,6 +4736,7 @@ INSERT INTO `item_template` SET
   `name` = 'Partnering Shroud',
   `displayid` = 45476,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4590,15 +4748,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 7,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 32,
-  `stat_value3` = 8,
-  `stat_type4` = 36,
-  `stat_value4` = 7,
-  `stat_type5` = 45,
-  `stat_value5` = 9;
+  `stat_value1` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 8,
+  `stat_type3` = 7,
+  `stat_value3` = 7,
+  `stat_type4` = 43,
+  `stat_value4` = 4,
+  `stat_type5` = 32,
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60362;
 INSERT INTO `item_template` SET
@@ -4609,6 +4767,7 @@ INSERT INTO `item_template` SET
   `name` = 'Finally Regretting Destroyer',
   `displayid` = 19637,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4618,17 +4777,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 25,
-  `dmg_max1` = 47,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 51,
-  `stat_type2` = 7,
-  `stat_value2` = 77,
-  `stat_type3` = 36,
-  `stat_value3` = 51,
-  `stat_type4` = 43,
-  `stat_value4` = 26;
+  `stat_value1` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 7,
+  `stat_type3` = 7,
+  `stat_value3` = 6,
+  `stat_type4` = 36,
+  `stat_value4` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60363;
 INSERT INTO `item_template` SET
@@ -4639,6 +4798,7 @@ INSERT INTO `item_template` SET
   `name` = 'Edge of the Surprised Problem',
   `displayid` = 50118,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4648,15 +4808,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 31,
-  `dmg_max1` = 57,
+  `dmg_min1` = 62,
+  `dmg_max1` = 114,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 70,
-  `stat_type2` = 7,
-  `stat_value2` = 90,
-  `stat_type3` = 6,
-  `stat_value3` = 70;
+  `stat_value1` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 8,
+  `stat_type3` = 7,
+  `stat_value3` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60364;
 INSERT INTO `item_template` SET
@@ -4667,6 +4827,7 @@ INSERT INTO `item_template` SET
   `name` = 'Variation''s Longstaff',
   `displayid` = 20424,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4676,25 +4837,26 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 46,
-  `dmg_max1` = 86,
-  `delay` = 2100,
+  `dmg_min1` = 144,
+  `dmg_max1` = 268,
+  `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 85,
-  `stat_type2` = 7,
-  `stat_value2` = 133,
-  `stat_type3` = 43,
-  `stat_value3` = 40;
+  `stat_value1` = 23,
+  `stat_type2` = 45,
+  `stat_value2` = 31,
+  `stat_type3` = 7,
+  `stat_value3` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 60365;
 INSERT INTO `item_template` SET
   `entry` = 60365,
   `class` = 2,
-  `subclass` = 18,
+  `subclass` = 19,
   `SoundOverrideSubclass` = -1,
   `name` = 'Waring Emergency Rod',
-  `displayid` = 21024,
+  `displayid` = 39002,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4704,17 +4866,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 61,
-  `dmg_max1` = 113,
-  `delay` = 2900,
+  `dmg_min1` = 125,
+  `dmg_max1` = 232,
+  `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 36,
-  `stat_type2` = 7,
-  `stat_value2` = 52,
-  `stat_type3` = 32,
-  `stat_value3` = 64,
-  `stat_type4` = 45,
-  `stat_value4` = 71;
+  `stat_value1` = 1,
+  `stat_type2` = 45,
+  `stat_value2` = 1,
+  `stat_type3` = 7,
+  `stat_value3` = 1,
+  `stat_type4` = 36,
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60366;
 INSERT INTO `item_template` SET
@@ -4725,6 +4887,7 @@ INSERT INTO `item_template` SET
   `name` = 'Reliable Talisman of Interesting',
   `displayid` = 54062,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 23,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4735,11 +4898,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 18,
-  `stat_type3` = 6,
-  `stat_value3` = 13;
+  `stat_value1` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
+  `stat_value3` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60367;
 INSERT INTO `item_template` SET
@@ -4750,6 +4913,7 @@ INSERT INTO `item_template` SET
   `name` = 'Headguard of the Dogging Course',
   `displayid` = 22920,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4761,15 +4925,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 700,
   `stat_type1` = 4,
-  `stat_value1` = 14,
+  `stat_value1` = 17,
   `stat_type2` = 7,
-  `stat_value2` = 20,
+  `stat_value2` = 15,
   `stat_type3` = 32,
-  `stat_value3` = 18,
+  `stat_value3` = 21,
   `stat_type4` = 44,
-  `stat_value4` = 19,
+  `stat_value4` = 22,
   `stat_type5` = 13,
-  `stat_value5` = 12;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60368;
 INSERT INTO `item_template` SET
@@ -4780,6 +4944,7 @@ INSERT INTO `item_template` SET
   `name` = 'Pauldrons of the Fit',
   `displayid` = 43139,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4791,9 +4956,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 700,
   `stat_type1` = 4,
-  `stat_value1` = 13,
+  `stat_value1` = 12,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 12,
   `stat_type3` = 37,
   `stat_value3` = 12,
   `stat_type4` = 38,
@@ -4808,6 +4973,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tired Cuirass',
   `displayid` = 51087,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4819,11 +4985,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 843,
   `stat_type1` = 4,
-  `stat_value1` = 21,
+  `stat_value1` = 23,
   `stat_type2` = 7,
-  `stat_value2` = 27,
+  `stat_value2` = 19,
   `stat_type3` = 44,
-  `stat_value3` = 21;
+  `stat_value3` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 60370;
 INSERT INTO `item_template` SET
@@ -4834,6 +5000,7 @@ INSERT INTO `item_template` SET
   `name` = 'Access Girdle',
   `displayid` = 27391,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4845,15 +5012,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 557,
   `stat_type1` = 4,
-  `stat_value1` = 13,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 15,
+  `stat_value2` = 10,
   `stat_type3` = 12,
   `stat_value3` = 15,
   `stat_type4` = 14,
-  `stat_value4` = 10,
+  `stat_value4` = 11,
   `stat_type5` = 31,
-  `stat_value5` = 14;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60371;
 INSERT INTO `item_template` SET
@@ -4864,6 +5031,7 @@ INSERT INTO `item_template` SET
   `name` = 'Dastardly Sporting Legguards',
   `displayid` = 62023,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4877,9 +5045,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 31,
+  `stat_value2` = 21,
   `stat_type3` = 12,
-  `stat_value3` = 22,
+  `stat_value3` = 23,
   `stat_type4` = 35,
   `stat_value4` = 13;
 
@@ -4892,6 +5060,7 @@ INSERT INTO `item_template` SET
   `name` = 'Treads of Frightful Public',
   `displayid` = 42332,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4903,15 +5072,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 10,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 9,
   `stat_type3` = 38,
-  `stat_value3` = 21,
+  `stat_value3` = 23,
   `stat_type4` = 37,
-  `stat_value4` = 11,
+  `stat_value4` = 12,
   `stat_type5` = 12,
-  `stat_value5` = 10;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60373;
 INSERT INTO `item_template` SET
@@ -4922,6 +5091,7 @@ INSERT INTO `item_template` SET
   `name` = 'Unending Armguards of the Dream',
   `displayid` = 61550,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4935,7 +5105,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 13,
+  `stat_value2` = 8,
   `stat_type3` = 35,
   `stat_value3` = 11,
   `stat_type4` = 44,
@@ -4950,6 +5120,7 @@ INSERT INTO `item_template` SET
   `name` = 'Handguards of the Implement',
   `displayid` = 27390,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4961,11 +5132,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 18,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 15,
   `stat_type3` = 14,
-  `stat_value3` = 17;
+  `stat_value3` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 60375;
 INSERT INTO `item_template` SET
@@ -4976,6 +5147,7 @@ INSERT INTO `item_template` SET
   `name` = 'Rested Voice Talisman',
   `displayid` = 49267,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -4988,11 +5160,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 11,
+  `stat_value2` = 7,
   `stat_type3` = 31,
   `stat_value3` = 7,
   `stat_type4` = 35,
-  `stat_value4` = 8,
+  `stat_value4` = 7,
   `stat_type5` = 32,
   `stat_value5` = 7;
 
@@ -5005,6 +5177,7 @@ INSERT INTO `item_template` SET
   `name` = 'Seal of Plane Caring',
   `displayid` = 38674,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5017,7 +5190,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 16,
+  `stat_value2` = 11,
   `stat_type3` = 35,
   `stat_value3` = 12,
   `stat_type4` = 13,
@@ -5032,6 +5205,7 @@ INSERT INTO `item_template` SET
   `name` = 'Mark of the Gas',
   `displayid` = 7245,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5042,9 +5216,9 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 4,
-  `stat_value1` = 13,
+  `stat_value1` = 12,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 12,
   `stat_type3` = 38,
   `stat_value3` = 22;
 
@@ -5057,6 +5231,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shroud of the Immaterial Location',
   `displayid` = 26262,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5070,7 +5245,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 8,
+  `stat_value2` = 5,
   `stat_type3` = 36,
   `stat_value3` = 7,
   `stat_type4` = 37,
@@ -5087,6 +5262,7 @@ INSERT INTO `item_template` SET
   `name` = 'Helpless Doomsaw of the Village',
   `displayid` = 31611,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5096,15 +5272,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 75,
-  `dmg_max1` = 139,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 38,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 62,
+  `stat_value2` = 1,
   `stat_type3` = 37,
-  `stat_value3` = 39;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60380;
 INSERT INTO `item_template` SET
@@ -5115,6 +5291,7 @@ INSERT INTO `item_template` SET
   `name` = 'Destroyer of the Thinning While',
   `displayid` = 50204,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5124,17 +5301,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 25,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 47,
+  `stat_value2` = 1,
   `stat_type3` = 31,
-  `stat_value3` = 18,
+  `stat_value3` = 1,
   `stat_type4` = 32,
-  `stat_value4` = 15;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60381;
 INSERT INTO `item_template` SET
@@ -5145,6 +5322,7 @@ INSERT INTO `item_template` SET
   `name` = 'Longblade of the Love',
   `displayid` = 24981,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5154,19 +5332,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 80,
-  `dmg_max1` = 148,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 23,
+  `stat_value2` = 1,
   `stat_type3` = 14,
-  `stat_value3` = 16,
+  `stat_value3` = 1,
   `stat_type4` = 31,
-  `stat_value4` = 25,
+  `stat_value4` = 1,
   `stat_type5` = 12,
-  `stat_value5` = 21;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60382;
 INSERT INTO `item_template` SET
@@ -5177,6 +5355,7 @@ INSERT INTO `item_template` SET
   `name` = 'Battleaxe of the Continuing Post',
   `displayid` = 50335,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5186,19 +5365,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 33,
+  `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 42,
+  `stat_value2` = 8,
   `stat_type3` = 35,
-  `stat_value3` = 33,
+  `stat_value3` = 10,
   `stat_type4` = 13,
-  `stat_value4` = 30,
+  `stat_value4` = 9,
   `stat_type5` = 31,
-  `stat_value5` = 33;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60383;
 INSERT INTO `item_template` SET
@@ -5209,6 +5388,7 @@ INSERT INTO `item_template` SET
   `name` = 'Pummeler of the Naming God',
   `displayid` = 44954,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5218,15 +5398,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 56,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 71,
+  `stat_value2` = 14,
   `stat_type3` = 13,
-  `stat_value3` = 56;
+  `stat_value3` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60384;
 INSERT INTO `item_template` SET
@@ -5237,6 +5417,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shaped Greatsword',
   `displayid` = 50329,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5246,19 +5427,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 137,
-  `dmg_max1` = 255,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 23,
+  `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 36,
+  `stat_value2` = 9,
   `stat_type3` = 38,
-  `stat_value3` = 58,
+  `stat_value3` = 22,
   `stat_type4` = 36,
-  `stat_value4` = 21,
+  `stat_value4` = 8,
   `stat_type5` = 37,
-  `stat_value5` = 27;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60385;
 INSERT INTO `item_template` SET
@@ -5269,6 +5450,7 @@ INSERT INTO `item_template` SET
   `name` = 'Partial Date Halberd',
   `displayid` = 64758,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5278,16 +5460,16 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 133,
-  `dmg_max1` = 247,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `block` = 59,
   `stat_type1` = 4,
-  `stat_value1` = 57,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 100,
+  `stat_value2` = 16,
   `stat_type3` = 37,
-  `stat_value3` = 66;
+  `stat_value3` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60386;
 INSERT INTO `item_template` SET
@@ -5298,6 +5480,7 @@ INSERT INTO `item_template` SET
   `name` = 'Metaling Commission Headpiece',
   `displayid` = 43889,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5309,13 +5492,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 700,
   `stat_type1` = 4,
-  `stat_value1` = 16,
+  `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 20,
   `stat_type3` = 38,
-  `stat_value3` = 38,
+  `stat_value3` = 44,
   `stat_type4` = 32,
-  `stat_value4` = 24;
+  `stat_value4` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 60387;
 INSERT INTO `item_template` SET
@@ -5326,6 +5509,7 @@ INSERT INTO `item_template` SET
   `name` = 'Enthusiastic Shoulderplates of Tour',
   `displayid` = 44536,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5339,7 +5523,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 13,
+  `stat_value2` = 8,
   `stat_type3` = 36,
   `stat_value3` = 11,
   `stat_type4` = 44,
@@ -5356,6 +5540,7 @@ INSERT INTO `item_template` SET
   `name` = 'Troubling Battleplate of the Apartment',
   `displayid` = 19844,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5367,15 +5552,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 843,
   `stat_type1` = 4,
-  `stat_value1` = 12,
+  `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 14,
   `stat_type3` = 36,
-  `stat_value3` = 9,
+  `stat_value3` = 10,
   `stat_type4` = 44,
   `stat_value4` = 12,
   `stat_type5` = 31,
-  `stat_value5` = 15;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60389;
 INSERT INTO `item_template` SET
@@ -5386,6 +5571,7 @@ INSERT INTO `item_template` SET
   `name` = 'Systematic Girdle',
   `displayid` = 46075,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5397,11 +5583,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 557,
   `stat_type1` = 4,
-  `stat_value1` = 22,
+  `stat_value1` = 23,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 18,
   `stat_type3` = 38,
-  `stat_value3` = 44;
+  `stat_value3` = 46;
 
 DELETE FROM `item_template` WHERE `entry` = 60390;
 INSERT INTO `item_template` SET
@@ -5412,6 +5598,7 @@ INSERT INTO `item_template` SET
   `name` = 'Greaves of Expending',
   `displayid` = 24506,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5423,11 +5610,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 776,
   `stat_type1` = 4,
-  `stat_value1` = 20,
+  `stat_value1` = 21,
   `stat_type2` = 7,
-  `stat_value2` = 38,
+  `stat_value2` = 26,
   `stat_type3` = 36,
-  `stat_value3` = 25;
+  `stat_value3` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 60391;
 INSERT INTO `item_template` SET
@@ -5438,6 +5625,7 @@ INSERT INTO `item_template` SET
   `name` = 'Cap Greaves',
   `displayid` = 26927,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5449,11 +5637,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 633,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 26,
+  `stat_value2` = 19,
   `stat_type3` = 32,
-  `stat_value3` = 15;
+  `stat_value3` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60392;
 INSERT INTO `item_template` SET
@@ -5464,6 +5652,7 @@ INSERT INTO `item_template` SET
   `name` = 'Bands of the Enthusiastic Resource',
   `displayid` = 51672,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5477,7 +5666,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 12,
   `stat_type3` = 32,
   `stat_value3` = 9,
   `stat_type4` = 44,
@@ -5492,6 +5681,7 @@ INSERT INTO `item_template` SET
   `name` = 'Handguards of Unnamed Attraction',
   `displayid` = 64791,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5505,13 +5695,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 12,
   `stat_type3` = 31,
   `stat_value3` = 12,
   `stat_type4` = 36,
   `stat_value4` = 8,
   `stat_type5` = 32,
-  `stat_value5` = 8;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60394;
 INSERT INTO `item_template` SET
@@ -5522,6 +5712,7 @@ INSERT INTO `item_template` SET
   `name` = 'Searchable Pendant of Disagreeing',
   `displayid` = 34318,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5534,7 +5725,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 31,
   `stat_value3` = 8,
   `stat_type4` = 37,
@@ -5551,6 +5742,7 @@ INSERT INTO `item_template` SET
   `name` = 'Satisfactory Quiet Band',
   `displayid` = 39126,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5563,7 +5755,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 12,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 13,
   `stat_type3` = 31,
   `stat_value3` = 12;
 
@@ -5576,6 +5768,7 @@ INSERT INTO `item_template` SET
   `name` = 'Perfecting Trinket',
   `displayid` = 43528,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5588,11 +5781,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 38,
   `stat_value3` = 22,
   `stat_type4` = 37,
-  `stat_value4` = 8;
+  `stat_value4` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60397;
 INSERT INTO `item_template` SET
@@ -5603,6 +5796,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shawl of the Disciplining Chocolate',
   `displayid` = 56388,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5616,9 +5810,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 13,
   `stat_type3` = 31,
-  `stat_value3` = 11;
+  `stat_value3` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60398;
 INSERT INTO `item_template` SET
@@ -5629,6 +5823,7 @@ INSERT INTO `item_template` SET
   `name` = 'Supporting Host Waraxe',
   `displayid` = 18257,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5638,19 +5833,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 75,
-  `dmg_max1` = 139,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 24,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 37,
+  `stat_value2` = 1,
   `stat_type3` = 31,
-  `stat_value3` = 26,
+  `stat_value3` = 1,
   `stat_type4` = 37,
-  `stat_value4` = 21,
+  `stat_value4` = 1,
   `stat_type5` = 44,
-  `stat_value5` = 22;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60399;
 INSERT INTO `item_template` SET
@@ -5661,6 +5856,7 @@ INSERT INTO `item_template` SET
   `name` = 'Invisibly Suggesting Bonecracker',
   `displayid` = 5199,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5670,17 +5866,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 21,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 35,
+  `stat_value2` = 1,
   `stat_type3` = 38,
-  `stat_value3` = 44,
+  `stat_value3` = 1,
   `stat_type4` = 32,
-  `stat_value4` = 24;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60400;
 INSERT INTO `item_template` SET
@@ -5691,6 +5887,7 @@ INSERT INTO `item_template` SET
   `name` = 'Chiefly Movable Sidearm',
   `displayid` = 60564,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5700,15 +5897,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 80,
-  `dmg_max1` = 148,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 33,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 49,
+  `stat_value2` = 1,
   `stat_type3` = 37,
-  `stat_value3` = 28;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60401;
 INSERT INTO `item_template` SET
@@ -5719,6 +5916,7 @@ INSERT INTO `item_template` SET
   `name` = 'Key Cleaver of the Income',
   `displayid` = 18607,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5728,19 +5926,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 35,
+  `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 56,
+  `stat_value2` = 11,
   `stat_type3` = 38,
-  `stat_value3` = 49,
+  `stat_value3` = 14,
   `stat_type4` = 37,
-  `stat_value4` = 31,
+  `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 30;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60402;
 INSERT INTO `item_template` SET
@@ -5751,6 +5949,7 @@ INSERT INTO `item_template` SET
   `name` = 'Meaningless Bonecracker of Cloud',
   `displayid` = 8586,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5760,15 +5959,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 56,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 83,
+  `stat_value2` = 16,
   `stat_type3` = 38,
-  `stat_value3` = 95;
+  `stat_value3` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 60403;
 INSERT INTO `item_template` SET
@@ -5779,6 +5978,7 @@ INSERT INTO `item_template` SET
   `name` = 'Dreamily Used Blade',
   `displayid` = 50329,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5788,15 +5988,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 137,
-  `dmg_max1` = 255,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 43,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 56,
+  `stat_value2` = 14,
   `stat_type3` = 37,
-  `stat_value3` = 43;
+  `stat_value3` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60404;
 INSERT INTO `item_template` SET
@@ -5807,6 +6007,7 @@ INSERT INTO `item_template` SET
   `name` = 'Plane Trident of the Pattern',
   `displayid` = 50350,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5816,16 +6017,16 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 133,
-  `dmg_max1` = 247,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `block` = 59,
   `stat_type1` = 4,
-  `stat_value1` = 66,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 100,
+  `stat_value2` = 16,
   `stat_type3` = 36,
-  `stat_value3` = 57;
+  `stat_value3` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60405;
 INSERT INTO `item_template` SET
@@ -5836,6 +6037,7 @@ INSERT INTO `item_template` SET
   `name` = 'Satisfactory Cowl of Using',
   `displayid` = 25991,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5847,11 +6049,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 392,
   `stat_type1` = 4,
-  `stat_value1` = 28,
+  `stat_value1` = 27,
   `stat_type2` = 7,
-  `stat_value2` = 35,
+  `stat_value2` = 23,
   `stat_type3` = 37,
-  `stat_value3` = 28;
+  `stat_value3` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 60406;
 INSERT INTO `item_template` SET
@@ -5862,6 +6064,7 @@ INSERT INTO `item_template` SET
   `name` = 'Pauldrons of Structure',
   `displayid` = 12986,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5873,13 +6076,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 392,
   `stat_type1` = 4,
-  `stat_value1` = 17,
+  `stat_value1` = 18,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 12,
   `stat_type3` = 36,
   `stat_value3` = 11,
   `stat_type4` = 35,
-  `stat_value4` = 10;
+  `stat_value4` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60407;
 INSERT INTO `item_template` SET
@@ -5890,6 +6093,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tunic of the Responding Garbage',
   `displayid` = 54848,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5903,11 +6107,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 29,
+  `stat_value2` = 18,
   `stat_type3` = 32,
-  `stat_value3` = 18,
+  `stat_value3` = 17,
   `stat_type4` = 48,
-  `stat_value4` = 33;
+  `stat_value4` = 31;
 
 DELETE FROM `item_template` WHERE `entry` = 60408;
 INSERT INTO `item_template` SET
@@ -5918,6 +6122,7 @@ INSERT INTO `item_template` SET
   `name` = 'Briefly Debating Girdle',
   `displayid` = 54996,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5931,7 +6136,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 18,
   `stat_type2` = 7,
-  `stat_value2` = 25,
+  `stat_value2` = 17,
   `stat_type3` = 15,
   `stat_value3` = 19,
   `stat_type4` = 31,
@@ -5946,6 +6151,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shapely League Kilt',
   `displayid` = 26130,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5959,11 +6165,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 23,
+  `stat_value2` = 16,
   `stat_type3` = 13,
   `stat_value3` = 15,
   `stat_type4` = 48,
-  `stat_value4` = 17,
+  `stat_value4` = 18,
   `stat_type5` = 44,
   `stat_value5` = 14;
 
@@ -5976,6 +6182,7 @@ INSERT INTO `item_template` SET
   `name` = 'Hope Boots',
   `displayid` = 65187,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -5987,15 +6194,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 354,
   `stat_type1` = 4,
-  `stat_value1` = 12,
+  `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 13,
   `stat_type3` = 37,
-  `stat_value3` = 11,
+  `stat_value3` = 12,
   `stat_type4` = 35,
-  `stat_value4` = 11,
+  `stat_value4` = 13,
   `stat_type5` = 14,
-  `stat_value5` = 12;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60411;
 INSERT INTO `item_template` SET
@@ -6006,6 +6213,7 @@ INSERT INTO `item_template` SET
   `name` = 'Wristguards of Joylessly Sorting',
   `displayid` = 29890,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6017,9 +6225,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 236,
   `stat_type1` = 4,
-  `stat_value1` = 10,
+  `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 19,
+  `stat_value2` = 12,
   `stat_type3` = 12,
   `stat_value3` = 9,
   `stat_type4` = 48,
@@ -6034,6 +6242,7 @@ INSERT INTO `item_template` SET
   `name` = 'Lovely Handguards of the Potato',
   `displayid` = 54408,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6047,13 +6256,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 20,
+  `stat_value2` = 13,
   `stat_type3` = 37,
   `stat_value3` = 11,
   `stat_type4` = 31,
-  `stat_value4` = 11,
+  `stat_value4` = 10,
   `stat_type5` = 38,
-  `stat_value5` = 19;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 60413;
 INSERT INTO `item_template` SET
@@ -6064,6 +6273,7 @@ INSERT INTO `item_template` SET
   `name` = 'Preferring Guide Talisman',
   `displayid` = 33906,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6076,11 +6286,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 11,
+  `stat_value2` = 7,
   `stat_type3` = 38,
   `stat_value3` = 16,
   `stat_type4` = 35,
-  `stat_value4` = 11;
+  `stat_value4` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60414;
 INSERT INTO `item_template` SET
@@ -6091,6 +6301,7 @@ INSERT INTO `item_template` SET
   `name` = 'Signet of the Dream',
   `displayid` = 31498,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6103,13 +6314,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 11,
+  `stat_value2` = 7,
   `stat_type3` = 36,
   `stat_value3` = 8,
   `stat_type4` = 38,
-  `stat_value4` = 16,
+  `stat_value4` = 15,
   `stat_type5` = 44,
-  `stat_value5` = 7;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60415;
 INSERT INTO `item_template` SET
@@ -6120,6 +6331,7 @@ INSERT INTO `item_template` SET
   `name` = 'Written Fury of Birth',
   `displayid` = 45850,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6132,7 +6344,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 12,
   `stat_type3` = 44,
   `stat_value3` = 13;
 
@@ -6145,6 +6357,7 @@ INSERT INTO `item_template` SET
   `name` = 'Reassuringly Harmful Sheet',
   `displayid` = 54667,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6158,7 +6371,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 9,
+  `stat_value2` = 6,
   `stat_type3` = 32,
   `stat_value3` = 9,
   `stat_type4` = 14,
@@ -6175,6 +6388,7 @@ INSERT INTO `item_template` SET
   `name` = 'Pointing Ripsaw',
   `displayid` = 25595,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6184,15 +6398,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 75,
-  `dmg_max1` = 139,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 41,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 42,
+  `stat_value2` = 1,
   `stat_type3` = 32,
-  `stat_value3` = 41;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60418;
 INSERT INTO `item_template` SET
@@ -6203,6 +6417,7 @@ INSERT INTO `item_template` SET
   `name` = 'Focusing Candle Breaker',
   `displayid` = 19703,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6212,17 +6427,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 15,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 37,
+  `stat_value2` = 1,
   `stat_type3` = 44,
-  `stat_value3` = 28,
+  `stat_value3` = 1,
   `stat_type4` = 36,
-  `stat_value4` = 22;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60419;
 INSERT INTO `item_template` SET
@@ -6233,6 +6448,7 @@ INSERT INTO `item_template` SET
   `name` = 'Disaster''s Blades',
   `displayid` = 31314,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6242,17 +6458,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 74,
-  `dmg_max1` = 137,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 31,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 43,
+  `stat_value2` = 1,
   `stat_type3` = 48,
-  `stat_value3` = 48,
+  `stat_value3` = 1,
   `stat_type4` = 37,
-  `stat_value4` = 23;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60420;
 INSERT INTO `item_template` SET
@@ -6263,6 +6479,7 @@ INSERT INTO `item_template` SET
   `name` = 'Familiarity''s Aegis',
   `displayid` = 40867,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 14,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6275,11 +6492,11 @@ INSERT INTO `item_template` SET
   `armor` = 2925,
   `block` = 59,
   `stat_type1` = 4,
-  `stat_value1` = 16,
+  `stat_value1` = 15,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 13,
   `stat_type3` = 38,
-  `stat_value3` = 32;
+  `stat_value3` = 30;
 
 DELETE FROM `item_template` WHERE `entry` = 60421;
 INSERT INTO `item_template` SET
@@ -6287,9 +6504,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 9,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Shaman Totem of Tank',
+  `name` = 'Sanctified Totem of the Trembling Earth',
   `displayid` = 25246,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6313,6 +6531,7 @@ INSERT INTO `item_template` SET
   `name` = 'Patterning Campaign Greathelm',
   `displayid` = 56145,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6324,13 +6543,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 392,
   `stat_type1` = 3,
-  `stat_value1` = 17,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 23,
+  `stat_value2` = 15,
   `stat_type3` = 32,
-  `stat_value3` = 17,
+  `stat_value3` = 16,
   `stat_type4` = 31,
-  `stat_value4` = 17,
+  `stat_value4` = 16,
   `stat_type5` = 5,
   `stat_value5` = 13;
 
@@ -6343,6 +6562,7 @@ INSERT INTO `item_template` SET
   `name` = 'Defining Spaulders',
   `displayid` = 43617,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6356,13 +6576,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 4,
   `stat_value3` = 9,
   `stat_type4` = 44,
-  `stat_value4` = 12,
+  `stat_value4` = 13,
   `stat_type5` = 45,
-  `stat_value5` = 13;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60424;
 INSERT INTO `item_template` SET
@@ -6373,6 +6593,7 @@ INSERT INTO `item_template` SET
   `name` = 'Pure Tunic of Desiring',
   `displayid` = 46995,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6386,11 +6607,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 22,
+  `stat_value2` = 14,
   `stat_type3` = 31,
-  `stat_value3` = 14,
+  `stat_value3` = 13,
   `stat_type4` = 5,
-  `stat_value4` = 17,
+  `stat_value4` = 16,
   `stat_type5` = 32,
   `stat_value5` = 13;
 
@@ -6403,6 +6624,7 @@ INSERT INTO `item_template` SET
   `name` = 'Touchy Cord of Nationalizing',
   `displayid` = 43153,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6414,13 +6636,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 312,
   `stat_type1` = 3,
-  `stat_value1` = 15,
+  `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 14,
   `stat_type3` = 5,
   `stat_value3` = 16,
   `stat_type4` = 32,
-  `stat_value4` = 13,
+  `stat_value4` = 14,
   `stat_type5` = 44,
   `stat_value5` = 14;
 
@@ -6433,6 +6655,7 @@ INSERT INTO `item_template` SET
   `name` = 'Naughtily Marketing Legguards',
   `displayid` = 38980,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6446,7 +6669,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 25,
   `stat_type2` = 7,
-  `stat_value2` = 27,
+  `stat_value2` = 19,
   `stat_type3` = 5,
   `stat_value3` = 25;
 
@@ -6459,6 +6682,7 @@ INSERT INTO `item_template` SET
   `name` = 'Confusing Greaves of the Belief',
   `displayid` = 25760,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6470,15 +6694,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 354,
   `stat_type1` = 3,
-  `stat_value1` = 10,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 15,
+  `stat_value2` = 11,
   `stat_type3` = 36,
-  `stat_value3` = 12,
+  `stat_value3` = 13,
   `stat_type4` = 31,
-  `stat_value4` = 13,
+  `stat_value4` = 14,
   `stat_type5` = 4,
-  `stat_value5` = 14;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60428;
 INSERT INTO `item_template` SET
@@ -6489,6 +6713,7 @@ INSERT INTO `item_template` SET
   `name` = 'Drinking Factor Wristguards',
   `displayid` = 56517,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6500,9 +6725,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 236,
   `stat_type1` = 3,
-  `stat_value1` = 12,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 16,
+  `stat_value2` = 10,
   `stat_type3` = 32,
   `stat_value3` = 8,
   `stat_type4` = 36,
@@ -6517,6 +6742,7 @@ INSERT INTO `item_template` SET
   `name` = 'Gauntlets of the Depending Emotion',
   `displayid` = 60569,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6528,13 +6754,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 354,
   `stat_type1` = 3,
-  `stat_value1` = 15,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 11,
   `stat_type3` = 37,
   `stat_value3` = 10,
   `stat_type4` = 38,
-  `stat_value4` = 19,
+  `stat_value4` = 18,
   `stat_type5` = 36,
   `stat_value5` = 9;
 
@@ -6547,6 +6773,7 @@ INSERT INTO `item_template` SET
   `name` = 'Electric Necklace of the Cup',
   `displayid` = 31633,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6559,13 +6786,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 37,
   `stat_value3` = 7,
   `stat_type4` = 32,
   `stat_value4` = 7,
   `stat_type5` = 44,
-  `stat_value5` = 7;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60431;
 INSERT INTO `item_template` SET
@@ -6576,6 +6803,7 @@ INSERT INTO `item_template` SET
   `name` = 'Ring of the Darkening Truth',
   `displayid` = 55905,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6588,7 +6816,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 12,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 12,
   `stat_type3` = 36,
   `stat_value3` = 12;
 
@@ -6601,6 +6829,7 @@ INSERT INTO `item_template` SET
   `name` = 'Jacketing Horn',
   `displayid` = 55033,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6613,7 +6842,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 11,
   `stat_type3` = 31,
   `stat_value3` = 8,
   `stat_type4` = 36,
@@ -6628,6 +6857,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shawl of the Mothering Obligation',
   `displayid` = 30783,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6641,9 +6871,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 13,
+  `stat_value2` = 8,
   `stat_type3` = 4,
-  `stat_value3` = 6,
+  `stat_value3` = 5,
   `stat_type4` = 36,
   `stat_value4` = 9,
   `stat_type5` = 38,
@@ -6658,6 +6888,7 @@ INSERT INTO `item_template` SET
   `name` = 'Securely Experimenting Saw',
   `displayid` = 28849,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6667,19 +6898,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 75,
-  `dmg_max1` = 139,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 24,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 41,
+  `stat_value2` = 1,
   `stat_type3` = 36,
-  `stat_value3` = 22,
+  `stat_value3` = 1,
   `stat_type4` = 38,
-  `stat_value4` = 47,
+  `stat_value4` = 1,
   `stat_type5` = 5,
-  `stat_value5` = 22;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60435;
 INSERT INTO `item_template` SET
@@ -6690,6 +6921,7 @@ INSERT INTO `item_template` SET
   `name` = 'Limit''s Bonecracker',
   `displayid` = 8572,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6699,15 +6931,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 31,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 41,
+  `stat_value2` = 1,
   `stat_type3` = 32,
-  `stat_value3` = 31;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60436;
 INSERT INTO `item_template` SET
@@ -6718,6 +6950,7 @@ INSERT INTO `item_template` SET
   `name` = 'Slicer of Excusable Reflecting',
   `displayid` = 40169,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6727,15 +6960,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 74,
-  `dmg_max1` = 137,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 38,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 54,
+  `stat_value2` = 1,
   `stat_type3` = 38,
-  `stat_value3` = 80;
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60437;
 INSERT INTO `item_template` SET
@@ -6743,9 +6976,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 9,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Shaman Totem of Melee',
+  `name` = 'Sanctified Totem of the Elemental Triad',
   `displayid` = 34956,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6769,6 +7003,7 @@ INSERT INTO `item_template` SET
   `name` = 'Progressive Cowl of Resident',
   `displayid` = 41069,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6780,15 +7015,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 392,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 29,
-  `stat_type3` = 32,
-  `stat_value3` = 20,
-  `stat_type4` = 45,
-  `stat_value4` = 16,
-  `stat_type5` = 47,
-  `stat_value5` = 6;
+  `stat_value1` = 15,
+  `stat_type2` = 45,
+  `stat_value2` = 27,
+  `stat_type3` = 7,
+  `stat_value3` = 14,
+  `stat_type4` = 32,
+  `stat_value4` = 13,
+  `stat_type5` = 31,
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60439;
 INSERT INTO `item_template` SET
@@ -6799,6 +7034,7 @@ INSERT INTO `item_template` SET
   `name` = 'Thick Shoulderguards',
   `displayid` = 23490,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6810,13 +7046,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 392,
   `stat_type1` = 5,
-  `stat_value1` = 8,
-  `stat_type2` = 7,
-  `stat_value2` = 18,
-  `stat_type3` = 32,
-  `stat_value3` = 17,
-  `stat_type4` = 47,
-  `stat_value4` = 7;
+  `stat_value1` = 16,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
+  `stat_value3` = 12,
+  `stat_type4` = 32,
+  `stat_value4` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60440;
 INSERT INTO `item_template` SET
@@ -6827,6 +7063,7 @@ INSERT INTO `item_template` SET
   `name` = 'Central Cuirass',
   `displayid` = 25809,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6838,13 +7075,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 472,
   `stat_type1` = 5,
-  `stat_value1` = 15,
-  `stat_type2` = 7,
-  `stat_value2` = 20,
-  `stat_type3` = 47,
-  `stat_value3` = 13,
-  `stat_type4` = 45,
-  `stat_value4` = 22;
+  `stat_value1` = 20,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 12,
+  `stat_type4` = 47,
+  `stat_value4` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60441;
 INSERT INTO `item_template` SET
@@ -6855,6 +7092,7 @@ INSERT INTO `item_template` SET
   `name` = 'Belt of the Church',
   `displayid` = 51321,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6866,15 +7104,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 312,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 24,
-  `stat_type3` = 31,
-  `stat_value3` = 11,
+  `stat_value1` = 16,
+  `stat_type2` = 45,
+  `stat_value2` = 20,
+  `stat_type3` = 7,
+  `stat_value3` = 12,
   `stat_type4` = 6,
-  `stat_value4` = 15,
-  `stat_type5` = 45,
-  `stat_value5` = 20;
+  `stat_value4` = 17,
+  `stat_type5` = 31,
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60442;
 INSERT INTO `item_template` SET
@@ -6885,6 +7123,7 @@ INSERT INTO `item_template` SET
   `name` = 'College''s Legguards',
   `displayid` = 34238,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6897,14 +7136,14 @@ INSERT INTO `item_template` SET
   `armor` = 435,
   `stat_type1` = 5,
   `stat_value1` = 11,
-  `stat_type2` = 7,
-  `stat_value2` = 23,
-  `stat_type3` = 36,
+  `stat_type2` = 45,
+  `stat_value2` = 18,
+  `stat_type3` = 7,
   `stat_value3` = 16,
-  `stat_type4` = 6,
-  `stat_value4` = 13,
-  `stat_type5` = 45,
-  `stat_value5` = 17;
+  `stat_type4` = 36,
+  `stat_value4` = 14,
+  `stat_type5` = 6,
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60443;
 INSERT INTO `item_template` SET
@@ -6915,6 +7154,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tipping Treads',
   `displayid` = 16521,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6927,9 +7167,9 @@ INSERT INTO `item_template` SET
   `armor` = 354,
   `stat_type1` = 5,
   `stat_value1` = 21,
-  `stat_type2` = 7,
-  `stat_value2` = 25,
-  `stat_type3` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 26,
+  `stat_type3` = 7,
   `stat_value3` = 21;
 
 DELETE FROM `item_template` WHERE `entry` = 60444;
@@ -6941,6 +7181,7 @@ INSERT INTO `item_template` SET
   `name` = 'Signal String Wristguards',
   `displayid` = 38843,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6953,14 +7194,14 @@ INSERT INTO `item_template` SET
   `armor` = 236,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 17,
-  `stat_type3` = 32,
+  `stat_type2` = 45,
+  `stat_value2` = 13,
+  `stat_type3` = 7,
   `stat_value3` = 7,
-  `stat_type4` = 36,
+  `stat_type4` = 32,
   `stat_value4` = 7,
-  `stat_type5` = 47,
-  `stat_value5` = 4;
+  `stat_type5` = 36,
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60445;
 INSERT INTO `item_template` SET
@@ -6971,6 +7212,7 @@ INSERT INTO `item_template` SET
   `name` = 'Handguards of Wronging Award',
   `displayid` = 26075,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -6982,13 +7224,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 354,
   `stat_type1` = 5,
-  `stat_value1` = 15,
-  `stat_type2` = 7,
-  `stat_value2` = 20,
-  `stat_type3` = 47,
-  `stat_value3` = 7,
-  `stat_type4` = 45,
-  `stat_value4` = 15;
+  `stat_value1` = 14,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 13,
+  `stat_type4` = 32,
+  `stat_value4` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60446;
 INSERT INTO `item_template` SET
@@ -6999,6 +7241,7 @@ INSERT INTO `item_template` SET
   `name` = 'Thin Talisman of the Salad',
   `displayid` = 34034,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7010,13 +7253,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 7,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
   `stat_value3` = 8,
-  `stat_type4` = 31,
+  `stat_type4` = 6,
   `stat_value4` = 6,
-  `stat_type5` = 36,
+  `stat_type5` = 31,
   `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60447;
@@ -7028,6 +7271,7 @@ INSERT INTO `item_template` SET
   `name` = 'Plant''s Signet',
   `displayid` = 32323,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7039,14 +7283,14 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 6,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 45,
-  `stat_value3` = 10,
-  `stat_type4` = 36,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
+  `stat_value3` = 9,
+  `stat_type4` = 32,
   `stat_value4` = 7,
-  `stat_type5` = 32,
-  `stat_value5` = 7;
+  `stat_type5` = 47,
+  `stat_value5` = 3;
 
 DELETE FROM `item_template` WHERE `entry` = 60448;
 INSERT INTO `item_template` SET
@@ -7057,6 +7301,7 @@ INSERT INTO `item_template` SET
   `name` = 'Brooch of Sympathetic Quietening',
   `displayid` = 6540,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7068,9 +7313,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 45,
+  `stat_type2` = 45,
+  `stat_value2` = 13,
+  `stat_type3` = 7,
   `stat_value3` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60449;
@@ -7082,6 +7327,7 @@ INSERT INTO `item_template` SET
   `name` = 'Rough Shawl of Structure',
   `displayid` = 43525,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7093,11 +7339,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 31,
-  `stat_value3` = 11;
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 13,
+  `stat_type3` = 7,
+  `stat_value3` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60450;
 INSERT INTO `item_template` SET
@@ -7108,6 +7354,7 @@ INSERT INTO `item_template` SET
   `name` = 'Destroyer of Sympathizing',
   `displayid` = 43644,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7117,15 +7364,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 25,
-  `dmg_max1` = 47,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 72,
-  `stat_type2` = 7,
-  `stat_value2` = 100,
-  `stat_type3` = 36,
-  `stat_value3` = 67;
+  `stat_value1` = 9,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
+  `stat_value3` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60451;
 INSERT INTO `item_template` SET
@@ -7136,6 +7383,7 @@ INSERT INTO `item_template` SET
   `name` = 'Vileblade of Transitioning Practice',
   `displayid` = 20326,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7145,19 +7393,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 31,
-  `dmg_max1` = 57,
+  `dmg_min1` = 62,
+  `dmg_max1` = 114,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 33,
-  `stat_type2` = 7,
-  `stat_value2` = 60,
-  `stat_type3` = 45,
-  `stat_value3` = 44,
-  `stat_type4` = 6,
-  `stat_value4` = 45,
-  `stat_type5` = 32,
-  `stat_value5` = 45;
+  `stat_value1` = 4,
+  `stat_type2` = 45,
+  `stat_value2` = 5,
+  `stat_type3` = 7,
+  `stat_value3` = 3,
+  `stat_type4` = 31,
+  `stat_value4` = 4,
+  `stat_type5` = 6,
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 60452;
 INSERT INTO `item_template` SET
@@ -7168,6 +7416,7 @@ INSERT INTO `item_template` SET
   `name` = 'Longstaff of Official Registering',
   `displayid` = 20362,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7177,15 +7426,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 46,
-  `dmg_max1` = 86,
-  `delay` = 2100,
+  `dmg_min1` = 144,
+  `dmg_max1` = 268,
+  `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 89,
-  `stat_type2` = 7,
-  `stat_value2` = 133,
-  `stat_type3` = 31,
-  `stat_value3` = 69;
+  `stat_value1` = 24,
+  `stat_type2` = 45,
+  `stat_value2` = 31,
+  `stat_type3` = 7,
+  `stat_value3` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 60453;
 INSERT INTO `item_template` SET
@@ -7196,6 +7445,7 @@ INSERT INTO `item_template` SET
   `name` = 'Nightly Encouraging Redoubt',
   `displayid` = 26152,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 14,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7208,11 +7458,11 @@ INSERT INTO `item_template` SET
   `armor` = 2925,
   `block` = 59,
   `stat_type1` = 5,
-  `stat_value1` = 12,
-  `stat_type2` = 7,
-  `stat_value2` = 24,
-  `stat_type3` = 32,
-  `stat_value3` = 16;
+  `stat_value1` = 11,
+  `stat_type2` = 45,
+  `stat_value2` = 18,
+  `stat_type3` = 7,
+  `stat_value3` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60454;
 INSERT INTO `item_template` SET
@@ -7220,9 +7470,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 9,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Shaman Totem of Caster',
+  `name` = 'Sanctified Totem of the Crackling Sky',
   `displayid` = 34957,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7246,6 +7497,7 @@ INSERT INTO `item_template` SET
   `name` = 'Crown of the Damaging Risk',
   `displayid` = 15810,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7257,13 +7509,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 392,
   `stat_type1` = 5,
-  `stat_value1` = 26,
-  `stat_type2` = 7,
-  `stat_value2` = 29,
-  `stat_type3` = 43,
-  `stat_value3` = 8,
+  `stat_value1` = 20,
+  `stat_type2` = 45,
+  `stat_value2` = 26,
+  `stat_type3` = 7,
+  `stat_value3` = 16,
   `stat_type4` = 36,
-  `stat_value4` = 17;
+  `stat_value4` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60456;
 INSERT INTO `item_template` SET
@@ -7274,6 +7526,7 @@ INSERT INTO `item_template` SET
   `name` = 'Writing''s Pauldrons',
   `displayid` = 43998,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7285,11 +7538,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 392,
   `stat_type1` = 5,
-  `stat_value1` = 17,
-  `stat_type2` = 7,
-  `stat_value2` = 23,
-  `stat_type3` = 43,
-  `stat_value3` = 9;
+  `stat_value1` = 18,
+  `stat_type2` = 45,
+  `stat_value2` = 20,
+  `stat_type3` = 7,
+  `stat_value3` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60457;
 INSERT INTO `item_template` SET
@@ -7300,6 +7553,7 @@ INSERT INTO `item_template` SET
   `name` = 'Channeling Pack Armor',
   `displayid` = 40739,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7311,13 +7565,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 472,
   `stat_type1` = 5,
-  `stat_value1` = 17,
-  `stat_type2` = 7,
-  `stat_value2` = 25,
-  `stat_type3` = 32,
-  `stat_value3` = 22,
+  `stat_value1` = 14,
+  `stat_type2` = 45,
+  `stat_value2` = 23,
+  `stat_type3` = 7,
+  `stat_value3` = 11,
   `stat_type4` = 36,
-  `stat_value4` = 17;
+  `stat_value4` = 24;
 
 DELETE FROM `item_template` WHERE `entry` = 60458;
 INSERT INTO `item_template` SET
@@ -7328,6 +7582,7 @@ INSERT INTO `item_template` SET
   `name` = 'Waistguard of Embarrassed Normalizing',
   `displayid` = 26180,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7339,13 +7594,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 312,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 34,
-  `stat_type3` = 45,
-  `stat_value3` = 28,
+  `stat_value1` = 17,
+  `stat_type2` = 45,
+  `stat_value2` = 17,
+  `stat_type3` = 7,
+  `stat_value3` = 20,
   `stat_type4` = 43,
-  `stat_value4` = 6;
+  `stat_value4` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60459;
 INSERT INTO `item_template` SET
@@ -7356,6 +7611,7 @@ INSERT INTO `item_template` SET
   `name` = 'Attractive Kilt of Taste',
   `displayid` = 59258,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7368,9 +7624,9 @@ INSERT INTO `item_template` SET
   `armor` = 435,
   `stat_type1` = 5,
   `stat_value1` = 25,
-  `stat_type2` = 7,
-  `stat_value2` = 32,
-  `stat_type3` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 25,
+  `stat_type3` = 7,
   `stat_value3` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 60460;
@@ -7382,6 +7638,7 @@ INSERT INTO `item_template` SET
   `name` = 'Conclusive Boots of the Inspector',
   `displayid` = 27540,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7393,13 +7650,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 354,
   `stat_type1` = 5,
-  `stat_value1` = 11,
-  `stat_type2` = 7,
-  `stat_value2` = 31,
-  `stat_type3` = 45,
+  `stat_value1` = 18,
+  `stat_type2` = 45,
+  `stat_value2` = 23,
+  `stat_type3` = 7,
   `stat_value3` = 11,
-  `stat_type4` = 6,
-  `stat_value4` = 18;
+  `stat_type4` = 32,
+  `stat_value4` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60461;
 INSERT INTO `item_template` SET
@@ -7410,6 +7667,7 @@ INSERT INTO `item_template` SET
   `name` = 'Bracers of the Finalizing Panic',
   `displayid` = 16506,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7421,13 +7679,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 236,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 43,
-  `stat_value3` = 5,
+  `stat_value1` = 13,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
+  `stat_value3` = 7,
   `stat_type4` = 36,
-  `stat_value4` = 11;
+  `stat_value4` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60462;
 INSERT INTO `item_template` SET
@@ -7438,6 +7696,7 @@ INSERT INTO `item_template` SET
   `name` = 'Gauntlets of Irrefutably Modeling',
   `displayid` = 41961,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7449,13 +7708,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 354,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 20,
-  `stat_type3` = 6,
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
   `stat_value3` = 15,
-  `stat_type4` = 45,
-  `stat_value4` = 17;
+  `stat_type4` = 36,
+  `stat_value4` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60463;
 INSERT INTO `item_template` SET
@@ -7466,6 +7725,7 @@ INSERT INTO `item_template` SET
   `name` = 'Feeing Zone Amulet',
   `displayid` = 12567,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7477,12 +7737,12 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 45,
-  `stat_value3` = 8,
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
   `stat_type4` = 32,
-  `stat_value4` = 8;
+  `stat_value4` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60464;
 INSERT INTO `item_template` SET
@@ -7493,6 +7753,7 @@ INSERT INTO `item_template` SET
   `name` = 'Deceit''s Circle',
   `displayid` = 14437,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7503,11 +7764,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 11,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 45,
-  `stat_value3` = 15;
+  `stat_value1` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60465;
 INSERT INTO `item_template` SET
@@ -7518,6 +7779,7 @@ INSERT INTO `item_template` SET
   `name` = 'Horn of Disappointing Cabinet',
   `displayid` = 21115,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7528,13 +7790,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 11,
-  `stat_type2` = 7,
-  `stat_value2` = 17,
-  `stat_type3` = 32,
-  `stat_value3` = 6,
+  `stat_value1` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
   `stat_type4` = 36,
-  `stat_value4` = 8;
+  `stat_value4` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60466;
 INSERT INTO `item_template` SET
@@ -7545,6 +7807,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tiring Cloak of Regular',
   `displayid` = 58997,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7557,12 +7820,12 @@ INSERT INTO `item_template` SET
   `armor` = 57,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 15,
-  `stat_type3` = 43,
-  `stat_value3` = 4,
-  `stat_type4` = 32,
-  `stat_value4` = 9;
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
+  `stat_value3` = 9,
+  `stat_type4` = 43,
+  `stat_value4` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60467;
 INSERT INTO `item_template` SET
@@ -7573,6 +7836,7 @@ INSERT INTO `item_template` SET
   `name` = 'Naturally Directing Breaker',
   `displayid` = 60685,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7582,15 +7846,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 25,
-  `dmg_max1` = 47,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 62,
-  `stat_type2` = 7,
-  `stat_value2` = 108,
-  `stat_type3` = 6,
-  `stat_value3` = 72;
+  `stat_value1` = 9,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
+  `stat_value3` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60468;
 INSERT INTO `item_template` SET
@@ -7601,6 +7865,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shank of Memorizing',
   `displayid` = 25611,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7610,17 +7875,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 31,
-  `dmg_max1` = 57,
+  `dmg_min1` = 62,
+  `dmg_max1` = 114,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 51,
-  `stat_type2` = 7,
-  `stat_value2` = 80,
-  `stat_type3` = 32,
-  `stat_value3` = 45,
-  `stat_type4` = 45,
-  `stat_value4` = 60;
+  `stat_value1` = 5,
+  `stat_type2` = 45,
+  `stat_value2` = 6,
+  `stat_type3` = 7,
+  `stat_value3` = 6,
+  `stat_type4` = 43,
+  `stat_value4` = 2;
 
 DELETE FROM `item_template` WHERE `entry` = 60469;
 INSERT INTO `item_template` SET
@@ -7631,6 +7896,7 @@ INSERT INTO `item_template` SET
   `name` = 'Branch of the Objecting Cow',
   `displayid` = 40371,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7640,17 +7906,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 46,
-  `dmg_max1` = 86,
-  `delay` = 2100,
+  `dmg_min1` = 144,
+  `dmg_max1` = 268,
+  `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 77,
-  `stat_type2` = 7,
-  `stat_value2` = 90,
-  `stat_type3` = 36,
-  `stat_value3` = 54,
-  `stat_type4` = 32,
-  `stat_value4` = 63;
+  `stat_value1` = 23,
+  `stat_type2` = 45,
+  `stat_value2` = 21,
+  `stat_type3` = 7,
+  `stat_value3` = 16,
+  `stat_type4` = 36,
+  `stat_value4` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60470;
 INSERT INTO `item_template` SET
@@ -7661,6 +7927,7 @@ INSERT INTO `item_template` SET
   `name` = 'Circulation Defender',
   `displayid` = 65029,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 14,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7673,11 +7940,11 @@ INSERT INTO `item_template` SET
   `armor` = 2925,
   `block` = 59,
   `stat_type1` = 5,
-  `stat_value1` = 16,
-  `stat_type2` = 7,
-  `stat_value2` = 21,
-  `stat_type3` = 32,
-  `stat_value3` = 16;
+  `stat_value1` = 15,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60471;
 INSERT INTO `item_template` SET
@@ -7685,9 +7952,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 9,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Shaman Totem of Healer',
+  `name` = 'Sanctified Totem of Cresting Tides',
   `displayid` = 34958,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7711,6 +7979,7 @@ INSERT INTO `item_template` SET
   `name` = 'Helm of the Iron',
   `displayid` = 51287,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7722,11 +7991,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 95,
   `stat_type1` = 5,
-  `stat_value1` = 28,
-  `stat_type2` = 7,
-  `stat_value2` = 40,
-  `stat_type3` = 36,
-  `stat_value3` = 25;
+  `stat_value1` = 29,
+  `stat_type2` = 45,
+  `stat_value2` = 32,
+  `stat_type3` = 7,
+  `stat_value3` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 60473;
 INSERT INTO `item_template` SET
@@ -7737,6 +8006,7 @@ INSERT INTO `item_template` SET
   `name` = 'Finalizing Shoulderpads',
   `displayid` = 18901,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7748,14 +8018,14 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 95,
   `stat_type1` = 5,
-  `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 15,
-  `stat_type3` = 32,
+  `stat_value1` = 11,
+  `stat_type2` = 45,
+  `stat_value2` = 13,
+  `stat_type3` = 7,
   `stat_value3` = 11,
-  `stat_type4` = 47,
-  `stat_value4` = 6,
-  `stat_type5` = 36,
+  `stat_type4` = 36,
+  `stat_value4` = 10,
+  `stat_type5` = 32,
   `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60474;
@@ -7767,6 +8037,7 @@ INSERT INTO `item_template` SET
   `name` = 'Robe of the Catching Procedure',
   `displayid` = 16667,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7779,10 +8050,10 @@ INSERT INTO `item_template` SET
   `armor` = 114,
   `stat_type1` = 5,
   `stat_value1` = 22,
-  `stat_type2` = 7,
-  `stat_value2` = 32,
-  `stat_type3` = 45,
-  `stat_value3` = 21;
+  `stat_type2` = 45,
+  `stat_value2` = 26,
+  `stat_type3` = 7,
+  `stat_value3` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60475;
 INSERT INTO `item_template` SET
@@ -7793,6 +8064,7 @@ INSERT INTO `item_template` SET
   `name` = 'Blowing Width Cinch',
   `displayid` = 58817,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7804,14 +8076,14 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 75,
   `stat_type1` = 5,
-  `stat_value1` = 12,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 45,
-  `stat_value3` = 16,
-  `stat_type4` = 6,
-  `stat_value4` = 12,
-  `stat_type5` = 36,
+  `stat_value1` = 13,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 14,
+  `stat_type4` = 47,
+  `stat_value4` = 6,
+  `stat_type5` = 6,
   `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60476;
@@ -7823,6 +8095,7 @@ INSERT INTO `item_template` SET
   `name` = 'Harshly Symbolizing Leggings',
   `displayid` = 62076,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7835,12 +8108,12 @@ INSERT INTO `item_template` SET
   `armor` = 105,
   `stat_type1` = 5,
   `stat_value1` = 24,
-  `stat_type2` = 7,
-  `stat_value2` = 27,
-  `stat_type3` = 36,
+  `stat_type2` = 45,
+  `stat_value2` = 22,
+  `stat_type3` = 7,
   `stat_value3` = 11,
-  `stat_type4` = 45,
-  `stat_value4` = 18;
+  `stat_type4` = 36,
+  `stat_value4` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60477;
 INSERT INTO `item_template` SET
@@ -7851,6 +8124,7 @@ INSERT INTO `item_template` SET
   `name` = 'Reasoning Materialism Sandals',
   `displayid` = 1861,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7862,10 +8136,10 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 85,
   `stat_type1` = 5,
-  `stat_value1` = 17,
-  `stat_type2` = 7,
-  `stat_value2` = 30,
-  `stat_type3` = 31,
+  `stat_value1` = 18,
+  `stat_type2` = 45,
+  `stat_value2` = 23,
+  `stat_type3` = 7,
   `stat_value3` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 60478;
@@ -7877,6 +8151,7 @@ INSERT INTO `item_template` SET
   `name` = 'Believable Bracers of Stiffening',
   `displayid` = 59298,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7888,11 +8163,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 15,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 36,
-  `stat_value3` = 15;
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 17,
+  `stat_type3` = 7,
+  `stat_value3` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60479;
 INSERT INTO `item_template` SET
@@ -7903,6 +8178,7 @@ INSERT INTO `item_template` SET
   `name` = 'Grips of Outstanding Writing',
   `displayid` = 41385,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7914,11 +8190,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 85,
   `stat_type1` = 5,
-  `stat_value1` = 16,
-  `stat_type2` = 7,
-  `stat_value2` = 20,
-  `stat_type3` = 36,
-  `stat_value3` = 16;
+  `stat_value1` = 15,
+  `stat_type2` = 45,
+  `stat_value2` = 19,
+  `stat_type3` = 7,
+  `stat_value3` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 60480;
 INSERT INTO `item_template` SET
@@ -7929,6 +8205,7 @@ INSERT INTO `item_template` SET
   `name` = 'Locket of Bug',
   `displayid` = 52417,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7939,13 +8216,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 6,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 36,
-  `stat_value3` = 6,
-  `stat_type4` = 32,
-  `stat_value4` = 12;
+  `stat_value1` = 11,
+  `stat_type2` = 45,
+  `stat_value2` = 7,
+  `stat_type3` = 7,
+  `stat_value3` = 13,
+  `stat_type4` = 36,
+  `stat_value4` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60481;
 INSERT INTO `item_template` SET
@@ -7956,6 +8233,7 @@ INSERT INTO `item_template` SET
   `name` = 'Loop of Electric Registering',
   `displayid` = 41448,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7967,14 +8245,14 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 7,
-  `stat_type2` = 7,
-  `stat_value2` = 13,
-  `stat_type3` = 6,
-  `stat_value3` = 6,
-  `stat_type4` = 47,
-  `stat_value4` = 4,
-  `stat_type5` = 31,
-  `stat_value5` = 6;
+  `stat_type2` = 45,
+  `stat_value2` = 8,
+  `stat_type3` = 7,
+  `stat_value3` = 8,
+  `stat_type4` = 6,
+  `stat_value4` = 7,
+  `stat_type5` = 47,
+  `stat_value5` = 3;
 
 DELETE FROM `item_template` WHERE `entry` = 60482;
 INSERT INTO `item_template` SET
@@ -7985,6 +8263,7 @@ INSERT INTO `item_template` SET
   `name` = 'Secretary''s Medallion',
   `displayid` = 40039,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -7995,15 +8274,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 7,
-  `stat_type2` = 7,
-  `stat_value2` = 14,
-  `stat_type3` = 32,
-  `stat_value3` = 9,
-  `stat_type4` = 45,
-  `stat_value4` = 7,
-  `stat_type5` = 31,
-  `stat_value5` = 6;
+  `stat_value1` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
+  `stat_value3` = 7,
+  `stat_type4` = 36,
+  `stat_value4` = 6,
+  `stat_type5` = 32,
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60483;
 INSERT INTO `item_template` SET
@@ -8014,6 +8293,7 @@ INSERT INTO `item_template` SET
   `name` = 'Sheet of Understandable Skinning',
   `displayid` = 39391,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8025,13 +8305,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 10,
-  `stat_type2` = 7,
-  `stat_value2` = 12,
-  `stat_type3` = 32,
-  `stat_value3` = 13,
-  `stat_type4` = 47,
-  `stat_value4` = 3;
+  `stat_value1` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 11,
+  `stat_type3` = 7,
+  `stat_value3` = 8,
+  `stat_type4` = 36,
+  `stat_value4` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60484;
 INSERT INTO `item_template` SET
@@ -8042,6 +8322,7 @@ INSERT INTO `item_template` SET
   `name` = 'Movable Engineer Sword',
   `displayid` = 57331,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8051,19 +8332,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 29,
-  `dmg_max1` = 55,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 42,
-  `stat_type2` = 7,
-  `stat_value2` = 57,
-  `stat_type3` = 31,
-  `stat_value3` = 40,
-  `stat_type4` = 32,
-  `stat_value4` = 43,
-  `stat_type5` = 47,
-  `stat_value5` = 17;
+  `stat_value1` = 4,
+  `stat_type2` = 45,
+  `stat_value2` = 6,
+  `stat_type3` = 7,
+  `stat_value3` = 5,
+  `stat_type4` = 36,
+  `stat_value4` = 5,
+  `stat_type5` = 31,
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60485;
 INSERT INTO `item_template` SET
@@ -8074,6 +8355,7 @@ INSERT INTO `item_template` SET
   `name` = 'Talon of Ordering',
   `displayid` = 36285,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8083,15 +8365,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 31,
-  `dmg_max1` = 57,
+  `dmg_min1` = 62,
+  `dmg_max1` = 114,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 60,
-  `stat_type2` = 7,
-  `stat_value2` = 105,
-  `stat_type3` = 32,
-  `stat_value3` = 70;
+  `stat_value1` = 5,
+  `stat_type2` = 45,
+  `stat_value2` = 8,
+  `stat_type3` = 7,
+  `stat_value3` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60486;
 INSERT INTO `item_template` SET
@@ -8102,6 +8384,7 @@ INSERT INTO `item_template` SET
   `name` = 'Staff of the Ball',
   `displayid` = 22149,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8111,27 +8394,28 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 46,
-  `dmg_max1` = 86,
-  `delay` = 2100,
+  `dmg_min1` = 144,
+  `dmg_max1` = 268,
+  `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 48,
-  `stat_type2` = 7,
-  `stat_value2` = 66,
-  `stat_type3` = 45,
-  `stat_value3` = 88,
+  `stat_value1` = 26,
+  `stat_type2` = 45,
+  `stat_value2` = 17,
+  `stat_type3` = 7,
+  `stat_value3` = 13,
   `stat_type4` = 6,
-  `stat_value4` = 86;
+  `stat_value4` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 60487;
 INSERT INTO `item_template` SET
   `entry` = 60487,
   `class` = 2,
-  `subclass` = 18,
+  `subclass` = 19,
   `SoundOverrideSubclass` = -1,
   `name` = 'Stylus of Expectant Review',
-  `displayid` = 20815,
+  `displayid` = 32763,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8141,19 +8425,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 61,
-  `dmg_max1` = 113,
-  `delay` = 2900,
+  `dmg_min1` = 125,
+  `dmg_max1` = 232,
+  `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 46,
-  `stat_type2` = 7,
-  `stat_value2` = 45,
-  `stat_type3` = 45,
-  `stat_value3` = 43,
-  `stat_type4` = 31,
-  `stat_value4` = 36,
-  `stat_type5` = 32,
-  `stat_value5` = 47;
+  `stat_value1` = 1,
+  `stat_type2` = 45,
+  `stat_value2` = 1,
+  `stat_type3` = 7,
+  `stat_value3` = 1,
+  `stat_type4` = 47,
+  `stat_value4` = 1,
+  `stat_type5` = 31,
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60488;
 INSERT INTO `item_template` SET
@@ -8164,6 +8448,7 @@ INSERT INTO `item_template` SET
   `name` = 'Lantern of the Nursing Sensibility',
   `displayid` = 31809,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 23,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8174,11 +8459,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 20,
-  `stat_type3` = 31,
-  `stat_value3` = 12;
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
+  `stat_value3` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60489;
 INSERT INTO `item_template` SET
@@ -8189,6 +8474,7 @@ INSERT INTO `item_template` SET
   `name` = 'Splendidly Supportive Crown',
   `displayid` = 43890,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8200,12 +8486,12 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 95,
   `stat_type1` = 5,
-  `stat_value1` = 21,
-  `stat_type2` = 7,
-  `stat_value2` = 36,
-  `stat_type3` = 36,
-  `stat_value3` = 18,
-  `stat_type4` = 6,
+  `stat_value1` = 22,
+  `stat_type2` = 45,
+  `stat_value2` = 29,
+  `stat_type3` = 7,
+  `stat_value3` = 19,
+  `stat_type4` = 36,
   `stat_value4` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 60490;
@@ -8217,6 +8503,7 @@ INSERT INTO `item_template` SET
   `name` = 'Walling Collar Spaulders',
   `displayid` = 45126,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8228,15 +8515,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 95,
   `stat_type1` = 5,
-  `stat_value1` = 12,
-  `stat_type2` = 7,
-  `stat_value2` = 13,
-  `stat_type3` = 6,
-  `stat_value3` = 11,
-  `stat_type4` = 45,
-  `stat_value4` = 15,
+  `stat_value1` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 12,
+  `stat_type4` = 6,
+  `stat_value4` = 12,
   `stat_type5` = 36,
-  `stat_value5` = 8;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60491;
 INSERT INTO `item_template` SET
@@ -8247,6 +8534,7 @@ INSERT INTO `item_template` SET
   `name` = 'Entertaining Custom Chestpiece',
   `displayid` = 12397,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8258,11 +8546,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 114,
   `stat_type1` = 5,
-  `stat_value1` = 17,
-  `stat_type2` = 7,
-  `stat_value2` = 32,
-  `stat_type3` = 47,
-  `stat_value3` = 11;
+  `stat_value1` = 22,
+  `stat_type2` = 45,
+  `stat_value2` = 26,
+  `stat_type3` = 7,
+  `stat_value3` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60492;
 INSERT INTO `item_template` SET
@@ -8273,6 +8561,7 @@ INSERT INTO `item_template` SET
   `name` = 'Intensely Warm Sash',
   `displayid` = 42702,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8285,11 +8574,11 @@ INSERT INTO `item_template` SET
   `armor` = 75,
   `stat_type1` = 5,
   `stat_value1` = 18,
-  `stat_type2` = 7,
-  `stat_value2` = 15,
-  `stat_type3` = 31,
-  `stat_value3` = 21,
-  `stat_type4` = 32,
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 22,
+  `stat_type4` = 31,
   `stat_value4` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60493;
@@ -8301,6 +8590,7 @@ INSERT INTO `item_template` SET
   `name` = 'Kilt of Pure Weekending',
   `displayid` = 38739,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8313,14 +8603,14 @@ INSERT INTO `item_template` SET
   `armor` = 105,
   `stat_type1` = 5,
   `stat_value1` = 16,
-  `stat_type2` = 7,
-  `stat_value2` = 22,
-  `stat_type3` = 32,
+  `stat_type2` = 45,
+  `stat_value2` = 17,
+  `stat_type3` = 7,
   `stat_value3` = 11,
-  `stat_type4` = 45,
-  `stat_value4` = 17,
-  `stat_type5` = 36,
-  `stat_value5` = 14;
+  `stat_type4` = 32,
+  `stat_value4` = 15,
+  `stat_type5` = 47,
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60494;
 INSERT INTO `item_template` SET
@@ -8331,6 +8621,7 @@ INSERT INTO `item_template` SET
   `name` = 'Incessantly Head Steps',
   `displayid` = 34595,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8342,13 +8633,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 85,
   `stat_type1` = 5,
-  `stat_value1` = 10,
-  `stat_type2` = 7,
-  `stat_value2` = 16,
-  `stat_type3` = 6,
-  `stat_value3` = 19,
-  `stat_type4` = 36,
-  `stat_value4` = 18;
+  `stat_value1` = 16,
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 11,
+  `stat_type4` = 31,
+  `stat_value4` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 60495;
 INSERT INTO `item_template` SET
@@ -8359,6 +8650,7 @@ INSERT INTO `item_template` SET
   `name` = 'Supposing Forgetfulness Cuffs',
   `displayid` = 40490,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8371,12 +8663,12 @@ INSERT INTO `item_template` SET
   `armor` = 57,
   `stat_type1` = 5,
   `stat_value1` = 10,
-  `stat_type2` = 7,
-  `stat_value2` = 16,
-  `stat_type3` = 45,
-  `stat_value3` = 13,
-  `stat_type4` = 31,
-  `stat_value4` = 11;
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
+  `stat_type4` = 47,
+  `stat_value4` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60496;
 INSERT INTO `item_template` SET
@@ -8387,6 +8679,7 @@ INSERT INTO `item_template` SET
   `name` = 'Spotty Grips',
   `displayid` = 32990,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8398,13 +8691,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 85,
   `stat_type1` = 5,
-  `stat_value1` = 8,
-  `stat_type2` = 7,
-  `stat_value2` = 16,
-  `stat_type3` = 31,
+  `stat_value1` = 9,
+  `stat_type2` = 45,
+  `stat_value2` = 13,
+  `stat_type3` = 7,
   `stat_value3` = 8,
-  `stat_type4` = 45,
-  `stat_value4` = 10,
+  `stat_type4` = 31,
+  `stat_value4` = 9,
   `stat_type5` = 32,
   `stat_value5` = 10;
 
@@ -8417,6 +8710,7 @@ INSERT INTO `item_template` SET
   `name` = 'Necklace of the Endless Resource',
   `displayid` = 39877,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8428,13 +8722,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 8,
-  `stat_type2` = 7,
-  `stat_value2` = 9,
-  `stat_type3` = 32,
+  `stat_type2` = 45,
+  `stat_value2` = 7,
+  `stat_type3` = 7,
   `stat_value3` = 8,
-  `stat_type4` = 6,
+  `stat_type4` = 32,
   `stat_value4` = 6,
-  `stat_type5` = 36,
+  `stat_type5` = 6,
   `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60498;
@@ -8446,6 +8740,7 @@ INSERT INTO `item_template` SET
   `name` = 'Band of the Ringing Country',
   `displayid` = 64176,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8457,10 +8752,10 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 12,
-  `stat_type3` = 6,
-  `stat_value3` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
+  `stat_value3` = 8,
   `stat_type4` = 47,
   `stat_value4` = 5;
 
@@ -8473,6 +8768,7 @@ INSERT INTO `item_template` SET
   `name` = 'Eagerly Advantaging Mark',
   `displayid` = 18059,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8484,11 +8780,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 32,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
   `stat_value3` = 8,
-  `stat_type4` = 6,
+  `stat_type4` = 32,
   `stat_value4` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60500;
@@ -8500,6 +8796,7 @@ INSERT INTO `item_template` SET
   `name` = 'Cloak of Special Confusing',
   `displayid` = 23747,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8511,13 +8808,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 14,
-  `stat_type3` = 32,
-  `stat_value3` = 9,
+  `stat_value1` = 12,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
   `stat_type4` = 36,
-  `stat_value4` = 9;
+  `stat_value4` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60501;
 INSERT INTO `item_template` SET
@@ -8528,6 +8825,7 @@ INSERT INTO `item_template` SET
   `name` = 'Not Complete Falchion',
   `displayid` = 19997,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8537,19 +8835,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 29,
-  `dmg_max1` = 55,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 36,
-  `stat_type2` = 7,
-  `stat_value2` = 53,
-  `stat_type3` = 31,
-  `stat_value3` = 42,
-  `stat_type4` = 6,
-  `stat_value4` = 51,
-  `stat_type5` = 45,
-  `stat_value5` = 36;
+  `stat_value1` = 5,
+  `stat_type2` = 45,
+  `stat_value2` = 5,
+  `stat_type3` = 7,
+  `stat_value3` = 5,
+  `stat_type4` = 47,
+  `stat_value4` = 3,
+  `stat_type5` = 6,
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 60502;
 INSERT INTO `item_template` SET
@@ -8560,6 +8858,7 @@ INSERT INTO `item_template` SET
   `name` = 'Ricing Rule Shiv',
   `displayid` = 20292,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8569,17 +8868,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 31,
-  `dmg_max1` = 57,
+  `dmg_min1` = 62,
+  `dmg_max1` = 114,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 47,
-  `stat_type2` = 7,
-  `stat_value2` = 79,
-  `stat_type3` = 36,
-  `stat_value3` = 47,
-  `stat_type4` = 31,
-  `stat_value4` = 54;
+  `stat_value1` = 5,
+  `stat_type2` = 45,
+  `stat_value2` = 6,
+  `stat_type3` = 7,
+  `stat_value3` = 5,
+  `stat_type4` = 32,
+  `stat_value4` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60503;
 INSERT INTO `item_template` SET
@@ -8590,6 +8889,7 @@ INSERT INTO `item_template` SET
   `name` = 'Persuasiveness Cane',
   `displayid` = 5540,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8599,27 +8899,28 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 46,
-  `dmg_max1` = 86,
-  `delay` = 2100,
+  `dmg_min1` = 144,
+  `dmg_max1` = 268,
+  `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 54,
-  `stat_type2` = 7,
-  `stat_value2` = 75,
-  `stat_type3` = 32,
-  `stat_value3` = 82,
-  `stat_type4` = 47,
-  `stat_value4` = 34;
+  `stat_value1` = 16,
+  `stat_type2` = 45,
+  `stat_value2` = 17,
+  `stat_type3` = 7,
+  `stat_value3` = 24,
+  `stat_type4` = 32,
+  `stat_value4` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 60504;
 INSERT INTO `item_template` SET
   `entry` = 60504,
   `class` = 2,
-  `subclass` = 18,
+  `subclass` = 19,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Theoretical Baton of Necking',
-  `displayid` = 64995,
+  `name` = 'Dearly Terming Torch',
+  `displayid` = 42385,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 26,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8629,17 +8930,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 61,
-  `dmg_max1` = 113,
-  `delay` = 2900,
+  `dmg_min1` = 125,
+  `dmg_max1` = 232,
+  `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 52,
-  `stat_type2` = 7,
-  `stat_value2` = 66,
-  `stat_type3` = 45,
-  `stat_value3` = 60,
-  `stat_type4` = 36,
-  `stat_value4` = 49;
+  `stat_value1` = 1,
+  `stat_type2` = 45,
+  `stat_value2` = 1,
+  `stat_type3` = 7,
+  `stat_value3` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60505;
 INSERT INTO `item_template` SET
@@ -8650,6 +8949,7 @@ INSERT INTO `item_template` SET
   `name` = 'Endgame of Caring Towel',
   `displayid` = 61864,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 23,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8660,15 +8960,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 7,
-  `stat_type2` = 7,
-  `stat_value2` = 12,
-  `stat_type3` = 31,
-  `stat_value3` = 8,
+  `stat_value1` = 8,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
+  `stat_value3` = 6,
   `stat_type4` = 6,
-  `stat_value4` = 8,
-  `stat_type5` = 45,
-  `stat_value5` = 10;
+  `stat_value4` = 6,
+  `stat_type5` = 31,
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60506;
 INSERT INTO `item_template` SET
@@ -8679,6 +8979,7 @@ INSERT INTO `item_template` SET
   `name` = 'Commissioning Helm',
   `displayid` = 32536,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8690,13 +8991,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 182,
   `stat_type1` = 3,
-  `stat_value1` = 18,
+  `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 15,
   `stat_type3` = 4,
-  `stat_value3` = 19,
+  `stat_value3` = 20,
   `stat_type4` = 37,
-  `stat_value4` = 24;
+  `stat_value4` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 60507;
 INSERT INTO `item_template` SET
@@ -8707,6 +9008,7 @@ INSERT INTO `item_template` SET
   `name` = 'Amice of Footing',
   `displayid` = 42964,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8720,7 +9022,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 9,
   `stat_type3` = 44,
   `stat_value3` = 6,
   `stat_type4` = 36,
@@ -8737,6 +9039,7 @@ INSERT INTO `item_template` SET
   `name` = 'Coating Course Chestguard',
   `displayid` = 64476,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8750,7 +9053,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 32,
+  `stat_value2` = 22,
   `stat_type3` = 32,
   `stat_value3` = 22;
 
@@ -8763,6 +9066,7 @@ INSERT INTO `item_template` SET
   `name` = 'Wiggly Carpeting Belt',
   `displayid` = 17126,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8774,15 +9078,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 145,
   `stat_type1` = 3,
-  `stat_value1` = 12,
+  `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 14,
   `stat_type3` = 4,
-  `stat_value3` = 16,
+  `stat_value3` = 17,
   `stat_type4` = 37,
   `stat_value4` = 11,
   `stat_type5` = 35,
-  `stat_value5` = 10;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60510;
 INSERT INTO `item_template` SET
@@ -8793,6 +9097,7 @@ INSERT INTO `item_template` SET
   `name` = 'Legguards of the Native',
   `displayid` = 41140,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8806,13 +9111,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 20,
+  `stat_value2` = 14,
   `stat_type3` = 44,
   `stat_value3` = 15,
   `stat_type4` = 31,
   `stat_value4` = 16,
   `stat_type5` = 38,
-  `stat_value5` = 24;
+  `stat_value5` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 60511;
 INSERT INTO `item_template` SET
@@ -8823,6 +9128,7 @@ INSERT INTO `item_template` SET
   `name` = 'Suggestible Steps',
   `displayid` = 55049,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8836,7 +9142,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 18,
   `stat_type2` = 7,
-  `stat_value2` = 28,
+  `stat_value2` = 19,
   `stat_type3` = 4,
   `stat_value3` = 8,
   `stat_type4` = 35,
@@ -8851,6 +9157,7 @@ INSERT INTO `item_template` SET
   `name` = 'Bindings of Roughening',
   `displayid` = 27760,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8864,7 +9171,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 15,
+  `stat_value2` = 10,
   `stat_type3` = 37,
   `stat_value3` = 6,
   `stat_type4` = 44,
@@ -8879,6 +9186,7 @@ INSERT INTO `item_template` SET
   `name` = 'Thick Handwraps',
   `displayid` = 51585,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8892,7 +9200,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 21,
+  `stat_value2` = 14,
   `stat_type3` = 44,
   `stat_value3` = 8,
   `stat_type4` = 36,
@@ -8909,6 +9217,7 @@ INSERT INTO `item_template` SET
   `name` = 'Expectant Choker of Interview',
   `displayid` = 34303,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8921,9 +9230,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 13,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 11,
   `stat_type3` = 44,
-  `stat_value3` = 13;
+  `stat_value3` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60515;
 INSERT INTO `item_template` SET
@@ -8934,6 +9243,7 @@ INSERT INTO `item_template` SET
   `name` = 'Computer''s Ring',
   `displayid` = 3258,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8946,7 +9256,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 44,
   `stat_value3` = 10,
   `stat_type4` = 36,
@@ -8961,6 +9271,7 @@ INSERT INTO `item_template` SET
   `name` = 'Infinitely Shipping Eye',
   `displayid` = 53455,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -8973,7 +9284,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 14,
+  `stat_value2` = 9,
   `stat_type3` = 36,
   `stat_value3` = 6,
   `stat_type4` = 38,
@@ -8988,6 +9299,7 @@ INSERT INTO `item_template` SET
   `name` = 'Sheet of the Coursing Animal',
   `displayid` = 47249,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9001,9 +9313,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 35,
-  `stat_value3` = 7,
+  `stat_value3` = 6,
   `stat_type4` = 37,
   `stat_value4` = 8,
   `stat_type5` = 4,
@@ -9018,6 +9330,7 @@ INSERT INTO `item_template` SET
   `name` = 'Breaker of Wondering',
   `displayid` = 18652,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9027,17 +9340,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 17,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 38,
+  `stat_value2` = 1,
   `stat_type3` = 38,
-  `stat_value3` = 55,
+  `stat_value3` = 1,
   `stat_type4` = 36,
-  `stat_value4` = 20;
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60519;
 INSERT INTO `item_template` SET
@@ -9048,6 +9361,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fist of the Harmful Period',
   `displayid` = 58910,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9057,19 +9371,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 35,
+  `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 52,
+  `stat_value2` = 10,
   `stat_type3` = 37,
-  `stat_value3` = 30,
+  `stat_value3` = 9,
   `stat_type4` = 31,
-  `stat_value4` = 28,
+  `stat_value4` = 8,
   `stat_type5` = 38,
-  `stat_value5` = 63;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 60520;
 INSERT INTO `item_template` SET
@@ -9080,6 +9394,7 @@ INSERT INTO `item_template` SET
   `name` = 'Obedient Camera Glaive',
   `displayid` = 58914,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9089,20 +9404,20 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 133,
-  `dmg_max1` = 247,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `block` = 59,
   `stat_type1` = 3,
-  `stat_value1` = 35,
+  `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 47,
+  `stat_value2` = 8,
   `stat_type3` = 36,
-  `stat_value3` = 33,
+  `stat_value3` = 8,
   `stat_type4` = 4,
-  `stat_value4` = 34,
+  `stat_value4` = 8,
   `stat_type5` = 31,
-  `stat_value5` = 56;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 60521;
 INSERT INTO `item_template` SET
@@ -9113,6 +9428,7 @@ INSERT INTO `item_template` SET
   `name` = 'Warstaff of the Sharp Creativity',
   `displayid` = 35631,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9122,17 +9438,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 52,
-  `dmg_max1` = 96,
-  `delay` = 2400,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
+  `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 78,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 103,
+  `stat_value2` = 12,
   `stat_type3` = 36,
-  `stat_value3` = 57,
+  `stat_value3` = 10,
   `stat_type4` = 35,
-  `stat_value4` = 55;
+  `stat_value4` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60522;
 INSERT INTO `item_template` SET
@@ -9140,9 +9456,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 8,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Druid Idol of Tank',
+  `name` = 'Sanctified Idol of the Iron Maw',
   `displayid` = 9659,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9166,6 +9483,7 @@ INSERT INTO `item_template` SET
   `name` = 'Profitable Guise',
   `displayid` = 35162,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9177,15 +9495,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 182,
   `stat_type1` = 3,
-  `stat_value1` = 13,
+  `stat_value1` = 14,
   `stat_type2` = 7,
-  `stat_value2` = 23,
+  `stat_value2` = 16,
   `stat_type3` = 32,
   `stat_value3` = 16,
   `stat_type4` = 44,
   `stat_value4` = 16,
   `stat_type5` = 4,
-  `stat_value5` = 16;
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 60524;
 INSERT INTO `item_template` SET
@@ -9196,6 +9514,7 @@ INSERT INTO `item_template` SET
   `name` = 'Shoulderguards of Unbearably Tooling',
   `displayid` = 41758,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9207,13 +9526,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 182,
   `stat_type1` = 3,
-  `stat_value1` = 10,
+  `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 10,
+  `stat_value2` = 7,
   `stat_type3` = 31,
-  `stat_value3` = 10,
+  `stat_value3` = 11,
   `stat_type4` = 38,
-  `stat_value4` = 20;
+  `stat_value4` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 60525;
 INSERT INTO `item_template` SET
@@ -9224,6 +9543,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tunic of Respecting',
   `displayid` = 11138,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9237,9 +9557,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 16,
   `stat_type2` = 7,
-  `stat_value2` = 20,
+  `stat_value2` = 14,
   `stat_type3` = 38,
-  `stat_value3` = 43,
+  `stat_value3` = 45,
   `stat_type4` = 4,
   `stat_value4` = 11;
 
@@ -9252,6 +9572,7 @@ INSERT INTO `item_template` SET
   `name` = 'Tight Sash of Building',
   `displayid` = 28802,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9263,9 +9584,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 145,
   `stat_type1` = 3,
-  `stat_value1` = 22,
+  `stat_value1` = 23,
   `stat_type2` = 7,
-  `stat_value2` = 33,
+  `stat_value2` = 23,
   `stat_type3` = 37,
   `stat_value3` = 16;
 
@@ -9278,6 +9599,7 @@ INSERT INTO `item_template` SET
   `name` = 'Legguards of Infrequently Rocking',
   `displayid` = 25169,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9289,11 +9611,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 202,
   `stat_type1` = 3,
-  `stat_value1` = 18,
+  `stat_value1` = 19,
   `stat_type2` = 7,
-  `stat_value2` = 36,
+  `stat_value2` = 25,
   `stat_type3` = 32,
-  `stat_value3` = 24;
+  `stat_value3` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 60528;
 INSERT INTO `item_template` SET
@@ -9304,6 +9626,7 @@ INSERT INTO `item_template` SET
   `name` = 'Troubling Boots',
   `displayid` = 15017,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9317,7 +9640,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 17,
   `stat_type2` = 7,
-  `stat_value2` = 27,
+  `stat_value2` = 19,
   `stat_type3` = 32,
   `stat_value3` = 19;
 
@@ -9330,6 +9653,7 @@ INSERT INTO `item_template` SET
   `name` = 'Materialistic Presence Bindings',
   `displayid` = 34335,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9343,7 +9667,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 12,
   `stat_type3` = 32,
   `stat_value3` = 9,
   `stat_type4` = 37,
@@ -9358,6 +9682,7 @@ INSERT INTO `item_template` SET
   `name` = 'Optional Completion Fists',
   `displayid` = 44000,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9371,13 +9696,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 11,
   `stat_type2` = 7,
-  `stat_value2` = 17,
+  `stat_value2` = 12,
   `stat_type3` = 36,
-  `stat_value3` = 12,
+  `stat_value3` = 13,
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 37,
-  `stat_value5` = 8;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60531;
 INSERT INTO `item_template` SET
@@ -9388,6 +9713,7 @@ INSERT INTO `item_template` SET
   `name` = 'Locket of the Facing Theory',
   `displayid` = 36755,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9400,9 +9726,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 14,
+  `stat_value2` = 9,
   `stat_type3` = 38,
-  `stat_value3` = 19,
+  `stat_value3` = 18,
   `stat_type4` = 4,
   `stat_value4` = 9;
 
@@ -9415,6 +9741,7 @@ INSERT INTO `item_template` SET
   `name` = 'Loop of the Banking Leader',
   `displayid` = 56875,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9427,7 +9754,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 10,
   `stat_type2` = 7,
-  `stat_value2` = 12,
+  `stat_value2` = 8,
   `stat_type3` = 32,
   `stat_value3` = 7,
   `stat_type4` = 4,
@@ -9442,6 +9769,7 @@ INSERT INTO `item_template` SET
   `name` = 'Wearily Contesting Charm',
   `displayid` = 30723,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9454,7 +9782,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 6,
   `stat_type2` = 7,
-  `stat_value2` = 13,
+  `stat_value2` = 9,
   `stat_type3` = 38,
   `stat_value3` = 16,
   `stat_type4` = 44,
@@ -9471,6 +9799,7 @@ INSERT INTO `item_template` SET
   `name` = 'Sheet of Blaming',
   `displayid` = 40776,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9484,7 +9813,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 7,
   `stat_type2` = 7,
-  `stat_value2` = 18,
+  `stat_value2` = 12,
   `stat_type3` = 32,
   `stat_value3` = 10,
   `stat_type4` = 37,
@@ -9499,6 +9828,7 @@ INSERT INTO `item_template` SET
   `name` = 'Thoughtful Hammer of Trick',
   `displayid` = 19801,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9508,19 +9838,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 78,
-  `dmg_max1` = 146,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 17,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 23,
+  `stat_value2` = 1,
   `stat_type3` = 44,
-  `stat_value3` = 23,
+  `stat_value3` = 1,
   `stat_type4` = 36,
-  `stat_value4` = 15,
+  `stat_value4` = 1,
   `stat_type5` = 4,
-  `stat_value5` = 20;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60536;
 INSERT INTO `item_template` SET
@@ -9531,6 +9861,7 @@ INSERT INTO `item_template` SET
   `name` = 'Wonderful Breaker of Hardening',
   `displayid` = 5233,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9540,19 +9871,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 129,
-  `dmg_max1` = 239,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 29,
+  `stat_value1` = 8,
   `stat_type2` = 7,
-  `stat_value2` = 42,
+  `stat_value2` = 8,
   `stat_type3` = 38,
-  `stat_value3` = 70,
+  `stat_value3` = 20,
   `stat_type4` = 44,
-  `stat_value4` = 31,
+  `stat_value4` = 9,
   `stat_type5` = 4,
-  `stat_value5` = 35;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60537;
 INSERT INTO `item_template` SET
@@ -9563,6 +9894,7 @@ INSERT INTO `item_template` SET
   `name` = 'Halberd of the Currency',
   `displayid` = 39531,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9572,18 +9904,18 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 133,
-  `dmg_max1` = 247,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
   `delay` = 3500,
   `block` = 59,
   `stat_type1` = 3,
-  `stat_value1` = 63,
+  `stat_value1` = 15,
   `stat_type2` = 7,
-  `stat_value2` = 69,
+  `stat_value2` = 11,
   `stat_type3` = 4,
-  `stat_value3` = 47,
+  `stat_value3` = 11,
   `stat_type4` = 36,
-  `stat_value4` = 34;
+  `stat_value4` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60538;
 INSERT INTO `item_template` SET
@@ -9594,6 +9926,7 @@ INSERT INTO `item_template` SET
   `name` = 'Battlestaff of Agent Pride',
   `displayid` = 20289,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9603,19 +9936,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 52,
-  `dmg_max1` = 96,
-  `delay` = 2400,
+  `dmg_min1` = 159,
+  `dmg_max1` = 295,
+  `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 49,
+  `stat_value1` = 9,
   `stat_type2` = 7,
-  `stat_value2` = 75,
+  `stat_value2` = 9,
   `stat_type3` = 32,
-  `stat_value3` = 55,
+  `stat_value3` = 10,
   `stat_type4` = 38,
-  `stat_value4` = 89,
+  `stat_value4` = 16,
   `stat_type5` = 36,
-  `stat_value5` = 59;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60539;
 INSERT INTO `item_template` SET
@@ -9626,6 +9959,7 @@ INSERT INTO `item_template` SET
   `name` = 'Trick Slicer of Breasting',
   `displayid` = 50370,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9635,19 +9969,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 74,
-  `dmg_max1` = 137,
+  `dmg_min1` = 98,
+  `dmg_max1` = 183,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 20,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 36,
+  `stat_value2` = 1,
   `stat_type3` = 44,
-  `stat_value3` = 22,
+  `stat_value3` = 1,
   `stat_type4` = 38,
-  `stat_value4` = 40,
+  `stat_value4` = 1,
   `stat_type5` = 36,
-  `stat_value5` = 27;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60540;
 INSERT INTO `item_template` SET
@@ -9658,6 +9992,7 @@ INSERT INTO `item_template` SET
   `name` = 'Movement''s Barb',
   `displayid` = 47733,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9667,19 +10002,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 53,
-  `dmg_max1` = 99,
+  `dmg_min1` = 69,
+  `dmg_max1` = 129,
   `delay` = 1800,
   `stat_type1` = 3,
-  `stat_value1` = 19,
+  `stat_value1` = 1,
   `stat_type2` = 7,
-  `stat_value2` = 37,
+  `stat_value2` = 1,
   `stat_type3` = 31,
-  `stat_value3` = 20,
+  `stat_value3` = 1,
   `stat_type4` = 4,
-  `stat_value4` = 25,
+  `stat_value4` = 1,
   `stat_type5` = 38,
-  `stat_value5` = 47;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60541;
 INSERT INTO `item_template` SET
@@ -9687,9 +10022,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 8,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Druid Idol of Melee',
+  `name` = 'Sanctified Idol of the Bleeding Claw',
   `displayid` = 34953,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9713,6 +10049,7 @@ INSERT INTO `item_template` SET
   `name` = 'Elegantly Designing Guise',
   `displayid` = 35162,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9724,15 +10061,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 182,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 22,
-  `stat_type3` = 47,
-  `stat_value3` = 10,
-  `stat_type4` = 6,
-  `stat_value4` = 11,
-  `stat_type5` = 31,
-  `stat_value5` = 16;
+  `stat_value1` = 14,
+  `stat_type2` = 45,
+  `stat_value2` = 18,
+  `stat_type3` = 7,
+  `stat_value3` = 20,
+  `stat_type4` = 47,
+  `stat_value4` = 6,
+  `stat_type5` = 6,
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 60543;
 INSERT INTO `item_template` SET
@@ -9743,6 +10080,7 @@ INSERT INTO `item_template` SET
   `name` = 'Early Electrifying Shoulderpads',
   `displayid` = 40729,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9754,15 +10092,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 182,
   `stat_type1` = 5,
-  `stat_value1` = 8,
-  `stat_type2` = 7,
-  `stat_value2` = 12,
-  `stat_type3` = 45,
+  `stat_value1` = 9,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
   `stat_value3` = 8,
-  `stat_type4` = 31,
-  `stat_value4` = 8,
+  `stat_type4` = 47,
+  `stat_value4` = 3,
   `stat_type5` = 6,
-  `stat_value5` = 7;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60544;
 INSERT INTO `item_template` SET
@@ -9773,6 +10111,7 @@ INSERT INTO `item_template` SET
   `name` = 'Experiment''s Chestpiece',
   `displayid` = 31529,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9784,15 +10123,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 219,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 17,
-  `stat_type3` = 32,
-  `stat_value3` = 15,
-  `stat_type4` = 36,
+  `stat_value1` = 14,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
+  `stat_value3` = 16,
+  `stat_type4` = 32,
   `stat_value4` = 11,
-  `stat_type5` = 31,
-  `stat_value5` = 11;
+  `stat_type5` = 36,
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60545;
 INSERT INTO `item_template` SET
@@ -9803,6 +10142,7 @@ INSERT INTO `item_template` SET
   `name` = 'Cinch of the Dreaming Complaint',
   `displayid` = 14936,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9814,11 +10154,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 145,
   `stat_type1` = 5,
-  `stat_value1` = 22,
-  `stat_type2` = 7,
-  `stat_value2` = 33,
-  `stat_type3` = 31,
-  `stat_value3` = 18;
+  `stat_value1` = 20,
+  `stat_type2` = 45,
+  `stat_value2` = 27,
+  `stat_type3` = 7,
+  `stat_value3` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 60546;
 INSERT INTO `item_template` SET
@@ -9829,6 +10169,7 @@ INSERT INTO `item_template` SET
   `name` = 'Explanation Trousers',
   `displayid` = 53814,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9840,11 +10181,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 202,
   `stat_type1` = 5,
-  `stat_value1` = 24,
-  `stat_type2` = 7,
-  `stat_value2` = 36,
-  `stat_type3` = 45,
-  `stat_value3` = 22;
+  `stat_value1` = 20,
+  `stat_type2` = 45,
+  `stat_value2` = 29,
+  `stat_type3` = 7,
+  `stat_value3` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 60547;
 INSERT INTO `item_template` SET
@@ -9855,6 +10196,7 @@ INSERT INTO `item_template` SET
   `name` = 'Emotionally Surprised Stompers',
   `displayid` = 67447,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9866,15 +10208,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 164,
   `stat_type1` = 5,
-  `stat_value1` = 11,
-  `stat_type2` = 7,
+  `stat_value1` = 12,
+  `stat_type2` = 45,
   `stat_value2` = 14,
-  `stat_type3` = 6,
+  `stat_type3` = 7,
   `stat_value3` = 10,
-  `stat_type4` = 47,
-  `stat_value4` = 5,
-  `stat_type5` = 31,
-  `stat_value5` = 13;
+  `stat_type4` = 6,
+  `stat_value4` = 11,
+  `stat_type5` = 47,
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 60548;
 INSERT INTO `item_template` SET
@@ -9885,6 +10227,7 @@ INSERT INTO `item_template` SET
   `name` = 'Armguards of Catch',
   `displayid` = 17009,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9897,9 +10240,9 @@ INSERT INTO `item_template` SET
   `armor` = 110,
   `stat_type1` = 5,
   `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 31,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
   `stat_value3` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60549;
@@ -9911,6 +10254,7 @@ INSERT INTO `item_template` SET
   `name` = 'Handwraps of Specialty',
   `displayid` = 27913,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9922,15 +10266,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 164,
   `stat_type1` = 5,
-  `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 21,
-  `stat_type3` = 6,
-  `stat_value3` = 11,
-  `stat_type4` = 36,
+  `stat_value1` = 11,
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
+  `stat_value3` = 13,
+  `stat_type4` = 6,
   `stat_value4` = 10,
-  `stat_type5` = 31,
-  `stat_value5` = 9;
+  `stat_type5` = 36,
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60550;
 INSERT INTO `item_template` SET
@@ -9941,6 +10285,7 @@ INSERT INTO `item_template` SET
   `name` = 'Difference Pendant',
   `displayid` = 59307,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9952,12 +10297,12 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 15,
-  `stat_type3` = 45,
-  `stat_value3` = 11,
-  `stat_type4` = 47,
-  `stat_value4` = 4;
+  `stat_type2` = 45,
+  `stat_value2` = 12,
+  `stat_type3` = 7,
+  `stat_value3` = 10,
+  `stat_type4` = 32,
+  `stat_value4` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60551;
 INSERT INTO `item_template` SET
@@ -9968,6 +10313,7 @@ INSERT INTO `item_template` SET
   `name` = 'Ring of the Front Art',
   `displayid` = 52268,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -9979,10 +10325,10 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
   `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 45,
-  `stat_value3` = 12;
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 60552;
 INSERT INTO `item_template` SET
@@ -9993,6 +10339,7 @@ INSERT INTO `item_template` SET
   `name` = 'Social Cheek Talisman',
   `displayid` = 39915,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10003,15 +10350,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 8,
-  `stat_type2` = 7,
-  `stat_value2` = 11,
-  `stat_type3` = 6,
+  `stat_value1` = 7,
+  `stat_type2` = 45,
+  `stat_value2` = 8,
+  `stat_type3` = 7,
   `stat_value3` = 7,
-  `stat_type4` = 45,
-  `stat_value4` = 9,
-  `stat_type5` = 31,
-  `stat_value5` = 7;
+  `stat_type4` = 6,
+  `stat_value4` = 8,
+  `stat_type5` = 47,
+  `stat_value5` = 3;
 
 DELETE FROM `item_template` WHERE `entry` = 60553;
 INSERT INTO `item_template` SET
@@ -10022,6 +10369,7 @@ INSERT INTO `item_template` SET
   `name` = 'Righteous Cape of Resident',
   `displayid` = 28951,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10033,15 +10381,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 5,
-  `stat_type2` = 7,
-  `stat_value2` = 13,
-  `stat_type3` = 6,
-  `stat_value3` = 8,
-  `stat_type4` = 47,
-  `stat_value4` = 3,
+  `stat_value1` = 7,
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
+  `stat_value3` = 7,
+  `stat_type4` = 6,
+  `stat_value4` = 8,
   `stat_type5` = 36,
-  `stat_value5` = 8;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60554;
 INSERT INTO `item_template` SET
@@ -10052,6 +10400,7 @@ INSERT INTO `item_template` SET
   `name` = 'Harmful Budget Fist',
   `displayid` = 36064,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10061,19 +10410,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 25,
-  `dmg_max1` = 47,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 45,
-  `stat_type2` = 7,
-  `stat_value2` = 56,
-  `stat_type3` = 45,
-  `stat_value3` = 60,
-  `stat_type4` = 6,
-  `stat_value4` = 37,
-  `stat_type5` = 32,
-  `stat_value5` = 34;
+  `stat_value1` = 5,
+  `stat_type2` = 45,
+  `stat_value2` = 5,
+  `stat_type3` = 7,
+  `stat_value3` = 6,
+  `stat_type4` = 47,
+  `stat_value4` = 2,
+  `stat_type5` = 6,
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 60555;
 INSERT INTO `item_template` SET
@@ -10084,6 +10433,7 @@ INSERT INTO `item_template` SET
   `name` = 'Vileblade of Obviously Reasoning',
   `displayid` = 64677,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10093,15 +10443,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 31,
-  `dmg_max1` = 57,
+  `dmg_min1` = 62,
+  `dmg_max1` = 114,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 70,
-  `stat_type2` = 7,
-  `stat_value2` = 105,
-  `stat_type3` = 47,
-  `stat_value3` = 25;
+  `stat_value1` = 5,
+  `stat_type2` = 45,
+  `stat_value2` = 8,
+  `stat_type3` = 7,
+  `stat_value3` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60556;
 INSERT INTO `item_template` SET
@@ -10112,6 +10462,7 @@ INSERT INTO `item_template` SET
   `name` = 'Evening''s Staff',
   `displayid` = 35633,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10121,15 +10472,15 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 46,
-  `dmg_max1` = 86,
-  `delay` = 2100,
+  `dmg_min1` = 144,
+  `dmg_max1` = 268,
+  `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 69,
-  `stat_type2` = 7,
-  `stat_value2` = 133,
-  `stat_type3` = 32,
-  `stat_value3` = 89;
+  `stat_value1` = 25,
+  `stat_type2` = 45,
+  `stat_value2` = 29,
+  `stat_type3` = 7,
+  `stat_value3` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 60557;
 INSERT INTO `item_template` SET
@@ -10137,9 +10488,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 8,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Druid Idol of Caster',
+  `name` = 'Sanctified Idol of the Starlit Bough',
   `displayid` = 34954,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10163,6 +10515,7 @@ INSERT INTO `item_template` SET
   `name` = 'Suspecting Bowl Headguard',
   `displayid` = 21958,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 1,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10174,11 +10527,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 182,
   `stat_type1` = 5,
-  `stat_value1` = 26,
-  `stat_type2` = 7,
-  `stat_value2` = 36,
-  `stat_type3` = 45,
-  `stat_value3` = 29;
+  `stat_value1` = 27,
+  `stat_type2` = 45,
+  `stat_value2` = 32,
+  `stat_type3` = 7,
+  `stat_value3` = 24;
 
 DELETE FROM `item_template` WHERE `entry` = 60559;
 INSERT INTO `item_template` SET
@@ -10189,6 +10542,7 @@ INSERT INTO `item_template` SET
   `name` = 'Honey''s Mantle',
   `displayid` = 53883,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 3,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10200,13 +10554,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 182,
   `stat_type1` = 5,
-  `stat_value1` = 12,
-  `stat_type2` = 7,
-  `stat_value2` = 15,
-  `stat_type3` = 43,
-  `stat_value3` = 5,
-  `stat_type4` = 32,
-  `stat_value4` = 6;
+  `stat_value1` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 10,
+  `stat_type3` = 7,
+  `stat_value3` = 12,
+  `stat_type4` = 36,
+  `stat_value4` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60560;
 INSERT INTO `item_template` SET
@@ -10217,6 +10571,7 @@ INSERT INTO `item_template` SET
   `name` = 'Racing Signature Armor',
   `displayid` = 14260,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 5,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10228,15 +10583,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 219,
   `stat_type1` = 5,
-  `stat_value1` = 14,
-  `stat_type2` = 7,
-  `stat_value2` = 17,
-  `stat_type3` = 32,
+  `stat_value1` = 15,
+  `stat_type2` = 45,
+  `stat_value2` = 14,
+  `stat_type3` = 7,
   `stat_value3` = 10,
-  `stat_type4` = 6,
-  `stat_value4` = 14,
-  `stat_type5` = 43,
-  `stat_value5` = 6;
+  `stat_type4` = 32,
+  `stat_value4` = 15,
+  `stat_type5` = 6,
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60561;
 INSERT INTO `item_template` SET
@@ -10247,6 +10602,7 @@ INSERT INTO `item_template` SET
   `name` = 'Considerate Romance Wrap',
   `displayid` = 30391,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 6,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10258,11 +10614,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 145,
   `stat_type1` = 5,
-  `stat_value1` = 21,
-  `stat_type2` = 7,
-  `stat_value2` = 33,
-  `stat_type3` = 32,
-  `stat_value3` = 20;
+  `stat_value1` = 23,
+  `stat_type2` = 45,
+  `stat_value2` = 23,
+  `stat_type3` = 7,
+  `stat_value3` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 60562;
 INSERT INTO `item_template` SET
@@ -10273,6 +10629,7 @@ INSERT INTO `item_template` SET
   `name` = 'Blank''s Pants',
   `displayid` = 44180,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 7,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10284,13 +10641,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 202,
   `stat_type1` = 5,
-  `stat_value1` = 16,
-  `stat_type2` = 7,
-  `stat_value2` = 36,
-  `stat_type3` = 36,
-  `stat_value3` = 17,
-  `stat_type4` = 6,
-  `stat_value4` = 13;
+  `stat_value1` = 14,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 25,
+  `stat_type4` = 36,
+  `stat_value4` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 60563;
 INSERT INTO `item_template` SET
@@ -10301,6 +10658,7 @@ INSERT INTO `item_template` SET
   `name` = 'Daring Notice Boots',
   `displayid` = 16998,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 8,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10312,15 +10670,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 164,
   `stat_type1` = 5,
-  `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 17,
-  `stat_type3` = 36,
-  `stat_value3` = 11,
-  `stat_type4` = 45,
-  `stat_value4` = 15,
+  `stat_value1` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 13,
+  `stat_type3` = 7,
+  `stat_value3` = 13,
+  `stat_type4` = 32,
+  `stat_value4` = 9,
   `stat_type5` = 43,
-  `stat_value5` = 4;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60564;
 INSERT INTO `item_template` SET
@@ -10331,6 +10689,7 @@ INSERT INTO `item_template` SET
   `name` = 'Armguards of Comparable Risking',
   `displayid` = 14997,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 9,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10342,15 +10701,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 110,
   `stat_type1` = 5,
-  `stat_value1` = 5,
-  `stat_type2` = 7,
-  `stat_value2` = 12,
-  `stat_type3` = 36,
-  `stat_value3` = 6,
-  `stat_type4` = 32,
-  `stat_value4` = 8,
-  `stat_type5` = 45,
-  `stat_value5` = 9;
+  `stat_value1` = 7,
+  `stat_type2` = 45,
+  `stat_value2` = 9,
+  `stat_type3` = 7,
+  `stat_value3` = 8,
+  `stat_type4` = 36,
+  `stat_value4` = 7,
+  `stat_type5` = 43,
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 60565;
 INSERT INTO `item_template` SET
@@ -10361,6 +10720,7 @@ INSERT INTO `item_template` SET
   `name` = 'Handguards of Scientifically Writing',
   `displayid` = 51865,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 10,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10372,13 +10732,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 164,
   `stat_type1` = 5,
-  `stat_value1` = 11,
-  `stat_type2` = 7,
-  `stat_value2` = 22,
-  `stat_type3` = 36,
-  `stat_value3` = 11,
+  `stat_value1` = 16,
+  `stat_type2` = 45,
+  `stat_value2` = 19,
+  `stat_type3` = 7,
+  `stat_value3` = 9,
   `stat_type4` = 6,
-  `stat_value4` = 15;
+  `stat_value4` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60566;
 INSERT INTO `item_template` SET
@@ -10389,6 +10749,7 @@ INSERT INTO `item_template` SET
   `name` = 'Choker of Necessitating Difference',
   `displayid` = 53133,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 2,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10399,10 +10760,10 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 16,
-  `stat_type3` = 32,
+  `stat_value1` = 10,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
   `stat_value3` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60567;
@@ -10414,6 +10775,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fluently Specialized Loop',
   `displayid` = 64170,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 11,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10424,12 +10786,12 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 9,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 36,
+  `stat_value1` = 8,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
   `stat_value3` = 8,
-  `stat_type4` = 6,
+  `stat_type4` = 36,
   `stat_value4` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60568;
@@ -10441,6 +10803,7 @@ INSERT INTO `item_template` SET
   `name` = 'Regular Trinket',
   `displayid` = 31282,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 12,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10451,11 +10814,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
   `stat_type1` = 5,
-  `stat_value1` = 13,
-  `stat_type2` = 7,
-  `stat_value2` = 19,
-  `stat_type3` = 6,
-  `stat_value3` = 10;
+  `stat_value1` = 11,
+  `stat_type2` = 45,
+  `stat_value2` = 15,
+  `stat_type3` = 7,
+  `stat_value3` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60569;
 INSERT INTO `item_template` SET
@@ -10466,6 +10829,7 @@ INSERT INTO `item_template` SET
   `name` = 'Fervently Disagreeable Cape',
   `displayid` = 27584,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 16,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10477,13 +10841,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 225,
   `armor` = 57,
   `stat_type1` = 5,
-  `stat_value1` = 10,
-  `stat_type2` = 7,
-  `stat_value2` = 13,
-  `stat_type3` = 45,
-  `stat_value3` = 11,
+  `stat_value1` = 7,
+  `stat_type2` = 45,
+  `stat_value2` = 11,
+  `stat_type3` = 7,
+  `stat_value3` = 9,
   `stat_type4` = 6,
-  `stat_value4` = 8;
+  `stat_value4` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 60570;
 INSERT INTO `item_template` SET
@@ -10494,6 +10858,7 @@ INSERT INTO `item_template` SET
   `name` = 'Destroyer of Drunken Preference',
   `displayid` = 17788,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10503,19 +10868,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 25,
-  `dmg_max1` = 47,
-  `delay` = 1800,
+  `dmg_min1` = 88,
+  `dmg_max1` = 163,
+  `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 35,
-  `stat_type2` = 7,
-  `stat_value2` = 76,
-  `stat_type3` = 45,
-  `stat_value3` = 65,
+  `stat_value1` = 6,
+  `stat_type2` = 45,
+  `stat_value2` = 6,
+  `stat_type3` = 7,
+  `stat_value3` = 6,
   `stat_type4` = 36,
-  `stat_value4` = 31,
+  `stat_value4` = 4,
   `stat_type5` = 6,
-  `stat_value5` = 33;
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 60571;
 INSERT INTO `item_template` SET
@@ -10526,6 +10891,7 @@ INSERT INTO `item_template` SET
   `name` = 'Knife of Varying',
   `displayid` = 62972,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 13,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10535,19 +10901,19 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 31,
-  `dmg_max1` = 57,
+  `dmg_min1` = 62,
+  `dmg_max1` = 114,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 46,
-  `stat_type2` = 7,
-  `stat_value2` = 58,
-  `stat_type3` = 6,
-  `stat_value3` = 36,
-  `stat_type4` = 36,
-  `stat_value4` = 46,
-  `stat_type5` = 32,
-  `stat_value5` = 34;
+  `stat_value1` = 4,
+  `stat_type2` = 45,
+  `stat_value2` = 5,
+  `stat_type3` = 7,
+  `stat_value3` = 4,
+  `stat_type4` = 6,
+  `stat_value4` = 4,
+  `stat_type5` = 36,
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 60572;
 INSERT INTO `item_template` SET
@@ -10558,6 +10924,7 @@ INSERT INTO `item_template` SET
   `name` = 'Battlestaff of the Fishing',
   `displayid` = 40650,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 17,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
@@ -10567,17 +10934,17 @@ INSERT INTO `item_template` SET
   `VerifiedBuild` = 0,
   `DisenchantID` = 65,
   `RequiredDisenchantSkill` = 225,
-  `dmg_min1` = 46,
-  `dmg_max1` = 86,
-  `delay` = 2100,
+  `dmg_min1` = 144,
+  `dmg_max1` = 268,
+  `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 66,
-  `stat_type2` = 7,
-  `stat_value2` = 88,
-  `stat_type3` = 45,
-  `stat_value3` = 66,
-  `stat_type4` = 6,
-  `stat_value4` = 73;
+  `stat_value1` = 22,
+  `stat_type2` = 45,
+  `stat_value2` = 23,
+  `stat_type3` = 7,
+  `stat_value3` = 18,
+  `stat_type4` = 43,
+  `stat_value4` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60573;
 INSERT INTO `item_template` SET
@@ -10585,9 +10952,10 @@ INSERT INTO `item_template` SET
   `class` = 4,
   `subclass` = 8,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Azerothian Heroic Druid Idol of Healer',
+  `name` = 'Sanctified Idol of the Renewing Glade',
   `displayid` = 34955,
   `Quality` = 4,
+  `Flags` = 8,
   `InventoryType` = 28,
   `AllowableClass` = -1,
   `AllowableRace` = -1,

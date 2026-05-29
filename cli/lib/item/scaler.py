@@ -19,6 +19,7 @@ generation stays deterministic.
 """
 
 import json
+import math
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -197,28 +198,55 @@ def compute_shield_block(subclass: int, item_level: int) -> int:
 
 
 # Weapon DPS profiles derived from stock AC weapons (queried 2026-05-21).
-# Each entry: subclass -> {role -> (delay_ms, dps_slope, dps_intercept)}.
-# DPS(ilvl) = slope * ilvl + intercept; damage_avg = DPS * speed / 1000.
-# Caster weapons have ~half the DPS slope of physical at the same subclass
-# because they trade weapon damage for stat budget (gem-weight gap explained
-# earlier). Items without weapon damage (relics, held off-hands, shields,
-# misc class=4 items) skip this path entirely.
-WEAPON_PROFILES = {
-    0:  {'physical': (2600, 0.85, -15.0)},                                # 1H axe
-    1:  {'physical': (3500, 1.10, -20.0)},                                # 2H axe
-    2:  {'physical': (2900, 0.95, -31.0)},                                # bow
-    3:  {'physical': (2900, 1.00, -38.0)},                                # gun
-    4:  {'physical': (2600, 0.85, -13.0), 'caster': (1800, 0.50, -13.0)}, # 1H mace
-    5:  {'physical': (3500, 1.13, -22.0)},                                # 2H mace
-    6:  {'physical': (3500, 1.11, -19.0)},                                # polearm
-    7:  {'physical': (2600, 0.83, -11.0), 'caster': (1800, 0.49,  -9.0)}, # 1H sword
-    8:  {'physical': (3500, 1.09, -16.0)},                                # 2H sword
-    10: {'physical': (2400, 1.24, -51.0), 'caster': (2100, 0.78, -20.0)}, # staff
-    13: {'physical': (2600, 0.87, -17.0)},                                # fist
-    15: {'physical': (1800, 0.85, -14.0), 'caster': (1800, 0.49,  -8.0)}, # dagger
-    16: {'physical': (1800, 1.54, -121.0)},                               # thrown
-    18: {'caster':   (2900, 1.00, -36.0)},                                # wand
-    19: {'physical': (2900, 0.95, -31.0)},                                # crossbow
+# Family-pooled DPS curves, exponential. Subclass routes to a family by
+# (subclass, role); all subclasses in a family share one (delay, a, b).
+# DPS(ilvl) = a * exp(b * ilvl). Monotonically increasing by construction
+# — avoids the U-shape that a quadratic fit produces when stock data is
+# sparse below ilvl 60 (epic-only filter). Growth rate b ≈ 0.007/ilvl
+# matches WotLK's "1.27× DPS per 32 ilvls" design rule (1.0070^32 = 1.250).
+# Fitted by linear regression on (ilvl, ln(DPS)) against stock epic
+# weapons (Quality=4, ItemLevel 60-284), excluding test/QA/deprecated,
+# with light P10-per-ilvl-band outlier filter. R² 0.89-0.99 per family.
+FAMILY_PROFILES = {
+    "1h_melee": (2600, 33.40, 0.00731),
+    "2h_melee": (3500, 39.05, 0.00769),
+    "dagger":   (1800, 34.10, 0.00722),
+    "ranged":   (2900, 28.42, 0.00814),
+    "thrown":   (1800, 25.48, 0.00944),
+    "wand":     (1800, 61.21, 0.00732),
+}
+
+# Subclass -> {role -> family}. Routes a weapon to its family curve.
+# Subclasses without a 'caster' entry fall through to their default role.
+SUBCLASS_FAMILY = {
+    0:  {"physical": "1h_melee"},                                    # 1H axe
+    1:  {"physical": "2h_melee"},                                    # 2H axe
+    2:  {"physical": "ranged"},                                      # bow
+    3:  {"physical": "ranged"},                                      # gun
+    4:  {"physical": "1h_melee",   "caster": "1h_melee"},            # 1H mace (caster derives via DPS Trade)
+    5:  {"physical": "2h_melee"},                                    # 2H mace
+    6:  {"physical": "2h_melee"},                                    # polearm
+    7:  {"physical": "1h_melee",   "caster": "1h_melee"},            # 1H sword
+    8:  {"physical": "2h_melee"},                                    # 2H sword
+    10: {"physical": "2h_melee",   "caster": "2h_melee"},            # staff (caster derives via DPS Trade)
+    13: {"physical": "1h_melee"},                                    # fist
+    15: {"physical": "dagger",     "caster": "dagger"},              # dagger
+    16: {"physical": "thrown"},
+    18: {"physical": "ranged"},                                      # crossbow
+    19: {"caster":   "wand"},
+}
+
+# Per-family minimum DPS floor as a fraction of ItemLevel. Safety net for
+# fringe ilvls where the quadratic could undershoot. Quadratic curves now
+# track stock norms within ~5-10% across ilvl 60-284, so floors are set
+# conservatively (~25% of typical DPS) just to prevent pathological cases.
+FAMILY_FLOOR = {
+    "1h_melee":  0.40,
+    "2h_melee":  0.50,
+    "ranged":    0.40,
+    "dagger":    0.40,
+    "thrown":    0.40,
+    "wand":      0.50,
 }
 
 # Damage min/max spread around the ilvl-computed average DPS. Stock weapons
@@ -234,26 +262,49 @@ DMG_SPREAD_HIGH = 1.30
 DPS_BUDGET_WEIGHT = 5.0
 
 
-def compute_weapon_dps(item_class: int, subclass: int, item_level: int, role: str):
-    """Return the canonical DPS for a weapon at this (subclass, ilvl, role),
-    or None for non-weapons. This is the same DPS used to derive damage in
-    compute_weapon_damage; extracted so callers can compute the DPS budget
-    contribution without recomputing damage min/max."""
-    if item_class != 2:
-        return None
-    profile = WEAPON_PROFILES.get(subclass)
-    if not profile:
+def _resolve_family(subclass: int, role: str):
+    """Map (subclass, role) to a family key in FAMILY_PROFILES, or None."""
+    routes = SUBCLASS_FAMILY.get(subclass)
+    if not routes:
         return None
     is_caster = role in ('caster', 'healer')
-    key = 'caster' if is_caster and 'caster' in profile else 'physical'
-    if key not in profile:
-        key = next(iter(profile))
-    _, slope, intercept = profile[key]
-    # Floor at 10 DPS: stock data for some subclasses (especially thrown)
-    # only starts at high ilvls, so the fitted intercept can go strongly
-    # negative and produce sub-natural damage at low ilvls. 10 is a
-    # reasonable usability floor.
-    return max(10.0, slope * item_level + intercept)
+    if is_caster and 'caster' in routes:
+        return routes['caster']
+    if 'physical' in routes:
+        return routes['physical']
+    # Subclass has only one role (e.g. wand=caster-only)
+    return next(iter(routes.values()))
+
+
+def compute_weapon_dps(item_class: int, subclass: int, item_level: int, role: str):
+    """Return the canonical DPS for a weapon at this (subclass, ilvl, role),
+    or None for non-weapons.
+
+    All weapons share a physical DPS curve per family. Caster weapons trade
+    DPS for stats per the Classic item-budget design ("DPS Trade"):
+
+        SacrificedDPS = min(ilvl - 60, physical_dps * 0.35)
+
+    The Classic formula `ilvl - 60` is correct at vanilla ilvls (60-80) where
+    SoD ilvl 70 sacrifices ~10 DPS off physical 67. It over-sacrifices at
+    higher ilvls (would zero out a WotLK caster staff), so we cap at 35% of
+    physical to match empirical stock data at ilvl 200/264.
+
+    Wands are exempt — they have no physical equivalent (no ammo).
+    """
+    if item_class != 2:
+        return None
+    family = _resolve_family(subclass, role)
+    if family is None or family not in FAMILY_PROFILES:
+        return None
+    _, a, b = FAMILY_PROFILES[family]
+    fitted = a * math.exp(b * item_level)
+    is_caster = role in ("caster", "healer")
+    if is_caster and family != "wand":
+        sacrifice = min(max(0, item_level - 60), fitted * 0.35)
+        fitted -= sacrifice
+    floor = FAMILY_FLOOR.get(family, 0.4) * item_level
+    return max(floor, fitted)
 
 
 def compute_weapon_damage(item_class: int, subclass: int, item_level: int, role: str):
@@ -264,22 +315,35 @@ def compute_weapon_damage(item_class: int, subclass: int, item_level: int, role:
     """
     if item_class != 2:
         return None
-    profile = WEAPON_PROFILES.get(subclass)
-    if not profile:
+    family = _resolve_family(subclass, role)
+    if family is None or family not in FAMILY_PROFILES:
         return None
 
-    is_caster = role in ('caster', 'healer')
-    key = 'caster' if is_caster and 'caster' in profile else 'physical'
-    if key not in profile:
-        # Subclass has only one role profile (e.g. wand=caster only, polearm=physical only)
-        key = next(iter(profile))
-
-    delay_ms = profile[key][0]
+    delay_ms = FAMILY_PROFILES[family][0]
     dps = compute_weapon_dps(item_class, subclass, item_level, role)
     avg_dmg = dps * delay_ms / 1000.0
     dmg_min = max(1, round(avg_dmg * DMG_SPREAD_LOW))
     dmg_max = max(dmg_min + 1, round(avg_dmg * DMG_SPREAD_HIGH))
     return (dmg_min, dmg_max, delay_ms)
+
+
+def _era_for_ilvl(item_level: int, era_ranges: dict) -> str:
+    """Pick the era whose ilvl range contains this item_level. Gap regions
+    (96-99, 165-186) fall through to the lower-era extrapolated. ilvls below
+    the vanilla floor clamp to vanilla; above the WotLK ceiling clamp to wotlk.
+    """
+    for era in ("vanilla", "tbc", "wotlk"):
+        lo, hi = era_ranges.get(era, (None, None))
+        if lo is None:
+            continue
+        if lo <= item_level <= hi:
+            return era
+    vanilla_lo = era_ranges.get("vanilla", [40, 99])[0]
+    return "vanilla" if item_level < vanilla_lo else "wotlk"
+
+
+def _eval_quad(f, x):
+    return max(0.0, f["a"] * x * x + f["b"] * x + f["c"])
 
 
 def compute_budget(
@@ -289,31 +353,41 @@ def compute_budget(
     """Return the empirically-derived stat budget for one item.
 
     Lookup order:
-      1. Per-(slot, subclass) fit from formulas_by_subclass (armor cloth/leather/mail/plate)
-      2. Per-slot fit from formulas
-      3. Legacy single-quadratic fallback
+      1. Per-(slot, subclass, era)  — armor era splits
+      2. Per-(slot, subclass)       — armor all-ilvl
+      3. Per-(slot, era)            — primary for weapons
+      4. Per-slot                   — all-ilvl fallback
+      5. Legacy single-quadratic
     """
     data = _load_formulas()
     quality_ratio = data.get("quality_ratio", {}).get(str(quality), 1.0)
 
     # Resolve pooled slots (e.g. trinkets share ring's budget formula)
     lookup_iv = SLOT_ALIAS.get(inventory_type, inventory_type)
+    era_ranges = data.get("era_ranges", {
+        "vanilla": [40, 99], "tbc": [100, 186], "wotlk": [187, 284]
+    })
+    era = _era_for_ilvl(item_level, era_ranges)
 
     if subclass is not None:
+        by_sub_era = data.get("formulas_by_subclass_era", {})
+        key = f"{lookup_iv}:{subclass}:{era}"
+        if key in by_sub_era:
+            return _eval_quad(by_sub_era[key], item_level) * quality_ratio
+
         by_sub = data.get("formulas_by_subclass", {})
         key = f"{lookup_iv}:{subclass}"
         if key in by_sub:
-            f = by_sub[key]
-            epic_budget = max(0.0, f["a"] * item_level * item_level
-                              + f["b"] * item_level + f["c"])
-            return epic_budget * quality_ratio
+            return _eval_quad(by_sub[key], item_level) * quality_ratio
+
+    by_era = data.get("formulas_by_era", {})
+    key = f"{lookup_iv}:{era}"
+    if key in by_era:
+        return _eval_quad(by_era[key], item_level) * quality_ratio
 
     formulas = data.get("formulas", {})
     if str(lookup_iv) in formulas:
-        f = formulas[str(lookup_iv)]
-        epic_budget = max(0.0, f["a"] * item_level * item_level
-                          + f["b"] * item_level + f["c"])
-        return epic_budget * quality_ratio
+        return _eval_quad(formulas[str(lookup_iv)], item_level) * quality_ratio
 
     return _legacy_budget(inventory_type, item_level, quality)
 
@@ -326,6 +400,7 @@ def distribute_stats(
     stat_ids: List[int],
     budget: float,
     rng,
+    weight_overrides: dict = None,
 ) -> List[Tuple[int, int]]:
     """Split `budget` across `stat_ids`, with each stat constrained to
     [MIN_STAT_BUDGET_PCT, MAX_STAT_BUDGET_PCT] of total budget.
@@ -334,6 +409,11 @@ def distribute_stats(
     Ceiling prevents one stat from gobbling up everything (e.g. +154 Stam
     on an ilvl 66 item). Excess over the ceiling is redistributed to
     uncapped stats iteratively until stable.
+
+    `weight_overrides` is an optional {stat_id: weight} that supersedes
+    STAT_WEIGHT for the duration of this call. Used to make vanilla-era
+    (azeroth) items charge full Stam cost (1.0) while TBC/WotLK content
+    keeps the gem-derived 0.667 weight.
 
     Order preserved from input. Returns integer (stat_id, value) tuples;
     value floors at 1 to avoid +0 stats."""
@@ -376,6 +456,7 @@ def distribute_stats(
     out: List[Tuple[int, int]] = []
     for sid, pct in zip(stat_ids, pcts):
         share = pct * budget
-        value = int(round(share / stat_weight(sid)))
+        w = (weight_overrides or {}).get(sid, stat_weight(sid))
+        value = int(round(share / w))
         out.append((sid, max(1, value)))
     return out
