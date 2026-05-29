@@ -216,6 +216,39 @@ FAMILY_PROFILES = {
     "wand":     (1800, 61.21, 0.00732),
 }
 
+# Per-era family DPS profiles. Same shape as FAMILY_PROFILES (delay, a, b)
+# but indexed by era. The global FAMILY_PROFILES blends vanilla through WotLK
+# and overshoots vanilla low-end DPS by 3–5 (e.g. ilvl 70: curve 55.7 vs
+# stock median 51.5), which costs ~20 budget points on stat scaling. Per-era
+# curves track stock medians within 1 point across the relevant range.
+# Refit by `zep world item fit-weapon-dps`.
+FAMILY_PROFILES_BY_ERA = {
+    "1h_melee": {
+        "vanilla": (2600, 15.29, 0.01740),
+        "tbc":     (2600, 47.49, 0.00531),
+        "wotlk":   (2600, 33.29, 0.00726),
+    },
+    "2h_melee": {
+        "vanilla": (3500, 19.87, 0.01742),
+        "tbc":     (3500, 49.05, 0.00596),
+        "wotlk":   (3500, 43.27, 0.00726),
+    },
+    "dagger": {
+        "vanilla": (1800, 14.30, 0.01828),
+        "tbc":     (1800, 47.82, 0.00527),
+        "wotlk":   (1800, 33.42, 0.00725),
+    },
+    "thrown": {
+        "tbc":     (1800, 42.87, 0.00529),
+        "wotlk":   (1800, 44.30, 0.00716),
+    },
+    "wand": {
+        "vanilla": (1800, 18.35, 0.02200),
+        "tbc":     (1800, 87.12, 0.00533),
+        "wotlk":   (1800, 61.55, 0.00724),
+    },
+}
+
 # Subclass -> {role -> family}. Routes a weapon to its family curve.
 # Subclasses without a 'caster' entry fall through to their default role.
 SUBCLASS_FAMILY = {
@@ -276,6 +309,31 @@ def _resolve_family(subclass: int, role: str):
     return next(iter(routes.values()))
 
 
+_ERA_RANGES_FOR_DPS = (
+    ("vanilla", 40, 99),
+    ("tbc",     100, 186),
+    ("wotlk",   187, 284),
+)
+
+
+def _profile_for(family: str, item_level: int):
+    """Pick (delay_ms, a, b) for this family at this ilvl. Prefers per-era
+    fit from FAMILY_PROFILES_BY_ERA; falls through to the global
+    FAMILY_PROFILES fit if the per-era bin is missing (e.g. thrown has no
+    vanilla samples, ranged is global-only)."""
+    era = None
+    for name, lo, hi in _ERA_RANGES_FOR_DPS:
+        if lo <= item_level <= hi:
+            era = name
+            break
+    if era is None:
+        era = "vanilla" if item_level < 40 else "wotlk"
+    by_era = FAMILY_PROFILES_BY_ERA.get(family, {})
+    if era in by_era:
+        return by_era[era]
+    return FAMILY_PROFILES.get(family)
+
+
 def compute_weapon_dps(item_class: int, subclass: int, item_level: int, role: str):
     """Return the canonical DPS for a weapon at this (subclass, ilvl, role),
     or None for non-weapons.
@@ -295,9 +353,12 @@ def compute_weapon_dps(item_class: int, subclass: int, item_level: int, role: st
     if item_class != 2:
         return None
     family = _resolve_family(subclass, role)
-    if family is None or family not in FAMILY_PROFILES:
+    if family is None:
         return None
-    _, a, b = FAMILY_PROFILES[family]
+    profile = _profile_for(family, item_level)
+    if profile is None:
+        return None
+    _, a, b = profile
     fitted = a * math.exp(b * item_level)
     is_caster = role in ("caster", "healer")
     if is_caster and family != "wand":
@@ -316,10 +377,13 @@ def compute_weapon_damage(item_class: int, subclass: int, item_level: int, role:
     if item_class != 2:
         return None
     family = _resolve_family(subclass, role)
-    if family is None or family not in FAMILY_PROFILES:
+    if family is None:
+        return None
+    profile = _profile_for(family, item_level)
+    if profile is None:
         return None
 
-    delay_ms = FAMILY_PROFILES[family][0]
+    delay_ms = profile[0]
     dps = compute_weapon_dps(item_class, subclass, item_level, role)
     avg_dmg = dps * delay_ms / 1000.0
     dmg_min = max(1, round(avg_dmg * DMG_SPREAD_LOW))

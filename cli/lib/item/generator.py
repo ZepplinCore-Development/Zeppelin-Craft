@@ -49,6 +49,17 @@ RELIC_SPELL_BASE = {
 _relic_data_cache = None
 _relic_cell_position_cache = None  # cell.matrix_index -> position-among-relics
 
+# item_template.Flags difficulty markers. Bit 0x8 = HEROIC_TOOLTIP (green
+# "Heroic" tag in tooltip). The Zeppelin client patch labels bit 0x9 (HEROIC
+# | NO_PICKUP, where NO_PICKUP is a vestigial flag in 3.3.5a) as "Mythic" so
+# the same machinery distinguishes heroic vs mythic items in tooltip text.
+def _difficulty_flags(difficulty: str) -> int:
+    if difficulty == "mythic":
+        return 9
+    if difficulty == "heroic":
+        return 8
+    return 0
+
 
 def _relic_data():
     global _relic_data_cache
@@ -321,6 +332,7 @@ def _generate_relic_row(
         "ItemLevel": relic.item_level,
         "RequiredLevel": relic.required_level,
         "stats": [],
+        "Flags": _difficulty_flags(difficulty),
         "flagsCustom": 0,
         "VerifiedBuild": 0,
         "DisenchantID": de_id,
@@ -390,6 +402,7 @@ def generate_row(
         "ItemLevel": item_level,
         "RequiredLevel": required_level,
         "stats": stats,
+        "Flags": _difficulty_flags(difficulty),
         "flagsCustom": 0,
         "VerifiedBuild": 0,
         "DisenchantID": de_id,
