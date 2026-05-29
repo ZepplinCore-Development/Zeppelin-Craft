@@ -73,17 +73,21 @@ WHERE it.Quality = 4 AND it.stat_type1 > 0
   )
 """
 
-# Inventory types that get a per-subclass fit. Armor splits by armor type
-# (cloth/leather/mail/plate). Weapons used to split too (axe vs sword vs mace
-# vs dagger) but dropped 2026-05 — per-subclass split was producing wildly
-# different budgets (e.g. axe @76=350 vs mace @76=315) from small samples and
-# accidental tier-distribution skew, while the underlying weapon stat budget
-# really is uniform across same-slot weapons. Pooled slot-13 fit (n=279)
-# behaves much better.
-SUBCLASS_SPLIT_TYPES = {
-    # Armor slots only
-    1,  3,  5,  6,  7,  8,  9,  10, 20,
-}
+# Inventory types that get a per-subclass fit. Empty 2026-05 — both weapons
+# and armor are now pooled at the per-slot level.
+#
+# Weapons (axe vs sword vs mace vs dagger) were dropped first: per-subclass
+# fits produced wildly different budgets (e.g. axe @76=350 vs mace @76=315)
+# from small samples and accidental tier-distribution skew, but the
+# underlying stat budget really is uniform across same-slot weapons.
+#
+# Armor (cloth vs leather vs mail vs plate) followed: empirical multipliers
+# at ilvl 200 cluster in 0.96-1.04 across every slot — the "armor type"
+# distinction shows up in defensive armor value (handled separately by
+# scaler.compute_armor), not in primary-stat budget. Pooling triples
+# vanilla samples per fit and lets per-era armor fits work where they
+# previously fell back to all-ilvl.
+SUBCLASS_SPLIT_TYPES: set = set()
 # Backward-compatible alias
 ARMOR_INVENTORY_TYPES = SUBCLASS_SPLIT_TYPES
 
@@ -130,6 +134,12 @@ RESIST_WEIGHT = 0.444
 # Minimum samples per fit. Below this, fall back to the InventoryType-wide fit
 # (or a sibling slot for weapons that have too few non-spell-effect epics).
 MIN_SAMPLES = 20
+
+# Era-specific fits get a lower threshold because each era is a narrower
+# ilvl window with naturally fewer samples (especially vanilla armor at
+# ~5-16 per slot). The fit may have low R² in noisy bins but still captures
+# the ilvl-slope direction, which is what the per-era piecewise needs.
+MIN_SAMPLES_ERA = 10
 
 # Fallback mapping when a slot has too few samples.
 FALLBACK_SLOT = {
@@ -341,10 +351,10 @@ def analyze(verbose: bool = True) -> Dict:
 
     if verbose:
         print()
-        print("Per-(slot, era) fits (primary lookup for weapons):")
+        print(f"Per-(slot, era) fits (primary lookup, min n={MIN_SAMPLES_ERA}):")
     formulas_era: Dict[str, Dict[str, float]] = {}
     for (iv, era), points in sorted(by_slot_era.items()):
-        if len(points) < MIN_SAMPLES:
+        if len(points) < MIN_SAMPLES_ERA:
             continue
         formulas_era[f"{iv}:{era}"] = _fit_and_record(
             points, f"iv={iv}/{era}", verbose
@@ -352,10 +362,10 @@ def analyze(verbose: bool = True) -> Dict:
 
     if verbose:
         print()
-        print("Per-(slot, subclass, era) fits (armor era splits):")
+        print(f"Per-(slot, subclass, era) fits (min n={MIN_SAMPLES_ERA}):")
     formulas_sub_era: Dict[str, Dict[str, float]] = {}
     for (iv, sub, era), points in sorted(by_slot_subclass_era.items()):
-        if len(points) < MIN_SAMPLES:
+        if len(points) < MIN_SAMPLES_ERA:
             continue
         sub_label = _subclass_label(iv, sub)
         formulas_sub_era[f"{iv}:{sub}:{era}"] = _fit_and_record(
