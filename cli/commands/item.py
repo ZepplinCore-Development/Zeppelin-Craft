@@ -86,3 +86,67 @@ def item_analyze_budget(ctx, quiet):
         raise click.ClickException(f"Failed: {e}")
     click.echo()
     click.echo(click.style(f"Wrote: {path}", fg='green'))
+
+
+@item.command('analyze-weapon-dps')
+@click.pass_context
+def item_analyze_weapon_dps(ctx):
+    """Reverse-engineer weapon DPS curves per family from stock AC epics.
+
+    Pools weapons into 8 families by (subclass, role), fits an exponential
+    DPS(ilvl) = a*exp(b*ilvl) per family via linear regression on (ilvl,
+    ln(DPS)), and rewrites FAMILY_PROFILES in cli/lib/item/scaler.py.
+    Filters items to those obtainable via loot/quest/vendor (no GM/test).
+    """
+    from lib.item.weapon_dps_analyzer import run
+    click.echo("F-013 Weapon DPS Analyzer (stock AC epic weapons)")
+    try:
+        run()
+    except Exception as e:
+        raise click.ClickException(f"Failed: {e}")
+
+
+@item.command('scale-existing')
+@click.option('--tier', '-t', type=click.Choice(['azeroth', 'outland', 'northrend']),
+              default='azeroth', help='Tier to scale (default: azeroth — only tier with map list right now)')
+@click.option('--difficulty', '-d', type=click.Choice(['heroic', 'mythic']),
+              default=None, help='Limit to one difficulty (default: both)')
+@click.option('--seed', '-s', type=int, default=0,
+              help='RNG seed for stat distribution (default: 0)')
+@click.option('--quiet', '-q', is_flag=True, help='Suppress per-item output')
+@click.pass_context
+def item_scale_existing(ctx, tier, difficulty, seed, quiet):
+    """F-179 — clone stock BOP dungeon items into heroic/mythic scaled
+    versions. Anchors come from creature_loot_template inside the tier's
+    dungeon maps, filtered to BOP equippable weapons/armor (no sets, no
+    procs, no relics). Each anchor is classified into a role bucket and
+    scaled via the per-era piecewise budget engine.
+
+    Writes one AUTO SQL file per (tier, difficulty) into
+    zpaks/zep-dungeons/sql/.
+    """
+    from lib.item.scaler_existing import run, F179_RESERVATIONS
+
+    craft_root = ctx.obj['craft_root']
+    difficulties = [difficulty] if difficulty else ['heroic', 'mythic']
+
+    click.echo(f"F-179 Existing Item Scaler")
+    click.echo(f"Tier:         {tier}")
+    click.echo(f"Difficulties: {', '.join(difficulties)}")
+    click.echo(f"Seed:         {seed}")
+    click.echo()
+
+    total_items = 0
+    for d in difficulties:
+        if (tier, d) not in F179_RESERVATIONS:
+            click.echo(click.style(f"  ✗ {tier}/{d}: no reservation", fg='red'))
+            continue
+        try:
+            path, count = run(craft_root, tier, d, seed=seed, verbose=not quiet)
+        except Exception as e:
+            raise click.ClickException(f"{tier}/{d} failed: {e}")
+        click.echo(click.style(f"  ✓ {tier}/{d}: {count} items → {path.name}", fg='green'))
+        total_items += count
+
+    click.echo()
+    click.echo(f"Wrote {total_items} items across {len(difficulties)} files.")

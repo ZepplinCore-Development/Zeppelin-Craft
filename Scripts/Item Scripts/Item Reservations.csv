@@ -4,7 +4,7 @@
 57100,57199,Enchanting,Done
 57200,57299,Engineering,Next available: 57220
 57300,57399,Herbalism,Done
-57400,57499,Inscription,57408-57485 F-015 Resistance Scrolls | 57486-57490 Classless Raid Buff Books [F-004/I-186] (Codex/Tome scrolls teaching Prayer of Fortitude IV / Greater Blessing of Kings / Prayer of Spirit I-III; renumbered from 100001-100005) | Next: 57491
+57400,57499,Inscription,57408-57485 F-015 Resistance Scrolls | 57486-57489 F-001 Writing Tables (Journeyman/Artisan/Master/Grand Master inscription tools) | Next: 57490
 57500,57599,Jewelcrafting,Done
 57600,57699,Leatherworking,57600-57611 Drums (6 items + 6 patterns) | 57612-57616 Leathering Kits (5 items) | 57617-57628 Riding Crops [F-005/I-186] (5 crops + 5 patterns + GM crop + GM pattern, renumbered from 100010-100021) | Next item: 57629
 57700,57799,Mining,57700-57703 Mining Picks (F-001) | Next: 57704
@@ -13,7 +13,7 @@
 58000,58099,First Aid,Done
 58100,58199,Mounts,58100 Giant Murloc | 58101 reserved for Butt Zeppelin (902800 migration in zz_defunct_item_replacement.sql) | 58102-58105 Worgoblin Mounts + Trike Keys [I-186] (UPDATE renumber from upstream IDs 73838/73839/62461/62462 via apply-order interleave; mod-worgoblin priority 20 runs upstream worgoblin.sql + I-186 renumber BEFORE zep-dungeons priority 100 F-013 Outland Heroic loot re-claims 62461/62462) | Next item: 58106
 58200,58299,Currencies,Done
-58300,58399,Miscellaneous,58300-58308 (Satchels + Azerite + Qiraji) | 58309 Nefarian's Massive Sack (I-061) | 58310 Raptor Flank [F-094] (renumbered from 902200) | 58311-58329 Clan Centaur Faction Loot [I-179/I-186] (Magram + Gelkis vendor items, renumbered from 200300-200318) | 58330-58334 Custom Reputation Tabards [F-019/I-186] (Netherwing, Violet Eye, Tranquillien, Ashtongue Deathsworn, Scale of the Sands; renumbered from 902001-902005) | Next: 58335
+58300,58399,Miscellaneous,58300-58308 (Satchels + Azerite + Qiraji) | 58309 Nefarian's Massive Sack (I-061) | 58310 Raptor Flank [F-094] (renumbered from 902200) | 58311-58329 Clan Centaur Faction Loot [I-179/I-186] (Magram + Gelkis vendor items, renumbered from 200300-200318) | 58330-58334 Custom Reputation Tabards [F-019/I-186] (Netherwing, Violet Eye, Tranquillien, Ashtongue Deathsworn, Scale of the Sands; renumbered from 902001-902005) | 58335-58339 Classless Raid Buff Books [F-004/I-186] (Codex/Tome scrolls teaching Prayer of Fortitude IV / Greater Blessing of Kings / Prayer of Spirit I-III; renumbered from 100001-100005 -> 57486-57490 -> 58335-58339 after F-001 Writing Tables collision) | Next: 58340
 58400,58499,Arcane Wards,58400-58408 Arcane Ward I-IX [F-014/I-186] (mage Conjure Arcane Ward spells 91058-91066 create these; renumbered from 902100-902108 with paired spell.effect_item_type_1 update in zep-legacy/dbc/[F-014]_spell.sql) | Next: 58409
 58500,58599,City Teleport Scrolls,Done
 58600,58699,Dungeon Teleport Orbs,58600-58661 Daily Dungeon Teleport Orbs [F-018/I-186] (62 orbs, one per dungeon; renumbered from 901901-901962; auto-generated from cli/lib/dungeon/data/Dungeon Daily Teleports.csv via `zep world dungeon teleports`) | Next: 58662
@@ -33,5 +33,9 @@
 64200,65199,Northrend Heroic Dungeon Loot (F-013 AUTO),"1000 IDs reserved by zep world item generate --tier northrend --difficulty heroic"
 65200,66199,Northrend Mythic Dungeon Loot (F-013 AUTO),"1000 IDs reserved by zep world item generate --tier northrend --difficulty mythic"
 66200,66299,Heroic/Mythic Dungeon Caches (F-074 AUTO),66200-66203 Azeroth Heroic/Mythic Armor + Weapon Caches (4) | Refs 9100400-9100519 (custom 91xx range) | Reserved for future Outland/Northrend mythic caches
-66300,66399,,
-66400,66499,,
+66300,67299,Azeroth Heroic Scaled Dungeon Loot (F-179 AUTO),"1000 IDs reserved by zep world item scale-existing --tier azeroth --difficulty heroic (420 used as of 2026-05-30)"
+67300,68299,Azeroth Mythic Scaled Dungeon Loot (F-179 AUTO),"1000 IDs reserved by zep world item scale-existing --tier azeroth --difficulty mythic (420 used as of 2026-05-30)"
+68300,69299,Outland Heroic Scaled Dungeon Loot (F-179 AUTO),"1000 IDs reserved (future tier)"
+69300,70299,Outland Mythic Scaled Dungeon Loot (F-179 AUTO),"1000 IDs reserved (future tier)"
+70300,71299,Northrend Heroic Scaled Dungeon Loot (F-179 AUTO),"1000 IDs reserved (future tier)"
+71300,72299,Northrend Mythic Scaled Dungeon Loot (F-179 AUTO),"1000 IDs reserved (future tier)"
