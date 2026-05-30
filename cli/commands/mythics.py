@@ -49,31 +49,6 @@ def _run_step(args, label, craft_root, accept_nonzero=False):
     return result.returncode
 
 
-# F-179 dungeon_loot.sql swaps stock Items to scaled F-179 entries in the
-# clone loot tables. Those rows are re-INSERTed from base lootids by F-074's
-# heroic_convertor.sql on every reapply, which resets the swap. Since F-179's
-# file hash doesn't change between regens (same seed → same byte output), the
-# apply tracker would skip re-applying it. Untracking forces a fresh apply.
-F179_LOOT_FILE_TRACKING_KEY = "zz_[AUTO,F-179]_azeroth_dungeon_loot.sql"
-
-
-def _untrack_f179_loot(craft_root):
-    """Delete the F-179 dungeon_loot.sql entry from the updates tracker so
-    `sql changed` re-applies it after F-074 reset the clone loot tables.
-    Uses `sql modify` since `sql query` blocks DELETEs."""
-    untrack_sql = (
-        f"DELETE FROM updates WHERE name = '{F179_LOOT_FILE_TRACKING_KEY}'"
-    )
-    cmd = [sys.executable, "-m", "cli.zep", "world", "sql", "modify", untrack_sql]
-    result = subprocess.run(cmd, cwd=str(craft_root),
-                            capture_output=True, text=True)
-    if result.returncode != 0:
-        # Untrack is best-effort — if the row doesn't exist (first regen) or
-        # the tracker schema changed, fall through and let sql changed run.
-        return False
-    return True
-
-
 @mythics.command('regen')
 @click.option('--tier', '-t', type=click.Choice(['azeroth', 'outland', 'northrend']),
               default='azeroth',
@@ -149,19 +124,18 @@ def mythics_regen(ctx, tier, seed, skip_apply, skip_f013, skip_f074, skip_f179, 
         click.echo(click.style("[3/4] F-179 — SKIPPED\n", fg='yellow'))
 
     # --- Apply ---
+    # The F-074 + F-179 wiring lives in one sectioned file
+    # (`zz_[AUTO,F-074+F-179]_heroic_creature_loot.sql`) — when either
+    # generator rewrites its section, the combined file's hash changes
+    # and `sql changed` re-applies both in the correct order. No tracker
+    # manipulation needed.
     if not skip_apply:
         click.echo(click.style("[4/4] world sql changed -k (apply to world DB)",
                                fg='cyan', bold=True))
-        # If F-074 ran, the clone loot tables were just reset — force F-179
-        # dungeon_loot.sql to re-apply by untracking its hash. (When F-074
-        # was skipped, the clone state is intact and untrack is unnecessary.)
-        if not skip_f074 and not skip_f179:
-            click.echo("  · untracking F-179 dungeon_loot.sql (F-074 reset clone loot)")
-            _untrack_f179_loot(craft_root)
         # `-k` mode: partial failures are expected (the pre-existing characters
-        # migration index collision is unrelated). Treat exit 1 as a warning,
-        # not fatal — the orchestrator's contract is "all the F-013/F-074/F-179
-        # files were attempted".
+        # migration index collision is unrelated to F-179). Treat exit 1 as a
+        # warning, not fatal — the orchestrator's contract is "all the regen
+        # outputs were attempted".
         rc = _run_step(['world', 'sql', 'changed', '-k'], "world sql changed",
                        craft_root, accept_nonzero=True)
         if rc != 0:

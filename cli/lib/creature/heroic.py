@@ -15,8 +15,15 @@ from typing import Dict, List, Optional, Tuple
 
 from .common import DATA_DIR, get_db_connection, seed_random, write_sql_file
 from ..loot.satchel import cache_items_for_tier
+from ..loot.sectioned_file import (
+    COMBINED_FILENAME, SECTION_F074, SECTION_ORDER, FILE_HEADER, combined_path,
+)
+from ..sectioned_sql import write_section
 
-OUTPUT_FILENAME = "zz_[AUTO,F-074]_heroic_convertor.sql"
+# Legacy filename — kept as a constant for backwards compat with callers that
+# expect a path to write to. The actual output now goes into the combined
+# sectioned file (COMBINED_FILENAME) via `write_section` below.
+OUTPUT_FILENAME = COMBINED_FILENAME
 
 COLUMNS = [
     "difficulty_entry_1",
@@ -475,6 +482,19 @@ def run(
     postprocessing = generate_blanket_postprocessing(dungeons)
     all_queries.extend(postprocessing)
 
-    write_sql_file(output_path, "Heroic & Mythic Creature Generator", all_queries)
+    # Write F-074's content as its named section in the combined sectioned
+    # file. Other sections (e.g. F-179_azeroth_loot) are preserved
+    # automatically — if F-179 has already written its loot wiring to this
+    # file, it survives this regen and stays applied in correct order.
+    section_content = (
+        f"-- Heroic & Mythic Creature Generator\n"
+        f"-- {processed} creatures (heroic + mythic clones across "
+        f"{len(dungeons)} dungeons)\n\n"
+        + "\n".join(all_queries)
+    )
+    write_section(
+        output_path, SECTION_F074, section_content,
+        section_order=SECTION_ORDER, file_header=FILE_HEADER,
+    )
 
     return processed, not_found
