@@ -271,18 +271,29 @@ def _conditions_sql(
 
 
 def _boss_loot_sql(spec: CacheSpec) -> List[str]:
-    """Emit creature_loot_template rows for the boss lootid: both caches at 100%."""
+    """Emit creature_loot_template rows for the boss lootid.
+
+    Per F-179 Phase 5: dropped boss cache chance from 100% → 25% per cache
+    (independent rolls, so ~44% chance of at least one cache per boss).
+    Frees boss loot bandwidth for F-179's scaled stock drops to dominate.
+    The LFG daily completion quest now awards 1 guaranteed armor + 1
+    weapon cache (via `zz_[F-179]_lfg_cache_rewards.sql`), so players
+    have a reliable cache source independent of boss RNG.
+
+    GO-chest cache wiring (Chest of the Seven etc.) stays at 100% —
+    once-per-encounter reward, equivalent to a single boss kill.
+    """
     return [
-        f"-- Boss loot table {spec.boss_loot_id}: both caches at 100%",
+        f"-- Boss loot table {spec.boss_loot_id}: each cache at 25% (F-179 Phase 5)",
         f"DELETE FROM `creature_loot_template` WHERE `Entry` = {spec.boss_loot_id};",
         f"INSERT INTO `creature_loot_template` SET "
         f"`Entry` = {spec.boss_loot_id}, `Item` = {spec.armor_cache.entry}, "
-        f"`Reference` = 0, `Chance` = 100, `MaxCount` = 1, "
-        f"`Comment` = '{spec.tier} {spec.difficulty} boss armor cache';",
+        f"`Reference` = 0, `Chance` = 25, `MaxCount` = 1, "
+        f"`Comment` = '{spec.tier} {spec.difficulty} boss armor cache (25%)';",
         f"INSERT INTO `creature_loot_template` SET "
         f"`Entry` = {spec.boss_loot_id}, `Item` = {spec.weapon_cache.entry}, "
-        f"`Reference` = 0, `Chance` = 100, `MaxCount` = 1, "
-        f"`Comment` = '{spec.tier} {spec.difficulty} boss weapon cache';",
+        f"`Reference` = 0, `Chance` = 25, `MaxCount` = 1, "
+        f"`Comment` = '{spec.tier} {spec.difficulty} boss weapon cache (25%)';",
     ]
 
 

@@ -282,19 +282,23 @@ def generate_loot_sql(
         lines.append("")
         return lines
 
-    # Cache references — boss = 100% each, trash = 0.5% each (GroupId=1 for 1% total)
+    # Cache references — boss = 25% each (F-179 Phase 5: was 100%, lowered so
+    # bosses primarily drop F-179 scaled stock loot, with caches as a 1-in-4
+    # bonus per type. LFG daily completion guarantees both caches via
+    # zz_[F-179]_lfg_cache_rewards.sql, so players still have a reliable
+    # source). Trash = 0.5% each (GroupId=1 for 1% total).
     if is_boss:
         lines.append(
             f"INSERT INTO `creature_loot_template` SET "
             f"`Entry` = {new_entry}, `Item` = {cache_armor_entry}, "
-            f"`Reference` = 0, `Chance` = 100, `MaxCount` = 1, "
-            f"`Comment` = 'boss armor cache';"
+            f"`Reference` = 0, `Chance` = 25, `MaxCount` = 1, "
+            f"`Comment` = 'boss armor cache (25%)';"
         )
         lines.append(
             f"INSERT INTO `creature_loot_template` SET "
             f"`Entry` = {new_entry}, `Item` = {cache_weapon_entry}, "
-            f"`Reference` = 0, `Chance` = 100, `MaxCount` = 1, "
-            f"`Comment` = 'boss weapon cache';"
+            f"`Reference` = 0, `Chance` = 25, `MaxCount` = 1, "
+            f"`Comment` = 'boss weapon cache (25%)';"
         )
     else:
         lines.append(
