@@ -138,7 +138,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 2, 28558, "", "=q1=Spirit Shard", "=ds=#m3#", "", "100%" };
     { 3, 58735, "", "=q1=Mark of the Fallen Exarch", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Exarch Maladaar", "=q5=CHANCE TO DROP"};
-    { 6, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "15.0%" };
+    { 6, 58338, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "15.0%" };
     { 8, 0, "AO_Unknown", "=q6=Exarch Maladaar", "=q5=ONE WILL DROP"};
     { 9, 27411, "", "=q3=Slippers of Serenity", "=ds=#a1#", "", "16.7%" };
     { 10, 27412, "", "=q3=Ironstaff of Regeneration", "=ds=#w9#", "", "16.7%" };
@@ -156,7 +156,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 5, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "100%" };
     { 7, 0, "RoM_stellar_dice", "=q6=Exarch Maladaar (1)", "=q5=CHANCE TO DROP"};
     { 8, 59338, "", "=q3=Ornate Gem Cache", "=ds=#e10#", "", "46.0%" };
-    { 9, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
+    { 9, 58338, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
     { 16, 0, "AO_Unknown", "=q6=Exarch Maladaar (1)", "=q5=ONE WILL DROP"};
     { 17, 27523, "", "=q3=Exarch's Diamond Band", "=ds=#s13#", "", "16.7%" };
     { 18, 27867, "", "=q3=Boots of the Unjust", "=ds=#a2#", "", "16.7%" };
@@ -2634,7 +2634,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 2, 28558, "", "=q1=Spirit Shard", "=ds=#m3#", "", "100%" };
     { 3, 30827, "", "=q1=Lexicon Demonica", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Grandmaster Vorpil", "=q5=CHANCE TO DROP"};
-    { 6, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "12.0%" };
+    { 6, 58338, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "12.0%" };
     { 8, 0, "AO_Unknown", "=q6=Grandmaster Vorpil", "=q5=ONE WILL DROP"};
     { 9, 27775, "", "=q3=Hallowed Pauldrons", "=ds=#a1#", "", "20.0%" };
     { 10, 27897, "", "=q3=Breastplate of Many Graces", "=ds=#a4#", "", "20.0%" };
@@ -2649,7 +2649,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 3, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
     { 4, 30827, "", "=q1=Lexicon Demonica", "=ds=#m3#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Grandmaster Vorpil (1)", "=q5=CHANCE TO DROP"};
-    { 7, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
+    { 7, 58338, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
     { 9, 0, "AO_Unknown", "=q6=Grandmaster Vorpil (1)", "=q5=ONE WILL DROP"};
     { 10, 27775, "", "=q3=Hallowed Pauldrons", "=ds=#a1#", "", "20.0%" };
     { 11, 27897, "", "=q3=Breastplate of Many Graces", "=ds=#a4#", "", "20.0%" };
@@ -2664,7 +2664,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 3, 58739, "", "=q1=Primordial Essence", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Murmur", "=q5=CHANCE TO DROP"};
     { 6, 24309, "", "=q4=Pattern: Spellstrike Pants", "=ds=#e2#", "", "10.0%" };
-    { 7, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "10.0%" };
+    { 7, 58338, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "10.0%" };
     { 8, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
     { 16, 0, "AO_Unknown", "=q6=Murmur", "=q5=ONE WILL DROP"};
     { 17, 27778, "", "=q3=Spaulders of Oblivion", "=ds=#a1#", "", "8.33%" };
@@ -2690,7 +2690,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 6, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "100%" };
     { 8, 0, "RoM_stellar_dice", "=q6=Murmur (1)", "=q5=CHANCE TO DROP"};
     { 9, 59338, "", "=q3=Ornate Gem Cache", "=ds=#e10#", "", "46.0%" };
-    { 10, 57489, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
+    { 10, 58338, "", "=q3=Codex: Prayer of Spirit II", "=ds=#e2#", "", "25.0%" };
     { 11, 24309, "", "=q4=Pattern: Spellstrike Pants", "=ds=#e2#", "", "10.0%" };
     { 13, 0, "AO_Unknown", "=q6=Murmur (1)", "=q5=ONE WILL DROP"};
     { 14, 29261, "", "=q4=Girdle of Ferocity", "=ds=#a3#", "", "25.0%" };
