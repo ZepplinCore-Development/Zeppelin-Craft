@@ -35,8 +35,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 13,
   `stat_type5` = 31,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67301;
 INSERT INTO `item_template` SET
@@ -68,8 +67,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 13,
   `stat_type5` = 31,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67303;
 INSERT INTO `item_template` SET
@@ -100,8 +98,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 9,
   `stat_type5` = 3,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67304;
 INSERT INTO `item_template` SET
@@ -135,8 +132,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 5,
   `stat_type5` = 32,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67305;
 INSERT INTO `item_template` SET
@@ -170,8 +166,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 3,
   `stat_type5` = 32,
-  `stat_value5` = 2,
-  `StatsCount` = 5;
+  `stat_value5` = 2;
 
 DELETE FROM `item_template` WHERE `entry` = 67307;
 INSERT INTO `item_template` SET
@@ -205,8 +200,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 6,
   `stat_type5` = 38,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67308;
 INSERT INTO `item_template` SET
@@ -240,8 +234,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 6,
   `stat_type5` = 31,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67309;
 INSERT INTO `item_template` SET
@@ -275,8 +268,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 20,
   `stat_type5` = 31,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67310;
 INSERT INTO `item_template` SET
@@ -310,8 +302,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 15,
   `stat_type5` = 38,
-  `stat_value5` = 25,
-  `StatsCount` = 5;
+  `stat_value5` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 67311;
 INSERT INTO `item_template` SET
@@ -343,8 +334,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 11,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67312;
 INSERT INTO `item_template` SET
@@ -376,8 +366,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 7,
   `stat_type5` = 32,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67313;
 INSERT INTO `item_template` SET
@@ -409,8 +398,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 17,
   `stat_type5` = 43,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67314;
 INSERT INTO `item_template` SET
@@ -441,8 +429,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 8,
   `stat_type5` = 3,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67315;
 INSERT INTO `item_template` SET
@@ -476,8 +463,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 26,
   `stat_type5` = 32,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67318;
 INSERT INTO `item_template` SET
@@ -509,8 +495,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 8,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67319;
 INSERT INTO `item_template` SET
@@ -544,8 +529,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 5,
   `stat_type5` = 38,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67320;
 INSERT INTO `item_template` SET
@@ -579,8 +563,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 6,
   `stat_type5` = 37,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67321;
 INSERT INTO `item_template` SET
@@ -614,8 +597,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 1,
   `stat_type5` = 31,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67322;
 INSERT INTO `item_template` SET
@@ -647,8 +629,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 32,
   `stat_type5` = 31,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67323;
 INSERT INTO `item_template` SET
@@ -682,8 +663,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 15,
   `stat_value4` = 14,
   `stat_type5` = 14,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67325;
 INSERT INTO `item_template` SET
@@ -715,8 +695,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 21,
   `stat_type5` = 36,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67326;
 INSERT INTO `item_template` SET
@@ -750,8 +729,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 1,
   `stat_type5` = 39,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67327;
 INSERT INTO `item_template` SET
@@ -783,8 +761,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 12,
   `stat_type5` = 44,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67328;
 INSERT INTO `item_template` SET
@@ -816,8 +793,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 12,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67329;
 INSERT INTO `item_template` SET
@@ -849,8 +825,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 12,
   `stat_value4` = 9,
   `stat_type5` = 48,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67330;
 INSERT INTO `item_template` SET
@@ -882,8 +857,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 7,
   `stat_type5` = 32,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67331;
 INSERT INTO `item_template` SET
@@ -915,8 +889,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 10,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67332;
 INSERT INTO `item_template` SET
@@ -948,8 +921,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 13,
   `stat_type5` = 6,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67333;
 INSERT INTO `item_template` SET
@@ -981,8 +953,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 12,
   `stat_value4` = 7,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67335;
 INSERT INTO `item_template` SET
@@ -1014,8 +985,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 14,
   `stat_type5` = 32,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67336;
 INSERT INTO `item_template` SET
@@ -1047,8 +1017,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 15,
   `stat_value4` = 7,
   `stat_type5` = 12,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67337;
 INSERT INTO `item_template` SET
@@ -1079,8 +1048,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 10,
   `stat_type5` = 32,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67338;
 INSERT INTO `item_template` SET
@@ -1114,8 +1082,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 6,
   `stat_type5` = 38,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67339;
 INSERT INTO `item_template` SET
@@ -1147,8 +1114,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 20,
   `stat_type5` = 36,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67340;
 INSERT INTO `item_template` SET
@@ -1180,8 +1146,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 14,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67341;
 INSERT INTO `item_template` SET
@@ -1212,8 +1177,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 9,
   `stat_type5` = 36,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67342;
 INSERT INTO `item_template` SET
@@ -1245,8 +1209,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 22,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67343;
 INSERT INTO `item_template` SET
@@ -1278,8 +1241,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 13,
   `stat_value4` = 9,
   `stat_type5` = 12,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67344;
 INSERT INTO `item_template` SET
@@ -1313,8 +1275,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 8,
   `stat_type5` = 38,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67345;
 INSERT INTO `item_template` SET
@@ -1346,8 +1307,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 15,
   `stat_type5` = 44,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67346;
 INSERT INTO `item_template` SET
@@ -1379,8 +1339,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 18,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67347;
 INSERT INTO `item_template` SET
@@ -1412,8 +1371,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 11,
   `stat_type5` = 44,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67348;
 INSERT INTO `item_template` SET
@@ -1445,8 +1403,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 14,
   `stat_type5` = 47,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67349;
 INSERT INTO `item_template` SET
@@ -1478,8 +1435,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 7,
   `stat_type5` = 4,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67350;
 INSERT INTO `item_template` SET
@@ -1511,8 +1467,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 12,
   `stat_type5` = 43,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67352;
 INSERT INTO `item_template` SET
@@ -1544,8 +1499,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67355;
 INSERT INTO `item_template` SET
@@ -1577,8 +1531,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 11,
   `stat_type5` = 44,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67356;
 INSERT INTO `item_template` SET
@@ -1612,8 +1565,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 16,
   `stat_type5` = 13,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67357;
 INSERT INTO `item_template` SET
@@ -1647,8 +1599,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 5,
   `stat_type5` = 32,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67358;
 INSERT INTO `item_template` SET
@@ -1680,8 +1631,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 12,
   `stat_type5` = 45,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67359;
 INSERT INTO `item_template` SET
@@ -1713,8 +1663,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 18,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67360;
 INSERT INTO `item_template` SET
@@ -1746,8 +1695,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 12,
   `stat_type5` = 44,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67361;
 INSERT INTO `item_template` SET
@@ -1781,8 +1729,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 14,
   `stat_type5` = 38,
-  `stat_value5` = 27,
-  `StatsCount` = 5;
+  `stat_value5` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 67362;
 INSERT INTO `item_template` SET
@@ -1814,8 +1761,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 20,
   `stat_type5` = 32,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67364;
 INSERT INTO `item_template` SET
@@ -1847,8 +1793,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 31,
   `stat_type5` = 31,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67365;
 INSERT INTO `item_template` SET
@@ -1882,8 +1827,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 14,
   `stat_type5` = 44,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67366;
 INSERT INTO `item_template` SET
@@ -1917,8 +1861,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 7,
   `stat_type5` = 32,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67367;
 INSERT INTO `item_template` SET
@@ -1949,8 +1892,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 8,
   `stat_type5` = 5,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67368;
 INSERT INTO `item_template` SET
@@ -1982,8 +1924,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 48,
   `stat_value4` = 16,
   `stat_type5` = 12,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67369;
 INSERT INTO `item_template` SET
@@ -2014,8 +1955,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 9,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67370;
 INSERT INTO `item_template` SET
@@ -2049,8 +1989,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 39,
   `stat_value4` = 24,
   `stat_type5` = 38,
-  `stat_value5` = 20,
-  `StatsCount` = 5;
+  `stat_value5` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 67371;
 INSERT INTO `item_template` SET
@@ -2082,8 +2021,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 15,
   `stat_type5` = 43,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67372;
 INSERT INTO `item_template` SET
@@ -2115,8 +2053,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 10,
   `stat_type5` = 32,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67373;
 INSERT INTO `item_template` SET
@@ -2148,8 +2085,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 7,
   `stat_type5` = 38,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67374;
 INSERT INTO `item_template` SET
@@ -2181,8 +2117,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 20,
   `stat_type5` = 36,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67375;
 INSERT INTO `item_template` SET
@@ -2216,8 +2151,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 14,
   `stat_type5` = 31,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67376;
 INSERT INTO `item_template` SET
@@ -2249,8 +2183,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 14,
   `stat_type5` = 31,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67377;
 INSERT INTO `item_template` SET
@@ -2282,8 +2215,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 10,
   `stat_type5` = 44,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67378;
 INSERT INTO `item_template` SET
@@ -2315,8 +2247,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 15,
   `stat_type5` = 36,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67379;
 INSERT INTO `item_template` SET
@@ -2348,8 +2279,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 21,
   `stat_type5` = 43,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67380;
 INSERT INTO `item_template` SET
@@ -2381,8 +2311,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 29,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67381;
 INSERT INTO `item_template` SET
@@ -2416,8 +2345,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67382;
 INSERT INTO `item_template` SET
@@ -2451,8 +2379,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 5,
   `stat_type5` = 31,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67383;
 INSERT INTO `item_template` SET
@@ -2486,8 +2413,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 14,
   `stat_type5` = 44,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67384;
 INSERT INTO `item_template` SET
@@ -2519,8 +2445,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 9,
   `stat_type5` = 7,
-  `stat_value5` = 19,
-  `StatsCount` = 5;
+  `stat_value5` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 67385;
 INSERT INTO `item_template` SET
@@ -2551,8 +2476,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 11,
   `stat_type5` = 6,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67386;
 INSERT INTO `item_template` SET
@@ -2583,8 +2507,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 8,
   `stat_type5` = 44,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67387;
 INSERT INTO `item_template` SET
@@ -2618,8 +2541,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 6,
   `stat_type5` = 37,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67388;
 INSERT INTO `item_template` SET
@@ -2651,8 +2573,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 15,
   `stat_type5` = 44,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67390;
 INSERT INTO `item_template` SET
@@ -2684,8 +2605,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 22,
   `stat_type5` = 44,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67391;
 INSERT INTO `item_template` SET
@@ -2717,8 +2637,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 17,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67392;
 INSERT INTO `item_template` SET
@@ -2752,8 +2671,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 1,
   `stat_type5` = 31,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67393;
 INSERT INTO `item_template` SET
@@ -2785,8 +2703,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 19,
   `stat_type5` = 47,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67395;
 INSERT INTO `item_template` SET
@@ -2818,8 +2735,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 20,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67396;
 INSERT INTO `item_template` SET
@@ -2851,8 +2767,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 15,
   `stat_type5` = 43,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67398;
 INSERT INTO `item_template` SET
@@ -2886,8 +2801,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 31,
   `stat_type5` = 36,
-  `stat_value5` = 17,
-  `StatsCount` = 5;
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 67399;
 INSERT INTO `item_template` SET
@@ -2919,8 +2833,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 10,
   `stat_type5` = 38,
-  `stat_value5` = 24,
-  `StatsCount` = 5;
+  `stat_value5` = 24;
 
 DELETE FROM `item_template` WHERE `entry` = 67400;
 INSERT INTO `item_template` SET
@@ -2952,8 +2865,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 13,
   `stat_type5` = 5,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67401;
 INSERT INTO `item_template` SET
@@ -2985,8 +2897,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 15,
   `stat_type5` = 32,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67402;
 INSERT INTO `item_template` SET
@@ -3020,8 +2931,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 2,
   `stat_type5` = 38,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67403;
 INSERT INTO `item_template` SET
@@ -3052,8 +2962,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 8,
   `stat_type5` = 43,
-  `stat_value5` = 4,
-  `StatsCount` = 5;
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 67404;
 INSERT INTO `item_template` SET
@@ -3087,8 +2996,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 11,
   `stat_type5` = 37,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67405;
 INSERT INTO `item_template` SET
@@ -3120,8 +3028,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 13,
   `stat_type5` = 36,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67406;
 INSERT INTO `item_template` SET
@@ -3153,8 +3060,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 14,
   `stat_value4` = 8,
   `stat_type5` = 13,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67407;
 INSERT INTO `item_template` SET
@@ -3185,8 +3091,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 7,
   `stat_type5` = 4,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67408;
 INSERT INTO `item_template` SET
@@ -3218,8 +3123,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 13,
   `stat_type5` = 36,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67410;
 INSERT INTO `item_template` SET
@@ -3250,8 +3154,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67412;
 INSERT INTO `item_template` SET
@@ -3283,8 +3186,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 30,
   `stat_type5` = 44,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67413;
 INSERT INTO `item_template` SET
@@ -3316,8 +3218,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 16,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67414;
 INSERT INTO `item_template` SET
@@ -3349,8 +3250,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 17,
   `stat_type5` = 44,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67415;
 INSERT INTO `item_template` SET
@@ -3382,8 +3282,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 11,
   `stat_type5` = 6,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67416;
 INSERT INTO `item_template` SET
@@ -3415,8 +3314,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 11,
   `stat_type5` = 38,
-  `stat_value5` = 22,
-  `StatsCount` = 5;
+  `stat_value5` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 67417;
 INSERT INTO `item_template` SET
@@ -3450,8 +3348,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 11,
   `stat_type5` = 44,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67419;
 INSERT INTO `item_template` SET
@@ -3483,8 +3380,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 15,
   `stat_value4` = 9,
   `stat_type5` = 48,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67420;
 INSERT INTO `item_template` SET
@@ -3516,8 +3412,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 13,
   `stat_type5` = 31,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67422;
 INSERT INTO `item_template` SET
@@ -3549,8 +3444,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 13,
   `stat_type5` = 44,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67423;
 INSERT INTO `item_template` SET
@@ -3582,8 +3476,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 14,
   `stat_type5` = 37,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67424;
 INSERT INTO `item_template` SET
@@ -3615,8 +3508,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 10,
   `stat_type5` = 32,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67425;
 INSERT INTO `item_template` SET
@@ -3650,8 +3542,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 14,
   `stat_type5` = 37,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67426;
 INSERT INTO `item_template` SET
@@ -3683,8 +3574,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 16,
   `stat_type5` = 32,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67427;
 INSERT INTO `item_template` SET
@@ -3716,8 +3606,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 17,
   `stat_type5` = 43,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67428;
 INSERT INTO `item_template` SET
@@ -3751,8 +3640,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 14,
   `stat_value4` = 15,
   `stat_type5` = 12,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67429;
 INSERT INTO `item_template` SET
@@ -3783,8 +3671,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 9,
   `stat_type5` = 5,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67430;
 INSERT INTO `item_template` SET
@@ -3816,8 +3703,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 7,
   `stat_type5` = 32,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67431;
 INSERT INTO `item_template` SET
@@ -3849,8 +3735,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 12,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67432;
 INSERT INTO `item_template` SET
@@ -3882,8 +3767,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 15,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67433;
 INSERT INTO `item_template` SET
@@ -3915,8 +3799,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 9,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67434;
 INSERT INTO `item_template` SET
@@ -3950,8 +3833,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 39,
   `stat_value4` = 58,
   `stat_type5` = 38,
-  `stat_value5` = 62,
-  `StatsCount` = 5;
+  `stat_value5` = 62;
 
 DELETE FROM `item_template` WHERE `entry` = 67435;
 INSERT INTO `item_template` SET
@@ -3985,8 +3867,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 7,
   `stat_type5` = 37,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67436;
 INSERT INTO `item_template` SET
@@ -4020,8 +3901,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 24,
   `stat_type5` = 44,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67437;
 INSERT INTO `item_template` SET
@@ -4052,8 +3932,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 9,
   `stat_type5` = 4,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67438;
 INSERT INTO `item_template` SET
@@ -4085,8 +3964,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 10,
   `stat_type5` = 37,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67439;
 INSERT INTO `item_template` SET
@@ -4118,8 +3996,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 33,
   `stat_type5` = 3,
-  `stat_value5` = 17,
-  `StatsCount` = 5;
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 67440;
 INSERT INTO `item_template` SET
@@ -4151,8 +4028,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 10,
   `stat_type5` = 32,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67441;
 INSERT INTO `item_template` SET
@@ -4183,8 +4059,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 8,
   `stat_type5` = 4,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67442;
 INSERT INTO `item_template` SET
@@ -4215,8 +4090,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 7,
   `stat_type5` = 31,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67443;
 INSERT INTO `item_template` SET
@@ -4247,8 +4121,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 6,
   `stat_type5` = 5,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67445;
 INSERT INTO `item_template` SET
@@ -4280,8 +4153,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 19,
   `stat_type5` = 36,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67446;
 INSERT INTO `item_template` SET
@@ -4313,8 +4185,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 12,
   `stat_type5` = 37,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67447;
 INSERT INTO `item_template` SET
@@ -4346,8 +4217,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 11,
   `stat_type5` = 36,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67448;
 INSERT INTO `item_template` SET
@@ -4379,8 +4249,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67449;
 INSERT INTO `item_template` SET
@@ -4412,8 +4281,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 15,
   `stat_value4` = 9,
   `stat_type5` = 14,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67450;
 INSERT INTO `item_template` SET
@@ -4445,8 +4313,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 10,
   `stat_type5` = 38,
-  `stat_value5` = 29,
-  `StatsCount` = 5;
+  `stat_value5` = 29;
 
 DELETE FROM `item_template` WHERE `entry` = 67451;
 INSERT INTO `item_template` SET
@@ -4477,8 +4344,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 6,
   `stat_type5` = 31,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67452;
 INSERT INTO `item_template` SET
@@ -4509,8 +4375,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 9,
   `stat_type5` = 31,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67453;
 INSERT INTO `item_template` SET
@@ -4542,8 +4407,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 12,
   `stat_type5` = 36,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67454;
 INSERT INTO `item_template` SET
@@ -4575,8 +4439,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 11,
   `stat_type5` = 32,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67455;
 INSERT INTO `item_template` SET
@@ -4608,8 +4471,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 16,
   `stat_type5` = 31,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67456;
 INSERT INTO `item_template` SET
@@ -4643,8 +4505,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 13,
   `stat_value4` = 15,
   `stat_type5` = 14,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67457;
 INSERT INTO `item_template` SET
@@ -4676,8 +4537,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 8,
   `stat_type5` = 44,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67458;
 INSERT INTO `item_template` SET
@@ -4709,8 +4569,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 15,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67459;
 INSERT INTO `item_template` SET
@@ -4742,8 +4601,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 6,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67460;
 INSERT INTO `item_template` SET
@@ -4775,8 +4633,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 17,
   `stat_type5` = 7,
-  `stat_value5` = 20,
-  `StatsCount` = 5;
+  `stat_value5` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 67461;
 INSERT INTO `item_template` SET
@@ -4808,8 +4665,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 20,
   `stat_type5` = 43,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67462;
 INSERT INTO `item_template` SET
@@ -4841,8 +4697,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 12,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67463;
 INSERT INTO `item_template` SET
@@ -4873,8 +4728,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 7,
   `stat_type5` = 3,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67464;
 INSERT INTO `item_template` SET
@@ -4906,8 +4760,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 17,
   `stat_type5` = 36,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67465;
 INSERT INTO `item_template` SET
@@ -4939,8 +4792,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 8,
   `stat_type5` = 32,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67466;
 INSERT INTO `item_template` SET
@@ -4972,8 +4824,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67467;
 INSERT INTO `item_template` SET
@@ -5005,8 +4856,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67468;
 INSERT INTO `item_template` SET
@@ -5037,8 +4887,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 10,
   `stat_type5` = 31,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67469;
 INSERT INTO `item_template` SET
@@ -5070,8 +4919,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 6,
   `stat_type5` = 37,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67470;
 INSERT INTO `item_template` SET
@@ -5103,8 +4951,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 25,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67471;
 INSERT INTO `item_template` SET
@@ -5136,8 +4983,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 48,
   `stat_value4` = 14,
   `stat_type5` = 15,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67472;
 INSERT INTO `item_template` SET
@@ -5169,8 +5015,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 9,
   `stat_type5` = 44,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67473;
 INSERT INTO `item_template` SET
@@ -5202,8 +5047,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 19,
   `stat_type5` = 38,
-  `stat_value5` = 29,
-  `StatsCount` = 5;
+  `stat_value5` = 29;
 
 DELETE FROM `item_template` WHERE `entry` = 67474;
 INSERT INTO `item_template` SET
@@ -5237,8 +5081,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 9,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67475;
 INSERT INTO `item_template` SET
@@ -5270,8 +5113,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 11,
   `stat_type5` = 36,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67476;
 INSERT INTO `item_template` SET
@@ -5303,8 +5145,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 16,
   `stat_type5` = 36,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67477;
 INSERT INTO `item_template` SET
@@ -5336,8 +5177,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 18,
   `stat_type5` = 32,
-  `stat_value5` = 17,
-  `StatsCount` = 5;
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 67478;
 INSERT INTO `item_template` SET
@@ -5371,8 +5211,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 1,
   `stat_type5` = 38,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67479;
 INSERT INTO `item_template` SET
@@ -5404,8 +5243,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 16,
   `stat_type5` = 36,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67481;
 INSERT INTO `item_template` SET
@@ -5436,8 +5274,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 9,
   `stat_type5` = 38,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67482;
 INSERT INTO `item_template` SET
@@ -5469,8 +5306,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 7,
   `stat_type5` = 44,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67483;
 INSERT INTO `item_template` SET
@@ -5502,8 +5338,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 16,
   `stat_type5` = 5,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67484;
 INSERT INTO `item_template` SET
@@ -5535,8 +5370,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 47,
   `stat_value4` = 4,
   `stat_type5` = 6,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67485;
 INSERT INTO `item_template` SET
@@ -5568,8 +5402,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 38,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67486;
 INSERT INTO `item_template` SET
@@ -5601,8 +5434,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 11,
   `stat_type5` = 31,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67487;
 INSERT INTO `item_template` SET
@@ -5634,8 +5466,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 21,
   `stat_type5` = 32,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67489;
 INSERT INTO `item_template` SET
@@ -5667,8 +5498,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 12,
   `stat_value4` = 10,
   `stat_type5` = 15,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67491;
 INSERT INTO `item_template` SET
@@ -5700,8 +5530,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 20,
   `stat_type5` = 14,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67492;
 INSERT INTO `item_template` SET
@@ -5733,8 +5562,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 18,
   `stat_type5` = 38,
-  `stat_value5` = 24,
-  `StatsCount` = 5;
+  `stat_value5` = 24;
 
 DELETE FROM `item_template` WHERE `entry` = 67493;
 INSERT INTO `item_template` SET
@@ -5768,8 +5596,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 12,
   `stat_type5` = 44,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67494;
 INSERT INTO `item_template` SET
@@ -5801,8 +5628,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 17,
   `stat_type5` = 36,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67495;
 INSERT INTO `item_template` SET
@@ -5834,8 +5660,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 11,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67496;
 INSERT INTO `item_template` SET
@@ -5867,8 +5692,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 26,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67497;
 INSERT INTO `item_template` SET
@@ -5902,8 +5726,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 14,
   `stat_type5` = 44,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67498;
 INSERT INTO `item_template` SET
@@ -5934,8 +5757,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 9,
   `stat_type5` = 5,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67499;
 INSERT INTO `item_template` SET
@@ -5967,8 +5789,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 14,
   `stat_type5` = 38,
-  `stat_value5` = 28,
-  `StatsCount` = 5;
+  `stat_value5` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 67500;
 INSERT INTO `item_template` SET
@@ -6000,8 +5821,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 14,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67501;
 INSERT INTO `item_template` SET
@@ -6033,8 +5853,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 47,
   `stat_value4` = 7,
   `stat_type5` = 32,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67502;
 INSERT INTO `item_template` SET
@@ -6066,8 +5885,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 32,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67503;
 INSERT INTO `item_template` SET
@@ -6098,8 +5916,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 7,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67504;
 INSERT INTO `item_template` SET
@@ -6131,8 +5948,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 18,
   `stat_type5` = 47,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67505;
 INSERT INTO `item_template` SET
@@ -6164,8 +5980,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 20,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67506;
 INSERT INTO `item_template` SET
@@ -6197,8 +6012,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 13,
   `stat_type5` = 36,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67507;
 INSERT INTO `item_template` SET
@@ -6232,8 +6046,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 26,
   `stat_type5` = 38,
-  `stat_value5` = 23,
-  `StatsCount` = 5;
+  `stat_value5` = 23;
 
 DELETE FROM `item_template` WHERE `entry` = 67508;
 INSERT INTO `item_template` SET
@@ -6267,8 +6080,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 5,
   `stat_type5` = 32,
-  `stat_value5` = 2,
-  `StatsCount` = 5;
+  `stat_value5` = 2;
 
 DELETE FROM `item_template` WHERE `entry` = 67509;
 INSERT INTO `item_template` SET
@@ -6300,8 +6112,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 24,
   `stat_type5` = 44,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67510;
 INSERT INTO `item_template` SET
@@ -6333,8 +6144,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 27,
   `stat_type5` = 43,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67511;
 INSERT INTO `item_template` SET
@@ -6365,8 +6175,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67512;
 INSERT INTO `item_template` SET
@@ -6398,8 +6207,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 15,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67513;
 INSERT INTO `item_template` SET
@@ -6430,8 +6238,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 11,
   `stat_type5` = 32,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67514;
 INSERT INTO `item_template` SET
@@ -6463,8 +6270,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 10,
   `stat_type5` = 36,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67515;
 INSERT INTO `item_template` SET
@@ -6496,8 +6302,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 19,
   `stat_type5` = 32,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67516;
 INSERT INTO `item_template` SET
@@ -6529,8 +6334,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 11,
   `stat_type5` = 36,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67517;
 INSERT INTO `item_template` SET
@@ -6562,8 +6366,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 25,
   `stat_type5` = 44,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67518;
 INSERT INTO `item_template` SET
@@ -6595,8 +6398,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 24,
   `stat_type5` = 32,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67519;
 INSERT INTO `item_template` SET
@@ -6630,8 +6432,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 1,
   `stat_type5` = 44,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67520;
 INSERT INTO `item_template` SET
@@ -6663,8 +6464,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 7,
   `stat_type5` = 6,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67521;
 INSERT INTO `item_template` SET
@@ -6696,8 +6496,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 12,
   `stat_type5` = 43,
-  `stat_value5` = 3,
-  `StatsCount` = 5;
+  `stat_value5` = 3;
 
 DELETE FROM `item_template` WHERE `entry` = 67522;
 INSERT INTO `item_template` SET
@@ -6729,8 +6528,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 12,
   `stat_type5` = 31,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67523;
 INSERT INTO `item_template` SET
@@ -6762,8 +6560,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 11,
   `stat_type5` = 38,
-  `stat_value5` = 24,
-  `StatsCount` = 5;
+  `stat_value5` = 24;
 
 DELETE FROM `item_template` WHERE `entry` = 67524;
 INSERT INTO `item_template` SET
@@ -6797,8 +6594,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 46,
   `stat_type5` = 44,
-  `stat_value5` = 32,
-  `StatsCount` = 5;
+  `stat_value5` = 32;
 
 DELETE FROM `item_template` WHERE `entry` = 67525;
 INSERT INTO `item_template` SET
@@ -6832,8 +6628,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 44,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67526;
 INSERT INTO `item_template` SET
@@ -6865,8 +6660,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 11,
   `stat_type5` = 44,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67527;
 INSERT INTO `item_template` SET
@@ -6898,8 +6692,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 8,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67528;
 INSERT INTO `item_template` SET
@@ -6930,8 +6723,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 6,
   `stat_type5` = 32,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67529;
 INSERT INTO `item_template` SET
@@ -6963,8 +6755,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 12,
   `stat_type5` = 44,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67530;
 INSERT INTO `item_template` SET
@@ -6995,8 +6786,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 7,
   `stat_type5` = 44,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67531;
 INSERT INTO `item_template` SET
@@ -7027,8 +6817,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 6,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67533;
 INSERT INTO `item_template` SET
@@ -7060,8 +6849,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 11,
   `stat_type5` = 37,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67535;
 INSERT INTO `item_template` SET
@@ -7093,8 +6881,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 12,
   `stat_type5` = 36,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67536;
 INSERT INTO `item_template` SET
@@ -7128,8 +6915,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 13,
   `stat_type5` = 31,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67537;
 INSERT INTO `item_template` SET
@@ -7161,8 +6947,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67538;
 INSERT INTO `item_template` SET
@@ -7194,8 +6979,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 19,
   `stat_type5` = 43,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67539;
 INSERT INTO `item_template` SET
@@ -7227,8 +7011,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 19,
   `stat_type5` = 32,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67540;
 INSERT INTO `item_template` SET
@@ -7262,8 +7045,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 39,
   `stat_value4` = 21,
   `stat_type5` = 31,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67541;
 INSERT INTO `item_template` SET
@@ -7294,8 +7076,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 18,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67542;
 INSERT INTO `item_template` SET
@@ -7327,8 +7108,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 11,
   `stat_type5` = 36,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67543;
 INSERT INTO `item_template` SET
@@ -7360,8 +7140,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 11,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67545;
 INSERT INTO `item_template` SET
@@ -7393,8 +7172,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 12,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67546;
 INSERT INTO `item_template` SET
@@ -7426,8 +7204,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 43,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67547;
 INSERT INTO `item_template` SET
@@ -7459,8 +7236,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 8,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67548;
 INSERT INTO `item_template` SET
@@ -7492,8 +7268,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67549;
 INSERT INTO `item_template` SET
@@ -7525,8 +7300,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 6,
   `stat_type5` = 38,
-  `stat_value5` = 17,
-  `StatsCount` = 5;
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 67550;
 INSERT INTO `item_template` SET
@@ -7558,8 +7332,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 12,
   `stat_type5` = 36,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67551;
 INSERT INTO `item_template` SET
@@ -7591,8 +7364,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 48,
   `stat_value4` = 13,
   `stat_type5` = 15,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67552;
 INSERT INTO `item_template` SET
@@ -7624,8 +7396,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67553;
 INSERT INTO `item_template` SET
@@ -7657,8 +7428,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 17,
   `stat_type5` = 43,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67554;
 INSERT INTO `item_template` SET
@@ -7690,8 +7460,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 18,
   `stat_type5` = 44,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67555;
 INSERT INTO `item_template` SET
@@ -7723,8 +7492,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67556;
 INSERT INTO `item_template` SET
@@ -7755,8 +7523,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 8,
   `stat_type5` = 6,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67557;
 INSERT INTO `item_template` SET
@@ -7788,8 +7555,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 13,
   `stat_type5` = 6,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67558;
 INSERT INTO `item_template` SET
@@ -7820,8 +7586,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 7,
   `stat_type5` = 6,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67559;
 INSERT INTO `item_template` SET
@@ -7853,8 +7618,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 10,
   `stat_type5` = 31,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67560;
 INSERT INTO `item_template` SET
@@ -7886,8 +7650,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 44,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67561;
 INSERT INTO `item_template` SET
@@ -7918,8 +7681,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 12,
   `stat_type5` = 6,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67562;
 INSERT INTO `item_template` SET
@@ -7951,8 +7713,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 7,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67563;
 INSERT INTO `item_template` SET
@@ -7984,8 +7745,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 43,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67564;
 INSERT INTO `item_template` SET
@@ -8017,8 +7777,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 15,
   `stat_type5` = 32,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67565;
 INSERT INTO `item_template` SET
@@ -8050,8 +7809,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 16,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67566;
 INSERT INTO `item_template` SET
@@ -8082,8 +7840,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67567;
 INSERT INTO `item_template` SET
@@ -8115,8 +7872,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 11,
   `stat_type5` = 4,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67568;
 INSERT INTO `item_template` SET
@@ -8148,8 +7904,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 11,
   `stat_type5` = 32,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67569;
 INSERT INTO `item_template` SET
@@ -8181,8 +7936,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 12,
   `stat_type5` = 44,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67570;
 INSERT INTO `item_template` SET
@@ -8216,8 +7970,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 1,
   `stat_type5` = 44,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67571;
 INSERT INTO `item_template` SET
@@ -8249,8 +8002,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 8,
   `stat_type5` = 37,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67572;
 INSERT INTO `item_template` SET
@@ -8282,8 +8034,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 12,
   `stat_type5` = 32,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67573;
 INSERT INTO `item_template` SET
@@ -8315,8 +8066,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 9,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67574;
 INSERT INTO `item_template` SET
@@ -8348,8 +8098,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 19,
   `stat_type5` = 31,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67575;
 INSERT INTO `item_template` SET
@@ -8381,8 +8130,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 16,
   `stat_type5` = 43,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67576;
 INSERT INTO `item_template` SET
@@ -8414,8 +8162,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 16,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67577;
 INSERT INTO `item_template` SET
@@ -8447,8 +8194,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 12,
   `stat_type5` = 38,
-  `stat_value5` = 26,
-  `StatsCount` = 5;
+  `stat_value5` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 67578;
 INSERT INTO `item_template` SET
@@ -8480,8 +8226,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 8,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67579;
 INSERT INTO `item_template` SET
@@ -8513,8 +8258,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 13,
   `stat_type5` = 38,
-  `stat_value5` = 28,
-  `StatsCount` = 5;
+  `stat_value5` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 67580;
 INSERT INTO `item_template` SET
@@ -8546,8 +8290,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 25,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67581;
 INSERT INTO `item_template` SET
@@ -8578,8 +8321,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 10,
   `stat_type5` = 32,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67582;
 INSERT INTO `item_template` SET
@@ -8611,8 +8353,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 13,
   `stat_type5` = 36,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67583;
 INSERT INTO `item_template` SET
@@ -8644,8 +8385,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 27,
   `stat_type5` = 4,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67584;
 INSERT INTO `item_template` SET
@@ -8677,8 +8417,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67585;
 INSERT INTO `item_template` SET
@@ -8710,8 +8449,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 17,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67586;
 INSERT INTO `item_template` SET
@@ -8743,8 +8481,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 13,
   `stat_value4` = 10,
   `stat_type5` = 14,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67587;
 INSERT INTO `item_template` SET
@@ -8776,8 +8513,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67588;
 INSERT INTO `item_template` SET
@@ -8809,8 +8545,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 15,
   `stat_type5` = 4,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67589;
 INSERT INTO `item_template` SET
@@ -8842,8 +8577,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 11,
   `stat_type5` = 31,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67590;
 INSERT INTO `item_template` SET
@@ -8875,8 +8609,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 10,
   `stat_type5` = 37,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67591;
 INSERT INTO `item_template` SET
@@ -8910,8 +8643,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 1,
   `stat_type5` = 39,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67592;
 INSERT INTO `item_template` SET
@@ -8943,8 +8675,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 13,
   `stat_type5` = 47,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67593;
 INSERT INTO `item_template` SET
@@ -8976,8 +8707,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 4,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67594;
 INSERT INTO `item_template` SET
@@ -9009,8 +8739,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 12,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67595;
 INSERT INTO `item_template` SET
@@ -9042,8 +8771,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 12,
   `stat_type5` = 37,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67596;
 INSERT INTO `item_template` SET
@@ -9077,8 +8805,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 1,
   `stat_type5` = 31,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67597;
 INSERT INTO `item_template` SET
@@ -9110,8 +8837,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 13,
   `stat_type5` = 38,
-  `stat_value5` = 26,
-  `StatsCount` = 5;
+  `stat_value5` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 67598;
 INSERT INTO `item_template` SET
@@ -9143,8 +8869,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 13,
   `stat_type5` = 43,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67599;
 INSERT INTO `item_template` SET
@@ -9176,8 +8901,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 6,
   `stat_type5` = 37,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67600;
 INSERT INTO `item_template` SET
@@ -9209,8 +8933,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67601;
 INSERT INTO `item_template` SET
@@ -9244,8 +8967,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 15,
   `stat_type5` = 47,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67602;
 INSERT INTO `item_template` SET
@@ -9277,8 +8999,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 9,
   `stat_type5` = 44,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67603;
 INSERT INTO `item_template` SET
@@ -9310,8 +9031,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 11,
   `stat_type5` = 43,
-  `stat_value5` = 4,
-  `StatsCount` = 5;
+  `stat_value5` = 4;
 
 DELETE FROM `item_template` WHERE `entry` = 67604;
 INSERT INTO `item_template` SET
@@ -9343,8 +9063,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 7,
   `stat_type5` = 32,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67605;
 INSERT INTO `item_template` SET
@@ -9376,8 +9095,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 18,
   `stat_type5` = 47,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67606;
 INSERT INTO `item_template` SET
@@ -9411,8 +9129,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 7,
   `stat_type5` = 38,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67607;
 INSERT INTO `item_template` SET
@@ -9444,8 +9161,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 11,
   `stat_type5` = 32,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67608;
 INSERT INTO `item_template` SET
@@ -9477,8 +9193,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 11,
   `stat_type5` = 31,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67609;
 INSERT INTO `item_template` SET
@@ -9510,8 +9225,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 36,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67610;
 INSERT INTO `item_template` SET
@@ -9543,8 +9257,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 16,
   `stat_type5` = 3,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67611;
 INSERT INTO `item_template` SET
@@ -9576,8 +9289,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67612;
 INSERT INTO `item_template` SET
@@ -9609,8 +9321,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 43,
   `stat_value4` = 6,
   `stat_type5` = 36,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67613;
 INSERT INTO `item_template` SET
@@ -9642,8 +9353,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 10,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67614;
 INSERT INTO `item_template` SET
@@ -9675,8 +9385,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 12,
   `stat_type5` = 31,
-  `stat_value5` = 20,
-  `StatsCount` = 5;
+  `stat_value5` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 67615;
 INSERT INTO `item_template` SET
@@ -9708,8 +9417,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 9,
   `stat_type5` = 32,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67617;
 INSERT INTO `item_template` SET
@@ -9741,8 +9449,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 8,
   `stat_type5` = 4,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67618;
 INSERT INTO `item_template` SET
@@ -9774,8 +9481,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 18,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67619;
 INSERT INTO `item_template` SET
@@ -9807,8 +9513,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 18,
   `stat_type5` = 48,
-  `stat_value5` = 19,
-  `StatsCount` = 5;
+  `stat_value5` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 67620;
 INSERT INTO `item_template` SET
@@ -9840,8 +9545,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 12,
   `stat_type5` = 44,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67621;
 INSERT INTO `item_template` SET
@@ -9872,8 +9576,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 12,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67622;
 INSERT INTO `item_template` SET
@@ -9905,8 +9608,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 9,
   `stat_type5` = 38,
-  `stat_value5` = 19,
-  `StatsCount` = 5;
+  `stat_value5` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 67623;
 INSERT INTO `item_template` SET
@@ -9938,8 +9640,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 16,
   `stat_type5` = 6,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67624;
 INSERT INTO `item_template` SET
@@ -9971,8 +9672,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 20,
   `stat_type5` = 36,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67625;
 INSERT INTO `item_template` SET
@@ -10004,8 +9704,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 14,
   `stat_type5` = 31,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67626;
 INSERT INTO `item_template` SET
@@ -10039,8 +9738,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 1,
   `stat_type5` = 31,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67627;
 INSERT INTO `item_template` SET
@@ -10072,8 +9770,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 8,
   `stat_type5` = 36,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67628;
 INSERT INTO `item_template` SET
@@ -10105,8 +9802,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 18,
   `stat_type5` = 43,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67629;
 INSERT INTO `item_template` SET
@@ -10138,8 +9834,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 10,
   `stat_type5` = 31,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67630;
 INSERT INTO `item_template` SET
@@ -10171,8 +9866,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 11,
   `stat_type5` = 36,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67631;
 INSERT INTO `item_template` SET
@@ -10204,8 +9898,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 13,
   `stat_type5` = 36,
-  `stat_value5` = 19,
-  `StatsCount` = 5;
+  `stat_value5` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 67632;
 INSERT INTO `item_template` SET
@@ -10237,8 +9930,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 26,
   `stat_type5` = 36,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67633;
 INSERT INTO `item_template` SET
@@ -10270,8 +9962,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 14,
   `stat_type5` = 6,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67634;
 INSERT INTO `item_template` SET
@@ -10303,8 +9994,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 18,
   `stat_type5` = 5,
-  `stat_value5` = 17,
-  `StatsCount` = 5;
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 67635;
 INSERT INTO `item_template` SET
@@ -10336,8 +10026,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 11,
   `stat_type5` = 36,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67636;
 INSERT INTO `item_template` SET
@@ -10371,8 +10060,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 6,
   `stat_type5` = 31,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67637;
 INSERT INTO `item_template` SET
@@ -10404,8 +10092,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 11,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67638;
 INSERT INTO `item_template` SET
@@ -10439,8 +10126,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 18,
   `stat_type5` = 47,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67640;
 INSERT INTO `item_template` SET
@@ -10472,8 +10158,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 17,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67641;
 INSERT INTO `item_template` SET
@@ -10507,8 +10192,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 39,
   `stat_value4` = 1,
   `stat_type5` = 38,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67642;
 INSERT INTO `item_template` SET
@@ -10539,8 +10223,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 10,
   `stat_type5` = 44,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67643;
 INSERT INTO `item_template` SET
@@ -10572,8 +10255,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 13,
   `stat_value4` = 15,
   `stat_type5` = 32,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67644;
 INSERT INTO `item_template` SET
@@ -10605,8 +10287,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 12,
   `stat_type5` = 31,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67645;
 INSERT INTO `item_template` SET
@@ -10638,8 +10319,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 47,
   `stat_value4` = 5,
   `stat_type5` = 36,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67646;
 INSERT INTO `item_template` SET
@@ -10671,8 +10351,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 6,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67648;
 INSERT INTO `item_template` SET
@@ -10704,8 +10383,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 12,
   `stat_value4` = 16,
   `stat_type5` = 37,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67649;
 INSERT INTO `item_template` SET
@@ -10736,8 +10414,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 7,
   `stat_type5` = 7,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67650;
 INSERT INTO `item_template` SET
@@ -10769,8 +10446,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 18,
   `stat_type5` = 36,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67651;
 INSERT INTO `item_template` SET
@@ -10804,8 +10480,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 11,
   `stat_type5` = 38,
-  `stat_value5` = 22,
-  `StatsCount` = 5;
+  `stat_value5` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 67652;
 INSERT INTO `item_template` SET
@@ -10839,8 +10514,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 13,
   `stat_type5` = 31,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67653;
 INSERT INTO `item_template` SET
@@ -10872,8 +10546,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 15,
   `stat_type5` = 38,
-  `stat_value5` = 27,
-  `StatsCount` = 5;
+  `stat_value5` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 67654;
 INSERT INTO `item_template` SET
@@ -10907,8 +10580,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 7,
   `stat_type5` = 32,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67655;
 INSERT INTO `item_template` SET
@@ -10940,8 +10612,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 15,
   `stat_type5` = 32,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67656;
 INSERT INTO `item_template` SET
@@ -10973,8 +10644,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 7,
   `stat_type5` = 4,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67657;
 INSERT INTO `item_template` SET
@@ -11006,8 +10676,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 8,
   `stat_type5` = 37,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67658;
 INSERT INTO `item_template` SET
@@ -11039,8 +10708,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 13,
   `stat_value4` = 8,
   `stat_type5` = 15,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67660;
 INSERT INTO `item_template` SET
@@ -11071,8 +10739,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 3,
   `stat_value4` = 7,
   `stat_type5` = 5,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67661;
 INSERT INTO `item_template` SET
@@ -11104,8 +10771,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 17,
   `stat_type5` = 32,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67662;
 INSERT INTO `item_template` SET
@@ -11137,8 +10803,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 11,
   `stat_type5` = 13,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67663;
 INSERT INTO `item_template` SET
@@ -11170,8 +10835,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 20,
   `stat_type5` = 6,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67664;
 INSERT INTO `item_template` SET
@@ -11203,8 +10867,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 11,
   `stat_type5` = 31,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67665;
 INSERT INTO `item_template` SET
@@ -11236,8 +10899,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 16,
   `stat_type5` = 45,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67666;
 INSERT INTO `item_template` SET
@@ -11269,8 +10931,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 11,
   `stat_type5` = 38,
-  `stat_value5` = 25,
-  `StatsCount` = 5;
+  `stat_value5` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 67667;
 INSERT INTO `item_template` SET
@@ -11301,8 +10962,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 8,
   `stat_type5` = 32,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67668;
 INSERT INTO `item_template` SET
@@ -11333,8 +10993,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 10,
   `stat_type5` = 36,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67669;
 INSERT INTO `item_template` SET
@@ -11366,8 +11025,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 16,
   `stat_type5` = 47,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67670;
 INSERT INTO `item_template` SET
@@ -11399,8 +11057,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67671;
 INSERT INTO `item_template` SET
@@ -11432,8 +11089,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 11,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67672;
 INSERT INTO `item_template` SET
@@ -11465,8 +11121,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 8,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67673;
 INSERT INTO `item_template` SET
@@ -11500,8 +11155,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 22,
   `stat_type5` = 44,
-  `stat_value5` = 32,
-  `StatsCount` = 5;
+  `stat_value5` = 32;
 
 DELETE FROM `item_template` WHERE `entry` = 67674;
 INSERT INTO `item_template` SET
@@ -11535,8 +11189,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 6,
   `stat_type5` = 38,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67676;
 INSERT INTO `item_template` SET
@@ -11567,8 +11220,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 6,
   `stat_type5` = 31,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67677;
 INSERT INTO `item_template` SET
@@ -11600,8 +11252,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 10,
   `stat_type5` = 36,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67678;
 INSERT INTO `item_template` SET
@@ -11633,8 +11284,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 23,
   `stat_type5` = 32,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67679;
 INSERT INTO `item_template` SET
@@ -11666,8 +11316,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 14,
   `stat_type5` = 38,
-  `stat_value5` = 38,
-  `StatsCount` = 5;
+  `stat_value5` = 38;
 
 DELETE FROM `item_template` WHERE `entry` = 67680;
 INSERT INTO `item_template` SET
@@ -11701,8 +11350,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 1,
   `stat_type5` = 44,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67682;
 INSERT INTO `item_template` SET
@@ -11734,8 +11382,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 11,
   `stat_type5` = 32,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67683;
 INSERT INTO `item_template` SET
@@ -11767,8 +11414,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 19,
   `stat_type5` = 32,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67684;
 INSERT INTO `item_template` SET
@@ -11802,8 +11448,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 48,
   `stat_value4` = 22,
   `stat_type5` = 4,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67685;
 INSERT INTO `item_template` SET
@@ -11835,8 +11480,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 27,
   `stat_type5` = 37,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67686;
 INSERT INTO `item_template` SET
@@ -11868,8 +11512,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 10,
   `stat_type5` = 44,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67687;
 INSERT INTO `item_template` SET
@@ -11901,8 +11544,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67688;
 INSERT INTO `item_template` SET
@@ -11934,8 +11576,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 11,
   `stat_type5` = 36,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67689;
 INSERT INTO `item_template` SET
@@ -11967,8 +11608,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 13,
   `stat_type5` = 44,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67690;
 INSERT INTO `item_template` SET
@@ -12000,8 +11640,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 8,
   `stat_type5` = 36,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67691;
 INSERT INTO `item_template` SET
@@ -12033,8 +11672,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 23,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67692;
 INSERT INTO `item_template` SET
@@ -12066,8 +11704,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 7,
   `stat_type5` = 31,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67693;
 INSERT INTO `item_template` SET
@@ -12099,8 +11736,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 17,
   `stat_type5` = 15,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67694;
 INSERT INTO `item_template` SET
@@ -12131,8 +11767,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 7,
   `stat_type5` = 32,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67695;
 INSERT INTO `item_template` SET
@@ -12164,8 +11799,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 43,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67696;
 INSERT INTO `item_template` SET
@@ -12197,8 +11831,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 10,
   `stat_type5` = 4,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67697;
 INSERT INTO `item_template` SET
@@ -12232,8 +11865,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 14,
   `stat_value4` = 14,
   `stat_type5` = 13,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67698;
 INSERT INTO `item_template` SET
@@ -12265,8 +11897,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 7,
   `stat_type5` = 36,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67699;
 INSERT INTO `item_template` SET
@@ -12298,8 +11929,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 15,
   `stat_type5` = 36,
-  `stat_value5` = 18,
-  `StatsCount` = 5;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 67700;
 INSERT INTO `item_template` SET
@@ -12330,8 +11960,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 9,
   `stat_type5` = 3,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67701;
 INSERT INTO `item_template` SET
@@ -12365,8 +11994,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 12,
   `stat_type5` = 31,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67702;
 INSERT INTO `item_template` SET
@@ -12398,8 +12026,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 7,
   `stat_value4` = 13,
   `stat_type5` = 36,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67703;
 INSERT INTO `item_template` SET
@@ -12431,8 +12058,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 6,
   `stat_type5` = 32,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67704;
 INSERT INTO `item_template` SET
@@ -12464,8 +12090,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 12,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67705;
 INSERT INTO `item_template` SET
@@ -12499,8 +12124,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 8,
   `stat_type5` = 38,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67706;
 INSERT INTO `item_template` SET
@@ -12534,8 +12158,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 39,
   `stat_value4` = 58,
   `stat_type5` = 44,
-  `stat_value5` = 33,
-  `StatsCount` = 5;
+  `stat_value5` = 33;
 
 DELETE FROM `item_template` WHERE `entry` = 67707;
 INSERT INTO `item_template` SET
@@ -12567,8 +12190,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 15,
   `stat_type5` = 36,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67708;
 INSERT INTO `item_template` SET
@@ -12600,8 +12222,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67709;
 INSERT INTO `item_template` SET
@@ -12633,8 +12254,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 9,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67710;
 INSERT INTO `item_template` SET
@@ -12666,8 +12286,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 8,
   `stat_type5` = 37,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67711;
 INSERT INTO `item_template` SET
@@ -12701,8 +12320,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 12,
   `stat_type5` = 38,
-  `stat_value5` = 28,
-  `StatsCount` = 5;
+  `stat_value5` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 67712;
 INSERT INTO `item_template` SET
@@ -12734,8 +12352,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 11,
   `stat_type5` = 44,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67713;
 INSERT INTO `item_template` SET
@@ -12767,8 +12384,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 37,
   `stat_value4` = 16,
   `stat_type5` = 44,
-  `stat_value5` = 17,
-  `StatsCount` = 5;
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 67714;
 INSERT INTO `item_template` SET
@@ -12800,8 +12416,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 43,
   `stat_value4` = 5,
   `stat_type5` = 6,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67715;
 INSERT INTO `item_template` SET
@@ -12833,8 +12448,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 13,
   `stat_type5` = 43,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67716;
 INSERT INTO `item_template` SET
@@ -12866,8 +12480,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 21,
   `stat_type5` = 36,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;
 
 DELETE FROM `item_template` WHERE `entry` = 67717;
 INSERT INTO `item_template` SET
@@ -12899,8 +12512,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 12,
   `stat_type5` = 6,
-  `stat_value5` = 15,
-  `StatsCount` = 5;
+  `stat_value5` = 15;
 
 DELETE FROM `item_template` WHERE `entry` = 67718;
 INSERT INTO `item_template` SET
@@ -12932,8 +12544,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 36,
-  `stat_value5` = 9,
-  `StatsCount` = 5;
+  `stat_value5` = 9;
 
 DELETE FROM `item_template` WHERE `entry` = 67719;
 INSERT INTO `item_template` SET
@@ -12967,8 +12578,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 39,
   `stat_value4` = 1,
   `stat_type5` = 44,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67720;
 INSERT INTO `item_template` SET
@@ -12999,8 +12609,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 12,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67721;
 INSERT INTO `item_template` SET
@@ -13032,8 +12641,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 43,
-  `stat_value5` = 5,
-  `StatsCount` = 5;
+  `stat_value5` = 5;
 
 DELETE FROM `item_template` WHERE `entry` = 67722;
 INSERT INTO `item_template` SET
@@ -13065,8 +12673,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 47,
   `stat_value4` = 4,
   `stat_type5` = 31,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67724;
 INSERT INTO `item_template` SET
@@ -13097,8 +12704,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 4,
   `stat_value4` = 9,
   `stat_type5` = 5,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67726;
 INSERT INTO `item_template` SET
@@ -13129,8 +12735,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 7,
   `stat_type5` = 31,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67727;
 INSERT INTO `item_template` SET
@@ -13162,8 +12767,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 15,
   `stat_type5` = 32,
-  `stat_value5` = 14,
-  `StatsCount` = 5;
+  `stat_value5` = 14;
 
 DELETE FROM `item_template` WHERE `entry` = 67728;
 INSERT INTO `item_template` SET
@@ -13195,8 +12799,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 8,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67729;
 INSERT INTO `item_template` SET
@@ -13228,8 +12831,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 6,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67730;
 INSERT INTO `item_template` SET
@@ -13261,8 +12863,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 8,
   `stat_type5` = 32,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67732;
 INSERT INTO `item_template` SET
@@ -13294,8 +12895,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 12,
   `stat_value4` = 9,
   `stat_type5` = 13,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67733;
 INSERT INTO `item_template` SET
@@ -13326,8 +12926,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 7,
   `stat_type5` = 36,
-  `stat_value5` = 10,
-  `StatsCount` = 5;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 67734;
 INSERT INTO `item_template` SET
@@ -13361,8 +12960,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 38,
   `stat_value4` = 5,
   `stat_type5` = 32,
-  `stat_value5` = 3,
-  `StatsCount` = 5;
+  `stat_value5` = 3;
 
 DELETE FROM `item_template` WHERE `entry` = 67735;
 INSERT INTO `item_template` SET
@@ -13393,8 +12991,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 9,
   `stat_type5` = 31,
-  `stat_value5` = 7,
-  `StatsCount` = 5;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 67736;
 INSERT INTO `item_template` SET
@@ -13426,8 +13023,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 5,
   `stat_value4` = 10,
   `stat_type5` = 31,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67737;
 INSERT INTO `item_template` SET
@@ -13461,8 +13057,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 12,
   `stat_type5` = 38,
-  `stat_value5` = 29,
-  `StatsCount` = 5;
+  `stat_value5` = 29;
 
 DELETE FROM `item_template` WHERE `entry` = 67738;
 INSERT INTO `item_template` SET
@@ -13494,8 +13089,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 12,
   `stat_type5` = 32,
-  `stat_value5` = 16,
-  `StatsCount` = 5;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 67739;
 INSERT INTO `item_template` SET
@@ -13529,8 +13123,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 39,
   `stat_value4` = 1,
   `stat_type5` = 31,
-  `stat_value5` = 1,
-  `StatsCount` = 5;
+  `stat_value5` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 67740;
 INSERT INTO `item_template` SET
@@ -13562,8 +13155,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 8,
   `stat_type5` = 6,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67742;
 INSERT INTO `item_template` SET
@@ -13595,8 +13187,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67743;
 INSERT INTO `item_template` SET
@@ -13628,8 +13219,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 13,
   `stat_type5` = 32,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67744;
 INSERT INTO `item_template` SET
@@ -13663,8 +13253,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 13,
   `stat_value4` = 11,
   `stat_type5` = 12,
-  `stat_value5` = 21,
-  `StatsCount` = 5;
+  `stat_value5` = 21;
 
 DELETE FROM `item_template` WHERE `entry` = 67745;
 INSERT INTO `item_template` SET
@@ -13695,8 +13284,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 9,
   `stat_type5` = 43,
-  `stat_value5` = 3,
-  `StatsCount` = 5;
+  `stat_value5` = 3;
 
 DELETE FROM `item_template` WHERE `entry` = 67746;
 INSERT INTO `item_template` SET
@@ -13728,8 +13316,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 14,
   `stat_type5` = 32,
-  `stat_value5` = 17,
-  `StatsCount` = 5;
+  `stat_value5` = 17;
 
 DELETE FROM `item_template` WHERE `entry` = 67747;
 INSERT INTO `item_template` SET
@@ -13761,8 +13348,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 36,
   `stat_value4` = 14,
   `stat_type5` = 44,
-  `stat_value5` = 12,
-  `StatsCount` = 5;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 67748;
 INSERT INTO `item_template` SET
@@ -13794,8 +13380,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 15,
   `stat_value4` = 10,
   `stat_type5` = 38,
-  `stat_value5` = 20,
-  `StatsCount` = 5;
+  `stat_value5` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 67750;
 INSERT INTO `item_template` SET
@@ -13827,8 +13412,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 45,
   `stat_value4` = 16,
   `stat_type5` = 36,
-  `stat_value5` = 13,
-  `StatsCount` = 5;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 67751;
 INSERT INTO `item_template` SET
@@ -13862,8 +13446,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 7,
   `stat_type5` = 31,
-  `stat_value5` = 6,
-  `StatsCount` = 5;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 67752;
 INSERT INTO `item_template` SET
@@ -13897,8 +13480,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 31,
   `stat_value4` = 20,
   `stat_type5` = 36,
-  `stat_value5` = 19,
-  `StatsCount` = 5;
+  `stat_value5` = 19;
 
 DELETE FROM `item_template` WHERE `entry` = 67753;
 INSERT INTO `item_template` SET
@@ -13929,8 +13511,7 @@ INSERT INTO `item_template` SET
   `stat_type4` = 32,
   `stat_value4` = 9,
   `stat_type5` = 6,
-  `stat_value5` = 8,
-  `StatsCount` = 5;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 67754;
 INSERT INTO `item_template` SET
@@ -13964,5 +13545,4 @@ INSERT INTO `item_template` SET
   `stat_type4` = 44,
   `stat_value4` = 6,
   `stat_type5` = 38,
-  `stat_value5` = 11,
-  `StatsCount` = 5;
+  `stat_value5` = 11;

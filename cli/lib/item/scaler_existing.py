@@ -292,11 +292,10 @@ def scale_anchor(anchor: Dict, tier: str, difficulty: str,
     for i, (sid, val) in enumerate(stats, start=1):
         row[f"stat_type{i}"] = sid
         row[f"stat_value{i}"] = val
-    # Zero out the remaining slots so DELETE+INSERT SET is clean.
-    for i in range(len(stats) + 1, 11):
-        row[f"stat_type{i}"] = 0
-        row[f"stat_value{i}"] = 0
-    row["StatsCount"] = len(stats)
+    # Remember how many slots are populated for the emitter — AC's
+    # item_template has no StatsCount column in this build, but the row
+    # formatter needs to know how many stat_type/value pairs to write.
+    row["_stat_count"] = len(stats)
 
     return row, bucket
 
@@ -323,13 +322,158 @@ def _format_row(row: Dict) -> str:
         if col in row:
             var_lines.append(f"  `{col}` = {_format_value(row[col])}")
     # Stat columns: only emit up to the count actually used.
-    n = row.get("StatsCount", 0)
+    n = row.get("_stat_count", 0)
     for i in range(1, n + 1):
         var_lines.append(f"  `stat_type{i}` = {row[f'stat_type{i}']}")
         var_lines.append(f"  `stat_value{i}` = {row[f'stat_value{i}']}")
-    var_lines.append(f"  `StatsCount` = {n}")
     lines.append(",\n".join(var_lines) + ";")
     return "\n".join(lines)
+
+
+def _discover_clone_drops(anchor_entries: List[int], tier: str) -> Dict[int, List[Tuple[int, int]]]:
+    """For each anchor entry, return the list of (heroic_clone_entry,
+    mythic_clone_entry) tuples for stock creatures that drop it inside the
+    tier's dungeon maps.
+
+    F-074 sets `creature_template.difficulty_entry_1` = heroic clone entry
+    and `difficulty_entry_2` = mythic clone entry on stock creature rows.
+    Each clone's lootid = its own entry (F-074 convention), and F-074's
+    INSERT SELECT FROM base_lootid copies the stock items onto the clone's
+    loot table. Phase 4 UPDATEs that table in place — swapping stock Items
+    with their scaled F-179 entries while preserving Chance/GroupId/etc.
+    """
+    if not anchor_entries:
+        return {}
+    map_ids = TIER_MAPS[tier]
+    in_anchors = ",".join(str(e) for e in anchor_entries)
+    in_maps = ",".join(str(m) for m in map_ids)
+    sql = f"""
+    SELECT DISTINCT
+        clt.Item AS stock_anchor,
+        ct.difficulty_entry_1 AS heroic_clone,
+        ct.difficulty_entry_2 AS mythic_clone,
+        ct.entry AS stock_creature,
+        ct.name AS creature_name
+    FROM creature_loot_template clt
+    JOIN creature_template ct ON ct.lootid = clt.Entry
+    JOIN creature c ON c.id1 = ct.entry
+    WHERE clt.Item IN ({in_anchors})
+      AND c.map IN ({in_maps})
+      AND ct.difficulty_entry_1 > 0
+      AND ct.difficulty_entry_2 > 0
+    """
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(sql)
+        rows = cur.fetchall()
+    finally:
+        conn.close()
+
+    out: Dict[int, List[Tuple[int, int, int, str]]] = defaultdict(list)
+    for r in rows:
+        anchor = int(r[0])
+        out[anchor].append((int(r[1]), int(r[2]), int(r[3]), str(r[4]) if r[4] else ""))
+    return out
+
+
+LOOT_FILENAME_TEMPLATE = "zz_[AUTO,F-179]_{tier}_dungeon_loot.sql"
+
+
+def run_loot_wiring(craft_root: Path, tier: str, verbose: bool = True) -> Tuple[Path, int, int]:
+    """Phase 4 — emit creature_loot_template UPDATE rows that swap each stock
+    anchor for its F-179 scaled heroic/mythic version on the respective
+    creature clones.
+
+    Returns (output_path, heroic_update_count, mythic_update_count).
+    """
+    if tier not in TIER_MAPS:
+        raise ValueError(f"No map list for tier {tier!r}")
+
+    anchors = discover_anchors(tier)
+    if not anchors:
+        raise RuntimeError(f"No anchors discovered for tier {tier}")
+
+    heroic_start, _ = F179_RESERVATIONS[(tier, "heroic")]
+    mythic_start, _ = F179_RESERVATIONS[(tier, "mythic")]
+
+    # Anchors are returned in stable order from discover_anchors (sorted by
+    # stock entry). Build stock_entry -> (heroic_scaled, mythic_scaled).
+    scaled_by_stock: Dict[int, Tuple[int, int]] = {}
+    for idx, a in enumerate(anchors):
+        # Skip relics — they'd raise SKIP-RELIC in Phase 2 and never get a
+        # scaled entry written. Match the same bucket the scaler computed.
+        try:
+            from .role_classifier import classify
+            b = classify(a["entry"], a["stats"], a["class"], a["subclass"], a["InventoryType"])
+            if b.startswith("SKIP") or b.startswith("FALLBACK"):
+                continue
+        except Exception:
+            continue
+        scaled_by_stock[a["entry"]] = (heroic_start + idx, mythic_start + idx)
+
+    drops = _discover_clone_drops(list(scaled_by_stock), tier)
+
+    out_dir = craft_root / "zpaks" / "zep-dungeons" / "sql"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / LOOT_FILENAME_TEMPLATE.format(tier=tier)
+
+    heroic_count = mythic_count = 0
+    anchors_with_drops = 0
+    lines = [
+        f"-- F-179 Phase 4: Wire scaled items into heroic/mythic clone loot tables",
+        f"-- AUTO-generated by `zep world item scale-existing` (F-179). DO NOT EDIT.",
+        f"-- Tier: {tier}",
+        f"-- Pattern: F-074's heroic_convertor.sql DELETEs+INSERTs stock items into",
+        f"-- each clone's lootid (= clone entry). This file applies AFTER and UPDATEs",
+        f"-- those rows in place — swapping stock Item with its scaled F-179 entry",
+        f"-- while preserving Chance / GroupId / MinCount / MaxCount.",
+        "",
+    ]
+
+    last_anchor = None
+    for stock_anchor in sorted(drops):
+        if stock_anchor not in scaled_by_stock:
+            continue
+        anchors_with_drops += 1
+        scaled_h, scaled_m = scaled_by_stock[stock_anchor]
+        # Header comment per anchor
+        # Find anchor name from anchors list
+        name = next((a["name"] for a in anchors if a["entry"] == stock_anchor), "?")
+        lines.append(f"-- {name} (stock {stock_anchor}) → heroic {scaled_h} / mythic {scaled_m}")
+        # Dedup (heroic_clone, mythic_clone) — same pair may appear via multiple
+        # creature instances on different spawns of the same template.
+        seen_pairs = set()
+        for hc, mc, stock_creature, cname in drops[stock_anchor]:
+            pair = (hc, mc)
+            if pair in seen_pairs:
+                continue
+            seen_pairs.add(pair)
+            lines.append(
+                f"UPDATE `creature_loot_template` SET `Item` = {scaled_h} "
+                f"WHERE `Entry` = {hc} AND `Item` = {stock_anchor};"
+            )
+            lines.append(
+                f"UPDATE `creature_loot_template` SET `Item` = {scaled_m} "
+                f"WHERE `Entry` = {mc} AND `Item` = {stock_anchor};"
+            )
+            heroic_count += 1
+            mythic_count += 1
+        lines.append("")
+
+    # Header summary (prepended after the fact for accurate counts)
+    summary = [
+        f"-- Anchors with clone drops wired: {anchors_with_drops} / {len(scaled_by_stock)} scaled",
+        f"-- UPDATE statements emitted: heroic={heroic_count}, mythic={mythic_count}",
+        "",
+    ]
+    lines = lines[:7] + summary + lines[7:]
+
+    out_path.write_text("\n".join(lines) + "\n")
+    if verbose:
+        print(f"  [{tier} loot wiring] {anchors_with_drops} anchors → "
+              f"{heroic_count} heroic + {mythic_count} mythic UPDATEs → {out_path.name}")
+    return out_path, heroic_count, mythic_count
 
 
 def run(craft_root: Path, tier: str, difficulty: str, seed: int = 0,

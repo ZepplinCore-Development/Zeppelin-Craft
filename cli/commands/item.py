@@ -125,7 +125,7 @@ def item_scale_existing(ctx, tier, difficulty, seed, quiet):
     Writes one AUTO SQL file per (tier, difficulty) into
     zpaks/zep-dungeons/sql/.
     """
-    from lib.item.scaler_existing import run, F179_RESERVATIONS
+    from lib.item.scaler_existing import run, run_loot_wiring, F179_RESERVATIONS
 
     craft_root = ctx.obj['craft_root']
     difficulties = [difficulty] if difficulty else ['heroic', 'mythic']
@@ -147,6 +147,17 @@ def item_scale_existing(ctx, tier, difficulty, seed, quiet):
             raise click.ClickException(f"{tier}/{d} failed: {e}")
         click.echo(click.style(f"  ✓ {tier}/{d}: {count} items → {path.name}", fg='green'))
         total_items += count
+
+    # Phase 4: Loot wiring. Writes one file per tier (covers both
+    # difficulties at once via heroic/mythic clone IDs from F-074).
+    if not difficulty or difficulty == 'mythic':  # only wire when both files exist
+        try:
+            loot_path, h_n, m_n = run_loot_wiring(craft_root, tier, verbose=not quiet)
+        except Exception as e:
+            raise click.ClickException(f"{tier} loot wiring failed: {e}")
+        click.echo(click.style(
+            f"  ✓ {tier} loot wiring: {h_n}+{m_n} UPDATE rows → {loot_path.name}",
+            fg='green'))
 
     click.echo()
     click.echo(f"Wrote {total_items} items across {len(difficulties)} files.")
