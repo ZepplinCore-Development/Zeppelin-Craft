@@ -554,40 +554,41 @@ class LootDatabase:
             return {}
 
     def get_heroic_creature_id(self, creature_id: int) -> Optional[int]:
+        """Get heroic clone entry from `creature_template.difficulty_entry_1`."""
+        return self._get_difficulty_creature_id(creature_id, 1)
+
+    def get_mythic_creature_id(self, creature_id: int) -> Optional[int]:
+        """Get mythic clone entry from `creature_template.difficulty_entry_2`.
+
+        F-074 sets difficulty_entry_2 on stock azeroth-dungeon creatures
+        to point at their mythic clone. AtlasLoot MYTHIC sections look up
+        this column the same way HEROIC sections use difficulty_entry_1.
         """
-        Get heroic version creature ID from normal creature ID.
+        return self._get_difficulty_creature_id(creature_id, 2)
 
-        In AzerothCore, heroic versions of bosses are stored in difficulty_entry_1.
-
-        Args:
-            creature_id: Normal creature entry ID
-
-        Returns:
-            Heroic creature entry ID or None if not found
-        """
+    def _get_difficulty_creature_id(self, creature_id: int, slot: int) -> Optional[int]:
         if not self.connection:
             return None
-
-        query = """
-            SELECT difficulty_entry_1
+        if slot not in (1, 2):
+            raise ValueError(f"difficulty slot must be 1 (heroic) or 2 (mythic), got {slot}")
+        col = f"difficulty_entry_{slot}"
+        query = f"""
+            SELECT {col}
             FROM creature_template
             WHERE entry = %s
-              AND difficulty_entry_1 > 0
+              AND {col} > 0
             LIMIT 1
         """
-
         try:
             cursor = self.connection.cursor(pymysql.cursors.DictCursor)
             cursor.execute(query, (creature_id,))
             result = cursor.fetchone()
             cursor.close()
-
-            if result and result['difficulty_entry_1']:
-                return result['difficulty_entry_1']
+            if result and result[col]:
+                return result[col]
             return None
-
         except pymysql.Error as err:
-            logger.error(f"Query error in get_heroic_creature_id: {err}")
+            logger.error(f"Query error in _get_difficulty_creature_id({slot}): {err}")
             return None
 
     def get_boss_name(self, creature_id: int) -> Optional[str]:

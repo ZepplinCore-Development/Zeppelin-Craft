@@ -174,10 +174,39 @@ INSTANCE_PREFIXES = {
 # Helper Functions
 # =============================================================================
 
+# Difficulty-suffix dispatch table. Each tuple is (label, suffix_len,
+# difficulty_entry_column_index). HEROIC → difficulty_entry_1, MYTHIC →
+# difficulty_entry_2. Suffix lengths happen to both be 6, but kept explicit.
+DIFFICULTY_SUFFIXES = (
+    ('HEROIC', 'Heroic', 6, 1),
+    ('MYTHIC', 'Mythic', 6, 2),
+)
+
+
+def parse_difficulty_suffix(section_name: str):
+    """Return (suffix, label, slen, slot) if the section name ends in a
+    known difficulty suffix, else (None, None, 0, None). HEROIC → slot 1
+    (looks up difficulty_entry_1); MYTHIC → slot 2 (difficulty_entry_2)."""
+    for suffix, label, slen, slot in DIFFICULTY_SUFFIXES:
+        if section_name.endswith(suffix):
+            return suffix, label, slen, slot
+    return None, None, 0, None
+
+
+def _resolve_difficulty_creature_id(db, creature_id, slot):
+    """Dispatch to the matching loot_query helper. Returns None if no
+    clone exists or slot is invalid."""
+    if slot == 1:
+        return db.get_heroic_creature_id(creature_id)
+    if slot == 2:
+        return db.get_mythic_creature_id(creature_id)
+    return None
+
+
 def get_display_name(section_name: str, boss_name: str = None) -> str:
     """Build a human-readable display name from section name and boss name."""
-    is_heroic = section_name.endswith('HEROIC')
-    base_section = section_name[:-6] if is_heroic else section_name
+    suffix, label, slen, _ = parse_difficulty_suffix(section_name)
+    base_section = section_name[:-slen] if suffix else section_name
 
     instance_name = None
     for prefix, name in sorted(INSTANCE_PREFIXES.items(), key=lambda x: len(x[0]), reverse=True):
@@ -194,8 +223,8 @@ def get_display_name(section_name: str, boss_name: str = None) -> str:
     else:
         display = section_name
 
-    if is_heroic:
-        display += " (Heroic)"
+    if label:
+        display += f" ({label})"
 
     return display
 
@@ -224,13 +253,17 @@ def is_section_registered(section_name: str) -> bool:
 
 def register_section(section_name: str, display_name: str, addon_name: str,
                      is_heroic: bool = False, dry_run: bool = False) -> bool:
-    """Register a new section in loottables.en.lua."""
+    """Register a new section in loottables.en.lua. `is_heroic` is kept as
+    the parameter name for backwards compatibility but now means "is a
+    difficulty section (heroic OR mythic)" — the actual label comes from
+    parsing the section_name suffix."""
     if not _TABLE_REGISTRY_FILE or not os.path.exists(_TABLE_REGISTRY_FILE):
         logger.error(f"Table registry file not found: {_TABLE_REGISTRY_FILE}")
         return False
 
-    if is_heroic:
-        reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name} (Heroic)", "{addon_name}" }};'
+    suffix, label, slen, _ = parse_difficulty_suffix(section_name)
+    if label:
+        reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name} ({label})", "{addon_name}" }};'
     else:
         reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name}", "{addon_name}" }};'
 
@@ -244,9 +277,11 @@ def register_section(section_name: str, display_name: str, addon_name: str,
     import re
     insert_idx = None
 
-    if is_heroic:
-        normal_section = section_name[:-6]
-        pattern = rf'AtlasLoot_TableNames\["{re.escape(normal_section)}"\]'
+    if suffix:
+        # Insert difficulty section after its base section (or after any
+        # previously-registered difficulty siblings for stable ordering).
+        base_section = section_name[:-slen]
+        pattern = rf'AtlasLoot_TableNames\["{re.escape(base_section)}"\]'
         for i, line in enumerate(lines):
             if re.search(pattern, line):
                 insert_idx = i + 1
@@ -277,8 +312,9 @@ def ensure_section_registered(section_name: str, display_name: str, addon_name: 
     """Ensure a section is registered in loottables.en.lua, adding if missing."""
     if is_section_registered(section_name):
         return True
-    is_heroic = section_name.endswith('HEROIC')
-    return register_section(section_name, display_name, addon_name, is_heroic, dry_run)
+    suffix, _, _, _ = parse_difficulty_suffix(section_name)
+    is_difficulty = suffix is not None
+    return register_section(section_name, display_name, addon_name, is_difficulty, dry_run)
 
 
 def unregister_section(section_name: str, dry_run: bool = False) -> bool:
@@ -327,11 +363,12 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
     section_created = False
 
     if not bounds:
-        if section_name.endswith('HEROIC'):
-            normal_section = section_name[:-6]
-            if parser.section_exists(normal_section):
-                logger.info(f"Creating new HEROIC chest section '{section_name}' after '{normal_section}'")
-                parser.insert_section_after(normal_section, section_name,
+        suffix, label, slen, _ = parse_difficulty_suffix(section_name)
+        if suffix:
+            base_section = section_name[:-slen]
+            if parser.section_exists(base_section):
+                logger.info(f"Creating new {suffix} chest section '{section_name}' after '{base_section}'")
+                parser.insert_section_after(base_section, section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
                 bounds = parser.find_section_bounds(section_name)
@@ -418,10 +455,11 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
         loot_items = []
 
         if source_type == 'creature':
-            if section_name.endswith('HEROIC'):
-                heroic_id = db.get_heroic_creature_id(source_id)
-                if heroic_id:
-                    source_id = heroic_id
+            _, _, _, slot = parse_difficulty_suffix(section_name)
+            if slot:
+                clone_id = _resolve_difficulty_creature_id(db, source_id, slot)
+                if clone_id:
+                    source_id = clone_id
             boss_name = db.get_boss_name(source_id)
             loot_items = db.get_boss_loot(source_id)
             logger.info(f"  Source '{header}' (creature {source_id}): {len(loot_items)} items")
@@ -469,24 +507,25 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     """Generate and update a single-boss AtlasLoot section."""
     logger.info(f"--- Processing single-boss section: {section_name} (creature: {creature_id}) ---")
 
-    if section_name.endswith('HEROIC'):
-        heroic_id = db.get_heroic_creature_id(creature_id)
-        if heroic_id:
-            logger.info(f"Heroic section: resolved creature {creature_id} -> heroic {heroic_id}")
-            creature_id = heroic_id
+    suffix, label, slen, slot = parse_difficulty_suffix(section_name)
+    if suffix:
+        clone_id = _resolve_difficulty_creature_id(db, creature_id, slot)
+        if clone_id:
+            logger.info(f"{suffix} section: resolved creature {creature_id} -> {suffix.lower()} {clone_id}")
+            creature_id = clone_id
         else:
-            logger.warning(f"No heroic creature ID found for {creature_id}, using normal loot")
+            logger.warning(f"No {suffix.lower()} clone for creature {creature_id}, using normal loot")
 
     parser = AtlasLootParser(lua_file_path)
     bounds = parser.find_section_bounds(section_name)
     section_created = False
 
     if not bounds:
-        if section_name.endswith('HEROIC'):
-            normal_section = section_name[:-6]
-            if parser.section_exists(normal_section):
-                logger.info(f"Creating new HEROIC section '{section_name}' after '{normal_section}'")
-                parser.insert_section_after(normal_section, section_name,
+        if suffix:
+            base_section = section_name[:-slen]
+            if parser.section_exists(base_section):
+                logger.info(f"Creating new {suffix} section '{section_name}' after '{base_section}'")
+                parser.insert_section_after(base_section, section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
                 bounds = parser.find_section_bounds(section_name)
