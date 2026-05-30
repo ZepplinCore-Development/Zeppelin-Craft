@@ -38,13 +38,17 @@ from .scaler import (
 )
 
 # Reservation ranges — mirror Scripts/Item Scripts/Item Reservations.csv
+# Expanded to 3000 IDs per (tier, difficulty) after reference-table chasing
+# was added — azeroth anchor count grew from 420 → 1752 (refs add many more
+# items per cloned creature). 3000-ID buffer leaves headroom for outland/
+# northrend ref expansion when those tiers come online.
 F179_RESERVATIONS: Dict[Tuple[str, str], Tuple[int, int]] = {
-    ("azeroth",   "heroic"): (66300, 67299),
-    ("azeroth",   "mythic"): (67300, 68299),
-    ("outland",   "heroic"): (68300, 69299),
-    ("outland",   "mythic"): (69300, 70299),
-    ("northrend", "heroic"): (70300, 71299),
-    ("northrend", "mythic"): (71300, 72299),
+    ("azeroth",   "heroic"): (66300, 69299),
+    ("azeroth",   "mythic"): (69300, 72299),
+    ("outland",   "heroic"): (72300, 75299),
+    ("outland",   "mythic"): (75300, 78299),
+    ("northrend", "heroic"): (78300, 81299),
+    ("northrend", "mythic"): (81300, 84299),
 }
 
 # Map IDs per tier — Azeroth from creatures_heroic.json.
@@ -98,8 +102,15 @@ DISENCHANT = {
 }
 
 
-ANCHOR_SQL_TEMPLATE = """
-SELECT DISTINCT
+_ANCHOR_FILTERS = """
+  AND it.class IN (2, 4)
+  AND it.entry < 56900
+  AND it.bonding = 1
+  AND it.ItemSet = 0
+  AND it.spellid_1 = 0
+  AND it.InventoryType NOT IN (4, 18)
+"""
+_ANCHOR_COLUMNS = """
   it.entry, it.name, it.class, it.subclass, it.InventoryType,
   it.ItemLevel, it.Quality, it.bonding, it.ItemSet, it.spellid_1,
   it.AllowableClass, it.AllowableRace, it.displayid, it.Flags,
@@ -109,23 +120,35 @@ SELECT DISTINCT
   it.stat_type5, it.stat_value5, it.stat_type6, it.stat_value6,
   it.stat_type7, it.stat_value7, it.stat_type8, it.stat_value8,
   it.stat_type9, it.stat_value9, it.stat_type10, it.stat_value10
+"""
+
+# Two-leg UNION: (1) direct items from creature_loot_template, (2) items
+# delivered via reference_loot_template (the shared loot pools bosses use,
+# e.g. dragon raid drops, BRD shared tables). Both legs filter to creatures
+# F-074 has cloned (difficulty_entry_1 > 0). The Beast in UBRS, Onyxia-
+# style ref-based bosses, etc. only surface here via the reference leg.
+ANCHOR_SQL_TEMPLATE = f"""
+SELECT DISTINCT {_ANCHOR_COLUMNS}
 FROM item_template it
 JOIN creature_loot_template clt ON clt.Item = it.entry
 JOIN creature_template ct ON ct.lootid = clt.Entry
 WHERE ct.difficulty_entry_1 > 0
-  AND it.class IN (2, 4)
-  AND it.entry < 56900
-  AND it.bonding = 1
-  AND it.ItemSet = 0
-  AND it.spellid_1 = 0
-  AND it.InventoryType NOT IN (4, 18)
-ORDER BY it.entry
+  AND clt.Reference = 0
+{_ANCHOR_FILTERS}
+
+UNION
+
+SELECT DISTINCT {_ANCHOR_COLUMNS}
+FROM item_template it
+JOIN reference_loot_template rlt ON rlt.Item = it.entry
+JOIN creature_loot_template clt ON clt.Reference = rlt.Entry
+JOIN creature_template ct ON ct.lootid = clt.Entry
+WHERE ct.difficulty_entry_1 > 0
+  AND clt.Reference > 0
+{_ANCHOR_FILTERS}
+
+ORDER BY entry
 """
-# Filter via `ct.difficulty_entry_1 > 0` instead of the old `creature` spawn
-# JOIN — F-074 only sets difficulty_entry_1 on creatures in its azeroth
-# dungeon list, so this implicitly scopes anchors to in-tier creatures
-# without needing a static spawn row. Catches dynamically-summoned bosses
-# (Gyth in UBRS, Scorn in SM Cathedral) whose drops the old query missed.
 
 
 def discover_anchors(tier: str) -> List[Dict]:
@@ -359,11 +382,11 @@ def _discover_clone_drops(anchor_entries: List[int], tier: str) -> Dict[int, Lis
     if not anchor_entries:
         return {}
     in_anchors = ",".join(str(e) for e in anchor_entries)
-    # No JOIN to `creature` (spawn table) — some bosses (e.g. SM Cathedral's
-    # Scorn) are summoned dynamically and have no spawn row, but their
-    # creature_template still has F-074 clones once added to
-    # creatures_heroic.json. The difficulty_entry_1/2 > 0 filter implicitly
-    # scopes to F-074-cloned creatures, which by definition are in our tier.
+    # Two-leg UNION: direct items + ref-delivered items. F-074's heroic_convertor
+    # expands ref rows into direct item rows on the clone's lootid, so the
+    # UPDATEs we emit (matching `Entry = clone AND Item = stock`) hit the
+    # expanded rows correctly even when the stock loot came via a reference.
+    # No `creature` (spawn) JOIN — Scorn/Gyth are summoned dynamically.
     sql = f"""
     SELECT DISTINCT
         clt.Item AS stock_anchor,
@@ -374,6 +397,23 @@ def _discover_clone_drops(anchor_entries: List[int], tier: str) -> Dict[int, Lis
     FROM creature_loot_template clt
     JOIN creature_template ct ON ct.lootid = clt.Entry
     WHERE clt.Item IN ({in_anchors})
+      AND clt.Reference = 0
+      AND ct.difficulty_entry_1 > 0
+      AND ct.difficulty_entry_2 > 0
+
+    UNION
+
+    SELECT DISTINCT
+        rlt.Item AS stock_anchor,
+        ct.difficulty_entry_1 AS heroic_clone,
+        ct.difficulty_entry_2 AS mythic_clone,
+        ct.entry AS stock_creature,
+        ct.name AS creature_name
+    FROM reference_loot_template rlt
+    JOIN creature_loot_template clt ON clt.Reference = rlt.Entry
+    JOIN creature_template ct ON ct.lootid = clt.Entry
+    WHERE rlt.Item IN ({in_anchors})
+      AND clt.Reference > 0
       AND ct.difficulty_entry_1 > 0
       AND ct.difficulty_entry_2 > 0
     """

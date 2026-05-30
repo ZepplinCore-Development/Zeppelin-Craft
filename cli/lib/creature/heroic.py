@@ -256,8 +256,12 @@ def generate_loot_sql(
     ]
     if base_lootid and base_lootid != new_entry:
         lines.append(
-            f"-- Inherit base creature loot from lootid {base_lootid}"
+            f"-- Inherit base creature loot from lootid {base_lootid} —"
+            f" direct items copied as-is, Reference rows expanded into direct"
+            f" item rows from reference_loot_template so F-179's UPDATE-by-Item"
+            f" wiring can swap stock→scaled without touching shared refs."
         )
+        # Direct items (Item > 0, Reference = 0)
         lines.append(
             f"INSERT INTO `creature_loot_template` "
             f"(`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, "
@@ -266,7 +270,30 @@ def generate_loot_sql(
         lines.append(
             f"SELECT {new_entry}, `Item`, `Reference`, `Chance`, `QuestRequired`, "
             f"`LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment` "
-            f"FROM `creature_loot_template` WHERE `Entry` = {base_lootid};"
+            f"FROM `creature_loot_template` WHERE `Entry` = {base_lootid} "
+            f"AND `Reference` = 0;"
+        )
+        # Reference rows: expand each ref row into the items from the ref pool.
+        # Preserve the ref item's own Chance/GroupId/MinCount/MaxCount. The
+        # parent ref-row Chance is not multiplied in (would need ratio math);
+        # naive expansion matches what AC would deliver for a ref row at
+        # Chance=100 (the common case for boss loot tables).
+        #
+        # INSERT IGNORE because the same Item may appear via multiple paths
+        # (direct + via a ref, or in two different refs the creature uses).
+        # creature_loot_template PRIMARY KEY is (Entry, Item, Reference)
+        # so collisions on Item across legs would otherwise fail the apply.
+        lines.append(
+            f"INSERT IGNORE INTO `creature_loot_template` "
+            f"(`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, "
+            f"`LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) "
+            f"SELECT {new_entry}, rlt.Item, 0, rlt.Chance, rlt.QuestRequired, "
+            f"rlt.LootMode, rlt.GroupId, rlt.MinCount, rlt.MaxCount, "
+            f"CONCAT('expanded from ref ', clt.Reference) "
+            f"FROM `creature_loot_template` clt "
+            f"JOIN `reference_loot_template` rlt ON rlt.Entry = clt.Reference "
+            f"WHERE clt.Entry = {base_lootid} AND clt.Reference > 0 "
+            f"AND rlt.Item > 0;"
         )
 
     # Skip cache drops on bosses with no creature loot table (lootid=0).

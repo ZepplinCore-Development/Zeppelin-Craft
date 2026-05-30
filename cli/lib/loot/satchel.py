@@ -166,11 +166,12 @@ def _build_pool() -> Dict[Tuple[str, str, int, str], List[int]]:
 def _cache_item_sql(item: CacheItem) -> List[str]:
     """Emit DELETE + INSERT SET for one cache item.
 
-    MaxCount=0 (unlimited inventory) + stackable=1 — each cache occupies
-    its own inventory slot. Stacking was previously set to 20, but AC's
-    on-open loot consumption destroys the entire source slot on first
-    open — opening one cache from a stack of 2 consumed both but only
-    awarded loot from one. With stackable=1, this can't happen.
+    Stackable=20 — caches stack so multiple drops in one run share an
+    inventory slot. The previous ITEM_FLAG_HAS_LOOT (Flags=4) destroy-
+    entire-stack-on-open bug is fixed in a separate pass by transitioning
+    to spell-based opening (clam pattern) — see the cache spell wiring.
+    Pre-transition stackable was 20; restoring now that the spell pattern
+    will handle stack decrement correctly.
     """
     return [
         f"DELETE FROM `item_template` WHERE `entry` = {item.entry};",
@@ -186,7 +187,7 @@ def _cache_item_sql(item: CacheItem) -> List[str]:
         f"  `RequiredLevel` = {item.required_level},",
         f"  `bonding` = 1,",
         f"  `MaxCount` = 0,",
-        f"  `stackable` = 1,",
+        f"  `stackable` = 20,",
         f"  `delay` = 0;",
     ]
 
