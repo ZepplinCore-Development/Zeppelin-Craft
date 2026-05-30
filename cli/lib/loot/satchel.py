@@ -41,6 +41,18 @@ WEAPON_CACHE_TOKENS = frozenset(WEAPON_TOKEN_CONFIG.keys())
 def _cache_kind_for(gear_token: str) -> str:
     return CACHE_KIND_WEAPON if gear_token in WEAPON_CACHE_TOKENS else CACHE_KIND_ARMOR
 
+# Spell IDs that open each cache via SPELL_EFFECT_CREATE_RANDOM_ITEM (eff 59).
+# Spell DBC entries live in zpaks/zep-items/dbc/[F-074]_cache_spells.sql;
+# spell_loot_template rows are generated below mirroring the class-conditional
+# pool. Adding outland/northrend cache spells: extend this dict and the DBC.
+CACHE_OPEN_SPELLS: Dict[Tuple[str, str, str], int] = {
+    ("azeroth", "heroic", "armor"):  900600,
+    ("azeroth", "heroic", "weapon"): 900601,
+    ("azeroth", "mythic", "armor"):  900602,
+    ("azeroth", "mythic", "weapon"): 900603,
+}
+
+
 # Classes included in Azeroth caches (no DK — DKs start at 55 and outgrow
 # Azeroth content). Order matters: GroupId is the index into this tuple + 1.
 CACHE_CLASSES: Tuple[Tuple[int, str], ...] = (
@@ -163,15 +175,15 @@ def _build_pool() -> Dict[Tuple[str, str, int, str], List[int]]:
     return pool
 
 
-def _cache_item_sql(item: CacheItem) -> List[str]:
+def _cache_item_sql(item: CacheItem, open_spell_id: int) -> List[str]:
     """Emit DELETE + INSERT SET for one cache item.
 
-    Stackable=20 — caches stack so multiple drops in one run share an
-    inventory slot. The previous ITEM_FLAG_HAS_LOOT (Flags=4) destroy-
-    entire-stack-on-open bug is fixed in a separate pass by transitioning
-    to spell-based opening (clam pattern) — see the cache spell wiring.
-    Pre-transition stackable was 20; restoring now that the spell pattern
-    will handle stack decrement correctly.
+    Spell-based opening (clam pattern) — `spellid_1 = <open spell>` with
+    `spelltrigger_1 = 0` (ON_USE). The spell has effect 59
+    (CREATE_RANDOM_ITEM) which reads `spell_loot_template` keyed by the
+    spell ID. AC's `Player::CastItemUseSpell` correctly decrements the
+    item stack by 1 per cast, so stackable=20 works without the
+    ITEM_FLAG_HAS_LOOT destroy-entire-slot bug.
     """
     return [
         f"DELETE FROM `item_template` WHERE `entry` = {item.entry};",
@@ -182,12 +194,14 @@ def _cache_item_sql(item: CacheItem) -> List[str]:
         f"  `name` = '{item.name}',",
         f"  `displayid` = {item.display_id},",
         f"  `Quality` = {item.quality},",
-        f"  `Flags` = 4,",
+        f"  `Flags` = 0,",
         f"  `ItemLevel` = {item.item_level},",
         f"  `RequiredLevel` = {item.required_level},",
         f"  `bonding` = 1,",
         f"  `MaxCount` = 0,",
         f"  `stackable` = 20,",
+        f"  `spellid_1` = {open_spell_id},",
+        f"  `spelltrigger_1` = 0,",
         f"  `delay` = 0;",
     ]
 
@@ -233,18 +247,30 @@ def _reference_loot_sql(
     return lines
 
 
-def _item_loot_sql(spec: CacheSpec, cache_kind: str) -> List[str]:
-    """Emit the 9 item_loot_template rows for one cache item."""
+def _spell_loot_sql(spec: CacheSpec, cache_kind: str) -> List[str]:
+    """Emit the 9 spell_loot_template rows for one cache's open-spell.
+
+    SPELL_EFFECT_CREATE_RANDOM_ITEM (effect 59) reads spell_loot_template
+    keyed by the casting spell's ID. Rows mirror the previous
+    item_loot_template structure: 9 reference rows (one per class), each
+    pointing at a class-specific reference_loot_template entry that
+    holds the F-013 item pool for that class.
+
+    Also DELETEs the obsolete item_loot_template rows for the cache —
+    the HAS_LOOT path is no longer wired so those rows are dead data.
+    """
     cache = spec.armor_cache if cache_kind == CACHE_KIND_ARMOR else spec.weapon_cache
+    spell_id = CACHE_OPEN_SPELLS[(spec.tier, spec.difficulty, cache_kind)]
     lines = [
-        f"-- {cache.name} contents (9 class refs, one per class)",
-        f"DELETE FROM `item_loot_template` WHERE `Entry` = {cache.entry};",
+        f"-- {cache.name} loot pool (spell {spell_id}, 9 class refs)",
+        f"DELETE FROM `spell_loot_template` WHERE `Entry` = {spell_id};",
+        f"DELETE FROM `item_loot_template` WHERE `Entry` = {cache.entry};",  # cleanup
     ]
     for group_id, (class_id, class_name) in enumerate(CACHE_CLASSES, start=1):
         ref_id = _ref_id_for(spec, cache_kind, group_id)
         lines.append(
-            f"INSERT INTO `item_loot_template` SET "
-            f"`Entry` = {cache.entry}, `Item` = {group_id}, "
+            f"INSERT INTO `spell_loot_template` SET "
+            f"`Entry` = {spell_id}, `Item` = {group_id}, "
             f"`Reference` = {ref_id}, `Chance` = 0, "
             f"`GroupId` = {group_id}, `Comment` = '{cache.name} - {class_name}';"
         )
@@ -398,9 +424,11 @@ def _spec_block(spec: CacheSpec, pool: Dict[Tuple[str, str, int, int], List[int]
         f"-- Cache items: {spec.armor_cache.name} ({spec.armor_cache.entry}), "
         f"{spec.weapon_cache.name} ({spec.weapon_cache.entry})",
     ]
-    lines.extend(_cache_item_sql(spec.armor_cache))
+    armor_spell = CACHE_OPEN_SPELLS[(spec.tier, spec.difficulty, "armor")]
+    weapon_spell = CACHE_OPEN_SPELLS[(spec.tier, spec.difficulty, "weapon")]
+    lines.extend(_cache_item_sql(spec.armor_cache, armor_spell))
     lines.append("")
-    lines.extend(_cache_item_sql(spec.weapon_cache))
+    lines.extend(_cache_item_sql(spec.weapon_cache, weapon_spell))
     lines.append("")
 
     for cache_kind in (CACHE_KIND_ARMOR, CACHE_KIND_WEAPON):
@@ -420,7 +448,7 @@ def _spec_block(spec: CacheSpec, pool: Dict[Tuple[str, str, int, int], List[int]
                 spec, cache_kind, group_id, class_id, class_name, item_entries
             ))
             lines.append("")
-        lines.extend(_item_loot_sql(spec, cache_kind))
+        lines.extend(_spell_loot_sql(spec, cache_kind))
         lines.append("")
 
     # Per-clone lootid wiring lives in heroic.py: each clone uses its own
