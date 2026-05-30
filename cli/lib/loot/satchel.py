@@ -248,13 +248,21 @@ def _reference_loot_sql(
 
 
 def _spell_loot_sql(spec: CacheSpec, cache_kind: str) -> List[str]:
-    """Emit the 9 spell_loot_template rows for one cache's open-spell.
+    """Emit the 9 spell_loot_template rows for one cache's open-spell, plus
+    class-gating conditions that activate only the player's class ref.
 
     SPELL_EFFECT_CREATE_RANDOM_ITEM (effect 59) reads spell_loot_template
     keyed by the casting spell's ID. Rows mirror the previous
-    item_loot_template structure: 9 reference rows (one per class), each
-    pointing at a class-specific reference_loot_template entry that
-    holds the F-013 item pool for that class.
+    item_loot_template structure: 9 reference rows (one per class).
+
+    Without spell_loot-level conditions, EVERY ref row activates per cast
+    (unique GroupIds 1-9 → 9 independent rolls). The existing class
+    conditions on the REFERENCE_LOOT_TEMPLATE items filter what each ref
+    yields, but the rolls themselves all happen — and some refs end up
+    producing items the player can use, multiplying the drop count beyond
+    the intended "1 item per cache". Conditions at SPELL_LOOT_TEMPLATE
+    (source 12) gate which spell_loot row runs at all, restricting it to
+    exactly the player's class → exactly 1 ref activates → exactly 1 item.
 
     Also DELETEs the obsolete item_loot_template rows for the cache —
     the HAS_LOOT path is no longer wired so those rows are dead data.
@@ -265,6 +273,8 @@ def _spell_loot_sql(spec: CacheSpec, cache_kind: str) -> List[str]:
         f"-- {cache.name} loot pool (spell {spell_id}, 9 class refs)",
         f"DELETE FROM `spell_loot_template` WHERE `Entry` = {spell_id};",
         f"DELETE FROM `item_loot_template` WHERE `Entry` = {cache.entry};",  # cleanup
+        f"DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 12 "
+        f"AND `SourceGroup` = {spell_id};",
     ]
     for group_id, (class_id, class_name) in enumerate(CACHE_CLASSES, start=1):
         ref_id = _ref_id_for(spec, cache_kind, group_id)
@@ -273,6 +283,14 @@ def _spell_loot_sql(spec: CacheSpec, cache_kind: str) -> List[str]:
             f"`Entry` = {spell_id}, `Item` = {group_id}, "
             f"`Reference` = {ref_id}, `Chance` = 0, "
             f"`GroupId` = {group_id}, `Comment` = '{cache.name} - {class_name}';"
+        )
+        class_mask = CLASS_BITMASK[class_id]
+        lines.append(
+            f"INSERT INTO `conditions` SET "
+            f"`SourceTypeOrReferenceId` = 12, `SourceGroup` = {spell_id}, "
+            f"`SourceEntry` = {group_id}, `ConditionTypeOrReference` = 15, "
+            f"`ConditionValue1` = {class_mask}, "
+            f"`Comment` = '{cache.name} - {class_name} spell-loot gate';"
         )
     return lines
 

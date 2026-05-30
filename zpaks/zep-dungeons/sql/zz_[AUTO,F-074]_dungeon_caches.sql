@@ -541,15 +541,25 @@ INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 10, `SourceGroup` = 910
 -- Azeroth Heroic Armor Cache loot pool (spell 900600, 9 class refs)
 DELETE FROM `spell_loot_template` WHERE `Entry` = 900600;
 DELETE FROM `item_loot_template` WHERE `Entry` = 66200;
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 12 AND `SourceGroup` = 900600;
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 1, `Reference` = 9100401, `Chance` = 0, `GroupId` = 1, `Comment` = 'Azeroth Heroic Armor Cache - Warrior';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 1, `ConditionTypeOrReference` = 15, `ConditionValue1` = 1, `Comment` = 'Azeroth Heroic Armor Cache - Warrior spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 2, `Reference` = 9100402, `Chance` = 0, `GroupId` = 2, `Comment` = 'Azeroth Heroic Armor Cache - Paladin';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 2, `ConditionTypeOrReference` = 15, `ConditionValue1` = 2, `Comment` = 'Azeroth Heroic Armor Cache - Paladin spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 3, `Reference` = 9100403, `Chance` = 0, `GroupId` = 3, `Comment` = 'Azeroth Heroic Armor Cache - Hunter';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 3, `ConditionTypeOrReference` = 15, `ConditionValue1` = 4, `Comment` = 'Azeroth Heroic Armor Cache - Hunter spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 4, `Reference` = 9100404, `Chance` = 0, `GroupId` = 4, `Comment` = 'Azeroth Heroic Armor Cache - Rogue';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 4, `ConditionTypeOrReference` = 15, `ConditionValue1` = 8, `Comment` = 'Azeroth Heroic Armor Cache - Rogue spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 5, `Reference` = 9100405, `Chance` = 0, `GroupId` = 5, `Comment` = 'Azeroth Heroic Armor Cache - Priest';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 5, `ConditionTypeOrReference` = 15, `ConditionValue1` = 16, `Comment` = 'Azeroth Heroic Armor Cache - Priest spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 6, `Reference` = 9100406, `Chance` = 0, `GroupId` = 6, `Comment` = 'Azeroth Heroic Armor Cache - Shaman';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 6, `ConditionTypeOrReference` = 15, `ConditionValue1` = 64, `Comment` = 'Azeroth Heroic Armor Cache - Shaman spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 7, `Reference` = 9100407, `Chance` = 0, `GroupId` = 7, `Comment` = 'Azeroth Heroic Armor Cache - Mage';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 7, `ConditionTypeOrReference` = 15, `ConditionValue1` = 128, `Comment` = 'Azeroth Heroic Armor Cache - Mage spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 8, `Reference` = 9100408, `Chance` = 0, `GroupId` = 8, `Comment` = 'Azeroth Heroic Armor Cache - Warlock';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 8, `ConditionTypeOrReference` = 15, `ConditionValue1` = 256, `Comment` = 'Azeroth Heroic Armor Cache - Warlock spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900600, `Item` = 9, `Reference` = 9100409, `Chance` = 0, `GroupId` = 9, `Comment` = 'Azeroth Heroic Armor Cache - Druid';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900600, `SourceEntry` = 9, `ConditionTypeOrReference` = 15, `ConditionValue1` = 1024, `Comment` = 'Azeroth Heroic Armor Cache - Druid spell-loot gate';
 
 -- --- Weapon class refs + conditions ---
 -- Azeroth heroic Weapon ref 9100410 (Warrior, GroupId=1, 16 items)
@@ -807,15 +817,25 @@ INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 10, `SourceGroup` = 910
 -- Azeroth Heroic Weapon Cache loot pool (spell 900601, 9 class refs)
 DELETE FROM `spell_loot_template` WHERE `Entry` = 900601;
 DELETE FROM `item_loot_template` WHERE `Entry` = 66201;
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 12 AND `SourceGroup` = 900601;
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 1, `Reference` = 9100410, `Chance` = 0, `GroupId` = 1, `Comment` = 'Azeroth Heroic Weapon Cache - Warrior';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 1, `ConditionTypeOrReference` = 15, `ConditionValue1` = 1, `Comment` = 'Azeroth Heroic Weapon Cache - Warrior spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 2, `Reference` = 9100411, `Chance` = 0, `GroupId` = 2, `Comment` = 'Azeroth Heroic Weapon Cache - Paladin';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 2, `ConditionTypeOrReference` = 15, `ConditionValue1` = 2, `Comment` = 'Azeroth Heroic Weapon Cache - Paladin spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 3, `Reference` = 9100412, `Chance` = 0, `GroupId` = 3, `Comment` = 'Azeroth Heroic Weapon Cache - Hunter';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 3, `ConditionTypeOrReference` = 15, `ConditionValue1` = 4, `Comment` = 'Azeroth Heroic Weapon Cache - Hunter spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 4, `Reference` = 9100413, `Chance` = 0, `GroupId` = 4, `Comment` = 'Azeroth Heroic Weapon Cache - Rogue';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 4, `ConditionTypeOrReference` = 15, `ConditionValue1` = 8, `Comment` = 'Azeroth Heroic Weapon Cache - Rogue spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 5, `Reference` = 9100414, `Chance` = 0, `GroupId` = 5, `Comment` = 'Azeroth Heroic Weapon Cache - Priest';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 5, `ConditionTypeOrReference` = 15, `ConditionValue1` = 16, `Comment` = 'Azeroth Heroic Weapon Cache - Priest spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 6, `Reference` = 9100415, `Chance` = 0, `GroupId` = 6, `Comment` = 'Azeroth Heroic Weapon Cache - Shaman';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 6, `ConditionTypeOrReference` = 15, `ConditionValue1` = 64, `Comment` = 'Azeroth Heroic Weapon Cache - Shaman spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 7, `Reference` = 9100416, `Chance` = 0, `GroupId` = 7, `Comment` = 'Azeroth Heroic Weapon Cache - Mage';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 7, `ConditionTypeOrReference` = 15, `ConditionValue1` = 128, `Comment` = 'Azeroth Heroic Weapon Cache - Mage spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 8, `Reference` = 9100417, `Chance` = 0, `GroupId` = 8, `Comment` = 'Azeroth Heroic Weapon Cache - Warlock';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 8, `ConditionTypeOrReference` = 15, `ConditionValue1` = 256, `Comment` = 'Azeroth Heroic Weapon Cache - Warlock spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900601, `Item` = 9, `Reference` = 9100418, `Chance` = 0, `GroupId` = 9, `Comment` = 'Azeroth Heroic Weapon Cache - Druid';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900601, `SourceEntry` = 9, `ConditionTypeOrReference` = 15, `ConditionValue1` = 1024, `Comment` = 'Azeroth Heroic Weapon Cache - Druid spell-loot gate';
 
 -- ============================================================================
 -- Azeroth mythic caches
@@ -1354,15 +1374,25 @@ INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 10, `SourceGroup` = 910
 -- Azeroth Mythic Armor Cache loot pool (spell 900602, 9 class refs)
 DELETE FROM `spell_loot_template` WHERE `Entry` = 900602;
 DELETE FROM `item_loot_template` WHERE `Entry` = 66202;
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 12 AND `SourceGroup` = 900602;
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 1, `Reference` = 9100501, `Chance` = 0, `GroupId` = 1, `Comment` = 'Azeroth Mythic Armor Cache - Warrior';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 1, `ConditionTypeOrReference` = 15, `ConditionValue1` = 1, `Comment` = 'Azeroth Mythic Armor Cache - Warrior spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 2, `Reference` = 9100502, `Chance` = 0, `GroupId` = 2, `Comment` = 'Azeroth Mythic Armor Cache - Paladin';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 2, `ConditionTypeOrReference` = 15, `ConditionValue1` = 2, `Comment` = 'Azeroth Mythic Armor Cache - Paladin spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 3, `Reference` = 9100503, `Chance` = 0, `GroupId` = 3, `Comment` = 'Azeroth Mythic Armor Cache - Hunter';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 3, `ConditionTypeOrReference` = 15, `ConditionValue1` = 4, `Comment` = 'Azeroth Mythic Armor Cache - Hunter spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 4, `Reference` = 9100504, `Chance` = 0, `GroupId` = 4, `Comment` = 'Azeroth Mythic Armor Cache - Rogue';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 4, `ConditionTypeOrReference` = 15, `ConditionValue1` = 8, `Comment` = 'Azeroth Mythic Armor Cache - Rogue spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 5, `Reference` = 9100505, `Chance` = 0, `GroupId` = 5, `Comment` = 'Azeroth Mythic Armor Cache - Priest';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 5, `ConditionTypeOrReference` = 15, `ConditionValue1` = 16, `Comment` = 'Azeroth Mythic Armor Cache - Priest spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 6, `Reference` = 9100506, `Chance` = 0, `GroupId` = 6, `Comment` = 'Azeroth Mythic Armor Cache - Shaman';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 6, `ConditionTypeOrReference` = 15, `ConditionValue1` = 64, `Comment` = 'Azeroth Mythic Armor Cache - Shaman spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 7, `Reference` = 9100507, `Chance` = 0, `GroupId` = 7, `Comment` = 'Azeroth Mythic Armor Cache - Mage';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 7, `ConditionTypeOrReference` = 15, `ConditionValue1` = 128, `Comment` = 'Azeroth Mythic Armor Cache - Mage spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 8, `Reference` = 9100508, `Chance` = 0, `GroupId` = 8, `Comment` = 'Azeroth Mythic Armor Cache - Warlock';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 8, `ConditionTypeOrReference` = 15, `ConditionValue1` = 256, `Comment` = 'Azeroth Mythic Armor Cache - Warlock spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900602, `Item` = 9, `Reference` = 9100509, `Chance` = 0, `GroupId` = 9, `Comment` = 'Azeroth Mythic Armor Cache - Druid';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900602, `SourceEntry` = 9, `ConditionTypeOrReference` = 15, `ConditionValue1` = 1024, `Comment` = 'Azeroth Mythic Armor Cache - Druid spell-loot gate';
 
 -- --- Weapon class refs + conditions ---
 -- Azeroth mythic Weapon ref 9100510 (Warrior, GroupId=1, 16 items)
@@ -1620,15 +1650,25 @@ INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 10, `SourceGroup` = 910
 -- Azeroth Mythic Weapon Cache loot pool (spell 900603, 9 class refs)
 DELETE FROM `spell_loot_template` WHERE `Entry` = 900603;
 DELETE FROM `item_loot_template` WHERE `Entry` = 66203;
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 12 AND `SourceGroup` = 900603;
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 1, `Reference` = 9100510, `Chance` = 0, `GroupId` = 1, `Comment` = 'Azeroth Mythic Weapon Cache - Warrior';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 1, `ConditionTypeOrReference` = 15, `ConditionValue1` = 1, `Comment` = 'Azeroth Mythic Weapon Cache - Warrior spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 2, `Reference` = 9100511, `Chance` = 0, `GroupId` = 2, `Comment` = 'Azeroth Mythic Weapon Cache - Paladin';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 2, `ConditionTypeOrReference` = 15, `ConditionValue1` = 2, `Comment` = 'Azeroth Mythic Weapon Cache - Paladin spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 3, `Reference` = 9100512, `Chance` = 0, `GroupId` = 3, `Comment` = 'Azeroth Mythic Weapon Cache - Hunter';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 3, `ConditionTypeOrReference` = 15, `ConditionValue1` = 4, `Comment` = 'Azeroth Mythic Weapon Cache - Hunter spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 4, `Reference` = 9100513, `Chance` = 0, `GroupId` = 4, `Comment` = 'Azeroth Mythic Weapon Cache - Rogue';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 4, `ConditionTypeOrReference` = 15, `ConditionValue1` = 8, `Comment` = 'Azeroth Mythic Weapon Cache - Rogue spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 5, `Reference` = 9100514, `Chance` = 0, `GroupId` = 5, `Comment` = 'Azeroth Mythic Weapon Cache - Priest';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 5, `ConditionTypeOrReference` = 15, `ConditionValue1` = 16, `Comment` = 'Azeroth Mythic Weapon Cache - Priest spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 6, `Reference` = 9100515, `Chance` = 0, `GroupId` = 6, `Comment` = 'Azeroth Mythic Weapon Cache - Shaman';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 6, `ConditionTypeOrReference` = 15, `ConditionValue1` = 64, `Comment` = 'Azeroth Mythic Weapon Cache - Shaman spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 7, `Reference` = 9100516, `Chance` = 0, `GroupId` = 7, `Comment` = 'Azeroth Mythic Weapon Cache - Mage';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 7, `ConditionTypeOrReference` = 15, `ConditionValue1` = 128, `Comment` = 'Azeroth Mythic Weapon Cache - Mage spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 8, `Reference` = 9100517, `Chance` = 0, `GroupId` = 8, `Comment` = 'Azeroth Mythic Weapon Cache - Warlock';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 8, `ConditionTypeOrReference` = 15, `ConditionValue1` = 256, `Comment` = 'Azeroth Mythic Weapon Cache - Warlock spell-loot gate';
 INSERT INTO `spell_loot_template` SET `Entry` = 900603, `Item` = 9, `Reference` = 9100518, `Chance` = 0, `GroupId` = 9, `Comment` = 'Azeroth Mythic Weapon Cache - Druid';
+INSERT INTO `conditions` SET `SourceTypeOrReferenceId` = 12, `SourceGroup` = 900603, `SourceEntry` = 9, `ConditionTypeOrReference` = 15, `ConditionValue1` = 1024, `Comment` = 'Azeroth Mythic Weapon Cache - Druid spell-loot gate';
 
 -- ============================================================================
 -- GO chest cache integration (azeroth)
