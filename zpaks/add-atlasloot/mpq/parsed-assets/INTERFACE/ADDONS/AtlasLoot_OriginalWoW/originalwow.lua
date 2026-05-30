@@ -4797,6 +4797,45 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		{ 28, 7729, "", "=q3=Chesterfall Musket", "=ds=#w5#", "", "0.01%"};
 	};
 
+	AtlasLoot_Data["SFKSever"] = {
+    { 1, 0, "AO_Unknown", "=q6=Sever", "=q5=ONE WILL DROP"};
+    { 2, 23171, "", "=q3=The Axe of Severing", "=ds=#w1#", "", "50.0%" };
+    { 3, 23173, "", "=q3=Abomination Skin Leggings", "=ds=#a1#", "", "50.0%" };
+	};
+
+	AtlasLoot_Data["SFKSeverMYTHIC"] = {
+    { 1, 0, "AO_Unknown", "=q6=Mythic Sever", "=q5=ONE WILL DROP"};
+    { 2, 67737, "", "=q4=The Axe of Severing", "=ds=#w1#", "", "50.0%" };
+    { 3, 67738, "", "=q4=Abomination Skin Leggings", "=ds=#a1#", "", "50.0%" };
+	};
+
+	AtlasLoot_Data["SFKSeverHEROIC"] = {
+    { 1, 0, "AO_Unknown", "=q6=Heroic Sever", "=q5=ONE WILL DROP"};
+    { 2, 66737, "", "=q4=The Axe of Severing", "=ds=#w1#", "", "50.0%" };
+    { 3, 66738, "", "=q4=Abomination Skin Leggings", "=ds=#a1#", "", "50.0%" };
+	};
+
+	AtlasLoot_Data["SMCScorn"] = {
+    { 1, 0, "AO_Unknown", "=q6=Scorn", "=q5=ONE WILL DROP"};
+    { 2, 23168, "", "=q3=Scorn's Focal Dagger", "=ds=#w4#", "", "33.3%" };
+    { 3, 23169, "", "=q3=Scorn's Icy Choker", "=ds=#s2#", "", "33.3%" };
+    { 4, 23170, "", "=q3=The Frozen Clutch", "=ds=#a3#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["SMCScornMYTHIC"] = {
+    { 1, 0, "AO_Unknown", "=q6=Mythic Scorn", "=q5=ONE WILL DROP"};
+    { 2, 67734, "", "=q4=Scorn's Focal Dagger", "=ds=#w4#", "", "33.3%" };
+    { 3, 67735, "", "=q4=Scorn's Icy Choker", "=ds=#s2#", "", "33.3%" };
+    { 4, 67736, "", "=q4=The Frozen Clutch", "=ds=#a3#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["SMCScornHEROIC"] = {
+    { 1, 0, "AO_Unknown", "=q6=Heroic Scorn", "=q5=ONE WILL DROP"};
+    { 2, 66734, "", "=q4=Scorn's Focal Dagger", "=ds=#w4#", "", "33.3%" };
+    { 3, 66735, "", "=q4=Scorn's Icy Choker", "=ds=#s2#", "", "33.3%" };
+    { 4, 66736, "", "=q4=The Frozen Clutch", "=ds=#a3#", "", "33.3%" };
+	};
+
 	AtlasLoot_Data["WCFaerie"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Deviate Faerie Dragon", "=q5=CHANCE TO DROP"};
     { 2, 6443, "", "=q1=Deviate Hide", "=ds=#m3#", "", "80.0%" };
@@ -8172,22 +8211,24 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "RoM_stellar_dice", "=q6=Mythic Shadowpriest Sezz'ziz", "=q5=CHANCE TO DROP"};
     { 2, 66202, "", "=q4=Azeroth Mythic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66203, "", "=q4=Azeroth Mythic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 5, 0, "AO_Unknown", "=q6=Mythic Shadowpriest Sezz'ziz", "=q5=ONE WILL DROP"};
-    { 6, 9470, "", "=q3=Bad Mojo Mask", "=ds=#a1#", "", "25.0%" };
-    { 7, 9473, "", "=q3=Jinxed Hoodoo Skin", "=ds=#a2#", "", "25.0%" };
-    { 8, 9474, "", "=q3=Jinxed Hoodoo Kilt", "=ds=#a2#", "", "25.0%" };
-    { 9, 9475, "", "=q3=Diabolic Skiver", "=ds=#w7#", "", "25.0%" };
+    { 4, 67410, "", "=q4=Shriveled Heart", "=ds=#s2#", "", "2.00%" };
+    { 6, 0, "AO_Unknown", "=q6=Mythic Shadowpriest Sezz'ziz", "=q5=ONE WILL DROP"};
+    { 7, 9470, "", "=q3=Bad Mojo Mask", "=ds=#a1#", "", "25.0%" };
+    { 8, 9473, "", "=q3=Jinxed Hoodoo Skin", "=ds=#a2#", "", "25.0%" };
+    { 9, 9474, "", "=q3=Jinxed Hoodoo Kilt", "=ds=#a2#", "", "25.0%" };
+    { 10, 9475, "", "=q3=Diabolic Skiver", "=ds=#w7#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["ZFSezzzizHEROIC"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Heroic Shadowpriest Sezz'ziz", "=q5=CHANCE TO DROP"};
     { 2, 66200, "", "=q4=Azeroth Heroic Armor Cache", "=ds=#e10#", "", "25.0%" };
     { 3, 66201, "", "=q4=Azeroth Heroic Weapon Cache", "=ds=#e10#", "", "25.0%" };
-    { 5, 0, "AO_Unknown", "=q6=Heroic Shadowpriest Sezz'ziz", "=q5=ONE WILL DROP"};
-    { 6, 9470, "", "=q3=Bad Mojo Mask", "=ds=#a1#", "", "25.0%" };
-    { 7, 9473, "", "=q3=Jinxed Hoodoo Skin", "=ds=#a2#", "", "25.0%" };
-    { 8, 9474, "", "=q3=Jinxed Hoodoo Kilt", "=ds=#a2#", "", "25.0%" };
-    { 9, 9475, "", "=q3=Diabolic Skiver", "=ds=#w7#", "", "25.0%" };
+    { 4, 66410, "", "=q4=Shriveled Heart", "=ds=#s2#", "", "2.00%" };
+    { 6, 0, "AO_Unknown", "=q6=Heroic Shadowpriest Sezz'ziz", "=q5=ONE WILL DROP"};
+    { 7, 9470, "", "=q3=Bad Mojo Mask", "=ds=#a1#", "", "25.0%" };
+    { 8, 9473, "", "=q3=Jinxed Hoodoo Skin", "=ds=#a2#", "", "25.0%" };
+    { 9, 9474, "", "=q3=Jinxed Hoodoo Kilt", "=ds=#a2#", "", "25.0%" };
+    { 10, 9475, "", "=q3=Diabolic Skiver", "=ds=#w7#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["ZFDustwraith"] = {

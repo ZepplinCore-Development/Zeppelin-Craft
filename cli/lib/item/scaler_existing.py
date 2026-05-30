@@ -348,9 +348,12 @@ def _discover_clone_drops(anchor_entries: List[int], tier: str) -> Dict[int, Lis
     """
     if not anchor_entries:
         return {}
-    map_ids = TIER_MAPS[tier]
     in_anchors = ",".join(str(e) for e in anchor_entries)
-    in_maps = ",".join(str(m) for m in map_ids)
+    # No JOIN to `creature` (spawn table) — some bosses (e.g. SM Cathedral's
+    # Scorn) are summoned dynamically and have no spawn row, but their
+    # creature_template still has F-074 clones once added to
+    # creatures_heroic.json. The difficulty_entry_1/2 > 0 filter implicitly
+    # scopes to F-074-cloned creatures, which by definition are in our tier.
     sql = f"""
     SELECT DISTINCT
         clt.Item AS stock_anchor,
@@ -360,9 +363,7 @@ def _discover_clone_drops(anchor_entries: List[int], tier: str) -> Dict[int, Lis
         ct.name AS creature_name
     FROM creature_loot_template clt
     JOIN creature_template ct ON ct.lootid = clt.Entry
-    JOIN creature c ON c.id1 = ct.entry
     WHERE clt.Item IN ({in_anchors})
-      AND c.map IN ({in_maps})
       AND ct.difficulty_entry_1 > 0
       AND ct.difficulty_entry_2 > 0
     """
