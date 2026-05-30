@@ -1,0 +1,44 @@
+From d81849d13ab840992af236a487df9226f2b13f79 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 30 May 2026 01:48:29 +0000
+Subject: [PATCH] fix(Scripts/BRS): Arm Dragonspire room on player enter for
+ LFG (I-188)
+
+LFG groups teleport inside the UBRS entrance door, which stays closed
+for LFG, so they could never cross the at_dragonspire_hall areatrigger
+that arms the Dragonspire Hall rune-event. Emberseer In then never
+opened, hard-softlocking every LFG UBRS run. Arm the room from
+OnPlayerEnter so it works regardless of entry path.
+
+Closes I-188
+---
+ src/vanillaScripts/instance_blackrock_spire.cpp | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/src/vanillaScripts/instance_blackrock_spire.cpp b/src/vanillaScripts/instance_blackrock_spire.cpp
+index bd2ad39..765e943 100644
+--- a/src/vanillaScripts/instance_blackrock_spire.cpp
++++ b/src/vanillaScripts/instance_blackrock_spire.cpp
+@@ -101,6 +101,19 @@ public:
+             UBRSDoorOpen = false;
+         }
+ 
++        // I-188: LFG groups are teleported inside the UBRS entrance door, which
++        // stays closed for LFG (see at_dragonspire_hall), so they can never walk
++        // back over the areatrigger that arms the Dragonspire Hall rune-event.
++        // Arm it on player enter so the Emberseer In door can open regardless of
++        // entry path (the SetData handler already guards against re-arming once
++        // the room is DONE).
++        void OnPlayerEnter(Player* player) override
++        {
++            InstanceScript::OnPlayerEnter(player);
++            if (GetBossState(DATA_DRAGONSPIRE_ROOM) != DONE)
++                SetData(AREATRIGGER_DRAGONSPIRE_HALL, DATA_DRAGONSPIRE_ROOM);
++        }
++
+         void CreatureLooted(Creature* creature, LootType loot) override
+         {
+             switch (creature->GetEntry())
+-- 
+2.34.1
+
