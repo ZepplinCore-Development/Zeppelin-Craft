@@ -253,6 +253,12 @@ def scale_anchor(anchor: Dict, tier: str, difficulty: str,
     stat_ids = _pick_stat_ids(anchor, bucket, target_stat_count, rng)
     stats = distribute_stats(stat_ids, stat_budget, rng)
 
+    # Flags = 9 matches F-013's convention for heroic/mythic items:
+    #   0x1 ITEM_FLAG_NO_PICKUP    (soulbound semantics)
+    #   0x8 ITEM_FLAG_HEROIC_TOOLTIP (green "Heroic" badge — 3.3.5a has no
+    #   native Mythic tooltip, so mythic items also get the heroic badge;
+    #   F-074 cache names carry the explicit "Heroic"/"Mythic" wording for
+    #   the difficulty distinction).
     row = {
         "entry": new_entry,
         "class": anchor["class"],
@@ -261,7 +267,7 @@ def scale_anchor(anchor: Dict, tier: str, difficulty: str,
         "name": anchor["name"],
         "displayid": anchor["displayid"],
         "Quality": quality,
-        "Flags": anchor["Flags"],
+        "Flags": 9,
         "InventoryType": anchor["InventoryType"],
         "AllowableClass": anchor["AllowableClass"],
         "AllowableRace": anchor["AllowableRace"],

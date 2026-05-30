@@ -100,11 +100,27 @@ BUCKET_STAT_POOLS: Dict[str, Dict[str, List[int]]] = {
 
 
 def _role_signals(has: Dict[int, int]) -> Tuple[bool, bool, bool, bool]:
-    """Return (is_tank, is_healer, is_caster, is_dps) from a stat-id→value map."""
-    is_tank   = any(has.get(s, 0) > 0 for s in (DEF, DODGE, PARRY, BLOCK_R, BLOCK_V))
-    is_healer = has.get(INT, 0) > 0 and (has.get(MP5, 0) > 0 or has.get(SPI, 0) > 0 or has.get(HP5, 0) > 0)
-    is_caster = has.get(INT, 0) > 0 and has.get(SP, 0) > 0 and not is_healer
-    is_dps    = (has.get(STR, 0) > 0 or has.get(AGI, 0) > 0) and has.get(INT, 0) == 0 and has.get(SP, 0) == 0
+    """Return (is_tank, is_healer, is_caster, is_dps) from a stat-id→value map.
+
+    Signal priority:
+      - Spell Power alone is an unambiguous caster signal (vanilla rings
+        like Flaming Band have only SP — clearly caster gear)
+      - Int alone (no Str/Agi/SP) → caster (Int isn't useful to physical
+        DPS without a mana-using spec)
+      - Int + Str/Agi → physical DPS (ret paladin, enh shaman gear has
+        utility Int alongside physical primary — these are DPS, not caster)
+      - Mp5 / Spirit / Hp5 alongside Int or SP → healer
+    """
+    is_tank = any(has.get(s, 0) > 0 for s in (DEF, DODGE, PARRY, BLOCK_R, BLOCK_V))
+    has_sp = has.get(SP, 0) > 0
+    has_int = has.get(INT, 0) > 0
+    has_str_or_agi = has.get(STR, 0) > 0 or has.get(AGI, 0) > 0
+    has_healer_secondary = (has.get(MP5, 0) > 0 or has.get(SPI, 0) > 0
+                            or has.get(HP5, 0) > 0)
+
+    is_healer = (has_int or has_sp) and has_healer_secondary
+    is_caster = (has_sp or (has_int and not has_str_or_agi)) and not is_healer
+    is_dps = has_str_or_agi and not has_sp
     return is_tank, is_healer, is_caster, is_dps
 
 
