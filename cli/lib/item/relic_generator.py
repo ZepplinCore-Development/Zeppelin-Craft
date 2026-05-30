@@ -149,26 +149,29 @@ def resolve_target_mask(target_str: str, cls: str, class_spells: dict) -> tuple[
 # (class, role) across all six (tier, difficulty) outputs, just scaled by ilvl.
 
 PHASE6_DEFAULTS = {
-    ("paladin", "tank"):   {"effect": "ability_damage_bonus", "target": "Consecration",                  "relic_name": "Libram"},
-    ("paladin", "melee"):  {"effect": "ability_damage_bonus", "target": "Hammer of Wrath",               "relic_name": "Libram"},
-    ("paladin", "healer"): {"effect": "spell_power_heal",     "target": "Holy Light + Flash of Light",   "relic_name": "Libram"},
-    ("shaman",  "tank"):   {"effect": "ability_damage_bonus", "target": "Earth Shock",                   "relic_name": "Totem"},
-    ("shaman",  "melee"):  {"effect": "ability_damage_bonus", "target": "Earth Shock + Flame Shock + Frost Shock", "relic_name": "Totem"},
-    ("shaman",  "caster"): {"effect": "spell_power_damage",   "target": "Lightning Bolt + Chain Lightning", "relic_name": "Totem"},
-    ("shaman",  "healer"): {"effect": "spell_power_heal",     "target": "Healing Wave + Lesser Healing Wave", "relic_name": "Totem"},
-    ("druid",   "tank"):   {"effect": "ability_damage_bonus", "target": "Maul + Swipe (Bear)",           "relic_name": "Idol"},
-    ("druid",   "melee"):  {"effect": "ability_damage_bonus", "target": "Rake",                          "relic_name": "Idol"},
-    ("druid",   "caster"): {"effect": "spell_power_damage",   "target": "Wrath + Starfire",              "relic_name": "Idol"},
-    ("druid",   "healer"): {"effect": "spell_power_heal",     "target": "Healing Touch + Rejuvenation",  "relic_name": "Idol"},
+    ("paladin", "tank"):   {"effect": "ability_damage_bonus", "target": "Consecration",                          "base_name": "Libram of Consecrated Stone"},
+    ("paladin", "melee"):  {"effect": "ability_damage_bonus", "target": "Hammer of Wrath",                       "base_name": "Libram of the Reckoning Hammer"},
+    ("paladin", "healer"): {"effect": "spell_power_heal",     "target": "Holy Light + Flash of Light",           "base_name": "Libram of the Mending Sun"},
+    ("shaman",  "tank"):   {"effect": "ability_damage_bonus", "target": "Earth Shock",                           "base_name": "Totem of the Trembling Earth"},
+    ("shaman",  "melee"):  {"effect": "ability_damage_bonus", "target": "Earth Shock + Flame Shock + Frost Shock", "base_name": "Totem of the Elemental Triad"},
+    ("shaman",  "caster"): {"effect": "spell_power_damage",   "target": "Lightning Bolt + Chain Lightning",      "base_name": "Totem of the Crackling Sky"},
+    ("shaman",  "healer"): {"effect": "spell_power_heal",     "target": "Healing Wave + Lesser Healing Wave",    "base_name": "Totem of Cresting Tides"},
+    ("druid",   "tank"):   {"effect": "ability_damage_bonus", "target": "Maul + Swipe (Bear)",                   "base_name": "Idol of the Iron Maw"},
+    ("druid",   "melee"):  {"effect": "ability_damage_bonus", "target": "Rake",                                  "base_name": "Idol of the Bleeding Claw"},
+    ("druid",   "caster"): {"effect": "spell_power_damage",   "target": "Wrath + Starfire",                      "base_name": "Idol of the Starlit Bough"},
+    ("druid",   "healer"): {"effect": "spell_power_heal",     "target": "Healing Touch + Rejuvenation",          "base_name": "Idol of the Renewing Glade"},
 }
 
-TIER_LABELS = {
-    ("azeroth",   "heroic"): "Azerothian Heroic",
-    ("azeroth",   "mythic"): "Azerothian Mythic",
-    ("outland",   "heroic"): "Outland Heroic",
-    ("outland",   "mythic"): "Outland Mythic",
-    ("northrend", "heroic"): "Northrend Heroic",
-    ("northrend", "mythic"): "Northrend Mythic",
+# Tier+difficulty prefix that flavours each base relic into 6 distinct gear pieces.
+# Sanctified/Ascendant for Azeroth (light/holy theme), Felforged/Demonbane for Outland
+# (Burning Crusade theme), Frostbound/Eternal for Northrend (LK / cosmic theme).
+TIER_PREFIXES = {
+    ("azeroth",   "heroic"): "Sanctified",
+    ("azeroth",   "mythic"): "Ascendant",
+    ("outland",   "heroic"): "Felforged",
+    ("outland",   "mythic"): "Demonbane",
+    ("northrend", "heroic"): "Frostbound",
+    ("northrend", "mythic"): "Eternal",
 }
 
 
@@ -219,8 +222,8 @@ def build_relic_for_cell(
 
     effect = preset["effect"]
     target = preset["target"]
-    relic_kind = preset["relic_name"]
-    tier_label = TIER_LABELS.get((tier, difficulty), f"{tier.title()} {difficulty.title()}")
+    base_name = preset["base_name"]
+    tier_prefix = TIER_PREFIXES.get((tier, difficulty), f"{tier.title()} {difficulty.title()}")
 
     class_spells = relic_effects_data["class_spells"]
     class_set_dbc = relic_effects_data["_class_set_dbc"]
@@ -231,7 +234,7 @@ def build_relic_for_cell(
     desc = EFFECT_DESC_TPL[effect].format(target=display_target)
     cls_set = class_set_dbc[cls]
 
-    item_name = f"{tier_label} {cls.title()} {relic_kind} of {role.title()}"
+    item_name = f"{tier_prefix} {base_name}"
 
     spell_sql = f"""DELETE FROM `spell` WHERE `id` = {spell_id};
 INSERT INTO `spell` SET
@@ -350,6 +353,46 @@ INSERT INTO `spell` SET
 """
 
 
+# Disenchant pool lookup — uses the standard AC armor disenchant brackets
+# (item_disenchant_loot rows) keyed by Quality + ItemLevel. Relics had no
+# DisenchantID before, so the client refused to disenchant them despite
+# RequiredDisenchantSkill being set. Brackets verified against live DB
+# (SELECT class=4 subclass IN (1-4) DisenchantID > 0 GROUP BY Quality).
+_DE_GREEN = [   # quality=2 (uncommon)
+    ((5,  15),  1,   1),
+    ((16, 20),  2,   1),
+    ((21, 25),  3,  25),
+    ((26, 30),  4,  50),
+    ((31, 35),  5,  75),
+    ((36, 40),  6, 100),
+    ((41, 45),  7, 125),
+    ((46, 50),  8, 150),
+    ((51, 55),  9, 175),
+    ((56, 60), 10, 200),
+    ((61, 65), 11, 225),
+]
+_DE_BLUE = [    # quality=3 (rare)
+    ((26, 30), 42,  50),
+    ((31, 35), 43,  75),
+    ((36, 40), 44, 100),
+    ((41, 45), 45, 125),
+    ((46, 50), 46, 150),
+    ((51, 55), 47, 175),
+    ((56, 65), 48, 225),
+]
+
+
+def _disenchant_for(quality: int, ilvl: int):
+    """Return (DisenchantID, RequiredDisenchantSkill) for a relic at this
+    (quality, ilvl). Falls back to (0, 0) — no disenchant — if outside
+    the supported brackets."""
+    table = _DE_GREEN if quality == 2 else _DE_BLUE if quality == 3 else []
+    for (lo, hi), de_id, skill in table:
+        if lo <= ilvl <= hi:
+            return de_id, skill
+    return 0, 0
+
+
 def gen_item(entry: dict, per_class_idx: int) -> str:
     cls = entry["class"]
     eff = entry["effect"]
@@ -366,6 +409,7 @@ def gen_item(entry: dict, per_class_idx: int) -> str:
     buy = sell * 5
     # Quality: req_level < 30 → green (2), req_level >= 30 → rare/blue (3)
     quality = 2 if req < 30 else 3
+    de_id, de_skill = _disenchant_for(quality, ilvl)
     # Shaman totems get the stock "Counts as Air/Earth/Fire/Water" flavor text
     # (TotemCategory 21 = Master Totem, mask 15 covers all four elements).
     description = "Counts as an Air, Earth, Fire, and Water totem." if cls == "shaman" else ""
@@ -402,7 +446,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = {totcat},
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = {de_id},
+    `RequiredDisenchantSkill` = {de_skill};
 """
 
 

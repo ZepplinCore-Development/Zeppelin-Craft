@@ -22,8 +22,9 @@ OUTPUT_FILENAME_TEMPLATE = "zz_[AUTO,F-013]_{tier}_{difficulty}_items.sql"
 # files for diff-friendliness and ensures explicit column ordering.
 COLUMN_ORDER = [
     "entry", "class", "subclass", "SoundOverrideSubclass", "name",
-    "displayid", "Quality", "InventoryType", "AllowableClass",
+    "displayid", "Quality", "Flags", "InventoryType", "AllowableClass",
     "AllowableRace", "ItemLevel", "RequiredLevel",
+    "bonding",
     "flagsCustom", "VerifiedBuild",
     "DisenchantID", "RequiredDisenchantSkill",
 ]

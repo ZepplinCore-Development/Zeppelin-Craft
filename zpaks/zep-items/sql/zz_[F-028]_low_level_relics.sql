@@ -46,7 +46,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 3,
+    `RequiredDisenchantSkill` = 25;
 
 -- Idol of the Brackish Tide (druid, req 20, ilvl 24, Deadmines)
 DELETE FROM `item_template` WHERE `entry` = 59040;
@@ -81,7 +82,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 3,
+    `RequiredDisenchantSkill` = 25;
 
 -- Idol of the Wailing Grove (druid, req 20, ilvl 24, Wailing Caverns)
 DELETE FROM `item_template` WHERE `entry` = 59041;
@@ -116,7 +118,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 3,
+    `RequiredDisenchantSkill` = 25;
 
 -- Tongue-Lasher Totem (shaman, req 20, ilvl 24, Wailing Caverns)
 DELETE FROM `item_template` WHERE `entry` = 59042;
@@ -151,7 +154,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 3,
+    `RequiredDisenchantSkill` = 25;
 
 -- Idol of Lunar Embrace (druid, req 22, ilvl 26, Shadowfang Keep)
 DELETE FROM `item_template` WHERE `entry` = 59043;
@@ -186,7 +190,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 4,
+    `RequiredDisenchantSkill` = 50;
 
 -- Libram of Shadow's End (paladin, req 22, ilvl 26, Shadowfang Keep)
 DELETE FROM `item_template` WHERE `entry` = 59044;
@@ -221,7 +226,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 4,
+    `RequiredDisenchantSkill` = 50;
 
 -- Stormcaller's Stone (shaman, req 24, ilvl 28, Blackfathom Deeps)
 DELETE FROM `item_template` WHERE `entry` = 59045;
@@ -256,7 +262,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 4,
+    `RequiredDisenchantSkill` = 50;
 
 -- Idol of Tidesong (druid, req 24, ilvl 28, Blackfathom Deeps)
 DELETE FROM `item_template` WHERE `entry` = 59046;
@@ -291,7 +298,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 4,
+    `RequiredDisenchantSkill` = 50;
 
 -- Libram of Justice's Edge (paladin, req 25, ilvl 29, Stockades)
 DELETE FROM `item_template` WHERE `entry` = 59047;
@@ -326,7 +334,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 4,
+    `RequiredDisenchantSkill` = 50;
 
 -- Inmate's Carved Totem (shaman, req 25, ilvl 29, Stockades)
 DELETE FROM `item_template` WHERE `entry` = 59048;
@@ -361,7 +370,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 4,
+    `RequiredDisenchantSkill` = 50;
 
 -- Searing Totem of Embers (shaman, req 32, ilvl 38, Gnomeregan)
 DELETE FROM `item_template` WHERE `entry` = 59049;
@@ -396,7 +406,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 44,
+    `RequiredDisenchantSkill` = 100;
 
 -- Libram of Mechanized Faith (paladin, req 32, ilvl 38, Gnomeregan)
 DELETE FROM `item_template` WHERE `entry` = 59050;
@@ -431,7 +442,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 44,
+    `RequiredDisenchantSkill` = 100;
 
 -- Idol of Greenleaf (druid, req 32, ilvl 38, Razorfen Kraul)
 DELETE FROM `item_template` WHERE `entry` = 59051;
@@ -466,7 +478,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 44,
+    `RequiredDisenchantSkill` = 100;
 
 -- Boar-Tusk Totem (shaman, req 30, ilvl 36, Razorfen Kraul)
 DELETE FROM `item_template` WHERE `entry` = 59052;
@@ -501,7 +514,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 44,
+    `RequiredDisenchantSkill` = 100;
 
 -- Libram of Steadfast Devotion (paladin, req 30, ilvl 35, SM Graveyard)
 DELETE FROM `item_template` WHERE `entry` = 59053;
@@ -536,7 +550,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 43,
+    `RequiredDisenchantSkill` = 75;
 
 -- Idol of Restless Grove (druid, req 30, ilvl 35, SM Graveyard)
 DELETE FROM `item_template` WHERE `entry` = 59054;
@@ -571,7 +586,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 43,
+    `RequiredDisenchantSkill` = 75;
 
 -- Libram of Scholarly Light (paladin, req 34, ilvl 40, SM Library)
 DELETE FROM `item_template` WHERE `entry` = 59055;
@@ -606,7 +622,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 44,
+    `RequiredDisenchantSkill` = 100;
 
 -- Forbidden Tome of Tempests (shaman, req 36, ilvl 42, SM Library)
 DELETE FROM `item_template` WHERE `entry` = 59056;
@@ -641,7 +658,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 45,
+    `RequiredDisenchantSkill` = 125;
 
 -- Idol of the Feral Hunt (druid, req 40, ilvl 46, SM Armory)
 DELETE FROM `item_template` WHERE `entry` = 59057;
@@ -676,7 +694,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 46,
+    `RequiredDisenchantSkill` = 150;
 
 -- Libram of Sudden Wrath (paladin, req 40, ilvl 46, SM Armory)
 DELETE FROM `item_template` WHERE `entry` = 59058;
@@ -711,7 +730,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 46,
+    `RequiredDisenchantSkill` = 150;
 
 -- Libram of Radiant Flash (paladin, req 42, ilvl 48, SM Cathedral)
 DELETE FROM `item_template` WHERE `entry` = 59059;
@@ -746,7 +766,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 46,
+    `RequiredDisenchantSkill` = 150;
 
 -- Totem of Cleansing Streams (shaman, req 42, ilvl 48, SM Cathedral)
 DELETE FROM `item_template` WHERE `entry` = 59060;
@@ -781,7 +802,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 46,
+    `RequiredDisenchantSkill` = 150;
 
 -- Tuskcrack Totem (shaman, req 42, ilvl 48, Razorfen Downs)
 DELETE FROM `item_template` WHERE `entry` = 59061;
@@ -816,7 +838,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 46,
+    `RequiredDisenchantSkill` = 150;
 
 -- Idol of the Sleeping Wood (druid, req 42, ilvl 48, Razorfen Downs)
 DELETE FROM `item_template` WHERE `entry` = 59062;
@@ -851,7 +874,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 46,
+    `RequiredDisenchantSkill` = 150;
 
 -- Idol of Buried Stars (druid, req 44, ilvl 50, Uldaman East)
 DELETE FROM `item_template` WHERE `entry` = 59063;
@@ -886,7 +910,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 46,
+    `RequiredDisenchantSkill` = 150;
 
 -- Libram of the Discsmith (paladin, req 44, ilvl 50, Uldaman East)
 DELETE FROM `item_template` WHERE `entry` = 59064;
@@ -921,7 +946,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 46,
+    `RequiredDisenchantSkill` = 150;
 
 -- Totem of the Earth-Forged (shaman, req 45, ilvl 51, Uldaman West)
 DELETE FROM `item_template` WHERE `entry` = 59065;
@@ -956,7 +982,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 47,
+    `RequiredDisenchantSkill` = 175;
 
 -- Idol of the Stone Ursine (druid, req 45, ilvl 51, Uldaman West)
 DELETE FROM `item_template` WHERE `entry` = 59066;
@@ -991,7 +1018,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 47,
+    `RequiredDisenchantSkill` = 175;
 
 -- Totem of Forking Bolts (shaman, req 46, ilvl 52, Zul'Farrak)
 DELETE FROM `item_template` WHERE `entry` = 59067;
@@ -1026,7 +1054,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 47,
+    `RequiredDisenchantSkill` = 175;
 
 -- Libram of the Trollbane (paladin, req 46, ilvl 52, Zul'Farrak)
 DELETE FROM `item_template` WHERE `entry` = 59068;
@@ -1061,7 +1090,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 47,
+    `RequiredDisenchantSkill` = 175;
 
 -- Idol of the Earthmother (druid, req 48, ilvl 54, Maraudon)
 DELETE FROM `item_template` WHERE `entry` = 59069;
@@ -1096,7 +1126,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 47,
+    `RequiredDisenchantSkill` = 175;
 
 -- Libram of Sacred Ground (paladin, req 48, ilvl 54, Maraudon)
 DELETE FROM `item_template` WHERE `entry` = 59070;
@@ -1131,7 +1162,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 47,
+    `RequiredDisenchantSkill` = 175;
 
 -- Totem of Restoring Waters (shaman, req 50, ilvl 56, Sunken Temple Lower)
 DELETE FROM `item_template` WHERE `entry` = 59071;
@@ -1166,7 +1198,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Libram of the Inner Sanctum (paladin, req 50, ilvl 56, Sunken Temple Lower)
 DELETE FROM `item_template` WHERE `entry` = 59072;
@@ -1201,7 +1234,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Idol of the Hakkari Swarm (druid, req 52, ilvl 57, Sunken Temple Upper)
 DELETE FROM `item_template` WHERE `entry` = 59073;
@@ -1236,7 +1270,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Totem of Atal'ai's Bite (shaman, req 52, ilvl 57, Sunken Temple Upper)
 DELETE FROM `item_template` WHERE `entry` = 59074;
@@ -1271,7 +1306,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Idol of the Deep Vein (druid, req 52, ilvl 57, Blackrock Depths)
 DELETE FROM `item_template` WHERE `entry` = 59075;
@@ -1306,7 +1342,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Libram of Molten Devotion (paladin, req 54, ilvl 59, Blackrock Depths)
 DELETE FROM `item_template` WHERE `entry` = 59076;
@@ -1341,7 +1378,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Libram of Righteous Hammer (paladin, req 54, ilvl 59, Lower Blackrock Spire)
 DELETE FROM `item_template` WHERE `entry` = 59077;
@@ -1376,7 +1414,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Totem of Lava Surge (shaman, req 54, ilvl 59, Lower Blackrock Spire)
 DELETE FROM `item_template` WHERE `entry` = 59078;
@@ -1411,7 +1450,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Totem of Drakkisath's Wrath (shaman, req 56, ilvl 61, Upper Blackrock Spire)
 DELETE FROM `item_template` WHERE `entry` = 59079;
@@ -1446,7 +1486,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Idol of the Beast Lord (druid, req 56, ilvl 61, Upper Blackrock Spire)
 DELETE FROM `item_template` WHERE `entry` = 59080;
@@ -1481,7 +1522,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Idol of Verdant Renewal (druid, req 56, ilvl 61, Dire Maul East)
 DELETE FROM `item_template` WHERE `entry` = 59081;
@@ -1516,7 +1558,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Totem of the Warpwood (shaman, req 56, ilvl 61, Dire Maul East)
 DELETE FROM `item_template` WHERE `entry` = 59082;
@@ -1551,7 +1594,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Libram of the Ogre's Crest (paladin, req 57, ilvl 62, Dire Maul North)
 DELETE FROM `item_template` WHERE `entry` = 59083;
@@ -1586,7 +1630,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Totem of Tribal Bonds (shaman, req 57, ilvl 62, Dire Maul North)
 DELETE FROM `item_template` WHERE `entry` = 59084;
@@ -1621,7 +1666,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Idol of the Eldreth (druid, req 57, ilvl 62, Dire Maul West)
 DELETE FROM `item_template` WHERE `entry` = 59085;
@@ -1656,7 +1702,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Libram of Athenaeum Light (paladin, req 57, ilvl 62, Dire Maul West)
 DELETE FROM `item_template` WHERE `entry` = 59086;
@@ -1691,7 +1738,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Totem of Erupting Fury (shaman, req 58, ilvl 63, Stratholme)
 DELETE FROM `item_template` WHERE `entry` = 59087;
@@ -1726,7 +1774,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 21,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Libram of the Crusader's Spire (paladin, req 58, ilvl 63, Stratholme)
 DELETE FROM `item_template` WHERE `entry` = 59088;
@@ -1761,7 +1810,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Libram of the Shielded Avenger (paladin, req 58, ilvl 63, Scholomance)
 DELETE FROM `item_template` WHERE `entry` = 59089;
@@ -1796,7 +1846,8 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 
 -- Idol of Scholar's Renewal (druid, req 58, ilvl 63, Scholomance)
 DELETE FROM `item_template` WHERE `entry` = 59090;
@@ -1831,5 +1882,6 @@ INSERT INTO `item_template` SET
     `Material` = 2,
     `sheath` = 0,
     `TotemCategory` = 0,
-    `RequiredDisenchantSkill` = 200;
+    `DisenchantID` = 48,
+    `RequiredDisenchantSkill` = 225;
 

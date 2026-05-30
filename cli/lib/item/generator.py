@@ -333,6 +333,7 @@ def _generate_relic_row(
         "RequiredLevel": relic.required_level,
         "stats": [],
         "Flags": _difficulty_flags(difficulty),
+        "bonding": 1,  # BIND_ON_PICKUP
         "flagsCustom": 0,
         "VerifiedBuild": 0,
         "DisenchantID": de_id,
@@ -403,6 +404,7 @@ def generate_row(
         "RequiredLevel": required_level,
         "stats": stats,
         "Flags": _difficulty_flags(difficulty),
+        "bonding": 1,  # BIND_ON_PICKUP — heroic/mythic loot should soulbind
         "flagsCustom": 0,
         "VerifiedBuild": 0,
         "DisenchantID": de_id,
