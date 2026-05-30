@@ -112,8 +112,7 @@ SELECT DISTINCT
 FROM item_template it
 JOIN creature_loot_template clt ON clt.Item = it.entry
 JOIN creature_template ct ON ct.lootid = clt.Entry
-JOIN creature c ON c.id1 = ct.entry
-WHERE c.map IN ({maps})
+WHERE ct.difficulty_entry_1 > 0
   AND it.class IN (2, 4)
   AND it.entry < 56900
   AND it.bonding = 1
@@ -122,6 +121,11 @@ WHERE c.map IN ({maps})
   AND it.InventoryType NOT IN (4, 18)
 ORDER BY it.entry
 """
+# Filter via `ct.difficulty_entry_1 > 0` instead of the old `creature` spawn
+# JOIN — F-074 only sets difficulty_entry_1 on creatures in its azeroth
+# dungeon list, so this implicitly scopes anchors to in-tier creatures
+# without needing a static spawn row. Catches dynamically-summoned bosses
+# (Gyth in UBRS, Scorn in SM Cathedral) whose drops the old query missed.
 
 
 def discover_anchors(tier: str) -> List[Dict]:

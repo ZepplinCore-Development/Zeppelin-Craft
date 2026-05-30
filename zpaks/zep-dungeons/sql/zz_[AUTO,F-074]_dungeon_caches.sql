@@ -22,7 +22,7 @@ INSERT INTO `item_template` SET
   `RequiredLevel` = 60,
   `bonding` = 1,
   `MaxCount` = 0,
-  `stackable` = 20,
+  `stackable` = 1,
   `delay` = 0;
 
 DELETE FROM `item_template` WHERE `entry` = 66201;
@@ -38,7 +38,7 @@ INSERT INTO `item_template` SET
   `RequiredLevel` = 60,
   `bonding` = 1,
   `MaxCount` = 0,
-  `stackable` = 20,
+  `stackable` = 1,
   `delay` = 0;
 
 -- --- Armor class refs + conditions ---
@@ -829,7 +829,7 @@ INSERT INTO `item_template` SET
   `RequiredLevel` = 60,
   `bonding` = 1,
   `MaxCount` = 0,
-  `stackable` = 20,
+  `stackable` = 1,
   `delay` = 0;
 
 DELETE FROM `item_template` WHERE `entry` = 66203;
@@ -845,7 +845,7 @@ INSERT INTO `item_template` SET
   `RequiredLevel` = 60,
   `bonding` = 1,
   `MaxCount` = 0,
-  `stackable` = 20,
+  `stackable` = 1,
   `delay` = 0;
 
 -- --- Armor class refs + conditions ---

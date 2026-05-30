@@ -166,9 +166,11 @@ def _build_pool() -> Dict[Tuple[str, str, int, str], List[int]]:
 def _cache_item_sql(item: CacheItem) -> List[str]:
     """Emit DELETE + INSERT SET for one cache item.
 
-    MaxCount=0 (unlimited inventory) + stackable=5 makes caches loot-friendly
-    on bosses that drop them at 100% (otherwise the second cache wouldn't
-    drop because the player already holds the first).
+    MaxCount=0 (unlimited inventory) + stackable=1 — each cache occupies
+    its own inventory slot. Stacking was previously set to 20, but AC's
+    on-open loot consumption destroys the entire source slot on first
+    open — opening one cache from a stack of 2 consumed both but only
+    awarded loot from one. With stackable=1, this can't happen.
     """
     return [
         f"DELETE FROM `item_template` WHERE `entry` = {item.entry};",
@@ -184,7 +186,7 @@ def _cache_item_sql(item: CacheItem) -> List[str]:
         f"  `RequiredLevel` = {item.required_level},",
         f"  `bonding` = 1,",
         f"  `MaxCount` = 0,",
-        f"  `stackable` = 20,",
+        f"  `stackable` = 1,",
         f"  `delay` = 0;",
     ]
 
