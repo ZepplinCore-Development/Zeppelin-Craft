@@ -42,9 +42,35 @@ logs/
 *.bak
 *.BAK
 
-# WoW model skin files (binary assets)
+# WoW MPQ asset binaries (mixed case from extraction)
+*.m2
+*.M2
 *.skin
 *.SKIN
+*.anim
+*.ANIM
+*.bone
+*.BONE
+*.blp
+*.BLP
+*.wmo
+*.WMO
+*.adt
+*.ADT
+*.wdt
+*.WDT
+*.wdl
+*.WDL
+*.dbc
+*.DBC
+*.tex
+*.TEX
+*.trs
+*.TRS
+*.phys
+*.PHYS
+*.zmp
+*.ZMP
 
 # EXE patcher binaries (large, not source)
 EXE Patching/*.exe
