@@ -69,12 +69,16 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900114 THEN 59099
     WHEN `itemEntry` = 900115 THEN 59100
     WHEN `itemEntry` = 900116 THEN 59101
-    -- Classless Raid Buffs (F-004, I-186): 1000xx -> 574xx (compliance fix, May 2026)
-    WHEN `itemEntry` = 100001 THEN 57486    -- Codex: Prayer of Fortitude IV
-    WHEN `itemEntry` = 100002 THEN 57487    -- Tome: Greater Blessing of Kings
-    WHEN `itemEntry` = 100003 THEN 57488    -- Codex: Prayer of Spirit
-    WHEN `itemEntry` = 100004 THEN 57489    -- Codex: Prayer of Spirit II
-    WHEN `itemEntry` = 100005 THEN 57490    -- Codex: Prayer of Spirit III
+    -- Classless Raid Buffs (F-004): 1000xx -> 574xx (I-186, May 2026) -> 583xx (F-001 collision fix, May 2026).
+    -- 57486-57489 NOT mapped here: F-001 Writing Tables (Inscription) won those IDs back; players with
+    -- itemEntry 57486-57489 wanted writing tables and will receive them once F-001 INSERTs win.
+    -- 57490 -> 58339: orphan Codex V (no F-001 counterpart) for the 3 players who got it from ToC drops.
+    WHEN `itemEntry` = 100001 THEN 58335    -- Codex: Prayer of Fortitude IV
+    WHEN `itemEntry` = 100002 THEN 58336    -- Tome: Greater Blessing of Kings
+    WHEN `itemEntry` = 100003 THEN 58337    -- Codex: Prayer of Spirit
+    WHEN `itemEntry` = 100004 THEN 58338    -- Codex: Prayer of Spirit II
+    WHEN `itemEntry` = 100005 THEN 58339    -- Codex: Prayer of Spirit III
+    WHEN `itemEntry` = 57490  THEN 58339    -- Codex: Prayer of Spirit III (orphaned by F-001 collision fix)
     -- Arcane Ward (F-014, I-186): 9021xx -> 584xx (compliance fix, May 2026)
     -- Also requires spell.effect_item_type_1 update in zep-legacy/dbc/[F-014]_spell.sql
     -- so Conjure Arcane Ward spells (91058-91066) create the new item IDs.

@@ -1,5 +1,9 @@
 -- Prayer of Fortitude
--- Compliance migration (I-186, May 2026): renumbered 100001-100005 → 57486-57490 (Inscription reservation row 57400-57499).
+-- Compliance migration (I-186, May 2026): renumbered 100001-100005 → 58335-58339 (Inscription reservation row 57400-57499).
+-- Re-renumber (May 2026, post-F-001 collision): 58335-58339 → 58335-58339 (Miscellaneous row 58300-58399).
+--   F-001 Writing Tables claim 58335-58338 (Inscription is for craftable items, codexes are not). Player items
+--   currently at 58335-58338 will naturally become Writing Tables once F-001 wins — intentionally no
+--   defunct_item_replacement mapping for those IDs. 58339 is mapped (orphan Codex V from ToC drops).
 -- Idempotent cleanup of stale rows — NO-OP after first apply.
 DELETE FROM `item_template` WHERE `entry` BETWEEN 100001 AND 100005;
 DELETE FROM `creature_loot_template` WHERE `Item` BETWEEN 100001 AND 100005;
@@ -36,12 +40,12 @@ DELETE FROM `creature_loot_template` WHERE `Item` BETWEEN 100001 AND 100005;
 
     -- Codex: Prayer of Fortitude IV
         -- Create book item (Icon: INV_Misc_Book_09 - displayid 1143)
-        DELETE FROM `item_template` WHERE (`entry` = 57486);
+        DELETE FROM `item_template` WHERE (`entry` = 58335);
 
 
 
 INSERT INTO `item_template` SET
-    `entry` = 57486,
+    `entry` = 58335,
     `class` = 9,
     `name` = 'Codex: Prayer of Fortitude IV',
     `displayid` = 1143,
@@ -68,13 +72,13 @@ INSERT INTO `item_template` SET
 
 
         -- Add to Trial of the Champion bosses
-        DELETE FROM `creature_loot_template` WHERE (`Item` = 57486);
+        DELETE FROM `creature_loot_template` WHERE (`Item` = 58335);
 
 
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 33546,
-    `Item` = 57486,
+    `Item` = 58335,
     `Chance` = 10.0,
     `Comment` = 'The Black Knight (Normal) - Codex: Prayer of Fortitude IV';
 
@@ -84,7 +88,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 33759,
-    `Item` = 57486,
+    `Item` = 58335,
     `Chance` = 10.0,
     `Comment` = 'Eadric the Pure (Normal) - Codex: Prayer of Fortitude IV';
 
@@ -94,7 +98,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 34102,
-    `Item` = 57486,
+    `Item` = 58335,
     `Chance` = 10.0,
     `Comment` = 'Argent Confessor Paletress (Normal) - Codex: Prayer of Fortitude IV';
 
@@ -104,7 +108,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 34928,
-    `Item` = 57486,
+    `Item` = 58335,
     `Chance` = 20.0,
     `Comment` = 'Argent Confessor Paletress (Heroic) - Codex: Prayer of Fortitude IV';
 
@@ -114,7 +118,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 35119,
-    `Item` = 57486,
+    `Item` = 58335,
     `Chance` = 20.0,
     `Comment` = 'Eadric the Pure (Heroic) - Codex: Prayer of Fortitude IV';
 
@@ -133,7 +137,7 @@ UPDATE `creature_template` SET `lootid` = 35119 WHERE `entry` = 35119 AND `looti
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 35451,
-    `Item` = 57486,
+    `Item` = 58335,
     `Chance` = 20.0,
     `Comment` = 'The Black Knight (Heroic) - Codex: Prayer of Fortitude IV';
 
@@ -217,12 +221,12 @@ INSERT INTO `creature_loot_template` SET
 
     -- Tome: Greater Blessing of Kings
         -- Create book item (Icon: AO_BookMasters2 - displayid 135042)
-        DELETE FROM `item_template` WHERE (`entry` = 57487);
+        DELETE FROM `item_template` WHERE (`entry` = 58336);
 
 
 
 INSERT INTO `item_template` SET
-    `entry` = 57487,
+    `entry` = 58336,
     `class` = 9,
     `name` = 'Tome: Greater Blessing of Kings',
     `displayid` = 135042,  -- Icon: AO_BookMasters2
@@ -252,14 +256,14 @@ INSERT INTO `item_template` SET
 
 
         -- Add to BWL/MC/Kazzak bosses (royalty theme)
-        DELETE FROM `creature_loot_template` WHERE (`Item` = 57487);
+        DELETE FROM `creature_loot_template` WHERE (`Item` = 58336);
 
 
 
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 11583,
-    `Item` = 57487,
+    `Item` = 58336,
     `Chance` = 15.0,
     `Comment` = 'Nefarian (BWL) - Tome: Greater Blessing of Kings';
 
@@ -271,7 +275,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 12017,
-    `Item` = 57487,
+    `Item` = 58336,
     `Chance` = 12.0,
     `Comment` = 'Broodlord Lashlayer (BWL) - Tome: Greater Blessing of Kings';
 
@@ -283,7 +287,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 12056,
-    `Item` = 57487,
+    `Item` = 58336,
     `Chance` = 12.0,
     `Comment` = 'Baron Geddon (MC) - Tome: Greater Blessing of Kings';
 
@@ -295,7 +299,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 12397,
-    `Item` = 57487,
+    `Item` = 58336,
     `Chance` = 20.0,
     `Comment` = 'Lord Kazzak - Tome: Greater Blessing of Kings';
 
@@ -318,12 +322,12 @@ INSERT INTO `creature_loot_template` SET
 
     -- Codex: Prayer of Spirit I
         -- Create book item (Icon: AO_Page03 - displayid 139289)
-        DELETE FROM `item_template` WHERE (`entry` = 57488);
+        DELETE FROM `item_template` WHERE (`entry` = 58337);
 
 
 
 INSERT INTO `item_template` SET
-    `entry` = 57488,
+    `entry` = 58337,
     `class` = 9,
     `name` = 'Codex: Prayer of Spirit',
     `displayid` = 139289,  -- Icon: AO_Page03
@@ -350,13 +354,13 @@ INSERT INTO `item_template` SET
 
 
         -- Add to Stratholme bosses (undead/death theme)
-        DELETE FROM `creature_loot_template` WHERE (`Item` = 57488);
+        DELETE FROM `creature_loot_template` WHERE (`Item` = 58337);
 
 
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 10440,
-    `Item` = 57488,
+    `Item` = 58337,
     `Chance` = 15.0,
     `Comment` = 'Baron Rivendare - Codex: Prayer of Spirit';
 
@@ -366,7 +370,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 10436,
-    `Item` = 57488,
+    `Item` = 58337,
     `Chance` = 12.0,
     `Comment` = 'Baroness Anastari - Codex: Prayer of Spirit';
 
@@ -376,7 +380,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 10438,
-    `Item` = 57488,
+    `Item` = 58337,
     `Chance` = 10.0,
     `Comment` = 'Maleki the Pallid - Codex: Prayer of Spirit';
 
@@ -395,12 +399,12 @@ INSERT INTO `creature_loot_template` SET
 
     -- Codex: Prayer of Spirit II
         -- Create book item (Icon: AO_Page03 - displayid 139289)
-        DELETE FROM `item_template` WHERE (`entry` = 57489);
+        DELETE FROM `item_template` WHERE (`entry` = 58338);
 
 
 
 INSERT INTO `item_template` SET
-    `entry` = 57489,
+    `entry` = 58338,
     `class` = 9,
     `name` = 'Codex: Prayer of Spirit II',
     `displayid` = 139289,  -- Icon: AO_Page03
@@ -427,13 +431,13 @@ INSERT INTO `item_template` SET
 
 
         -- Add to Auchenai/Shadow Labyrinth bosses (spirit/death priest theme)
-        DELETE FROM `creature_loot_template` WHERE (`Item` = 57489);
+        DELETE FROM `creature_loot_template` WHERE (`Item` = 58338);
 
 
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 18373,
-    `Item` = 57489,
+    `Item` = 58338,
     `Chance` = 15.0,
     `Comment` = 'Exarch Maladaar - Codex: Prayer of Spirit II';
 
@@ -443,7 +447,7 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 18732,
-    `Item` = 57489,
+    `Item` = 58338,
     `Chance` = 12.0,
     `Comment` = 'Grandmaster Vorpil - Codex: Prayer of Spirit II';
 
@@ -453,25 +457,25 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 18708,
-    `Item` = 57489,
+    `Item` = 58338,
     `Chance` = 10.0,
     `Comment` = 'Murmur - Codex: Prayer of Spirit II';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 20306,
-    `Item` = 57489,
+    `Item` = 58338,
     `Chance` = 25.0,
     `Comment` = 'Exarch Maladaar (Heroic) - Codex: Prayer of Spirit II';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 20653,
-    `Item` = 57489,
+    `Item` = 58338,
     `Chance` = 25.0,
     `Comment` = 'Grandmaster Vorpil (Heroic) - Codex: Prayer of Spirit II';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 20657,
-    `Item` = 57489,
+    `Item` = 58338,
     `Chance` = 25.0,
     `Comment` = 'Murmur (Heroic) - Codex: Prayer of Spirit II';
 
@@ -490,12 +494,12 @@ INSERT INTO `creature_loot_template` SET
 
     -- Codex: Prayer of Spirit III
         -- Create book item (Icon: AO_Page03 - displayid 139289)
-        DELETE FROM `item_template` WHERE (`entry` = 57490);
+        DELETE FROM `item_template` WHERE (`entry` = 58339);
 
 
 
 INSERT INTO `item_template` SET
-    `entry` = 57490,
+    `entry` = 58339,
     `class` = 9,
     `name` = 'Codex: Prayer of Spirit III',
     `displayid` = 139289,  -- Icon: AO_Page03
@@ -522,13 +526,13 @@ INSERT INTO `item_template` SET
 
 
         -- Add to Ahn'kahet bosses (void/shadow cult theme)
-        DELETE FROM `creature_loot_template` WHERE (`Item` = 57490);
+        DELETE FROM `creature_loot_template` WHERE (`Item` = 58339);
 
 
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 29311,
-    `Item` = 57490,
+    `Item` = 58339,
     `Chance` = 15.0,
     `Comment` = 'Herald Volazj - Codex: Prayer of Spirit III';
 
@@ -538,19 +542,19 @@ INSERT INTO `creature_loot_template` SET
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 29310,
-    `Item` = 57490,
+    `Item` = 58339,
     `Chance` = 12.0,
     `Comment` = 'Jedoga Shadowseeker - Codex: Prayer of Spirit III';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 31464,
-    `Item` = 57490,
+    `Item` = 58339,
     `Chance` = 25.0,
     `Comment` = 'Herald Volazj (Heroic) - Codex: Prayer of Spirit III';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 31465,
-    `Item` = 57490,
+    `Item` = 58339,
     `Chance` = 25.0,
     `Comment` = 'Jedoga Shadowseeker (Heroic) - Codex: Prayer of Spirit III';
 
