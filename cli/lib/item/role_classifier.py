@@ -96,6 +96,12 @@ BUCKET_STAT_POOLS: Dict[str, Dict[str, List[int]]] = {
     "ACCESSORY-DPS-STR":  {"primary": [STR, STA],     "secondary": [HIT, CRIT, EXP, AP, ARMORPEN]},
     "ACCESSORY-DPS-AGI":  {"primary": [AGI, STA],     "secondary": [HIT, CRIT, AP, ARMORPEN]},
     "ACCESSORY-ANY":      {"primary": [STA],          "secondary": [AGI, STR, INT, SPI, HIT, CRIT]},
+    # RELICS — no stat distribution, scaling happens on the spell side
+    "RELIC-LIBRAM": {"primary": [], "secondary": []},
+    "RELIC-IDOL":   {"primary": [], "secondary": []},
+    "RELIC-TOTEM":  {"primary": [], "secondary": []},
+    "RELIC-SIGIL":  {"primary": [], "secondary": []},
+    "RELIC-OTHER":  {"primary": [], "secondary": []},
 }
 
 
@@ -146,9 +152,16 @@ def classify(entry: int, stats: List[Tuple[int, int]], item_class: int,
     is_tank, is_healer, is_caster, is_dps = _role_signals(has)
     has_str_or_agi = has.get(STR, 0) > 0 or has.get(AGI, 0) > 0
 
-    # ----- RELIC (out of scope — F-013 Phase 6) -----
+    # ----- RELIC — F-179 clones the stock spell with scaled effect base_points
+    # and emits a new item pointing at the clone. Bucket names map to the
+    # relic subclass (libram=paladin, idol=druid, totem=shaman, sigil=DK).
     if inv_type in INV_RELIC or subclass in (7, 8, 9, 10):
-        return "SKIP-RELIC"
+        return {
+            7:  "RELIC-LIBRAM",
+            8:  "RELIC-IDOL",
+            9:  "RELIC-TOTEM",
+            10: "RELIC-SIGIL",
+        }.get(subclass, "RELIC-OTHER")
 
     # ----- SHIELD -----
     if inv_type in INV_SHIELD or subclass == 6:

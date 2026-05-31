@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 from ..creature.common import get_db_connection
+from ..dbc_utils import DBCConfig, DBCConnection
 from ..loot.sectioned_file import (
     SECTION_F179_AZEROTH, SECTION_ORDER, FILE_HEADER, combined_path,
 )
@@ -36,6 +37,18 @@ from .scaler import (
     compute_budget, compute_weapon_damage, compute_weapon_dps,
     compute_armor, distribute_stats, DPS_BUDGET_WEIGHT,
 )
+
+
+# Reservations for cloned-and-scaled relic spells. F-179 relic scaling reads
+# the stock relic's spell from DBC, clones it under a new ID with scaled
+# effect_base_points (ilvl ratio), and emits the cloned spell to the DBC
+# pipeline. Each (tier, difficulty) gets its own block.
+F179_RELIC_SPELL_RESERVATIONS: Dict[Tuple[str, str], Tuple[int, int]] = {
+    ("azeroth",   "heroic"): (900700, 900799),
+    ("azeroth",   "mythic"): (900800, 900899),
+    # outland/northrend reserved when those tiers come online
+}
+RELIC_SUBCLASSES = (7, 8, 9, 10)  # libram, idol, totem, sigil
 
 # Reservation ranges — mirror Scripts/Item Scripts/Item Reservations.csv
 # Expanded to 3000 IDs per (tier, difficulty) after reference-table chasing
@@ -90,6 +103,7 @@ COLUMN_ORDER = [
 ]
 WEAPON_COLUMNS = ["dmg_min1", "dmg_max1", "delay"]
 ARMOR_COLUMNS = ["armor", "block"]
+RELIC_COLUMNS = ["spellid_1", "spelltrigger_1", "TotemCategory"]
 
 # Disenchant tier mapping (same as F-013's get_disenchant).
 DISENCHANT = {
@@ -107,9 +121,16 @@ _ANCHOR_FILTERS = """
   AND it.entry < 56900
   AND it.bonding = 1
   AND it.ItemSet = 0
-  AND it.spellid_1 = 0
+  AND (
+    it.spellid_1 = 0
+    OR (it.class = 4 AND it.subclass IN (7, 8, 9, 10))
+  )
   AND it.InventoryType NOT IN (4, 18)
 """
+# Relics (class=4, subclass 7-10) ARE allowed through with spellid_1 > 0 —
+# their effect spell IS the relic's value, not a proc. F-179 clones the
+# spell with scaled base_points. All other items are still proc-excluded
+# (Phase 7/8a deferred).
 _ANCHOR_COLUMNS = """
   it.entry, it.name, it.class, it.subclass, it.InventoryType,
   it.ItemLevel, it.Quality, it.bonding, it.ItemSet, it.spellid_1,
@@ -257,7 +278,7 @@ def scale_anchor(anchor: Dict, tier: str, difficulty: str,
 
     bucket = classify(anchor["entry"], anchor["stats"],
                       anchor["class"], anchor["subclass"], anchor["InventoryType"])
-    if bucket.startswith("SKIP") or bucket.startswith("FALLBACK"):
+    if bucket.startswith("FALLBACK"):
         raise ValueError(f"anchor {anchor['entry']} ({anchor['name']}): {bucket}")
 
     rng = _cell_rng(anchor["entry"], tier, difficulty, base_seed)
@@ -358,6 +379,9 @@ def _format_row(row: Dict) -> str:
     for col in ARMOR_COLUMNS:
         if col in row:
             var_lines.append(f"  `{col}` = {_format_value(row[col])}")
+    for col in RELIC_COLUMNS:
+        if col in row:
+            var_lines.append(f"  `{col}` = {_format_value(row[col])}")
     # Stat columns: only emit up to the count actually used.
     n = row.get("_stat_count", 0)
     for i in range(1, n + 1):
@@ -365,6 +389,125 @@ def _format_row(row: Dict) -> str:
         var_lines.append(f"  `stat_value{i}` = {row[f'stat_value{i}']}")
     lines.append(",\n".join(var_lines) + ";")
     return "\n".join(lines)
+
+
+# --- Relic spell cloning -----------------------------------------------------
+
+_SPELL_COLUMNS_CACHE: Optional[List[str]] = None
+
+
+def _get_spell_columns(dbc_conn) -> List[str]:
+    """Return the spell table's column list (cached after first call)."""
+    global _SPELL_COLUMNS_CACHE
+    if _SPELL_COLUMNS_CACHE is None:
+        cur = dbc_conn.cursor()
+        cur.execute("DESCRIBE spell")
+        _SPELL_COLUMNS_CACHE = [row[0] for row in cur.fetchall()]
+        cur.close()
+    return _SPELL_COLUMNS_CACHE
+
+
+def _clone_scaled_spell_sql(dbc_conn, stock_id: int, new_id: int,
+                             ratio: float, comment: str) -> str:
+    """Emit DBC SQL that clones spell `stock_id` to `new_id` with
+    effect_base_points_1/2/3 scaled by `ratio`. Uses INSERT-SELECT with
+    dynamic column list — only base_points columns are transformed.
+    """
+    cols = _get_spell_columns(dbc_conn)
+    select_terms = []
+    for c in cols:
+        if c == "id":
+            select_terms.append(str(new_id))
+        elif c in ("effect_base_points_1", "effect_base_points_2",
+                   "effect_base_points_3"):
+            select_terms.append(f"ROUND(`{c}` * {ratio:.4f})")
+        else:
+            select_terms.append(f"`{c}`")
+    cols_sql = ", ".join(f"`{c}`" for c in cols)
+    select_sql = ", ".join(select_terms)
+    return (
+        f"-- {comment}\n"
+        f"DELETE FROM `spell` WHERE `id` = {new_id};\n"
+        f"INSERT INTO `spell` ({cols_sql})\n"
+        f"  SELECT {select_sql} FROM `spell` WHERE `id` = {stock_id};"
+    )
+
+
+def _load_stock_spell_ids(anchor_entries: List[int]) -> Dict[int, int]:
+    """Return {anchor_entry: stock spell_id} for the given anchor item IDs,
+    reading spellid_1 from item_template."""
+    if not anchor_entries:
+        return {}
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        in_clause = ",".join(str(e) for e in anchor_entries)
+        cur.execute(
+            f"SELECT entry, spellid_1 FROM item_template "
+            f"WHERE entry IN ({in_clause})"
+        )
+        out = {int(r[0]): int(r[1]) for r in cur.fetchall() if r[1]}
+        cur.close()
+    finally:
+        conn.close()
+    return out
+
+
+def scale_relic(anchor: Dict, tier: str, difficulty: str, new_entry: int,
+                new_spell_id: int, dbc_conn) -> Tuple[Dict, str]:
+    """Build the F-179 scaled-relic row and the cloned-spell SQL block.
+
+    Relics carry value in their spell, not stats — the row has no stat
+    distribution. The cloned spell uses the same effect/aura/target as
+    the stock spell, with effect_base_points scaled by `target_ilvl /
+    stock_ilvl`. Stock relic spell name + description are preserved
+    (descriptions reference `$s1`, which automatically uses the new
+    base_points value).
+    """
+    target_ilvl = TIER_ITEM_LEVEL[(tier, difficulty)]
+    stock_ilvl = anchor["ItemLevel"]
+    ratio = target_ilvl / stock_ilvl if stock_ilvl > 0 else 1.0
+
+    stock_spell_id = _load_stock_spell_ids([anchor["entry"]]).get(anchor["entry"], 0)
+    if stock_spell_id == 0:
+        # Relic with no spell (shouldn't happen but defensive)
+        spell_sql = f"-- {anchor['name']} ({anchor['entry']}): no stock spellid_1; skipped"
+    else:
+        comment = (f"{anchor['name']} {difficulty} ilvl {target_ilvl} — "
+                   f"cloned spell {stock_spell_id} → {new_spell_id} "
+                   f"(ratio {ratio:.3f})")
+        spell_sql = _clone_scaled_spell_sql(
+            dbc_conn, stock_spell_id, new_spell_id, ratio, comment,
+        )
+
+    de_id, de_skill = DISENCHANT[(tier, difficulty)]
+    row = {
+        "entry": new_entry,
+        "class": anchor["class"],
+        "subclass": anchor["subclass"],
+        "SoundOverrideSubclass": -1,
+        "name": anchor["name"],
+        "displayid": anchor["displayid"],
+        "Quality": 4,
+        "Flags": 9,
+        "InventoryType": anchor["InventoryType"],
+        "AllowableClass": anchor["AllowableClass"],
+        "AllowableRace": anchor["AllowableRace"],
+        "ItemLevel": target_ilvl,
+        "RequiredLevel": TIER_REQUIRED_LEVEL[tier],
+        "bonding": 1,
+        "flagsCustom": 0,
+        "VerifiedBuild": 0,
+        "DisenchantID": de_id,
+        "RequiredDisenchantSkill": de_skill,
+        "spellid_1": new_spell_id if stock_spell_id else 0,
+        "spelltrigger_1": 1,  # ON_EQUIP
+        "TotemCategory": 0,
+        "_stat_count": 0,
+        "_spell_sql": spell_sql,
+    }
+    return row, classify(anchor["entry"], anchor["stats"], anchor["class"],
+                          anchor["subclass"], anchor["InventoryType"])
 
 
 def _discover_clone_drops(anchor_entries: List[int], tier: str) -> Dict[int, List[Tuple[int, int]]]:
@@ -466,13 +609,12 @@ def run_loot_wiring(craft_root: Path, tier: str, verbose: bool = True) -> Tuple[
 
     # Anchors are returned in stable order from discover_anchors (sorted by
     # stock entry). Build stock_entry -> (heroic_scaled, mythic_scaled).
+    # Relics are no longer skipped — they get scaled via scale_relic.
     scaled_by_stock: Dict[int, Tuple[int, int]] = {}
     for idx, a in enumerate(anchors):
-        # Skip relics — they'd raise SKIP-RELIC in Phase 2 and never get a
-        # scaled entry written. Match the same bucket the scaler computed.
         try:
             b = classify(a["entry"], a["stats"], a["class"], a["subclass"], a["InventoryType"])
-            if b.startswith("SKIP") or b.startswith("FALLBACK"):
+            if b.startswith("FALLBACK"):
                 continue
         except Exception:
             continue
@@ -554,39 +696,81 @@ def run(craft_root: Path, tier: str, difficulty: str, seed: int = 0,
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / OUTPUT_FILENAME_TEMPLATE.format(tier=tier, difficulty=difficulty)
 
+    # Relic spell ID allocation — per-(tier, difficulty), assigned in stable
+    # order over the relic-only subset of anchors. Skip if reservation absent.
+    relic_spell_start = None
+    if (tier, difficulty) in F179_RELIC_SPELL_RESERVATIONS:
+        relic_spell_start, _ = F179_RELIC_SPELL_RESERVATIONS[(tier, difficulty)]
+
+    # Open one DBC connection for the whole regen — used by scale_relic to
+    # query stock spells and emit cloned-spell SQL.
+    dbc_conn = None
+    if relic_spell_start is not None:
+        cfg = DBCConfig.from_env()
+        dbc_mgr = DBCConnection(cfg)
+        dbc_conn = dbc_mgr.get_connection(cfg.live)
+
     bucket_counts: Dict[str, int] = defaultdict(int)
     sql_blocks: List[str] = []
-    skipped_relic = 0
+    spell_blocks: List[str] = []
+    relic_idx = 0
     skipped_other = 0
 
-    for idx, anchor in enumerate(anchors):
-        new_entry = res_start + idx
-        try:
-            row, bucket = scale_anchor(anchor, tier, difficulty, new_entry, seed)
-        except ValueError as e:
-            msg = str(e)
-            if "SKIP-RELIC" in msg:
-                skipped_relic += 1
-            else:
+    try:
+        for idx, anchor in enumerate(anchors):
+            new_entry = res_start + idx
+            is_relic = (anchor["class"] == 4 and
+                        anchor["subclass"] in RELIC_SUBCLASSES)
+            try:
+                if is_relic and dbc_conn is not None:
+                    new_spell_id = relic_spell_start + relic_idx
+                    relic_idx += 1
+                    row, bucket = scale_relic(
+                        anchor, tier, difficulty, new_entry, new_spell_id, dbc_conn,
+                    )
+                    if row.get("_spell_sql"):
+                        spell_blocks.append(row["_spell_sql"])
+                else:
+                    row, bucket = scale_anchor(anchor, tier, difficulty, new_entry, seed)
+            except ValueError as e:
                 skipped_other += 1
                 if verbose:
                     print(f"  [{tier}/{difficulty}] SKIP entry {anchor['entry']}: {e}")
-            continue
-        bucket_counts[bucket] += 1
-        sql_blocks.append(_format_row(row))
-        if verbose:
-            print(f"  [{tier}/{difficulty}] {new_entry} {anchor['name']} "
-                  f"← anchor {anchor['entry']} ({bucket})")
+                continue
+            bucket_counts[bucket] += 1
+            sql_blocks.append(_format_row(row))
+            if verbose:
+                print(f"  [{tier}/{difficulty}] {new_entry} {anchor['name']} "
+                      f"← anchor {anchor['entry']} ({bucket})")
+    finally:
+        if dbc_conn is not None:
+            dbc_mgr.close_all()
 
     # File header.
     header = [
         f"-- F-179 Existing Item Scaler: {tier} {difficulty}",
         f"-- AUTO-generated by `zep world item scale-existing` (F-179). DO NOT EDIT.",
         f"-- Anchors discovered: {len(anchors)}  scaled: {len(sql_blocks)}  "
-        f"skipped (relic, F-013 P6): {skipped_relic}  other skips: {skipped_other}",
+        f"skipped: {skipped_other}  relics scaled: {relic_idx}",
         f"-- Reservation: {res_start}-{res_end} ({res_end - res_start + 1} IDs)",
         f"-- Buckets: " + ", ".join(f"{b}:{n}" for b, n in sorted(bucket_counts.items(), key=lambda x: -x[1])),
         "",
     ]
     out_path.write_text("\n".join(header) + "\n\n".join(sql_blocks) + "\n")
+
+    # Cloned-relic spell SQL → DBC pipeline file (one per tier/difficulty).
+    if spell_blocks:
+        spell_path = (craft_root / "zpaks" / "zep-items" / "dbc"
+                      / f"[AUTO,F-179]_{tier}_{difficulty}_relic_spells.sql")
+        spell_header = [
+            f"-- F-179 cloned relic spells: {tier} {difficulty}",
+            f"-- AUTO-generated by `zep world item scale-existing` (F-179). DO NOT EDIT.",
+            f"-- {len(spell_blocks)} spells cloned from stock relics with",
+            f"-- effect_base_points scaled by target_ilvl/stock_ilvl ratio.",
+            "",
+        ]
+        spell_path.write_text("\n".join(spell_header) + "\n\n".join(spell_blocks) + "\n")
+        if verbose:
+            print(f"  [{tier}/{difficulty}] wrote {len(spell_blocks)} relic spell clones → {spell_path.name}")
+
     return out_path, len(sql_blocks)
