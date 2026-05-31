@@ -73,8 +73,8 @@ WEAPON_TOKEN_CONFIG = {
     "bow":      (15, ITEM_CLASS_WEAPON,  2),
     "thrown":   (25, ITEM_CLASS_WEAPON, 16),
     "gun":      (26, ITEM_CLASS_WEAPON,  3),
-    "wand":     (26, ITEM_CLASS_WEAPON, 18),
-    "crossbow": (26, ITEM_CLASS_WEAPON, 19),
+    "crossbow": (26, ITEM_CLASS_WEAPON, 18),
+    "wand":     (26, ITEM_CLASS_WEAPON, 19),
     # Off-hands / held / shields (item_class=ARMOR)
     "shield":   (14, ITEM_CLASS_ARMOR,  ARMOR_SUBCLASS["shield"]),
     "held":     (23, ITEM_CLASS_ARMOR,  ARMOR_SUBCLASS["misc"]),

@@ -16,9 +16,9 @@
   },
 
   "paladin": {
-    "tank":   {"primary": [4, 7],  "secondary": [12, 13, 14, 15, 31, 32, 35, 36, 37, 38, 44, 48]},
-    "melee":  {"primary": [4, 7],  "secondary": [31, 32, 36, 37, 38, 44]},
-    "healer": {"primary": [5, 7],  "secondary": [6, 32, 36, 43, 45]}
+    "tank":   {"primary": [4, 7],     "secondary": [12, 13, 14, 15, 31, 32, 35, 36, 37, 38, 44, 48]},
+    "melee":  {"primary": [4, 7],     "secondary": [31, 32, 36, 37, 38, 44]},
+    "healer": {"primary": [5, 45, 7], "secondary": [6, 32, 36, 43]}
   },
 
   "hunter": {
@@ -30,8 +30,8 @@
   },
 
   "priest": {
-    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]},
-    "healer": {"primary": [5, 7],  "secondary": [6, 32, 36, 43, 45]}
+    "caster": {"primary": [5, 45, 7], "secondary": [6, 31, 32, 36, 47]},
+    "healer": {"primary": [5, 45, 7], "secondary": [6, 32, 36, 43]}
   },
 
   "deathknight": {
@@ -40,24 +40,24 @@
   },
 
   "shaman": {
-    "tank":   {"primary": [4, 7],  "secondary": [12, 13, 14, 15, 31, 32, 35, 36, 37, 38, 44, 48]},
-    "melee":  {"primary": [3, 7],  "secondary": [4, 5, 31, 32, 36, 37, 38, 44, 45]},
-    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]},
-    "healer": {"primary": [5, 7],  "secondary": [6, 32, 36, 43, 45]}
+    "tank":   {"primary": [4, 7],     "secondary": [12, 13, 14, 15, 31, 32, 35, 36, 37, 38, 44, 48]},
+    "melee":  {"primary": [3, 7],     "secondary": [4, 5, 31, 32, 36, 37, 38, 44, 45]},
+    "caster": {"primary": [5, 45, 7], "secondary": [6, 31, 32, 36, 47]},
+    "healer": {"primary": [5, 45, 7], "secondary": [6, 32, 36, 43]}
   },
 
   "mage": {
-    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]}
+    "caster": {"primary": [5, 45, 7], "secondary": [6, 31, 32, 36, 47]}
   },
 
   "warlock": {
-    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]}
+    "caster": {"primary": [5, 45, 7], "secondary": [6, 31, 32, 36, 47]}
   },
 
   "druid": {
-    "tank":   {"primary": [3, 7],  "secondary": [4, 31, 32, 35, 36, 37, 38, 44]},
-    "melee":  {"primary": [3, 7],  "secondary": [4, 31, 32, 36, 37, 38, 44]},
-    "caster": {"primary": [5, 7],  "secondary": [6, 31, 32, 36, 45, 47]},
-    "healer": {"primary": [5, 7],  "secondary": [6, 32, 36, 43, 45]}
+    "tank":   {"primary": [3, 7],     "secondary": [4, 31, 32, 35, 36, 37, 38, 44]},
+    "melee":  {"primary": [3, 7],     "secondary": [4, 31, 32, 36, 37, 38, 44]},
+    "caster": {"primary": [5, 45, 7], "secondary": [6, 31, 32, 36, 47]},
+    "healer": {"primary": [5, 45, 7], "secondary": [6, 32, 36, 43]}
   }
 }
