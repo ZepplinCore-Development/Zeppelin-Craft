@@ -1178,7 +1178,7 @@ INSERT INTO `item_template` SET
   `subclass` = 18,
   `SoundOverrideSubclass` = -1,
   `name` = 'Crossbow of Thoroughly Sharing',
-  `displayid` = 20788,
+  `displayid` = 32146,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -3437,7 +3437,7 @@ INSERT INTO `item_template` SET
   `subclass` = 18,
   `SoundOverrideSubclass` = -1,
   `name` = 'Targeting Teaching Needler',
-  `displayid` = 28159,
+  `displayid` = 41969,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -3998,7 +3998,7 @@ INSERT INTO `item_template` SET
   `subclass` = 18,
   `SoundOverrideSubclass` = -1,
   `name` = 'Rooming Membership Boltcaster',
-  `displayid` = 20787,
+  `displayid` = 31757,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -4510,8 +4510,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 19,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Stylus of the Local Football',
-  `displayid` = 50161,
+  `name` = 'Baton of the Quantity',
+  `displayid` = 64360,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -4532,7 +4532,9 @@ INSERT INTO `item_template` SET
   `stat_type2` = 45,
   `stat_value2` = 1,
   `stat_type3` = 7,
-  `stat_value3` = 1;
+  `stat_value3` = 1,
+  `stat_type4` = 47,
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 64349;
 INSERT INTO `item_template` SET
@@ -5018,8 +5020,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 19,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Thin Oven Wand',
-  `displayid` = 25608,
+  `name` = 'Movie''s Torch',
+  `displayid` = 56889,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -5040,7 +5042,9 @@ INSERT INTO `item_template` SET
   `stat_type2` = 45,
   `stat_value2` = 1,
   `stat_type3` = 7,
-  `stat_value3` = 1;
+  `stat_value3` = 1,
+  `stat_type4` = 43,
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 64366;
 INSERT INTO `item_template` SET
@@ -8713,8 +8717,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 19,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Stylus of Strength',
-  `displayid` = 50160,
+  `name` = 'Touch of the Proof Distance',
+  `displayid` = 56898,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -9230,7 +9234,7 @@ INSERT INTO `item_template` SET
   `subclass` = 19,
   `SoundOverrideSubclass` = -1,
   `name` = 'Violating Correctness Rod',
-  `displayid` = 30747,
+  `displayid` = 18356,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,

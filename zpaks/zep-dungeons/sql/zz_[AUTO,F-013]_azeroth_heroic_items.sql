@@ -1177,8 +1177,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 18,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Repeater of Extra Ironing',
-  `displayid` = 60805,
+  `name` = 'Beer''s Crossbow',
+  `displayid` = 56001,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -1195,11 +1195,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 183,
   `delay` = 2900,
   `stat_type1` = 4,
-  `stat_value1` = 27,
+  `stat_value1` = 15,
   `stat_type2` = 7,
-  `stat_value2` = 34,
+  `stat_value2` = 19,
   `stat_type3` = 37,
-  `stat_value3` = 27;
+  `stat_value3` = 22,
+  `stat_type4` = 36,
+  `stat_value4` = 15,
+  `stat_type5` = 32,
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60239;
 INSERT INTO `item_template` SET
@@ -3377,7 +3381,7 @@ INSERT INTO `item_template` SET
   `subclass` = 18,
   `SoundOverrideSubclass` = -1,
   `name` = 'Crossbow of the Memorable Wave',
-  `displayid` = 45357,
+  `displayid` = 64765,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -3972,7 +3976,7 @@ INSERT INTO `item_template` SET
   `subclass` = 18,
   `SoundOverrideSubclass` = -1,
   `name` = 'Crossbow of Background',
-  `displayid` = 37803,
+  `displayid` = 50168,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -4493,7 +4497,7 @@ INSERT INTO `item_template` SET
   `subclass` = 19,
   `SoundOverrideSubclass` = -1,
   `name` = 'Positioning Baton',
-  `displayid` = 56909,
+  `displayid` = 40816,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -5019,7 +5023,7 @@ INSERT INTO `item_template` SET
   `subclass` = 19,
   `SoundOverrideSubclass` = -1,
   `name` = 'Waring Emergency Rod',
-  `displayid` = 39002,
+  `displayid` = 21024,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -8700,7 +8704,7 @@ INSERT INTO `item_template` SET
   `subclass` = 19,
   `SoundOverrideSubclass` = -1,
   `name` = 'Stylus of Expectant Review',
-  `displayid` = 32763,
+  `displayid` = 20815,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -9221,8 +9225,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 19,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Dearly Terming Torch',
-  `displayid` = 42385,
+  `name` = 'Theoretical Baton of Necking',
+  `displayid` = 64995,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 26,
@@ -9243,7 +9247,9 @@ INSERT INTO `item_template` SET
   `stat_type2` = 45,
   `stat_value2` = 1,
   `stat_type3` = 7,
-  `stat_value3` = 1;
+  `stat_value3` = 1,
+  `stat_type4` = 36,
+  `stat_value4` = 1;
 
 DELETE FROM `item_template` WHERE `entry` = 60505;
 INSERT INTO `item_template` SET

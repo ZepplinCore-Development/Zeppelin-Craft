@@ -175,15 +175,33 @@ def _build_pool() -> Dict[Tuple[str, str, int, str], List[int]]:
     return pool
 
 
-def _cache_item_sql(item: CacheItem, open_spell_id: int) -> List[str]:
+def _cache_item_sql(item: CacheItem) -> List[str]:
     """Emit DELETE + INSERT SET for one cache item.
 
-    Spell-based opening (clam pattern) — `spellid_1 = <open spell>` with
-    `spelltrigger_1 = 0` (ON_USE). The spell has effect 59
-    (CREATE_RANDOM_ITEM) which reads `spell_loot_template` keyed by the
-    spell ID. AC's `Player::CastItemUseSpell` correctly decrements the
-    item stack by 1 per cast, so stackable=20 works without the
-    ITEM_FLAG_HAS_LOOT destroy-entire-slot bug.
+    Lootable-container pattern, mirroring stock "Satchel of Helpful Goods"
+    (51999): `Flags = 4` (ITEM_FLAG_HAS_LOOT) makes a right-click open a loot
+    window fed by `item_loot_template` keyed by the item entry. The loot-window
+    path (`Player::StoreLootItem`) enforces per-item CONDITIONS via
+    `LootItem::AllowedForPlayer`, so each player only sees their own class's
+    weapon, and AC destroys the container once its visible loot is emptied.
+
+    `stackable = 1` is required: a stacked HAS_LOOT container destroys the
+    whole stack when one is opened. Caches are awarded one at a time
+    (MaxCount=1 on every drop row), so non-stackable matches stock satchel
+    behaviour.
+
+    NB: the earlier spell-loot "clam pattern" (spellid_1 -> CREATE_RANDOM_ITEM
+    -> AutoStoreLoot) was abandoned. `AutoStoreLoot` bypasses
+    `AllowedForPlayer` (Player.cpp), so it stored every class's weapon at once
+    (e.g. guns on a shaman) and never consumed the cache; and the
+    SPELL_LOOT_TEMPLATE class conditions never gated anything because
+    references expand unconditionally (LootMgr.cpp Process).
+
+    Trade-off vs. the clam pattern: HAS_LOOT caches CANNOT stack. A fully
+    looted HAS_LOOT item is removed with DestroyItem (LootHandler.cpp), which
+    deletes the whole stack — so caches are stackable=1, matching every stock
+    container (lockboxes, satchels). Stacking + class-filtering + per-open
+    consumption together would require a custom open-spell script.
     """
     return [
         f"DELETE FROM `item_template` WHERE `entry` = {item.entry};",
@@ -194,14 +212,12 @@ def _cache_item_sql(item: CacheItem, open_spell_id: int) -> List[str]:
         f"  `name` = '{item.name}',",
         f"  `displayid` = {item.display_id},",
         f"  `Quality` = {item.quality},",
-        f"  `Flags` = 0,",
+        f"  `Flags` = 4,",
         f"  `ItemLevel` = {item.item_level},",
         f"  `RequiredLevel` = {item.required_level},",
         f"  `bonding` = 1,",
         f"  `MaxCount` = 0,",
-        f"  `stackable` = 20,",
-        f"  `spellid_1` = {open_spell_id},",
-        f"  `spelltrigger_1` = 0,",
+        f"  `stackable` = 1,",
         f"  `delay` = 0;",
     ]
 
@@ -247,50 +263,42 @@ def _reference_loot_sql(
     return lines
 
 
-def _spell_loot_sql(spec: CacheSpec, cache_kind: str) -> List[str]:
-    """Emit the 9 spell_loot_template rows for one cache's open-spell, plus
-    class-gating conditions that activate only the player's class ref.
+def _item_loot_sql(spec: CacheSpec, cache_kind: str) -> List[str]:
+    """Emit the 9 item_loot_template reference rows for one cache, one per class.
 
-    SPELL_EFFECT_CREATE_RANDOM_ITEM (effect 59) reads spell_loot_template
-    keyed by the casting spell's ID. Rows mirror the previous
-    item_loot_template structure: 9 reference rows (one per class).
+    The cache item carries ITEM_FLAG_HAS_LOOT, so AC fills its loot from
+    `item_loot_template` keyed by the item entry. Each of the 9 rows references
+    a class pool in its own GroupId (1..9). That GroupId is passed through to
+    the referenced template (LootMgr.cpp Process: `Referenced->Process(...,
+    item->groupid, ...)`), so exactly one item is picked from the matching
+    class pool. All 9 refs expand and add one item each, but the per-item
+    type-10 CLASS conditions + the loot-window `AllowedForPlayer` filter mean a
+    player only sees (and can loot) their own class's single weapon — and the
+    cache is consumed once that one item is taken.
 
-    Without spell_loot-level conditions, EVERY ref row activates per cast
-    (unique GroupIds 1-9 → 9 independent rolls). The existing class
-    conditions on the REFERENCE_LOOT_TEMPLATE items filter what each ref
-    yields, but the rolls themselves all happen — and some refs end up
-    producing items the player can use, multiplying the drop count beyond
-    the intended "1 item per cache". Conditions at SPELL_LOOT_TEMPLATE
-    (source 12) gate which spell_loot row runs at all, restricting it to
-    exactly the player's class → exactly 1 ref activates → exactly 1 item.
-
-    Also DELETEs the obsolete item_loot_template rows for the cache —
-    the HAS_LOOT path is no longer wired so those rows are dead data.
+    No SPELL_LOOT_TEMPLATE class gate is emitted: conditions on a reference row
+    are ignored by AC (references always expand), so the inner type-10
+    conditions are the only effective filter. This routine also DELETEs the
+    obsolete spell_loot_template rows + their dead type-12 conditions left over
+    from the abandoned clam pattern.
     """
     cache = spec.armor_cache if cache_kind == CACHE_KIND_ARMOR else spec.weapon_cache
     spell_id = CACHE_OPEN_SPELLS[(spec.tier, spec.difficulty, cache_kind)]
     lines = [
-        f"-- {cache.name} loot pool (spell {spell_id}, 9 class refs)",
+        f"-- {cache.name} loot pool (item_loot_template {cache.entry}, 9 class refs)",
+        f"DELETE FROM `item_loot_template` WHERE `Entry` = {cache.entry};",
+        # cleanup of the abandoned spell-loot clam pattern (dead data)
         f"DELETE FROM `spell_loot_template` WHERE `Entry` = {spell_id};",
-        f"DELETE FROM `item_loot_template` WHERE `Entry` = {cache.entry};",  # cleanup
         f"DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 12 "
         f"AND `SourceGroup` = {spell_id};",
     ]
     for group_id, (class_id, class_name) in enumerate(CACHE_CLASSES, start=1):
         ref_id = _ref_id_for(spec, cache_kind, group_id)
         lines.append(
-            f"INSERT INTO `spell_loot_template` SET "
-            f"`Entry` = {spell_id}, `Item` = {group_id}, "
+            f"INSERT INTO `item_loot_template` SET "
+            f"`Entry` = {cache.entry}, `Item` = {group_id}, "
             f"`Reference` = {ref_id}, `Chance` = 0, "
             f"`GroupId` = {group_id}, `Comment` = '{cache.name} - {class_name}';"
-        )
-        class_mask = CLASS_BITMASK[class_id]
-        lines.append(
-            f"INSERT INTO `conditions` SET "
-            f"`SourceTypeOrReferenceId` = 12, `SourceGroup` = {spell_id}, "
-            f"`SourceEntry` = {group_id}, `ConditionTypeOrReference` = 15, "
-            f"`ConditionValue1` = {class_mask}, "
-            f"`Comment` = '{cache.name} - {class_name} spell-loot gate';"
         )
     return lines
 
@@ -442,11 +450,9 @@ def _spec_block(spec: CacheSpec, pool: Dict[Tuple[str, str, int, int], List[int]
         f"-- Cache items: {spec.armor_cache.name} ({spec.armor_cache.entry}), "
         f"{spec.weapon_cache.name} ({spec.weapon_cache.entry})",
     ]
-    armor_spell = CACHE_OPEN_SPELLS[(spec.tier, spec.difficulty, "armor")]
-    weapon_spell = CACHE_OPEN_SPELLS[(spec.tier, spec.difficulty, "weapon")]
-    lines.extend(_cache_item_sql(spec.armor_cache, armor_spell))
+    lines.extend(_cache_item_sql(spec.armor_cache))
     lines.append("")
-    lines.extend(_cache_item_sql(spec.weapon_cache, weapon_spell))
+    lines.extend(_cache_item_sql(spec.weapon_cache))
     lines.append("")
 
     for cache_kind in (CACHE_KIND_ARMOR, CACHE_KIND_WEAPON):
@@ -466,7 +472,7 @@ def _spec_block(spec: CacheSpec, pool: Dict[Tuple[str, str, int, int], List[int]
                 spec, cache_kind, group_id, class_id, class_name, item_entries
             ))
             lines.append("")
-        lines.extend(_spell_loot_sql(spec, cache_kind))
+        lines.extend(_item_loot_sql(spec, cache_kind))
         lines.append("")
 
     # Per-clone lootid wiring lives in heroic.py: each clone uses its own
