@@ -294,6 +294,45 @@ DMG_SPREAD_HIGH = 1.30
 # Choosing 5.0 as the median empirical optimum.
 DPS_BUDGET_WEIGHT = 5.0
 
+# --- Caster weapon "DPS Trade" → Spell Power -------------------------------
+# WoW's stat-budget model (wowpedia "Stat budget § Weapon DPS") treats a
+# caster weapon's spell power as the melee DPS it gives up: a caster staff has
+# lower weapon DPS than a physical staff of the same budget, and that gap buys
+# spell power. We already sacrifice DPS in compute_weapon_dps; this routes the
+# sacrificed budget specifically into Spell Power instead of letting it spread
+# evenly across Int/Stam/etc (which flattened SP below stock — F-013 caster
+# staves read +50/+50 Int/Stam, little SP, vs stock's SP-dominant profile).
+#
+# Routing the FULL sacrifice overshoots stock SP at low vanilla ilvls (~55% of
+# budget vs stock's ~33%), because DPS_BUDGET_WEIGHT and the SP stat weight
+# were fit independently. Damp it so SP lands inside stock's ~33–50% share.
+SPELL_POWER_STAT_ID = 45
+SP_FROM_DPS_DAMPING = 0.6
+
+
+def spell_power_dps_trade_budget(
+    item_class: int, subclass: int, item_level: int, role: str
+) -> float:
+    """Return the Spell Power BUDGET (weighted points) a caster/healer weapon
+    earns from its sacrificed weapon DPS, or 0.0 when not applicable.
+
+    Only caster/healer weapons (item_class=2) qualify; wands are exempt (no
+    physical equivalent), and physical/tank roles and non-weapons return 0.
+    The caller carves this out of the item's stat budget and assigns it to
+    Spell Power, distributing the remainder across the other stats.
+    """
+    if item_class != 2 or role not in ("caster", "healer"):
+        return 0.0
+    family = _resolve_family(subclass, role)
+    if family is None or family == "wand":
+        return 0.0
+    caster = compute_weapon_dps(item_class, subclass, item_level, role)
+    physical = compute_weapon_dps(item_class, subclass, item_level, "physical")
+    if caster is None or physical is None:
+        return 0.0
+    sacrifice = max(0.0, physical - caster)
+    return sacrifice * DPS_BUDGET_WEIGHT * SP_FROM_DPS_DAMPING
+
 
 def _resolve_family(subclass: int, role: str):
     """Map (subclass, role) to a family key in FAMILY_PROFILES, or None."""

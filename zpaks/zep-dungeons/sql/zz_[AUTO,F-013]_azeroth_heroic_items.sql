@@ -2616,15 +2616,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 143,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 9,
+  `stat_value1` = 7,
   `stat_type2` = 45,
-  `stat_value2` = 14,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 18,
+  `stat_value3` = 16,
   `stat_type4` = 43,
   `stat_value4` = 5,
   `stat_type5` = 32,
-  `stat_value5` = 11;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60287;
 INSERT INTO `item_template` SET
@@ -2652,9 +2652,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 5,
   `stat_value1` = 9,
   `stat_type2` = 45,
-  `stat_value2` = 15,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 28,
+  `stat_value3` = 19,
   `stat_type4` = 36,
   `stat_value4` = 13;
 
@@ -4418,9 +4418,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 5,
   `stat_value1` = 18,
   `stat_type2` = 45,
-  `stat_value2` = 22,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 26;
+  `stat_value3` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 60346;
 INSERT INTO `item_template` SET
@@ -4446,15 +4446,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 98,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 9,
+  `stat_value1` = 7,
   `stat_type2` = 45,
-  `stat_value2` = 12,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 16,
+  `stat_value3` = 13,
   `stat_type4` = 32,
-  `stat_value4` = 14,
+  `stat_value4` = 9,
   `stat_type5` = 6,
-  `stat_value5` = 12;
+  `stat_value5` = 13;
 
 DELETE FROM `item_template` WHERE `entry` = 60347;
 INSERT INTO `item_template` SET
@@ -4480,15 +4480,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 258,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 14,
+  `stat_value1` = 12,
   `stat_type2` = 45,
-  `stat_value2` = 18,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 33,
+  `stat_value3` = 21,
   `stat_type4` = 36,
-  `stat_value4` = 18,
+  `stat_value4` = 24,
   `stat_type5` = 31,
-  `stat_value5` = 17;
+  `stat_value5` = 18;
 
 DELETE FROM `item_template` WHERE `entry` = 60348;
 INSERT INTO `item_template` SET
@@ -4948,13 +4948,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 143,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 13,
+  `stat_value1` = 12,
   `stat_type2` = 45,
-  `stat_value2` = 16,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 20,
+  `stat_value3` = 18,
   `stat_type4` = 36,
-  `stat_value4` = 14;
+  `stat_value4` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60363;
 INSERT INTO `item_template` SET
@@ -4980,11 +4980,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 98,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 17,
+  `stat_value1` = 19,
   `stat_type2` = 45,
-  `stat_value2` = 22,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 29;
+  `stat_value3` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 60364;
 INSERT INTO `item_template` SET
@@ -5010,11 +5010,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 258,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 26,
+  `stat_value1` = 34,
   `stat_type2` = 45,
-  `stat_value2` = 35,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 45;
+  `stat_value3` = 51;
 
 DELETE FROM `item_template` WHERE `entry` = 60365;
 INSERT INTO `item_template` SET
@@ -7623,11 +7623,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 143,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 19,
+  `stat_value1` = 18,
   `stat_type2` = 45,
-  `stat_value2` = 19,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 28;
+  `stat_value3` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 60451;
 INSERT INTO `item_template` SET
@@ -7653,15 +7653,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 98,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 12,
+  `stat_value1` = 11,
   `stat_type2` = 45,
-  `stat_value2` = 14,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 14,
+  `stat_value3` = 16,
   `stat_type4` = 31,
-  `stat_value4` = 12,
+  `stat_value4` = 7,
   `stat_type5` = 6,
-  `stat_value5` = 11;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60452;
 INSERT INTO `item_template` SET
@@ -7687,11 +7687,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 258,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 27,
+  `stat_value1` = 34,
   `stat_type2` = 45,
-  `stat_value2` = 35,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 43;
+  `stat_value3` = 51;
 
 DELETE FROM `item_template` WHERE `entry` = 60453;
 INSERT INTO `item_template` SET
@@ -8122,9 +8122,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 143,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 19,
+  `stat_value1` = 18,
   `stat_type2` = 45,
-  `stat_value2` = 20,
+  `stat_value2` = 21,
   `stat_type3` = 7,
   `stat_value3` = 27;
 
@@ -8152,13 +8152,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 98,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 13,
+  `stat_value1` = 11,
   `stat_type2` = 45,
-  `stat_value2` = 17,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 23,
+  `stat_value3` = 20,
   `stat_type4` = 43,
-  `stat_value4` = 6;
+  `stat_value4` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60469;
 INSERT INTO `item_template` SET
@@ -8184,13 +8184,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 258,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 26,
+  `stat_value1` = 24,
   `stat_type2` = 45,
-  `stat_value2` = 24,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 28,
+  `stat_value3` = 36,
   `stat_type4` = 36,
-  `stat_value4` = 22;
+  `stat_value4` = 21;
 
 DELETE FROM `item_template` WHERE `entry` = 60470;
 INSERT INTO `item_template` SET
@@ -8625,15 +8625,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 143,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 9,
+  `stat_value1` = 6,
   `stat_type2` = 45,
-  `stat_value2` = 14,
+  `stat_value2` = 21,
   `stat_type3` = 7,
   `stat_value3` = 16,
   `stat_type4` = 36,
-  `stat_value4` = 11,
+  `stat_value4` = 9,
   `stat_type5` = 31,
-  `stat_value5` = 12;
+  `stat_value5` = 10;
 
 DELETE FROM `item_template` WHERE `entry` = 60485;
 INSERT INTO `item_template` SET
@@ -8659,11 +8659,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 98,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 14,
+  `stat_value1` = 19,
   `stat_type2` = 45,
-  `stat_value2` = 23,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 29;
+  `stat_value3` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 60486;
 INSERT INTO `item_template` SET
@@ -8689,13 +8689,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 258,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 30,
+  `stat_value1` = 24,
   `stat_type2` = 45,
-  `stat_value2` = 19,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 22,
+  `stat_value3` = 35,
   `stat_type4` = 6,
-  `stat_value4` = 25;
+  `stat_value4` = 21;
 
 DELETE FROM `item_template` WHERE `entry` = 60487;
 INSERT INTO `item_template` SET
@@ -9145,15 +9145,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 143,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 10,
+  `stat_value1` = 7,
   `stat_type2` = 45,
-  `stat_value2` = 11,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 17,
+  `stat_value3` = 11,
   `stat_type4` = 47,
-  `stat_value4` = 7,
+  `stat_value4` = 5,
   `stat_type5` = 6,
-  `stat_value5` = 8;
+  `stat_value5` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60502;
 INSERT INTO `item_template` SET
@@ -9179,13 +9179,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 98,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 13,
+  `stat_value1` = 12,
   `stat_type2` = 45,
-  `stat_value2` = 17,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 19,
+  `stat_value3` = 20,
   `stat_type4` = 32,
-  `stat_value4` = 15;
+  `stat_value4` = 12;
 
 DELETE FROM `item_template` WHERE `entry` = 60503;
 INSERT INTO `item_template` SET
@@ -9211,13 +9211,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 258,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 18,
+  `stat_value1` = 23,
   `stat_type2` = 45,
-  `stat_value2` = 20,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 42,
+  `stat_value3` = 32,
   `stat_type4` = 32,
-  `stat_value4` = 23;
+  `stat_value4` = 24;
 
 DELETE FROM `item_template` WHERE `entry` = 60504;
 INSERT INTO `item_template` SET
@@ -10775,15 +10775,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 143,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 12,
+  `stat_value1` = 10,
   `stat_type2` = 45,
-  `stat_value2` = 11,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 20,
+  `stat_value3` = 11,
   `stat_type4` = 47,
-  `stat_value4` = 5,
+  `stat_value4` = 6,
   `stat_type5` = 6,
-  `stat_value5` = 9;
+  `stat_value5` = 7;
 
 DELETE FROM `item_template` WHERE `entry` = 60555;
 INSERT INTO `item_template` SET
@@ -10809,11 +10809,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 98,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 15,
+  `stat_value1` = 19,
   `stat_type2` = 45,
-  `stat_value2` = 23,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 29;
+  `stat_value3` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 60556;
 INSERT INTO `item_template` SET
@@ -10839,11 +10839,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 258,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 28,
+  `stat_value1` = 34,
   `stat_type2` = 45,
-  `stat_value2` = 33,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 45;
+  `stat_value3` = 51;
 
 DELETE FROM `item_template` WHERE `entry` = 60557;
 INSERT INTO `item_template` SET
@@ -11249,15 +11249,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 143,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 13,
+  `stat_value1` = 11,
   `stat_type2` = 45,
-  `stat_value2` = 13,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 19,
+  `stat_value3` = 13,
   `stat_type4` = 36,
-  `stat_value4` = 9,
+  `stat_value4` = 10,
   `stat_type5` = 6,
-  `stat_value5` = 8;
+  `stat_value5` = 6;
 
 DELETE FROM `item_template` WHERE `entry` = 60571;
 INSERT INTO `item_template` SET
@@ -11283,15 +11283,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 98,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 12,
+  `stat_value1` = 10,
   `stat_type2` = 45,
-  `stat_value2` = 14,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 18,
+  `stat_value3` = 15,
   `stat_type4` = 6,
   `stat_value4` = 10,
   `stat_type5` = 36,
-  `stat_value5` = 10;
+  `stat_value5` = 8;
 
 DELETE FROM `item_template` WHERE `entry` = 60572;
 INSERT INTO `item_template` SET
@@ -11317,11 +11317,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 258,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 25,
+  `stat_value1` = 24,
   `stat_type2` = 45,
-  `stat_value2` = 26,
+  `stat_value2` = 21,
   `stat_type3` = 7,
-  `stat_value3` = 30,
+  `stat_value3` = 36,
   `stat_type4` = 43,
   `stat_value4` = 10;
 

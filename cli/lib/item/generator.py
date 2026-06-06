@@ -15,6 +15,7 @@ from typing import Dict, List, Optional
 from .matrix import MatrixCell, iter_cells
 from .scaler import (
     DPS_BUDGET_WEIGHT,
+    SPELL_POWER_STAT_ID,
     compute_armor,
     compute_budget,
     compute_shield_block,
@@ -22,6 +23,8 @@ from .scaler import (
     compute_weapon_dps,
     distribute_stats,
     get_disenchant,
+    spell_power_dps_trade_budget,
+    stat_weight,
 )
 from .relic_generator import (
     PHASE6_DEFAULTS as RELIC_PHASE6_DEFAULTS,
@@ -385,7 +388,24 @@ def generate_row(
     else:
         stat_budget = total_budget
 
-    stats = distribute_stats(stat_ids, stat_budget, rng)
+    # Caster/healer weapons route their sacrificed weapon DPS into Spell Power
+    # (the "DPS Trade") rather than letting it spread evenly across stats, so
+    # SP reads as the dominant stat like stock caster gear. The carved-out SP
+    # budget is fixed; the remainder distributes across the other stats.
+    sp_budget = spell_power_dps_trade_budget(
+        cell.item_class, cell.subclass, item_level, cell.role
+    )
+    if sp_budget > 0:
+        if SPELL_POWER_STAT_ID not in stat_ids:
+            stat_ids = [SPELL_POWER_STAT_ID] + stat_ids
+        sp_value = max(1, round(sp_budget / stat_weight(SPELL_POWER_STAT_ID)))
+        other_ids = [s for s in stat_ids if s != SPELL_POWER_STAT_ID]
+        remaining = max(0.0, stat_budget - sp_budget)
+        distributed = dict(distribute_stats(other_ids, remaining, rng))
+        distributed[SPELL_POWER_STAT_ID] = sp_value
+        stats = [(sid, distributed[sid]) for sid in stat_ids]
+    else:
+        stats = distribute_stats(stat_ids, stat_budget, rng)
 
     de_id, de_skill = get_disenchant(tier)
 
