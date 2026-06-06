@@ -294,45 +294,6 @@ DMG_SPREAD_HIGH = 1.30
 # Choosing 5.0 as the median empirical optimum.
 DPS_BUDGET_WEIGHT = 5.0
 
-# --- Caster weapon "DPS Trade" → Spell Power -------------------------------
-# WoW's stat-budget model (wowpedia "Stat budget § Weapon DPS") treats a
-# caster weapon's spell power as the melee DPS it gives up: a caster staff has
-# lower weapon DPS than a physical staff of the same budget, and that gap buys
-# spell power. We already sacrifice DPS in compute_weapon_dps; this routes the
-# sacrificed budget specifically into Spell Power instead of letting it spread
-# evenly across Int/Stam/etc (which flattened SP below stock — F-013 caster
-# staves read +50/+50 Int/Stam, little SP, vs stock's SP-dominant profile).
-#
-# Routing the FULL sacrifice overshoots stock SP at low vanilla ilvls (~55% of
-# budget vs stock's ~33%), because DPS_BUDGET_WEIGHT and the SP stat weight
-# were fit independently. Damp it so SP lands inside stock's ~33–50% share.
-SPELL_POWER_STAT_ID = 45
-SP_FROM_DPS_DAMPING = 0.6
-
-
-def spell_power_dps_trade_budget(
-    item_class: int, subclass: int, item_level: int, role: str
-) -> float:
-    """Return the Spell Power BUDGET (weighted points) a caster/healer weapon
-    earns from its sacrificed weapon DPS, or 0.0 when not applicable.
-
-    Only caster/healer weapons (item_class=2) qualify; wands are exempt (no
-    physical equivalent), and physical/tank roles and non-weapons return 0.
-    The caller carves this out of the item's stat budget and assigns it to
-    Spell Power, distributing the remainder across the other stats.
-    """
-    if item_class != 2 or role not in ("caster", "healer"):
-        return 0.0
-    family = _resolve_family(subclass, role)
-    if family is None or family == "wand":
-        return 0.0
-    caster = compute_weapon_dps(item_class, subclass, item_level, role)
-    physical = compute_weapon_dps(item_class, subclass, item_level, "physical")
-    if caster is None or physical is None:
-        return 0.0
-    sacrifice = max(0.0, physical - caster)
-    return sacrifice * DPS_BUDGET_WEIGHT * SP_FROM_DPS_DAMPING
-
 
 def _resolve_family(subclass: int, role: str):
     """Map (subclass, role) to a family key in FAMILY_PROFILES, or None."""
@@ -495,71 +456,65 @@ def compute_budget(
     return _legacy_budget(inventory_type, item_level, quality)
 
 
-MIN_STAT_BUDGET_PCT = 0.15  # Each stat gets at least 15% of the total budget
-MAX_STAT_BUDGET_PCT = 0.35  # No stat exceeds 35% of the total budget
+# Minimum share of budget any selected stat receives, so secondaries don't
+# collapse to +1 junk. There is deliberately no ceiling — a heavily weighted
+# primary (e.g. caster Spell Power) is allowed to dominate, which is the whole
+# point of the allocation weights.
+MIN_STAT_BUDGET_PCT = 0.06
+
+# Per-stat jitter applied to allocation weights so items of the same role vary
+# a little instead of reading identically. Deterministic via the caller's rng.
+ALLOC_JITTER = 0.18
 
 
 def distribute_stats(
     stat_ids: List[int],
     budget: float,
     rng,
+    stat_shares: dict = None,
     weight_overrides: dict = None,
 ) -> List[Tuple[int, int]]:
-    """Split `budget` across `stat_ids`, with each stat constrained to
-    [MIN_STAT_BUDGET_PCT, MAX_STAT_BUDGET_PCT] of total budget.
+    """Split `budget` across `stat_ids` by per-stat BUDGET SHARES.
 
-    Floor prevents token +3 Int / +5 Spirit junk values.
-    Ceiling prevents one stat from gobbling up everything (e.g. +154 Stam
-    on an ilvl 66 item). Excess over the ceiling is redistributed to
-    uncapped stats iteratively until stable.
+    `stat_shares` is an optional {stat_id: share} (from
+    `data/stat_shares.json`, resolved per role) giving the relative portion
+    of budget each stat should receive — e.g. casters give Spell Power ~2x
+    the share of Stamina, so SP reads as the dominant stat like stock gear.
+    Stats absent from the map default to 1.0; with no map at all, stats
+    share equally. Keys may be int or str (JSON uses str).
 
-    `weight_overrides` is an optional {stat_id: weight} that supersedes
-    STAT_WEIGHT for the duration of this call. Used to make vanilla-era
-    (azeroth) items charge full Stam cost (1.0) while TBC/WotLK content
-    keeps the gem-derived 0.667 weight.
+    Shares are jittered ±`ALLOC_JITTER` for variety, each stat is then given
+    a small floor (`MIN_STAT_BUDGET_PCT`) so secondaries don't collapse, and
+    the remainder is split by normalised share. No ceiling.
+
+    `weight_overrides` supersedes `STAT_WEIGHT` (the budget→value *cost*
+    conversion, "stat weight") for specific stats — a different axis from
+    `stat_shares`.
 
     Order preserved from input. Returns integer (stat_id, value) tuples;
     value floors at 1 to avoid +0 stats."""
     if not stat_ids:
         return []
 
+    shares_map = stat_shares or {}
     n = len(stat_ids)
-    # Bounds need to be feasible: floor*n <= 100% and ceiling*n >= 100%.
     floor_pct = min(MIN_STAT_BUDGET_PCT, 1.0 / n)
-    ceil_pct = max(MAX_STAT_BUDGET_PCT, 1.0 / n)
 
-    # Reserve floor for each, distribute remainder randomly.
-    extra_pool = 1.0 - floor_pct * n  # remaining percentage after floors
-    max_extra_per_stat = ceil_pct - floor_pct
-    raw = [rng.random() + 0.01 for _ in stat_ids]
-    total_raw = sum(raw)
-    extras = [(r / total_raw) * extra_pool for r in raw]
+    raw_shares = []
+    for sid in stat_ids:
+        base = shares_map.get(sid, shares_map.get(str(sid), 1.0))
+        base = max(0.01, float(base))
+        raw_shares.append(base * (1.0 + rng.uniform(-ALLOC_JITTER, ALLOC_JITTER)))
+    total = sum(raw_shares) or 1.0
 
-    # Iteratively cap excess and redistribute to uncapped stats.
-    for _ in range(8):
-        overflow = 0.0
-        for i, e in enumerate(extras):
-            if e > max_extra_per_stat:
-                overflow += e - max_extra_per_stat
-                extras[i] = max_extra_per_stat
-        if overflow <= 1e-4:
-            break
-        uncapped = [i for i, e in enumerate(extras) if e < max_extra_per_stat - 1e-6]
-        if not uncapped:
-            break
-        per_stat = overflow / len(uncapped)
-        for i in uncapped:
-            headroom = max_extra_per_stat - extras[i]
-            adj = min(headroom, per_stat)
-            extras[i] += adj
-            overflow -= adj
-
-    pcts = [floor_pct + e for e in extras]
+    # Reserve a floor for each stat, distribute the remainder by share.
+    extra_pool = max(0.0, 1.0 - floor_pct * n)
+    pcts = [floor_pct + (s / total) * extra_pool for s in raw_shares]
 
     out: List[Tuple[int, int]] = []
     for sid, pct in zip(stat_ids, pcts):
-        share = pct * budget
-        w = (weight_overrides or {}).get(sid, stat_weight(sid))
-        value = int(round(share / w))
+        budget_share = pct * budget
+        cost = (weight_overrides or {}).get(sid, stat_weight(sid))
+        value = int(round(budget_share / cost))
         out.append((sid, max(1, value)))
     return out

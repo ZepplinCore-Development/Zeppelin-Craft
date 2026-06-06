@@ -88,6 +88,29 @@ def item_analyze_budget(ctx, quiet):
     click.echo(click.style(f"Wrote: {path}", fg='green'))
 
 
+@item.command('analyze-stat-shares')
+@click.option('--quiet', '-q', is_flag=True, help='Suppress per-role output')
+@click.pass_context
+def item_analyze_stat_shares(ctx, quiet):
+    """Derive per-role stat BUDGET SHARES from stock gear.
+
+    Measures, from obtainable stock items, how the stat budget splits across
+    stats within each role (caster/healer/melee/tank) — e.g. caster Spell
+    Power gets ~2x the share of Stamina. Writes the ratios to
+    cli/lib/item/data/stat_shares.json, which the generator uses to
+    distribute budget (instead of a flat random spread).
+    """
+    from lib.item.stat_share_analyzer import run
+    click.echo("F-013 Stat Budget Share Analyzer (stock AC gear)")
+    click.echo()
+    try:
+        path = run(verbose=not quiet)
+    except Exception as e:
+        raise click.ClickException(f"Failed: {e}")
+    click.echo()
+    click.echo(click.style(f"Wrote: {path}", fg='green'))
+
+
 @item.command('analyze-weapon-dps')
 @click.pass_context
 def item_analyze_weapon_dps(ctx):
