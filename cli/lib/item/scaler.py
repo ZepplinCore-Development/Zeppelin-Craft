@@ -29,12 +29,23 @@ BUDGET_FORMULAS_PATH = DATA_DIR / "budget_formulas.json"
 
 # Slots that share a budget formula. Neck/ring/trinket/back all sit at
 # nearly identical weighted budgets per ilvl in stock data — pool them
-# under iv=11 (ring) for a single clean accessory fit.
+# under iv=11 (ring) for a single clean accessory fit. Bows (iv 15) pool
+# into the ranged slot (iv 26) so all ammo weapons share one budget.
 # Mirror of SLOT_POOL in budget_analyzer.py.
 SLOT_ALIAS = {
     2:  11,  # neck    -> accessory
     12: 11,  # trinket -> accessory
     16: 11,  # back    -> accessory
+    15: 26,  # bow     -> ranged (ammo group, see SUBCLASS_ALIAS)
+}
+
+# Subclasses that share a budget formula within a split slot. Ammo weapons
+# (bow/gun/crossbow) have near-identical DPS and total budget — one bucket
+# keyed (26, 3). Wands stay separate (no ammo, ~2x DPS and total budget).
+# Mirror of SUBCLASS_POOL in budget_analyzer.py.
+SUBCLASS_ALIAS = {
+    (26, 2):  3,  # bow      -> ammo-ranged
+    (26, 18): 3,  # crossbow -> ammo-ranged
 }
 
 
@@ -225,27 +236,36 @@ FAMILY_PROFILES = {
 FAMILY_PROFILES_BY_ERA = {
     "1h_melee": {
         "vanilla": (2600, 15.29, 0.01740),
-        "tbc":     (2600, 47.49, 0.00531),
-        "wotlk":   (2600, 33.29, 0.00726),
+        "tbc": (2600, 47.49, 0.00531),
+        "wotlk": (2600, 33.29, 0.00726),
     },
     "2h_melee": {
         "vanilla": (3500, 19.87, 0.01742),
-        "tbc":     (3500, 49.05, 0.00596),
-        "wotlk":   (3500, 43.27, 0.00726),
+        "tbc": (3500, 49.06, 0.00596),
+        "wotlk": (3500, 43.27, 0.00726),
     },
     "dagger": {
         "vanilla": (1800, 14.30, 0.01828),
-        "tbc":     (1800, 47.82, 0.00527),
-        "wotlk":   (1800, 33.42, 0.00725),
+        "tbc": (1800, 47.82, 0.00527),
+        "wotlk": (1800, 33.42, 0.00725),
+    },
+    "ranged": {
+        "vanilla": (2900, 16.01, 0.01605),
+        "tbc": (2900, 43.82, 0.00517),
+        "wotlk": (2900, 14.05, 0.01101),
     },
     "thrown": {
-        "tbc":     (1800, 42.87, 0.00529),
-        "wotlk":   (1800, 44.30, 0.00716),
+        "tbc": (1800, 42.87, 0.00529),
+        "wotlk": (1800, 44.30, 0.00716),
     },
     "wand": {
+        # vanilla kept manually: the fit run drops it at n=9 (one under the
+        # n>=10 bar) but the curve is empirically validated — DPS@76 = 97.6 vs
+        # stock Dragon's Touch (il75) 95.6. The global fallback (61.21,
+        # 0.00732) overshoots vanilla wands by ~10 DPS, eating their stats.
         "vanilla": (1800, 18.35, 0.02200),
-        "tbc":     (1800, 87.12, 0.00533),
-        "wotlk":   (1800, 61.55, 0.00724),
+        "tbc": (1800, 87.12, 0.00533),
+        "wotlk": (1800, 61.55, 0.00724),
     },
 }
 
@@ -426,8 +446,11 @@ def compute_budget(
     data = _load_formulas()
     quality_ratio = data.get("quality_ratio", {}).get(str(quality), 1.0)
 
-    # Resolve pooled slots (e.g. trinkets share ring's budget formula)
+    # Resolve pooled slots (e.g. trinkets share ring's budget formula) and
+    # pooled subclasses (e.g. bows/crossbows share the gun ammo-ranged budget)
     lookup_iv = SLOT_ALIAS.get(inventory_type, inventory_type)
+    if subclass is not None:
+        subclass = SUBCLASS_ALIAS.get((lookup_iv, subclass), subclass)
     era_ranges = data.get("era_ranges", {
         "vanilla": [40, 99], "tbc": [100, 186], "wotlk": [187, 284]
     })

@@ -40,9 +40,13 @@ SELECT it.InventoryType, it.subclass, it.ItemLevel,
        it.stat_type9, it.stat_value9, it.stat_type10, it.stat_value10,
        it.holy_res, it.fire_res, it.nature_res,
        it.frost_res, it.shadow_res, it.arcane_res,
-       it.class, it.dmg_min1, it.dmg_max1, it.delay
+       it.class, it.dmg_min1, it.dmg_max1, it.delay, it.Quality
 FROM item_template it
-WHERE it.Quality = 4 AND it.stat_type1 > 0
+/* Epic-only reference, EXCEPT wands: vanilla epic wands are too sparse
+   (n<10) for a per-era fit, so rare wands are included and scaled to
+   epic-equivalent budget (/ RARE_TO_EPIC) in the collection loop. */
+WHERE (it.Quality = 4 OR (it.Quality = 3 AND it.class = 2 AND it.subclass = 19))
+  AND it.stat_type1 > 0
   AND it.entry < 56900 AND it.ItemSet = 0
   AND it.spellid_1 = 0 AND it.spellid_2 = 0 AND it.spellid_3 = 0
   AND it.spellid_4 = 0 AND it.spellid_5 = 0
@@ -87,7 +91,14 @@ WHERE it.Quality = 4 AND it.stat_type1 > 0
 # scaler.compute_armor), not in primary-stat budget. Pooling triples
 # vanilla samples per fit and lets per-era armor fits work where they
 # previously fell back to all-ilvl.
-SUBCLASS_SPLIT_TYPES: set = set()
+#
+# EXCEPTION — ranged slot (InventoryType 26): wands carry ~2x the weapon DPS
+# of guns/crossbows (no ammo to supplement them), so their TOTAL budget
+# (stats + DPS*5) is far higher (stock wand ~500 vs gun ~280 at ilvl ~75).
+# Pooling them produced ~400 — too low for wands (DPS alone exceeded it →
+# statless wands) and too high for guns (over-statted). Split iv 26 by
+# subclass so wand (19) / gun (3) / crossbow (18) each get their own budget.
+SUBCLASS_SPLIT_TYPES: set = {26}
 # Backward-compatible alias
 ARMOR_INVENTORY_TYPES = SUBCLASS_SPLIT_TYPES
 
@@ -117,11 +128,31 @@ def _era_for_ilvl(ilvl: int) -> str:
 # ring (11), trinket (12), and back (16) all sit at nearly identical
 # weighted budgets per ilvl in stock data — pooling them gives a single
 # clean accessory fit with n>800 and frees trinkets from their n=3 cliff.
+# Bows (iv 15) pool into the ranged slot (iv 26) so all ammo weapons share
+# one bucket — see SUBCLASS_POOL.
 SLOT_POOL = {
     2:  11,  # neck    -> accessory pool
     12: 11,  # trinket -> accessory pool
     16: 11,  # back    -> accessory pool
+    15: 26,  # bow     -> ranged pool (ammo group, see SUBCLASS_POOL)
 }
+
+# Subclasses merged within a SUBCLASS_SPLIT_TYPES slot. The ammo weapons
+# (bow 2 / gun 3 / crossbow 18) carry near-identical DPS (~53 @ il76 — ammo
+# supplements them) and total budget (~280), so they share one bucket keyed
+# (26, 3); fitting them separately left crossbow with a skewed high-ilvl
+# sample (n=33, avg il 210) that extrapolated ~3x stock at vanilla ilvls.
+# Wands (19) stay separate — no ammo, ~2x DPS, ~2x total budget.
+# Mirror of SUBCLASS_ALIAS in scaler.py.
+SUBCLASS_POOL = {
+    (26, 2):  3,  # bow      -> ammo-ranged pool
+    (26, 18): 3,  # crossbow -> ammo-ranged pool
+}
+
+# Rare:epic budget ratio — must match the quality_ratio written to
+# budget_formulas.json (scaler multiplies the epic fit by this for rares).
+# Used to scale rare wands up to epic-equivalent in the reference set.
+RARE_TO_EPIC = 0.85
 
 # Resistance weight derived from TBC rare gem comparison:
 #   Solid Star of Elune (TBC rare, 1 socket) = +12 Stamina
@@ -252,6 +283,11 @@ def _fetch_reference_items() -> Tuple[
             total = _weighted_total(row)
             if total <= 0:
                 continue
+            # Rare rows (only wands per REFERENCE_SQL) scale up to their
+            # epic-equivalent budget so they can join the epic fit. Must
+            # match the quality_ratio the scaler applies (rare = 0.85x epic).
+            if int(row[33]) == 3:
+                total /= RARE_TO_EPIC
             era = _era_for_ilvl(ilvl)
             # Merge pooled slots into their target slot for the per-slot fit
             # (e.g. trinkets get added to the ring bucket).
@@ -259,8 +295,9 @@ def _fetch_reference_items() -> Tuple[
             by_slot.setdefault(target_iv, []).append((ilvl, total))
             by_slot_era.setdefault((target_iv, era), []).append((ilvl, total))
             if target_iv in SUBCLASS_SPLIT_TYPES:
-                by_slot_subclass.setdefault((target_iv, subclass), []).append((ilvl, total))
-                by_slot_subclass_era.setdefault((target_iv, subclass, era), []).append((ilvl, total))
+                target_sc = SUBCLASS_POOL.get((target_iv, subclass), subclass)
+                by_slot_subclass.setdefault((target_iv, target_sc), []).append((ilvl, total))
+                by_slot_subclass_era.setdefault((target_iv, target_sc, era), []).append((ilvl, total))
     finally:
         conn.close()
     return by_slot_subclass, by_slot, by_slot_era, by_slot_subclass_era
