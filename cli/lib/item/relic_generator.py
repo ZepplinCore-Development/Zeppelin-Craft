@@ -488,6 +488,8 @@ INSERT INTO `spell` SET
 """
 
 ANCHOR_ITEM = """-- Anchor upgrade: Totem of the Earthen Ring (entry 46978) — level 30 quest reward
+-- Disenchants as a level-30-band green (ilvl 31-35 armor bracket): stock ItemLevel
+-- is 1, so _disenchant_for() can't derive the bracket — values set explicitly.
 UPDATE `item_template` SET
     `Quality` = 2,
     `spellid_1` = 900356,
@@ -495,7 +497,9 @@ UPDATE `item_template` SET
     `spellcharges_1` = 0,
     `spellcooldown_1` = -1,
     `spellcategory_1` = 0,
-    `spellcategorycooldown_1` = -1
+    `spellcategorycooldown_1` = -1,
+    `DisenchantID` = 5,
+    `RequiredDisenchantSkill` = 75
 WHERE `entry` = 46978;
 """
 
