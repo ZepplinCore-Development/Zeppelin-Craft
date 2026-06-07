@@ -94,15 +94,15 @@
         `bonding` = 1; -- BOP
 
 -- Spell group + ranks: Skinning Knives (EXCLUSIVE + rank-aware patch)
-DELETE FROM `spell_group` WHERE `id` = 1128;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1128;
+DELETE FROM `spell_group` WHERE `id` = 2028;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2028;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91240;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
-INSERT INTO `spell_group` SET `id` = 1128, `spell_id` = 91240; -- Journeyman (first rank)
+INSERT INTO `spell_group` SET `id` = 2028, `spell_id` = 91240; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
-    (1128, 1, 'Skinning Knives - exclusive with rank priority');
+    (2028, 1, 'Skinning Knives - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (91240, 91240, 1),

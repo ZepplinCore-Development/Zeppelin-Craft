@@ -6,8 +6,8 @@
 
 -- Clean up
 DELETE FROM `item_template` WHERE `entry` IN (57900, 57901, 57902, 57903, 57904);
-DELETE FROM `spell_group` WHERE `id` = 1132;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1132;
+DELETE FROM `spell_group` WHERE `id` = 2032;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2032;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91271;
 
 -- =====================================================
@@ -64,9 +64,9 @@ INSERT INTO `item_template` SET
 -- SPELL GROUP: Exclusive — only one cooking kit active
 -- =====================================================
 
-INSERT INTO `spell_group` (`id`, `spell_id`) VALUES (1132, 91271);
+INSERT INTO `spell_group` (`id`, `spell_id`) VALUES (2032, 91271);
 
-INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES (1132, 1);
+INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES (2032, 1);
 
 -- =====================================================
 -- SPELL RANKS: Higher tier overrides lower tier

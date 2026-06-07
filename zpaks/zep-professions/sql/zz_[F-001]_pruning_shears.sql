@@ -67,15 +67,15 @@
         `bonding` = 1; -- BOP
 
 -- Spell group + ranks: Pruning Shears (EXCLUSIVE + rank-aware patch)
-DELETE FROM `spell_group` WHERE `id` = 1116;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1116;
+DELETE FROM `spell_group` WHERE `id` = 2016;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2016;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91140;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
-INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91140; -- Journeyman (first rank)
+INSERT INTO `spell_group` SET `id` = 2016, `spell_id` = 91140; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
-    (1116, 1, 'Pruning Shears - exclusive with rank priority');
+    (2016, 1, 'Pruning Shears - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (91140, 91140, 1),

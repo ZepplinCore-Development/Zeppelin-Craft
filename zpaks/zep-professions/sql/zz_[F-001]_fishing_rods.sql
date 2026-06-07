@@ -5,7 +5,7 @@
 -- item template: class=5 (Reagent), subclass=1 (Tool), Quality=6 (Artifact),
 -- bonding=1 (BoP), spelltrigger=5 (passive in inventory).
 --
--- Tier system with spell group 1129 ensures only the highest fishing skill
+-- Tier system with spell group 2029 ensures only the highest fishing skill
 -- bonus applies when multiple rods are in bags:
 --   Basic (no bonus): Fishing Pole, Basic Fishing Pole
 --   Tier 1 (+3):  Blump Family Fishing Pole
@@ -51,22 +51,22 @@ WHERE `entry` IN (
 UPDATE `item_template` SET `spelltrigger_2` = 5 WHERE `entry` = 44050;
 
 -- =============================================================================
--- SPELL GROUP 1129 - Fishing Rod exclusivity (EXCLUSIVE + rank-aware)
+-- SPELL GROUP 2029 - Fishing Rod exclusivity (EXCLUSIVE + rank-aware)
 -- =============================================================================
 -- Only the highest-tier fishing skill bonus applies when multiple rods are
 -- in bags. Basic rods (6256, 45120) have no spell and are not in the group.
 -- =============================================================================
 
-DELETE FROM `spell_group` WHERE `id` = 1129;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1129;
+DELETE FROM `spell_group` WHERE `id` = 2029;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2029;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 15956;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1129, 15956);  -- Blump Family (+3, first rank)
+(2029, 15956);  -- Blump Family (+3, first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1129, 1, 'Fishing Rods - exclusive with rank priority');
+(2029, 1, 'Fishing Rods - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (15956, 15956, 1),  -- Tier 1: +3 fishing

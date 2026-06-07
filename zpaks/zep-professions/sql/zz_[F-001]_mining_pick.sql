@@ -88,15 +88,15 @@
         `bonding` = 1; -- BOP
 
 -- Spell group + ranks: Mining Picks (EXCLUSIVE + rank-aware patch)
-DELETE FROM `spell_group` WHERE `id` = 1117;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1117;
+DELETE FROM `spell_group` WHERE `id` = 2017;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2017;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91158;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
-INSERT INTO `spell_group` SET `id` = 1117, `spell_id` = 91158; -- Journeyman (first rank)
+INSERT INTO `spell_group` SET `id` = 2017, `spell_id` = 91158; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
-    (1117, 1, 'Mining Picks - exclusive with rank priority');
+    (2017, 1, 'Mining Picks - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (91158, 91158, 1),

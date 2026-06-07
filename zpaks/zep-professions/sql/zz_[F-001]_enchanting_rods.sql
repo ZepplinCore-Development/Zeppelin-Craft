@@ -89,16 +89,16 @@ WHERE (`entry` = 44452);
 -- =============================================================================
 -- SPELL GROUP - Enchanting Rod exclusivity (EXCLUSIVE + rank-aware)
 -- =============================================================================
-DELETE FROM `spell_group` WHERE `id` = 1127;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1127;
+DELETE FROM `spell_group` WHERE `id` = 2027;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2027;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91222;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1127, 91222); -- Runed Copper Rod (first rank)
+(2027, 91222); -- Runed Copper Rod (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1127, 1, 'Enchanting Rods - exclusive with rank priority');
+(2027, 1, 'Enchanting Rods - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (91222, 91222, 1),

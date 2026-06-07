@@ -55,19 +55,19 @@ INSERT INTO `item_template` SET
 
 
 
--- Spell Group 1122: Alchemy Mortars (EXCLUSIVE + rank-aware patch)
+-- Spell Group 2022: Alchemy Mortars (EXCLUSIVE + rank-aware patch)
 -- EXCLUSIVE (1) prevents stacking. Core patch uses spell_ranks to allow
 -- higher-rank spells to replace lower-rank ones via IsHighRankOf check.
-DELETE FROM spell_group WHERE id = 1122;
-DELETE FROM spell_group_stack_rules WHERE group_id = 1122;
+DELETE FROM spell_group WHERE id = 2022;
+DELETE FROM spell_group_stack_rules WHERE group_id = 2022;
 DELETE FROM spell_ranks WHERE first_spell_id = 91200;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1122, 91200); -- Journeyman (first rank)
+(2022, 91200); -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1122, 1, 'Alchemy Mortars - exclusive with rank priority');
+(2022, 1, 'Alchemy Mortars - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (91200, 91200, 1),

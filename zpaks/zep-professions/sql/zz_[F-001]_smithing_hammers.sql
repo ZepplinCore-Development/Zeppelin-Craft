@@ -187,16 +187,16 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- =============================================================================
 -- SPELL GROUP - Hammer exclusivity (EXCLUSIVE + rank-aware patch)
 -- =============================================================================
-DELETE FROM `spell_group` WHERE `id` = 1114;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1114;
+DELETE FROM `spell_group` WHERE `id` = 2014;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2014;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91120;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1114, 91120); -- Bronze (first rank)
+(2014, 91120); -- Bronze (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1114, 1, 'Smithing Hammers - exclusive with rank priority');
+(2014, 1, 'Smithing Hammers - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (91120, 91120, 1),

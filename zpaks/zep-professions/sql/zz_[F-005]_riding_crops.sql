@@ -396,15 +396,15 @@ INSERT INTO `creature_loot_template` SET
 -- EXCLUSIVE (1) + spell_ranks: core patch allows higher rank to replace lower.
 -- =====================================================
 
-DELETE FROM `spell_group` WHERE `id` = 1121;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1121;
+DELETE FROM `spell_group` WHERE `id` = 2021;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2021;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 100010;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
-INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100010; -- Apprentice (+5%, first rank)
+INSERT INTO `spell_group` SET `id` = 2021, `spell_id` = 100010; -- Apprentice (+5%, first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1121, 1, 'Riding Crops - exclusive with rank priority');
+(2021, 1, 'Riding Crops - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (100010, 100010, 1),

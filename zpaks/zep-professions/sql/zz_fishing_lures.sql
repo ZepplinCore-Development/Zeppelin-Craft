@@ -4,8 +4,8 @@
 -- Converts lure items from temporary weapon enchants to consumable self-buffs.
 -- Right-click lure -> gain timed +fishing skill aura, item consumed.
 --
--- Spell group 1135 ensures only the highest lure buff applies (EXCLUSIVE +
--- rank priority via spell_ranks). Lure buffs stack with rod buffs (group 1129)
+-- Spell group 2035 ensures only the highest lure buff applies (EXCLUSIVE +
+-- rank priority via spell_ranks). Lure buffs stack with rod buffs (group 2029)
 -- since they are separate groups.
 --
 -- Lure items keep class/subclass, just swap spellid_1 to the new buff spell.
@@ -39,19 +39,19 @@ UPDATE `item_template` SET `spellid_1` = 900354 WHERE `entry` = 34861;
 UPDATE `item_template` SET `spellid_1` = 900355 WHERE `entry` = 46006;
 
 -- =============================================================================
--- SPELL GROUP 1135 - Lure buff exclusivity (EXCLUSIVE + rank-aware)
+-- SPELL GROUP 2035 - Lure buff exclusivity (EXCLUSIVE + rank-aware)
 -- =============================================================================
 
-DELETE FROM `spell_group` WHERE `id` = 1135;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1135;
+DELETE FROM `spell_group` WHERE `id` = 2035;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2035;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 900350;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1135, 900350);
+(2035, 900350);
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1135, 1, 'Fishing Lures - exclusive with rank priority');
+(2035, 1, 'Fishing Lures - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (900350, 900350, 1),  -- +25 fishing (10 min)

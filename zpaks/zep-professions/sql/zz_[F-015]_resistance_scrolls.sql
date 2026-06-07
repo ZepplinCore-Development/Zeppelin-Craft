@@ -1147,89 +1147,89 @@ INSERT INTO `item_template` SET
 -- (stack_rule 4 = EXCLUSIVE_HIGHEST)
 -- =====================================================
 
--- Define spell group 1119 for Resistance Scrolls
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1119;
+-- Define spell group 2019 for Resistance Scrolls
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2019;
 
 INSERT INTO `spell_group_stack_rules` SET
-    `group_id` = 1119,
+    `group_id` = 2019,
     `stack_rule` = 1,
     `description` = 'Group of Resistance Scrolls - exclusive';
 
 
 
--- Add all 48 resistance scroll spells to group 1119 (Fire, Frost, Arcane, Shadow, Nature, Holy)
-DELETE FROM `spell_group` WHERE `id` = 1119;
+-- Add all 48 resistance scroll spells to group 2019 (Fire, Frost, Arcane, Shadow, Nature, Holy)
+DELETE FROM `spell_group` WHERE `id` = 2019;
 
 -- Fire Resistance (103198-103205)
-INSERT INTO `spell_group` VALUES (1119, 103198);
-INSERT INTO `spell_group` VALUES (1119, 103199);
-INSERT INTO `spell_group` VALUES (1119, 103200);
-INSERT INTO `spell_group` VALUES (1119, 103201);
-INSERT INTO `spell_group` VALUES (1119, 103202);
-INSERT INTO `spell_group` VALUES (1119, 103203);
-INSERT INTO `spell_group` VALUES (1119, 103204);
-INSERT INTO `spell_group` VALUES (1119, 103205);
+INSERT INTO `spell_group` VALUES (2019, 103198);
+INSERT INTO `spell_group` VALUES (2019, 103199);
+INSERT INTO `spell_group` VALUES (2019, 103200);
+INSERT INTO `spell_group` VALUES (2019, 103201);
+INSERT INTO `spell_group` VALUES (2019, 103202);
+INSERT INTO `spell_group` VALUES (2019, 103203);
+INSERT INTO `spell_group` VALUES (2019, 103204);
+INSERT INTO `spell_group` VALUES (2019, 103205);
 
 -- Frost Resistance (103206-103213)
-INSERT INTO `spell_group` VALUES (1119, 103206);
-INSERT INTO `spell_group` VALUES (1119, 103207);
-INSERT INTO `spell_group` VALUES (1119, 103208);
-INSERT INTO `spell_group` VALUES (1119, 103209);
-INSERT INTO `spell_group` VALUES (1119, 103210);
-INSERT INTO `spell_group` VALUES (1119, 103211);
-INSERT INTO `spell_group` VALUES (1119, 103212);
-INSERT INTO `spell_group` VALUES (1119, 103213);
+INSERT INTO `spell_group` VALUES (2019, 103206);
+INSERT INTO `spell_group` VALUES (2019, 103207);
+INSERT INTO `spell_group` VALUES (2019, 103208);
+INSERT INTO `spell_group` VALUES (2019, 103209);
+INSERT INTO `spell_group` VALUES (2019, 103210);
+INSERT INTO `spell_group` VALUES (2019, 103211);
+INSERT INTO `spell_group` VALUES (2019, 103212);
+INSERT INTO `spell_group` VALUES (2019, 103213);
 
 -- Arcane Resistance (103214-103221)
-INSERT INTO `spell_group` VALUES (1119, 103214);
-INSERT INTO `spell_group` VALUES (1119, 103215);
-INSERT INTO `spell_group` VALUES (1119, 103216);
-INSERT INTO `spell_group` VALUES (1119, 103217);
-INSERT INTO `spell_group` VALUES (1119, 103218);
-INSERT INTO `spell_group` VALUES (1119, 103219);
-INSERT INTO `spell_group` VALUES (1119, 103220);
-INSERT INTO `spell_group` VALUES (1119, 103221);
+INSERT INTO `spell_group` VALUES (2019, 103214);
+INSERT INTO `spell_group` VALUES (2019, 103215);
+INSERT INTO `spell_group` VALUES (2019, 103216);
+INSERT INTO `spell_group` VALUES (2019, 103217);
+INSERT INTO `spell_group` VALUES (2019, 103218);
+INSERT INTO `spell_group` VALUES (2019, 103219);
+INSERT INTO `spell_group` VALUES (2019, 103220);
+INSERT INTO `spell_group` VALUES (2019, 103221);
 
 -- Shadow Resistance (103222-103229)
-INSERT INTO `spell_group` VALUES (1119, 103222);
-INSERT INTO `spell_group` VALUES (1119, 103223);
-INSERT INTO `spell_group` VALUES (1119, 103224);
-INSERT INTO `spell_group` VALUES (1119, 103225);
-INSERT INTO `spell_group` VALUES (1119, 103226);
-INSERT INTO `spell_group` VALUES (1119, 103227);
-INSERT INTO `spell_group` VALUES (1119, 103228);
-INSERT INTO `spell_group` VALUES (1119, 103229);
+INSERT INTO `spell_group` VALUES (2019, 103222);
+INSERT INTO `spell_group` VALUES (2019, 103223);
+INSERT INTO `spell_group` VALUES (2019, 103224);
+INSERT INTO `spell_group` VALUES (2019, 103225);
+INSERT INTO `spell_group` VALUES (2019, 103226);
+INSERT INTO `spell_group` VALUES (2019, 103227);
+INSERT INTO `spell_group` VALUES (2019, 103228);
+INSERT INTO `spell_group` VALUES (2019, 103229);
 
 -- Nature Resistance (103230-103237)
-INSERT INTO `spell_group` VALUES (1119, 103230);
-INSERT INTO `spell_group` VALUES (1119, 103231);
-INSERT INTO `spell_group` VALUES (1119, 103232);
-INSERT INTO `spell_group` VALUES (1119, 103233);
-INSERT INTO `spell_group` VALUES (1119, 103234);
-INSERT INTO `spell_group` VALUES (1119, 103235);
-INSERT INTO `spell_group` VALUES (1119, 103236);
-INSERT INTO `spell_group` VALUES (1119, 103237);
+INSERT INTO `spell_group` VALUES (2019, 103230);
+INSERT INTO `spell_group` VALUES (2019, 103231);
+INSERT INTO `spell_group` VALUES (2019, 103232);
+INSERT INTO `spell_group` VALUES (2019, 103233);
+INSERT INTO `spell_group` VALUES (2019, 103234);
+INSERT INTO `spell_group` VALUES (2019, 103235);
+INSERT INTO `spell_group` VALUES (2019, 103236);
+INSERT INTO `spell_group` VALUES (2019, 103237);
 
 -- Holy Resistance (103238-103245)
-INSERT INTO `spell_group` VALUES (1119, 103238);
-INSERT INTO `spell_group` VALUES (1119, 103239);
-INSERT INTO `spell_group` VALUES (1119, 103240);
-INSERT INTO `spell_group` VALUES (1119, 103241);
-INSERT INTO `spell_group` VALUES (1119, 103242);
-INSERT INTO `spell_group` VALUES (1119, 103243);
-INSERT INTO `spell_group` VALUES (1119, 103244);
-INSERT INTO `spell_group` VALUES (1119, 103245);
+INSERT INTO `spell_group` VALUES (2019, 103238);
+INSERT INTO `spell_group` VALUES (2019, 103239);
+INSERT INTO `spell_group` VALUES (2019, 103240);
+INSERT INTO `spell_group` VALUES (2019, 103241);
+INSERT INTO `spell_group` VALUES (2019, 103242);
+INSERT INTO `spell_group` VALUES (2019, 103243);
+INSERT INTO `spell_group` VALUES (2019, 103244);
+INSERT INTO `spell_group` VALUES (2019, 103245);
 
 
 -- =====================================================
 -- VANILLA SCROLL OF PROTECTION INTEGRATION
 -- =====================================================
--- Add vanilla Scroll of Protection spells to group 1119
+-- Add vanilla Scroll of Protection spells to group 2019
 -- to ensure they don't stack with resistance scrolls
 -- =====================================================
 
 -- Scroll of Protection - only rank 1 needed (AC auto-includes all ranks from spell_ranks chain)
-INSERT INTO `spell_group` VALUES (1119, 8091);   -- Rank I (chain: 8091 -> 8094 -> 8095 -> 12175 -> 33079 -> 43196 -> 58452 -> 58453)
+INSERT INTO `spell_group` VALUES (2019, 8091);   -- Rank I (chain: 8091 -> 8094 -> 8095 -> 12175 -> 33079 -> 43196 -> 58452 -> 58453)
 
 
 -- =====================================================

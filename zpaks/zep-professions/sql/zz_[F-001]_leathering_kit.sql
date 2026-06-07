@@ -5,14 +5,12 @@
 -- =====================================================
 -- Item IDs: 57612-57616 (from Leatherworking range 57600-57699)
 -- Spell IDs: 91182-91186
--- Spell Group: 1119
+-- Spell Group: 2023
 -- SpellFamilyFlags: 16 (Leatherworking)
 -- =====================================================
 
 -- Delete existing entries
 DELETE FROM `item_template` WHERE `entry` IN (57612, 57613, 57614, 57615, 57616);
-DELETE FROM `spell_group` WHERE `id` = 1119;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1119;
 
 -- =====================================================
 -- ITEM TEMPLATES
@@ -125,17 +123,17 @@ SET `entry` = 57616,
 
 -- =====================================================
 -- Spell group + ranks: Leathering Kits (EXCLUSIVE + rank-aware patch)
--- Uses group 1123 (not 1119 which is used by resistance scrolls)
+-- Uses group 2023 (not 2019 which is used by resistance scrolls)
 -- =====================================================
-DELETE FROM `spell_group` WHERE `id` = 1123;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1123;
+DELETE FROM `spell_group` WHERE `id` = 2023;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2023;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91182;
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
-INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91182; -- Journeyman (first rank)
+INSERT INTO `spell_group` SET `id` = 2023, `spell_id` = 91182; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1123, 1, 'Leathering Kits - exclusive with rank priority');
+(2023, 1, 'Leathering Kits - exclusive with rank priority');
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (91182, 91182, 1),

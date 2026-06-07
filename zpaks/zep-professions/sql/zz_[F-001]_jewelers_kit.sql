@@ -13,8 +13,8 @@
 
 -- Delete existing entries
 DELETE FROM `item_template` WHERE `entry` IN (57504, 57505, 57506, 57507);
-DELETE FROM `spell_group` WHERE `id` = 1124;
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1124;
+DELETE FROM `spell_group` WHERE `id` = 2024;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 2024;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91244;
 
 -- =====================================================
@@ -140,10 +140,10 @@ SET `entry` = 57507,
 -- =====================================================
 
 -- Only first rank needed; AC auto-includes higher ranks via spell_ranks
-INSERT INTO `spell_group` SET `id` = 1124, `spell_id` = 91244; -- Journeyman (first rank)
+INSERT INTO `spell_group` SET `id` = 2024, `spell_id` = 91244; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES
-(1124, 1);
+(2024, 1);
 
 INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (91244, 91244, 1),
