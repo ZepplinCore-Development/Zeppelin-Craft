@@ -3903,3 +3903,38 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1;
+-- ----------------------------------------------------------------------------
+-- Fix Improved Ghost Wolf talent (2961) ranks after F-164 re-add
+-- R1 (16262) was never migrated to spell family 14 in I-050 (Ghost Wolf moved
+-- from family 11 mask 2048 to family 14 bit 30), so its cast time modifier
+-- targeted nothing. Migrate it to match R2 (16287): family 14, bit 29
+-- (Ghost Wolf Modifiers), effects target bit 30 (Ghost Wolf).
+-- Rebalance: GW base cast is 2.0s (not 3.0s as the re-add assumed), so the
+-- stock -1s/-2s values made R2 instant. New design per user:
+--   R1: -0.5s cast, +5% movement speed (SPELLMOD_EFFECT2 flat on GW speed)
+--   R2: -1.0s cast, +10% movement speed
+-- ----------------------------------------------------------------------------
+UPDATE `spell` SET
+    `spell_class_set` = 14,
+    `spell_class_mask_1` = 536870912,
+    `effect_base_points_1` = -501,
+    `effect_spell_class_mask_a_1` = 1073741824,
+    `effect_2` = 6,
+    `effect_apply_aura_name_2` = 107,
+    `effect_misc_value_a_2` = 12,
+    `effect_base_points_2` = 4,
+    `effect_die_sides_2` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_spell_class_mask_b_1` = 1073741824,
+    -- 0.5 hardcoded: client $/1000;s1 integer-divides, so 500/1000 displays as 0
+    `spell_desc_enus` = 'Reduces the cast time of your Ghost Wolf spell by 0.5 sec and increases its movement speed bonus by an additional $s2%.'
+WHERE `id` = 16262;
+
+UPDATE `spell` SET
+    `effect_base_points_1` = -1001,
+    `effect_apply_aura_name_2` = 107,
+    `effect_misc_value_a_2` = 12,
+    `effect_base_points_2` = 9,
+    `effect_spell_class_mask_b_1` = 1073741824,
+    `spell_desc_enus` = 'Reduces the cast time of your Ghost Wolf spell by $/1000;s1 sec and increases its movement speed bonus by an additional $s2%.'
+WHERE `id` = 16287;

@@ -64,9 +64,13 @@ INSERT INTO `talent` (`id`, `spec_id`, `tier_id`, `column_index`, `rank_1`, `ran
 (2960, 263, 8, 1, 900217, 900218, 900219, 0, 0, 0, 0, 0, 0, 2249, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- Step 6: Restore Improved Ghost Wolf at T1 C2 (Enhancement, 2 ranks, passive)
--- Uses stock spells 16262 (R1, -1.0s cast) and 16287 (R2, -2.0s cast). With
--- base Ghost Wolf at 3.0s cast, max rank brings it to 1.0s — not instant, so
--- compatible with riding crop (F-005) which makes GW instant via the cape slot.
+-- Uses stock spells 16262 (R1) and 16287 (R2), retuned in [F-164]_spell.sql:
+-- R1 = -0.5s cast / +5% speed, R2 = -1.0s cast / +10% speed. Base Ghost Wolf
+-- casts in 2.0s (cast_time_index 5, fixed in I-050), so max rank brings it to
+-- 1.0s — not instant, keeping the riding crop (F-005) cast reduction useful.
+-- Both ranks migrated to spell family 14 bit 29, effects target bit 30
+-- (Ghost Wolf) — R1 originally still pointed at the pre-I-050 family 11
+-- mask 2048, which is why the talent did nothing at rank 1.
 DELETE FROM `talent` WHERE `id` = 2961;
 INSERT INTO `talent` (`id`, `spec_id`, `tier_id`, `column_index`, `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`, `rank_6`, `rank_7`, `rank_8`, `rank_9`, `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`, `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`, `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`) VALUES
 (2961, 263, 1, 2, 16262, 16287, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
