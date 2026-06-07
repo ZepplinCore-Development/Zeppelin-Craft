@@ -30,6 +30,7 @@ src\items\engineering.lua
 src\items\gems.lua
 src\items\pearl.lua
 src\items\parts.lua
+src\items\argent-dawn.lua
 src\items\miscellaneous.lua
 
 src\3-server-proxy.lua
