@@ -7,10 +7,14 @@
 -- MonstrousEel backport (WotLK MD20 v264, shipped in this zpak under
 -- mpq/source-assets/Creature/MonstrousEel/, PATCH-Z).
 --
--- The M2 hardcodes Creature\MonstrousEel\ManaWurmSkinGreen.blp /
--- smoothreflect.blp / T_VFX_Strikes01_BW.blp (shipped alongside); skin
--- variations come from texture slots type 11 (variation_1, *_1.blp) and
--- type 12 (variation_2, *_2.blp).
+-- The M2 is a fresh retroport (Legion v274 -> WotLK v264) made with the
+-- Retroport toolchain (Zeppelin-Tools/Retroport, run under wine) from the
+-- retail m2 + skin FDID 478235. Its hardcoded textures resolve to STOCK
+-- 3.3.5 client paths (Creature\ManaWurm\ManaWurmSkinGreen.blp,
+-- Item\ObjectComponents\Weapon\flare.blp, ...\Head\smoothreflect.blp) so
+-- only the m2/skin/variation BLPs ship in this zpak. Skin variations come
+-- from texture slots type 11 (variation_1, *_1.blp) and type 12
+-- (variation_2, *_2.blp).
 --
 -- collision / footprint / sound_data inherited from 2210 (ManaWurm) so the
 -- eels keep their existing audio and combat footprint. Geo box taken from
@@ -41,7 +45,7 @@ INSERT INTO creaturemodeldata SET
   geo_box_min_z = -1.3056,
   geo_box_max_x = 7.8812,
   geo_box_max_y = 3.9844,
-  geo_box_max_z = 12.4286,
+  geo_box_max_z = 12.8800,
   world_effect_scale = 1.0,
   attached_effect_scale = 1.0,
   missile_collision_radius = 0.0,
