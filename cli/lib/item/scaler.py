@@ -495,7 +495,7 @@ ALLOC_JITTER = 0.18
 MIN_STAT_VALUE = 3
 
 
-def _allocate_once(stat_ids, budget, rng, shares_map, weight_overrides):
+def _allocate_once(stat_ids, budget, rng, shares_map, share_caps, weight_overrides):
     """One pass of share-weighted allocation over exactly `stat_ids`."""
     n = len(stat_ids)
     floor_pct = min(MIN_STAT_BUDGET_PCT, 1.0 / n)
@@ -507,6 +507,29 @@ def _allocate_once(stat_ids, budget, rng, shares_map, weight_overrides):
     total = sum(raw_shares) or 1.0
     extra_pool = max(0.0, 1.0 - floor_pct * n)
     pcts = [floor_pct + (s / total) * extra_pool for s in raw_shares]
+
+    # Enforce per-stat share CAPS (p90 of the stock conditional share, from
+    # stat_shares.json). Relative weights can't express "never more than a
+    # rider": on a 2-3 stat roll even a median-weight stat would grab 30-50%
+    # of the item, where stock keeps e.g. Mp5 at ~20% via co-occurrence on
+    # 4-5 stat pieces. Excess redistributes to uncapped stats.
+    if share_caps:
+        caps = [share_caps.get(sid, share_caps.get(str(sid))) for sid in stat_ids]
+        for _ in range(4):
+            overflow = 0.0
+            headroom_idx = []
+            for i, cap in enumerate(caps):
+                if cap is not None and pcts[i] > cap:
+                    overflow += pcts[i] - cap
+                    pcts[i] = cap
+                elif cap is None or pcts[i] < cap - 1e-6:
+                    headroom_idx.append(i)
+            if overflow <= 1e-4 or not headroom_idx:
+                break
+            share_sum = sum(pcts[i] for i in headroom_idx) or 1.0
+            for i in headroom_idx:
+                pcts[i] += overflow * (pcts[i] / share_sum)
+
     out = []
     for sid, pct in zip(stat_ids, pcts):
         cost = (weight_overrides or {}).get(sid, stat_weight(sid))
@@ -519,6 +542,7 @@ def distribute_stats(
     budget: float,
     rng,
     stat_shares: dict = None,
+    share_caps: dict = None,
     weight_overrides: dict = None,
 ) -> List[Tuple[int, int]]:
     """Split `budget` across `stat_ids` by per-stat BUDGET SHARES.
@@ -537,6 +561,11 @@ def distribute_stats(
     `MIN_STAT_VALUE` is dropped as junk and its budget redistributed to the
     rest (the item ships fewer, meaningful stats).
 
+    `share_caps` is an optional {stat_id: max_share} (p90 of the stock
+    conditional share, from `data/stat_shares.json`) hard-capping the
+    fraction of the item any one stat may take — rider stats (Mp5, SpellPen)
+    stay riders even when only 2-3 stats roll. Excess redistributes.
+
     `weight_overrides` supersedes `STAT_WEIGHT` (the budget→value *cost*
     conversion, "stat weight") for specific stats — a different axis from
     `stat_shares`.
@@ -548,7 +577,7 @@ def distribute_stats(
 
     shares_map = stat_shares or {}
     working = list(stat_ids)
-    out = _allocate_once(working, budget, rng, shares_map, weight_overrides)
+    out = _allocate_once(working, budget, rng, shares_map, share_caps, weight_overrides)
 
     # Drop junk stats and redistribute, until every remaining stat clears the
     # threshold. May drop to zero stats when the budget can't support even one
@@ -561,6 +590,6 @@ def distribute_stats(
         working = keep
         if not working:
             return []
-        out = _allocate_once(working, budget, rng, shares_map, weight_overrides)
+        out = _allocate_once(working, budget, rng, shares_map, share_caps, weight_overrides)
 
     return [(sid, val) for sid, val in out]

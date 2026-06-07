@@ -123,11 +123,23 @@ _stat_types = None
 _class_stats = None
 _stat_shares_cache = None
 
+# Era split for stat-share lookup — mirror of stat_share_analyzer.ERA_RANGES
+# (kept inline: the generator is pure / no-DB and must not import the
+# analyzer, which pulls in the DB layer).
+_SHARE_ERAS = (("vanilla", 40, 99), ("tbc", 100, 186), ("wotlk", 187, 284))
+
+
+def _share_era(item_level: int) -> str:
+    for era, lo, hi in _SHARE_ERAS:
+        if lo <= item_level <= hi:
+            return era
+    return "vanilla" if item_level < 40 else "wotlk"
+
 
 def _stat_shares() -> Dict:
-    """Per-role stat budget shares from stat_shares.json
-    ({role: {stat_id_str: share}}). Empty if the file is absent (generator
-    falls back to equal-share distribution)."""
+    """Per-(role, slot_type, era) stat budget shares from stat_shares.json
+    ({role: {slot_type: {era_or_all: {stat_id_str: share}}}}). Empty if the
+    file is absent (generator falls back to equal-share distribution)."""
     global _stat_shares_cache
     if _stat_shares_cache is None:
         try:
@@ -406,14 +418,19 @@ def generate_row(
     else:
         stat_budget = total_budget
 
-    # Split the stat budget by per-(role, slot_type) stat shares (data-driven
-    # from stock gear) so e.g. caster weapons read Spell-Power-concentrated
-    # like real gear — instead of the old flat random spread. slot_type splits
-    # weapons (item_class 2, SP-heavy) from armor (item_class 4).
+    # Split the stat budget by per-(role, slot_type, era) stat shares
+    # (data-driven from stock gear) so e.g. caster weapons read
+    # Spell-Power-concentrated, vanilla casters Int-heavy, WotLK healers
+    # small-Mp5 — like real gear of that era, instead of one pooled profile.
+    # slot_type splits weapons (item_class 2) from armor (item_class 4);
+    # sparse era bins fall back to the pooled "all" shares.
     slot_type = "weapon" if cell.item_class == 2 else "armor"
     role_shares = _stat_shares().get(cell.role, {})
-    shares = role_shares.get(slot_type) or role_shares.get("armor")
-    stats = distribute_stats(stat_ids, stat_budget, rng, stat_shares=shares)
+    by_era = role_shares.get(slot_type) or role_shares.get("armor") or {}
+    leaf = by_era.get(_share_era(item_level)) or by_era.get("all") or {}
+    stats = distribute_stats(stat_ids, stat_budget, rng,
+                             stat_shares=leaf.get("shares"),
+                             share_caps=leaf.get("caps"))
 
     de_id, de_skill = get_disenchant(tier)
 

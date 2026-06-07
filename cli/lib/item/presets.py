@@ -7,7 +7,7 @@ from typing import Iterable, List, Tuple
 
 from .generator import generate_row
 from .matrix import MatrixCell, iter_cells
-from .reservations import RESERVATIONS, entry_id
+from .reservations import RESERVATIONS, entry_id, range_for
 
 # F-013 Phase 6: relic spell SQL file (effect-aura spells used by relic items
 # emitted via build_relic_for_cell). Lives in the zep-items zpak alongside
@@ -93,7 +93,17 @@ def _generate_for(
     required_level = tier_cfg["required_level"]
     item_level = tier_cfg[f"{difficulty}_item_level"]
 
-    item_statements: List[str] = []
+    # Range cleanup FIRST: the reservation block belongs exclusively to this
+    # (tier, difficulty), so clear it wholesale before re-inserting. Older
+    # generations emitted more entries (e.g. rare-quality variants, 718/file)
+    # and per-entry DELETE+INSERT never removed the orphans — stale rows with
+    # ancient stat rolls (Mp5-343 rings etc.) lingered in item_template and
+    # poisoned `zep world item validate` cohorts.
+    lo, hi = range_for(tier, difficulty)
+    item_statements: List[str] = [
+        f"-- Clear the full reservation range (orphan-proof idempotency)\n"
+        f"DELETE FROM `item_template` WHERE `entry` BETWEEN {lo} AND {hi};"
+    ]
     spell_statements: List[str] = []
     for cell in iter_cells():
         eid = entry_id(tier, difficulty, cell.matrix_index)
@@ -150,7 +160,7 @@ def run(
     item_statements, _spell_statements = _generate_for(tier, difficulty, seed, verbose)
     header = f"F-013 Heroic and Mythic Item Generator: {tier} {difficulty}"
     _write_file(output_path, header, item_statements)
-    return output_path, len(item_statements)
+    return output_path, len(item_statements) - 1  # minus the range-cleanup stmt
 
 
 def _relic_spell_path(craft_root: Path) -> Path:
@@ -196,7 +206,7 @@ def run_all(
             header = f"F-013 Heroic and Mythic Item Generator: {tier} {difficulty}"
             _write_file(output_path, header, item_statements)
             all_spell_statements.extend(spell_statements)
-            yield tier, difficulty, output_path, len(item_statements)
+            yield tier, difficulty, output_path, len(item_statements) - 1  # minus cleanup
 
     # Write the consolidated relic spell file (Phase 6) — only when any tier
     # generated relic spells. Skips writing if no relic cells fired.

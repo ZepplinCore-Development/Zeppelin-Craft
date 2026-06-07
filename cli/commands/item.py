@@ -88,6 +88,32 @@ def item_analyze_budget(ctx, quiet):
     click.echo(click.style(f"Wrote: {path}", fg='green'))
 
 
+@item.command('validate')
+@click.option('--tier', '-t', type=click.Choice(['azeroth', 'outland', 'northrend']),
+              default=None, help='Limit to a single tier (default: all)')
+@click.option('--out', '-o', type=click.Path(), default=None,
+              help='Report path (default: reports/item_validation.log)')
+@click.pass_context
+def item_validate(ctx, tier, out):
+    """Validate generated items against stock raid-loot cohorts.
+
+    Objective, repeatable comparison of LIVE generated items vs real raid
+    loot at the same power band (azeroth heroic vs Molten Core, mythic vs
+    Blackwing Lair, etc.). Checks weapon DPS, total budget, stat budget per
+    bucket, and per-role stat distribution. Writes a reviewable report.
+    """
+    from lib.item.validator import run
+    click.echo("F-013 Item Validator (generated vs stock raid cohorts)")
+    click.echo()
+    try:
+        path, totals = run(tiers=[tier] if tier else None,
+                           out_path=out)
+    except Exception as e:
+        raise click.ClickException(f"Failed: {e}")
+    click.echo(f"  {totals['OK']} OK, {totals['WARN']} WARN, {totals['FAIL']} FAIL")
+    click.echo(click.style(f"Report: {path}", fg='green'))
+
+
 @item.command('analyze-stat-shares')
 @click.option('--quiet', '-q', is_flag=True, help='Suppress per-role output')
 @click.pass_context
