@@ -194,8 +194,19 @@ def _cell_rng(
     return random.Random(cell_seed)
 
 
+# display_models.json is keyed by the CLASSIC InventoryType of each weapon
+# family. Caster/healer 1H weapons were re-slotted to main-hand (iv 21, see
+# matrix.py) for budget purposes, but their MODELS are the same as one-hand
+# weapons — alias the lookup or those items get displayid=0 (the bug that
+# shipped 108 invisible-icon caster weapons, found via 61451 Catch Spike).
+_DISPLAY_IV_ALIAS = {
+    21: 13,  # main-hand  -> one-hand display pool
+    22: 13,  # off-hand   -> one-hand display pool
+}
+
+
 def _pick_display(cell: MatrixCell, rng: random.Random) -> int:
-    inv_key = str(cell.inventory_type)
+    inv_key = str(_DISPLAY_IV_ALIAS.get(cell.inventory_type, cell.inventory_type))
     sub_key = str(cell.subclass)
     displays = _displays().get(inv_key, {}).get(sub_key)
     if not displays:

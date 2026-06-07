@@ -82,7 +82,7 @@ _ITEM_COLS = (
     "stat_type1, stat_value1, stat_type2, stat_value2, stat_type3, stat_value3, "
     "stat_type4, stat_value4, stat_type5, stat_value5, stat_type6, stat_value6, "
     "stat_type7, stat_value7, stat_type8, stat_value8, stat_type9, stat_value9, "
-    "stat_type10, stat_value10"
+    "stat_type10, stat_value10, displayid"
 )
 
 STOCK_SQL = f"""
@@ -114,7 +114,7 @@ AND class IN (2, 4) AND InventoryType NOT IN (28, 0)
 
 class Item:
     __slots__ = ("entry", "name", "item_class", "subclass", "iv", "ilvl",
-                 "dps", "stats", "stat_wt", "total", "role")
+                 "dps", "stats", "stat_wt", "total", "role", "displayid")
 
     def __init__(self, row):
         self.entry = int(row[0])
@@ -130,6 +130,7 @@ class Item:
             s, v = int(row[9 + i * 2] or 0), int(row[10 + i * 2] or 0)
             if s > 0 and v:
                 self.stats[s] = self.stats.get(s, 0) + v
+        self.displayid = int(row[29] or 0)
         self.stat_wt = sum(v * STAT_WEIGHT.get(s, 1.0) for s, v in self.stats.items())
         self.total = self.stat_wt + (self.dps * DPS_BUDGET_WEIGHT if self.item_class == 2 else 0.0)
         is_tank, is_healer, is_caster, is_dps = _role_signals(self.stats)
@@ -346,6 +347,15 @@ def run(tiers: Optional[List[str]] = None, out_path: Optional[Path] = None) -> T
                 continue
             gen, stock, excl = _load_cohorts(tier, difficulty)
             gen_ilvl = int(_median([i.ilvl for i in gen]) or 0)
+            # Sanity: every generated item must have a display (displayid=0
+            # renders icon-less / invisible — e.g. the iv-21 caster weapons
+            # that lost their display pool when re-slotted to main-hand).
+            no_display = [it for it in gen if it.displayid == 0]
+            if no_display:
+                totals["FAIL"] = totals.get("FAIL", 0) + 1
+                lines.append(f"!! FAIL sanity: {len(no_display)} generated items with displayid=0 "
+                             f"in {tier} {difficulty} (e.g. "
+                             + ", ".join(f"{it.entry} {it.name}" for it in no_display[:3]) + ")")
             lines.append("=" * 112)
             lines.append(f"{tier} {difficulty} (generated il{gen_ilvl}, n={len(gen)})  vs  "
                          f"{ref['label']} (raw n={excl['raw']}, used n={len(stock)}; "

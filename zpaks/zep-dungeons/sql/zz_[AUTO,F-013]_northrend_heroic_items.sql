@@ -2647,8 +2647,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Might of the Educated Measurement',
-  `displayid` = 0,
+  `name` = 'Entertaining Model Mass',
+  `displayid` = 43866,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -2667,9 +2667,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 5,
   `stat_value1` = 72,
   `stat_type2` = 45,
-  `stat_value2` = 341,
+  `stat_value2` = 360,
   `stat_type3` = 7,
-  `stat_value3` = 103;
+  `stat_value3` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 64287;
 INSERT INTO `item_template` SET
@@ -2678,7 +2678,7 @@ INSERT INTO `item_template` SET
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
   `name` = 'District''s Rapier',
-  `displayid` = 0,
+  `displayid` = 64544,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -4413,8 +4413,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Force of Warming Coach',
-  `displayid` = 0,
+  `name` = 'Mauler of the Tilling Supposition',
+  `displayid` = 38346,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -4431,9 +4431,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 312,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 76,
+  `stat_value1` = 64,
   `stat_type2` = 45,
-  `stat_value2` = 379;
+  `stat_value2` = 369,
+  `stat_type3` = 7,
+  `stat_value3` = 80;
 
 DELETE FROM `item_template` WHERE `entry` = 64346;
 INSERT INTO `item_template` SET
@@ -4442,7 +4444,7 @@ INSERT INTO `item_template` SET
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
   `name` = 'Dirk of the Offending Invite',
-  `displayid` = 0,
+  `displayid` = 64997,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -4911,8 +4913,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Satisfactory Force of Needing',
-  `displayid` = 0,
+  `name` = 'Compactly Commissioning Hammer',
+  `displayid` = 39488,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -4929,11 +4931,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 312,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 56,
+  `stat_value1` = 82,
   `stat_type2` = 45,
-  `stat_value2` = 371,
-  `stat_type3` = 7,
-  `stat_value3` = 88;
+  `stat_value2` = 377;
 
 DELETE FROM `item_template` WHERE `entry` = 64363;
 INSERT INTO `item_template` SET
@@ -4942,7 +4942,7 @@ INSERT INTO `item_template` SET
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
   `name` = 'Currently Sensing Dirk',
-  `displayid` = 0,
+  `displayid` = 59376,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -7575,7 +7575,7 @@ INSERT INTO `item_template` SET
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
   `name` = 'Tasting Mauler',
-  `displayid` = 0,
+  `displayid` = 60675,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -7604,8 +7604,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Scheduling Drop Claw',
-  `displayid` = 0,
+  `name` = 'Agent Scalpel of Caking',
+  `displayid` = 43194,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -8076,7 +8076,7 @@ INSERT INTO `item_template` SET
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
   `name` = 'Test''s Mauler',
-  `displayid` = 0,
+  `displayid` = 59082,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -8103,8 +8103,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Excitement''s Carver',
-  `displayid` = 0,
+  `name` = 'Cable''s Dagger',
+  `displayid` = 39357,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -8584,8 +8584,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Prettily Harmful Broadsword',
-  `displayid` = 0,
+  `name` = 'Normal Knowledge Falchion',
+  `displayid` = 49199,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -8612,8 +8612,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Romantic Half Shank',
-  `displayid` = 0,
+  `name` = 'Knife of Nervously Damaging',
+  `displayid` = 33734,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -8630,11 +8630,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 217,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 61,
+  `stat_value1` = 76,
   `stat_type2` = 45,
-  `stat_value2` = 376,
-  `stat_type3` = 7,
-  `stat_value3` = 74;
+  `stat_value2` = 379;
 
 DELETE FROM `item_template` WHERE `entry` = 64486;
 INSERT INTO `item_template` SET
@@ -9084,8 +9082,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Talon of the Bird',
-  `displayid` = 0,
+  `name` = 'Fashioning Advertising Cutlass',
+  `displayid` = 40614,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -9102,9 +9100,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 312,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 76,
+  `stat_value1` = 69,
   `stat_type2` = 45,
-  `stat_value2` = 379;
+  `stat_value2` = 365,
+  `stat_type3` = 7,
+  `stat_value3` = 77;
 
 DELETE FROM `item_template` WHERE `entry` = 64502;
 INSERT INTO `item_template` SET
@@ -9112,8 +9112,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Tasty Vileblade of the Symbol',
-  `displayid` = 0,
+  `name` = 'Carver of Systematizing',
+  `displayid` = 36285,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -9130,11 +9130,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 217,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 69,
+  `stat_value1` = 58,
   `stat_type2` = 45,
-  `stat_value2` = 366,
+  `stat_value2` = 360,
   `stat_type3` = 7,
-  `stat_value3` = 74;
+  `stat_value3` = 98;
 
 DELETE FROM `item_template` WHERE `entry` = 64503;
 INSERT INTO `item_template` SET
@@ -10667,7 +10667,7 @@ INSERT INTO `item_template` SET
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
   `name` = 'Gavel of the Surprising Name',
-  `displayid` = 0,
+  `displayid` = 64519,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -10694,8 +10694,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Direction Dagger',
-  `displayid` = 0,
+  `name` = 'Performance''s Eviscerator',
+  `displayid` = 13001,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -10712,9 +10712,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 217,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 76,
+  `stat_value1` = 72,
   `stat_type2` = 45,
-  `stat_value2` = 379;
+  `stat_value2` = 336,
+  `stat_type3` = 7,
+  `stat_value3` = 108;
 
 DELETE FROM `item_template` WHERE `entry` = 64556;
 INSERT INTO `item_template` SET
@@ -11134,8 +11136,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Completing Mass',
-  `displayid` = 0,
+  `name` = 'Detail''s Hammer',
+  `displayid` = 37192,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
@@ -11164,8 +11166,8 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Shiv of Exiting',
-  `displayid` = 0,
+  `name` = 'Key Piercer of the Hell',
+  `displayid` = 18264,
   `Quality` = 4,
   `Flags` = 8,
   `InventoryType` = 21,
