@@ -33,14 +33,21 @@ DELETE FROM `spell_group` WHERE `spell_id` = 8112;   -- Spirit
 -- Clean up parent group references to now-empty child groups 1066-1070
 -- 1087 (Scrolls) referenced all five; 1083/1084/1085 referenced one each
 -- 1088 (Str+Agi Buffs) referenced 1066 (Agility scroll) and 1067 (Strength scroll)
-DELETE FROM `spell_group` WHERE `id` = 1087 AND `spell_id` IN (-1066, -1067, -1068, -1069, -1070);
 DELETE FROM `spell_group` WHERE `id` = 1088 AND `spell_id` IN (-1066, -1067);
 DELETE FROM `spell_group` WHERE `id` = 1083 AND `spell_id` = -1068;  -- was Intellect
 DELETE FROM `spell_group` WHERE `id` = 1084 AND `spell_id` = -1069;  -- was Stamina
 DELETE FROM `spell_group` WHERE `id` = 1085 AND `spell_id` = -1070;  -- was Spirit
 
--- Re-link new group 1131 into parent groups so scrolls still interact with class buffs
-INSERT IGNORE INTO `spell_group` VALUES (1087, -1131);  -- Scrolls meta-group
+-- I-192: Retire stock group 1087 (Scrolls, stack_rule 1) entirely.
+-- Its pre-3.3 "one scroll at a time" rule is replaced by the two-stream design
+-- (1131 Empowering exclusive, 1119 Warding exclusive, streams stack with each other).
+-- Leftover -1071 (Scroll of Protection/armor) + re-linked -1131 in 1087 made the
+-- armor scroll cancel ANY empowering scroll. Armor-vs-class-buff interaction is
+-- still covered by stock group 1086 (Armor Buffs, rule 4).
+DELETE FROM `spell_group` WHERE `id` = 1087;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1087;
+
+-- Re-link new group 1131 into class-buff parent groups (exclusive-highest vs class buffs)
 INSERT IGNORE INTO `spell_group` VALUES (1083, -1131);  -- Single Intellect Buffs
 INSERT IGNORE INTO `spell_group` VALUES (1084, -1131);  -- Single Stamina Buffs
 INSERT IGNORE INTO `spell_group` VALUES (1085, -1131);  -- Single Spirit Buffs
