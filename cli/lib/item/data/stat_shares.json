@@ -1,52 +1,89 @@
 {
-  "_comment": "Per-role stat BUDGET SHARES for F-013 (derived from stock gear by `zep world item analyze-stat-shares`, stat_share_analyzer.py). Share = relative portion of an item's stat budget a stat gets within its role; the allocator (generator.distribute_stats) re-normalises across whichever stats an item rolls. NOT scaler.STAT_WEIGHT (the gem cost to convert budget->value). Unlisted stats default to 1.0.",
+  "_comment": "Per-(role, slot_type) stat BUDGET SHARES for F-013 (derived from stock gear by `zep world item analyze-stat-shares`, stat_share_analyzer.py). Keyed [role][slot_type] where slot_type is 'weapon' (item_class 2) or 'armor' (item_class 4) \u2014 caster weapons concentrate SP harder than caster armor. Share = relative portion of an item's stat budget a stat gets; the allocator (generator.distribute_stats) re-normalises across whichever stats an item rolls. NOT scaler.STAT_WEIGHT (the gem cost to convert budget->value). Unlisted stats default to 1.0.",
   "shares": {
-    "healer": {
-      "45": 1.531,
-      "4": 1.177,
-      "3": 1.105,
-      "5": 1.097,
-      "6": 1.039,
-      "43": 1.0,
-      "32": 0.851,
-      "35": 0.85,
-      "36": 0.788,
-      "31": 0.766,
-      "7": 0.751
-    },
     "caster": {
-      "45": 2.037,
-      "5": 1.252,
-      "32": 1.12,
-      "7": 1.0,
-      "36": 1.0,
-      "35": 1.0,
-      "31": 0.91
+      "armor": {
+        "45": 1.624,
+        "5": 1.223,
+        "32": 1.094,
+        "35": 1.0,
+        "36": 0.999,
+        "7": 0.98,
+        "31": 0.898
+      },
+      "weapon": {
+        "45": 4.565,
+        "5": 1.195,
+        "32": 1.065,
+        "7": 0.935,
+        "35": 0.865,
+        "36": 0.843
+      }
     },
-    "tank": {
-      "48": 1.563,
-      "7": 1.317,
-      "3": 1.234,
-      "4": 1.182,
-      "12": 1.047,
-      "13": 0.953,
-      "14": 0.863,
-      "15": 0.814,
-      "31": 0.767,
-      "37": 0.749
+    "healer": {
+      "armor": {
+        "45": 1.342,
+        "4": 1.131,
+        "5": 1.087,
+        "3": 1.067,
+        "6": 1.019,
+        "43": 0.981,
+        "35": 0.857,
+        "32": 0.849,
+        "36": 0.785,
+        "7": 0.745
+      },
+      "weapon": {
+        "45": 3.101,
+        "6": 1.062,
+        "43": 1.006,
+        "5": 0.994,
+        "32": 0.67,
+        "7": 0.65
+      }
     },
     "melee": {
-      "4": 1.912,
-      "3": 1.581,
-      "38": 1.229,
-      "7": 1.144,
-      "32": 1.09,
-      "31": 1.0,
-      "36": 0.988,
-      "37": 0.985,
-      "35": 0.946,
-      "44": 0.942,
-      "5": 0.864
+      "armor": {
+        "4": 1.863,
+        "3": 1.551,
+        "38": 1.224,
+        "7": 1.142,
+        "32": 1.085,
+        "36": 1.0,
+        "37": 0.991,
+        "31": 0.969,
+        "35": 0.951,
+        "44": 0.939,
+        "5": 0.864
+      },
+      "weapon": {
+        "4": 1.878,
+        "3": 1.459,
+        "38": 1.093,
+        "7": 1.02,
+        "32": 0.98,
+        "31": 0.969,
+        "36": 0.845,
+        "44": 0.832
+      }
+    },
+    "tank": {
+      "armor": {
+        "48": 1.637,
+        "7": 1.361,
+        "4": 1.235,
+        "12": 1.072,
+        "13": 1.0,
+        "15": 0.853,
+        "14": 0.831,
+        "31": 0.763,
+        "37": 0.76
+      },
+      "weapon": {
+        "7": 1.155,
+        "12": 1.0,
+        "4": 0.955
+      }
     }
   }
 }

@@ -109,11 +109,17 @@ def _role_of(has: Dict[int, int]):
     return None
 
 
-def analyze(verbose: bool = True) -> Dict[str, Dict[str, float]]:
-    """Return {role: {stat_id_str: stat_share}} derived from stock gear."""
-    # role -> stat_id -> list of per-item conditional weighted shares
-    shares: Dict[str, Dict[int, List[float]]] = {}
-    counts: Dict[str, int] = {}
+def analyze(verbose: bool = True) -> Dict[str, Dict[str, Dict[str, float]]]:
+    """Return {role: {slot_type: {stat_id_str: stat_share}}} from stock gear.
+
+    Shares are split by slot_type ("weapon" = item_class 2, "armor" =
+    item_class 4) as well as role: stock caster *weapons* concentrate ~60% of
+    budget into Spell Power, while caster *armor* spreads it more — a single
+    pooled profile under-concentrates SP on weapons.
+    """
+    # (role, slot_type) -> stat_id -> list of per-item conditional shares
+    shares: Dict = {}
+    counts: Dict = {}
 
     conn = get_db_connection()
     try:
@@ -126,19 +132,21 @@ def analyze(verbose: bool = True) -> Dict[str, Dict[str, float]]:
             role = _role_of(has)
             if role is None:
                 continue
+            slot_type = "weapon" if int(row[1]) == 2 else "armor"
             weighted = {sid: val * STAT_WEIGHT.get(sid, 1.0) for sid, val in has.items()}
             total = sum(weighted.values())
             if total <= 0:
                 continue
-            counts[role] = counts.get(role, 0) + 1
-            bucket = shares.setdefault(role, {})
+            key = (role, slot_type)
+            counts[key] = counts.get(key, 0) + 1
+            bucket = shares.setdefault(key, {})
             for sid, w in weighted.items():
                 bucket.setdefault(sid, []).append(w / total)
     finally:
         conn.close()
 
-    out: Dict[str, Dict[str, float]] = {}
-    for role, statmap in shares.items():
+    out: Dict[str, Dict[str, Dict[str, float]]] = {}
+    for (role, slot_type), statmap in sorted(shares.items()):
         means = {
             sid: statistics.mean(vals)
             for sid, vals in statmap.items()
@@ -151,13 +159,13 @@ def analyze(verbose: bool = True) -> Dict[str, Dict[str, float]]:
         med = statistics.median(means.values())
         if med <= 0:
             med = 1.0
-        out[role] = {
+        out.setdefault(role, {})[slot_type] = {
             str(sid): round(m / med, 3)
             for sid, m in sorted(means.items(), key=lambda kv: -kv[1])
         }
         if verbose:
-            n = counts.get(role, 0)
-            print(f"{role:8s} (n={n}):")
+            n = counts.get((role, slot_type), 0)
+            print(f"{role:8s} / {slot_type:6s} (n={n}):")
             for sid, m in sorted(means.items(), key=lambda kv: -kv[1]):
                 label = _STAT_LABEL.get(sid, str(sid))
                 print(f"    {label:18s} share={m/med:5.2f}  (avg budget {m:5.1%}, n={len(statmap[sid])})")
@@ -169,13 +177,15 @@ def run(verbose: bool = True) -> Path:
     shares = analyze(verbose=verbose)
     payload = {
         "_comment": (
-            "Per-role stat BUDGET SHARES for F-013 (derived from stock gear by "
-            "`zep world item analyze-stat-shares`, stat_share_analyzer.py). "
-            "Share = relative portion of an item's stat budget a stat gets "
-            "within its role; the allocator (generator.distribute_stats) "
-            "re-normalises across whichever stats an item rolls. NOT "
-            "scaler.STAT_WEIGHT (the gem cost to convert budget->value). "
-            "Unlisted stats default to 1.0."
+            "Per-(role, slot_type) stat BUDGET SHARES for F-013 (derived from "
+            "stock gear by `zep world item analyze-stat-shares`, "
+            "stat_share_analyzer.py). Keyed [role][slot_type] where slot_type "
+            "is 'weapon' (item_class 2) or 'armor' (item_class 4) — caster "
+            "weapons concentrate SP harder than caster armor. Share = relative "
+            "portion of an item's stat budget a stat gets; the allocator "
+            "(generator.distribute_stats) re-normalises across whichever stats "
+            "an item rolls. NOT scaler.STAT_WEIGHT (the gem cost to convert "
+            "budget->value). Unlisted stats default to 1.0."
         ),
         "shares": shares,
     }

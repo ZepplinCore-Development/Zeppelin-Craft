@@ -457,14 +457,38 @@ def compute_budget(
 
 
 # Minimum share of budget any selected stat receives, so secondaries don't
-# collapse to +1 junk. There is deliberately no ceiling — a heavily weighted
-# primary (e.g. caster Spell Power) is allowed to dominate, which is the whole
-# point of the allocation weights.
-MIN_STAT_BUDGET_PCT = 0.06
+# collapse to +1 junk. Kept low so a heavily weighted primary (e.g. caster
+# Spell Power) can genuinely dominate like stock gear — a higher floor capped
+# primaries (3 secondaries × floor reserves too much). There is no ceiling.
+MIN_STAT_BUDGET_PCT = 0.02
 
 # Per-stat jitter applied to allocation weights so items of the same role vary
 # a little instead of reading identically. Deterministic via the caller's rng.
 ALLOC_JITTER = 0.18
+
+# Stats that come out below this displayed value are dropped as junk (a token
+# +1/+2 reads as filler) and their budget is redistributed to the remaining
+# stats — so an item ships fewer, meaningful stats instead of padding.
+MIN_STAT_VALUE = 3
+
+
+def _allocate_once(stat_ids, budget, rng, shares_map, weight_overrides):
+    """One pass of share-weighted allocation over exactly `stat_ids`."""
+    n = len(stat_ids)
+    floor_pct = min(MIN_STAT_BUDGET_PCT, 1.0 / n)
+    raw_shares = []
+    for sid in stat_ids:
+        base = shares_map.get(sid, shares_map.get(str(sid), 1.0))
+        base = max(0.01, float(base))
+        raw_shares.append(base * (1.0 + rng.uniform(-ALLOC_JITTER, ALLOC_JITTER)))
+    total = sum(raw_shares) or 1.0
+    extra_pool = max(0.0, 1.0 - floor_pct * n)
+    pcts = [floor_pct + (s / total) * extra_pool for s in raw_shares]
+    out = []
+    for sid, pct in zip(stat_ids, pcts):
+        cost = (weight_overrides or {}).get(sid, stat_weight(sid))
+        out.append((sid, int(round(pct * budget / cost))))
+    return out
 
 
 def distribute_stats(
@@ -483,9 +507,12 @@ def distribute_stats(
     Stats absent from the map default to 1.0; with no map at all, stats
     share equally. Keys may be int or str (JSON uses str).
 
-    Shares are jittered ±`ALLOC_JITTER` for variety, each stat is then given
-    a small floor (`MIN_STAT_BUDGET_PCT`) so secondaries don't collapse, and
-    the remainder is split by normalised share. No ceiling.
+    Shares are jittered ±`ALLOC_JITTER` for variety, each stat is given a
+    small floor (`MIN_STAT_BUDGET_PCT`) so it isn't vanishingly small, and the
+    remainder is split by normalised share. No ceiling — a heavily weighted
+    primary may dominate. Any stat that still comes out below
+    `MIN_STAT_VALUE` is dropped as junk and its budget redistributed to the
+    rest (the item ships fewer, meaningful stats).
 
     `weight_overrides` supersedes `STAT_WEIGHT` (the budget→value *cost*
     conversion, "stat weight") for specific stats — a different axis from
@@ -497,24 +524,20 @@ def distribute_stats(
         return []
 
     shares_map = stat_shares or {}
-    n = len(stat_ids)
-    floor_pct = min(MIN_STAT_BUDGET_PCT, 1.0 / n)
+    working = list(stat_ids)
+    out = _allocate_once(working, budget, rng, shares_map, weight_overrides)
 
-    raw_shares = []
-    for sid in stat_ids:
-        base = shares_map.get(sid, shares_map.get(str(sid), 1.0))
-        base = max(0.01, float(base))
-        raw_shares.append(base * (1.0 + rng.uniform(-ALLOC_JITTER, ALLOC_JITTER)))
-    total = sum(raw_shares) or 1.0
+    # Drop junk stats and redistribute, until every remaining stat clears the
+    # threshold. May drop to zero stats when the budget can't support even one
+    # (e.g. a wand, whose spell-damage "DPS" consumes nearly all its budget) —
+    # a damage-only item is preferable to a +1 filler stat.
+    while True:
+        keep = [sid for sid, val in out if val >= MIN_STAT_VALUE]
+        if len(keep) == len(working):
+            break
+        working = keep
+        if not working:
+            return []
+        out = _allocate_once(working, budget, rng, shares_map, weight_overrides)
 
-    # Reserve a floor for each stat, distribute the remainder by share.
-    extra_pool = max(0.0, 1.0 - floor_pct * n)
-    pcts = [floor_pct + (s / total) * extra_pool for s in raw_shares]
-
-    out: List[Tuple[int, int]] = []
-    for sid, pct in zip(stat_ids, pcts):
-        budget_share = pct * budget
-        cost = (weight_overrides or {}).get(sid, stat_weight(sid))
-        value = int(round(budget_share / cost))
-        out.append((sid, max(1, value)))
-    return out
+    return [(sid, val) for sid, val in out]

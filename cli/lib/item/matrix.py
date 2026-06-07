@@ -159,6 +159,15 @@ def iter_cells() -> Iterator[MatrixCell]:
                     iv, ic, sc = _resolve_armor_slot(token, armor_type)
                 else:
                     iv, ic, sc = _resolve_weapon(token)
+                    # Caster/healer 1H weapons are main-hand (paired with an
+                    # off-hand holdable), not dual-wieldable one-hands. Use
+                    # InventoryType 21 (main-hand) so they draw the main-hand
+                    # stat budget, matching stock caster weapons. The one-hand
+                    # pool (iv 13) carries ~6% more budget because it's
+                    # dominated by physical dual-wield weapons. Physical roles
+                    # keep iv 13 for dual-wield.
+                    if iv == 13 and role in ("caster", "healer"):
+                        iv = 21
                 for quality in QUALITY_ORDER:
                     yield MatrixCell(
                         matrix_index=idx,

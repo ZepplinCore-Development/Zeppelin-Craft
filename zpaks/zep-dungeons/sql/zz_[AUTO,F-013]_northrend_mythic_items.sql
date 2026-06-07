@@ -23,11 +23,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 145,
+  `stat_value1` = 149,
   `stat_type2` = 7,
-  `stat_value2` = 235,
+  `stat_value2` = 241,
   `stat_type3` = 37,
-  `stat_value3` = 84;
+  `stat_value3` = 76;
 
 DELETE FROM `item_template` WHERE `entry` = 65201;
 INSERT INTO `item_template` SET
@@ -51,13 +51,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 91,
+  `stat_value1` = 94,
   `stat_type2` = 7,
-  `stat_value2` = 130,
+  `stat_value2` = 133,
   `stat_type3` = 38,
-  `stat_value3` = 146,
+  `stat_value3` = 141,
   `stat_type4` = 15,
-  `stat_value4` = 59;
+  `stat_value4` = 56;
 
 DELETE FROM `item_template` WHERE `entry` = 65202;
 INSERT INTO `item_template` SET
@@ -83,13 +83,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 81,
   `stat_type2` = 7,
-  `stat_value2` = 147,
+  `stat_value2` = 153,
   `stat_type3` = 15,
-  `stat_value3` = 61,
+  `stat_value3` = 56,
   `stat_type4` = 48,
-  `stat_value4` = 136,
+  `stat_value4` = 140,
   `stat_type5` = 13,
-  `stat_value5` = 76;
+  `stat_value5` = 75;
 
 DELETE FROM `item_template` WHERE `entry` = 65203;
 INSERT INTO `item_template` SET
@@ -113,15 +113,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1696,
   `stat_type1` = 4,
-  `stat_value1` = 66,
+  `stat_value1` = 68,
   `stat_type2` = 7,
-  `stat_value2` = 100,
+  `stat_value2` = 103,
   `stat_type3` = 15,
-  `stat_value3` = 47,
+  `stat_value3` = 44,
   `stat_type4` = 35,
   `stat_value4` = 65,
   `stat_type5` = 44,
-  `stat_value5` = 62;
+  `stat_value5` = 61;
 
 DELETE FROM `item_template` WHERE `entry` = 65204;
 INSERT INTO `item_template` SET
@@ -145,11 +145,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2364,
   `stat_type1` = 4,
-  `stat_value1` = 88,
+  `stat_value1` = 87,
   `stat_type2` = 7,
-  `stat_value2` = 172,
+  `stat_value2` = 177,
   `stat_type3` = 35,
-  `stat_value3` = 95,
+  `stat_value3` = 92,
   `stat_type4` = 12,
   `stat_value4` = 105;
 
@@ -175,15 +175,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 69,
+  `stat_value1` = 73,
   `stat_type2` = 7,
-  `stat_value2` = 107,
+  `stat_value2` = 112,
   `stat_type3` = 15,
-  `stat_value3` = 54,
+  `stat_value3` = 53,
   `stat_type4` = 44,
-  `stat_value4` = 52,
+  `stat_value4` = 48,
   `stat_type5` = 36,
-  `stat_value5` = 61;
+  `stat_value5` = 59;
 
 DELETE FROM `item_template` WHERE `entry` = 65206;
 INSERT INTO `item_template` SET
@@ -209,13 +209,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 44,
   `stat_type2` = 7,
-  `stat_value2` = 80,
+  `stat_value2` = 83,
   `stat_type3` = 12,
-  `stat_value3` = 49,
+  `stat_value3` = 50,
   `stat_type4` = 36,
-  `stat_value4` = 45,
+  `stat_value4` = 44,
   `stat_type5` = 15,
-  `stat_value5` = 42;
+  `stat_value5` = 41;
 
 DELETE FROM `item_template` WHERE `entry` = 65207;
 INSERT INTO `item_template` SET
@@ -243,11 +243,11 @@ INSERT INTO `item_template` SET
   `stat_type2` = 7,
   `stat_value2` = 87,
   `stat_type3` = 32,
-  `stat_value3` = 55,
+  `stat_value3` = 52,
   `stat_type4` = 35,
-  `stat_value4` = 56,
+  `stat_value4` = 53,
   `stat_type5` = 48,
-  `stat_value5` = 120;
+  `stat_value5` = 129;
 
 DELETE FROM `item_template` WHERE `entry` = 65208;
 INSERT INTO `item_template` SET
@@ -270,13 +270,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 58,
+  `stat_value1` = 60,
   `stat_type2` = 7,
-  `stat_value2` = 106,
+  `stat_value2` = 111,
   `stat_type3` = 37,
-  `stat_value3` = 48,
+  `stat_value3` = 46,
   `stat_type4` = 44,
-  `stat_value4` = 52;
+  `stat_value4` = 50;
 
 DELETE FROM `item_template` WHERE `entry` = 65209;
 INSERT INTO `item_template` SET
@@ -299,13 +299,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 65,
+  `stat_value1` = 67,
   `stat_type2` = 7,
-  `stat_value2` = 104,
+  `stat_value2` = 108,
   `stat_type3` = 13,
-  `stat_value3` = 44,
+  `stat_value3` = 42,
   `stat_type4` = 32,
-  `stat_value4` = 51;
+  `stat_value4` = 48;
 
 DELETE FROM `item_template` WHERE `entry` = 65210;
 INSERT INTO `item_template` SET
@@ -328,11 +328,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 78,
+  `stat_value1` = 79,
   `stat_type2` = 7,
-  `stat_value2` = 115,
+  `stat_value2` = 116,
   `stat_type3` = 38,
-  `stat_value3` = 149;
+  `stat_value3` = 144;
 
 DELETE FROM `item_template` WHERE `entry` = 65211;
 INSERT INTO `item_template` SET
@@ -356,15 +356,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 4,
-  `stat_value1` = 54,
+  `stat_value1` = 57,
   `stat_type2` = 7,
-  `stat_value2` = 87,
+  `stat_value2` = 92,
   `stat_type3` = 15,
-  `stat_value3` = 38,
+  `stat_value3` = 36,
   `stat_type4` = 12,
-  `stat_value4` = 40,
+  `stat_value4` = 38,
   `stat_type5` = 44,
-  `stat_value5` = 39;
+  `stat_value5` = 36;
 
 DELETE FROM `item_template` WHERE `entry` = 65212;
 INSERT INTO `item_template` SET
@@ -390,13 +390,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 39,
+  `stat_value1` = 37,
   `stat_type2` = 7,
-  `stat_value2` = 74,
+  `stat_value2` = 81,
   `stat_type3` = 38,
-  `stat_value3` = 69,
+  `stat_value3` = 78,
   `stat_type4` = 48,
-  `stat_value4` = 79;
+  `stat_value4` = 66;
 
 DELETE FROM `item_template` WHERE `entry` = 65213;
 INSERT INTO `item_template` SET
@@ -422,13 +422,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 45,
+  `stat_value1` = 38,
   `stat_type2` = 7,
-  `stat_value2` = 79,
+  `stat_value2` = 74,
   `stat_type3` = 36,
-  `stat_value3` = 42,
+  `stat_value3` = 44,
   `stat_type4` = 37,
-  `stat_value4` = 34;
+  `stat_value4` = 42;
 
 DELETE FROM `item_template` WHERE `entry` = 65214;
 INSERT INTO `item_template` SET
@@ -454,15 +454,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 35,
+  `stat_value1` = 29,
   `stat_type2` = 7,
-  `stat_value2` = 62,
+  `stat_value2` = 59,
   `stat_type3` = 36,
-  `stat_value3` = 34,
+  `stat_value3` = 35,
   `stat_type4` = 32,
-  `stat_value4` = 38,
+  `stat_value4` = 40,
   `stat_type5` = 37,
-  `stat_value5` = 26;
+  `stat_value5` = 30;
 
 DELETE FROM `item_template` WHERE `entry` = 65215;
 INSERT INTO `item_template` SET
@@ -489,9 +489,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 58,
   `stat_type2` = 7,
-  `stat_value2` = 110,
+  `stat_value2` = 114,
   `stat_type3` = 15,
-  `stat_value3` = 48,
+  `stat_value3` = 46,
   `stat_type4` = 13,
   `stat_value4` = 54;
 
@@ -517,15 +517,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 106,
+  `stat_value1` = 113,
   `stat_type2` = 7,
-  `stat_value2` = 105,
+  `stat_value2` = 103,
   `stat_type3` = 38,
-  `stat_value3` = 155,
+  `stat_value3` = 156,
   `stat_type4` = 31,
-  `stat_value4` = 71,
+  `stat_value4` = 68,
   `stat_type5` = 37,
-  `stat_value5` = 61;
+  `stat_value5` = 58;
 
 DELETE FROM `item_template` WHERE `entry` = 65217;
 INSERT INTO `item_template` SET
@@ -549,13 +549,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 111,
+  `stat_value1` = 118,
   `stat_type2` = 7,
   `stat_value2` = 109,
   `stat_type3` = 44,
-  `stat_value3` = 60,
+  `stat_value3` = 57,
   `stat_type4` = 31,
-  `stat_value4` = 65;
+  `stat_value4` = 62;
 
 DELETE FROM `item_template` WHERE `entry` = 65218;
 INSERT INTO `item_template` SET
@@ -579,11 +579,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2570,
   `stat_type1` = 4,
-  `stat_value1` = 181,
+  `stat_value1` = 186,
   `stat_type2` = 7,
-  `stat_value2` = 176,
+  `stat_value2` = 174,
   `stat_type3` = 37,
-  `stat_value3` = 105;
+  `stat_value3` = 102;
 
 DELETE FROM `item_template` WHERE `entry` = 65219;
 INSERT INTO `item_template` SET
@@ -607,13 +607,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1696,
   `stat_type1` = 4,
-  `stat_value1` = 105,
+  `stat_value1` = 109,
   `stat_type2` = 7,
-  `stat_value2` = 94,
+  `stat_value2` = 90,
   `stat_type3` = 37,
-  `stat_value3` = 59,
+  `stat_value3` = 56,
   `stat_type4` = 38,
-  `stat_value4` = 162;
+  `stat_value4` = 165;
 
 DELETE FROM `item_template` WHERE `entry` = 65220;
 INSERT INTO `item_template` SET
@@ -637,13 +637,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2364,
   `stat_type1` = 4,
-  `stat_value1` = 106,
+  `stat_value1` = 111,
   `stat_type2` = 7,
-  `stat_value2` = 114,
+  `stat_value2` = 113,
   `stat_type3` = 36,
   `stat_value3` = 77,
   `stat_type4` = 31,
-  `stat_value4` = 65,
+  `stat_value4` = 59,
   `stat_type5` = 32,
   `stat_value5` = 80;
 
@@ -669,15 +669,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 82,
+  `stat_value1` = 87,
   `stat_type2` = 7,
-  `stat_value2` = 102,
+  `stat_value2` = 105,
   `stat_type3` = 37,
-  `stat_value3` = 57,
+  `stat_value3` = 56,
   `stat_type4` = 36,
-  `stat_value4` = 51,
+  `stat_value4` = 49,
   `stat_type5` = 44,
-  `stat_value5` = 50;
+  `stat_value5` = 47;
 
 DELETE FROM `item_template` WHERE `entry` = 65222;
 INSERT INTO `item_template` SET
@@ -701,15 +701,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1285,
   `stat_type1` = 4,
-  `stat_value1` = 62,
+  `stat_value1` = 66,
   `stat_type2` = 7,
-  `stat_value2` = 75,
+  `stat_value2` = 76,
   `stat_type3` = 31,
-  `stat_value3` = 43,
+  `stat_value3` = 41,
   `stat_type4` = 44,
-  `stat_value4` = 38,
+  `stat_value4` = 35,
   `stat_type5` = 37,
-  `stat_value5` = 42;
+  `stat_value5` = 41;
 
 DELETE FROM `item_template` WHERE `entry` = 65223;
 INSERT INTO `item_template` SET
@@ -733,15 +733,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 90,
+  `stat_value1` = 97,
   `stat_type2` = 7,
-  `stat_value2` = 81,
+  `stat_value2` = 79,
   `stat_type3` = 44,
-  `stat_value3` = 50,
+  `stat_value3` = 47,
   `stat_type4` = 38,
-  `stat_value4` = 114,
+  `stat_value4` = 112,
   `stat_type5` = 36,
-  `stat_value5` = 54;
+  `stat_value5` = 53;
 
 DELETE FROM `item_template` WHERE `entry` = 65224;
 INSERT INTO `item_template` SET
@@ -764,11 +764,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 102,
+  `stat_value1` = 104,
   `stat_type2` = 7,
-  `stat_value2` = 97,
+  `stat_value2` = 95,
   `stat_type3` = 36,
-  `stat_value3` = 62;
+  `stat_value3` = 61;
 
 DELETE FROM `item_template` WHERE `entry` = 65225;
 INSERT INTO `item_template` SET
@@ -791,11 +791,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 94,
+  `stat_value1` = 95,
   `stat_type2` = 7,
-  `stat_value2` = 104,
+  `stat_value2` = 103,
   `stat_type3` = 38,
-  `stat_value3` = 132;
+  `stat_value3` = 130;
 
 DELETE FROM `item_template` WHERE `entry` = 65226;
 INSERT INTO `item_template` SET
@@ -818,15 +818,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 65,
+  `stat_value1` = 69,
   `stat_type2` = 7,
-  `stat_value2` = 57,
+  `stat_value2` = 55,
   `stat_type3` = 38,
-  `stat_value3` = 87,
+  `stat_value3` = 86,
   `stat_type4` = 32,
-  `stat_value4` = 42,
+  `stat_value4` = 41,
   `stat_type5` = 44,
-  `stat_value5` = 41;
+  `stat_value5` = 40;
 
 DELETE FROM `item_template` WHERE `entry` = 65227;
 INSERT INTO `item_template` SET
@@ -850,11 +850,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 4,
-  `stat_value1` = 100,
+  `stat_value1` = 102,
   `stat_type2` = 7,
   `stat_value2` = 112,
   `stat_type3` = 37,
-  `stat_value3` = 54;
+  `stat_value3` = 52;
 
 DELETE FROM `item_template` WHERE `entry` = 65228;
 INSERT INTO `item_template` SET
@@ -880,15 +880,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 53,
+  `stat_value1` = 62,
   `stat_type2` = 7,
-  `stat_value2` = 47,
+  `stat_value2` = 45,
   `stat_type3` = 38,
-  `stat_value3` = 61,
+  `stat_value3` = 57,
   `stat_type4` = 44,
-  `stat_value4` = 29,
+  `stat_value4` = 27,
   `stat_type5` = 36,
-  `stat_value5` = 29;
+  `stat_value5` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 65229;
 INSERT INTO `item_template` SET
@@ -914,13 +914,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 70,
+  `stat_value1` = 80,
   `stat_type2` = 7,
-  `stat_value2` = 56,
+  `stat_value2` = 52,
   `stat_type3` = 36,
-  `stat_value3` = 34,
+  `stat_value3` = 30,
   `stat_type4` = 44,
-  `stat_value4` = 32;
+  `stat_value4` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 65230;
 INSERT INTO `item_template` SET
@@ -946,11 +946,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 79,
+  `stat_value1` = 87,
   `stat_type2` = 7,
-  `stat_value2` = 71,
+  `stat_value2` = 66,
   `stat_type3` = 44,
-  `stat_value3` = 47;
+  `stat_value3` = 43;
 
 DELETE FROM `item_template` WHERE `entry` = 65231;
 INSERT INTO `item_template` SET
@@ -976,15 +976,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 420,
   `delay` = 1800,
   `stat_type1` = 4,
-  `stat_value1` = 52,
+  `stat_value1` = 60,
   `stat_type2` = 7,
-  `stat_value2` = 46,
+  `stat_value2` = 43,
   `stat_type3` = 36,
-  `stat_value3` = 29,
+  `stat_value3` = 26,
   `stat_type4` = 32,
-  `stat_value4` = 33,
+  `stat_value4` = 31,
   `stat_type5` = 31,
-  `stat_value5` = 27;
+  `stat_value5` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 65232;
 INSERT INTO `item_template` SET
@@ -1010,13 +1010,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 139,
+  `stat_value1` = 152,
   `stat_type2` = 7,
-  `stat_value2` = 147,
+  `stat_value2` = 137,
   `stat_type3` = 44,
-  `stat_value3` = 84,
+  `stat_value3` = 75,
   `stat_type4` = 37,
-  `stat_value4` = 88;
+  `stat_value4` = 90;
 
 DELETE FROM `item_template` WHERE `entry` = 65233;
 INSERT INTO `item_template` SET
@@ -1042,11 +1042,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 171,
+  `stat_value1` = 185,
   `stat_type2` = 7,
-  `stat_value2` = 171,
+  `stat_value2` = 159,
   `stat_type3` = 38,
-  `stat_value3` = 248;
+  `stat_value3` = 235;
 
 DELETE FROM `item_template` WHERE `entry` = 65234;
 INSERT INTO `item_template` SET
@@ -1072,13 +1072,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 117,
+  `stat_value1` = 133,
   `stat_type2` = 7,
-  `stat_value2` = 106,
+  `stat_value2` = 96,
   `stat_type3` = 38,
-  `stat_value3` = 175,
+  `stat_value3` = 170,
   `stat_type4` = 44,
-  `stat_value4` = 67,
+  `stat_value4` = 60,
   `stat_type5` = 37,
   `stat_value5` = 66;
 
@@ -1107,13 +1107,13 @@ INSERT INTO `item_template` SET
   `delay` = 3500,
   `block` = 209,
   `stat_type1` = 4,
-  `stat_value1` = 130,
+  `stat_value1` = 138,
   `stat_type2` = 7,
-  `stat_value2` = 142,
+  `stat_value2` = 130,
   `stat_type3` = 37,
-  `stat_value3` = 88,
+  `stat_value3` = 89,
   `stat_type4` = 31,
-  `stat_value4` = 96;
+  `stat_value4` = 95;
 
 DELETE FROM `item_template` WHERE `entry` = 65236;
 INSERT INTO `item_template` SET
@@ -1139,15 +1139,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 4,
-  `stat_value1` = 28,
+  `stat_value1` = 32,
   `stat_type2` = 7,
-  `stat_value2` = 30,
+  `stat_value2` = 29,
   `stat_type3` = 37,
   `stat_value3` = 16,
   `stat_type4` = 36,
-  `stat_value4` = 15,
+  `stat_value4` = 12,
   `stat_type5` = 44,
-  `stat_value5` = 18;
+  `stat_value5` = 16;
 
 DELETE FROM `item_template` WHERE `entry` = 65237;
 INSERT INTO `item_template` SET
@@ -1173,13 +1173,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 4,
-  `stat_value1` = 153,
+  `stat_value1` = 169,
   `stat_type2` = 7,
-  `stat_value2` = 146,
+  `stat_value2` = 135,
   `stat_type3` = 38,
-  `stat_value3` = 217,
+  `stat_value3` = 206,
   `stat_type4` = 31,
-  `stat_value4` = 82;
+  `stat_value4` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 65238;
 INSERT INTO `item_template` SET
@@ -1205,15 +1205,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 4,
-  `stat_value1` = 126,
+  `stat_value1` = 145,
   `stat_type2` = 7,
-  `stat_value2` = 129,
+  `stat_value2` = 124,
   `stat_type3` = 32,
-  `stat_value3` = 81,
+  `stat_value3` = 78,
   `stat_type4` = 44,
-  `stat_value4` = 75,
+  `stat_value4` = 68,
   `stat_type5` = 38,
-  `stat_value5` = 147;
+  `stat_value5` = 134;
 
 DELETE FROM `item_template` WHERE `entry` = 65239;
 INSERT INTO `item_template` SET
@@ -1239,13 +1239,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 546,
   `delay` = 1800,
   `stat_type1` = 4,
-  `stat_value1` = 36,
+  `stat_value1` = 42,
   `stat_type2` = 7,
-  `stat_value2` = 36,
+  `stat_value2` = 34,
   `stat_type3` = 32,
-  `stat_value3` = 23,
+  `stat_value3` = 22,
   `stat_type4` = 38,
-  `stat_value4` = 45,
+  `stat_value4` = 41,
   `stat_type5` = 31,
   `stat_value5` = 21;
 
@@ -1271,11 +1271,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 141,
+  `stat_value1` = 145,
   `stat_type2` = 7,
-  `stat_value2` = 199,
+  `stat_value2` = 200,
   `stat_type3` = 35,
-  `stat_value3` = 113;
+  `stat_value3` = 108;
 
 DELETE FROM `item_template` WHERE `entry` = 65241;
 INSERT INTO `item_template` SET
@@ -1299,11 +1299,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 109,
+  `stat_value1` = 111,
   `stat_type2` = 7,
-  `stat_value2` = 183,
+  `stat_value2` = 185,
   `stat_type3` = 13,
-  `stat_value3` = 78;
+  `stat_value3` = 75;
 
 DELETE FROM `item_template` WHERE `entry` = 65242;
 INSERT INTO `item_template` SET
@@ -1327,11 +1327,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2570,
   `stat_type1` = 4,
-  `stat_value1` = 136,
+  `stat_value1` = 138,
   `stat_type2` = 7,
-  `stat_value2` = 230,
+  `stat_value2` = 235,
   `stat_type3` = 44,
-  `stat_value3` = 115;
+  `stat_value3` = 109;
 
 DELETE FROM `item_template` WHERE `entry` = 65243;
 INSERT INTO `item_template` SET
@@ -1355,13 +1355,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1696,
   `stat_type1` = 4,
-  `stat_value1` = 80,
+  `stat_value1` = 82,
   `stat_type2` = 7,
-  `stat_value2` = 136,
+  `stat_value2` = 141,
   `stat_type3` = 35,
-  `stat_value3` = 75,
+  `stat_value3` = 73,
   `stat_type4` = 15,
-  `stat_value4` = 61;
+  `stat_value4` = 59;
 
 DELETE FROM `item_template` WHERE `entry` = 65244;
 INSERT INTO `item_template` SET
@@ -1385,15 +1385,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2364,
   `stat_type1` = 4,
-  `stat_value1` = 71,
+  `stat_value1` = 70,
   `stat_type2` = 7,
-  `stat_value2` = 122,
+  `stat_value2` = 123,
   `stat_type3` = 12,
-  `stat_value3` = 79,
+  `stat_value3` = 78,
   `stat_type4` = 48,
-  `stat_value4` = 146,
+  `stat_value4` = 155,
   `stat_type5` = 32,
-  `stat_value5` = 76;
+  `stat_value5` = 72;
 
 DELETE FROM `item_template` WHERE `entry` = 65245;
 INSERT INTO `item_template` SET
@@ -1417,11 +1417,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 108,
+  `stat_value1` = 110,
   `stat_type2` = 7,
-  `stat_value2` = 171,
+  `stat_value2` = 173,
   `stat_type3` = 12,
-  `stat_value3` = 86;
+  `stat_value3` = 83;
 
 DELETE FROM `item_template` WHERE `entry` = 65246;
 INSERT INTO `item_template` SET
@@ -1445,13 +1445,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1285,
   `stat_type1` = 4,
-  `stat_value1` = 62,
+  `stat_value1` = 64,
   `stat_type2` = 7,
-  `stat_value2` = 94,
+  `stat_value2` = 96,
   `stat_type3` = 36,
   `stat_value3` = 60,
   `stat_type4` = 35,
-  `stat_value4` = 50;
+  `stat_value4` = 47;
 
 DELETE FROM `item_template` WHERE `entry` = 65247;
 INSERT INTO `item_template` SET
@@ -1475,11 +1475,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 102,
+  `stat_value1` = 104,
   `stat_type2` = 7,
-  `stat_value2` = 190,
+  `stat_value2` = 196,
   `stat_type3` = 35,
-  `stat_value3` = 75;
+  `stat_value3` = 70;
 
 DELETE FROM `item_template` WHERE `entry` = 65248;
 INSERT INTO `item_template` SET
@@ -1502,15 +1502,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 42,
+  `stat_value1` = 41,
   `stat_type2` = 7,
-  `stat_value2` = 75,
+  `stat_value2` = 77,
   `stat_type3` = 44,
-  `stat_value3` = 43,
+  `stat_value3` = 41,
   `stat_type4` = 32,
-  `stat_value4` = 35,
+  `stat_value4` = 31,
   `stat_type5` = 48,
-  `stat_value5` = 93;
+  `stat_value5` = 101;
 
 DELETE FROM `item_template` WHERE `entry` = 65249;
 INSERT INTO `item_template` SET
@@ -1533,11 +1533,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 75,
+  `stat_value1` = 76,
   `stat_type2` = 7,
-  `stat_value2` = 138,
+  `stat_value2` = 142,
   `stat_type3` = 38,
-  `stat_value3` = 124;
+  `stat_value3` = 117;
 
 DELETE FROM `item_template` WHERE `entry` = 65250;
 INSERT INTO `item_template` SET
@@ -1560,15 +1560,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 53,
+  `stat_value1` = 56,
   `stat_type2` = 7,
-  `stat_value2` = 82,
+  `stat_value2` = 86,
   `stat_type3` = 36,
-  `stat_value3` = 44,
+  `stat_value3` = 43,
   `stat_type4` = 14,
-  `stat_value4` = 39,
+  `stat_value4` = 35,
   `stat_type5` = 15,
-  `stat_value5` = 39;
+  `stat_value5` = 37;
 
 DELETE FROM `item_template` WHERE `entry` = 65251;
 INSERT INTO `item_template` SET
@@ -1594,9 +1594,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 68,
   `stat_type2` = 7,
-  `stat_value2` = 145,
+  `stat_value2` = 150,
   `stat_type3` = 32,
-  `stat_value3` = 65;
+  `stat_value3` = 61;
 
 DELETE FROM `item_template` WHERE `entry` = 65252;
 INSERT INTO `item_template` SET
@@ -1622,15 +1622,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 33,
+  `stat_value1` = 32,
   `stat_type2` = 7,
-  `stat_value2` = 58,
+  `stat_value2` = 62,
   `stat_type3` = 32,
-  `stat_value3` = 31,
+  `stat_value3` = 34,
   `stat_type4` = 36,
-  `stat_value4` = 31,
+  `stat_value4` = 34,
   `stat_type5` = 48,
-  `stat_value5` = 62;
+  `stat_value5` = 50;
 
 DELETE FROM `item_template` WHERE `entry` = 65253;
 INSERT INTO `item_template` SET
@@ -1656,15 +1656,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 37,
+  `stat_value1` = 34,
   `stat_type2` = 7,
-  `stat_value2` = 59,
+  `stat_value2` = 58,
   `stat_type3` = 48,
-  `stat_value3` = 64,
+  `stat_value3` = 48,
   `stat_type4` = 31,
-  `stat_value4` = 27,
+  `stat_value4` = 34,
   `stat_type5` = 37,
-  `stat_value5` = 28;
+  `stat_value5` = 36;
 
 DELETE FROM `item_template` WHERE `entry` = 65254;
 INSERT INTO `item_template` SET
@@ -1690,11 +1690,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 66,
+  `stat_value1` = 61,
   `stat_type2` = 7,
   `stat_value2` = 92,
   `stat_type3` = 13,
-  `stat_value3` = 46;
+  `stat_value3` = 52;
 
 DELETE FROM `item_template` WHERE `entry` = 65255;
 INSERT INTO `item_template` SET
@@ -1719,11 +1719,11 @@ INSERT INTO `item_template` SET
   `armor` = 7075,
   `block` = 209,
   `stat_type1` = 4,
-  `stat_value1` = 79,
+  `stat_value1` = 80,
   `stat_type2` = 7,
-  `stat_value2` = 140,
+  `stat_value2` = 144,
   `stat_type3` = 44,
-  `stat_value3` = 61;
+  `stat_value3` = 57;
 
 DELETE FROM `item_template` WHERE `entry` = 65256;
 INSERT INTO `item_template` SET
@@ -1772,13 +1772,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 135,
+  `stat_value1` = 141,
   `stat_type2` = 7,
-  `stat_value2` = 141,
+  `stat_value2` = 142,
   `stat_type3` = 31,
-  `stat_value3` = 85,
+  `stat_value3` = 82,
   `stat_type4` = 44,
-  `stat_value4` = 72;
+  `stat_value4` = 68;
 
 DELETE FROM `item_template` WHERE `entry` = 65258;
 INSERT INTO `item_template` SET
@@ -1802,13 +1802,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 108,
+  `stat_value1` = 114,
   `stat_type2` = 7,
-  `stat_value2` = 116,
+  `stat_value2` = 118,
   `stat_type3` = 31,
-  `stat_value3` = 63,
+  `stat_value3` = 59,
   `stat_type4` = 32,
-  `stat_value4` = 61;
+  `stat_value4` = 58;
 
 DELETE FROM `item_template` WHERE `entry` = 65259;
 INSERT INTO `item_template` SET
@@ -1832,13 +1832,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2570,
   `stat_type1` = 4,
-  `stat_value1` = 144,
+  `stat_value1` = 152,
   `stat_type2` = 7,
-  `stat_value2` = 131,
+  `stat_value2` = 128,
   `stat_type3` = 32,
   `stat_value3` = 95,
   `stat_type4` = 31,
-  `stat_value4` = 78;
+  `stat_value4` = 72;
 
 DELETE FROM `item_template` WHERE `entry` = 65260;
 INSERT INTO `item_template` SET
@@ -1862,11 +1862,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1696,
   `stat_type1` = 4,
-  `stat_value1` = 142,
+  `stat_value1` = 147,
   `stat_type2` = 7,
   `stat_value2` = 133,
   `stat_type3` = 31,
-  `stat_value3` = 76;
+  `stat_value3` = 72;
 
 DELETE FROM `item_template` WHERE `entry` = 65261;
 INSERT INTO `item_template` SET
@@ -1890,11 +1890,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2364,
   `stat_type1` = 4,
-  `stat_value1` = 167,
+  `stat_value1` = 169,
   `stat_type2` = 7,
-  `stat_value2` = 209,
+  `stat_value2` = 212,
   `stat_type3` = 36,
-  `stat_value3` = 96;
+  `stat_value3` = 92;
 
 DELETE FROM `item_template` WHERE `entry` = 65262;
 INSERT INTO `item_template` SET
@@ -1918,11 +1918,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 97,
+  `stat_value1` = 100,
   `stat_type2` = 7,
-  `stat_value2` = 113,
+  `stat_value2` = 114,
   `stat_type3` = 37,
-  `stat_value3` = 62,
+  `stat_value3` = 59,
   `stat_type4` = 44,
   `stat_value4` = 73;
 
@@ -1948,11 +1948,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1285,
   `stat_type1` = 4,
-  `stat_value1` = 102,
+  `stat_value1` = 103,
   `stat_type2` = 7,
   `stat_value2` = 113,
   `stat_type3` = 36,
-  `stat_value3` = 58;
+  `stat_value3` = 56;
 
 DELETE FROM `item_template` WHERE `entry` = 65264;
 INSERT INTO `item_template` SET
@@ -1976,13 +1976,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 92,
+  `stat_value1` = 94,
   `stat_type2` = 7,
-  `stat_value2` = 119,
+  `stat_value2` = 120,
   `stat_type3` = 44,
-  `stat_value3` = 67,
+  `stat_value3` = 66,
   `stat_type4` = 36,
-  `stat_value4` = 66;
+  `stat_value4` = 65;
 
 DELETE FROM `item_template` WHERE `entry` = 65265;
 INSERT INTO `item_template` SET
@@ -2005,15 +2005,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 70,
+  `stat_value1` = 75,
   `stat_type2` = 7,
-  `stat_value2` = 61,
+  `stat_value2` = 59,
   `stat_type3` = 38,
-  `stat_value3` = 85,
+  `stat_value3` = 83,
   `stat_type4` = 36,
-  `stat_value4` = 36,
+  `stat_value4` = 34,
   `stat_type5` = 37,
-  `stat_value5` = 40;
+  `stat_value5` = 39;
 
 DELETE FROM `item_template` WHERE `entry` = 65266;
 INSERT INTO `item_template` SET
@@ -2036,15 +2036,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 67,
+  `stat_value1` = 72,
   `stat_type2` = 7,
-  `stat_value2` = 66,
+  `stat_value2` = 67,
   `stat_type3` = 32,
-  `stat_value3` = 42,
+  `stat_value3` = 41,
   `stat_type4` = 31,
-  `stat_value4` = 35,
+  `stat_value4` = 32,
   `stat_type5` = 44,
-  `stat_value5` = 41;
+  `stat_value5` = 40;
 
 DELETE FROM `item_template` WHERE `entry` = 65267;
 INSERT INTO `item_template` SET
@@ -2067,11 +2067,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 97,
+  `stat_value1` = 99,
   `stat_type2` = 7,
   `stat_value2` = 103,
   `stat_type3` = 44,
-  `stat_value3` = 63;
+  `stat_value3` = 61;
 
 DELETE FROM `item_template` WHERE `entry` = 65268;
 INSERT INTO `item_template` SET
@@ -2095,15 +2095,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 4,
-  `stat_value1` = 64,
+  `stat_value1` = 68,
   `stat_type2` = 7,
-  `stat_value2` = 62,
+  `stat_value2` = 60,
   `stat_type3` = 38,
-  `stat_value3` = 95,
+  `stat_value3` = 97,
   `stat_type4` = 36,
-  `stat_value4` = 40,
+  `stat_value4` = 39,
   `stat_type5` = 31,
-  `stat_value5` = 37;
+  `stat_value5` = 34;
 
 DELETE FROM `item_template` WHERE `entry` = 65269;
 INSERT INTO `item_template` SET
@@ -2129,13 +2129,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 130,
+  `stat_value1` = 144,
   `stat_type2` = 7,
-  `stat_value2` = 148,
+  `stat_value2` = 143,
   `stat_type3` = 44,
-  `stat_value3` = 85,
+  `stat_value3` = 78,
   `stat_type4` = 32,
-  `stat_value4` = 95;
+  `stat_value4` = 91;
 
 DELETE FROM `item_template` WHERE `entry` = 65270;
 INSERT INTO `item_template` SET
@@ -2161,11 +2161,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 192,
+  `stat_value1` = 205,
   `stat_type2` = 7,
-  `stat_value2` = 191,
+  `stat_value2` = 176,
   `stat_type3` = 37,
-  `stat_value3` = 89;
+  `stat_value3` = 87;
 
 DELETE FROM `item_template` WHERE `entry` = 65271;
 INSERT INTO `item_template` SET
@@ -2191,15 +2191,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 110,
+  `stat_value1` = 124,
   `stat_type2` = 7,
-  `stat_value2` = 118,
+  `stat_value2` = 112,
   `stat_type3` = 38,
-  `stat_value3` = 167,
+  `stat_value3` = 161,
   `stat_type4` = 36,
-  `stat_value4` = 66,
+  `stat_value4` = 57,
   `stat_type5` = 37,
-  `stat_value5` = 70;
+  `stat_value5` = 72;
 
 DELETE FROM `item_template` WHERE `entry` = 65272;
 INSERT INTO `item_template` SET
@@ -2226,11 +2226,11 @@ INSERT INTO `item_template` SET
   `delay` = 3500,
   `block` = 209,
   `stat_type1` = 4,
-  `stat_value1` = 178,
+  `stat_value1` = 187,
   `stat_type2` = 7,
-  `stat_value2` = 181,
+  `stat_value2` = 165,
   `stat_type3` = 37,
-  `stat_value3` = 110;
+  `stat_value3` = 112;
 
 DELETE FROM `item_template` WHERE `entry` = 65273;
 INSERT INTO `item_template` SET
@@ -2279,13 +2279,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 5,
-  `stat_value1` = 76,
+  `stat_value1` = 79,
   `stat_type2` = 45,
   `stat_value2` = 123,
   `stat_type3` = 7,
-  `stat_value3` = 98,
+  `stat_value3` = 96,
   `stat_type4` = 36,
-  `stat_value4` = 66,
+  `stat_value4` = 65,
   `stat_type5` = 6,
   `stat_value5` = 73;
 
@@ -2311,13 +2311,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 5,
-  `stat_value1` = 86,
+  `stat_value1` = 92,
   `stat_type2` = 45,
-  `stat_value2` = 123,
+  `stat_value2` = 120,
   `stat_type3` = 7,
-  `stat_value3` = 93,
+  `stat_value3` = 92,
   `stat_type4` = 36,
-  `stat_value4` = 56;
+  `stat_value4` = 53;
 
 DELETE FROM `item_template` WHERE `entry` = 65276;
 INSERT INTO `item_template` SET
@@ -2341,15 +2341,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2570,
   `stat_type1` = 5,
-  `stat_value1` = 89,
+  `stat_value1` = 94,
   `stat_type2` = 45,
-  `stat_value2` = 127,
+  `stat_value2` = 126,
   `stat_type3` = 7,
-  `stat_value3` = 101,
+  `stat_value3` = 98,
   `stat_type4` = 36,
   `stat_value4` = 71,
   `stat_type5` = 32,
-  `stat_value5` = 67;
+  `stat_value5` = 66;
 
 DELETE FROM `item_template` WHERE `entry` = 65277;
 INSERT INTO `item_template` SET
@@ -2373,13 +2373,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1696,
   `stat_type1` = 5,
-  `stat_value1` = 59,
+  `stat_value1` = 61,
   `stat_type2` = 45,
-  `stat_value2` = 110,
+  `stat_value2` = 112,
   `stat_type3` = 7,
-  `stat_value3` = 70,
+  `stat_value3` = 67,
   `stat_type4` = 32,
-  `stat_value4` = 49,
+  `stat_value4` = 47,
   `stat_type5` = 6,
   `stat_value5` = 58;
 
@@ -2405,13 +2405,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2364,
   `stat_type1` = 5,
-  `stat_value1` = 93,
+  `stat_value1` = 95,
   `stat_type2` = 45,
-  `stat_value2` = 170,
+  `stat_value2` = 168,
   `stat_type3` = 7,
-  `stat_value3` = 111,
+  `stat_value3` = 107,
   `stat_type4` = 32,
-  `stat_value4` = 90;
+  `stat_value4` = 92;
 
 DELETE FROM `item_template` WHERE `entry` = 65279;
 INSERT INTO `item_template` SET
@@ -2435,15 +2435,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 5,
-  `stat_value1` = 65,
+  `stat_value1` = 68,
   `stat_type2` = 45,
-  `stat_value2` = 100,
+  `stat_value2` = 99,
   `stat_type3` = 7,
-  `stat_value3` = 73,
+  `stat_value3` = 70,
   `stat_type4` = 32,
-  `stat_value4` = 50,
+  `stat_value4` = 49,
   `stat_type5` = 43,
-  `stat_value5` = 29;
+  `stat_value5` = 30;
 
 DELETE FROM `item_template` WHERE `entry` = 65280;
 INSERT INTO `item_template` SET
@@ -2467,15 +2467,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1285,
   `stat_type1` = 5,
-  `stat_value1` = 46,
+  `stat_value1` = 47,
   `stat_type2` = 45,
   `stat_value2` = 76,
   `stat_type3` = 7,
   `stat_value3` = 63,
   `stat_type4` = 32,
-  `stat_value4` = 44,
+  `stat_value4` = 45,
   `stat_type5` = 36,
-  `stat_value5` = 37;
+  `stat_value5` = 35;
 
 DELETE FROM `item_template` WHERE `entry` = 65281;
 INSERT INTO `item_template` SET
@@ -2499,11 +2499,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 5,
-  `stat_value1` = 108,
+  `stat_value1` = 114,
   `stat_type2` = 45,
-  `stat_value2` = 153,
+  `stat_value2` = 148,
   `stat_type3` = 7,
-  `stat_value3` = 98;
+  `stat_value3` = 94;
 
 DELETE FROM `item_template` WHERE `entry` = 65282;
 INSERT INTO `item_template` SET
@@ -2526,11 +2526,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 84,
+  `stat_value1` = 90,
   `stat_type2` = 45,
-  `stat_value2` = 108,
+  `stat_value2` = 103,
   `stat_type3` = 7,
-  `stat_value3` = 78;
+  `stat_value3` = 76;
 
 DELETE FROM `item_template` WHERE `entry` = 65283;
 INSERT INTO `item_template` SET
@@ -2553,11 +2553,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 50,
+  `stat_value1` = 53,
   `stat_type2` = 45,
-  `stat_value2` = 73,
+  `stat_value2` = 72,
   `stat_type3` = 7,
-  `stat_value3` = 51,
+  `stat_value3` = 48,
   `stat_type4` = 6,
   `stat_value4` = 42,
   `stat_type5` = 32,
@@ -2584,15 +2584,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 49,
+  `stat_value1` = 52,
   `stat_type2` = 45,
-  `stat_value2` = 65,
+  `stat_value2` = 63,
   `stat_type3` = 7,
-  `stat_value3` = 54,
+  `stat_value3` = 52,
   `stat_type4` = 36,
   `stat_value4` = 40,
   `stat_type5` = 43,
-  `stat_value5` = 24;
+  `stat_value5` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 65285;
 INSERT INTO `item_template` SET
@@ -2616,11 +2616,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 62,
+  `stat_value1` = 65,
   `stat_type2` = 45,
-  `stat_value2` = 89,
+  `stat_value2` = 86,
   `stat_type3` = 7,
-  `stat_value3` = 63,
+  `stat_value3` = 61,
   `stat_type4` = 43,
   `stat_value4` = 25;
 
@@ -2630,11 +2630,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Restful Breaker of Weekending',
-  `displayid` = 23618,
+  `name` = 'Mauler of Woefully Suspecting',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -2648,15 +2648,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 93,
+  `stat_value1` = 161,
   `stat_type2` = 45,
-  `stat_value2` = 170,
-  `stat_type3` = 7,
-  `stat_value3` = 113,
-  `stat_type4` = 32,
-  `stat_value4` = 82,
-  `stat_type5` = 36,
-  `stat_value5` = 91;
+  `stat_value2` = 446;
 
 DELETE FROM `item_template` WHERE `entry` = 65287;
 INSERT INTO `item_template` SET
@@ -2664,11 +2658,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Saber of the Optioning Cousin',
-  `displayid` = 3855,
+  `name` = 'Threatening Machete',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -2682,11 +2676,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 155,
+  `stat_value1` = 113,
   `stat_type2` = 45,
-  `stat_value2` = 249,
+  `stat_value2` = 404,
   `stat_type3` = 7,
-  `stat_value3` = 178;
+  `stat_value3` = 127;
 
 DELETE FROM `item_template` WHERE `entry` = 65288;
 INSERT INTO `item_template` SET
@@ -2709,11 +2703,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 87,
+  `stat_value1` = 92,
   `stat_type2` = 45,
-  `stat_value2` = 113,
+  `stat_value2` = 108,
   `stat_type3` = 7,
-  `stat_value3` = 90;
+  `stat_value3` = 89;
 
 DELETE FROM `item_template` WHERE `entry` = 65289;
 INSERT INTO `item_template` SET
@@ -2762,11 +2756,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 3,
-  `stat_value1` = 145,
+  `stat_value1` = 146,
   `stat_type2` = 7,
-  `stat_value2` = 210,
+  `stat_value2` = 214,
   `stat_type3` = 44,
-  `stat_value3` = 101;
+  `stat_value3` = 98;
 
 DELETE FROM `item_template` WHERE `entry` = 65291;
 INSERT INTO `item_template` SET
@@ -2790,13 +2784,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 3,
-  `stat_value1` = 96,
+  `stat_value1` = 99,
   `stat_type2` = 7,
   `stat_value2` = 115,
   `stat_type3` = 32,
   `stat_value3` = 75,
   `stat_type4` = 5,
-  `stat_value4` = 62;
+  `stat_value4` = 59;
 
 DELETE FROM `item_template` WHERE `entry` = 65292;
 INSERT INTO `item_template` SET
@@ -2820,13 +2814,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1439,
   `stat_type1` = 3,
-  `stat_value1` = 123,
+  `stat_value1` = 126,
   `stat_type2` = 7,
-  `stat_value2` = 145,
+  `stat_value2` = 144,
   `stat_type3` = 36,
-  `stat_value3` = 93,
+  `stat_value3` = 92,
   `stat_type4` = 32,
-  `stat_value4` = 92;
+  `stat_value4` = 90;
 
 DELETE FROM `item_template` WHERE `entry` = 65293;
 INSERT INTO `item_template` SET
@@ -2850,13 +2844,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 950,
   `stat_type1` = 3,
-  `stat_value1` = 90,
+  `stat_value1` = 92,
   `stat_type2` = 7,
-  `stat_value2` = 123,
+  `stat_value2` = 126,
   `stat_type3` = 38,
   `stat_value3` = 149,
   `stat_type4` = 31,
-  `stat_value4` = 60;
+  `stat_value4` = 56;
 
 DELETE FROM `item_template` WHERE `entry` = 65294;
 INSERT INTO `item_template` SET
@@ -2880,11 +2874,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1324,
   `stat_type1` = 3,
-  `stat_value1` = 175,
+  `stat_value1` = 179,
   `stat_type2` = 7,
   `stat_value2` = 195,
   `stat_type3` = 5,
-  `stat_value3` = 98;
+  `stat_value3` = 93;
 
 DELETE FROM `item_template` WHERE `entry` = 65295;
 INSERT INTO `item_template` SET
@@ -2908,11 +2902,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 3,
-  `stat_value1` = 89,
+  `stat_value1` = 91,
   `stat_type2` = 7,
-  `stat_value2` = 103,
+  `stat_value2` = 101,
   `stat_type3` = 38,
-  `stat_value3` = 146,
+  `stat_value3` = 145,
   `stat_type4` = 32,
   `stat_value4` = 77;
 
@@ -2938,15 +2932,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 720,
   `stat_type1` = 3,
-  `stat_value1` = 62,
+  `stat_value1` = 65,
   `stat_type2` = 7,
-  `stat_value2` = 73,
+  `stat_value2` = 75,
   `stat_type3` = 38,
-  `stat_value3` = 89,
+  `stat_value3` = 88,
   `stat_type4` = 32,
-  `stat_value4` = 39,
+  `stat_value4` = 37,
   `stat_type5` = 44,
-  `stat_value5` = 40;
+  `stat_value5` = 38;
 
 DELETE FROM `item_template` WHERE `entry` = 65297;
 INSERT INTO `item_template` SET
@@ -2970,11 +2964,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 3,
-  `stat_value1` = 125,
+  `stat_value1` = 127,
   `stat_type2` = 7,
   `stat_value2` = 142,
   `stat_type3` = 44,
-  `stat_value3` = 85;
+  `stat_value3` = 83;
 
 DELETE FROM `item_template` WHERE `entry` = 65298;
 INSERT INTO `item_template` SET
@@ -2997,11 +2991,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 88,
+  `stat_value1` = 90,
   `stat_type2` = 7,
-  `stat_value2` = 117,
+  `stat_value2` = 119,
   `stat_type3` = 31,
-  `stat_value3` = 63;
+  `stat_value3` = 60;
 
 DELETE FROM `item_template` WHERE `entry` = 65299;
 INSERT INTO `item_template` SET
@@ -3024,11 +3018,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 84,
+  `stat_value1` = 85,
   `stat_type2` = 7,
-  `stat_value2` = 101,
+  `stat_value2` = 100,
   `stat_type3` = 32,
-  `stat_value3` = 77;
+  `stat_value3` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 65300;
 INSERT INTO `item_template` SET
@@ -3051,11 +3045,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 96,
+  `stat_value1` = 98,
   `stat_type2` = 7,
   `stat_value2` = 101,
   `stat_type3` = 31,
-  `stat_value3` = 66;
+  `stat_value3` = 63;
 
 DELETE FROM `item_template` WHERE `entry` = 65301;
 INSERT INTO `item_template` SET
@@ -3079,11 +3073,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 3,
-  `stat_value1` = 91,
+  `stat_value1` = 92,
   `stat_type2` = 7,
   `stat_value2` = 111,
   `stat_type3` = 44,
-  `stat_value3` = 64;
+  `stat_value3` = 62;
 
 DELETE FROM `item_template` WHERE `entry` = 65302;
 INSERT INTO `item_template` SET
@@ -3109,15 +3103,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 49,
+  `stat_value1` = 54,
   `stat_type2` = 7,
-  `stat_value2` = 59,
+  `stat_value2` = 60,
   `stat_type3` = 31,
   `stat_value3` = 29,
   `stat_type4` = 44,
-  `stat_value4` = 27,
+  `stat_value4` = 24,
   `stat_type5` = 36,
-  `stat_value5` = 29;
+  `stat_value5` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 65303;
 INSERT INTO `item_template` SET
@@ -3143,11 +3137,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 62,
+  `stat_value1` = 64,
   `stat_type2` = 7,
-  `stat_value2` = 82,
+  `stat_value2` = 81,
   `stat_type3` = 38,
-  `stat_value3` = 112;
+  `stat_value3` = 110;
 
 DELETE FROM `item_template` WHERE `entry` = 65304;
 INSERT INTO `item_template` SET
@@ -3173,13 +3167,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 420,
   `delay` = 1800,
   `stat_type1` = 3,
-  `stat_value1` = 43,
+  `stat_value1` = 44,
   `stat_type2` = 7,
-  `stat_value2` = 53,
+  `stat_value2` = 50,
   `stat_type3` = 5,
-  `stat_value3` = 27,
+  `stat_value3` = 29,
   `stat_type4` = 32,
-  `stat_value4` = 35,
+  `stat_value4` = 33,
   `stat_type5` = 31,
   `stat_value5` = 33;
 
@@ -3207,15 +3201,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 42,
+  `stat_value1` = 44,
   `stat_type2` = 7,
-  `stat_value2` = 54,
+  `stat_value2` = 53,
   `stat_type3` = 36,
-  `stat_value3` = 32,
+  `stat_value3` = 28,
   `stat_type4` = 5,
-  `stat_value4` = 27,
+  `stat_value4` = 31,
   `stat_type5` = 38,
-  `stat_value5` = 71;
+  `stat_value5` = 69;
 
 DELETE FROM `item_template` WHERE `entry` = 65306;
 INSERT INTO `item_template` SET
@@ -3241,11 +3235,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 157,
+  `stat_value1` = 163,
   `stat_type2` = 7,
-  `stat_value2` = 178,
+  `stat_value2` = 172,
   `stat_type3` = 38,
-  `stat_value3` = 268;
+  `stat_value3` = 263;
 
 DELETE FROM `item_template` WHERE `entry` = 65307;
 INSERT INTO `item_template` SET
@@ -3271,13 +3265,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 132,
+  `stat_value1` = 142,
   `stat_type2` = 7,
-  `stat_value2` = 141,
+  `stat_value2` = 137,
   `stat_type3` = 44,
-  `stat_value3` = 76,
+  `stat_value3` = 69,
   `stat_type4` = 38,
-  `stat_value4` = 214;
+  `stat_value4` = 213;
 
 DELETE FROM `item_template` WHERE `entry` = 65308;
 INSERT INTO `item_template` SET
@@ -3304,11 +3298,11 @@ INSERT INTO `item_template` SET
   `delay` = 3500,
   `block` = 209,
   `stat_type1` = 3,
-  `stat_value1` = 167,
+  `stat_value1` = 165,
   `stat_type2` = 7,
-  `stat_value2` = 219,
+  `stat_value2` = 206,
   `stat_type3` = 5,
-  `stat_value3` = 96;
+  `stat_value3` = 107;
 
 DELETE FROM `item_template` WHERE `entry` = 65309;
 INSERT INTO `item_template` SET
@@ -3334,13 +3328,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 113,
+  `stat_value1` = 119,
   `stat_type2` = 7,
   `stat_value2` = 153,
   `stat_type3` = 38,
-  `stat_value3` = 203,
+  `stat_value3` = 202,
   `stat_type4` = 36,
-  `stat_value4` = 92;
+  `stat_value4` = 87;
 
 DELETE FROM `item_template` WHERE `entry` = 65310;
 INSERT INTO `item_template` SET
@@ -3366,11 +3360,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 36,
+  `stat_value1` = 35,
   `stat_type2` = 7,
-  `stat_value2` = 50,
+  `stat_value2` = 46,
   `stat_type3` = 5,
-  `stat_value3` = 27;
+  `stat_value3` = 31;
 
 DELETE FROM `item_template` WHERE `entry` = 65311;
 INSERT INTO `item_template` SET
@@ -3396,11 +3390,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 174,
+  `stat_value1` = 181,
   `stat_type2` = 7,
-  `stat_value2` = 196,
+  `stat_value2` = 189,
   `stat_type3` = 32,
-  `stat_value3` = 136;
+  `stat_value3` = 133;
 
 DELETE FROM `item_template` WHERE `entry` = 65312;
 INSERT INTO `item_template` SET
@@ -3426,13 +3420,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 143,
+  `stat_value1` = 155,
   `stat_type2` = 7,
-  `stat_value2` = 158,
+  `stat_value2` = 156,
   `stat_type3` = 36,
-  `stat_value3` = 80,
+  `stat_value3` = 71,
   `stat_type4` = 38,
-  `stat_value4` = 224;
+  `stat_value4` = 223;
 
 DELETE FROM `item_template` WHERE `entry` = 65313;
 INSERT INTO `item_template` SET
@@ -3456,15 +3450,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 3,
-  `stat_value1` = 105,
+  `stat_value1` = 111,
   `stat_type2` = 7,
-  `stat_value2` = 109,
+  `stat_value2` = 107,
   `stat_type3` = 35,
-  `stat_value3` = 67,
+  `stat_value3` = 65,
   `stat_type4` = 36,
   `stat_value4` = 75,
   `stat_type5` = 44,
-  `stat_value5` = 66;
+  `stat_value5` = 63;
 
 DELETE FROM `item_template` WHERE `entry` = 65314;
 INSERT INTO `item_template` SET
@@ -3488,13 +3482,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 3,
-  `stat_value1` = 91,
+  `stat_value1` = 93,
   `stat_type2` = 7,
   `stat_value2` = 112,
   `stat_type3` = 32,
-  `stat_value3` = 70,
+  `stat_value3` = 68,
   `stat_type4` = 44,
-  `stat_value4` = 74;
+  `stat_value4` = 73;
 
 DELETE FROM `item_template` WHERE `entry` = 65315;
 INSERT INTO `item_template` SET
@@ -3518,15 +3512,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 668,
   `stat_type1` = 3,
-  `stat_value1` = 89,
+  `stat_value1` = 90,
   `stat_type2` = 7,
-  `stat_value2` = 130,
+  `stat_value2` = 133,
   `stat_type3` = 35,
-  `stat_value3` = 71,
+  `stat_value3` = 70,
   `stat_type4` = 37,
   `stat_value4` = 79,
   `stat_type5` = 31,
-  `stat_value5` = 78;
+  `stat_value5` = 75;
 
 DELETE FROM `item_template` WHERE `entry` = 65316;
 INSERT INTO `item_template` SET
@@ -3550,11 +3544,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 441,
   `stat_type1` = 3,
-  `stat_value1` = 116,
+  `stat_value1` = 117,
   `stat_type2` = 7,
-  `stat_value2` = 156,
+  `stat_value2` = 158,
   `stat_type3` = 31,
-  `stat_value3` = 87;
+  `stat_value3` = 84;
 
 DELETE FROM `item_template` WHERE `entry` = 65317;
 INSERT INTO `item_template` SET
@@ -3580,9 +3574,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 142,
   `stat_type2` = 7,
-  `stat_value2` = 210,
+  `stat_value2` = 212,
   `stat_type3` = 38,
-  `stat_value3` = 241;
+  `stat_value3` = 238;
 
 DELETE FROM `item_template` WHERE `entry` = 65318;
 INSERT INTO `item_template` SET
@@ -3606,11 +3600,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 3,
-  `stat_value1` = 82,
+  `stat_value1` = 87,
   `stat_type2` = 7,
-  `stat_value2` = 87,
+  `stat_value2` = 86,
   `stat_type3` = 35,
-  `stat_value3` = 48,
+  `stat_value3` = 44,
   `stat_type4` = 36,
   `stat_value4` = 59,
   `stat_type5` = 38,
@@ -3638,11 +3632,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 334,
   `stat_type1` = 3,
-  `stat_value1` = 112,
+  `stat_value1` = 116,
   `stat_type2` = 7,
-  `stat_value2` = 100,
+  `stat_value2` = 99,
   `stat_type3` = 35,
-  `stat_value3` = 56;
+  `stat_value3` = 53;
 
 DELETE FROM `item_template` WHERE `entry` = 65320;
 INSERT INTO `item_template` SET
@@ -3666,11 +3660,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 3,
-  `stat_value1` = 113,
+  `stat_value1` = 114,
   `stat_type2` = 7,
-  `stat_value2` = 165,
+  `stat_value2` = 168,
   `stat_type3` = 44,
-  `stat_value3` = 80;
+  `stat_value3` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 65321;
 INSERT INTO `item_template` SET
@@ -3695,7 +3689,7 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 83,
   `stat_type2` = 7,
-  `stat_value2` = 117,
+  `stat_value2` = 118,
   `stat_type3` = 37,
   `stat_value3` = 67;
 
@@ -3720,13 +3714,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 66,
+  `stat_value1` = 68,
   `stat_type2` = 7,
-  `stat_value2` = 90,
+  `stat_value2` = 91,
   `stat_type3` = 35,
-  `stat_value3` = 49,
+  `stat_value3` = 48,
   `stat_type4` = 31,
-  `stat_value4` = 54;
+  `stat_value4` = 52;
 
 DELETE FROM `item_template` WHERE `entry` = 65323;
 INSERT INTO `item_template` SET
@@ -3749,11 +3743,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 70,
+  `stat_value1` = 72,
   `stat_type2` = 7,
-  `stat_value2` = 77,
+  `stat_value2` = 76,
   `stat_type3` = 32,
-  `stat_value3` = 52,
+  `stat_value3` = 51,
   `stat_type4` = 38,
   `stat_value4` = 111;
 
@@ -3779,13 +3773,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 3,
-  `stat_value1` = 52,
+  `stat_value1` = 53,
   `stat_type2` = 7,
   `stat_value2` = 67,
   `stat_type3` = 31,
   `stat_value3` = 48,
   `stat_type4` = 37,
-  `stat_value4` = 40,
+  `stat_value4` = 38,
   `stat_type5` = 44,
   `stat_value5` = 45;
 
@@ -3813,11 +3807,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 70,
+  `stat_value1` = 71,
   `stat_type2` = 7,
-  `stat_value2` = 81,
+  `stat_value2` = 77,
   `stat_type3` = 37,
-  `stat_value3` = 49;
+  `stat_value3` = 52;
 
 DELETE FROM `item_template` WHERE `entry` = 65326;
 INSERT INTO `item_template` SET
@@ -3843,15 +3837,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 43,
+  `stat_value1` = 44,
   `stat_type2` = 7,
-  `stat_value2` = 53,
+  `stat_value2` = 50,
   `stat_type3` = 35,
-  `stat_value3` = 28,
+  `stat_value3` = 29,
   `stat_type4` = 37,
-  `stat_value4` = 32,
+  `stat_value4` = 33,
   `stat_type5` = 44,
-  `stat_value5` = 35;
+  `stat_value5` = 33;
 
 DELETE FROM `item_template` WHERE `entry` = 65327;
 INSERT INTO `item_template` SET
@@ -3877,15 +3871,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 420,
   `delay` = 1800,
   `stat_type1` = 3,
-  `stat_value1` = 40,
+  `stat_value1` = 41,
   `stat_type2` = 7,
-  `stat_value2` = 53,
+  `stat_value2` = 50,
   `stat_type3` = 35,
-  `stat_value3` = 33,
+  `stat_value3` = 36,
   `stat_type4` = 37,
-  `stat_value4` = 30,
+  `stat_value4` = 31,
   `stat_type5` = 38,
-  `stat_value5` = 66;
+  `stat_value5` = 62;
 
 DELETE FROM `item_template` WHERE `entry` = 65328;
 INSERT INTO `item_template` SET
@@ -3911,11 +3905,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 62,
+  `stat_value1` = 64,
   `stat_type2` = 7,
   `stat_value2` = 93,
   `stat_type3` = 44,
-  `stat_value3` = 49;
+  `stat_value3` = 47;
 
 DELETE FROM `item_template` WHERE `entry` = 65329;
 INSERT INTO `item_template` SET
@@ -3941,13 +3935,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 31,
+  `stat_value1` = 32,
   `stat_type2` = 7,
-  `stat_value2` = 35,
+  `stat_value2` = 33,
   `stat_type3` = 37,
-  `stat_value3` = 23,
+  `stat_value3` = 24,
   `stat_type4` = 35,
-  `stat_value4` = 19;
+  `stat_value4` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 65330;
 INSERT INTO `item_template` SET
@@ -3973,11 +3967,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 196,
+  `stat_value1` = 203,
   `stat_type2` = 7,
-  `stat_value2` = 189,
+  `stat_value2` = 178,
   `stat_type3` = 31,
-  `stat_value3` = 119;
+  `stat_value3` = 120;
 
 DELETE FROM `item_template` WHERE `entry` = 65331;
 INSERT INTO `item_template` SET
@@ -4003,11 +3997,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 708,
   `delay` = 2900,
   `stat_type1` = 3,
-  `stat_value1` = 175,
+  `stat_value1` = 184,
   `stat_type2` = 7,
-  `stat_value2` = 219,
+  `stat_value2` = 218,
   `stat_type3` = 36,
-  `stat_value3` = 120;
+  `stat_value3` = 111;
 
 DELETE FROM `item_template` WHERE `entry` = 65332;
 INSERT INTO `item_template` SET
@@ -4033,15 +4027,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 546,
   `delay` = 1800,
   `stat_type1` = 3,
-  `stat_value1` = 31,
+  `stat_value1` = 32,
   `stat_type2` = 7,
-  `stat_value2` = 38,
+  `stat_value2` = 37,
   `stat_type3` = 38,
-  `stat_value3` = 52,
+  `stat_value3` = 51,
   `stat_type4` = 37,
-  `stat_value4` = 22,
+  `stat_value4` = 23,
   `stat_type5` = 36,
-  `stat_value5` = 24;
+  `stat_value5` = 22;
 
 DELETE FROM `item_template` WHERE `entry` = 65333;
 INSERT INTO `item_template` SET
@@ -4065,11 +4059,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 288,
   `stat_type1` = 5,
-  `stat_value1` = 109,
+  `stat_value1` = 115,
   `stat_type2` = 45,
-  `stat_value2` = 204,
+  `stat_value2` = 190,
   `stat_type3` = 7,
-  `stat_value3` = 154;
+  `stat_value3` = 161;
 
 DELETE FROM `item_template` WHERE `entry` = 65334;
 INSERT INTO `item_template` SET
@@ -4093,15 +4087,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 288,
   `stat_type1` = 5,
-  `stat_value1` = 66,
+  `stat_value1` = 71,
   `stat_type2` = 45,
-  `stat_value2` = 98,
+  `stat_value2` = 92,
   `stat_type3` = 7,
-  `stat_value3` = 82,
+  `stat_value3` = 83,
   `stat_type4` = 6,
   `stat_value4` = 49,
   `stat_type5` = 47,
-  `stat_value5` = 27;
+  `stat_value5` = 28;
 
 DELETE FROM `item_template` WHERE `entry` = 65335;
 INSERT INTO `item_template` SET
@@ -4125,11 +4119,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 347,
   `stat_type1` = 5,
-  `stat_value1` = 122,
+  `stat_value1` = 131,
   `stat_type2` = 45,
-  `stat_value2` = 226,
+  `stat_value2` = 213,
   `stat_type3` = 7,
-  `stat_value3` = 133;
+  `stat_value3` = 135;
 
 DELETE FROM `item_template` WHERE `entry` = 65336;
 INSERT INTO `item_template` SET
@@ -4153,11 +4147,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 229,
   `stat_type1` = 5,
-  `stat_value1` = 73,
+  `stat_value1` = 77,
   `stat_type2` = 45,
-  `stat_value2` = 137,
+  `stat_value2` = 131,
   `stat_type3` = 7,
-  `stat_value3` = 94,
+  `stat_value3` = 96,
   `stat_type4` = 47,
   `stat_value4` = 27;
 
@@ -4183,13 +4177,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 319,
   `stat_type1` = 5,
-  `stat_value1` = 99,
+  `stat_value1` = 105,
   `stat_type2` = 45,
-  `stat_value2` = 158,
+  `stat_value2` = 146,
   `stat_type3` = 7,
-  `stat_value3` = 114,
+  `stat_value3` = 113,
   `stat_type4` = 36,
-  `stat_value4` = 92;
+  `stat_value4` = 97;
 
 DELETE FROM `item_template` WHERE `entry` = 65338;
 INSERT INTO `item_template` SET
@@ -4213,13 +4207,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 260,
   `stat_type1` = 5,
-  `stat_value1` = 71,
+  `stat_value1` = 74,
   `stat_type2` = 45,
-  `stat_value2` = 124,
+  `stat_value2` = 115,
   `stat_type3` = 7,
-  `stat_value3` = 100,
+  `stat_value3` = 103,
   `stat_type4` = 6,
-  `stat_value4` = 64;
+  `stat_value4` = 66;
 
 DELETE FROM `item_template` WHERE `entry` = 65339;
 INSERT INTO `item_template` SET
@@ -4243,11 +4237,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 67,
+  `stat_value1` = 71,
   `stat_type2` = 45,
-  `stat_value2` = 118,
+  `stat_value2` = 109,
   `stat_type3` = 7,
-  `stat_value3` = 100;
+  `stat_value3` = 105;
 
 DELETE FROM `item_template` WHERE `entry` = 65340;
 INSERT INTO `item_template` SET
@@ -4271,13 +4265,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 260,
   `stat_type1` = 5,
-  `stat_value1` = 78,
+  `stat_value1` = 84,
   `stat_type2` = 45,
-  `stat_value2` = 120,
+  `stat_value2` = 112,
   `stat_type3` = 7,
-  `stat_value3` = 93,
+  `stat_value3` = 94,
   `stat_type4` = 47,
-  `stat_value4` = 30;
+  `stat_value4` = 31;
 
 DELETE FROM `item_template` WHERE `entry` = 65341;
 INSERT INTO `item_template` SET
@@ -4300,13 +4294,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 54,
+  `stat_value1` = 57,
   `stat_type2` = 45,
-  `stat_value2` = 98,
+  `stat_value2` = 92,
   `stat_type3` = 7,
-  `stat_value3` = 65,
+  `stat_value3` = 64,
   `stat_type4` = 47,
-  `stat_value4` = 24;
+  `stat_value4` = 25;
 
 DELETE FROM `item_template` WHERE `entry` = 65342;
 INSERT INTO `item_template` SET
@@ -4329,11 +4323,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 67,
+  `stat_value1` = 72,
   `stat_type2` = 45,
-  `stat_value2` = 123,
+  `stat_value2` = 116,
   `stat_type3` = 7,
-  `stat_value3` = 84;
+  `stat_value3` = 87;
 
 DELETE FROM `item_template` WHERE `entry` = 65343;
 INSERT INTO `item_template` SET
@@ -4356,13 +4350,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 60,
+  `stat_value1` = 64,
   `stat_type2` = 45,
-  `stat_value2` = 91,
+  `stat_value2` = 84,
   `stat_type3` = 7,
-  `stat_value3` = 67,
+  `stat_value3` = 66,
   `stat_type4` = 31,
-  `stat_value4` = 47;
+  `stat_value4` = 48;
 
 DELETE FROM `item_template` WHERE `entry` = 65344;
 INSERT INTO `item_template` SET
@@ -4386,13 +4380,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 49,
+  `stat_value1` = 50,
   `stat_type2` = 45,
-  `stat_value2` = 96,
+  `stat_value2` = 90,
   `stat_type3` = 7,
-  `stat_value3` = 70,
+  `stat_value3` = 71,
   `stat_type4` = 36,
-  `stat_value4` = 51;
+  `stat_value4` = 54;
 
 DELETE FROM `item_template` WHERE `entry` = 65345;
 INSERT INTO `item_template` SET
@@ -4400,11 +4394,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Named Might',
-  `displayid` = 28835,
+  `name` = 'Destroyer of Personal Accounting',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -4418,11 +4412,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 138,
+  `stat_value1` = 115,
   `stat_type2` = 45,
-  `stat_value2` = 251,
-  `stat_type3` = 7,
-  `stat_value3` = 200;
+  `stat_value2` = 500;
 
 DELETE FROM `item_template` WHERE `entry` = 65346;
 INSERT INTO `item_template` SET
@@ -4431,10 +4423,10 @@ INSERT INTO `item_template` SET
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
   `name` = 'Staring Wave Eviscerator',
-  `displayid` = 53206,
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -4448,13 +4440,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 273,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 110,
+  `stat_value1` = 92,
   `stat_type2` = 45,
-  `stat_value2` = 174,
+  `stat_value2` = 428,
   `stat_type3` = 7,
-  `stat_value3` = 166,
-  `stat_type4` = 32,
-  `stat_value4` = 117;
+  `stat_value3` = 127;
 
 DELETE FROM `item_template` WHERE `entry` = 65347;
 INSERT INTO `item_template` SET
@@ -4480,13 +4470,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 690,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 183,
+  `stat_value1` = 172,
   `stat_type2` = 45,
-  `stat_value2` = 310,
+  `stat_value2` = 580,
   `stat_type3` = 7,
-  `stat_value3` = 279,
-  `stat_type4` = 36,
-  `stat_value4` = 182;
+  `stat_value3` = 222;
 
 DELETE FROM `item_template` WHERE `entry` = 65348;
 INSERT INTO `item_template` SET
@@ -4510,17 +4498,7 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `dmg_min1` = 416,
   `dmg_max1` = 773,
-  `delay` = 1800,
-  `stat_type1` = 5,
-  `stat_value1` = 1,
-  `stat_type2` = 45,
-  `stat_value2` = 1,
-  `stat_type3` = 7,
-  `stat_value3` = 1,
-  `stat_type4` = 31,
-  `stat_value4` = 1,
-  `stat_type5` = 47,
-  `stat_value5` = 1;
+  `delay` = 1800;
 
 DELETE FROM `item_template` WHERE `entry` = 65349;
 INSERT INTO `item_template` SET
@@ -4543,11 +4521,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 74,
+  `stat_value1` = 80,
   `stat_type2` = 45,
-  `stat_value2` = 125,
+  `stat_value2` = 116,
   `stat_type3` = 7,
-  `stat_value3` = 93;
+  `stat_value3` = 97;
 
 DELETE FROM `item_template` WHERE `entry` = 65350;
 INSERT INTO `item_template` SET
@@ -4571,13 +4549,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 288,
   `stat_type1` = 5,
-  `stat_value1` = 103,
+  `stat_value1` = 109,
   `stat_type2` = 45,
-  `stat_value2` = 161,
+  `stat_value2` = 160,
   `stat_type3` = 7,
-  `stat_value3` = 104,
+  `stat_value3` = 100,
   `stat_type4` = 36,
-  `stat_value4` = 75;
+  `stat_value4` = 74;
 
 DELETE FROM `item_template` WHERE `entry` = 65351;
 INSERT INTO `item_template` SET
@@ -4601,11 +4579,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 288,
   `stat_type1` = 5,
-  `stat_value1` = 104,
+  `stat_value1` = 108,
   `stat_type2` = 45,
-  `stat_value2` = 143,
+  `stat_value2` = 136,
   `stat_type3` = 7,
-  `stat_value3` = 125;
+  `stat_value3` = 126;
 
 DELETE FROM `item_template` WHERE `entry` = 65352;
 INSERT INTO `item_template` SET
@@ -4629,11 +4607,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 347,
   `stat_type1` = 5,
-  `stat_value1` = 112,
+  `stat_value1` = 115,
   `stat_type2` = 45,
-  `stat_value2` = 228,
+  `stat_value2` = 225,
   `stat_type3` = 7,
-  `stat_value3` = 145;
+  `stat_value3` = 144;
 
 DELETE FROM `item_template` WHERE `entry` = 65353;
 INSERT INTO `item_template` SET
@@ -4657,11 +4635,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 229,
   `stat_type1` = 5,
-  `stat_value1` = 94,
+  `stat_value1` = 98,
   `stat_type2` = 45,
-  `stat_value2` = 156,
+  `stat_value2` = 151,
   `stat_type3` = 7,
-  `stat_value3` = 118;
+  `stat_value3` = 119;
 
 DELETE FROM `item_template` WHERE `entry` = 65354;
 INSERT INTO `item_template` SET
@@ -4685,11 +4663,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 319,
   `stat_type1` = 5,
-  `stat_value1` = 123,
+  `stat_value1` = 128,
   `stat_type2` = 45,
-  `stat_value2` = 213,
+  `stat_value2` = 208,
   `stat_type3` = 7,
-  `stat_value3` = 146;
+  `stat_value3` = 145;
 
 DELETE FROM `item_template` WHERE `entry` = 65355;
 INSERT INTO `item_template` SET
@@ -4713,13 +4691,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 260,
   `stat_type1` = 5,
-  `stat_value1` = 62,
+  `stat_value1` = 64,
   `stat_type2` = 45,
   `stat_value2` = 102,
   `stat_type3` = 7,
-  `stat_value3` = 76,
+  `stat_value3` = 73,
   `stat_type4` = 36,
-  `stat_value4` = 50,
+  `stat_value4` = 49,
   `stat_type5` = 43,
   `stat_value5` = 29;
 
@@ -4745,11 +4723,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 56,
+  `stat_value1` = 58,
   `stat_type2` = 45,
-  `stat_value2` = 94,
+  `stat_value2` = 93,
   `stat_type3` = 7,
-  `stat_value3` = 70,
+  `stat_value3` = 69,
   `stat_type4` = 32,
   `stat_value4` = 51;
 
@@ -4775,11 +4753,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 260,
   `stat_type1` = 5,
-  `stat_value1` = 75,
+  `stat_value1` = 78,
   `stat_type2` = 45,
-  `stat_value2` = 123,
+  `stat_value2` = 121,
   `stat_type3` = 7,
-  `stat_value3` = 92,
+  `stat_value3` = 91,
   `stat_type4` = 43,
   `stat_value4` = 31;
 
@@ -4804,11 +4782,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 73,
+  `stat_value1` = 76,
   `stat_type2` = 45,
-  `stat_value2` = 108,
+  `stat_value2` = 103,
   `stat_type3` = 7,
-  `stat_value3` = 95;
+  `stat_value3` = 97;
 
 DELETE FROM `item_template` WHERE `entry` = 65359;
 INSERT INTO `item_template` SET
@@ -4831,9 +4809,9 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 75,
+  `stat_value1` = 79,
   `stat_type2` = 45,
-  `stat_value2` = 115,
+  `stat_value2` = 111,
   `stat_type3` = 7,
   `stat_value3` = 83;
 
@@ -4858,13 +4836,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 61,
+  `stat_value1` = 65,
   `stat_type2` = 45,
-  `stat_value2` = 76,
+  `stat_value2` = 72,
   `stat_type3` = 7,
-  `stat_value3` = 59,
+  `stat_value3` = 56,
   `stat_type4` = 6,
-  `stat_value4` = 63;
+  `stat_value4` = 65;
 
 DELETE FROM `item_template` WHERE `entry` = 65361;
 INSERT INTO `item_template` SET
@@ -4888,13 +4866,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 60,
+  `stat_value1` = 62,
   `stat_type2` = 45,
-  `stat_value2` = 84,
+  `stat_value2` = 81,
   `stat_type3` = 7,
-  `stat_value3` = 65,
+  `stat_value3` = 63,
   `stat_type4` = 6,
-  `stat_value4` = 54;
+  `stat_value4` = 55;
 
 DELETE FROM `item_template` WHERE `entry` = 65362;
 INSERT INTO `item_template` SET
@@ -4902,11 +4880,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Structural Hammer of the Location',
-  `displayid` = 21956,
+  `name` = 'Clicking Punisher',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -4920,15 +4898,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 95,
+  `stat_value1` = 169,
   `stat_type2` = 45,
-  `stat_value2` = 154,
-  `stat_type3` = 7,
-  `stat_value3` = 131,
-  `stat_type4` = 36,
-  `stat_value4` = 87,
-  `stat_type5` = 32,
-  `stat_value5` = 86;
+  `stat_value2` = 437;
 
 DELETE FROM `item_template` WHERE `entry` = 65363;
 INSERT INTO `item_template` SET
@@ -4936,11 +4908,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Carver of the Embarrassed Storage',
-  `displayid` = 33992,
+  `name` = 'Materialistic Shank of the Community',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -4954,13 +4926,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 273,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 117,
+  `stat_value1` = 115,
   `stat_type2` = 45,
-  `stat_value2` = 185,
+  `stat_value2` = 396,
   `stat_type3` = 7,
-  `stat_value3` = 127,
-  `stat_type4` = 6,
-  `stat_value4` = 126;
+  `stat_value3` = 133;
 
 DELETE FROM `item_template` WHERE `entry` = 65364;
 INSERT INTO `item_template` SET
@@ -4986,13 +4956,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 690,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 238,
+  `stat_value1` = 184,
   `stat_type2` = 45,
-  `stat_value2` = 311,
+  `stat_value2` = 610,
   `stat_type3` = 7,
-  `stat_value3` = 222,
-  `stat_type4` = 32,
-  `stat_value4` = 164;
+  `stat_value3` = 166;
 
 DELETE FROM `item_template` WHERE `entry` = 65365;
 INSERT INTO `item_template` SET
@@ -5016,15 +4984,7 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `dmg_min1` = 416,
   `dmg_max1` = 773,
-  `delay` = 1800,
-  `stat_type1` = 5,
-  `stat_value1` = 1,
-  `stat_type2` = 45,
-  `stat_value2` = 1,
-  `stat_type3` = 7,
-  `stat_value3` = 1,
-  `stat_type4` = 6,
-  `stat_value4` = 1;
+  `delay` = 1800;
 
 DELETE FROM `item_template` WHERE `entry` = 65366;
 INSERT INTO `item_template` SET
@@ -5047,15 +5007,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 47,
+  `stat_value1` = 48,
   `stat_type2` = 45,
   `stat_value2` = 76,
   `stat_type3` = 7,
-  `stat_value3` = 60,
+  `stat_value3` = 58,
   `stat_type4` = 6,
-  `stat_value4` = 50,
+  `stat_value4` = 51,
   `stat_type5` = 43,
-  `stat_value5` = 21;
+  `stat_value5` = 20;
 
 DELETE FROM `item_template` WHERE `entry` = 65367;
 INSERT INTO `item_template` SET
@@ -5079,13 +5039,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 103,
+  `stat_value1` = 106,
   `stat_type2` = 7,
-  `stat_value2` = 179,
+  `stat_value2` = 188,
   `stat_type3` = 31,
-  `stat_value3` = 77,
+  `stat_value3` = 71,
   `stat_type4` = 36,
-  `stat_value4` = 87;
+  `stat_value4` = 84;
 
 DELETE FROM `item_template` WHERE `entry` = 65368;
 INSERT INTO `item_template` SET
@@ -5109,11 +5069,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 99,
+  `stat_value1` = 101,
   `stat_type2` = 7,
-  `stat_value2` = 172,
+  `stat_value2` = 178,
   `stat_type3` = 14,
-  `stat_value3` = 95;
+  `stat_value3` = 90;
 
 DELETE FROM `item_template` WHERE `entry` = 65369;
 INSERT INTO `item_template` SET
@@ -5137,13 +5097,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2570,
   `stat_type1` = 4,
-  `stat_value1` = 103,
+  `stat_value1` = 106,
   `stat_type2` = 7,
-  `stat_value2` = 144,
+  `stat_value2` = 143,
   `stat_type3` = 44,
-  `stat_value3` = 100,
+  `stat_value3` = 98,
   `stat_type4` = 12,
-  `stat_value4` = 104;
+  `stat_value4` = 105;
 
 DELETE FROM `item_template` WHERE `entry` = 65370;
 INSERT INTO `item_template` SET
@@ -5167,11 +5127,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1696,
   `stat_type1` = 4,
-  `stat_value1` = 98,
+  `stat_value1` = 99,
   `stat_type2` = 7,
-  `stat_value2` = 183,
+  `stat_value2` = 188,
   `stat_type3` = 36,
-  `stat_value3` = 87;
+  `stat_value3` = 82;
 
 DELETE FROM `item_template` WHERE `entry` = 65371;
 INSERT INTO `item_template` SET
@@ -5195,15 +5155,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2364,
   `stat_type1` = 4,
-  `stat_value1` = 95,
+  `stat_value1` = 100,
   `stat_type2` = 7,
-  `stat_value2` = 121,
+  `stat_value2` = 122,
   `stat_type3` = 31,
-  `stat_value3` = 68,
+  `stat_value3` = 62,
   `stat_type4` = 13,
-  `stat_value4` = 80,
+  `stat_value4` = 81,
   `stat_type5` = 44,
-  `stat_value5` = 80;
+  `stat_value5` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 65372;
 INSERT INTO `item_template` SET
@@ -5227,15 +5187,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 71,
+  `stat_value1` = 75,
   `stat_type2` = 7,
-  `stat_value2` = 97,
+  `stat_value2` = 99,
   `stat_type3` = 44,
-  `stat_value3` = 56,
+  `stat_value3` = 54,
   `stat_type4` = 13,
   `stat_value4` = 57,
   `stat_type5` = 14,
-  `stat_value5` = 60;
+  `stat_value5` = 56;
 
 DELETE FROM `item_template` WHERE `entry` = 65373;
 INSERT INTO `item_template` SET
@@ -5261,9 +5221,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 58,
   `stat_type2` = 7,
-  `stat_value2` = 100,
+  `stat_value2` = 102,
   `stat_type3` = 38,
-  `stat_value3` = 112,
+  `stat_value3` = 108,
   `stat_type4` = 13,
   `stat_value4` = 54;
 
@@ -5289,11 +5249,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 106,
+  `stat_value1` = 109,
   `stat_type2` = 7,
-  `stat_value2` = 167,
+  `stat_value2` = 171,
   `stat_type3` = 14,
-  `stat_value3` = 87;
+  `stat_value3` = 81;
 
 DELETE FROM `item_template` WHERE `entry` = 65375;
 INSERT INTO `item_template` SET
@@ -5316,13 +5276,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 59,
+  `stat_value1` = 60,
   `stat_type2` = 7,
-  `stat_value2` = 100,
+  `stat_value2` = 104,
   `stat_type3` = 36,
-  `stat_value3` = 50,
+  `stat_value3` = 47,
   `stat_type4` = 35,
-  `stat_value4` = 54;
+  `stat_value4` = 52;
 
 DELETE FROM `item_template` WHERE `entry` = 65376;
 INSERT INTO `item_template` SET
@@ -5345,15 +5305,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 47,
+  `stat_value1` = 48,
   `stat_type2` = 7,
-  `stat_value2` = 81,
+  `stat_value2` = 85,
   `stat_type3` = 12,
-  `stat_value3` = 44,
+  `stat_value3` = 43,
   `stat_type4` = 36,
-  `stat_value4` = 45,
+  `stat_value4` = 44,
   `stat_type5` = 35,
-  `stat_value5` = 39;
+  `stat_value5` = 36;
 
 DELETE FROM `item_template` WHERE `entry` = 65377;
 INSERT INTO `item_template` SET
@@ -5378,11 +5338,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 52,
   `stat_type2` = 7,
-  `stat_value2` = 112,
+  `stat_value2` = 118,
   `stat_type3` = 31,
-  `stat_value3` = 46,
+  `stat_value3` = 42,
   `stat_type4` = 35,
-  `stat_value4` = 56;
+  `stat_value4` = 55;
 
 DELETE FROM `item_template` WHERE `entry` = 65378;
 INSERT INTO `item_template` SET
@@ -5406,15 +5366,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 4,
-  `stat_value1` = 55,
+  `stat_value1` = 59,
   `stat_type2` = 7,
-  `stat_value2` = 72,
+  `stat_value2` = 74,
   `stat_type3` = 37,
-  `stat_value3` = 40,
+  `stat_value3` = 38,
   `stat_type4` = 32,
-  `stat_value4` = 44,
+  `stat_value4` = 43,
   `stat_type5` = 12,
-  `stat_value5` = 42;
+  `stat_value5` = 40;
 
 DELETE FROM `item_template` WHERE `entry` = 65379;
 INSERT INTO `item_template` SET
@@ -5440,15 +5400,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 36,
+  `stat_value1` = 30,
   `stat_type2` = 7,
-  `stat_value2` = 60,
+  `stat_value2` = 55,
   `stat_type3` = 32,
   `stat_value3` = 33,
   `stat_type4` = 13,
-  `stat_value4` = 33,
+  `stat_value4` = 34,
   `stat_type5` = 37,
-  `stat_value5` = 31;
+  `stat_value5` = 39;
 
 DELETE FROM `item_template` WHERE `entry` = 65380;
 INSERT INTO `item_template` SET
@@ -5474,15 +5434,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 37,
+  `stat_value1` = 32,
   `stat_type2` = 7,
-  `stat_value2` = 64,
+  `stat_value2` = 61,
   `stat_type3` = 12,
-  `stat_value3` = 35,
+  `stat_value3` = 34,
   `stat_type4` = 37,
-  `stat_value4` = 27,
+  `stat_value4` = 34,
   `stat_type5` = 13,
-  `stat_value5` = 32;
+  `stat_value5` = 33;
 
 DELETE FROM `item_template` WHERE `entry` = 65381;
 INSERT INTO `item_template` SET
@@ -5508,15 +5468,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 35,
+  `stat_value1` = 29,
   `stat_type2` = 7,
-  `stat_value2` = 63,
+  `stat_value2` = 60,
   `stat_type3` = 37,
-  `stat_value3` = 28,
+  `stat_value3` = 34,
   `stat_type4` = 35,
-  `stat_value4` = 36,
+  `stat_value4` = 37,
   `stat_type5` = 12,
-  `stat_value5` = 34;
+  `stat_value5` = 33;
 
 DELETE FROM `item_template` WHERE `entry` = 65382;
 INSERT INTO `item_template` SET
@@ -5542,15 +5502,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 86,
+  `stat_value1` = 76,
   `stat_type2` = 7,
-  `stat_value2` = 139,
+  `stat_value2` = 136,
   `stat_type3` = 36,
-  `stat_value3` = 75,
+  `stat_value3` = 78,
   `stat_type4` = 35,
-  `stat_value4` = 78,
+  `stat_value4` = 83,
   `stat_type5` = 32,
-  `stat_value5` = 77;
+  `stat_value5` = 81;
 
 DELETE FROM `item_template` WHERE `entry` = 65383;
 INSERT INTO `item_template` SET
@@ -5576,11 +5536,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 156,
+  `stat_value1` = 147,
   `stat_type2` = 7,
   `stat_value2` = 217,
   `stat_type3` = 32,
-  `stat_value3` = 108;
+  `stat_value3` = 117;
 
 DELETE FROM `item_template` WHERE `entry` = 65384;
 INSERT INTO `item_template` SET
@@ -5606,15 +5566,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 95,
+  `stat_value1` = 88,
   `stat_type2` = 7,
-  `stat_value2` = 143,
+  `stat_value2` = 144,
   `stat_type3` = 44,
-  `stat_value3` = 72,
+  `stat_value3` = 75,
   `stat_type4` = 12,
-  `stat_value4` = 77,
+  `stat_value4` = 78,
   `stat_type5` = 36,
-  `stat_value5` = 70;
+  `stat_value5` = 72;
 
 DELETE FROM `item_template` WHERE `entry` = 65385;
 INSERT INTO `item_template` SET
@@ -5641,11 +5601,11 @@ INSERT INTO `item_template` SET
   `delay` = 3500,
   `block` = 209,
   `stat_type1` = 4,
-  `stat_value1` = 135,
+  `stat_value1` = 119,
   `stat_type2` = 7,
-  `stat_value2` = 255,
+  `stat_value2` = 250,
   `stat_type3` = 14,
-  `stat_value3` = 104;
+  `stat_value3` = 123;
 
 DELETE FROM `item_template` WHERE `entry` = 65386;
 INSERT INTO `item_template` SET
@@ -5669,11 +5629,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 181,
+  `stat_value1` = 187,
   `stat_type2` = 7,
-  `stat_value2` = 147,
+  `stat_value2` = 141,
   `stat_type3` = 32,
-  `stat_value3` = 107;
+  `stat_value3` = 105;
 
 DELETE FROM `item_template` WHERE `entry` = 65387;
 INSERT INTO `item_template` SET
@@ -5697,11 +5657,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2133,
   `stat_type1` = 4,
-  `stat_value1` = 136,
+  `stat_value1` = 139,
   `stat_type2` = 7,
-  `stat_value2` = 130,
+  `stat_value2` = 128,
   `stat_type3` = 44,
-  `stat_value3` = 86;
+  `stat_value3` = 85;
 
 DELETE FROM `item_template` WHERE `entry` = 65388;
 INSERT INTO `item_template` SET
@@ -5725,11 +5685,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2570,
   `stat_type1` = 4,
-  `stat_value1` = 172,
+  `stat_value1` = 175,
   `stat_type2` = 7,
-  `stat_value2` = 178,
+  `stat_value2` = 177,
   `stat_type3` = 44,
-  `stat_value3` = 113;
+  `stat_value3` = 111;
 
 DELETE FROM `item_template` WHERE `entry` = 65389;
 INSERT INTO `item_template` SET
@@ -5753,11 +5713,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1696,
   `stat_type1` = 4,
-  `stat_value1` = 134,
+  `stat_value1` = 137,
   `stat_type2` = 7,
-  `stat_value2` = 147,
+  `stat_value2` = 148,
   `stat_type3` = 37,
-  `stat_value3` = 74;
+  `stat_value3` = 71;
 
 DELETE FROM `item_template` WHERE `entry` = 65390;
 INSERT INTO `item_template` SET
@@ -5781,15 +5741,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 2364,
   `stat_type1` = 4,
-  `stat_value1` = 111,
+  `stat_value1` = 118,
   `stat_type2` = 7,
   `stat_value2` = 117,
   `stat_type3` = 37,
-  `stat_value3` = 64,
+  `stat_value3` = 60,
   `stat_type4` = 38,
-  `stat_value4` = 168,
+  `stat_value4` = 171,
   `stat_type5` = 31,
-  `stat_value5` = 67;
+  `stat_value5` = 62;
 
 DELETE FROM `item_template` WHERE `entry` = 65391;
 INSERT INTO `item_template` SET
@@ -5813,15 +5773,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 92,
+  `stat_value1` = 98,
   `stat_type2` = 7,
   `stat_value2` = 89,
   `stat_type3` = 32,
-  `stat_value3` = 53,
+  `stat_value3` = 50,
   `stat_type4` = 36,
-  `stat_value4` = 49,
+  `stat_value4` = 46,
   `stat_type5` = 37,
-  `stat_value5` = 55;
+  `stat_value5` = 54;
 
 DELETE FROM `item_template` WHERE `entry` = 65392;
 INSERT INTO `item_template` SET
@@ -5845,11 +5805,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1285,
   `stat_type1` = 4,
-  `stat_value1` = 104,
+  `stat_value1` = 106,
   `stat_type2` = 7,
   `stat_value2` = 106,
   `stat_type3` = 44,
-  `stat_value3` = 60;
+  `stat_value3` = 58;
 
 DELETE FROM `item_template` WHERE `entry` = 65393;
 INSERT INTO `item_template` SET
@@ -5873,13 +5833,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1927,
   `stat_type1` = 4,
-  `stat_value1` = 113,
+  `stat_value1` = 120,
   `stat_type2` = 7,
-  `stat_value2` = 92,
+  `stat_value2` = 88,
   `stat_type3` = 31,
-  `stat_value3` = 63,
+  `stat_value3` = 60,
   `stat_type4` = 38,
-  `stat_value4` = 133;
+  `stat_value4` = 131;
 
 DELETE FROM `item_template` WHERE `entry` = 65394;
 INSERT INTO `item_template` SET
@@ -5902,13 +5862,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 71,
+  `stat_value1` = 73,
   `stat_type2` = 7,
   `stat_value2` = 84,
   `stat_type3` = 32,
-  `stat_value3` = 50,
+  `stat_value3` = 49,
   `stat_type4` = 38,
-  `stat_value4` = 103;
+  `stat_value4` = 101;
 
 DELETE FROM `item_template` WHERE `entry` = 65395;
 INSERT INTO `item_template` SET
@@ -5931,13 +5891,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 76,
+  `stat_value1` = 79,
   `stat_type2` = 7,
-  `stat_value2` = 68,
+  `stat_value2` = 66,
   `stat_type3` = 32,
-  `stat_value3` = 56,
+  `stat_value3` = 57,
   `stat_type4` = 31,
-  `stat_value4` = 51;
+  `stat_value4` = 49;
 
 DELETE FROM `item_template` WHERE `entry` = 65396;
 INSERT INTO `item_template` SET
@@ -5960,11 +5920,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 105,
+  `stat_value1` = 108,
   `stat_type2` = 7,
-  `stat_value2` = 86,
+  `stat_value2` = 82,
   `stat_type3` = 38,
-  `stat_value3` = 134;
+  `stat_value3` = 133;
 
 DELETE FROM `item_template` WHERE `entry` = 65397;
 INSERT INTO `item_template` SET
@@ -5988,13 +5948,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 4,
-  `stat_value1` = 77,
+  `stat_value1` = 80,
   `stat_type2` = 7,
   `stat_value2` = 82,
   `stat_type3` = 44,
-  `stat_value3` = 47,
+  `stat_value3` = 45,
   `stat_type4` = 38,
-  `stat_value4` = 102;
+  `stat_value4` = 100;
 
 DELETE FROM `item_template` WHERE `entry` = 65398;
 INSERT INTO `item_template` SET
@@ -6020,11 +5980,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 85,
+  `stat_value1` = 93,
   `stat_type2` = 7,
-  `stat_value2` = 68,
+  `stat_value2` = 63,
   `stat_type3` = 44,
-  `stat_value3` = 43;
+  `stat_value3` = 38;
 
 DELETE FROM `item_template` WHERE `entry` = 65399;
 INSERT INTO `item_template` SET
@@ -6050,11 +6010,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 84,
+  `stat_value1` = 92,
   `stat_type2` = 7,
-  `stat_value2` = 66,
+  `stat_value2` = 60,
   `stat_type3` = 38,
-  `stat_value3` = 91;
+  `stat_value3` = 83;
 
 DELETE FROM `item_template` WHERE `entry` = 65400;
 INSERT INTO `item_template` SET
@@ -6080,9 +6040,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 78,
+  `stat_value1` = 84,
   `stat_type2` = 7,
-  `stat_value2` = 70,
+  `stat_value2` = 63,
   `stat_type3` = 31,
   `stat_value3` = 48;
 
@@ -6110,13 +6070,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 148,
+  `stat_value1` = 165,
   `stat_type2` = 7,
-  `stat_value2` = 145,
+  `stat_value2` = 137,
   `stat_type3` = 31,
-  `stat_value3` = 84,
+  `stat_value3` = 83,
   `stat_type4` = 36,
-  `stat_value4` = 80;
+  `stat_value4` = 69;
 
 DELETE FROM `item_template` WHERE `entry` = 65402;
 INSERT INTO `item_template` SET
@@ -6142,13 +6102,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 152,
+  `stat_value1` = 173,
   `stat_type2` = 7,
-  `stat_value2` = 122,
+  `stat_value2` = 112,
   `stat_type3` = 36,
-  `stat_value3` = 89,
+  `stat_value3` = 81,
   `stat_type4` = 38,
-  `stat_value4` = 172;
+  `stat_value4` = 160;
 
 DELETE FROM `item_template` WHERE `entry` = 65403;
 INSERT INTO `item_template` SET
@@ -6174,13 +6134,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 4,
-  `stat_value1` = 160,
+  `stat_value1` = 181,
   `stat_type2` = 7,
-  `stat_value2` = 131,
+  `stat_value2` = 121,
   `stat_type3` = 44,
-  `stat_value3` = 77,
+  `stat_value3` = 69,
   `stat_type4` = 32,
-  `stat_value4` = 85;
+  `stat_value4` = 79;
 
 DELETE FROM `item_template` WHERE `entry` = 65404;
 INSERT INTO `item_template` SET
@@ -6207,11 +6167,11 @@ INSERT INTO `item_template` SET
   `delay` = 3500,
   `block` = 209,
   `stat_type1` = 4,
-  `stat_value1` = 191,
+  `stat_value1` = 204,
   `stat_type2` = 7,
-  `stat_value2` = 171,
+  `stat_value2` = 156,
   `stat_type3` = 31,
-  `stat_value3` = 104;
+  `stat_value3` = 100;
 
 DELETE FROM `item_template` WHERE `entry` = 65405;
 INSERT INTO `item_template` SET
@@ -6235,13 +6195,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 4,
-  `stat_value1` = 108,
+  `stat_value1` = 114,
   `stat_type2` = 7,
-  `stat_value2` = 147,
+  `stat_value2` = 150,
   `stat_type3` = 14,
-  `stat_value3` = 86,
+  `stat_value3` = 80,
   `stat_type4` = 35,
-  `stat_value4` = 94;
+  `stat_value4` = 92;
 
 DELETE FROM `item_template` WHERE `entry` = 65406;
 INSERT INTO `item_template` SET
@@ -6265,11 +6225,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 4,
-  `stat_value1` = 98,
+  `stat_value1` = 97,
   `stat_type2` = 7,
-  `stat_value2` = 160,
+  `stat_value2` = 159,
   `stat_type3` = 48,
-  `stat_value3` = 162;
+  `stat_value3` = 163;
 
 DELETE FROM `item_template` WHERE `entry` = 65407;
 INSERT INTO `item_template` SET
@@ -6293,13 +6253,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1439,
   `stat_type1` = 4,
-  `stat_value1` = 105,
+  `stat_value1` = 108,
   `stat_type2` = 7,
-  `stat_value2` = 177,
+  `stat_value2` = 184,
   `stat_type3` = 35,
-  `stat_value3` = 94,
+  `stat_value3` = 91,
   `stat_type4` = 36,
-  `stat_value4` = 87;
+  `stat_value4` = 82;
 
 DELETE FROM `item_template` WHERE `entry` = 65408;
 INSERT INTO `item_template` SET
@@ -6323,15 +6283,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 950,
   `stat_type1` = 4,
-  `stat_value1` = 62,
+  `stat_value1` = 63,
   `stat_type2` = 7,
-  `stat_value2` = 105,
+  `stat_value2` = 111,
   `stat_type3` = 15,
   `stat_value3` = 58,
   `stat_type4` = 35,
   `stat_value4` = 67,
   `stat_type5` = 14,
-  `stat_value5` = 50;
+  `stat_value5` = 45;
 
 DELETE FROM `item_template` WHERE `entry` = 65409;
 INSERT INTO `item_template` SET
@@ -6355,13 +6315,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1324,
   `stat_type1` = 4,
-  `stat_value1` = 115,
+  `stat_value1` = 120,
   `stat_type2` = 7,
-  `stat_value2` = 152,
+  `stat_value2` = 154,
   `stat_type3` = 32,
-  `stat_value3` = 83,
+  `stat_value3` = 78,
   `stat_type4` = 44,
-  `stat_value4` = 103;
+  `stat_value4` = 101;
 
 DELETE FROM `item_template` WHERE `entry` = 65410;
 INSERT INTO `item_template` SET
@@ -6385,13 +6345,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 4,
-  `stat_value1` = 76,
+  `stat_value1` = 78,
   `stat_type2` = 7,
-  `stat_value2` = 125,
+  `stat_value2` = 129,
   `stat_type3` = 36,
-  `stat_value3` = 72,
+  `stat_value3` = 70,
   `stat_type4` = 32,
-  `stat_value4` = 76;
+  `stat_value4` = 74;
 
 DELETE FROM `item_template` WHERE `entry` = 65411;
 INSERT INTO `item_template` SET
@@ -6417,9 +6377,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 79,
   `stat_type2` = 7,
-  `stat_value2` = 133,
+  `stat_value2` = 134,
   `stat_type3` = 15,
-  `stat_value3` = 67;
+  `stat_value3` = 66;
 
 DELETE FROM `item_template` WHERE `entry` = 65412;
 INSERT INTO `item_template` SET
@@ -6445,11 +6405,11 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 74,
   `stat_type2` = 7,
-  `stat_value2` = 120,
+  `stat_value2` = 121,
   `stat_type3` = 48,
-  `stat_value3` = 132,
+  `stat_value3` = 137,
   `stat_type4` = 35,
-  `stat_value4` = 64;
+  `stat_value4` = 60;
 
 DELETE FROM `item_template` WHERE `entry` = 65413;
 INSERT INTO `item_template` SET
@@ -6474,9 +6434,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 69,
   `stat_type2` = 7,
-  `stat_value2` = 128,
+  `stat_value2` = 131,
   `stat_type3` = 36,
-  `stat_value3` = 75;
+  `stat_value3` = 73;
 
 DELETE FROM `item_template` WHERE `entry` = 65414;
 INSERT INTO `item_template` SET
@@ -6499,15 +6459,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 47,
+  `stat_value1` = 48,
   `stat_type2` = 7,
   `stat_value2` = 71,
   `stat_type3` = 48,
-  `stat_value3` = 85,
+  `stat_value3` = 91,
   `stat_type4` = 37,
-  `stat_value4` = 37,
+  `stat_value4` = 34,
   `stat_type5` = 12,
-  `stat_value5` = 42;
+  `stat_value5` = 41;
 
 DELETE FROM `item_template` WHERE `entry` = 65415;
 INSERT INTO `item_template` SET
@@ -6530,11 +6490,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 4,
-  `stat_value1` = 82,
+  `stat_value1` = 84,
   `stat_type2` = 7,
-  `stat_value2` = 119,
+  `stat_value2` = 121,
   `stat_type3` = 38,
-  `stat_value3` = 134;
+  `stat_value3` = 128;
 
 DELETE FROM `item_template` WHERE `entry` = 65416;
 INSERT INTO `item_template` SET
@@ -6558,15 +6518,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 4,
-  `stat_value1` = 51,
+  `stat_value1` = 54,
   `stat_type2` = 7,
-  `stat_value2` = 83,
+  `stat_value2` = 89,
   `stat_type3` = 14,
-  `stat_value3` = 46,
+  `stat_value3` = 44,
   `stat_type4` = 36,
-  `stat_value4` = 42,
+  `stat_value4` = 40,
   `stat_type5` = 31,
-  `stat_value5` = 35;
+  `stat_value5` = 32;
 
 DELETE FROM `item_template` WHERE `entry` = 65417;
 INSERT INTO `item_template` SET
@@ -6592,13 +6552,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 38,
+  `stat_value1` = 34,
   `stat_type2` = 7,
   `stat_value2` = 64,
   `stat_type3` = 38,
-  `stat_value3` = 62,
+  `stat_value3` = 64,
   `stat_type4` = 35,
-  `stat_value4` = 34,
+  `stat_value4` = 36,
   `stat_type5` = 44,
   `stat_value5` = 28;
 
@@ -6626,11 +6586,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 65,
+  `stat_value1` = 60,
   `stat_type2` = 7,
-  `stat_value2` = 86,
+  `stat_value2` = 83,
   `stat_type3` = 13,
-  `stat_value3` = 51;
+  `stat_value3` = 58;
 
 DELETE FROM `item_template` WHERE `entry` = 65419;
 INSERT INTO `item_template` SET
@@ -6656,11 +6616,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 4,
-  `stat_value1` = 71,
+  `stat_value1` = 63,
   `stat_type2` = 7,
-  `stat_value2` = 93,
+  `stat_value2` = 88,
   `stat_type3` = 37,
-  `stat_value3` = 40;
+  `stat_value3` = 52;
 
 DELETE FROM `item_template` WHERE `entry` = 65420;
 INSERT INTO `item_template` SET
@@ -6687,9 +6647,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 4,
   `stat_value1` = 72,
   `stat_type2` = 7,
-  `stat_value2` = 126,
+  `stat_value2` = 127,
   `stat_type3` = 12,
-  `stat_value3` = 77;
+  `stat_value3` = 76;
 
 DELETE FROM `item_template` WHERE `entry` = 65421;
 INSERT INTO `item_template` SET
@@ -6738,11 +6698,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 3,
-  `stat_value1` = 164,
+  `stat_value1` = 168,
   `stat_type2` = 7,
-  `stat_value2` = 177,
+  `stat_value2` = 176,
   `stat_type3` = 5,
-  `stat_value3` = 104;
+  `stat_value3` = 101;
 
 DELETE FROM `item_template` WHERE `entry` = 65423;
 INSERT INTO `item_template` SET
@@ -6766,11 +6726,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 3,
-  `stat_value1` = 103,
+  `stat_value1` = 108,
   `stat_type2` = 7,
-  `stat_value2` = 103,
+  `stat_value2` = 102,
   `stat_type3` = 31,
-  `stat_value3` = 65,
+  `stat_value3` = 61,
   `stat_type4` = 45,
   `stat_value4` = 85;
 
@@ -6796,11 +6756,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1439,
   `stat_type1` = 3,
-  `stat_value1` = 168,
+  `stat_value1` = 171,
   `stat_type2` = 7,
-  `stat_value2` = 205,
+  `stat_value2` = 207,
   `stat_type3` = 44,
-  `stat_value3` = 100;
+  `stat_value3` = 95;
 
 DELETE FROM `item_template` WHERE `entry` = 65425;
 INSERT INTO `item_template` SET
@@ -6824,11 +6784,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 950,
   `stat_type1` = 3,
-  `stat_value1` = 111,
+  `stat_value1` = 110,
   `stat_type2` = 7,
-  `stat_value2` = 168,
+  `stat_value2` = 171,
   `stat_type3` = 36,
-  `stat_value3` = 84;
+  `stat_value3` = 83;
 
 DELETE FROM `item_template` WHERE `entry` = 65426;
 INSERT INTO `item_template` SET
@@ -6852,15 +6812,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1324,
   `stat_type1` = 3,
-  `stat_value1` = 96,
+  `stat_value1` = 100,
   `stat_type2` = 7,
-  `stat_value2` = 124,
+  `stat_value2` = 126,
   `stat_type3` = 31,
-  `stat_value3` = 77,
+  `stat_value3` = 74,
   `stat_type4` = 37,
-  `stat_value4` = 70,
+  `stat_value4` = 67,
   `stat_type5` = 32,
-  `stat_value5` = 78;
+  `stat_value5` = 77;
 
 DELETE FROM `item_template` WHERE `entry` = 65427;
 INSERT INTO `item_template` SET
@@ -6884,13 +6844,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 3,
-  `stat_value1` = 90,
+  `stat_value1` = 91,
   `stat_type2` = 7,
-  `stat_value2` = 124,
+  `stat_value2` = 127,
   `stat_type3` = 32,
-  `stat_value3` = 64,
+  `stat_value3` = 61,
   `stat_type4` = 44,
-  `stat_value4` = 72;
+  `stat_value4` = 71;
 
 DELETE FROM `item_template` WHERE `entry` = 65428;
 INSERT INTO `item_template` SET
@@ -6916,9 +6876,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 87,
   `stat_type2` = 7,
-  `stat_value2` = 106,
+  `stat_value2` = 105,
   `stat_type3` = 38,
-  `stat_value3` = 155;
+  `stat_value3` = 156;
 
 DELETE FROM `item_template` WHERE `entry` = 65429;
 INSERT INTO `item_template` SET
@@ -6942,11 +6902,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 3,
-  `stat_value1` = 104,
+  `stat_value1` = 108,
   `stat_type2` = 7,
-  `stat_value2` = 96,
+  `stat_value2` = 93,
   `stat_type3` = 37,
-  `stat_value3` = 61,
+  `stat_value3` = 58,
   `stat_type4` = 32,
   `stat_value4` = 76;
 
@@ -6973,9 +6933,9 @@ INSERT INTO `item_template` SET
   `stat_type1` = 3,
   `stat_value1` = 86,
   `stat_type2` = 7,
-  `stat_value2` = 129,
+  `stat_value2` = 132,
   `stat_type3` = 5,
-  `stat_value3` = 57;
+  `stat_value3` = 55;
 
 DELETE FROM `item_template` WHERE `entry` = 65431;
 INSERT INTO `item_template` SET
@@ -6998,13 +6958,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 60,
+  `stat_value1` = 61,
   `stat_type2` = 7,
   `stat_value2` = 81,
   `stat_type3` = 31,
-  `stat_value3` = 51,
+  `stat_value3` = 49,
   `stat_type4` = 38,
-  `stat_value4` = 126;
+  `stat_value4` = 129;
 
 DELETE FROM `item_template` WHERE `entry` = 65432;
 INSERT INTO `item_template` SET
@@ -7027,15 +6987,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 53,
+  `stat_value1` = 54,
   `stat_type2` = 7,
-  `stat_value2` = 57,
+  `stat_value2` = 55,
   `stat_type3` = 32,
-  `stat_value3` = 38,
+  `stat_value3` = 35,
   `stat_type4` = 4,
-  `stat_value4` = 62,
+  `stat_value4` = 66,
   `stat_type5` = 5,
-  `stat_value5` = 38;
+  `stat_value5` = 36;
 
 DELETE FROM `item_template` WHERE `entry` = 65433;
 INSERT INTO `item_template` SET
@@ -7059,13 +7019,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 3,
-  `stat_value1` = 57,
+  `stat_value1` = 59,
   `stat_type2` = 7,
-  `stat_value2` = 64,
+  `stat_value2` = 63,
   `stat_type3` = 37,
   `stat_value3` = 42,
   `stat_type4` = 5,
-  `stat_value4` = 38,
+  `stat_value4` = 36,
   `stat_type5` = 31,
   `stat_value5` = 49;
 
@@ -7093,13 +7053,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 52,
+  `stat_value1` = 54,
   `stat_type2` = 7,
-  `stat_value2` = 56,
+  `stat_value2` = 53,
   `stat_type3` = 38,
-  `stat_value3` = 82,
+  `stat_value3` = 78,
   `stat_type4` = 37,
-  `stat_value4` = 42;
+  `stat_value4` = 46;
 
 DELETE FROM `item_template` WHERE `entry` = 65435;
 INSERT INTO `item_template` SET
@@ -7125,13 +7085,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 53,
+  `stat_value1` = 55,
   `stat_type2` = 7,
-  `stat_value2` = 62,
+  `stat_value2` = 59,
   `stat_type3` = 4,
-  `stat_value3` = 46,
+  `stat_value3` = 50,
   `stat_type4` = 36,
-  `stat_value4` = 33;
+  `stat_value4` = 29;
 
 DELETE FROM `item_template` WHERE `entry` = 65436;
 INSERT INTO `item_template` SET
@@ -7157,13 +7117,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 57,
+  `stat_value1` = 60,
   `stat_type2` = 7,
-  `stat_value2` = 60,
+  `stat_value2` = 57,
   `stat_type3` = 45,
-  `stat_value3` = 44,
+  `stat_value3` = 46,
   `stat_type4` = 44,
-  `stat_value4` = 38;
+  `stat_value4` = 35;
 
 DELETE FROM `item_template` WHERE `entry` = 65437;
 INSERT INTO `item_template` SET
@@ -7212,13 +7172,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 5,
-  `stat_value1` = 77,
+  `stat_value1` = 82,
   `stat_type2` = 45,
-  `stat_value2` = 139,
+  `stat_value2` = 134,
   `stat_type3` = 7,
-  `stat_value3` = 104,
+  `stat_value3` = 107,
   `stat_type4` = 36,
-  `stat_value4` = 58,
+  `stat_value4` = 56,
   `stat_type5` = 47,
   `stat_value5` = 31;
 
@@ -7244,11 +7204,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 5,
-  `stat_value1` = 91,
+  `stat_value1` = 97,
   `stat_type2` = 45,
-  `stat_value2` = 161,
+  `stat_value2` = 150,
   `stat_type3` = 7,
-  `stat_value3` = 120;
+  `stat_value3` = 126;
 
 DELETE FROM `item_template` WHERE `entry` = 65440;
 INSERT INTO `item_template` SET
@@ -7272,11 +7232,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1439,
   `stat_type1` = 5,
-  `stat_value1` = 128,
+  `stat_value1` = 136,
   `stat_type2` = 45,
-  `stat_value2` = 189,
+  `stat_value2` = 172,
   `stat_type3` = 7,
-  `stat_value3` = 171;
+  `stat_value3` = 180;
 
 DELETE FROM `item_template` WHERE `entry` = 65441;
 INSERT INTO `item_template` SET
@@ -7300,11 +7260,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 950,
   `stat_type1` = 5,
-  `stat_value1` = 89,
+  `stat_value1` = 95,
   `stat_type2` = 45,
-  `stat_value2` = 158,
+  `stat_value2` = 147,
   `stat_type3` = 7,
-  `stat_value3` = 123;
+  `stat_value3` = 129;
 
 DELETE FROM `item_template` WHERE `entry` = 65442;
 INSERT INTO `item_template` SET
@@ -7328,13 +7288,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1324,
   `stat_type1` = 5,
-  `stat_value1` = 91,
+  `stat_value1` = 96,
   `stat_type2` = 45,
-  `stat_value2` = 176,
+  `stat_value2` = 166,
   `stat_type3` = 7,
-  `stat_value3` = 124,
+  `stat_value3` = 127,
   `stat_type4` = 36,
-  `stat_value4` = 78;
+  `stat_value4` = 80;
 
 DELETE FROM `item_template` WHERE `entry` = 65443;
 INSERT INTO `item_template` SET
@@ -7358,15 +7318,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 5,
-  `stat_value1` = 56,
+  `stat_value1` = 57,
   `stat_type2` = 45,
-  `stat_value2` = 101,
+  `stat_value2` = 95,
   `stat_type3` = 7,
-  `stat_value3` = 86,
+  `stat_value3` = 88,
   `stat_type4` = 36,
   `stat_value4` = 50,
   `stat_type5` = 47,
-  `stat_value5` = 29;
+  `stat_value5` = 30;
 
 DELETE FROM `item_template` WHERE `entry` = 65444;
 INSERT INTO `item_template` SET
@@ -7390,13 +7350,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 720,
   `stat_type1` = 5,
-  `stat_value1` = 43,
+  `stat_value1` = 44,
   `stat_type2` = 45,
-  `stat_value2` = 81,
+  `stat_value2` = 77,
   `stat_type3` = 7,
   `stat_value3` = 62,
   `stat_type4` = 36,
-  `stat_value4` = 42,
+  `stat_value4` = 44,
   `stat_type5` = 6,
   `stat_value5` = 39;
 
@@ -7422,13 +7382,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 5,
-  `stat_value1` = 82,
+  `stat_value1` = 89,
   `stat_type2` = 45,
-  `stat_value2` = 120,
+  `stat_value2` = 112,
   `stat_type3` = 7,
-  `stat_value3` = 95,
+  `stat_value3` = 97,
   `stat_type4` = 31,
-  `stat_value4` = 55;
+  `stat_value4` = 54;
 
 DELETE FROM `item_template` WHERE `entry` = 65446;
 INSERT INTO `item_template` SET
@@ -7451,13 +7411,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 47,
+  `stat_value1` = 50,
   `stat_type2` = 45,
-  `stat_value2` = 79,
+  `stat_value2` = 75,
   `stat_type3` = 7,
-  `stat_value3` = 60,
+  `stat_value3` = 61,
   `stat_type4` = 31,
-  `stat_value4` = 36,
+  `stat_value4` = 35,
   `stat_type5` = 6,
   `stat_value5` = 38;
 
@@ -7482,13 +7442,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 55,
+  `stat_value1` = 58,
   `stat_type2` = 45,
-  `stat_value2` = 96,
+  `stat_value2` = 90,
   `stat_type3` = 7,
-  `stat_value3` = 62,
+  `stat_value3` = 60,
   `stat_type4` = 47,
-  `stat_value4` = 25;
+  `stat_value4` = 26;
 
 DELETE FROM `item_template` WHERE `entry` = 65448;
 INSERT INTO `item_template` SET
@@ -7511,13 +7471,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 49,
+  `stat_value1` = 53,
   `stat_type2` = 45,
-  `stat_value2` = 75,
+  `stat_value2` = 71,
   `stat_type3` = 7,
-  `stat_value3` = 55,
+  `stat_value3` = 53,
   `stat_type4` = 36,
-  `stat_value4` = 43,
+  `stat_value4` = 44,
   `stat_type5` = 47,
   `stat_value5` = 18;
 
@@ -7543,9 +7503,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 43,
+  `stat_value1` = 45,
   `stat_type2` = 45,
-  `stat_value2` = 86,
+  `stat_value2` = 84,
   `stat_type3` = 7,
   `stat_value3` = 55,
   `stat_type4` = 32,
@@ -7559,11 +7519,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Fist of Pointless Sweetening',
-  `displayid` = 3498,
+  `name` = 'Touchingly Guying Gavel',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -7577,11 +7537,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 137,
+  `stat_value1` = 105,
   `stat_type2` = 45,
-  `stat_value2` = 266,
+  `stat_value2` = 405,
   `stat_type3` = 7,
-  `stat_value3` = 184;
+  `stat_value3` = 136;
 
 DELETE FROM `item_template` WHERE `entry` = 65451;
 INSERT INTO `item_template` SET
@@ -7590,10 +7550,10 @@ INSERT INTO `item_template` SET
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
   `name` = 'Knife of Tune',
-  `displayid` = 52445,
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -7607,11 +7567,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 273,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 132,
+  `stat_value1` = 107,
   `stat_type2` = 45,
-  `stat_value2` = 261,
-  `stat_type3` = 7,
-  `stat_value3` = 196;
+  `stat_value2` = 509;
 
 DELETE FROM `item_template` WHERE `entry` = 65452;
 INSERT INTO `item_template` SET
@@ -7637,11 +7595,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 690,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 265,
+  `stat_value1` = 193,
   `stat_type2` = 45,
-  `stat_value2` = 427,
-  `stat_type3` = 7,
-  `stat_value3` = 279;
+  `stat_value2` = 728;
 
 DELETE FROM `item_template` WHERE `entry` = 65453;
 INSERT INTO `item_template` SET
@@ -7666,15 +7622,15 @@ INSERT INTO `item_template` SET
   `armor` = 7075,
   `block` = 209,
   `stat_type1` = 5,
-  `stat_value1` = 46,
+  `stat_value1` = 48,
   `stat_type2` = 45,
-  `stat_value2` = 77,
+  `stat_value2` = 73,
   `stat_type3` = 7,
   `stat_value3` = 58,
   `stat_type4` = 32,
-  `stat_value4` = 42,
+  `stat_value4` = 43,
   `stat_type5` = 31,
-  `stat_value5` = 40;
+  `stat_value5` = 41;
 
 DELETE FROM `item_template` WHERE `entry` = 65454;
 INSERT INTO `item_template` SET
@@ -7723,11 +7679,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 5,
-  `stat_value1` = 114,
+  `stat_value1` = 117,
   `stat_type2` = 45,
-  `stat_value2` = 200,
+  `stat_value2` = 194,
   `stat_type3` = 7,
-  `stat_value3` = 152;
+  `stat_value3` = 154;
 
 DELETE FROM `item_template` WHERE `entry` = 65456;
 INSERT INTO `item_template` SET
@@ -7751,11 +7707,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1194,
   `stat_type1` = 5,
-  `stat_value1` = 75,
+  `stat_value1` = 77,
   `stat_type2` = 45,
-  `stat_value2` = 127,
+  `stat_value2` = 125,
   `stat_type3` = 7,
-  `stat_value3` = 91,
+  `stat_value3` = 89,
   `stat_type4` = 6,
   `stat_value4` = 65;
 
@@ -7781,15 +7737,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1439,
   `stat_type1` = 5,
-  `stat_value1` = 89,
+  `stat_value1` = 94,
   `stat_type2` = 45,
-  `stat_value2` = 121,
+  `stat_value2` = 119,
   `stat_type3` = 7,
-  `stat_value3` = 102,
+  `stat_value3` = 99,
   `stat_type4` = 32,
-  `stat_value4` = 73,
+  `stat_value4` = 74,
   `stat_type5` = 36,
-  `stat_value5` = 70;
+  `stat_value5` = 69;
 
 DELETE FROM `item_template` WHERE `entry` = 65458;
 INSERT INTO `item_template` SET
@@ -7813,11 +7769,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 950,
   `stat_type1` = 5,
-  `stat_value1` = 86,
+  `stat_value1` = 91,
   `stat_type2` = 45,
-  `stat_value2` = 120,
+  `stat_value2` = 117,
   `stat_type3` = 7,
-  `stat_value3` = 83,
+  `stat_value3` = 79,
   `stat_type4` = 36,
   `stat_value4` = 63;
 
@@ -7843,7 +7799,7 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1324,
   `stat_type1` = 5,
-  `stat_value1` = 76,
+  `stat_value1` = 78,
   `stat_type2` = 45,
   `stat_value2` = 130,
   `stat_type3` = 7,
@@ -7875,9 +7831,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 5,
-  `stat_value1` = 69,
+  `stat_value1` = 70,
   `stat_type2` = 45,
-  `stat_value2` = 121,
+  `stat_value2` = 119,
   `stat_type3` = 7,
   `stat_value3` = 96,
   `stat_type4` = 43,
@@ -7905,15 +7861,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 720,
   `stat_type1` = 5,
-  `stat_value1` = 52,
+  `stat_value1` = 55,
   `stat_type2` = 45,
-  `stat_value2` = 66,
+  `stat_value2` = 64,
   `stat_type3` = 7,
-  `stat_value3` = 57,
+  `stat_value3` = 55,
   `stat_type4` = 36,
-  `stat_value4` = 42,
+  `stat_value4` = 41,
   `stat_type5` = 6,
-  `stat_value5` = 46;
+  `stat_value5` = 47;
 
 DELETE FROM `item_template` WHERE `entry` = 65462;
 INSERT INTO `item_template` SET
@@ -7937,15 +7893,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 1079,
   `stat_type1` = 5,
-  `stat_value1` = 63,
+  `stat_value1` = 66,
   `stat_type2` = 45,
-  `stat_value2` = 87,
+  `stat_value2` = 85,
   `stat_type3` = 7,
-  `stat_value3` = 67,
+  `stat_value3` = 62,
   `stat_type4` = 32,
-  `stat_value4` = 58,
+  `stat_value4` = 59,
   `stat_type5` = 6,
-  `stat_value5` = 64;
+  `stat_value5` = 66;
 
 DELETE FROM `item_template` WHERE `entry` = 65463;
 INSERT INTO `item_template` SET
@@ -7968,11 +7924,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 77,
+  `stat_value1` = 82,
   `stat_type2` = 45,
-  `stat_value2` = 120,
+  `stat_value2` = 117,
   `stat_type3` = 7,
-  `stat_value3` = 73;
+  `stat_value3` = 70;
 
 DELETE FROM `item_template` WHERE `entry` = 65464;
 INSERT INTO `item_template` SET
@@ -7995,15 +7951,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 51,
+  `stat_value1` = 54,
   `stat_type2` = 45,
-  `stat_value2` = 67,
+  `stat_value2` = 65,
   `stat_type3` = 7,
-  `stat_value3` = 62,
+  `stat_value3` = 61,
   `stat_type4` = 43,
   `stat_value4` = 21,
   `stat_type5` = 32,
-  `stat_value5` = 38;
+  `stat_value5` = 37;
 
 DELETE FROM `item_template` WHERE `entry` = 65465;
 INSERT INTO `item_template` SET
@@ -8026,13 +7982,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 63,
+  `stat_value1` = 66,
   `stat_type2` = 45,
-  `stat_value2` = 82,
+  `stat_value2` = 79,
   `stat_type3` = 7,
   `stat_value3` = 73,
   `stat_type4` = 32,
-  `stat_value4` = 47;
+  `stat_value4` = 46;
 
 DELETE FROM `item_template` WHERE `entry` = 65466;
 INSERT INTO `item_template` SET
@@ -8056,11 +8012,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 77,
+  `stat_value1` = 82,
   `stat_type2` = 45,
-  `stat_value2` = 114,
+  `stat_value2` = 110,
   `stat_type3` = 7,
-  `stat_value3` = 81;
+  `stat_value3` = 80;
 
 DELETE FROM `item_template` WHERE `entry` = 65467;
 INSERT INTO `item_template` SET
@@ -8068,11 +8024,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Satisfactory Condition Destroyer',
-  `displayid` = 41769,
+  `name` = 'House Resolution Hand',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -8086,15 +8042,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 97,
+  `stat_value1` = 131,
   `stat_type2` = 45,
-  `stat_value2` = 155,
-  `stat_type3` = 7,
-  `stat_value3` = 122,
-  `stat_type4` = 32,
-  `stat_value4` = 83,
-  `stat_type5` = 6,
-  `stat_value5` = 93;
+  `stat_value2` = 481;
 
 DELETE FROM `item_template` WHERE `entry` = 65468;
 INSERT INTO `item_template` SET
@@ -8102,11 +8052,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Dirk of Causing',
-  `displayid` = 31686,
+  `name` = 'Knife of the Playing Writer',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -8120,11 +8070,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 273,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 159,
+  `stat_value1` = 133,
   `stat_type2` = 45,
-  `stat_value2` = 255,
-  `stat_type3` = 7,
-  `stat_value3` = 163;
+  `stat_value2` = 478;
 
 DELETE FROM `item_template` WHERE `entry` = 65469;
 INSERT INTO `item_template` SET
@@ -8150,11 +8098,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 690,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 244,
+  `stat_value1` = 178,
   `stat_type2` = 45,
-  `stat_value2` = 448,
-  `stat_type3` = 7,
-  `stat_value3` = 284;
+  `stat_value2` = 746;
 
 DELETE FROM `item_template` WHERE `entry` = 65470;
 INSERT INTO `item_template` SET
@@ -8179,11 +8125,11 @@ INSERT INTO `item_template` SET
   `armor` = 7075,
   `block` = 209,
   `stat_type1` = 5,
-  `stat_value1` = 69,
+  `stat_value1` = 73,
   `stat_type2` = 45,
-  `stat_value2` = 81,
+  `stat_value2` = 77,
   `stat_type3` = 7,
-  `stat_value3` = 66,
+  `stat_value3` = 63,
   `stat_type4` = 32,
   `stat_value4` = 52;
 
@@ -8234,11 +8180,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 288,
   `stat_type1` = 5,
-  `stat_value1` = 120,
+  `stat_value1` = 129,
   `stat_type2` = 45,
-  `stat_value2` = 195,
+  `stat_value2` = 181,
   `stat_type3` = 7,
-  `stat_value3` = 147;
+  `stat_value3` = 153;
 
 DELETE FROM `item_template` WHERE `entry` = 65473;
 INSERT INTO `item_template` SET
@@ -8262,15 +8208,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 288,
   `stat_type1` = 5,
-  `stat_value1` = 55,
+  `stat_value1` = 56,
   `stat_type2` = 45,
-  `stat_value2` = 118,
+  `stat_value2` = 116,
   `stat_type3` = 7,
-  `stat_value3` = 74,
+  `stat_value3` = 73,
   `stat_type4` = 6,
-  `stat_value4` = 57,
+  `stat_value4` = 61,
   `stat_type5` = 31,
-  `stat_value5` = 46;
+  `stat_value5` = 45;
 
 DELETE FROM `item_template` WHERE `entry` = 65474;
 INSERT INTO `item_template` SET
@@ -8294,13 +8240,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 347,
   `stat_type1` = 5,
-  `stat_value1` = 74,
+  `stat_value1` = 76,
   `stat_type2` = 45,
-  `stat_value2` = 140,
+  `stat_value2` = 133,
   `stat_type3` = 7,
-  `stat_value3` = 112,
+  `stat_value3` = 116,
   `stat_type4` = 6,
-  `stat_value4` = 67,
+  `stat_value4` = 68,
   `stat_type5` = 47,
   `stat_value5` = 34;
 
@@ -8326,11 +8272,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 229,
   `stat_type1` = 5,
-  `stat_value1` = 99,
+  `stat_value1` = 106,
   `stat_type2` = 45,
-  `stat_value2` = 153,
+  `stat_value2` = 141,
   `stat_type3` = 7,
-  `stat_value3` = 115;
+  `stat_value3` = 119;
 
 DELETE FROM `item_template` WHERE `entry` = 65476;
 INSERT INTO `item_template` SET
@@ -8354,13 +8300,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 319,
   `stat_type1` = 5,
-  `stat_value1` = 94,
+  `stat_value1` = 99,
   `stat_type2` = 45,
-  `stat_value2` = 180,
+  `stat_value2` = 172,
   `stat_type3` = 7,
   `stat_value3` = 113,
   `stat_type4` = 31,
-  `stat_value4` = 79;
+  `stat_value4` = 80;
 
 DELETE FROM `item_template` WHERE `entry` = 65477;
 INSERT INTO `item_template` SET
@@ -8384,13 +8330,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 260,
   `stat_type1` = 5,
-  `stat_value1` = 68,
+  `stat_value1` = 70,
   `stat_type2` = 45,
-  `stat_value2` = 119,
+  `stat_value2` = 110,
   `stat_type3` = 7,
-  `stat_value3` = 108,
+  `stat_value3` = 113,
   `stat_type4` = 6,
-  `stat_value4` = 66;
+  `stat_value4` = 68;
 
 DELETE FROM `item_template` WHERE `entry` = 65478;
 INSERT INTO `item_template` SET
@@ -8416,13 +8362,13 @@ INSERT INTO `item_template` SET
   `stat_type1` = 5,
   `stat_value1` = 43,
   `stat_type2` = 45,
-  `stat_value2` = 81,
+  `stat_value2` = 77,
   `stat_type3` = 7,
   `stat_value3` = 60,
   `stat_type4` = 47,
-  `stat_value4` = 21,
+  `stat_value4` = 22,
   `stat_type5` = 36,
-  `stat_value5` = 41;
+  `stat_value5` = 42;
 
 DELETE FROM `item_template` WHERE `entry` = 65479;
 INSERT INTO `item_template` SET
@@ -8446,15 +8392,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 260,
   `stat_type1` = 5,
-  `stat_value1` = 58,
+  `stat_value1` = 60,
   `stat_type2` = 45,
-  `stat_value2` = 107,
+  `stat_value2` = 103,
   `stat_type3` = 7,
-  `stat_value3` = 80,
+  `stat_value3` = 81,
   `stat_type4` = 36,
   `stat_value4` = 48,
   `stat_type5` = 47,
-  `stat_value5` = 26;
+  `stat_value5` = 27;
 
 DELETE FROM `item_template` WHERE `entry` = 65480;
 INSERT INTO `item_template` SET
@@ -8477,11 +8423,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 67,
+  `stat_value1` = 71,
   `stat_type2` = 45,
-  `stat_value2` = 129,
+  `stat_value2` = 122,
   `stat_type3` = 7,
-  `stat_value3` = 77;
+  `stat_value3` = 79;
 
 DELETE FROM `item_template` WHERE `entry` = 65481;
 INSERT INTO `item_template` SET
@@ -8504,13 +8450,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 46,
+  `stat_value1` = 48,
   `stat_type2` = 45,
-  `stat_value2` = 71,
+  `stat_value2` = 66,
   `stat_type3` = 7,
-  `stat_value3` = 62,
+  `stat_value3` = 63,
   `stat_type4` = 31,
-  `stat_value4` = 41,
+  `stat_value4` = 43,
   `stat_type5` = 32,
   `stat_value5` = 40;
 
@@ -8535,15 +8481,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 50,
+  `stat_value1` = 54,
   `stat_type2` = 45,
-  `stat_value2` = 71,
+  `stat_value2` = 66,
   `stat_type3` = 7,
-  `stat_value3` = 56,
+  `stat_value3` = 55,
   `stat_type4` = 32,
   `stat_value4` = 40,
   `stat_type5` = 47,
-  `stat_value5` = 20;
+  `stat_value5` = 21;
 
 DELETE FROM `item_template` WHERE `entry` = 65483;
 INSERT INTO `item_template` SET
@@ -8567,11 +8513,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 62,
+  `stat_value1` = 66,
   `stat_type2` = 45,
-  `stat_value2` = 134,
+  `stat_value2` = 127,
   `stat_type3` = 7,
-  `stat_value3` = 78;
+  `stat_value3` = 80;
 
 DELETE FROM `item_template` WHERE `entry` = 65484;
 INSERT INTO `item_template` SET
@@ -8579,11 +8525,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Sidearm of Private Saddening',
-  `displayid` = 20075,
+  `name` = 'Cutlass of Preferable Savings',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -8597,15 +8543,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 90,
+  `stat_value1` = 118,
   `stat_type2` = 45,
-  `stat_value2` = 170,
-  `stat_type3` = 7,
-  `stat_value3` = 135,
-  `stat_type4` = 47,
-  `stat_value4` = 39,
-  `stat_type5` = 36,
-  `stat_value5` = 84;
+  `stat_value2` = 497;
 
 DELETE FROM `item_template` WHERE `entry` = 65485;
 INSERT INTO `item_template` SET
@@ -8614,10 +8554,10 @@ INSERT INTO `item_template` SET
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
   `name` = 'Eviscerator of Shyness',
-  `displayid` = 56076,
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -8631,11 +8571,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 273,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 142,
+  `stat_value1` = 115,
   `stat_type2` = 45,
-  `stat_value2` = 259,
-  `stat_type3` = 7,
-  `stat_value3` = 184;
+  `stat_value2` = 499;
 
 DELETE FROM `item_template` WHERE `entry` = 65486;
 INSERT INTO `item_template` SET
@@ -8661,11 +8599,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 690,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 236,
+  `stat_value1` = 180,
   `stat_type2` = 45,
-  `stat_value2` = 410,
-  `stat_type3` = 7,
-  `stat_value3` = 344;
+  `stat_value2` = 743;
 
 DELETE FROM `item_template` WHERE `entry` = 65487;
 INSERT INTO `item_template` SET
@@ -8689,15 +8625,7 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `dmg_min1` = 416,
   `dmg_max1` = 773,
-  `delay` = 1800,
-  `stat_type1` = 5,
-  `stat_value1` = 1,
-  `stat_type2` = 45,
-  `stat_value2` = 1,
-  `stat_type3` = 7,
-  `stat_value3` = 1,
-  `stat_type4` = 32,
-  `stat_value4` = 1;
+  `delay` = 1800;
 
 DELETE FROM `item_template` WHERE `entry` = 65488;
 INSERT INTO `item_template` SET
@@ -8720,11 +8648,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 86,
+  `stat_value1` = 94,
   `stat_type2` = 45,
-  `stat_value2` = 115,
+  `stat_value2` = 105,
   `stat_type3` = 7,
-  `stat_value3` = 87;
+  `stat_value3` = 89;
 
 DELETE FROM `item_template` WHERE `entry` = 65489;
 INSERT INTO `item_template` SET
@@ -8748,13 +8676,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 288,
   `stat_type1` = 5,
-  `stat_value1` = 103,
+  `stat_value1` = 111,
   `stat_type2` = 45,
-  `stat_value2` = 136,
+  `stat_value2` = 123,
   `stat_type3` = 7,
-  `stat_value3` = 110,
+  `stat_value3` = 109,
   `stat_type4` = 32,
-  `stat_value4` = 93;
+  `stat_value4` = 97;
 
 DELETE FROM `item_template` WHERE `entry` = 65490;
 INSERT INTO `item_template` SET
@@ -8778,11 +8706,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 288,
   `stat_type1` = 5,
-  `stat_value1` = 82,
+  `stat_value1` = 86,
   `stat_type2` = 45,
-  `stat_value2` = 174,
+  `stat_value2` = 164,
   `stat_type3` = 7,
-  `stat_value3` = 118;
+  `stat_value3` = 124;
 
 DELETE FROM `item_template` WHERE `entry` = 65491;
 INSERT INTO `item_template` SET
@@ -8806,11 +8734,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 347,
   `stat_type1` = 5,
-  `stat_value1` = 126,
+  `stat_value1` = 135,
   `stat_type2` = 45,
-  `stat_value2` = 203,
+  `stat_value2` = 187,
   `stat_type3` = 7,
-  `stat_value3` = 156;
+  `stat_value3` = 162;
 
 DELETE FROM `item_template` WHERE `entry` = 65492;
 INSERT INTO `item_template` SET
@@ -8834,13 +8762,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 229,
   `stat_type1` = 5,
-  `stat_value1` = 61,
+  `stat_value1` = 63,
   `stat_type2` = 45,
-  `stat_value2` = 97,
+  `stat_value2` = 91,
   `stat_type3` = 7,
-  `stat_value3` = 81,
+  `stat_value3` = 82,
   `stat_type4` = 6,
-  `stat_value4` = 54,
+  `stat_value4` = 56,
   `stat_type5` = 32,
   `stat_value5` = 55;
 
@@ -8866,13 +8794,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 319,
   `stat_type1` = 5,
-  `stat_value1` = 92,
+  `stat_value1` = 97,
   `stat_type2` = 45,
-  `stat_value2` = 173,
+  `stat_value2` = 163,
   `stat_type3` = 7,
   `stat_value3` = 117,
   `stat_type4` = 47,
-  `stat_value4` = 42;
+  `stat_value4` = 44;
 
 DELETE FROM `item_template` WHERE `entry` = 65494;
 INSERT INTO `item_template` SET
@@ -8896,15 +8824,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 260,
   `stat_type1` = 5,
-  `stat_value1` = 58,
+  `stat_value1` = 59,
   `stat_type2` = 45,
-  `stat_value2` = 101,
+  `stat_value2` = 95,
   `stat_type3` = 7,
-  `stat_value3` = 89,
+  `stat_value3` = 93,
   `stat_type4` = 31,
-  `stat_value4` = 48,
+  `stat_value4` = 46,
   `stat_type5` = 32,
-  `stat_value5` = 57;
+  `stat_value5` = 58;
 
 DELETE FROM `item_template` WHERE `entry` = 65495;
 INSERT INTO `item_template` SET
@@ -8928,13 +8856,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 61,
+  `stat_value1` = 65,
   `stat_type2` = 45,
-  `stat_value2` = 91,
+  `stat_value2` = 84,
   `stat_type3` = 7,
-  `stat_value3` = 66,
+  `stat_value3` = 65,
   `stat_type4` = 6,
-  `stat_value4` = 52;
+  `stat_value4` = 54;
 
 DELETE FROM `item_template` WHERE `entry` = 65496;
 INSERT INTO `item_template` SET
@@ -8958,13 +8886,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 260,
   `stat_type1` = 5,
-  `stat_value1` = 65,
+  `stat_value1` = 70,
   `stat_type2` = 45,
-  `stat_value2` = 101,
+  `stat_value2` = 96,
   `stat_type3` = 7,
-  `stat_value3` = 75,
+  `stat_value3` = 73,
   `stat_type4` = 36,
-  `stat_value4` = 53,
+  `stat_value4` = 54,
   `stat_type5` = 47,
   `stat_value5` = 25;
 
@@ -8989,11 +8917,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 77,
+  `stat_value1` = 83,
   `stat_type2` = 45,
-  `stat_value2` = 112,
+  `stat_value2` = 103,
   `stat_type3` = 7,
-  `stat_value3` = 83;
+  `stat_value3` = 85;
 
 DELETE FROM `item_template` WHERE `entry` = 65498;
 INSERT INTO `item_template` SET
@@ -9016,9 +8944,9 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 57,
+  `stat_value1` = 61,
   `stat_type2` = 45,
-  `stat_value2` = 102,
+  `stat_value2` = 97,
   `stat_type3` = 7,
   `stat_value3` = 63,
   `stat_type4` = 36,
@@ -9045,11 +8973,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 71,
+  `stat_value1` = 76,
   `stat_type2` = 45,
-  `stat_value2` = 108,
+  `stat_value2` = 99,
   `stat_type3` = 7,
-  `stat_value3` = 97;
+  `stat_value3` = 103;
 
 DELETE FROM `item_template` WHERE `entry` = 65500;
 INSERT INTO `item_template` SET
@@ -9073,11 +9001,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 70,
+  `stat_value1` = 76,
   `stat_type2` = 45,
-  `stat_value2` = 122,
+  `stat_value2` = 114,
   `stat_type3` = 7,
-  `stat_value3` = 81;
+  `stat_value3` = 83;
 
 DELETE FROM `item_template` WHERE `entry` = 65501;
 INSERT INTO `item_template` SET
@@ -9085,11 +9013,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 7,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Blade of Perfect Signal',
-  `displayid` = 37209,
+  `name` = 'Swiftblade of Resort',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -9103,15 +9031,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 100,
+  `stat_value1` = 96,
   `stat_type2` = 45,
-  `stat_value2` = 160,
+  `stat_value2` = 428,
   `stat_type3` = 7,
-  `stat_value3` = 116,
-  `stat_type4` = 31,
-  `stat_value4` = 82,
-  `stat_type5` = 32,
-  `stat_value5` = 90;
+  `stat_value3` = 122;
 
 DELETE FROM `item_template` WHERE `entry` = 65502;
 INSERT INTO `item_template` SET
@@ -9119,11 +9043,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Claw of the Priesting Search',
-  `displayid` = 40947,
+  `name` = 'Talon of Fearsome Priesting',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -9137,11 +9061,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 273,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 150,
+  `stat_value1` = 117,
   `stat_type2` = 45,
-  `stat_value2` = 240,
-  `stat_type3` = 7,
-  `stat_value3` = 196;
+  `stat_value2` = 497;
 
 DELETE FROM `item_template` WHERE `entry` = 65503;
 INSERT INTO `item_template` SET
@@ -9167,13 +9089,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 690,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 206,
+  `stat_value1` = 132,
   `stat_type2` = 45,
-  `stat_value2` = 310,
+  `stat_value2` = 667,
   `stat_type3` = 7,
-  `stat_value3` = 265,
-  `stat_type4` = 6,
-  `stat_value4` = 169;
+  `stat_value3` = 171;
 
 DELETE FROM `item_template` WHERE `entry` = 65504;
 INSERT INTO `item_template` SET
@@ -9197,15 +9117,7 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `dmg_min1` = 416,
   `dmg_max1` = 773,
-  `delay` = 1800,
-  `stat_type1` = 5,
-  `stat_value1` = 1,
-  `stat_type2` = 45,
-  `stat_value2` = 1,
-  `stat_type3` = 7,
-  `stat_value3` = 1,
-  `stat_type4` = 32,
-  `stat_value4` = 1;
+  `delay` = 1800;
 
 DELETE FROM `item_template` WHERE `entry` = 65505;
 INSERT INTO `item_template` SET
@@ -9228,11 +9140,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 71,
+  `stat_value1` = 75,
   `stat_type2` = 45,
-  `stat_value2` = 121,
+  `stat_value2` = 111,
   `stat_type3` = 7,
-  `stat_value3` = 104;
+  `stat_value3` = 110;
 
 DELETE FROM `item_template` WHERE `entry` = 65506;
 INSERT INTO `item_template` SET
@@ -9256,15 +9168,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 3,
-  `stat_value1` = 92,
+  `stat_value1` = 82,
   `stat_type2` = 7,
-  `stat_value2` = 121,
+  `stat_value2` = 130,
   `stat_type3` = 31,
-  `stat_value3` = 66,
+  `stat_value3` = 64,
   `stat_type4` = 35,
-  `stat_value4` = 69,
+  `stat_value4` = 68,
   `stat_type5` = 4,
-  `stat_value5` = 78;
+  `stat_value5` = 84;
 
 DELETE FROM `item_template` WHERE `entry` = 65507;
 INSERT INTO `item_template` SET
@@ -9288,13 +9200,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 3,
-  `stat_value1` = 75,
+  `stat_value1` = 63,
   `stat_type2` = 7,
-  `stat_value2` = 143,
+  `stat_value2` = 157,
   `stat_type3` = 36,
-  `stat_value3` = 65,
+  `stat_value3` = 64,
   `stat_type4` = 4,
-  `stat_value4` = 74;
+  `stat_value4` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 65508;
 INSERT INTO `item_template` SET
@@ -9318,15 +9230,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 668,
   `stat_type1` = 3,
-  `stat_value1` = 99,
+  `stat_value1` = 90,
   `stat_type2` = 7,
-  `stat_value2` = 126,
+  `stat_value2` = 136,
   `stat_type3` = 37,
-  `stat_value3` = 71,
+  `stat_value3` = 72,
   `stat_type4` = 35,
-  `stat_value4` = 71,
+  `stat_value4` = 70,
   `stat_type5` = 38,
-  `stat_value5` = 157;
+  `stat_value5` = 162;
 
 DELETE FROM `item_template` WHERE `entry` = 65509;
 INSERT INTO `item_template` SET
@@ -9350,13 +9262,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 441,
   `stat_type1` = 3,
-  `stat_value1` = 74,
+  `stat_value1` = 62,
   `stat_type2` = 7,
-  `stat_value2` = 122,
+  `stat_value2` = 132,
   `stat_type3` = 44,
-  `stat_value3` = 74,
+  `stat_value3` = 76,
   `stat_type4` = 35,
-  `stat_value4` = 78;
+  `stat_value4` = 81;
 
 DELETE FROM `item_template` WHERE `entry` = 65510;
 INSERT INTO `item_template` SET
@@ -9380,11 +9292,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 615,
   `stat_type1` = 3,
-  `stat_value1` = 135,
+  `stat_value1` = 116,
   `stat_type2` = 7,
-  `stat_value2` = 220,
+  `stat_value2` = 242,
   `stat_type3` = 32,
-  `stat_value3` = 121;
+  `stat_value3` = 125;
 
 DELETE FROM `item_template` WHERE `entry` = 65511;
 INSERT INTO `item_template` SET
@@ -9408,9 +9320,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 3,
-  `stat_value1` = 112,
+  `stat_value1` = 98,
   `stat_type2` = 7,
-  `stat_value2` = 188,
+  `stat_value2` = 210,
   `stat_type3` = 37,
   `stat_value3` = 70;
 
@@ -9436,11 +9348,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 334,
   `stat_type1` = 3,
-  `stat_value1` = 79,
+  `stat_value1` = 68,
   `stat_type2` = 7,
-  `stat_value2` = 125,
+  `stat_value2` = 137,
   `stat_type3` = 35,
-  `stat_value3` = 72;
+  `stat_value3` = 75;
 
 DELETE FROM `item_template` WHERE `entry` = 65513;
 INSERT INTO `item_template` SET
@@ -9464,13 +9376,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 3,
-  `stat_value1` = 82,
+  `stat_value1` = 71,
   `stat_type2` = 7,
-  `stat_value2` = 139,
+  `stat_value2` = 153,
   `stat_type3` = 4,
-  `stat_value3` = 74,
+  `stat_value3` = 79,
   `stat_type4` = 37,
-  `stat_value4` = 55;
+  `stat_value4` = 52;
 
 DELETE FROM `item_template` WHERE `entry` = 65514;
 INSERT INTO `item_template` SET
@@ -9493,11 +9405,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 77,
+  `stat_value1` = 66,
   `stat_type2` = 7,
-  `stat_value2` = 127,
+  `stat_value2` = 138,
   `stat_type3` = 4,
-  `stat_value3` = 67;
+  `stat_value3` = 71;
 
 DELETE FROM `item_template` WHERE `entry` = 65515;
 INSERT INTO `item_template` SET
@@ -9520,13 +9432,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 59,
+  `stat_value1` = 51,
   `stat_type2` = 7,
-  `stat_value2` = 117,
+  `stat_value2` = 132,
   `stat_type3` = 35,
   `stat_value3` = 51,
   `stat_type4` = 37,
-  `stat_value4` = 41;
+  `stat_value4` = 39;
 
 DELETE FROM `item_template` WHERE `entry` = 65516;
 INSERT INTO `item_template` SET
@@ -9549,11 +9461,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 92,
+  `stat_value1` = 83,
   `stat_type2` = 7,
-  `stat_value2` = 120,
+  `stat_value2` = 133,
   `stat_type3` = 37,
-  `stat_value3` = 57;
+  `stat_value3` = 58;
 
 DELETE FROM `item_template` WHERE `entry` = 65517;
 INSERT INTO `item_template` SET
@@ -9577,13 +9489,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 3,
-  `stat_value1` = 65,
+  `stat_value1` = 57,
   `stat_type2` = 7,
-  `stat_value2` = 82,
+  `stat_value2` = 87,
   `stat_type3` = 36,
-  `stat_value3` = 55,
+  `stat_value3` = 57,
   `stat_type4` = 35,
-  `stat_value4` = 55;
+  `stat_value4` = 57;
 
 DELETE FROM `item_template` WHERE `entry` = 65518;
 INSERT INTO `item_template` SET
@@ -9609,11 +9521,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 58,
+  `stat_value1` = 57,
   `stat_type2` = 7,
-  `stat_value2` = 95,
+  `stat_value2` = 100,
   `stat_type3` = 4,
-  `stat_value3` = 52;
+  `stat_value3` = 50;
 
 DELETE FROM `item_template` WHERE `entry` = 65519;
 INSERT INTO `item_template` SET
@@ -9639,11 +9551,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 152,
+  `stat_value1` = 141,
   `stat_type2` = 7,
-  `stat_value2` = 193,
+  `stat_value2` = 188,
   `stat_type3` = 44,
-  `stat_value3` = 129;
+  `stat_value3` = 142;
 
 DELETE FROM `item_template` WHERE `entry` = 65520;
 INSERT INTO `item_template` SET
@@ -9670,15 +9582,15 @@ INSERT INTO `item_template` SET
   `delay` = 3500,
   `block` = 209,
   `stat_type1` = 3,
-  `stat_value1` = 85,
+  `stat_value1` = 77,
   `stat_type2` = 7,
-  `stat_value2` = 142,
+  `stat_value2` = 140,
   `stat_type3` = 44,
-  `stat_value3` = 74,
+  `stat_value3` = 77,
   `stat_type4` = 31,
-  `stat_value4` = 64,
+  `stat_value4` = 79,
   `stat_type5` = 4,
-  `stat_value5` = 91;
+  `stat_value5` = 83;
 
 DELETE FROM `item_template` WHERE `entry` = 65521;
 INSERT INTO `item_template` SET
@@ -9704,15 +9616,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 86,
+  `stat_value1` = 71,
   `stat_type2` = 7,
-  `stat_value2` = 155,
+  `stat_value2` = 142,
   `stat_type3` = 38,
-  `stat_value3` = 158,
+  `stat_value3` = 153,
   `stat_type4` = 31,
-  `stat_value4` = 76,
+  `stat_value4` = 92,
   `stat_type5` = 37,
-  `stat_value5` = 64;
+  `stat_value5` = 75;
 
 DELETE FROM `item_template` WHERE `entry` = 65522;
 INSERT INTO `item_template` SET
@@ -9761,13 +9673,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 3,
-  `stat_value1` = 113,
+  `stat_value1` = 115,
   `stat_type2` = 7,
-  `stat_value2` = 134,
+  `stat_value2` = 133,
   `stat_type3` = 32,
-  `stat_value3` = 101,
+  `stat_value3` = 103,
   `stat_type4` = 31,
-  `stat_value4` = 83;
+  `stat_value4` = 79;
 
 DELETE FROM `item_template` WHERE `entry` = 65524;
 INSERT INTO `item_template` SET
@@ -9791,11 +9703,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 3,
-  `stat_value1` = 136,
+  `stat_value1` = 139,
   `stat_type2` = 7,
-  `stat_value2` = 140,
+  `stat_value2` = 139,
   `stat_type3` = 36,
-  `stat_value3` = 80;
+  `stat_value3` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 65525;
 INSERT INTO `item_template` SET
@@ -9819,15 +9731,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 668,
   `stat_type1` = 3,
-  `stat_value1` = 76,
+  `stat_value1` = 75,
   `stat_type2` = 7,
-  `stat_value2` = 113,
+  `stat_value2` = 111,
   `stat_type3` = 38,
-  `stat_value3` = 151,
+  `stat_value3` = 149,
   `stat_type4` = 4,
-  `stat_value4` = 113,
+  `stat_value4` = 121,
   `stat_type5` = 36,
-  `stat_value5` = 64;
+  `stat_value5` = 60;
 
 DELETE FROM `item_template` WHERE `entry` = 65526;
 INSERT INTO `item_template` SET
@@ -9851,15 +9763,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 441,
   `stat_type1` = 3,
-  `stat_value1` = 77,
+  `stat_value1` = 81,
   `stat_type2` = 7,
-  `stat_value2` = 94,
+  `stat_value2` = 95,
   `stat_type3` = 38,
-  `stat_value3` = 129,
+  `stat_value3` = 131,
   `stat_type4` = 37,
-  `stat_value4` = 53,
+  `stat_value4` = 52,
   `stat_type5` = 31,
-  `stat_value5` = 49;
+  `stat_value5` = 45;
 
 DELETE FROM `item_template` WHERE `entry` = 65527;
 INSERT INTO `item_template` SET
@@ -9883,15 +9795,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 615,
   `stat_type1` = 3,
-  `stat_value1` = 96,
+  `stat_value1` = 100,
   `stat_type2` = 7,
-  `stat_value2` = 124,
+  `stat_value2` = 125,
   `stat_type3` = 44,
-  `stat_value3` = 65,
+  `stat_value3` = 61,
   `stat_type4` = 38,
-  `stat_value4` = 175,
+  `stat_value4` = 180,
   `stat_type5` = 37,
-  `stat_value5` = 71;
+  `stat_value5` = 69;
 
 DELETE FROM `item_template` WHERE `entry` = 65528;
 INSERT INTO `item_template` SET
@@ -9915,13 +9827,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 3,
-  `stat_value1` = 80,
+  `stat_value1` = 84,
   `stat_type2` = 7,
   `stat_value2` = 90,
   `stat_type3` = 37,
-  `stat_value3` = 52,
+  `stat_value3` = 50,
   `stat_type4` = 38,
-  `stat_value4` = 111,
+  `stat_value4` = 108,
   `stat_type5` = 32,
   `stat_value5` = 60;
 
@@ -9947,15 +9859,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 334,
   `stat_type1` = 3,
-  `stat_value1` = 51,
+  `stat_value1` = 52,
   `stat_type2` = 7,
   `stat_value2` = 70,
   `stat_type3` = 36,
   `stat_value3` = 42,
   `stat_type4` = 31,
-  `stat_value4` = 45,
+  `stat_value4` = 43,
   `stat_type5` = 38,
-  `stat_value5` = 99;
+  `stat_value5` = 101;
 
 DELETE FROM `item_template` WHERE `entry` = 65530;
 INSERT INTO `item_template` SET
@@ -9979,13 +9891,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 3,
-  `stat_value1` = 79,
+  `stat_value1` = 84,
   `stat_type2` = 7,
-  `stat_value2` = 82,
+  `stat_value2` = 80,
   `stat_type3` = 36,
   `stat_value3` = 57,
   `stat_type4` = 32,
-  `stat_value4` = 52,
+  `stat_value4` = 49,
   `stat_type5` = 38,
   `stat_value5` = 121;
 
@@ -10010,15 +9922,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 48,
+  `stat_value1` = 49,
   `stat_type2` = 7,
   `stat_value2` = 69,
   `stat_type3` = 4,
-  `stat_value3` = 54,
+  `stat_value3` = 55,
   `stat_type4` = 37,
-  `stat_value4` = 40,
+  `stat_value4` = 39,
   `stat_type5` = 38,
-  `stat_value5` = 81;
+  `stat_value5` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 65532;
 INSERT INTO `item_template` SET
@@ -10041,15 +9953,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 55,
+  `stat_value1` = 57,
   `stat_type2` = 7,
-  `stat_value2` = 59,
+  `stat_value2` = 57,
   `stat_type3` = 44,
-  `stat_value3` = 36,
+  `stat_value3` = 33,
   `stat_type4` = 37,
-  `stat_value4` = 36,
+  `stat_value4` = 34,
   `stat_type5` = 4,
-  `stat_value5` = 63;
+  `stat_value5` = 67;
 
 DELETE FROM `item_template` WHERE `entry` = 65533;
 INSERT INTO `item_template` SET
@@ -10072,13 +9984,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 3,
-  `stat_value1` = 73,
+  `stat_value1` = 76,
   `stat_type2` = 7,
   `stat_value2` = 84,
   `stat_type3` = 31,
-  `stat_value3` = 42,
+  `stat_value3` = 38,
   `stat_type4` = 38,
-  `stat_value4` = 117;
+  `stat_value4` = 118;
 
 DELETE FROM `item_template` WHERE `entry` = 65534;
 INSERT INTO `item_template` SET
@@ -10102,15 +10014,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 3,
-  `stat_value1` = 60,
+  `stat_value1` = 64,
   `stat_type2` = 7,
   `stat_value2` = 67,
   `stat_type3` = 44,
-  `stat_value3` = 42,
+  `stat_value3` = 41,
   `stat_type4` = 38,
-  `stat_value4` = 90,
+  `stat_value4` = 89,
   `stat_type5` = 36,
-  `stat_value5` = 37;
+  `stat_value5` = 35;
 
 DELETE FROM `item_template` WHERE `entry` = 65535;
 INSERT INTO `item_template` SET
@@ -10136,11 +10048,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 61,
+  `stat_value1` = 60,
   `stat_type2` = 7,
-  `stat_value2` = 67,
+  `stat_value2` = 62,
   `stat_type3` = 4,
-  `stat_value3` = 68;
+  `stat_value3` = 72;
 
 DELETE FROM `item_template` WHERE `entry` = 65536;
 INSERT INTO `item_template` SET
@@ -10166,15 +10078,15 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 102,
+  `stat_value1` = 109,
   `stat_type2` = 7,
-  `stat_value2` = 133,
+  `stat_value2` = 132,
   `stat_type3` = 37,
-  `stat_value3` = 72,
+  `stat_value3` = 76,
   `stat_type4` = 38,
-  `stat_value4` = 158,
+  `stat_value4` = 151,
   `stat_type5` = 44,
-  `stat_value5` = 67;
+  `stat_value5` = 61;
 
 DELETE FROM `item_template` WHERE `entry` = 65537;
 INSERT INTO `item_template` SET
@@ -10201,13 +10113,13 @@ INSERT INTO `item_template` SET
   `delay` = 3500,
   `block` = 209,
   `stat_type1` = 3,
-  `stat_value1` = 136,
+  `stat_value1` = 147,
   `stat_type2` = 7,
-  `stat_value2` = 146,
+  `stat_value2` = 143,
   `stat_type3` = 32,
-  `stat_value3` = 91,
+  `stat_value3` = 89,
   `stat_type4` = 36,
-  `stat_value4` = 85;
+  `stat_value4` = 78;
 
 DELETE FROM `item_template` WHERE `entry` = 65538;
 INSERT INTO `item_template` SET
@@ -10233,13 +10145,13 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 1061,
   `delay` = 3500,
   `stat_type1` = 3,
-  `stat_value1` = 113,
+  `stat_value1` = 115,
   `stat_type2` = 7,
-  `stat_value2` = 121,
+  `stat_value2` = 109,
   `stat_type3` = 32,
-  `stat_value3` = 85,
+  `stat_value3` = 79,
   `stat_type4` = 4,
-  `stat_value4` = 130;
+  `stat_value4` = 142;
 
 DELETE FROM `item_template` WHERE `entry` = 65539;
 INSERT INTO `item_template` SET
@@ -10265,11 +10177,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 606,
   `delay` = 2600,
   `stat_type1` = 3,
-  `stat_value1` = 72,
+  `stat_value1` = 76,
   `stat_type2` = 7,
-  `stat_value2` = 73,
+  `stat_value2` = 70,
   `stat_type3` = 38,
-  `stat_value3` = 105;
+  `stat_value3` = 102;
 
 DELETE FROM `item_template` WHERE `entry` = 65540;
 INSERT INTO `item_template` SET
@@ -10295,9 +10207,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 420,
   `delay` = 1800,
   `stat_type1` = 3,
-  `stat_value1` = 45,
+  `stat_value1` = 46,
   `stat_type2` = 7,
-  `stat_value2` = 56,
+  `stat_value2` = 54,
   `stat_type3` = 38,
   `stat_value3` = 92,
   `stat_type4` = 32,
@@ -10350,11 +10262,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 5,
-  `stat_value1` = 109,
+  `stat_value1` = 117,
   `stat_type2` = 45,
-  `stat_value2` = 215,
+  `stat_value2` = 203,
   `stat_type3` = 7,
-  `stat_value3` = 139;
+  `stat_value3` = 143;
 
 DELETE FROM `item_template` WHERE `entry` = 65543;
 INSERT INTO `item_template` SET
@@ -10378,13 +10290,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 5,
-  `stat_value1` = 77,
+  `stat_value1` = 82,
   `stat_type2` = 45,
-  `stat_value2` = 120,
+  `stat_value2` = 111,
   `stat_type3` = 7,
-  `stat_value3` = 103,
+  `stat_value3` = 106,
   `stat_type4` = 47,
-  `stat_value4` = 30;
+  `stat_value4` = 31;
 
 DELETE FROM `item_template` WHERE `entry` = 65544;
 INSERT INTO `item_template` SET
@@ -10408,11 +10320,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 668,
   `stat_type1` = 5,
-  `stat_value1` = 116,
+  `stat_value1` = 124,
   `stat_type2` = 45,
-  `stat_value2` = 220,
+  `stat_value2` = 207,
   `stat_type3` = 7,
-  `stat_value3` = 148;
+  `stat_value3` = 154;
 
 DELETE FROM `item_template` WHERE `entry` = 65545;
 INSERT INTO `item_template` SET
@@ -10436,11 +10348,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 441,
   `stat_type1` = 5,
-  `stat_value1` = 76,
+  `stat_value1` = 81,
   `stat_type2` = 45,
-  `stat_value2` = 131,
+  `stat_value2` = 123,
   `stat_type3` = 7,
-  `stat_value3` = 96,
+  `stat_value3` = 99,
   `stat_type4` = 6,
   `stat_value4` = 55;
 
@@ -10466,11 +10378,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 615,
   `stat_type1` = 5,
-  `stat_value1` = 112,
+  `stat_value1` = 119,
   `stat_type2` = 45,
-  `stat_value2` = 227,
+  `stat_value2` = 215,
   `stat_type3` = 7,
-  `stat_value3` = 145;
+  `stat_value3` = 150;
 
 DELETE FROM `item_template` WHERE `entry` = 65547;
 INSERT INTO `item_template` SET
@@ -10494,11 +10406,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 5,
-  `stat_value1` = 91,
+  `stat_value1` = 97,
   `stat_type2` = 45,
-  `stat_value2` = 161,
+  `stat_value2` = 150,
   `stat_type3` = 7,
-  `stat_value3` = 118;
+  `stat_value3` = 123;
 
 DELETE FROM `item_template` WHERE `entry` = 65548;
 INSERT INTO `item_template` SET
@@ -10522,11 +10434,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 334,
   `stat_type1` = 5,
-  `stat_value1` = 70,
+  `stat_value1` = 76,
   `stat_type2` = 45,
-  `stat_value2` = 132,
+  `stat_value2` = 125,
   `stat_type3` = 7,
-  `stat_value3` = 76;
+  `stat_value3` = 77;
 
 DELETE FROM `item_template` WHERE `entry` = 65549;
 INSERT INTO `item_template` SET
@@ -10550,11 +10462,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 5,
-  `stat_value1` = 85,
+  `stat_value1` = 90,
   `stat_type2` = 45,
-  `stat_value2` = 162,
+  `stat_value2` = 152,
   `stat_type3` = 7,
-  `stat_value3` = 119;
+  `stat_value3` = 125;
 
 DELETE FROM `item_template` WHERE `entry` = 65550;
 INSERT INTO `item_template` SET
@@ -10577,13 +10489,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 60,
+  `stat_value1` = 64,
   `stat_type2` = 45,
-  `stat_value2` = 86,
+  `stat_value2` = 79,
   `stat_type3` = 7,
   `stat_value3` = 69,
   `stat_type4` = 6,
-  `stat_value4` = 49;
+  `stat_value4` = 51;
 
 DELETE FROM `item_template` WHERE `entry` = 65551;
 INSERT INTO `item_template` SET
@@ -10606,11 +10518,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 69,
+  `stat_value1` = 74,
   `stat_type2` = 45,
-  `stat_value2` = 110,
+  `stat_value2` = 101,
   `stat_type3` = 7,
-  `stat_value3` = 98;
+  `stat_value3` = 103;
 
 DELETE FROM `item_template` WHERE `entry` = 65552;
 INSERT INTO `item_template` SET
@@ -10633,11 +10545,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 61,
+  `stat_value1` = 65,
   `stat_type2` = 45,
-  `stat_value2` = 85,
+  `stat_value2` = 78,
   `stat_type3` = 7,
-  `stat_value3` = 76,
+  `stat_value3` = 78,
   `stat_type4` = 47,
   `stat_value4` = 22;
 
@@ -10663,13 +10575,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 54,
+  `stat_value1` = 57,
   `stat_type2` = 45,
-  `stat_value2` = 89,
+  `stat_value2` = 83,
   `stat_type3` = 7,
-  `stat_value3` = 75,
+  `stat_value3` = 77,
   `stat_type4` = 31,
-  `stat_value4` = 49;
+  `stat_value4` = 50;
 
 DELETE FROM `item_template` WHERE `entry` = 65554;
 INSERT INTO `item_template` SET
@@ -10678,10 +10590,10 @@ INSERT INTO `item_template` SET
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
   `name` = 'Advisable Punisher of the Suit',
-  `displayid` = 60845,
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -10695,11 +10607,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 131,
+  `stat_value1` = 101,
   `stat_type2` = 45,
-  `stat_value2` = 275,
-  `stat_type3` = 7,
-  `stat_value3` = 181;
+  `stat_value2` = 517;
 
 DELETE FROM `item_template` WHERE `entry` = 65555;
 INSERT INTO `item_template` SET
@@ -10708,10 +10618,10 @@ INSERT INTO `item_template` SET
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
   `name` = 'Unnamed Exit Edge',
-  `displayid` = 53471,
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -10725,15 +10635,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 273,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 100,
+  `stat_value1` = 115,
   `stat_type2` = 45,
-  `stat_value2` = 165,
-  `stat_type3` = 7,
-  `stat_value3` = 118,
-  `stat_type4` = 32,
-  `stat_value4` = 92,
-  `stat_type5` = 47,
-  `stat_value5` = 37;
+  `stat_value2` = 500;
 
 DELETE FROM `item_template` WHERE `entry` = 65556;
 INSERT INTO `item_template` SET
@@ -10759,11 +10663,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 690,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 241,
+  `stat_value1` = 183,
   `stat_type2` = 45,
-  `stat_value2` = 411,
-  `stat_type3` = 7,
-  `stat_value3` = 334;
+  `stat_value2` = 740;
 
 DELETE FROM `item_template` WHERE `entry` = 65557;
 INSERT INTO `item_template` SET
@@ -10812,9 +10714,9 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 5,
-  `stat_value1` = 119,
+  `stat_value1` = 124,
   `stat_type2` = 45,
-  `stat_value2` = 200,
+  `stat_value2` = 194,
   `stat_type3` = 7,
   `stat_value3` = 144;
 
@@ -10840,13 +10742,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 555,
   `stat_type1` = 5,
-  `stat_value1` = 81,
+  `stat_value1` = 84,
   `stat_type2` = 45,
-  `stat_value2` = 114,
+  `stat_value2` = 110,
   `stat_type3` = 7,
-  `stat_value3` = 95,
+  `stat_value3` = 94,
   `stat_type4` = 32,
-  `stat_value4` = 67;
+  `stat_value4` = 68;
 
 DELETE FROM `item_template` WHERE `entry` = 65560;
 INSERT INTO `item_template` SET
@@ -10870,11 +10772,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 668,
   `stat_type1` = 5,
-  `stat_value1` = 83,
+  `stat_value1` = 86,
   `stat_type2` = 45,
-  `stat_value2` = 111,
+  `stat_value2` = 107,
   `stat_type3` = 7,
-  `stat_value3` = 108,
+  `stat_value3` = 107,
   `stat_type4` = 43,
   `stat_value4` = 41,
   `stat_type5` = 32,
@@ -10902,11 +10804,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 441,
   `stat_type1` = 5,
-  `stat_value1` = 58,
+  `stat_value1` = 60,
   `stat_type2` = 45,
-  `stat_value2` = 108,
+  `stat_value2` = 110,
   `stat_type3` = 7,
-  `stat_value3` = 72,
+  `stat_value3` = 68,
   `stat_type4` = 43,
   `stat_value4` = 28,
   `stat_type5` = 32,
@@ -10934,15 +10836,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 615,
   `stat_type1` = 5,
-  `stat_value1` = 70,
+  `stat_value1` = 69,
   `stat_type2` = 45,
-  `stat_value2` = 127,
+  `stat_value2` = 126,
   `stat_type3` = 7,
-  `stat_value3` = 95,
+  `stat_value3` = 91,
   `stat_type4` = 6,
-  `stat_value4` = 80,
+  `stat_value4` = 82,
   `stat_type5` = 43,
-  `stat_value5` = 40;
+  `stat_value5` = 42;
 
 DELETE FROM `item_template` WHERE `entry` = 65563;
 INSERT INTO `item_template` SET
@@ -10966,13 +10868,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 5,
-  `stat_value1` = 67,
+  `stat_value1` = 70,
   `stat_type2` = 45,
-  `stat_value2` = 95,
+  `stat_value2` = 94,
   `stat_type3` = 7,
-  `stat_value3` = 77,
+  `stat_value3` = 75,
   `stat_type4` = 32,
-  `stat_value4` = 50,
+  `stat_value4` = 49,
   `stat_type5` = 6,
   `stat_value5` = 58;
 
@@ -10998,11 +10900,11 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 334,
   `stat_type1` = 5,
-  `stat_value1` = 51,
+  `stat_value1` = 54,
   `stat_type2` = 45,
   `stat_value2` = 74,
   `stat_type3` = 7,
-  `stat_value3` = 54,
+  `stat_value3` = 50,
   `stat_type4` = 43,
   `stat_value4` = 21,
   `stat_type5` = 36,
@@ -11030,15 +10932,15 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 501,
   `stat_type1` = 5,
-  `stat_value1` = 57,
+  `stat_value1` = 58,
   `stat_type2` = 45,
   `stat_value2` = 100,
   `stat_type3` = 7,
-  `stat_value3` = 75,
+  `stat_value3` = 73,
   `stat_type4` = 32,
-  `stat_value4` = 47,
+  `stat_value4` = 45,
   `stat_type5` = 43,
-  `stat_value5` = 32;
+  `stat_value5` = 33;
 
 DELETE FROM `item_template` WHERE `entry` = 65566;
 INSERT INTO `item_template` SET
@@ -11061,11 +10963,11 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 53,
+  `stat_value1` = 54,
   `stat_type2` = 45,
-  `stat_value2` = 93,
+  `stat_value2` = 91,
   `stat_type3` = 7,
-  `stat_value3` = 69,
+  `stat_value3` = 68,
   `stat_type4` = 6,
   `stat_value4` = 51;
 
@@ -11090,15 +10992,15 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 50,
+  `stat_value1` = 53,
   `stat_type2` = 45,
-  `stat_value2` = 67,
+  `stat_value2` = 66,
   `stat_type3` = 7,
-  `stat_value3` = 59,
+  `stat_value3` = 58,
   `stat_type4` = 43,
-  `stat_value4` = 22,
+  `stat_value4` = 23,
   `stat_type5` = 36,
-  `stat_value5` = 37;
+  `stat_value5` = 35;
 
 DELETE FROM `item_template` WHERE `entry` = 65568;
 INSERT INTO `item_template` SET
@@ -11121,13 +11023,13 @@ INSERT INTO `item_template` SET
   `DisenchantID` = 68,
   `RequiredDisenchantSkill` = 375,
   `stat_type1` = 5,
-  `stat_value1` = 52,
+  `stat_value1` = 55,
   `stat_type2` = 45,
-  `stat_value2` = 66,
+  `stat_value2` = 65,
   `stat_type3` = 7,
-  `stat_value3` = 52,
+  `stat_value3` = 49,
   `stat_type4` = 43,
-  `stat_value4` = 22,
+  `stat_value4` = 23,
   `stat_type5` = 36,
   `stat_value5` = 41;
 
@@ -11153,13 +11055,13 @@ INSERT INTO `item_template` SET
   `RequiredDisenchantSkill` = 375,
   `armor` = 173,
   `stat_type1` = 5,
-  `stat_value1` = 44,
+  `stat_value1` = 45,
   `stat_type2` = 45,
-  `stat_value2` = 68,
+  `stat_value2` = 66,
   `stat_type3` = 7,
-  `stat_value3` = 55,
+  `stat_value3` = 53,
   `stat_type4` = 6,
-  `stat_value4` = 50,
+  `stat_value4` = 52,
   `stat_type5` = 32,
   `stat_value5` = 41;
 
@@ -11169,11 +11071,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Regretful Mace of the Fit',
-  `displayid` = 6207,
+  `name` = 'Section''s Mace',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -11187,15 +11089,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 394,
   `delay` = 2600,
   `stat_type1` = 5,
-  `stat_value1` = 113,
+  `stat_value1` = 144,
   `stat_type2` = 45,
-  `stat_value2` = 136,
-  `stat_type3` = 7,
-  `stat_value3` = 129,
-  `stat_type4` = 43,
-  `stat_value4` = 45,
-  `stat_type5` = 36,
-  `stat_value5` = 81;
+  `stat_value2` = 466;
 
 DELETE FROM `item_template` WHERE `entry` = 65571;
 INSERT INTO `item_template` SET
@@ -11203,11 +11099,11 @@ INSERT INTO `item_template` SET
   `class` = 2,
   `subclass` = 15,
   `SoundOverrideSubclass` = -1,
-  `name` = 'Claw of Invariably Grassing',
-  `displayid` = 40342,
+  `name` = 'Carver of Restful Grassing',
+  `displayid` = 0,
   `Quality` = 4,
   `Flags` = 9,
-  `InventoryType` = 13,
+  `InventoryType` = 21,
   `AllowableClass` = -1,
   `AllowableRace` = -1,
   `ItemLevel` = 232,
@@ -11221,13 +11117,11 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 273,
   `delay` = 1800,
   `stat_type1` = 5,
-  `stat_value1` = 110,
+  `stat_value1` = 103,
   `stat_type2` = 45,
-  `stat_value2` = 215,
+  `stat_value2` = 421,
   `stat_type3` = 7,
-  `stat_value3` = 136,
-  `stat_type4` = 43,
-  `stat_value4` = 51;
+  `stat_value3` = 119;
 
 DELETE FROM `item_template` WHERE `entry` = 65572;
 INSERT INTO `item_template` SET
@@ -11253,15 +11147,9 @@ INSERT INTO `item_template` SET
   `dmg_max1` = 690,
   `delay` = 3500,
   `stat_type1` = 5,
-  `stat_value1` = 161,
+  `stat_value1` = 183,
   `stat_type2` = 45,
-  `stat_value2` = 267,
-  `stat_type3` = 7,
-  `stat_value3` = 184,
-  `stat_type4` = 43,
-  `stat_value4` = 84,
-  `stat_type5` = 36,
-  `stat_value5` = 136;
+  `stat_value2` = 740;
 
 DELETE FROM `item_template` WHERE `entry` = 65573;
 INSERT INTO `item_template` SET

@@ -260,7 +260,14 @@ def _pick_stat_ids(cell: MatrixCell, rng: random.Random) -> List[int]:
     (class, role) entry exists.
     """
     cfg = QUALITY_TUNING[cell.quality]
-    count = rng.randint(cfg["stats_min"], cfg["stats_max"])
+    lo, hi = cfg["stats_min"], cfg["stats_max"]
+    # Caster/healer weapons are near-mono-SP in stock gear (~73% of budget on
+    # Spell Power, ~5% Stamina). Roll fewer stats (2-3) so SP dominates instead
+    # of being diluted across 4-5 stats; the 2-stat rolls also naturally drop
+    # Stamina (it's the 3rd caster primary), pulling Stam share toward stock.
+    if cell.item_class == 2 and cell.role in ("caster", "healer"):
+        lo, hi = 2, 3
+    count = rng.randint(lo, hi)
 
     table = _class_stat_table()
     role_entry = table.get(cell.class_name, {}).get(cell.role)
@@ -399,10 +406,13 @@ def generate_row(
     else:
         stat_budget = total_budget
 
-    # Split the stat budget by per-role stat shares (data-driven from stock
-    # gear) so e.g. casters read Spell-Power-dominant and light on Stam, like
-    # real gear — instead of the old flat random spread.
-    shares = _stat_shares().get(cell.role)
+    # Split the stat budget by per-(role, slot_type) stat shares (data-driven
+    # from stock gear) so e.g. caster weapons read Spell-Power-concentrated
+    # like real gear — instead of the old flat random spread. slot_type splits
+    # weapons (item_class 2, SP-heavy) from armor (item_class 4).
+    slot_type = "weapon" if cell.item_class == 2 else "armor"
+    role_shares = _stat_shares().get(cell.role, {})
+    shares = role_shares.get(slot_type) or role_shares.get("armor")
     stats = distribute_stats(stat_ids, stat_budget, rng, stat_shares=shares)
 
     de_id, de_skill = get_disenchant(tier)
