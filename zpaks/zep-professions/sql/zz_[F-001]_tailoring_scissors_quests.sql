@@ -78,10 +78,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90047: Ironforge (Jormund Stonebrow - 1103)
+-- Quest 90047: Ironforge (Jormund Stonebrow - 5153)
 -- -----------------------------------------------------
 SET @quest := 90047;
-SET @npc := 1103;
+SET @npc := 5153;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -239,7 +239,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
     `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'Brother/Sister, I see you weave without proper tools. The Earth Mother teaches that respect for the craft brings greater speed. I have scissors here - bring me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth for my needs, and I will trade them to you. You will find your stitching quickens considerably.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestDescription` = '$GBrother:Sister;, I see you weave without proper tools. The Earth Mother teaches that respect for the craft brings greater speed. I have scissors here - bring me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth for my needs, and I will trade them to you. You will find your stitching quickens considerably.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
     `QuestCompletionLog` = 'Return the bolts to Tepa in Thunder Bluff',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
@@ -461,10 +461,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90055: Ironforge (Jormund Stonebrow - 1103)
+-- Quest 90055: Ironforge (Jormund Stonebrow - 5153)
 -- -----------------------------------------------------
 SET @quest := 90055;
-SET @npc := 1103;
+SET @npc := 5153;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -825,8 +825,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionID1` = 946, -- Honor Hold
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master Tailoring Scissors',
-    `LogDescription` = 'Trade in your Artisan scissors and collect bolts to exchange for Master Scissors',
-    `QuestDescription` = 'Welcome to Outland, tailor. The cloth here is far tougher than anything from Azeroth - your Artisan scissors will dull on it, and your stitching will slow down. I have Master scissors designed for Outland fabrics. Trade in your old Artisan scissors and bring me 10 Bolts of Netherweave and 3 Bolts of Imbued Netherweave from these harsh lands, and the Master scissors are yours. You''ll need the increased speed for the challenges ahead.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave',
+    `LogDescription` = 'Bring 10 Bolts of Netherweave, 3 Bolts of Imbued Netherweave and your Artisan Tailoring Scissors to Hama at Honor Hold in Hellfire Peninsula.',
+    `QuestDescription` = 'Every soldier in this keep is wearing something I''ve patched twice over, and the mending pile never shrinks. Netherweave blunts ordinary scissors by the third bolt - I can''t afford slow hands, and neither can you. Bring me netherweave for the war effort, trade in your Artisan scissors, and take a Master pair that never drags mid-cut.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave$B- Artisan Tailoring Scissors',
     `QuestCompletionLog` = 'Return the bolts to Hama at Honor Hold',
     `RewardItem1` = 57406,
     `RewardAmount1` = 1,
@@ -876,8 +876,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionID1` = 947, -- Thrallmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master Tailoring Scissors',
-    `LogDescription` = 'Trade in your Artisan scissors and collect bolts to exchange for Master Scissors',
-    `QuestDescription` = 'Brother/Sister, the cloth weaves differently in this broken land. The fabrics here are far tougher than those of Azeroth - your Artisan scissors struggle with their thickness, and precious time is lost. I have Master scissors for these twisted lands. Trade in your old Artisan scissors and bring me 10 Bolts of Netherweave and 3 Bolts of Imbued Netherweave from Outland''s harsh weaves, and we shall trade. Greater speed will flow from these sharper blades.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave',
+    `LogDescription` = 'Bring 10 Bolts of Netherweave, 3 Bolts of Imbued Netherweave and your Artisan Tailoring Scissors to Dalinna at Thrallmar in Hellfire Peninsula.',
+    `QuestDescription` = 'You feel it the first time you cut netherweave, $Gbrother:sister; - the cloth pushes back. It was spun in the Nether''s shadow and it has opinions about your scissors. Bring me bolts for Thrallmar''s stores, leave the Artisan pair with me, and the Master scissors will cut netherweave like it never learned to argue.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave$B- Artisan Tailoring Scissors',
     `QuestCompletionLog` = 'Return the bolts to Dalinna at Thrallmar',
     `RewardItem1` = 57406,
     `RewardAmount1` = 1,
@@ -926,8 +926,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionID1` = 1011, -- Lower City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master Tailoring Scissors',
-    `LogDescription` = 'Trade in your Artisan scissors and collect bolts to exchange for Master Scissors',
-    `QuestDescription` = 'Tailor from Azeroth, welcome to Shattrath. The cloth here is unlike anything from your homeland - netherweave, touched by the Twisting Nether, resistant to ordinary blades. Your Artisan scissors will dull quickly, and your stitching will slow.$B$BI have Master scissors crafted specifically for Outland fabrics. Trade in your old Artisan scissors and bring me 10 Bolts of Netherweave and 3 Bolts of Imbued Netherweave from these harsh lands, and the Master scissors are yours. Reinforced blades, balanced for nether-touched fibers - you''ll cut faster and weave with greater precision.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave',
+    `LogDescription` = 'Bring 10 Bolts of Netherweave, 3 Bolts of Imbued Netherweave and your Artisan Tailoring Scissors to Eiin in Shattrath''s Lower City.',
+    `QuestDescription` = 'Tailor from Azeroth, welcome to Shattrath. The cloth here is unlike anything from your homeland - netherweave, touched by the Twisting Nether, resistant to ordinary blades. Your Artisan scissors will dull quickly, and your stitching will slow.$B$BI have Master scissors crafted specifically for Outland fabrics. Trade in your old Artisan scissors and bring me 10 Bolts of Netherweave and 3 Bolts of Imbued Netherweave from these harsh lands, and the Master scissors are yours. Reinforced blades, balanced for nether-touched fibers - you''ll cut faster and weave with greater precision.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave$B- Artisan Tailoring Scissors',
     `QuestCompletionLog` = 'Return the bolts to Eiin in Shattrath City',
     `RewardItem1` = 57406,
     `RewardAmount1` = 1,
@@ -982,8 +982,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionID1` = 1090, -- Kirin Tor
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Grand Master Tailoring Scissors',
-    `LogDescription` = 'Trade in your Master scissors and collect bolts to exchange for Grand Master Scissors',
-    `QuestDescription` = 'Northrend presents new challenges for even master tailors. The arctic cloth here is thick as leather and frozen stiff - your Master scissors will feel sluggish, and your stitching will slow considerably. I have Grand Master scissors, the finest tools available. Trade in your old Master scissors and bring me 10 Bolts of Frostweave and 3 Bolts of Imbued Frostweave from Northrend''s frozen weaves, and the Grand Master scissors are yours - forged for maximum speed in the harshest conditions.$B$BRequired:$B- 10 Bolt of Frostweave$B- 3 Bolt of Imbued Frostweave',
+    `LogDescription` = 'Bring 10 Bolts of Frostweave, 3 Bolts of Imbued Frostweave and your Master Tailoring Scissors to Benjamin Clegg in Dalaran.',
+    `QuestDescription` = 'Frostweave is a marvel and a menace - lovely drape, but it comes off the loom half-frozen and it''ll wear your scissor pivots loose in a season. Mine are made here in Dalaran, cold-forged and rune-trued. Bring me frostweave bolts, trade in the Master pair, and I''ll set you up with Grand Master scissors that glide through it warm or frozen.$B$BRequired:$B- 10 Bolt of Frostweave$B- 3 Bolt of Imbued Frostweave$B- Master Tailoring Scissors',
     `QuestCompletionLog` = 'Return the bolts to Benjamin Clegg in Dalaran',
     `RewardItem1` = 57407,
     `RewardAmount1` = 1,
@@ -1073,3 +1073,119 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90064;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
 (19, 0, 90064, 0, 0, -90062, 0, 0, 0, 0, 0, 0, 0, '', 'GM Scissors (Dalaran) - any Master scissors');
+
+-- =====================================================
+-- QUEST POIs - turn-in map markers [I-195]
+-- One blob per quest at the quest ender (trainer) spawn
+-- =====================================================
+DELETE FROM `quest_poi` WHERE `QuestID` IN (90046,90047,90048,90049,90050,90051,90052,90053,90054,90055,90056,90057,90058,90059,90060,90061,90062,90063,90064,90115);
+DELETE FROM `quest_poi_points` WHERE `QuestID` IN (90046,90047,90048,90049,90050,90051,90052,90053,90054,90055,90056,90057,90058,90059,90060,90061,90062,90063,90064,90115);
+
+INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`) VALUES
+(90046, 0, -1, 0, 301, 0, 0, 1, 0),
+(90047, 0, -1, 0, 341, 0, 0, 1, 0),
+(90048, 0, -1, 1, 381, 0, 0, 1, 0),
+(90049, 0, -1, 1, 321, 0, 0, 1, 0),
+(90050, 0, -1, 1, 362, 0, 0, 1, 0),
+(90051, 0, -1, 0, 382, 0, 0, 1, 0),
+(90052, 0, -1, 1, 471, 0, 0, 1, 0),
+(90053, 0, -1, 0, 480, 0, 0, 1, 0),
+(90054, 0, -1, 0, 301, 0, 0, 1, 0),
+(90055, 0, -1, 0, 341, 0, 0, 1, 0),
+(90056, 0, -1, 1, 381, 0, 0, 1, 0),
+(90057, 0, -1, 1, 321, 0, 0, 1, 0),
+(90058, 0, -1, 1, 362, 0, 0, 1, 0),
+(90059, 0, -1, 0, 382, 0, 0, 1, 0),
+(90060, 0, -1, 1, 471, 0, 0, 1, 0),
+(90061, 0, -1, 0, 480, 0, 0, 1, 0),
+(90062, 0, -1, 530, 465, 0, 0, 1, 0),
+(90063, 0, -1, 530, 465, 0, 0, 1, 0),
+(90064, 0, -1, 571, 510, 0, 0, 1, 0),
+(90064, 1, -1, 571, 504, 1, 0, 3, 0),
+(90115, 0, -1, 530, 481, 0, 0, 1, 0);
+
+INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
+(90046, 0, 0, -8958, 781, 0),
+(90046, 0, 1, -8958, 821, 0),
+(90046, 0, 2, -8918, 821, 0),
+(90046, 0, 3, -8918, 781, 0),
+(90047, 0, 0, -4744, -1075, 0),
+(90047, 0, 1, -4744, -1035, 0),
+(90047, 0, 2, -4704, -1035, 0),
+(90047, 0, 3, -4704, -1075, 0),
+(90048, 0, 0, 10060, 2247, 0),
+(90048, 0, 1, 10060, 2287, 0),
+(90048, 0, 2, 10100, 2287, 0),
+(90048, 0, 3, 10100, 2247, 0),
+(90049, 0, 0, 1787, -4593, 0),
+(90049, 0, 1, 1787, -4553, 0),
+(90049, 0, 2, 1827, -4553, 0),
+(90049, 0, 3, 1827, -4593, 0),
+(90050, 0, 0, -1186, 32, 0),
+(90050, 0, 1, -1186, 72, 0),
+(90050, 0, 2, -1146, 72, 0),
+(90050, 0, 3, -1146, 32, 0),
+(90051, 0, 0, 1661, 174, 0),
+(90051, 0, 1, 1661, 214, 0),
+(90051, 0, 2, 1701, 214, 0),
+(90051, 0, 3, 1701, 174, 0),
+(90052, 0, 0, 5484, 6366, 0),
+(90052, 0, 1, 5484, 6406, 0),
+(90052, 0, 2, 5524, 6406, 0),
+(90052, 0, 3, 5524, 6366, 0),
+(90053, 0, 0, 7596, -4983, 0),
+(90053, 0, 1, 7596, -4943, 0),
+(90053, 0, 2, 7636, -4943, 0),
+(90053, 0, 3, 7636, -4983, 0),
+(90054, 0, 0, -8958, 781, 0),
+(90054, 0, 1, -8958, 821, 0),
+(90054, 0, 2, -8918, 821, 0),
+(90054, 0, 3, -8918, 781, 0),
+(90055, 0, 0, -4744, -1075, 0),
+(90055, 0, 1, -4744, -1035, 0),
+(90055, 0, 2, -4704, -1035, 0),
+(90055, 0, 3, -4704, -1075, 0),
+(90056, 0, 0, 10060, 2247, 0),
+(90056, 0, 1, 10060, 2287, 0),
+(90056, 0, 2, 10100, 2287, 0),
+(90056, 0, 3, 10100, 2247, 0),
+(90057, 0, 0, 1787, -4593, 0),
+(90057, 0, 1, 1787, -4553, 0),
+(90057, 0, 2, 1827, -4553, 0),
+(90057, 0, 3, 1827, -4593, 0),
+(90058, 0, 0, -1186, 32, 0),
+(90058, 0, 1, -1186, 72, 0),
+(90058, 0, 2, -1146, 72, 0),
+(90058, 0, 3, -1146, 32, 0),
+(90059, 0, 0, 1661, 174, 0),
+(90059, 0, 1, 1661, 214, 0),
+(90059, 0, 2, 1701, 214, 0),
+(90059, 0, 3, 1701, 174, 0),
+(90060, 0, 0, 5484, 6366, 0),
+(90060, 0, 1, 5484, 6406, 0),
+(90060, 0, 2, 5524, 6406, 0),
+(90060, 0, 3, 5524, 6366, 0),
+(90061, 0, 0, 7596, -4983, 0),
+(90061, 0, 1, 7596, -4943, 0),
+(90061, 0, 2, 7636, -4943, 0),
+(90061, 0, 3, 7636, -4983, 0),
+(90062, 0, 0, -733, 2698, 0),
+(90062, 0, 1, -733, 2738, 0),
+(90062, 0, 2, -693, 2738, 0),
+(90062, 0, 3, -693, 2698, 0),
+(90063, 0, 0, 184, 2598, 0),
+(90063, 0, 1, 184, 2638, 0),
+(90063, 0, 2, 224, 2638, 0),
+(90063, 0, 3, 224, 2598, 0),
+(90064, 0, 0, 569, -4959, 0),
+(90064, 0, 1, 569, -4919, 0),
+(90064, 0, 2, 609, -4919, 0),
+(90064, 0, 3, 609, -4959, 0),
+(90064, 1, 0, 569, -4959, 0),
+(90064, 1, 1, 569, -4919, 0),
+(90064, 1, 2, 609, -4919, 0),
+(90064, 1, 3, 609, -4959, 0),
+(90115, 0, 0, -2097, 5250, 0),
+(90115, 0, 1, -2097, 5290, 0),
+(90115, 0, 2, -2057, 5290, 0),
+(90115, 0, 3, -2057, 5250, 0);

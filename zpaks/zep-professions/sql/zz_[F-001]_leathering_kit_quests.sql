@@ -290,7 +290,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
     `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'Brother/Sister, I see you work without proper tools. The Earth Mother teaches that right tools create harmony with one''s craft. I have a Journeyman Leathering Kit - bring me 5 Cured Light Hides and 5 Light Armor Kits for my work, and I will trade it to you. Your hands will move swifter, your craft more true.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
+    `QuestDescription` = '$GBrother:Sister;, I see you work without proper tools. The Earth Mother teaches that right tools create harmony with one''s craft. I have a Journeyman Leathering Kit - bring me 5 Cured Light Hides and 5 Light Armor Kits for my work, and I will trade it to you. Your hands will move swifter, your craft more true.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Una in Thunder Bluff',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -1212,8 +1212,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionID1` = 1011, -- Lower City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Trade in your Artisan kit and collect cured hides and armor kits to exchange for a Master Leathering Kit',
-    `QuestDescription` = 'Welcome to Outland, leatherworker. The hides here are tougher than anything from Azeroth - your Artisan kit will struggle with them. I have a Master Leathering Kit designed for Outland materials. Trade in your old Artisan kit and bring me 5 Cured Rugged Hides and 5 Knothide Armor Kits, and the Master kit is yours. You''ll need the speed advantage for the challenges ahead.$B$BRequired:$B- 5 Cured Rugged Hides$B- 5 Knothide Armor Kits',
+    `LogDescription` = 'Bring 5 Cured Rugged Hides, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Darmari in Shattrath''s Lower City.',
+    `QuestDescription` = 'Everything the Lower City owns was carried here on someone''s back and mended ten times over - we know leatherwork. Outland hide is thick and ill-tempered, and a slow kit means cold shoulders come nightfall. Bring me cured hides and armor kits for the refugees, trade in your Artisan kit, and take a Master kit that works as fast as need demands.$B$BRequired:$B- 5 Cured Rugged Hide$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
     `QuestCompletionLog` = 'Return to Darmari in Shattrath City',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1239,10 +1239,11 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90109: Honor Hold Alliance (Brumman - 18754)
+-- Quest 90109: Honor Hold Alliance (Brumman - 18771)
+-- [I-195] NPC IDs were swapped: 18754 is Barim Spilthoof (Thrallmar), 18771 is Brumman (Honor Hold)
 -- -----------------------------------------------------
 SET @quest := 90109;
-SET @npc := 18754;
+SET @npc := 18771;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -1261,8 +1262,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionID1` = 946, -- Honor Hold
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Trade in your Artisan kit and collect cured hides and armor kits to exchange for a Master Leathering Kit',
-    `QuestDescription` = 'Welcome to Outland, leatherworker. The hides here are tougher than anything from Azeroth - your Artisan kit will struggle with them. I have a Master Leathering Kit designed for Outland materials. Trade in your old Artisan kit and bring me 5 Cured Rugged Hides and 5 Knothide Armor Kits, and the Master kit is yours. You''ll need the speed advantage - these tough hides require precision cutting, and a sharp blade makes all the difference.$B$BRequired:$B- 5 Cured Rugged Hides$B- 5 Knothide Armor Kits',
+    `LogDescription` = 'Bring 5 Cured Rugged Hides, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Brumman at Honor Hold in Hellfire Peninsula.',
+    `QuestDescription` = 'Half the armor in this keep came oot o'' my workshop, and the other half''s waitin'' on repairs. Knothide''s thick as boot soles - a dull kit''ll have ye sawin'' till sundown. Bring me cured hides and armor kits fer the garrison, hand over yer Artisan kit, and I''ll give ye a Master kit that cuts clean the first time, every time.$B$BRequired:$B- 5 Cured Rugged Hide$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
     `QuestCompletionLog` = 'Return to Brumman in Honor Hold',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1290,10 +1291,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90110: Thrallmar Horde (Barim Spilthoof - 18771)
+-- Quest 90110: Thrallmar Horde (Barim Spilthoof - 18754)
 -- -----------------------------------------------------
 SET @quest := 90110;
-SET @npc := 18771;
+SET @npc := 18754;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -1312,8 +1313,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionID1` = 947, -- Thrallmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Trade in your Artisan kit and collect cured hides and armor kits to exchange for a Master Leathering Kit',
-    `QuestDescription` = 'Brother/Sister, you''ve arrived in Outland. The beasts here have hides twice as thick as Azeroth''s - your Artisan kit struggles to cut clean. I have Master Leathering Kits forged for these harsh lands. Trade in your old Artisan kit and bring me 5 Cured Rugged Hides and 5 Knothide Armor Kits, and the Master kit is yours. Faster cutting, cleaner work - you''ll need every advantage here.$B$BRequired:$B- 5 Cured Rugged Hides$B- 5 Knothide Armor Kits',
+    `LogDescription` = 'Bring 5 Cured Rugged Hides, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Barim Spilthoof at Thrallmar in Hellfire Peninsula.',
+    `QuestDescription` = 'The beasts of this land give heavy hides, $Gbrother:sister;, and heavy hides deserve a worthy hand. A craftsman who fights his own tools honors no one. Bring me cured hides and armor kits for Thrallmar''s warriors, and trade me your Artisan kit. The Master kit will let your hands work as fast as your heart.$B$BRequired:$B- 5 Cured Rugged Hide$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
     `QuestCompletionLog` = 'Return to Barim Spilthoof in Thrallmar',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1368,8 +1369,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionID1` = 1090, -- Kirin Tor
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Grand Master''s Tools',
-    `LogDescription` = 'Trade in your Master kit and collect cured hides and armor kits to exchange for a Grand Master Leathering Kit',
-    `QuestDescription` = 'Northrend presents new challenges for even master leatherworkers. The arctic hides here are thicker and more resistant than Outland materials - your Master kit will feel sluggish. I have a Grand Master Leathering Kit, the finest tools available. Trade in your old Master kit and bring me 5 Heavy Borean Leather and 5 Borean Armor Kits from Northrend''s beasts, and the Grand Master kit is yours. You''ll need every advantage the kit provides for grand master-level work.$B$BRequired:$B- 5 Heavy Borean Leather$B- 5 Borean Armor Kits',
+    `LogDescription` = 'Bring 5 Heavy Borean Leather, 5 Heavy Borean Armor Kits and your Master Leathering Kit to Diane Cannings in Dalaran.',
+    `QuestDescription` = 'Borean leather doesn''t forgive. It''s dense, it''s cold-cured, and a kit that hesitates leaves scars across the grain. Mine don''t hesitate. Bring me Borean leather and armor kits so I know your work, trade in the Master kit, and I''ll hand you a Grand Master kit - the same one Dalaran''s armorers swear by.$B$BRequired:$B- 5 Heavy Borean Leather$B- 5 Heavy Borean Armor Kit$B- Master Leathering Kit',
     `QuestCompletionLog` = 'Return to Diane Cannings in Dalaran',
     `RewardItem1` = 57616,
     `RewardAmount1` = 1,
@@ -1481,3 +1482,159 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90090;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
 (19, 0, 90090, 0, 0, -90089, 0, 0, 0, 0, 0, 0, 0, '', 'GM Kit (Dalaran) - any Master kit');
+
+-- =====================================================
+-- QUEST POIs - turn-in map markers [I-195]
+-- One blob per quest at the quest ender (trainer) spawn
+-- =====================================================
+DELETE FROM `quest_poi` WHERE `QuestID` IN (90065,90066,90067,90068,90069,90070,90071,90072,90073,90074,90075,90076,90077,90078,90079,90080,90081,90082,90083,90084,90085,90086,90087,90088,90089,90090,90109,90110);
+DELETE FROM `quest_poi_points` WHERE `QuestID` IN (90065,90066,90067,90068,90069,90070,90071,90072,90073,90074,90075,90076,90077,90078,90079,90080,90081,90082,90083,90084,90085,90086,90087,90088,90089,90090,90109,90110);
+
+INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`) VALUES
+(90065, 0, -1, 0, 301, 0, 0, 1, 0),
+(90066, 0, -1, 0, 341, 0, 0, 1, 0),
+(90067, 0, -1, 1, 381, 0, 0, 1, 0),
+(90068, 0, -1, 1, 471, 0, 0, 1, 0),
+(90069, 0, -1, 1, 321, 0, 0, 1, 0),
+(90070, 0, -1, 1, 362, 0, 0, 1, 0),
+(90071, 0, -1, 0, 382, 0, 0, 1, 0),
+(90072, 0, -1, 0, 480, 0, 0, 1, 0),
+(90073, 0, -1, 0, 301, 0, 0, 1, 0),
+(90074, 0, -1, 0, 341, 0, 0, 1, 0),
+(90075, 0, -1, 1, 381, 0, 0, 1, 0),
+(90076, 0, -1, 1, 471, 0, 0, 1, 0),
+(90077, 0, -1, 1, 321, 0, 0, 1, 0),
+(90078, 0, -1, 1, 362, 0, 0, 1, 0),
+(90079, 0, -1, 0, 382, 0, 0, 1, 0),
+(90080, 0, -1, 0, 480, 0, 0, 1, 0),
+(90081, 0, -1, 0, 301, 0, 0, 1, 0),
+(90082, 0, -1, 0, 341, 0, 0, 1, 0),
+(90083, 0, -1, 1, 381, 0, 0, 1, 0),
+(90084, 0, -1, 1, 471, 0, 0, 1, 0),
+(90085, 0, -1, 1, 321, 0, 0, 1, 0),
+(90086, 0, -1, 1, 362, 0, 0, 1, 0),
+(90087, 0, -1, 0, 382, 0, 0, 1, 0),
+(90088, 0, -1, 0, 480, 0, 0, 1, 0),
+(90089, 0, -1, 530, 481, 0, 0, 1, 0),
+(90090, 0, -1, 571, 510, 0, 0, 1, 0),
+(90090, 1, -1, 571, 504, 1, 0, 3, 0),
+(90109, 0, -1, 530, 465, 0, 0, 1, 0),
+(90110, 0, -1, 530, 465, 0, 0, 1, 0);
+
+INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
+(90065, 0, 0, -8746, 457, 0),
+(90065, 0, 1, -8746, 497, 0),
+(90065, 0, 2, -8706, 497, 0),
+(90065, 0, 3, -8706, 457, 0),
+(90066, 0, 0, -4767, -1052, 0),
+(90066, 0, 1, -4767, -1012, 0),
+(90066, 0, 2, -4727, -1012, 0),
+(90066, 0, 3, -4727, -1052, 0),
+(90067, 0, 0, 10066, 2236, 0),
+(90067, 0, 1, 10066, 2276, 0),
+(90067, 0, 2, 10106, 2276, 0),
+(90067, 0, 3, 10106, 2236, 0),
+(90068, 0, 0, 5445, 6334, 0),
+(90068, 0, 1, 5445, 6374, 0),
+(90068, 0, 2, 5485, 6374, 0),
+(90068, 0, 3, 5485, 6334, 0),
+(90069, 0, 0, 1841, -4582, 0),
+(90069, 0, 1, 1841, -4542, 0),
+(90069, 0, 2, 1881, -4542, 0),
+(90069, 0, 3, 1881, -4582, 0),
+(90070, 0, 0, -1166, 63, 0),
+(90070, 0, 1, -1166, 103, 0),
+(90070, 0, 2, -1126, 103, 0),
+(90070, 0, 3, -1126, 63, 0),
+(90071, 0, 0, 1490, 180, 0),
+(90071, 0, 1, 1490, 220, 0),
+(90071, 0, 2, 1530, 220, 0),
+(90071, 0, 3, 1530, 180, 0),
+(90072, 0, 0, 7350, -5318, 0),
+(90072, 0, 1, 7350, -5278, 0),
+(90072, 0, 2, 7390, -5278, 0),
+(90072, 0, 3, 7390, -5318, 0),
+(90073, 0, 0, -8746, 457, 0),
+(90073, 0, 1, -8746, 497, 0),
+(90073, 0, 2, -8706, 497, 0),
+(90073, 0, 3, -8706, 457, 0),
+(90074, 0, 0, -4767, -1052, 0),
+(90074, 0, 1, -4767, -1012, 0),
+(90074, 0, 2, -4727, -1012, 0),
+(90074, 0, 3, -4727, -1052, 0),
+(90075, 0, 0, 10066, 2236, 0),
+(90075, 0, 1, 10066, 2276, 0),
+(90075, 0, 2, 10106, 2276, 0),
+(90075, 0, 3, 10106, 2236, 0),
+(90076, 0, 0, 5445, 6334, 0),
+(90076, 0, 1, 5445, 6374, 0),
+(90076, 0, 2, 5485, 6374, 0),
+(90076, 0, 3, 5485, 6334, 0),
+(90077, 0, 0, 1841, -4582, 0),
+(90077, 0, 1, 1841, -4542, 0),
+(90077, 0, 2, 1881, -4542, 0),
+(90077, 0, 3, 1881, -4582, 0),
+(90078, 0, 0, -1166, 63, 0),
+(90078, 0, 1, -1166, 103, 0),
+(90078, 0, 2, -1126, 103, 0),
+(90078, 0, 3, -1126, 63, 0),
+(90079, 0, 0, 1490, 180, 0),
+(90079, 0, 1, 1490, 220, 0),
+(90079, 0, 2, 1530, 220, 0),
+(90079, 0, 3, 1530, 180, 0),
+(90080, 0, 0, 7350, -5318, 0),
+(90080, 0, 1, 7350, -5278, 0),
+(90080, 0, 2, 7390, -5278, 0),
+(90080, 0, 3, 7390, -5318, 0),
+(90081, 0, 0, -8746, 457, 0),
+(90081, 0, 1, -8746, 497, 0),
+(90081, 0, 2, -8706, 497, 0),
+(90081, 0, 3, -8706, 457, 0),
+(90082, 0, 0, -4767, -1052, 0),
+(90082, 0, 1, -4767, -1012, 0),
+(90082, 0, 2, -4727, -1012, 0),
+(90082, 0, 3, -4727, -1052, 0),
+(90083, 0, 0, 10066, 2236, 0),
+(90083, 0, 1, 10066, 2276, 0),
+(90083, 0, 2, 10106, 2276, 0),
+(90083, 0, 3, 10106, 2236, 0),
+(90084, 0, 0, 5445, 6334, 0),
+(90084, 0, 1, 5445, 6374, 0),
+(90084, 0, 2, 5485, 6374, 0),
+(90084, 0, 3, 5485, 6334, 0),
+(90085, 0, 0, 1841, -4582, 0),
+(90085, 0, 1, 1841, -4542, 0),
+(90085, 0, 2, 1881, -4542, 0),
+(90085, 0, 3, 1881, -4582, 0),
+(90086, 0, 0, -1166, 63, 0),
+(90086, 0, 1, -1166, 103, 0),
+(90086, 0, 2, -1126, 103, 0),
+(90086, 0, 3, -1126, 63, 0),
+(90087, 0, 0, 1490, 180, 0),
+(90087, 0, 1, 1490, 220, 0),
+(90087, 0, 2, 1530, 220, 0),
+(90087, 0, 3, 1530, 180, 0),
+(90088, 0, 0, 7350, -5318, 0),
+(90088, 0, 1, 7350, -5278, 0),
+(90088, 0, 2, 7390, -5278, 0),
+(90088, 0, 3, 7390, -5318, 0),
+(90089, 0, 0, -2081, 5237, 0),
+(90089, 0, 1, -2081, 5277, 0),
+(90089, 0, 2, -2041, 5277, 0),
+(90089, 0, 3, -2041, 5237, 0),
+(90090, 0, 0, 5888, 744, 0),
+(90090, 0, 1, 5888, 784, 0),
+(90090, 0, 2, 5928, 784, 0),
+(90090, 0, 3, 5928, 744, 0),
+(90090, 1, 0, 5888, 744, 0),
+(90090, 1, 1, 5888, 784, 0),
+(90090, 1, 2, 5928, 784, 0),
+(90090, 1, 3, 5928, 744, 0),
+(90109, 0, 0, -742, 2725, 0),
+(90109, 0, 1, -742, 2765, 0),
+(90109, 0, 2, -702, 2765, 0),
+(90109, 0, 3, -702, 2725, 0),
+(90110, 0, 0, 129, 2616, 0),
+(90110, 0, 1, 129, 2656, 0),
+(90110, 0, 2, 169, 2656, 0),
+(90110, 0, 3, 169, 2616, 0);
