@@ -1,7 +1,9 @@
 -- =====================================================
--- JC TOOLKIT COMPONENTS: Rivets, Fasteners, Drills, Screwdrivers
+-- JC TOOLKIT COMPONENTS: Rivets, Fasteners, Drills
+-- [I-195] Screwdrivers (57213-57215, spells 91260-91262) removed - dead content,
+-- nothing consumed them (kits use drills). Cleanup DELETEs below retained.
 -- Cross-profession crafted materials for Jeweler's Kit assembly
--- BS makes rivets, JC makes fasteners, Eng makes drills + screwdrivers
+-- BS makes rivets, JC makes fasteners, Eng makes drills
 -- JC assembles final toolkit from all components
 -- =====================================================
 
@@ -67,28 +69,6 @@ INSERT INTO `item_template` SET
     `name` = 'Saronite Fasteners', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154870, `Quality` = 2, `ItemLevel` = 75,
     `stackable` = 20, `bonding` = 0;
-
--- =====================================================
--- ENG SCREWDRIVER ITEMS (Reagent > Tool, no bind)
--- =====================================================
-
-INSERT INTO `item_template` SET
-    `entry` = 57213, `class` = 5, `subclass` = 1,
-    `name` = 'Bronze Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
-    `displayid` = 154875, `Quality` = 2, `ItemLevel` = 10,
-    `stackable` = 5, `bonding` = 0;
-
-INSERT INTO `item_template` SET
-    `entry` = 57214, `class` = 5, `subclass` = 1,
-    `name` = 'Fel Iron Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
-    `displayid` = 154876, `Quality` = 2, `ItemLevel` = 60,
-    `stackable` = 5, `bonding` = 0;
-
-INSERT INTO `item_template` SET
-    `entry` = 57215, `class` = 5, `subclass` = 1,
-    `name` = 'Saronite Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
-    `displayid` = 154877, `Quality` = 2, `ItemLevel` = 75,
-    `stackable` = 5, `bonding` = 0;
 
 -- =====================================================
 -- ENG DRILL ITEMS (Reagent > Tool, no bind)
@@ -179,16 +159,9 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 (111, 91270, 200000, 755, 375);
 
 -- =====================================================
--- ENG TRAINER SPELLS (Screwdriver + Drill recipes)
+-- ENG TRAINER SPELLS (Drill recipes)
 -- Trainers: 626, 628, 92 (journeyman), 84-88, 90, 91 (artisan+), 89 (GM)
 -- =====================================================
-
--- Copper Screwdriver (91260) - skill 75 - all eng trainers
-INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
-(626, 91260, 500, 202, 75), (628, 91260, 500, 202, 75), (92, 91260, 500, 202, 75),
-(84, 91260, 500, 202, 75), (85, 91260, 500, 202, 75), (86, 91260, 500, 202, 75),
-(87, 91260, 500, 202, 75), (88, 91260, 500, 202, 75), (90, 91260, 500, 202, 75),
-(91, 91260, 500, 202, 75), (89, 91260, 500, 202, 75);
 
 -- Copper Drill (91263) - skill 75 - all eng trainers
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
@@ -204,21 +177,11 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 (86, 91264, 5000, 202, 225), (87, 91264, 5000, 202, 225), (88, 91264, 5000, 202, 225),
 (90, 91264, 5000, 202, 225), (91, 91264, 5000, 202, 225), (89, 91264, 5000, 202, 225);
 
--- Fel Iron Screwdriver (91261) - skill 300 - master+ trainers
-INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
-(84, 91261, 50000, 202, 300), (85, 91261, 50000, 202, 300), (86, 91261, 50000, 202, 300),
-(87, 91261, 50000, 202, 300), (88, 91261, 50000, 202, 300), (90, 91261, 50000, 202, 300),
-(91, 91261, 50000, 202, 300), (89, 91261, 50000, 202, 300);
-
 -- Fel Iron Drill (91265) - skill 300 - master+ trainers
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
 (84, 91265, 50000, 202, 300), (85, 91265, 50000, 202, 300), (86, 91265, 50000, 202, 300),
 (87, 91265, 50000, 202, 300), (88, 91265, 50000, 202, 300), (90, 91265, 50000, 202, 300),
 (91, 91265, 50000, 202, 300), (89, 91265, 50000, 202, 300);
-
--- Saronite Screwdriver (91262) - skill 375 - GM trainer only
-INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
-(89, 91262, 100000, 202, 375);
 
 -- Saronite Drill (91266) - skill 375 - GM trainer only
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES

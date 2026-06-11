@@ -41,12 +41,8 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200052, 755, 91258, 0, 0, 0, 0, 300, 0, 0, 325, 310, 0, 0),
 (200053, 755, 91259, 0, 0, 0, 0, 375, 0, 0, 400, 385, 0, 0);
 
--- Eng Screwdriver recipes linked to Engineering (skill_line 202), acquire_method = 0 (trainer)
+-- [I-195] Eng Screwdriver recipes (91260-91262) removed - dead content. Cleanup DELETE retained.
 DELETE FROM `skilllineability` WHERE `id` IN (200054, 200055, 200056);
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200054, 202, 91260, 0, 0, 0, 0, 75, 0, 0, 100, 85, 0, 0),
-(200055, 202, 91261, 0, 0, 0, 0, 300, 0, 0, 325, 310, 0, 0),
-(200056, 202, 91262, 0, 0, 0, 0, 375, 0, 0, 400, 385, 0, 0);
 
 -- Eng Drill recipes linked to Engineering (skill_line 202), acquire_method = 0 (trainer)
 DELETE FROM `skilllineability` WHERE `id` IN (200057, 200058, 200059, 200060);
