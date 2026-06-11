@@ -90,7 +90,7 @@ function EMB:EmbedUpdate()
 	if self:CheckEmbed("Omen") then self:EmbedOmen() end
 	if self:CheckEmbed("Recount") then self:EmbedRecount() end
 	if self:CheckEmbed("Skada") then self:EmbedSkada() end
-	if self:CheckEmbed("Details") then self:EmbedDetails() end
+	if self:CheckEmbed("Details") and self.EmbedDetails then self:EmbedDetails() end
 end
 
 function EMB:SetHooks()
@@ -423,18 +423,18 @@ if AS:IsAddonLODorEnabled("Skada") then
 end
 
 if AS:IsAddonLODorEnabled("Details") then
-	local Details = _G._details or _G._detalhes
-	if not Details then return end
+	-- The Details global may not exist yet when this file loads (load order),
+	-- so resolve it lazily at call time instead of bailing out of the chunk.
+	local listenerCreated = false
 
-	local numberToEmbed = 0
+	local function GetDetails()
+		return _G.Details or _G._details or _G._detalhes
+	end
 
 	EMB.DetailsInstances = {}
 
-	local listener = Details:CreateEventListener()
-	listener:RegisterEvent("DETAILS_INSTANCE_OPEN")
-	listener:RegisterEvent("DETAILS_INSTANCE_CLOSE")
-
-	function listener:OnDetailsEvent(event, instance)
+	local function OnDetailsEvent(self, event, instance)
+		local Details = GetDetails()
 		if event == "DETAILS_INSTANCE_CLOSE" then
 			if instance._ElvUIEmbed and _G.DetailsOptionsWindow and _G.DetailsOptionsWindow:IsShown() then
 				Details:Msg("You just closed a window Embed on ElvUI, if wasn't intended click on Reopen.") --> need localization
@@ -453,6 +453,16 @@ if AS:IsAddonLODorEnabled("Details") then
 				end
 			end
 		end
+	end
+
+	local function CreateListener(Details)
+		if listenerCreated then return end
+		listenerCreated = true
+
+		local listener = Details:CreateEventListener()
+		listener:RegisterEvent("DETAILS_INSTANCE_OPEN")
+		listener:RegisterEvent("DETAILS_INSTANCE_CLOSE")
+		listener.OnDetailsEvent = OnDetailsEvent
 	end
 
 	local function EmbedWindow(window, width, height, point, relativeFrame, relativePoint, ofsx, ofsy)
@@ -505,6 +515,11 @@ if AS:IsAddonLODorEnabled("Details") then
 	end
 
 	function EMB:EmbedDetails()
+		local Details = GetDetails()
+		if not Details then return end
+
+		CreateListener(Details)
+
 		wipe(self.DetailsInstances)
 
 		for _, instance in Details:ListInstances() do
@@ -512,7 +527,7 @@ if AS:IsAddonLODorEnabled("Details") then
 		end
 
 		local db = E.db.addOnSkins.embed
-		numberToEmbed = 0
+		local numberToEmbed = 0
 		if db.embedType == "SINGLE" then
 			numberToEmbed = 1
 		end
