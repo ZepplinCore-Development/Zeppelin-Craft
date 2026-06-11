@@ -639,10 +639,10 @@ INSERT INTO `spell` SET
     `attributes_ex_1` = 1024,
     `cast_time_index` = 5,
     `range_index` = 1,
-    `reagent_1` = 2319,
-    `reagent_2` = 4234,
-    `reagent_count_1` = 20,
-    `reagent_count_2` = 4,
+    `reagent_1` = 2318,
+    `reagent_2` = 2320,
+    `reagent_count_1` = 12,
+    `reagent_count_2` = 2,
     `equipped_item_class` = -1,
     `effect_1` = 24,
     `effect_die_sides_1` = 1,
@@ -669,11 +669,11 @@ INSERT INTO `spell` SET
     `attributes_ex_1` = 1024,
     `cast_time_index` = 5,
     `range_index` = 1,
-    `reagent_1` = 4234,
-    `reagent_2` = 8170,
-    `reagent_3` = 100010,
-    `reagent_count_1` = 30,
-    `reagent_count_2` = 8,
+    `reagent_1` = 2319,
+    `reagent_2` = 4234,
+    `reagent_3` = 57617,                            -- Apprentice Riding Crop item (I-186 renumbered from 100010)
+    `reagent_count_1` = 20,
+    `reagent_count_2` = 4,
     `reagent_count_3` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 24,
@@ -701,11 +701,11 @@ INSERT INTO `spell` SET
     `attributes_ex_1` = 1024,
     `cast_time_index` = 5,
     `range_index` = 1,
-    `reagent_1` = 8170,
-    `reagent_2` = 15407,
-    `reagent_3` = 100011,
-    `reagent_count_1` = 40,
-    `reagent_count_2` = 12,
+    `reagent_1` = 4304,
+    `reagent_2` = 8170,
+    `reagent_3` = 57618,                            -- Journeyman Riding Crop item (I-186 renumbered from 100011)
+    `reagent_count_1` = 20,
+    `reagent_count_2` = 4,
     `reagent_count_3` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 24,
@@ -733,9 +733,9 @@ INSERT INTO `spell` SET
     `attributes_ex_1` = 1024,
     `cast_time_index` = 5,
     `range_index` = 1,
-    `reagent_1` = 15407,
-    `reagent_2` = 17012,
-    `reagent_3` = 100012,
+    `reagent_1` = 8170,
+    `reagent_2` = 15407,
+    `reagent_3` = 57619,                            -- Expert Riding Crop item (I-186 renumbered from 100012)
     `reagent_count_1` = 20,
     `reagent_count_2` = 8,
     `reagent_count_3` = 1,
@@ -765,11 +765,11 @@ INSERT INTO `spell` SET
     `attributes_ex_1` = 1024,
     `cast_time_index` = 5,
     `range_index` = 1,
-    `reagent_1` = 25699,
+    `reagent_1` = 23793,
     `reagent_2` = 21887,
-    `reagent_3` = 100013,
-    `reagent_count_1` = 30,
-    `reagent_count_2` = 12,
+    `reagent_3` = 57620,                            -- Artisan Riding Crop item (I-186 renumbered from 100013)
+    `reagent_count_1` = 20,
+    `reagent_count_2` = 8,
     `reagent_count_3` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 24,
@@ -853,7 +853,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `reagent_1` = 38425,
     `reagent_2` = 44128,
-    `reagent_3` = 100014,
+    `reagent_3` = 57621,                            -- Master Riding Crop item (I-186 renumbered from 100014)
     `reagent_count_1` = 40,
     `reagent_count_2` = 8,
     `reagent_count_3` = 1,
@@ -924,12 +924,3 @@ UPDATE `spell` SET
     `effect_spell_class_mask_c_1` = 2147483648
 WHERE `id` = 100015;
 
-UPDATE spell SET reagent_1=2318, reagent_count_1=12, reagent_2=2320, reagent_count_2=2 WHERE id=100020;
-
-UPDATE spell SET reagent_1=2319, reagent_count_1=20, reagent_2=4234, reagent_count_2=4, reagent_3=100010, reagent_count_3=1 WHERE id=100021;
-
-UPDATE spell SET reagent_1=4304, reagent_count_1=20, reagent_2=8170, reagent_count_2=4, reagent_3=100011, reagent_count_3=1 WHERE id=100022;
-
-UPDATE spell SET reagent_1=8170, reagent_count_1=20, reagent_2=15407, reagent_count_2=8, reagent_3=100012, reagent_count_3=1 WHERE id=100023;
-
-UPDATE spell SET reagent_1=23793, reagent_count_1=20, reagent_2=21887, reagent_count_2=8, reagent_3=100013, reagent_count_3=1 WHERE id=100024;
