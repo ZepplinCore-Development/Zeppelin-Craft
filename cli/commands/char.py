@@ -356,7 +356,7 @@ def _alloc_id(table: str, column: str, offset: int) -> int:
 
 @char.command('mail')
 @click.argument('name')
-@click.argument('items', nargs=-1, metavar='ITEM_ID[:COUNT]')
+@click.argument('items', nargs=-1, metavar='ITEM:QTY[,ITEM:QTY...]')
 @click.option('--subject', default='Mail from System', help='Mail subject')
 @click.option('--body', default='', help='Mail body text')
 @click.option('--money', type=int, default=0, help='Copper attached to the mail')
@@ -370,7 +370,7 @@ def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
 
     Examples:
         zep world char mail Vera 13926                       # 1× Golden Pearl
-        zep world char mail Vera 13926:5 12811:1 --subject "Pearls"
+        zep world char mail Vera 13926:5,12811:1 --subject "Pearls"
         zep world char mail Vera --money 100000 --subject "Compensation"
     """
     if not items and money == 0 and cod == 0:
@@ -378,9 +378,10 @@ def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
     if money < 0 or cod < 0 or offset < 0:
         raise click.ClickException("--money, --cod, and --offset must be ≥ 0")
 
-    # Parse ENTRY[:COUNT] tokens
+    # Parse ENTRY[:COUNT] tokens (comma- and/or space-separated)
     parsed: List[Tuple[int, int]] = []
-    for raw in items:
+    tokens = [t.strip() for raw in items for t in raw.split(',') if t.strip()]
+    for raw in tokens:
         if ':' in raw:
             entry_s, count_s = raw.split(':', 1)
         else:

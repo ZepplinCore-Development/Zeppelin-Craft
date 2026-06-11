@@ -10,6 +10,7 @@ Usage:
 """
 
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -185,14 +186,19 @@ def build_menu_tree(group: click.Group, parent_path: str = "") -> Dict[str, Any]
             }
         else:
             # It's a leaf command
-            # Extract required arguments, required options, and optional flags
-            args = []
-            options = []
+            # Extract arguments, required options, and optional flags
+            args = []          # Positional arguments (required and optional/variadic)
+            options = []       # Required options
             flags = []
             if hasattr(cmd, 'params'):
                 for param in cmd.params:
-                    if isinstance(param, click.Argument) and param.required:
-                        args.append(param.name)
+                    if isinstance(param, click.Argument):
+                        args.append({
+                            'name': param.name,
+                            'required': param.required,
+                            'variadic': param.nargs == -1,
+                            'metavar': param.metavar or '',
+                        })
                     elif isinstance(param, click.Option) and param.required:
                         # Get the option flag (prefer long form)
                         long_opts = [o for o in param.opts if o.startswith('--')]
@@ -285,12 +291,13 @@ def show_menu(title: str, options: List[str], show_back: bool = True,
     return result
 
 
-def prompt_args(args: List[str], options: List[Dict], command_path: str) -> Optional[Tuple[List[str], List[Tuple[str, str]]]]:
-    """Prompt user for required arguments and options.
+def prompt_args(args: List[Dict], options: List[Dict],
+                command_path: str) -> Optional[Tuple[List[str], List[Tuple[str, str]]]]:
+    """Prompt user for arguments and required options.
 
     Args:
-        args: List of argument names
-        options: List of option dicts with 'name', 'flag', 'help'
+        args: List of argument dicts with 'name', 'required', 'variadic', 'metavar'
+        options: List of required option dicts with 'name', 'flag', 'help'
         command_path: Full command path for display
 
     Returns:
@@ -306,12 +313,27 @@ def prompt_args(args: List[str], options: List[Dict], command_path: str) -> Opti
     arg_values = []
     for arg in args:
         try:
-            display_name = arg.replace('_', ' ').title()
-            value = input(f"  {display_name}: ").strip()
+            display_name = arg['name'].replace('_', ' ').title()
+            hints = []
+            if arg['metavar']:
+                hints.append(arg['metavar'])
+            elif arg['variadic']:
+                hints.append('comma-separated')
+            if not arg['required']:
+                hints.append('Enter to skip')
+            hint = f" ({', '.join(hints)})" if hints else ""
+            value = input(f"  {display_name}{hint}: ").strip()
             if not value:
-                print("\n  Cancelled (empty input)")
-                return None
-            arg_values.append(value)
+                if arg['required']:
+                    print("\n  Cancelled (empty input)")
+                    return None
+                # Skipped optional positional — later positionals can't be
+                # passed without it, so stop prompting for arguments
+                break
+            if arg['variadic']:
+                arg_values.extend(t for t in re.split(r'[,\s]+', value) if t)
+            else:
+                arg_values.append(value)
         except (KeyboardInterrupt, EOFError):
             print("\n  Cancelled")
             return None
