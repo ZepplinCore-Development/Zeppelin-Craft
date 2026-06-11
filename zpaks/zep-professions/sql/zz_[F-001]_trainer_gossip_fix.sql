@@ -51,9 +51,16 @@ WHERE entry IN (
     7087,  -- Killian Hagey (Undercity)
     7088,  -- Thuwd (Thunder Bluff)
     7089,  -- Mooranta (Orgrimmar)
-    16273, -- Mathreyn (Exodar) -- also Tailoring quest giver
     28696  -- Derik Marks (Dalaran)
 ) AND gossip_menu_id = 0;
+
+-- [I-195] Mathreyn (16273) was wrongly used as the "Exodar" skinning/tailoring
+-- quest giver - he is the EVERSONG WOODS skinning trainer (Silvermoon faction).
+-- Quests re-pointed to Remere (16763, skinning) and Refik (16729, tailoring),
+-- both of whom already have native gossip menus. Revert Mathreyn to stock.
+UPDATE creature_template
+SET npcflag = 80, gossip_menu_id = 0
+WHERE entry = 16273 AND gossip_menu_id = 7842;
 
 -- -----------------------------------------------------------------------------
 -- Leatherworking trainers (gossip_menu_id = 7816 - generic trainer)

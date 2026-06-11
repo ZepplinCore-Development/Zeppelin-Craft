@@ -313,10 +313,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90052: Exodar (Mathreyn - 16273)
+-- Quest 90052: Exodar (Refik - 16729)
 -- -----------------------------------------------------
 SET @quest := 90052;
-SET @npc := 16273;
+SET @npc := 16729;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -701,10 +701,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90060: Exodar (Mathreyn - 16273)
+-- Quest 90060: Exodar (Refik - 16729)
 -- -----------------------------------------------------
 SET @quest := 90060;
-SET @npc := 16273;
+SET @npc := 16729;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
