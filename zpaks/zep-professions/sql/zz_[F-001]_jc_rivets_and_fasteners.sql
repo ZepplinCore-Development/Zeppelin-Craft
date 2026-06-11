@@ -136,9 +136,10 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
 (58, 91254, 50000, 164, 300), (59, 91254, 50000, 164, 300);
 
--- Saronite Rivets (91255) - skill 375
+-- Saronite Rivets (91255) - skill 375 - GM (Northrend) trainers only
+-- [I-195] was also on 58 (Outland Master trainers) - Northrend-tier recipe leak
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
-(58, 91255, 100000, 164, 375), (59, 91255, 100000, 164, 375);
+(59, 91255, 100000, 164, 375);
 
 -- =====================================================
 -- JC TRAINER SPELLS (Fastener + Assembly recipes)
