@@ -53,7 +53,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Skinner''s Tools',
     `LogDescription` = 'Collect leather to exchange for a Journeyman Skinning Knife',
-    `QuestDescription` = 'Skinning with a basic knife? You''re ruining half the hide with every cut. I have proper blades available - bring me 20 Light Leather and 5 Light Hide to replenish my stock, and I''ll trade you one. You''ll get cleaner cuts and more usable leather from every beast.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide',
+    `QuestDescription` = 'Skinning with a basic knife? You''re ruining half the hide with every cut. I have proper blades available - bring me 20 Light Leather and 5 Light Hide to replenish my stock - that basic knife of yours included - and I''ll trade you one. You''ll get cleaner cuts and more usable leather from every beast.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide$B- Basic Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Maris Granger in Stormwind',
     `RewardItem1` = 57802,
     `RewardAmount1` = 1,
@@ -72,7 +72,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Light Leather and 5 Light Hide?';
+    `CompletionText` = 'Did you bring the 20 Light Leather and 5 Light Hide? And your old basic knife - that''s part of the trade.';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -102,7 +102,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Skinner''s Tools',
     `LogDescription` = 'Collect leather to exchange for a Journeyman Skinning Knife',
-    `QuestDescription` = 'Bah! Still usin'' a basic knife, are ye? No wonder yer tearin'' through half the hide! I''ve got proper skinning blades here - fetch me 20 Light Leather and 5 Light Hide fer me stock, and I''ll trade ye fer one. Ye''ll pull clean leather from every beast, I guarantee it.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide',
+    `QuestDescription` = 'Bah! Still usin'' a basic knife, are ye? No wonder yer tearin'' through half the hide! I''ve got proper skinning blades here - fetch me 20 Light Leather and 5 Light Hide fer me stock - and hand over that basic knife while ye''re at it - and I''ll trade ye fer one. Ye''ll pull clean leather from every beast, I guarantee it.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide$B- Basic Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Balthus Stoneflayer in Ironforge',
     `RewardItem1` = 57802,
     `RewardAmount1` = 1,
@@ -121,7 +121,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got that leather? 20 Light Leather and 5 Light Hide, aye?';
+    `CompletionText` = 'Got that leather? 20 Light Leather and 5 Light Hide, aye? And yer old knife - hand it over, that''s the deal.';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -151,7 +151,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Skinner''s Tools',
     `LogDescription` = 'Collect leather to exchange for a Journeyman Skinning Knife',
-    `QuestDescription` = 'I see you harvest the wild without proper tools. The creatures of the forest give their hides more willingly when honored with a clean cut. I have blades available. If you bring me 20 Light Leather and 5 Light Hide for my work, I will trade one to you. You will find each skinning yields more generously.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide',
+    `QuestDescription` = 'I see you harvest the wild without proper tools. The creatures of the forest give their hides more willingly when honored with a clean cut. I have blades available. If you bring me 20 Light Leather and 5 Light Hide for my work, and give your old blade in return, I will trade one to you. You will find each skinning yields more generously.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide$B- Basic Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Eladriel in Darnassus',
     `RewardItem1` = 57802,
     `RewardAmount1` = 1,
@@ -170,7 +170,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you gathered the leather I require?';
+    `CompletionText` = 'Have you gathered the leather I require? Your old blade as well - the trade must be whole.';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -200,7 +200,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Skinner''s Tools',
     `LogDescription` = 'Collect leather to exchange for a Journeyman Skinning Knife',
-    `QuestDescription` = 'I observe you skin without refined instruments. Your technique is sound, but proper tools would preserve more of each hide. I have blades available - if you bring me 20 Light Leather and 5 Light Hide to replenish my supplies, I will trade one to you. The Light will guide your hands to cleaner cuts.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide',
+    `QuestDescription` = 'I observe you skin without refined instruments. Your technique is sound, but proper tools would preserve more of each hide. I have blades available - if you bring me 20 Light Leather and 5 Light Hide to replenish my supplies - your basic knife included in the exchange - I will trade one to you. The Light will guide your hands to cleaner cuts.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide$B- Basic Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Mathreyn in the Exodar',
     `RewardItem1` = 57802,
     `RewardAmount1` = 1,
@@ -219,7 +219,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you brought the materials I require?';
+    `CompletionText` = 'Have you brought the materials I require? The old knife completes the exchange.';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -249,7 +249,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Skinner''s Tools',
     `LogDescription` = 'Collect leather to exchange for a Journeyman Skinning Knife',
-    `QuestDescription` = 'Basic knife? Wasteful. Tear hide. Ruin leather. Need better blade. I have blades. 20 Light Leather, 5 Light Hide. Bring. Trade for knife. Get more leather from each beast. Simple.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide',
+    `QuestDescription` = 'Basic knife? Wasteful. Tear hide. Ruin leather. Need better blade. I have blades. 20 Light Leather, 5 Light Hide. Old knife too. Bring. Trade for new blade. Get more leather from each beast. Simple.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide$B- Basic Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Mooranta in Orgrimmar',
     `RewardItem1` = 57802,
     `RewardAmount1` = 1,
@@ -268,7 +268,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'You have leather? 20 Light Leather and 5 Light Hide?';
+    `CompletionText` = 'You have leather? 20 Light Leather, 5 Light Hide? Old knife too?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -298,7 +298,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Skinner''s Tools',
     `LogDescription` = 'Collect leather to exchange for a Journeyman Skinning Knife',
-    `QuestDescription` = '$GBrother:Sister;, I see you work the hides without proper tools. The Earth Mother teaches that we honor the beasts by wasting nothing - a clean cut preserves the hide and respects the sacrifice. I have blades here - bring me 20 Light Leather and 5 Light Hide for my needs, and I will trade one to you. You will find each skinning yields more generously.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide',
+    `QuestDescription` = '$GBrother:Sister;, I see you work the hides without proper tools. The Earth Mother teaches that we honor the beasts by wasting nothing - a clean cut preserves the hide and respects the sacrifice. I have blades here - bring me 20 Light Leather and 5 Light Hide for my needs, give me your old blade, and I will trade one to you. You will find each skinning yields more generously.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide$B- Basic Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Thuwd in Thunder Bluff',
     `RewardItem1` = 57802,
     `RewardAmount1` = 1,
@@ -317,7 +317,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the leather, friend?';
+    `CompletionText` = 'Do you have the leather, friend? And your old blade for the trade?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -347,7 +347,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Skinner''s Tools',
     `LogDescription` = 'Collect leather to exchange for a Journeyman Skinning Knife',
-    `QuestDescription` = 'Skinning with that dull thing? How... inefficient. You''re shredding half the hide with every cut. I have proper blades available - bring me 20 Light Leather and 5 Light Hide to replenish my stock, and I''ll part with one. Your yields will become considerably less... wasteful.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide',
+    `QuestDescription` = 'Skinning with that dull thing? How... inefficient. You''re shredding half the hide with every cut. I have proper blades available - bring me 20 Light Leather and 5 Light Hide to replenish my stock - along with that dull thing you call a knife - and I''ll part with one. Your yields will become considerably less... wasteful.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide$B- Basic Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Killian Hagey in Undercity',
     `RewardItem1` = 57802,
     `RewardAmount1` = 1,
@@ -366,7 +366,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the leather I require?';
+    `CompletionText` = 'Do you have the leather I require? The old knife as well... I have plans for it.';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -396,7 +396,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Skinner''s Tools',
     `LogDescription` = 'Collect leather to exchange for a Journeyman Skinning Knife',
-    `QuestDescription` = 'Skinning with such... primitive instruments? How do you expect to preserve quality hides without proper tools? I have blades available. Bring me 20 Light Leather and 5 Light Hide - quality specimens, mind you - and I''ll trade one to you. Your leather yield will improve dramatically.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide',
+    `QuestDescription` = 'Skinning with such... primitive instruments? How do you expect to preserve quality hides without proper tools? I have blades available. Bring me 20 Light Leather and 5 Light Hide - quality specimens, mind you - surrender that primitive blade, and I''ll trade one to you. Your leather yield will improve dramatically.$B$BRequired:$B- 20 Light Leather$B- 5 Light Hide$B- Basic Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Tyn in Silvermoon City',
     `RewardItem1` = 57802,
     `RewardAmount1` = 1,
@@ -415,7 +415,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you acquired the leather I requested?';
+    `CompletionText` = 'Have you acquired the leather I requested? And the old blade - do hand it over.';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -451,7 +451,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Knife',
     `LogDescription` = 'Collect leather to exchange for an Artisan Skinning Knife',
-    `QuestDescription` = 'Your skills are growing, but that Journeyman knife is dulling on tougher hides - you''re losing usable leather from each beast. I have Artisan blades here. Bring me 20 Thick Leather and 5 Thick Hide for my stock, and the Artisan knife is yours. Your yield will increase considerably.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide',
+    `QuestDescription` = 'Your skills are growing, but that Journeyman knife is dulling on tougher hides - you''re losing usable leather from each beast. I have Artisan blades here. Trade in your Journeyman knife and bring me 20 Thick Leather and 5 Thick Hide for my stock, and the Artisan knife is yours. Your yield will increase considerably.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide$B- Journeyman Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Maris Granger in Stormwind',
     `RewardItem1` = 57803,
     `RewardAmount1` = 1,
@@ -471,7 +471,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Thick Leather and 5 Thick Hide?';
+    `CompletionText` = 'Did you bring the 20 Thick Leather and 5 Thick Hide? And the Journeyman knife - that''s part of the trade.';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -499,7 +499,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Knife',
     `LogDescription` = 'Collect leather to exchange for an Artisan Skinning Knife',
-    `QuestDescription` = 'Yer outgrowin'' that Journeyman blade, I see! It''s tuggin'' on the tougher hides - yer wastin'' good leather ye could be gettin''! Time fer an upgrade, aye? Fetch me 20 Thick Leather and 5 Thick Hide fer me stock, and this Artisan knife is yers. Ye''ll be pullin'' clean leather from every beast.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide',
+    `QuestDescription` = 'Yer outgrowin'' that Journeyman blade, I see! It''s tuggin'' on the tougher hides - yer wastin'' good leather ye could be gettin''! Time fer an upgrade, aye? Fetch me 20 Thick Leather and 5 Thick Hide fer me stock - and trade in that Journeyman blade - and this Artisan knife is yers. Ye''ll be pullin'' clean leather from every beast.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide$B- Journeyman Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Balthus Stoneflayer in Ironforge',
     `RewardItem1` = 57803,
     `RewardAmount1` = 1,
@@ -519,7 +519,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got that leather? 20 Thick Leather and 5 Thick Hide, aye?';
+    `CompletionText` = 'Got that leather? 20 Thick Leather and 5 Thick Hide, aye? And the Journeyman blade - hand it over, that''s the deal.';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -547,7 +547,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Knife',
     `LogDescription` = 'Collect leather to exchange for an Artisan Skinning Knife',
-    `QuestDescription` = 'Your craft deepens, friend. The Journeyman blade has served well, but I see it struggling with tougher hides now - you lose precious leather from each beast. I have Artisan blades available. Bring me 20 Thick Leather and 5 Thick Hide for my work, and the Artisan knife is yours. The wild will yield more generously to sharper tools.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide',
+    `QuestDescription` = 'Your craft deepens, friend. The Journeyman blade has served well, but I see it struggling with tougher hides now - you lose precious leather from each beast. I have Artisan blades available. Bring me 20 Thick Leather and 5 Thick Hide for my work, return the Journeyman blade to me, and the Artisan knife is yours. The wild will yield more generously to sharper tools.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide$B- Journeyman Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Eladriel in Darnassus',
     `RewardItem1` = 57803,
     `RewardAmount1` = 1,
@@ -567,7 +567,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you gathered the leather I require?';
+    `CompletionText` = 'Have you gathered the leather I require? The Journeyman blade as well - the trade must be whole.';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -595,7 +595,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Knife',
     `LogDescription` = 'Collect leather to exchange for an Artisan Skinning Knife',
-    `QuestDescription` = 'I see your mastery grows. That Journeyman blade served its purpose, but it struggles with tougher hides now - you lose valuable material with each cut. I have Artisan blades available. Bring me 20 Thick Leather and 5 Thick Hide to replenish my workshop, and I will trade one to you. The Light will guide your hands to cleaner yields.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide',
+    `QuestDescription` = 'I see your mastery grows. That Journeyman blade served its purpose, but it struggles with tougher hides now - you lose valuable material with each cut. I have Artisan blades available. Bring me 20 Thick Leather and 5 Thick Hide to replenish my workshop - the Journeyman blade returns to me in the exchange - and I will trade one to you. The Light will guide your hands to cleaner yields.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide$B- Journeyman Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Mathreyn in the Exodar',
     `RewardItem1` = 57803,
     `RewardAmount1` = 1,
@@ -615,7 +615,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you brought the materials I require?';
+    `CompletionText` = 'Have you brought the materials I require? The Journeyman blade completes the exchange.';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -643,7 +643,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Knife',
     `LogDescription` = 'Collect leather to exchange for an Artisan Skinning Knife',
-    `QuestDescription` = 'Journeyman blade too dull now. Tougher hides. Losing leather. Need better knife. 20 Thick Leather, 5 Thick Hide. Bring. Get Artisan knife. Get more leather from each beast.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide',
+    `QuestDescription` = 'Journeyman blade too dull now. Tougher hides. Losing leather. Need better knife. 20 Thick Leather, 5 Thick Hide. Old blade too. Bring. Get Artisan knife. Get more leather from each beast.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide$B- Journeyman Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Mooranta in Orgrimmar',
     `RewardItem1` = 57803,
     `RewardAmount1` = 1,
@@ -663,7 +663,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'You have leather? 20 Thick Leather, 5 Thick Hide?';
+    `CompletionText` = 'You have leather? 20 Thick Leather, 5 Thick Hide? Journeyman blade too?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -691,7 +691,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Knife',
     `LogDescription` = 'Collect leather to exchange for an Artisan Skinning Knife',
-    `QuestDescription` = 'Friend, your journey continues. The Journeyman blade has guided you well, but I see it struggling on thicker hides - precious leather is lost with each cut. The Earth Mother teaches that better tools honor the sacrifice of the beasts. I have Artisan blades for you. Bring me 20 Thick Leather and 5 Thick Hide from the wilds, and we shall trade. Your yields will flow more freely.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide',
+    `QuestDescription` = 'Friend, your journey continues. The Journeyman blade has guided you well, but I see it struggling on thicker hides - precious leather is lost with each cut. The Earth Mother teaches that better tools honor the sacrifice of the beasts. I have Artisan blades for you. Bring me 20 Thick Leather and 5 Thick Hide from the wilds, give back the Journeyman blade, and we shall trade. Your yields will flow more freely.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide$B- Journeyman Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Thuwd in Thunder Bluff',
     `RewardItem1` = 57803,
     `RewardAmount1` = 1,
@@ -711,7 +711,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the leather, friend?';
+    `CompletionText` = 'Do you have the leather, friend? And the Journeyman blade for the trade?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -739,7 +739,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Knife',
     `LogDescription` = 'Collect leather to exchange for an Artisan Skinning Knife',
-    `QuestDescription` = 'Ah, still hacking away with that Journeyman knife? How... wasteful. I see it failing on thicker hides - you''re shredding valuable leather with each pathetic cut. I have Artisan blades available. Bring me 20 Thick Leather and 5 Thick Hide, and your... pitiful... yields will improve considerably.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide',
+    `QuestDescription` = 'Ah, still hacking away with that Journeyman knife? How... wasteful. I see it failing on thicker hides - you''re shredding valuable leather with each pathetic cut. I have Artisan blades available. Bring me 20 Thick Leather and 5 Thick Hide - and that Journeyman knife, I''ll be keeping it - and your... pitiful... yields will improve considerably.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide$B- Journeyman Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Killian Hagey in Undercity',
     `RewardItem1` = 57803,
     `RewardAmount1` = 1,
@@ -759,7 +759,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the leather I require?';
+    `CompletionText` = 'Do you have the leather I require? The Journeyman knife as well... I have plans for it.';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -787,7 +787,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Knife',
     `LogDescription` = 'Collect leather to exchange for an Artisan Skinning Knife',
-    `QuestDescription` = 'Still using Journeyman equipment on artisan-grade hides? How do you expect to preserve quality leather with such inferior tools? I see that dull blade wasting precious material. I have Artisan blades available. Bring me 20 Thick Leather and 5 Thick Hide - quality specimens, please - and we shall trade. Your skinning efficiency will improve markedly.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide',
+    `QuestDescription` = 'Still using Journeyman equipment on artisan-grade hides? How do you expect to preserve quality leather with such inferior tools? I see that dull blade wasting precious material. I have Artisan blades available. Bring me 20 Thick Leather and 5 Thick Hide - quality specimens, please - along with that Journeyman blade, and we shall trade. Your skinning efficiency will improve markedly.$B$BRequired:$B- 20 Thick Leather$B- 5 Thick Hide$B- Journeyman Skinning Knife',
     `QuestCompletionLog` = 'Return the leather to Tyn in Silvermoon City',
     `RewardItem1` = 57803,
     `RewardAmount1` = 1,
@@ -807,7 +807,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you acquired the leather I requested?';
+    `CompletionText` = 'Have you acquired the leather I requested? And the Journeyman blade - do hand it over.';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
