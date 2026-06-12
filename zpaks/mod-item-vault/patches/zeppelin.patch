@@ -1,7 +1,7 @@
 From 46989ba025c57d461d50368518ea1c5443d6b196 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 11 Apr 2026 12:21:54 +0000
-Subject: [PATCH 1/3] Apply zeppelin F 020 Add Weak Flux to allowed items
+Subject: [PATCH 1/4] Apply zeppelin F 020 Add Weak Flux to allowed items
 
 ---
  client/src/1-configuration.lua                |  1 +
@@ -167,7 +167,7 @@ index 4d61602..ab92b41 100644
 From 8389d5c8d6f825cdafcc7823ef7ab1171da402e0 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 17 May 2026 12:12:24 +0000
-Subject: [PATCH 2/3] fix: I-181 - withdraw fails when worn bags have free
+Subject: [PATCH 2/4] fix: I-181 - withdraw fails when worn bags have free
  slots
 
 getFreeBagSlots used bag:GetBagSlot() (returns 255 for worn bags) and
@@ -218,7 +218,7 @@ index d631c19..e45711a 100644
 From 0c2c8768354bfe031ae08f4cbc039b042229598f Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sun, 7 Jun 2026 12:52:26 +0000
-Subject: [PATCH 3/3] feat: F-020 - add Argent Dawn turn-in items to vault
+Subject: [PATCH 3/4] feat: F-020 - add Argent Dawn turn-in items to vault
  whitelist (22526-22529)
 
 ---
@@ -237,6 +237,32 @@ index ab92b41..36f9089 100644
 +	[22527] = "Core of Elements",
 +	[22528] = "Dark Iron Scraps",
 +	[22529] = "Savage Frond",
+ }
+-- 
+2.34.1
+
+
+From 5fdc9c5628dd24c59968738d950ddadfff7ceb79 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 12 Jun 2026 01:28:35 +0000
+Subject: [PATCH 4/4] feat: F-020 - add Sporeggar turn-in items to vault
+ whitelist (24245, 24291, 24449)
+
+---
+ server/src/storage/definition/enum/allowed-item-enum.lua | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
+index 36f9089..b959a99 100644
+--- a/server/src/storage/definition/enum/allowed-item-enum.lua
++++ b/server/src/storage/definition/enum/allowed-item-enum.lua
+@@ -723,4 +723,7 @@ return {
+ 	[22527] = "Core of Elements",
+ 	[22528] = "Dark Iron Scraps",
+ 	[22529] = "Savage Frond",
++	[24245] = "Glowcap",
++	[24291] = "Bog Lord Tendril",
++	[24449] = "Fertile Spores",
  }
 -- 
 2.34.1
