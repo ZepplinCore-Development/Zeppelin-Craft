@@ -1,7 +1,7 @@
-From fdebd84b9f50ec716c0fa6375e7fd07f7d9e1ac9 Mon Sep 17 00:00:00 2001
+From f59f08475aae2e349d8d1c0807546ff76bacd5d1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 22 Apr 2026 06:23:57 +0000
-Subject: [PATCH 1/2] fix: Increment unlootedCount for AoE-merged loot items
+Subject: [PATCH 1/3] fix: Increment unlootedCount for AoE-merged loot items
  (I-137)
 
 Items merged from nearby corpses into the main creature's loot were not
@@ -34,10 +34,10 @@ index b72b515..d99111f 100644
 2.34.1
 
 
-From c4211db9e84f5d4499fc340c8e30ce2ad33d3f6c Mon Sep 17 00:00:00 2001
+From e441fe1495bcd8f4a9ed6c2f8f2e2e017188562a Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 22 Apr 2026 06:24:02 +0000
-Subject: [PATCH 2/2] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
+Subject: [PATCH 2/3] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
  (I-143)
 
 MySQL 8.4 defaults connection collation to utf8mb4_0900_ai_ci, which
@@ -59,6 +59,390 @@ index eb99b3a..f237d5f 100644
  SET @MODULE_STRING := 'mod-aoe-loot';
  
  -- module string
+-- 
+2.34.1
+
+
+From 063f71b8c277dd613b36dd577fe955806a3bbf6d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 12 Jun 2026 11:32:02 +0000
+Subject: [PATCH 3/3] fix: Group-safe partial merge + solo-group auto-greed
+ (I-137)
+
+- Merge only plain items (not FFA/conditional/quest-flagged) - merged
+  copies of per-player-list items were invisible and unlootable in the
+  merged window, leaving unlootedCount stuck above zero so the main
+  corpse never became skinnable (I-137 recurrence)
+- Mark merged items looted on the source corpse instead of clear(), so
+  leftover FFA/conditional/quest items stay individually lootable
+- Never touch corpses that were already opened (loot windows / rolls
+  reference their slots) or that are round-robin assigned to another
+  group member
+- In roll-based loot methods, leave over-threshold items for the group
+  roll; exception: sole-member groups with AOELoot.AutoGreedSolo, where
+  merged items enter the merged window's roll and resolve instantly
+- Auto-greed loot rolls when the player is the only group member
+  (AOELoot.AutoGreedSolo, default on)
+- Quest items go to bags with stock StoreLootItem bookkeeping instead
+  of being destroyed with the source loot
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ conf/mod_aoe_loot.conf.dist |  11 ++
+ src/aoe_loot.cpp            | 242 +++++++++++++++++++++++++-----------
+ src/aoe_loot.h              |   4 +-
+ 3 files changed, 183 insertions(+), 74 deletions(-)
+
+diff --git a/conf/mod_aoe_loot.conf.dist b/conf/mod_aoe_loot.conf.dist
+index 6885992..90f9922 100644
+--- a/conf/mod_aoe_loot.conf.dist
++++ b/conf/mod_aoe_loot.conf.dist
+@@ -51,3 +51,14 @@ AOELoot.Range = 55.0
+ #
+ 
+ AOELoot.Group = 1
++
++#
++#    AOELoot.AutoGreedSolo
++#        Description: When the player is the only member of their group, automatically
++#                     greed group loot rolls so items go straight to their bags, and
++#                     allow area loot to merge roll-eligible (over threshold) items.
++#        Default:     1 - (Enabled)
++#                     0 - (Disabled)
++#
++
++AOELoot.AutoGreedSolo = 1
+diff --git a/src/aoe_loot.cpp b/src/aoe_loot.cpp
+index d99111f..d75115e 100644
+--- a/src/aoe_loot.cpp
++++ b/src/aoe_loot.cpp
+@@ -16,7 +16,9 @@
+  */
+ 
+ #include "aoe_loot.h"
++#include "ObjectAccessor.h"
+ #include "ObjectMgr.h"
++#include "Opcodes.h"
+ #include <algorithm>
+ #include <limits>
+ 
+@@ -110,6 +112,29 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+     // Get main loot
+     Loot* mainLoot = &mainCreature->loot;
+ 
++    Group* group = player->GetGroup();
++    LootMethod lootMethod = group ? group->GetLootMethod() : FREE_FOR_ALL;
++    bool soloGroup = group && group->GetMembersCount() == 1;
++    bool autoGreedSolo = soloGroup && sConfigMgr->GetOption<bool>("AOELoot.AutoGreedSolo", true);
++
++    // Corpses are assigned to members (round-robin) in every method except
++    // free-for-all; never merge loot that belongs to someone else
++    bool respectAssignment = group && lootMethod != FREE_FOR_ALL;
++
++    // Methods where over-threshold items are reserved (group rolls / master loot)
++    bool thresholdMethod = group && (lootMethod == GROUP_LOOT || lootMethod == NEED_BEFORE_GREED || lootMethod == MASTER_LOOT);
++
++    // Over-threshold items may only be merged while the main corpse is unopened
++    // (its rolls start on first open and will then cover the merged items) and the
++    // sole group member resolves those rolls instantly via auto-greed
++    bool mergeRollItems = autoGreedSolo && mainLoot->loot_type == LOOT_NONE;
++
++    if (respectAssignment && mainLoot->roundRobinPlayer && mainLoot->roundRobinPlayer != player->GetGUID())
++    {
++        player->SendLoot(targetGuid, LOOT_CORPSE);
++        return false;
++    }
++
+     // Limit number of corpses to process
+     size_t const maxCorpses = 10; // set to 10 to improve stability
+     size_t processedCorpses = 0;
+@@ -119,7 +144,6 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+ 
+     // Collect all items to merge (don't modify main loot directly)
+     std::vector<LootItem> itemsToAdd;
+-    std::vector<LootItem> questItemsToAdd;
+ 
+     for (Creature* creature : nearbyCorpses)
+     {
+@@ -135,89 +159,125 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+         if (loot->isLooted())
+             continue;
+ 
+-        // Collect gold
+-        if (loot->gold > 0)
+-        {
+-            // Prevent overflow
+-            if (totalGold < (std::numeric_limits<uint32>::max() - loot->gold))
+-                totalGold += loot->gold;
+-        }
++        // Never touch a corpse that has been opened: loot windows and group rolls
++        // may already reference its loot slots
++        if (loot->loot_type != LOOT_NONE)
++            continue;
+ 
+-        // Collect regular items
+-        for (size_t i = 0; i < loot->items.size(); ++i)
+-        {
+-            // Check if there's still space
+-            if ((mainLoot->items.size() + itemsToAdd.size() + mainLoot->quest_items.size() + questItemsToAdd.size()) >= MAX_LOOT_ITEMS)
+-                break;
++        // Skip corpses assigned to another group member
++        if (respectAssignment && loot->roundRobinPlayer && loot->roundRobinPlayer != player->GetGUID())
++            continue;
+ 
+-            itemsToAdd.push_back(loot->items[i]);
+-        }
++        ++processedCorpses;
+ 
+-        // Collect quest items (only for active quests, limited to needed count)
+-        for (size_t i = 0; i < loot->quest_items.size(); ++i)
++        // Quest items the player is eligible for go straight to their bags with the
++        // same bookkeeping as looting them off the corpse; the per-player quest
++        // lists stay on the source corpse for other members
++        QuestItemMap const& questItemMap = loot->GetPlayerQuestItems();
++        QuestItemMap::const_iterator qmapItr = questItemMap.find(player->GetGUID());
++        if (qmapItr != questItemMap.end())
+         {
+-            // Check if there's still space
+-            if ((mainLoot->items.size() + itemsToAdd.size() + mainLoot->quest_items.size() + questItemsToAdd.size()) >= MAX_LOOT_ITEMS)
+-                break;
+-
+-            LootItem const& questItem = loot->quest_items[i];
++            for (QuestItem& qitem : *qmapItr->second)
++            {
++                if (qitem.is_looted)
++                    continue;
+ 
+-            // Skip items the player doesn't need for any active quest
+-            if (!player->HasQuestForItem(questItem.itemid))
+-                continue;
++                LootItem& item = loot->quest_items[qitem.index];
++                if (item.is_looted)
++                    continue;
+ 
+-            // Calculate how many the player still needs across all active quests
+-            uint32 maxNeeded = 0;
+-            for (uint8 slot = 0; slot < MAX_QUEST_LOG_SIZE; ++slot)
+-            {
+-                uint32 questId = player->GetQuestSlotQuestId(slot);
+-                if (!questId)
++                // follow_loot_rules quest items are distributed by group roll
++                if (group && item.follow_loot_rules)
+                     continue;
+ 
+-                Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+-                if (!quest)
++                if (!item.AllowedForPlayer(player, loot->sourceWorldObjectGUID))
+                     continue;
+ 
+-                for (uint8 j = 0; j < QUEST_ITEM_OBJECTIVES_COUNT; ++j)
+-                {
+-                    if (quest->RequiredItemId[j] == questItem.itemid && quest->RequiredItemCount[j] > maxNeeded)
+-                        maxNeeded = quest->RequiredItemCount[j];
+-                }
++                if (!player->AddItem(item.itemid, item.count))
++                    continue; // bags full - leave it on the corpse
++
++                qitem.is_looted = true;
++                if (!item.freeforall)
++                    item.is_looted = true;
++                if (loot->unlootedCount > 0)
++                    --loot->unlootedCount;
+             }
++        }
++
++        // Classify regular items. FFA and conditional items are tracked in
++        // per-player lists built when the corpse loot was generated - merged copies
++        // would be invisible and unlootable in the main window (I-137), so they
++        // always stay behind.
++        std::vector<size_t> plainItems;
++        std::vector<size_t> rollItems;
+ 
+-            if (maxNeeded == 0)
++        for (size_t i = 0; i < loot->items.size(); ++i)
++        {
++            LootItem& item = loot->items[i];
++
++            if (item.is_looted || item.freeforall || !item.conditions.empty() ||
++                item.needs_quest || item.is_blocked || item.rollWinnerGUID ||
++                !item.AllowedForPlayer(player, loot->sourceWorldObjectGUID))
+                 continue;
+ 
+-            // Count how many the player already has, plus pending adds
+-            // and quest items already in the main loot window
+-            uint32 ownedCount = player->GetItemCount(questItem.itemid, true);
+-            for (auto const& pending : questItemsToAdd)
+-            {
+-                if (pending.itemid == questItem.itemid)
+-                    ownedCount += pending.count;
+-            }
+-            for (auto const& mainQuestItem : mainLoot->quest_items)
++            if (thresholdMethod && !item.is_underthreshold)
+             {
+-                if (mainQuestItem.itemid == questItem.itemid)
+-                    ownedCount += mainQuestItem.count;
++                if (!mergeRollItems)
++                    continue;
++
++                // An auto-passed roll (unique item at max count) would strand the
++                // item blocked forever - leave it on the corpse
++                ItemTemplate const* proto = sObjectMgr->GetItemTemplate(item.itemid);
++                if (!proto || (proto->MaxCount > 0 && static_cast<int32>(player->GetItemCount(item.itemid)) >= proto->MaxCount))
++                    continue;
++
++                rollItems.push_back(i);
+             }
++            else
++                plainItems.push_back(i);
++        }
+ 
+-            if (ownedCount >= maxNeeded)
+-                continue;
++        // Merge plain items while the merged window has space
++        for (size_t i : plainItems)
++        {
++            if ((mainLoot->items.size() + itemsToAdd.size() + mainLoot->quest_items.size()) >= MAX_LOOT_ITEMS)
++                break;
+ 
+-            uint32 stillNeeded = maxNeeded - ownedCount;
+-            LootItem cappedItem = questItem;
+-            cappedItem.count = std::min(static_cast<uint32>(questItem.count), stillNeeded);
++            LootItem& item = loot->items[i];
++            itemsToAdd.push_back(item);
++            item.is_looted = true;
++            if (loot->unlootedCount > 0)
++                --loot->unlootedCount;
++        }
+ 
+-            questItemsToAdd.push_back(cappedItem);
++        // Collect gold
++        if (loot->gold > 0 && totalGold < (std::numeric_limits<uint32>::max() - loot->gold))
++        {
++            totalGold += loot->gold;
++            loot->gold = 0;
+         }
+ 
+-        // Clear source loot (but don't modify vector directly)
+-        loot->clear();
+-        creature->AllLootRemovedFromCorpse();
+-        creature->RemoveDynamicFlag(UNIT_DYNFLAG_LOOTABLE);
++        // Over-threshold items move all-or-nothing and only if the corpse ends up
++        // fully cleared; otherwise a later open of this corpse would start rolls
++        // for items that were already merged away (double award)
++        if (!rollItems.empty() && loot->gold == 0 && loot->unlootedCount == rollItems.size() &&
++            (mainLoot->items.size() + itemsToAdd.size() + mainLoot->quest_items.size() + rollItems.size()) <= MAX_LOOT_ITEMS)
++        {
++            for (size_t i : rollItems)
++            {
++                LootItem& item = loot->items[i];
++                itemsToAdd.push_back(item);
++                item.is_looted = true;
++                --loot->unlootedCount;
++            }
++        }
+ 
+-        processedCorpses++;
++        // Fully cleared corpses close out normally (decay timer, skinnable flag)
++        if (loot->isLooted())
++        {
++            creature->AllLootRemovedFromCorpse();
++            creature->RemoveDynamicFlag(UNIT_DYNFLAG_LOOTABLE);
++        }
+     }
+ 
+     // Now safely add collected items to main loot
+@@ -230,26 +290,62 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+         if (mainLoot->items.size() < MAX_LOOT_ITEMS)
+         {
+             mainLoot->items.push_back(item);
+-            if (!item.is_looted)
+-                ++mainLoot->unlootedCount;
++            // Merged items are exactly the set Loot::AddItem counts: plain,
++            // visible, unlooted (FFA/conditional/quest items never get here)
++            ++mainLoot->unlootedCount;
+         }
+     }
+ 
+-    // Add quest items directly to player inventory
+-    for (const auto& item : questItemsToAdd)
+-    {
+-        if (!player->HasQuestForItem(item.itemid))
+-            continue;
+-
+-        player->AddItem(item.itemid, item.count);
+-    }
+-
+     // Send merged loot window
+     player->SendLoot(targetGuid, LOOT_CORPSE);
+ 
+     return false;
+ }
+ 
++bool AOELootServer::CanPacketSend(WorldSession* session, WorldPacket const& packet)
++{
++    // Auto-greed group loot rolls when the player is the only member of their group
++    if (packet.GetOpcode() != SMSG_LOOT_START_ROLL)
++        return true;
++
++    if (!session)
++        return true;
++
++    Player* player = session->GetPlayer();
++    if (!player)
++        return true;
++
++    if (!sConfigMgr->GetOption<bool>("AOELoot.Enable", true) || !sConfigMgr->GetOption<bool>("AOELoot.AutoGreedSolo", true))
++        return true;
++
++    Group* group = player->GetGroup();
++    if (!group || group->GetMembersCount() > 1)
++        return true;
++
++    WorldPacket packetCopy(packet);
++    ObjectGuid rollGuid;
++    packetCopy >> rollGuid;
++
++    // The roll is registered after this packet is sent - cast the greed vote on the
++    // next update tick
++    ObjectGuid playerGuid = player->GetGUID();
++    ObjectGuid groupGuid = group->GetGUID();
++    player->m_Events.AddEventAtOffset([playerGuid, groupGuid, rollGuid]()
++    {
++        Player* rollPlayer = ObjectAccessor::FindPlayer(playerGuid);
++        if (!rollPlayer)
++            return;
++
++        Group* rollGroup = rollPlayer->GetGroup();
++        if (!rollGroup || rollGroup->GetGUID() != groupGuid || rollGroup->GetMembersCount() > 1)
++            return;
++
++        rollGroup->CountRollVote(playerGuid, rollGuid, ROLL_GREED);
++    }, 1ms);
++
++    return true;
++}
++
+ ChatCommandTable AoeLootCommandScript::GetCommands() const
+ {
+     static ChatCommandTable aoeLootSubCommandTable =
+diff --git a/src/aoe_loot.h b/src/aoe_loot.h
+index 2243a58..540481d 100644
+--- a/src/aoe_loot.h
++++ b/src/aoe_loot.h
+@@ -61,10 +61,12 @@ public:
+ class AOELootServer : public ServerScript
+ {
+ public:
+-    AOELootServer() : ServerScript("AOELootServer", { SERVERHOOK_CAN_PACKET_RECEIVE }) {}
++    AOELootServer() : ServerScript("AOELootServer", { SERVERHOOK_CAN_PACKET_RECEIVE, SERVERHOOK_CAN_PACKET_SEND }) {}
+ 
+     bool CanPacketReceive(WorldSession* session, WorldPacket const& packet) override;
+ 
++    bool CanPacketSend(WorldSession* session, WorldPacket const& packet) override;
++
+ private:
+     // Helper function - Check if loot is valid
+     bool IsLootValid(Loot* loot) const;
 -- 
 2.34.1
 
