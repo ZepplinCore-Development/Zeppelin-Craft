@@ -51,25 +51,6 @@ internal.appendData({
 		icon = "Interface\\Icons\\AO_Hinges_DOMINANT_MINT",
 		categories = { 755 },
 	},
-	-- F-001: Eng Screwdrivers (Reagent > Tool)
-	{
-		id = 57213,
-		name = "Bronze Screwdriver",
-		icon = "Interface\\Icons\\inv_misc_screwdriver_01_BASIC_RED",
-		categories = { 202, 755 },
-	},
-	{
-		id = 57214,
-		name = "Fel Iron Screwdriver",
-		icon = "Interface\\Icons\\inv_misc_screwdriver_01_BASIC_GREEN",
-		categories = { 202, 755 },
-	},
-	{
-		id = 57215,
-		name = "Saronite Screwdriver",
-		icon = "Interface\\Icons\\inv_misc_screwdriver_01_BASIC_MINT",
-		categories = { 202, 755 },
-	},
 	-- F-001: Eng Drills (Reagent > Tool)
 	{
 		id = 57216,
