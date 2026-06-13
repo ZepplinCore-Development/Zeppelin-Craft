@@ -1,4 +1,4 @@
-From dd1c8e0a7cd2cbf2757c4c9a13127155ccd64765 Mon Sep 17 00:00:00 2001
+From 281d52318eb4e30e59381f18840d8610bb48b99d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 7 Mar 2026 12:16:22 +0000
 Subject: [PATCH] feat: Add BidOnly mode for buyer bot (F-156)
@@ -11,12 +11,38 @@ New config: AuctionHouseBot.Buyer.BidOnly (default: false)
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/AuctionHouseBot.cpp | 5 ++++-
- src/AuctionHouseBot.h   | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ conf/mod_ahbot.conf.dist | 7 +++++++
+ src/AuctionHouseBot.cpp  | 5 ++++-
+ src/AuctionHouseBot.h    | 1 +
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
+diff --git a/conf/mod_ahbot.conf.dist b/conf/mod_ahbot.conf.dist
+index 4ae6f9a..2486d90 100644
+--- a/conf/mod_ahbot.conf.dist
++++ b/conf/mod_ahbot.conf.dist
+@@ -290,6 +290,12 @@ AuctionHouseBot.Neutral.MaxItems = 15000
+ #        bid amount.
+ #    Default: false
+ #
++#    AuctionHouseBot.Buyer.BidOnly
++#        When enabled, the buyer bot will only place bids on player auctions
++#        instead of buying them out instantly. Players must wait for the
++#        auction timer to expire to receive payment.
++#    Default: false
++#
+ #    AuctionHouseBot.Buyer.PreventOverpayingForVendorItems
+ #        When enabled, the buyer bot will avoid purchasing auction house items
+ #        that are being sold for more than the vendor sell price. This prevents
+@@ -309,6 +315,7 @@ AuctionHouseBot.Buyer.Enabled = false
+ AuctionHouseBot.Buyer.BuyCandidatesPerBuyCycle = 1
+ AuctionHouseBot.Buyer.AcceptablePriceModifier = 1
+ AuctionHouseBot.Buyer.AlwaysBidMaxCalculatedPrice = false
++AuctionHouseBot.Buyer.BidOnly = 1
+ AuctionHouseBot.Buyer.PreventOverpayingForVendorItems = true
+ AuctionHouseBot.Buyer.BidAgainstPlayers = false
+ 
 diff --git a/src/AuctionHouseBot.cpp b/src/AuctionHouseBot.cpp
-index a8f4a45..f5cb3ec 100644
+index 3afe09c..8fcf9cf 100644
 --- a/src/AuctionHouseBot.cpp
 +++ b/src/AuctionHouseBot.cpp
 @@ -64,6 +64,7 @@ AuctionHouseBot::AuctionHouseBot() :
@@ -27,7 +53,7 @@ index a8f4a45..f5cb3ec 100644
      BuyingBotWillBidAgainstPlayers(false),
      AHCharactersGUIDsForQuery(""),
      ItemsPerCycle(75),
-@@ -1645,7 +1646,7 @@ void AuctionHouseBot::AddNewAuctionBuyerBotBid(std::vector<Player*> AHBPlayers,
+@@ -1703,7 +1704,7 @@ void AuctionHouseBot::AddNewAuctionBuyerBotBid(std::vector<Player*> AHBPlayers,
          bool doBid = false;
          uint64 calcBidAmount = 0;
  
@@ -36,7 +62,7 @@ index a8f4a45..f5cb3ec 100644
              doBuyout = true;
          else
          {
-@@ -1713,6 +1714,7 @@ void AuctionHouseBot::AddNewAuctionBuyerBotBid(std::vector<Player*> AHBPlayers,
+@@ -1771,6 +1772,7 @@ void AuctionHouseBot::AddNewAuctionBuyerBotBid(std::vector<Player*> AHBPlayers,
              LOG_INFO("module", "AHBuyer: Calculated Bid Amount (0 means too expensive to bid): {}", calcBidAmount);
              LOG_INFO("module", "AHBuyer: Decided to Buyout?: {}", doBuyout);
              LOG_INFO("module", "AHBuyer: Decided to Bid?: {}", doBid);
@@ -44,7 +70,7 @@ index a8f4a45..f5cb3ec 100644
              LOG_INFO("module", "AHBuyer: Stopped from buying due to 'PreventOverpayingForVendorItems'?: {}", preventedOverpayingForVendorItem);
              LOG_INFO("module", "-------------------------------------------------");
          }
-@@ -1924,6 +1926,7 @@ void AuctionHouseBot::InitializeConfiguration()
+@@ -1982,6 +1984,7 @@ void AuctionHouseBot::InitializeConfiguration()
      SetBuyingBotBuyCandidatesPerBuyCycle();
      BuyingBotAcceptablePriceModifier = sConfigMgr->GetOption<float>("AuctionHouseBot.Buyer.AcceptablePriceModifier", 1);
      BuyingBotAlwaysBidMaxCalculatedPrice = sConfigMgr->GetOption<bool>("AuctionHouseBot.Buyer.AlwaysBidMaxCalculatedPrice", false);
@@ -53,7 +79,7 @@ index a8f4a45..f5cb3ec 100644
      if (PreventOverpayingForVendorItems)
          PopulateVendorItemsPrices();
 diff --git a/src/AuctionHouseBot.h b/src/AuctionHouseBot.h
-index 91729b2..70f7df4 100644
+index b705322..1c22475 100644
 --- a/src/AuctionHouseBot.h
 +++ b/src/AuctionHouseBot.h
 @@ -152,6 +152,7 @@ private:
