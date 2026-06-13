@@ -6,6 +6,9 @@ Commands:
     zep world generate mining              Generate mining pick bonus yield SQL
     zep world generate skinning            Generate skinning knife bonus yield SQL
     zep world generate creature-gathering  Generate creature gathering bonus yield SQL
+    zep world generate milling             Generate writing table bonus milling yield SQL
+    zep world generate prospecting         Generate jeweler's kit bonus prospecting yield SQL
+    zep world generate disenchant          Generate runed rod bonus disenchant yield SQL
     zep world generate all                 Generate all profession tool loot SQL
 """
 
@@ -81,6 +84,51 @@ def gen_creature_gathering(ctx, output):
     click.echo(click.style(f'  ✓ {result}', fg='green'))
 
 
+@generate.command('milling')
+@click.option('--output', '-o', type=click.Path(), default=None,
+              help='Override output SQL file path.')
+@click.pass_context
+def gen_milling(ctx, output):
+    """Generate writing table bonus milling yield SQL."""
+    from lib.generate.milling import generate as run
+
+    craft_root = ctx.obj['craft_root']
+    output_path = Path(output) if output else None
+    click.echo('Generating milling (writing table) loot...')
+    result = run(craft_root, output_path)
+    click.echo(click.style(f'  ✓ {result}', fg='green'))
+
+
+@generate.command('prospecting')
+@click.option('--output', '-o', type=click.Path(), default=None,
+              help='Override output SQL file path.')
+@click.pass_context
+def gen_prospecting(ctx, output):
+    """Generate jeweler's kit bonus prospecting yield SQL."""
+    from lib.generate.prospecting import generate as run
+
+    craft_root = ctx.obj['craft_root']
+    output_path = Path(output) if output else None
+    click.echo('Generating prospecting (jeweler\'s kit) loot...')
+    result = run(craft_root, output_path)
+    click.echo(click.style(f'  ✓ {result}', fg='green'))
+
+
+@generate.command('disenchant')
+@click.option('--output', '-o', type=click.Path(), default=None,
+              help='Override output SQL file path.')
+@click.pass_context
+def gen_disenchant(ctx, output):
+    """Generate runed rod bonus disenchant yield SQL."""
+    from lib.generate.disenchant import generate as run
+
+    craft_root = ctx.obj['craft_root']
+    output_path = Path(output) if output else None
+    click.echo('Generating disenchant (runed rod) loot...')
+    result = run(craft_root, output_path)
+    click.echo(click.style(f'  ✓ {result}', fg='green'))
+
+
 @generate.command('all')
 @click.pass_context
 def gen_all(ctx):
@@ -92,6 +140,9 @@ def gen_all(ctx):
         ('mining (mining pick)', 'lib.generate.mining'),
         ('skinning (skinning knife)', 'lib.generate.skinning'),
         ('creature gathering', 'lib.generate.creature_gathering'),
+        ('milling (writing table)', 'lib.generate.milling'),
+        ("prospecting (jeweler's kit)", 'lib.generate.prospecting'),
+        ('disenchant (runed rod)', 'lib.generate.disenchant'),
     ]
 
     for label, module_path in generators:
