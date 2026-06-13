@@ -3417,3 +3417,13 @@ SET `totem_1` = 0,
     `totem_category_1` = 222
 WHERE `totem_1` = 20824;
 
+-- =====================================================
+-- F-001: Inscription Research benefits from Writing Table cast-time reduction
+-- Tag Minor Inscription Research (61288) into SpellFamilyName 14 + family-flag
+-- bit 11 (1024) so the Writing Table SPELLMOD_CASTING_TIME modifier
+-- (91248-91251) reduces its 3s cast, the same as other inscription recipes.
+-- Northrend Research (61177) left untagged: still cooldown-gated, so a
+-- cast-time cut is moot.
+-- =====================================================
+UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1024 WHERE `id` = 61288;
+
