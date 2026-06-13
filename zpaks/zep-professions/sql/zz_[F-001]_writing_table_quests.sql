@@ -189,10 +189,11 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43120, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57486, `RequiredItemCount4` = 1, -- Journeyman Writing Table (trade-in)
     `RewardFactionID1` = 72, `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Scribe''s Tools',
     `LogDescription` = 'Bring advanced vellums and ink to Catarina Stanford in Stormwind.',
-    `QuestDescription` = 'Your commissions have grown finer - your table should match. Artisan glyphwork wants a smoother surface and a truer edge than journeyman gear provides. Fill another order of vellums and ink for me, and the Artisan table is yours.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink',
+    `QuestDescription` = 'Your commissions have grown finer - your table should match. Artisan glyphwork wants a smoother surface and a truer edge than journeyman gear provides. Fill another order of vellums and ink for me, and the Artisan table is yours.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink$B- Your Journeyman Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Catarina Stanford in Stormwind.',
     `RewardItem1` = 57487, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90144, `RequiredSkillID` = 773, `RequiredSkillPoints` = 225, `ExclusiveGroup` = 90144;
@@ -208,10 +209,11 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43120, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57486, `RequiredItemCount4` = 1, -- Journeyman Writing Table (trade-in)
     `RewardFactionID1` = 47, `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Scribe''s Tools',
     `LogDescription` = 'Bring advanced vellums and ink to Elise Brightletter in Ironforge.',
-    `QuestDescription` = 'Back already? Good - yer linework''s improved, but that journeyman board''s holdin'' ye back. Fill another order fer me, vellums and Celestial Ink, and I''ll fit ye with the Artisan table: heavier stone, truer edge.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink',
+    `QuestDescription` = 'Back already? Good - yer linework''s improved, but that journeyman board''s holdin'' ye back. Fill another order fer me, vellums and Celestial Ink, and I''ll fit ye with the Artisan table: heavier stone, truer edge.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink$B- Your Journeyman Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Elise Brightletter in Ironforge.',
     `RewardItem1` = 57487, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90145, `RequiredSkillID` = 773, `RequiredSkillPoints` = 225, `ExclusiveGroup` = 90144;
@@ -227,10 +229,11 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43120, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57486, `RequiredItemCount4` = 1, -- Journeyman Writing Table (trade-in)
     `RewardFactionID1` = 69, `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Scribe''s Tools',
     `LogDescription` = 'Bring advanced vellums and ink to Feyden Darkin in Darnassus.',
-    `QuestDescription` = 'Your hand has grown surer, yet the wood beneath it tires. Craft is a partnership between scribe and surface. Bring another offering of vellum and ink, and the Artisan table will keep pace with your skill.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink',
+    `QuestDescription` = 'Your hand has grown surer, yet the wood beneath it tires. Craft is a partnership between scribe and surface. Bring another offering of vellum and ink, and the Artisan table will keep pace with your skill.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink$B- Your Journeyman Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Feyden Darkin in Darnassus.',
     `RewardItem1` = 57487, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90146, `RequiredSkillID` = 773, `RequiredSkillPoints` = 225, `ExclusiveGroup` = 90144;
@@ -246,10 +249,11 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43120, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57486, `RequiredItemCount4` = 1, -- Journeyman Writing Table (trade-in)
     `RewardFactionID1` = 930, `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Scribe''s Tools',
     `LogDescription` = 'Bring advanced vellums and ink to Thoth in the Exodar.',
-    `QuestDescription` = 'Your progress is measurable and pleasing. The journeyman surface, however, now limits your stroke precision. Provide the requested vellums and ink, and I will furnish the Artisan model. Improvement should never wait on equipment.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink',
+    `QuestDescription` = 'Your progress is measurable and pleasing. The journeyman surface, however, now limits your stroke precision. Provide the requested vellums and ink, and I will furnish the Artisan model. Improvement should never wait on equipment.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink$B- Your Journeyman Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Thoth in the Exodar.',
     `RewardItem1` = 57487, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90147, `RequiredSkillID` = 773, `RequiredSkillPoints` = 225, `ExclusiveGroup` = 90144;
@@ -265,10 +269,11 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43120, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57486, `RequiredItemCount4` = 1, -- Journeyman Writing Table (trade-in)
     `RewardFactionID1` = 76, `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Scribe''s Tools',
     `LogDescription` = 'Bring advanced vellums and ink to Jo''mah in Orgrimmar.',
-    `QuestDescription` = 'Your glyphs are stronger. Your table is not. Artisan work needs a surface that does not flinch. Bring another order of vellums and ink, and take the Artisan table. Keep writing fast.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink',
+    `QuestDescription` = 'Your glyphs are stronger. Your table is not. Artisan work needs a surface that does not flinch. Bring another order of vellums and ink, and take the Artisan table. Keep writing fast.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink$B- Your Journeyman Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Jo''mah in Orgrimmar.',
     `RewardItem1` = 57487, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90148, `RequiredSkillID` = 773, `RequiredSkillPoints` = 225, `ExclusiveGroup` = 90144;
@@ -284,10 +289,11 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43120, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57486, `RequiredItemCount4` = 1, -- Journeyman Writing Table (trade-in)
     `RewardFactionID1` = 81, `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Scribe''s Tools',
     `LogDescription` = 'Bring advanced vellums and ink to Poshken Hardbinder in Thunder Bluff.',
-    `QuestDescription` = 'Your words carry more weight now, and a heavier story needs firmer ground beneath it. Bring vellums and ink once more for the elders'' records, and the Artisan table will bear your craft well.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink',
+    `QuestDescription` = 'Your words carry more weight now, and a heavier story needs firmer ground beneath it. Bring vellums and ink once more for the elders'' records, and the Artisan table will bear your craft well.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink$B- Your Journeyman Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Poshken Hardbinder in Thunder Bluff.',
     `RewardItem1` = 57487, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90149, `RequiredSkillID` = 773, `RequiredSkillPoints` = 225, `ExclusiveGroup` = 90144;
@@ -303,10 +309,11 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43120, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57486, `RequiredItemCount4` = 1, -- Journeyman Writing Table (trade-in)
     `RewardFactionID1` = 911, `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Scribe''s Tools',
     `LogDescription` = 'Bring advanced vellums and ink to Zantasia in Silvermoon City.',
-    `QuestDescription` = 'Hm. You improve. Unexpected. But artisan calligraphy on journeyman furniture? Gauche. Bring me another order - and do mind the ink quality - and I shall release the Artisan table to you.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink',
+    `QuestDescription` = 'Hm. You improve. Unexpected. But artisan calligraphy on journeyman furniture? Gauche. Bring me another order - and do mind the ink quality - and I shall release the Artisan table to you.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink$B- Your Journeyman Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Zantasia in Silvermoon City.',
     `RewardItem1` = 57487, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90150, `RequiredSkillID` = 773, `RequiredSkillPoints` = 225, `ExclusiveGroup` = 90144;
@@ -322,10 +329,11 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43120, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57486, `RequiredItemCount4` = 1, -- Journeyman Writing Table (trade-in)
     `RewardFactionID1` = 68, `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Scribe''s Tools',
     `LogDescription` = 'Bring advanced vellums and ink to Margaux Parchley in Undercity.',
-    `QuestDescription` = 'Still writing? How... persistent. Your skill has outlived your table, which is more than most can say. Another delivery of vellums and ink, and the Artisan model is yours. The archives appreciate your... longevity.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink',
+    `QuestDescription` = 'Still writing? How... persistent. Your skill has outlived your table, which is more than most can say. Another delivery of vellums and ink, and the Artisan model is yours. The archives appreciate your... longevity.$B$BRequired:$B- 5 Weapon Vellum II$B- 5 Armor Vellum II$B- 10 Celestial Ink$B- Your Journeyman Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Margaux Parchley in Undercity.',
     `RewardItem1` = 57487, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90151, `RequiredSkillID` = 773, `RequiredSkillPoints` = 225, `ExclusiveGroup` = 90144;
@@ -347,9 +355,10 @@ INSERT INTO `quest_template` SET
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 43124, `RequiredItemCount1` = 10,
     `RequiredItemId2` = 43125, `RequiredItemCount2` = 10,
+    `RequiredItemId3` = 57487, `RequiredItemCount3` = 1, -- Artisan Writing Table (trade-in)
     `LogTitle` = 'Master Scribe''s Tools',
     `LogDescription` = 'Bring 10 Ethereal Inks and 10 Darkflame Inks to Michael Schwan at Honor Hold in Hellfire Peninsula.',
-    `QuestDescription` = 'Dispatches, requisitions, casualty lists - this keep runs on paper, and my table is older than the war. A scribe is only as fast as the surface under the vellum. Bring me Ethereal and Darkflame Inks from your own stores, and I''ll build you a Master Writing Table: level, true, and steady enough for fieldwork.$B$BRequired:$B- 10 Ethereal Ink$B- 10 Darkflame Ink',
+    `QuestDescription` = 'Dispatches, requisitions, casualty lists - this keep runs on paper, and my table is older than the war. A scribe is only as fast as the surface under the vellum. Bring me Ethereal and Darkflame Inks from your own stores, and I''ll build you a Master Writing Table: level, true, and steady enough for fieldwork.$B$BRequired:$B- 10 Ethereal Ink$B- 10 Darkflame Ink$B- Your Artisan Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Michael Schwan.',
     `RewardItem1` = 57488, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90152, `RequiredSkillID` = 773, `RequiredSkillPoints` = 300, `ExclusiveGroup` = 90152;
@@ -364,9 +373,10 @@ INSERT INTO `quest_template` SET
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 43124, `RequiredItemCount1` = 10,
     `RequiredItemId2` = 43125, `RequiredItemCount2` = 10,
+    `RequiredItemId3` = 57487, `RequiredItemCount3` = 1, -- Artisan Writing Table (trade-in)
     `LogTitle` = 'Master Scribe''s Tools',
     `LogDescription` = 'Bring 10 Ethereal Inks and 10 Darkflame Inks to Neferatti at Thrallmar in Hellfire Peninsula.',
-    `QuestDescription` = 'You scribe on THAT? A warped board and a prayer? No wonder your strokes wander. Precision, darling - a glyph is geometry, and geometry demands a true surface. Fetch me Ethereal and Darkflame Inks - the good ones, mind - and I shall fit you a Master Writing Table that puts every stroke exactly where you meant it.$B$BRequired:$B- 10 Ethereal Ink$B- 10 Darkflame Ink',
+    `QuestDescription` = 'You scribe on THAT? A warped board and a prayer? No wonder your strokes wander. Precision, darling - a glyph is geometry, and geometry demands a true surface. Fetch me Ethereal and Darkflame Inks - the good ones, mind - and I shall fit you a Master Writing Table that puts every stroke exactly where you meant it.$B$BRequired:$B- 10 Ethereal Ink$B- 10 Darkflame Ink$B- Your Artisan Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Neferatti.',
     `RewardItem1` = 57488, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90153, `RequiredSkillID` = 773, `RequiredSkillPoints` = 300, `ExclusiveGroup` = 90152;
@@ -388,9 +398,10 @@ INSERT INTO `quest_template` SET
     `RequiredItemId1` = 43146, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 43145, `RequiredItemCount2` = 5,
     `RequiredItemId3` = 43126, `RequiredItemCount3` = 10,
+    `RequiredItemId4` = 57488, `RequiredItemCount4` = 1, -- Master Writing Table (trade-in)
     `LogTitle` = 'Grand Master Scribe''s Tools',
     `LogDescription` = 'Bring 5 Weapon Vellum III, 5 Armor Vellum III and 10 Inks of the Sea to Professor Pallin in Dalaran.',
-    `QuestDescription` = 'A scribe''s hand is only half the craft - the other half is the table beneath it. Mine are built to Kirin Tor archive standard: rune-leveled, so ink never pools and vellum never slips. Bring me third-grade vellums and Ink of the Sea to stock the archive, and I''ll craft you a Grand Master Writing Table. Your glyphwork will thank you.$B$BRequired:$B- 5 Weapon Vellum III$B- 5 Armor Vellum III$B- 10 Ink of the Sea',
+    `QuestDescription` = 'A scribe''s hand is only half the craft - the other half is the table beneath it. Mine are built to Kirin Tor archive standard: rune-leveled, so ink never pools and vellum never slips. Bring me third-grade vellums and Ink of the Sea to stock the archive, and I''ll craft you a Grand Master Writing Table. Your glyphwork will thank you.$B$BRequired:$B- 5 Weapon Vellum III$B- 5 Armor Vellum III$B- 10 Ink of the Sea$B- Your Master Writing Table (traded in)',
     `QuestCompletionLog` = 'Return to Professor Pallin in Dalaran.',
     `RewardItem1` = 57489, `RewardAmount1` = 1, `VerifiedBuild` = 0;
 INSERT INTO `quest_template_addon` SET `ID` = 90154, `RequiredSkillID` = 773, `RequiredSkillPoints` = 375, `ExclusiveGroup` = 90154;
