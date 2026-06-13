@@ -47,10 +47,15 @@ DELETE FROM `spell_group` WHERE `id` = 1085 AND `spell_id` = -1070;  -- was Spir
 DELETE FROM `spell_group` WHERE `id` = 1087;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1087;
 
--- Re-link new group 2031 into class-buff parent groups (exclusive-highest vs class buffs)
-INSERT IGNORE INTO `spell_group` VALUES (1083, -2031);  -- Single Intellect Buffs
-INSERT IGNORE INTO `spell_group` VALUES (1084, -2031);  -- Single Stamina Buffs
-INSERT IGNORE INTO `spell_group` VALUES (1085, -2031);  -- Single Spirit Buffs
+-- Empowering scrolls are FULLY ADDITIVE with class buffs (consistent with Warding
+-- resistance scrolls). They are exclusive only among themselves (group 2031, rule 1).
+-- Do NOT link the whole 2031 group into the per-stat parent groups: a `-2031` group
+-- reference dumps ALL five stat scrolls into EACH stat group, so e.g. an Agility scroll
+-- ended up in Single Stamina Buffs (1084, rule 4) and Prayer of Fortitude ripped it off.
+-- Cross-stat contamination bug — remove the links so scrolls only block each other.
+DELETE FROM `spell_group` WHERE `id` = 1083 AND `spell_id` = -2031;  -- Single Intellect Buffs
+DELETE FROM `spell_group` WHERE `id` = 1084 AND `spell_id` = -2031;  -- Single Stamina Buffs
+DELETE FROM `spell_group` WHERE `id` = 1085 AND `spell_id` = -2031;  -- Single Spirit Buffs
 
 
 
