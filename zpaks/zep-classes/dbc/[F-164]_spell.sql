@@ -2026,7 +2026,7 @@ INSERT INTO `spell` SET
     `attributes` = 464,
     `cast_time_index` = 1,
     `proc_flags` = 32768,
-    `proc_chance` = 100,
+    `proc_chance` = 33,
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
