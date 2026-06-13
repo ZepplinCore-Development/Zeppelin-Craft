@@ -99,3 +99,14 @@ WHERE `id` = 4481;
 -- Move Earth Shock (all 10 player ranks) from Elemental Combat (375) to Earthwarden (9001)
 UPDATE `skilllineability` SET `skill_line` = 9001
 WHERE `id` IN (4468, 4469, 4470, 4471, 5576, 5577, 5578, 13276, 16962, 16963);
+
+-- Rockbiter Weapon ranks 5-10 (imbues 900230-900235) on Earthwarden skill line (9001),
+-- matching the R1-R4 move above. required_classes 64 = Shaman.
+DELETE FROM `skilllineability` WHERE `id` IN (200090, 200091, 200092, 200093, 200094, 200095);
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200090, 9001, 900230, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200091, 9001, 900231, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200092, 9001, 900232, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200093, 9001, 900233, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200094, 9001, 900234, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200095, 9001, 900235, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
