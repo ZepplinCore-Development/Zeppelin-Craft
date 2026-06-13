@@ -33,3 +33,17 @@ UPDATE `spellitemenchantment` SET
 WHERE `id` IN (683, 1663, 1664, 2632, 2633, 3018, 3019, 3020,
                3033, 3034, 3035, 3036, 3037, 3038, 3039, 3040,
                3041, 3042, 3043, 3044);
+
+-- New custom enchants 9000-9005 → AP passives 900250-900255 (Rockbiter R5-R10).
+-- type 3 = EQUIP_SPELL. The enchant-spells (900240-900245) reference these via
+-- effect_misc_value_a_1, applied on the weapon by the C++ Rockbiter damage-switch.
+DELETE FROM `spellitemenchantment` WHERE `id` IN (9000, 9001, 9002, 9003, 9004, 9005);
+INSERT INTO `spellitemenchantment`
+    (`id`, `spell_dispel_type_2`, `object_id_2`, `s_ref_name_enus`, `s_ref_name_flags`, `item_visuals`, `flags`)
+VALUES
+    (9000, 3, 900250, 'Rockbiter 5',  16712190, 61, 9),
+    (9001, 3, 900251, 'Rockbiter 6',  16712190, 61, 9),
+    (9002, 3, 900252, 'Rockbiter 7',  16712190, 61, 9),
+    (9003, 3, 900253, 'Rockbiter 8',  16712190, 61, 9),
+    (9004, 3, 900254, 'Rockbiter 9',  16712190, 61, 9),
+    (9005, 3, 900255, 'Rockbiter 10', 16712190, 61, 9);
