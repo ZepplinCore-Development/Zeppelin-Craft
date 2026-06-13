@@ -290,6 +290,12 @@ AuctionHouseBot.Neutral.MaxItems = 15000
 #        bid amount.
 #    Default: false
 #
+#    AuctionHouseBot.Buyer.BidOnly
+#        When enabled, the buyer bot will only place bids on player auctions
+#        instead of buying them out instantly. Players must wait for the
+#        auction timer to expire to receive payment.
+#    Default: false
+#
 #    AuctionHouseBot.Buyer.PreventOverpayingForVendorItems
 #        When enabled, the buyer bot will avoid purchasing auction house items
 #        that are being sold for more than the vendor sell price. This prevents
@@ -309,6 +315,7 @@ AuctionHouseBot.Buyer.Enabled = false
 AuctionHouseBot.Buyer.BuyCandidatesPerBuyCycle = 1
 AuctionHouseBot.Buyer.AcceptablePriceModifier = 1
 AuctionHouseBot.Buyer.AlwaysBidMaxCalculatedPrice = false
+AuctionHouseBot.Buyer.BidOnly = 1
 AuctionHouseBot.Buyer.PreventOverpayingForVendorItems = true
 AuctionHouseBot.Buyer.BidAgainstPlayers = false
 
@@ -865,6 +872,12 @@ AuctionHouseBot.PriceMultiplier.CategoryPermanent.QualityHeirloom   = 1.0
 #        100 and RandomStackIncrement to a value that is at or greater than the
 #        largest possible stack size for that category.  Default configurations
 #        here will do that for Projectiles.
+#
+#    AuctionHouseBot.ListingStack.MaxStackSize.*
+#        The maximum size to build stacks to when calculating.  If 0, then there
+#        is no custom limit and it will stack as large as the items allow. Note
+#        that this will not let you set a maximum stack size larger than the
+#        core server or item max stack size.
 ###############################################################################
 
 AuctionHouseBot.ListingStack.RandomRatio.Consumable = 50
@@ -898,6 +911,22 @@ AuctionHouseBot.ListingStack.RandomStackIncrement.Quest = 1
 AuctionHouseBot.ListingStack.RandomStackIncrement.Key = 1
 AuctionHouseBot.ListingStack.RandomStackIncrement.Misc = 1
 AuctionHouseBot.ListingStack.RandomStackIncrement.Glyph = 1
+
+AuctionHouseBot.ListingStack.MaxStackSize.Consumable = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Container = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Weapon = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Gem = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Armor = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Reagent = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Projectile = 0
+AuctionHouseBot.ListingStack.MaxStackSize.TradeGood = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Generic = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Recipe = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Quiver = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Quest = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Key = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Misc = 0
+AuctionHouseBot.ListingStack.MaxStackSize.Glyph = 0
 
 ###############################################################################
 #    AuctionHouseBot.ListedItemLevelRestrict.Enabled
