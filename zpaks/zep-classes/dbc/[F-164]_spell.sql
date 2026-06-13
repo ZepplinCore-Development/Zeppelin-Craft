@@ -499,7 +499,6 @@ INSERT INTO `spell` SET
     `effect_die_sides_3` = 1,
     `effect_real_points_per_level_1` = @tb_dmg_perlevel,
     `effect_base_points_1` = @tb_dmg_base,
-    `effect_mechanic_1` = 12,
     `effect_implicit_target_a_1` = 104,
     `effect_radius_index_1` = 17,
     `effect_radius_index_2` = 13,
