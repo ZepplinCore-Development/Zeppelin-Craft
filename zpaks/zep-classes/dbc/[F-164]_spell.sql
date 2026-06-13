@@ -1517,14 +1517,14 @@ INSERT INTO `spell` SET
 
 -- ============================================================================
 -- Bastion of Earth (900147-900149) - Passive talent, procs on block
--- 3 ranks: 25% chance on block to trigger buff (900150-900152).
--- Buff gives 10% physical damage reduction and reduced LHW cast time.
--- Each talent rank gives 33% more LHW cast time reduction (R1=33%, R2=66%, R3=100%).
+-- 3 ranks: chance on block to trigger buff (900150-900152).
+-- Each talent rank increases the proc chance (R1=10%, R2=20%, R3=30%).
+-- Buff gives 20% physical damage reduction and makes the next LHW instant (all ranks).
 -- Full mana cost. No stacking — buff consumed on LHW cast.
--- Choice: keep buff for 10% phys DR, or cast LHW to heal (consuming it).
+-- Choice: keep buff for 20% phys DR, or spend it on an instant LHW heal.
 -- ============================================================================
 
--- Bastion of Earth R1 (900147) - Passive, 25% on block, triggers 900150
+-- Bastion of Earth R1 (900147) - Passive, 10% on block, triggers 900150
 DELETE FROM `spell` WHERE `id` = 900147;
 
 INSERT INTO `spell` SET
@@ -1532,7 +1532,7 @@ INSERT INTO `spell` SET
     `attributes` = 327760,
     `attributes_ex_4` = 32768,
     `proc_flags` = 40,
-    `proc_chance` = 25,
+    `proc_chance` = 10,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1546,16 +1546,16 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900150d and reduce the cast time of Lesser Healing Wave by $900150s2%. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 10% chance to reduce physical damage taken by 20% for $900150d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900150d. Lesser Healing Wave cast time reduced by $900150s2%. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '10% chance on block to reduce physical damage taken by 20% for $900150d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Bastion of Earth R2 (900148) - Passive, 25% on block, triggers 900151
+-- Bastion of Earth R2 (900148) - Passive, 20% on block, triggers 900151
 DELETE FROM `spell` WHERE `id` = 900148;
 
 INSERT INTO `spell` SET
@@ -1563,7 +1563,7 @@ INSERT INTO `spell` SET
     `attributes` = 327760,
     `attributes_ex_4` = 32768,
     `proc_flags` = 40,
-    `proc_chance` = 25,
+    `proc_chance` = 20,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1577,16 +1577,16 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900151d and reduce the cast time of Lesser Healing Wave by $900151s2%. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 20% chance to reduce physical damage taken by 20% for $900151d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900151d. Lesser Healing Wave cast time reduced by $900151s2%. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '20% chance on block to reduce physical damage taken by 20% for $900151d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Bastion of Earth R3 (900149) - Passive, 25% on block, triggers 900152
+-- Bastion of Earth R3 (900149) - Passive, 30% on block, triggers 900152
 DELETE FROM `spell` WHERE `id` = 900149;
 
 INSERT INTO `spell` SET
@@ -1594,7 +1594,7 @@ INSERT INTO `spell` SET
     `attributes` = 327760,
     `attributes_ex_4` = 32768,
     `proc_flags` = 40,
-    `proc_chance` = 25,
+    `proc_chance` = 30,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1608,9 +1608,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900152d and reduce the cast time of Lesser Healing Wave by $900152s2%. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 30% chance to reduce physical damage taken by 20% for $900152d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900152d. Lesser Healing Wave cast time reduced by $900152s2%. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '30% chance on block to reduce physical damage taken by 20% for $900152d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1619,13 +1619,13 @@ INSERT INTO `spell` SET
 
 -- ============================================================================
 -- Bastion of Earth Buff (900150-900152) - Triggered physical DR buff
--- E1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -10%
--- E2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), LHW cast time reduction
+-- E1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -20%
+-- E2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -100% LHW cast time (instant)
 -- No stacking. Consumed when Lesser Healing Wave is cast (proc_charges=1).
--- R1=-33%, R2=-66%, R3=-100% LHW cast time reduction. Full mana cost.
+-- All ranks identical (20% DR, instant LHW); only the passive proc chance scales. Full mana cost.
 -- ============================================================================
 
--- Bastion of Earth buff R1 (900150) - 10% phys DR, -33% LHW cast time
+-- Bastion of Earth buff R1 (900150) - 20% phys DR, instant LHW
 DELETE FROM `spell` WHERE `id` = 900150;
 
 INSERT INTO `spell` SET
@@ -1640,13 +1640,13 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -11,
+    `effect_base_points_1` = -21,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
-    `effect_base_points_2` = -34,
+    `effect_base_points_2` = -101,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 10,
@@ -1654,9 +1654,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1665,7 +1665,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth buff R2 (900151) - 10% phys DR, -66% LHW cast time
+-- Bastion of Earth buff R2 (900151) - 20% phys DR, instant LHW
 DELETE FROM `spell` WHERE `id` = 900151;
 
 INSERT INTO `spell` SET
@@ -1680,13 +1680,13 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -11,
+    `effect_base_points_1` = -21,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
-    `effect_base_points_2` = -67,
+    `effect_base_points_2` = -101,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 10,
@@ -1694,9 +1694,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1705,7 +1705,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth buff R3 (900152) - 10% phys DR, -100% LHW cast time (instant)
+-- Bastion of Earth buff R3 (900152) - 20% phys DR, instant LHW
 DELETE FROM `spell` WHERE `id` = 900152;
 
 INSERT INTO `spell` SET
@@ -1720,7 +1720,7 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -11,
+    `effect_base_points_1` = -21,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
@@ -1734,9 +1734,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -2081,7 +2081,8 @@ INSERT INTO `spell` SET
 
 -- ----------------------------------------------------------------------------
 -- Living Guardian Shield (900170) - Single buff, all talent ranks trigger this
--- Absorbs ~225 at level 50, ~285 at level 80 (base 124 + die 1 + ppl 2.0).
+-- Absorbs ~425 at level 50, ~605 at level 80 before SP (base 124 + die 1 + ppl 6.0),
+-- plus 15% Spell Power applied via the C++ script (kept in sync with @aw_sp_coeff).
 -- Triggered by Living Guardian talent (900167/168/169) on direct heal received.
 -- Aura 69 = SCHOOL_ABSORB, misc_value_a = 127 (all schools).
 -- Uses SpellDescriptionVariable 190 to show correct absorb in both contexts.
@@ -2091,10 +2092,10 @@ INSERT INTO `spell` SET
 -- Living Guardian scaling (shared between spell and desc variable 190)
 SET @aw_base = 124;
 SET @aw_die = 1;
-SET @aw_ppl = 2.0;
-SET @aw_sp_coeff = 0.1;
+SET @aw_ppl = 6.0;
+SET @aw_sp_coeff = 0.15;
 
--- Variable 190: Living Guardian absorb amount (base + perlevel + 10% SP)
+-- Variable 190: Living Guardian absorb amount (base + perlevel + 15% SP)
 -- SP scaling is applied via spell_sha_living_guardian_aura C++ script,
 -- since aura 69 SCHOOL_ABSORB does not consult spell_bonus_data.
 DELETE FROM `spelldescriptionvariables` WHERE `id` IN (190, 191, 192);

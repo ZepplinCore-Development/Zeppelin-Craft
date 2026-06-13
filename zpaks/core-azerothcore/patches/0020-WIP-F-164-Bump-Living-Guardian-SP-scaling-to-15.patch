@@ -1,0 +1,34 @@
+From c90b1fbaf9439ec07c13a1740fcaf831732f7089 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 13 Jun 2026 13:18:45 +0000
+Subject: [PATCH] WIP: F-164 - Bump Living Guardian SP scaling to 15%
+
+---
+ src/server/scripts/Spells/spell_shaman.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
+index 6f4dfa5b4..5e40c4c38 100644
+--- a/src/server/scripts/Spells/spell_shaman.cpp
++++ b/src/server/scripts/Spells/spell_shaman.cpp
+@@ -2250,7 +2250,7 @@ class spell_sha_thunderborne_leap : public SpellScript
+ };
+ 
+ // Living Guardian (900170/900171/900172) — F-164 absorb shield
+-// Adds 10% of caster's Spell Power to the SCHOOL_ABSORB amount,
++// Adds 15% of caster's Spell Power to the SCHOOL_ABSORB amount,
+ // since aura 69 does not consult spell_bonus_data by default.
+ // Pattern mirrors spell_pri_power_word_shield_aura.
+ class spell_sha_living_guardian_aura : public AuraScript
+@@ -2263,7 +2263,7 @@ class spell_sha_living_guardian_aura : public AuraScript
+         canBeRecalculated = false;
+         if (Unit* caster = GetCaster())
+         {
+-            float bonus = 0.10f;
++            float bonus = 0.15f;
+             bonus *= caster->SpellBaseHealingBonusDone(
+                 GetSpellInfo()->GetSchoolMask());
+             bonus *= caster->CalculateLevelPenalty(GetSpellInfo());
+-- 
+2.34.1
+
