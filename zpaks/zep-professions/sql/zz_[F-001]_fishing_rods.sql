@@ -30,7 +30,22 @@ UPDATE `item_template` SET
     `dmg_max1` = 0,
     `dmg_type1` = 0,
     `delay` = 0,
-    `sheath` = 0
+    `sheath` = 0,
+    `armor` = 0,
+    -- Strip equippable stats: rods are bag tools now, stats can't apply (F-157)
+    -- e.g. Seth's Graphite Fishing Pole (25978) had +52 Stamina
+    `stat_type1` = 0, `stat_value1` = 0,
+    `stat_type2` = 0, `stat_value2` = 0,
+    `stat_type3` = 0, `stat_value3` = 0,
+    `stat_type4` = 0, `stat_value4` = 0,
+    `stat_type5` = 0, `stat_value5` = 0,
+    `stat_type6` = 0, `stat_value6` = 0,
+    `stat_type7` = 0, `stat_value7` = 0,
+    `stat_type8` = 0, `stat_value8` = 0,
+    `stat_type9` = 0, `stat_value9` = 0,
+    `stat_type10` = 0, `stat_value10` = 0,
+    `ScalingStatDistribution` = 0,
+    `ScalingStatValue` = 0
 WHERE `entry` IN (
     6256,   -- Fishing Pole (basic, no spell)
     6365,   -- Strong Fishing Pole (+5)
