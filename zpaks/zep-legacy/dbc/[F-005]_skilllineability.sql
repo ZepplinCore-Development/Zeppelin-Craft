@@ -8,7 +8,10 @@
 -- The DBC rebuild from original_dbc handles this, so no restore needed here.
 
 -- Clean up old broken entries (if present from previous version)
-DELETE FROM `skilllineability` WHERE `id` IN (200020, 200021, 200022, 200023, 200024, 200025);
+-- NOTE: Grand Master Riding Crop uses SLA id 200029, NOT 200025 — 200025 is owned by
+-- zep-professions [F-001] (Journeyman Tinkering Tools, higher priority). Do not reclaim
+-- 200025 here or it will clobber the live Engineering recipe. (200025 ID-collision fix.)
+DELETE FROM `skilllineability` WHERE `id` IN (200020, 200021, 200022, 200023, 200024, 200029);
 
 -- Apprentice Riding Crop (crafting) - LW 75
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (200020, 165, 100020, 0, 0, 0, 0, 75, 0, 0, 120, 90, 0, 0);
@@ -26,4 +29,5 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (200024, 165, 100024, 0, 0, 0, 0, 375, 0, 0, 420, 390, 0, 0);
 
 -- Grand Master Riding Crop (crafting) - LW 450
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (200025, 165, 100025, 0, 0, 0, 0, 450, 0, 0, 475, 460, 0, 0);
+-- SLA id 200029 (200025 collided with zep-professions [F-001] Journeyman Tinkering Tools)
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (200029, 165, 100025, 0, 0, 0, 0, 450, 0, 0, 475, 460, 0, 0);
