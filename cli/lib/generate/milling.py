@@ -12,8 +12,9 @@ TIERS = [
     {'name': 'Grand Master', 'spell': 91251, 'chance': 40, 'tier_id': 4},
 ]
 
-REF_START = 96000
-REF_END = 96999
+# 96000-96599 is reserved by the creature-gathering generator; use a clear band.
+REF_START = 100000
+REF_END = 100999
 OUTPUT_FILENAME = 'zz_[AUTO,F-001]_writing_table_milling_loot.sql'
 
 
