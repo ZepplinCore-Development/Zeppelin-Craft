@@ -935,7 +935,7 @@ DELETE FROM `spell` WHERE `id` = 900132;
 -- ============================================================================
 
 -- ----------------------------------------------------------------------------
--- Shield Mastery R1 (900133): +1% block chance, +5% block value
+-- Shield Mastery R1 (900133): +1% block chance, +10% block value
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900133;
 
@@ -953,7 +953,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 150,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 9,
     `effect_die_sides_2` = 1,
     `effect_implicit_target_a_2` = 1,
     `spell_icon_id` = 4775,
@@ -969,7 +969,7 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
--- Shield Mastery R2 (900134): +2% block chance, +10% block value
+-- Shield Mastery R2 (900134): +2% block chance, +20% block value
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900134;
 
@@ -987,7 +987,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 150,
-    `effect_base_points_2` = 9,
+    `effect_base_points_2` = 19,
     `effect_die_sides_2` = 1,
     `effect_implicit_target_a_2` = 1,
     `spell_icon_id` = 4775,
@@ -1003,7 +1003,7 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
--- Shield Mastery R3 (900135): +3% block chance, +15% block value
+-- Shield Mastery R3 (900135): +3% block chance, +30% block value
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900135;
 
@@ -1021,7 +1021,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 150,
-    `effect_base_points_2` = 14,
+    `effect_base_points_2` = 29,
     `effect_die_sides_2` = 1,
     `effect_implicit_target_a_2` = 1,
     `spell_icon_id` = 4775,
@@ -1037,7 +1037,7 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
--- Shield Mastery R4 (900136): +4% block chance, +20% block value
+-- Shield Mastery R4 (900136): +4% block chance, +40% block value
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900136;
 
@@ -1055,7 +1055,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 150,
-    `effect_base_points_2` = 19,
+    `effect_base_points_2` = 39,
     `effect_die_sides_2` = 1,
     `effect_implicit_target_a_2` = 1,
     `spell_icon_id` = 4775,
@@ -1071,7 +1071,7 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
--- Shield Mastery R5 (900137): +5% block chance, +25% block value
+-- Shield Mastery R5 (900137): +5% block chance, +50% block value
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900137;
 
@@ -1089,7 +1089,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 150,
-    `effect_base_points_2` = 24,
+    `effect_base_points_2` = 49,
     `effect_die_sides_2` = 1,
     `effect_implicit_target_a_2` = 1,
     `spell_icon_id` = 4775,
@@ -2677,7 +2677,7 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ============================================================================
--- Improved Rockslam R2 (900182) — +25% damage, procs block buff R2 (900120)
+-- Improved Rockslam R2 (900182) — +30% damage, procs block buff R2 (900120)
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900182;
 
@@ -2693,7 +2693,7 @@ INSERT INTO `spell` SET
     `effect_1` = 6,
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 24,
+    `effect_base_points_1` = 29,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 108,
