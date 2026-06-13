@@ -20,4 +20,10 @@ internal.appendData({
 		icon = "Interface\\Icons\\INV_Misc_Dust_04",
 		categories = { 0 },
 	},
+	{
+		id = 24246,
+		name = "Sanguine Hibiscus",
+		icon = "Interface\\Icons\\INV_Misc_Herb_19",
+		categories = { 0 },
+	},
 })

@@ -8,6 +8,12 @@ internal.appendData({
 		categories = { 185 },
 	},
 	{
+		id = 4400,
+		name = "Heavy Stock",
+		icon = "Interface\\Icons\\INV_Mace_11",
+		categories = { 185 },
+	},
+	{
 		id = 732,
 		name = "Okra",
 		icon = "Interface\\Icons\\INV_Misc_Herb_05",
