@@ -391,4 +391,10 @@ internal.appendData({
 		icon = "Interface\\Icons\\Spell_Shadow_DemonicFortitude",
 		categories = { 0 },
 	},
+	{
+		id = 29426,
+		name = "Firewing Signet",
+		icon = "Interface\\Icons\\INV_Jewelry_Ring_23",
+		categories = { 0 },
+	},
 })
