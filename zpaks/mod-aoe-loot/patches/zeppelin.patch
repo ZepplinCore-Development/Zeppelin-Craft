@@ -1,7 +1,7 @@
 From f59f08475aae2e349d8d1c0807546ff76bacd5d1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 22 Apr 2026 06:23:57 +0000
-Subject: [PATCH 1/3] fix: Increment unlootedCount for AoE-merged loot items
+Subject: [PATCH 1/4] fix: Increment unlootedCount for AoE-merged loot items
  (I-137)
 
 Items merged from nearby corpses into the main creature's loot were not
@@ -37,7 +37,7 @@ index b72b515..d99111f 100644
 From e441fe1495bcd8f4a9ed6c2f8f2e2e017188562a Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 22 Apr 2026 06:24:02 +0000
-Subject: [PATCH 2/3] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
+Subject: [PATCH 2/4] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
  (I-143)
 
 MySQL 8.4 defaults connection collation to utf8mb4_0900_ai_ci, which
@@ -66,7 +66,7 @@ index eb99b3a..f237d5f 100644
 From 063f71b8c277dd613b36dd577fe955806a3bbf6d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 12 Jun 2026 11:32:02 +0000
-Subject: [PATCH 3/3] fix: Group-safe partial merge + solo-group auto-greed
+Subject: [PATCH 3/4] fix: Group-safe partial merge + solo-group auto-greed
  (I-137)
 
 - Merge only plain items (not FFA/conditional/quest-flagged) - merged
@@ -443,6 +443,207 @@ index 2243a58..540481d 100644
  private:
      // Helper function - Check if loot is valid
      bool IsLootValid(Loot* loot) const;
+-- 
+2.34.1
+
+
+From c49a740b3f3febfe8a603438e55fee5a54403b95 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 14 Jun 2026 06:51:26 +0000
+Subject: [PATCH 4/4] fix: Loot FFA/conditional items to bags instead of
+ leaving them (I-137)
+
+Bring conditional and FFA loot across instead of leaving it on the
+corpse, without reintroducing the I-137 invisible-loot bug:
+
+- FFA and conditional items are looted straight to the player's bags
+  from their OWN corpse, reusing that corpse's per-player lists (same
+  mechanism already used for quest items). They are never moved into
+  the merged loot object, so they can't be orphaned from the lists
+  that make them visible/lootable.
+- Source bookkeeping mirrors Player::StoreLootItem: mark the per-player
+  entry looted, set item.is_looted for non-FFA, decrement unlootedCount
+  so the corpse still becomes skinnable.
+- Group roll-gating now uses real item quality vs the group loot
+  threshold instead of the is_underthreshold flag (which is only set
+  once a corpse is opened, so it read as 0 on the unopened corpses we
+  process - previously leaving below-threshold items behind in groups).
+- Over-threshold non-FFA items still stay for the group roll / master
+  looter; FFA items are always taken (never rolled). Sole-member groups
+  take everything (auto-greed handles their main-corpse rolls).
+- Removes the merge-roll-items all-or-nothing path, now unnecessary.
+
+Plain items still appear in the merged window; only FFA/conditional/
+quest go directly to bags.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/aoe_loot.cpp | 116 +++++++++++++++++++++++++++--------------------
+ 1 file changed, 66 insertions(+), 50 deletions(-)
+
+diff --git a/src/aoe_loot.cpp b/src/aoe_loot.cpp
+index d75115e..3023b46 100644
+--- a/src/aoe_loot.cpp
++++ b/src/aoe_loot.cpp
+@@ -121,13 +121,22 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+     // free-for-all; never merge loot that belongs to someone else
+     bool respectAssignment = group && lootMethod != FREE_FOR_ALL;
+ 
+-    // Methods where over-threshold items are reserved (group rolls / master loot)
++    // Methods where over-threshold items are reserved for the group (rolls /
++    // master loot) and must not be grabbed out from under other members
+     bool thresholdMethod = group && (lootMethod == GROUP_LOOT || lootMethod == NEED_BEFORE_GREED || lootMethod == MASTER_LOOT);
++    ItemQualities lootThreshold = group ? group->GetLootThreshold() : ITEM_QUALITY_POOR;
+ 
+-    // Over-threshold items may only be merged while the main corpse is unopened
+-    // (its rolls start on first open and will then cover the merged items) and the
+-    // sole group member resolves those rolls instantly via auto-greed
+-    bool mergeRollItems = autoGreedSolo && mainLoot->loot_type == LOOT_NONE;
++    // True when a non-FFA item is reserved for a group roll / master looter: it
++    // meets the loot threshold under a roll method. A sole-member group has no one
++    // to roll against, so nothing is reserved there.
++    auto reservedForRoll = [&](uint32 itemId) -> bool
++    {
++        if (!thresholdMethod || autoGreedSolo)
++            return false;
++
++        ItemTemplate const* proto = sObjectMgr->GetItemTemplate(itemId);
++        return proto && proto->Quality >= uint32(lootThreshold);
++    };
+ 
+     if (respectAssignment && mainLoot->roundRobinPlayer && mainLoot->roundRobinPlayer != player->GetGUID())
+     {
+@@ -142,9 +151,50 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+     // Track total gold to merge
+     uint32 totalGold = mainLoot->gold;
+ 
+-    // Collect all items to merge (don't modify main loot directly)
++    // Plain items are shown in the merged loot window. FFA / conditional / quest
++    // items can't be moved here - they are displayed through per-player lists tied
++    // to their own corpse, so a merged copy would be invisible and unlootable
++    // (I-137). Instead they are looted straight to the player's bags from their
++    // source corpse, which keeps those lists valid.
+     std::vector<LootItem> itemsToAdd;
+ 
++    // Loots the player's entries from one of a corpse's per-player lists straight
++    // into their bags, mirroring Player::StoreLootItem's accounting on the source.
++    // Used for FFA and conditional items (both index into loot->items).
++    auto lootListToBags = [&](Loot* loot, QuestItemMap const& perPlayerMap)
++    {
++        QuestItemMap::const_iterator listItr = perPlayerMap.find(player->GetGUID());
++        if (listItr == perPlayerMap.end())
++            return;
++
++        for (QuestItem& entry : *listItr->second)
++        {
++            if (entry.is_looted)
++                continue;
++
++            LootItem& item = loot->items[entry.index];
++            if (item.is_looted)
++                continue;
++
++            // Over-threshold conditional items stay for the group roll (FFA items
++            // are never rolled, so they are always taken)
++            if (!item.freeforall && reservedForRoll(item.itemid))
++                continue;
++
++            if (!item.AllowedForPlayer(player, loot->sourceWorldObjectGUID))
++                continue;
++
++            if (!player->AddItem(item.itemid, item.count))
++                continue; // bags full - leave it on the corpse
++
++            entry.is_looted = true;
++            if (!item.freeforall) // freeforall: only this player's copy is consumed
++                item.is_looted = true;
++            if (loot->unlootedCount > 0)
++                --loot->unlootedCount;
++        }
++    };
++
+     for (Creature* creature : nearbyCorpses)
+     {
+         if (processedCorpses >= maxCorpses)
+@@ -204,15 +254,16 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+             }
+         }
+ 
+-        // Classify regular items. FFA and conditional items are tracked in
+-        // per-player lists built when the corpse loot was generated - merged copies
+-        // would be invisible and unlootable in the main window (I-137), so they
+-        // always stay behind.
+-        std::vector<size_t> plainItems;
+-        std::vector<size_t> rollItems;
++        // FFA and conditional items - looted to bags from their own corpse
++        lootListToBags(loot, loot->GetPlayerFFAItems());
++        lootListToBags(loot, loot->GetPlayerNonQuestNonFFAConditionalItems());
+ 
++        // Plain items go into the merged loot window while it has space
+         for (size_t i = 0; i < loot->items.size(); ++i)
+         {
++            if ((mainLoot->items.size() + itemsToAdd.size() + mainLoot->quest_items.size()) >= MAX_LOOT_ITEMS)
++                break;
++
+             LootItem& item = loot->items[i];
+ 
+             if (item.is_looted || item.freeforall || !item.conditions.empty() ||
+@@ -220,30 +271,10 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+                 !item.AllowedForPlayer(player, loot->sourceWorldObjectGUID))
+                 continue;
+ 
+-            if (thresholdMethod && !item.is_underthreshold)
+-            {
+-                if (!mergeRollItems)
+-                    continue;
+-
+-                // An auto-passed roll (unique item at max count) would strand the
+-                // item blocked forever - leave it on the corpse
+-                ItemTemplate const* proto = sObjectMgr->GetItemTemplate(item.itemid);
+-                if (!proto || (proto->MaxCount > 0 && static_cast<int32>(player->GetItemCount(item.itemid)) >= proto->MaxCount))
+-                    continue;
+-
+-                rollItems.push_back(i);
+-            }
+-            else
+-                plainItems.push_back(i);
+-        }
+-
+-        // Merge plain items while the merged window has space
+-        for (size_t i : plainItems)
+-        {
+-            if ((mainLoot->items.size() + itemsToAdd.size() + mainLoot->quest_items.size()) >= MAX_LOOT_ITEMS)
+-                break;
++            // Over-threshold items in a group are reserved for the roll / master looter
++            if (reservedForRoll(item.itemid))
++                continue;
+ 
+-            LootItem& item = loot->items[i];
+             itemsToAdd.push_back(item);
+             item.is_looted = true;
+             if (loot->unlootedCount > 0)
+@@ -257,21 +288,6 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+             loot->gold = 0;
+         }
+ 
+-        // Over-threshold items move all-or-nothing and only if the corpse ends up
+-        // fully cleared; otherwise a later open of this corpse would start rolls
+-        // for items that were already merged away (double award)
+-        if (!rollItems.empty() && loot->gold == 0 && loot->unlootedCount == rollItems.size() &&
+-            (mainLoot->items.size() + itemsToAdd.size() + mainLoot->quest_items.size() + rollItems.size()) <= MAX_LOOT_ITEMS)
+-        {
+-            for (size_t i : rollItems)
+-            {
+-                LootItem& item = loot->items[i];
+-                itemsToAdd.push_back(item);
+-                item.is_looted = true;
+-                --loot->unlootedCount;
+-            }
+-        }
+-
+         // Fully cleared corpses close out normally (decay timer, skinnable flag)
+         if (loot->isLooted())
+         {
 -- 
 2.34.1
 
