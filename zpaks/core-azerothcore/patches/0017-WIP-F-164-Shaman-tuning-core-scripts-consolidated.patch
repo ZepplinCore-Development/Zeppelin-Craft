@@ -1,4 +1,4 @@
-From 00deed8bcb10fe5e3388fae6f2948ce68385e361 Mon Sep 17 00:00:00 2001
+From c3cd1b200b2649a15ff5e84834634b5d5002c253 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 04:40:38 +0000
 Subject: [PATCH] WIP: F-164 - Shaman tuning core scripts (consolidated)
@@ -47,7 +47,7 @@ index a66672753..121a1ae4d 100644
                  LOG_ERROR("spells.effect", "Spell::EffectEnchantItemTmp: Damage {} not handled in S'RW", damage);
                  return;
 diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
-index eef753444..f496bcf24 100644
+index eef753444..9b7c2665c 100644
 --- a/src/server/scripts/Spells/spell_shaman.cpp
 +++ b/src/server/scripts/Spells/spell_shaman.cpp
 @@ -59,6 +59,9 @@ enum ShamanSpells
@@ -136,7 +136,7 @@ index eef753444..f496bcf24 100644
 +            SetStackAmount(10);
 +    }
 +
-+    void HandleProc(AuraEffect* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
++    void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
 +    {
 +        ModStackAmount(-1); // each block consumes a stack (-5%); removed at 0
 +    }
