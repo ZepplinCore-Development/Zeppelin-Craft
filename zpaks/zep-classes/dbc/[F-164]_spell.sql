@@ -3910,3 +3910,43 @@ INSERT INTO `spell` SET `id` = 900252, `attributes` = 327760, `cast_time_index` 
 INSERT INTO `spell` SET `id` = 900253, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 342, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 8', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
 INSERT INTO `spell` SET `id` = 900254, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 433, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 9', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
 INSERT INTO `spell` SET `id` = 900255, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 559, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 10', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
+
+-- ============================================================================
+-- Stoneclaw Totem Damage Split (900222) - F-164 tank shock-absorber
+-- Cast by the Stoneclaw Totem (earth slot) ON its owner via the
+-- spell_sha_stoneclaw_totem C++ script. Aura 81 (SPLIT_DAMAGE_PCT) redirects
+-- 30% of the shaman's incoming damage to the totem (the aura's caster). Ends
+-- when the totem dies/expires (handler skips dead casters). 15s = totem life.
+-- Permanent baseline change for all shamans; the buffer is the totem's VISIBLE
+-- health bar (no hidden shield). Capacity scales via Glyph of Stoneclaw
+-- (+10% of shaman max HP) and Earth's Grasp (+25%/+50% totem HP), applied by
+-- the spell_sha_stoneclaw_totem C++ script at summon.
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900222;
+INSERT INTO `spell` SET
+    `id` = 900222,
+    `attributes` = 0,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `duration_index` = 8,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 29,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 81,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 524,
+    `spell_name_enus` = 'Stoneclaw Totem',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Your Stoneclaw Totem is absorbing 30% of the damage you take.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Absorbing 30% of damage taken.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- Glyph of Stoneclaw Totem (63298) - repurposed from totem self-shield to +10% shaman-HP totem health (F-164)
+UPDATE `spell` SET `spell_desc_enus` = 'Your Stoneclaw Totem gains health equal to 10% of your maximum health.' WHERE `id` = 63298;
