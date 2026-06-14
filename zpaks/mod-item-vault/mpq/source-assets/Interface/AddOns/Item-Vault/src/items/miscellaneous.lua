@@ -379,4 +379,16 @@ internal.appendData({
 		icon = "Interface\\Icons\\INV_Jewelry_Amulet_05",
 		categories = { 0 },
 	},
+	{
+		id = 25744,
+		name = "Dampscale Basilisk Eye",
+		icon = "Interface\\Icons\\INV_Misc_Eye_01",
+		categories = { 0 },
+	},
+	{
+		id = 29425,
+		name = "Mark of Kil'jaeden",
+		icon = "Interface\\Icons\\Spell_Shadow_DemonicFortitude",
+		categories = { 0 },
+	},
 })
