@@ -258,7 +258,9 @@ INSERT INTO `spell` SET
 
 -- ----------------------------------------------------------------------------
 -- Stoneskin (900164) - Active defensive cooldown, 1 rank
--- -30% damage taken, +10% block chance, 10s duration, 2 min cooldown.
+-- -30% all damage taken, 10s duration, 2 min cooldown. (Block-chance bonus
+-- removed in F-164 and moved to Stonewall (900223) to keep the two panic
+-- buttons distinct: Stoneskin = flat mitigation, Stonewall = block wall.)
 -- Icon 5469, Visual 5787 (Stoneform).
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900164;
@@ -272,26 +274,20 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_2` = 6,
     `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
     `effect_base_points_1` = -31,
-    `effect_base_points_2` = 9,
     `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 87,
-    `effect_apply_aura_name_2` = 51,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 5469,
     `spell_visual_1` = 5787,
     `spell_name_enus` = 'Stoneskin',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by $s1% and increasing block chance by $s2% for $d.',
+    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by $s1% for $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces damage taken by $s1% and increases block chance by $s2%.',
+    `spell_tooltip_enus` = 'Reduces damage taken by $s1%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
     `spell_class_set` = 11,
     `school_mask` = 1;
 
@@ -3950,3 +3946,41 @@ INSERT INTO `spell` SET
 
 -- Glyph of Stoneclaw Totem (63298) - repurposed from totem self-shield to +10% shaman-HP totem health (F-164)
 UPDATE `spell` SET `spell_desc_enus` = 'Your Stoneclaw Totem gains health equal to 10% of your maximum health.' WHERE `id` = 63298;
+
+-- ============================================================================
+-- Stonewall (900223) - F-164 Earthwarden block panic button (active talent 2958)
+-- Instant, shield required, 2 min CD, 60s. Applies a MOD_BLOCK_PERCENT buff at
+-- 10 stacks (+50% block). Each block consumes a stack (-5%) until 0 or expiry.
+-- Stack/amount driven by the spell_sha_stonewall_aura C++ script (block% =
+-- 5 x stacks; SetStackAmount(10) on apply; ModStackAmount(-1) on block proc).
+-- proc_flags 40 + spell_proc HitMask 64 (block) like Bastion of Earth.
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900223;
+INSERT INTO `spell` SET
+    `id` = 900223,
+    `attributes` = 16,
+    `cast_time_index` = 1,
+    `duration_index` = 3,
+    `recovery_time` = 120000,
+    `category_recovery_time` = 120000,
+    `proc_chance` = 100,
+    `proc_flags` = 40,
+    `range_index` = 1,
+    `equipped_item_class` = 4,
+    `equipped_item_subclass_mask` = 64,
+    `stack_amount` = 10,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 4,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 51,
+    `spell_icon_id` = 5469,
+    `spell_name_enus` = 'Stonewall',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Raise a stone wall, increasing your block chance by 50%. Each time you block, the bonus is reduced by 5%. Lasts $d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Block chance increased, reduced by 5% per block.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
