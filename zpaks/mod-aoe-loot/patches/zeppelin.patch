@@ -1,7 +1,7 @@
 From f59f08475aae2e349d8d1c0807546ff76bacd5d1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 22 Apr 2026 06:23:57 +0000
-Subject: [PATCH 1/4] fix: Increment unlootedCount for AoE-merged loot items
+Subject: [PATCH 1/5] fix: Increment unlootedCount for AoE-merged loot items
  (I-137)
 
 Items merged from nearby corpses into the main creature's loot were not
@@ -37,7 +37,7 @@ index b72b515..d99111f 100644
 From e441fe1495bcd8f4a9ed6c2f8f2e2e017188562a Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 22 Apr 2026 06:24:02 +0000
-Subject: [PATCH 2/4] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
+Subject: [PATCH 2/5] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
  (I-143)
 
 MySQL 8.4 defaults connection collation to utf8mb4_0900_ai_ci, which
@@ -66,7 +66,7 @@ index eb99b3a..f237d5f 100644
 From 063f71b8c277dd613b36dd577fe955806a3bbf6d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 12 Jun 2026 11:32:02 +0000
-Subject: [PATCH 3/4] fix: Group-safe partial merge + solo-group auto-greed
+Subject: [PATCH 3/5] fix: Group-safe partial merge + solo-group auto-greed
  (I-137)
 
 - Merge only plain items (not FFA/conditional/quest-flagged) - merged
@@ -450,7 +450,7 @@ index 2243a58..540481d 100644
 From c49a740b3f3febfe8a603438e55fee5a54403b95 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 06:51:26 +0000
-Subject: [PATCH 4/4] fix: Loot FFA/conditional items to bags instead of
+Subject: [PATCH 4/5] fix: Loot FFA/conditional items to bags instead of
  leaving them (I-137)
 
 Bring conditional and FFA loot across instead of leaving it on the
@@ -644,6 +644,146 @@ index d75115e..3023b46 100644
          // Fully cleared corpses close out normally (decay timer, skinnable flag)
          if (loot->isLooted())
          {
+-- 
+2.34.1
+
+
+From b557e4b82c24fd342fa29836d8076d284efe91a1 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 14 Jun 2026 10:39:42 +0000
+Subject: [PATCH 5/5] fix: Bring FFA/conditional loot into the merged window
+ (I-137)
+
+Instead of routing FFA/conditional items to bags, inject them into the
+main loot window via Loot::AddNonNormalLootItemFor, which registers them
+in mainLoot's per-player display lists so they show and loot normally.
+Plain items now also push directly into mainLoot. All merged copies are
+scoped to the looter (rollWinnerGUID + is_underthreshold) so other group
+members can't see or grab them. Over-threshold non-FFA items still stay
+on their corpse for the group roll; quest items still go to bags.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/aoe_loot.cpp | 65 ++++++++++++++++++++++--------------------------
+ 1 file changed, 30 insertions(+), 35 deletions(-)
+
+diff --git a/src/aoe_loot.cpp b/src/aoe_loot.cpp
+index 3023b46..e807dbc 100644
+--- a/src/aoe_loot.cpp
++++ b/src/aoe_loot.cpp
+@@ -151,17 +151,15 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+     // Track total gold to merge
+     uint32 totalGold = mainLoot->gold;
+ 
+-    // Plain items are shown in the merged loot window. FFA / conditional / quest
+-    // items can't be moved here - they are displayed through per-player lists tied
+-    // to their own corpse, so a merged copy would be invisible and unlootable
+-    // (I-137). Instead they are looted straight to the player's bags from their
+-    // source corpse, which keeps those lists valid.
+-    std::vector<LootItem> itemsToAdd;
+-
+-    // Loots the player's entries from one of a corpse's per-player lists straight
+-    // into their bags, mirroring Player::StoreLootItem's accounting on the source.
+-    // Used for FFA and conditional items (both index into loot->items).
+-    auto lootListToBags = [&](Loot* loot, QuestItemMap const& perPlayerMap)
++    bool mainFull = (mainLoot->items.size() + mainLoot->quest_items.size()) >= MAX_LOOT_ITEMS;
++
++    // Brings the player's entries from one of a corpse's per-player lists (FFA or
++    // conditional - both index into loot->items) into the MAIN loot window. The copy
++    // is registered in mainLoot's matching per-player list via AddNonNormalLootItemFor
++    // so it is visible and lootable there; the source entry is marked looted with
++    // stock bookkeeping. This is what lets FFA/conditional loot appear in the merged
++    // window without the I-137 orphaning.
++    auto bringListAcross = [&](Loot* loot, QuestItemMap const& perPlayerMap)
+     {
+         QuestItemMap::const_iterator listItr = perPlayerMap.find(player->GetGUID());
+         if (listItr == perPlayerMap.end())
+@@ -184,14 +182,16 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+             if (!item.AllowedForPlayer(player, loot->sourceWorldObjectGUID))
+                 continue;
+ 
+-            if (!player->AddItem(item.itemid, item.count))
+-                continue; // bags full - leave it on the corpse
++            if (mainFull || !mainLoot->AddNonNormalLootItemFor(player, item))
++                continue; // main window full - leave it on the corpse
+ 
+             entry.is_looted = true;
+             if (!item.freeforall) // freeforall: only this player's copy is consumed
+                 item.is_looted = true;
+             if (loot->unlootedCount > 0)
+                 --loot->unlootedCount;
++
++            mainFull = (mainLoot->items.size() + mainLoot->quest_items.size()) >= MAX_LOOT_ITEMS;
+         }
+     };
+ 
+@@ -254,14 +254,14 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+             }
+         }
+ 
+-        // FFA and conditional items - looted to bags from their own corpse
+-        lootListToBags(loot, loot->GetPlayerFFAItems());
+-        lootListToBags(loot, loot->GetPlayerNonQuestNonFFAConditionalItems());
++        // FFA and conditional items - brought into the main loot window
++        bringListAcross(loot, loot->GetPlayerFFAItems());
++        bringListAcross(loot, loot->GetPlayerNonQuestNonFFAConditionalItems());
+ 
+-        // Plain items go into the merged loot window while it has space
++        // Plain items go straight into the main loot window
+         for (size_t i = 0; i < loot->items.size(); ++i)
+         {
+-            if ((mainLoot->items.size() + itemsToAdd.size() + mainLoot->quest_items.size()) >= MAX_LOOT_ITEMS)
++            if (mainFull)
+                 break;
+ 
+             LootItem& item = loot->items[i];
+@@ -275,10 +275,20 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+             if (reservedForRoll(item.itemid))
+                 continue;
+ 
+-            itemsToAdd.push_back(item);
++            mainLoot->items.push_back(item);
++            LootItem& added = mainLoot->items.back();
++            // Scope the merged copy to this looter: rollWinnerGUID shows it as OWNER
++            // to them and hides it from other group members; is_underthreshold keeps
++            // it round-robin-private rather than free for the group to grab
++            added.rollWinnerGUID = player->GetGUID();
++            added.is_underthreshold = true;
++            ++mainLoot->unlootedCount;
++
+             item.is_looted = true;
+             if (loot->unlootedCount > 0)
+                 --loot->unlootedCount;
++
++            mainFull = (mainLoot->items.size() + mainLoot->quest_items.size()) >= MAX_LOOT_ITEMS;
+         }
+ 
+         // Collect gold
+@@ -296,23 +306,8 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+         }
+     }
+ 
+-    // Now safely add collected items to main loot
+-    // Update gold
++    // Apply merged gold and show the combined window
+     mainLoot->gold = totalGold;
+-
+-    // Add regular items
+-    for (const auto& item : itemsToAdd)
+-    {
+-        if (mainLoot->items.size() < MAX_LOOT_ITEMS)
+-        {
+-            mainLoot->items.push_back(item);
+-            // Merged items are exactly the set Loot::AddItem counts: plain,
+-            // visible, unlooted (FFA/conditional/quest items never get here)
+-            ++mainLoot->unlootedCount;
+-        }
+-    }
+-
+-    // Send merged loot window
+     player->SendLoot(targetGuid, LOOT_CORPSE);
+ 
+     return false;
 -- 
 2.34.1
 

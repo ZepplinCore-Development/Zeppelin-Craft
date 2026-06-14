@@ -1,0 +1,79 @@
+From 7ef8c88c0ade935999ead98fac85ef7e3b76c8ae Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 14 Jun 2026 10:39:34 +0000
+Subject: [PATCH] feat(Core/Loot): Add Loot::AddNonNormalLootItemFor for AoE
+ merge (I-137)
+
+Adds a helper that injects a copy of an FFA or conditional item from
+another loot into this one, registering it in the matching per-player
+display list (PlayerFFAItems / PlayerNonQuestNonFFAConditionalItems) so
+it is visible and lootable, and scoping it to the given player via
+rollWinnerGUID. Lets mod-aoe-loot bring FFA/conditional loot into the
+merged window instead of orphaning it (the I-137 root cause) or routing
+it to bags.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Loot/LootMgr.cpp | 27 +++++++++++++++++++++++++++
+ src/server/game/Loot/LootMgr.h   |  7 +++++++
+ 2 files changed, 34 insertions(+)
+
+diff --git a/src/server/game/Loot/LootMgr.cpp b/src/server/game/Loot/LootMgr.cpp
+index d65883255..e661a71da 100644
+--- a/src/server/game/Loot/LootMgr.cpp
++++ b/src/server/game/Loot/LootMgr.cpp
+@@ -889,6 +889,33 @@ uint32 Loot::GetMaxSlotInLootFor(Player* player) const
+     return items.size() + (itr != PlayerQuestItems.end() ?  itr->second->size() : 0);
+ }
+ 
++bool Loot::AddNonNormalLootItemFor(Player* player, LootItem const& sourceItem)
++{
++    if (items.size() >= MAX_NR_LOOT_ITEMS)
++        return false;
++
++    uint8 index = uint8(items.size());
++    items.push_back(sourceItem);
++
++    LootItem& added = items[index];
++    added.is_looted = false;
++    added.is_blocked = false;
++    added.is_counted = true;                    // counted manually below
++    added.is_underthreshold = false;
++    added.rollWinnerGUID = player->GetGUID();    // scope the copy to this player only
++
++    // FFA items index into items[] via PlayerFFAItems; non-FFA conditional items via
++    // PlayerNonQuestNonFFAConditionalItems. The slot sent to the client is the index.
++    QuestItemMap& targetMap = added.freeforall ? PlayerFFAItems : PlayerNonQuestNonFFAConditionalItems;
++    QuestItemList*& list = targetMap[player->GetGUID()];
++    if (!list)
++        list = new QuestItemList();
++    list->push_back(QuestItem(index));
++
++    ++unlootedCount;
++    return true;
++}
++
+ bool Loot::hasItemForAll() const
+ {
+     // Gold is always lootable
+diff --git a/src/server/game/Loot/LootMgr.h b/src/server/game/Loot/LootMgr.h
+index fd2b0e8b5..079eba002 100644
+--- a/src/server/game/Loot/LootMgr.h
++++ b/src/server/game/Loot/LootMgr.h
+@@ -386,6 +386,13 @@ struct Loot
+     [[nodiscard]] bool hasOverThresholdItem() const;
+     void FillNotNormalLootFor(Player* player);
+ 
++    // Brings a copy of an FFA / conditional item from another loot into this one,
++    // registering it in this loot's per-player display lists so it is visible and
++    // lootable by (and only by) the given player. Used by AoE-loot merging, where
++    // simply pushing into items[] would leave the copy orphaned from the per-player
++    // lists that make such items appear in the window. Returns false if full.
++    bool AddNonNormalLootItemFor(Player* player, LootItem const& sourceItem);
++
+ private:
+     QuestItemList* FillFFALoot(Player* player);
+     QuestItemList* FillQuestLoot(Player* player);
+-- 
+2.34.1
+
