@@ -36,7 +36,7 @@ def generate_bonus(craft_root: Path, *, loot_table: str, tiers: List[dict],
 
     lines: List[str] = []
     _header(lines, loot_tables, loot_table, tiers, ref_start, ref_end, label, action)
-    items_by_entry = _phase1_references(lines, loot_tables, loot_table, tiers, ref_start, label, n)
+    items_by_entry = _phase1_references(lines, loot_tables, loot_table, tiers, ref_start, ref_end, label, n)
     _phase2_linkage(lines, loot_tables, items_by_entry, loot_table, tiers, ref_start, slot_start, label, n)
     _phase3_conditions(lines, loot_tables, items_by_entry, tiers, ref_start, label, action, n)
 
@@ -61,15 +61,21 @@ def _query_loot_tables(loot_table: str) -> list:
     } for r in rows]
 
 
-def _query_items(loot_table: str, entry: int) -> list:
+def _query_items(loot_table: str, entry: int, ref_start: int, ref_end: int) -> list:
     # Copy BOTH direct-item rows and reference rows (some tables -- milling,
     # prospecting -- store their drops behind nested references). Reference
     # rows get a synthetic, per-entry-unique placeholder Item so the mirror
     # row and its gating condition share a stable (Entry, Item) key.
+    #
+    # Exclude this generator's OWN linkage rows (Reference in [ref_start,
+    # ref_end]) that a prior apply already wrote into the live loot table --
+    # otherwise regenerating against a live DB re-ingests them and the new
+    # references recursively embed the bonus range, bloating the file.
     query = f"""
-    SELECT Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment
+    SELECT Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment
     FROM {loot_table}
     WHERE Entry = {entry} AND (Item > 0 OR Reference > 0)
+      AND NOT (Reference BETWEEN {ref_start} AND {ref_end})
     ORDER BY Item, Reference;
     """
     rows = query_rows(query)
@@ -83,10 +89,11 @@ def _query_items(loot_table: str, entry: int) -> list:
             'reference': reference,
             'source_id': source_id,
             'chance': float(r[2]),
-            'quest_req': int(r[3]),
-            'min_count': int(r[4]),
-            'max_count': int(r[5]),
-            'comment': r[6] if len(r) > 6 else '',
+            'group_id': int(r[3]),
+            'quest_req': int(r[4]),
+            'min_count': int(r[5]),
+            'max_count': int(r[6]),
+            'comment': r[7] if len(r) > 7 else '',
         })
     return items
 
@@ -110,7 +117,7 @@ def _header(lines, loot_tables, loot_table, tiers, ref_start, ref_end, label, ac
     lines.append('')
 
 
-def _phase1_references(lines, loot_tables, loot_table, tiers, ref_start, label, n) -> Dict[int, list]:
+def _phase1_references(lines, loot_tables, loot_table, tiers, ref_start, ref_end, label, n) -> Dict[int, list]:
     items_by_entry: Dict[int, list] = {}
     ref_id = ref_start
 
@@ -118,7 +125,7 @@ def _phase1_references(lines, loot_tables, loot_table, tiers, ref_start, label, 
         entry = lt['entry']
         name = lt['example_name']
 
-        items = _query_items(loot_table, entry)
+        items = _query_items(loot_table, entry, ref_start, ref_end)
         items_by_entry[entry] = items
 
         if not items:
@@ -130,7 +137,12 @@ def _phase1_references(lines, loot_tables, loot_table, tiers, ref_start, label, 
             tier_ref_id = ref_id + (tier['tier_id'] - 1)
             lines.append(f"-- {name} - {tier['name']} {label} Bonus (Ref {tier_ref_id})")
             for item in items:
-                group_id = 1 if item['chance'] == 0 else 0
+                # Mirror the source GroupId verbatim. Fabricating one from the
+                # chance (old: chance==0 -> group 1) split grouped "pick one"
+                # materials apart and left rare chance-0 items alone in a group,
+                # which AC's equal-chance logic then drops 100% of the time
+                # (guaranteed Nexus Crystals etc. on every bonus roll).
+                group_id = item['group_id']
                 ref_val = item['reference'] if item['reference'] > 0 else 0
                 lines.append("INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES")
                 lines.append(f"    ({tier_ref_id}, {item['source_id']}, {ref_val}, {item['chance']}, {group_id}, 0, {item['min_count']}, {item['max_count']}, 'Bonus from {tier['name']} {sql_escape(label)}');")

@@ -92,167 +92,167 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Iron Ore (Entry: 2772)
 -- Iron Ore - Journeyman Jeweler's Kit Bonus (Ref 97008)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97008, 1529, 0, 30.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97008, 1529, 0, 30.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97008, 1705, 0, 30.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97008, 1705, 0, 30.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97008, 3864, 0, 30.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97008, 3864, 0, 30.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97008, 7909, 0, 5.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97008, 7909, 0, 5.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97008, 7910, 0, 5.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97008, 7910, 0, 5.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Iron Ore - Artisan Jeweler's Kit Bonus (Ref 97009)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97009, 1529, 0, 30.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97009, 1529, 0, 30.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97009, 1705, 0, 30.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97009, 1705, 0, 30.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97009, 3864, 0, 30.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97009, 3864, 0, 30.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97009, 7909, 0, 5.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97009, 7909, 0, 5.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97009, 7910, 0, 5.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97009, 7910, 0, 5.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Iron Ore - Master Jeweler's Kit Bonus (Ref 97010)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97010, 1529, 0, 30.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97010, 1529, 0, 30.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97010, 1705, 0, 30.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97010, 1705, 0, 30.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97010, 3864, 0, 30.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97010, 3864, 0, 30.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97010, 7909, 0, 5.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97010, 7909, 0, 5.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97010, 7910, 0, 5.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97010, 7910, 0, 5.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 
 -- Iron Ore - Grand Master Jeweler's Kit Bonus (Ref 97011)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97011, 1529, 0, 30.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97011, 1529, 0, 30.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97011, 1705, 0, 30.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97011, 1705, 0, 30.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97011, 3864, 0, 30.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97011, 3864, 0, 30.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97011, 7909, 0, 5.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97011, 7909, 0, 5.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97011, 7910, 0, 5.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97011, 7910, 0, 5.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 
 
 -- Mithril Ore (Entry: 3858)
 -- Mithril Ore - Journeyman Jeweler's Kit Bonus (Ref 97012)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97012, 3864, 0, 30.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97012, 3864, 0, 30.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97012, 7909, 0, 30.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97012, 7909, 0, 30.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97012, 7910, 0, 30.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97012, 7910, 0, 30.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97012, 12361, 0, 2.5, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97012, 12361, 0, 2.5, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97012, 12364, 0, 2.5, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97012, 12364, 0, 2.5, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97012, 12799, 0, 2.5, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97012, 12799, 0, 2.5, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97012, 12800, 0, 2.5, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97012, 12800, 0, 2.5, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Mithril Ore - Artisan Jeweler's Kit Bonus (Ref 97013)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97013, 3864, 0, 30.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97013, 3864, 0, 30.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97013, 7909, 0, 30.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97013, 7909, 0, 30.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97013, 7910, 0, 30.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97013, 7910, 0, 30.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97013, 12361, 0, 2.5, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97013, 12361, 0, 2.5, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97013, 12364, 0, 2.5, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97013, 12364, 0, 2.5, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97013, 12799, 0, 2.5, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97013, 12799, 0, 2.5, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97013, 12800, 0, 2.5, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97013, 12800, 0, 2.5, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Mithril Ore - Master Jeweler's Kit Bonus (Ref 97014)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97014, 3864, 0, 30.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97014, 3864, 0, 30.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97014, 7909, 0, 30.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97014, 7909, 0, 30.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97014, 7910, 0, 30.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97014, 7910, 0, 30.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97014, 12361, 0, 2.5, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97014, 12361, 0, 2.5, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97014, 12364, 0, 2.5, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97014, 12364, 0, 2.5, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97014, 12799, 0, 2.5, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97014, 12799, 0, 2.5, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97014, 12800, 0, 2.5, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97014, 12800, 0, 2.5, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 
 -- Mithril Ore - Grand Master Jeweler's Kit Bonus (Ref 97015)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97015, 3864, 0, 30.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97015, 3864, 0, 30.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97015, 7909, 0, 30.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97015, 7909, 0, 30.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97015, 7910, 0, 30.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97015, 7910, 0, 30.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97015, 12361, 0, 2.5, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97015, 12361, 0, 2.5, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97015, 12364, 0, 2.5, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97015, 12364, 0, 2.5, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97015, 12799, 0, 2.5, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97015, 12799, 0, 2.5, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97015, 12800, 0, 2.5, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97015, 12800, 0, 2.5, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 
 
 -- Thorium Ore (Entry: 10620)
 -- Thorium Ore - Journeyman Jeweler's Kit Bonus (Ref 97016)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97016, 7910, 0, 30.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97016, 7910, 0, 30.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97016, 12361, 0, 15.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97016, 12361, 0, 15.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97016, 12364, 0, 15.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97016, 12364, 0, 15.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97016, 12799, 0, 15.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97016, 12799, 0, 15.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97016, 12800, 0, 15.0, 0, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+    (97016, 12800, 0, 15.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Thorium Ore - Artisan Jeweler's Kit Bonus (Ref 97017)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97017, 7910, 0, 30.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97017, 7910, 0, 30.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97017, 12361, 0, 15.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97017, 12361, 0, 15.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97017, 12364, 0, 15.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97017, 12364, 0, 15.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97017, 12799, 0, 15.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97017, 12799, 0, 15.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97017, 12800, 0, 15.0, 0, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+    (97017, 12800, 0, 15.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Thorium Ore - Master Jeweler's Kit Bonus (Ref 97018)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97018, 7910, 0, 30.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97018, 7910, 0, 30.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97018, 12361, 0, 15.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97018, 12361, 0, 15.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97018, 12364, 0, 15.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97018, 12364, 0, 15.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97018, 12799, 0, 15.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97018, 12799, 0, 15.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97018, 12800, 0, 15.0, 0, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+    (97018, 12800, 0, 15.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 
 -- Thorium Ore - Grand Master Jeweler's Kit Bonus (Ref 97019)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97019, 7910, 0, 30.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97019, 7910, 0, 30.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97019, 12361, 0, 15.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97019, 12361, 0, 15.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97019, 12364, 0, 15.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97019, 12364, 0, 15.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97019, 12799, 0, 15.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97019, 12799, 0, 15.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97019, 12800, 0, 15.0, 0, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+    (97019, 12800, 0, 15.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 
 
 -- Fel Iron Ore (Entry: 23424)
@@ -270,17 +270,17 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97020, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97020, 23436, 0, 4.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97020, 23436, 0, 4.0, 2, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97020, 23437, 0, 4.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97020, 23437, 0, 4.0, 2, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97020, 23438, 0, 4.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97020, 23438, 0, 4.0, 2, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97020, 23439, 0, 4.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97020, 23439, 0, 4.0, 2, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97020, 23440, 0, 4.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97020, 23440, 0, 4.0, 2, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97020, 23441, 0, 4.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97020, 23441, 0, 4.0, 2, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Fel Iron Ore - Artisan Jeweler's Kit Bonus (Ref 97021)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -296,17 +296,17 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97021, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97021, 23436, 0, 4.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97021, 23436, 0, 4.0, 2, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97021, 23437, 0, 4.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97021, 23437, 0, 4.0, 2, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97021, 23438, 0, 4.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97021, 23438, 0, 4.0, 2, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97021, 23439, 0, 4.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97021, 23439, 0, 4.0, 2, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97021, 23440, 0, 4.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97021, 23440, 0, 4.0, 2, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97021, 23441, 0, 4.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97021, 23441, 0, 4.0, 2, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Fel Iron Ore - Master Jeweler's Kit Bonus (Ref 97022)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -322,17 +322,17 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97022, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97022, 23436, 0, 4.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97022, 23436, 0, 4.0, 2, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97022, 23437, 0, 4.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97022, 23437, 0, 4.0, 2, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97022, 23438, 0, 4.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97022, 23438, 0, 4.0, 2, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97022, 23439, 0, 4.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97022, 23439, 0, 4.0, 2, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97022, 23440, 0, 4.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97022, 23440, 0, 4.0, 2, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97022, 23441, 0, 4.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97022, 23441, 0, 4.0, 2, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 
 -- Fel Iron Ore - Grand Master Jeweler's Kit Bonus (Ref 97023)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -348,17 +348,17 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97023, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97023, 23436, 0, 4.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97023, 23436, 0, 4.0, 2, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97023, 23437, 0, 4.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97023, 23437, 0, 4.0, 2, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97023, 23438, 0, 4.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97023, 23438, 0, 4.0, 2, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97023, 23439, 0, 4.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97023, 23439, 0, 4.0, 2, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97023, 23440, 0, 4.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97023, 23440, 0, 4.0, 2, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97023, 23441, 0, 4.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97023, 23441, 0, 4.0, 2, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 
 
 -- Adamantite Ore (Entry: 23425)
@@ -406,19 +406,19 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Cobalt Ore (Entry: 36909)
 -- Cobalt Ore - Journeyman Jeweler's Kit Bonus (Ref 97028)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97028, 90000000, 1001, 100.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97028, 90000000, 1001, 100.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Cobalt Ore - Artisan Jeweler's Kit Bonus (Ref 97029)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97029, 90000000, 1001, 100.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97029, 90000000, 1001, 100.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Cobalt Ore - Master Jeweler's Kit Bonus (Ref 97030)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97030, 90000000, 1001, 100.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97030, 90000000, 1001, 100.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 
 -- Cobalt Ore - Grand Master Jeweler's Kit Bonus (Ref 97031)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97031, 90000000, 1001, 100.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97031, 90000000, 1001, 100.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 
 
 -- Titanium Ore (Entry: 36910)
@@ -468,25 +468,25 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97036, 90000000, 1003, 85.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97036, 90000001, 1004, 100.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97036, 90000001, 1004, 100.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Saronite Ore - Artisan Jeweler's Kit Bonus (Ref 97037)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97037, 90000000, 1003, 85.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97037, 90000001, 1004, 100.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97037, 90000001, 1004, 100.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Saronite Ore - Master Jeweler's Kit Bonus (Ref 97038)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97038, 90000000, 1003, 85.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97038, 90000001, 1004, 100.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97038, 90000001, 1004, 100.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 
 -- Saronite Ore - Grand Master Jeweler's Kit Bonus (Ref 97039)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97039, 90000000, 1003, 85.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97039, 90000001, 1004, 100.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97039, 90000001, 1004, 100.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 
 
 -- =====================================================

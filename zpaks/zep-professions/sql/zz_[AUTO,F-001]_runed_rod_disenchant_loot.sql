@@ -18,141 +18,141 @@ DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup BETWEE
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98000, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98000, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98000, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 1 - Runed Silver Runed Rod Bonus (Ref 98001)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98001, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98001, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98001, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 1 - Runed Golden Runed Rod Bonus (Ref 98002)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98002, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98002, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98002, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 1 - Runed Truesilver Runed Rod Bonus (Ref 98003)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98003, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98003, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98003, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 1 - Runed Arcanite Runed Rod Bonus (Ref 98004)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98004, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98004, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98004, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 1 - Runed Fel Iron Runed Rod Bonus (Ref 98005)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98005, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98005, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98005, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 1 - Runed Adamantite Runed Rod Bonus (Ref 98006)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98006, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98006, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98006, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 1 - Runed Eternium Runed Rod Bonus (Ref 98007)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98007, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98007, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98007, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 1 - Runed Cobalt Runed Rod Bonus (Ref 98008)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98008, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98008, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98008, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 1 - Runed Titanium Runed Rod Bonus (Ref 98009)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98009, 10938, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98009, 10940, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98009, 10940, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 2 (Entry: 2)
 -- Entry 2 - Runed Copper Runed Rod Bonus (Ref 98010)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98010, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98010, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98010, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
+    (98010, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98010, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 2 - Runed Silver Runed Rod Bonus (Ref 98011)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98011, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98011, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98011, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
+    (98011, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98011, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 2 - Runed Golden Runed Rod Bonus (Ref 98012)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98012, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98012, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98012, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
+    (98012, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98012, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 2 - Runed Truesilver Runed Rod Bonus (Ref 98013)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98013, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98013, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98013, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98013, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98013, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 2 - Runed Arcanite Runed Rod Bonus (Ref 98014)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98014, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98014, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98014, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98014, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98014, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 2 - Runed Fel Iron Runed Rod Bonus (Ref 98015)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98015, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98015, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98015, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98015, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98015, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 2 - Runed Adamantite Runed Rod Bonus (Ref 98016)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98016, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98016, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98016, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98016, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98016, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 2 - Runed Eternium Runed Rod Bonus (Ref 98017)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98017, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98017, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98017, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98017, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98017, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 2 - Runed Cobalt Runed Rod Bonus (Ref 98018)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98018, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98018, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98018, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98018, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98018, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 2 - Runed Titanium Runed Rod Bonus (Ref 98019)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98019, 10939, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98019, 10939, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98019, 10940, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98019, 10940, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98019, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -160,163 +160,163 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 3 (Entry: 3)
 -- Entry 3 - Runed Copper Runed Rod Bonus (Ref 98020)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98020, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Copper Runed Rod');
+    (98020, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98020, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98020, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98020, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 3 - Runed Silver Runed Rod Bonus (Ref 98021)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98021, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Silver Runed Rod');
+    (98021, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98021, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98021, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98021, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 3 - Runed Golden Runed Rod Bonus (Ref 98022)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98022, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Golden Runed Rod');
+    (98022, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98022, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98022, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98022, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 3 - Runed Truesilver Runed Rod Bonus (Ref 98023)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98023, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Truesilver Runed Rod');
+    (98023, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98023, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98023, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98023, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 3 - Runed Arcanite Runed Rod Bonus (Ref 98024)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98024, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Arcanite Runed Rod');
+    (98024, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98024, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98024, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98024, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 3 - Runed Fel Iron Runed Rod Bonus (Ref 98025)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98025, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Fel Iron Runed Rod');
+    (98025, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98025, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98025, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98025, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 3 - Runed Adamantite Runed Rod Bonus (Ref 98026)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98026, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Adamantite Runed Rod');
+    (98026, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98026, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98026, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98026, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 3 - Runed Eternium Runed Rod Bonus (Ref 98027)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98027, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Eternium Runed Rod');
+    (98027, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98027, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98027, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98027, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 3 - Runed Cobalt Runed Rod Bonus (Ref 98028)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98028, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Cobalt Runed Rod');
+    (98028, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98028, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98028, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98028, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 3 - Runed Titanium Runed Rod Bonus (Ref 98029)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98029, 10940, 0, 75.0, 0, 0, 4, 6, 'Bonus from Runed Titanium Runed Rod');
+    (98029, 10940, 0, 75.0, 1, 0, 4, 6, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98029, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98029, 10998, 0, 15.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98029, 10998, 0, 15.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 4 (Entry: 4)
 -- Entry 4 - Runed Copper Runed Rod Bonus (Ref 98030)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98030, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98030, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98030, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98030, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98030, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 4 - Runed Silver Runed Rod Bonus (Ref 98031)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98031, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98031, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98031, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98031, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98031, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 4 - Runed Golden Runed Rod Bonus (Ref 98032)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98032, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98032, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98032, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98032, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98032, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 4 - Runed Truesilver Runed Rod Bonus (Ref 98033)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98033, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98033, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98033, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98033, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98033, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 4 - Runed Arcanite Runed Rod Bonus (Ref 98034)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98034, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98034, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98034, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98034, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98034, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 4 - Runed Fel Iron Runed Rod Bonus (Ref 98035)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98035, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98035, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98035, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98035, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98035, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 4 - Runed Adamantite Runed Rod Bonus (Ref 98036)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98036, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98036, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98036, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98036, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98036, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 4 - Runed Eternium Runed Rod Bonus (Ref 98037)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98037, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98037, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98037, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98037, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98037, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 4 - Runed Cobalt Runed Rod Bonus (Ref 98038)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98038, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98038, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98038, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98038, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98038, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 4 - Runed Titanium Runed Rod Bonus (Ref 98039)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98039, 11082, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98039, 11082, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98039, 11083, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98039, 11083, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98039, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -324,81 +324,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 5 (Entry: 5)
 -- Entry 5 - Runed Copper Runed Rod Bonus (Ref 98040)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98040, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98040, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98040, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98040, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98040, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 5 - Runed Silver Runed Rod Bonus (Ref 98041)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98041, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98041, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98041, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98041, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98041, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 5 - Runed Golden Runed Rod Bonus (Ref 98042)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98042, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98042, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98042, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98042, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98042, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 5 - Runed Truesilver Runed Rod Bonus (Ref 98043)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98043, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98043, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98043, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98043, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98043, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 5 - Runed Arcanite Runed Rod Bonus (Ref 98044)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98044, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98044, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98044, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98044, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98044, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 5 - Runed Fel Iron Runed Rod Bonus (Ref 98045)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98045, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98045, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98045, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98045, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98045, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 5 - Runed Adamantite Runed Rod Bonus (Ref 98046)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98046, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98046, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98046, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98046, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98046, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 5 - Runed Eternium Runed Rod Bonus (Ref 98047)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98047, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98047, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98047, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98047, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98047, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 5 - Runed Cobalt Runed Rod Bonus (Ref 98048)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98048, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98048, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98048, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98048, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98048, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 5 - Runed Titanium Runed Rod Bonus (Ref 98049)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98049, 11083, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98049, 11083, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98049, 11134, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98049, 11134, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98049, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -406,81 +406,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 6 (Entry: 6)
 -- Entry 6 - Runed Copper Runed Rod Bonus (Ref 98050)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98050, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98050, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98050, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98050, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98050, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 6 - Runed Silver Runed Rod Bonus (Ref 98051)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98051, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98051, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98051, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98051, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98051, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 6 - Runed Golden Runed Rod Bonus (Ref 98052)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98052, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98052, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98052, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98052, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98052, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 6 - Runed Truesilver Runed Rod Bonus (Ref 98053)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98053, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98053, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98053, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98053, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98053, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 6 - Runed Arcanite Runed Rod Bonus (Ref 98054)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98054, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98054, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98054, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98054, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98054, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 6 - Runed Fel Iron Runed Rod Bonus (Ref 98055)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98055, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98055, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98055, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98055, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98055, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 6 - Runed Adamantite Runed Rod Bonus (Ref 98056)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98056, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98056, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98056, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98056, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98056, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 6 - Runed Eternium Runed Rod Bonus (Ref 98057)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98057, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98057, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98057, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98057, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98057, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 6 - Runed Cobalt Runed Rod Bonus (Ref 98058)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98058, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98058, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98058, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98058, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98058, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 6 - Runed Titanium Runed Rod Bonus (Ref 98059)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98059, 11135, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98059, 11135, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98059, 11137, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98059, 11137, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98059, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -488,81 +488,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 7 (Entry: 7)
 -- Entry 7 - Runed Copper Runed Rod Bonus (Ref 98060)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98060, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98060, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98060, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98060, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98060, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 7 - Runed Silver Runed Rod Bonus (Ref 98061)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98061, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98061, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98061, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98061, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98061, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 7 - Runed Golden Runed Rod Bonus (Ref 98062)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98062, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98062, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98062, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98062, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98062, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 7 - Runed Truesilver Runed Rod Bonus (Ref 98063)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98063, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98063, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98063, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98063, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98063, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 7 - Runed Arcanite Runed Rod Bonus (Ref 98064)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98064, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98064, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98064, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98064, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98064, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 7 - Runed Fel Iron Runed Rod Bonus (Ref 98065)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98065, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98065, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98065, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98065, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98065, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 7 - Runed Adamantite Runed Rod Bonus (Ref 98066)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98066, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98066, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98066, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98066, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98066, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 7 - Runed Eternium Runed Rod Bonus (Ref 98067)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98067, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98067, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98067, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98067, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98067, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 7 - Runed Cobalt Runed Rod Bonus (Ref 98068)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98068, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98068, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98068, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98068, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98068, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 7 - Runed Titanium Runed Rod Bonus (Ref 98069)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98069, 11137, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98069, 11137, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98069, 11174, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98069, 11174, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98069, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -570,81 +570,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 8 (Entry: 8)
 -- Entry 8 - Runed Copper Runed Rod Bonus (Ref 98070)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98070, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98070, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98070, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98070, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98070, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 8 - Runed Silver Runed Rod Bonus (Ref 98071)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98071, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98071, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98071, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98071, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98071, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 8 - Runed Golden Runed Rod Bonus (Ref 98072)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98072, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98072, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98072, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98072, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98072, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 8 - Runed Truesilver Runed Rod Bonus (Ref 98073)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98073, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98073, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98073, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98073, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98073, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 8 - Runed Arcanite Runed Rod Bonus (Ref 98074)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98074, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98074, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98074, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98074, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98074, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 8 - Runed Fel Iron Runed Rod Bonus (Ref 98075)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98075, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98075, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98075, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98075, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98075, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 8 - Runed Adamantite Runed Rod Bonus (Ref 98076)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98076, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98076, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98076, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98076, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98076, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 8 - Runed Eternium Runed Rod Bonus (Ref 98077)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98077, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98077, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98077, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98077, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98077, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 8 - Runed Cobalt Runed Rod Bonus (Ref 98078)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98078, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98078, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98078, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98078, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98078, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 8 - Runed Titanium Runed Rod Bonus (Ref 98079)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98079, 11175, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98079, 11175, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98079, 11176, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98079, 11176, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98079, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -652,83 +652,83 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 9 (Entry: 9)
 -- Entry 9 - Runed Copper Runed Rod Bonus (Ref 98080)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98080, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98080, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98080, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98080, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98080, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 9 - Runed Silver Runed Rod Bonus (Ref 98081)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98081, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98081, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98081, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98081, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98081, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 9 - Runed Golden Runed Rod Bonus (Ref 98082)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98082, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98082, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98082, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98082, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98082, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 9 - Runed Truesilver Runed Rod Bonus (Ref 98083)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98083, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98083, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98083, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98083, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98083, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 9 - Runed Arcanite Runed Rod Bonus (Ref 98084)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98084, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98084, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98084, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98084, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98084, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 9 - Runed Fel Iron Runed Rod Bonus (Ref 98085)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98085, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98085, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98085, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98085, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98085, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 9 - Runed Adamantite Runed Rod Bonus (Ref 98086)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98086, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98086, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98086, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98086, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98086, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 9 - Runed Eternium Runed Rod Bonus (Ref 98087)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98087, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98087, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98087, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98087, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98087, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 9 - Runed Cobalt Runed Rod Bonus (Ref 98088)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98088, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98088, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98088, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98088, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98088, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 9 - Runed Titanium Runed Rod Bonus (Ref 98089)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98089, 11176, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98089, 11176, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98089, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98089, 16202, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98089, 16202, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 10 (Entry: 10)
@@ -736,81 +736,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98090, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98090, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98090, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98090, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98090, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 10 - Runed Silver Runed Rod Bonus (Ref 98091)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98091, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98091, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98091, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98091, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98091, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 10 - Runed Golden Runed Rod Bonus (Ref 98092)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98092, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98092, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98092, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98092, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98092, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 10 - Runed Truesilver Runed Rod Bonus (Ref 98093)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98093, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98093, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98093, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98093, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98093, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 10 - Runed Arcanite Runed Rod Bonus (Ref 98094)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98094, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98094, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98094, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98094, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98094, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 10 - Runed Fel Iron Runed Rod Bonus (Ref 98095)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98095, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98095, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98095, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98095, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98095, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 10 - Runed Adamantite Runed Rod Bonus (Ref 98096)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98096, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98096, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98096, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98096, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98096, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 10 - Runed Eternium Runed Rod Bonus (Ref 98097)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98097, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98097, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98097, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98097, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98097, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 10 - Runed Cobalt Runed Rod Bonus (Ref 98098)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98098, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98098, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98098, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98098, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98098, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 10 - Runed Titanium Runed Rod Bonus (Ref 98099)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98099, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98099, 16203, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98099, 16203, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98099, 16204, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98099, 16204, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 11 (Entry: 11)
@@ -818,161 +818,161 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98100, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98100, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
+    (98100, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98100, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98100, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 11 - Runed Silver Runed Rod Bonus (Ref 98101)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98101, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98101, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
+    (98101, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98101, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98101, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 11 - Runed Golden Runed Rod Bonus (Ref 98102)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98102, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98102, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
+    (98102, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98102, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98102, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 11 - Runed Truesilver Runed Rod Bonus (Ref 98103)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98103, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98103, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98103, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98103, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98103, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 11 - Runed Arcanite Runed Rod Bonus (Ref 98104)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98104, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98104, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98104, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98104, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98104, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 11 - Runed Fel Iron Runed Rod Bonus (Ref 98105)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98105, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98105, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98105, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98105, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98105, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 11 - Runed Adamantite Runed Rod Bonus (Ref 98106)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98106, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98106, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98106, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98106, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98106, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 11 - Runed Eternium Runed Rod Bonus (Ref 98107)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98107, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98107, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98107, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98107, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98107, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 11 - Runed Cobalt Runed Rod Bonus (Ref 98108)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98108, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98108, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98108, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98108, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98108, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 11 - Runed Titanium Runed Rod Bonus (Ref 98109)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98109, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98109, 16203, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98109, 16203, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98109, 16204, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98109, 16204, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 12 (Entry: 12)
 -- Entry 12 - Runed Copper Runed Rod Bonus (Ref 98110)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98110, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Copper Runed Rod');
+    (98110, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98110, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Copper Runed Rod');
+    (98110, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98110, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 12 - Runed Silver Runed Rod Bonus (Ref 98111)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98111, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Silver Runed Rod');
+    (98111, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98111, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Silver Runed Rod');
+    (98111, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98111, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 12 - Runed Golden Runed Rod Bonus (Ref 98112)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98112, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Golden Runed Rod');
+    (98112, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98112, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Golden Runed Rod');
+    (98112, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98112, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 12 - Runed Truesilver Runed Rod Bonus (Ref 98113)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98113, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98113, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98113, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98113, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98113, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 12 - Runed Arcanite Runed Rod Bonus (Ref 98114)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98114, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98114, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98114, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98114, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98114, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 12 - Runed Fel Iron Runed Rod Bonus (Ref 98115)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98115, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98115, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98115, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98115, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98115, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 12 - Runed Adamantite Runed Rod Bonus (Ref 98116)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98116, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98116, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98116, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98116, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98116, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 12 - Runed Eternium Runed Rod Bonus (Ref 98117)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98117, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98117, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98117, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98117, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98117, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 12 - Runed Cobalt Runed Rod Bonus (Ref 98118)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98118, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98118, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98118, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98118, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98118, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 12 - Runed Titanium Runed Rod Bonus (Ref 98119)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98119, 22445, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98119, 22445, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98119, 22447, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98119, 22447, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98119, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -980,81 +980,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 13 (Entry: 13)
 -- Entry 13 - Runed Copper Runed Rod Bonus (Ref 98120)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98120, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
+    (98120, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98120, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
+    (98120, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98120, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 13 - Runed Silver Runed Rod Bonus (Ref 98121)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98121, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
+    (98121, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98121, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
+    (98121, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98121, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 13 - Runed Golden Runed Rod Bonus (Ref 98122)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98122, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
+    (98122, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98122, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
+    (98122, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98122, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 13 - Runed Truesilver Runed Rod Bonus (Ref 98123)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98123, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98123, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98123, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98123, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98123, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 13 - Runed Arcanite Runed Rod Bonus (Ref 98124)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98124, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98124, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98124, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98124, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98124, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 13 - Runed Fel Iron Runed Rod Bonus (Ref 98125)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98125, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98125, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98125, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98125, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98125, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 13 - Runed Adamantite Runed Rod Bonus (Ref 98126)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98126, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98126, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98126, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98126, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98126, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 13 - Runed Eternium Runed Rod Bonus (Ref 98127)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98127, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98127, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98127, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98127, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98127, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 13 - Runed Cobalt Runed Rod Bonus (Ref 98128)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98128, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98128, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98128, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98128, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98128, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 13 - Runed Titanium Runed Rod Bonus (Ref 98129)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98129, 22445, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98129, 22445, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98129, 22447, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98129, 22447, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98129, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -1062,81 +1062,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 14 (Entry: 14)
 -- Entry 14 - Runed Copper Runed Rod Bonus (Ref 98130)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98130, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98130, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98130, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98130, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98130, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 14 - Runed Silver Runed Rod Bonus (Ref 98131)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98131, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98131, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98131, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98131, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98131, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 14 - Runed Golden Runed Rod Bonus (Ref 98132)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98132, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98132, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98132, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98132, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98132, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 14 - Runed Truesilver Runed Rod Bonus (Ref 98133)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98133, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98133, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98133, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98133, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98133, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 14 - Runed Arcanite Runed Rod Bonus (Ref 98134)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98134, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98134, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98134, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98134, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98134, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 14 - Runed Fel Iron Runed Rod Bonus (Ref 98135)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98135, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98135, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98135, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98135, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98135, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 14 - Runed Adamantite Runed Rod Bonus (Ref 98136)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98136, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98136, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98136, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98136, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98136, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 14 - Runed Eternium Runed Rod Bonus (Ref 98137)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98137, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98137, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98137, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98137, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98137, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 14 - Runed Cobalt Runed Rod Bonus (Ref 98138)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98138, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98138, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98138, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98138, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98138, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 14 - Runed Titanium Runed Rod Bonus (Ref 98139)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98139, 22445, 0, 75.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98139, 22445, 0, 75.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98139, 22446, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98139, 22446, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98139, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -1146,81 +1146,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98140, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98140, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Copper Runed Rod');
+    (98140, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98140, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98140, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 15 - Runed Silver Runed Rod Bonus (Ref 98141)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98141, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98141, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Silver Runed Rod');
+    (98141, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98141, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98141, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 15 - Runed Golden Runed Rod Bonus (Ref 98142)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98142, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98142, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Golden Runed Rod');
+    (98142, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98142, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98142, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 15 - Runed Truesilver Runed Rod Bonus (Ref 98143)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98143, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98143, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98143, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98143, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98143, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 15 - Runed Arcanite Runed Rod Bonus (Ref 98144)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98144, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98144, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98144, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98144, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98144, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 15 - Runed Fel Iron Runed Rod Bonus (Ref 98145)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98145, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98145, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98145, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98145, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98145, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 15 - Runed Adamantite Runed Rod Bonus (Ref 98146)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98146, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98146, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98146, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98146, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98146, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 15 - Runed Eternium Runed Rod Bonus (Ref 98147)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98147, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98147, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98147, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98147, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98147, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 15 - Runed Cobalt Runed Rod Bonus (Ref 98148)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98148, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98148, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98148, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98148, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98148, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 15 - Runed Titanium Runed Rod Bonus (Ref 98149)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98149, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98149, 34054, 0, 75.0, 0, 0, 1, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98149, 34054, 0, 75.0, 1, 0, 1, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98149, 34056, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98149, 34056, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 16 (Entry: 16)
@@ -1228,81 +1228,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98150, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98150, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Copper Runed Rod');
+    (98150, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98150, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98150, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 16 - Runed Silver Runed Rod Bonus (Ref 98151)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98151, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98151, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Silver Runed Rod');
+    (98151, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98151, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98151, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 16 - Runed Golden Runed Rod Bonus (Ref 98152)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98152, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98152, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Golden Runed Rod');
+    (98152, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98152, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98152, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 16 - Runed Truesilver Runed Rod Bonus (Ref 98153)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98153, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98153, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Truesilver Runed Rod');
+    (98153, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98153, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98153, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 16 - Runed Arcanite Runed Rod Bonus (Ref 98154)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98154, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98154, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Arcanite Runed Rod');
+    (98154, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98154, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98154, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 16 - Runed Fel Iron Runed Rod Bonus (Ref 98155)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98155, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98155, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Fel Iron Runed Rod');
+    (98155, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98155, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98155, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 16 - Runed Adamantite Runed Rod Bonus (Ref 98156)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98156, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98156, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Adamantite Runed Rod');
+    (98156, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98156, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98156, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 16 - Runed Eternium Runed Rod Bonus (Ref 98157)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98157, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98157, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Eternium Runed Rod');
+    (98157, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98157, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98157, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 16 - Runed Cobalt Runed Rod Bonus (Ref 98158)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98158, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98158, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Cobalt Runed Rod');
+    (98158, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98158, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98158, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 16 - Runed Titanium Runed Rod Bonus (Ref 98159)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98159, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98159, 34054, 0, 75.0, 0, 0, 4, 7, 'Bonus from Runed Titanium Runed Rod');
+    (98159, 34054, 0, 75.0, 1, 0, 4, 7, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98159, 34055, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98159, 34055, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Martin Fury (Entry: 17)
@@ -1392,61 +1392,61 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 21 (Entry: 21)
 -- Entry 21 - Runed Copper Runed Rod Bonus (Ref 98180)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98180, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98180, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98180, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 21 - Runed Silver Runed Rod Bonus (Ref 98181)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98181, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98181, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98181, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 21 - Runed Golden Runed Rod Bonus (Ref 98182)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98182, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98182, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98182, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 21 - Runed Truesilver Runed Rod Bonus (Ref 98183)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98183, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98183, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98183, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 21 - Runed Arcanite Runed Rod Bonus (Ref 98184)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98184, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98184, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98184, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 21 - Runed Fel Iron Runed Rod Bonus (Ref 98185)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98185, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98185, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98185, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 21 - Runed Adamantite Runed Rod Bonus (Ref 98186)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98186, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98186, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98186, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 21 - Runed Eternium Runed Rod Bonus (Ref 98187)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98187, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98187, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98187, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 21 - Runed Cobalt Runed Rod Bonus (Ref 98188)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98188, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98188, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98188, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 21 - Runed Titanium Runed Rod Bonus (Ref 98189)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98189, 10938, 0, 80.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98189, 10938, 0, 80.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98189, 10940, 0, 0.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
@@ -1454,81 +1454,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 22 (Entry: 22)
 -- Entry 22 - Runed Copper Runed Rod Bonus (Ref 98190)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98190, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98190, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98190, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
+    (98190, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98190, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 22 - Runed Silver Runed Rod Bonus (Ref 98191)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98191, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98191, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98191, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
+    (98191, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98191, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 22 - Runed Golden Runed Rod Bonus (Ref 98192)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98192, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98192, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98192, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
+    (98192, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98192, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 22 - Runed Truesilver Runed Rod Bonus (Ref 98193)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98193, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98193, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98193, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98193, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98193, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 22 - Runed Arcanite Runed Rod Bonus (Ref 98194)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98194, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98194, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98194, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98194, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98194, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 22 - Runed Fel Iron Runed Rod Bonus (Ref 98195)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98195, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98195, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98195, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98195, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98195, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 22 - Runed Adamantite Runed Rod Bonus (Ref 98196)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98196, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98196, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98196, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98196, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98196, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 22 - Runed Eternium Runed Rod Bonus (Ref 98197)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98197, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98197, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98197, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98197, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98197, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 22 - Runed Cobalt Runed Rod Bonus (Ref 98198)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98198, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98198, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98198, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98198, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98198, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 22 - Runed Titanium Runed Rod Bonus (Ref 98199)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98199, 10939, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98199, 10939, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98199, 10940, 0, 20.0, 0, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98199, 10940, 0, 20.0, 1, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98199, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -1536,163 +1536,163 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 23 (Entry: 23)
 -- Entry 23 - Runed Copper Runed Rod Bonus (Ref 98200)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98200, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Copper Runed Rod');
+    (98200, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98200, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98200, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98200, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 23 - Runed Silver Runed Rod Bonus (Ref 98201)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98201, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Silver Runed Rod');
+    (98201, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98201, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98201, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98201, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 23 - Runed Golden Runed Rod Bonus (Ref 98202)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98202, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Golden Runed Rod');
+    (98202, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98202, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98202, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98202, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 23 - Runed Truesilver Runed Rod Bonus (Ref 98203)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98203, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Truesilver Runed Rod');
+    (98203, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98203, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98203, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98203, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 23 - Runed Arcanite Runed Rod Bonus (Ref 98204)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98204, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Arcanite Runed Rod');
+    (98204, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98204, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98204, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98204, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 23 - Runed Fel Iron Runed Rod Bonus (Ref 98205)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98205, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Fel Iron Runed Rod');
+    (98205, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98205, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98205, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98205, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 23 - Runed Adamantite Runed Rod Bonus (Ref 98206)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98206, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Adamantite Runed Rod');
+    (98206, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98206, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98206, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98206, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 23 - Runed Eternium Runed Rod Bonus (Ref 98207)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98207, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Eternium Runed Rod');
+    (98207, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98207, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98207, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98207, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 23 - Runed Cobalt Runed Rod Bonus (Ref 98208)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98208, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Cobalt Runed Rod');
+    (98208, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98208, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98208, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98208, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 23 - Runed Titanium Runed Rod Bonus (Ref 98209)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98209, 10940, 0, 15.0, 0, 0, 4, 6, 'Bonus from Runed Titanium Runed Rod');
+    (98209, 10940, 0, 15.0, 1, 0, 4, 6, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98209, 10978, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98209, 10998, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98209, 10998, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 24 (Entry: 24)
 -- Entry 24 - Runed Copper Runed Rod Bonus (Ref 98210)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98210, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98210, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98210, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98210, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98210, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 24 - Runed Silver Runed Rod Bonus (Ref 98211)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98211, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98211, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98211, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98211, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98211, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 24 - Runed Golden Runed Rod Bonus (Ref 98212)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98212, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98212, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98212, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98212, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98212, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 24 - Runed Truesilver Runed Rod Bonus (Ref 98213)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98213, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98213, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98213, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98213, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98213, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 24 - Runed Arcanite Runed Rod Bonus (Ref 98214)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98214, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98214, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98214, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98214, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98214, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 24 - Runed Fel Iron Runed Rod Bonus (Ref 98215)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98215, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98215, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98215, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98215, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98215, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 24 - Runed Adamantite Runed Rod Bonus (Ref 98216)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98216, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98216, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98216, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98216, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98216, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 24 - Runed Eternium Runed Rod Bonus (Ref 98217)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98217, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98217, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98217, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98217, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98217, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 24 - Runed Cobalt Runed Rod Bonus (Ref 98218)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98218, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98218, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98218, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98218, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98218, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 24 - Runed Titanium Runed Rod Bonus (Ref 98219)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98219, 11082, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98219, 11082, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98219, 11083, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98219, 11083, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98219, 11084, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -1700,81 +1700,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Worn Shortsword (Entry: 25)
 -- Worn Shortsword - Runed Copper Runed Rod Bonus (Ref 98220)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98220, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98220, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98220, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98220, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98220, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Worn Shortsword - Runed Silver Runed Rod Bonus (Ref 98221)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98221, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98221, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98221, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98221, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98221, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Worn Shortsword - Runed Golden Runed Rod Bonus (Ref 98222)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98222, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98222, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98222, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98222, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98222, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Worn Shortsword - Runed Truesilver Runed Rod Bonus (Ref 98223)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98223, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98223, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98223, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98223, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98223, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Worn Shortsword - Runed Arcanite Runed Rod Bonus (Ref 98224)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98224, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98224, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98224, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98224, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98224, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Worn Shortsword - Runed Fel Iron Runed Rod Bonus (Ref 98225)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98225, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98225, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98225, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98225, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98225, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Worn Shortsword - Runed Adamantite Runed Rod Bonus (Ref 98226)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98226, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98226, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98226, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98226, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98226, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Worn Shortsword - Runed Eternium Runed Rod Bonus (Ref 98227)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98227, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98227, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98227, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98227, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98227, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Worn Shortsword - Runed Cobalt Runed Rod Bonus (Ref 98228)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98228, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98228, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98228, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98228, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98228, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Worn Shortsword - Runed Titanium Runed Rod Bonus (Ref 98229)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98229, 11083, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98229, 11083, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98229, 11134, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98229, 11134, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98229, 11138, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -1782,81 +1782,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 26 (Entry: 26)
 -- Entry 26 - Runed Copper Runed Rod Bonus (Ref 98230)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98230, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98230, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98230, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98230, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98230, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 26 - Runed Silver Runed Rod Bonus (Ref 98231)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98231, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98231, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98231, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98231, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98231, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 26 - Runed Golden Runed Rod Bonus (Ref 98232)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98232, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98232, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98232, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98232, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98232, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 26 - Runed Truesilver Runed Rod Bonus (Ref 98233)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98233, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98233, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98233, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98233, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98233, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 26 - Runed Arcanite Runed Rod Bonus (Ref 98234)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98234, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98234, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98234, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98234, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98234, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 26 - Runed Fel Iron Runed Rod Bonus (Ref 98235)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98235, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98235, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98235, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98235, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98235, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 26 - Runed Adamantite Runed Rod Bonus (Ref 98236)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98236, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98236, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98236, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98236, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98236, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 26 - Runed Eternium Runed Rod Bonus (Ref 98237)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98237, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98237, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98237, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98237, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98237, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 26 - Runed Cobalt Runed Rod Bonus (Ref 98238)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98238, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98238, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98238, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98238, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98238, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 26 - Runed Titanium Runed Rod Bonus (Ref 98239)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98239, 11135, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98239, 11135, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98239, 11137, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98239, 11137, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98239, 11139, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -1864,81 +1864,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 27 (Entry: 27)
 -- Entry 27 - Runed Copper Runed Rod Bonus (Ref 98240)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98240, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98240, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98240, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98240, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98240, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 27 - Runed Silver Runed Rod Bonus (Ref 98241)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98241, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98241, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98241, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98241, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98241, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 27 - Runed Golden Runed Rod Bonus (Ref 98242)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98242, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98242, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98242, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98242, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98242, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 27 - Runed Truesilver Runed Rod Bonus (Ref 98243)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98243, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98243, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98243, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98243, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98243, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 27 - Runed Arcanite Runed Rod Bonus (Ref 98244)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98244, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98244, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98244, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98244, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98244, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 27 - Runed Fel Iron Runed Rod Bonus (Ref 98245)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98245, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98245, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98245, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98245, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98245, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 27 - Runed Adamantite Runed Rod Bonus (Ref 98246)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98246, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98246, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98246, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98246, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98246, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 27 - Runed Eternium Runed Rod Bonus (Ref 98247)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98247, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98247, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98247, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98247, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98247, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 27 - Runed Cobalt Runed Rod Bonus (Ref 98248)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98248, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98248, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98248, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98248, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98248, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 27 - Runed Titanium Runed Rod Bonus (Ref 98249)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98249, 11137, 0, 20.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98249, 11137, 0, 20.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98249, 11174, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98249, 11174, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98249, 11177, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -1946,81 +1946,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 28 (Entry: 28)
 -- Entry 28 - Runed Copper Runed Rod Bonus (Ref 98250)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98250, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98250, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98250, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98250, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98250, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 28 - Runed Silver Runed Rod Bonus (Ref 98251)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98251, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98251, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98251, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98251, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98251, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 28 - Runed Golden Runed Rod Bonus (Ref 98252)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98252, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98252, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98252, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98252, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98252, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 28 - Runed Truesilver Runed Rod Bonus (Ref 98253)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98253, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98253, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98253, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98253, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98253, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 28 - Runed Arcanite Runed Rod Bonus (Ref 98254)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98254, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98254, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98254, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98254, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98254, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 28 - Runed Fel Iron Runed Rod Bonus (Ref 98255)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98255, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98255, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98255, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98255, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98255, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 28 - Runed Adamantite Runed Rod Bonus (Ref 98256)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98256, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98256, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98256, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98256, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98256, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 28 - Runed Eternium Runed Rod Bonus (Ref 98257)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98257, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98257, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98257, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98257, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98257, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 28 - Runed Cobalt Runed Rod Bonus (Ref 98258)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98258, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98258, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98258, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98258, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98258, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 28 - Runed Titanium Runed Rod Bonus (Ref 98259)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98259, 11175, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98259, 11175, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98259, 11176, 0, 20.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98259, 11176, 0, 20.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98259, 11178, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -2028,83 +2028,83 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 29 (Entry: 29)
 -- Entry 29 - Runed Copper Runed Rod Bonus (Ref 98260)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98260, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98260, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98260, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98260, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98260, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 29 - Runed Silver Runed Rod Bonus (Ref 98261)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98261, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98261, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98261, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98261, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98261, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 29 - Runed Golden Runed Rod Bonus (Ref 98262)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98262, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98262, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98262, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98262, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98262, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 29 - Runed Truesilver Runed Rod Bonus (Ref 98263)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98263, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98263, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98263, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98263, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98263, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 29 - Runed Arcanite Runed Rod Bonus (Ref 98264)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98264, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98264, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98264, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98264, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98264, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 29 - Runed Fel Iron Runed Rod Bonus (Ref 98265)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98265, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98265, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98265, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98265, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98265, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 29 - Runed Adamantite Runed Rod Bonus (Ref 98266)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98266, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98266, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98266, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98266, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98266, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 29 - Runed Eternium Runed Rod Bonus (Ref 98267)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98267, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98267, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98267, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98267, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98267, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 29 - Runed Cobalt Runed Rod Bonus (Ref 98268)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98268, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98268, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98268, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98268, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98268, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 29 - Runed Titanium Runed Rod Bonus (Ref 98269)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98269, 11176, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98269, 11176, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98269, 14343, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98269, 16202, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98269, 16202, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 30 (Entry: 30)
@@ -2112,81 +2112,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98270, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98270, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98270, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98270, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98270, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 30 - Runed Silver Runed Rod Bonus (Ref 98271)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98271, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98271, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98271, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98271, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98271, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 30 - Runed Golden Runed Rod Bonus (Ref 98272)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98272, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98272, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98272, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98272, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98272, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 30 - Runed Truesilver Runed Rod Bonus (Ref 98273)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98273, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98273, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98273, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98273, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98273, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 30 - Runed Arcanite Runed Rod Bonus (Ref 98274)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98274, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98274, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98274, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98274, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98274, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 30 - Runed Fel Iron Runed Rod Bonus (Ref 98275)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98275, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98275, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98275, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98275, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98275, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 30 - Runed Adamantite Runed Rod Bonus (Ref 98276)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98276, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98276, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98276, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98276, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98276, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 30 - Runed Eternium Runed Rod Bonus (Ref 98277)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98277, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98277, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98277, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98277, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98277, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 30 - Runed Cobalt Runed Rod Bonus (Ref 98278)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98278, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98278, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98278, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98278, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98278, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 30 - Runed Titanium Runed Rod Bonus (Ref 98279)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98279, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98279, 16203, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98279, 16203, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98279, 16204, 0, 22.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98279, 16204, 0, 22.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 31 (Entry: 31)
@@ -2194,161 +2194,161 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98280, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98280, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
+    (98280, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98280, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98280, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 31 - Runed Silver Runed Rod Bonus (Ref 98281)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98281, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98281, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
+    (98281, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98281, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98281, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 31 - Runed Golden Runed Rod Bonus (Ref 98282)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98282, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98282, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
+    (98282, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98282, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98282, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 31 - Runed Truesilver Runed Rod Bonus (Ref 98283)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98283, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98283, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98283, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98283, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98283, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 31 - Runed Arcanite Runed Rod Bonus (Ref 98284)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98284, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98284, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98284, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98284, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98284, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 31 - Runed Fel Iron Runed Rod Bonus (Ref 98285)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98285, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98285, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98285, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98285, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98285, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 31 - Runed Adamantite Runed Rod Bonus (Ref 98286)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98286, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98286, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98286, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98286, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98286, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 31 - Runed Eternium Runed Rod Bonus (Ref 98287)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98287, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98287, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98287, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98287, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98287, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 31 - Runed Cobalt Runed Rod Bonus (Ref 98288)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98288, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98288, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98288, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98288, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98288, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 31 - Runed Titanium Runed Rod Bonus (Ref 98289)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98289, 14344, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98289, 16203, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98289, 16203, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98289, 16204, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98289, 16204, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Entry 32 (Entry: 32)
 -- Entry 32 - Runed Copper Runed Rod Bonus (Ref 98290)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98290, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
+    (98290, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98290, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
+    (98290, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98290, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 32 - Runed Silver Runed Rod Bonus (Ref 98291)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98291, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
+    (98291, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98291, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
+    (98291, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98291, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 32 - Runed Golden Runed Rod Bonus (Ref 98292)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98292, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
+    (98292, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98292, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
+    (98292, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98292, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 32 - Runed Truesilver Runed Rod Bonus (Ref 98293)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98293, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98293, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98293, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98293, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98293, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 32 - Runed Arcanite Runed Rod Bonus (Ref 98294)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98294, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98294, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98294, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98294, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98294, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 32 - Runed Fel Iron Runed Rod Bonus (Ref 98295)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98295, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98295, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98295, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98295, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98295, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 32 - Runed Adamantite Runed Rod Bonus (Ref 98296)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98296, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98296, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98296, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98296, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98296, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 32 - Runed Eternium Runed Rod Bonus (Ref 98297)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98297, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98297, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98297, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98297, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98297, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 32 - Runed Cobalt Runed Rod Bonus (Ref 98298)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98298, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98298, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98298, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98298, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98298, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 32 - Runed Titanium Runed Rod Bonus (Ref 98299)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98299, 22445, 0, 22.0, 0, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98299, 22445, 0, 22.0, 1, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98299, 22447, 0, 75.0, 0, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98299, 22447, 0, 75.0, 1, 0, 2, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98299, 22448, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -2356,81 +2356,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Entry 33 (Entry: 33)
 -- Entry 33 - Runed Copper Runed Rod Bonus (Ref 98300)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98300, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
+    (98300, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98300, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98300, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98300, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 33 - Runed Silver Runed Rod Bonus (Ref 98301)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98301, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
+    (98301, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98301, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98301, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98301, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 33 - Runed Golden Runed Rod Bonus (Ref 98302)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98302, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
+    (98302, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98302, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98302, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98302, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 33 - Runed Truesilver Runed Rod Bonus (Ref 98303)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98303, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
+    (98303, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98303, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98303, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98303, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 33 - Runed Arcanite Runed Rod Bonus (Ref 98304)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98304, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
+    (98304, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98304, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98304, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98304, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 33 - Runed Fel Iron Runed Rod Bonus (Ref 98305)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98305, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
+    (98305, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98305, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98305, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98305, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 33 - Runed Adamantite Runed Rod Bonus (Ref 98306)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98306, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
+    (98306, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98306, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98306, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98306, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 33 - Runed Eternium Runed Rod Bonus (Ref 98307)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98307, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
+    (98307, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98307, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98307, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98307, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 33 - Runed Cobalt Runed Rod Bonus (Ref 98308)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98308, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
+    (98308, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98308, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98308, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98308, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 33 - Runed Titanium Runed Rod Bonus (Ref 98309)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98309, 22445, 0, 22.0, 0, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
+    (98309, 22445, 0, 22.0, 1, 0, 2, 5, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98309, 22446, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98309, 22446, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98309, 22449, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -2440,81 +2440,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98310, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98310, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Copper Runed Rod');
+    (98310, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98310, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98310, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Entry 34 - Runed Silver Runed Rod Bonus (Ref 98311)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98311, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98311, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Silver Runed Rod');
+    (98311, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98311, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98311, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Entry 34 - Runed Golden Runed Rod Bonus (Ref 98312)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98312, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98312, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Golden Runed Rod');
+    (98312, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98312, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98312, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Entry 34 - Runed Truesilver Runed Rod Bonus (Ref 98313)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98313, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98313, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Truesilver Runed Rod');
+    (98313, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98313, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98313, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Entry 34 - Runed Arcanite Runed Rod Bonus (Ref 98314)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98314, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98314, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Arcanite Runed Rod');
+    (98314, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98314, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98314, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Entry 34 - Runed Fel Iron Runed Rod Bonus (Ref 98315)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98315, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98315, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Fel Iron Runed Rod');
+    (98315, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98315, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98315, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Entry 34 - Runed Adamantite Runed Rod Bonus (Ref 98316)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98316, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98316, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Adamantite Runed Rod');
+    (98316, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98316, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98316, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Entry 34 - Runed Eternium Runed Rod Bonus (Ref 98317)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98317, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98317, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Eternium Runed Rod');
+    (98317, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98317, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98317, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Entry 34 - Runed Cobalt Runed Rod Bonus (Ref 98318)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98318, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98318, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Cobalt Runed Rod');
+    (98318, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98318, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98318, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Entry 34 - Runed Titanium Runed Rod Bonus (Ref 98319)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98319, 34053, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98319, 34054, 0, 22.0, 0, 0, 1, 3, 'Bonus from Runed Titanium Runed Rod');
+    (98319, 34054, 0, 22.0, 1, 0, 1, 3, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98319, 34056, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98319, 34056, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Bent Staff (Entry: 35)
@@ -2522,81 +2522,81 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98320, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98320, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Copper Runed Rod');
+    (98320, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98320, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
+    (98320, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Copper Runed Rod');
 
 -- Bent Staff - Runed Silver Runed Rod Bonus (Ref 98321)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98321, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98321, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Silver Runed Rod');
+    (98321, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98321, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
+    (98321, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Silver Runed Rod');
 
 -- Bent Staff - Runed Golden Runed Rod Bonus (Ref 98322)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98322, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98322, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Golden Runed Rod');
+    (98322, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98322, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
+    (98322, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Golden Runed Rod');
 
 -- Bent Staff - Runed Truesilver Runed Rod Bonus (Ref 98323)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98323, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98323, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Truesilver Runed Rod');
+    (98323, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98323, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
+    (98323, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Bent Staff - Runed Arcanite Runed Rod Bonus (Ref 98324)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98324, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98324, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Arcanite Runed Rod');
+    (98324, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98324, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
+    (98324, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Bent Staff - Runed Fel Iron Runed Rod Bonus (Ref 98325)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98325, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98325, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Fel Iron Runed Rod');
+    (98325, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98325, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
+    (98325, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Bent Staff - Runed Adamantite Runed Rod Bonus (Ref 98326)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98326, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98326, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Adamantite Runed Rod');
+    (98326, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98326, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
+    (98326, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Bent Staff - Runed Eternium Runed Rod Bonus (Ref 98327)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98327, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98327, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Eternium Runed Rod');
+    (98327, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98327, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
+    (98327, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Eternium Runed Rod');
 
 -- Bent Staff - Runed Cobalt Runed Rod Bonus (Ref 98328)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98328, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98328, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Cobalt Runed Rod');
+    (98328, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98328, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
+    (98328, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Bent Staff - Runed Titanium Runed Rod Bonus (Ref 98329)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98329, 34052, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98329, 34054, 0, 22.0, 0, 0, 4, 7, 'Bonus from Runed Titanium Runed Rod');
+    (98329, 34054, 0, 22.0, 1, 0, 4, 7, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98329, 34055, 0, 75.0, 0, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
+    (98329, 34055, 0, 75.0, 1, 0, 1, 2, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- OLDRecruit's Belt (Entry: 41)
@@ -2896,61 +2896,61 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Footpad's Pants (Entry: 48)
 -- Footpad's Pants - Runed Copper Runed Rod Bonus (Ref 98400)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98400, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
+    (98400, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98400, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Footpad's Pants - Runed Silver Runed Rod Bonus (Ref 98401)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98401, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
+    (98401, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98401, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Footpad's Pants - Runed Golden Runed Rod Bonus (Ref 98402)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98402, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
+    (98402, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98402, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Footpad's Pants - Runed Truesilver Runed Rod Bonus (Ref 98403)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98403, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
+    (98403, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98403, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Footpad's Pants - Runed Arcanite Runed Rod Bonus (Ref 98404)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98404, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
+    (98404, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98404, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Footpad's Pants - Runed Fel Iron Runed Rod Bonus (Ref 98405)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98405, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
+    (98405, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98405, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Footpad's Pants - Runed Adamantite Runed Rod Bonus (Ref 98406)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98406, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
+    (98406, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98406, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Footpad's Pants - Runed Eternium Runed Rod Bonus (Ref 98407)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98407, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
+    (98407, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98407, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Footpad's Pants - Runed Cobalt Runed Rod Bonus (Ref 98408)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98408, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
+    (98408, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98408, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Footpad's Pants - Runed Titanium Runed Rod Bonus (Ref 98409)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98409, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
+    (98409, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98409, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -2958,61 +2958,61 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Footpad's Shirt (Entry: 49)
 -- Footpad's Shirt - Runed Copper Runed Rod Bonus (Ref 98410)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98410, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
+    (98410, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98410, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Footpad's Shirt - Runed Silver Runed Rod Bonus (Ref 98411)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98411, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
+    (98411, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98411, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Footpad's Shirt - Runed Golden Runed Rod Bonus (Ref 98412)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98412, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
+    (98412, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98412, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Footpad's Shirt - Runed Truesilver Runed Rod Bonus (Ref 98413)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98413, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
+    (98413, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98413, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Footpad's Shirt - Runed Arcanite Runed Rod Bonus (Ref 98414)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98414, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
+    (98414, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98414, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Footpad's Shirt - Runed Fel Iron Runed Rod Bonus (Ref 98415)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98415, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
+    (98415, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98415, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Footpad's Shirt - Runed Adamantite Runed Rod Bonus (Ref 98416)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98416, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
+    (98416, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98416, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Footpad's Shirt - Runed Eternium Runed Rod Bonus (Ref 98417)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98417, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
+    (98417, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98417, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Footpad's Shirt - Runed Cobalt Runed Rod Bonus (Ref 98418)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98418, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
+    (98418, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98418, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Footpad's Shirt - Runed Titanium Runed Rod Bonus (Ref 98419)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98419, 14344, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
+    (98419, 14344, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98419, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -3022,61 +3022,61 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98420, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98420, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
+    (98420, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- OLDInitiate's Belt - Runed Silver Runed Rod Bonus (Ref 98421)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98421, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98421, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
+    (98421, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- OLDInitiate's Belt - Runed Golden Runed Rod Bonus (Ref 98422)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98422, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98422, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
+    (98422, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- OLDInitiate's Belt - Runed Truesilver Runed Rod Bonus (Ref 98423)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98423, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98423, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
+    (98423, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- OLDInitiate's Belt - Runed Arcanite Runed Rod Bonus (Ref 98424)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98424, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98424, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
+    (98424, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- OLDInitiate's Belt - Runed Fel Iron Runed Rod Bonus (Ref 98425)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98425, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98425, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
+    (98425, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- OLDInitiate's Belt - Runed Adamantite Runed Rod Bonus (Ref 98426)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98426, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98426, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
+    (98426, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- OLDInitiate's Belt - Runed Eternium Runed Rod Bonus (Ref 98427)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98427, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98427, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
+    (98427, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- OLDInitiate's Belt - Runed Cobalt Runed Rod Bonus (Ref 98428)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98428, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98428, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
+    (98428, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- OLDInitiate's Belt - Runed Titanium Runed Rod Bonus (Ref 98429)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98429, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98429, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
+    (98429, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Neophyte's Boots (Entry: 51)
@@ -3084,121 +3084,121 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98430, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98430, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
+    (98430, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Neophyte's Boots - Runed Silver Runed Rod Bonus (Ref 98431)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98431, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98431, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
+    (98431, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Neophyte's Boots - Runed Golden Runed Rod Bonus (Ref 98432)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98432, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98432, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
+    (98432, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Neophyte's Boots - Runed Truesilver Runed Rod Bonus (Ref 98433)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98433, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98433, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
+    (98433, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Neophyte's Boots - Runed Arcanite Runed Rod Bonus (Ref 98434)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98434, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98434, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
+    (98434, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Neophyte's Boots - Runed Fel Iron Runed Rod Bonus (Ref 98435)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98435, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98435, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
+    (98435, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Neophyte's Boots - Runed Adamantite Runed Rod Bonus (Ref 98436)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98436, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98436, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
+    (98436, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Neophyte's Boots - Runed Eternium Runed Rod Bonus (Ref 98437)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98437, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98437, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
+    (98437, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Neophyte's Boots - Runed Cobalt Runed Rod Bonus (Ref 98438)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98438, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98438, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
+    (98438, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Neophyte's Boots - Runed Titanium Runed Rod Bonus (Ref 98439)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98439, 20725, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98439, 22448, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
+    (98439, 22448, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
 
 -- Neophyte's Pants (Entry: 52)
 -- Neophyte's Pants - Runed Copper Runed Rod Bonus (Ref 98440)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98440, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
+    (98440, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98440, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Neophyte's Pants - Runed Silver Runed Rod Bonus (Ref 98441)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98441, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
+    (98441, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98441, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Neophyte's Pants - Runed Golden Runed Rod Bonus (Ref 98442)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98442, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
+    (98442, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98442, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Neophyte's Pants - Runed Truesilver Runed Rod Bonus (Ref 98443)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98443, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
+    (98443, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98443, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Neophyte's Pants - Runed Arcanite Runed Rod Bonus (Ref 98444)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98444, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
+    (98444, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98444, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Neophyte's Pants - Runed Fel Iron Runed Rod Bonus (Ref 98445)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98445, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
+    (98445, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98445, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Neophyte's Pants - Runed Adamantite Runed Rod Bonus (Ref 98446)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98446, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
+    (98446, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98446, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Neophyte's Pants - Runed Eternium Runed Rod Bonus (Ref 98447)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98447, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
+    (98447, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98447, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Neophyte's Pants - Runed Cobalt Runed Rod Bonus (Ref 98448)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98448, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
+    (98448, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98448, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Neophyte's Pants - Runed Titanium Runed Rod Bonus (Ref 98449)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98449, 22449, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
+    (98449, 22449, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98449, 22450, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -3206,61 +3206,61 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Neophyte's Shirt (Entry: 53)
 -- Neophyte's Shirt - Runed Copper Runed Rod Bonus (Ref 98450)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98450, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
+    (98450, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98450, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- Neophyte's Shirt - Runed Silver Runed Rod Bonus (Ref 98451)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98451, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
+    (98451, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98451, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- Neophyte's Shirt - Runed Golden Runed Rod Bonus (Ref 98452)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98452, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
+    (98452, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98452, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- Neophyte's Shirt - Runed Truesilver Runed Rod Bonus (Ref 98453)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98453, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
+    (98453, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98453, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- Neophyte's Shirt - Runed Arcanite Runed Rod Bonus (Ref 98454)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98454, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
+    (98454, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98454, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- Neophyte's Shirt - Runed Fel Iron Runed Rod Bonus (Ref 98455)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98455, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
+    (98455, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98455, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- Neophyte's Shirt - Runed Adamantite Runed Rod Bonus (Ref 98456)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98456, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
+    (98456, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98456, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- Neophyte's Shirt - Runed Eternium Runed Rod Bonus (Ref 98457)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98457, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
+    (98457, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98457, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- Neophyte's Shirt - Runed Cobalt Runed Rod Bonus (Ref 98458)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98458, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
+    (98458, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98458, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- Neophyte's Shirt - Runed Titanium Runed Rod Bonus (Ref 98459)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98459, 34053, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
+    (98459, 34053, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98459, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
@@ -3268,61 +3268,61 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- OLDNovice's Belt (Entry: 54)
 -- OLDNovice's Belt - Runed Copper Runed Rod Bonus (Ref 98460)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98460, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
+    (98460, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98460, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Copper Runed Rod');
 
 -- OLDNovice's Belt - Runed Silver Runed Rod Bonus (Ref 98461)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98461, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
+    (98461, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98461, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Silver Runed Rod');
 
 -- OLDNovice's Belt - Runed Golden Runed Rod Bonus (Ref 98462)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98462, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
+    (98462, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98462, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Golden Runed Rod');
 
 -- OLDNovice's Belt - Runed Truesilver Runed Rod Bonus (Ref 98463)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98463, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
+    (98463, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98463, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Truesilver Runed Rod');
 
 -- OLDNovice's Belt - Runed Arcanite Runed Rod Bonus (Ref 98464)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98464, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
+    (98464, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98464, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Arcanite Runed Rod');
 
 -- OLDNovice's Belt - Runed Fel Iron Runed Rod Bonus (Ref 98465)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98465, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
+    (98465, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98465, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Fel Iron Runed Rod');
 
 -- OLDNovice's Belt - Runed Adamantite Runed Rod Bonus (Ref 98466)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98466, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
+    (98466, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98466, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Adamantite Runed Rod');
 
 -- OLDNovice's Belt - Runed Eternium Runed Rod Bonus (Ref 98467)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98467, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
+    (98467, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98467, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Eternium Runed Rod');
 
 -- OLDNovice's Belt - Runed Cobalt Runed Rod Bonus (Ref 98468)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98468, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
+    (98468, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98468, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Cobalt Runed Rod');
 
 -- OLDNovice's Belt - Runed Titanium Runed Rod Bonus (Ref 98469)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (98469, 34052, 0, 99.5, 0, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
+    (98469, 34052, 0, 99.5, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (98469, 34057, 0, 0.0, 1, 0, 1, 1, 'Bonus from Runed Titanium Runed Rod');
 
