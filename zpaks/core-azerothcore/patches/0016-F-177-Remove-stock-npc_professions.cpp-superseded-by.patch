@@ -1,4 +1,4 @@
-From a24eb03e4a62907cf4f9c728b81c7ad1555ef1b1 Mon Sep 17 00:00:00 2001
+From 209db17d510efc7617dbf09d6fb906db44bbfc16 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 16 May 2026 08:41:36 +0000
 Subject: [PATCH] F-177: Remove stock npc_professions.cpp, superseded by

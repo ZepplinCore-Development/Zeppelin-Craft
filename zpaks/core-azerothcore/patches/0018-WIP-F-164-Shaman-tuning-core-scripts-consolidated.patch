@@ -1,0 +1,280 @@
+From 38f56c8660b7211caa1df7aa73703434b5fc3aac Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 14 Jun 2026 04:35:55 +0000
+Subject: [PATCH] WIP: F-164 - Shaman tuning core scripts (consolidated)
+
+Squashes the F-164 C++ work into a single commit reflecting final state:
+- spell_shaman.cpp: Thunderborne Leap landing AoE, Living Guardian flat
+  10%-max-HP shield SpellScript, Stonewall stacking block CD AuraScript,
+  Stoneguard Totem SpellScript (5% HP + 20% damage split). Stoneclaw left
+  at stock.
+- SpellEffects.cpp: Rockbiter Weapon ranks 5-10 enchant switch cases.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Spells/SpellEffects.cpp    |  19 +++
+ src/server/scripts/Spells/spell_shaman.cpp | 185 +++++++++++++++++++++
+ 2 files changed, 204 insertions(+)
+
+diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
+index a66672753..121a1ae4d 100644
+--- a/src/server/game/Spells/SpellEffects.cpp
++++ b/src/server/game/Spells/SpellEffects.cpp
+@@ -3031,6 +3031,25 @@ void Spell::EffectEnchantItemTmp(SpellEffIndex effIndex)
+             case 11:
+                 spell_id = 36760;
+                 break;               // 20%
++            // Rank 5-10 (F-164 custom): damage == base DPS, one enchant-spell each
++            case 15:
++                spell_id = 900240;
++                break;               // Rank 5
++            case 28:
++                spell_id = 900241;
++                break;               // Rank 6
++            case 40:
++                spell_id = 900242;
++                break;               // Rank 7
++            case 49:
++                spell_id = 900243;
++                break;               // Rank 8
++            case 62:
++                spell_id = 900244;
++                break;               // Rank 9
++            case 80:
++                spell_id = 900245;
++                break;               // Rank 10 (new WotLK rank)
+             default:
+                 LOG_ERROR("spells.effect", "Spell::EffectEnchantItemTmp: Damage {} not handled in S'RW", damage);
+                 return;
+diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
+index eef753444..f496bcf24 100644
+--- a/src/server/scripts/Spells/spell_shaman.cpp
++++ b/src/server/scripts/Spells/spell_shaman.cpp
+@@ -59,6 +59,9 @@ enum ShamanSpells
+     SPELL_SHAMAN_NATURE_GUARDIAN_THREAT         = 39301,
+     SPELL_SHAMAN_SATED                          = 57724,
+     SPELL_SHAMAN_STONECLAW_TOTEM                = 55277,
++    SPELL_SHAMAN_STONEGUARD_SPLIT               = 900222, // F-164: 20% damage redirect to Stoneguard Totem
++    SPELL_SHAMAN_STONEWALL                      = 900223, // F-164: stacking block CD
++    SPELL_SHAMAN_STONEGUARD_TOTEM               = 900224, // F-164: Stoneguard Totem summon
+     SPELL_SHAMAN_STORM_EARTH_AND_FIRE           = 51483,
+     SPELL_SHAMAN_TOTEM_EARTHBIND_EARTHGRAB      = 64695,
+     SPELL_SHAMAN_TOTEM_EARTHBIND_TOTEM          = 6474,
+@@ -86,6 +89,11 @@ enum ShamanSpells
+     SPELL_SHAMAN_T10_ENHANCEMENT_4P_BONUS       = 70832,
+     SPELL_SHAMAN_LAVA_BURST_BONUS_DAMAGE        = 71824,
+     SPELL_SHAMAN_TOTEM_OF_WRATH_SPELL_POWER     = 63283,
++    SPELL_SHAMAN_THUNDERBORNE_LEAP              = 900173,
++    SPELL_SHAMAN_THUNDERBORNE_LEAP_IMPACT       = 900174,
++    SPELL_SHAMAN_LIVING_GUARDIAN_BUFF_R1        = 900170,
++    SPELL_SHAMAN_LIVING_GUARDIAN_BUFF_R2        = 900171,
++    SPELL_SHAMAN_LIVING_GUARDIAN_BUFF_R3        = 900172,
+ };
+ 
+ enum ShamanSpellIcons
+@@ -1249,6 +1257,79 @@ class spell_sha_stoneclaw_totem : public SpellScript
+     }
+ };
+ 
++// 900224 - Stoneguard Totem (F-164 damage-mitigation totem)
++// Sets the summoned totem's HP to 5% of the shaman's max health and has the
++// totem redirect 20% of the shaman's incoming damage to itself (aura 900222,
++// cast by the totem on the owner so the totem is the split's caster).
++class spell_sha_stoneguard_totem : public SpellScript
++{
++    PrepareSpellScript(spell_sha_stoneguard_totem);
++
++    bool Validate(SpellInfo const* /*spellInfo*/) override
++    {
++        return ValidateSpellInfo({ SPELL_SHAMAN_STONEGUARD_SPLIT });
++    }
++
++    void HandleAfterCast()
++    {
++        Unit* caster = GetCaster();
++        if (!caster->m_SummonSlot[SUMMON_SLOT_TOTEM_EARTH])
++            return;
++
++        Creature* totem = caster->GetMap()->GetCreature(caster->m_SummonSlot[SUMMON_SLOT_TOTEM_EARTH]);
++        if (!totem || !totem->IsTotem())
++            return;
++
++        // Totem HP = 5% of the shaman's max health (the visible damage buffer)
++        if (uint32 hp = caster->CountPctFromMaxHealth(5))
++        {
++            totem->SetMaxHealth(hp);
++            totem->SetHealth(hp);
++        }
++
++        // Totem redirects 20% of the shaman's damage to itself (totem = caster)
++        totem->CastSpell(caster, SPELL_SHAMAN_STONEGUARD_SPLIT, true);
++    }
++
++    void Register() override
++    {
++        AfterCast += SpellCastFn(spell_sha_stoneguard_totem::HandleAfterCast);
++    }
++};
++
++// 900223 - Stonewall (F-164 Earthwarden block panic button)
++// Block chance = 5% per stack; starts at 10 stacks (+50%); each block consumes
++// a stack (-5%) until depleted or the 60s buff expires.
++class spell_sha_stonewall_aura : public AuraScript
++{
++    PrepareAuraScript(spell_sha_stonewall_aura);
++
++    void CalcAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& canBeRecalculated)
++    {
++        canBeRecalculated = true;
++        amount = 5 * GetStackAmount(); // +5% block per stack
++    }
++
++    void AfterApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
++    {
++        // start at 10 stacks (+50% block); guard prevents recalc recursion
++        if (GetStackAmount() < 10)
++            SetStackAmount(10);
++    }
++
++    void HandleProc(AuraEffect* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
++    {
++        ModStackAmount(-1); // each block consumes a stack (-5%); removed at 0
++    }
++
++    void Register() override
++    {
++        DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_sha_stonewall_aura::CalcAmount, EFFECT_0, SPELL_AURA_MOD_BLOCK_PERCENT);
++        AfterEffectApply += AuraEffectApplyFn(spell_sha_stonewall_aura::AfterApply, EFFECT_0, SPELL_AURA_MOD_BLOCK_PERCENT, AURA_EFFECT_HANDLE_REAL);
++        OnEffectProc += AuraEffectProcFn(spell_sha_stonewall_aura::HandleProc, EFFECT_0, SPELL_AURA_MOD_BLOCK_PERCENT);
++    }
++};
++
+ // -51490 - Thunderstorm
+ class spell_sha_thunderstorm : public SpellScript
+ {
+@@ -2169,6 +2250,106 @@ class spell_sha_windfury_weapon : public AuraScript
+     }
+ };
+ 
++// 900173 - Thunderborne Leap
++// Leaps to enemy target using JUMP_DEST. Schedules the impact AoE
++// (900174) to cast when the caster lands, since TRIGGER_SPELL fires
++// at cast time (before movement) and cannot center AoE at the
++// landing position.
++// Uses AfterCast so the timer starts after MoveJump has begun,
++// and reads the spline duration directly for accurate timing.
++class spell_sha_thunderborne_leap : public SpellScript
++{
++    PrepareSpellScript(spell_sha_thunderborne_leap);
++
++    void HandleOnCast()
++    {
++        Player* player = GetCaster()->ToPlayer();
++        if (!player)
++            return;
++
++        // Draw weapons before the jump spline packet is sent.
++        // SetSheath alone is batched (end-of-tick), so force an
++        // immediate object update so the client sees weapons
++        // drawn before the SMSG_MONSTER_MOVE arrives.
++        player->SetSheath(SHEATH_STATE_MELEE);
++        player->SendUpdateToPlayer(player);
++    }
++
++    void HandleAfterCast()
++    {
++        Unit* caster = GetCaster();
++        if (!caster)
++            return;
++
++        // Read the actual spline duration — MoveJump has already
++        // started by the time AfterCast fires
++        uint32 travelTimeMs = caster->movespline->Duration();
++
++        ObjectGuid casterGUID = caster->GetGUID();
++
++        // Capture the spell target for auto-attack on landing.
++        // GetVictim() is null at this point because melee hasn't
++        // started yet — we need the explicit spell target instead.
++        Unit* target = GetExplTargetUnit();
++        ObjectGuid targetGUID = target ? target->GetGUID()
++                                       : ObjectGuid::Empty;
++
++        caster->m_Events.AddEventAtOffset(
++            [casterGUID, targetGUID]()
++            {
++                Player* player =
++                    ObjectAccessor::FindPlayer(casterGUID);
++                if (!player)
++                    return;
++
++                player->CastSpell(player,
++                    SPELL_SHAMAN_THUNDERBORNE_LEAP_IMPACT,
++                    true);
++
++                // Start auto-attack on the leap target
++                if (!targetGUID.IsEmpty())
++                    if (Unit* victim = ObjectAccessor::GetUnit(
++                            *player, targetGUID))
++                        if (player->IsValidAttackTarget(victim))
++                            player->Attack(victim, true);
++            },
++            Milliseconds(travelTimeMs));
++    }
++
++    void Register() override
++    {
++        OnCast += SpellCastFn(
++            spell_sha_thunderborne_leap::HandleOnCast);
++        AfterCast += SpellCastFn(
++            spell_sha_thunderborne_leap::HandleAfterCast);
++    }
++};
++
++// Living Guardian (900170) — F-164 absorb shield
++// Sets the SCHOOL_ABSORB amount to a flat 10% of the caster's max health,
++// since aura 69 does not consult spell_bonus_data by default. This scales
++// with the Earthwarden's large health pool (bigger for tanks than off-specs).
++// Pattern mirrors spell_pri_power_word_shield_aura.
++class spell_sha_living_guardian_aura : public AuraScript
++{
++    PrepareAuraScript(spell_sha_living_guardian_aura);
++
++    void CalculateAmount(AuraEffect const* /*aurEff*/, int32& amount,
++        bool& canBeRecalculated)
++    {
++        canBeRecalculated = false;
++        if (Unit* caster = GetCaster())
++            amount = int32(caster->GetMaxHealth() / 10); // 10% of max health
++    }
++
++    void Register() override
++    {
++        DoEffectCalcAmount += AuraEffectCalcAmountFn(
++            spell_sha_living_guardian_aura::CalculateAmount,
++            EFFECT_0, SPELL_AURA_SCHOOL_ABSORB);
++    }
++};
++
+ void AddSC_shaman_spell_scripts()
+ {
+     RegisterSpellScript(spell_sha_totem_of_wrath);
+@@ -2202,6 +2383,8 @@ void AddSC_shaman_spell_scripts()
+     RegisterSpellScript(spell_sha_nature_guardian);
+     RegisterSpellScript(spell_sha_sentry_totem);
+     RegisterSpellScript(spell_sha_stoneclaw_totem);
++    RegisterSpellScript(spell_sha_stoneguard_totem);
++    RegisterSpellScript(spell_sha_stonewall_aura);
+     RegisterSpellScript(spell_sha_thunderstorm);
+     RegisterSpellScript(spell_sha_flurry_proc);
+     RegisterSpellScript(spell_sha_glyph_of_healing_wave);
+@@ -2228,4 +2411,6 @@ void AddSC_shaman_spell_scripts()
+     RegisterSpellScript(spell_sha_t9_elemental_4p_bonus);
+     RegisterSpellScript(spell_sha_tidal_force_dummy);
+     RegisterSpellScript(spell_sha_windfury_weapon);
++    RegisterSpellScript(spell_sha_thunderborne_leap);
++    RegisterSpellScript(spell_sha_living_guardian_aura);
+ }
+-- 
+2.34.1
+

@@ -1,4 +1,4 @@
-From f7f06b978c1e0ccacd8a8d3e6559bbd572c492f0 Mon Sep 17 00:00:00 2001
+From b2754564e67221b965796a53255a4daae81a5dfb Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 16 May 2026 12:54:26 +0000
 Subject: [PATCH] F-177 (cont): Drop AddSC_npc_professions() from
