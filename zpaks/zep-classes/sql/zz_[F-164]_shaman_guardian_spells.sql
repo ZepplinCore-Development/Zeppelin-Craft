@@ -6,10 +6,12 @@
 -- ============================================================================
 -- spell_script_names — C++ SpellScript bindings
 -- ============================================================================
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172);
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172, 900223, 900224);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
-(900170, 'spell_sha_living_guardian_aura');
+(900170, 'spell_sha_living_guardian_aura'),
+(900223, 'spell_sha_stonewall_aura'),
+(900224, 'spell_sha_stoneguard_totem');
 
 -- ============================================================================
 -- spell_bonus_data

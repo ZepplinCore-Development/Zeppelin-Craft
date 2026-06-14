@@ -3908,8 +3908,8 @@ INSERT INTO `spell` SET `id` = 900254, `attributes` = 327760, `cast_time_index` 
 INSERT INTO `spell` SET `id` = 900255, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 559, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 10', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
 
 -- ============================================================================
--- Stoneguard Totem Damage Split (900222) - F-164 damage-mitigation totem aura
--- Cast by the Stoneguard Totem (earth slot) ON its owner via the
+-- Rocksteady Totem Damage Split (900222) - F-164 damage-mitigation totem aura
+-- Cast by the Rocksteady Totem (earth slot) ON its owner via the
 -- spell_sha_stoneguard_totem C++ script. Aura 81 (SPLIT_DAMAGE_PCT) redirects
 -- 20% of the shaman's incoming damage to the totem (the aura's caster). Ends
 -- when the totem dies/expires (handler skips dead casters). 10s = totem life.
@@ -3932,9 +3932,9 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_1` = 81,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 5313,
-    `spell_name_enus` = 'Stoneguard Totem',
+    `spell_name_enus` = 'Rocksteady Totem',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your Stoneguard Totem is absorbing 20% of the damage you take.',
+    `spell_desc_enus` = 'Your Rocksteady Totem is absorbing 20% of the damage you take.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Absorbing 20% of damage taken.',
     `spell_tooltip_flags` = 16712190,
@@ -3984,7 +3984,7 @@ INSERT INTO `spell` SET
 
 DELETE FROM `spell` WHERE `id` = 900224;
 
--- Stoneguard Totem (900224) - F-164 damage-mitigation totem (baseline, trainer)
+-- Rocksteady Totem (900224) - F-164 damage-mitigation totem (baseline, trainer)
 -- Earth slot, 10s duration, 30s independent CD. Summons creature 900100; a C++
 -- SpellScript (spell_sha_stoneguard_totem) sets the totem HP = 5% of shaman max
 -- HP and has the totem cast the 20% damage split (900222) on the owner.
@@ -4008,9 +4008,9 @@ INSERT INTO `spell` SET
     `effect_misc_value_b_1` = 81,
     `spell_visual_1` = 362,
     `spell_icon_id` = 5313,
-    `spell_name_enus` = 'Stoneguard Totem',
+    `spell_name_enus` = 'Rocksteady Totem',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Summons a Stoneguard Totem with health equal to 5% of your maximum health at your feet for $d. While it stands, 20% of the damage you take is redirected to the totem.',
+    `spell_desc_enus` = 'Summons a Rocksteady Totem with health equal to 5% of your maximum health at your feet for $d. While it stands, 20% of the damage you take is redirected to the totem.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Redirects 20% of your damage to the totem.',
     `spell_tooltip_flags` = 16712190,
