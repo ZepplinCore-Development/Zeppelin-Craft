@@ -29,6 +29,6 @@ UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunder
 
 -- Unassigned (no creature references) - parked on remaining colors for completeness
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdsilver', texture_variation_2 = '', texture_variation_3 = '' WHERE id = 17455;
-UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdblue',   texture_variation_2 = '', texture_variation_3 = '' WHERE id = 17646;
+UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdblue',   texture_variation_2 = '', texture_variation_3 = '' WHERE id = 17646; -- now Bonelasher (18470), repointed from shared CarrionBird display 1192 (see zz_[F-180]_bonelasher_model.sql)
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdgreen',  texture_variation_2 = '', texture_variation_3 = '' WHERE id = 18089;
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdsilver', texture_variation_2 = '', texture_variation_3 = '' WHERE id = 20347;
