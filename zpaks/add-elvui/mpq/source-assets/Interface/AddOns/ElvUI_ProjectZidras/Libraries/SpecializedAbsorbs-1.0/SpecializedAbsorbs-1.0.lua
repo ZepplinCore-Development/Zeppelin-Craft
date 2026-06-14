@@ -2283,7 +2283,7 @@ Core.Effects = {
 	[70845] = {1.0, 10, items_Stoicism_Create, generic_Hit}, -- Stoicism (Warrior Raid Set 10 4pc bonus)
 	[65686] = {1.0, 0, function() return 0, 0.0 end, nil}, -- Twin Val'kyr: Light Essence
 	[65684] = {1.0, 0, function() return 0, 0.0 end, nil}, -- Twin Val'kyr: Dark Essence
-	[900170] = {1.0, 10, function(srcGUID, srcName, dstGUID, dstName) local level = UnitDispatch(UnitLevel, dstGUID, dstName); return floor(125 + level * 2), 1.0 end, generic_Hit} -- Living Guardian (Shaman Earthwarden)
+	[900170] = {1.0, 10, function(srcGUID, srcName, dstGUID, dstName) local maxHealth = UnitDispatch(UnitHealthMax, dstGUID, dstName); return floor(maxHealth * 0.10), 1.0 end, generic_Hit} -- Living Guardian (Shaman Earthwarden) - absorbs 10% of target max health
 }
 
 Core.AreaTriggers = {

@@ -3910,8 +3910,12 @@ INSERT INTO `spell` SET `id` = 900255, `attributes` = 327760, `cast_time_index` 
 -- ============================================================================
 -- Rocksteady Totem Damage Split (900222) - F-164 damage-mitigation totem aura
 -- Cast by the Rocksteady Totem (earth slot) ON its owner via the
--- spell_sha_stoneguard_totem C++ script. Aura 81 (SPLIT_DAMAGE_PCT) redirects
--- 20% of the shaman's incoming damage to the totem (the aura's caster). Ends
+-- spell_sha_stoneguard_totem C++ script. effect_implicit_target_a_1 = 21
+-- (TARGET_UNIT_TARGET_ALLY) so the aura lands on the explicit target (the
+-- shaman) the totem passes to CastSpell -- NOT target 1 (TARGET_UNIT_CASTER),
+-- which would apply the aura to the totem itself and leave the shaman unmitigated.
+-- Aura 81 (SPLIT_DAMAGE_PCT) redirects 20% of the shaman's incoming damage to
+-- the totem (the aura's caster, which must be alive). Ends
 -- when the totem dies/expires (handler skips dead casters). 10s = totem life.
 -- The totem's VISIBLE health bar (5% of shaman max HP, set in the script) is
 -- the trackable buffer; ~33% max uptime (30s CD / 10s duration).
@@ -3928,7 +3932,7 @@ INSERT INTO `spell` SET
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
     `effect_base_points_1` = 19,
-    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_1` = 21,
     `effect_apply_aura_name_1` = 81,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 5313,
