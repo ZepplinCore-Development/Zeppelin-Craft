@@ -1,6 +1,6 @@
-From 38f56c8660b7211caa1df7aa73703434b5fc3aac Mon Sep 17 00:00:00 2001
+From 00deed8bcb10fe5e3388fae6f2948ce68385e361 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Sun, 14 Jun 2026 04:35:55 +0000
+Date: Sun, 14 Jun 2026 04:40:38 +0000
 Subject: [PATCH] WIP: F-164 - Shaman tuning core scripts (consolidated)
 
 Squashes the F-164 C++ work into a single commit reflecting final state:

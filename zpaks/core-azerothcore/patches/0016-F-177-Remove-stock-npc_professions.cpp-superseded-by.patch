@@ -1,27 +1,18 @@
-From 209db17d510efc7617dbf09d6fb906db44bbfc16 Mon Sep 17 00:00:00 2001
+From 04adef4e0ac0d3fe17ed9f5bf646dfd8747d6970 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Sat, 16 May 2026 08:41:36 +0000
+Date: Sun, 14 Jun 2026 04:40:37 +0000
 Subject: [PATCH] F-177: Remove stock npc_professions.cpp, superseded by
  multi-spec
 
-The multiple_specializations module provides _multi variants of all
-five stock profession trainer scripts:
-  npc_prof_alchemy            -> npc_prof_alchemy_multi
-  npc_prof_blacksmith         -> npc_prof_blacksmith_multi
-  npc_prof_leather            -> npc_prof_leather_multi
-  npc_prof_tailor             -> npc_prof_tailor_multi
-  npc_engineering_tele_trinket-> npc_engineering_tele_trinket_multi
+Drops the stock npc_professions.cpp script and its AddSC_npc_professions()
+registration from world_script_loader.cpp; profession trainers are handled
+by the multi-spec system.
 
-All Grand Master profession trainer creature_template rows bind to
-the _multi variants. The stock scripts register at startup but have
-no DB consumers, producing five "Script named ... is not assigned in
-the database" warnings on every boot.
-
-Delete npc_professions.cpp and drop its AddSC_npc_professions()
-declaration/call from world_script_loader.cpp.
+Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/server/scripts/World/npc_professions.cpp | 1365 ------------------
- 1 file changed, 1365 deletions(-)
+ src/server/scripts/World/npc_professions.cpp  | 1365 -----------------
+ .../scripts/World/world_script_loader.cpp     |    2 -
+ 2 files changed, 1367 deletions(-)
  delete mode 100644 src/server/scripts/World/npc_professions.cpp
 
 diff --git a/src/server/scripts/World/npc_professions.cpp b/src/server/scripts/World/npc_professions.cpp
@@ -1395,6 +1386,26 @@ index a4c203ef8..000000000
 -    new npc_prof_tailor();
 -    new go_evil_book_for_dummies();
 -}
+diff --git a/src/server/scripts/World/world_script_loader.cpp b/src/server/scripts/World/world_script_loader.cpp
+index 08cd25e91..f47e05241 100644
+--- a/src/server/scripts/World/world_script_loader.cpp
++++ b/src/server/scripts/World/world_script_loader.cpp
+@@ -22,7 +22,6 @@ void AddSC_generic_creature();
+ void AddSC_go_scripts();
+ void AddSC_guards();
+ void AddSC_item_scripts();
+-void AddSC_npc_professions();
+ void AddSC_npc_innkeeper();
+ void AddSC_npcs_special();
+ void AddSC_npc_taxi();
+@@ -46,7 +45,6 @@ void AddWorldScripts()
+     AddSC_go_scripts();
+     AddSC_guards();
+     AddSC_item_scripts();
+-    AddSC_npc_professions();
+     AddSC_npc_innkeeper();
+     AddSC_npcs_special();
+     AddSC_npc_taxi();
 -- 
 2.34.1
 
