@@ -1543,9 +1543,9 @@ INSERT INTO `spell` SET
 -- Bastion of Earth (900147-900149) - Passive talent, procs on block
 -- 3 ranks: chance on block to trigger buff (900150-900152).
 -- Each talent rank increases the proc chance (R1=10%, R2=20%, R3=30%).
--- Buff gives 20% physical damage reduction and makes the next LHW instant (all ranks).
+-- Buff gives 15% physical damage reduction and makes the next LHW instant (all ranks).
 -- Full mana cost. No stacking — buff consumed on LHW cast.
--- Choice: keep buff for 20% phys DR, or spend it on an instant LHW heal.
+-- Choice: keep buff for 15% phys DR, or spend it on an instant LHW heal.
 -- ============================================================================
 
 -- Bastion of Earth R1 (900147) - Passive, 10% on block, triggers 900150
@@ -1570,9 +1570,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 10% chance to reduce physical damage taken by 20% for $900150d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 10% chance to reduce physical damage taken by 15% for $900150d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '10% chance on block to reduce physical damage taken by 20% for $900150d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '10% chance on block to reduce physical damage taken by 15% for $900150d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1601,9 +1601,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 20% chance to reduce physical damage taken by 20% for $900151d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 20% chance to reduce physical damage taken by 15% for $900151d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '20% chance on block to reduce physical damage taken by 20% for $900151d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '20% chance on block to reduce physical damage taken by 15% for $900151d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1632,9 +1632,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 30% chance to reduce physical damage taken by 20% for $900152d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 30% chance to reduce physical damage taken by 15% for $900152d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '30% chance on block to reduce physical damage taken by 20% for $900152d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '30% chance on block to reduce physical damage taken by 15% for $900152d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1643,13 +1643,13 @@ INSERT INTO `spell` SET
 
 -- ============================================================================
 -- Bastion of Earth Buff (900150-900152) - Triggered physical DR buff
--- E1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -20%
+-- E1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -15%
 -- E2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -100% LHW cast time (instant)
 -- No stacking. Consumed when Lesser Healing Wave is cast (proc_charges=1).
 -- All ranks identical (20% DR, instant LHW); only the passive proc chance scales. Full mana cost.
 -- ============================================================================
 
--- Bastion of Earth buff R1 (900150) - 20% phys DR, instant LHW
+-- Bastion of Earth buff R1 (900150) - 15% phys DR, instant LHW
 DELETE FROM `spell` WHERE `id` = 900150;
 
 INSERT INTO `spell` SET
@@ -1664,7 +1664,7 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -21,
+    `effect_base_points_1` = -16,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
@@ -1678,9 +1678,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1689,7 +1689,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth buff R2 (900151) - 20% phys DR, instant LHW
+-- Bastion of Earth buff R2 (900151) - 15% phys DR, instant LHW
 DELETE FROM `spell` WHERE `id` = 900151;
 
 INSERT INTO `spell` SET
@@ -1704,7 +1704,7 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -21,
+    `effect_base_points_1` = -16,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
@@ -1718,9 +1718,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1729,7 +1729,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth buff R3 (900152) - 20% phys DR, instant LHW
+-- Bastion of Earth buff R3 (900152) - 15% phys DR, instant LHW
 DELETE FROM `spell` WHERE `id` = 900152;
 
 INSERT INTO `spell` SET
@@ -1744,7 +1744,7 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -21,
+    `effect_base_points_1` = -16,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
@@ -1758,9 +1758,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 20%. Your next Lesser Healing Wave is instant.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -2013,147 +2013,53 @@ INSERT INTO `spell` SET
     `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
--- Living Guardian (900167, 900168, 900169) - 3 rank talent (proc trigger)
--- After receiving a direct heal, gains an absorb shield for 10s. 10s ICD.
--- Passive aura that procs Living Guardian shield on direct heal received.
--- Cloned from Ancestral Healing (16176). Icon 4408.
--- proc_flags 557056 = TAKEN_SPELL_NONE_DMG_CLASS_POS | TAKEN_SPELL_MAGIC_DMG_CLASS_POS (no TAKEN_PERIODIC)
+-- Living Guardian (900167-900169, 900171, 900172) - 5 rank talent (proc trigger)
+-- After receiving a direct heal, gain an absorb shield for 10s. 10s ICD (900186).
+-- Passive procs Living Guardian shield (900170) on direct heal received.
+-- proc_flags 32768 = TAKEN_SPELL_MAGIC_DMG_CLASS_POS (magic direct heals only,
+-- intentionally narrowed to avoid HoT-tick procs).
+-- Rank scales proc CHANCE only: R1 20% / R2 40% / R3 60% / R4 80% / R5 100%.
+-- Shield is a flat 10% of the caster's max health (set by C++ script). Icon 4408.
 -- ----------------------------------------------------------------------------
-DELETE FROM `spell` WHERE `id` = 900167;
+DELETE FROM `spell` WHERE `id` IN (900167, 900168, 900169, 900171, 900172);
 
-INSERT INTO `spell` SET
-    `id` = 900167,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `proc_flags` = 32768,
-    `proc_chance` = 33,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -1,
-    `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 42,
-    `effect_trigger_spell_1` = 900170,
-    `spell_icon_id` = 4408,
-    `spell_name_enus` = 'Living Guardian',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 1',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you receive a direct heal, you have a 33% chance to gain a shield that absorbs $<total> damage (scales with Spell Power) for $900170d. Cannot occur more than once every $900186d.',
-    `spell_desc_flags` = 16712190,
-    `spell_desc_variable_id` = 190,
-    `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
-    `school_mask` = 1;
-
-DELETE FROM `spell` WHERE `id` = 900168;
-
-INSERT INTO `spell` SET
-    `id` = 900168,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `proc_flags` = 32768,
-    `proc_chance` = 66,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -1,
-    `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 42,
-    `effect_trigger_spell_1` = 900170,
-    `spell_icon_id` = 4408,
-    `spell_name_enus` = 'Living Guardian',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 2',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you receive a direct heal, you have a 66% chance to gain a shield that absorbs $<total> damage (scales with Spell Power) for $900170d. Cannot occur more than once every $900186d.',
-    `spell_desc_flags` = 16712190,
-    `spell_desc_variable_id` = 190,
-    `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
-    `school_mask` = 1;
-
-DELETE FROM `spell` WHERE `id` = 900169;
-
-INSERT INTO `spell` SET
-    `id` = 900169,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `proc_flags` = 32768,
-    `proc_chance` = 100,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -1,
-    `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 42,
-    `effect_trigger_spell_1` = 900170,
-    `spell_icon_id` = 4408,
-    `spell_name_enus` = 'Living Guardian',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 3',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you receive a direct heal, you gain a shield that absorbs $<total> damage (scales with Spell Power) for $900170d. Cannot occur more than once every $900186d.',
-    `spell_desc_flags` = 16712190,
-    `spell_desc_variable_id` = 190,
-    `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
-    `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900167, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 20, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 1', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have a 20% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900168, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 40, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 2', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have a 40% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900169, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 60, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 3', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have a 60% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900171, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 80, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 4', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have an 80% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900172, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 100, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
--- Living Guardian Shield (900170) - Single buff, all talent ranks trigger this
--- Absorbs ~425 at level 50, ~605 at level 80 before SP (base 124 + die 1 + ppl 6.0),
--- plus 15% Spell Power applied via the C++ script (kept in sync with @aw_sp_coeff).
--- Triggered by Living Guardian talent (900167/168/169) on direct heal received.
--- Aura 69 = SCHOOL_ABSORB, misc_value_a = 127 (all schools).
--- Uses SpellDescriptionVariable 190 to show correct absorb in both contexts.
--- NOTE: SP scaling requires a C++ SpellScript (DoEffectCalcAmount handler).
+-- Living Guardian Shield (900170) - Single buff; all 5 talent ranks trigger it.
+-- Flat absorb = 10% of the caster's max health, set by the
+-- spell_sha_living_guardian_aura C++ script (aura 69 SCHOOL_ABSORB does not
+-- consult spell_bonus_data). Scales with the Earthwarden's large HP pool, so
+-- it is a bigger effect for tanks than off-spec shamans dipping into it.
+-- 10s duration; 10s ICD (900186). base_points 0 (overridden by the C++ script).
 -- ----------------------------------------------------------------------------
-
--- Living Guardian scaling (shared between spell and desc variable 190)
-SET @aw_base = 124;
-SET @aw_die = 1;
-SET @aw_ppl = 6.0;
-SET @aw_sp_coeff = 0.15;
-
--- Variable 190: Living Guardian absorb amount (base + perlevel + 15% SP)
--- SP scaling is applied via spell_sha_living_guardian_aura C++ script,
--- since aura 69 SCHOOL_ABSORB does not consult spell_bonus_data.
-DELETE FROM `spelldescriptionvariables` WHERE `id` IN (190, 191, 192);
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (190, CONCAT(
-    '$base=${', (@aw_base + @aw_die), '}\n',
-    '$perlevel=${$pl*', @aw_ppl, '}\n',
-    '$spbonus=${$sp*', @aw_sp_coeff, '}\n',
-    '$total=${$<base>+$<perlevel>+$<spbonus>}'));
-
-DELETE FROM `spell` WHERE `id` IN (900170, 900171, 900172);
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 190;
+DELETE FROM `spell` WHERE `id` = 900170;
 
 INSERT INTO `spell` SET
     `id` = 900170,
     `attributes` = 0,
-    `attributes_ex_1` = 0,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `duration_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_die_sides_1` = @aw_die,
-    `effect_base_points_1` = @aw_base,
-    `effect_real_points_per_level_1` = @aw_ppl,
+    `effect_die_sides_1` = 0,
+    `effect_base_points_1` = 0,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 69,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 4408,
     `spell_name_enus` = 'Living Guardian',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Absorbs $<total> damage. Lasts $d.',
+    `spell_desc_enus` = 'Absorbs damage equal to 10% of your maximum health. Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_desc_variable_id` = 190,
-    `spell_tooltip_enus` = 'Absorbs $<total> damage.',
+    `spell_tooltip_enus` = 'Absorbs damage equal to 10% of your maximum health.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
