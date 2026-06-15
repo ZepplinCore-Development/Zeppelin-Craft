@@ -58,9 +58,12 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 -- Stonewall — consume a stack on each block (HitMask=64), no ICD
 (900223, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
--- Rockslam stacking block buffs (R1 900180 / R2 900120) — consume a stack on each block (HitMask=64), no ICD
-(900180, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
-(900120, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+-- Rockslam stacking block buffs (R1 900180 / R2 900120) — consume a stack on each block.
+-- ProcFlags=40 (TAKEN_MELEE_AUTO 0x8 + TAKEN_SPELL_MELEE_DMG_CLASS 0x20) + HitMask=64
+-- (PROC_HIT_BLOCK), no ICD. These buffs have DBC proc_flags=0, so ProcFlags MUST be set
+-- here or they never proc (unlike Stonewall 900223 / Bastion 900147 which carry it in DBC).
+(900180, 0, 0, 0, 0, 0, 40, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+(900120, 0, 0, 0, 0, 0, 40, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 -- Living Guardian — proc only on direct heals received (SpellTypeMask=2 = PROC_SPELL_TYPE_HEAL), 10s ICD
 (900167, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
 (900168, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
