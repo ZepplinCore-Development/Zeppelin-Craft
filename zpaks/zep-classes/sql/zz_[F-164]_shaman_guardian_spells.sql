@@ -6,17 +6,24 @@
 -- ============================================================================
 -- spell_script_names — C++ SpellScript bindings
 -- ============================================================================
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172, 900223, 900224, 900180, 900120, 900181, 900182);
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172, 900223, 900224, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
 (900170, 'spell_sha_living_guardian_aura'),
-(900223, 'spell_sha_stonewall_aura'),
 (900224, 'spell_sha_stoneguard_totem'),
--- Rockslam stacking block: buffs consume a stack on block; Improved Rockslam adds 3 stacks per cast
-(900180, 'spell_sha_rockslam_block'),
-(900120, 'spell_sha_rockslam_block'),
-(900181, 'spell_sha_improved_rockslam'),
-(900182, 'spell_sha_improved_rockslam');
+-- Stonewall: instant CD that adds 5 Rocksteady stacks
+(900223, 'spell_sha_stonewall'),
+-- Rocksteady shared block buff: +5% block per stack, consume a stack on block
+(900261, 'spell_sha_rocksteady_block'),
+-- Stack generators: add stacks of Rocksteady on proc (Improved Rockslam R2 +2, all others +1)
+(900181, 'spell_sha_rocksteady_stack_proc'),
+(900182, 'spell_sha_rocksteady_stack_proc'),
+(900256, 'spell_sha_rocksteady_stack_proc'),
+(900257, 'spell_sha_rocksteady_stack_proc'),
+(900258, 'spell_sha_rocksteady_stack_proc'),
+(900259, 'spell_sha_rocksteady_stack_proc'),
+(900260, 'spell_sha_rocksteady_stack_proc');
+-- 900180/900120 deprecated (superseded by the unified Rocksteady buff 900261); bindings removed.
 
 -- ============================================================================
 -- spell_bonus_data
@@ -48,7 +55,7 @@ INSERT INTO `spell_threat` (`entry`, `flatMod`, `pctMod`, `apPctMod`) VALUES
 -- Matches Felsteel Shield Spike (29455) pattern
 -- ============================================================================
 -- 900123/900124 (Improved Volcanic Shield) are passive modifiers, not procs — clean up stale rows
-DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900120, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900180, 900181, 900182, 900198, 900199, 900200, 900201, 900223);
+DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900120, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900180, 900181, 900182, 900198, 900199, 900200, 900201, 900223, 900256, 900257, 900258, 900259, 900260, 900261);
 
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
@@ -56,14 +63,19 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900147, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 (900148, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 (900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
--- Stonewall — consume a stack on each block (HitMask=64), no ICD
-(900223, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
--- Rockslam stacking block buffs (R1 900180 / R2 900120) — consume a stack on each block.
--- ProcFlags=40 (TAKEN_MELEE_AUTO 0x8 + TAKEN_SPELL_MELEE_DMG_CLASS 0x20) + HitMask=64
--- (PROC_HIT_BLOCK), no ICD. These buffs have DBC proc_flags=0, so ProcFlags MUST be set
--- here or they never proc (unlike Stonewall 900223 / Bastion 900147 which carry it in DBC).
-(900180, 0, 0, 0, 0, 0, 40, 0, 0, 64, 0, 0, 0, 0, 0, 0),
-(900120, 0, 0, 0, 0, 0, 40, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+-- Rocksteady buff (900261) — consume a stack on each block (ProcFlags=40
+-- TAKEN_MELEE_AUTO 0x8 + TAKEN_SPELL_MELEE_DMG_CLASS 0x20, HitMask=64 PROC_HIT_BLOCK),
+-- no ICD. DBC proc_flags=0, so ProcFlags MUST be set here or it never procs.
+(900261, 0, 0, 0, 0, 0, 40, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+-- Rocksteady talent (900256-900260) — chance on melee hit dealt (ProcFlags=4
+-- DONE_MELEE_AUTO_ATTACK) to add a stack; Chance = 1/2/3/4/5% per rank. The
+-- triggered stack is applied by spell_sha_rocksteady_stack_proc.
+(900256, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+(900257, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 2, 0, 0),
+(900258, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 3, 0, 0),
+(900259, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0, 0),
+(900260, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 5, 0, 0),
+-- 900180/900120 deprecated (superseded by 900261); proc rows removed.
 -- Living Guardian — proc only on direct heals received (SpellTypeMask=2 = PROC_SPELL_TYPE_HEAL), 10s ICD
 (900167, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
 (900168, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),

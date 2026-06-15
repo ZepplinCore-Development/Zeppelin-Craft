@@ -333,7 +333,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_2` = @vs_dmg_die,
     `effect_base_points_2` = @vs_dmg_base,
     `effect_real_points_per_level_2` = @vs_dmg_perlevel,
-    `spell_visual_1` = 7757,
+    `spell_visual_1` = 90003,
     `spell_icon_id` = 4610,
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
@@ -2589,7 +2589,7 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_1` = 108,
     `effect_apply_aura_name_2` = 42,
     `effect_misc_value_a_1` = 3,
-    `effect_trigger_spell_2` = 900180,
+    `effect_trigger_spell_2` = 900261,
     `effect_spell_class_mask_a_3` = 262144,
     `spell_icon_id` = 5489,
     `spell_name_enus` = 'Improved Rockslam',
@@ -2627,7 +2627,7 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_1` = 108,
     `effect_apply_aura_name_2` = 42,
     `effect_misc_value_a_1` = 3,
-    `effect_trigger_spell_2` = 900120,
+    `effect_trigger_spell_2` = 900261,
     `effect_spell_class_mask_a_3` = 262144,
     `spell_icon_id` = 5489,
     `spell_name_enus` = 'Improved Rockslam',
@@ -3910,8 +3910,8 @@ INSERT INTO `spell` SET `id` = 900254, `attributes` = 327760, `cast_time_index` 
 INSERT INTO `spell` SET `id` = 900255, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 559, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 10', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
 
 -- ============================================================================
--- Rocksteady Totem Damage Split (900222) - F-164 damage-mitigation totem aura
--- Cast by the Rocksteady Totem (earth slot) ON its owner via the
+-- Bloodstone Totem Damage Split (900222) - F-164 damage-mitigation totem aura
+-- Cast by the Bloodstone Totem (earth slot) ON its owner via the
 -- spell_sha_stoneguard_totem C++ script. effect_implicit_target_a_1 = 21
 -- (TARGET_UNIT_TARGET_ALLY) so the aura lands on the explicit target (the
 -- shaman) the totem passes to CastSpell -- NOT target 1 (TARGET_UNIT_CASTER),
@@ -3938,10 +3938,10 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_1` = 81,
     `effect_misc_value_a_1` = 127,
     `spell_visual_1` = 8244,
-    `spell_icon_id` = 5313,
-    `spell_name_enus` = 'Rocksteady Totem',
+    `spell_icon_id` = 4689,
+    `spell_name_enus` = 'Bloodstone Totem',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your Rocksteady Totem is absorbing 20% of the damage you take.',
+    `spell_desc_enus` = 'Your Bloodstone Totem is absorbing 20% of the damage you take.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Absorbing 20% of damage taken.',
     `spell_tooltip_flags` = 16712190,
@@ -3952,46 +3952,91 @@ INSERT INTO `spell` SET
 -- Glyph of Stoneclaw Totem (63298) reverted to stock (self-shield) — Stoneclaw is unchanged again.
 
 -- ============================================================================
--- Stonewall (900223) - F-164 Earthwarden block panic button (active talent 2962)
--- Instant, shield required, 1 min CD, 60s. Applies a MOD_BLOCK_PERCENT buff at
--- 5 stacks (+25% block). Each block consumes a stack (-5%) until 0 or expiry.
--- Stack/amount driven by the spell_sha_stonewall_aura C++ script (block% =
--- 5 x stacks; SetStackAmount(5) on apply; ModStackAmount(-1) on block proc).
--- proc_flags 40 + spell_proc HitMask 64 (block) like Bastion of Earth.
+-- Stonewall (900223) - F-164 Earthwarden CD burst / Rocksteady stack booster (active talent 2962)
+-- Instant, shield required, 1 min CD. SPELL_EFFECT_DUMMY handled by the
+-- spell_sha_stonewall C++ SpellScript: adds 5 stacks of the shared Rocksteady
+-- block buff (900261) to the caster (capped at 20). Stonewall has no aura of
+-- its own; the block chance comes entirely from the Rocksteady stacks it grants.
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900223;
 INSERT INTO `spell` SET
     `id` = 900223,
     `attributes` = 16,
     `cast_time_index` = 1,
-    `duration_index` = 3,
     `recovery_time` = 60000,
     `category_recovery_time` = 60000,
-    `proc_chance` = 100,
-    `proc_flags` = 40,
     `range_index` = 1,
     `equipped_item_class` = 4,
     `equipped_item_subclass_mask` = 64,
-    `stack_amount` = 5,
-    `effect_1` = 6,
+    `effect_1` = 3,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 4,
+    `effect_base_points_1` = 0,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 51,
     `spell_icon_id` = 4451,
     `spell_name_enus` = 'Stonewall',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Raise a stone wall, increasing your block chance by 25%. Each time you block, the bonus is reduced by 5%. Lasts $d.',
+    `spell_desc_enus` = 'Instantly grants 5 stacks of Rocksteady, increasing your block chance by 25%. Each block consumes a stack.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Block chance increased, reduced by 5% per block.',
+    `spell_tooltip_enus` = 'Grants 5 stacks of Rocksteady (+25% block).',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
+-- ============================================================================
+-- Rocksteady (F-164) - shared Earthwarden block-stack system
+-- ----------------------------------------------------------------------------
+-- Rocksteady buff (900261): the single stacking block buff. +5% block chance
+-- per stack (spell_sha_rocksteady_block C++; CalcAmount = 5 x stacks), capped
+-- at 20 stacks (+100%). 30s decay window (duration_index 9), refreshed on each
+-- stack gain; each block consumes a stack (spell_proc HitMask 64). Fed by three
+-- sources: the Rocksteady talent (chance on melee hit), Improved Rockslam
+-- (+1/+2 per Rockslam cast) and Stonewall (+5 burst).
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900261;
+INSERT INTO `spell` SET
+    `id` = 900261,
+    `attributes` = 0,
+    `cast_time_index` = 1,
+    `duration_index` = 9,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `stack_amount` = 20,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 4,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 51,
+    `spell_icon_id` = 4242,
+    `spell_name_enus` = 'Rocksteady',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Increases block chance by 5% per stack (max 20). Each block you make consumes a stack.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Block chance increased by 5% per stack.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Rocksteady talent (900256-900260, ranks 1-5): passive Earthwarden talent.
+-- Effect 1 (aura 150 MOD_SHIELD_BLOCKVALUE_PCT): +5/10/15/20/25% block value.
+-- Effect 2 (aura 42 PROC_TRIGGER_SPELL -> 900261): chance on melee hit to gain
+-- a Rocksteady stack. Proc chance (1/2/3/4/5%) + ProcFlags (done melee auto) are
+-- set in spell_proc; the +1 stack is applied by spell_sha_rocksteady_stack_proc.
+-- Passive (NOT_IN_SPELLBOOK); placed in the talent tree via the talent editor.
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` IN (900256, 900257, 900258, 900259, 900260);
+INSERT INTO `spell` SET `id` = 900256, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_apply_aura_name_1` = 150, `effect_base_points_1` = 4, `effect_die_sides_1` = 1, `effect_implicit_target_a_1` = 1, `effect_2` = 6, `effect_apply_aura_name_2` = 42, `effect_trigger_spell_2` = 900261, `effect_implicit_target_a_2` = 1, `spell_icon_id` = 4242, `spell_name_enus` = 'Rocksteady', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 1', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases your block value by $s1%, and gives a 1% chance on melee hit to gain a stack of Rocksteady (+5% block chance, max 20). Each block consumes a stack.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900257, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_apply_aura_name_1` = 150, `effect_base_points_1` = 9, `effect_die_sides_1` = 1, `effect_implicit_target_a_1` = 1, `effect_2` = 6, `effect_apply_aura_name_2` = 42, `effect_trigger_spell_2` = 900261, `effect_implicit_target_a_2` = 1, `spell_icon_id` = 4242, `spell_name_enus` = 'Rocksteady', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 2', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases your block value by $s1%, and gives a 2% chance on melee hit to gain a stack of Rocksteady (+5% block chance, max 20). Each block consumes a stack.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900258, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_apply_aura_name_1` = 150, `effect_base_points_1` = 14, `effect_die_sides_1` = 1, `effect_implicit_target_a_1` = 1, `effect_2` = 6, `effect_apply_aura_name_2` = 42, `effect_trigger_spell_2` = 900261, `effect_implicit_target_a_2` = 1, `spell_icon_id` = 4242, `spell_name_enus` = 'Rocksteady', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 3', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases your block value by $s1%, and gives a 3% chance on melee hit to gain a stack of Rocksteady (+5% block chance, max 20). Each block consumes a stack.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900259, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_apply_aura_name_1` = 150, `effect_base_points_1` = 19, `effect_die_sides_1` = 1, `effect_implicit_target_a_1` = 1, `effect_2` = 6, `effect_apply_aura_name_2` = 42, `effect_trigger_spell_2` = 900261, `effect_implicit_target_a_2` = 1, `spell_icon_id` = 4242, `spell_name_enus` = 'Rocksteady', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 4', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases your block value by $s1%, and gives a 4% chance on melee hit to gain a stack of Rocksteady (+5% block chance, max 20). Each block consumes a stack.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900260, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_apply_aura_name_1` = 150, `effect_base_points_1` = 24, `effect_die_sides_1` = 1, `effect_implicit_target_a_1` = 1, `effect_2` = 6, `effect_apply_aura_name_2` = 42, `effect_trigger_spell_2` = 900261, `effect_implicit_target_a_2` = 1, `spell_icon_id` = 4242, `spell_name_enus` = 'Rocksteady', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases your block value by $s1%, and gives a 5% chance on melee hit to gain a stack of Rocksteady (+5% block chance, max 20). Each block consumes a stack.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 8;
+
 DELETE FROM `spell` WHERE `id` = 900224;
 
--- Rocksteady Totem (900224) - F-164 damage-mitigation totem (baseline, trainer)
+-- Bloodstone Totem (900224) - F-164 damage-mitigation totem (baseline, trainer)
 -- Earth slot, 10s duration, 30s independent CD. Summons creature 900100; a C++
 -- SpellScript (spell_sha_stoneguard_totem) sets the totem HP = 5% of shaman max
 -- HP and has the totem cast the 20% damage split (900222) on the owner.
@@ -4014,10 +4059,10 @@ INSERT INTO `spell` SET
     `effect_misc_value_a_1` = 900100,
     `effect_misc_value_b_1` = 81,
     `spell_visual_1` = 362,
-    `spell_icon_id` = 5313,
-    `spell_name_enus` = 'Rocksteady Totem',
+    `spell_icon_id` = 4689,
+    `spell_name_enus` = 'Bloodstone Totem',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Summons a Rocksteady Totem with health equal to 5% of your maximum health at your feet for $d. While it stands, 20% of the damage you take is redirected to the totem.',
+    `spell_desc_enus` = 'Summons a Bloodstone Totem with health equal to 5% of your maximum health at your feet for $d. While it stands, 20% of the damage you take is redirected to the totem.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Redirects 20% of your damage to the totem.',
     `spell_tooltip_flags` = 16712190,

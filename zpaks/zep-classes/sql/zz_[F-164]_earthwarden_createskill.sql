@@ -2,7 +2,7 @@
 --
 -- F-164 moves several baseline shaman abilities onto skill line 9001
 -- (rockbiter R1-R10, Stoneskin, Stoneclaw, Earth Shock, Earthbind) and adds
--- new spells there (Stonewall 900223, Rocksteady 900224). A character only
+-- new spells there (Stonewall 900223, Bloodstone Totem 900224). A character only
 -- sees spells whose skilllineability points at a skill it actually has, so
 -- without skill 9001 those abilities are invisible in the spellbook.
 --
