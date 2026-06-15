@@ -6,12 +6,17 @@
 -- ============================================================================
 -- spell_script_names — C++ SpellScript bindings
 -- ============================================================================
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172, 900223, 900224);
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172, 900223, 900224, 900180, 900120, 900181, 900182);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
 (900170, 'spell_sha_living_guardian_aura'),
 (900223, 'spell_sha_stonewall_aura'),
-(900224, 'spell_sha_stoneguard_totem');
+(900224, 'spell_sha_stoneguard_totem'),
+-- Rockslam stacking block: buffs consume a stack on block; Improved Rockslam adds 3 stacks per cast
+(900180, 'spell_sha_rockslam_block'),
+(900120, 'spell_sha_rockslam_block'),
+(900181, 'spell_sha_improved_rockslam'),
+(900182, 'spell_sha_improved_rockslam');
 
 -- ============================================================================
 -- spell_bonus_data
@@ -43,7 +48,7 @@ INSERT INTO `spell_threat` (`entry`, `flatMod`, `pctMod`, `apPctMod`) VALUES
 -- Matches Felsteel Shield Spike (29455) pattern
 -- ============================================================================
 -- 900123/900124 (Improved Volcanic Shield) are passive modifiers, not procs — clean up stale rows
-DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900181, 900182, 900198, 900199, 900200, 900201, 900223);
+DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900120, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900180, 900181, 900182, 900198, 900199, 900200, 900201, 900223);
 
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
@@ -53,6 +58,9 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 -- Stonewall — consume a stack on each block (HitMask=64), no ICD
 (900223, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+-- Rockslam stacking block buffs (R1 900180 / R2 900120) — consume a stack on each block (HitMask=64), no ICD
+(900180, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+(900120, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 -- Living Guardian — proc only on direct heals received (SpellTypeMask=2 = PROC_SPELL_TYPE_HEAL), 10s ICD
 (900167, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
 (900168, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),

@@ -2,7 +2,8 @@
 -- Extracted by zep dbc extract
 
 -- Cleanup stale talent IDs from earlier tree restructures (uk_0 collisions on spec_id/tier_id/column_index)
-DELETE FROM `talent` WHERE `id` IN (2906, 2912, 2916, 2917, 2920, 2921, 2923, 2926, 2927, 2928, 2929, 2932, 2933, 2935, 2938, 2939, 2940, 2941, 2942, 2945, 2949, 2952);
+-- 2958 = old hand-inserted Stonewall slot (tier6/col2), since moved to 2962 (tier7/col0) via the talent editor.
+DELETE FROM `talent` WHERE `id` IN (2906, 2912, 2916, 2917, 2920, 2921, 2923, 2926, 2927, 2928, 2929, 2932, 2933, 2935, 2938, 2939, 2940, 2941, 2942, 2945, 2949, 2952, 2958);
 
 -- talent: 27 inserts, 0 updates, 1 deletes
 DELETE FROM `talent` WHERE `id` = 605;
@@ -60,7 +61,9 @@ DELETE FROM `talent` WHERE `id` = 2956;
 INSERT INTO `talent` (`id`, `spec_id`, `tier_id`, `column_index`, `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`, `rank_6`, `rank_7`, `rank_8`, `rank_9`, `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`, `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`, `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`) VALUES (2956, 900, 8, 3, 900198, 900199, 0, 0, 0, 0, 0, 0, 0, 2955, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 DELETE FROM `talent` WHERE `id` = 2957;
 INSERT INTO `talent` (`id`, `spec_id`, `tier_id`, `column_index`, `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`, `rank_6`, `rank_7`, `rank_8`, `rank_9`, `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`, `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`, `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`) VALUES (2957, 900, 4, 0, 900195, 900196, 900197, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
--- Stonewall (900223) - Earthwarden active block CD, tier 6 column 2 (talent 2958)
-DELETE FROM `talent` WHERE `id` = 2958;
+-- Stonewall (900223) - Earthwarden active block CD, tier 7 column 0 (talent 2962)
+-- Placement is managed in the talent editor; this row mirrors the live DB
+-- (re-extracted, not hand-authored). Old hand-inserted slot 2958 is cleaned up above.
+DELETE FROM `talent` WHERE `id` = 2962;
 INSERT INTO `talent` (`id`, `spec_id`, `tier_id`, `column_index`, `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`, `rank_6`, `rank_7`, `rank_8`, `rank_9`, `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`, `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`, `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`) VALUES
-(2958, 900, 6, 2, 900223, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(2962, 900, 7, 0, 900223, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
