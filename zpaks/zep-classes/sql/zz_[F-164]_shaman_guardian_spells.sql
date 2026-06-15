@@ -6,12 +6,19 @@
 -- ============================================================================
 -- spell_script_names — C++ SpellScript bindings
 -- ============================================================================
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172, 900223, 900224, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260);
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 900168, 900169, 900171, 900172, 900223, 900224, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
 (900170, 'spell_sha_living_guardian_aura'),
+-- Living Guardian talent (all 5 ranks): CheckProc requires a real heal so it
+-- no longer fires on self-cast positive buffs (e.g. Rockbiter) via the MASK_ALL leak.
+(900167, 'spell_sha_living_guardian_proc'),
+(900168, 'spell_sha_living_guardian_proc'),
+(900169, 'spell_sha_living_guardian_proc'),
+(900171, 'spell_sha_living_guardian_proc'),
+(900172, 'spell_sha_living_guardian_proc'),
 (900224, 'spell_sha_stoneguard_totem'),
--- Stonewall: instant CD that adds 5 Rocksteady stacks
+-- Rockwall: instant CD that adds 5 Rocksteady stacks
 (900223, 'spell_sha_stonewall'),
 -- Rocksteady shared block buff: +5% block per stack, consume a stack on block
 (900261, 'spell_sha_rocksteady_block'),

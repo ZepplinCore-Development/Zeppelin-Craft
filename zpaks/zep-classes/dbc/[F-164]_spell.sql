@@ -259,8 +259,8 @@ INSERT INTO `spell` SET
 -- ----------------------------------------------------------------------------
 -- Stoneskin (900164) - Active defensive cooldown, 1 rank
 -- -30% all damage taken, 10s duration, 2 min cooldown. (Block-chance bonus
--- removed in F-164 and moved to Stonewall (900223) to keep the two panic
--- buttons distinct: Stoneskin = flat mitigation, Stonewall = block wall.)
+-- removed in F-164 and moved to Rockwall (900223) to keep the two panic
+-- buttons distinct: Stoneskin = flat mitigation, Rockwall = block wall.)
 -- Icon 5469, Visual 5787 (Stoneform).
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900164;
@@ -1540,9 +1540,10 @@ INSERT INTO `spell` SET
 -- Bastion of Earth (900147-900149) - Passive talent, procs on block
 -- 3 ranks: chance on block to trigger buff (900150-900152).
 -- Each talent rank increases the proc chance (R1=10%, R2=20%, R3=30%).
--- Buff gives 15% physical damage reduction and makes the next LHW instant (all ranks).
--- Full mana cost. No stacking — buff consumed on LHW cast.
--- Choice: keep buff for 15% phys DR, or spend it on an instant LHW heal.
+-- Buff makes the next Lesser Healing Wave instant AND free (cost reduced by the
+-- same % as the cast time, i.e. 100%) via two SPELLMOD effects masked to LHW
+-- (family flag class_mask_a=128): SPELLMOD_CASTING_TIME (10) + SPELLMOD_COST (14).
+-- No damage reduction. No stacking — buff consumed on LHW cast.
 -- ============================================================================
 
 -- Bastion of Earth R1 (900147) - Passive, 10% on block, triggers 900150
@@ -1567,9 +1568,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 10% chance to reduce physical damage taken by 15% for $900150d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 10% chance to make your next Lesser Healing Wave instant and free for $900150d. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '10% chance on block to reduce physical damage taken by 15% for $900150d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '10% chance on block to make your next Lesser Healing Wave instant and free for $900150d. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1598,9 +1599,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 20% chance to reduce physical damage taken by 15% for $900151d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 20% chance to make your next Lesser Healing Wave instant and free for $900151d. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '20% chance on block to reduce physical damage taken by 15% for $900151d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '20% chance on block to make your next Lesser Healing Wave instant and free for $900151d. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1629,9 +1630,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 30% chance to reduce physical damage taken by 15% for $900152d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 30% chance to make your next Lesser Healing Wave instant and free for $900152d. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '30% chance on block to reduce physical damage taken by 15% for $900152d and make your next Lesser Healing Wave instant. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '30% chance on block to make your next Lesser Healing Wave instant and free for $900152d. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1643,10 +1644,10 @@ INSERT INTO `spell` SET
 -- E1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -15%
 -- E2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -100% LHW cast time (instant)
 -- No stacking. Consumed when Lesser Healing Wave is cast (proc_charges=1).
--- All ranks identical (20% DR, instant LHW); only the passive proc chance scales. Full mana cost.
+-- All ranks identical (instant + free LHW); only the passive proc chance scales.
 -- ============================================================================
 
--- Bastion of Earth buff R1 (900150) - 15% phys DR, instant LHW
+-- Bastion of Earth buff R1 (900150) - instant + free LHW
 DELETE FROM `spell` WHERE `id` = 900150;
 
 INSERT INTO `spell` SET
@@ -1661,23 +1662,24 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -16,
+    `effect_base_points_1` = -101,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 10,
+    `effect_spell_class_mask_a_1` = 128,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
     `effect_base_points_2` = -101,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
-    `effect_misc_value_a_2` = 10,
-    `effect_spell_class_mask_b_1` = 128,
+    `effect_misc_value_a_2` = 14,
+    `effect_spell_class_mask_a_2` = 128,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
+    `spell_desc_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
+    `spell_tooltip_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1686,7 +1688,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth buff R2 (900151) - 15% phys DR, instant LHW
+-- Bastion of Earth buff R2 (900151) - instant + free LHW
 DELETE FROM `spell` WHERE `id` = 900151;
 
 INSERT INTO `spell` SET
@@ -1701,23 +1703,24 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -16,
+    `effect_base_points_1` = -101,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 10,
+    `effect_spell_class_mask_a_1` = 128,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
     `effect_base_points_2` = -101,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
-    `effect_misc_value_a_2` = 10,
-    `effect_spell_class_mask_b_1` = 128,
+    `effect_misc_value_a_2` = 14,
+    `effect_spell_class_mask_a_2` = 128,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
+    `spell_desc_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
+    `spell_tooltip_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1726,7 +1729,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth buff R3 (900152) - 15% phys DR, instant LHW
+-- Bastion of Earth buff R3 (900152) - instant + free LHW
 DELETE FROM `spell` WHERE `id` = 900152;
 
 INSERT INTO `spell` SET
@@ -1741,23 +1744,24 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -16,
+    `effect_base_points_1` = -101,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 10,
+    `effect_spell_class_mask_a_1` = 128,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
     `effect_base_points_2` = -101,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
-    `effect_misc_value_a_2` = 10,
-    `effect_spell_class_mask_b_1` = 128,
+    `effect_misc_value_a_2` = 14,
+    `effect_spell_class_mask_a_2` = 128,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
+    `spell_desc_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 15%. Your next Lesser Healing Wave is instant.',
+    `spell_tooltip_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -3952,10 +3956,10 @@ INSERT INTO `spell` SET
 -- Glyph of Stoneclaw Totem (63298) reverted to stock (self-shield) — Stoneclaw is unchanged again.
 
 -- ============================================================================
--- Stonewall (900223) - F-164 Earthwarden CD burst / Rocksteady stack booster (active talent 2962)
+-- Rockwall (900223) - F-164 Earthwarden CD burst / Rocksteady stack booster (active talent 2962)
 -- Instant, shield required, 1 min CD. SPELL_EFFECT_DUMMY handled by the
 -- spell_sha_stonewall C++ SpellScript: adds 5 stacks of the shared Rocksteady
--- block buff (900261) to the caster (capped at 20). Stonewall has no aura of
+-- block buff (900261) to the caster (capped at 20). Rockwall has no aura of
 -- its own; the block chance comes entirely from the Rocksteady stacks it grants.
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900223;
@@ -3973,7 +3977,7 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = 0,
     `effect_implicit_target_a_1` = 1,
     `spell_icon_id` = 4451,
-    `spell_name_enus` = 'Stonewall',
+    `spell_name_enus` = 'Rockwall',
     `spell_name_flags` = 16712190,
     `spell_desc_enus` = 'Instantly grants 5 stacks of Rocksteady, increasing your block chance by 25%. Each block consumes a stack.',
     `spell_desc_flags` = 16712190,
@@ -3991,7 +3995,7 @@ INSERT INTO `spell` SET
 -- at 20 stacks (+100%). 30s decay window (duration_index 9), refreshed on each
 -- stack gain; each block consumes a stack (spell_proc HitMask 64). Fed by three
 -- sources: the Rocksteady talent (chance on melee hit), Improved Rockslam
--- (+1/+2 per Rockslam cast) and Stonewall (+5 burst).
+-- (+1/+2 per Rockslam cast) and Rockwall (+5 burst).
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900261;
 INSERT INTO `spell` SET

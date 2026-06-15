@@ -111,7 +111,7 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200094, 9001, 900234, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200095, 9001, 900235, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
--- Stonewall (900223) active on the Earthwarden skill line (9001) so it shows in the spellbook tab
+-- Rockwall (900223) active on the Earthwarden skill line (9001) so it shows in the spellbook tab
 DELETE FROM `skilllineability` WHERE `id` = 200096;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200096, 9001, 900223, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
