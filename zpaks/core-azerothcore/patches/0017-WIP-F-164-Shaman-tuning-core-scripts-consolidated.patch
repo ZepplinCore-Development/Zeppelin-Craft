@@ -1,4 +1,4 @@
-From 2db851e45a19e43c3a3fe6d3bde5e7b49e134162 Mon Sep 17 00:00:00 2001
+From 6dec2600d0f15e56a9d042e3ed08fc34a0a99269 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 04:40:38 +0000
 Subject: [PATCH] WIP: F-164 - Shaman tuning core scripts (consolidated)
@@ -13,8 +13,8 @@ Squashes the F-164 C++ work into a single commit reflecting final state:
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Spells/SpellEffects.cpp    |  19 ++
- src/server/scripts/Spells/spell_shaman.cpp | 241 +++++++++++++++++++++
- 2 files changed, 260 insertions(+)
+ src/server/scripts/Spells/spell_shaman.cpp | 244 +++++++++++++++++++++
+ 2 files changed, 263 insertions(+)
 
 diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
 index a66672753..121a1ae4d 100644
@@ -47,7 +47,7 @@ index a66672753..121a1ae4d 100644
                  LOG_ERROR("spells.effect", "Spell::EffectEnchantItemTmp: Damage {} not handled in S'RW", damage);
                  return;
 diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
-index eef753444..22f3b9766 100644
+index eef753444..762132962 100644
 --- a/src/server/scripts/Spells/spell_shaman.cpp
 +++ b/src/server/scripts/Spells/spell_shaman.cpp
 @@ -59,6 +59,9 @@ enum ShamanSpells
@@ -72,7 +72,7 @@ index eef753444..22f3b9766 100644
  };
  
  enum ShamanSpellIcons
-@@ -1249,6 +1257,133 @@ class spell_sha_stoneclaw_totem : public SpellScript
+@@ -1249,6 +1257,136 @@ class spell_sha_stoneclaw_totem : public SpellScript
      }
  };
  
@@ -117,8 +117,8 @@ index eef753444..22f3b9766 100644
 +};
 +
 +// 900223 - Stonewall (F-164 Earthwarden block panic button)
-+// Block chance = 5% per stack; starts at 10 stacks (+50%); each block consumes
-+// a stack (-5%) until depleted or the 60s buff expires.
++// Block chance = 5% per stack; starts at 5 stacks (+25%); each block consumes
++// a stack (-5%) until depleted or the 60s buff expires. 1 min cooldown.
 +class spell_sha_stonewall_aura : public AuraScript
 +{
 +    PrepareAuraScript(spell_sha_stonewall_aura);
@@ -131,9 +131,9 @@ index eef753444..22f3b9766 100644
 +
 +    void AfterApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 +    {
-+        // start at 10 stacks (+50% block); guard prevents recalc recursion
-+        if (GetStackAmount() < 10)
-+            SetStackAmount(10);
++        // start at 5 stacks (+25% block); guard prevents recalc recursion
++        if (GetStackAmount() < 5)
++            SetStackAmount(5);
 +    }
 +
 +    void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
@@ -150,9 +150,9 @@ index eef753444..22f3b9766 100644
 +};
 +
 +// 900180 (R1) / 900120 (R2) - Rockslam stacking block buff (F-164)
-+// Block chance = 5% per stack (mirrors Stonewall). Improved Rockslam adds 3
-+// stacks per Rockslam cast (capped by the spell's StackAmount: R1=6/+30%,
-+// R2=10/+50%); each block consumes a stack until depleted or the buff expires.
++// Block chance = 5% per stack (mirrors Stonewall), capped at 20 stacks (+100%).
++// Improved Rockslam adds stacks per Rockslam cast (R1 +1 / R2 +2); each block
++// consumes a stack until depleted or the buff expires.
 +class spell_sha_rockslam_block : public AuraScript
 +{
 +    PrepareAuraScript(spell_sha_rockslam_block);
@@ -176,9 +176,10 @@ index eef753444..22f3b9766 100644
 +};
 +
 +// 900181 (R1) / 900182 (R2) - Improved Rockslam (F-164)
-+// Each Rockslam cast adds 3 stacks of the rank's block buff (900180/900120)
-+// instead of the default single-stack refresh. The triggered buff id is read
-+// from the talent's EFFECT_1 TriggerSpell so one script serves both ranks.
++// Each Rockslam cast adds stacks of the rank's block buff (900180/900120):
++// R1 +1, R2 +2 (capped at 20), instead of the default single-stack refresh.
++// The triggered buff id is read from EFFECT_1 TriggerSpell so one script
++// serves both ranks.
 +class spell_sha_improved_rockslam : public AuraScript
 +{
 +    PrepareAuraScript(spell_sha_improved_rockslam);
@@ -191,10 +192,12 @@ index eef753444..22f3b9766 100644
 +        if (!buffId)
 +            return;
 +
++        int32 stacksToAdd = (GetId() == 900182) ? 2 : 1; // R2 adds 2 / R1 adds 1 per cast
++
 +        if (Aura* buff = caster->GetAura(buffId, caster->GetGUID()))
-+            buff->ModStackAmount(3); // caps at StackAmount, refreshes duration
++            buff->ModStackAmount(stacksToAdd); // caps at StackAmount (20), refreshes duration
 +        else if (Aura* fresh = caster->AddAura(buffId, caster))
-+            fresh->SetStackAmount(3);
++            fresh->SetStackAmount(stacksToAdd);
 +    }
 +
 +    void Register() override
@@ -206,7 +209,7 @@ index eef753444..22f3b9766 100644
  // -51490 - Thunderstorm
  class spell_sha_thunderstorm : public SpellScript
  {
-@@ -2169,6 +2304,106 @@ class spell_sha_windfury_weapon : public AuraScript
+@@ -2169,6 +2307,106 @@ class spell_sha_windfury_weapon : public AuraScript
      }
  };
  
@@ -313,7 +316,7 @@ index eef753444..22f3b9766 100644
  void AddSC_shaman_spell_scripts()
  {
      RegisterSpellScript(spell_sha_totem_of_wrath);
-@@ -2202,6 +2437,10 @@ void AddSC_shaman_spell_scripts()
+@@ -2202,6 +2440,10 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_nature_guardian);
      RegisterSpellScript(spell_sha_sentry_totem);
      RegisterSpellScript(spell_sha_stoneclaw_totem);
@@ -324,7 +327,7 @@ index eef753444..22f3b9766 100644
      RegisterSpellScript(spell_sha_thunderstorm);
      RegisterSpellScript(spell_sha_flurry_proc);
      RegisterSpellScript(spell_sha_glyph_of_healing_wave);
-@@ -2228,4 +2467,6 @@ void AddSC_shaman_spell_scripts()
+@@ -2228,4 +2470,6 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_t9_elemental_4p_bonus);
      RegisterSpellScript(spell_sha_tidal_force_dummy);
      RegisterSpellScript(spell_sha_windfury_weapon);

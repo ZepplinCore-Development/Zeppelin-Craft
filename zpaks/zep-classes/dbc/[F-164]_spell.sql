@@ -395,7 +395,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage, scaling with Attack Power.$?s900182[ Adds 3 stacks of 5% increased block chance (max 10); each block consumes a stack.][]$?s900181[ Adds 3 stacks of 5% increased block chance (max 6); each block consumes a stack.][]',
+    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage, scaling with Attack Power.$?s900182[ Adds 2 stacks of 5% increased block chance per cast (max 20); each block consumes a stack.][]$?s900181[ Adds 1 stack of 5% increased block chance per cast (max 20); each block consumes a stack.][]',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
     `spell_tooltip_flags` = 16712190,
@@ -443,7 +443,7 @@ INSERT INTO `spell` SET
     `equipped_item_subclass_mask` = 64,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `stack_amount` = 10,
+    `stack_amount` = 20,
     `effect_base_points_1` = 9,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
@@ -454,7 +454,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases block chance by 5% per stack. Rockslam adds 3 stacks (max 10); each block you make consumes a stack.',
+    `spell_desc_enus` = 'Increases block chance by 5% per stack (max 20). Each block you make consumes a stack.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Block chance increased by 5% per stack.',
     `spell_tooltip_flags` = 16712190,
@@ -2545,7 +2545,7 @@ INSERT INTO `spell` SET
     `equipped_item_subclass_mask` = 64,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `stack_amount` = 6,
+    `stack_amount` = 20,
     `effect_base_points_1` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
@@ -2556,7 +2556,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases block chance by 5% per stack. Rockslam adds 3 stacks (max 6); each block you make consumes a stack.',
+    `spell_desc_enus` = 'Increases block chance by 5% per stack (max 20). Each block you make consumes a stack.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Block chance increased by 5% per stack.',
     `spell_tooltip_flags` = 16712190,
@@ -2596,9 +2596,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases the damage dealt by Rockslam by $s1%, and causes Rockslam to add 3 stacks of 5% increased block chance per cast (max 6). Each block you make consumes a stack.',
+    `spell_desc_enus` = 'Increases the damage dealt by Rockslam by $s1%, and causes Rockslam to add 1 stack of 5% increased block chance per cast (max 20). Each block you make consumes a stack.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases the damage dealt by Rockslam by $s1%, and causes Rockslam to add 3 stacks of 5% increased block chance per cast (max 6). Each block you make consumes a stack.',
+    `spell_tooltip_enus` = 'Increases the damage dealt by Rockslam by $s1%, and causes Rockslam to add 1 stack of 5% increased block chance per cast (max 20). Each block you make consumes a stack.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -2634,9 +2634,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases the damage dealt by Rockslam by $s1%, and causes Rockslam to add 3 stacks of 5% increased block chance per cast (max 10). Each block you make consumes a stack.',
+    `spell_desc_enus` = 'Increases the damage dealt by Rockslam by $s1%, and causes Rockslam to add 2 stacks of 5% increased block chance per cast (max 20). Each block you make consumes a stack.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases the damage dealt by Rockslam by $s1%, and causes Rockslam to add 3 stacks of 5% increased block chance per cast (max 10). Each block you make consumes a stack.',
+    `spell_tooltip_enus` = 'Increases the damage dealt by Rockslam by $s1%, and causes Rockslam to add 2 stacks of 5% increased block chance per cast (max 20). Each block you make consumes a stack.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -3952,11 +3952,11 @@ INSERT INTO `spell` SET
 -- Glyph of Stoneclaw Totem (63298) reverted to stock (self-shield) — Stoneclaw is unchanged again.
 
 -- ============================================================================
--- Stonewall (900223) - F-164 Earthwarden block panic button (active talent 2958)
--- Instant, shield required, 2 min CD, 60s. Applies a MOD_BLOCK_PERCENT buff at
--- 10 stacks (+50% block). Each block consumes a stack (-5%) until 0 or expiry.
+-- Stonewall (900223) - F-164 Earthwarden block panic button (active talent 2962)
+-- Instant, shield required, 1 min CD, 60s. Applies a MOD_BLOCK_PERCENT buff at
+-- 5 stacks (+25% block). Each block consumes a stack (-5%) until 0 or expiry.
 -- Stack/amount driven by the spell_sha_stonewall_aura C++ script (block% =
--- 5 x stacks; SetStackAmount(10) on apply; ModStackAmount(-1) on block proc).
+-- 5 x stacks; SetStackAmount(5) on apply; ModStackAmount(-1) on block proc).
 -- proc_flags 40 + spell_proc HitMask 64 (block) like Bastion of Earth.
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900223;
@@ -3965,14 +3965,14 @@ INSERT INTO `spell` SET
     `attributes` = 16,
     `cast_time_index` = 1,
     `duration_index` = 3,
-    `recovery_time` = 120000,
-    `category_recovery_time` = 120000,
+    `recovery_time` = 60000,
+    `category_recovery_time` = 60000,
     `proc_chance` = 100,
     `proc_flags` = 40,
     `range_index` = 1,
     `equipped_item_class` = 4,
     `equipped_item_subclass_mask` = 64,
-    `stack_amount` = 10,
+    `stack_amount` = 5,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
     `effect_base_points_1` = 4,
@@ -3981,7 +3981,7 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 4451,
     `spell_name_enus` = 'Stonewall',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Raise a stone wall, increasing your block chance by 50%. Each time you block, the bonus is reduced by 5%. Lasts $d.',
+    `spell_desc_enus` = 'Raise a stone wall, increasing your block chance by 25%. Each time you block, the bonus is reduced by 5%. Lasts $d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Block chance increased, reduced by 5% per block.',
     `spell_tooltip_flags` = 16712190,
