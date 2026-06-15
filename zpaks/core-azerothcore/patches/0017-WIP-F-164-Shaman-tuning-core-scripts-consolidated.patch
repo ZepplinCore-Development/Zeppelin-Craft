@@ -1,4 +1,4 @@
-From 03754918e35297786ca426f4ca5418c335d25688 Mon Sep 17 00:00:00 2001
+From 6578aa44a407e0dbcd221b499300b5b7df056e7a Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 04:40:38 +0000
 Subject: [PATCH] WIP: F-164 - Shaman tuning core scripts (consolidated)
@@ -13,8 +13,8 @@ Squashes the F-164 C++ work into a single commit reflecting final state:
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Spells/SpellEffects.cpp    |  19 ++
- src/server/scripts/Spells/spell_shaman.cpp | 254 +++++++++++++++++++++
- 2 files changed, 273 insertions(+)
+ src/server/scripts/Spells/spell_shaman.cpp | 233 +++++++++++++++++++++
+ 2 files changed, 252 insertions(+)
 
 diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
 index a66672753..121a1ae4d 100644
@@ -47,7 +47,7 @@ index a66672753..121a1ae4d 100644
                  LOG_ERROR("spells.effect", "Spell::EffectEnchantItemTmp: Damage {} not handled in S'RW", damage);
                  return;
 diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
-index eef753444..15782425a 100644
+index eef753444..c4a89540d 100644
 --- a/src/server/scripts/Spells/spell_shaman.cpp
 +++ b/src/server/scripts/Spells/spell_shaman.cpp
 @@ -59,6 +59,10 @@ enum ShamanSpells
@@ -198,7 +198,7 @@ index eef753444..15782425a 100644
  // -51490 - Thunderstorm
  class spell_sha_thunderstorm : public SpellScript
  {
-@@ -2169,6 +2296,126 @@ class spell_sha_windfury_weapon : public AuraScript
+@@ -2169,6 +2296,106 @@ class spell_sha_windfury_weapon : public AuraScript
      }
  };
  
@@ -302,30 +302,10 @@ index eef753444..15782425a 100644
 +    }
 +};
 +
-+// 900167-900172 - Living Guardian (F-164): only proc on an actual heal received.
-+// AC sets spellTypeMask = MASK_ALL at the CAST/FINISH proc phase (Unit.cpp), so
-+// the spell_proc SpellTypeMask=HEAL filter leaks and self-cast positive spells
-+// (e.g. Rockbiter Weapon) trigger the shield. Require a real heal in CheckProc.
-+class spell_sha_living_guardian_proc : public AuraScript
-+{
-+    PrepareAuraScript(spell_sha_living_guardian_proc);
-+
-+    bool CheckProc(ProcEventInfo& eventInfo)
-+    {
-+        HealInfo* healInfo = eventInfo.GetHealInfo();
-+        return healInfo && healInfo->GetHeal() > 0;
-+    }
-+
-+    void Register() override
-+    {
-+        DoCheckProc += AuraCheckProcFn(spell_sha_living_guardian_proc::CheckProc);
-+    }
-+};
-+
  void AddSC_shaman_spell_scripts()
  {
      RegisterSpellScript(spell_sha_totem_of_wrath);
-@@ -2202,6 +2449,10 @@ void AddSC_shaman_spell_scripts()
+@@ -2202,6 +2429,10 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_nature_guardian);
      RegisterSpellScript(spell_sha_sentry_totem);
      RegisterSpellScript(spell_sha_stoneclaw_totem);
@@ -336,13 +316,12 @@ index eef753444..15782425a 100644
      RegisterSpellScript(spell_sha_thunderstorm);
      RegisterSpellScript(spell_sha_flurry_proc);
      RegisterSpellScript(spell_sha_glyph_of_healing_wave);
-@@ -2228,4 +2479,7 @@ void AddSC_shaman_spell_scripts()
+@@ -2228,4 +2459,6 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_t9_elemental_4p_bonus);
      RegisterSpellScript(spell_sha_tidal_force_dummy);
      RegisterSpellScript(spell_sha_windfury_weapon);
 +    RegisterSpellScript(spell_sha_thunderborne_leap);
 +    RegisterSpellScript(spell_sha_living_guardian_aura);
-+    RegisterSpellScript(spell_sha_living_guardian_proc);
  }
 -- 
 2.34.1

@@ -10,13 +10,8 @@ DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 90
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
 (900170, 'spell_sha_living_guardian_aura'),
--- Living Guardian talent (all 5 ranks): CheckProc requires a real heal so it
--- no longer fires on self-cast positive buffs (e.g. Rockbiter) via the MASK_ALL leak.
-(900167, 'spell_sha_living_guardian_proc'),
-(900168, 'spell_sha_living_guardian_proc'),
-(900169, 'spell_sha_living_guardian_proc'),
-(900171, 'spell_sha_living_guardian_proc'),
-(900172, 'spell_sha_living_guardian_proc'),
+-- Living Guardian heal-only filtering is data-driven (spell_proc SpellTypeMask=2 +
+-- SpellPhaseMask=2 on all 5 ranks); no proc-filter script needed.
 (900224, 'spell_sha_stoneguard_totem'),
 -- Rockwall: instant CD that adds 5 Rocksteady stacks
 (900223, 'spell_sha_stonewall'),
@@ -62,7 +57,7 @@ INSERT INTO `spell_threat` (`entry`, `flatMod`, `pctMod`, `apPctMod`) VALUES
 -- Matches Felsteel Shield Spike (29455) pattern
 -- ============================================================================
 -- 900123/900124 (Improved Volcanic Shield) are passive modifiers, not procs — clean up stale rows
-DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900120, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900180, 900181, 900182, 900198, 900199, 900200, 900201, 900223, 900256, 900257, 900258, 900259, 900260, 900261);
+DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900120, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900171, 900172, 900180, 900181, 900182, 900198, 900199, 900200, 900201, 900223, 900256, 900257, 900258, 900259, 900260, 900261);
 
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
@@ -83,10 +78,18 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900259, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0, 0),
 (900260, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 5, 0, 0),
 -- 900180/900120 deprecated (superseded by 900261); proc rows removed.
--- Living Guardian — proc only on direct heals received (SpellTypeMask=2 = PROC_SPELL_TYPE_HEAL), 10s ICD
-(900167, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
-(900168, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
-(900169, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
+-- Living Guardian (all 5 ranks) — proc only on direct heals received.
+-- SpellTypeMask=2 (PROC_SPELL_TYPE_HEAL) + SpellPhaseMask=2 (PROC_SPELL_PHASE_HIT), 10s ICD.
+-- SpellPhaseMask=2 is REQUIRED: at CAST/FINISH phase AC forces spellTypeMask=MASK_ALL
+-- (Unit.cpp), so a 0 phase let self-cast positive buffs (Rockbiter, Ghost Wolf) slip
+-- past the HEAL filter. Restricting to the HIT phase classifies by real heal info.
+-- Ranks 4-5 (900171/900172) previously had no spell_proc row at all (no filter).
+-- Defense-in-depth: spell_sha_living_guardian_proc CheckProc also requires an actual heal.
+(900167, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
+(900168, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
+(900169, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
+(900171, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
+(900172, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
 -- Totemic Impact — proc on any totem summon spell, 4 sec ICD
 -- SpellFamilyName=11 (Shaman), Mask0=537399320 (all totem family bits, same as Totemic Focus 16173)
 -- ProcFlags=87040 = all 4 DONE_SPELL_*_DMG_CLASS flags (POS+NEG, MAGIC+NONE):
