@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: Blizzard Macro UI
+## Secure: 1
+## LoadOnDemand: 1
+ZeppelinMacroIcons.lua
+Blizzard_MacroUI.xml
+Localization.lua
