@@ -312,14 +312,10 @@ WHERE `id` = 40120;
 -- 13. GHOST WOLF MODIFIERS - Move to family 14, own mask = bit 29
 --     Retarget effect masks from shaman bit 2048 -> Ghost Wolf bit 30
 -- ============================================================================
--- Improved Ghost Wolf Rank 2 (16287)
--- E1 (aura 107 = ADD_FLAT, cast time), E2 (aura 108 = ADD_PCT, cast time)
-UPDATE `spell` SET
-    `spell_class_set` = 14,
-    `spell_class_mask_1` = 536870912,
-    `effect_spell_class_mask_a_1` = 1073741824,
-    `effect_spell_class_mask_b_1` = 1073741824
-WHERE `id` = 16287;
+-- Improved Ghost Wolf Rank 2 (16287): moved to zep-classes [F-164]_spell.sql.
+-- 16287 is a shaman talent and F-164 rebalances its cast time / speed bonus, so
+-- it now owns the full row (family 14, bit 29, masks targeting Ghost Wolf bit 30)
+-- to keep a single source of truth for that spell. Do not re-add it here.
 
 -- Ghost Wolf Speed (22801) - PvP set bonus speed increase
 UPDATE `spell` SET

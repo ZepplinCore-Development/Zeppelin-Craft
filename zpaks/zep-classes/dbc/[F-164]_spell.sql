@@ -3862,11 +3862,18 @@ UPDATE `spell` SET
     `spell_desc_enus` = 'Reduces the cast time of your Ghost Wolf spell by 0.5 sec and increases its movement speed bonus by an additional $s2%.'
 WHERE `id` = 16262;
 
+-- Self-contained: family 14 / bit 29 (Ghost Wolf Modifiers) + effect masks
+-- targeting Ghost Wolf (bit 30) were previously set by [F-005]_spell.sql in
+-- zep-legacy. Moved here so 16287 has a single owner (it's a shaman talent and
+-- F-164 rebalances its cast time / speed). See zep-legacy [F-005]_spell.sql §13.
 UPDATE `spell` SET
+    `spell_class_set` = 14,
+    `spell_class_mask_1` = 536870912,
     `effect_base_points_1` = -1001,
     `effect_apply_aura_name_2` = 107,
     `effect_misc_value_a_2` = 12,
     `effect_base_points_2` = 9,
+    `effect_spell_class_mask_a_1` = 1073741824,
     `effect_spell_class_mask_b_1` = 1073741824,
     `spell_desc_enus` = 'Reduces the cast time of your Ghost Wolf spell by $/1000;s1 sec and increases its movement speed bonus by an additional $s2%.'
 WHERE `id` = 16287;
