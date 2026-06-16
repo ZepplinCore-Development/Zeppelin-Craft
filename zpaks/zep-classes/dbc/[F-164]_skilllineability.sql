@@ -123,3 +123,16 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 DELETE FROM `skilllineability` WHERE `id` = 200097;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200097, 9001, 900224, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+-- Crag Strike (900262) — TALENT-GRANTED melee filler. acquire_method 0 so a talent
+-- reset removes it. The talent itself (SpellRank -> 900262) is placed via the talent
+-- editor; this SLA only gives it Earthwarden-tab membership (9001 is granted to all
+-- shamans). Move to skill_line 373 if the talent is placed in the Enhancement tree.
+DELETE FROM `skilllineability` WHERE `id` = 200098;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200098, 9001, 900262, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+-- Rocksurge (900263) — baseline trainer-learned Rocksteady spender on the Earthwarden line.
+DELETE FROM `skilllineability` WHERE `id` = 200099;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200099, 9001, 900263, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);

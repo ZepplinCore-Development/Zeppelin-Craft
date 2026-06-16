@@ -15,6 +15,12 @@ DELETE FROM `trainer_spell` WHERE `SpellId` = 900119;
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
 VALUES (14, 900119, 500, 0, 0, 0, 0, 0, 20);
 
+-- Rocksurge (900263) Rocksteady spender on Shaman trainer (TrainerId 14), level 24.
+-- Crag Strike (900262) is intentionally NOT trained here — it is talent-granted.
+DELETE FROM `trainer_spell` WHERE `SpellId` = 900263;
+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
+VALUES (14, 900263, 800, 0, 0, 0, 0, 0, 24);
+
 -- Spirit Communion (active 900185) on Shaman trainer, level 12
 DELETE FROM `trainer_spell` WHERE `SpellId` = 900185;
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)

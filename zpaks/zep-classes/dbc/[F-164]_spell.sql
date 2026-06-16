@@ -377,7 +377,7 @@ INSERT INTO `spell` SET
     `attributes_ex_3` = 67108866,
     `facing_caster_flags` = 1,
     `cast_time_index` = 1,
-    `recovery_time` = 8000,
+    `recovery_time` = 6000,
     `proc_chance` = 101,
     `max_level` = @rs_max_level,
     `base_level` = @rs_base_level,
@@ -395,7 +395,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage, scaling with Attack Power.$?s900182[ Adds 2 stacks of Rocksteady per cast.][]$?s900181[ Adds 1 stack of Rocksteady per cast.][]',
+    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage plus an amount equal to your shield block value, scaling with Attack Power.$?s900182[ Adds 2 stacks of Rocksteady per cast.][]$?s900181[ Adds 1 stack of Rocksteady per cast.][]',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
     `spell_tooltip_flags` = 16712190,
@@ -418,6 +418,132 @@ DELETE FROM `spelldescriptionvariables` WHERE `id` = 189;
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (189, CONCAT(
     '$perlevel=${($pl-', @rs_base_level, ')*', @rs_dmg_perlevel, '}\n',
     '$apbonus=${$AP*', @rs_ap_coeff, '}\n',
+    '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
+
+-- ============================================================================
+-- F-164 single-target DPS package: Crag Strike (filler) + Rocksurge (spender).
+-- Rockslam (900119) also gains shield-block-value scaling via C++ spell_sha_rockslam.
+-- Placeholder icons/visuals (5489 / 5494 / 42) — swap later.
+-- ============================================================================
+
+-- ----------------------------------------------------------------------------
+-- Crag Strike (900262) - TALENT-GRANTED spammable melee filler.
+-- Instant, no cooldown, low mana; fills GCDs for single-target damage/threat.
+-- Gated behind a talent (it is a generic melee move Enhancement could also want)
+-- rather than baseline trainer: place a talent with SpellRank -> 900262 via the
+-- talent editor. SLA 200098 on the Earthwarden line (9001), acquire_method 0.
+-- ----------------------------------------------------------------------------
+SET @cs_dmg_base = 30;
+SET @cs_dmg_die = 1;
+SET @cs_dmg_perlevel = 3.0;
+SET @cs_ap_coeff = 0.15;
+SET @cs_base_level = 20;
+SET @cs_max_level = 80;
+DELETE FROM `spell` WHERE `id` = 900262;
+INSERT INTO `spell` SET
+    `id` = 900262,
+    `attributes` = 327680,
+    `attributes_ex_1` = 512,
+    `attributes_ex_3` = 67108866,
+    `facing_caster_flags` = 1,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `max_level` = @cs_max_level,
+    `base_level` = @cs_base_level,
+    `spell_level` = @cs_base_level,
+    `range_index` = 2,
+    `equipped_item_class` = -1,
+    `effect_1` = 2,
+    `effect_die_sides_1` = @cs_dmg_die,
+    `effect_real_points_per_level_1` = @cs_dmg_perlevel,
+    `effect_base_points_1` = @cs_dmg_base,
+    `effect_implicit_target_a_1` = 6,
+    `effect_bonus_multiplier_1` = @cs_ap_coeff,
+    `spell_visual_1` = 42,
+    `spell_icon_id` = 5489,
+    `spell_name_enus` = 'Crag Strike',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'A swift weapon strike dealing $<dmg> Physical damage, scaling with Attack Power. No cooldown.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
+    `spell_tooltip_flags` = 16712190,
+    `power_cost_percentage` = 5,
+    `start_recovery_category` = 133,
+    `start_recovery_time` = 1500,
+    `spell_class_set` = 11,
+    `spell_class_mask_3` = 524288,
+    `damage_class` = 2,
+    `prevention_type` = 2,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1,
+    `spell_desc_variable_id` = 190;
+
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 190;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (190, CONCAT(
+    '$perlevel=${($pl-', @cs_base_level, ')*', @cs_dmg_perlevel, '}\n',
+    '$apbonus=${$AP*', @cs_ap_coeff, '}\n',
+    '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
+
+-- ----------------------------------------------------------------------------
+-- Rocksurge (900263) - Rocksteady spender (baseline, trainer-learned L24).
+-- Instant, 12s CD. Consumes ALL Rocksteady (900261) stacks; C++ spell_sha_rocksurge
+-- adds @rsg_per_stack damage per stack consumed, then removes the buff. Naturally
+-- Earthwarden-only useful (Enhancement never has Rocksteady stacks).
+-- NOTE: @rsg_per_stack MUST match ROCKSURGE_PER_STACK in spell_shaman.cpp.
+-- ----------------------------------------------------------------------------
+SET @rsg_dmg_base = 150;
+SET @rsg_dmg_die = 1;
+SET @rsg_dmg_perlevel = 6.0;
+SET @rsg_ap_coeff = 0.25;
+SET @rsg_base_level = 20;
+SET @rsg_max_level = 80;
+SET @rsg_per_stack = 40;
+DELETE FROM `spell` WHERE `id` = 900263;
+INSERT INTO `spell` SET
+    `id` = 900263,
+    `attributes` = 327680,
+    `attributes_ex_1` = 512,
+    `attributes_ex_3` = 67108866,
+    `facing_caster_flags` = 1,
+    `cast_time_index` = 1,
+    `recovery_time` = 12000,
+    `proc_chance` = 101,
+    `max_level` = @rsg_max_level,
+    `base_level` = @rsg_base_level,
+    `spell_level` = @rsg_base_level,
+    `range_index` = 2,
+    `equipped_item_class` = -1,
+    `effect_1` = 2,
+    `effect_die_sides_1` = @rsg_dmg_die,
+    `effect_real_points_per_level_1` = @rsg_dmg_perlevel,
+    `effect_base_points_1` = @rsg_dmg_base,
+    `effect_implicit_target_a_1` = 6,
+    `effect_bonus_multiplier_1` = @rsg_ap_coeff,
+    `spell_visual_1` = 42,
+    `spell_icon_id` = 5494,
+    `spell_name_enus` = 'Rocksurge',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = CONCAT('Unleash your built-up resilience, dealing $<dmg> Physical damage plus ', @rsg_per_stack, ' for each stack of Rocksteady, consuming all stacks. Scales with Attack Power.'),
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Consumes all Rocksteady stacks to deal Physical damage.',
+    `spell_tooltip_flags` = 16712190,
+    `power_cost_percentage` = 8,
+    `start_recovery_category` = 133,
+    `start_recovery_time` = 1500,
+    `spell_class_set` = 11,
+    `spell_class_mask_3` = 1048576,
+    `damage_class` = 2,
+    `prevention_type` = 2,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1,
+    `spell_desc_variable_id` = 191;
+
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 191;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (191, CONCAT(
+    '$perlevel=${($pl-', @rsg_base_level, ')*', @rsg_dmg_perlevel, '}\n',
+    '$apbonus=${$AP*', @rsg_ap_coeff, '}\n',
     '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
 
 -- ----------------------------------------------------------------------------

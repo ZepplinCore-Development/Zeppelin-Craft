@@ -1,4 +1,4 @@
-From f50ff1d07a4e17a9dd99a6c8fd07ee81029bdc49 Mon Sep 17 00:00:00 2001
+From 57863bf5cb9e8084c6b795a53e1f4bf65f9177eb Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 04:40:38 +0000
 Subject: [PATCH] WIP: F-164 - Shaman tuning core scripts (consolidated)
@@ -13,8 +13,8 @@ Squashes the F-164 C++ work into a single commit reflecting final state:
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Spells/SpellEffects.cpp    |  19 ++
- src/server/scripts/Spells/spell_shaman.cpp | 236 +++++++++++++++++++++
- 2 files changed, 255 insertions(+)
+ src/server/scripts/Spells/spell_shaman.cpp | 284 +++++++++++++++++++++
+ 2 files changed, 303 insertions(+)
 
 diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
 index a66672753..121a1ae4d 100644
@@ -47,7 +47,7 @@ index a66672753..121a1ae4d 100644
                  LOG_ERROR("spells.effect", "Spell::EffectEnchantItemTmp: Damage {} not handled in S'RW", damage);
                  return;
 diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
-index eef753444..2b18e52d5 100644
+index eef753444..6b9c37b6d 100644
 --- a/src/server/scripts/Spells/spell_shaman.cpp
 +++ b/src/server/scripts/Spells/spell_shaman.cpp
 @@ -59,6 +59,10 @@ enum ShamanSpells
@@ -73,7 +73,7 @@ index eef753444..2b18e52d5 100644
  };
  
  enum ShamanSpellIcons
-@@ -1249,6 +1258,127 @@ class spell_sha_stoneclaw_totem : public SpellScript
+@@ -1249,6 +1258,173 @@ class spell_sha_stoneclaw_totem : public SpellScript
      }
  };
  
@@ -198,10 +198,56 @@ index eef753444..2b18e52d5 100644
 +    }
 +};
 +
++// 900119 - Rockslam (F-164 Earthwarden signature single-target)
++// Shield Slam analog: adds the caster's shield block value to the hit on top of
++// the spell's base + AP damage, so it scales with Rocksteady's block-value boost
++// and gear. Block-value coefficient is 1.0x (tune by scaling the added value).
++class spell_sha_rockslam : public SpellScript
++{
++    PrepareSpellScript(spell_sha_rockslam);
++
++    void HandleDamage(SpellEffIndex /*effIndex*/)
++    {
++        if (Player* caster = GetCaster()->ToPlayer())
++            SetHitDamage(GetHitDamage() + int32(caster->GetShieldBlockValue()));
++    }
++
++    void Register() override
++    {
++        OnEffectHitTarget += SpellEffectFn(spell_sha_rockslam::HandleDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
++    }
++};
++
++// 900263 - Rocksurge (F-164 Earthwarden Rocksteady spender)
++// Consumes ALL stacks of Rocksteady (900261); each stack consumed adds
++// ROCKSURGE_PER_STACK to the hit, then the buff is removed.
++// ROCKSURGE_PER_STACK MUST match @rsg_per_stack in [F-164]_spell.sql.
++class spell_sha_rocksurge : public SpellScript
++{
++    PrepareSpellScript(spell_sha_rocksurge);
++
++    static constexpr int32 ROCKSURGE_PER_STACK = 40;
++
++    void HandleDamage(SpellEffIndex /*effIndex*/)
++    {
++        Unit* caster = GetCaster();
++        if (Aura* buff = caster->GetAura(SPELL_SHAMAN_ROCKSTEADY_BUFF, caster->GetGUID()))
++        {
++            SetHitDamage(GetHitDamage() + ROCKSURGE_PER_STACK * int32(buff->GetStackAmount()));
++            caster->RemoveAurasDueToSpell(SPELL_SHAMAN_ROCKSTEADY_BUFF);
++        }
++    }
++
++    void Register() override
++    {
++        OnEffectHitTarget += SpellEffectFn(spell_sha_rocksurge::HandleDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
++    }
++};
++
  // -51490 - Thunderstorm
  class spell_sha_thunderstorm : public SpellScript
  {
-@@ -2169,6 +2299,106 @@ class spell_sha_windfury_weapon : public AuraScript
+@@ -2169,6 +2345,106 @@ class spell_sha_windfury_weapon : public AuraScript
      }
  };
  
@@ -308,18 +354,20 @@ index eef753444..2b18e52d5 100644
  void AddSC_shaman_spell_scripts()
  {
      RegisterSpellScript(spell_sha_totem_of_wrath);
-@@ -2202,6 +2432,10 @@ void AddSC_shaman_spell_scripts()
+@@ -2202,6 +2478,12 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_nature_guardian);
      RegisterSpellScript(spell_sha_sentry_totem);
      RegisterSpellScript(spell_sha_stoneclaw_totem);
 +    RegisterSpellScript(spell_sha_stoneguard_totem);
 +    RegisterSpellScript(spell_sha_rockwall);
++    RegisterSpellScript(spell_sha_rockslam);
++    RegisterSpellScript(spell_sha_rocksurge);
 +    RegisterSpellScript(spell_sha_rocksteady_block);
 +    RegisterSpellScript(spell_sha_rocksteady_stack_proc);
      RegisterSpellScript(spell_sha_thunderstorm);
      RegisterSpellScript(spell_sha_flurry_proc);
      RegisterSpellScript(spell_sha_glyph_of_healing_wave);
-@@ -2228,4 +2462,6 @@ void AddSC_shaman_spell_scripts()
+@@ -2228,4 +2510,6 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_t9_elemental_4p_bonus);
      RegisterSpellScript(spell_sha_tidal_force_dummy);
      RegisterSpellScript(spell_sha_windfury_weapon);
