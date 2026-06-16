@@ -6,19 +6,33 @@
 -- ============================================================================
 -- spell_script_names — C++ SpellScript bindings
 -- ============================================================================
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 900168, 900169, 900171, 900172, 900223, 900224, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260, 900119, 900263);
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 900168, 900169, 900171, 900172, 900223, 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582, 900226, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260, 900119, 900263);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
 (900170, 'spell_sha_living_guardian_aura'),
 -- Living Guardian heal-only filtering is data-driven (spell_proc SpellTypeMask=2 +
 -- SpellPhaseMask=2 on all 5 ranks); no proc-filter script needed.
-(900224, 'spell_sha_stoneguard_totem'),
+-- Stonebond: attach to every stock Stoneclaw summon rank. AfterCast grabs the
+-- just-summoned earth totem; only activates when the talent marker (900225) is up.
+(5730,  'spell_sha_stonebond'),
+(6390,  'spell_sha_stonebond'),
+(6391,  'spell_sha_stonebond'),
+(6392,  'spell_sha_stonebond'),
+(10427, 'spell_sha_stonebond'),
+(10428, 'spell_sha_stonebond'),
+(25525, 'spell_sha_stonebond'),
+(58580, 'spell_sha_stonebond'),
+(58581, 'spell_sha_stonebond'),
+(58582, 'spell_sha_stonebond'),
+-- Stonebond pulse driver (900226): re-casts the split (900222) on the owner each tick
+(900226, 'spell_sha_stonebond_pulse'),
 -- Rockwall: instant CD that adds 5 Rocksteady stacks
 (900223, 'spell_sha_rockwall'),
 -- Rockslam: adds shield block value to its damage (Shield Slam analog)
 (900119, 'spell_sha_rockslam'),
--- Rocksurge: consumes all Rocksteady stacks for burst single-target damage
-(900263, 'spell_sha_rocksurge'),
+-- Rocksurge (900263): no script — scales via a SPELLMOD_DAMAGE effect on the
+-- Rocksteady buff (900261) targeting Rocksurge's family bit. 900263 stays in the
+-- DELETE above so any prior 'spell_sha_rocksurge' binding is cleaned up.
 -- Rocksteady shared block buff: +5% block per stack, consume a stack on block
 (900261, 'spell_sha_rocksteady_block'),
 -- Stack generators: add stacks of Rocksteady on proc (Improved Rockslam R2 +2, all others +1)

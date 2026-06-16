@@ -464,7 +464,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Crag Strike',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'A swift weapon strike dealing $<dmg> Physical damage, scaling with Attack Power. No cooldown.',
+    `spell_desc_enus` = 'A swift weapon strike dealing $<dmg> Physical damage, scaling with Attack Power.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
     `spell_tooltip_flags` = 16712190,
@@ -486,11 +486,14 @@ INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (190, CONCAT(
     '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
 
 -- ----------------------------------------------------------------------------
--- Rocksurge (900263) - Rocksteady spender (baseline, trainer-learned L24).
--- Instant, 12s CD. Consumes ALL Rocksteady (900261) stacks; C++ spell_sha_rocksurge
--- adds @rsg_per_stack damage per stack consumed, then removes the buff. Naturally
--- Earthwarden-only useful (Enhancement never has Rocksteady stacks).
--- NOTE: @rsg_per_stack MUST match ROCKSURGE_PER_STACK in spell_shaman.cpp.
+-- Rocksurge (900263) - single-target burst (baseline, trainer-learned L24).
+-- Instant, 12s CD. Scales with CURRENT Rocksteady (900261) stacks WITHOUT consuming
+-- them (more block = harder hit, no mitigation loss). No C++ script: the Rocksteady
+-- buff carries a SPELLMOD_DAMAGE percent effect (aura 108) targeting Rocksurge's
+-- family bit (spell_class_set 11, mask_3 = 1048576), and the stacking aura multiplies
+-- that modifier by stack count automatically -> +@rsg_pct_per_stack% damage per stack
+-- (x10 stacks = +100% = double damage).
+-- Naturally Earthwarden-only useful (Enhancement never has Rocksteady stacks).
 -- ----------------------------------------------------------------------------
 SET @rsg_dmg_base = 150;
 SET @rsg_dmg_die = 1;
@@ -498,7 +501,7 @@ SET @rsg_dmg_perlevel = 6.0;
 SET @rsg_ap_coeff = 0.25;
 SET @rsg_base_level = 20;
 SET @rsg_max_level = 80;
-SET @rsg_per_stack = 40;
+SET @rsg_pct_per_stack = 10;  -- +10% Rocksurge damage per Rocksteady stack (x10 stacks = +100% = double)
 DELETE FROM `spell` WHERE `id` = 900263;
 INSERT INTO `spell` SET
     `id` = 900263,
@@ -525,9 +528,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rocksurge',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = CONCAT('Unleash your built-up resilience, dealing $<dmg> Physical damage plus ', @rsg_per_stack, ' for each stack of Rocksteady, consuming all stacks. Scales with Attack Power.'),
+    `spell_desc_enus` = CONCAT('Unleash your built-up resilience, dealing $<dmg> Physical damage, increased by ', @rsg_pct_per_stack, '% for each stack of Rocksteady you have. Scales with Attack Power.'),
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Consumes all Rocksteady stacks to deal Physical damage.',
+    `spell_tooltip_enus` = 'Deals Physical damage, increased for each Rocksteady stack.',
     `spell_tooltip_flags` = 16712190,
     `power_cost_percentage` = 8,
     `start_recovery_category` = 133,
@@ -4047,17 +4050,20 @@ INSERT INTO `spell` SET `id` = 900254, `attributes` = 327760, `cast_time_index` 
 INSERT INTO `spell` SET `id` = 900255, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 559, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 10', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
 
 -- ============================================================================
--- Bloodstone Totem Damage Split (900222) - F-164 damage-mitigation totem aura
--- Cast by the Bloodstone Totem (earth slot) ON its owner via the
--- spell_sha_stoneguard_totem C++ script. effect_implicit_target_a_1 = 21
--- (TARGET_UNIT_TARGET_ALLY) so the aura lands on the explicit target (the
--- shaman) the totem passes to CastSpell -- NOT target 1 (TARGET_UNIT_CASTER),
--- which would apply the aura to the totem itself and leave the shaman unmitigated.
--- Aura 81 (SPLIT_DAMAGE_PCT) redirects 20% of the shaman's incoming damage to
--- the totem (the aura's caster, which must be alive). Ends
--- when the totem dies/expires (handler skips dead casters). 10s = totem life.
--- The totem's VISIBLE health bar (5% of shaman max HP, set in the script) is
--- the trackable buffer; ~33% max uptime (30s CD / 10s duration).
+-- Stonebond Damage Split (900222) - F-164 Earthwarden damage-soak aura
+-- Pulsed onto the shaman by their earth totem (Stoneclaw, later Earth Elemental)
+-- while the Stonebond talent (900225) is specced. The spell_sha_stonebond C++
+-- script casts this on the owner once at summon, then the pulse driver (900226)
+-- re-casts it every 15s; with this 10s duration that gives a locked ~67% uptime
+-- (10s on / 5s gap) independent of totem HP and summon CD.
+-- effect_implicit_target_a_1 = 21 (TARGET_UNIT_TARGET_ALLY) so the aura lands on
+-- the explicit target (the shaman) the totem passes to CastSpell -- NOT target 1
+-- (TARGET_UNIT_CASTER), which would apply it to the totem and leave the shaman
+-- unmitigated. Aura 81 (SPLIT_DAMAGE_PCT) redirects 20% of the shaman's incoming
+-- damage to the totem (the aura's caster, which must be alive). The redirected
+-- damage drains the totem's HP, so totem longevity = how long before a resummon
+-- (Earth's Grasp + stock Glyph of Stoneclaw scale HP; they do NOT change mit).
+-- The split handler skips dead casters, so a dead/expired totem ends the soak.
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900222;
 INSERT INTO `spell` SET
@@ -4076,9 +4082,9 @@ INSERT INTO `spell` SET
     `effect_misc_value_a_1` = 127,
     `spell_visual_1` = 8244,
     `spell_icon_id` = 4689,
-    `spell_name_enus` = 'Bloodstone Totem',
+    `spell_name_enus` = 'Stonebond',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your Bloodstone Totem is absorbing 20% of the damage you take.',
+    `spell_desc_enus` = 'Your earth totem is absorbing 20% of the damage you take.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Absorbing 20% of damage taken.',
     `spell_tooltip_flags` = 16712190,
@@ -4086,7 +4092,76 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
--- Glyph of Stoneclaw Totem (63298) reverted to stock (self-shield) — Stoneclaw is unchanged again.
+-- ============================================================================
+-- Stonebond talent / marker (900225) - F-164 Earthwarden, single-point boolean
+-- Deep-tree passive. Grants a hidden DUMMY marker aura the C++ checks via
+-- owner->HasAura(900225). While present, the spell_sha_stonebond script makes
+-- Stoneclaw (and later Earth Elemental) drop their taunt/stun (totem aura 25513)
+-- and instead soak 20% of the shaman's damage (Stonebond split 900222). No SLA
+-- (passive talent). NOT_IN_SPELLBOOK; placed in the talent tree via the editor.
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900225;
+INSERT INTO `spell` SET
+    `id` = 900225,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 4,
+    `spell_icon_id` = 5469,
+    `spell_name_enus` = 'Stonebond',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it soaks 20% of the damage you take, draining the totem''s health. The totem is long-lived; resummon it when it falls.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Stonebond Pulse driver (900226) - F-164, applied on the soak host (Stoneclaw
+-- totem OR Earth Elemental) by C++. Aura 226 (PERIODIC_DUMMY), 15s amplitude,
+-- INFINITE duration (index 21) so it lives as long as the host and ends when the
+-- host despawns -- covers both the 60s Stonebond Stoneclaw and the ~2min Earth
+-- Elemental with one spell. The spell_sha_stonebond_pulse AuraScript re-casts the
+-- Stonebond split (900222) on the host's owner each tick; 15s pulse vs 900222's
+-- 10s = the locked ~67% uptime rhythm.
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900226;
+INSERT INTO `spell` SET
+    `id` = 900226,
+    `attributes` = 0,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `duration_index` = 21,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 0,
+    `effect_amplitude_1` = 15000,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 226,
+    `spell_icon_id` = 5469,
+    `spell_name_enus` = 'Stonebond Pulse',
+    `spell_name_flags` = 16712190,
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Glyph of Stoneclaw Totem (63298) - restore to STOCK self-shield.
+-- A dev-dead-end edit (custom "+10% of max health" totem-HP effect) was left
+-- orphaned in the live DB with no source backing it. Stonebond does not use a
+-- custom glyph, so restore the full stock row from original_dbc (the on-cast
+-- self-shield). Idempotent; avoids a full rebuild.
+-- ============================================================================
+REPLACE INTO `spell` SELECT * FROM `original_dbc`.`spell` WHERE `id` = 63298;
 
 -- ============================================================================
 -- Rockwall (900223) - F-164 Earthwarden CD burst / Rocksteady stack booster (active talent 2962)
@@ -4145,6 +4220,18 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 51,
+    -- Effect 2: SPELLMOD_DAMAGE percent (aura 108, misc 0) targeting Rocksurge's family
+    -- bit (mask_3 = 1048576). As a stacking aura, the core multiplies this by the stack
+    -- count, so Rocksurge gains +@rsg_pct_per_stack% damage PER current stack with no
+    -- script and no consumption (x10 stacks = +100% = double). die_sides_2 = 0 -> value
+    -- = base exactly.
+    `effect_2` = 6,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_2` = 0,
+    `effect_base_points_2` = @rsg_pct_per_stack,
+    `effect_die_sides_2` = 0,
+    `effect_implicit_target_a_2` = 1,
+    `effect_spell_class_mask_c_2` = 1048576,
     `spell_icon_id` = 4242,
     `spell_name_enus` = 'Rocksteady',
     `spell_name_flags` = 16712190,
@@ -4173,41 +4260,8 @@ INSERT INTO `spell` SET `id` = 900260, `attributes` = 327760, `attributes_ex_4` 
 
 DELETE FROM `spell` WHERE `id` = 900224;
 
--- Bloodstone Totem (900224) - F-164 damage-mitigation totem (baseline, trainer)
--- Earth slot, 10s duration, 30s independent CD. Summons creature 900100; a C++
--- SpellScript (spell_sha_stoneguard_totem) sets the totem HP = 5% of shaman max
--- HP and has the totem cast the 20% damage split (900222) on the owner.
-INSERT INTO `spell` SET
-    `id` = 900224,
-    `attributes` = 65536,
-    `attributes_ex_7` = 32,
-    `cast_time_index` = 1,
-    `recovery_time` = 30000,
-    `proc_chance` = 101,
-    `base_level` = 20,
-    `spell_level` = 20,
-    `duration_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 28,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 0,
-    `effect_implicit_target_a_1` = 41,
-    `effect_misc_value_a_1` = 900100,
-    `effect_misc_value_b_1` = 81,
-    `spell_visual_1` = 362,
-    `spell_icon_id` = 4689,
-    `spell_name_enus` = 'Bloodstone Totem',
-    `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Summons a Bloodstone Totem with health equal to 5% of your maximum health at your feet for $d. While it stands, 20% of the damage you take is redirected to the totem.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Redirects 20% of your damage to the totem.',
-    `spell_tooltip_flags` = 16712190,
-    `power_cost_percentage` = 6,
-    `start_recovery_category` = 133,
-    `start_recovery_time` = 1000,
-    `spell_class_set` = 11,
-    `damage_class` = 1,
-    `effect_damage_multiplier_1` = 1.0,
-    `totem_category_1` = 2,
-    `school_mask` = 1;
+-- RETIRED (2026-06-16): the standalone custom totem (900224, creature 900100)
+-- is removed. Stonebond (900225) re-flavors the STOCK Stoneclaw / Earth Elemental
+-- totems into damage soakers instead of adding a fourth earth-slot totem. The
+-- split aura (900222) and the C++ logic live on; the summon spell does not.
+-- The DELETE above stays so the spell is purged from the DBC.

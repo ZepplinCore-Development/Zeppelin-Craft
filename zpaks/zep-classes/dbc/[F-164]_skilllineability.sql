@@ -116,13 +116,10 @@ DELETE FROM `skilllineability` WHERE `id` = 200096;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200096, 9001, 900223, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
--- Bloodstone Totem (900224) active on the Earthwarden skill line (9001). A spell with
--- NO skilllineability row does NOT appear in the spellbook at all (an SLA is required to
--- render in any tab), so the baseline trainer totem needs this entry. 9001 is granted to
--- all shamans via skillraceclassinfo (id 1017, class_mask 64), matching the other totems.
+-- RETIRED (2026-06-16): SLA 200097 for the custom totem 900224 is removed (the
+-- totem is retired). Stonebond (900225) is a PASSIVE talent and needs no SLA.
+-- DELETE kept so the orphaned row is purged from the DBC.
 DELETE FROM `skilllineability` WHERE `id` = 200097;
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200097, 9001, 900224, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- Crag Strike (900262) — TALENT-GRANTED melee filler. acquire_method 0 so a talent
 -- reset removes it. The talent itself (SpellRank -> 900262) is placed via the talent

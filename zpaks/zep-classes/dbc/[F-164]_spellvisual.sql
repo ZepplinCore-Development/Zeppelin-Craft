@@ -9,3 +9,12 @@ INSERT INTO `spellvisual` (`id`, `instant_area_kit`, `impact_area_kit`, `caster_
 -- caster_impact_kit 232 = Heal_Low_Base (subtle heal glow on self)
 DELETE FROM `spellvisual` WHERE `id` = 90002;
 INSERT INTO `spellvisual` (`id`, `cast_kit`, `caster_impact_kit`) VALUES (90002, 90001, 232);
+
+-- Visual 90003: Volcanic Shield persistent buff — orbiting red rocks
+-- state_kit 90010   = custom kit using the recolored Earth Shield state model
+-- precast_kit 90011 / cast_kit 90012 = custom red-recolored Lightning hand flourish
+-- impact_kit 90013  = custom partial-red LightningShield_Impact_Base — the "big lines coming
+--   down from the sky" the shields play on the caster at cast completion (Volcanic had none).
+-- Mirrors stock Earth Shield SpellVisual 7362 (state_kit 6428) + custom red cast anim
+DELETE FROM `spellvisual` WHERE `id` = 90003;
+INSERT INTO `spellvisual` (`id`, `precast_kit`, `cast_kit`, `impact_kit`, `state_kit`) VALUES (90003, 90011, 90012, 90013, 90010);
