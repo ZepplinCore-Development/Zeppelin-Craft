@@ -14,7 +14,7 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 -- SpellPhaseMask=2 on all 5 ranks); no proc-filter script needed.
 (900224, 'spell_sha_stoneguard_totem'),
 -- Rockwall: instant CD that adds 5 Rocksteady stacks
-(900223, 'spell_sha_stonewall'),
+(900223, 'spell_sha_rockwall'),
 -- Rocksteady shared block buff: +5% block per stack, consume a stack on block
 (900261, 'spell_sha_rocksteady_block'),
 -- Stack generators: add stacks of Rocksteady on proc (Improved Rockslam R2 +2, all others +1)
