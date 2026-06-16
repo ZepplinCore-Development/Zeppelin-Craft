@@ -1,0 +1,32 @@
+From b59643dcc93379950ab1ebfe54ed1360344d3d73 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 16 Jun 2026 00:01:38 +0000
+Subject: [PATCH] feat(Core/World): Raise CharactersPerRealm cap to 20 (F-180)
+
+Change the CONFIG_CHARACTERS_PER_REALM validation upper bound from 10 to
+20 so accounts can hold up to 20 characters per realm. Client shows them
+via a wheel/arrow-navigated list (PATCH-L / patch-modern-login).
+
+Closes F-180
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ src/server/game/World/WorldConfig.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/server/game/World/WorldConfig.cpp b/src/server/game/World/WorldConfig.cpp
+index f1d872c0a..f3643e037 100644
+--- a/src/server/game/World/WorldConfig.cpp
++++ b/src/server/game/World/WorldConfig.cpp
+@@ -223,7 +223,7 @@ void WorldConfig::BuildConfigCache()
+ 
+     SetConfigValue<uint32>(CONFIG_CHARACTER_CREATING_DISABLED_CLASSMASK, "CharacterCreating.Disabled.ClassMask", 0);
+ 
+-    SetConfigValue<uint32>(CONFIG_CHARACTERS_PER_REALM, "CharactersPerRealm", 10, ConfigValueCache::Reloadable::Yes, [](uint32 const& value) { return value > 0 && value <= 10; }, "> 0 && <= 10");
++    SetConfigValue<uint32>(CONFIG_CHARACTERS_PER_REALM, "CharactersPerRealm", 10, ConfigValueCache::Reloadable::Yes, [](uint32 const& value) { return value > 0 && value <= 20; }, "> 0 && <= 20");
+ 
+     // must be after CONFIG_CHARACTERS_PER_REALM
+     SetConfigValue<uint32>(CONFIG_CHARACTERS_PER_ACCOUNT, "CharactersPerAccount", 50, ConfigValueCache::Reloadable::Yes, [this](uint32 const& value) { return value >= GetConfigValue<uint32>(CONFIG_CHARACTERS_PER_REALM); }, ">= CONFIG_CHARACTERS_PER_REALM");
+-- 
+2.34.1
+

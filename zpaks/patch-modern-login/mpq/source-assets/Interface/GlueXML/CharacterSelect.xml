@@ -457,6 +457,46 @@
 									</OnUpdate>
 								</Scripts>
 							</Button>
+							<!-- F-180: no scrollbar widget. This is just a mousewheel catcher over
+							     the character-button column. Defined BEFORE the buttons so the buttons
+							     draw on top and keep their clicks; it only has enableMouseWheel (no
+							     enableMouse) so clicks pass through. The list is repainted by offset in
+							     Lua (CharacterSelect.scrollOffset); wheel + arrow keys are the only
+							     navigation. Anchored to mirror CharSelectCharacterButton1 (parent TOPLEFT
+							     -1050,-65); height = 9 rows * 57 = 513 (9 visible; a 10th row overlaps
+							     the Create New Character button). -->
+							<Frame name="CharacterSelectCharacterWheelFrame" enableMouseWheel="true">
+								<Size>
+									<AbsDimension x="256" y="513"/>
+								</Size>
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="-1050" y="-65"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Layers>
+									<Layer level="OVERLAY">
+										<!-- F-180: character count shown above the first character row,
+										     so players can see how close they are to the per-realm cap. -->
+										<FontString name="CharSelectCharacterListCount" inherits="GlueFontHighlightSmall" justifyH="LEFT">
+											<Anchors>
+												<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
+													<Offset>
+														<AbsDimension x="0" y="6"/>
+													</Offset>
+												</Anchor>
+											</Anchors>
+										</FontString>
+									</Layer>
+								</Layers>
+								<Scripts>
+									<OnMouseWheel>
+										CharacterSelect_OnMouseWheel(self, delta);
+									</OnMouseWheel>
+								</Scripts>
+							</Frame>
 							<Button name="CharSelectCharacterButton1" inherits="CharSelectCharacterButtonTemplate" id="1">
 								<Anchors>
 									<Anchor point="TOPLEFT">

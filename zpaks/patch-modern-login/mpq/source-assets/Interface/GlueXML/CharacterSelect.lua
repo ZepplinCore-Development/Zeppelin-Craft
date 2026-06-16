@@ -3,8 +3,14 @@ CHARACTER_SELECT_INITIAL_FACING = nil;
 
 CHARACTER_ROTATION_CONSTANT = 0.6;
 
-MAX_CHARACTERS_DISPLAYED = 10;
-MAX_CHARACTERS_PER_REALM = 10;
+-- F-180: MAX_CHARACTERS_DISPLAYED is the number of visible rows. MAX_CHARACTERS_PER_REALM
+-- is the logical cap and must match worldserver.conf CharactersPerRealm. Characters
+-- beyond the visible window are reached by mousewheel / arrow keys
+-- (CharacterSelect.scrollOffset). Capped at 9: a 10th row collides with the
+-- fixed "Create New Character" button at the bottom of the column. (10 physical
+-- button widgets exist in the XML; widget 10 is simply never used.)
+MAX_CHARACTERS_DISPLAYED = 9;
+MAX_CHARACTERS_PER_REALM = 20;
 
 -- Map localized race names to background model names
 RACE_TO_BACKGROUND = {
@@ -244,20 +250,28 @@ function CharacterSelect_OnKeyDown(self,key)
 	elseif ( key == "UP" or key == "LEFT" ) then
 		local numChars = GetNumCharacters();
 		if ( numChars > 1 ) then
+			local newIndex;
 			if ( self.selectedIndex > 1 ) then
-				CharacterSelect_SelectCharacter(self.selectedIndex - 1);
+				newIndex = self.selectedIndex - 1;
 			else
-				CharacterSelect_SelectCharacter(numChars);
+				newIndex = numChars;
 			end
+			-- F-180: scroll the target into view before selecting it
+			CharacterSelect_ScrollToCharacter(newIndex);
+			CharacterSelect_SelectCharacter(newIndex);
 		end
-	elseif ( arg1 == "DOWN" or arg1 == "RIGHT" ) then
+	elseif ( key == "DOWN" or key == "RIGHT" ) then
 		local numChars = GetNumCharacters();
 		if ( numChars > 1 ) then
-			if ( self.selectedIndex < GetNumCharacters() ) then
-				CharacterSelect_SelectCharacter(self.selectedIndex + 1);
+			local newIndex;
+			if ( self.selectedIndex < numChars ) then
+				newIndex = self.selectedIndex + 1;
 			else
-				CharacterSelect_SelectCharacter(1);
+				newIndex = 1;
 			end
+			-- F-180: scroll the target into view before selecting it
+			CharacterSelect_ScrollToCharacter(newIndex);
+			CharacterSelect_SelectCharacter(newIndex);
 		end
 	end
 end
@@ -317,50 +331,134 @@ function UpdateCharacterSelection(self)
 		_G["CharSelectCharacterButton"..i]:UnlockHighlight();
 	end
 
+	-- F-180: selectedIndex is a real character index; translate it to the
+	-- visible button slot using the current scroll offset before highlighting.
+	local offset = CharacterSelect_GetScrollOffset();
 	local index = self.selectedIndex;
-	if ( (index > 0) and (index <= MAX_CHARACTERS_DISPLAYED) )then
-		_G["CharSelectCharacterButton"..index]:LockHighlight();
+	local slot = index - offset;
+	if ( (index > 0) and (slot >= 1) and (slot <= MAX_CHARACTERS_DISPLAYED) ) then
+		_G["CharSelectCharacterButton"..slot]:LockHighlight();
 	end
+end
+
+-- F-180: current scroll offset, in whole characters. Tracked as a plain value
+-- on CharacterSelect (there is no scrollbar widget); always returned clamped to
+-- the valid range so the list can never show blank rows past the last character.
+function CharacterSelect_GetScrollOffset()
+	local offset = CharacterSelect.scrollOffset or 0;
+	local maxOffset = CharacterSelect_GetMaxOffset();
+	if ( offset < 0 ) then
+		offset = 0;
+	elseif ( offset > maxOffset ) then
+		offset = maxOffset;
+	end
+	return offset;
+end
+
+-- F-180: largest valid scroll offset (in characters) - the list stops here so
+-- you cannot scroll past the last character into blank space.
+function CharacterSelect_GetMaxOffset()
+	local maxOffset = GetNumCharacters() - MAX_CHARACTERS_DISPLAYED;
+	if ( maxOffset < 0 ) then
+		maxOffset = 0;
+	end
+	return maxOffset;
+end
+
+-- F-180: set the scroll offset (clamped to a hard top/bottom) and repaint only
+-- if it actually changed.
+function CharacterSelect_SetScrollOffset(offset)
+	local maxOffset = CharacterSelect_GetMaxOffset();
+	if ( offset < 0 ) then
+		offset = 0;
+	elseif ( offset > maxOffset ) then
+		offset = maxOffset;
+	end
+	if ( CharacterSelect.scrollOffset ~= offset ) then
+		CharacterSelect.scrollOffset = offset;
+		UpdateCharacterList();
+	end
+end
+
+-- F-180: keep a given (real) character index inside the visible window.
+function CharacterSelect_ScrollToCharacter(index)
+	local offset = CharacterSelect_GetScrollOffset();
+	if ( index <= offset ) then
+		CharacterSelect_SetScrollOffset(index - 1);
+	elseif ( index > offset + MAX_CHARACTERS_DISPLAYED ) then
+		CharacterSelect_SetScrollOffset(index - MAX_CHARACTERS_DISPLAYED);
+	end
+end
+
+-- F-180: mousewheel scrolling. delta is +1 (wheel up) / -1 (wheel down).
+function CharacterSelect_OnMouseWheel(self, delta)
+	CharacterSelect_SetScrollOffset(CharacterSelect_GetScrollOffset() - delta);
 end
 
 function UpdateCharacterList()
 	local numChars = GetNumCharacters();
-	local index = 1;
-	local coords;
-	for i=1, numChars, 1 do
-		local name, race, class, level, zone, sex, ghost, PCC, PRC, PFC = GetCharacterInfo(i);
-		local button = _G["CharSelectCharacterButton"..index];
-		if ( not name ) then
-			button:SetText("ERROR - Tell Jeremy");
-		else
-			if ( not zone ) then
-				zone = "";
-			end
-			_G["CharSelectCharacterButton"..index.."ButtonTextName"]:SetText(name);
-			if( ghost ) then
-				_G["CharSelectCharacterButton"..index.."ButtonTextInfo"]:SetFormattedText(CHARACTER_SELECT_INFO_GHOST, level, class);
+	local connected = IsConnectedToServer();
+
+	-- F-180: character count above the list (turns red at the per-realm cap).
+	CharSelectCharacterListCount:SetFormattedText("Characters: %d / %d", numChars, MAX_CHARACTERS_PER_REALM);
+	if ( numChars >= MAX_CHARACTERS_PER_REALM ) then
+		CharSelectCharacterListCount:SetTextColor(1.0, 0.3, 0.3);
+	else
+		CharSelectCharacterListCount:SetTextColor(1.0, 0.82, 0.0);
+	end
+
+	-- F-180: drive the visible buttons from the scroll offset so we can browse
+	-- up to MAX_CHARACTERS_PER_REALM characters with only MAX_CHARACTERS_DISPLAYED
+	-- physical button widgets.
+	local offset = CharacterSelect_GetScrollOffset();
+
+	CharacterSelect.createIndex = 0;
+	CharSelectCreateCharacterButton:Hide();
+
+	for i=1, MAX_CHARACTERS_DISPLAYED, 1 do
+		local button = _G["CharSelectCharacterButton"..i];
+		local charIndex = offset + i;	-- the real character this slot represents
+
+		-- always start with the paid-service buttons hidden for this slot
+		_G["CharSelectCharacterCustomize"..i]:Hide();
+		_G["CharSelectRaceChange"..i]:Hide();
+		_G["CharSelectFactionChange"..i]:Hide();
+
+		if ( charIndex <= numChars ) then
+			local name, race, class, level, zone, sex, ghost, PCC, PRC, PFC = GetCharacterInfo(charIndex);
+			button:SetID(charIndex);
+			if ( not name ) then
+				button:SetText("ERROR - Tell Jeremy");
 			else
-				_G["CharSelectCharacterButton"..index.."ButtonTextInfo"]:SetFormattedText(CHARACTER_SELECT_INFO, level, class);
+				if ( not zone ) then
+					zone = "";
+				end
+				_G["CharSelectCharacterButton"..i.."ButtonTextName"]:SetText(name);
+				if( ghost ) then
+					_G["CharSelectCharacterButton"..i.."ButtonTextInfo"]:SetFormattedText(CHARACTER_SELECT_INFO_GHOST, level, class);
+				else
+					_G["CharSelectCharacterButton"..i.."ButtonTextInfo"]:SetFormattedText(CHARACTER_SELECT_INFO, level, class);
+				end
+				_G["CharSelectCharacterButton"..i.."ButtonTextLocation"]:SetText(zone);
 			end
-			_G["CharSelectCharacterButton"..index.."ButtonTextLocation"]:SetText(zone);
-		end
-		button:Show();
+			button:Show();
 
-		-- setup paid service buttons
-		_G["CharSelectCharacterCustomize"..index]:Hide();
-		_G["CharSelectRaceChange"..index]:Hide();
-		_G["CharSelectFactionChange"..index]:Hide();
-		if ( PFC ) then
-			_G["CharSelectFactionChange"..index]:Show();
-		elseif ( PRC ) then
-			_G["CharSelectRaceChange"..index]:Show();
-		elseif ( PCC ) then
-			_G["CharSelectCharacterCustomize"..index]:Show();
-		end
-
-		index = index + 1;
-		if ( index > MAX_CHARACTERS_DISPLAYED ) then
-			break;
+			-- setup paid service buttons (keyed to the real character index)
+			if ( PFC ) then
+				local svc = _G["CharSelectFactionChange"..i];
+				svc:SetID(charIndex);
+				svc:Show();
+			elseif ( PRC ) then
+				local svc = _G["CharSelectRaceChange"..i];
+				svc:SetID(charIndex);
+				svc:Show();
+			elseif ( PCC ) then
+				local svc = _G["CharSelectCharacterCustomize"..i];
+				svc:SetID(charIndex);
+				svc:Show();
+			end
+		else
+			button:Hide();
 		end
 	end
 
@@ -372,44 +470,38 @@ function UpdateCharacterList()
 		CharSelectEnterWorldButton:Enable();
 	end
 
-	CharacterSelect.createIndex = 0;
-	CharSelectCreateCharacterButton:Hide();	
-	
-	local connected = IsConnectedToServer();
-	for i=index, MAX_CHARACTERS_DISPLAYED, 1 do
-		local button = _G["CharSelectCharacterButton"..index];
-		if ( (CharacterSelect.createIndex == 0) and (numChars < MAX_CHARACTERS_PER_REALM) ) then
-			CharacterSelect.createIndex = index;
-			if ( connected ) then
-				--If can create characters position and show the create button
-				CharSelectCreateCharacterButton:SetID(index);
-				--CharSelectCreateCharacterButton:SetPoint("TOP", button, "TOP", 0, -5);
-				CharSelectCreateCharacterButton:Show();	
-			end
+	-- The "create new character" button keeps its fixed position from the XML
+	-- (it is not part of the scrollable list). createIndex is the logical slot
+	-- past the last character, used by CharacterSelect_SelectCharacter.
+	if ( numChars < MAX_CHARACTERS_PER_REALM ) then
+		CharacterSelect.createIndex = numChars + 1;
+		if ( connected ) then
+			CharSelectCreateCharacterButton:SetID(CharacterSelect.createIndex);
+			CharSelectCreateCharacterButton:Show();
 		end
-		_G["CharSelectCharacterCustomize"..index]:Hide();
-		_G["CharSelectFactionChange"..index]:Hide();
-		_G["CharSelectRaceChange"..index]:Hide();
-		button:Hide();
-		index = index + 1;
 	end
 
 	if ( numChars == 0 ) then
 		CharacterSelect.selectedIndex = 0;
 		CharacterSelect_SelectCharacter(CharacterSelect.selectedIndex, 1);
+		UpdateCharacterSelection(CharacterSelect);
 		return;
 	end
 
 	if ( CharacterSelect.selectLast == 1 ) then
 		CharacterSelect.selectLast = 0;
+		CharacterSelect_ScrollToCharacter(numChars);
 		CharacterSelect_SelectCharacter(numChars, 1);
+		UpdateCharacterSelection(CharacterSelect);
 		return;
 	end
 
 	if ( (CharacterSelect.selectedIndex == 0) or (CharacterSelect.selectedIndex > numChars) ) then
 		CharacterSelect.selectedIndex = 1;
 	end
+	CharacterSelect_ScrollToCharacter(CharacterSelect.selectedIndex);
 	CharacterSelect_SelectCharacter(CharacterSelect.selectedIndex, 1);
+	UpdateCharacterSelection(CharacterSelect);
 end
 
 function CharacterSelectButton_OnClick(self)
