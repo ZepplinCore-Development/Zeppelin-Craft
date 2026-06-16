@@ -499,7 +499,11 @@ function UpdateCharacterList()
 	if ( (CharacterSelect.selectedIndex == 0) or (CharacterSelect.selectedIndex > numChars) ) then
 		CharacterSelect.selectedIndex = 1;
 	end
-	CharacterSelect_ScrollToCharacter(CharacterSelect.selectedIndex);
+	-- F-180: do NOT scroll-to-selection here. UpdateCharacterList runs on every
+	-- repaint, including mousewheel scrolls; forcing the selected character back
+	-- into view would undo the scroll (you could not wheel past a selected top or
+	-- bottom character). Scrolling is independent of selection - the selection is
+	-- moved into view only when it actually changes (arrow keys, select-last).
 	CharacterSelect_SelectCharacter(CharacterSelect.selectedIndex, 1);
 	UpdateCharacterSelection(CharacterSelect);
 end
