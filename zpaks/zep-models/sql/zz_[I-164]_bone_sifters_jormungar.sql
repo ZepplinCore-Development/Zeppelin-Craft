@@ -1,4 +1,4 @@
--- I-206: Reskin the Auchindoun Bone Sifters to the Jormungar white model.
+-- I-164 (Auchindoun worms): Reskin the Bone Sifters to the Jormungar white model.
 --
 -- Bone Sifter (22466) and Mature Bone Sifter (22482) are the burrowing carrion
 -- worms spawned by quests in the Bone Wastes. They start invisible (display
@@ -8,7 +8,7 @@
 -- the same dated model Bone Crawler used.
 --
 -- Repoint the morph to display 900007 (Jormungar model + JormungarWhite skin),
--- defined in dbc/[I-206]_creaturedisplayinfo.sql and already shipped in PATCH-Z.
+-- defined in dbc/[I-164]_auchindoun_worm_display.sql and already shipped in PATCH-Z.
 -- This is server-only: 900007 and its creature_model_info row already exist, so
 -- no DBC change or client rebuild is needed here.
 --

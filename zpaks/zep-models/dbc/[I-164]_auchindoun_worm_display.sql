@@ -1,11 +1,8 @@
--- I-206: Swap the Auchindoun "Bone Crawler" (entry 21849) off the old BoneWorm
--- model onto the modern Jormungar model with the stock white skin.
---
--- Background: Bone Crawler is the only worm spawned around the Auchindoun
--- structure in the Bone Wastes (Terokkar Forest, map 530 — 4 spawns). It still
--- uses the dated Creature\BoneWorm\Boneworm.mdx (model_id 2528, stock display
--- 20617). We swap it to the Jormungar model (model_id 2882), matching the
--- approach taken for the Hellfire bursters in I-164.
+-- I-164 (Auchindoun worms): shared Jormungar-white display for the Bone Wastes
+-- worms — Bone Crawler (21849), Bone Sifter (22466), Mature Bone Sifter (22482).
+-- They all used the dated Creature\BoneWorm\Boneworm.mdx (model_id 2528, display
+-- 20617); this defines the replacement display on the Jormungar model (2882),
+-- matching the approach used for the Hellfire bursters in this same issue.
 --
 -- Texture: JormungarWhite is STOCK client content (Creature\Jormungar\
 -- JormungarWhite.blp is present in the 3.3.5a file listing), so no BLP needs to
@@ -17,7 +14,7 @@
 -- larger than BoneWorm, so tune down if it looks oversized.
 --
 -- Display 900007 is the next free ID in the custom 9000xx range (900001-900006
--- already in use by I-164 / I-191 / I-193).
+-- already in use by the bursters / I-191 / I-193).
 
 DELETE FROM creaturedisplayinfo WHERE id = 900007;
 
