@@ -7,14 +7,14 @@
   "patches": [
     {
       "name": "rce-security-fix",
-      "description": "Remote code execution exploit fix",
-      "source": "Xerrion/WoWFix335",
+      "description": "Remote code execution exploit fix: make the .zdata section non-writable. Stock .zdata is RWX (0xE0000040); the RCE exploit writes shellcode there and executes it. Clearing WRITE -> R+X (0x60000040) blocks the write half of W^X, so the exploit still fails, while leaving .zdata executable as a code-cave section (needed by spell-desc-block-value-token; a code cave must be executable, and a non-writable code page runs under DEP). (Was 0xC0000040 RW which stripped EXECUTE and broke .zdata code caves.)",
+      "source": "Xerrion/WoWFix335 (Zeppelin: clear WRITE instead of EXECUTE)",
       "enabled": true,
       "edits": [
         {
           "offset": "0x2A7",
           "original": "E0",
-          "patched": "C0"
+          "patched": "60"
         }
       ]
     },
