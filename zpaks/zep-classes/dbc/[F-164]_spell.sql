@@ -481,6 +481,9 @@ SET @rs_ap_coeff = 0.25;
 -- Rockslam (900119) - Shield bash dealing flat damage + block buff
 -- E1: SCHOOL_DAMAGE (effect 2) - base + perlevel + 25% AP
 -- E2: TRIGGER_SPELL → 900120 (block chance buff on self)
+-- Desc uses the custom $k block-value token (F-183 exe patch). $k renders the
+-- player's live shield block value; only works on the patched Wow.exe. On an
+-- un-patched client it shows literally as "$k".
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900119;
 
@@ -509,9 +512,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage plus an amount equal to your shield block value, scaling with Attack Power.$?s900182[ Adds 2 stacks of Rocksteady per cast.][]$?s900181[ Adds 1 stack of Rocksteady per cast.][]',
+    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage plus $k from your shield block value.$?s900182[ Adds 2 stacks of Rocksteady per cast.][]$?s900181[ Adds 1 stack of Rocksteady per cast.][]',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
+    `spell_tooltip_enus` = 'Deals $<dmg> plus $k Physical damage.',
     `spell_tooltip_flags` = 16712190,
     `power_cost_percentage` = 8,
     `start_recovery_category` = 133,

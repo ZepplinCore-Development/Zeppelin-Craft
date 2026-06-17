@@ -660,6 +660,24 @@
           "patched": "02"
         }
       ]
+    },
+    {
+      "name": "spell-desc-block-value-token",
+      "description": "Add custom spell-description token $k (or $K) that prints the local player's shield Block Value. Hooks the spell-description token dispatcher to intercept an unused token letter; reads block value via the same field GetShieldBlock() uses ([[player+0x1008]+0xdec]); code cave lives in the RWX .zdata section. Author descriptions with $k followed by a non-digit (e.g. 'Deals damage equal to your block value ($k).').",
+      "source": "Reverse-engineered F-164 (dispatcher 0x579e50, emit tail 0x57aa00, player getter 0x4038f0). UNTESTED in-game - verify before relying on it.",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x17942D",
+          "original": "0F B6 92 B0 AA 57 00 FF 24 95 54 AA 57 00",
+          "patched": "E9 CE 6F 85 00 90 90 90 90 90 90 90 90 90"
+        },
+        {
+          "offset": "0x72CE00",
+          "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+          "patched": "3C 6B 74 12 3C 4B 74 0E 0F B6 92 B0 AA 57 00 FF 24 95 54 AA 57 00 E8 D5 28 63 FF 85 C0 74 14 8B 80 08 10 00 00 85 C0 74 0A 8B 80 EC 0D 00 00 85 C0 7F 02 31 C0 8D 7D AC 85 C0 75 09 C6 07 30 C6 47 01 00 EB 1E B9 0A 00 00 00 31 F6 31 D2 F7 F1 80 C2 30 52 46 85 C0 75 F3 58 88 07 47 4E 75 F9 C6 07 00 8D 55 AC E9 95 99 7A FF"
+        }
+      ]
     }
   ]
 }

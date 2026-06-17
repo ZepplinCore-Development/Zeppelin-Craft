@@ -4,21 +4,23 @@
 -- Also maps Shield Mastery to Enhancement and Earthen Reprisal to Earthwarden.
 
 -- Base Earthwarden talent abilities (acquire_method=0 so talent reset removes them)
-DELETE FROM `skilllineability` WHERE `id` IN (200065, 200066, 200067, 200068, 200069);
+DELETE FROM `skilllineability` WHERE `id` IN (200065, 200066, 200067, 200068, 200069, 200101);
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200065, 9001, 900116, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200066, 9001, 900119, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200067, 9001, 900121, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200068, 9001, 900123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(200069, 9001, 900124, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(200069, 9001, 900124, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200101, 9001, 900125, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
--- Improved Rockbiter Weapon (900129-900130) on Earthwarden skill line
+-- Improved Rockbiter Weapon (900129-900131) on Earthwarden skill line
 -- Passive — kept on SLA for skillline membership; the spells themselves have
 -- attributes_ex_4 = 0x8000 (NOT_IN_SPELLBOOK) so they don't render in the tab.
-DELETE FROM `skilllineability` WHERE `id` IN (200076, 200077);
+DELETE FROM `skilllineability` WHERE `id` IN (200076, 200077, 200100);
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200076, 9001, 900129, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(200077, 9001, 900130, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(200077, 9001, 900130, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200100, 9001, 900131, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- Shield Mastery (900133-900137) on Earthwarden skill line (9001)
 DELETE FROM `skilllineability` WHERE `id` IN (200070, 200071, 200072, 200073, 200074);
@@ -46,10 +48,8 @@ DELETE FROM `skilllineability` WHERE `id` = 200078;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200078, 9001, 900173, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
--- Stoneskin on Earthwarden skill line
+-- Stoneskin (900164) merged into Rockwall (900223); its SLA 200079 removed.
 DELETE FROM `skilllineability` WHERE `id` = 200079;
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200079, 9001, 900164, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- Earthen Reprisal on Earthwarden skill line
 DELETE FROM `skilllineability` WHERE `id` = 200045;
@@ -95,6 +95,10 @@ WHERE `id` IN (8747, 8748, 8749, 8750);
 -- Move Earthbind Totem from Elemental Combat (375) to Earthwarden (9001)
 UPDATE `skilllineability` SET `skill_line` = 9001
 WHERE `id` = 4481;
+
+-- Move Earth Elemental Totem (2062) from Enhancement (373) to Earthwarden (9001)
+UPDATE `skilllineability` SET `skill_line` = 9001
+WHERE `id` = 15347;
 
 -- Move Earth Shock (all 10 player ranks) from Elemental Combat (375) to Earthwarden (9001)
 UPDATE `skilllineability` SET `skill_line` = 9001

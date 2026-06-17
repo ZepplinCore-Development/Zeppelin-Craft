@@ -77,7 +77,7 @@ INSERT INTO `spell_threat` (`entry`, `flatMod`, `pctMod`, `apPctMod`) VALUES
 -- Matches Felsteel Shield Spike (29455) pattern
 -- ============================================================================
 -- 900123/900124 (Improved Volcanic Shield) are passive modifiers, not procs — clean up stale rows
-DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900120, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900171, 900172, 900180, 900181, 900182, 900198, 900199, 900200, 900201, 900223, 900256, 900257, 900258, 900259, 900260, 900261);
+DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900120, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900171, 900172, 900180, 900181, 900182, 900198, 900199, 900200, 900201, 900205, 900206, 900223, 900256, 900257, 900258, 900259, 900260, 900261);
 
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
@@ -92,11 +92,11 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- Rocksteady talent (900256-900260) — chance on melee hit dealt (ProcFlags=4
 -- DONE_MELEE_AUTO_ATTACK) to add a stack; Chance = 1/2/3/4/5% per rank. The
 -- triggered stack is applied by spell_sha_rocksteady_stack_proc.
-(900256, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-(900257, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 2, 0, 0),
-(900258, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 3, 0, 0),
-(900259, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0, 0),
-(900260, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 5, 0, 0),
+(900256, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 2, 0, 0),
+(900257, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0, 0),
+(900258, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 6, 0, 0),
+(900259, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 8, 0, 0),
+(900260, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 10, 0, 0),
 -- 900180/900120 deprecated (superseded by 900261); proc rows removed.
 -- Living Guardian (all 5 ranks) — proc only on direct heals received.
 -- SpellTypeMask=2 (PROC_SPELL_TYPE_HEAL) + SpellPhaseMask=2 (PROC_SPELL_PHASE_HIT), 10s ICD.
@@ -108,8 +108,7 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900167, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
 (900168, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
 (900169, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
-(900171, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
-(900172, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 10000, 0),
+-- Living Guardian reduced to 3 ranks; old R4/R5 (900171/900172) removed.
 -- Totemic Impact — proc on any totem summon spell, 4 sec ICD
 -- SpellFamilyName=11 (Shaman), Mask0=537399320 (all totem family bits, same as Totemic Focus 16173)
 -- ProcFlags=87040 = all 4 DONE_SPELL_*_DMG_CLASS flags (POS+NEG, MAGIC+NONE):
@@ -122,8 +121,10 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900165, 0, 11, 537399320, 0, 0, 87040, 0, 1, 0, 0, 0, 0, 0, 4000, 0),
 -- Improved Rockslam — proc block buff on Rockslam cast
 -- SpellFamilyName=11 (Shaman), Mask2=262144 (bit 18, custom Rockslam flag)
-(900181, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
-(900182, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+-- SpellPhaseMask=2 (HIT, not CAST) so the Rocksteady stack is only added when Rockslam
+-- actually lands; HitMask=0 at hit phase defaults to normal+crit (excludes miss/dodge/parry).
+(900181, 0, 11, 0, 0, 262144, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0),
+(900182, 0, 11, 0, 0, 262144, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0),
 -- Bastion of Earth buff — consumed when Lesser Healing Wave is cast
 -- SpellFamilyName=11 (Shaman), SpellFamilyMask0=128 (Lesser Healing Wave)
 -- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)
@@ -138,12 +139,14 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- SpellPhaseMask=1 (CAST) — fires reliably even before damage hits
 (900198, 0, 11, 0, 32768, 0, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
 (900199, 0, 11, 0, 32768, 0, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
--- Tectonic Resonance buff (900200/900201) — consumed when Earth Shock is cast
+(900205, 0, 11, 0, 32768, 0, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+-- Tectonic Resonance buff (900200/900201/900206) — consumed when Earth Shock is cast
 -- SpellFamilyName=11 (Shaman), SpellFamilyMask0=1048576 (Earth Shock bit 20)
 -- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)
 -- ProcFlags=81920 = DONE_SPELL_MAGIC_DMG_CLASS_POS+NEG (Earth Shock damage_class=1)
 (900200, 0, 11, 1048576, 0, 0, 81920, 0, 1, 0, 8, 0, 0, 0, 0, 0),
-(900201, 0, 11, 1048576, 0, 0, 81920, 0, 1, 0, 8, 0, 0, 0, 0, 0);
+(900201, 0, 11, 1048576, 0, 0, 81920, 0, 1, 0, 8, 0, 0, 0, 0, 0),
+(900206, 0, 11, 1048576, 0, 0, 81920, 0, 1, 0, 8, 0, 0, 0, 0, 0);
 
 -- ============================================================================
 -- Spirit Communion — consume Spirited buff when active is cast
@@ -191,8 +194,18 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- Shock and Awe debuffs (900213/214/215) — force negative display (red border)
 -- spell_custom_attr: 0x1000 = SPELL_ATTR0_CU_NEGATIVE_EFF0
 -- ============================================================================
-DELETE FROM `spell_custom_attr` WHERE `spell_id` IN (900213, 900214, 900215);
+DELETE FROM `spell_custom_attr` WHERE `spell_id` IN (900213, 900214, 900215, 900264);
 INSERT INTO `spell_custom_attr` (`spell_id`, `attributes`) VALUES
 (900213, 0x1000),
 (900214, 0x1000),
-(900215, 0x1000);
+(900215, 0x1000),
+-- Cracked Armor (900264) — Crag Strike's armor debuff, red-border display
+(900264, 0x1000);
+
+-- ============================================================================
+-- spell_group — Cracked Armor (900264) joins "Major Armor Debuffs" (group 1015,
+-- stack_rule 3 EXCLUSIVE_SAME_EFFECT) so it does NOT stack with Sunder/Expose
+-- (it uses the same aura 101 MOD_RESISTANCE_PCT armor effect; strongest applies).
+-- ============================================================================
+DELETE FROM `spell_group` WHERE `id` = 1015 AND `spell_id` = 900264;
+INSERT INTO `spell_group` (`id`, `spell_id`) VALUES (1015, 900264);
