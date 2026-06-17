@@ -1,4 +1,4 @@
-From ca69b8e4e0fd5a84d6e440ba8ef1d2506bd6d44d Mon Sep 17 00:00:00 2001
+From 52c3a479da5955895f3097cf9ad0c3f80c75bea6 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 04:40:38 +0000
 Subject: [PATCH] WIP: F-164 - Shaman tuning core scripts (consolidated)
@@ -14,8 +14,8 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Spells/SpellEffects.cpp    |  19 ++
  src/server/scripts/Pet/pet_shaman.cpp      |  48 +++-
- src/server/scripts/Spells/spell_shaman.cpp | 313 +++++++++++++++++++++
- 3 files changed, 375 insertions(+), 5 deletions(-)
+ src/server/scripts/Spells/spell_shaman.cpp | 309 +++++++++++++++++++++
+ 3 files changed, 371 insertions(+), 5 deletions(-)
 
 diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
 index a66672753..121a1ae4d 100644
@@ -144,18 +144,10 @@ index d5272513c..fb469cd7c 100644
  
  struct npc_pet_shaman_fire_elemental : public ScriptedAI
 diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
-index eef753444..80371d6b9 100644
+index eef753444..35d4a3d51 100644
 --- a/src/server/scripts/Spells/spell_shaman.cpp
 +++ b/src/server/scripts/Spells/spell_shaman.cpp
-@@ -22,6 +22,7 @@
- #include "SpellMgr.h"
- #include "SpellScript.h"
- #include "SpellScriptLoader.h"
-+#include "Totem.h"
- #include "Unit.h"
- /*
-  * Scripts for spells with SPELLFAMILY_SHAMAN and SPELLFAMILY_GENERIC spells used by shaman players.
-@@ -59,6 +60,12 @@ enum ShamanSpells
+@@ -59,6 +59,12 @@ enum ShamanSpells
      SPELL_SHAMAN_NATURE_GUARDIAN_THREAT         = 39301,
      SPELL_SHAMAN_SATED                          = 57724,
      SPELL_SHAMAN_STONECLAW_TOTEM                = 55277,
@@ -168,7 +160,7 @@ index eef753444..80371d6b9 100644
      SPELL_SHAMAN_STORM_EARTH_AND_FIRE           = 51483,
      SPELL_SHAMAN_TOTEM_EARTHBIND_EARTHGRAB      = 64695,
      SPELL_SHAMAN_TOTEM_EARTHBIND_TOTEM          = 6474,
-@@ -86,6 +93,11 @@ enum ShamanSpells
+@@ -86,6 +92,11 @@ enum ShamanSpells
      SPELL_SHAMAN_T10_ENHANCEMENT_4P_BONUS       = 70832,
      SPELL_SHAMAN_LAVA_BURST_BONUS_DAMAGE        = 71824,
      SPELL_SHAMAN_TOTEM_OF_WRATH_SPELL_POWER     = 63283,
@@ -180,7 +172,7 @@ index eef753444..80371d6b9 100644
  };
  
  enum ShamanSpellIcons
-@@ -1249,6 +1261,199 @@ class spell_sha_stoneclaw_totem : public SpellScript
+@@ -1249,6 +1260,196 @@ class spell_sha_stoneclaw_totem : public SpellScript
      }
  };
  
@@ -199,8 +191,9 @@ index eef753444..80371d6b9 100644
 +// 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582 - Stoneclaw Totem (summon)
 +// F-164 Stonebond: when the caster has a Stonebond talent rank, the just-summoned
 +// earth totem drops its taunt/stun (totem aura 25513) and instead soaks the rank's
-+// % (4/8/12/16/20) of the shaman's damage. The totem is extended to 60s and the
-+// split (900222) is pulsed onto the owner immediately at that %, then re-cast every
++// % (4/8/12/16/20) of the shaman's damage. Stoneclaw's 60s duration comes from the
++// talent's SPELLMOD_DURATION (DBC). The split (900222) is pulsed onto the owner
++// immediately at that %, then re-cast every
 +// 15s by the pulse driver (900226) for a locked ~67% uptime. Without the talent
 +// this no-ops and Stoneclaw behaves exactly as stock. The redirected damage drains
 +// the totem's HP (RegenHealth=0 on 31122), so totem HP = longevity.
@@ -229,10 +222,6 @@ index eef753444..80371d6b9 100644
 +
 +        // Drop the stock taunt + stun (both driven by totem aura 25513)
 +        totem->RemoveAurasDueToSpell(SPELL_SHAMAN_STONECLAW_TAUNT_PASSIVE);
-+
-+        // Long-lived totem: summon once, soak until it falls (60s)
-+        if (Totem* t = totem->ToTotem())
-+            t->SetTotemDuration(60 * IN_MILLISECONDS);
 +
 +        // Soak the rank's % immediately (totem = the split's caster, so damage
 +        // redirects to it), then hand the same % to the pulse driver so it
@@ -380,7 +369,7 @@ index eef753444..80371d6b9 100644
  // -51490 - Thunderstorm
  class spell_sha_thunderstorm : public SpellScript
  {
-@@ -2169,6 +2374,106 @@ class spell_sha_windfury_weapon : public AuraScript
+@@ -2169,6 +2370,106 @@ class spell_sha_windfury_weapon : public AuraScript
      }
  };
  
@@ -487,7 +476,7 @@ index eef753444..80371d6b9 100644
  void AddSC_shaman_spell_scripts()
  {
      RegisterSpellScript(spell_sha_totem_of_wrath);
-@@ -2202,6 +2507,12 @@ void AddSC_shaman_spell_scripts()
+@@ -2202,6 +2503,12 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_nature_guardian);
      RegisterSpellScript(spell_sha_sentry_totem);
      RegisterSpellScript(spell_sha_stoneclaw_totem);
@@ -500,7 +489,7 @@ index eef753444..80371d6b9 100644
      RegisterSpellScript(spell_sha_thunderstorm);
      RegisterSpellScript(spell_sha_flurry_proc);
      RegisterSpellScript(spell_sha_glyph_of_healing_wave);
-@@ -2228,4 +2539,6 @@ void AddSC_shaman_spell_scripts()
+@@ -2228,4 +2535,6 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_t9_elemental_4p_bonus);
      RegisterSpellScript(spell_sha_tidal_force_dummy);
      RegisterSpellScript(spell_sha_windfury_weapon);
