@@ -168,9 +168,65 @@ INSERT INTO `spell` SET
     `school_mask` = 1;
 
 
+DELETE FROM `spell` WHERE `id` = 900207;
+
+INSERT INTO `spell` SET
+    `id` = 900207,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -9,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 126,
+    `spell_icon_id` = 5440,
+    `spell_name_enus` = 'Elemental Ward',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+
+DELETE FROM `spell` WHERE `id` = 900208;
+
+INSERT INTO `spell` SET
+    `id` = 900208,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -11,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 126,
+    `spell_icon_id` = 5440,
+    `spell_name_enus` = 'Elemental Ward',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+
 -- ----------------------------------------------------------------------------
--- Molten Plating (900161, 900162, 900163) - 3 ranks, passive
--- Increases armor from items by 10/20/30%. Icon 4644.
+-- Molten Plating (900161-900163, 900203-900204) - 5 ranks, passive
+-- E1 aura 142 (MOD_BASE_RESISTANCE_PCT, armor): +6% armor per rank (6/12/18/24/30%).
+-- E2 aura 150 (MOD_SHIELD_BLOCKVALUE_PCT): +3% block value per rank (3/6/9/12/15%).
+-- Block value feeds Rockslam scaling. Icon 4644.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900161;
 
@@ -183,20 +239,26 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 9,
+    `effect_base_points_1` = 5,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 142,
     `effect_misc_value_a_1` = 1,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = 2,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 150,
     `spell_icon_id` = 4644,
     `spell_name_enus` = 'Molten Plating',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your armor from items by $s1%.',
+    `spell_desc_enus` = 'Increases your armor from items by $s1% and your block value by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
+    `spell_tooltip_enus` = 'Increases armor from items by $s1% and block value by $s2%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1;
 
 
@@ -211,20 +273,26 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 19,
+    `effect_base_points_1` = 11,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 142,
     `effect_misc_value_a_1` = 1,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = 5,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 150,
     `spell_icon_id` = 4644,
     `spell_name_enus` = 'Molten Plating',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your armor from items by $s1%.',
+    `spell_desc_enus` = 'Increases your armor from items by $s1% and your block value by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
+    `spell_tooltip_enus` = 'Increases armor from items by $s1% and block value by $s2%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1;
 
 
@@ -239,57 +307,103 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 29,
+    `effect_base_points_1` = 17,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 142,
     `effect_misc_value_a_1` = 1,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = 8,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 150,
     `spell_icon_id` = 4644,
     `spell_name_enus` = 'Molten Plating',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your armor from items by $s1%.',
+    `spell_desc_enus` = 'Increases your armor from items by $s1% and your block value by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
+    `spell_tooltip_enus` = 'Increases armor from items by $s1% and block value by $s2%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1;
 
 
--- ----------------------------------------------------------------------------
--- Stoneskin (900164) - Active defensive cooldown, 1 rank
--- -30% all damage taken, 10s duration, 2 min cooldown. (Block-chance bonus
--- removed in F-164 and moved to Rockwall (900223) to keep the two panic
--- buttons distinct: Stoneskin = flat mitigation, Rockwall = block wall.)
--- Icon 5469, Visual 5787 (Stoneform).
--- ----------------------------------------------------------------------------
-DELETE FROM `spell` WHERE `id` = 900164;
+DELETE FROM `spell` WHERE `id` = 900203;
 
 INSERT INTO `spell` SET
-    `id` = 900164,
-    `attributes` = 16,
+    `id` = 900203,
+    `attributes` = 464,
     `cast_time_index` = 1,
-    `duration_index` = 1,
-    `recovery_time` = 120000,
+    `proc_chance` = 101,
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -31,
+    `effect_base_points_1` = 23,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 5469,
-    `spell_visual_1` = 5787,
-    `spell_name_enus` = 'Stoneskin',
+    `effect_apply_aura_name_1` = 142,
+    `effect_misc_value_a_1` = 1,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = 11,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 150,
+    `spell_icon_id` = 4644,
+    `spell_name_enus` = 'Molten Plating',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by $s1% for $d.',
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your armor from items by $s1% and your block value by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces damage taken by $s1%.',
+    `spell_tooltip_enus` = 'Increases armor from items by $s1% and block value by $s2%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
-    `spell_class_set` = 11,
+    `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1;
+
+
+DELETE FROM `spell` WHERE `id` = 900204;
+
+INSERT INTO `spell` SET
+    `id` = 900204,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 29,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 142,
+    `effect_misc_value_a_1` = 1,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = 14,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 150,
+    `spell_icon_id` = 4644,
+    `spell_name_enus` = 'Molten Plating',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your armor from items by $s1% and your block value by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases armor from items by $s1% and block value by $s2%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1;
+
+
+-- ----------------------------------------------------------------------------
+-- Stoneskin (900164) - MERGED INTO Rockwall (900223) in F-164. Its -30% damage
+-- reduction is now Rockwall's effect 2 (Rockwall also keeps the +5 Rocksteady burst,
+-- uses Stoneskin's icon 5469 + Stoneform visual). Stoneskin removed; its SLA (200079)
+-- is also dropped. The talent must be repointed off 900164 via the talent editor.
+DELETE FROM `spell` WHERE `id` = 900164;
 
 -- Volcanic Shield scaling (shared between aura buff, triggered spell, and desc variable 187)
 SET @vs_dmg_base = 30;
@@ -582,10 +696,11 @@ INSERT INTO `spell` SET
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1,
-    `spell_desc_variable_id` = 191;
+    `spell_desc_variable_id` = 193;
 
-DELETE FROM `spelldescriptionvariables` WHERE `id` = 191;
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (191, CONCAT(
+-- Variable 193 (NOT 191 — 191 is Earth Shock's): Rocksurge tooltip damage.
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 193;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (193, CONCAT(
     '$perlevel=${($pl-', @rsg_base_level, ')*', @rsg_dmg_perlevel, '}\n',
     '$apbonus=${$AP*', @rsg_ap_coeff, '}\n',
     '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
@@ -823,8 +938,8 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
     `effect_apply_aura_name_2` = 108,
-    `effect_base_points_1` = 2,
-    `effect_base_points_2` = 9,
+    `effect_base_points_1` = 1,
+    `effect_base_points_2` = 4,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_1` = 12,
@@ -864,8 +979,8 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
     `effect_apply_aura_name_2` = 108,
-    `effect_base_points_1` = 5,
-    `effect_base_points_2` = 19,
+    `effect_base_points_1` = 3,
+    `effect_base_points_2` = 9,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_1` = 12,
@@ -888,8 +1003,45 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 8;
 
--- Clean up deleted mana return spells (consolidated into 900122 E2 + modifiers)
-DELETE FROM `spell` WHERE `id` IN (900125, 900126);
+-- Improved Volcanic Shield R3 (900125) - +6% mana / +15% VS damage
+DELETE FROM `spell` WHERE `id` = 900125;
+INSERT INTO `spell` SET
+    `id` = 900125,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_apply_aura_name_1` = 107,
+    `effect_apply_aura_name_2` = 108,
+    `effect_base_points_1` = 5,
+    `effect_base_points_2` = 14,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_misc_value_a_1` = 12,
+    `effect_misc_value_a_2` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_spell_class_mask_a_3` = 32768,
+    `effect_spell_class_mask_b_3` = 32768,
+    `spell_icon_id` = 5494,
+    `spell_name_enus` = 'Improved Volcanic Shield',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage dealt by your Volcanic Shield by $s2%, and its activation also restores $s1% of your maximum mana.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Volcanic Shield damage increased by $s2% and activation restores $s1% max mana.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 8;
+
+-- Clean up deleted mana return spell (consolidated into 900122 E2 + modifiers)
+DELETE FROM `spell` WHERE `id` = 900126;
 
 -- ============================================================================
 -- Rockbiter Weapon (Passive) - 900138, 900139, 900140, 900141
@@ -1092,14 +1244,14 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_apply_aura_name_1` = 108,
-    `effect_base_points_1` = 14,
+    `effect_base_points_1` = 9,
     `effect_die_sides_1` = 1,
     `effect_misc_value_a_1` = 3,
     `effect_implicit_target_a_1` = 1,
     `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_2` = 7,
+    `effect_base_points_2` = 4,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
@@ -1134,14 +1286,14 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_apply_aura_name_1` = 108,
-    `effect_base_points_1` = 29,
+    `effect_base_points_1` = 19,
     `effect_die_sides_1` = 1,
     `effect_misc_value_a_1` = 3,
     `effect_implicit_target_a_1` = 1,
     `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_2` = 14,
+    `effect_base_points_2` = 9,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
@@ -1162,8 +1314,44 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `school_mask` = 8;
 
--- Clean up deleted rank
+-- Improved Rockbiter Weapon R3 (900131): +30% AP, +15% threat (DR is on base imbue)
 DELETE FROM `spell` WHERE `id` = 900131;
+INSERT INTO `spell` SET
+    `id` = 900131,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 108,
+    `effect_base_points_1` = 29,
+    `effect_die_sides_1` = 1,
+    `effect_misc_value_a_1` = 3,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 128,
+    `effect_2` = 6,
+    `effect_apply_aura_name_2` = 107,
+    `effect_base_points_2` = 14,
+    `effect_die_sides_2` = 1,
+    `effect_misc_value_a_2` = 12,
+    `effect_implicit_target_a_2` = 1,
+    `effect_spell_class_mask_b_3` = 128,
+    `spell_icon_id` = 688,
+    `spell_name_enus` = 'Improved Rockbiter Weapon',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Rockbiter AP increased by $s1% and threat by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0,
+    `school_mask` = 8;
 
 -- Clean up deleted Rockslam MH (consolidated into 900119)
 DELETE FROM `spell` WHERE `id` = 900132;
@@ -2161,11 +2349,9 @@ INSERT INTO `spell` SET
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` IN (900167, 900168, 900169, 900171, 900172);
 
-INSERT INTO `spell` SET `id` = 900167, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 20, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 1', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have a 20% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900168, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 40, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 2', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have a 40% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900169, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 60, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 3', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have a 60% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900171, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 80, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 4', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have an 80% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900172, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 100, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900167, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 33, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 1', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have a 33% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900168, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 66, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 2', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you have a 66% chance to gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900169, `attributes` = 464, `cast_time_index` = 1, `proc_flags` = 32768, `proc_chance` = 100, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = -1, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 42, `effect_trigger_spell_1` = 900170, `spell_icon_id` = 4408, `spell_name_enus` = 'Living Guardian', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 3', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'When you receive a direct heal, you gain a shield that absorbs damage equal to 10% of your maximum health for $900170d. Cannot occur more than once every $900186d.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `effect_damage_multiplier_1` = 1.0, `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
 -- Living Guardian Shield (900170) - Single buff; all 5 talent ranks trigger it.
@@ -3358,9 +3544,9 @@ INSERT INTO `spell` SET
     `school_mask` = 1;
 
 -- ============================================================================
--- Improved Tectonic Blast (900198, 900199) - Passive talent, 2 ranks
--- After casting Tectonic Blast, gain Tectonic Resonance buff (900200/900201)
--- for 8 sec, increasing the damage of your next Earth Shock by 10%/20%.
+-- Improved Tectonic Blast (900198, 900199, 900205) - Passive talent, 3 ranks
+-- After casting Tectonic Blast, gain Tectonic Resonance buff (900200/900201/900206)
+-- for 8 sec: next Earth Shock deals +10/20/30% damage and costs 10/20/30% less mana.
 -- proc filter: Tectonic Blast cast (SpellFamilyMask2=32768, SpellPhaseMask=1)
 -- ProcFlags lives in spell_proc (zz_[F-164]_shaman_guardian_spells.sql)
 -- ============================================================================
@@ -3387,9 +3573,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock by 10% within 8 sec.',
+    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock and reducing its mana cost by 10%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 10% for 8 sec.',
+    `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 10%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -3417,18 +3603,49 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock by 20% within 8 sec.',
+    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock and reducing its mana cost by 20%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 20% for 8 sec.',
+    `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 20%.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- Improved Tectonic Blast R3 (900205) - triggers Tectonic Resonance R3 (900206)
+DELETE FROM `spell` WHERE `id` = 900205;
+
+INSERT INTO `spell` SET
+    `id` = 900205,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 100,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900206,
+    `spell_icon_id` = 4635,
+    `spell_name_enus` = 'Improved Tectonic Blast',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock and reducing its mana cost by 30%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 30%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 8;
 
 -- ============================================================================
--- Tectonic Resonance (900200, 900201) - Buff applied by Improved Tectonic Blast
--- Aura 108 (ADD_PCT_MODIFIER) misc 0 (SPELLMOD_DAMAGE), filtered to Earth Shock
--- via effect_spell_class_mask_a_1=1048576 (Earth Shock bit 20).
+-- Tectonic Resonance (900200, 900201, 900206) - Buff applied by Improved Tectonic Blast
+-- E1 aura 108 misc 0 (SPELLMOD_DAMAGE): +10/20/30% Earth Shock damage.
+-- E2 aura 108 misc 14 (SPELLMOD_COST): -10/20/30% Earth Shock mana cost.
+-- Both filtered to Earth Shock via class mask (word 1 bit 1048576): E1 a_1, E2 b_1.
 -- Consumed when Earth Shock is cast (proc_charges=1, AttributesMask=8 in spell_proc).
 -- ============================================================================
 
@@ -3451,12 +3668,20 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_1` = 108,
     `effect_misc_value_a_1` = 0,
     `effect_spell_class_mask_a_1` = 1048576,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -11,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_2` = 14,
+    `effect_spell_class_mask_b_1` = 1048576,
+    `effect_damage_multiplier_2` = 1.0,
     `spell_icon_id` = 4635,
     `spell_name_enus` = 'Tectonic Resonance',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your next Earth Shock will deal $s1% additional damage.',
+    `spell_desc_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Your next Earth Shock will deal $s1% additional damage.',
+    `spell_tooltip_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -3481,12 +3706,58 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_1` = 108,
     `effect_misc_value_a_1` = 0,
     `effect_spell_class_mask_a_1` = 1048576,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -21,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_2` = 14,
+    `effect_spell_class_mask_b_1` = 1048576,
+    `effect_damage_multiplier_2` = 1.0,
     `spell_icon_id` = 4635,
     `spell_name_enus` = 'Tectonic Resonance',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your next Earth Shock will deal $s1% additional damage.',
+    `spell_desc_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Your next Earth Shock will deal $s1% additional damage.',
+    `spell_tooltip_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- Tectonic Resonance R3 (900206) - +30% Earth Shock damage, -30% ES mana cost, 8 sec
+DELETE FROM `spell` WHERE `id` = 900206;
+
+INSERT INTO `spell` SET
+    `id` = 900206,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_charges` = 1,
+    `proc_chance` = 100,
+    `duration_index` = 31,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 29,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 0,
+    `effect_spell_class_mask_a_1` = 1048576,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -31,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_2` = 14,
+    `effect_spell_class_mask_b_1` = 1048576,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_icon_id` = 4635,
+    `spell_name_enus` = 'Tectonic Resonance',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -4149,11 +4420,11 @@ INSERT INTO `spell` SET
 -- NOT_IN_SPELLBOOK; placed in the talent tree via the editor (5-rank).
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` IN (900225, 900227, 900228, 900229, 900236);
-INSERT INTO `spell` SET `id` = 900225, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 4, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 1', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900227, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 8, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 2', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900228, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 12, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 3', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900229, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 16, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 4', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900236, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 20, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900225, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = 3, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 1', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900227, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = 7, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 2', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900228, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = 11, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 3', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900229, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = 15, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 4', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900236, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 1, `effect_base_points_1` = 19, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
 
 -- ============================================================================
 -- Stonebond Pulse driver (900226) - F-164, applied on the soak host (Stoneclaw
@@ -4197,19 +4468,21 @@ INSERT INTO `spell` SET
 REPLACE INTO `spell` SELECT * FROM `original_dbc`.`spell` WHERE `id` = 63298;
 
 -- ============================================================================
--- Rockwall (900223) - F-164 Earthwarden CD burst / Rocksteady stack booster (active talent 2962)
--- Instant, shield required, 1 min CD. SPELL_EFFECT_DUMMY handled by the
--- spell_sha_stonewall C++ SpellScript: adds 5 stacks of the shared Rocksteady
--- block buff (900261) to the caster (capped at 20). Rockwall has no aura of
--- its own; the block chance comes entirely from the Rocksteady stacks it grants.
+-- Rockwall (900223) - F-164 Earthwarden defensive CD (Stoneskin + Rockwall merged).
+-- Instant, shield required, 1.5 min CD. Two effects:
+--   E1 DUMMY -> spell_sha_rockwall C++ adds 5 stacks of Rocksteady (900261).
+--   E2 aura 87 (MOD_DAMAGE_PERCENT_TAKEN, all schools) -30% damage taken for 10s.
+-- Uses Stoneskin's icon (5469) + Stoneform visual (5787). Stoneskin (900164) merged
+-- in and deleted. ("Encase in stone" panic button + Rocksteady burst in one.)
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900223;
 INSERT INTO `spell` SET
     `id` = 900223,
     `attributes` = 16,
     `cast_time_index` = 1,
-    `recovery_time` = 60000,
-    `category_recovery_time` = 60000,
+    `recovery_time` = 90000,
+    `category_recovery_time` = 90000,
+    `duration_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = 4,
     `equipped_item_subclass_mask` = 64,
@@ -4217,15 +4490,23 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_base_points_1` = 0,
     `effect_implicit_target_a_1` = 1,
-    `spell_icon_id` = 4451,
+    `effect_2` = 6,
+    `effect_apply_aura_name_2` = 87,
+    `effect_misc_value_a_2` = 127,
+    `effect_base_points_2` = -31,
+    `effect_die_sides_2` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `spell_visual_1` = 5787,
+    `spell_icon_id` = 5469,
     `spell_name_enus` = 'Rockwall',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Instantly grants 5 stacks of Rocksteady.',
+    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by 30% for 10 sec and instantly granting 5 stacks of Rocksteady.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Grants 5 stacks of Rocksteady.',
+    `spell_tooltip_enus` = 'Reduces damage taken by 30% for 10 sec and grants 5 stacks of Rocksteady.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1;
 
 -- ============================================================================
