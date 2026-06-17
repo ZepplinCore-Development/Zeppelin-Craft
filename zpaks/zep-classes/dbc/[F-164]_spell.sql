@@ -439,6 +439,8 @@ SET @cs_dmg_perlevel = 3.0;
 SET @cs_ap_coeff = 0.15;
 SET @cs_base_level = 20;
 SET @cs_max_level = 80;
+SET @cs_armor_pct_per_stack = 4;  -- Cracked Armor (900264) armor reduction per stack
+SET @cs_armor_stacks = 5;         -- max stacks -> 4/8/12/16/20% (Sunder-style ramp)
 DELETE FROM `spell` WHERE `id` = 900262;
 INSERT INTO `spell` SET
     `id` = 900262,
@@ -459,12 +461,18 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = @cs_dmg_base,
     `effect_implicit_target_a_1` = 6,
     `effect_bonus_multiplier_1` = @cs_ap_coeff,
+    -- Effect 2: TRIGGER_SPELL (64) -> Cracked Armor (900264) on the target. Refreshed
+    -- every cast; a major armor debuff that does NOT stack with Sunder/Expose (shares
+    -- spell_group 1015 "Major Armor Debuffs", EXCLUSIVE_SAME_EFFECT).
+    `effect_2` = 64,
+    `effect_trigger_spell_2` = 900264,
+    `effect_implicit_target_a_2` = 6,
     `spell_visual_1` = 42,
-    `spell_icon_id` = 5489,
+    `spell_icon_id` = 4609,
     `spell_name_enus` = 'Crag Strike',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'A swift weapon strike dealing $<dmg> Physical damage, scaling with Attack Power.',
+    `spell_desc_enus` = CONCAT('A swift weapon strike dealing $<dmg> Physical damage and cracking the target''s armor, reducing it by ', @cs_armor_pct_per_stack, '% per stack (up to ', @cs_armor_pct_per_stack * @cs_armor_stacks, '%). Scales with Attack Power.'),
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
     `spell_tooltip_flags` = 16712190,
@@ -484,6 +492,39 @@ INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (190, CONCAT(
     '$perlevel=${($pl-', @cs_base_level, ')*', @cs_dmg_perlevel, '}\n',
     '$apbonus=${$AP*', @cs_ap_coeff, '}\n',
     '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
+
+-- ----------------------------------------------------------------------------
+-- Cracked Armor (900264) - Crag Strike's armor debuff. Major armor reduction
+-- (aura 101 MOD_RESISTANCE_PCT, misc 1 = armor), -@cs_armor_pct_per_stack% PER STACK,
+-- stacking to @cs_armor_stacks (4/8/12/16/20%) - the stacking aura multiplies the
+-- per-stack amount by stack count automatically. Each Crag Strike adds a stack and
+-- refreshes. Mirrors Sunder Armor's ramp; shares spell_group 1015 "Major Armor
+-- Debuffs" (EXCLUSIVE_SAME_EFFECT) so it does NOT stack with Sunder/Expose (strongest
+-- single debuff applies). 30s duration. NOT_IN_SPELLBOOK; red-border debuff via
+-- spell_custom_attr 0x1000 + spell_group membership (zz_[F-164]_shaman_guardian_spells.sql).
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` = 900264;
+INSERT INTO `spell` SET
+    `id` = 900264,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `duration_index` = 9,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `stack_amount` = @cs_armor_stacks,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 101,
+    `effect_misc_value_a_1` = 1,
+    `effect_base_points_1` = -@cs_armor_pct_per_stack,
+    `effect_die_sides_1` = 0,
+    `effect_implicit_target_a_1` = 6,
+    `spell_icon_id` = 2771,
+    `spell_name_enus` = 'Cracked Armor',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = CONCAT('Armor reduced by ', @cs_armor_pct_per_stack, '% per stack.'),
+    `spell_desc_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
 -- Rocksurge (900263) - single-target burst (baseline, trainer-learned L24).
@@ -523,12 +564,12 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = @rsg_dmg_base,
     `effect_implicit_target_a_1` = 6,
     `effect_bonus_multiplier_1` = @rsg_ap_coeff,
-    `spell_visual_1` = 42,
-    `spell_icon_id` = 5494,
+    `spell_visual_1` = 12718,
+    `spell_icon_id` = 4975,
     `spell_name_enus` = 'Rocksurge',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = CONCAT('Unleash your built-up resilience, dealing $<dmg> Physical damage, increased by ', @rsg_pct_per_stack, '% for each stack of Rocksteady you have. Scales with Attack Power.'),
+    `spell_desc_enus` = CONCAT('A stone spike erupts below the current enemy target, dealing $<dmg> Physical damage, increased by ', @rsg_pct_per_stack, '% for each stack of Rocksteady you have. Scales with Attack Power.'),
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals Physical damage, increased for each Rocksteady stack.',
     `spell_tooltip_flags` = 16712190,
@@ -548,6 +589,56 @@ INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (191, CONCAT(
     '$perlevel=${($pl-', @rsg_base_level, ')*', @rsg_dmg_perlevel, '}\n',
     '$apbonus=${$AP*', @rsg_ap_coeff, '}\n',
     '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
+
+-- ============================================================================
+-- F-164 GLYPHS (PoC). Pipeline: glyph item (item_template, on-use) -> APPLY_GLYPH
+-- spell (900271) -> glyphproperties row (90001) -> modifier spell (900270).
+-- glyphproperties rows live in [F-164]_glyphproperties.sql; the glyph item in
+-- zz_[F-164]_glyphs.sql. SPELLMOD glyphs require the target ability to have a
+-- family mask (Rockslam = mask_3 bit 262144).
+-- ============================================================================
+
+-- 900270 Glyph of Rockslam (modifier): passive SPELLMOD_COOLDOWN (-1.5s) on Rockslam.
+DELETE FROM `spell` WHERE `id` = 900270;
+INSERT INTO `spell` SET
+    `id` = 900270,
+    `attributes` = 64,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 107,
+    `effect_misc_value_a_1` = 11,
+    `effect_base_points_1` = -1500,
+    `effect_die_sides_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 262144,
+    `spell_icon_id` = 5489,
+    `spell_name_enus` = 'Glyph of Rockslam',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces the cooldown of your Rockslam by 1.5 sec.',
+    `spell_desc_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- 900271 Glyph of Rockslam (apply): cast by the glyph item; SPELL_EFFECT_APPLY_GLYPH
+-- (74) with misc = glyphproperties ID 90001. attributes 0x10000000 matches stock
+-- glyph-apply spells (e.g. 55559 Glyph of Stormstrike).
+DELETE FROM `spell` WHERE `id` = 900271;
+INSERT INTO `spell` SET
+    `id` = 900271,
+    `attributes` = 268435456,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 74,
+    `effect_misc_value_a_1` = 90001,
+    `effect_implicit_target_a_1` = 1,
+    `spell_icon_id` = 5489,
+    `spell_name_enus` = 'Glyph of Rockslam',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
 -- Rockslam Block Buff (900120) - cloned from Shield Block
@@ -831,10 +922,10 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -6,
+    `effect_base_points_3` = 9,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 87,
-    `effect_misc_value_a_3` = 127,
+    `effect_apply_aura_name_3` = 150,
+    `effect_misc_value_a_3` = 0,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Rockbiter Weapon',
     `spell_name_flags` = 16712190,
@@ -873,10 +964,10 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -6,
+    `effect_base_points_3` = 9,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 87,
-    `effect_misc_value_a_3` = 127,
+    `effect_apply_aura_name_3` = 150,
+    `effect_misc_value_a_3` = 0,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Rockbiter Weapon',
     `spell_name_flags` = 16712190,
@@ -915,10 +1006,10 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -6,
+    `effect_base_points_3` = 9,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 87,
-    `effect_misc_value_a_3` = 127,
+    `effect_apply_aura_name_3` = 150,
+    `effect_misc_value_a_3` = 0,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Rockbiter Weapon',
     `spell_name_flags` = 16712190,
@@ -957,10 +1048,10 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -6,
+    `effect_base_points_3` = 9,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 87,
-    `effect_misc_value_a_3` = 127,
+    `effect_apply_aura_name_3` = 150,
+    `effect_misc_value_a_3` = 0,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Rockbiter Weapon',
     `spell_name_flags` = 16712190,
@@ -1445,7 +1536,7 @@ INSERT INTO `spell` SET
 -- Fear/charm reduction removed (covered by Tremor Totem).
 -- Ref: Unbreakable Will (14522). Icon 5460. 3% per rank.
 -- ============================================================================
--- Relentless R1 (900142): +3% threat, -3% stun/silence duration
+-- Relentless R1 (900142): +5% threat, -5% stun/silence duration
 DELETE FROM `spell` WHERE `id` = 900142;
 
 INSERT INTO `spell` SET
@@ -1460,9 +1551,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 2,
-    `effect_base_points_2` = -4,
-    `effect_base_points_3` = -4,
+    `effect_base_points_1` = 4,
+    `effect_base_points_2` = -6,
+    `effect_base_points_3` = -6,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
@@ -1489,7 +1580,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Relentless R2 (900143): +6% threat, -6% stun/silence duration
+-- Relentless R2 (900143): +10% threat, -10% stun/silence duration
 DELETE FROM `spell` WHERE `id` = 900143;
 
 INSERT INTO `spell` SET
@@ -1504,9 +1595,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 5,
-    `effect_base_points_2` = -7,
-    `effect_base_points_3` = -7,
+    `effect_base_points_1` = 9,
+    `effect_base_points_2` = -11,
+    `effect_base_points_3` = -11,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
@@ -1533,7 +1624,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Relentless R3 (900144): +9% threat, -9% stun/silence duration
+-- Relentless R3 (900144): +15% threat, -15% stun/silence duration
 DELETE FROM `spell` WHERE `id` = 900144;
 
 INSERT INTO `spell` SET
@@ -1548,9 +1639,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 8,
-    `effect_base_points_2` = -10,
-    `effect_base_points_3` = -10,
+    `effect_base_points_1` = 14,
+    `effect_base_points_2` = -16,
+    `effect_base_points_3` = -16,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
@@ -1577,93 +1668,10 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Relentless R4 (900145): +12% threat, -12% stun/silence duration
-DELETE FROM `spell` WHERE `id` = 900145;
-
-INSERT INTO `spell` SET
-    `id` = 900145,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_3` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 11,
-    `effect_base_points_2` = -13,
-    `effect_base_points_3` = -13,
-    `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 232,
-    `effect_apply_aura_name_3` = 232,
-    `effect_misc_value_a_1` = 127,
-    `effect_misc_value_a_2` = 12,
-    `effect_misc_value_a_3` = 9,
-    `spell_icon_id` = 5460,
-    `spell_name_enus` = 'Relentless',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 4',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and reduces the duration of stun and silence effects by $s2%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and reduces stun and silence duration by $s2%.',
-    `spell_tooltip_flags` = 16712190,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_3` = 1.0;
-
--- Relentless R5 (900146): +15% threat, -15% stun/silence duration
-DELETE FROM `spell` WHERE `id` = 900146;
-
-INSERT INTO `spell` SET
-    `id` = 900146,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_3` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 14,
-    `effect_base_points_2` = -16,
-    `effect_base_points_3` = -16,
-    `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 232,
-    `effect_apply_aura_name_3` = 232,
-    `effect_misc_value_a_1` = 127,
-    `effect_misc_value_a_2` = 12,
-    `effect_misc_value_a_3` = 9,
-    `spell_icon_id` = 5460,
-    `spell_name_enus` = 'Relentless',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 5',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and reduces the duration of stun and silence effects by $s2%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and reduces stun and silence duration by $s2%.',
-    `spell_tooltip_flags` = 16712190,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_3` = 1.0;
+-- Relentless reduced from 5 ranks to 3 (+5/10/15% threat, -5/10/15% stun/silence).
+-- Same +15% endpoint, now 5% per point. Old ranks 4-5 removed from the DB.
+-- Talent must drop to 3 ranks (remove SpellRank_4/5 -> 900145/900146) via the editor.
+DELETE FROM `spell` WHERE `id` IN (900145, 900146);
 
 -- ============================================================================
 -- Bastion of Earth (900147-900149) - Passive talent, procs on block
@@ -1901,10 +1909,10 @@ INSERT INTO `spell` SET
 
 -- Rockbiter Weapon imbue desc - AP from passive aura (client auto-applies Imp Rockbiter SpellMod)
 -- Threat shown conditionally when Imp Rockbiter is known
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900138m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.' WHERE id = 8017;
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900139m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.' WHERE id = 8018;
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900140m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.' WHERE id = 8019;
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900141m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.' WHERE id = 10399;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900138m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.' WHERE id = 8017;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900139m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.' WHERE id = 8018;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900140m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.' WHERE id = 8019;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900141m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.' WHERE id = 10399;
 
 DELETE FROM `spell` WHERE `id` = 900153;
 
@@ -2872,8 +2880,10 @@ INSERT INTO `spell` SET
     `school_mask` = 1;
 
 -- ============================================================================
--- Bulwark (900187, 900188) - Passive, 2 ranks
--- Mirrors Critical Block (47294) pattern for Shaman.
+-- Bulwark (900187, 900188, 900202) - Passive, 3 ranks
+-- Straight clone of Critical Block (47294-47296) for Shaman.
+-- Crit block chance 20/40/60% (E1 base 19/39/59), Rockslam crit +5/10/15%
+-- (E2 base 4/9/14). Icon 5121.
 -- E1: aura 253 (MOD_CRITICAL_BLOCK_CHANCE) - chance for blocks to block double.
 -- E2: aura 107 (ADD_FLAT_MODIFIER), misc 7 (SPELLMOD_CRITICAL_CHANCE),
 --     mask_b_3 = 262144 -> targets Rockslam (spell_class_mask_3 bit 18) only.
@@ -2892,15 +2902,15 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 9,
-    `effect_base_points_2` = 2,
+    `effect_base_points_1` = 19,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 253,
     `effect_apply_aura_name_2` = 107,
     `effect_misc_value_a_2` = 7,
     `effect_spell_class_mask_b_3` = 262144,
-    `spell_icon_id` = 5432,
+    `spell_icon_id` = 5121,
     `spell_priority` = 50,
     `spell_name_enus` = 'Bulwark',
     `spell_name_flags` = 16712190,
@@ -2929,19 +2939,56 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 19,
-    `effect_base_points_2` = 5,
+    `effect_base_points_1` = 39,
+    `effect_base_points_2` = 9,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 253,
     `effect_apply_aura_name_2` = 107,
     `effect_misc_value_a_2` = 7,
     `effect_spell_class_mask_b_3` = 262144,
-    `spell_icon_id` = 5432,
+    `spell_icon_id` = 5121,
     `spell_priority` = 50,
     `spell_name_enus` = 'Bulwark',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Your successful blocks have a $s1% chance to block double the normal amount, and increases your chance to critically hit with your Rockslam ability by an additional $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- Bulwark Rank 3 (900202) - 60% critical block, +15% Rockslam crit
+DELETE FROM `spell` WHERE `id` = 900202;
+INSERT INTO `spell` SET
+    `id` = 900202,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 59,
+    `effect_base_points_2` = 14,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 253,
+    `effect_apply_aura_name_2` = 107,
+    `effect_misc_value_a_2` = 7,
+    `effect_spell_class_mask_b_3` = 262144,
+    `spell_icon_id` = 5121,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Bulwark',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
     `spell_desc_enus` = 'Your successful blocks have a $s1% chance to block double the normal amount, and increases your chance to critically hit with your Rockslam ability by an additional $s2%.',
     `spell_desc_flags` = 16712190,
@@ -4021,12 +4068,12 @@ WHERE `id` = 16287;
 -- effect_base_points_2 = DPS-1 so calculated `damage` = DPS (die 1).
 DELETE FROM `spell` WHERE `id` IN (900230,900231,900232,900233,900234,900235);
 
-INSERT INTO `spell` SET `id` = 900230, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 34, `spell_level` = 34, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 14, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900250m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
-INSERT INTO `spell` SET `id` = 900231, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 44, `spell_level` = 44, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 27, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 6', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900251m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
-INSERT INTO `spell` SET `id` = 900232, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 54, `spell_level` = 54, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 39, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 7', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900252m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
-INSERT INTO `spell` SET `id` = 900233, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 62, `spell_level` = 62, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 48, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 8', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900253m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
-INSERT INTO `spell` SET `id` = 900234, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 70, `spell_level` = 70, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 61, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 9', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900254m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
-INSERT INTO `spell` SET `id` = 900235, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 78, `spell_level` = 78, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 79, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 10', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900255m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Reduces damage taken by 5%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900230, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 34, `spell_level` = 34, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 14, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900250m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900231, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 44, `spell_level` = 44, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 27, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 6', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900251m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900232, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 54, `spell_level` = 54, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 39, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 7', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900252m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900233, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 62, `spell_level` = 62, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 48, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 8', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900253m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900234, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 70, `spell_level` = 70, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 61, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 9', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900254m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
+INSERT INTO `spell` SET `id` = 900235, `attributes` = 328192, `attributes_ex_1` = 131088, `attributes_ex_2` = 8, `targets` = 16, `cast_time_index` = 1, `proc_chance` = 101, `base_level` = 78, `spell_level` = 78, `range_index` = 1, `equipped_item_class` = -1, `effect_2` = 54, `effect_die_sides_2` = 1, `effect_base_points_2` = 79, `spell_visual_1` = 8693, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 10', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing attack power by $900255m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Increases block value by 10%.  Lasts 30 minutes.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712188, `power_cost_percentage` = 8, `start_recovery_category` = 133, `start_recovery_time` = 1500, `spell_class_set` = 11, `spell_class_mask_1` = 4194304, `damage_class` = 1, `prevention_type` = 1, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `effect_damage_multiplier_3` = 1.0, `school_mask` = 8;
 
 -- ---- Enchant-spells (cast on weapon by C++; effect_misc_value_a_1 = enchant id) ----
 DELETE FROM `spell` WHERE `id` IN (900240,900241,900242,900243,900244,900245);
@@ -4042,12 +4089,12 @@ INSERT INTO `spell` SET `id` = 900245, `attributes` = 328192, `attributes_ex_2` 
 -- effect_base_points_1 = AP-1 (7 x DPS, die 1).
 DELETE FROM `spell` WHERE `id` IN (900250,900251,900252,900253,900254,900255);
 
-INSERT INTO `spell` SET `id` = 900250, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 104, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
-INSERT INTO `spell` SET `id` = 900251, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 195, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 6', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
-INSERT INTO `spell` SET `id` = 900252, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 279, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 7', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
-INSERT INTO `spell` SET `id` = 900253, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 342, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 8', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
-INSERT INTO `spell` SET `id` = 900254, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 433, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 9', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
-INSERT INTO `spell` SET `id` = 900255, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 559, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = -6, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 87, `effect_misc_value_a_3` = 127, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 10', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
+INSERT INTO `spell` SET `id` = 900250, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 104, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = 9, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 150, `effect_misc_value_a_3` = 0, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
+INSERT INTO `spell` SET `id` = 900251, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 195, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = 9, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 150, `effect_misc_value_a_3` = 0, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 6', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
+INSERT INTO `spell` SET `id` = 900252, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 279, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = 9, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 150, `effect_misc_value_a_3` = 0, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 7', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
+INSERT INTO `spell` SET `id` = 900253, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 342, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = 9, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 150, `effect_misc_value_a_3` = 0, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 8', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
+INSERT INTO `spell` SET `id` = 900254, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 433, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = 9, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 150, `effect_misc_value_a_3` = 0, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 9', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
+INSERT INTO `spell` SET `id` = 900255, `attributes` = 327760, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_2` = 6, `effect_die_sides_1` = 1, `effect_die_sides_2` = 1, `effect_base_points_1` = 559, `effect_base_points_2` = -1, `effect_implicit_target_a_1` = 1, `effect_implicit_target_a_2` = 1, `effect_apply_aura_name_1` = 99, `effect_apply_aura_name_2` = 10, `effect_misc_value_a_2` = 127, `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = 9, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 150, `effect_misc_value_a_3` = 0, `spell_icon_id` = 688, `spell_name_enus` = 'Rockbiter Weapon', `spell_name_flags` = 16712190, `spell_subtext_enus` = 'Rank 10', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Increases attack power by $s1.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `spell_class_mask_3` = 128, `effect_damage_multiplier_1` = 1.0, `effect_damage_multiplier_2` = 1.0, `school_mask` = 8, `effect_bonus_multiplier_1` = 1.0, `effect_bonus_multiplier_2` = 1.0;
 
 -- ============================================================================
 -- Stonebond Damage Split (900222) - F-164 Earthwarden damage-soak aura
@@ -4075,8 +4122,8 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 19,
+    `effect_die_sides_1` = 0,
+    `effect_base_points_1` = 20,
     `effect_implicit_target_a_1` = 21,
     `effect_apply_aura_name_1` = 81,
     `effect_misc_value_a_1` = 127,
@@ -4084,43 +4131,29 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 4689,
     `spell_name_enus` = 'Stonebond',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your earth totem is absorbing 20% of the damage you take.',
+    `spell_desc_enus` = 'Your earth totem is absorbing a portion of the damage you take.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Absorbing 20% of damage taken.',
+    `spell_tooltip_enus` = 'Absorbing damage.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
 -- ============================================================================
--- Stonebond talent / marker (900225) - F-164 Earthwarden, single-point boolean
--- Deep-tree passive. Grants a hidden DUMMY marker aura the C++ checks via
--- owner->HasAura(900225). While present, the spell_sha_stonebond script makes
--- Stoneclaw (and later Earth Elemental) drop their taunt/stun (totem aura 25513)
--- and instead soak 20% of the shaman's damage (Stonebond split 900222). No SLA
--- (passive talent). NOT_IN_SPELLBOOK; placed in the talent tree via the editor.
+-- Stonebond talent / marker (900225, 900227-900229, 900236) - F-164 Earthwarden
+-- 5-rank passive: 4 / 8 / 12 / 16 / 20% absorb. Each rank is a hidden DUMMY
+-- marker aura whose effect-1 amount = its absorb % ($s1 in the desc). The
+-- spell_sha_stonebond C++ reads that % from whichever rank the owner has and
+-- applies the Stonebond split (900222) at that value (via SPELLVALUE_BASE_POINT0),
+-- while stripping the totem's taunt/stun (25513). No SLA (passive talent).
+-- NOT_IN_SPELLBOOK; placed in the talent tree via the editor (5-rank).
 -- ============================================================================
-DELETE FROM `spell` WHERE `id` = 900225;
-INSERT INTO `spell` SET
-    `id` = 900225,
-    `attributes` = 327760,
-    `attributes_ex_4` = 32768,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 0,
-    `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 4,
-    `spell_icon_id` = 5469,
-    `spell_name_enus` = 'Stonebond',
-    `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it soaks 20% of the damage you take, draining the totem''s health. The totem is long-lived; resummon it when it falls.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_flags` = 16712190,
-    `spell_class_set` = 11,
-    `school_mask` = 1;
+DELETE FROM `spell` WHERE `id` IN (900225, 900227, 900228, 900229, 900236);
+INSERT INTO `spell` SET `id` = 900225, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 4, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 1', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900227, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 8, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 2', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900228, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 12, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 3', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900229, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 16, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 4', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900236, `attributes` = 327760, `attributes_ex_4` = 32768, `cast_time_index` = 1, `range_index` = 1, `equipped_item_class` = -1, `effect_1` = 6, `effect_die_sides_1` = 0, `effect_base_points_1` = 20, `effect_implicit_target_a_1` = 1, `effect_apply_aura_name_1` = 4, `spell_icon_id` = 4689, `spell_name_enus` = 'Stonebond', `spell_subtext_enus` = 'Rank 5', `spell_subtext_flags` = 16712190, `spell_name_flags` = 16712190, `spell_desc_enus` = 'Your Stoneclaw Totem and Earth Elemental Totem no longer taunt or stun. Instead, while one stands it absorbs $s1% of the damage you take, draining the totem''s health.', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190, `spell_class_set` = 11, `school_mask` = 1;
 
 -- ============================================================================
 -- Stonebond Pulse driver (900226) - F-164, applied on the soak host (Stoneclaw
@@ -4141,12 +4174,12 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_die_sides_1` = 1,
+    `effect_die_sides_1` = 0,
     `effect_base_points_1` = 0,
     `effect_amplitude_1` = 15000,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 226,
-    `spell_icon_id` = 5469,
+    `spell_icon_id` = 4689,
     `spell_name_enus` = 'Stonebond Pulse',
     `spell_name_flags` = 16712190,
     `spell_desc_flags` = 16712190,
@@ -4187,9 +4220,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 4451,
     `spell_name_enus` = 'Rockwall',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Instantly grants 5 stacks of Rocksteady, increasing your block chance by 25%.',
+    `spell_desc_enus` = 'Instantly grants 5 stacks of Rocksteady.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Grants 5 stacks of Rocksteady (+25% block).',
+    `spell_tooltip_enus` = 'Grants 5 stacks of Rocksteady.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -4231,7 +4264,7 @@ INSERT INTO `spell` SET
     `effect_base_points_2` = @rsg_pct_per_stack,
     `effect_die_sides_2` = 0,
     `effect_implicit_target_a_2` = 1,
-    `effect_spell_class_mask_c_2` = 1048576,
+    `effect_spell_class_mask_b_3` = 1048576,
     `spell_icon_id` = 4242,
     `spell_name_enus` = 'Rocksteady',
     `spell_name_flags` = 16712190,

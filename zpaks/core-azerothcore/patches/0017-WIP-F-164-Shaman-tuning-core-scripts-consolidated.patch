@@ -1,4 +1,4 @@
-From 0b5f2fe76b0bbabb23faba43cef3cf007ebc3051 Mon Sep 17 00:00:00 2001
+From ca69b8e4e0fd5a84d6e440ba8ef1d2506bd6d44d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 04:40:38 +0000
 Subject: [PATCH] WIP: F-164 - Shaman tuning core scripts (consolidated)
@@ -13,9 +13,9 @@ Squashes the F-164 C++ work into a single commit reflecting final state:
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Spells/SpellEffects.cpp    |  19 ++
- src/server/scripts/Pet/pet_shaman.cpp      |  36 ++-
- src/server/scripts/Spells/spell_shaman.cpp | 299 +++++++++++++++++++++
- 3 files changed, 349 insertions(+), 5 deletions(-)
+ src/server/scripts/Pet/pet_shaman.cpp      |  48 +++-
+ src/server/scripts/Spells/spell_shaman.cpp | 313 +++++++++++++++++++++
+ 3 files changed, 375 insertions(+), 5 deletions(-)
 
 diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
 index a66672753..121a1ae4d 100644
@@ -48,10 +48,17 @@ index a66672753..121a1ae4d 100644
                  LOG_ERROR("spells.effect", "Spell::EffectEnchantItemTmp: Damage {} not handled in S'RW", damage);
                  return;
 diff --git a/src/server/scripts/Pet/pet_shaman.cpp b/src/server/scripts/Pet/pet_shaman.cpp
-index d5272513c..6f4a8942e 100644
+index d5272513c..fb469cd7c 100644
 --- a/src/server/scripts/Pet/pet_shaman.cpp
 +++ b/src/server/scripts/Pet/pet_shaman.cpp
-@@ -29,7 +29,11 @@ enum ShamanSpells
+@@ -23,13 +23,18 @@
+ #include "CreatureScript.h"
+ #include "Player.h"
+ #include "ScriptedCreature.h"
++#include "SpellAuraEffects.h"
+ 
+ enum ShamanSpells
+ {
      SPELL_SHAMAN_ANGEREDEARTH   = 36213,
      SPELL_SHAMAN_FIREBLAST      = 57984,
      SPELL_SHAMAN_FIRENOVA       = 12470,
@@ -64,8 +71,21 @@ index d5272513c..6f4a8942e 100644
  };
  
  enum ShamanEvents
-@@ -44,10 +48,13 @@ enum ShamanEvents
+@@ -42,12 +47,26 @@ enum ShamanEvents
+     EVENT_SHAMAN_FIREBLAST      = 3
+ };
  
++// F-164 Stonebond: returns the owner's Stonebond rank absorb % (4/8/12/16/20),
++// or 0 if unspecced. Each rank's marker aura stores its % as the effect-0 amount.
++static int32 GetStonebondPct(Unit* owner)
++{
++    static constexpr uint32 STONEBOND_RANKS[5] = { 900225, 900227, 900228, 900229, 900236 };
++    for (uint32 rankId : STONEBOND_RANKS)
++        if (AuraEffect const* eff = owner->GetAuraEffect(rankId, EFFECT_0))
++            return eff->GetAmount();
++    return 0;
++}
++
  struct npc_pet_shaman_earth_elemental : public ScriptedAI
  {
 -    npc_pet_shaman_earth_elemental(Creature* creature) : ScriptedAI(creature), _initAttack(true) { }
@@ -79,7 +99,7 @@ index d5272513c..6f4a8942e 100644
          _events.Reset();
          _events.ScheduleEvent(EVENT_SHAMAN_ANGEREDEARTH, 0ms);
      }
-@@ -58,14 +65,32 @@ struct npc_pet_shaman_earth_elemental : public ScriptedAI
+@@ -58,14 +77,32 @@ struct npc_pet_shaman_earth_elemental : public ScriptedAI
      {
          if (_initAttack)
          {
@@ -91,13 +111,13 @@ index d5272513c..6f4a8942e 100644
 +            {
 +                // F-164 Stonebond: a specced Earthwarden's Earth Elemental stops
 +                // tanking and becomes a damage sponge -- it does not engage or
-+                // taunt (no Angered Earth), it just soaks 20% of the owner's
-+                // damage via the same pulse driver used by the Stoneclaw totem.
-+                if (owner->HasAura(SPELL_SHAMAN_STONEBOND_MARKER))
++                // taunt (no Angered Earth), it just soaks the rank's % of the
++                // owner's damage via the same pulse driver used by Stoneclaw.
++                if (int32 pct = GetStonebondPct(owner))
 +                {
 +                    _stonebond = true;
-+                    me->CastSpell(owner, SPELL_SHAMAN_STONEBOND_SPLIT, true);
-+                    me->CastSpell(me, SPELL_SHAMAN_STONEBOND_PULSE, true);
++                    me->CastCustomSpell(SPELL_SHAMAN_STONEBOND_SPLIT, SPELLVALUE_BASE_POINT0, pct, owner, true);
++                    me->CastCustomSpell(SPELL_SHAMAN_STONEBOND_PULSE, SPELLVALUE_BASE_POINT0, pct, me, true);
 +                }
 +                else if (!me->IsInCombat())
 +                {
@@ -115,7 +135,7 @@ index d5272513c..6f4a8942e 100644
          if (!UpdateVictim())
              return;
  
-@@ -83,6 +108,7 @@ struct npc_pet_shaman_earth_elemental : public ScriptedAI
+@@ -83,6 +120,7 @@ struct npc_pet_shaman_earth_elemental : public ScriptedAI
  private:
      EventMap _events;
      bool _initAttack;
@@ -124,7 +144,7 @@ index d5272513c..6f4a8942e 100644
  
  struct npc_pet_shaman_fire_elemental : public ScriptedAI
 diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
-index eef753444..b046d15e4 100644
+index eef753444..80371d6b9 100644
 --- a/src/server/scripts/Spells/spell_shaman.cpp
 +++ b/src/server/scripts/Spells/spell_shaman.cpp
 @@ -22,6 +22,7 @@
@@ -160,18 +180,30 @@ index eef753444..b046d15e4 100644
  };
  
  enum ShamanSpellIcons
-@@ -1249,6 +1261,185 @@ class spell_sha_stoneclaw_totem : public SpellScript
+@@ -1249,6 +1261,199 @@ class spell_sha_stoneclaw_totem : public SpellScript
      }
  };
  
++// F-164 Stonebond: the 5 talent ranks (4/8/12/16/20% absorb). Each rank's marker
++// aura stores its absorb % as the effect-0 amount; this returns it, or 0 if the
++// owner has no Stonebond rank (i.e. is not specced).
++static int32 GetStonebondPct(Unit* owner)
++{
++    static constexpr uint32 STONEBOND_RANKS[5] = { 900225, 900227, 900228, 900229, 900236 };
++    for (uint32 rankId : STONEBOND_RANKS)
++        if (AuraEffect const* eff = owner->GetAuraEffect(rankId, EFFECT_0))
++            return eff->GetAmount();
++    return 0;
++}
++
 +// 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582 - Stoneclaw Totem (summon)
-+// F-164 Stonebond: when the caster has the Stonebond talent marker (900225),
-+// the just-summoned earth totem drops its taunt/stun (totem aura 25513) and
-+// instead soaks 20% of the shaman's damage. The totem is extended to 60s and
-+// the split (900222) is pulsed onto the owner immediately, then re-cast every
-+// 15s by the pulse driver (900226) for a locked ~67% uptime. Without the
-+// talent this no-ops and Stoneclaw behaves exactly as stock. The redirected
-+// damage drains the totem's HP (RegenHealth=0 on 31122), so totem HP = longevity.
++// F-164 Stonebond: when the caster has a Stonebond talent rank, the just-summoned
++// earth totem drops its taunt/stun (totem aura 25513) and instead soaks the rank's
++// % (4/8/12/16/20) of the shaman's damage. The totem is extended to 60s and the
++// split (900222) is pulsed onto the owner immediately at that %, then re-cast every
++// 15s by the pulse driver (900226) for a locked ~67% uptime. Without the talent
++// this no-ops and Stoneclaw behaves exactly as stock. The redirected damage drains
++// the totem's HP (RegenHealth=0 on 31122), so totem HP = longevity.
 +class spell_sha_stonebond : public SpellScript
 +{
 +    PrepareSpellScript(spell_sha_stonebond);
@@ -184,7 +216,8 @@ index eef753444..b046d15e4 100644
 +    void HandleAfterCast()
 +    {
 +        Unit* caster = GetCaster();
-+        if (!caster->HasAura(SPELL_SHAMAN_STONEBOND_MARKER))
++        int32 pct = GetStonebondPct(caster);
++        if (!pct)
 +            return;
 +
 +        if (!caster->m_SummonSlot[SUMMON_SLOT_TOTEM_EARTH])
@@ -201,10 +234,11 @@ index eef753444..b046d15e4 100644
 +        if (Totem* t = totem->ToTotem())
 +            t->SetTotemDuration(60 * IN_MILLISECONDS);
 +
-+        // Soak 20% immediately (totem = the split's caster, so damage redirects
-+        // to it), then the pulse driver re-applies it on the locked rhythm.
-+        totem->CastSpell(caster, SPELL_SHAMAN_STONEBOND_SPLIT, true);
-+        totem->CastSpell(totem, SPELL_SHAMAN_STONEBOND_PULSE, true);
++        // Soak the rank's % immediately (totem = the split's caster, so damage
++        // redirects to it), then hand the same % to the pulse driver so it
++        // re-applies the split at that value on the locked rhythm.
++        totem->CastCustomSpell(SPELL_SHAMAN_STONEBOND_SPLIT, SPELLVALUE_BASE_POINT0, pct, caster, true);
++        totem->CastCustomSpell(SPELL_SHAMAN_STONEBOND_PULSE, SPELLVALUE_BASE_POINT0, pct, totem, true);
 +    }
 +
 +    void Register() override
@@ -225,11 +259,11 @@ index eef753444..b046d15e4 100644
 +        return ValidateSpellInfo({ SPELL_SHAMAN_STONEBOND_SPLIT });
 +    }
 +
-+    void HandlePeriodic(AuraEffect const* /*aurEff*/)
++    void HandlePeriodic(AuraEffect const* aurEff)
 +    {
 +        Unit* totem = GetTarget();
 +        if (Unit* owner = totem->GetOwner())
-+            totem->CastSpell(owner, SPELL_SHAMAN_STONEBOND_SPLIT, true);
++            totem->CastCustomSpell(SPELL_SHAMAN_STONEBOND_SPLIT, SPELLVALUE_BASE_POINT0, aurEff->GetAmount(), owner, true);
 +    }
 +
 +    void Register() override
@@ -346,7 +380,7 @@ index eef753444..b046d15e4 100644
  // -51490 - Thunderstorm
  class spell_sha_thunderstorm : public SpellScript
  {
-@@ -2169,6 +2360,106 @@ class spell_sha_windfury_weapon : public AuraScript
+@@ -2169,6 +2374,106 @@ class spell_sha_windfury_weapon : public AuraScript
      }
  };
  
@@ -453,7 +487,7 @@ index eef753444..b046d15e4 100644
  void AddSC_shaman_spell_scripts()
  {
      RegisterSpellScript(spell_sha_totem_of_wrath);
-@@ -2202,6 +2493,12 @@ void AddSC_shaman_spell_scripts()
+@@ -2202,6 +2507,12 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_nature_guardian);
      RegisterSpellScript(spell_sha_sentry_totem);
      RegisterSpellScript(spell_sha_stoneclaw_totem);
@@ -466,7 +500,7 @@ index eef753444..b046d15e4 100644
      RegisterSpellScript(spell_sha_thunderstorm);
      RegisterSpellScript(spell_sha_flurry_proc);
      RegisterSpellScript(spell_sha_glyph_of_healing_wave);
-@@ -2228,4 +2525,6 @@ void AddSC_shaman_spell_scripts()
+@@ -2228,4 +2539,6 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_t9_elemental_4p_bonus);
      RegisterSpellScript(spell_sha_tidal_force_dummy);
      RegisterSpellScript(spell_sha_windfury_weapon);
