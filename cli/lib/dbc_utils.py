@@ -603,7 +603,8 @@ def get_effective_pk(table: str, db_pk: List[str]) -> List[str]:
 
 
 def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: str,
-                   primary_key: List[str] = None, skip_localization: bool = True) -> Dict:
+                   primary_key: List[str] = None, skip_localization: bool = True,
+                   row_filter: str = None) -> Dict:
     """
     Get detailed row-level differences between two tables.
 
@@ -614,6 +615,10 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
         db2_name: Target database name
         primary_key: Optional list of primary key column(s)
         skip_localization: If True, ignore localization columns
+        row_filter: Optional raw SQL WHERE clause (without the WHERE keyword) to
+            scope the diff to a subset of rows on BOTH sides — e.g.
+            "spec_id IN (261,262,263,900)". Rows outside the filter are ignored,
+            so deletes/inserts/mods are only reported within the scope.
 
     Returns:
         Dict with row-level differences
@@ -626,14 +631,15 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
         primary_key = get_effective_pk(table, primary_key)
 
     order_clause = ", ".join(f"`{col}`" for col in primary_key)
+    where_sql = f" WHERE {row_filter}" if row_filter else ""
 
     cursor1 = conn1.cursor(dictionary=True)
     cursor2 = conn2.cursor(dictionary=True)
 
-    cursor1.execute(f"SELECT * FROM `{table}` ORDER BY {order_clause}")
+    cursor1.execute(f"SELECT * FROM `{table}`{where_sql} ORDER BY {order_clause}")
     rows1 = {tuple(row[col] for col in primary_key): row for row in cursor1.fetchall()}
 
-    cursor2.execute(f"SELECT * FROM `{table}` ORDER BY {order_clause}")
+    cursor2.execute(f"SELECT * FROM `{table}`{where_sql} ORDER BY {order_clause}")
     rows2 = {tuple(row[col] for col in primary_key): row for row in cursor2.fetchall()}
 
     cursor1.close()
@@ -709,7 +715,7 @@ def _format_pk_display(pk_cols: List[str], pk_vals: tuple) -> str:
 
 
 def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_target: str,
-                      skip_localization: bool = True) -> str:
+                      skip_localization: bool = True, row_filter: str = None) -> str:
     """
     Generate SQL to transform db_target to match db_source for a single table.
 
@@ -719,12 +725,16 @@ def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_tar
         db_source: Source database (what we want)
         db_target: Target database (what we're changing)
         skip_localization: If True, exclude localization columns
+        row_filter: Optional raw SQL WHERE clause (without WHERE) scoping the diff
+            to a subset of rows — e.g. "spec_id IN (261,262,263,900)". Used to
+            split one feature's slice of a shared table into its own file.
 
     Returns:
         SQL statements as string
     """
     conn = db_conn.get_connection(db_source)
-    diff = get_table_diff(db_conn, table, db_source, db_target, skip_localization=skip_localization)
+    diff = get_table_diff(db_conn, table, db_source, db_target,
+                          skip_localization=skip_localization, row_filter=row_filter)
     pk_cols = diff["primary_key"]
     skipped_columns = diff.get("skipped_columns", set())
 

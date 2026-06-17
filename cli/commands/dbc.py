@@ -2390,24 +2390,56 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
               help='Add to existing zpak instead of creating new one')
 @click.option('--table', 'tables', multiple=True,
               help='Extract only specific table(s). Can be repeated.')
+@click.option('--where', 'row_filter', default=None,
+              help='Raw SQL WHERE clause (without WHERE) to scope the diff to a '
+                   'subset of rows, e.g. --where "spec_id IN (261,262,263,900)". '
+                   'Applied to every extracted table, so pair it with --table. '
+                   'Use this to keep one talent tree/class in its own feature file.')
+@click.option('--spec', 'specs', multiple=True, type=int,
+              help='Convenience filter for the talent/talenttab tables: limit to '
+                   'these spec/tab id(s). Repeatable. Builds a spec_id IN (...) '
+                   'filter; combines with --where if both are given.')
 @click.pass_context
 def dbc_extract(ctx, name: str, task_id: str, priority: int,
-                zpak_name: Optional[str], tables: tuple):
+                zpak_name: Optional[str], tables: tuple,
+                row_filter: Optional[str], specs: tuple):
     """Extract current uncommitted DBC changes as SQL files.
 
     Compares live database against original_dbc and generates SQL files
     for any differences found. Requires --task for file naming.
 
+    By default the diff is whole-table (every changed row of a table goes into
+    one [task]_table.sql). For tables shared across features (e.g. `talent`,
+    `talenttab`), scope a single feature's slice with --where / --spec so each
+    feature owns only its own rows:
+
     Examples:
         zep dbc extract --name mage-tanking --task F-014
-        zep dbc extract --name frost-shield --task F-212 --zpak class-overhauls
+        zep dbc extract -n zep-classes -t F-164 -z zep-classes --table talent --spec 261 --spec 262 --spec 263 --spec 900
+        zep dbc extract -n zep-classes -t F-200 -z zep-classes --table talent --where "spec_id IN (81,41,61)"
     """
     craft_root = ctx.obj['craft_root']
     config = get_dbc_config(ctx)
     registry = ctx.obj['registry']
 
+    # Build a combined row filter from --spec (sugar) and --where (raw).
+    _filter_parts = []
+    if specs:
+        _filter_parts.append("spec_id IN (" + ",".join(str(s) for s in specs) + ")")
+    if row_filter:
+        _filter_parts.append(f"({row_filter})")
+    combined_filter = " AND ".join(_filter_parts) if _filter_parts else None
+
+    if combined_filter and not tables:
+        raise click.ClickException(
+            "--where/--spec scopes rows within a table, so it must be paired with "
+            "--table (e.g. --table talent). Refusing to apply a row filter to every "
+            "changed table.")
+
     click.echo(click.style(f"Extracting DBC customizations: {name}", bold=True))
     click.echo(f"  Comparing: {config.live} vs {config.original}")
+    if combined_filter:
+        click.echo(f"  Row filter: {combined_filter}")
     click.echo()
 
     # Compare databases
@@ -2424,9 +2456,18 @@ def dbc_extract(ctx, name: str, task_id: str, priority: int,
             total_tables = len(result["tables_with_differences"])
             click.echo(f"  Found changes in {total_tables} table(s):")
 
+            # Only apply the row filter to tables the user explicitly selected
+            # (the filter columns may not exist on other changed tables).
+            requested_tables = set(t.lower() for t in tables) if tables else None
+            def _filter_for(tbl):
+                if combined_filter and (requested_tables is None or tbl.lower() in requested_tables):
+                    return combined_filter
+                return None
+
             tables_with_changes = []
             for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
-                diff = get_table_diff(db_conn, table, config.live, config.original)
+                diff = get_table_diff(db_conn, table, config.live, config.original,
+                                      row_filter=_filter_for(table))
                 adds = len(diff["only_in_db1"])
                 mods = len(diff["modified"])
                 dels = len(diff["only_in_db2"])
@@ -2496,14 +2537,19 @@ def dbc_extract(ctx, name: str, task_id: str, priority: int,
 
             total_lines = 0
             for table in tables_with_changes:
-                sql = generate_diff_sql(db_conn, table, config.live, config.original)
+                table_filter = _filter_for(table)
+                sql = generate_diff_sql(db_conn, table, config.live, config.original,
+                                        row_filter=table_filter)
 
                 # All DBC files require feature ID prefix
                 sql_file = dbc_dir / f"[{task_id}]_{table}.sql"
 
                 with open(sql_file, 'w') as f:
                     f.write(f"-- [{task_id}] {name}: {table}\n")
-                    f.write(f"-- Extracted by zep dbc extract\n\n")
+                    f.write(f"-- Extracted by zep dbc extract\n")
+                    if table_filter:
+                        f.write(f"-- Row filter: {table_filter}\n")
+                    f.write("\n")
                     f.write(sql)
 
                 line_count = sql.count('\n') + 1
