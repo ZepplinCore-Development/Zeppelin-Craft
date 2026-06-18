@@ -1,3 +1,9 @@
+-- F-027: Dynamic Potion Spell Descriptions - DBC spell overrides
+-- Home: zep-items (potions are items; "tweaks to existing items").
+-- Relocated here from zep-legacy. The C++ proc-handler patch stays in
+-- core-azerothcore (0003-F-027-Remove-Alchemist-Stone-hardcoded-proc-handlers).
+-- SpellDescriptionVariables (ID 183) in [F-027]_spelldescriptionvariables.sql.
+
 UPDATE spell SET spell_desc_enus = 'Reduces craft time for Alchemy recipes by $s1%. Increases potion potency by $s2%. Does not stack with other Alchemy Mortar effects.' WHERE id IN (91200, 91201, 91202, 91203);
 
 -- Revert debug flags: restore hidden aura bar attributes
@@ -52,3 +58,17 @@ UPDATE spell SET spell_desc_enus = 'Restores $<potion1> to $<potion1max> health 
   WHERE id IN (11387,18832,19199,52697);
 UPDATE spell SET spell_desc_enus = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana. Also has random effects.', spell_desc_variable_id = 183
   WHERE id = 53750;
+
+-- ============================================================
+-- Potion description edits (relocated from [BASE,F-044]_spell.sql)
+-- Health/mana potion spells assigned SpellDescriptionVariableID 183
+-- (defined in [F-027]_spelldescriptionvariables.sql). Idempotent UPDATEs.
+-- ============================================================
+UPDATE `spell` SET `effect_1` = 10, `effect_2` = 30, `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.', `spell_class_mask_1` = 8, `spell_desc_variable_id` = 183 WHERE `id` = 2370;
+UPDATE `spell` SET `effect_1` = 10, `effect_2` = 30, `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.', `spell_class_mask_1` = 8, `spell_desc_variable_id` = 183 WHERE `id` = 2599;
+UPDATE `spell` SET `effect_1` = 10, `effect_2` = 30, `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.', `spell_class_mask_1` = 8, `spell_desc_variable_id` = 183 WHERE `id` = 2600;
+UPDATE `spell` SET `effect_1` = 10, `effect_2` = 30, `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.', `spell_class_mask_1` = 8, `spell_desc_variable_id` = 183 WHERE `id` = 22729;
+UPDATE `spell` SET `effect_1` = 10, `effect_2` = 30, `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.', `spell_class_mask_1` = 8, `spell_desc_variable_id` = 183 WHERE `id` = 28517;
+UPDATE `spell` SET `effect_1` = 10, `effect_2` = 30, `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana. Sometimes has side effects.', `spell_class_mask_1` = 8, `spell_desc_variable_id` = 183 WHERE `id` = 45051;
+UPDATE `spell` SET `effect_1` = 10, `effect_2` = 30, `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.', `spell_class_mask_1` = 8, `spell_desc_variable_id` = 183 WHERE `id` = 53761;
+UPDATE `spell` SET `effect_1` = 10, `effect_2` = 30, `effect_die_sides_1` = 481, `effect_die_sides_2` = 201, `effect_base_points_1` = 1679, `effect_base_points_2` = 399, `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.', `spell_class_mask_1` = 8, `spell_desc_variable_id` = 183 WHERE `id` = 61371;

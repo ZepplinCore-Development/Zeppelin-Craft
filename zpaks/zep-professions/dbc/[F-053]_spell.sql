@@ -78,3 +78,10 @@ INSERT INTO `spell` SET
     `totem_category_1` = 162,
     `school_mask` = 1;
 
+-- ============================================================
+-- F-053 Ammo Crafting: Adamantite Shell/Arrow, Thorium Headed Arrows (relocated)
+-- Relocated from zep-legacy/dbc/[BASE,F-044]_spell.sql (stock-spell UPDATEs, idempotent).
+-- ============================================================
+UPDATE `spell` SET `reagent_3` = 0, `reagent_count_3` = 0, `effect_base_points_1` = 999, `effect_item_type_1` = 23773, `spell_icon_id` = 2336, `spell_name_enus` = 'Adamantite Shell', `spell_subtext_flags` = 16712190, `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 30347;
+UPDATE `spell` SET `attributes` = 65824, `cast_time_index` = 192, `reagent_1` = 12359, `reagent_2` = 11291, `reagent_3` = 0, `reagent_4` = 0, `reagent_count_1` = 10, `reagent_count_2` = 5, `reagent_count_3` = 0, `reagent_count_4` = 0, `effect_base_points_1` = 999, `effect_item_type_1` = 18042, `spell_name_enus` = 'Thorium Headed Arrows', `spell_subtext_flags` = 16712190, `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 30555;
+UPDATE `spell` SET `effect_base_points_1` = 999, `effect_item_type_1` = 33803, `spell_icon_id` = 288, `spell_name_enus` = 'Adamantite Arrow', `spell_desc_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 43676;

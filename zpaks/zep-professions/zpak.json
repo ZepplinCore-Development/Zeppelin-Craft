@@ -6,7 +6,7 @@
   "author": "Zeppelin Team",
   "type": "hybrid",
   "client_patch": "PATCH-Z",
-  "features": ["F-001", "F-006", "F-015", "F-032", "F-053", "F-084", "F-087", "F-157", "F-160"],
+  "features": ["F-001", "F-005", "F-006", "F-015", "F-032", "F-053", "F-084", "F-085", "F-087", "F-157", "F-160"],
   "contents": {
     "sql": ["sql/*.sql"],
     "dbc": ["dbc/*.sql"],
