@@ -18,14 +18,14 @@ UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunder
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdblue',   texture_variation_2 = '', texture_variation_3 = '' WHERE id = 18094; -- Torgos (rare elite)
 
 -- Terokkar Forest / Skettis live-spawn creatures
-UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdsilver', texture_variation_2 = '', texture_variation_3 = '' WHERE id = 20348; -- Trachela (rare elite)
+UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdgold',   texture_variation_2 = '', texture_variation_3 = '' WHERE id = 20348; -- Trachela (rare elite)
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdpurple', texture_variation_2 = '', texture_variation_3 = '' WHERE id = 20300; -- Angered Arakkoa Protector
 
 -- Stock placeholder / test templates (0 spawns) - wired to remaining colors so all 7 BLPs are accessible
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdpurple', texture_variation_2 = '', texture_variation_3 = '' WHERE id = 16881; -- Arakkoa Test Summon / Carrion Bird Blue template
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdgreen',  texture_variation_2 = '', texture_variation_3 = '' WHERE id = 16882; -- Carrion Bird Green template
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdsilver', texture_variation_2 = '', texture_variation_3 = '' WHERE id = 16883; -- Carrion Bird White template
-UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdgold',   texture_variation_2 = '', texture_variation_3 = '' WHERE id = 16884; -- Carrion Bird Yellow template; also Bonelasher (18470), repointed from shared CarrionBird display 1192 (see zz_[F-180]_bonelasher_model.sql)
+UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdsilver', texture_variation_2 = '', texture_variation_3 = '' WHERE id = 16884; -- Carrion Bird Yellow template; also Bonelasher (18470), repointed from shared CarrionBird display 1192 (see zz_[F-180]_bonelasher_model.sql)
 
 -- Unassigned (no creature references) - parked on remaining colors for completeness
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdsilver', texture_variation_2 = '', texture_variation_3 = '' WHERE id = 17455;
