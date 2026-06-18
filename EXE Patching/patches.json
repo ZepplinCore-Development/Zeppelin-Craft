@@ -663,7 +663,7 @@
     },
     {
       "name": "spell-desc-block-value-token",
-      "description": "Custom spell-description block-value tokens, in BOTH forms. (1) String token $k/$K: hooks the desc token dispatcher (0x57a02d) to print the local player's shield Block Value in prose. (2) Numeric operand $bv: usable inside ${...} arithmetic (and thus any spell variable), e.g. $dmg=${$m1+$<perlevel>+$<apbonus>+$bv}. $bv is added by two extensible hooks on the ${} engine: the operand-name matcher (0x576b50) recognizes 'bv' -> custom id 0xF0; the operand resolver default (0x578b88) returns block value for id 0xF0. Both fall through to stock for any other token, so blast radius is limited to descriptions using $bv. Block value read = [[player+0x1008]+0xdec] (same field GetShieldBlock uses). To add more numeric operands later (align names to Ascension: $w1-3 aura amount, $br block chance, $health), extend the two .zdata caves with more name->id / id->value cases. Caves live in .zdata (made R+X by rce-security-fix).",
+      "description": "Custom spell-description block-value tokens, in BOTH forms. (1) String token $k/$K: hooks the desc token dispatcher (0x57a02d) to print the local player's shield Block Value in prose. (2) Numeric operands usable inside ${...} arithmetic (and thus any spell variable), e.g. $dmg=${$m1+$<perlevel>+$<apbonus>+$bv}: $bv = shield block value (id 0xF0); $HEALTH = max health (id 0xF1, [[player+0xd0]+0x68]). Added by two extensible hooks on the ${} engine: the operand-name matcher (0x576b50) recognizes the name -> custom id; the operand resolver default (0x578b88) returns the value for that id. Both fall through to stock for any other token, so blast radius is limited to descriptions using $bv. Block value read = [[player+0x1008]+0xdec] (same field GetShieldBlock uses). To add more numeric operands later (align names to Ascension: $w1-3 aura amount, $br block chance, $health), extend the two .zdata caves with more name->id / id->value cases. Caves live in .zdata (made R+X by rce-security-fix).",
       "source": "Reverse-engineered F-183/F-164. Dispatcher 0x579e50, emit 0x57aa00, player 0x4038f0; ${} engine parse 0x577530/lexer table 0xace8f8, eval 0x578d10, operand resolver 0x5782d0 (default 0x578b88, return 0x578b99). UNTESTED in-game - verify before relying on it.",
       "enabled": true,
       "edits": [
@@ -684,18 +684,18 @@
         },
         {
           "offset": "0x72CE80",
-          "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
-          "patched": "66 81 3F 62 76 75 0C 80 7F 02 00 75 06 B8 F0 00 00 00 C3 85 FF 56 0F 84 E6 5A 7A FF E9 B4 5A 7A FF"
+          "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+          "patched": "66 81 3F 62 76 75 0C 80 7F 02 00 75 06 B8 F0 00 00 00 C3 81 3F 48 45 41 4C 75 0F 81 7F 03 4C 54 48 00 75 06 B8 F1 00 00 00 C3 85 FF 56 0F 84 CF 5A 7A FF E9 9D 5A 7A FF"
         },
         {
           "offset": "0x177F88",
           "original": "D9 EE C7 03 01",
-          "patched": "E9 23 85 85 00"
+          "patched": "E9 73 85 85 00"
         },
         {
-          "offset": "0x72CEB0",
-          "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
-          "patched": "8B 45 08 3D F0 00 00 00 75 25 E8 31 28 63 FF 85 C0 74 15 8B 80 08 10 00 00 85 C0 74 0B DB 80 EC 0D 00 00 E9 C1 7A 7A FF D9 EE E9 BA 7A 7A FF D9 EE C7 03 01 00 00 00 E9 AD 7A 7A FF"
+          "offset": "0x72CF00",
+          "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+          "patched": "8B 45 08 3D F0 00 00 00 74 14 3D F1 00 00 00 74 2B D9 EE C7 03 01 00 00 00 E9 7B 7A 7A FF E8 CD 27 63 FF 85 C0 74 30 8B 80 08 10 00 00 85 C0 74 26 DB 80 EC 0D 00 00 E9 5D 7A 7A FF E8 AF 27 63 FF 85 C0 74 12 8B 80 D0 00 00 00 85 C0 74 08 DB 40 68 E9 42 7A 7A FF D9 EE E9 3B 7A 7A FF"
         }
       ]
     }
