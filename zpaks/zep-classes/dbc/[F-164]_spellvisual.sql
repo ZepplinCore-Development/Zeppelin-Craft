@@ -18,3 +18,13 @@ INSERT INTO `spellvisual` (`id`, `cast_kit`, `caster_impact_kit`) VALUES (90002,
 -- Mirrors stock Earth Shield SpellVisual 7362 (state_kit 6428) + custom red cast anim
 DELETE FROM `spellvisual` WHERE `id` = 90003;
 INSERT INTO `spellvisual` (`id`, `precast_kit`, `cast_kit`, `impact_kit`, `state_kit`) VALUES (90003, 90011, 90012, 90013, 90010);
+
+-- Visual 90020: Rocksurge — clone of stock Ground Spike visual 12718, impact_kit
+-- repointed to the 1/3-scale kit 90020 (cast_kit 181 kept). Rocksurge (900263)
+-- spell_visual_1 -> 90020 (set in [F-164]_spell.sql). Temp-table clone copies the
+-- rest of 12718 exactly.
+DELETE FROM `spellvisual` WHERE `id` = 90020;
+CREATE TEMPORARY TABLE `_rsg_vis` SELECT * FROM `spellvisual` WHERE `id` = 12718;
+UPDATE `_rsg_vis` SET `id` = 90020, `impact_kit` = 90020;
+INSERT INTO `spellvisual` SELECT * FROM `_rsg_vis`;
+DROP TEMPORARY TABLE `_rsg_vis`;

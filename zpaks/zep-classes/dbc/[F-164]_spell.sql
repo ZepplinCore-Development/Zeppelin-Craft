@@ -605,6 +605,7 @@ INSERT INTO `spell` SET
     `school_mask` = 1,
     `spell_desc_variable_id` = 190;
 
+-- Crag Strike damage tooltip ($<dmg> = $m1 + per-level + AP*coeff).
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 190;
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (190, CONCAT(
     '$perlevel=${($pl-', @cs_base_level, ')*', @cs_dmg_perlevel, '}\n',
@@ -688,7 +689,7 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = @rsg_dmg_base,
     `effect_implicit_target_a_1` = 6,
     `effect_bonus_multiplier_1` = @rsg_ap_coeff,
-    `spell_visual_1` = 12718,
+    `spell_visual_1` = 90020,
     `spell_icon_id` = 4975,
     `spell_name_enus` = 'Rocksurge',
     `spell_name_flags` = 16712190,
@@ -2371,7 +2372,6 @@ INSERT INTO `spell` SET `id` = 900169, `attributes` = 464, `cast_time_index` = 1
 -- it is a bigger effect for tanks than off-spec shamans dipping into it.
 -- 10s duration; 10s ICD (900186). base_points 0 (overridden by the C++ script).
 -- ----------------------------------------------------------------------------
-DELETE FROM `spelldescriptionvariables` WHERE `id` = 190;
 DELETE FROM `spell` WHERE `id` = 900170;
 
 INSERT INTO `spell` SET
