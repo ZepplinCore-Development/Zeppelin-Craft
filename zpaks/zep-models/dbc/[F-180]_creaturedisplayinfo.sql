@@ -15,7 +15,7 @@
 -- Hellfire Peninsula live-spawn creatures
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdred',    texture_variation_2 = '', texture_variation_3 = '' WHERE id = 16880; -- Bonestripper Buzzard
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdbrown',  texture_variation_2 = '', texture_variation_3 = '' WHERE id = 17089; -- Bonestripper Vulture
-UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdblue',   texture_variation_2 = '', texture_variation_3 = '' WHERE id = 18094; -- Torgos (rare elite)
+UPDATE creaturedisplayinfo SET model_id = 900002, creature_model_scale = 2.5, texture_variation_1 = 'thunderisleyoungbirdblue',   texture_variation_2 = '', texture_variation_3 = '' WHERE id = 18094; -- Torgos (rare elite); scale 3.0 -> 2.5 to match Trachela (20348)
 
 -- Terokkar Forest / Skettis live-spawn creatures
 UPDATE creaturedisplayinfo SET model_id = 900002, texture_variation_1 = 'thunderisleyoungbirdgold',   texture_variation_2 = '', texture_variation_3 = '' WHERE id = 20348; -- Trachela (rare elite)
