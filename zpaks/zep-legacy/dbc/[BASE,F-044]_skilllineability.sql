@@ -319,8 +319,11 @@ DELETE FROM `skilllineability` WHERE `id` = 99996;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (99996, 792, 8690, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 DELETE FROM `skilllineability` WHERE `id` = 99997;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (99997, 792, 42766, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+-- Reagent Banker SLA (99998, spell 75136 on Perks tab 792) removed - obsolete with
+-- Reagent Banker (F-070). DELETE retained so the orphan row clears on apply; spell
+-- 75136 itself reverts to stock "Ethereal Portal" on a reset-based dbc rebuild -t spell
+-- (original_dbc baseline is already clean).
 DELETE FROM `skilllineability` WHERE `id` = 99998;
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (99998, 792, 75136, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 DELETE FROM `skilllineability` WHERE `id` = 100000;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100000, 613, 103246, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
