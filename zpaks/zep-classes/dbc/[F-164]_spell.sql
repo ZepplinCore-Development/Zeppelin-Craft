@@ -512,7 +512,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage plus your shield block value ($k). Damage scales with attack power.$?s900182[ Adds 2 stacks of Rocksteady per cast.][]$?s900181[ Adds 1 stack of Rocksteady per cast.][]',
+    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage. Scales with attack power and your shield block value.$?s900182[ Adds 2 stacks of Rocksteady per cast.][]$?s900181[ Adds 1 stack of Rocksteady per cast.][]',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
     `spell_tooltip_flags` = 16712190,
@@ -535,7 +535,7 @@ DELETE FROM `spelldescriptionvariables` WHERE `id` = 189;
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (189, CONCAT(
     '$perlevel=${($pl-', @rs_base_level, ')*', @rs_dmg_perlevel, '}\n',
     '$apbonus=${$AP*', @rs_ap_coeff, '}\n',
-    '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
+    '$dmg=${$m1+$<perlevel>+$<apbonus>+$bv}'));
 
 -- ============================================================================
 -- F-164 single-target DPS package: Crag Strike (filler) + Rocksurge (spender).

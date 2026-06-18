@@ -663,8 +663,8 @@
     },
     {
       "name": "spell-desc-block-value-token",
-      "description": "Add custom spell-description token $k (or $K) that prints the local player's shield Block Value. Hooks the spell-description token dispatcher to intercept an unused token letter; reads block value via the same field GetShieldBlock() uses ([[player+0x1008]+0xdec]); code cave lives in the RWX .zdata section. Author descriptions with $k followed by a non-digit (e.g. 'Deals damage equal to your block value ($k).').",
-      "source": "Reverse-engineered F-164 (dispatcher 0x579e50, emit tail 0x57aa00, player getter 0x4038f0). UNTESTED in-game - verify before relying on it.",
+      "description": "Custom spell-description block-value tokens, in BOTH forms. (1) String token $k/$K: hooks the desc token dispatcher (0x57a02d) to print the local player's shield Block Value in prose. (2) Numeric operand $bv: usable inside ${...} arithmetic (and thus any spell variable), e.g. $dmg=${$m1+$<perlevel>+$<apbonus>+$bv}. $bv is added by two extensible hooks on the ${} engine: the operand-name matcher (0x576b50) recognizes 'bv' -> custom id 0xF0; the operand resolver default (0x578b88) returns block value for id 0xF0. Both fall through to stock for any other token, so blast radius is limited to descriptions using $bv. Block value read = [[player+0x1008]+0xdec] (same field GetShieldBlock uses). To add more numeric operands later (align names to Ascension: $w1-3 aura amount, $br block chance, $health), extend the two .zdata caves with more name->id / id->value cases. Caves live in .zdata (made R+X by rce-security-fix).",
+      "source": "Reverse-engineered F-183/F-164. Dispatcher 0x579e50, emit 0x57aa00, player 0x4038f0; ${} engine parse 0x577530/lexer table 0xace8f8, eval 0x578d10, operand resolver 0x5782d0 (default 0x578b88, return 0x578b99). UNTESTED in-game - verify before relying on it.",
       "enabled": true,
       "edits": [
         {
@@ -676,6 +676,26 @@
           "offset": "0x72CE00",
           "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
           "patched": "3C 6B 74 12 3C 4B 74 0E 0F B6 92 B0 AA 57 00 FF 24 95 54 AA 57 00 E8 D5 28 63 FF 85 C0 74 14 8B 80 08 10 00 00 85 C0 74 0A 8B 80 EC 0D 00 00 85 C0 7F 02 31 C0 8D 7D AC 85 C0 75 09 C6 07 30 C6 47 01 00 EB 1E B9 0A 00 00 00 31 F6 31 D2 F7 F1 80 C2 30 52 46 85 C0 75 F3 58 88 07 47 4E 75 F9 C6 07 00 8D 55 AC E9 95 99 7A FF"
+        },
+        {
+          "offset": "0x175F50",
+          "original": "85 FF 56 74 2D",
+          "patched": "E9 2B A5 85 00"
+        },
+        {
+          "offset": "0x72CE80",
+          "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+          "patched": "66 81 3F 62 76 75 0C 80 7F 02 00 75 06 B8 F0 00 00 00 C3 85 FF 56 0F 84 E6 5A 7A FF E9 B4 5A 7A FF"
+        },
+        {
+          "offset": "0x177F88",
+          "original": "D9 EE C7 03 01",
+          "patched": "E9 23 85 85 00"
+        },
+        {
+          "offset": "0x72CEB0",
+          "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+          "patched": "8B 45 08 3D F0 00 00 00 75 25 E8 31 28 63 FF 85 C0 74 15 8B 80 08 10 00 00 85 C0 74 0B DB 80 EC 0D 00 00 E9 C1 7A 7A FF D9 EE E9 BA 7A 7A FF D9 EE C7 03 01 00 00 00 E9 AD 7A 7A FF"
         }
       ]
     }
