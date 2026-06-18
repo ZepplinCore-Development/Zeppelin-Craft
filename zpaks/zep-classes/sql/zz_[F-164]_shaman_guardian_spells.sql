@@ -6,7 +6,9 @@
 -- ============================================================================
 -- spell_script_names — C++ SpellScript bindings
 -- ============================================================================
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 900168, 900169, 900171, 900172, 900223, 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582, 900226, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260, 900119, 900263);
+-- 900224 kept in this DELETE to purge the orphaned old binding (spell_sha_stoneguard_totem,
+-- the retired custom totem); it is intentionally NOT re-inserted below.
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 900168, 900169, 900171, 900172, 900223, 900224, 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582, 900226, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260, 900119, 900263);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
 (900170, 'spell_sha_living_guardian_aura'),
