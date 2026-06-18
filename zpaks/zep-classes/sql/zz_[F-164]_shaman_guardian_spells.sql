@@ -1,5 +1,5 @@
 -- [F-164] Shaman Earthwarden spec - spell_bonus_data, spell_threat, spell_proc
--- Rockslam (900119): 25% AP coefficient on physical damage
+-- Rockslam (900119): no AP/SP coefficient - scales only off shield block value (added in C++ spell_sha_rockslam)
 -- Volcanic Shield triggered damage (900122): 30% SP coefficient
 -- Tectonic Blast (900121): 20% AP coefficient on nature damage
 
@@ -54,7 +54,7 @@ DELETE FROM `spell_bonus_data` WHERE `entry` IN (900114, 900116, 900117, 900118,
 
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
 (900114, 0, 0, 0.10, 0, 'Earthen Reprisal - 10% AP as bonus physical damage'),
-(900119, 0, 0, 0.25, 0, 'Rockslam - 25% AP as bonus physical damage'),
+-- Rockslam (900119) intentionally has NO spell_bonus_data row: AP scaling removed (double-dipped with shield block value). Block value is added in C++ (spell_sha_rockslam). Kept in the DELETE above so any stale row is cleared. Do NOT re-add a row with ap_bonus=0 and direct_bonus=0 unless effect_bonus_multiplier_1 is also 0, or coeff falls back to BonusMultiplier (SP scaling).
 (900262, 0, 0, 0.15, 0, 'Crag Strike - 15% AP as bonus physical damage (spammable filler)'),
 (900263, 0, 0, 0.25, 0, 'Rocksurge - 25% AP as bonus physical damage (Rocksteady spender)'),
 (900122, 0.15, 0, 0, 0, 'Volcanic Shield (triggered) - 15% SP as AOE fire damage on block'),
