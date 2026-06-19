@@ -182,3 +182,57 @@ body {
 
 .loading, .error { padding: 40px; color: var(--muted); }
 .error { color: var(--red); }
+
+/* ---- mobile bottom sheet (touch devices) ---- */
+.tooltip.sheet {
+  pointer-events: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  width: 100%;
+  max-width: none;
+  border-radius: 14px 14px 0 0;
+  padding: 16px 18px calc(18px + env(safe-area-inset-bottom));
+  max-height: 72vh;
+  overflow-y: auto;
+  box-shadow: 0 -8px 28px rgba(0,0,0,.6);
+}
+.tt-actions { display: flex; gap: 10px; margin-top: 14px; }
+.tt-btn {
+  flex: 1;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+}
+.tt-btn.add { background: #2f5d34; border-color: #3c7a44; }
+.tt-btn:disabled { opacity: .4; }
+
+/* ---- responsive: stack trees, make the top bar usable on phones ---- */
+@media (max-width: 860px) {
+  .topbar { gap: 10px; padding: 10px 14px; }
+  .topbar h1 { font-size: 16px; width: 100%; }
+  .class-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    padding-bottom: 4px;
+  }
+  .class-btn { flex: 0 0 auto; }
+  .controls { width: 100%; justify-content: space-between; }
+
+  .trees {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: visible;
+    gap: 18px;
+    padding: 16px 8px 40vh;   /* bottom pad so the sheet never covers content */
+  }
+  .tree { width: 100%; max-width: 340px; }
+}

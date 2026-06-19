@@ -6,6 +6,10 @@
 
 const MAX_POINTS = 71;        // level-80 WotLK talent pool (1 pt/level from L10)
 const CELL = 56, GAP = 16;    // must match --cell / --gap in style.css
+// Touch devices have no hover and no right-click, so they get a tap-to-open
+// bottom sheet with explicit +/- buttons instead of hover tooltips.
+const IS_TOUCH = typeof window !== 'undefined' && window.matchMedia
+  && window.matchMedia('(hover: none)').matches;
 
 const CLASS_COLORS = {
   Warrior: '#C79C6E', Paladin: '#F58CBA', Hunter: '#ABD473', Rogue: '#FFF569',
@@ -168,6 +172,14 @@ if (typeof document !== 'undefined') {
     $('#reset-btn').addEventListener('click', () => { state.points = {}; commit(); });
     $('#share-btn').addEventListener('click', copyLink);
     window.addEventListener('hashchange', onHashChange);
+    if (IS_TOUCH) {
+      // tap outside the sheet / a talent closes it
+      document.addEventListener('click', (e) => {
+        if (sheetTalent && !e.target.closest('#tooltip') && !e.target.closest('.talent')) {
+          closeSheet();
+        }
+      });
+    }
 
     render();
   }
@@ -280,19 +292,24 @@ if (typeof document !== 'undefined') {
     badge.textContent = `${cur}/${t.max_rank}`;
     el.appendChild(badge);
 
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      state.points = addPoint(state.idx, state.points, t.id);
-      commit();
-    });
-    el.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      state.points = removePoint(state.idx, state.points, t.id);
-      commit();
-    });
-    el.addEventListener('mouseenter', (e) => showTip(t, tree, e));
-    el.addEventListener('mousemove', moveTip);
-    el.addEventListener('mouseleave', hideTip);
+    if (IS_TOUCH) {
+      // Tap browses (opens the sheet); spending happens via its +/- buttons.
+      el.addEventListener('click', (e) => { e.preventDefault(); openSheet(t, tree); });
+    } else {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        state.points = addPoint(state.idx, state.points, t.id);
+        commit();
+      });
+      el.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        state.points = removePoint(state.idx, state.points, t.id);
+        commit();
+      });
+      el.addEventListener('mouseenter', (e) => showTip(t, tree, e));
+      el.addEventListener('mousemove', moveTip);
+      el.addEventListener('mouseleave', hideTip);
+    }
     return el;
   }
 
@@ -330,9 +347,8 @@ if (typeof document !== 'undefined') {
     return svg;
   }
 
-  /* ---- tooltip ---- */
-  function showTip(t, tree, e) {
-    const tip = $('#tooltip');
+  /* ---- tooltip body (shared by hover tooltip + mobile sheet) ---- */
+  function tipBody(t) {
     const cur = state.points[t.id] || 0;
     const shown = cur > 0 ? cur : 1;
     const rank = t.ranks[shown - 1] || t.ranks[0] || {};
@@ -348,8 +364,13 @@ if (typeof document !== 'undefined') {
     }
     const reason = addBlockReason(state.idx, state.points, t.id);
     if (reason && reason !== 'maxed') html += `<div class="tt-req">${esc(reason)}</div>`;
+    return html;
+  }
 
-    tip.innerHTML = html;
+  /* ---- desktop hover tooltip ---- */
+  function showTip(t, tree, e) {
+    const tip = $('#tooltip');
+    tip.innerHTML = tipBody(t);
     tip.hidden = false;
     moveTip(e);
   }
@@ -365,6 +386,45 @@ if (typeof document !== 'undefined') {
     tip.style.top = Math.max(4, y) + 'px';
   }
   function hideTip() { $('#tooltip').hidden = true; }
+
+  /* ---- mobile bottom sheet (tap to open, +/- to spend) ---- */
+  let sheetTalent = null;
+  function openSheet(t, tree) {
+    sheetTalent = t;
+    renderSheet();
+  }
+  function renderSheet() {
+    const t = sheetTalent;
+    if (!t) return;
+    const tip = $('#tooltip');
+    const cur = state.points[t.id] || 0;
+    const canMore = canAdd(state.idx, state.points, t.id);
+    tip.className = 'tooltip sheet';
+    tip.innerHTML = tipBody(t) +
+      `<div class="tt-actions">
+         <button class="tt-btn" data-act="rem"${cur === 0 ? ' disabled' : ''}>− Remove</button>
+         <button class="tt-btn add" data-act="add"${canMore ? '' : ' disabled'}>+ Add point</button>
+       </div>`;
+    tip.hidden = false;
+    tip.querySelector('[data-act=add]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      state.points = addPoint(state.idx, state.points, t.id);
+      commit();
+      renderSheet();
+    });
+    tip.querySelector('[data-act=rem]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      state.points = removePoint(state.idx, state.points, t.id);
+      commit();
+      renderSheet();
+    });
+  }
+  function closeSheet() {
+    sheetTalent = null;
+    const tip = $('#tooltip');
+    tip.hidden = true;
+    tip.className = 'tooltip';
+  }
 
   function copyLink() {
     const url = location.origin + location.pathname + lastHash;
