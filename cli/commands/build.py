@@ -556,3 +556,68 @@ def build_atlasloot(ctx, dry_run, verbose, rep):
         click.echo(click.style(f"\nFailed: 0 sections succeeded", fg='red'))
         raise SystemExit(1)
 
+
+
+# =============================================================================
+# Talent Tree Browser deploy (F-185)
+# =============================================================================
+
+@build.command('talent-browser')
+@click.option('--target', '-t', 'target', type=click.Path(), default=None,
+              help='Deploy directory (default: <NGINX_PATH>/talents)')
+@click.option('--database', '-d', 'database',
+              type=click.Choice(['live', 'original', 'expected', 'scratch']),
+              default='live', help='Source DBC database (default: live)')
+@click.option('--overwrite-icons', is_flag=True,
+              help='Re-convert icons even if a PNG already exists')
+@click.pass_context
+def build_talent_browser(ctx, target, database, overwrite_icons):
+    """Deploy the Talent Tree Browser to the nginx webroot.
+
+    Copies the static front-end (web/talent-browser) and regenerates
+    data/talents.json + data/icons from the DBC database. Served at
+    <site>/talents/.
+    """
+    import shutil
+    from lib.env import NGINX_PATH
+    from lib.talent_export import export_talents, export_icons
+    from commands.dbc import get_dbc_config
+
+    craft_root = ctx.obj['craft_root']
+    src = craft_root / 'web' / 'talent-browser'
+    if not src.is_dir():
+        raise click.ClickException(f"Front-end source not found: {src}")
+
+    dest = Path(target) if target else (NGINX_PATH / 'talents')
+    dest.mkdir(parents=True, exist_ok=True)
+
+    # 1. Static front-end (index.html + css/ + js/); data/ is regenerated below.
+    click.echo(f"Deploying front-end -> {dest}")
+    shutil.copy2(src / 'index.html', dest / 'index.html')
+    for sub in ('css', 'js'):
+        d = dest / sub
+        if d.exists():
+            shutil.rmtree(d)
+        shutil.copytree(src / sub, d)
+
+    # 2. Regenerate data payload.
+    config = get_dbc_config(ctx)
+    data_dir = dest / 'data'
+    click.echo(f"Exporting talents from {getattr(config, database, config.live)}...")
+    data = export_talents(config, data_dir / 'talents.json', database=database)
+    n_trees = sum(len(c['trees']) for c in data['classes'])
+    n_talents = sum(len(t['talents']) for c in data['classes'] for t in c['trees'])
+    click.echo(click.style(
+        f"  {len(data['classes'])} classes, {n_trees} trees, {n_talents} talents",
+        fg='green'))
+
+    click.echo(f"Converting {len(data['icons'])} icons (BLP->PNG)...")
+    res = export_icons(data['icons'], data_dir / 'icons', overwrite=overwrite_icons)
+    click.echo(click.style(f"  {len(res['converted'])} icons", fg='green'))
+    if res['missing']:
+        click.echo(click.style(f"  Missing source BLP: {len(res['missing'])}", fg='yellow'))
+    if res['failed']:
+        click.echo(click.style(f"  Failed to decode: {len(res['failed'])}", fg='yellow'))
+
+    click.echo(click.style(f"\nDeployed to {dest}", fg='green'))
+    click.echo("Served at <site>/talents/  (add the nginx /talents/ location block + reload)")
