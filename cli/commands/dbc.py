@@ -344,19 +344,26 @@ def dbc_query(ctx, sql: Optional[str], sql_file: Optional[str], database: str):
               type=click.Choice(['live', 'original', 'expected', 'scratch']),
               default='live', help='Source database (default: live)')
 @click.option('--pretty', is_flag=True, help='Pretty-print the JSON (indent=2)')
+@click.option('--icons-dir', 'icons_dir', type=click.Path(), default=None,
+              help='Also convert all referenced icons (BLP->PNG) into this dir')
+@click.option('--overwrite-icons', is_flag=True,
+              help='Re-convert icons even if a PNG already exists')
 @click.pass_context
-def dbc_export_talents(ctx, output: str, database: str, pretty: bool):
+def dbc_export_talents(ctx, output: str, database: str, pretty: bool,
+                       icons_dir: Optional[str], overwrite_icons: bool):
     """Export talent-tree data to JSON for the Talent Tree Browser.
 
     Pulls every player-class talent tree (talenttab), its talents (talent),
     and the per-rank spell text/icons into a single JSON document consumed
-    by the static web talent calculator.
+    by the static web talent calculator. With --icons-dir, also converts every
+    referenced icon from BLP to PNG (custom zpak icons override stock).
 
     Examples:
         zep dbc export-talents -o web/talents.json --pretty
+        zep dbc export-talents -o web/talents.json --icons-dir web/icons
         zep dbc export-talents -d scratch
     """
-    from lib.talent_export import export_talents
+    from lib.talent_export import export_talents, export_icons
 
     config = get_dbc_config(ctx)
     out_path = Path(output)
@@ -381,6 +388,23 @@ def dbc_export_talents(ctx, output: str, database: str, pretty: bool):
         click.echo(f"  Tokens: resolved {resolved}/{with_tokens} ranks "
                    f"({unresolved} still have raw $tokens for follow-up)")
     click.echo(f"  Wrote {out_path}")
+
+    if icons_dir:
+        click.echo(f"\nConverting {n_icons} icons (BLP->PNG) into {icons_dir}...")
+        result = export_icons(data["icons"], Path(icons_dir),
+                              overwrite=overwrite_icons)
+        click.echo(click.style(
+            f"  OK  {len(result['converted'])} converted", fg='green'))
+        if result["missing"]:
+            click.echo(click.style(
+                f"  Missing source BLP: {len(result['missing'])}", fg='yellow'))
+            for name in result["missing"][:10]:
+                click.echo(f"    - {name}")
+        if result["failed"]:
+            click.echo(click.style(
+                f"  Failed to decode: {len(result['failed'])}", fg='yellow'))
+            for name in result["failed"][:10]:
+                click.echo(f"    - {name}")
 
 
 # =============================================================================

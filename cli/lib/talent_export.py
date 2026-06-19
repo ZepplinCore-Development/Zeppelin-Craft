@@ -388,3 +388,77 @@ def export_talents(config: DBCConfig, out_path: Path, database: str = "live",
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=indent)
     return data
+
+
+# =============================================================================
+# Icon export (BLP -> PNG) for the Talent Tree Browser
+# =============================================================================
+
+def _default_icon_dirs() -> List[Path]:
+    """Icon source directories, highest priority first.
+
+    Custom zpak icons override the stock client set so reskinned/custom talent
+    icons win. Stock icons come from the WoW Spell Editor tool's icon dump
+    (the Asset Library's interface/icons does NOT carry the stock set).
+    """
+    craft_root = Path(__file__).resolve().parents[2]      # .../Zeppelin-Craft
+    tools_root = craft_root.parent / "Zeppelin-Tools"
+    return [
+        craft_root / "zpaks/patch-custom-icons/mpq/source-assets/Interface/Icons",
+        craft_root / "zpaks/mod-worgoblin/mpq/source-assets/Interface/Icons",
+        tools_root / "WoW Spell Editor/Interface/Icons",
+    ]
+
+
+def build_icon_index(dirs: Optional[List[Path]] = None) -> Dict[str, Path]:
+    """Map lowercased icon name -> BLP path. Earlier dirs win (custom first)."""
+    dirs = dirs if dirs is not None else _default_icon_dirs()
+    index: Dict[str, Path] = {}
+    for d in dirs:
+        if not d.is_dir():
+            continue
+        for f in d.iterdir():
+            if f.suffix.lower() == ".blp":
+                index.setdefault(f.stem.lower(), f)
+    return index
+
+
+def export_icons(icon_names: List[str], out_dir: Path,
+                 dirs: Optional[List[Path]] = None,
+                 overwrite: bool = False) -> Dict[str, List[str]]:
+    """Convert each needed icon from BLP to PNG in out_dir.
+
+    File names preserve the exact casing used in the talent JSON (e.g.
+    ``Spell_Nature_StoneClawTotem.png``) so the front-end can request them
+    verbatim on a case-sensitive web server.
+
+    Returns {"converted": [...], "missing": [...], "failed": [...]} where
+    missing = no source BLP found, failed = source found but decode/save error.
+    """
+    from PIL import Image  # Pillow ships a BLP decoder
+
+    index = build_icon_index(dirs)
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    converted: List[str] = []
+    missing: List[str] = []
+    failed: List[str] = []
+
+    for name in icon_names:
+        src = index.get(name.lower())
+        if src is None:
+            missing.append(name)
+            continue
+        dst = out_dir / f"{name}.png"
+        if dst.exists() and not overwrite:
+            converted.append(name)
+            continue
+        try:
+            with Image.open(src) as im:
+                im.convert("RGBA").save(dst, "PNG")
+            converted.append(name)
+        except Exception:
+            failed.append(name)
+
+    return {"converted": converted, "missing": missing, "failed": failed}
