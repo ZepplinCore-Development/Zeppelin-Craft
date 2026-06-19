@@ -1842,11 +1842,12 @@ DELETE FROM `spell` WHERE `id` IN (900145, 900146);
 -- ============================================================================
 -- Bastion of Earth (900147-900149) - Passive talent, procs on block
 -- 3 ranks: chance on block to trigger buff (900150-900152).
--- Each talent rank increases the proc chance (R1=10%, R2=20%, R3=30%).
--- Buff makes the next Lesser Healing Wave instant AND free (cost reduced by the
--- same % as the cast time, i.e. 100%) via two SPELLMOD effects masked to LHW
--- (family flag class_mask_a=128): SPELLMOD_CASTING_TIME (10) + SPELLMOD_COST (14).
--- No damage reduction. No stacking — buff consumed on LHW cast.
+-- Each talent rank increases ONLY the proc chance (R1=15%, R2=25%, R3=35%).
+-- While held, the buff (a) grants +10% block value (boosts blocks AND Rockslam,
+-- which scales off block value) and (b) makes the next Lesser Healing Wave instant
+-- AND free. Casting LHW consumes the buff -- so it's a real choice: keep the held
+-- block-value boost, or spend it on an emergency instant heal. The buff is
+-- identical at every rank; only the proc chance scales.
 -- ============================================================================
 
 -- Bastion of Earth R1 (900147) - Passive, 10% on block, triggers 900150
@@ -1857,7 +1858,7 @@ INSERT INTO `spell` SET
     `attributes` = 327760,
     `attributes_ex_4` = 32768,
     `proc_flags` = 40,
-    `proc_chance` = 10,
+    `proc_chance` = 15,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1871,9 +1872,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 10% chance to make your next Lesser Healing Wave instant and free for $900150d. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 15% chance to grant Bastion of Earth, increasing your block value by 10% and making your next Lesser Healing Wave instant and free for $900150d.  Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '10% chance on block to make your next Lesser Healing Wave instant and free for $900150d. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '15% chance on block to increase block value by 10% and make your next Lesser Healing Wave instant and free for $900150d.  Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1888,7 +1889,7 @@ INSERT INTO `spell` SET
     `attributes` = 327760,
     `attributes_ex_4` = 32768,
     `proc_flags` = 40,
-    `proc_chance` = 20,
+    `proc_chance` = 25,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1902,9 +1903,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 20% chance to make your next Lesser Healing Wave instant and free for $900151d. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 25% chance to grant Bastion of Earth, increasing your block value by 10% and making your next Lesser Healing Wave instant and free for $900151d.  Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '20% chance on block to make your next Lesser Healing Wave instant and free for $900151d. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '25% chance on block to increase block value by 10% and make your next Lesser Healing Wave instant and free for $900151d.  Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1919,7 +1920,7 @@ INSERT INTO `spell` SET
     `attributes` = 327760,
     `attributes_ex_4` = 32768,
     `proc_flags` = 40,
-    `proc_chance` = 30,
+    `proc_chance` = 35,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1933,9 +1934,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 30% chance to make your next Lesser Healing Wave instant and free for $900152d. Casting Lesser Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 35% chance to grant Bastion of Earth, increasing your block value by 10% and making your next Lesser Healing Wave instant and free for $900152d.  Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '30% chance on block to make your next Lesser Healing Wave instant and free for $900152d. Casting Lesser Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '35% chance on block to increase block value by 10% and make your next Lesser Healing Wave instant and free for $900152d.  Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1943,11 +1944,14 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0;
 
 -- ============================================================================
--- Bastion of Earth Buff (900150-900152) - Triggered physical DR buff
--- E1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -15%
--- E2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -100% LHW cast time (instant)
--- No stacking. Consumed when Lesser Healing Wave is cast (proc_charges=1).
--- All ranks identical (instant + free LHW); only the passive proc chance scales.
+-- Bastion of Earth Buff (900150-900152) - Held block-value buff + free instant LHW
+-- E1: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -100% LHW cast time (instant)
+-- E2: Aura 108 (ADD_PCT_MODIFIER), misc 14 (SPELLMOD_COST), -100% LHW cost (free)
+-- E3: Aura 150 (MOD_SHIELD_BLOCKVALUE_PCT), +10% block value (held; scales blocks + Rockslam)
+-- Both SPELLMODs masked to Lesser Healing Wave (family flag class_mask_a=128).
+-- No stacking. Consumed when Lesser Healing Wave is cast (proc_charges=1) -- which
+-- also drops the +10% block value, making the consume a genuine trade-off.
+-- All ranks identical; only the passive proc chance scales.
 -- ============================================================================
 
 -- Bastion of Earth buff R1 (900150) - instant + free LHW
@@ -1977,12 +1981,21 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 14,
     `effect_spell_class_mask_a_2` = 128,
+    -- F-164: held +10% block value (aura 150, % so it scales with gear) while
+    -- Bastion is up -- boosts blocks AND Rockslam (which scales off block value).
+    -- Lost when the buff is consumed by casting Lesser Healing Wave. Fixed at all
+    -- ranks (only the passive proc chance scales). base 9 + die 1 = 10 so $s3 = 10.
+    `effect_3` = 6,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_3` = 9,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_3` = 150,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_desc_enus` = 'Block value increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_tooltip_enus` = 'Block value increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -2018,12 +2031,21 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 14,
     `effect_spell_class_mask_a_2` = 128,
+    -- F-164: held +10% block value (aura 150, % so it scales with gear) while
+    -- Bastion is up -- boosts blocks AND Rockslam (which scales off block value).
+    -- Lost when the buff is consumed by casting Lesser Healing Wave. Fixed at all
+    -- ranks (only the passive proc chance scales). base 9 + die 1 = 10 so $s3 = 10.
+    `effect_3` = 6,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_3` = 9,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_3` = 150,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_desc_enus` = 'Block value increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_tooltip_enus` = 'Block value increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -2059,12 +2081,21 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 14,
     `effect_spell_class_mask_a_2` = 128,
+    -- F-164: held +10% block value (aura 150, % so it scales with gear) while
+    -- Bastion is up -- boosts blocks AND Rockslam (which scales off block value).
+    -- Lost when the buff is consumed by casting Lesser Healing Wave. Fixed at all
+    -- ranks (only the passive proc chance scales). base 9 + die 1 = 10 so $s3 = 10.
+    `effect_3` = 6,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_3` = 9,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_3` = 150,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_desc_enus` = 'Block value increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_tooltip_enus` = 'Block value increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
