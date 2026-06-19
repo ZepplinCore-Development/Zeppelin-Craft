@@ -704,8 +704,11 @@ INSERT INTO `spell` SET
     `start_recovery_time` = 1500,
     `spell_class_set` = 11,
     `spell_class_mask_3` = 1048576,
-    `damage_class` = 2,
-    `prevention_type` = 2,
+    -- damage_class MAGIC (not MELEE) so it can't be parried/dodged/blocked; stays
+    -- Physical (school_mask=1) so it's still armor-reduced. prevention_type 1
+    -- (silenced) to match the spell classification rather than pacified.
+    `damage_class` = 1,
+    `prevention_type` = 1,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1,
     `spell_desc_variable_id` = 193;
