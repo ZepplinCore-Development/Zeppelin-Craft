@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zeppelin — Talent Calculator</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Zeppelin Talent Calculator</h1>
+    <nav id="class-bar" class="class-bar" aria-label="Class"></nav>
+    <div class="controls">
+      <span id="points-summary" class="points-summary">0 / 51</span>
+      <button id="reset-btn" class="btn" type="button">Reset</button>
+      <button id="share-btn" class="btn" type="button">Copy link</button>
+    </div>
+  </header>
+
+  <main id="trees" class="trees" aria-live="polite"></main>
+
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
