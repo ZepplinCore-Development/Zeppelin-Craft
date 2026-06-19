@@ -65,16 +65,18 @@ def _max_rank(ranks: List[int]) -> int:
     return n
 
 
-# Common value/duration/chance tokens we resolve:
-#   $s1 / $S1   effect value (signed)        $m1 min      $M1 max
-#   $d          spell duration               $h          proc chance %
-# An optional leading number ($12721s1, $54095d) is a cross-spell reference,
-# resolved against that spell's data when we have it loaded. The trailing digit
-# (effect index) is required for s/m/M and absent for d/h.
-_TOKEN_RE = re.compile(r"\$(\d*)(?:([sSmM])([123])|([dh]))")
-# Tokens we deliberately leave raw and flag for follow-up: $/1000 divide-math,
-# ${...} AP/SP stat scaling, $<descvar>, radii $a, periodic $t/$o, charges $n,
-# max-targets $i, etc.
+# Single-token references. Optional $/N; divide prefix, optional cross-spell id,
+# then one of: indexed value/radius/tick/chain (letter + effect index 1-3),
+# duration $d/$D, or scalar $h/$n/$i/$u. Examples:
+#   $s1 $m1 $M1 $o1   effect value      $/1000;s1   value / 1000 (decimal)
+#   $a1               radius (yards)    $t1 $T1     periodic tick (seconds)
+#   $x1               chain targets     $d $D       duration
+#   $h $n $i $u       chance/charges/max-targets/stacks   $12721s1  cross-spell
+_TOKEN_RE = re.compile(
+    r"\$(?:/(\d+);)?(\d*)(?:([sSmMoOaAtTxXb])([123])|([dD])|([hniu]))"
+)
+# Tokens still left raw and flagged for follow-up: ${...} stat scaling we can't
+# name, $<descvar> we can't evaluate, gender $g/$G, pluralization $l, etc.
 _LEFTOVER_RE = re.compile(r"\$[\w/@<{]")
 
 
@@ -123,15 +125,25 @@ def _format_duration(ms: Optional[int]) -> Optional[str]:
 # --------------------------------------------------------------------------
 
 LEVEL_CAP = 80
-_STATS = {"AP": "Attack Power", "sp": "Spell Power"}  # token letters -> label
+# token letters -> readable label for stat-scaling terms. Several spell-power
+# variants (sp/SP/SPH) and weapon-damage variants (mw/MW) collapse to one label.
+_STATS = {
+    "AP": "Attack Power",
+    "RAP": "Ranged Attack Power",
+    "sp": "Spell Power", "SP": "Spell Power", "SPH": "Spell Power",
+    "mw": "weapon damage", "MW": "weapon damage",
+}
 
 
 class _Unresolvable(Exception):
     pass
 
 
-def _fmt_num(x: float) -> str:
-    return str(int(round(x))) if abs(x - round(x)) < 1e-9 else f"{x:.1f}"
+def _fmt_num(x: float, prec: Optional[int] = None) -> str:
+    if prec is not None:                               # WoW ${...}.N precision
+        s = f"{x:.{prec}f}"
+        return s.rstrip("0").rstrip(".") if "." in s else s
+    return str(int(round(x))) if abs(x - round(x)) < 1e-9 else f"{x:g}"
 
 
 def _is_const(lf: Dict[str, float]) -> bool:
@@ -159,11 +171,46 @@ def _lf_addsub(a, b, sign):
     return r
 
 
-_EXPR_TOK = re.compile(r"\s*(\d+\.?\d*|\$<[A-Za-z]\w*>|\$[A-Za-z]+\d*|[()+\-*/])")
+# Indexed numeric tokens that read a value off the spell context (effect index
+# 1-3). s/S/m/o/O -> effect min value; M -> effect max; a -> radius (yards);
+# t/T -> periodic tick (seconds); x/X -> chain targets.
+def _token_value(ctx: Dict[str, Any], letter: str, idx: int) -> Optional[float]:
+    if letter in ("s", "S", "m", "o", "O"):
+        base, die = ctx.get("eff", {}).get(idx, (0, 0))
+        return float(_effect_value_range(base, die)[0])
+    if letter == "M":
+        base, die = ctx.get("eff", {}).get(idx, (0, 0))
+        return float(_effect_value_range(base, die)[1])
+    if letter in ("a", "A"):
+        r = ctx.get("radius", {}).get(idx)
+        return float(r) if r is not None else None
+    if letter in ("t", "T"):
+        ms = ctx.get("amp", {}).get(idx)
+        return ms / 1000.0 if ms else None
+    if letter in ("x", "X"):
+        return ctx.get("chain", {}).get(idx)
+    if letter == "b":                                  # points per combo point
+        return ctx.get("combo", {}).get(idx)
+    return None
 
 
-def _eval_expr(expr, eff, assigns, seen):
-    """Evaluate an expression string to a linear form {_const, AP, sp, ...}."""
+# Non-indexed scalar tokens. h -> proc chance %, n -> charges, i -> max
+# affected targets, u -> max stacks.
+def _token_scalar(ctx: Dict[str, Any], letter: str) -> Optional[float]:
+    return {"h": ctx.get("proc"), "n": ctx.get("charges"),
+            "i": ctx.get("max_targets"), "u": ctx.get("stacks")}.get(letter)
+
+
+_EXPR_TOK = re.compile(
+    r"\s*(\d+\.?\d*|\$<[A-Za-z]\w*>|\$\d+[A-Za-z]+\d*|\$[A-Za-z]+\d*|[()+\-*/])"
+)
+
+
+def _eval_expr(expr, ctx, spells, assigns, seen):
+    """Evaluate an expression string to a linear form {_const, AP, sp, ...}.
+
+    ``ctx`` is the spell's own resolution context; ``spells`` is the full
+    {id: ctx} map so cross-spell refs ($900166m1) inside ${...} can resolve."""
     toks, pos = [], 0
     while pos < len(expr):
         m = _EXPR_TOK.match(expr, pos)
@@ -180,6 +227,9 @@ def _eval_expr(expr, eff, assigns, seen):
         if i >= len(toks):
             raise _Unresolvable()
         tk = toks[i]; i += 1
+        if tk in ("+", "-"):                           # unary sign
+            v = atom()
+            return v if tk == "+" else {k: -val for k, val in v.items()}
         if tk == "(":
             v = expr_p()
             if i >= len(toks) or toks[i] != ")":
@@ -192,21 +242,34 @@ def _eval_expr(expr, eff, assigns, seen):
             name = tk[2:-1]
             if name in seen or name not in assigns:
                 raise _Unresolvable()
-            return _eval_expr(assigns[name], eff, assigns, seen | {name})
-        # $token: $pl / $m1 / $s1 / $M1 / $AP / $sp
+            return _eval_expr(assigns[name], ctx, spells, assigns, seen | {name})
         body = tk[1:]
+        cross = re.match(r"(\d+)([A-Za-z]+)(\d*)$", body)  # $<id><letter><idx>
+        if cross:
+            ref = spells.get(int(cross.group(1)))
+            v = _token_value(ref, cross.group(2), int(cross.group(3) or 0)) if ref else None
+            if v is None:
+                raise _Unresolvable()
+            return {"_const": float(v)}
+        # $token: $pl / $m1 / $s1 / $M1 / $a1 / $x1 / $i / $AP / $sp / ...
         mm = re.match(r"([A-Za-z]+)(\d*)$", body)
         if not mm:
             raise _Unresolvable()
         letters, digits = mm.group(1), mm.group(2)
         if letters == "pl":
             return {"_const": float(LEVEL_CAP)}
-        if letters in ("m", "s", "M") and digits:
-            base, die = eff.get(int(digits), (0, 0))
-            lo, hi = _effect_value_range(base, die)
-            return {"_const": float(hi if letters == "M" else lo)}
-        if letters in _STATS:
+        if letters in _STATS:                          # stat-scaling term
             return {letters: 1.0}
+        if digits and len(letters) == 1:               # indexed numeric token
+            v = _token_value(ctx, letters, int(digits))
+            if v is None:
+                raise _Unresolvable()
+            return {"_const": float(v)}
+        if not digits and letters in ("i", "n", "u", "h"):
+            v = _token_scalar(ctx, letters)
+            if v is None:
+                raise _Unresolvable()
+            return {"_const": float(v)}
         raise _Unresolvable()
 
     def term():
@@ -231,15 +294,19 @@ def _eval_expr(expr, eff, assigns, seen):
     return v
 
 
-def _render_lf(lf: Dict[str, float]) -> str:
+def _render_lf(lf: Dict[str, float], prec: Optional[int] = None) -> str:
     const = lf.get("_const", 0.0)
-    stat_parts = [f"{_fmt_num(lf[k] * 100)}% of {label}"
-                  for k, label in _STATS.items() if lf.get(k)]
+    by_label: Dict[str, float] = {}                    # merge sp/SP/SPH, mw/MW
+    for k, label in _STATS.items():
+        c = lf.get(k)
+        if c:
+            by_label[label] = by_label.get(label, 0.0) + c
+    stat_parts = [f"{_fmt_num(c * 100)}% of {label}" for label, c in by_label.items()]
     if stat_parts and abs(const) > 1e-9:
         return f"{_fmt_num(abs(const))} (+ {' + '.join(stat_parts)})"
     if stat_parts:
         return " + ".join(stat_parts)
-    return _fmt_num(abs(const))
+    return _fmt_num(abs(const), prec)
 
 
 def _parse_descvars(var_text: Optional[str]) -> Dict[str, str]:
@@ -257,14 +324,15 @@ def _parse_descvars(var_text: Optional[str]) -> Dict[str, str]:
     return assigns
 
 
-def _resolve_descvars(text, eff, assigns):
+def _resolve_descvars(text, ctx, spells, assigns):
     """Resolve inline ${...} math and $<name> description-variable refs."""
     if not text:
         return text
 
     def brace(m):
+        prec = int(m.group(2)) if m.group(2) else None
         try:
-            return _render_lf(_eval_expr(m.group(1), eff, assigns, set()))
+            return _render_lf(_eval_expr(m.group(1), ctx, spells, assigns, set()), prec)
         except _Unresolvable:
             return m.group(0)
 
@@ -273,50 +341,81 @@ def _resolve_descvars(text, eff, assigns):
         if name not in assigns:
             return m.group(0)
         try:
-            return _render_lf(_eval_expr(assigns[name], eff, assigns, {name}))
+            return _render_lf(_eval_expr(assigns[name], ctx, spells, assigns, {name}))
         except _Unresolvable:
             return m.group(0)
 
-    text = re.sub(r"\$\{([^{}]*)\}", brace, text)
+    # ${...} optionally followed by WoW's .N decimal-precision suffix
+    text = re.sub(r"\$\{([^{}]*)\}(?:\.(\d))?", brace, text)
     text = re.sub(r"\$<([A-Za-z]\w*)>", ref, text)
+    return text
+
+
+def _resolve_grammar(text: Optional[str]) -> Optional[str]:
+    """Resolve grammatical tokens: $l<sing>:<plur>; and $g<male>:<female>;.
+
+    Plurals pick by the preceding number (1 -> singular, else plural); gender
+    defaults to the first (male) form since the viewer has no character.
+    """
+    if not text:
+        return text
+
+    def plural(m):
+        num, gap, sing, plur = m.groups()
+        return f"{num}{gap}{sing if num == '1' else plur}"
+
+    text = re.sub(r"(\d+)(\s*)\$[lL]([^:;]*):([^;]*);", plural, text)
+    text = re.sub(r"\$[lL]([^:;]*):([^;]*);", lambda m: m.group(2), text)   # bare -> plural
+    text = re.sub(r"\$[gG]([^:;]*):([^;]*);", lambda m: m.group(1), text)   # gender -> male
     return text
 
 
 def _resolve_tokens(text: Optional[str], self_id: int,
                     spells: Dict[int, Dict[str, Any]]) -> Optional[str]:
-    """Resolve $s/$m/$M (value), $d (duration) and $h (proc chance) tokens.
+    """Resolve single-token references against the spell context.
 
-    ``spells`` maps spell id -> {"eff": {idx: (base, die)}, "duration": ms,
-    "proc": chance}. A token's leading number selects a referenced spell;
-    otherwise ``self_id`` is used. Tokens for a spell/effect we don't have are
-    left untouched.
+    Handles an optional ``$/N;`` divide prefix and optional cross-spell id, then:
+    value $s/$S/$m/$M/$o (effect), radius $a, periodic $t/$T, chain $x,
+    duration $d/$D, and scalars $h/$n/$i/$u. A token's leading number selects a
+    referenced spell; otherwise ``self_id`` is used. Anything we lack is left raw.
     """
     if not text:
         return text
 
     def repl(m: re.Match) -> str:
-        prefix, vkind, idx_str, dkind = m.group(1), m.group(2), m.group(3), m.group(4)
-        sid = int(prefix) if prefix else self_id
+        div = int(m.group(1)) if m.group(1) else None
+        sid = int(m.group(2)) if m.group(2) else self_id
         sp = spells.get(sid)
         if not sp:
             return m.group(0)
+        ind, idx_s, dur, scalar = m.group(3), m.group(4), m.group(5), m.group(6)
 
-        if vkind:  # $s / $m / $M with effect index
-            eff = sp["eff"].get(int(idx_str))
-            if eff is None:
+        if ind:                                        # indexed token
+            idx = int(idx_s)
+            # plain $s/$S renders a min..max range (when not divided)
+            if ind in ("s", "S") and div is None:
+                eff = sp.get("eff", {}).get(idx)
+                if eff is None:
+                    return m.group(0)
+                lo, hi = _effect_value_range(*eff)
+                lo, hi = abs(lo), abs(hi)
+                return _fmt_num(lo) if lo == hi else f"{_fmt_num(lo)} to {_fmt_num(hi)}"
+            v = _token_value(sp, ind, idx)
+            if v is None:
                 return m.group(0)
-            lo, hi = _effect_value_range(*eff)
-            lo, hi = abs(lo), abs(hi)
-            if vkind in ("s", "S"):
-                return str(lo) if lo == hi else f"{lo} to {hi}"
-            return str(lo) if vkind == "m" else str(hi)
+            if div:
+                v /= div
+            return _fmt_num(abs(v) if ind in ("s", "S", "m", "M", "o", "O") else v)
 
-        if dkind == "d":  # duration
+        if dur:                                        # $d / $D duration
             return _format_duration(sp.get("duration")) or m.group(0)
 
-        # $h proc chance (leave raw when 0 / unset - chance lives elsewhere)
-        proc = sp.get("proc")
-        return f"{proc}" if proc else m.group(0)
+        v = _token_scalar(sp, scalar)                  # $h / $n / $i / $u
+        if not v:
+            return m.group(0)
+        if div:
+            v /= div
+        return _fmt_num(v)
 
     return _TOKEN_RE.sub(repl, text)
 
@@ -392,6 +491,12 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
         _NUMERIC_COLS = """
             effect_base_points_1, effect_base_points_2, effect_base_points_3,
             effect_die_sides_1, effect_die_sides_2, effect_die_sides_3,
+            effect_radius_index_1, effect_radius_index_2, effect_radius_index_3,
+            effect_amplitude_1, effect_amplitude_2, effect_amplitude_3,
+            effect_chain_target_1, effect_chain_target_2, effect_chain_target_3,
+            effect_points_per_combo_point_1, effect_points_per_combo_point_2,
+            effect_points_per_combo_point_3,
+            max_affected_targets, proc_charges, stack_amount,
             duration_index, proc_chance, spell_desc_variable_id
         """
 
@@ -408,39 +513,7 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
             for s in cur.fetchall():
                 spell_text[s["id"]] = s
 
-        # 3b. Cross-spell references ($<id>s1, $<id>d, ...) in rank text: load
-        #     numeric data for those spells too so the tokens resolve.
-        ref_ids = set()
-        for s in spell_text.values():
-            for fld in ("spell_desc_enus", "spell_tooltip_enus"):
-                for m in re.finditer(r"\$(\d+)[a-zA-Z]", s.get(fld) or ""):
-                    ref_ids.add(int(m.group(1)))
-        ref_ids -= set(spell_text)
-        ref_spells: Dict[int, Dict[str, Any]] = {}
-        if ref_ids:
-            id_list = ",".join(str(i) for i in sorted(ref_ids))
-            cur.execute(
-                f"SELECT id, {_NUMERIC_COLS} FROM spell WHERE id IN ({id_list})"
-            )
-            for s in cur.fetchall():
-                ref_spells[s["id"]] = s
-
-        # 3c. Resolve duration_index -> base_duration (ms) for everything loaded.
-        dur_indices = {
-            s["duration_index"]
-            for s in list(spell_text.values()) + list(ref_spells.values())
-            if s.get("duration_index")
-        }
-        dur_ms: Dict[int, int] = {}
-        if dur_indices:
-            id_list = ",".join(str(i) for i in sorted(dur_indices))
-            cur.execute(
-                f"SELECT id, base_duration FROM spellduration WHERE id IN ({id_list})"
-            )
-            for d in cur.fetchall():
-                dur_ms[d["id"]] = d["base_duration"]
-
-        # 3d. SpellDescriptionVariables ($<name> blocks) for rank spells that
+        # 3b. SpellDescriptionVariables ($<name> blocks) for rank spells that
         #     reference them (e.g. custom Earthwarden talents).
         dv_ids = {
             s["spell_desc_variable_id"] for s in spell_text.values()
@@ -455,6 +528,56 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
             for d in cur.fetchall():
                 descvar_assigns[d["id"]] = _parse_descvars(d["var"])
 
+        # 3c. Cross-spell references ($<id>X, $/N;<id>X) in rank text OR inside
+        #     a descvar definition: load those spells' numeric data too.
+        ref_re = re.compile(r"\$(?:/\d+;)?(\d+)[a-zA-Z]")
+        ref_ids = set()
+        for s in spell_text.values():
+            for fld in ("spell_desc_enus", "spell_tooltip_enus"):
+                ref_ids.update(int(x) for x in ref_re.findall(s.get(fld) or ""))
+        for assigns in descvar_assigns.values():
+            for expr in assigns.values():
+                ref_ids.update(int(x) for x in ref_re.findall(expr))
+        ref_ids -= set(spell_text)
+        ref_spells: Dict[int, Dict[str, Any]] = {}
+        if ref_ids:
+            id_list = ",".join(str(i) for i in sorted(ref_ids))
+            cur.execute(
+                f"SELECT id, {_NUMERIC_COLS} FROM spell WHERE id IN ({id_list})"
+            )
+            for s in cur.fetchall():
+                ref_spells[s["id"]] = s
+
+        # 3d. Resolve duration_index -> base_duration (ms) for everything loaded.
+        dur_indices = {
+            s["duration_index"]
+            for s in list(spell_text.values()) + list(ref_spells.values())
+            if s.get("duration_index")
+        }
+        dur_ms: Dict[int, int] = {}
+        if dur_indices:
+            id_list = ",".join(str(i) for i in sorted(dur_indices))
+            cur.execute(
+                f"SELECT id, base_duration FROM spellduration WHERE id IN ({id_list})"
+            )
+            for d in cur.fetchall():
+                dur_ms[d["id"]] = d["base_duration"]
+
+        # 3e. Resolve effect_radius_index -> radius (yards) for $a tokens.
+        rad_indices = {
+            s[f"effect_radius_index_{i}"]
+            for s in list(spell_text.values()) + list(ref_spells.values())
+            for i in (1, 2, 3) if s.get(f"effect_radius_index_{i}")
+        }
+        radius_yd: Dict[int, float] = {}
+        if rad_indices:
+            id_list = ",".join(str(i) for i in sorted(rad_indices))
+            cur.execute(
+                f"SELECT id, radius FROM spellradius WHERE id IN ({id_list})"
+            )
+            for d in cur.fetchall():
+                radius_yd[d["id"]] = float(d["radius"])
+
         cur.close()
 
     # Token-resolution context for every spell we loaded (ranks + cross-refs).
@@ -468,6 +591,25 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
                       s.get(f"effect_die_sides_{idx}") or 0)
                 for idx in (1, 2, 3)
             },
+            "radius": {
+                idx: radius_yd[ri] for idx in (1, 2, 3)
+                if (ri := s.get(f"effect_radius_index_{idx}")) in radius_yd
+            },
+            "amp": {
+                idx: s[f"effect_amplitude_{idx}"] for idx in (1, 2, 3)
+                if s.get(f"effect_amplitude_{idx}")
+            },
+            "chain": {
+                idx: s[f"effect_chain_target_{idx}"] for idx in (1, 2, 3)
+                if s.get(f"effect_chain_target_{idx}")
+            },
+            "combo": {
+                idx: s[f"effect_points_per_combo_point_{idx}"] for idx in (1, 2, 3)
+                if s.get(f"effect_points_per_combo_point_{idx}")
+            },
+            "max_targets": s.get("max_affected_targets"),
+            "charges": s.get("proc_charges"),
+            "stacks": s.get("stack_amount"),
             "duration": dur_ms.get(di) if di else None,
             "proc": s.get("proc_chance"),
             "assigns": descvar_assigns.get(dv, {}) if dv else {},
@@ -488,12 +630,16 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
             txt = spell_text.get(sid, {})
             raw_desc = txt.get("spell_desc_enus")
             raw_tip = txt.get("spell_tooltip_enus")
-            # descvar/inline-math pass first (handles $<name> + ${...}), then
-            # the per-token pass ($s/$m/$M/$d/$h, incl. cross-spell refs).
+            # Per-token pass first ($s/$a/$t/$d/... incl. cross-spell refs) so
+            # that refs nested inside ${...} math become plain numbers; then the
+            # descvar/inline-math pass ($<name> + ${...}). $<name>/${...}/$AP are
+            # untouched by the token pass, so order is safe.
             ctx = spell_ctx.get(sid, {})
-            eff, assigns = ctx.get("eff", {}), ctx.get("assigns", {})
-            desc = _resolve_tokens(_resolve_descvars(raw_desc, eff, assigns), sid, spell_ctx)
-            tooltip = _resolve_tokens(_resolve_descvars(raw_tip, eff, assigns), sid, spell_ctx)
+            assigns = ctx.get("assigns", {})
+            desc = _resolve_grammar(_resolve_descvars(
+                _resolve_tokens(raw_desc, sid, spell_ctx), ctx, spell_ctx, assigns))
+            tooltip = _resolve_grammar(_resolve_descvars(
+                _resolve_tokens(raw_tip, sid, spell_ctx), ctx, spell_ctx, assigns))
 
             for raw in (raw_desc, raw_tip):
                 if raw and "$" in raw:

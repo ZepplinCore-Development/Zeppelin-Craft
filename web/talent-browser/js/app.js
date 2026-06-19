@@ -4,7 +4,7 @@
 
 'use strict';
 
-const MAX_POINTS = 51;        // level-80 WotLK talent pool
+const MAX_POINTS = 71;        // level-80 WotLK talent pool (1 pt/level from L10)
 const CELL = 56, GAP = 16;    // must match --cell / --gap in style.css
 
 const CLASS_COLORS = {
