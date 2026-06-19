@@ -187,6 +187,18 @@ def build_patch(ctx, patch_letter: Optional[str],
         if orphans:
             click.echo(f"  Cleaned {len(orphans)} orphan register entries")
 
+        # PATCH-Z just exported the DBC database to .dbc files; regenerate the
+        # talent browser from that same data so client + web stay in sync.
+        if 'PATCH-Z.MPQ' in built_patches:
+            click.echo(f"\n{'=' * 60}")
+            click.echo("  Talent Tree Browser (F-185)")
+            click.echo(f"{'=' * 60}")
+            try:
+                _deploy_talent_browser(ctx, nginx_path / 'talents')
+            except Exception as e:
+                click.echo(click.style(
+                    f"  Talent browser regen failed (patch build OK): {e}", fg='yellow'))
+
     # Summary
     elapsed = time.time() - start
     click.echo(f"\n{'=' * 60}")
@@ -562,6 +574,40 @@ def build_atlasloot(ctx, dry_run, verbose, rep):
 # Talent Tree Browser deploy (F-185)
 # =============================================================================
 
+def _deploy_talent_browser(ctx, dest: Path, database: str = 'live',
+                           overwrite_icons: bool = False) -> bool:
+    """Build + deploy the talent browser to dest. Returns True on success.
+
+    Shared by the `talent-browser` command and the PATCH-Z post-build hook.
+    The browser reads the live DBC database, which the PATCH-Z build has just
+    exported to .dbc files, so the two stay in sync.
+    """
+    from lib.talent_export import deploy_site
+    from commands.dbc import get_dbc_config
+
+    craft_root = ctx.obj['craft_root']
+    src = craft_root / 'web' / 'talent-browser'
+    if not src.is_dir():
+        click.echo(click.style(f"  Talent browser source not found: {src}", fg='yellow'))
+        return False
+
+    config = get_dbc_config(ctx)
+    click.echo(f"  Exporting talents from {getattr(config, database, config.live)} -> {dest}")
+    result = deploy_site(src, Path(dest), config, database=database,
+                         overwrite_icons=overwrite_icons)
+    data, icons = result['data'], result['icons']
+    n_trees = sum(len(c['trees']) for c in data['classes'])
+    n_talents = sum(len(t['talents']) for c in data['classes'] for t in c['trees'])
+    click.echo(click.style(
+        f"  {len(data['classes'])} classes, {n_trees} trees, {n_talents} talents, "
+        f"{len(icons['converted'])} icons", fg='green'))
+    if icons['missing']:
+        click.echo(click.style(f"  Missing source BLP: {len(icons['missing'])}", fg='yellow'))
+    if icons['failed']:
+        click.echo(click.style(f"  Failed to decode: {len(icons['failed'])}", fg='yellow'))
+    return True
+
+
 @build.command('talent-browser')
 @click.option('--target', '-t', 'target', type=click.Path(), default=None,
               help='Deploy directory (default: <NGINX_PATH>/talents)')
@@ -576,48 +622,12 @@ def build_talent_browser(ctx, target, database, overwrite_icons):
 
     Copies the static front-end (web/talent-browser) and regenerates
     data/talents.json + data/icons from the DBC database. Served at
-    <site>/talents/.
+    <site>/talents/. Also run automatically at the end of a PATCH-Z build.
     """
-    import shutil
     from lib.env import NGINX_PATH
-    from lib.talent_export import export_talents, export_icons
-    from commands.dbc import get_dbc_config
-
-    craft_root = ctx.obj['craft_root']
-    src = craft_root / 'web' / 'talent-browser'
-    if not src.is_dir():
-        raise click.ClickException(f"Front-end source not found: {src}")
 
     dest = Path(target) if target else (NGINX_PATH / 'talents')
-    dest.mkdir(parents=True, exist_ok=True)
-
-    # 1. Static front-end (index.html + css/ + js/); data/ is regenerated below.
-    click.echo(f"Deploying front-end -> {dest}")
-    shutil.copy2(src / 'index.html', dest / 'index.html')
-    for sub in ('css', 'js'):
-        d = dest / sub
-        if d.exists():
-            shutil.rmtree(d)
-        shutil.copytree(src / sub, d)
-
-    # 2. Regenerate data payload.
-    config = get_dbc_config(ctx)
-    data_dir = dest / 'data'
-    click.echo(f"Exporting talents from {getattr(config, database, config.live)}...")
-    data = export_talents(config, data_dir / 'talents.json', database=database)
-    n_trees = sum(len(c['trees']) for c in data['classes'])
-    n_talents = sum(len(t['talents']) for c in data['classes'] for t in c['trees'])
-    click.echo(click.style(
-        f"  {len(data['classes'])} classes, {n_trees} trees, {n_talents} talents",
-        fg='green'))
-
-    click.echo(f"Converting {len(data['icons'])} icons (BLP->PNG)...")
-    res = export_icons(data['icons'], data_dir / 'icons', overwrite=overwrite_icons)
-    click.echo(click.style(f"  {len(res['converted'])} icons", fg='green'))
-    if res['missing']:
-        click.echo(click.style(f"  Missing source BLP: {len(res['missing'])}", fg='yellow'))
-    if res['failed']:
-        click.echo(click.style(f"  Failed to decode: {len(res['failed'])}", fg='yellow'))
-
+    if not _deploy_talent_browser(ctx, dest, database, overwrite_icons):
+        raise click.ClickException("Talent browser deploy failed")
     click.echo(click.style(f"\nDeployed to {dest}", fg='green'))
-    click.echo("Served at <site>/talents/  (add the nginx /talents/ location block + reload)")
+    click.echo("Served at <site>/talents/  (ensure nginx /talents/ location is configured)")

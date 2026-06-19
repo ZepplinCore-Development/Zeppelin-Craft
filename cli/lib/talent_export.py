@@ -18,6 +18,7 @@ verbatim here so the front-end / a later pass can resolve them.
 
 import json
 import re
+import shutil
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -802,3 +803,27 @@ def export_icons(icon_names: List[str], out_dir: Path,
             failed.append(name)
 
     return {"converted": converted, "missing": missing, "failed": failed}
+
+
+def deploy_site(src_dir: Path, dest_dir: Path, config: DBCConfig,
+                database: str = "live", overwrite_icons: bool = False) -> Dict[str, Any]:
+    """Deploy the full talent browser to dest_dir.
+
+    Copies the static front-end (index.html + css/ + js/) from src_dir, then
+    regenerates data/talents.json + data/icons from the DBC database. Returns
+    {"data": <doc>, "icons": <export_icons result>} for caller reporting.
+    """
+    src_dir, dest_dir = Path(src_dir), Path(dest_dir)
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    shutil.copy2(src_dir / "index.html", dest_dir / "index.html")
+    for sub in ("css", "js"):
+        d = dest_dir / sub
+        if d.exists():
+            shutil.rmtree(d)
+        shutil.copytree(src_dir / sub, d)
+
+    data_dir = dest_dir / "data"
+    data = export_talents(config, data_dir / "talents.json", database=database)
+    icons = export_icons(data["icons"], data_dir / "icons", overwrite=overwrite_icons)
+    return {"data": data, "icons": icons}
