@@ -109,6 +109,179 @@ def _format_duration(ms: Optional[int]) -> Optional[str]:
     return f"{sec:g} sec"
 
 
+# --------------------------------------------------------------------------
+# SpellDescriptionVariables ($<name>) + inline math (${...}) resolution.
+#
+# Custom talents (e.g. Earthwarden's Crag Strike) define variables like
+#   $perlevel=${($pl-20)*3.0}  $apbonus=${$AP*0.15}  $dmg=${$m1+$<perlevel>+$<apbonus>}
+# and reference $<dmg> in the description. We evaluate these as LINEAR forms
+# over named player stats: a value is a constant plus coefficients on $AP /
+# $sp, so AP/SP-scaling renders as readable text ("211 (+ 15% of Attack
+# Power)") rather than a fake fixed number. $pl is fixed at the level cap.
+# Anything we can't evaluate (unknown stat, non-linear math) raises and the
+# token is left raw.
+# --------------------------------------------------------------------------
+
+LEVEL_CAP = 80
+_STATS = {"AP": "Attack Power", "sp": "Spell Power"}  # token letters -> label
+
+
+class _Unresolvable(Exception):
+    pass
+
+
+def _fmt_num(x: float) -> str:
+    return str(int(round(x))) if abs(x - round(x)) < 1e-9 else f"{x:.1f}"
+
+
+def _is_const(lf: Dict[str, float]) -> bool:
+    return all(k == "_const" or v == 0 for k, v in lf.items())
+
+
+def _lf_mul(a, b):
+    if _is_const(a):
+        s = a.get("_const", 0.0); return {k: v * s for k, v in b.items()}
+    if _is_const(b):
+        s = b.get("_const", 0.0); return {k: v * s for k, v in a.items()}
+    raise _Unresolvable()
+
+
+def _lf_div(a, b):
+    if not _is_const(b) or b.get("_const", 0.0) == 0:
+        raise _Unresolvable()
+    s = b["_const"]; return {k: v / s for k, v in a.items()}
+
+
+def _lf_addsub(a, b, sign):
+    r = dict(a)
+    for k, v in b.items():
+        r[k] = r.get(k, 0.0) + sign * v
+    return r
+
+
+_EXPR_TOK = re.compile(r"\s*(\d+\.?\d*|\$<[A-Za-z]\w*>|\$[A-Za-z]+\d*|[()+\-*/])")
+
+
+def _eval_expr(expr, eff, assigns, seen):
+    """Evaluate an expression string to a linear form {_const, AP, sp, ...}."""
+    toks, pos = [], 0
+    while pos < len(expr):
+        m = _EXPR_TOK.match(expr, pos)
+        if not m:
+            if expr[pos:].strip() == "":
+                break
+            raise _Unresolvable()
+        toks.append(m.group(1)); pos = m.end()
+
+    i = 0
+
+    def atom():
+        nonlocal i
+        if i >= len(toks):
+            raise _Unresolvable()
+        tk = toks[i]; i += 1
+        if tk == "(":
+            v = expr_p()
+            if i >= len(toks) or toks[i] != ")":
+                raise _Unresolvable()
+            i += 1
+            return v
+        if tk[0].isdigit():
+            return {"_const": float(tk)}
+        if tk.startswith("$<"):                       # $<name> reference
+            name = tk[2:-1]
+            if name in seen or name not in assigns:
+                raise _Unresolvable()
+            return _eval_expr(assigns[name], eff, assigns, seen | {name})
+        # $token: $pl / $m1 / $s1 / $M1 / $AP / $sp
+        body = tk[1:]
+        mm = re.match(r"([A-Za-z]+)(\d*)$", body)
+        if not mm:
+            raise _Unresolvable()
+        letters, digits = mm.group(1), mm.group(2)
+        if letters == "pl":
+            return {"_const": float(LEVEL_CAP)}
+        if letters in ("m", "s", "M") and digits:
+            base, die = eff.get(int(digits), (0, 0))
+            lo, hi = _effect_value_range(base, die)
+            return {"_const": float(hi if letters == "M" else lo)}
+        if letters in _STATS:
+            return {letters: 1.0}
+        raise _Unresolvable()
+
+    def term():
+        nonlocal i
+        v = atom()
+        while i < len(toks) and toks[i] in ("*", "/"):
+            op = toks[i]; i += 1
+            v = _lf_mul(v, atom()) if op == "*" else _lf_div(v, atom())
+        return v
+
+    def expr_p():
+        nonlocal i
+        v = term()
+        while i < len(toks) and toks[i] in ("+", "-"):
+            op = toks[i]; i += 1
+            v = _lf_addsub(v, term(), 1 if op == "+" else -1)
+        return v
+
+    v = expr_p()
+    if i != len(toks):
+        raise _Unresolvable()
+    return v
+
+
+def _render_lf(lf: Dict[str, float]) -> str:
+    const = lf.get("_const", 0.0)
+    stat_parts = [f"{_fmt_num(lf[k] * 100)}% of {label}"
+                  for k, label in _STATS.items() if lf.get(k)]
+    if stat_parts and abs(const) > 1e-9:
+        return f"{_fmt_num(abs(const))} (+ {' + '.join(stat_parts)})"
+    if stat_parts:
+        return " + ".join(stat_parts)
+    return _fmt_num(abs(const))
+
+
+def _parse_descvars(var_text: Optional[str]) -> Dict[str, str]:
+    """Parse a spelldescriptionvariables blob into {name: rhs-expression}."""
+    assigns: Dict[str, str] = {}
+    if not var_text:
+        return assigns
+    for line in re.split(r"\\n|\n", var_text):
+        m = re.match(r"\s*\$([A-Za-z]\w*)\s*=\s*(.+?)\s*$", line)
+        if not m:
+            continue
+        rhs = m.group(2)
+        wrap = re.match(r"^\$\{(.*)\}$", rhs)        # strip ${...} wrapper
+        assigns[m.group(1)] = wrap.group(1) if wrap else rhs
+    return assigns
+
+
+def _resolve_descvars(text, eff, assigns):
+    """Resolve inline ${...} math and $<name> description-variable refs."""
+    if not text:
+        return text
+
+    def brace(m):
+        try:
+            return _render_lf(_eval_expr(m.group(1), eff, assigns, set()))
+        except _Unresolvable:
+            return m.group(0)
+
+    def ref(m):
+        name = m.group(1)
+        if name not in assigns:
+            return m.group(0)
+        try:
+            return _render_lf(_eval_expr(assigns[name], eff, assigns, {name}))
+        except _Unresolvable:
+            return m.group(0)
+
+    text = re.sub(r"\$\{([^{}]*)\}", brace, text)
+    text = re.sub(r"\$<([A-Za-z]\w*)>", ref, text)
+    return text
+
+
 def _resolve_tokens(text: Optional[str], self_id: int,
                     spells: Dict[int, Dict[str, Any]]) -> Optional[str]:
     """Resolve $s/$m/$M (value), $d (duration) and $h (proc chance) tokens.
@@ -219,7 +392,7 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
         _NUMERIC_COLS = """
             effect_base_points_1, effect_base_points_2, effect_base_points_3,
             effect_die_sides_1, effect_die_sides_2, effect_die_sides_3,
-            duration_index, proc_chance
+            duration_index, proc_chance, spell_desc_variable_id
         """
 
         spell_text: Dict[int, Dict[str, Any]] = {}
@@ -267,12 +440,28 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
             for d in cur.fetchall():
                 dur_ms[d["id"]] = d["base_duration"]
 
+        # 3d. SpellDescriptionVariables ($<name> blocks) for rank spells that
+        #     reference them (e.g. custom Earthwarden talents).
+        dv_ids = {
+            s["spell_desc_variable_id"] for s in spell_text.values()
+            if s.get("spell_desc_variable_id")
+        }
+        descvar_assigns: Dict[int, Dict[str, str]] = {}
+        if dv_ids:
+            id_list = ",".join(str(i) for i in sorted(dv_ids))
+            cur.execute(
+                f"SELECT id, `var` FROM spelldescriptionvariables WHERE id IN ({id_list})"
+            )
+            for d in cur.fetchall():
+                descvar_assigns[d["id"]] = _parse_descvars(d["var"])
+
         cur.close()
 
     # Token-resolution context for every spell we loaded (ranks + cross-refs).
     spell_ctx: Dict[int, Dict[str, Any]] = {}
     for sid, s in {**ref_spells, **spell_text}.items():
         di = s.get("duration_index")
+        dv = s.get("spell_desc_variable_id")
         spell_ctx[sid] = {
             "eff": {
                 idx: (s.get(f"effect_base_points_{idx}") or 0,
@@ -281,6 +470,7 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
             },
             "duration": dur_ms.get(di) if di else None,
             "proc": s.get("proc_chance"),
+            "assigns": descvar_assigns.get(dv, {}) if dv else {},
         }
 
     # Group talents by tree.
@@ -298,8 +488,12 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
             txt = spell_text.get(sid, {})
             raw_desc = txt.get("spell_desc_enus")
             raw_tip = txt.get("spell_tooltip_enus")
-            desc = _resolve_tokens(raw_desc, sid, spell_ctx)
-            tooltip = _resolve_tokens(raw_tip, sid, spell_ctx)
+            # descvar/inline-math pass first (handles $<name> + ${...}), then
+            # the per-token pass ($s/$m/$M/$d/$h, incl. cross-spell refs).
+            ctx = spell_ctx.get(sid, {})
+            eff, assigns = ctx.get("eff", {}), ctx.get("assigns", {})
+            desc = _resolve_tokens(_resolve_descvars(raw_desc, eff, assigns), sid, spell_ctx)
+            tooltip = _resolve_tokens(_resolve_descvars(raw_tip, eff, assigns), sid, spell_ctx)
 
             for raw in (raw_desc, raw_tip):
                 if raw and "$" in raw:
