@@ -333,6 +333,57 @@ def dbc_query(ctx, sql: Optional[str], sql_file: Optional[str], database: str):
 
 
 # =============================================================================
+# Export Talents Command (F-185 Talent Tree Browser)
+# =============================================================================
+
+@info.command('export-talents')
+@click.option('--output', '-o', 'output',
+              default='talents.json', type=click.Path(),
+              help='Output JSON file (default: talents.json)')
+@click.option('--database', '-d', 'database',
+              type=click.Choice(['live', 'original', 'expected', 'scratch']),
+              default='live', help='Source database (default: live)')
+@click.option('--pretty', is_flag=True, help='Pretty-print the JSON (indent=2)')
+@click.pass_context
+def dbc_export_talents(ctx, output: str, database: str, pretty: bool):
+    """Export talent-tree data to JSON for the Talent Tree Browser.
+
+    Pulls every player-class talent tree (talenttab), its talents (talent),
+    and the per-rank spell text/icons into a single JSON document consumed
+    by the static web talent calculator.
+
+    Examples:
+        zep dbc export-talents -o web/talents.json --pretty
+        zep dbc export-talents -d scratch
+    """
+    from lib.talent_export import export_talents
+
+    config = get_dbc_config(ctx)
+    out_path = Path(output)
+
+    click.echo(f"Exporting talents from {getattr(config, database, config.live)}...")
+    data = export_talents(config, out_path, database=database,
+                          indent=2 if pretty else None)
+
+    n_classes = len(data["classes"])
+    n_trees = sum(len(c["trees"]) for c in data["classes"])
+    n_talents = sum(len(t["talents"]) for c in data["classes"] for t in c["trees"])
+    n_icons = len(data["icons"])
+    tok = data.get("_tokens", {})
+
+    click.echo(click.style(
+        f"  OK  {n_classes} classes, {n_trees} trees, "
+        f"{n_talents} talents, {n_icons} icons", fg='green'))
+    with_tokens = tok.get("ranks_with_tokens", 0)
+    unresolved = tok.get("ranks_unresolved", 0)
+    if with_tokens:
+        resolved = with_tokens - unresolved
+        click.echo(f"  Tokens: resolved {resolved}/{with_tokens} ranks "
+                   f"({unresolved} still have raw $tokens for follow-up)")
+    click.echo(f"  Wrote {out_path}")
+
+
+# =============================================================================
 # Modify Command
 # =============================================================================
 
