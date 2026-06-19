@@ -2545,7 +2545,7 @@ INSERT INTO `spell` SET
     `attributes_ex_2` = 4,
     `attributes_ex_6` = 1088,
     `cast_time_index` = 1,
-    `category_recovery_time` = 5000,
+    `category_recovery_time` = 20000,
     `proc_chance` = 101,
     `base_level` = @tbl_base_level,
     `spell_level` = @tbl_spell_level,
