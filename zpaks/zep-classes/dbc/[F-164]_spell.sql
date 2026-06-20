@@ -4335,9 +4335,14 @@ INSERT INTO `spell` SET
     `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
--- Wolf's Hunger (900216) - 1-min CD melee damage CD
--- 12 sec duration. Aura 79 (MOD_DAMAGE_PERCENT_DONE), school mask 1 (physical).
--- Boosts auto-attacks, Stormstrike physical hit, Lava Lash — not shocks/LB/CL.
+-- Wolf's Hunger (900216) - 1-min CD armor-shred CD
+-- 12 sec duration. Aura 280 (MOD_ARMOR_PENETRATION_PCT), misc 1 (physical/armor).
+-- Caster self-buff: your attacks ignore 50% of the target's armor while active.
+-- Covers ALL physical damage — white swings + Windfury (null spellInfo path in
+-- Unit::CalcArmorReducedDamage) AND physical abilities (Stormstrike/Lava Lash)
+-- via misc_value & SchoolMask. NOTE: subject to the WotLK armor-pen cap, so the
+-- effective reduction vs very-high-armor targets (raid bosses) is < 50%, and it
+-- shares the cap with the player's gear armor-pen rating. die_sides=1 -> $s1 = 50.
 -- ----------------------------------------------------------------------------
 
 DELETE FROM `spell` WHERE `id` = 900216;
@@ -4352,16 +4357,16 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 29,
+    `effect_base_points_1` = 49,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 79,
+    `effect_apply_aura_name_1` = 280,
     `effect_misc_value_a_1` = 1,
     `spell_icon_id` = 5318,
     `spell_name_enus` = 'Wolf''s Hunger',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Embrace the spirit of the wolf, increasing your physical damage done by $s1% for $d.',
+    `spell_desc_enus` = 'Embrace the spirit of the wolf, causing your attacks to ignore $s1% of your target''s armor for $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Physical damage increased by $s1%.',
+    `spell_tooltip_enus` = 'Your attacks ignore $s1% of your target''s armor.',
     `spell_tooltip_flags` = 16712188,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
