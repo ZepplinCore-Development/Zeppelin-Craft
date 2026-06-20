@@ -175,7 +175,7 @@ function PlayerTalentFrame_ToggleGlyphFrame(suggestedTalentGroup)
 				local spec = specs[index];
 				if ( spec.hasGlyphs and spec.talentGroup == suggestedTalentGroup ) then
 					PlayerSpecTab_OnClick(specTabs[index]);
-					PlayerTalentTab_OnClick(_G["PlayerTalentFrameTab"..GLYPH_TALENT_TAB]);
+					PanelTemplates_SetTab(PlayerTalentFrame, GLYPH_TALENT_TAB); PlayerTalentFrame_Refresh(); -- glyph access is the side-button mechanism; the bottom glyph tab (Tab5) was removed for the 4-tree layout
 					break;
 				end
 			end
@@ -191,7 +191,7 @@ function PlayerTalentFrame_OpenGlyphFrame(talentGroup)
 		for index, spec in next, specs do
 			if ( spec.hasGlyphs and spec.talentGroup == talentGroup ) then
 				PlayerSpecTab_OnClick(specTabs[index]);
-				PlayerTalentTab_OnClick(_G["PlayerTalentFrameTab"..GLYPH_TALENT_TAB]);
+				PanelTemplates_SetTab(PlayerTalentFrame, GLYPH_TALENT_TAB); PlayerTalentFrame_Refresh(); -- glyph access is the side-button mechanism; the bottom glyph tab (Tab5) was removed for the 4-tree layout
 				break;
 			end
 		end

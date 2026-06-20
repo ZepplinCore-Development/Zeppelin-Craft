@@ -697,19 +697,6 @@
 					</Anchor>
 				</Anchors>
 			</Button>
-			<!-- Tab5 = glyph tab (GLYPH_TALENT_TAB) for the 4-tree Earthwarden layout.
-			     Hidden: glyph access is the side button (PlayerTalentFrameGlyphTab); this
-			     frame only holds the selected-tab state so _G["PlayerTalentFrameTab5"] is
-			     non-nil when PlayerTalentFrame_OpenGlyphFrame clicks it (else self:GetID() nil). -->
-			<Button name="PlayerTalentFrameTab5" inherits="PlayerTalentTabTemplate" id="5" hidden="true">
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="PlayerTalentFrameTab4" relativePoint="RIGHT">
-						<Offset>
-							<AbsDimension x="-15" y="0"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-			</Button>
 			<CheckButton name="PlayerSpecTab1" inherits="PlayerSpecTabTemplate" id="1">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
