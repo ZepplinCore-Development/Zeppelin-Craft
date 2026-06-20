@@ -1,4 +1,4 @@
--- I-191: Swap Zangarmarsh eel displays to the MonstrousEel model (900003,
+-- I-191: Swap Zangarmarsh eel displays to the SeaEel model (900003,
 -- defined in [I-191]_creaturemodeldata.sql).
 --
 -- Sweep result (map 530, Zangarmarsh):
@@ -11,9 +11,14 @@
 --          -> new display 900004 below; creature_template_model repoint in
 --          sql/zz_[I-191]_zangarmarsh_eels.sql.
 --
--- Colour flavour per eel: Umbrafen green, Lagoon black (purple-toned skin),
--- Shimmerscale white. Scales: wurm 3.0 x ~1.44u = ~4.3u effective; eel is
--- ~11.5u native, so 0.4 / 0.4 / 0.45 keeps sizes comparable.
+-- Colour flavour per eel (monstrouseel set, _1 = type11 slot,
+-- _2 = type12 slot):
+--   Umbrafen green, Lagoon blue (watery), Shimmerscale white (silvery).
+-- Scales: MonstrousEel is ~8u native; 0.8 / 0.8 / 1.0 gives the larger
+-- in-game size the user preferred (~6.4-8u effective).
+--
+-- MonstrousEel has TWO texture variation slots (type 11 = variation_1 =
+-- *_1.blp, type 12 = variation_2 = *_2.blp).
 --
 -- Out of scope (noted in I-191): Siltslither Eel 28847 (display 19600,
 -- shared with Mana Wyrmling) — summoned by GO 190779 'Raised Mud' in
@@ -22,7 +27,7 @@
 -- Umbrafen Eel (stock display, exclusive)
 UPDATE creaturedisplayinfo SET
   model_id = 900003,
-  creature_model_scale = 0.4,
+  creature_model_scale = 0.8,
   texture_variation_1 = 'MonstrousEel_Green_1',
   texture_variation_2 = 'MonstrousEel_Green_2'
 WHERE id = 19286;
@@ -30,7 +35,7 @@ WHERE id = 19286;
 -- Shimmerscale Eel (stock display, exclusive)
 UPDATE creaturedisplayinfo SET
   model_id = 900003,
-  creature_model_scale = 0.45,
+  creature_model_scale = 1.0,
   texture_variation_1 = 'MonstrousEel_White_1',
   texture_variation_2 = 'MonstrousEel_White_2'
 WHERE id = 18147;
@@ -42,10 +47,10 @@ INSERT INTO creaturedisplayinfo SET
   model_id = 900003,
   sound_id = 0,
   extended_display_info_id = 0,
-  creature_model_scale = 0.4,
+  creature_model_scale = 0.8,
   creature_model_alpha = 255,
-  texture_variation_1 = 'MonstrousEel_Black_1',
-  texture_variation_2 = 'MonstrousEel_Black_2',
+  texture_variation_1 = 'MonstrousEel_Blue_1',
+  texture_variation_2 = 'MonstrousEel_Blue_2',
   texture_variation_3 = '',
   portrait_texture_name = '',
   blood_level = -1,

@@ -1,25 +1,30 @@
--- I-191: MonstrousEel model for Zangarmarsh eels.
+-- I-191: MonstrousEel model for Zangarmarsh eels (final).
 --
 -- The three Zangarmarsh eels (Umbrafen 18138, Lagoon 20290, Shimmerscale
--- 18750) all use the ManaWurm model (creaturemodeldata 2210) whose particle
+-- 18750) all used the ManaWurm model (creaturemodeldata 2210) whose particle
 -- effects render incorrectly and whose death-orb attachment has a massive Z
--- offset (orb launched ~10yd into the air on death). Swap to the retail
--- MonstrousEel backport (WotLK MD20 v264, shipped in this zpak under
--- mpq/source-assets/Creature/MonstrousEel/, PATCH-Z).
+-- offset (orb launched ~10yd into the air on death).
 --
--- The M2 is a fresh retroport (Legion v274 -> WotLK v264) made with the
--- Retroport toolchain (Zeppelin-Tools/Retroport, run under wine) from the
--- retail m2 + skin FDID 478235. Its hardcoded textures resolve to STOCK
--- 3.3.5 client paths (Creature\ManaWurm\ManaWurmSkinGreen.blp,
--- Item\ObjectComponents\Weapon\flare.blp, ...\Head\smoothreflect.blp) so
--- only the m2/skin/variation BLPs ship in this zpak. Skin variations come
--- from texture slots type 11 (variation_1, *_1.blp) and type 12
--- (variation_2, *_2.blp).
+-- Model saga (full detail in I-191): MonstrousEel (Legion) absolute-frame
+-- desync, SeaSnake (Cata) coil-snap rejected, SeaEel (BfA) modern keybones
+-- no attack, ElectricEel (DF) heavyweight crash. Converter ruled out (Legion
+-- == Shadowlands MultiConverter core).
 --
--- collision / footprint / sound_data inherited from 2210 (ManaWurm) so the
--- eels keep their existing audio and combat footprint. Geo box taken from
--- the M2 vertex bounds (model is ~11.5 units long natively — per-display
--- creature_model_scale drops from the wurm's 3.0-3.5 to ~0.4).
+-- FINAL: back to MonstrousEel (FDID 369377), freshly re-exported by user with
+-- LOD skins, retroported via the wine toolchain (MD21->MD20). It loads cleanly
+-- (36 bones, 35 cam / 10 light / 4 particle — modest, no crash) and has the
+-- classic keybones (head=6@4, root=26@1, jaw=7@6). Its native attack baked a
+-- 2.77u whole-body lunge into the head subtree (the original head-launch /
+-- skin-stretch bug). Two post-conversion fixes applied (see Retroport note):
+--   1. globalFlags 0x202089 -> 0x9 (strip modern bits the 3.3.5 client
+--      mis-reads).
+--   2. Combat-sequence translations (ready/attack/crit/wound) damped to
+--      <=0.45u per bone, ROTATIONS untouched — converts the un-renderable
+--      lunge into a stock-ManaWurm-style rotation-driven snap. head-subtree
+--      attack translation 2.77 -> 0.45.
+--
+-- collision / footprint / sound_data inherited from ManaWurm 2210. Geo box
+-- from M2 vertex bounds (model ~8u long — per-display scale 0.8-1.0).
 
 DELETE FROM creaturemodeldata WHERE id = 900003;
 INSERT INTO creaturemodeldata SET
@@ -40,12 +45,12 @@ INSERT INTO creaturemodeldata SET
   collision_width = 0.6111,
   collision_height = 2.031,
   mount_height = 0.0,
-  geo_box_min_x = -3.5904,
-  geo_box_min_y = -4.2682,
-  geo_box_min_z = -1.3056,
-  geo_box_max_x = 7.8812,
-  geo_box_max_y = 3.9844,
-  geo_box_max_z = 12.8800,
+  geo_box_min_x = -2.91,
+  geo_box_min_y = -2.42,
+  geo_box_min_z = -1.31,
+  geo_box_max_x = 5.12,
+  geo_box_max_y = 3.43,
+  geo_box_max_z = 5.18,
   world_effect_scale = 1.0,
   attached_effect_scale = 1.0,
   missile_collision_radius = 0.0,
