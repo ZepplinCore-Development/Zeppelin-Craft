@@ -50,11 +50,14 @@ WHERE (`effect_apply_aura_name_1` = 78
 -- 3. GROUND MOUNT LEVEL SCALING
 --    Ground mounts scale from 20% at level 20 to 100% at level 60
 --    Selector: aura 32 (MOD_INCREASE_MOUNTED_SPEED) in effect 2
---    Excludes mounts with intentional non-standard speeds:
---      33631  Video Mount (-11%), 68768 Little White Stallion (-1%),
---      68769  Little Ivory Raptor (0%), 61289 Borrowed Broom (170%),
---      87090  Goblin Trike (60%), 87091 Goblin Turbo-Trike (100%),
---      103195 Mountain Horse (60%), 103196 Swift Mountain Horse (100%)
+--    Includes the Goblin/Worgen racial starter mounts (87090/87091/103195/103196),
+--    which now scale 20%->100% like all standard ground mounts.
+--    Excludes only mounts with genuinely non-standard speed mechanics:
+--      33631  Video Mount (GM/test), 61289 Borrowed Broom (fixed 170% temp item),
+--      68768  Little White Stallion, 68769 Little Ivory Raptor
+--             (Argent ponies — speed adapts to your riding skill, not level)
+--    These four use the non-scaling $<groundspeedfixed>/$<groundspeedfixed2>
+--    variables instead (set below); see [F-005]_spelldescriptionvariables.sql.
 -- ============================================================================
 UPDATE `spell` SET
     `max_level` = 60,
@@ -65,7 +68,7 @@ WHERE (`effect_apply_aura_name_1` = 78
    OR `effect_apply_aura_name_2` = 78
    OR `effect_apply_aura_name_3` = 78)
   AND `effect_apply_aura_name_2` = 32
-  AND `id` NOT IN (33631, 68768, 68769, 61289, 87090, 87091, 103195, 103196);
+  AND `id` NOT IN (33631, 68768, 68769, 61289);
 
 -- ============================================================================
 -- 4. FLYING MOUNT SPEED
@@ -95,7 +98,8 @@ WHERE (`effect_apply_aura_name_1` = 78
 --    Append speed variable text to stock mount descriptions.
 --    Guard prevents double-append if [BASE,F-044] already applied descriptions.
 -- ============================================================================
--- Ground mounts: append speed text (excludes $<speed2> and turtle outliers)
+-- Ground mounts: append speed text (excludes $<speed2>, turtle, and the
+-- non-scaling fixed-speed outliers which use $<groundspeedfixed2> instead)
 UPDATE `spell` SET
     `spell_desc_enus` = CONCAT(`spell_desc_enus`, ' Increases speed by $<groundspeed2>%.'),
     `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.'
@@ -104,7 +108,20 @@ WHERE (`effect_apply_aura_name_1` = 78
    OR `effect_apply_aura_name_3` = 78)
   AND `effect_apply_aura_name_2` = 32
   AND `spell_desc_enus` NOT LIKE '%groundspeed2%'
-  AND `id` NOT IN (580, 25953, 26656, 30174);
+  AND `id` NOT IN (580, 25953, 26656, 30174, 33631, 61289, 68768, 68769);
+
+-- Fixed-speed outliers Video Mount (33631) and Borrowed Broom (61289): use the
+-- non-scaling $<groundspeedfixed> vars so their flat speed isn't shown with
+-- phantom +2%/level. These inherited $<groundspeed2> from the bulk append (they
+-- were excluded from scaling but NOT from the text append, so their descriptions
+-- over-reported). REPLACE is idempotent: once the token is $<groundspeedfixed2>
+-- it no longer matches $<groundspeed2>. (The Argent ponies 68768/68769 are also
+-- fixed but are handled by their explicit per-mount UPDATEs below, which drop
+-- the speed clause entirely.)
+UPDATE `spell` SET
+    `spell_desc_enus` = REPLACE(`spell_desc_enus`, '$<groundspeed2>', '$<groundspeedfixed2>'),
+    `spell_tooltip_enus` = REPLACE(`spell_tooltip_enus`, '$<groundspeed>', '$<groundspeedfixed>')
+WHERE `id` IN (33631, 61289);
 
 -- Flying mounts: append flight speed text
 UPDATE `spell` SET
@@ -1164,8 +1181,10 @@ UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable Swift Alliance Steed.  Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 68057;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable Crusader\'s White Warhorse.  Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 68187;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable Crusader\'s Black Warhorse.  Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 68188;
-UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `spell_desc_enus` = 'Summons and dismisses a rideable Little White Stallion.  This mount\'s speed changes depending on your Riding skill. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 68768;
-UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `spell_desc_enus` = 'Summons and dismisses a rideable Little Ivory Raptor.  This mount\'s speed changes depending on your Riding skill. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 68769;
+-- Argent Tournament ponies: speed adapts to your riding skill (special server
+-- mechanic), so no fixed/scaling speed number is shown (their DBC base is ~0).
+UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `spell_desc_enus` = 'Summons and dismisses a rideable Little White Stallion.  This mount''s speed changes depending on your Riding skill.', `spell_tooltip_enus` = 'Speed matches your riding skill.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 68768;
+UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `spell_desc_enus` = 'Summons and dismisses a rideable Little Ivory Raptor.  This mount''s speed changes depending on your Riding skill.', `spell_tooltip_enus` = 'Speed matches your riding skill.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 68769;
 UPDATE `spell` SET `attributes_ex_3` = 0, `attributes_ex_4` = 0, `cast_time_index` = 14, `effect_base_points_2` = 299, `spell_desc_enus` = ' Increases flight speed by $<flyingspeed2>%.', `spell_tooltip_enus` = 'Increases flight speed by $<flyingspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 71347;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses your rideable Crimson Deathcharger.  Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 73313;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable Wooly White Rhino.  Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 74918;
