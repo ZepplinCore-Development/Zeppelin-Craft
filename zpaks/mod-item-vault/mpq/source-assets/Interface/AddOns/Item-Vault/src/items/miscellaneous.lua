@@ -397,4 +397,16 @@ internal.appendData({
 		icon = "Interface\\Icons\\INV_Jewelry_Ring_23",
 		categories = { 0 },
 	},
+	{
+		id = 25433,
+		name = "Obsidian Warbeads",
+		icon = "Interface\\Icons\\INV_Jewelry_Necklace_19",
+		categories = { 0 },
+	},
+	{
+		id = 25802,
+		name = "Dreadfang Venom Sac",
+		icon = "Interface\\Icons\\INV_Misc_Organ_04",
+		categories = { 0 },
+	},
 })
