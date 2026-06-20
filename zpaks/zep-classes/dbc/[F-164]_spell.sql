@@ -1231,9 +1231,12 @@ INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (187, CONCAT(
     '$total=${$<base>+$<perlevel>+$<spbonus>}'));
 
 -- ----------------------------------------------------------------------------
--- Improved Volcanic Shield R1 (900123) - ADD_FLAT_MODIFIER boosting 900122 E2
--- Adds +3% to Volcanic Shield's ENERGIZE_PCT effect.
--- Targets spell_class_mask_a_3 = 32768 (bit 15, Volcanic Shield trigger)
+-- Improved Volcanic Shield R1 (900123)
+-- effect_1 (KEEP): ADD_FLAT_MODIFIER op 12 (SPELLMOD_EFFECT2) +1 on the eruption
+--   900122's energize (mask_a_3 = 32768) -> the mana restore.
+-- effect_2 (NEW): MOD_RESISTANCE (22), school 1 (armor), bonus armor scaling with
+--   level (base + ppl). Gauged off Stoneskin Totem (~50 + 11/level at full rank);
+--   R1 = 1/3. Replaces the old +damage boost (folded into VS base damage instead).
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900123;
 
@@ -1247,25 +1250,25 @@ INSERT INTO `spell` SET
     `effect_1` = 6,
     `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
-    `effect_apply_aura_name_2` = 108,
+    `effect_apply_aura_name_2` = 22,
     `effect_base_points_1` = 1,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 17,
+    `effect_real_points_per_level_2` = 4,
     `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
+    `effect_die_sides_2` = 0,
     `effect_misc_value_a_1` = 12,
-    `effect_misc_value_a_2` = 0,
+    `effect_misc_value_a_2` = 1,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_a_3` = 32768,
-    `effect_spell_class_mask_b_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases the damage dealt by your Volcanic Shield by $s2%, and its activation also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'Grants you bonus armor based on your level, and your Volcanic Shield''s activation also restores $s1% of your maximum mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Volcanic Shield damage increased by $s2% and activation restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Bonus armor, and Volcanic Shield activation restores $s1% max mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -1273,8 +1276,7 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
--- Improved Volcanic Shield R2 (900124) - ADD_FLAT_MODIFIER boosting 900122 E2
--- Adds +6% to Volcanic Shield's ENERGIZE_PCT effect.
+-- Improved Volcanic Shield R2 (900124) - mana restore + bonus armor (2/3)
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900124;
 
@@ -1288,32 +1290,32 @@ INSERT INTO `spell` SET
     `effect_1` = 6,
     `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
-    `effect_apply_aura_name_2` = 108,
+    `effect_apply_aura_name_2` = 22,
     `effect_base_points_1` = 3,
-    `effect_base_points_2` = 9,
+    `effect_base_points_2` = 33,
+    `effect_real_points_per_level_2` = 7,
     `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
+    `effect_die_sides_2` = 0,
     `effect_misc_value_a_1` = 12,
-    `effect_misc_value_a_2` = 0,
+    `effect_misc_value_a_2` = 1,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_a_3` = 32768,
-    `effect_spell_class_mask_b_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases the damage dealt by your Volcanic Shield by $s2%, and its activation also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'Grants you bonus armor based on your level, and your Volcanic Shield''s activation also restores $s1% of your maximum mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Volcanic Shield damage increased by $s2% and activation restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Bonus armor, and Volcanic Shield activation restores $s1% max mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 8;
 
--- Improved Volcanic Shield R3 (900125) - +6% mana / +15% VS damage
+-- Improved Volcanic Shield R3 (900125) - mana restore + bonus armor (full ~= Stoneskin)
 DELETE FROM `spell` WHERE `id` = 900125;
 INSERT INTO `spell` SET
     `id` = 900125,
@@ -1325,25 +1327,25 @@ INSERT INTO `spell` SET
     `effect_1` = 6,
     `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
-    `effect_apply_aura_name_2` = 108,
+    `effect_apply_aura_name_2` = 22,
     `effect_base_points_1` = 5,
-    `effect_base_points_2` = 14,
+    `effect_base_points_2` = 50,
+    `effect_real_points_per_level_2` = 11,
     `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
+    `effect_die_sides_2` = 0,
     `effect_misc_value_a_1` = 12,
-    `effect_misc_value_a_2` = 0,
+    `effect_misc_value_a_2` = 1,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_a_3` = 32768,
-    `effect_spell_class_mask_b_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases the damage dealt by your Volcanic Shield by $s2%, and its activation also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'Grants you bonus armor based on your level, and your Volcanic Shield''s activation also restores $s1% of your maximum mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Volcanic Shield damage increased by $s2% and activation restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Bonus armor, and Volcanic Shield activation restores $s1% max mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
