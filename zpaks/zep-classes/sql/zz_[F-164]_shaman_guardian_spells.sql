@@ -136,13 +136,15 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900151, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
 (900152, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
 -- Improved Tectonic Blast (900198/900199) — passive proc on Tectonic Blast cast
--- SpellFamilyName=11 (Shaman), SpellFamilyMask1=32768 (Tectonic Blast bit 15)
--- DBC spell_class_mask_2 maps to SpellFamilyFlags[1] / spell_proc.SpellFamilyMask1
+-- SpellFamilyName=11 (Shaman), SpellFamilyMask2=8388608 (Tectonic Blast m3 bit 23).
+-- Moved off SpellFamilyMask1=32768 (m2 bit 15) which is stock Hex's bit — sharing
+-- it made casting Hex wrongly proc this. DBC spell_class_mask_3 maps to
+-- SpellFamilyFlags[2] / spell_proc.SpellFamilyMask2. Matches Tectonic Blast (900121).
 -- ProcFlags=256 (DONE_SPELL_RANGED_DMG_CLASS, matches TB damage_class=3)
 -- SpellPhaseMask=1 (CAST) — fires reliably even before damage hits
-(900198, 0, 11, 0, 32768, 0, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
-(900199, 0, 11, 0, 32768, 0, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
-(900205, 0, 11, 0, 32768, 0, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+(900198, 0, 11, 0, 0, 8388608, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+(900199, 0, 11, 0, 0, 8388608, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+(900205, 0, 11, 0, 0, 8388608, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
 -- Tectonic Resonance buff (900200/900201/900206) — consumed when Earth Shock is cast
 -- SpellFamilyName=11 (Shaman), SpellFamilyMask0=1048576 (Earth Shock bit 20)
 -- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)

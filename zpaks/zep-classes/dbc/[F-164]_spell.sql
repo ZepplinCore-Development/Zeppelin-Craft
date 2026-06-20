@@ -646,6 +646,7 @@ INSERT INTO `spell` SET
     `spell_tooltip_enus` = 'Armor reduced by $s1%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
+    `spell_class_mask_3` = 16777216,  -- bit 24 (unique): identity so Glyph of Crag Strike (900276) can SPELLMOD_EFFECT1 the per-stack armor reduction
     `school_mask` = 1;
 -- NOTE: a live total ("Armor reduced by 12%") would need the $w1 (AuraEffect::GetAmount)
 -- token, which is an Ascension-client parser extension — NOT in stock 3.3.5a. Would
@@ -770,6 +771,296 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `school_mask` = 1;
 
+-- ============================================================================
+-- F-164 GLYPH WAVE 1 (Major glyphs, all SPELLMOD - no scripts needed).
+-- Each pair = modifier spell (passive ADD_FLAT/PCT_MODIFIER aura that alters the
+-- target ability, filtered by the ability's family class mask) + apply spell
+-- (APPLY_GLYPH effect cast by the glyph item, misc = glyphproperties id).
+-- glyphproperties rows: [F-164]_glyphproperties.sql; items: zz_[F-164]_glyphs.sql.
+--
+--   Glyph              Item   Mod     Apply   Prop   Target  Effect
+--   Rocksurge          57491  900272  900273  90002  900263  +20% damage
+--   Tectonic Blast     57492  900274  900275  90003  900121  +20% damage
+--   Crag Strike        57493  900276  900277  90004  900262  +20% damage
+--   Volcanic Shield    57494  900278  900279  90005  900122  +20% eruption dmg
+--   Rockwall           57495  900280  900281  90006  900223  +6s duration (12->18s)
+--   Thunderborne Leap  57496  900282  900283  90007  900174  +1s stun duration
+--
+-- Damage glyphs (108 ADD_PCT_MODIFIER, op 0 SPELLMOD_DAMAGE, +20). Rockwall +6s and
+-- Thunderborne +1s stun are flat duration modifiers (107 ADD_FLAT_MODIFIER, op 1
+-- SPELLMOD_DURATION). Rocksurge is a dummy marker read by spell_sha_rocksurge (see
+-- below). Rocksurge/Tectonic/Crag/Volcanic damage glyphs unchanged.
+-- ============================================================================
+SET @glyph_dmg_pct = 20;             -- +% damage for the Tectonic/Crag/Volcanic glyphs
+SET @glyph_rockwall_dur = 6000;      -- +ms Rockwall duration (12s base -> 18s)
+SET @glyph_tbl_stun = 1000;          -- +ms Thunderborne Leap stun duration (2s -> 3s)
+SET @glyph_rocksurge_per_stack = 5;  -- +% Rocksurge damage per Rocksteady stack (SPELLMOD_EFFECT2 on 900261)
+SET @glyph_crag_armor_pct = 6;       -- Glyph of Crag Strike: Cracked Armor reduction per stack (base @cs_armor_pct_per_stack = 4 -> 6)
+
+-- 900272 Glyph of Rocksurge (modifier): SPELLMOD_EFFECT2 (op 12) flat +5 on the
+-- Rocksteady buff (900261, mask_3 bit 25). 900261's effect_2 is the SPELLMOD_DAMAGE
+-- percent that gives Rocksurge +@rsg_pct_per_stack% per stack; this raises that
+-- per-stack value by @glyph_rocksurge_per_stack (10% -> 15% per stack), and since
+-- 900261 stacks the bonus scales with stacks too. Pure data, no script.
+-- die_sides 0 -> flat value = base exactly. effect_misc_value 12 = SPELLMOD_EFFECT2
+-- (modifies 900261's DBC effect_2, i.e. effect index 1).
+DELETE FROM `spell` WHERE `id` = 900272;
+INSERT INTO `spell` SET
+    `id` = 900272,
+    `attributes` = 64,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 107,
+    `effect_misc_value_a_1` = 12,
+    `effect_base_points_1` = @glyph_rocksurge_per_stack,
+    `effect_die_sides_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 33554432,
+    `spell_icon_id` = 4975,
+    `spell_name_enus` = 'Glyph of Rocksurge',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage of your Rocksurge by an additional 5% for each stack of Rocksteady you have.',
+    `spell_desc_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- 900273 Glyph of Rocksurge (apply): glyphproperties 90002.
+DELETE FROM `spell` WHERE `id` = 900273;
+INSERT INTO `spell` SET
+    `id` = 900273,
+    `attributes` = 268435456,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 74,
+    `effect_misc_value_a_1` = 90002,
+    `effect_implicit_target_a_1` = 1,
+    `spell_icon_id` = 4975,
+    `spell_name_enus` = 'Glyph of Rocksurge',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
+
+-- 900274 Glyph of Tectonic Blast (modifier): +20% Tectonic Blast (900121, now
+-- mask_3 bit 23 after the Hex deconfliction) damage.
+DELETE FROM `spell` WHERE `id` = 900274;
+INSERT INTO `spell` SET
+    `id` = 900274,
+    `attributes` = 64,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 0,
+    `effect_base_points_1` = @glyph_dmg_pct,
+    `effect_die_sides_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 8388608,
+    `spell_icon_id` = 5366,
+    `spell_name_enus` = 'Glyph of Tectonic Blast',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage of your Tectonic Blast by 20%.',
+    `spell_desc_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- 900275 Glyph of Tectonic Blast (apply): glyphproperties 90003.
+DELETE FROM `spell` WHERE `id` = 900275;
+INSERT INTO `spell` SET
+    `id` = 900275,
+    `attributes` = 268435456,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 74,
+    `effect_misc_value_a_1` = 90003,
+    `effect_implicit_target_a_1` = 1,
+    `spell_icon_id` = 5366,
+    `spell_name_enus` = 'Glyph of Tectonic Blast',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
+
+-- 900276 Glyph of Crag Strike (modifier): TWO effects.
+--   effect_1: +20% Crag Strike (900262, mask_3 bit 19) direct weapon damage.
+--   effect_2: SPELLMOD_EFFECT1 (op 3) flat on Cracked Armor (900264, mask_3 bit 24),
+--     lowering its effect_1 value by (@glyph_crag_armor_pct - @cs_armor_pct_per_stack)
+--     so the per-stack armor reduction goes 4% -> 6%. Cracked Armor's value is
+--     -(pct) (die_sides=1, base -(pct+1)); subtracting 2 makes -4 -> -6 = 6%/stack.
+DELETE FROM `spell` WHERE `id` = 900276;
+INSERT INTO `spell` SET
+    `id` = 900276,
+    `attributes` = 64,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 0,
+    `effect_base_points_1` = @glyph_dmg_pct,
+    `effect_die_sides_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 524288,
+    `effect_2` = 6,
+    `effect_apply_aura_name_2` = 107,
+    `effect_misc_value_a_2` = 3,
+    `effect_base_points_2` = -(@glyph_crag_armor_pct - @cs_armor_pct_per_stack),
+    `effect_die_sides_2` = 0,
+    `effect_implicit_target_a_2` = 1,
+    `effect_spell_class_mask_b_3` = 16777216,
+    `spell_icon_id` = 4609,
+    `spell_name_enus` = 'Glyph of Crag Strike',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage of your Crag Strike by 20% and its Cracked Armor reduces armor by an additional 2% per stack.',
+    `spell_desc_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- 900277 Glyph of Crag Strike (apply): glyphproperties 90004.
+DELETE FROM `spell` WHERE `id` = 900277;
+INSERT INTO `spell` SET
+    `id` = 900277,
+    `attributes` = 268435456,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 74,
+    `effect_misc_value_a_1` = 90004,
+    `effect_implicit_target_a_1` = 1,
+    `spell_icon_id` = 4609,
+    `spell_name_enus` = 'Glyph of Crag Strike',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
+
+-- 900278 Glyph of Volcanic Shield (modifier): +20% eruption damage. Targets the
+-- triggered eruption spell 900122 (mask_3 bit 15), NOT the shield buff 900116 -
+-- the eruption is where the damage lives.
+DELETE FROM `spell` WHERE `id` = 900278;
+INSERT INTO `spell` SET
+    `id` = 900278,
+    `attributes` = 64,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 0,
+    `effect_base_points_1` = @glyph_dmg_pct,
+    `effect_die_sides_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 32768,
+    `spell_icon_id` = 4610,
+    `spell_name_enus` = 'Glyph of Volcanic Shield',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the eruption damage of your Volcanic Shield by 20%.',
+    `spell_desc_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- 900279 Glyph of Volcanic Shield (apply): glyphproperties 90005.
+DELETE FROM `spell` WHERE `id` = 900279;
+INSERT INTO `spell` SET
+    `id` = 900279,
+    `attributes` = 268435456,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 74,
+    `effect_misc_value_a_1` = 90005,
+    `effect_implicit_target_a_1` = 1,
+    `spell_icon_id` = 4610,
+    `spell_name_enus` = 'Glyph of Volcanic Shield',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
+
+-- 900280 Glyph of Rockwall (modifier): +6 sec Rockwall (900223, mask_3 bit 21)
+-- duration (12s base -> 18s). Flat duration modifier in ms.
+DELETE FROM `spell` WHERE `id` = 900280;
+INSERT INTO `spell` SET
+    `id` = 900280,
+    `attributes` = 64,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 107,
+    `effect_misc_value_a_1` = 1,
+    `effect_base_points_1` = @glyph_rockwall_dur,
+    `effect_die_sides_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 2097152,
+    `spell_icon_id` = 5469,
+    `spell_name_enus` = 'Glyph of Rockwall',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the duration of your Rockwall by 6 sec.',
+    `spell_desc_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- 900281 Glyph of Rockwall (apply): glyphproperties 90006.
+DELETE FROM `spell` WHERE `id` = 900281;
+INSERT INTO `spell` SET
+    `id` = 900281,
+    `attributes` = 268435456,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 74,
+    `effect_misc_value_a_1` = 90006,
+    `effect_implicit_target_a_1` = 1,
+    `spell_icon_id` = 5469,
+    `spell_name_enus` = 'Glyph of Rockwall',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
+
+-- 900282 Glyph of Thunderborne Leap (modifier): +1 sec stun duration. Targets the
+-- triggered landing stun 900174 (mask_3 bit 22), NOT the leap 900173 - the stun is
+-- where the duration lives. Flat duration modifier in ms (2s -> 3s).
+DELETE FROM `spell` WHERE `id` = 900282;
+INSERT INTO `spell` SET
+    `id` = 900282,
+    `attributes` = 64,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 107,
+    `effect_misc_value_a_1` = 1,
+    `effect_base_points_1` = @glyph_tbl_stun,
+    `effect_die_sides_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 4194304,
+    `spell_icon_id` = 5364,
+    `spell_name_enus` = 'Glyph of Thunderborne Leap',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the stun duration of your Thunderborne Leap by 1 sec.',
+    `spell_desc_flags` = 16712190,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- 900283 Glyph of Thunderborne Leap (apply): glyphproperties 90007.
+DELETE FROM `spell` WHERE `id` = 900283;
+INSERT INTO `spell` SET
+    `id` = 900283,
+    `attributes` = 268435456,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 74,
+    `effect_misc_value_a_1` = 90007,
+    `effect_implicit_target_a_1` = 1,
+    `spell_icon_id` = 5364,
+    `spell_name_enus` = 'Glyph of Thunderborne Leap',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
+
 -- ----------------------------------------------------------------------------
 -- Rockslam Block Buff (900120) - cloned from Shield Block
 -- ----------------------------------------------------------------------------
@@ -825,7 +1116,12 @@ INSERT INTO `spell` SET
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
     `spell_class_set` = 11,
-    `spell_class_mask_2` = 32768,
+    -- Identity moved off m2 bit 15 (32768) -> m3 bit 23 (8388608) to deconflict
+    -- with stock Hex (51514), which owns m2 bit 15. Sharing it wrongly exposed
+    -- Tectonic Blast to Hex's modifiers (Nature's Swiftness, Maelstrom Weapon,
+    -- Glyph of Hex). m3 bit 23 is unique. Imp Tectonic proc (spell_proc) and the
+    -- Glyph of Tectonic Blast modifier (900274) updated to match.
+    `spell_class_mask_3` = 8388608,
     `damage_class` = 3,
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
@@ -2657,6 +2953,7 @@ INSERT INTO `spell` SET
     `spell_tooltip_enus` = 'Stunned.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
+    `spell_class_mask_3` = 4194304,  -- bit 22 (unique): identity for Glyph of Thunderborne Leap (900283), targets this stun's duration
     `damage_class` = 2,
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
@@ -2863,7 +3160,8 @@ INSERT INTO `spell` SET
 -- (Rockslam Block Buff R1 900180 removed — deprecated, superseded by Rocksteady 900261.)
 
 -- ============================================================================
--- Improved Rockslam R1 (900181) — +15% damage, procs Rocksteady (900261)
+-- Improved Rockslam R1 (900181) — +25% damage, procs Rocksteady (900261)
+-- die_sides_1 = 1 so displayed/applied value = base+1 -> base 24 = +25%.
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900181;
 
@@ -2879,7 +3177,7 @@ INSERT INTO `spell` SET
     `effect_1` = 6,
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 14,
+    `effect_base_points_1` = 24,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 108,
@@ -2901,7 +3199,8 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ============================================================================
--- Improved Rockslam R2 (900182) — +30% damage, procs Rocksteady (900261)
+-- Improved Rockslam R2 (900182) — +50% damage, procs Rocksteady (900261)
+-- die_sides_1 = 1 so displayed/applied value = base+1 -> base 49 = +50%.
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900182;
 
@@ -2917,7 +3216,7 @@ INSERT INTO `spell` SET
     `effect_1` = 6,
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 29,
+    `effect_base_points_1` = 49,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 108,
@@ -3542,7 +3841,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock and reducing its mana cost by 10%.',
+    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock by 15% and reducing its mana cost by 15%.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 10%.',
     `spell_tooltip_flags` = 16712190,
@@ -3572,7 +3871,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock and reducing its mana cost by 20%.',
+    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock by 30% and reducing its mana cost by 30%.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 20%.',
     `spell_tooltip_flags` = 16712190,
@@ -3602,7 +3901,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock and reducing its mana cost by 30%.',
+    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock by 45% and reducing its mana cost by 45%.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 30%.',
     `spell_tooltip_flags` = 16712190,
@@ -3618,7 +3917,7 @@ INSERT INTO `spell` SET
 -- Consumed when Earth Shock is cast (proc_charges=1, AttributesMask=8 in spell_proc).
 -- ============================================================================
 
--- Tectonic Resonance R1 (900200) - +10% Earth Shock damage, 8 sec
+-- Tectonic Resonance R1 (900200) - +15% Earth Shock damage / -15% mana, 8 sec
 DELETE FROM `spell` WHERE `id` = 900200;
 
 INSERT INTO `spell` SET
@@ -3632,14 +3931,14 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 9,
+    `effect_base_points_1` = 14,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 108,
     `effect_misc_value_a_1` = 0,
     `effect_spell_class_mask_a_1` = 1048576,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
-    `effect_base_points_2` = -11,
+    `effect_base_points_2` = -16,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 14,
@@ -3656,49 +3955,11 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 8;
 
--- Tectonic Resonance R2 (900201) - +20% Earth Shock damage, 8 sec
+-- Tectonic Resonance R2 (900201) - +30% Earth Shock damage / -30% mana, 8 sec
 DELETE FROM `spell` WHERE `id` = 900201;
 
 INSERT INTO `spell` SET
     `id` = 900201,
-    `attributes_ex_4` = 32768,
-    `cast_time_index` = 1,
-    `proc_charges` = 1,
-    `proc_chance` = 100,
-    `duration_index` = 31,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 19,
-    `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 108,
-    `effect_misc_value_a_1` = 0,
-    `effect_spell_class_mask_a_1` = 1048576,
-    `effect_2` = 6,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_2` = -21,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_2` = 108,
-    `effect_misc_value_a_2` = 14,
-    `effect_spell_class_mask_b_1` = 1048576,
-    `effect_damage_multiplier_2` = 1.0,
-    `spell_icon_id` = 4635,
-    `spell_name_enus` = 'Tectonic Resonance',
-    `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
-    `spell_tooltip_flags` = 16712190,
-    `spell_class_set` = 11,
-    `effect_damage_multiplier_1` = 1.0,
-    `school_mask` = 8;
-
--- Tectonic Resonance R3 (900206) - +30% Earth Shock damage, -30% ES mana cost, 8 sec
-DELETE FROM `spell` WHERE `id` = 900206;
-
-INSERT INTO `spell` SET
-    `id` = 900206,
     `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
     `proc_charges` = 1,
@@ -3716,6 +3977,44 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
     `effect_base_points_2` = -31,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_2` = 14,
+    `effect_spell_class_mask_b_1` = 1048576,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_icon_id` = 4635,
+    `spell_name_enus` = 'Tectonic Resonance',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Your next Earth Shock deals $s1% additional damage and costs $s1% less mana.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- Tectonic Resonance R3 (900206) - +45% Earth Shock damage / -45% mana, 8 sec
+DELETE FROM `spell` WHERE `id` = 900206;
+
+INSERT INTO `spell` SET
+    `id` = 900206,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_charges` = 1,
+    `proc_chance` = 100,
+    `duration_index` = 31,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 44,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 0,
+    `effect_spell_class_mask_a_1` = 1048576,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -46,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 14,
@@ -4273,7 +4572,11 @@ UPDATE `spell` SET
     `effect_base_points_2` = 4,
     `effect_die_sides_2` = 1,
     `effect_implicit_target_a_2` = 1,
-    `effect_spell_class_mask_b_1` = 1073741824,
+    -- Effect 2 is the SPELLMOD_EFFECT2 speed mod; its class mask must target
+    -- Ghost Wolf (bit 30) on effect 2's slot a, NOT effect 1's slot b — the
+    -- latter (word 2 of effect 1) matches nothing, so the +5% never applied.
+    `effect_spell_class_mask_a_2` = 1073741824,
+    `effect_spell_class_mask_b_1` = 0,
     -- 0.5 hardcoded: client $/1000;s1 integer-divides, so 500/1000 displays as 0
     `spell_desc_enus` = 'Reduces the cast time of your Ghost Wolf spell by 0.5 sec and increases its movement speed bonus by an additional $s2%.'
 WHERE `id` = 16262;
@@ -4290,7 +4593,10 @@ UPDATE `spell` SET
     `effect_misc_value_a_2` = 12,
     `effect_base_points_2` = 9,
     `effect_spell_class_mask_a_1` = 1073741824,
-    `effect_spell_class_mask_b_1` = 1073741824,
+    -- Effect 2 (SPELLMOD_EFFECT2 speed mod) must mask Ghost Wolf on slot a_2;
+    -- the previous b_1 mask was word 2 of effect 1 and matched nothing.
+    `effect_spell_class_mask_a_2` = 1073741824,
+    `effect_spell_class_mask_b_1` = 0,
     `spell_desc_enus` = 'Reduces the cast time of your Ghost Wolf spell by $/1000;s1 sec and increases its movement speed bonus by an additional $s2%.'
 WHERE `id` = 16287;
 
@@ -4451,7 +4757,7 @@ INSERT INTO `spell` SET
     `cast_time_index` = 1,
     `recovery_time` = 90000,
     `category_recovery_time` = 90000,
-    `duration_index` = 1,
+    `duration_index` = 29,          -- 12000ms (12s base; Glyph of Rockwall extends to 18s)
     `range_index` = 1,
     `equipped_item_class` = 4,
     `equipped_item_subclass_mask` = 64,
@@ -4469,11 +4775,12 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5469,
     `spell_name_enus` = 'Rockwall',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by 30% for 10 sec and instantly granting 5 stacks of Rocksteady.',
+    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by 30% for 12 sec and instantly granting 5 stacks of Rocksteady.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces damage taken by 30% for 10 sec and grants 5 stacks of Rocksteady.',
+    `spell_tooltip_enus` = 'Reduces damage taken by 30% for 12 sec and grants 5 stacks of Rocksteady.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
+    `spell_class_mask_3` = 2097152,  -- bit 21 (unique): identity for Glyph of Rockwall (900281)
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1;
@@ -4523,6 +4830,7 @@ INSERT INTO `spell` SET
     `spell_tooltip_enus` = 'Block chance increased by $s1%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
+    `spell_class_mask_3` = 33554432,  -- bit 25 (unique): identity so Glyph of Rocksurge (900272) can SPELLMOD_EFFECT2 the per-stack Rocksurge damage
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
