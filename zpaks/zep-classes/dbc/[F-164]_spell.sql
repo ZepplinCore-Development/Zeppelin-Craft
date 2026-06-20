@@ -1064,29 +1064,39 @@ INSERT INTO `spell` SET
 -- ============================================================================
 -- F-164 GLYPH RECIPES (Inscription craft spells). Clone of stock glyph recipe
 -- 57248 (Glyph of Stormstrike): effect 24 (CREATE_ITEM) makes the glyph item,
--- reagent = 1x Ink of the Sea (43126), icon 2557. Named after the glyph (stock
--- convention). Learned from Inscription trainers (npc_trainer template 201023 -
--- see zz_[F-164]_glyph_recipes_trainer.sql) and listed under Inscription via
+-- icon 2557, named after the glyph (stock convention). Learned from Inscription
+-- trainers (npc_trainer template 201021 - the universal leveling/city list - see
+-- zz_[F-164]_glyph_recipes_trainer.sql); listed under Inscription via
 -- skilllineability skill 773 (see [F-164]_skilllineability.sql).
 --
---   Recipe  Creates item  Glyph
---   900290  57490         Glyph of Rockslam
---   900291  57491         Glyph of Rocksurge
---   900292  57492         Glyph of Tectonic Blast
---   900293  57493         Glyph of Crag Strike
---   900294  57494         Glyph of Volcanic Shield
---   900295  57495         Glyph of Rockwall
---   900296  57496         Glyph of Thunderborne Leap
+-- REAGENT/SKILL TIERED to the glyphed ability's level (like stock glyphs), so a
+-- leveling Earthwarden can craft them when the spell becomes relevant:
+--   Tier  Ability lvl  Ink reagent            Inscription gate
+--   T1    20           Midnight Ink (39774)   55
+--   T2    30/talent    Lion's Ink   (43116)   100
+--   T3    40           Celestial Ink(43120)   150
+--
+--   Recipe  Creates item  Glyph                       Tier  Ink
+--   900290  57490         Glyph of Rockslam           T1    39774
+--   900291  57491         Glyph of Rocksurge          T1    39774
+--   900293  57493         Glyph of Crag Strike        T1    39774
+--   900294  57494         Glyph of Volcanic Shield    T2    43116
+--   900295  57495         Glyph of Rockwall           T2    43116
+--   900292  57492         Glyph of Tectonic Blast     T3    43120
+--   900296  57496         Glyph of Thunderborne Leap  T3    43120
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` IN (900290, 900291, 900292, 900293, 900294, 900295, 900296);
 
-INSERT INTO `spell` SET `id` = 900290, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57490, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43126, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rockslam', `spell_name_flags` = 16712190, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900291, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57491, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43126, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rocksurge', `spell_name_flags` = 16712190, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900292, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57492, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43126, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Tectonic Blast', `spell_name_flags` = 16712190, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900293, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57493, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43126, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Crag Strike', `spell_name_flags` = 16712190, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900294, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57494, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43126, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Volcanic Shield', `spell_name_flags` = 16712190, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900295, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57495, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43126, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rockwall', `spell_name_flags` = 16712190, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900296, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57496, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43126, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Thunderborne Leap', `spell_name_flags` = 16712190, `school_mask` = 1;
+-- T1 (L20, Midnight Ink 39774)
+INSERT INTO `spell` SET `id` = 900290, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57490, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 39774, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rockslam', `spell_name_flags` = 16712190, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900291, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57491, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 39774, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rocksurge', `spell_name_flags` = 16712190, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900293, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57493, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 39774, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Crag Strike', `spell_name_flags` = 16712190, `school_mask` = 1;
+-- T2 (L30/talent, Lion's Ink 43116)
+INSERT INTO `spell` SET `id` = 900294, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57494, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43116, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Volcanic Shield', `spell_name_flags` = 16712190, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900295, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57495, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43116, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rockwall', `spell_name_flags` = 16712190, `school_mask` = 1;
+-- T3 (L40, Celestial Ink 43120)
+INSERT INTO `spell` SET `id` = 900292, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57492, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43120, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Tectonic Blast', `spell_name_flags` = 16712190, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900296, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57496, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43120, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Thunderborne Leap', `spell_name_flags` = 16712190, `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
 -- Rockslam Block Buff (900120) - cloned from Shield Block
