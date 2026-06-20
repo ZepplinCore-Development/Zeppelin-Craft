@@ -74,6 +74,12 @@ $swiftflightspeed=${$40121m2+$<crop>}');
 --   $gw1         = Ghost Wolf Speed PvP set bonus (22801, +15%)
 --   $gw2         = Ghost Wolf Speed buff (47017, +11%)
 --   $igw1/$igw2  = Improved Ghost Wolf talent speed bonus (16262 +5% / 16287 +10%, F-164)
+--                  Checked with $?s (KNOWS spell), NOT $?a (has aura): IGW is a
+--                  PASSIVE talent (attr 0x40), so its aura is never sent to the
+--                  client and $?a would always be false. The crop/$gw set bonuses
+--                  are non-passive equip auras, so they correctly use $?a.
+--                  AC unlearns the lower rank on training the next, so only one
+--                  rank is ever known — the independent add can't double-count.
 --   $igw         = Combined IGW bonus (only one rank active at a time)
 --   $wolfspeed   = Ghost Wolf speed for tooltip (capped base + crop + set bonuses + IGW)
 --   $wolfspeed2  = Ghost Wolf speed for description (capped base + crop + set bonuses + IGW)
@@ -90,8 +96,8 @@ $c6=$?a100015[${$100015m1}][${0}]
 $crop=${$<c1>+$<c2>+$<c3>+$<c4>+$<c5>+$<c6>}
 $gw1=$?a22801[${$22801m1}][${0}]
 $gw2=$?a47017[${$47017m1}][${0}]
-$igw1=$?a16262[${$16262m2}][${0}]
-$igw2=$?a16287[${$16287m2}][${0}]
+$igw1=$?s16262[${$16262m2}][${0}]
+$igw2=$?s16287[${$16287m2}][${0}]
 $igw=${$<igw1>+$<igw2>}
 $wolfspeed=${20+($lvc-20)*2+$<crop>+$<gw1>+$<gw2>+$<igw>}
 $wolfspeed2=${20+($lvc-20)*2+$<crop>+$<gw1>+$<gw2>+$<igw>}');
