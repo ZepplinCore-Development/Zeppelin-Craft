@@ -108,8 +108,10 @@ body {
   grid-template-columns: repeat(var(--cols), var(--cell));
   grid-auto-rows: var(--cell);
   gap: var(--gap);
+  position: relative;
+  z-index: 2;            /* talents sit above the arrow layer */
 }
-.arrows { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.arrows { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 
 .cell { position: relative; }
 .talent {
