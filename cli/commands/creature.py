@@ -176,6 +176,50 @@ def creature_heroic(ctx, output, seed, quiet):
         raise click.ClickException(f"Failed: {e}")
 
 
+@creature.command('immunity')
+@click.option('--output', '-o', type=click.Path(), default=None,
+              help='Output SQL file path (default: zpaks/zep-creatures/sql/...)')
+@click.option('--target', '-t', type=float, default=None,
+              help='Target damage mitigation (0.30-0.40, default 0.35)')
+@click.option('--quiet', '-q', is_flag=True, help='Suppress per-creature output')
+@click.pass_context
+def creature_immunity(ctx, output, target, quiet):
+    """Convert creature spell-school immunities to level-scaled resistances (F-187).
+
+    Only pure-school immunity sets (no crowd-control mechanics) are converted;
+    boss-style school+CC sets are left untouched. Each converted creature loses
+    its immunity and gains a creature_template_resistance row sized so a
+    level-appropriate attacker is mitigated by the target percentage.
+    """
+    craft_root = ctx.obj['craft_root']
+
+    from lib.creature.immunity import OUTPUT_FILENAME, DEFAULT_TARGET, run
+    if output is None:
+        output_path = craft_root / 'zpaks' / 'zep-creatures' / 'sql' / OUTPUT_FILENAME
+    else:
+        output_path = Path(output)
+    if target is None:
+        target = DEFAULT_TARGET
+
+    click.echo("Spell School Immunity Balancing (F-187)")
+    click.echo(f"Output: {output_path}")
+    click.echo(f"Target mitigation: {int(target * 100)}%")
+    click.echo()
+
+    try:
+        converted, resist_rows = run(
+            output_path=output_path,
+            target=target,
+            verbose=not quiet,
+        )
+        click.echo()
+        click.echo(f"Converted: {converted} creatures")
+        click.echo(f"Resistance rows: {resist_rows}")
+        click.echo(click.style(f"Output written: {output_path}", fg='green'))
+    except Exception as e:
+        raise click.ClickException(f"Failed: {e}")
+
+
 @creature.command('all')
 @click.option('--seed', '-s', type=int, default=None,
               help='Random seed for reproducible output')
@@ -187,3 +231,5 @@ def creature_all(ctx, seed):
     ctx.invoke(creature_elite, output=None, seed=seed, quiet=False)
     click.echo()
     ctx.invoke(creature_heroic, output=None, seed=seed, quiet=False)
+    click.echo()
+    ctx.invoke(creature_immunity, output=None, target=None, quiet=False)

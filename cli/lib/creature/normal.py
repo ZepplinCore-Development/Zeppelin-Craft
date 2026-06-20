@@ -16,7 +16,10 @@ from .common import DATA_DIR, get_db_connection, seed_random, write_sql_file
 
 OUTPUT_FILENAME = "zz_[AUTO,F-080]_de-L33TER.sql"
 
-COLUMNS = ["name", "DamageModifier", "HealthModifier", "Rank", "spell_school_immune_mask"]
+# NOTE: spell_school_immune_mask was removed from the schema; immunities now live
+# in creature_template.CreatureImmunitiesId -> creature_immunities. School-immunity
+# conversion is handled by lib/creature/immunity.py (F-187), not here.
+COLUMNS = ["name", "DamageModifier", "HealthModifier", "Rank"]
 
 
 @dataclass
@@ -87,9 +90,6 @@ def generate_update(entry: int, creature: Dict, challenge: ChallengeType) -> Lis
         "HealthModifier": round(random.uniform(challenge.health_min, challenge.health_max), 2),
         "Rank": challenge.rank,
     }
-
-    if creature.get("spell_school_immune_mask", 0) != 0:
-        modified["spell_school_immune_mask"] = 0
 
     update_fields = []
     for col, value in modified.items():
