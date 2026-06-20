@@ -7,19 +7,25 @@
 -- glyphs are learnable at every Inscription trainer once the scribe has the skill.
 -- (Template 201023 is Northrend-master-only, skill 350-440 — wrong for these.)
 --
--- TIERED to the glyphed ability's level (matches the recipe ink + SLA min_skill):
---   T1 (L20):  ReqSkillRank 55,  MoneyCost 2000  (20s) -> Rockslam/Rocksurge/Crag Strike
---   T2 (L30):  ReqSkillRank 100, MoneyCost 5000  (50s) -> Volcanic Shield/Rockwall
---   T3 (L40):  ReqSkillRank 150, MoneyCost 10000 (1g)  -> Tectonic Blast/Thunderborne Leap
+-- ReqSkillRank gated to each ability's ACTUAL acquisition level (talent tier /
+-- baseline, NOT spell base_level) and the recipe ink's make-skill:
+--   Glyph              Ability lvl  Ink            ReqSkillRank  Cost
+--   Rockslam           ~19 baseline Midnight 39774  80           10s
+--   Crag Strike        19  tier 2   Midnight 39774  80           10s
+--   Rocksurge          24  baseline Lion's   43116 115           25s
+--   Rockwall           29  tier 4   Lion's   43116 115           25s
+--   Volcanic Shield    34  tier 5   Lion's   43116 130           50s
+--   Tectonic Blast     39  tier 6   Lion's   43116 145           50s
+--   Thunderborne Leap  59  tier 10  Celestial 43120 215          1g
 --
--- Idempotent + migrates off the earlier (uniform 201023/350) wiring: DELETE our
--- recipe spells from ANY template, then re-INSERT on 201021.
+-- Idempotent + migrates off any earlier wiring: DELETE our recipe spells from ANY
+-- template, then re-INSERT on 201021.
 DELETE FROM `npc_trainer` WHERE `SpellID` IN (900290, 900291, 900292, 900293, 900294, 900295, 900296);
 INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
-(201021, 900290, 2000,  773,  55, 0, 0),  -- Glyph of Rockslam (T1)
-(201021, 900291, 2000,  773,  55, 0, 0),  -- Glyph of Rocksurge (T1)
-(201021, 900293, 2000,  773,  55, 0, 0),  -- Glyph of Crag Strike (T1)
-(201021, 900294, 5000,  773, 100, 0, 0),  -- Glyph of Volcanic Shield (T2)
-(201021, 900295, 5000,  773, 100, 0, 0),  -- Glyph of Rockwall (T2)
-(201021, 900292, 10000, 773, 150, 0, 0),  -- Glyph of Tectonic Blast (T3)
-(201021, 900296, 10000, 773, 150, 0, 0);  -- Glyph of Thunderborne Leap (T3)
+(201021, 900290, 1000,  773,  80, 0, 0),  -- Glyph of Rockslam (~L19)
+(201021, 900293, 1000,  773,  80, 0, 0),  -- Glyph of Crag Strike (L19)
+(201021, 900291, 2500,  773, 115, 0, 0),  -- Glyph of Rocksurge (L24)
+(201021, 900295, 2500,  773, 115, 0, 0),  -- Glyph of Rockwall (L29)
+(201021, 900294, 5000,  773, 130, 0, 0),  -- Glyph of Volcanic Shield (L34)
+(201021, 900292, 5000,  773, 145, 0, 0),  -- Glyph of Tectonic Blast (L39)
+(201021, 900296, 10000, 773, 215, 0, 0);  -- Glyph of Thunderborne Leap (L59)

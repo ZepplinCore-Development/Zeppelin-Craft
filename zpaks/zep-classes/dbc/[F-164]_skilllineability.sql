@@ -139,16 +139,15 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200099, 9001, 900263, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- F-164 Glyph recipes — Inscription (773). Any scribe (required_classes 0), trainer-learned
--- (acquire_method 0). Tiered to the glyphed ability's level (matches recipe ink + trainer gate):
---   T1 (L20):  min_skill 55,  yellow 55  / grey 95   -> Rockslam/Rocksurge/Crag Strike
---   T2 (L30):  min_skill 100, yellow 100 / grey 140  -> Volcanic Shield/Rockwall
---   T3 (L40):  min_skill 150, yellow 150 / grey 190  -> Tectonic Blast/Thunderborne Leap
+-- (acquire_method 0). Gated to each ability's ACTUAL acquisition level (talent tier / baseline)
+-- and the ink's make-skill (Midnight ~80, Lion's ~115, Celestial ~215). min_skill = gate,
+-- yellow = gate, grey = gate + 40.
 DELETE FROM `skilllineability` WHERE `id` IN (200110, 200111, 200112, 200113, 200114, 200115, 200116);
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200110, 773, 900290, 0, 0, 0, 0,  55, 0, 0,  95,  55, 0, 0),  -- Rockslam (T1)
-(200111, 773, 900291, 0, 0, 0, 0,  55, 0, 0,  95,  55, 0, 0),  -- Rocksurge (T1)
-(200113, 773, 900293, 0, 0, 0, 0,  55, 0, 0,  95,  55, 0, 0),  -- Crag Strike (T1)
-(200114, 773, 900294, 0, 0, 0, 0, 100, 0, 0, 140, 100, 0, 0),  -- Volcanic Shield (T2)
-(200115, 773, 900295, 0, 0, 0, 0, 100, 0, 0, 140, 100, 0, 0),  -- Rockwall (T2)
-(200112, 773, 900292, 0, 0, 0, 0, 150, 0, 0, 190, 150, 0, 0),  -- Tectonic Blast (T3)
-(200116, 773, 900296, 0, 0, 0, 0, 150, 0, 0, 190, 150, 0, 0);  -- Thunderborne Leap (T3)
+(200110, 773, 900290, 0, 0, 0, 0,  80, 0, 0, 120,  80, 0, 0),  -- Rockslam (~L19, Midnight)
+(200113, 773, 900293, 0, 0, 0, 0,  80, 0, 0, 120,  80, 0, 0),  -- Crag Strike (L19, Midnight)
+(200111, 773, 900291, 0, 0, 0, 0, 115, 0, 0, 155, 115, 0, 0),  -- Rocksurge (L24, Lion's)
+(200115, 773, 900295, 0, 0, 0, 0, 115, 0, 0, 155, 115, 0, 0),  -- Rockwall (L29, Lion's)
+(200114, 773, 900294, 0, 0, 0, 0, 130, 0, 0, 170, 130, 0, 0),  -- Volcanic Shield (L34, Lion's)
+(200112, 773, 900292, 0, 0, 0, 0, 145, 0, 0, 185, 145, 0, 0),  -- Tectonic Blast (L39, Lion's)
+(200116, 773, 900296, 0, 0, 0, 0, 215, 0, 0, 255, 215, 0, 0);  -- Thunderborne Leap (L59, Celestial)

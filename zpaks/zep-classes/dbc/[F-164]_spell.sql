@@ -1069,33 +1069,32 @@ INSERT INTO `spell` SET
 -- zz_[F-164]_glyph_recipes_trainer.sql); listed under Inscription via
 -- skilllineability skill 773 (see [F-164]_skilllineability.sql).
 --
--- REAGENT/SKILL TIERED to the glyphed ability's level (like stock glyphs), so a
--- leveling Earthwarden can craft them when the spell becomes relevant:
---   Tier  Ability lvl  Ink reagent            Inscription gate
---   T1    20           Midnight Ink (39774)   55
---   T2    30/talent    Lion's Ink   (43116)   100
---   T3    40           Celestial Ink(43120)   150
---
---   Recipe  Creates item  Glyph                       Tier  Ink
---   900290  57490         Glyph of Rockslam           T1    39774
---   900291  57491         Glyph of Rocksurge          T1    39774
---   900293  57493         Glyph of Crag Strike        T1    39774
---   900294  57494         Glyph of Volcanic Shield    T2    43116
---   900295  57495         Glyph of Rockwall           T2    43116
---   900292  57492         Glyph of Tectonic Blast     T3    43120
---   900296  57496         Glyph of Thunderborne Leap  T3    43120
+-- REAGENT/SKILL TIERED to the glyphed ability's ACTUAL acquisition level (talent
+-- tier or trainer/baseline, NOT spell base_level), with ink gated to a skill a
+-- leveling scribe could actually reach (char level x5 >= ink make-skill). Ink
+-- make-skills measured from stock glyph recipes: Midnight ~80, Lion's ~115,
+-- Celestial ~215.
+--   Recipe  Item   Glyph                      Real lvl  Source          Ink             Gate
+--   900290  57490  Glyph of Rockslam          ~19       baseline        Midnight 39774   80
+--   900293  57493  Glyph of Crag Strike       19        talent tier 2   Midnight 39774   80
+--   900291  57491  Glyph of Rocksurge         24        baseline        Lion's   43116  115
+--   900295  57495  Glyph of Rockwall          29        talent tier 4   Lion's   43116  115
+--   900294  57494  Glyph of Volcanic Shield   34        talent tier 5   Lion's   43116  130
+--   900292  57492  Glyph of Tectonic Blast    39        talent tier 6   Lion's   43116  145
+--   900296  57496  Glyph of Thunderborne Leap 59        talent tier 10  Celestial 43120 215
+-- (Tectonic stays Lion's: a L39 char maxes ~195 Inscription, below Celestial's ~215.)
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` IN (900290, 900291, 900292, 900293, 900294, 900295, 900296);
 
--- T1 (L20, Midnight Ink 39774)
+-- Midnight Ink (39774) - Rockslam (~L19), Crag Strike (L19)
 INSERT INTO `spell` SET `id` = 900290, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57490, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 39774, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rockslam', `spell_name_flags` = 16712190, `school_mask` = 1;
-INSERT INTO `spell` SET `id` = 900291, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57491, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 39774, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rocksurge', `spell_name_flags` = 16712190, `school_mask` = 1;
 INSERT INTO `spell` SET `id` = 900293, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57493, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 39774, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Crag Strike', `spell_name_flags` = 16712190, `school_mask` = 1;
--- T2 (L30/talent, Lion's Ink 43116)
-INSERT INTO `spell` SET `id` = 900294, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57494, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43116, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Volcanic Shield', `spell_name_flags` = 16712190, `school_mask` = 1;
+-- Lion's Ink (43116) - Rocksurge (L24), Rockwall (L29), Volcanic Shield (L34), Tectonic Blast (L39)
+INSERT INTO `spell` SET `id` = 900291, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57491, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43116, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rocksurge', `spell_name_flags` = 16712190, `school_mask` = 1;
 INSERT INTO `spell` SET `id` = 900295, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57495, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43116, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Rockwall', `spell_name_flags` = 16712190, `school_mask` = 1;
--- T3 (L40, Celestial Ink 43120)
-INSERT INTO `spell` SET `id` = 900292, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57492, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43120, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Tectonic Blast', `spell_name_flags` = 16712190, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900294, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57494, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43116, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Volcanic Shield', `spell_name_flags` = 16712190, `school_mask` = 1;
+INSERT INTO `spell` SET `id` = 900292, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57492, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43116, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Tectonic Blast', `spell_name_flags` = 16712190, `school_mask` = 1;
+-- Celestial Ink (43120) - Thunderborne Leap (L59, talent tier 10)
 INSERT INTO `spell` SET `id` = 900296, `attributes` = 65568, `cast_time_index` = 14, `equipped_item_class` = -1, `effect_1` = 24, `effect_item_type_1` = 57496, `effect_die_sides_1` = 1, `effect_base_points_1` = 0, `effect_implicit_target_a_1` = 1, `reagent_1` = 43120, `reagent_count_1` = 1, `spell_icon_id` = 2557, `spell_name_enus` = 'Glyph of Thunderborne Leap', `spell_name_flags` = 16712190, `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
