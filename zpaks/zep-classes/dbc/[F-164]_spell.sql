@@ -462,9 +462,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage, scaling with Spell Power, to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][] Lasts $d.',
+    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $?s900278[$<totalg>][$<total>] Fire damage, scaling with Spell Power, to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][] Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][]',
+    `spell_tooltip_enus` = 'Deals $?s900278[$<totalg>][$<total>] Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][]',
     `spell_tooltip_flags` = 16712190,
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
@@ -706,7 +706,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rocksurge',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = CONCAT('A stone spike erupts below the current enemy target, dealing $<dmg> Physical damage, increased by ', @rsg_pct_per_stack, '% for each stack of Rocksteady you have. Scales with Attack Power.'),
+    -- $?s900272 = has Glyph of Rocksurge. Base @rsg_pct_per_stack (10); glyphed adds
+    -- @glyph_rocksurge_per_stack (5, set later in the glyph block) -> 15 per stack.
+    `spell_desc_enus` = CONCAT('A stone spike erupts below the current enemy target, dealing $<dmg> Physical damage, increased by $?s900272[', (@rsg_pct_per_stack + 5), '][', @rsg_pct_per_stack, ']% for each stack of Rocksteady you have. Scales with Attack Power.'),
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals Physical damage, increased for each Rocksteady stack.',
     `spell_tooltip_flags` = 16712190,
@@ -1236,11 +1238,18 @@ INSERT INTO `spell` SET
 -- Variable 187: Volcanic Shield tooltip damage (base + per-level + SP scaling)
 -- Uses hardcoded base instead of $m2 to avoid double-counting per-level in buff tooltip context
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 187;
+-- $total = base eruption damage; $totalg = +20% (Glyph of Volcanic Shield 900278).
+-- Each glyphed component is pre-multiplied (var refs are addition-only safe, not
+-- multiplication), then summed. Desc/tooltip pick via $?s900278[$<totalg>][$<total>].
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (187, CONCAT(
     '$base=${', (@vs_dmg_base + @vs_dmg_die), '}\n',
     '$perlevel=${($pl-', @vs_base_level, ')*', @vs_dmg_perlevel, '}\n',
     '$spbonus=${$sp*', @vs_sp_coeff, '}\n',
-    '$total=${$<base>+$<perlevel>+$<spbonus>}'));
+    '$total=${$<base>+$<perlevel>+$<spbonus>}\n',
+    '$baseg=${', (@vs_dmg_base + @vs_dmg_die), '*1.2}\n',
+    '$perlevelg=${($pl-', @vs_base_level, ')*', @vs_dmg_perlevel, '*1.2}\n',
+    '$spbonusg=${$sp*', @vs_sp_coeff, '*1.2}\n',
+    '$totalg=${$<baseg>+$<perlevelg>+$<spbonusg>}'));
 
 -- ----------------------------------------------------------------------------
 -- Improved Volcanic Shield R1 (900123)
@@ -4833,9 +4842,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5469,
     `spell_name_enus` = 'Rockwall',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by 30% for 12 sec and instantly granting 5 stacks of Rocksteady.',
+    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by 30% for $?s900280[18][12] sec and instantly granting 5 stacks of Rocksteady.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces damage taken by 30% for 12 sec and grants 5 stacks of Rocksteady.',
+    `spell_tooltip_enus` = 'Reduces damage taken by 30% and grants 5 stacks of Rocksteady.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `spell_class_mask_3` = 2097152,  -- bit 21 (unique): identity for Glyph of Rockwall (900281)
