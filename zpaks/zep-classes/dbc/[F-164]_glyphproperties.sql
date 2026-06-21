@@ -18,11 +18,15 @@
 
 -- Clean up the old out-of-range IDs (90001-90007) as well as the new ones (idempotent).
 DELETE FROM `glyphproperties` WHERE `id` IN (90001, 90002, 90003, 90004, 90005, 90006, 90007, 6001, 6002, 6003, 6004, 6005, 6006, 6007);
+-- spell_icon_id = a STANDARD glyph-rune icon (stock glyph range 3098-3129), not the
+-- ability's icon - this is the icon shown in the socketed glyph slot, and stock
+-- glyphs use these runic symbols (e.g. Glyph of Stormstrike = 3123). Distinct per
+-- glyph for visual differentiation in the glyph book.
 INSERT INTO `glyphproperties` (`id`, `spell_id`, `glyph_slot_flags`, `spell_icon_id`) VALUES
-(6001, 900270, 0, 5489),  -- Glyph of Rockslam (-1.5s Rockslam cooldown)
-(6002, 900272, 0, 4975),  -- Glyph of Rocksurge (+5% dmg per Rocksteady stack)
-(6003, 900274, 0, 5366),  -- Glyph of Tectonic Blast (+20% damage)
-(6004, 900276, 0, 4609),  -- Glyph of Crag Strike (+20% dmg + Cracked Armor 4->6%/stack)
-(6005, 900278, 0, 4610),  -- Glyph of Volcanic Shield (+20% eruption damage)
-(6006, 900280, 0, 5469),  -- Glyph of Rockwall (+6s duration, 12->18s)
-(6007, 900282, 0, 5364);  -- Glyph of Thunderborne Leap (+1s stun duration)
+(6001, 900270, 0, 3115),  -- Glyph of Rockslam (-1.5s Rockslam cooldown)
+(6002, 900272, 0, 3118),  -- Glyph of Rocksurge (+5% dmg per Rocksteady stack)
+(6003, 900274, 0, 3119),  -- Glyph of Tectonic Blast (+20% damage)
+(6004, 900276, 0, 3122),  -- Glyph of Crag Strike (+20% dmg + Cracked Armor 4->6%/stack)
+(6005, 900278, 0, 3123),  -- Glyph of Volcanic Shield (+20% eruption damage)
+(6006, 900280, 0, 3125),  -- Glyph of Rockwall (+6s duration, 12->18s)
+(6007, 900282, 0, 3126);  -- Glyph of Thunderborne Leap (+1s stun duration)
