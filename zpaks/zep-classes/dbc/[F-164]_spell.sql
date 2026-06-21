@@ -776,7 +776,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 74,
-    `effect_misc_value_a_1` = 6001,
+    `effect_misc_value_a_1` = 901,
     `effect_implicit_target_a_1` = 1,
     `spell_icon_id` = 5489,
     `spell_name_enus` = 'Glyph of Rockslam',
@@ -793,12 +793,13 @@ INSERT INTO `spell` SET
 -- glyphproperties IDs (Prop) MUST be <= 65535 (uint16 glyph protocol) - see
 -- [F-164]_glyphproperties.sql; renumbered from 9000x to 600x.
 --   Glyph              Item   Mod     Apply   Prop   Target  Effect
---   Rocksurge          57491  900272  900273  6002   900263  +5%/Rocksteady stack
---   Tectonic Blast     57492  900274  900275  6003   900121  +20% damage
---   Crag Strike        57493  900276  900277  6004   900262  +20% dmg + Cracked Armor 4->6%
---   Volcanic Shield    57494  900278  900279  6005   900122  +20% eruption dmg
---   Rockwall           57495  900280  900281  6006   900223  +6s duration (12->18s)
---   Thunderborne Leap  57496  900282  900283  6007   900174  +1s stun duration
+--   Rockslam           57490  900270  900271  901    900119  -1.5s cooldown
+--   Rocksurge          57491  900272  900273  902    900263  +5%/Rocksteady stack
+--   Tectonic Blast     57492  900274  900275  903    900121  +20% damage
+--   Crag Strike        57493  900276  900277  904    900262  +20% dmg + Cracked Armor 4->6%
+--   Volcanic Shield    57494  900278  900279  905    900122  +20% eruption dmg
+--   Rockwall           57495  900280  900281  906    900223  +6s duration (12->18s)
+--   Thunderborne Leap  57496  900282  900283  907    900174  +1s stun duration
 --
 -- Damage glyphs (108 ADD_PCT_MODIFIER, op 0 SPELLMOD_DAMAGE, +20). Rockwall +6s and
 -- Thunderborne +1s stun are flat duration modifiers (107 ADD_FLAT_MODIFIER, op 1
@@ -850,7 +851,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 74,
-    `effect_misc_value_a_1` = 6002,
+    `effect_misc_value_a_1` = 902,
     `effect_implicit_target_a_1` = 1,
     `spell_icon_id` = 4975,
     `spell_name_enus` = 'Glyph of Rocksurge',
@@ -891,7 +892,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 74,
-    `effect_misc_value_a_1` = 6003,
+    `effect_misc_value_a_1` = 903,
     `effect_implicit_target_a_1` = 1,
     `spell_icon_id` = 5366,
     `spell_name_enus` = 'Glyph of Tectonic Blast',
@@ -943,7 +944,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 74,
-    `effect_misc_value_a_1` = 6004,
+    `effect_misc_value_a_1` = 904,
     `effect_implicit_target_a_1` = 1,
     `spell_icon_id` = 4609,
     `spell_name_enus` = 'Glyph of Crag Strike',
@@ -985,7 +986,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 74,
-    `effect_misc_value_a_1` = 6005,
+    `effect_misc_value_a_1` = 905,
     `effect_implicit_target_a_1` = 1,
     `spell_icon_id` = 4610,
     `spell_name_enus` = 'Glyph of Volcanic Shield',
@@ -1026,7 +1027,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 74,
-    `effect_misc_value_a_1` = 6006,
+    `effect_misc_value_a_1` = 906,
     `effect_implicit_target_a_1` = 1,
     `spell_icon_id` = 5469,
     `spell_name_enus` = 'Glyph of Rockwall',
@@ -1068,7 +1069,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 74,
-    `effect_misc_value_a_1` = 6007,
+    `effect_misc_value_a_1` = 907,
     `effect_implicit_target_a_1` = 1,
     `spell_icon_id` = 5364,
     `spell_name_enus` = 'Glyph of Thunderborne Leap',
