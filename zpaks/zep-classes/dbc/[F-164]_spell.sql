@@ -765,23 +765,31 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `school_mask` = 1;
 
--- 900271 Glyph of Rockslam (apply): cast by the glyph item; SPELL_EFFECT_APPLY_GLYPH
--- (74) with misc = glyphproperties ID 90001. attributes 0x10000000 matches stock
--- glyph-apply spells (e.g. 55559 Glyph of Stormstrike).
+-- ============================================================================
+-- F-164 APPLY-GLYPH SPELLS (900271/3/5/7/9/81/83). FULL CLONES of stock 55559
+-- (Glyph of Stormstrike apply), swapping ONLY id / name / description / glyph
+-- target (effect_misc_value_a_1). DO NOT hand-roll these: rolling our own omitted
+-- fields the CLIENT reads - critically `targets` = 131072 = TARGET_FLAG_GLYPH_SLOT,
+-- which tells the client the spell targets a glyph slot. Without it, right-click
+-- auto-inscribe never engages slot-selection and dumps the glyph into slot 0
+-- (socketing still "worked" because the SERVER just applies to whatever index the
+-- client sends). Cloning also carries cast_time_index/interrupt_flags/proc_chance/
+-- effect_spell_class_mask/spell_visual/damage_multiplier/localized-text/etc.
+-- The apply spell's `spell_desc_enus` is what renders on the glyph ITEM tooltip
+-- (stock convention: the glyph item_template carries NO description of its own), so
+-- each apply spell holds its effect text here.
+-- ============================================================================
+-- 900271 Glyph of Rockslam (apply) -> glyphproperties 901.
 DELETE FROM `spell` WHERE `id` = 900271;
-INSERT INTO `spell` SET
+DROP TEMPORARY TABLE IF EXISTS `_glyph_apply`;
+CREATE TEMPORARY TABLE `_glyph_apply` AS SELECT * FROM `spell` WHERE `id` = 55559;
+UPDATE `_glyph_apply` SET
     `id` = 900271,
-    `attributes` = 268435456,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 74,
-    `effect_misc_value_a_1` = 901,
-    `effect_implicit_target_a_1` = 1,
-    `spell_icon_id` = 5489,
     `spell_name_enus` = 'Glyph of Rockslam',
-    `spell_name_flags` = 16712190,
-    `school_mask` = 1;
+    `spell_desc_enus` = 'Reduces the cooldown of your Rockslam by 1.5 sec.',
+    `effect_misc_value_a_1` = 901;
+INSERT INTO `spell` SELECT * FROM `_glyph_apply`;
+DROP TEMPORARY TABLE `_glyph_apply`;
 
 -- ============================================================================
 -- F-164 GLYPH WAVE 1 (Major glyphs, all SPELLMOD - no scripts needed).
@@ -842,21 +850,17 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `school_mask` = 1;
 
--- 900273 Glyph of Rocksurge (apply): glyphproperties 90002.
+-- 900273 Glyph of Rocksurge (apply) -> glyphproperties 902. Clone of stock 55559.
 DELETE FROM `spell` WHERE `id` = 900273;
-INSERT INTO `spell` SET
+DROP TEMPORARY TABLE IF EXISTS `_glyph_apply`;
+CREATE TEMPORARY TABLE `_glyph_apply` AS SELECT * FROM `spell` WHERE `id` = 55559;
+UPDATE `_glyph_apply` SET
     `id` = 900273,
-    `attributes` = 268435456,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 74,
-    `effect_misc_value_a_1` = 902,
-    `effect_implicit_target_a_1` = 1,
-    `spell_icon_id` = 4975,
     `spell_name_enus` = 'Glyph of Rocksurge',
-    `spell_name_flags` = 16712190,
-    `school_mask` = 1;
+    `spell_desc_enus` = 'Increases the damage of your Rocksurge by an additional 5% for each stack of Rocksteady you have.',
+    `effect_misc_value_a_1` = 902;
+INSERT INTO `spell` SELECT * FROM `_glyph_apply`;
+DROP TEMPORARY TABLE `_glyph_apply`;
 
 -- 900274 Glyph of Tectonic Blast (modifier): +20% Tectonic Blast (900121, now
 -- mask_3 bit 23 after the Hex deconfliction) damage.
@@ -883,21 +887,17 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `school_mask` = 1;
 
--- 900275 Glyph of Tectonic Blast (apply): glyphproperties 90003.
+-- 900275 Glyph of Tectonic Blast (apply) -> glyphproperties 903. Clone of stock 55559.
 DELETE FROM `spell` WHERE `id` = 900275;
-INSERT INTO `spell` SET
+DROP TEMPORARY TABLE IF EXISTS `_glyph_apply`;
+CREATE TEMPORARY TABLE `_glyph_apply` AS SELECT * FROM `spell` WHERE `id` = 55559;
+UPDATE `_glyph_apply` SET
     `id` = 900275,
-    `attributes` = 268435456,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 74,
-    `effect_misc_value_a_1` = 903,
-    `effect_implicit_target_a_1` = 1,
-    `spell_icon_id` = 5366,
     `spell_name_enus` = 'Glyph of Tectonic Blast',
-    `spell_name_flags` = 16712190,
-    `school_mask` = 1;
+    `spell_desc_enus` = 'Increases the damage of your Tectonic Blast by 20%.',
+    `effect_misc_value_a_1` = 903;
+INSERT INTO `spell` SELECT * FROM `_glyph_apply`;
+DROP TEMPORARY TABLE `_glyph_apply`;
 
 -- 900276 Glyph of Crag Strike (modifier): TWO effects.
 --   effect_1: +20% Crag Strike (900262, mask_3 bit 19) direct weapon damage.
@@ -935,21 +935,17 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `school_mask` = 1;
 
--- 900277 Glyph of Crag Strike (apply): glyphproperties 90004.
+-- 900277 Glyph of Crag Strike (apply) -> glyphproperties 904. Clone of stock 55559.
 DELETE FROM `spell` WHERE `id` = 900277;
-INSERT INTO `spell` SET
+DROP TEMPORARY TABLE IF EXISTS `_glyph_apply`;
+CREATE TEMPORARY TABLE `_glyph_apply` AS SELECT * FROM `spell` WHERE `id` = 55559;
+UPDATE `_glyph_apply` SET
     `id` = 900277,
-    `attributes` = 268435456,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 74,
-    `effect_misc_value_a_1` = 904,
-    `effect_implicit_target_a_1` = 1,
-    `spell_icon_id` = 4609,
     `spell_name_enus` = 'Glyph of Crag Strike',
-    `spell_name_flags` = 16712190,
-    `school_mask` = 1;
+    `spell_desc_enus` = 'Increases the damage of your Crag Strike by 20% and its Cracked Armor reduces armor by an additional 2% per stack.',
+    `effect_misc_value_a_1` = 904;
+INSERT INTO `spell` SELECT * FROM `_glyph_apply`;
+DROP TEMPORARY TABLE `_glyph_apply`;
 
 -- 900278 Glyph of Volcanic Shield (modifier): +20% eruption damage. Targets the
 -- triggered eruption spell 900122 (mask_3 bit 15), NOT the shield buff 900116 -
@@ -977,21 +973,17 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `school_mask` = 1;
 
--- 900279 Glyph of Volcanic Shield (apply): glyphproperties 90005.
+-- 900279 Glyph of Volcanic Shield (apply) -> glyphproperties 905. Clone of stock 55559.
 DELETE FROM `spell` WHERE `id` = 900279;
-INSERT INTO `spell` SET
+DROP TEMPORARY TABLE IF EXISTS `_glyph_apply`;
+CREATE TEMPORARY TABLE `_glyph_apply` AS SELECT * FROM `spell` WHERE `id` = 55559;
+UPDATE `_glyph_apply` SET
     `id` = 900279,
-    `attributes` = 268435456,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 74,
-    `effect_misc_value_a_1` = 905,
-    `effect_implicit_target_a_1` = 1,
-    `spell_icon_id` = 4610,
     `spell_name_enus` = 'Glyph of Volcanic Shield',
-    `spell_name_flags` = 16712190,
-    `school_mask` = 1;
+    `spell_desc_enus` = 'Increases the eruption damage of your Volcanic Shield by 20%.',
+    `effect_misc_value_a_1` = 905;
+INSERT INTO `spell` SELECT * FROM `_glyph_apply`;
+DROP TEMPORARY TABLE `_glyph_apply`;
 
 -- 900280 Glyph of Rockwall (modifier): +6 sec Rockwall (900223, mask_3 bit 21)
 -- duration (12s base -> 18s). Flat duration modifier in ms.
@@ -1018,21 +1010,17 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `school_mask` = 1;
 
--- 900281 Glyph of Rockwall (apply): glyphproperties 90006.
+-- 900281 Glyph of Rockwall (apply) -> glyphproperties 906. Clone of stock 55559.
 DELETE FROM `spell` WHERE `id` = 900281;
-INSERT INTO `spell` SET
+DROP TEMPORARY TABLE IF EXISTS `_glyph_apply`;
+CREATE TEMPORARY TABLE `_glyph_apply` AS SELECT * FROM `spell` WHERE `id` = 55559;
+UPDATE `_glyph_apply` SET
     `id` = 900281,
-    `attributes` = 268435456,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 74,
-    `effect_misc_value_a_1` = 906,
-    `effect_implicit_target_a_1` = 1,
-    `spell_icon_id` = 5469,
     `spell_name_enus` = 'Glyph of Rockwall',
-    `spell_name_flags` = 16712190,
-    `school_mask` = 1;
+    `spell_desc_enus` = 'Increases the duration of your Rockwall by 6 sec.',
+    `effect_misc_value_a_1` = 906;
+INSERT INTO `spell` SELECT * FROM `_glyph_apply`;
+DROP TEMPORARY TABLE `_glyph_apply`;
 
 -- 900282 Glyph of Thunderborne Leap (modifier): +1 sec stun duration. Targets the
 -- triggered landing stun 900174 (mask_3 bit 22), NOT the leap 900173 - the stun is
@@ -1060,21 +1048,17 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `school_mask` = 1;
 
--- 900283 Glyph of Thunderborne Leap (apply): glyphproperties 90007.
+-- 900283 Glyph of Thunderborne Leap (apply) -> glyphproperties 907. Clone of stock 55559.
 DELETE FROM `spell` WHERE `id` = 900283;
-INSERT INTO `spell` SET
+DROP TEMPORARY TABLE IF EXISTS `_glyph_apply`;
+CREATE TEMPORARY TABLE `_glyph_apply` AS SELECT * FROM `spell` WHERE `id` = 55559;
+UPDATE `_glyph_apply` SET
     `id` = 900283,
-    `attributes` = 268435456,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 74,
-    `effect_misc_value_a_1` = 907,
-    `effect_implicit_target_a_1` = 1,
-    `spell_icon_id` = 5364,
     `spell_name_enus` = 'Glyph of Thunderborne Leap',
-    `spell_name_flags` = 16712190,
-    `school_mask` = 1;
+    `spell_desc_enus` = 'Increases the stun duration of your Thunderborne Leap by 1 sec.',
+    `effect_misc_value_a_1` = 907;
+INSERT INTO `spell` SELECT * FROM `_glyph_apply`;
+DROP TEMPORARY TABLE `_glyph_apply`;
 
 -- ============================================================================
 -- F-164 GLYPH RECIPES (Inscription craft spells). Clone of stock glyph recipe

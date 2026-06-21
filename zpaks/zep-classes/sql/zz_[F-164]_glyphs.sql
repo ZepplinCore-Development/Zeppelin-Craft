@@ -14,7 +14,7 @@ CREATE TEMPORARY TABLE `_glyph_tpl` AS SELECT * FROM `item_template` WHERE `entr
 UPDATE `_glyph_tpl` SET
     `entry` = 57490,
     `name` = 'Glyph of Rockslam',
-    `description` = 'Reduces the cooldown of your Rockslam by 1.5 sec.',
+    `description` = '',             -- stock glyph items carry NO item description; the apply spell desc shows on the tooltip
     `displayid` = 58839,            -- standard MAJOR shaman glyph rune (minor = 58838)
     `spellid_1` = 900271,
     `spelltrigger_1` = 0;
@@ -30,7 +30,7 @@ CREATE TEMPORARY TABLE `_glyph_tpl` AS SELECT * FROM `item_template` WHERE `entr
 UPDATE `_glyph_tpl` SET
     `entry` = 57491,
     `name` = 'Glyph of Rocksurge',
-    `description` = 'Increases the damage of your Rocksurge by an additional 5% for each stack of Rocksteady you have.',
+    `description` = '',
     `displayid` = 58839,
     `spellid_1` = 900273,
     `spelltrigger_1` = 0;
@@ -40,7 +40,7 @@ INSERT INTO `item_template` SELECT * FROM `_glyph_tpl`;
 UPDATE `_glyph_tpl` SET
     `entry` = 57492,
     `name` = 'Glyph of Tectonic Blast',
-    `description` = 'Increases the damage of your Tectonic Blast by 20%.',
+    `description` = '',
     `displayid` = 58839,
     `spellid_1` = 900275,
     `spelltrigger_1` = 0;
@@ -50,7 +50,7 @@ INSERT INTO `item_template` SELECT * FROM `_glyph_tpl`;
 UPDATE `_glyph_tpl` SET
     `entry` = 57493,
     `name` = 'Glyph of Crag Strike',
-    `description` = 'Increases the damage of your Crag Strike by 20% and its Cracked Armor reduces armor by an additional 2% per stack.',
+    `description` = '',
     `displayid` = 58839,
     `spellid_1` = 900277,
     `spelltrigger_1` = 0;
@@ -60,7 +60,7 @@ INSERT INTO `item_template` SELECT * FROM `_glyph_tpl`;
 UPDATE `_glyph_tpl` SET
     `entry` = 57494,
     `name` = 'Glyph of Volcanic Shield',
-    `description` = 'Increases the eruption damage of your Volcanic Shield by 20%.',
+    `description` = '',
     `displayid` = 58839,
     `spellid_1` = 900279,
     `spelltrigger_1` = 0;
@@ -70,7 +70,7 @@ INSERT INTO `item_template` SELECT * FROM `_glyph_tpl`;
 UPDATE `_glyph_tpl` SET
     `entry` = 57495,
     `name` = 'Glyph of Rockwall',
-    `description` = 'Increases the duration of your Rockwall by 6 sec.',
+    `description` = '',
     `displayid` = 58839,
     `spellid_1` = 900281,
     `spelltrigger_1` = 0;
@@ -80,7 +80,7 @@ INSERT INTO `item_template` SELECT * FROM `_glyph_tpl`;
 UPDATE `_glyph_tpl` SET
     `entry` = 57496,
     `name` = 'Glyph of Thunderborne Leap',
-    `description` = 'Increases the stun duration of your Thunderborne Leap by 1 sec.',
+    `description` = '',
     `displayid` = 58839,
     `spellid_1` = 900283,
     `spelltrigger_1` = 0;
