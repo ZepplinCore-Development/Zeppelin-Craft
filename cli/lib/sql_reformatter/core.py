@@ -177,22 +177,74 @@ def extract_table_name(query):
     return None
 
 def parse_value(value):
-    # Remove any trailing semicolons
-    value = value.strip(';')
-    
-    # Remove any instances of double apostrophes (single quotes)
-    value = value.replace("''", "")  # Remove double single quotes
-    
-    # Replace any single apostrophes with double apostrophes
-    value = value.replace("'", "''")  # Escape single apostrophes with double apostrophes
+    # Remove any trailing semicolons / surrounding whitespace
+    value = value.strip().strip(';').strip()
 
-    if isinstance(value, str):
-        if value.upper() == "NULL":  # SQL NULL
-            value = None
-        elif value.startswith("'") and value.endswith("'"):  # Strip quotes from strings
-            value = value[1:-1]
+    # SQL NULL
+    if value.upper() == "NULL":
+        return None
 
+    # The token is already a valid SQL literal: a number, or a quoted string
+    # whose inner apostrophes are escaped as '' by the parser. Pass it through
+    # untouched so escaped apostrophes are preserved (e.g. 'Sha''tar').
+    #
+    # NOTE: do NOT "normalize" by stripping/re-doubling apostrophes here —
+    # value.replace("''", "") deletes escaped apostrophes outright, turning
+    # 'O''Brien' into 'OBrien' (silent data corruption).
     return value
+
+
+def split_sql_values(s):
+    """Split a comma-separated SQL value list on TOP-LEVEL commas only,
+    respecting single/double quoted strings with '' / "" / backslash escapes.
+
+    Returns the raw value tokens with their quoting preserved (not stripped,
+    not trimmed). Commas inside quoted strings are kept intact — this is what
+    prevents values like 'Your table, I suspect' from being truncated.
+    """
+    parts = []
+    buf = []
+    in_single = False
+    in_double = False
+    i = 0
+    n = len(s)
+    while i < n:
+        c = s[i]
+        # Backslash escape inside a quoted string: keep both chars literally
+        if (in_single or in_double) and c == '\\' and i + 1 < n:
+            buf.append(c)
+            buf.append(s[i + 1])
+            i += 2
+            continue
+        if c == "'" and not in_double:
+            # '' is an escaped apostrophe (or empty string) — keep literally,
+            # do not toggle quote state.
+            if i + 1 < n and s[i + 1] == "'":
+                buf.append("''")
+                i += 2
+                continue
+            in_single = not in_single
+            buf.append(c)
+            i += 1
+            continue
+        if c == '"' and not in_single:
+            if i + 1 < n and s[i + 1] == '"':
+                buf.append('""')
+                i += 2
+                continue
+            in_double = not in_double
+            buf.append(c)
+            i += 1
+            continue
+        if c == ',' and not in_single and not in_double:
+            parts.append("".join(buf))
+            buf = []
+            i += 1
+            continue
+        buf.append(c)
+        i += 1
+    parts.append("".join(buf))
+    return parts
 
 def _strip_inline_comments(set_clause):
     """
@@ -214,6 +266,13 @@ def _strip_inline_comments(set_clause):
 
     while i < len(set_clause):
         char = set_clause[i]
+
+        # Backslash escape inside a quoted string: keep both chars literally
+        if in_single_quote and char == '\\' and i + 1 < len(set_clause):
+            result.append(char)
+            result.append(set_clause[i + 1])
+            i += 2
+            continue
 
         # Handle quoted strings - don't strip comments inside them
         if char == "'" and not in_single_quote:
@@ -269,11 +328,18 @@ def parse_set_syntax(query, table_name, query_type):
     """
     Parses the SET syntax variant of INSERT/REPLACE queries.
     """
-    set_match = re.search(r"SET\s+(.*?)(?:;|$)", query, re.DOTALL | re.IGNORECASE)
+    # Capture the WHOLE SET clause. We must NOT stop at the first ';' — a value
+    # can legitimately contain one (e.g. the WoW token '$Gbrother:sister;'), and
+    # a non-greedy match to ';' truncated the value and dropped later fields.
+    set_match = re.search(r"SET\s+(.*)$", query, re.DOTALL | re.IGNORECASE)
     if not set_match:
         raise ValueError("SET syntax not properly formatted")
 
-    set_clause = set_match.group(1)
+    # Strip only the trailing statement terminator (the ';' the splitter kept at
+    # the very end), never a ';' that sits inside a quoted value.
+    set_clause = set_match.group(1).rstrip()
+    if set_clause.endswith(';'):
+        set_clause = set_clause[:-1]
 
     # Strip inline comments BEFORE splitting on commas, to prevent comments
     # (which may contain commas or appear after commas) from breaking the split.
@@ -281,7 +347,7 @@ def parse_set_syntax(query, table_name, query_type):
 
     field_value_pairs = {}
 
-    for line in stripped_clause.split(','):
+    for line in split_sql_values(stripped_clause):
         line = line.strip()
         if not line:
             continue
@@ -315,6 +381,11 @@ def find_matching_parenthesis(s, start):
 
     while i < len(s):
         char = s[i]
+
+        # Backslash escape inside a quoted string: skip both chars
+        if (in_single_quote or in_double_quote) and char == '\\' and i + 1 < len(s):
+            i += 2
+            continue
 
         # Handle escape sequences ('' for single, "" for double)
         if char == "'" and not in_double_quote:
@@ -360,40 +431,14 @@ def parse_values_syntax(query, table_name, query_type):
             
         # Parse the tuple content
         tuple_content = values_content[tuple_start+1:tuple_end]
-        current_set = []
-        current_value = []
-        in_single_quote = False
-        in_double_quote = False
-        j = 0
+        current_set = [v.strip() for v in split_sql_values(tuple_content)]
 
-        while j < len(tuple_content):
-            char = tuple_content[j]
-
-            # Handle escaped quotes
-            if char == "'" and not in_double_quote:
-                if j + 1 < len(tuple_content) and tuple_content[j + 1] == "'":
-                    current_value.append("''")
-                    j += 2
-                    continue
-                in_single_quote = not in_single_quote
-                current_value.append(char)
-            elif char == '"' and not in_single_quote:
-                if j + 1 < len(tuple_content) and tuple_content[j + 1] == '"':
-                    current_value.append('""')
-                    j += 2
-                    continue
-                in_double_quote = not in_double_quote
-                current_value.append(char)
-            elif char == "," and not in_single_quote and not in_double_quote:
-                current_set.append("".join(current_value).strip())
-                current_value = []
-            else:
-                current_value.append(char)
-            j += 1
-        
-        if current_value:
-            current_set.append("".join(current_value).strip())
-        
+        # A tuple whose value count != the field count is noise — typically a
+        # "(...)" that appears inside an inline comment, e.g.
+        #   (121, 103300, ...),    -- Fire Warding I (Artisan)
+        # where "(Artisan)" gets picked up as a stray tuple. Skip it; the real
+        # value tuples match the field count and are collected. (split_sql_values
+        # now handles '', "" and backslash escapes, so genuine rows always match.)
         if len(current_set) == len(fields):
             row_idx = len(values_sets)
             values_sets.append(current_set)
@@ -428,8 +473,12 @@ def parse_values_syntax(query, table_name, query_type):
         field_value_pairs[row_idx] = dict(zip(fields, parsed_values))
     
     if not values_sets:
-        raise ValueError("No value sets found in VALUES syntax query")
-    
+        # Couldn't extract any value tuples — typically the value is a
+        # function call / expression (e.g. CONCAT('...', @var, '...')) or some
+        # construct we don't model. Emit the statement unchanged instead of
+        # failing the whole file.
+        return {"passthrough": True, "original_query": query}
+
     return {
         "query_type": query_type,
         "table_name": table_name,
@@ -484,39 +533,7 @@ def parse_values_no_fields(query, table_name, query_type):
 
         # Parse the tuple content
         tuple_content = values_content[tuple_start+1:tuple_end]
-        current_set = []
-        current_value = []
-        in_single_quote = False
-        in_double_quote = False
-        j = 0
-
-        while j < len(tuple_content):
-            char = tuple_content[j]
-
-            # Handle escaped quotes
-            if char == "'" and not in_double_quote:
-                if j + 1 < len(tuple_content) and tuple_content[j + 1] == "'":
-                    current_value.append("''")
-                    j += 2
-                    continue
-                in_single_quote = not in_single_quote
-                current_value.append(char)
-            elif char == '"' and not in_single_quote:
-                if j + 1 < len(tuple_content) and tuple_content[j + 1] == '"':
-                    current_value.append('""')
-                    j += 2
-                    continue
-                in_double_quote = not in_double_quote
-                current_value.append(char)
-            elif char == "," and not in_single_quote and not in_double_quote:
-                current_set.append("".join(current_value).strip())
-                current_value = []
-            else:
-                current_value.append(char)
-            j += 1
-
-        if current_value:
-            current_set.append("".join(current_value).strip())
+        current_set = [v.strip() for v in split_sql_values(tuple_content)]
 
         # Validate value count matches field count
         if len(current_set) != len(fields):
@@ -595,10 +612,13 @@ def strip_standalone_comments(query):
     return '\n'.join(filtered_lines)
 
 def parse_individual_value(val):
-    """Parses and cleans an individual value."""
-    if len(val) >= 2 and val[0] == "'" and val[-1] == "'":
-        val = val[1:-1]
-    return parse_value(val)  # Your existing parse_value function
+    """Parses an individual VALUES-list token, preserving its quoting.
+
+    We must NOT strip the surrounding quotes here: keeping them lets the output
+    stage tell a quoted string ('foo') from a raw SQL token (a number, NULL, or
+    a session variable like @quest). Stripping quotes made @variables
+    indistinguishable from strings and they got wrongly re-quoted ('@quest')."""
+    return parse_value(val)
 
 def build_result(query_type, table_name, fields, values_sets, field_value_pairs, comments):
     """Constructs the final result dictionary."""
@@ -998,8 +1018,17 @@ def format_query(input_query, verbose=False, output_file=None):
                 if verbose:
                     print(f"Processing {stmt_type.upper()} statement", file=sys.stderr)
 
-                # Parse the query
-                parsed_query = parse_query(stmt_content)
+                # Parse the query. If anything about it can't be safely parsed
+                # (unusual SET clause, function-call values, etc.), emit it
+                # UNCHANGED rather than aborting the whole file or dropping it.
+                try:
+                    parsed_query = parse_query(stmt_content)
+                except Exception as e:
+                    if verbose:
+                        print(f"Passthrough (unparseable: {e})", file=sys.stderr)
+                    print(stmt_content)
+                    print()
+                    continue
 
                 # Handle passthrough queries (e.g., VALUES without field list)
                 if parsed_query.get("passthrough"):
@@ -1117,7 +1146,9 @@ def output_query(query, skip_delete_for_tables=None):
             elif isinstance(pk_value, (int, float)):
                 formatted_pk = str(pk_value)
             elif isinstance(pk_value, str):
-                formatted_pk = f"'{pk_value}'" if not pk_value.startswith("'") else pk_value
+                # Already-quoted string PKs keep their quotes; raw tokens
+                # (@var) stay raw. Don't add quotes.
+                formatted_pk = pk_value
             else:
                 formatted_pk = str(pk_value)
             
@@ -1140,11 +1171,11 @@ def output_query(query, skip_delete_for_tables=None):
             elif isinstance(value, (int, float)):
                 formatted_value = str(value)
             elif isinstance(value, str):
-                # Handle already-quoted strings
-                if value.startswith("'") and value.endswith("'"):
-                    formatted_value = value
-                else:
-                    formatted_value = f"'{value}'"
+                # Genuine string values keep their surrounding quotes (set by
+                # parse_value), so a string WITHOUT quotes here is a raw SQL
+                # token: a number, NULL, or a session variable like @quest.
+                # Emit it verbatim so @variables aren't wrongly quoted ('@quest').
+                formatted_value = value
             else:
                 formatted_value = str(value)
 
