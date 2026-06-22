@@ -1,4 +1,4 @@
--- F-186: Lifeblood (Herbalism) — show the ACTUAL heal amount in the tooltip.
+-- F-186: Improved Lifeblood (Herbalism) — show the ACTUAL heal amount in the tooltip.
 --
 -- The Core AuraScript spell_gen_lifeblood (Zeppelin-Core spell_generic.cpp) adds,
 -- per tick, CalculatePct(maxHealth, 1.5 / GetTotalTicks()) on top of the DBC base
@@ -16,6 +16,13 @@
 -- Percentages as N/1000 (1.5% = 15/1000, 0.3% = 3/1000) with the multiply BEFORE
 -- the divide, so the numerator stays large — avoids the client's
 -- integer-divide-to-zero on small operands (see I-050).
+--
+-- NOTE: the two named definitions are joined with CONCAT(...,'\n',...) on a single
+-- statement line (NOT a literal embedded newline). A literal newline inside the
+-- VALUES string can be split mid-statement by newline-based apply paths, so the row
+-- never inserts — which is exactly why var 200 was missing and the tooltip rendered
+-- the literal "$<heal>".
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 200;
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (200, '$heal=${($m1*5)+($HEALTH*15/1000)}
-$healtick=${$m1+($HEALTH*3/1000)}');
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (200, CONCAT(
+    '$heal=${($m1*5)+($HEALTH*15/1000)}', '\n',
+    '$healtick=${$m1+($HEALTH*3/1000)}'));

@@ -1,4 +1,7 @@
--- F-186: Lifeblood (Herbalism) — show actual heal incl. max-health scaling.
+-- F-186: Improved Lifeblood (Herbalism).
+-- Scope is more than the tooltip: R5 (55502) is buffed (usable earlier + bigger
+-- heal), and the description/tooltip are reworked to show the real heal including
+-- the max-health scaling added by the spell_gen_lifeblood Core AuraScript.
 --
 -- SINGLE-FILE OWNERSHIP: this file is the SOLE owner of all six Lifeblood rank
 -- spell rows. It sets the full description + tooltip directly (absolute, not
