@@ -1,36 +1,28 @@
--- F-186: Lifeblood (Herbalism) tooltip — show actual heal incl. max-health scaling.
+-- F-186: Lifeblood (Herbalism) — show actual heal incl. max-health scaling.
 --
--- Assigns description variable 200 (see [F-186]_spelldescriptionvariables.sql) to
--- all six Lifeblood ranks and swaps the base-only $o1/$s1 tokens for the computed
--- $<heal> / $<healtick>.
+-- SINGLE-FILE OWNERSHIP: this file is the SOLE owner of all six Lifeblood rank
+-- spell rows. It sets the full description + tooltip directly (absolute, not
+-- REPLACE), so it no longer depends on the worgoblin base text or on apply order.
+-- The desc uses $<heal>/$<healtick> from description variable 200 (defined in
+-- [F-186]_spelldescriptionvariables.sql).
 --
--- The Lifeblood description text is owned by mod-worgoblin [BASE,F-030]_spell.sql
--- (priority 20); zep-professions (priority 100) applies later, so these REPLACE
--- statements run on the worgoblin-set text and survive a full `dbc db rebuild`.
--- The shared heal phrase is identical across ranks (only the trailing
--- "Target must be level N or higher." differs), so REPLACE preserves each rank's
--- level line. REPLACE is idempotent: after the swap neither source token remains.
+-- Consolidated here (was previously split across two base imports, now removed
+-- from both with breadcrumbs):
+--   * desc text for R3-R6 lived in mod-worgoblin/[BASE,F-030]_spell.sql
+--   * R5 (55502) heal buff (stock lvl 40 / base 239 -> lvl 25 / base 359) lived in
+--     zep-legacy/[BASE,F-044]_spell.sql
+-- Lifeblood rows exist in stock (original_dbc), so only the customized columns are
+-- set here. Stock per-rank base heal (R1 59, R2 95, R3 143, R4 179, R6 719) and
+-- target-level lines are unchanged; only R5 differs from stock.
 
--- Point all ranks at variable 200 so $<heal>/$<healtick> resolve.
-UPDATE `spell` SET `spell_desc_variable_id` = 200
-WHERE `id` IN (55428, 55480, 55500, 55501, 55502, 55503);
+SET @lb_desc = 'Uses your skill in Herbalism to absorb energy and nutrients from the earth, healing you for $<heal> (scales with your maximum health) over $d.  Can be used while stealthed or invisible.';
+SET @lb_tip  = 'Healing $<healtick> every $t1 sec.';
 
--- Description: replace the base-only total + vague parenthetical with the real
--- number plus a "scales with your maximum health" hint. Two idempotent passes so
--- the final text is reached from either starting state:
---   pass 1 = fresh / `dbc db rebuild` (worgoblin sets the original
---            '$o1 (increased by maximum health)' token)
---   pass 2 = upgrade a DB that already received the earlier hint-less '$<heal>' swap
--- After either pass its search token is gone, so re-running is a no-op.
-UPDATE `spell` SET
-    `spell_desc_enus` = REPLACE(`spell_desc_enus`, '$o1 (increased by maximum health)', '$<heal> (scales with your maximum health)')
-WHERE `id` IN (55428, 55480, 55500, 55501, 55502, 55503);
-
-UPDATE `spell` SET
-    `spell_desc_enus` = REPLACE(`spell_desc_enus`, '$<heal> over', '$<heal> (scales with your maximum health) over')
-WHERE `id` IN (55428, 55480, 55500, 55501, 55502, 55503);
-
--- Tooltip: replace the base-only per-tick $s1 with the real per-tick amount.
-UPDATE `spell` SET
-    `spell_tooltip_enus` = REPLACE(`spell_tooltip_enus`, '$s1', '$<healtick>')
-WHERE `id` IN (55428, 55480, 55500, 55501, 55502, 55503);
+UPDATE `spell` SET `spell_desc_variable_id` = 200, `spell_desc_enus` = @lb_desc, `spell_tooltip_enus` = @lb_tip WHERE `id` = 55428;  -- Rank 1
+UPDATE `spell` SET `spell_desc_variable_id` = 200, `spell_desc_enus` = @lb_desc, `spell_tooltip_enus` = @lb_tip WHERE `id` = 55480;  -- Rank 2
+UPDATE `spell` SET `spell_desc_variable_id` = 200, `spell_desc_enus` = CONCAT(@lb_desc, 'Target must be level 10 or higher.'), `spell_tooltip_enus` = @lb_tip WHERE `id` = 55500;  -- Rank 3
+UPDATE `spell` SET `spell_desc_variable_id` = 200, `spell_desc_enus` = CONCAT(@lb_desc, 'Target must be level 25 or higher.'), `spell_tooltip_enus` = @lb_tip WHERE `id` = 55501;  -- Rank 4
+-- Rank 5 also carries the heal buff: stock is level 40 / base 239 (heal 240); we
+-- make it usable earlier and hit harder at level 25 / base 359 (heal 360).
+UPDATE `spell` SET `spell_desc_variable_id` = 200, `spell_desc_enus` = CONCAT(@lb_desc, 'Target must be level 40 or higher.'), `spell_tooltip_enus` = @lb_tip, `spell_level` = 25, `effect_base_points_1` = 359 WHERE `id` = 55502;  -- Rank 5
+UPDATE `spell` SET `spell_desc_variable_id` = 200, `spell_desc_enus` = CONCAT(@lb_desc, 'Target must be level 55 or higher.'), `spell_tooltip_enus` = @lb_tip WHERE `id` = 55503;  -- Rank 6
