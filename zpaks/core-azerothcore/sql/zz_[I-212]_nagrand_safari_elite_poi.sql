@@ -55,3 +55,59 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 (9851, 0, 9, -2189, 8507, 0),
 (9851, 0, 10, -2234, 8561, 0),
 (9851, 0, 11, -2300, 8622, 0);
+
+-- ---------------------------------------------------------------------------
+-- Additional Nagrand roaming-rare KILL quests (same pathology: single-point
+-- objective POI on the spawn of a MovementType=2 waypoint patroller). The
+-- objective POI here is the kill (ObjectiveIndex=0, RequiredNpcOrGo), not an
+-- item turn-in, but the fix is identical: convex-hull polygon (+30yd padding)
+-- over the rare's full patrol path. Patrol path lives in waypoint_data keyed
+-- by creature_addon.path_id (not by guid). Hulls simplified to <=12 vertices
+-- via half-plane intersection so the polygon still fully CONTAINS the path.
+-- ---------------------------------------------------------------------------
+
+-- Quest 9900 Gava'xi: kill Gava'xi (18298) | guid 86608, path 866080, 19 waypoints -> 10-vertex hull
+DELETE FROM `quest_poi_points` WHERE `QuestID` = 9900 AND `Idx1` = 0;
+INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
+(9900, 0, 0, -2767, 7900, 0),
+(9900, 0, 1, -2746, 7865, 0),
+(9900, 0, 2, -2708, 7859, 0),
+(9900, 0, 3, -2690, 7868, 0),
+(9900, 0, 4, -2590, 7961, 0),
+(9900, 0, 5, -2575, 7991, 0),
+(9900, 0, 6, -2575, 8098, 0),
+(9900, 0, 7, -2691, 8131, 0),
+(9900, 0, 8, -2714, 8105, 0),
+(9900, 0, 9, -2761, 7989, 0);
+
+-- Quest 9937 Wanted: Durn the Hungerer (Alliance): kill Durn (18411) | guid 65801, path 658010, 46 waypoints -> 12-vertex hull
+DELETE FROM `quest_poi_points` WHERE `QuestID` = 9937 AND `Idx1` = 0;
+INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
+(9937, 0, 0, -2892, 8348, 0),
+(9937, 0, 1, -2881, 8157, 0),
+(9937, 0, 2, -2652, 7618, 0),
+(9937, 0, 3, -2282, 7670, 0),
+(9937, 0, 4, -2200, 7765, 0),
+(9937, 0, 5, -2158, 8026, 0),
+(9937, 0, 6, -2133, 8269, 0),
+(9937, 0, 7, -2142, 8350, 0),
+(9937, 0, 8, -2185, 8469, 0),
+(9937, 0, 9, -2257, 8573, 0),
+(9937, 0, 10, -2563, 8586, 0),
+(9937, 0, 11, -2757, 8532, 0);
+
+-- Quest 9938 Wanted: Durn the Hungerer (Horde): kill Durn (18411) | same patrol as 9937
+DELETE FROM `quest_poi_points` WHERE `QuestID` = 9938 AND `Idx1` = 0;
+INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
+(9938, 0, 0, -2892, 8348, 0),
+(9938, 0, 1, -2881, 8157, 0),
+(9938, 0, 2, -2652, 7618, 0),
+(9938, 0, 3, -2282, 7670, 0),
+(9938, 0, 4, -2200, 7765, 0),
+(9938, 0, 5, -2158, 8026, 0),
+(9938, 0, 6, -2133, 8269, 0),
+(9938, 0, 7, -2142, 8350, 0),
+(9938, 0, 8, -2185, 8469, 0),
+(9938, 0, 9, -2257, 8573, 0),
+(9938, 0, 10, -2563, 8586, 0),
+(9938, 0, 11, -2757, 8532, 0);
