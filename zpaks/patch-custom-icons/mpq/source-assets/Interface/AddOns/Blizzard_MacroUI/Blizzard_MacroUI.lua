@@ -19,6 +19,22 @@ function ZeppelinMacroIcon_Normalize(path)
 	return strupper(gsub(path, "/", "\\"));
 end
 
+-- Zeppelin F-181: macros store the icon as a bare name and the client re-adds the
+-- "Interface\Icons\" prefix (GetMacroInfo), so when saving by path we must strip that
+-- prefix and store the name RELATIVE to Interface\Icons. Requires the CreateMacro/
+-- EditMacro exe patch (macro-custom-icon-strings) that lets those APIs take a string.
+function ZeppelinMacroIcon_RelPath(path)
+	if ( not path or path == "" ) then
+		return path;
+	end
+	local p = gsub(path, "/", "\\");
+	local prefix = "Interface\\Icons\\";
+	if ( strupper(strsub(p, 1, strlen(prefix))) == strupper(prefix) ) then
+		return strsub(p, strlen(prefix) + 1);
+	end
+	return p;
+end
+
 function MacroFrame_Show()
 	ShowUIPanel(MacroFrame);
 end
@@ -348,8 +364,9 @@ end
 
 function MacroPopupOkayButton_OnClick(self, button)
 	local index = 1
-	-- Zeppelin F-181: save the icon by texture path, not the numeric picker index
-	local icon = MacroPopupFrame.selectedIconTexture;
+	-- Zeppelin F-181: save the icon by name relative to Interface\Icons (the client
+	-- re-adds that prefix). Needs the CreateMacro/EditMacro string-icon exe patch.
+	local icon = ZeppelinMacroIcon_RelPath(MacroPopupFrame.selectedIconTexture);
 	if ( MacroPopupFrame.mode == "new" ) then
 		index = CreateMacro(MacroPopupEditBox:GetText(), icon, nil, (MacroFrame.macroBase > 0));
 	elseif ( MacroPopupFrame.mode == "edit" ) then
