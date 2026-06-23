@@ -32,6 +32,9 @@ src\items\pearl.lua
 src\items\parts.lua
 src\items\argent-dawn.lua
 src\items\sporeggar.lua
+src\items\aldor.lua
+src\items\scryers.lua
+src\items\the-shatar.lua
 src\items\miscellaneous.lua
 
 src\3-server-proxy.lua
