@@ -2323,7 +2323,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 14,
-    `effect_spell_class_mask_a_2` = 128,
+    `effect_spell_class_mask_b_1` = 128,
     -- F-164: held +10% block value (aura 150, % so it scales with gear) while
     -- Bastion is up -- boosts blocks AND Rockslam (which scales off block value).
     -- Lost when the buff is consumed by casting Lesser Healing Wave. Fixed at all
@@ -2373,7 +2373,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 14,
-    `effect_spell_class_mask_a_2` = 128,
+    `effect_spell_class_mask_b_1` = 128,
     -- F-164: held +10% block value (aura 150, % so it scales with gear) while
     -- Bastion is up -- boosts blocks AND Rockslam (which scales off block value).
     -- Lost when the buff is consumed by casting Lesser Healing Wave. Fixed at all
@@ -2423,7 +2423,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 14,
-    `effect_spell_class_mask_a_2` = 128,
+    `effect_spell_class_mask_b_1` = 128,
     -- F-164: held +10% block value (aura 150, % so it scales with gear) while
     -- Bastion is up -- boosts blocks AND Rockslam (which scales off block value).
     -- Lost when the buff is consumed by casting Lesser Healing Wave. Fixed at all
@@ -3513,6 +3513,9 @@ DELETE FROM `spell` WHERE `id` IN (900189, 900190, 900191);
 INSERT INTO `spell` SET
     `id` = 900189,
     `attributes` = 464,
+    `effect_spell_class_mask_a_1` = 3092780056,
+    `effect_spell_class_mask_a_2` = 68728,
+    `effect_spell_class_mask_a_3` = 28,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `spell_level` = 1,
@@ -3554,6 +3557,9 @@ INSERT INTO `spell` SET
 INSERT INTO `spell` SET
     `id` = 900190,
     `attributes` = 464,
+    `effect_spell_class_mask_a_1` = 3092780056,
+    `effect_spell_class_mask_a_2` = 68728,
+    `effect_spell_class_mask_a_3` = 28,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `spell_level` = 1,
@@ -3595,6 +3601,9 @@ INSERT INTO `spell` SET
 INSERT INTO `spell` SET
     `id` = 900191,
     `attributes` = 464,
+    `effect_spell_class_mask_a_1` = 3092780056,
+    `effect_spell_class_mask_a_2` = 68728,
+    `effect_spell_class_mask_a_3` = 28,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `spell_level` = 1,
@@ -4395,8 +4404,8 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_1` = 15,
     `effect_misc_value_a_2` = 7,
-    `effect_spell_class_mask_c_1` = 4,
-    `effect_spell_class_mask_c_2` = 4,
+    `effect_spell_class_mask_a_3` = 4,
+    `effect_spell_class_mask_b_3` = 4,
     `spell_icon_id` = 5289,
     `spell_name_enus` = 'Improved Lava Lash',
     `spell_name_flags` = 16712190,
@@ -4431,8 +4440,8 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_1` = 15,
     `effect_misc_value_a_2` = 7,
-    `effect_spell_class_mask_c_1` = 4,
-    `effect_spell_class_mask_c_2` = 4,
+    `effect_spell_class_mask_a_3` = 4,
+    `effect_spell_class_mask_b_3` = 4,
     `spell_icon_id` = 5289,
     `spell_name_enus` = 'Improved Lava Lash',
     `spell_name_flags` = 16712190,
@@ -4588,8 +4597,8 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_1` = 15,
     `effect_misc_value_a_2` = 7,
-    `effect_spell_class_mask_c_1` = 4,
-    `effect_spell_class_mask_c_2` = 4,
+    `effect_spell_class_mask_a_3` = 4,
+    `effect_spell_class_mask_b_3` = 4,
     `spell_icon_id` = 5289,
     `spell_name_enus` = 'Improved Lava Lash',
     `spell_name_flags` = 16712190,
