@@ -1,8 +1,10 @@
--- [I-212] Nagrand safari elite-hunt quests: replace single-point objective POI with patrol-area polygon
--- Quests 9856/9859/9851 (Windroc/Talbuk/Clefthoof Mastery, final stage) require an item from a roaming
--- rare elite (MovementType=2 waypoint patrol). The stock POI was a single point on the rare's spawn,
--- which is misleading since the elite roams a large closed loop. Replaced with a convex-hull polygon
--- (+30yd padding) over each rare's full patrol path. Mirrors zz_[I-157]_ursius_patrol_poi.sql.
+-- [I-212] Outland roaming-rare quest POIs: replace single-point objective POI with patrol-area polygon
+-- Outland quests whose objective targets a roaming rare (MovementType=2 waypoint patrol) shipped a
+-- single-point POI sitting on the rare's spawn, which is misleading since the rare roams a large closed
+-- loop and is almost never at that point. Replaced with a convex-hull polygon (+30yd padding) over each
+-- rare's full patrol path. Mirrors zz_[I-157]_ursius_patrol_poi.sql.
+-- Covers Nagrand safari Mastery item-recovery quests, Nagrand roaming-rare kill quests, and Netherstorm
+-- (Netherock). Same fix regardless of zone or objective type (item turn-in vs kill).
 -- quest_poi_points.X/Y map directly to creature world position_x/position_y (verified).
 -- The quest_poi header rows (id=0 ObjectiveIndex=4 hunt, id=1 turn-in) are left intact.
 -- NOTE: the 3.3.5a client POI renderer caps at 12 points per POI (stock data never exceeds 12);
@@ -111,3 +113,29 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 (9938, 0, 9, -2257, 8573, 0),
 (9938, 0, 10, -2563, 8586, 0),
 (9938, 0, 11, -2757, 8532, 0);
+
+-- ---------------------------------------------------------------------------
+-- Netherstorm roaming-rare KILL quest (same pathology, different zone). Map 530
+-- WorldMapAreaId 479. Single spawn (guid 73307, MovementType=2), long there-and-
+-- back patrol of 162 waypoints (path 733070) spanning a tall N-S strip; the stock
+-- objective POI was a single point (2715,4447) that does not represent the loop.
+-- Convex-hull polygon (+30yd padding) over the full patrol, downsampled to 12
+-- vertices (containment verified). quest_poi header rows (id=0 kill, id=1 turn-in)
+-- left intact.
+-- ---------------------------------------------------------------------------
+
+-- Quest 10701 Breaking Down Netherock: kill Netherock (20772) | guid 73307, path 733070, 162 waypoints -> 12-vertex hull
+DELETE FROM `quest_poi_points` WHERE `QuestID` = 10701 AND `Idx1` = 0;
+INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
+(10701, 0, 0, 2408, 3998, 0),
+(10701, 0, 1, 2445, 3780, 0),
+(10701, 0, 2, 2522, 3349, 0),
+(10701, 0, 3, 2565, 3221, 0),
+(10701, 0, 4, 2622, 3174, 0),
+(10701, 0, 5, 2735, 4412, 0),
+(10701, 0, 6, 2700, 4405, 0),
+(10701, 0, 7, 2674, 4392, 0),
+(10701, 0, 8, 2613, 4343, 0),
+(10701, 0, 9, 2431, 4104, 0),
+(10701, 0, 10, 2423, 4086, 0),
+(10701, 0, 11, 2412, 4052, 0);
