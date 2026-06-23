@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: taxipathnode
+-- [BASE,F-036] open-azeroth: taxipathnode
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_taxipathnode.sql with overrides
+-- To customize, create [F-036]_taxipathnode.sql with overrides
 
 -- taxipathnode: 1749 inserts, 532 updates, 100 deletes
 DELETE FROM `taxipathnode` WHERE `id` = 19123;

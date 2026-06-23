@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: soundentries
+-- [BASE,F-036] open-azeroth: soundentries
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_soundentries.sql with overrides
+-- To customize, create [F-036]_soundentries.sql with overrides
 
 -- soundentries: 231 inserts, 0 updates, 0 deletes
 DELETE FROM `soundentries` WHERE `id` = 16382;

@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: groundeffectdoodad
+-- [BASE,F-036] open-azeroth: groundeffectdoodad
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_groundeffectdoodad.sql with overrides
+-- To customize, create [F-036]_groundeffectdoodad.sql with overrides
 
 -- groundeffectdoodad: 141 inserts, 0 updates, 0 deletes
 DELETE FROM `groundeffectdoodad` WHERE `id` = 709;

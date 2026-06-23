@@ -1,6 +1,6 @@
--- [BASE,F-136] patch-open-azeroth: areatable
+-- [BASE,F-036] patch-open-azeroth: areatable
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_areatable.sql with overrides
+-- To customize, create [F-036]_areatable.sql with overrides
 
 -- areatable: 484 inserts, 1124 updates, 0 deletes
 DELETE FROM `areatable` WHERE `id` = 4706;

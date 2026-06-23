@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: light
+-- [BASE,F-036] open-azeroth: light
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_light.sql with overrides
+-- To customize, create [F-036]_light.sql with overrides
 
 -- light: 245 inserts, 1 updates, 4 deletes
 DELETE FROM `light` WHERE `id` = 262;

@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: lightfloatband
+-- [BASE,F-036] open-azeroth: lightfloatband
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_lightfloatband.sql with overrides
+-- To customize, create [F-036]_lightfloatband.sql with overrides
 
 -- lightfloatband: 462 inserts, 171 updates, 0 deletes
 DELETE FROM `lightfloatband` WHERE `id` = 4987;

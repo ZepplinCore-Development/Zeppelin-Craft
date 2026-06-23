@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: areapoi
+-- [BASE,F-036] open-azeroth: areapoi
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_areapoi.sql with overrides
+-- To customize, create [F-036]_areapoi.sql with overrides
 
 -- areapoi: 1 inserts, 88 updates, 0 deletes
 DELETE FROM `areapoi` WHERE `id` = 2762;

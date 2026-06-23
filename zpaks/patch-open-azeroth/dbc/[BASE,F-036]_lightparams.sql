@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: lightparams
+-- [BASE,F-036] open-azeroth: lightparams
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_lightparams.sql with overrides
+-- To customize, create [F-036]_lightparams.sql with overrides
 
 -- lightparams: 77 inserts, 0 updates, 0 deletes
 DELETE FROM `lightparams` WHERE `id` = 832;

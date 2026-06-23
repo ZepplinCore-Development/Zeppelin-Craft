@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: worldmapcontinent
+-- [BASE,F-036] open-azeroth: worldmapcontinent
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_worldmapcontinent.sql with overrides
+-- To customize, create [F-036]_worldmapcontinent.sql with overrides
 
 -- worldmapcontinent: 1 inserts, 3 updates, 0 deletes
 DELETE FROM `worldmapcontinent` WHERE `id` = 10;

@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: soundemitters
+-- [BASE,F-036] open-azeroth: soundemitters
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_soundemitters.sql with overrides
+-- To customize, create [F-036]_soundemitters.sql with overrides
 
 -- soundemitters: 0 inserts, 8 updates, 0 deletes
 UPDATE `soundemitters` SET `position_x` = '4701.8066406250000000', `position_y` = '-5478.9067382812500000', `map_id` = 0 WHERE `id` = 2029;

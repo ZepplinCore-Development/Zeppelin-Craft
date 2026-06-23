@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: taxinodes
+-- [BASE,F-036] open-azeroth: taxinodes
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_taxinodes.sql with overrides
+-- To customize, create [F-036]_taxinodes.sql with overrides
 
 -- taxinodes: 18 inserts, 17 updates, 0 deletes
 DELETE FROM `taxinodes` WHERE `id` = 441;

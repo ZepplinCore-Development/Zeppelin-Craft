@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: soundambience
+-- [BASE,F-036] open-azeroth: soundambience
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_soundambience.sql with overrides
+-- To customize, create [F-036]_soundambience.sql with overrides
 
 -- soundambience: 43 inserts, 0 updates, 0 deletes
 DELETE FROM `soundambience` WHERE `id` = 498;

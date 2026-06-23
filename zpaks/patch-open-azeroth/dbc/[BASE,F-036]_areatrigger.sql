@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: areatrigger
+-- [BASE,F-036] open-azeroth: areatrigger
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_areatrigger.sql with overrides
+-- To customize, create [F-036]_areatrigger.sql with overrides
 
 -- areatrigger: 10 inserts, 31 updates, 0 deletes
 DELETE FROM `areatrigger` WHERE `id` = 6000;

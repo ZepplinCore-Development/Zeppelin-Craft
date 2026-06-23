@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: worldsafelocs
+-- [BASE,F-036] open-azeroth: worldsafelocs
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_worldsafelocs.sql with overrides
+-- To customize, create [F-036]_worldsafelocs.sql with overrides
 
 -- worldsafelocs: 0 inserts, 15 updates, 0 deletes
 UPDATE `worldsafelocs` SET `map_id` = 0, `x` = '8325.2148437500000000', `y` = '-4231.2807617187500000' WHERE `id` = 912;

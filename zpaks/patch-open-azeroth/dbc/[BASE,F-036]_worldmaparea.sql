@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: worldmaparea
+-- [BASE,F-036] open-azeroth: worldmaparea
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_worldmaparea.sql with overrides
+-- To customize, create [F-036]_worldmaparea.sql with overrides
 
 -- worldmaparea: 77 inserts, 8 updates, 0 deletes
 DELETE FROM `worldmaparea` WHERE `id` = 539;

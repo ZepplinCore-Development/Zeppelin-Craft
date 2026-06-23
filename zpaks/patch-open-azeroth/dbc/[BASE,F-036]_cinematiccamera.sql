@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: cinematiccamera
+-- [BASE,F-036] open-azeroth: cinematiccamera
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_cinematiccamera.sql with overrides
+-- To customize, create [F-036]_cinematiccamera.sql with overrides
 
 -- cinematiccamera: 0 inserts, 2 updates, 0 deletes
 UPDATE `cinematiccamera` SET `origin_x` = '5965.7963867187500000', `origin_y` = '-4809.3466796875000000' WHERE `id` = 243;

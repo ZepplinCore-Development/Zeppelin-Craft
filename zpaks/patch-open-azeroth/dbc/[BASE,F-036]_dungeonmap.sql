@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: dungeonmap
+-- [BASE,F-036] open-azeroth: dungeonmap
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_dungeonmap.sql with overrides
+-- To customize, create [F-036]_dungeonmap.sql with overrides
 
 -- dungeonmap: 191 inserts, 0 updates, 0 deletes
 DELETE FROM `dungeonmap` WHERE `id` = 123;

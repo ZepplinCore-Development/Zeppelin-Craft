@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: map
+-- [BASE,F-036] open-azeroth: map
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_map.sql with overrides
+-- To customize, create [F-036]_map.sql with overrides
 
 -- map: 950 inserts, 69 updates, 0 deletes
 DELETE FROM `map` WHERE `id` = 627;

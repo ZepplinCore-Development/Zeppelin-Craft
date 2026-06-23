@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: lightskybox
+-- [BASE,F-036] open-azeroth: lightskybox
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_lightskybox.sql with overrides
+-- To customize, create [F-036]_lightskybox.sql with overrides
 
 -- lightskybox: 9 inserts, 0 updates, 0 deletes
 DELETE FROM `lightskybox` WHERE `id` = 128;

@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: zoneintromusictable
+-- [BASE,F-036] open-azeroth: zoneintromusictable
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_zoneintromusictable.sql with overrides
+-- To customize, create [F-036]_zoneintromusictable.sql with overrides
 
 -- zoneintromusictable: 82 inserts, 0 updates, 0 deletes
 DELETE FROM `zoneintromusictable` WHERE `id` = 586;

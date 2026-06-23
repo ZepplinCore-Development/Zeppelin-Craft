@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: lightintband
+-- [BASE,F-036] open-azeroth: lightintband
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_lightintband.sql with overrides
+-- To customize, create [F-036]_lightintband.sql with overrides
 
 -- lightintband: 1385 inserts, 0 updates, 0 deletes
 DELETE FROM `lightintband` WHERE `id` = 14959;

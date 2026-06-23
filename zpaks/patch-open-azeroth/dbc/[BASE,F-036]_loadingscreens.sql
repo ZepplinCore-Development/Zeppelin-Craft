@@ -1,6 +1,6 @@
--- [BASE,F-136] open-azeroth: loadingscreens
+-- [BASE,F-036] open-azeroth: loadingscreens
 -- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-136]_loadingscreens.sql with overrides
+-- To customize, create [F-036]_loadingscreens.sql with overrides
 
 -- loadingscreens: 8 inserts, 0 updates, 0 deletes
 DELETE FROM `loadingscreens` WHERE `id` = 256;
