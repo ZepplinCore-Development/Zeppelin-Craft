@@ -55,8 +55,19 @@ SPELL_COLUMNS = [
     "effect_spell_class_mask_a_2", "effect_spell_class_mask_b_2", "effect_spell_class_mask_c_2",
     "effect_spell_class_mask_a_3", "effect_spell_class_mask_b_3", "effect_spell_class_mask_c_3",
     "effect_base_points_1", "effect_base_points_2", "effect_base_points_3",
+    "effect_die_sides_1", "effect_die_sides_2", "effect_die_sides_3",
+    "effect_real_points_per_level_1", "effect_real_points_per_level_2", "effect_real_points_per_level_3",
+    "base_level", "max_level", "spell_level",
+    "attributes", "spell_desc_variable_id",
     "spell_name_enus",
 ]
+
+# A spell-desc-variable id in this range is one of OUR custom tooltips (the roster the
+# addon owns); below it are stock Blizzard variables that render natively.
+CUSTOM_DESC_VAR_MIN = 181
+
+ATTR_PASSIVE = 0x40  # SPELL_ATTR0_PASSIVE — passive auras aren't sent to the client,
+                     # so the engine must detect them via knows-spell, not has-aura.
 
 
 def _i(row: Dict, key: str) -> int:
@@ -65,13 +76,19 @@ def _i(row: Dict, key: str) -> int:
     return int(v) if v is not None else 0
 
 
+def _f(row: Dict, key: str) -> float:
+    """Read a float column, treating NULL as 0.0."""
+    v = row.get(key)
+    return float(v) if v is not None else 0.0
+
+
 class Modifier:
     """A single 107/108 spellmod effect (one effect index of one modifier spell)."""
 
     __slots__ = ("src_id", "src_name", "family", "op", "kind",
-                 "mask", "base", "eff_index")
+                 "mask", "base", "eff_index", "via")
 
-    def __init__(self, src_id, src_name, family, op, kind, mask, base, eff_index):
+    def __init__(self, src_id, src_name, family, op, kind, mask, base, eff_index, via):
         self.src_id = src_id
         self.src_name = src_name
         self.family = family          # spell_class_set of the modifier
@@ -80,6 +97,8 @@ class Modifier:
         self.mask = mask              # (a, b, c) class-mask tuple selecting target spells
         self.base = base              # effect_base_points (display value before +1 convention)
         self.eff_index = eff_index    # 1..3
+        self.via = via                # "known" (passive talent) | "aura" (equip/buff) — how
+                                      # the engine detects the player actually has this mod
 
     def matches(self, family: int, flags: tuple) -> bool:
         """True if this modifier targets a spell of `family` with SpellFamilyFlags `flags`."""
@@ -96,6 +115,7 @@ class Modifier:
             "op_name": SPELLMOD_OP_NAMES.get(self.op, str(self.op)),
             "base": self.base,
             "eff": self.eff_index,
+            "via": self.via,
         }
 
 
@@ -120,6 +140,7 @@ def build_modifier_index(spells: Dict[int, Dict]) -> List[Modifier]:
             )
             if not any(mask):
                 continue  # no class mask -> targets nothing by family flags
+            via = "known" if (_i(row, "attributes") & ATTR_PASSIVE) else "aura"
             mods.append(Modifier(
                 src_id=sid,
                 src_name=row.get("spell_name_enus") or "",
@@ -129,6 +150,7 @@ def build_modifier_index(spells: Dict[int, Dict]) -> List[Modifier]:
                 mask=mask,
                 base=_i(row, f"effect_base_points_{i}"),
                 eff_index=i,
+                via=via,
             ))
     return mods
 
@@ -154,6 +176,24 @@ def weapon_effects(row: Dict) -> List[Dict]:
         etype = _i(row, f"effect_{i}")
         if etype in WEAPON_EFFECTS:
             out.append({"type": etype, "eff": i, "base": _i(row, f"effect_base_points_{i}")})
+    return out
+
+
+def spell_effects(row: Dict) -> List[Dict]:
+    """Per-effect numbers the engine needs: effect type, aura type, base points,
+    die_sides, and per-level scaling. Empty effects (type 0 & aura 0) are skipped."""
+    out = []
+    for i in (1, 2, 3):
+        etype = _i(row, f"effect_{i}")
+        aura = _i(row, f"effect_apply_aura_name_{i}")
+        if etype == 0 and aura == 0:
+            continue
+        out.append({
+            "i": i, "type": etype, "aura": aura,
+            "base": _i(row, f"effect_base_points_{i}"),
+            "die": _i(row, f"effect_die_sides_{i}"),
+            "ppl": _f(row, f"effect_real_points_per_level_{i}"),
+        })
     return out
 
 
@@ -205,6 +245,14 @@ def classify(spell_id: int, spells: Dict[int, Dict],
     if weapon:
         reasons.append("weapon")
 
+    desc_var = _i(row, "spell_desc_variable_id")
+    custom_var = CUSTOM_DESC_VAR_MIN <= desc_var < 100000
+
+    # "renderable" = the engine would compute a number for it (so it needs the full
+    # coefficient + modifier record). Pure caster-dependent buffs with no value get a
+    # lean record. Keeps the shipped table bounded.
+    renderable = bool(sp_ap or weapon or stat_rows or custom_var)
+
     return {
         "id": spell_id,
         "name": row.get("spell_name_enus") or "",
@@ -212,37 +260,80 @@ def classify(spell_id: int, spells: Dict[int, Dict],
         "casterDependent": bool(reasons),
         "reasons": reasons,
         "dummyWarning": has_dummy(row),
-        "mods": [m.to_dict() for m in mods],
-        "sp_ap": {k: float(bonus_row[k]) for k in SP_AP_COLUMNS
-                  if bonus_row and bonus_row.get(k) is not None} if sp_ap else None,
+        "renderable": renderable,
+        "desc_var": desc_var if custom_var else 0,
+        # full per-spell compute picture (engine inputs), all from OUR DBC:
+        "levels": {"bl": _i(row, "base_level"), "ml": _i(row, "max_level"),
+                   "sl": _i(row, "spell_level")},
+        "effects": spell_effects(row),
+        "sp_ap": {"d": _f(bonus_row, "direct_bonus"), "o": _f(bonus_row, "dot_bonus"),
+                  "ap": _f(bonus_row, "ap_bonus"), "apo": _f(bonus_row, "ap_dot_bonus")}
+                 if bonus_row else None,
         "stat_scaling": [{"eff": _i(r, "eff_index"), "stat": r.get("stat_id"),
                           "coeff": float(r["coeff"]) if r.get("coeff") is not None else None}
                          for r in stat_rows] if stat_rows else None,
         "weapon": weapon or None,
+        "mods": [m.to_dict() for m in mods],
     }
 
 
+def _num(x) -> str:
+    """Compact Lua number: drop trailing .0 on whole floats."""
+    if isinstance(x, float) and x.is_integer():
+        return str(int(x))
+    return repr(x) if isinstance(x, float) else str(x)
+
+
 def emit_lua(records: List[Dict]) -> str:
-    """Render the classification records as a Lua data table for the addon."""
+    """Render records as the Lua data table the engine consumes.
+
+    Schema per spell:
+      cd       = casterDependent (drives ALE routing)
+      reasons  = {spellmod|sp_ap|stat_scaling|weapon}
+      dv       = custom spell-desc-variable id (0 if none / stock)
+      bl,ml,sl = base / max / spell level
+      eff      = {{i,t,a,b,d,p}} index,type,aura,base,die,ppl (per-level)
+      sp       = {d,o,ap,apo} spell_bonus_data direct/dot/ap/apdot coefficients
+      weapon   = {{t,e,b}} type,eff,base
+      stat     = {{e,s,c}} eff,stat_id,coeff (F-189)
+      mods     = {{src,op,k,b,e,v}} src,SpellModOp,kind,base,eff,via(known|aura)
+    Non-renderable caster-dependent spells get a lean {cd,reasons,nmods} record.
+    """
     lines = [
-        "-- F-190 Phase 1 — generated tooltip classification data. DO NOT EDIT BY HAND.",
-        "-- Regenerated by `zep build tooltip-data`. Source of truth = DBC.",
+        "-- F-190 — generated tooltip compute data. DO NOT EDIT BY HAND.",
+        "-- Regenerated by `zep build tooltip-data`. Source of truth = our live DBC.",
         "ZepTooltipData = {",
     ]
     for r in sorted(records, key=lambda r: r["id"]):
-        reasons_lua = "{" + ",".join('"%s"' % x for x in r.get("reasons", [])) + "}"
-        weapon_lua = "{" + ",".join(
-            "{type=%d,eff=%d,base=%d}" % (w["type"], w["eff"], w["base"])
-            for w in (r.get("weapon") or [])) + "}"
-        stat_lua = "{" + ",".join(
-            '{eff=%d,stat="%s",coeff=%s}' % (s["eff"], s["stat"], s["coeff"])
-            for s in (r.get("stat_scaling") or [])) + "}"
-        # The full mods list is a build-time analysis artifact (regenerable from DBC);
-        # the runtime addon only needs a count, so ship nmods, not the list.
+        cd = "true" if r["casterDependent"] else "false"
+        reasons = "{" + ",".join('"%s"' % x for x in r.get("reasons", [])) + "}"
+
+        if not r.get("renderable"):
+            lines.append("  [%d] = {cd=%s, reasons=%s, nmods=%d},  -- %s"
+                         % (r["id"], cd, reasons, len(r["mods"]), r["name"]))
+            continue
+
+        lv = r["levels"]
+        eff = "{" + ",".join(
+            "{i=%d,t=%d,a=%d,b=%d,d=%d,p=%s}" % (e["i"], e["type"], e["aura"], e["base"],
+                                                 e["die"], _num(e["ppl"]))
+            for e in r["effects"]) + "}"
+        sp = r["sp_ap"]
+        sp_lua = ("{d=%s,o=%s,ap=%s,apo=%s}" % (_num(sp["d"]), _num(sp["o"]),
+                                                _num(sp["ap"]), _num(sp["apo"]))) if sp else "nil"
+        weapon = "{" + ",".join("{t=%d,e=%d,b=%d}" % (w["type"], w["eff"], w["base"])
+                                for w in (r.get("weapon") or [])) + "}"
+        stat = "{" + ",".join('{e=%d,s="%s",c=%s}' % (s["eff"], s["stat"], _num(s["coeff"]))
+                              for s in (r.get("stat_scaling") or [])) + "}"
+        mods = "{" + ",".join(
+            '{src=%d,op=%d,k="%s",b=%d,e=%d,v="%s"}' % (m["src"], m["op"], m["kind"],
+                                                        m["base"], m["eff"], m["via"])
+            for m in r["mods"]) + "}"
         lines.append(
-            "  [%d] = {casterDependent=%s, reasons=%s, weapon=%s, stat_scaling=%s, nmods=%d},  -- %s"
-            % (r["id"], "true" if r["casterDependent"] else "false",
-               reasons_lua, weapon_lua, stat_lua, len(r["mods"]), r["name"])
+            "  [%d] = {cd=%s, reasons=%s, dv=%d, bl=%d, ml=%d, sl=%d, eff=%s, sp=%s, "
+            "weapon=%s, stat=%s, mods=%s},  -- %s"
+            % (r["id"], cd, reasons, r["desc_var"], lv["bl"], lv["ml"], lv["sl"],
+               eff, sp_lua, weapon, stat, mods, r["name"])
         )
     lines.append("}")
     lines.append("")
