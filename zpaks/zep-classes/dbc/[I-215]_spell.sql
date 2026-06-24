@@ -1,0 +1,22 @@
+-- I-215: Ghost Wolf Speed PvP-58 set bonus (spell 22801) — convert the inert DUMMY
+-- marker into a pure passive spellmod so the set's +15% Ghost Wolf speed comes from
+-- ONE source instead of a DUMMY + a C++-triggered 47017 aura.
+--
+-- Background: 22801's effect_1 was SPELL_AURA_DUMMY (4) — functionally inert. A
+-- hardcoded trigger in Zeppelin-Core (SpellAuras.cpp, SPELLFAMILY_SHAMAN) checked
+-- HasAura(22801) on Ghost Wolf apply and cast 47017 (MOD_SPEED_ALWAYS) at an
+-- overridden +15%. The F-005 tooltip then summed BOTH 22801 (+15) and 47017 (+11),
+-- over-reporting the set bonus as ~+26% when it is functionally +15%.
+--
+-- 22801 ALREADY carries the correct spellmod targeting metadata:
+--   spell_class_set (family)         = 14  (Shaman)
+--   effect_spell_class_mask_a_1      = 0x40000000  (Ghost Wolf, spell 2645)
+--   effect_misc_value_a_1 (SpellModOp) = 12  (SPELLMOD_EFFECT2 = Ghost Wolf's speed effect)
+--   effect_base_points_1             = 14  (+15% with the +1 convention)
+--   attributes                       = 448 (passive 0x40 set — stays a hidden set bonus)
+-- Only the aura type was wrong. Flip DUMMY (4) -> ADD_FLAT_MODIFIER (107); this mirrors
+-- the existing Improved Ghost Wolf talent template (16262/16287, op 12, mask 0x40000000).
+--
+-- The C++ trigger and the 47017 cast/teardown are retired in Zeppelin-Core; spell 47017
+-- is left in place but is no longer applied (deprecated). Stock row -> single UPDATE.
+UPDATE `spell` SET `effect_apply_aura_name_1` = 107 WHERE `ID` = 22801;

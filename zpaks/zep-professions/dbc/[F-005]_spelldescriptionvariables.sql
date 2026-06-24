@@ -66,13 +66,15 @@ $swiftflightspeed=${$40121m2+$<crop>}');
 -- Fix: hardcode the base (20) and use the $lvc operand (player level clamped to
 -- 60, F-183 exe extension) for the level term, so the tooltip matches the
 -- server-applied value at all levels: 20 + ($lvc-20)*2, capped at 100%.
--- Includes crop bonus and Ghost Wolf Speed set bonuses (22801, 47017).
+-- Includes crop bonus and the Ghost Wolf Speed PvP set bonus (22801; I-215).
 --
 -- Variables:
 --   $c1-$c5      = Riding crop speed bonus per tier (same as 182)
 --   $crop        = Combined crop bonus (only one non-zero due to anti-stack)
---   $gw1         = Ghost Wolf Speed PvP set bonus (22801, +15%)
---   $gw2         = Ghost Wolf Speed buff (47017, +11%)
+--   $gw1         = Ghost Wolf Speed PvP set bonus (22801, +15%). As of I-215 this
+--                  is a pure passive spellmod (was a DUMMY marker + triggered 47017
+--                  aura, which double-counted in the tooltip). 47017 is retired, so
+--                  its old $gw2=$?a47017 term is removed — the set bonus is now $gw1 only.
 --   $igw1/$igw2  = Improved Ghost Wolf talent speed bonus (16262 +5% / 16287 +10%, F-164)
 --                  Checked with $?s (KNOWS spell), NOT $?a (has aura): IGW is a
 --                  PASSIVE talent (attr 0x40), so its aura is never sent to the
@@ -95,12 +97,11 @@ $c5=$?a100014[${$100014m1}][${0}]
 $c6=$?a100015[${$100015m1}][${0}]
 $crop=${$<c1>+$<c2>+$<c3>+$<c4>+$<c5>+$<c6>}
 $gw1=$?a22801[${$22801m1}][${0}]
-$gw2=$?a47017[${$47017m1}][${0}]
 $igw1=$?s16262[${$16262m2}][${0}]
 $igw2=$?s16287[${$16287m2}][${0}]
 $igw=${$<igw1>+$<igw2>}
-$wolfspeed=${20+($lvc-20)*2+$<crop>+$<gw1>+$<gw2>+$<igw>}
-$wolfspeed2=${20+($lvc-20)*2+$<crop>+$<gw1>+$<gw2>+$<igw>}');
+$wolfspeed=${20+($lvc-20)*2+$<crop>+$<gw1>+$<igw>}
+$wolfspeed2=${20+($lvc-20)*2+$<crop>+$<gw1>+$<igw>}');
 
 -- ============================================================================
 -- Variable ID 184: Aquatic Form (spell 5421) tooltip
