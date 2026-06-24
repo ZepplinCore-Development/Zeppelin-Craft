@@ -26,9 +26,15 @@ local VALUE_TYPE = { [2] = true, [10] = true }          -- SCHOOL_DAMAGE / HEAL
 local SPEED_AURA = { [31] = true, [32] = true, [129] = true }
 local PERIODIC_AURA = { [3] = true, [8] = true }        -- periodic damage / heal
 
+-- The `via` field is a hint; check both so talents (knows) AND glyphs/equip/buffs
+-- (hasAura) are detected regardless of how the source was classified.
 local function playerHas(ctx, m)
-    if m.v == "known" then return ctx.knows(m.src) end
-    return ctx.hasAura(m.src)
+    return ctx.knows(m.src) or ctx.hasAura(m.src)
+end
+
+-- Applied modifier value: base + die_sides (die=1 -> the classic +1; die=0 -> exact base).
+local function modValue(m)
+    return m.b + (m.d or 0)
 end
 
 -- Per-effect {lo,hi}: base(+1) .. base+die, + per-level (capped at max_level), then the
@@ -60,10 +66,10 @@ function ZepCompute.effectValues(rec, ctx)
                 local v = out[i]
                 if v then
                     if m.k == "flat" then
-                        local f = m.b + 1
+                        local f = modValue(m)
                         v.lo = v.lo + f; v.hi = v.hi + f
                     else
-                        local mul = 1 + (m.b + 1) / 100
+                        local mul = 1 + modValue(m) / 100
                         v.lo = v.lo * mul; v.hi = v.hi * mul
                     end
                 end
@@ -113,8 +119,8 @@ end
 local function applyOp(rec, ctx, op, base)
     for _, m in ipairs(rec.mods or {}) do
         if m.op == op and playerHas(ctx, m) then
-            if m.k == "flat" then base = base + (m.b + 1)
-            else base = base * (1 + (m.b + 1) / 100) end
+            if m.k == "flat" then base = base + modValue(m)
+            else base = base * (1 + modValue(m) / 100) end
         end
     end
     return base
@@ -140,7 +146,7 @@ end
 function ZepCompute.crit(rec, ctx)
     local c = ctx.spellCrit or 0
     for _, m in ipairs(rec.mods or {}) do
-        if m.op == 7 and m.k == "flat" and playerHas(ctx, m) then c = c + (m.b + 1) end
+        if m.op == 7 and m.k == "flat" and playerHas(ctx, m) then c = c + modValue(m) end
     end
     return c
 end

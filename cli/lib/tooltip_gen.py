@@ -87,19 +87,20 @@ class Modifier:
     """A single 107/108 spellmod effect (one effect index of one modifier spell)."""
 
     __slots__ = ("src_id", "src_name", "family", "op", "kind",
-                 "mask", "base", "eff_index", "via")
+                 "mask", "base", "die", "eff_index", "via")
 
-    def __init__(self, src_id, src_name, family, op, kind, mask, base, eff_index, via):
+    def __init__(self, src_id, src_name, family, op, kind, mask, base, die, eff_index, via):
         self.src_id = src_id
         self.src_name = src_name
         self.family = family          # spell_class_set of the modifier
         self.op = op                  # SpellModOp (effect_misc_value_a)
         self.kind = kind              # 107 flat | 108 pct
         self.mask = mask              # (a, b, c) class-mask tuple selecting target spells
-        self.base = base              # effect_base_points (display value before +1 convention)
+        self.base = base              # effect_base_points
+        self.die = die                # effect_die_sides — applied value = base + die (die=1 -> +1)
         self.eff_index = eff_index    # 1..3
-        self.via = via                # "known" (passive talent) | "aura" (equip/buff) — how
-                                      # the engine detects the player actually has this mod
+        self.via = via                # "known" (passive talent) | "aura" (equip/buff) — hint
+                                      # only; the engine checks knows OR hasAura to be safe
 
     def matches(self, family: int, flags: tuple) -> bool:
         """True if this modifier targets a spell of `family` with SpellFamilyFlags `flags`."""
@@ -115,6 +116,7 @@ class Modifier:
             "op": self.op,
             "op_name": SPELLMOD_OP_NAMES.get(self.op, str(self.op)),
             "base": self.base,
+            "die": self.die,
             "eff": self.eff_index,
             "via": self.via,
         }
@@ -150,6 +152,7 @@ def build_modifier_index(spells: Dict[int, Dict]) -> List[Modifier]:
                 kind=aura,
                 mask=mask,
                 base=_i(row, f"effect_base_points_{i}"),
+                die=_i(row, f"effect_die_sides_{i}"),
                 eff_index=i,
                 via=via,
             ))
@@ -329,8 +332,8 @@ def emit_lua(records: List[Dict]) -> str:
         stat = "{" + ",".join('{e=%d,s="%s",c=%s}' % (s["eff"], s["stat"], _num(s["coeff"]))
                               for s in (r.get("stat_scaling") or [])) + "}"
         mods = "{" + ",".join(
-            '{src=%d,op=%d,k="%s",b=%d,e=%d,v="%s"}' % (m["src"], m["op"], m["kind"],
-                                                        m["base"], m["eff"], m["via"])
+            '{src=%d,op=%d,k="%s",b=%d,d=%d,e=%d,v="%s"}' % (m["src"], m["op"], m["kind"],
+                                                            m["base"], m["die"], m["eff"], m["via"])
             for m in r["mods"]) + "}"
         c = r["cost"]
         cost = "{f=%d,p=%d,cd=%d,cdc=%d}" % (c["flat"], c["pct"], c["cd"], c["cdcat"])

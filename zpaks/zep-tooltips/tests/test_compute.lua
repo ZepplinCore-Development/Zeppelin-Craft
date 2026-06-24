@@ -46,9 +46,9 @@ local synth = {
     sp = { d = 0, o = 0, ap = 0, apo = 0 },
     cost = { f = 100, p = 0, cd = 10000, cdc = 0 },           -- 100 mana, 10s cd
     mods = {
-        { src = 1, op = 7,  k = "flat", b = 4,   v = "known" }, -- +5% crit
-        { src = 2, op = 14, k = "flat", b = -21, v = "known" }, -- -20 mana
-        { src = 3, op = 11, k = "pct",  b = -51, v = "known" }, -- -50% cooldown
+        { src = 1, op = 7,  k = "flat", b = 4,   d = 1, v = "known" }, -- +5% crit
+        { src = 2, op = 14, k = "flat", b = -21, d = 1, v = "known" }, -- -20 mana
+        { src = 3, op = 11, k = "pct",  b = -51, d = 1, v = "known" }, -- -50% cooldown
     },
 }
 local sc = ctx{ sp = 0, known = { [1] = true, [2] = true, [3] = true } }
@@ -64,6 +64,15 @@ check("cooldown modified flag", cdMod and 1 or 0, 1)
 local sc0 = ctx{}; sc0.spellCrit = 10
 local _, cm0 = ZepCompute.cost(synth, sc0)
 check("cost not modified when no talent", cm0 and 1 or 0, 0)
+
+print("=== real example: Rockslam (900119) cooldown with Glyph of Rockslam ===")
+local rs = ZepTooltipData[900119]
+-- 6000ms base; glyph 900270 op-11 flat -1500 (die=0) -> 4500ms = 4.5s exact (no +1)
+local cdNo = select(1, ZepCompute.cooldown(rs, ctx{}))
+local cdGlyph, gMod = ZepCompute.cooldown(rs, ctx{auras={[900270]=true}})
+check("Rockslam base cooldown", cdNo, 6)
+check("Rockslam cooldown w/ Glyph (6 - 1.5)", cdGlyph, 4.5)
+check("Rockslam cooldown modified by glyph", gMod and 1 or 0, 1)
 
 print(string.format("\n%d passed, %d failed", pass, fail))
 os.exit(fail == 0 and 0 or 1)
