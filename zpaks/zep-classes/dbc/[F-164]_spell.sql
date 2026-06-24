@@ -3515,7 +3515,7 @@ INSERT INTO `spell` SET
     `attributes` = 464,
     `effect_spell_class_mask_a_1` = 3092780056,
     `effect_spell_class_mask_a_2` = 68728,
-    `effect_spell_class_mask_a_3` = 28,
+    `effect_spell_class_mask_a_3` = 10223644, -- stock MQ word3 (28) + F-164 instant casts: Rockslam(bit18) Crag Strike(bit19) Rocksurge(bit20) Tectonic Blast(bit23). Rockbiter (mask_1 bit22) already covered by a_1.
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `spell_level` = 1,
@@ -3559,7 +3559,7 @@ INSERT INTO `spell` SET
     `attributes` = 464,
     `effect_spell_class_mask_a_1` = 3092780056,
     `effect_spell_class_mask_a_2` = 68728,
-    `effect_spell_class_mask_a_3` = 28,
+    `effect_spell_class_mask_a_3` = 10223644, -- stock MQ word3 (28) + F-164 instant casts: Rockslam(bit18) Crag Strike(bit19) Rocksurge(bit20) Tectonic Blast(bit23). Rockbiter (mask_1 bit22) already covered by a_1.
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `spell_level` = 1,
@@ -3603,7 +3603,7 @@ INSERT INTO `spell` SET
     `attributes` = 464,
     `effect_spell_class_mask_a_1` = 3092780056,
     `effect_spell_class_mask_a_2` = 68728,
-    `effect_spell_class_mask_a_3` = 28,
+    `effect_spell_class_mask_a_3` = 10223644, -- stock MQ word3 (28) + F-164 instant casts: Rockslam(bit18) Crag Strike(bit19) Rocksurge(bit20) Tectonic Blast(bit23). Rockbiter (mask_1 bit22) already covered by a_1.
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `spell_level` = 1,
