@@ -24,6 +24,9 @@
     -- Libram of Protection stacks to 20, non unique
     UPDATE `item_template` SET `stackable` = 20, `maxcount` = 0 WHERE (`entry` = 18334);
 
+    -- Oshu'gun Crystal Powder Sample non unique (added to Item Vault, mod-item-vault)
+    UPDATE `item_template` SET `maxcount` = 0 WHERE (`entry` = 26043);
+
 -- 5 -> 50 stack size
     -- Universally increase stack sizes to 50 where it is currently 5.
     UPDATE `item_template` SET `stackable` = 50 WHERE (`stackable` = 5);
