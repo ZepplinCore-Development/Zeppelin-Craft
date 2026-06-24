@@ -1,43 +1,43 @@
 -- F-190 engine math validation (lua5.1, mocked WoW API). Runs in dev env.
-math = math or require("math")
 dofile("/workspace/project/Zeppelin-Craft/zpaks/zep-tooltips/mpq/source-assets/Interface/AddOns/ZepTooltips/Compute.lua")
-dofile("/tmp/zeptt_data.lua")  -- defines ZepTooltipData
+dofile("/tmp/zeptt_data.lua")  -- ZepTooltipData
 
-local function ctx(level, sp, ap, known, auras)
+local function ctx(o)
+    o = o or {}
     return {
-        level = level, sp = sp or 0, ap = ap or 0, weaponAvg = 0,
-        knows = function(id) return known and known[id] or false end,
-        hasAura = function(id) return auras and auras[id] or false end,
+        level = o.level or 80, sp = o.sp or 0, ap = o.ap or 0, weaponAvg = o.weaponAvg or 0,
+        knows = function(id) return o.known and o.known[id] or false end,
+        hasAura = function(id) return o.auras and o.auras[id] or false end,
+        stat = function(id) return o.stats and o.stats[id] or 0 end,
     }
 end
 
-local function approx(a, b) return math.abs(a - b) < 0.5 end
 local pass, fail = 0, 0
 local function check(label, got, want)
-    if approx(got, want) then pass = pass + 1; print(string.format("  PASS  %-46s = %.1f", label, got))
-    else fail = fail + 1; print(string.format("  FAIL  %-46s = %.1f (want %.1f)", label, got, want)) end
+    if math.abs(got - want) < 0.5 then pass = pass + 1; print(string.format("  PASS  %-44s = %.1f", label, got))
+    else fail = fail + 1; print(string.format("  FAIL  %-44s = %.1f (want %.1f)", label, got, want)) end
 end
 
-local gw = ZepTooltipData[2645]
-local fb = ZepTooltipData[133]
+local gw, fb, ll = ZepTooltipData[2645], ZepTooltipData[133], ZepTooltipData[60103]
 
-print("=== Ghost Wolf (2645) speed = effect 2 ===")
--- L80, no modifiers: base 20 + per-level capped at 60 -> 2*(60-20)=80 -> 100
-check("L80, no crop/talent", ZepCompute.effectValues(gw, ctx(80))[2], 100)
--- L80 + Artisan crop (100013): +16 -> 116  (the user's in-game case)
-check("L80 + Artisan crop (100013)", ZepCompute.effectValues(gw, ctx(80, 0, 0, nil, {[100013]=true}))[2], 116)
--- L40 (below cap): base 20 + 2*(40-20)=40 -> 60
-check("L40, no crop", ZepCompute.effectValues(gw, ctx(40))[2], 60)
--- L80 + Grand Master crop (100015, base 23 -> +24) -> 124
-check("L80 + Grand Master crop (100015)", ZepCompute.effectValues(gw, ctx(80, 0, 0, nil, {[100015]=true}))[2], 124)
+print("=== GW: primaryEffect picks the speed aura (eff 2), not shapeshift ===")
+check("GW primaryEffect index", ZepCompute.primaryEffect(gw).i, 2)
+local function gwspeed(c) return ZepCompute.effectValues(gw, c)[2].lo end
+check("L80 no crop", gwspeed(ctx{}), 100)
+check("L80 + Artisan crop", gwspeed(ctx{auras={[100013]=true}}), 116)
+check("L40 no crop", gwspeed(ctx{level=40}), 60)
+check("L80 + Grand Master crop", gwspeed(ctx{auras={[100015]=true}}), 124)
 
-print("=== Fireball rank 1 (133) direct damage = effect 1 (approx; SP-inclusive) ===")
--- base 13 + die 9 -> 22 (max-roll point); per-level p=0.6 capped at ml=5: 0.6*(5-1)=2.4 -> 24.4
--- + SP*0.123. With 1000 SP: +123 -> ~147.4
-local v0 = ZepCompute.effectValues(fb, ctx(80, 0))[1]
-local v1000 = ZepCompute.effectValues(fb, ctx(80, 1000))[1]
-print(string.format("  Fireball base(no SP) eff1 = %.1f ; with 1000 SP = %.1f (delta %.1f = 1000*0.123)", v0, v1000, v1000 - v0))
-check("Fireball SP delta = 1000 * 0.123", v1000 - v0, 123)
+print("=== Fireball: die-range (min..max), SP-inclusive ===")
+check("Fireball primaryEffect index", ZepCompute.primaryEffect(fb).i, 1)
+local f0 = ZepCompute.effectValues(fb, ctx{})[1]
+check("Fireball min (base+1=14 + 2.4 perlevel)", f0.lo, 16.4)
+check("Fireball max (base+die=22 + 2.4 perlevel)", f0.hi, 24.4)
+local f1 = ZepCompute.effectValues(fb, ctx{sp=1000})[1]
+check("Fireball min + 1000 SP*0.123", f1.lo, 16.4 + 123)
+
+print("=== Lava Lash: weapon path (~99% of weapon avg) ===")
+check("Lava Lash, 500 weapon avg", ZepCompute.weapon(ll, ctx{weaponAvg=500}), 495)
 
 print(string.format("\n%d passed, %d failed", pass, fail))
 os.exit(fail == 0 and 0 or 1)

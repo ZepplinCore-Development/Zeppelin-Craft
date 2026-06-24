@@ -9,5 +9,6 @@
 # data table exists before the engine runs.
 Generated.lua
 
-# The compute engine + tooltip hooks.
+# Combine-engine (math) then hooks (WoW API + rendering).
+Compute.lua
 Engine.lua
