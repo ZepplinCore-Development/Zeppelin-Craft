@@ -108,6 +108,43 @@ function ZepCompute.stat(rec, ctx)
     return total
 end
 
+-- Apply the player's matched mods of one SpellModOp to a base value (flat = +base+1,
+-- pct = *(1 + (base+1)/100); cost/cooldown reductions encode as negative bases).
+local function applyOp(rec, ctx, op, base)
+    for _, m in ipairs(rec.mods or {}) do
+        if m.op == op and playerHas(ctx, m) then
+            if m.k == "flat" then base = base + (m.b + 1)
+            else base = base * (1 + (m.b + 1) / 100) end
+        end
+    end
+    return base
+end
+
+-- Mana cost (flat + % of base mana) after SPELLMOD_COST (op 14). Returns (value, modified).
+function ZepCompute.cost(rec, ctx)
+    if not rec or not rec.cost then return 0, false end
+    local base = (rec.cost.f or 0) + (rec.cost.p or 0) / 100 * (ctx.baseMana or 0)
+    local v = math.max(0, applyOp(rec, ctx, 14, base))
+    return v, math.abs(v - base) >= 1
+end
+
+-- Cooldown in seconds after SPELLMOD_COOLDOWN (op 11). Returns (seconds, modified).
+function ZepCompute.cooldown(rec, ctx)
+    if not rec or not rec.cost then return 0, false end
+    local base = math.max(rec.cost.cd or 0, rec.cost.cdc or 0)
+    local v = math.max(0, applyOp(rec, ctx, 11, base))
+    return v / 1000, math.abs(v - base) >= 1
+end
+
+-- Spell crit chance %: player base + SPELLMOD_CRIT_CHANCE (op 7) flat talent bonuses.
+function ZepCompute.crit(rec, ctx)
+    local c = ctx.spellCrit or 0
+    for _, m in ipairs(rec.mods or {}) do
+        if m.op == 7 and m.k == "flat" and playerHas(ctx, m) then c = c + (m.b + 1) end
+    end
+    return c
+end
+
 -- First effect worth displaying a number for; nil if none. (weapon handled separately)
 function ZepCompute.primaryEffect(rec)
     if not rec or not rec.eff then return nil end

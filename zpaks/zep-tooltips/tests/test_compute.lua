@@ -39,5 +39,31 @@ check("Fireball min + 1000 SP*0.123", f1.lo, 16.4 + 123)
 print("=== Lava Lash: weapon path (~99% of weapon avg) ===")
 check("Lava Lash, 500 weapon avg", ZepCompute.weapon(ll, ctx{weaponAvg=500}), 495)
 
+print("=== synthetic record: cost / cooldown / crit op math ===")
+local synth = {
+    cd = true, bl = 0, ml = 0,
+    eff = { { i = 1, t = 2, a = 0, b = 99, d = 1, p = 0 } },  -- 100 damage
+    sp = { d = 0, o = 0, ap = 0, apo = 0 },
+    cost = { f = 100, p = 0, cd = 10000, cdc = 0 },           -- 100 mana, 10s cd
+    mods = {
+        { src = 1, op = 7,  k = "flat", b = 4,   v = "known" }, -- +5% crit
+        { src = 2, op = 14, k = "flat", b = -21, v = "known" }, -- -20 mana
+        { src = 3, op = 11, k = "pct",  b = -51, v = "known" }, -- -50% cooldown
+    },
+}
+local sc = ctx{ sp = 0, known = { [1] = true, [2] = true, [3] = true } }
+sc.spellCrit = 10
+check("crit = base 10 + op7 (+5)", ZepCompute.crit(synth, sc), 15)
+local cost, costMod = ZepCompute.cost(synth, sc)
+check("cost = 100 + op14(-20)", cost, 80)
+check("cost modified flag", costMod and 1 or 0, 1)
+local cd, cdMod = ZepCompute.cooldown(synth, sc)
+check("cooldown = 10s * (1-50%) = 5s", cd, 5)
+check("cooldown modified flag", cdMod and 1 or 0, 1)
+-- with nothing known, base values and no modified flag
+local sc0 = ctx{}; sc0.spellCrit = 10
+local _, cm0 = ZepCompute.cost(synth, sc0)
+check("cost not modified when no talent", cm0 and 1 or 0, 0)
+
 print(string.format("\n%d passed, %d failed", pass, fail))
 os.exit(fail == 0 and 0 or 1)

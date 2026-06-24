@@ -51,6 +51,8 @@ local function buildCtx()
         knows = function(id) return IsSpellKnown and IsSpellKnown(id) or false end,
         hasAura = function(id) return hasAuraById("player", id) end,
         stat = function(sid) local r = StatReader[sid]; return r and r() or 0 end,
+        baseMana = UnitPowerMax("player", 0) or 0,   -- approx (max mana ~ base for display)
+        spellCrit = GetSpellCritChance and GetSpellCritChance(2) or 0,  -- representative school
     }
 end
 
@@ -76,10 +78,11 @@ local function renderTooltip(tooltip, spellId)
     local shown = false
 
     local pe = ZepCompute.primaryEffect(rec)
+    local isSpeed = pe and ZepCompute.isSpeed(pe)
     if pe then
         local v = ZepCompute.effectValues(rec, ctx)[pe.i]
         if v then
-            tooltip:AddLine(colorize(fmt(v, ZepCompute.isSpeed(pe) and "%" or "")), nil, nil, nil, true)
+            tooltip:AddLine(colorize(fmt(v, isSpeed and "%" or "")), nil, nil, nil, true)
             shown = true
         end
     end
@@ -93,6 +96,28 @@ local function renderTooltip(tooltip, spellId)
     local s = ZepCompute.stat(rec, ctx)
     if s and s > 0 then
         tooltip:AddLine(colorize(string.format("+%d from your stats", math.floor(s + 0.5))), nil, nil, nil, true)
+        shown = true
+    end
+
+    -- crit chance: a stock gap (no native line). Only on damage/heal, not speed buffs.
+    if pe and not isSpeed then
+        local crit = ZepCompute.crit(rec, ctx)
+        if crit and crit > 0 then
+            tooltip:AddLine(colorize(string.format("~%.0f%% crit", crit)), nil, nil, nil, true)
+            shown = true
+        end
+    end
+
+    -- cost / cooldown: only when a talent the player has actually changes them (the
+    -- value-add over native, which already shows the base).
+    local cost, costMod = ZepCompute.cost(rec, ctx)
+    if costMod then
+        tooltip:AddLine(colorize(string.format("%d mana (your talents)", math.floor(cost + 0.5))), nil, nil, nil, true)
+        shown = true
+    end
+    local cdSec, cdMod = ZepCompute.cooldown(rec, ctx)
+    if cdMod then
+        tooltip:AddLine(colorize(string.format("%.1fs cooldown (your talents)", cdSec)), nil, nil, nil, true)
         shown = true
     end
 
