@@ -8,4 +8,10 @@ internal.appendData({
 		icon = "Interface\\Icons\\INV_Misc_Desecrated_PlateGloves",
 		categories = { 0 },
 	},
+	{
+		id = 30809,
+		name = "Mark of Sargeras",
+		icon = "Interface\\Icons\\Spell_Shadow_DemonicFortitude",
+		categories = { 0 },
+	},
 })
