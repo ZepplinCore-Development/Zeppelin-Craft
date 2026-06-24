@@ -153,6 +153,18 @@ function ZepCompute.crit(rec, ctx)
     return c
 end
 
+-- Crit damage multiplier: spell crits 1.5x, melee/ranged crits 2.0x; the bonus portion
+-- is increased by SPELLMOD_CRIT_DAMAGE_BONUS (op 15) talents (e.g. Ruin-style).
+function ZepCompute.critMult(rec, ctx)
+    local dc = rec.dc or 0
+    local bonus = (dc == 2 or dc == 3) and 1.0 or 0.5
+    local extra = 0
+    for _, m in ipairs(rec.mods or {}) do
+        if m.op == 15 and playerHas(ctx, m) then extra = extra + modValue(m) end
+    end
+    return 1 + bonus * (1 + extra / 100)
+end
+
 -- First effect worth displaying a number for; nil if none. (weapon handled separately)
 function ZepCompute.primaryEffect(rec)
     if not rec or not rec.eff then return nil end

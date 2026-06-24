@@ -81,12 +81,10 @@ local function renderTooltip(tooltip, spellId)
 
     local pe = ZepCompute.primaryEffect(rec)
     local isSpeed = pe and ZepCompute.isSpeed(pe)
-    if pe then
-        local v = ZepCompute.effectValues(rec, ctx)[pe.i]
-        if v then
-            tooltip:AddLine(colorize(fmt(v, isSpeed and "%" or "")), nil, nil, nil, true)
-            shown = true
-        end
+    local pv = pe and ZepCompute.effectValues(rec, ctx)[pe.i] or nil
+    if pv then
+        tooltip:AddLine(colorize(fmt(pv, isSpeed and "%" or "")), nil, nil, nil, true)
+        shown = true
     end
 
     local w = ZepCompute.weapon(rec, ctx)
@@ -101,11 +99,19 @@ local function renderTooltip(tooltip, spellId)
         shown = true
     end
 
-    -- crit chance: a stock gap (no native line). Only on damage/heal, not speed buffs.
+    -- crit: a stock gap (no native line). Chance + the crit hit value. Damage/heal only.
     if pe and not isSpeed then
         local crit = ZepCompute.crit(rec, ctx)
         if crit and crit > 0 then
-            tooltip:AddLine(colorize(string.format("~%.0f%% crit", crit)), nil, nil, nil, true)
+            local line
+            if pv then
+                local mult = ZepCompute.critMult(rec, ctx)
+                line = string.format("~%.0f%% crit for %s", crit,
+                    fmt({ lo = pv.lo * mult, hi = pv.hi * mult }, ""))
+            else
+                line = string.format("~%.0f%% crit", crit)
+            end
+            tooltip:AddLine(colorize(line), nil, nil, nil, true)
             shown = true
         end
     end

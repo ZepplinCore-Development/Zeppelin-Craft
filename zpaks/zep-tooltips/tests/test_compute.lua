@@ -81,5 +81,12 @@ check("Rockslam crit = melee 20 + Bulwark 15", ZepCompute.crit(rs, rsc), 35)
 local rsc0 = ctx{}; rsc0.meleeCrit = 20; rsc0.spellCrit = 99
 check("Rockslam crit no talent = melee 20", ZepCompute.crit(rs, rsc0), 20)
 
+print("=== crit damage multiplier (melee 2.0x / spell 1.5x + op15) ===")
+check("Rockslam critMult (melee 2.0x)", ZepCompute.critMult(rs, ctx{}), 2.0)
+check("Fireball critMult (spell 1.5x)", ZepCompute.critMult(fb, ctx{}), 1.5)
+-- op15 +100% crit-damage bonus on a spell: 0.5 * (1 + 100/100) = 1.0 -> mult 2.0
+local synth15 = { dc = 1, mods = { { src = 9, op = 15, k = "flat", b = 99, d = 1, v = "known" } } }
+check("op15 +100% bonus: spell 1.5x -> 2.0x", ZepCompute.critMult(synth15, ctx{ known = { [9] = true } }), 2.0)
+
 print(string.format("\n%d passed, %d failed", pass, fail))
 os.exit(fail == 0 and 0 or 1)
