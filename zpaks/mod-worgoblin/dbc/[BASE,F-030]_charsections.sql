@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: charsections
+-- [BASE,F-030] mod-worgoblin: charsections
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_charsections.sql with overrides
 

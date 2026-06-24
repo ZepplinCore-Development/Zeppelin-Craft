@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: itemdisplayinfo
+-- [BASE,F-030] mod-worgoblin: itemdisplayinfo
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_itemdisplayinfo.sql with overrides
 

@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: characterfacialhairstyles
+-- [BASE,F-030] mod-worgoblin: characterfacialhairstyles
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_characterfacialhairstyles.sql with overrides
 

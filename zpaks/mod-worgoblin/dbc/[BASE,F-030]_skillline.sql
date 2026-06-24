@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: skillline
+-- [BASE,F-030] mod-worgoblin: skillline
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_skillline.sql with overrides
 

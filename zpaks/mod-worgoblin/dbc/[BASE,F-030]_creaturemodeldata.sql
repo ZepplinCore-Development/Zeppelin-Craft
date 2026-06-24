@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: creaturemodeldata
+-- [BASE,F-030] mod-worgoblin: creaturemodeldata
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_creaturemodeldata.sql with overrides
 

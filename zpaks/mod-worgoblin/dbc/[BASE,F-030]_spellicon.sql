@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: spellicon
+-- [BASE,F-030] mod-worgoblin: spellicon
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_spellicon.sql with overrides
 

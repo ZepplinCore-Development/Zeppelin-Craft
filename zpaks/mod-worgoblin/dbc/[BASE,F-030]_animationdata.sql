@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: animationdata
+-- [BASE,F-030] mod-worgoblin: animationdata
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_animationdata.sql with overrides
 

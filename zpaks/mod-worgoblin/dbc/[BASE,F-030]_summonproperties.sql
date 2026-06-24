@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: summonproperties
+-- [BASE,F-030] mod-worgoblin: summonproperties
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_summonproperties.sql with overrides
 

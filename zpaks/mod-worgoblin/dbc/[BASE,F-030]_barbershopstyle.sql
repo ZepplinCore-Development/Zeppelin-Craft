@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: barbershopstyle
+-- [BASE,F-030] mod-worgoblin: barbershopstyle
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_barbershopstyle.sql with overrides
 

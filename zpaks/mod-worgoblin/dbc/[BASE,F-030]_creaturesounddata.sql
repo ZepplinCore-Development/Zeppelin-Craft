@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: creaturesounddata
+-- [BASE,F-030] mod-worgoblin: creaturesounddata
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_creaturesounddata.sql with overrides
 

@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: faction
+-- [BASE,F-030] mod-worgoblin: faction
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_faction.sql with overrides
 

@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: talenttab
+-- [BASE,F-030] mod-worgoblin: talenttab
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_talenttab.sql with overrides
 

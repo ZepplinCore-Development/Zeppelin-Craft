@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: skillraceclassinfo
+-- [BASE,F-030] mod-worgoblin: skillraceclassinfo
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_skillraceclassinfo.sql with overrides
 

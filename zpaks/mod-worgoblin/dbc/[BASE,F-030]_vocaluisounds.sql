@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: vocaluisounds
+-- [BASE,F-030] mod-worgoblin: vocaluisounds
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_vocaluisounds.sql with overrides
 

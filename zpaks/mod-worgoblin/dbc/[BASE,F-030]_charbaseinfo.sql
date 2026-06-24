@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: charbaseinfo
+-- [BASE,F-030] mod-worgoblin: charbaseinfo
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_charbaseinfo.sql with overrides
 

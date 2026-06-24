@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: charhairtextures
+-- [BASE,F-030] mod-worgoblin: charhairtextures
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_charhairtextures.sql with overrides
 

@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: charhairgeosets
+-- [BASE,F-030] mod-worgoblin: charhairgeosets
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_charhairgeosets.sql with overrides
 

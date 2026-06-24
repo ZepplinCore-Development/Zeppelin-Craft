@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: creaturedisplayinfoextra
+-- [BASE,F-030] mod-worgoblin: creaturedisplayinfoextra
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_creaturedisplayinfoextra.sql with overrides
 

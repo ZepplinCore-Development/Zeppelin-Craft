@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: achievement_criteria
+-- [BASE,F-030] mod-worgoblin: achievement_criteria
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_achievement_criteria.sql with overrides
 

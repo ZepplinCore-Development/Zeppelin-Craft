@@ -2938,9 +2938,18 @@ def _import_single_module(ctx, zpak_path: Path, craft_root: Path) -> bool:
                 scratch_conn.commit()
                 return True
 
+            # Honour the module manifest opt-in to drop bundled English text edits
+            # (name/desc/tooltip) — these clobber feature-owned descriptions on
+            # re-import (e.g. mod-worgoblin's 2000-row tooltip overlay vs F-005's GW).
+            _zmani = load_manifest(zpak_path / 'zpak.json') or {}
+            skip_text = bool(_zmani.get('dbc_import_skip_text', False))
+            if skip_text:
+                click.echo("  dbc_import_skip_text: dropping English text-only diffs\n")
+
             tables_with_changes = []
             for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
-                diff = get_table_diff(db_conn, table, config.scratch, config.original)
+                diff = get_table_diff(db_conn, table, config.scratch, config.original,
+                                      skip_text=skip_text)
                 adds = len(diff["only_in_db1"])
                 mods = len(diff["modified"])
                 dels = len(diff["only_in_db2"])
@@ -2966,7 +2975,8 @@ def _import_single_module(ctx, zpak_path: Path, craft_root: Path) -> bool:
             # BASE first ensures imports sort before custom edits
             total_lines = 0
             for table in tables_with_changes:
-                sql = generate_diff_sql(db_conn, table, config.scratch, config.original)
+                sql = generate_diff_sql(db_conn, table, config.scratch, config.original,
+                                        skip_text=skip_text)
 
                 sql_filename = f"[BASE,{task_id}]_{table}.sql"
                 sql_file = dbc_dir / sql_filename

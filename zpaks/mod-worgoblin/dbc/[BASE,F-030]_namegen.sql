@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: namegen
+-- [BASE,F-030] mod-worgoblin: namegen
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_namegen.sql with overrides
 

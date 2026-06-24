@@ -602,9 +602,28 @@ def get_effective_pk(table: str, db_pk: List[str]) -> List[str]:
     return db_pk
 
 
+def get_english_text_columns(columns: List[str], table_name: Optional[str] = None) -> Set[str]:
+    """English-locale text columns (each Loc field's _enus + _flags) — the human-readable
+    name/desc/tooltip text. Used by functional-only module imports to exclude a module's
+    bundled text edits, which otherwise clobber feature-owned descriptions on re-import."""
+    out: Set[str] = set()
+    if not table_name:
+        return out
+    loc_fields = _get_meta_loc_fields(table_name)
+    if not loc_fields:
+        return out
+    colset = set(columns)
+    for base in loc_fields:
+        for suffix in ('_enus', '_flags'):
+            col = f"{base}{suffix}"
+            if col in colset:
+                out.add(col)
+    return out
+
+
 def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: str,
                    primary_key: List[str] = None, skip_localization: bool = True,
-                   row_filter: str = None) -> Dict:
+                   skip_text: bool = False, row_filter: str = None) -> Dict:
     """
     Get detailed row-level differences between two tables.
 
@@ -652,17 +671,24 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
     only_in_db2 = sorted(pks2 - pks1)
 
     skipped_columns = set()
-    if skip_localization and rows1:
+    text_columns = set()
+    if rows1:
         sample_row = next(iter(rows1.values()))
-        skipped_columns = get_localization_columns(list(sample_row.keys()), table)
+        if skip_localization:
+            skipped_columns = get_localization_columns(list(sample_row.keys()), table)
+        if skip_text:
+            text_columns = get_english_text_columns(list(sample_row.keys()), table)
 
+    # text_columns are excluded from change DETECTION (so text-only edits produce no
+    # UPDATE) but NOT from INSERT column lists — genuinely new rows keep their text.
+    modified_skip = skipped_columns | text_columns
     modified = []
     for pk in sorted(pks1 & pks2):
         row1 = rows1[pk]
         row2 = rows2[pk]
         changed_cols = []
         for col in row1.keys():
-            if col in skipped_columns:
+            if col in modified_skip:
                 continue
             if not values_are_equivalent(row1[col], row2[col]):
                 changed_cols.append((col, row1[col], row2[col]))
@@ -674,7 +700,8 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
         "only_in_db2": only_in_db2,
         "modified": modified,
         "primary_key": primary_key,
-        "skipped_columns": skipped_columns
+        "skipped_columns": skipped_columns,
+        "text_columns": text_columns,
     }
 
 
@@ -715,7 +742,8 @@ def _format_pk_display(pk_cols: List[str], pk_vals: tuple) -> str:
 
 
 def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_target: str,
-                      skip_localization: bool = True, row_filter: str = None) -> str:
+                      skip_localization: bool = True, skip_text: bool = False,
+                      row_filter: str = None) -> str:
     """
     Generate SQL to transform db_target to match db_source for a single table.
 
@@ -734,7 +762,8 @@ def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_tar
     """
     conn = db_conn.get_connection(db_source)
     diff = get_table_diff(db_conn, table, db_source, db_target,
-                          skip_localization=skip_localization, row_filter=row_filter)
+                          skip_localization=skip_localization, skip_text=skip_text,
+                          row_filter=row_filter)
     pk_cols = diff["primary_key"]
     skipped_columns = diff.get("skipped_columns", set())
 

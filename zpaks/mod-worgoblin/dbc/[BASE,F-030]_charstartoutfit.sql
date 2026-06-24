@@ -1,4 +1,4 @@
--- [BASE,F-030] worgoblin: charstartoutfit
+-- [BASE,F-030] mod-worgoblin: charstartoutfit
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_charstartoutfit.sql with overrides
 
