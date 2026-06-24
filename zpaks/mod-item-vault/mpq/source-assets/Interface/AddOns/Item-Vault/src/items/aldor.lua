@@ -14,4 +14,16 @@ internal.appendData({
 		icon = "Interface\\Icons\\Spell_Shadow_DemonicFortitude",
 		categories = { 0 },
 	},
+	{
+		id = 29425,
+		name = "Mark of Kil'jaeden",
+		icon = "Interface\\Icons\\Spell_Shadow_DemonicFortitude",
+		categories = { 0 },
+	},
+	{
+		id = 25802,
+		name = "Dreadfang Venom Sac",
+		icon = "Interface\\Icons\\INV_Misc_Organ_04",
+		categories = { 0 },
+	},
 })
