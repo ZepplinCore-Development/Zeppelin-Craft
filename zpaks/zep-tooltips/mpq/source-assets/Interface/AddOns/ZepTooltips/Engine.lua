@@ -53,6 +53,8 @@ local function buildCtx()
         stat = function(sid) local r = StatReader[sid]; return r and r() or 0 end,
         baseMana = UnitPowerMax("player", 0) or 0,   -- approx (max mana ~ base for display)
         spellCrit = GetSpellCritChance and GetSpellCritChance(2) or 0,  -- representative school
+        meleeCrit = GetCritChance and GetCritChance() or 0,
+        rangedCrit = GetRangedCritChance and GetRangedCritChance() or 0,
     }
 end
 

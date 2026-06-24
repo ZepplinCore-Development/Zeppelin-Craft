@@ -74,5 +74,12 @@ check("Rockslam base cooldown", cdNo, 6)
 check("Rockslam cooldown w/ Glyph (6 - 1.5)", cdGlyph, 4.5)
 check("Rockslam cooldown modified by glyph", gMod and 1 or 0, 1)
 
+print("=== Rockslam crit: damage_class=2 -> MELEE crit + Bulwark (op7) talent ===")
+local rsc = ctx{ known = { [900202] = true } }   -- Bulwark rank 3 talented
+rsc.meleeCrit = 20; rsc.spellCrit = 99           -- spellCrit high to prove it's NOT used
+check("Rockslam crit = melee 20 + Bulwark 15", ZepCompute.crit(rs, rsc), 35)
+local rsc0 = ctx{}; rsc0.meleeCrit = 20; rsc0.spellCrit = 99
+check("Rockslam crit no talent = melee 20", ZepCompute.crit(rs, rsc0), 20)
+
 print(string.format("\n%d passed, %d failed", pass, fail))
 os.exit(fail == 0 and 0 or 1)

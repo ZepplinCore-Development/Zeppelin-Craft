@@ -142,9 +142,11 @@ function ZepCompute.cooldown(rec, ctx)
     return v / 1000, math.abs(v - base) >= 1
 end
 
--- Spell crit chance %: player base + SPELLMOD_CRIT_CHANCE (op 7) flat talent bonuses.
+-- Crit chance %: base crit from the stat matching the spell's damage_class (melee /
+-- ranged / spell), plus SPELLMOD_CRIT_CHANCE (op 7) talent bonuses for this spell.
 function ZepCompute.crit(rec, ctx)
-    local c = ctx.spellCrit or 0
+    local dc = rec.dc or 0
+    local c = (dc == 2 and ctx.meleeCrit) or (dc == 3 and ctx.rangedCrit) or ctx.spellCrit or 0
     for _, m in ipairs(rec.mods or {}) do
         if m.op == 7 and m.k == "flat" and playerHas(ctx, m) then c = c + modValue(m) end
     end

@@ -59,7 +59,7 @@ SPELL_COLUMNS = [
     "effect_real_points_per_level_1", "effect_real_points_per_level_2", "effect_real_points_per_level_3",
     "base_level", "max_level", "spell_level",
     "power_cost", "power_cost_percentage", "recovery_time", "category_recovery_time",
-    "attributes", "spell_desc_variable_id",
+    "damage_class", "attributes", "spell_desc_variable_id",
     "spell_name_enus",
 ]
 
@@ -271,6 +271,7 @@ def classify(spell_id: int, spells: Dict[int, Dict],
                    "sl": _i(row, "spell_level")},
         "cost": {"flat": _i(row, "power_cost"), "pct": _i(row, "power_cost_percentage"),
                  "cd": _i(row, "recovery_time"), "cdcat": _i(row, "category_recovery_time")},
+        "dclass": _i(row, "damage_class"),  # 0/1 magic->spell crit, 2 melee, 3 ranged
         "effects": spell_effects(row),
         "sp_ap": {"d": _f(bonus_row, "direct_bonus"), "o": _f(bonus_row, "dot_bonus"),
                   "ap": _f(bonus_row, "ap_bonus"), "apo": _f(bonus_row, "ap_dot_bonus")}
@@ -338,9 +339,9 @@ def emit_lua(records: List[Dict]) -> str:
         c = r["cost"]
         cost = "{f=%d,p=%d,cd=%d,cdc=%d}" % (c["flat"], c["pct"], c["cd"], c["cdcat"])
         lines.append(
-            "  [%d] = {cd=%s, reasons=%s, dv=%d, bl=%d, ml=%d, sl=%d, eff=%s, sp=%s, "
+            "  [%d] = {cd=%s, reasons=%s, dv=%d, dc=%d, bl=%d, ml=%d, sl=%d, eff=%s, sp=%s, "
             "weapon=%s, stat=%s, cost=%s, mods=%s},  -- %s"
-            % (r["id"], cd, reasons, r["desc_var"], lv["bl"], lv["ml"], lv["sl"],
+            % (r["id"], cd, reasons, r["desc_var"], r["dclass"], lv["bl"], lv["ml"], lv["sl"],
                eff, sp_lua, weapon, stat, cost, mods, r["name"])
         )
     lines.append("}")
