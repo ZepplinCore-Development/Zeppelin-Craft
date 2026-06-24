@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-tooltips",
+  "version": "0.1.0",
+  "description": "F-190 addon-driven spell tooltip/description engine (Layer 2)",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-A",
+  "enabled": true,
+  "priority": 100
+}

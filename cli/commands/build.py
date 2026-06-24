@@ -631,3 +631,145 @@ def build_talent_browser(ctx, target, database, overwrite_icons):
         raise click.ClickException("Talent browser deploy failed")
     click.echo(click.style(f"\nDeployed to {dest}", fg='green'))
     click.echo("Served at <site>/talents/  (ensure nginx /talents/ location is configured)")
+
+
+# =============================================================================
+# build tooltip-data  (F-190 Phase 1 — classifier / generator)
+# =============================================================================
+
+def _load_world_scaling():
+    """Load SP/AP coefficients + F-189 stat scaling from acore_world.
+
+    Returns (spell_bonus, stat_scaling):
+      spell_bonus  : {entry: {direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus}}
+      stat_scaling : {spell_id: [{eff_index, stat_id, coeff}, ...]} — empty if the
+                     F-189 `spell_stat_scaling` table does not exist yet.
+    """
+    from commands import sql as sqlmod
+    try:
+        import mysql.connector
+    except ImportError:
+        return {}, {}
+
+    conn = mysql.connector.connect(
+        host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
+        user=sqlmod.DB_USER, password=sqlmod.DB_PASS, database=sqlmod.DB_NAME,
+    )
+    cur = conn.cursor(dictionary=True)
+    cur.execute("SELECT entry, direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus "
+                "FROM spell_bonus_data")
+    spell_bonus = {int(r["entry"]): r for r in cur.fetchall()}
+
+    stat_scaling = {}
+    try:
+        cur.execute("SELECT spell_id, eff_index, stat_id, coeff FROM spell_stat_scaling")
+        for r in cur.fetchall():
+            stat_scaling.setdefault(int(r["spell_id"]), []).append(r)
+    except mysql.connector.Error:
+        pass  # F-189 spell_stat_scaling not created yet — fold in once it lands.
+    cur.close()
+    conn.close()
+    return spell_bonus, stat_scaling
+
+
+@build.command('tooltip-data')
+@click.option('--spell', '-s', 'spell_ids', multiple=True, type=int,
+              help='Report classification for specific spell ID(s). Repeatable.')
+@click.option('--family', '-f', 'family', type=int, default=None,
+              help='Limit the Lua/report output to one SpellFamily (spell_class_set).')
+@click.option('--out', '-o', 'out_path', type=click.Path(), default=None,
+              help='Write the generated Lua data table to this path.')
+@click.option('--database', '-d', 'database',
+              type=click.Choice(['live', 'original', 'expected', 'scratch']),
+              default='live', help='Source DBC database (default: live).')
+@click.pass_context
+def build_tooltip_data(ctx, spell_ids, family, out_path, database):
+    """F-190 Phase 1: classify spells for the addon-driven tooltip engine.
+
+    Builds the reverse-107/108 spellmod index from the DBC `spell` table and
+    reports, per spell, the modifiers that affect it, whether it is
+    casterDependent (ALE routing), and whether it carries a Class-C DUMMY
+    effect (a generator blind spot). With --out, emits the Lua data table.
+    """
+    from commands.dbc import get_dbc_config
+    from lib.dbc_utils import DBCConnection
+    from lib import tooltip_gen as tg
+
+    config = get_dbc_config(ctx)
+    db_name = getattr(config, database, config.live)
+
+    click.echo(f"Loading DBC `spell` from `{db_name}` ...")
+    with DBCConnection(config) as db_conn:
+        conn = db_conn.get_connection(db_name)
+        cursor = conn.cursor(dictionary=True)
+        cols = "`, `".join(tg.SPELL_COLUMNS)
+        cursor.execute(f"SELECT `{cols}` FROM `spell`")
+        spells = {int(r["ID"]): r for r in cursor.fetchall()}
+        cursor.close()
+
+    click.echo(f"Loaded {len(spells)} spells. Building reverse-107/108 index ...")
+    mod_index = tg.build_modifier_index(spells)
+    click.echo(f"Indexed {len(mod_index)} spellmod effects.")
+
+    # --- Phase 1b: SP/AP coefficients + F-189 stat scaling (acore_world) ---
+    spell_bonus, stat_scaling = _load_world_scaling()
+    click.echo(f"Loaded {len(spell_bonus)} spell_bonus_data rows; "
+               f"{len(stat_scaling)} spell_stat_scaling spell(s).\n")
+
+    def _classify(sid):
+        return tg.classify(sid, spells, mod_index, spell_bonus, stat_scaling)
+
+    # --- targeted report ---
+    for sid in spell_ids:
+        rec = _classify(sid)
+        if rec is None:
+            click.echo(click.style(f"  spell {sid}: NOT FOUND", fg='red'))
+            continue
+        if rec["casterDependent"]:
+            cd = click.style("casterDependent", fg='yellow') + f" ({', '.join(rec['reasons'])})"
+        else:
+            cd = "self-only"
+        dummy = click.style(" [DUMMY/Class-C!]", fg='red') if rec["dummyWarning"] else ""
+        click.echo(f"  {sid}  {rec['name']}  (fam {rec['family']})  -> {cd}{dummy}")
+        for m in rec["mods"]:
+            click.echo(f"        <- spellmod {m['src']} {m['src_name']} "
+                       f"[{m['kind']} op={m['op_name']} base={m['base']} eff{m['eff']}]")
+        if rec["sp_ap"]:
+            click.echo(f"        <- sp_ap {rec['sp_ap']}")
+        if rec["stat_scaling"]:
+            click.echo(f"        <- stat_scaling {rec['stat_scaling']}")
+        if rec.get("weapon"):
+            click.echo(f"        <- weapon {rec['weapon']}")
+        if not rec["casterDependent"]:
+            click.echo("        (locally derivable — no caster-dependent scaling)")
+
+    # --- Lua emission ---
+    if out_path or family is not None:
+        if family is not None:
+            scope_ids = [sid for sid, r in spells.items()
+                         if tg._i(r, "spell_class_set") == family]
+        elif spell_ids:
+            scope_ids = list(spell_ids)
+        else:
+            scope_ids = list(spells.keys())
+
+        records = [r for r in (_classify(s) for s in scope_ids) if r]
+        dummies = [r for r in records if r["dummyWarning"]]
+        if dummies:
+            click.echo(click.style(
+                f"\n  WARNING: {len(dummies)} spell(s) in scope carry a DUMMY effect "
+                f"(Class-C blind spot — not derivable from DBC).", fg='yellow'))
+
+        # Ship only records the addon can act on: weapon/stat_scaling (renderable now)
+        # or casterDependent (drives aura-tt ALE routing). Inert self-only spells are
+        # dropped — the addon no-ops on a missing key anyway, so this is lossless.
+        emit = [r for r in records
+                if r["casterDependent"] or r.get("weapon") or r.get("stat_scaling")]
+        lua = tg.emit_lua(emit)
+        if out_path:
+            Path(out_path).write_text(lua, encoding='utf-8')
+            click.echo(click.style(
+                f"\nWrote {len(emit)} of {len(records)} records "
+                f"(dropped {len(records) - len(emit)} inert) -> {out_path}", fg='green'))
+        else:
+            click.echo("\n" + lua)
