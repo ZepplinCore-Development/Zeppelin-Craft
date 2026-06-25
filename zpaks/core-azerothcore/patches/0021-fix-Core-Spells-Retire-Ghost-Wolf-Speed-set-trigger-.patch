@@ -1,0 +1,55 @@
+From e977560d2651b2fe11ddffc4285d353d927afa79 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 24 Jun 2026 08:14:23 +0000
+Subject: [PATCH] fix(Core/Spells): Retire Ghost Wolf Speed set trigger, now a
+ spellmod (I-215)
+
+The SPELLFAMILY_SHAMAN handler cast/removed 47017 (MOD_SPEED_ALWAYS) when Ghost
+Wolf was applied with the 22801 set marker. 22801 is now a pure passive spellmod
+(see DB I-215), so remove the trigger and its teardown; the Lightning Shield 8/9
+set bonus block is left intact.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015qmedFMHJQaq91UUAWKWL2
+---
+ src/server/game/Spells/Auras/SpellAuras.cpp | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
+
+diff --git a/src/server/game/Spells/Auras/SpellAuras.cpp b/src/server/game/Spells/Auras/SpellAuras.cpp
+index 3ca928b47..4b530e04a 100644
+--- a/src/server/game/Spells/Auras/SpellAuras.cpp
++++ b/src/server/game/Spells/Auras/SpellAuras.cpp
+@@ -1440,12 +1440,10 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
+                 break;
+             case SPELLFAMILY_SHAMAN:
+             {
+-                // Ghost Wolf Speed (PvP 58 lvl set)
+-                if (GetSpellInfo()->SpellFamilyFlags[0] & 0x00000800 && target->HasAura(22801) && target->GetLevel() <= 60)
+-                {
+-                    int32 bp0 = 15;
+-                    target->CastCustomSpell(target, 47017, &bp0, 0, 0, true);
+-                }
++                // Ghost Wolf Speed (PvP 58 lvl set): retired. The +15% is now a pure
++                // passive spellmod on spell 22801 (ADD_FLAT_MODIFIER, SPELLMOD_EFFECT2,
++                // class mask 0x40000000 -> Ghost Wolf's speed effect). The old DUMMY
++                // marker + trigger-cast of 47017 (and the level<=60 cap) is removed. I-215.
+                 break;
+             }
+             case SPELLFAMILY_DEATHKNIGHT:
+@@ -1753,11 +1751,8 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
+                 break;
+             case SPELLFAMILY_SHAMAN:
+             {
+-                // Ghost Wolf Speed (PvP 58 lvl set)
+-                if (GetSpellInfo()->SpellFamilyFlags[0] & 0x00000800)
+-                {
+-                    target->RemoveAurasDueToSpell(47017);
+-                }
++                // Ghost Wolf Speed (PvP 58 lvl set): retired — now a passive spellmod
++                // on 22801, so there is no triggered 47017 aura to remove (I-215).
+                 // Lightning Shield vs The Earthshatterer 8/9 set bonus
+                 if (GetSpellInfo()->SpellFamilyFlags[0] & 0x00000400)
+                 {
+-- 
+2.34.1
+

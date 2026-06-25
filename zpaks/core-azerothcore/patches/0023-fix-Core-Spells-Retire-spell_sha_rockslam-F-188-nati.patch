@@ -1,0 +1,62 @@
+From 471b35e1207221fcfe7817982d0079362a247bd8 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 25 Jun 2026 10:38:23 +0000
+Subject: [PATCH] fix(Core/Spells): Retire spell_sha_rockslam (F-188 native
+ scaling)
+
+Rockslam's shield-block-value scaling is now native: its SCHOOL_DAMAGE
+effect carries effect_misc_value_a_1 = ZEP_STAT_BLOCK_VALUE, b_1 = coeff*100,
+handled in EffectSchoolDMG (commit for the F-188 MiscValueB path). Removed
+the one-off spell_sha_rockslam SpellScript class + its RegisterSpellScript.
+The spell_script_names binding is dropped in the F-164 DB SQL.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015qmedFMHJQaq91UUAWKWL2
+---
+ src/server/scripts/Spells/spell_shaman.cpp | 23 +++-------------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
+
+diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
+index 41a3c2e4e..2a82dca4d 100644
+--- a/src/server/scripts/Spells/spell_shaman.cpp
++++ b/src/server/scripts/Spells/spell_shaman.cpp
+@@ -1433,25 +1433,9 @@ class spell_sha_rockwall : public SpellScript
+     }
+ };
+ 
+-// 900119 - Rockslam (F-164 Earthwarden signature single-target)
+-// Shield Slam analog: adds the caster's shield block value to the hit on top of
+-// the spell's base + AP damage, so it scales with Rocksteady's block-value boost
+-// and gear. Block-value coefficient is 1.0x (tune by scaling the added value).
+-class spell_sha_rockslam : public SpellScript
+-{
+-    PrepareSpellScript(spell_sha_rockslam);
+-
+-    void HandleDamage(SpellEffIndex /*effIndex*/)
+-    {
+-        if (Player* caster = GetCaster()->ToPlayer())
+-            SetHitDamage(GetHitDamage() + int32(caster->GetShieldBlockValue()));
+-    }
+-
+-    void Register() override
+-    {
+-        OnEffectHitTarget += SpellEffectFn(spell_sha_rockslam::HandleDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
+-    }
+-};
++// 900119 - Rockslam: shield-block-value scaling is now native (F-188) — its SCHOOL_DAMAGE
++// effect carries effect_misc_value_a_1 = ZEP_STAT_BLOCK_VALUE, b_1 = coeff*100, handled in
++// Spell::EffectSchoolDMG. The old spell_sha_rockslam SpellScript was retired.
+ 
+ // Rocksurge (900263) stack scaling is data-driven: the Rocksteady buff (900261)
+ // carries a SPELLMOD_DAMAGE flat effect (aura 107) targeting Rocksurge's family
+@@ -2513,7 +2497,6 @@ void AddSC_shaman_spell_scripts()
+     RegisterSpellScript(spell_sha_stonebond);
+     RegisterSpellScript(spell_sha_stonebond_pulse);
+     RegisterSpellScript(spell_sha_rockwall);
+-    RegisterSpellScript(spell_sha_rockslam);
+     RegisterSpellScript(spell_sha_rocksteady_block);
+     RegisterSpellScript(spell_sha_rocksteady_stack_proc);
+     RegisterSpellScript(spell_sha_thunderstorm);
+-- 
+2.34.1
+

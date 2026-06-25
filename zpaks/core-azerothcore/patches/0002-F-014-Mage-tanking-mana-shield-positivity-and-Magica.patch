@@ -1,4 +1,4 @@
-From 2ebf5767deb8a3d088c97d7da0fd4eca8817aa6c Mon Sep 17 00:00:00 2001
+From cf351f7a3d62e4160e218a4f12bb582711e1b11d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 24 Feb 2026 23:47:05 +0000
 Subject: [PATCH] F-014: Mage tanking - mana shield positivity and Magical
@@ -6,8 +6,8 @@ Subject: [PATCH] F-014: Mage tanking - mana shield positivity and Magical
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/server/game/Spells/SpellInfo.cpp     |    2 +-
- src/server/scripts/Spells/spell_mage.cpp |   50 +-
+ src/server/game/Spells/SpellInfo.cpp     |  2 +-
+ src/server/scripts/Spells/spell_mage.cpp | 50 +++++++++++++++++++++++-
  2 files changed, 50 insertions(+), 2 deletions(-)
 
 diff --git a/src/server/game/Spells/SpellInfo.cpp b/src/server/game/Spells/SpellInfo.cpp

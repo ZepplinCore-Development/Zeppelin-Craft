@@ -1,0 +1,154 @@
+From 832d863cb7a97b5a76a45b35cbfd70a29f1422d8 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 25 Jun 2026 14:13:54 +0000
+Subject: [PATCH] feat: Totemic Impact multi-totem scaling (F-164)
+
+Call of the Elements/Ancestors/Spirits now scale the Totemic Impact hit by
+the number of totems actually summoned (N totems = N x single-totem damage;
+single totem stays x1). Three data-bound scripts:
+
+- spell_sha_totemic_impact (900165): DoCheckProc suppresses the per-totem
+  proc while the 900265 marker is up (during a Call)
+- spell_sha_totemic_impact_damage (900166): multiplies hit damage by the
+  marker's stack count
+- spell_sha_call_of_the_elements (66842-66844): snapshot totem slots, raise
+  the marker, count summoned totems, fire one scaled hit
+
+Tested in-game.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01WFCGguUqQdgNM386i4SDxQ
+---
+ src/server/scripts/Spells/spell_shaman.cpp | 111 +++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+
+diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
+index 2a82dca4d..cefb2ba79 100644
+--- a/src/server/scripts/Spells/spell_shaman.cpp
++++ b/src/server/scripts/Spells/spell_shaman.cpp
+@@ -2461,6 +2461,114 @@ class spell_sha_living_guardian_aura : public AuraScript
+     }
+ };
+ 
++// ============================================================================
++// F-164: Totemic Impact multi-totem scaling
++// A single multi-totem summon (Call of the Elements/Ancestors/Spirits) deals ONE
++// Totemic Impact hit scaled by the number of totems actually summoned: N totems =
++// N x the single-totem damage (threat scales with it via the 3.0x pctMod). A normal
++// single totem cast stays x1.
++//   900165 = Totemic Impact passive proc aura -> 900166 (AoE damage/threat pulse)
++//   900265 = hidden "Totemic Impact Pending" marker: while present it suppresses the
++//            per-totem proc, and its stack amount carries the totem count.
++// ============================================================================
++enum TotemicImpactSpells
++{
++    SPELL_SHAMAN_TOTEMIC_IMPACT_PROC   = 900165,
++    SPELL_SHAMAN_TOTEMIC_IMPACT_DAMAGE = 900166,
++    SPELL_SHAMAN_TOTEMIC_IMPACT_MARKER = 900265,
++};
++
++// 900165 - Totemic Impact (proc aura). Suppress the per-totem proc while a Call of
++// the Elements is resolving; the Call script fires one scaled hit instead.
++class spell_sha_totemic_impact : public AuraScript
++{
++    PrepareAuraScript(spell_sha_totemic_impact);
++
++    bool CheckProc(ProcEventInfo& /*eventInfo*/)
++    {
++        return !GetTarget()->HasAura(SPELL_SHAMAN_TOTEMIC_IMPACT_MARKER);
++    }
++
++    void Register() override
++    {
++        DoCheckProc += AuraCheckProcFn(spell_sha_totemic_impact::CheckProc);
++    }
++};
++
++// 900166 - Totemic Impact (triggered AoE). Multiply damage by the totem count carried
++// on the caster's marker stack; default x1 when no marker (normal single totem).
++class spell_sha_totemic_impact_damage : public SpellScript
++{
++    PrepareSpellScript(spell_sha_totemic_impact_damage);
++
++    void HandleDamage(SpellEffIndex /*effIndex*/)
++    {
++        if (Unit* caster = GetCaster())
++            if (uint32 mult = caster->GetAuraCount(SPELL_SHAMAN_TOTEMIC_IMPACT_MARKER))
++                if (mult > 1)
++                    SetHitDamage(GetHitDamage() * int32(mult));
++    }
++
++    void Register() override
++    {
++        OnEffectHitTarget += SpellEffectFn(spell_sha_totemic_impact_damage::HandleDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
++    }
++};
++
++// 66842/66843/66844 - Call of the Elements/Ancestors/Spirits (EffectCastButtons casts
++// the totem-bar buttons in the hit phase). Raise the marker before cast so the per-totem
++// procs are suppressed, then count the totem slots that changed and fire one scaled hit.
++class spell_sha_call_of_the_elements : public SpellScript
++{
++    PrepareSpellScript(spell_sha_call_of_the_elements);
++
++    ObjectGuid _slots[MAX_TOTEM_SLOT];
++
++    void HandleBeforeCast()
++    {
++        Unit* caster = GetCaster();
++        if (!caster || !caster->HasAura(SPELL_SHAMAN_TOTEMIC_IMPACT_PROC))
++            return;
++
++        for (uint8 slot = SUMMON_SLOT_TOTEM_FIRE; slot < MAX_TOTEM_SLOT; ++slot)
++            _slots[slot] = caster->m_SummonSlot[slot];
++
++        // Direct AddAura (not CastSpell) so the hidden passive marker applies
++        // reliably and persists through this cast's BeforeCast -> AfterCast window.
++        caster->RemoveAurasDueToSpell(SPELL_SHAMAN_TOTEMIC_IMPACT_MARKER);
++        caster->AddAura(SPELL_SHAMAN_TOTEMIC_IMPACT_MARKER, caster);
++    }
++
++    void HandleAfterCast()
++    {
++        Unit* caster = GetCaster();
++        if (!caster || !caster->HasAura(SPELL_SHAMAN_TOTEMIC_IMPACT_MARKER))
++            return;
++
++        // Totem slots that changed = totems actually summoned by this Call.
++        uint32 count = 0;
++        for (uint8 slot = SUMMON_SLOT_TOTEM_FIRE; slot < MAX_TOTEM_SLOT; ++slot)
++            if (caster->m_SummonSlot[slot] && caster->m_SummonSlot[slot] != _slots[slot])
++                ++count;
++
++        if (count >= 1)
++        {
++            if (Aura* marker = caster->GetAura(SPELL_SHAMAN_TOTEMIC_IMPACT_MARKER))
++                marker->SetStackAmount(uint8(count));
++
++            caster->CastSpell(caster, SPELL_SHAMAN_TOTEMIC_IMPACT_DAMAGE, true);
++        }
++
++        caster->RemoveAurasDueToSpell(SPELL_SHAMAN_TOTEMIC_IMPACT_MARKER);
++    }
++
++    void Register() override
++    {
++        BeforeCast += SpellCastFn(spell_sha_call_of_the_elements::HandleBeforeCast);
++        AfterCast += SpellCastFn(spell_sha_call_of_the_elements::HandleAfterCast);
++    }
++};
++
+ void AddSC_shaman_spell_scripts()
+ {
+     RegisterSpellScript(spell_sha_totem_of_wrath);
+@@ -2527,4 +2635,7 @@ void AddSC_shaman_spell_scripts()
+     RegisterSpellScript(spell_sha_windfury_weapon);
+     RegisterSpellScript(spell_sha_thunderborne_leap);
+     RegisterSpellScript(spell_sha_living_guardian_aura);
++    RegisterSpellScript(spell_sha_totemic_impact);
++    RegisterSpellScript(spell_sha_totemic_impact_damage);
++    RegisterSpellScript(spell_sha_call_of_the_elements);
+ }
+-- 
+2.34.1
+

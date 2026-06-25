@@ -1,4 +1,4 @@
-From b59643dcc93379950ab1ebfe54ed1360344d3d73 Mon Sep 17 00:00:00 2001
+From 45f389ab6ab209ba23e0c340f847021ca48faad0 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 16 Jun 2026 00:01:38 +0000
 Subject: [PATCH] feat(Core/World): Raise CharactersPerRealm cap to 20 (F-180)

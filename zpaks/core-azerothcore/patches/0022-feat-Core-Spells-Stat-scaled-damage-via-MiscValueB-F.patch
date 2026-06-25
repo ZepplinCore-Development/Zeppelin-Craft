@@ -1,0 +1,93 @@
+From 3066c613c542f99b4adee4afbbd186fb2a34865c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 25 Jun 2026 08:06:26 +0000
+Subject: [PATCH] feat(Core/Spells): Stat-scaled damage via MiscValueB (F-188)
+
+Any SCHOOL_DAMAGE effect with MiscValueB != 0 adds caster stat * coeff
+to the hit (coeff = MiscValueB / 100); MiscValue selects the stat
+(enum ZepStatScalingStat: block value, AP, armor, spell power, the five
+base stats, max health). Folded into EffectSchoolDMG, guarded by
+MiscValueB which is unused by every stock SCHOOL_DAMAGE/periodic effect
+(verified) -> zero regression, no new effect type, no DBC bulk update.
+Generalizes to periodic ticks the same way when needed.
+
+First consumer: Rockslam block-value scaling (retires spell_sha_rockslam,
+F-189). The DoT "MiscValue collision" was illusory: the periodic tick
+reads school from SpellInfo, never the effect MiscValue (vestigial data).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015qmedFMHJQaq91UUAWKWL2
+---
+ src/server/game/Spells/SpellEffects.cpp | 24 ++++++++++++++++++++++++
+ src/server/shared/SharedDefines.h       | 20 ++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+
+diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
+index 121a1ae4d..f89c1dd46 100644
+--- a/src/server/game/Spells/SpellEffects.cpp
++++ b/src/server/game/Spells/SpellEffects.cpp
+@@ -646,6 +646,30 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
+                 }
+         }
+ 
++        // F-188/F-189: stat scaling. When MiscValueB (the coeff slot) is set, add caster
++        // stat * coeff; MiscValue picks the stat (ZepStatScalingStat). MiscValueB is unused
++        // by stock SCHOOL_DAMAGE, so this never fires on existing spells. Scales as part of
++        // the hit (crit, +damage% auras, resist all apply), replacing one-off scripts.
++        if (int32 statCoeff = m_spellInfo->Effects[effIndex].MiscValueB)
++        {
++            float statVal = 0.0f;
++            switch (m_spellInfo->Effects[effIndex].MiscValue)
++            {
++                case ZEP_STAT_BLOCK_VALUE:  statVal = float(m_caster->GetShieldBlockValue()); break;
++                case ZEP_STAT_ARMOR:        statVal = float(m_caster->GetArmor()); break;
++                case ZEP_STAT_ATTACK_POWER: statVal = m_caster->GetTotalAttackPowerValue(BASE_ATTACK); break;
++                case ZEP_STAT_SPELL_POWER:  statVal = float(m_caster->SpellBaseDamageBonusDone(m_spellInfo->GetSchoolMask())); break;
++                case ZEP_STAT_STRENGTH:     statVal = m_caster->GetStat(STAT_STRENGTH); break;
++                case ZEP_STAT_AGILITY:      statVal = m_caster->GetStat(STAT_AGILITY); break;
++                case ZEP_STAT_STAMINA:      statVal = m_caster->GetStat(STAT_STAMINA); break;
++                case ZEP_STAT_INTELLECT:    statVal = m_caster->GetStat(STAT_INTELLECT); break;
++                case ZEP_STAT_SPIRIT:       statVal = m_caster->GetStat(STAT_SPIRIT); break;
++                case ZEP_STAT_MAX_HEALTH:   statVal = float(m_caster->GetMaxHealth()); break;
++                default: break;
++            }
++            damage += int32(statVal * (statCoeff / 100.0f));
++        }
++
+         if (m_originalCaster /*&& damage > 0 Xinef: this can be increased from 0*/ && apply_direct_bonus)
+         {
+             // Xinef: protection
+diff --git a/src/server/shared/SharedDefines.h b/src/server/shared/SharedDefines.h
+index 988621405..47fb4a9b5 100644
+--- a/src/server/shared/SharedDefines.h
++++ b/src/server/shared/SharedDefines.h
+@@ -947,6 +947,26 @@ enum SpellEffects
+     TOTAL_SPELL_EFFECTS                             = 165
+ };
+ 
++// F-188/F-189: stat selector for stat-scaled damage. Any damage/heal effect with
++// MiscValueB != 0 scales on this stat at coeff = MiscValueB / 100 (no new effect type;
++// MiscValueB is unused by stock SCHOOL_DAMAGE / periodic auras, so it's the enable flag).
++// A curated index — the stats span several core enums with overlapping values (Stats,
++// BaseModGroup::SHIELD_BLOCK_VALUE, UnitMods) plus spell power (no enum), so this unifies
++// them; each entry delegates to the matching core getter.
++enum ZepStatScalingStat
++{
++    ZEP_STAT_BLOCK_VALUE   = 1,
++    ZEP_STAT_ARMOR         = 2,
++    ZEP_STAT_ATTACK_POWER  = 3,
++    ZEP_STAT_SPELL_POWER   = 4,
++    ZEP_STAT_STRENGTH      = 5,
++    ZEP_STAT_AGILITY       = 6,
++    ZEP_STAT_STAMINA       = 7,
++    ZEP_STAT_INTELLECT     = 8,
++    ZEP_STAT_SPIRIT        = 9,
++    ZEP_STAT_MAX_HEALTH    = 10
++};
++
+ // EnumUtils: DESCRIBE THIS
+ enum SpellCastResult : uint8
+ {
+-- 
+2.34.1
+

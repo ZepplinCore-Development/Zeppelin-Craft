@@ -1,4 +1,4 @@
-From 7ef8c88c0ade935999ead98fac85ef7e3b76c8ae Mon Sep 17 00:00:00 2001
+From 21b65b45e45ce4cfd859e675275c5fb0f8cec57f Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 10:39:34 +0000
 Subject: [PATCH] feat(Core/Loot): Add Loot::AddNonNormalLootItemFor for AoE

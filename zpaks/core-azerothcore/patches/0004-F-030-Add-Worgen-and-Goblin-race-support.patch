@@ -1,4 +1,4 @@
-From 5bd4a4aa80a4ed9c237ed304fa136d94f7b044ed Mon Sep 17 00:00:00 2001
+From 3bca161858e20e639b1c3ac87fa085ac47ac9f4c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 11:13:41 +0000
 Subject: [PATCH] F-030: Add Worgen and Goblin race support
@@ -19,10 +19,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  3 files changed, 25 insertions(+), 4 deletions(-)
 
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 7cddf0599..717f4d30d 100644
+index f50e8c545..6c2296b81 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -12340,6 +12340,11 @@ float Player::GetReputationPriceDiscount(FactionTemplateEntry const* factionTemp
+@@ -12359,6 +12359,11 @@ float Player::GetReputationPriceDiscount(FactionTemplateEntry const* factionTemp
  {
      float discount = 1.0f;
  
@@ -35,10 +35,10 @@ index 7cddf0599..717f4d30d 100644
      {
          sScriptMgr->OnPlayerGetReputationPriceDiscount(this, factionTemplate, discount);
 diff --git a/src/server/game/Handlers/CharacterHandler.cpp b/src/server/game/Handlers/CharacterHandler.cpp
-index 40942b333..d0bdf54e8 100644
+index b700205fa..b1502796e 100644
 --- a/src/server/game/Handlers/CharacterHandler.cpp
 +++ b/src/server/game/Handlers/CharacterHandler.cpp
-@@ -2177,7 +2177,7 @@ void WorldSession::HandleCharFactionOrRaceChangeCallback(std::shared_ptr<Charact
+@@ -2193,7 +2193,7 @@ void WorldSession::HandleCharFactionOrRaceChangeCallback(std::shared_ptr<Charact
          trans->Append(stmt);
  
          // Race specific languages
