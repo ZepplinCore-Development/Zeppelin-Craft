@@ -35,3 +35,5 @@ AND `aura_interrupt_flags` = 262272;
 UPDATE `spell` SET `duration_index` = 9
 WHERE `effect_apply_aura_name_1` = 85
 AND `aura_interrupt_flags` = 262272;
+-- [F-190] retire food/drink desc-var 186 (descs reverted to stock; addon owns the layer)
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 186;
