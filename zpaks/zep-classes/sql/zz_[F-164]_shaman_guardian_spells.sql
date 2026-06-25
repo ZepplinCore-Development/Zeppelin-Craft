@@ -8,7 +8,7 @@
 -- ============================================================================
 -- 900224 kept in this DELETE to purge the orphaned old binding (spell_sha_stoneguard_totem,
 -- the retired custom totem); it is intentionally NOT re-inserted below.
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 900168, 900169, 900171, 900172, 900223, 900224, 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582, 900226, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260, 900119, 900263);
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 900168, 900169, 900171, 900172, 900223, 900224, 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582, 900226, 900180, 900120, 900181, 900182, 900261, 900256, 900257, 900258, 900259, 900260, 900119, 900263, 900165, 900166, 66842, 66843, 66844);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
 (900170, 'spell_sha_living_guardian_aura'),
@@ -44,7 +44,16 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900257, 'spell_sha_rocksteady_stack_proc'),
 (900258, 'spell_sha_rocksteady_stack_proc'),
 (900259, 'spell_sha_rocksteady_stack_proc'),
-(900260, 'spell_sha_rocksteady_stack_proc');
+(900260, 'spell_sha_rocksteady_stack_proc'),
+-- Totemic Impact multi-totem scaling (900265 marker + these 3 scripts):
+-- 900165 AuraScript suppresses the per-totem proc while a Call is resolving;
+-- 900166 SpellScript multiplies its damage by the marker's stack count;
+-- Call of the Elements/Ancestors/Spirits count totems summoned and fire one scaled hit.
+(900165, 'spell_sha_totemic_impact'),
+(900166, 'spell_sha_totemic_impact_damage'),
+(66842, 'spell_sha_call_of_the_elements'),
+(66843, 'spell_sha_call_of_the_elements'),
+(66844, 'spell_sha_call_of_the_elements');
 -- 900180/900120 deprecated (superseded by the unified Rocksteady buff 900261); bindings removed.
 
 -- ============================================================================
@@ -57,7 +66,9 @@ INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`
 -- Rockslam (900119) intentionally has NO spell_bonus_data row: AP scaling removed (double-dipped with shield block value). Block value is added natively (F-188 effect_misc_value_b_1). Kept in the DELETE above so any stale row is cleared. Do NOT re-add a row with ap_bonus=0 and direct_bonus=0 unless effect_bonus_multiplier_1 is also 0, or coeff falls back to BonusMultiplier (SP scaling).
 (900262, 0, 0, 0.15, 0, 'Crag Strike - 15% AP as bonus physical damage (spammable filler)'),
 (900263, 0, 0, 0.25, 0, 'Rocksurge - 25% AP as bonus physical damage (Rocksteady spender)'),
-(900122, 0.15, 0, 0, 0, 'Volcanic Shield (triggered) - 15% SP as AOE fire damage on block'),
+-- Volcanic Shield eruption (900122): SP scaling REMOVED — now scales on ARMOR natively
+-- (F-188 effect_misc_value_a_1=2 ZEP_STAT_ARMOR, b_1=2 -> 2% of armor). No spell_bonus_data
+-- row; effect_bonus_multiplier_1=0 so the coeff can't fall back to SP. Kept in the DELETE above.
 (900121, 0, 0, 0.20, 0, 'Tectonic Blast - 20% AP as bonus nature damage'),
 (900166, 0, 0, 0.10, 0, 'Totemic Impact (triggered) - 10% AP as AOE nature + 3.0x threat on any totem summon'),
 (900174, 0, 0, 0.20, 0, 'Thunderborne Leap (triggered) - 20% AP as AOE nature damage on landing');
