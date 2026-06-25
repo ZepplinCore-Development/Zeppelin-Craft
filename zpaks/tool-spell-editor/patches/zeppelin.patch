@@ -1,7 +1,7 @@
 From f6d99139f901326c81877c04122d3ecf2b7694b4 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 25 Jun 2026 07:25:58 +0000
-Subject: [PATCH 1/2] Zeppelin editor customizations: custom families
+Subject: [PATCH] Zeppelin editor customizations: custom families
  (Professions/Potions), Shaman flags, language labels, +16 DBC bindings
  (F-188)
 
@@ -732,42 +732,6 @@ index c26d303..8b4d53d 100644
    "83": "",
    "84": "",
    "85": "",
--- 
-2.34.1
-
-
-From 518cc381b7440aa20a23b12df771dc22175bff2e Mon Sep 17 00:00:00 2001
-From: Justin <justurn@live.com>
-Date: Thu, 25 Jun 2026 07:54:57 +0000
-Subject: [PATCH 2/2] F-188: add 'Zep Stat-Scaled Damage' SPELL_EFFECT label
- (index 165)
-
----
- Documentation/Languages/enUS.xaml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/Languages/enUS.xaml b/Documentation/Languages/enUS.xaml
-index ab1be74..c2b74f7 100644
---- a/Documentation/Languages/enUS.xaml
-+++ b/Documentation/Languages/enUS.xaml
-@@ -1760,7 +1760,7 @@
- 	Activate Talent Spec   |
- 	Unused   |
- 	Remove Aura
--	</system:String>
-+	|Zep Stat-Scaled Damage</system:String>
- 	<system:String x:Key="spell_effect_names">
- 		NONE |
- 		INSTAKILL |
-@@ -1927,7 +1927,7 @@
- 		TALENT_SPEC_SELECT activate primary/secondary spec |
- 		unused |
- 		REMOVE_AURA
--    </system:String>
-+    |Zep Stat-Scaled Damage</system:String>
-     <system:String x:Key="mechanic_names">
-         None |
-         Charmed |
 -- 
 2.34.1
 
