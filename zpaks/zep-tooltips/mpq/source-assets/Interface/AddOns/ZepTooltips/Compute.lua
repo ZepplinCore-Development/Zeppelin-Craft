@@ -90,6 +90,18 @@ function ZepCompute.effectValues(rec, ctx)
             v.lo = v.lo + bonus; v.hi = v.hi + bonus
         end
     end
+
+    -- F-189 stat scaling: fold stat*coeff into its effect's value (e.g. Rockslam + block
+    -- value). Goes into the displayed number, not a separate line.
+    if rec.stat then
+        for _, s in ipairs(rec.stat) do
+            local v = out[s.e]
+            if v and s.c then
+                local add = (ctx.stat and ctx.stat(s.s) or 0) * s.c
+                v.lo = v.lo + add; v.hi = v.hi + add
+            end
+        end
+    end
     return out
 end
 

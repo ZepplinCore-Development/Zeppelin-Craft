@@ -27,6 +27,7 @@ local StatReader = {
     MAX_HEALTH   = function() return UnitHealthMax("player") or 0 end,
     SPELL_POWER  = function() return GetSpellBonusDamage and GetSpellBonusDamage(2) or 0 end,
     ATTACK_POWER = function() local b, p, n = UnitAttackPower("player"); return (b or 0) + (p or 0) + (n or 0) end,
+    BLOCK_VALUE  = function() return GetShieldBlockValue and GetShieldBlockValue() or 0 end,
 }
 
 local function hasAuraById(unit, id)
@@ -109,9 +110,8 @@ local function renderTooltip(tooltip, spellId)
 
     local w = ZepCompute.weapon(rec, ctx)
     if w and w > 0 then addLine("Weapon: ~" .. num(w)) end
-
-    local s = ZepCompute.stat(rec, ctx)
-    if s and s > 0 then addLine("Stats: +" .. num(s)) end
+    -- F-189 stat scaling (e.g. block value) is folded into the primary value above, not
+    -- shown as a separate line.
 
     -- crit: a stock gap (no native line). Chance + the crit hit value. Damage/heal only.
     if pe and not isSpeed then

@@ -81,6 +81,10 @@ check("Rockslam crit = melee 20 + Bulwark 15", ZepCompute.crit(rs, rsc), 35)
 local rsc0 = ctx{}; rsc0.meleeCrit = 20; rsc0.spellCrit = 99
 check("Rockslam crit no talent = melee 20", ZepCompute.crit(rs, rsc0), 20)
 
+print("=== Rockslam damage folds in block value (F-189) ===")
+-- L80: base 76 + per-level 6*(80-20)=360 + block value 802 = 1238
+check("Rockslam dmg + 802 block value", ZepCompute.effectValues(rs, ctx{stats={BLOCK_VALUE=802}})[1].lo, 1238)
+
 print("=== crit damage multiplier (melee 2.0x / spell 1.5x + op15) ===")
 check("Rockslam critMult (melee 2.0x)", ZepCompute.critMult(rs, ctx{}), 2.0)
 check("Fireball critMult (spell 1.5x)", ZepCompute.critMult(fb, ctx{}), 1.5)
