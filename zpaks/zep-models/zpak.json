@@ -7,5 +7,5 @@
   "type": "mpq",
   "client_patch": "PATCH-Z",
   "enabled": true,
-  "priority": 50
+  "priority": 999
 }

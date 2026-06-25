@@ -34,7 +34,7 @@
     ]
   },
   "enabled": true,
-  "priority": 999,
+  "priority": 900,
   "disabled_features": [
     "F-049"
   ]

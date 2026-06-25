@@ -19,5 +19,5 @@
   },
   "feature_id": "F-164",
   "enabled": true,
-  "priority": 100
+  "priority": 999
 }

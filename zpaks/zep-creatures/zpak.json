@@ -15,5 +15,5 @@
     ]
   },
   "enabled": true,
-  "priority": 100
+  "priority": 999
 }
