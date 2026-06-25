@@ -74,17 +74,31 @@ function ZepCompute.effectValues(rec, ctx)
         out[e.i] = { lo = lo, hi = hi }
     end
 
-    -- base-point modifiers (EFFECT1/2/3, ALL_EFFECTS) — applied to base BEFORE SP/AP
+    -- base-point modifiers (EFFECT1/2/3, ALL_EFFECTS) — applied to base BEFORE SP/AP.
+    -- AC accumulates non-DAMAGE pct mods ADDITIVELY (totalmul += value/100), so e.g. Mixology
+    -- +10% and Alchemist's Stone +40% give +50% (not *1.1*1.4). Flats add, then *(1+Σpct).
+    local flatAdd, pctSum = {}, {}
     for _, m in ipairs(rec.mods or {}) do
         local stacks = modStacks(ctx, m)
         if stacks > 0 then
+            local targets
             local te = OP_EFFECT[m.op]
-            if te then
-                if out[te] then applyMod(out[te], m, stacks) end
-            elseif m.op == OP_ALL_EFFECTS then
-                for _, v in pairs(out) do applyMod(v, m, stacks) end
+            if te then targets = { te }
+            elseif m.op == OP_ALL_EFFECTS then targets = {}; for i in pairs(out) do targets[#targets + 1] = i end end
+            if targets then
+                for _, i in ipairs(targets) do
+                    if out[i] then
+                        if m.k == "flat" then flatAdd[i] = (flatAdd[i] or 0) + modValue(m) * stacks
+                        else pctSum[i] = (pctSum[i] or 0) + modValue(m) * stacks end
+                    end
+                end
             end
         end
+    end
+    for i, v in pairs(out) do
+        local mul = 1 + (pctSum[i] or 0) / 100
+        v.lo = (v.lo + (flatAdd[i] or 0)) * mul
+        v.hi = (v.hi + (flatAdd[i] or 0)) * mul
     end
 
     if rec.sp then

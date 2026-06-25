@@ -292,7 +292,25 @@ def classify(spell_id: int, spells: Dict[int, Dict],
     # Custom content (>= 900000) always gets a full record so cross-spell desc refs
     # ($<id>sN) within our own spells resolve (e.g. VS buff -> eruption / Improved-VS ranks).
     is_custom = spell_id >= 900000
-    renderable = bool(sp_ap or weapon or stat_entries or custom_var) or is_custom
+    effects = spell_effects(row)
+    # F-027/F-168 consumables: a casterDependent (Mixology/cooking spellmod) spell with a
+    # restore effect. We render the restored amount; the % bonuses are ordinary spellmods the
+    # engine already applies. Value effect = the largest-base effect (a drink's real value is
+    # effect 2 — effect 1 is a -1 MOD_POWER_REGEN placeholder).
+    consumable = None
+    if reasons:
+        has = lambda pred: any(pred(e) for e in effects)
+        if has(lambda e: e["type"] == 30):                  # ENERGIZE -> mana potion
+            consumable = {"kind": "mana", "ps": False}
+        elif has(lambda e: e["aura"] == 84):                # MOD_REGEN -> food
+            consumable = {"kind": "health", "ps": True}
+        elif has(lambda e: e["aura"] == 85):                # MOD_POWER_REGEN -> drink
+            consumable = {"kind": "mana", "ps": True}
+        elif has(lambda e: e["type"] == 10) and not sp_ap:  # HEAL (no SP scaling) -> health potion
+            consumable = {"kind": "health", "ps": False}
+        if consumable and effects:
+            consumable["eff"] = max(effects, key=lambda e: e["base"])["i"]
+    renderable = bool(sp_ap or weapon or stat_entries or custom_var) or is_custom or bool(consumable)
 
     return {
         "id": spell_id,
@@ -312,7 +330,8 @@ def classify(spell_id: int, spells: Dict[int, Dict],
         "cost": {"flat": _i(row, "power_cost"), "pct": _i(row, "power_cost_percentage"),
                  "cd": _i(row, "recovery_time"), "cdcat": _i(row, "category_recovery_time")},
         "dclass": _i(row, "damage_class"),  # 0/1 magic->spell crit, 2 melee, 3 ranged
-        "effects": spell_effects(row),
+        "consumable": consumable,
+        "effects": effects,
         "sp_ap": {"d": _f(bonus_row, "direct_bonus"), "o": _f(bonus_row, "dot_bonus"),
                   "ap": _f(bonus_row, "ap_bonus"), "apo": _f(bonus_row, "ap_dot_bonus")}
                  if bonus_row else None,
@@ -387,6 +406,9 @@ def emit_lua(records: List[Dict]) -> str:
             desc_lua = ", desc=%s" % _lua_str(r["desc"])
             if r.get("dur"):
                 desc_lua += ", dur=%d" % r["dur"]
+        if r.get("consumable"):
+            cn = r["consumable"]
+            desc_lua += ', cons={kind="%s",eff=%d,ps=%s}' % (cn["kind"], cn["eff"], "true" if cn["ps"] else "false")
         lines.append(
             "  [%d] = {cd=%s, reasons=%s, dv=%d, dc=%d, bl=%d, ml=%d, sl=%d, eff=%s, sp=%s, "
             "weapon=%s, stat=%s, cost=%s, mods=%s%s},  -- %s"

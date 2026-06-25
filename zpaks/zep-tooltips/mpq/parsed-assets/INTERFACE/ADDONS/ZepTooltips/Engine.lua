@@ -107,6 +107,23 @@ local function renderTooltip(tooltip, spellId)
         shown = true
     end
 
+    -- F-027/F-168 consumables: the restored amount. The Mixology/Alchemist's-Stone/cooking %s
+    -- are ordinary ADD_PCT_MODIFIER spellmods the engine already folds in. Food/drink show
+    -- per-second (the effect value is per 5s).
+    -- gated on no active custom desc-var (dv==0) so it doesn't double up with a var-183/186
+    -- desc that still shows the value; activates per-spell as those vars are retired.
+    if rec.cons and (rec.dv or 0) == 0 then
+        local v = ZepCompute.effectValues(rec, ctx)[rec.cons.eff]
+        if v then
+            local lo, hi = v.lo, v.hi
+            if rec.cons.ps then lo, hi = lo / 5, hi / 5 end
+            addLine("Restores " .. fmt({ lo = lo, hi = hi }) .. " "
+                .. (rec.cons.kind == "mana" and "mana" or "health") .. (rec.cons.ps and " per second" or ""))
+        end
+        if shown then tooltip:Show() end
+        return
+    end
+
     -- Phase 6: recomputed desc (stock tokens -> real numbers) directly below the native
     -- desc. When shown it conveys the hit/heal value, so the terse primary line is dropped.
     local descShown = false
