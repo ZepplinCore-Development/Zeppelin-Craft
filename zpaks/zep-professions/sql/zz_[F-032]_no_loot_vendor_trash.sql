@@ -124,6 +124,22 @@ INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`Quest
   (22054, 29580, 0, 100, 0, 1, 0, 1, 2, 'Behemothon - Crystal Fragments'),
   (22054, 29581, 0, 20,  0, 1, 0, 1, 1, 'Behemothon - Strange Crystal');
 
+-- 21078 Farahlon Shardling (lvl 70, tier 100027)
+DELETE FROM `creature_loot_template` WHERE `Entry` = 21078;
+INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`QuestRequired`,`LootMode`,`GroupId`,`MinCount`,`MaxCount`,`Comment`) VALUES
+  (21078, 29579, 0, 100,     0, 1, 0, 1, 2, 'Farahlon Shardling - Crystalized Stone Chips'),
+  (21078, 29578, 0, 17.3551, 0, 1, 0, 1, 1, 'Farahlon Shardling - Crystalized Stone'),
+  (21078, 29580, 0, 1.3537,  0, 1, 0, 1, 1, 'Farahlon Shardling - Crystal Fragments'),
+  (21078, 29581, 0, 0.2083,  0, 1, 0, 1, 1, 'Farahlon Shardling - Strange Crystal');
+
+-- 21079 Cragskaar Shardling (lvl 69, tier 100027)
+DELETE FROM `creature_loot_template` WHERE `Entry` = 21079;
+INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`QuestRequired`,`LootMode`,`GroupId`,`MinCount`,`MaxCount`,`Comment`) VALUES
+  (21079, 29579, 0, 100,     0, 1, 0, 1, 2, 'Cragskaar Shardling - Crystalized Stone Chips'),
+  (21079, 29578, 0, 17.3551, 0, 1, 0, 1, 1, 'Cragskaar Shardling - Crystalized Stone'),
+  (21079, 29580, 0, 1.3537,  0, 1, 0, 1, 1, 'Cragskaar Shardling - Crystal Fragments'),
+  (21079, 29581, 0, 0.2083,  0, 1, 0, 1, 1, 'Cragskaar Shardling - Strange Crystal');
+
 -- =====================================================================
 -- ENGINEERING (mechanical scrap)
 -- =====================================================================

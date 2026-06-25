@@ -228,6 +228,10 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid`
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22390 WHERE (`entry` = 22390);
 -- Vortex Shardling
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22391 WHERE (`entry` = 22391);
+-- Farahlon Shardling
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 21078 WHERE (`entry` = 21078);
+-- Cragskaar Shardling
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 21079 WHERE (`entry` = 21079);
 -- Enraged Earth Shard
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22115 WHERE (`entry` = 22115);
 
