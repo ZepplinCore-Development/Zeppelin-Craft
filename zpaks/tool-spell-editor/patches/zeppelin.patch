@@ -1,0 +1,737 @@
+From 500da21d6066617a6318c0d399f18f678fea4785 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 25 Jun 2026 07:25:58 +0000
+Subject: [PATCH] Zeppelin editor customizations: custom families
+ (Professions/Potions), Shaman flags, language labels, +16 DBC bindings
+ (F-188)
+
+---
+ .../Bindings_335_wotlk/BarberShopStyle.txt    | 41 ++++++++
+ .../Bindings_335_wotlk/CharBaseInfo.txt       |  4 +
+ .../Bindings_335_wotlk/CharHairGeosets.txt    |  7 ++
+ .../Bindings_335_wotlk/CharHairTextures.txt   |  9 ++
+ .../Bindings_335_wotlk/CharSections.txt       | 11 +++
+ .../CharacterFacialHairStyles.txt             | 10 ++
+ .../Bindings_335_wotlk/CreatureFamily.txt     | 29 ++++++
+ .../Bindings_335_wotlk/EmotesTextSound.txt    |  6 ++
+ .../HelmetGeosetVisData.txt                   |  9 ++
+ .../Bindings_335_wotlk/ItemLimitCategory.txt  | 21 ++++
+ .../LFGDungeonExpansion.txt                   |  9 ++
+ .../Bindings_335_wotlk/LiquidType.txt         | 46 +++++++++
+ Documentation/Bindings_335_wotlk/NameGen.txt  |  5 +
+ .../Bindings_335_wotlk/ParticleColor.txt      | 11 +++
+ .../Bindings_335_wotlk/SummonProperties.txt   |  7 ++
+ .../Bindings_335_wotlk/VocalUISounds.txt      |  8 ++
+ Documentation/Languages/enUS.xaml             |  3 +-
+ Documentation/Languages/frFR.xaml             |  3 +-
+ Documentation/Languages/zhCN.xaml             |  3 +-
+ Documentation/SpellFamilies/Definitions.json  |  8 +-
+ .../SpellFamilies/FamilyPotions.json          | 98 +++++++++++++++++++
+ .../SpellFamilies/FamilyProfessions.json      | 98 +++++++++++++++++++
+ Documentation/SpellFamilies/FamilyShaman.json | 18 ++--
+ 23 files changed, 445 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/Bindings_335_wotlk/BarberShopStyle.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/CharBaseInfo.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/CharHairGeosets.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/CharHairTextures.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/CharSections.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/CharacterFacialHairStyles.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/CreatureFamily.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/EmotesTextSound.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/HelmetGeosetVisData.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/ItemLimitCategory.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/LFGDungeonExpansion.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/LiquidType.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/NameGen.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/ParticleColor.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/SummonProperties.txt
+ create mode 100644 Documentation/Bindings_335_wotlk/VocalUISounds.txt
+ create mode 100644 Documentation/SpellFamilies/FamilyPotions.json
+ create mode 100644 Documentation/SpellFamilies/FamilyProfessions.json
+
+diff --git a/Documentation/Bindings_335_wotlk/BarberShopStyle.txt b/Documentation/Bindings_335_wotlk/BarberShopStyle.txt
+new file mode 100644
+index 0000000..308fc19
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/BarberShopStyle.txt
+@@ -0,0 +1,41 @@
++# BarberShopStyle.dbc structure for 3.3.5a 12340
++uint id
++uint type
++uint name_enus string
++uint name_kokr string
++uint name_frfr string
++uint name_dede string
++uint name_zhcn string
++uint name_zhtw string
++uint name_eses string
++uint name_esmx string
++uint name_ruru string
++uint name_jajp string
++uint name_ptpt string
++uint name_itit string
++uint name_unused_1 string
++uint name_unused_2 string
++uint name_unused_3 string
++uint name_unused_4 string
++uint name_flags
++uint description_enus string
++uint description_kokr string
++uint description_frfr string
++uint description_dede string
++uint description_zhcn string
++uint description_zhtw string
++uint description_eses string
++uint description_esmx string
++uint description_ruru string
++uint description_jajp string
++uint description_ptpt string
++uint description_itit string
++uint description_unused_1 string
++uint description_unused_2 string
++uint description_unused_3 string
++uint description_unused_4 string
++uint description_flags
++float cost_modifier
++uint race
++uint sex
++uint data
+diff --git a/Documentation/Bindings_335_wotlk/CharBaseInfo.txt b/Documentation/Bindings_335_wotlk/CharBaseInfo.txt
+new file mode 100644
+index 0000000..2f0062a
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/CharBaseInfo.txt
+@@ -0,0 +1,4 @@
++# CharBaseInfo structure for 3.3.5a 12340
++uint id
++uint race_id
++uint class_id
+diff --git a/Documentation/Bindings_335_wotlk/CharHairGeosets.txt b/Documentation/Bindings_335_wotlk/CharHairGeosets.txt
+new file mode 100644
+index 0000000..c1a6a5a
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/CharHairGeosets.txt
+@@ -0,0 +1,7 @@
++# CharHairGeosets wotlk 3.3.5
++uint id
++uint race_id
++uint gender
++uint variation_id
++uint geoset_id
++uint showscalp
+diff --git a/Documentation/Bindings_335_wotlk/CharHairTextures.txt b/Documentation/Bindings_335_wotlk/CharHairTextures.txt
+new file mode 100644
+index 0000000..1625724
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/CharHairTextures.txt
+@@ -0,0 +1,9 @@
++# CharHairTextures wotlk 3.3.5
++uint id
++uint race_id
++uint gender
++uint field_04
++uint field_05
++uint field_06
++uint field_07
++uint field_08
+diff --git a/Documentation/Bindings_335_wotlk/CharSections.txt b/Documentation/Bindings_335_wotlk/CharSections.txt
+new file mode 100644
+index 0000000..1273f4f
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/CharSections.txt
+@@ -0,0 +1,11 @@
++# CharSections wotlk 3.3.5
++uint id
++uint race_id
++uint sex_id
++uint base_section
++uint texture_name_1 string
++uint texture_name_2 string
++uint texture_name_3 string
++uint flags
++uint variation_index
++uint color_index
+diff --git a/Documentation/Bindings_335_wotlk/CharacterFacialHairStyles.txt b/Documentation/Bindings_335_wotlk/CharacterFacialHairStyles.txt
+new file mode 100644
+index 0000000..9e1173b
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/CharacterFacialHairStyles.txt
+@@ -0,0 +1,10 @@
++# CharacterFacialHairStyles structure for 3.3.5a 12340
++uint id
++uint race_id
++uint sex_id
++uint variation_id
++uint geoset_1
++uint geoset_2
++uint geoset_3
++uint geoset_4
++uint geoset_5
+diff --git a/Documentation/Bindings_335_wotlk/CreatureFamily.txt b/Documentation/Bindings_335_wotlk/CreatureFamily.txt
+new file mode 100644
+index 0000000..ef9d6dd
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/CreatureFamily.txt
+@@ -0,0 +1,29 @@
++# CreatureFamily.dbc structure for 3.3.5a 12340
++uint id
++float min_scale
++uint min_scale_level
++float max_scale
++uint max_scale_level
++uint skillline_1
++uint skillline_2
++uint petfoodmask
++uint pettalenttype
++uint categoryenumid
++uint name_enus string
++uint name_kokr string
++uint name_frfr string
++uint name_dede string
++uint name_zhcn string
++uint name_zhtw string
++uint name_eses string
++uint name_esmx string
++uint name_ruru string
++uint name_jajp string
++uint name_ptpt string
++uint name_itit string
++uint name_unused_1 string
++uint name_unused_2 string
++uint name_unused_3 string
++uint name_unused_4 string
++uint name_flags
++uint iconpath string
+diff --git a/Documentation/Bindings_335_wotlk/EmotesTextSound.txt b/Documentation/Bindings_335_wotlk/EmotesTextSound.txt
+new file mode 100644
+index 0000000..ce81684
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/EmotesTextSound.txt
+@@ -0,0 +1,6 @@
++# EmotesTextSound structure for 3.3.5a 12340
++uint id
++uint emotes_text_id
++uint race_id
++uint sex_id
++uint sound_id
+diff --git a/Documentation/Bindings_335_wotlk/HelmetGeosetVisData.txt b/Documentation/Bindings_335_wotlk/HelmetGeosetVisData.txt
+new file mode 100644
+index 0000000..f8d7f75
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/HelmetGeosetVisData.txt
+@@ -0,0 +1,9 @@
++# HelmetGeosetVisData structure for 3.3.5a 12340
++uint id
++uint hide_geoset_1
++uint hide_geoset_2
++uint hide_geoset_3
++uint hide_geoset_4
++uint hide_geoset_5
++uint hide_geoset_6
++uint hide_geoset_7
+diff --git a/Documentation/Bindings_335_wotlk/ItemLimitCategory.txt b/Documentation/Bindings_335_wotlk/ItemLimitCategory.txt
+new file mode 100644
+index 0000000..910602e
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/ItemLimitCategory.txt
+@@ -0,0 +1,21 @@
++# ItemLimitCategory.dbc structure for 3.3.5a 12340
++uint id
++uint name_enus string
++uint name_kokr string
++uint name_frfr string
++uint name_dede string
++uint name_zhcn string
++uint name_zhtw string
++uint name_eses string
++uint name_esmx string
++uint name_ruru string
++uint name_jajp string
++uint name_ptpt string
++uint name_itit string
++uint name_unused_1 string
++uint name_unused_2 string
++uint name_unused_3 string
++uint name_unused_4 string
++uint name_flags
++uint quantity
++uint flags
+diff --git a/Documentation/Bindings_335_wotlk/LFGDungeonExpansion.txt b/Documentation/Bindings_335_wotlk/LFGDungeonExpansion.txt
+new file mode 100644
+index 0000000..5e6ce85
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/LFGDungeonExpansion.txt
+@@ -0,0 +1,9 @@
++# LFGDungeonExpansion structure for 3.3.5a 12340
++uint id
++uint lfg_id
++uint expansion_level
++uint random_id
++uint hard_level_min
++uint hard_level_max
++uint target_level_min
++uint target_level_max
+diff --git a/Documentation/Bindings_335_wotlk/LiquidType.txt b/Documentation/Bindings_335_wotlk/LiquidType.txt
+new file mode 100644
+index 0000000..d41632c
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/LiquidType.txt
+@@ -0,0 +1,46 @@
++# LiquidType structure for 3.3.5a 12340
++uint id
++uint name string
++uint flags
++uint type
++uint sound_id
++uint spell_id
++float max_darken_depth
++float fog_darkenintensity
++float amb_darkenintensity
++float dir_darkenintensity
++uint light_id
++float particle_scale
++uint particle_movement
++uint particle_tex_slots
++uint material_id
++uint texture_1 string
++uint texture_2 string
++uint texture_3 string
++uint texture_4 string
++uint texture_5 string
++uint texture_6 string
++uint color_1
++uint color_2
++float float_1
++float float_2
++float float_3
++float float_4
++float float_5
++float float_6
++float float_7
++float float_8
++float float_9
++float float_10
++float float_11
++float float_12
++float float_13
++float float_14
++float float_15
++float float_16
++float float_17
++float float_18
++uint int_1
++uint int_2
++uint int_3
++uint int_4
+diff --git a/Documentation/Bindings_335_wotlk/NameGen.txt b/Documentation/Bindings_335_wotlk/NameGen.txt
+new file mode 100644
+index 0000000..c0bded6
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/NameGen.txt
+@@ -0,0 +1,5 @@
++# NameGen structure for 3.3.5a 12340
++uint id
++uint name string
++uint race_id
++uint sex
+diff --git a/Documentation/Bindings_335_wotlk/ParticleColor.txt b/Documentation/Bindings_335_wotlk/ParticleColor.txt
+new file mode 100644
+index 0000000..b672b76
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/ParticleColor.txt
+@@ -0,0 +1,11 @@
++# ParticleColor structure for 3.3.5a 12340
++uint id
++uint start_1
++uint start_2
++uint start_3
++uint mid_1
++uint mid_2
++uint mid_3
++uint end_1
++uint end_2
++uint end_3
+diff --git a/Documentation/Bindings_335_wotlk/SummonProperties.txt b/Documentation/Bindings_335_wotlk/SummonProperties.txt
+new file mode 100644
+index 0000000..4dfc1f4
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/SummonProperties.txt
+@@ -0,0 +1,7 @@
++# SummonProperties structure for 3.3.5a 12340
++uint id
++uint control
++uint faction
++uint title
++uint slot
++uint flags
+diff --git a/Documentation/Bindings_335_wotlk/VocalUISounds.txt b/Documentation/Bindings_335_wotlk/VocalUISounds.txt
+new file mode 100644
+index 0000000..ace5bc3
+--- /dev/null
++++ b/Documentation/Bindings_335_wotlk/VocalUISounds.txt
+@@ -0,0 +1,8 @@
++# VocalUISounds structure for 3.3.5a 12340
++uint id
++uint vocal_ui_enum
++uint race_id
++uint normal_sound_id_1
++uint normal_sound_id_2
++uint pissed_sound_id_1
++uint pissed_sound_id_2
+diff --git a/Documentation/Languages/enUS.xaml b/Documentation/Languages/enUS.xaml
+index 2cd96fb..ab1be74 100644
+--- a/Documentation/Languages/enUS.xaml
++++ b/Documentation/Languages/enUS.xaml
+@@ -184,7 +184,6 @@
+     <system:String x:Key="butSaveIcon">Confirm</system:String>
+     <system:String x:Key="sliderChangeIconSizeTooltip">Controls icon width &amp; height (pixels)</system:String>
+     <system:String x:Key="butImportExportDBC">Import/Export</system:String>
+-    <system:String x:Key="butRefresh">Refresh</system:String>
+     <system:String x:Key="butTruncateTable">Drop Tables</system:String>
+     <system:String x:Key="butInsertANewRecord">New Spell</system:String>
+     <system:String x:Key="butDeleteARecord">Delete Spell</system:String>
+@@ -221,7 +220,7 @@
+     <system:String x:Key="Welcome" xml:space="preserve">Welcome to a WoW spell editor.&#x0a;&#x0a;Do you wish to use the local version of the editor (SQLite) or connect to a server (MySQL)?</system:String>
+     <system:String x:Key="Exit" xml:space="preserve">Are you sure you want to exit?&#x0a;&#x0a;Make sure you have saved before doing this action or all progress will be lost!</system:String>
+     <system:String x:Key="TruncateTable1">ARE YOU SURE?</system:String>
+-    <system:String x:Key="TruncateTable2" xml:space="preserve">This will drop all SQL tables. The editor will then reinitialize with the correct schema for your selected WoW version.&#x0a;&#x0a;Use this when switching WoW versions to ensure the correct table schema is applied.</system:String>
++    <system:String x:Key="TruncateTable2" xml:space="preserve">This will drop all SQL tables used by this program and create them again allowing you to start over.&#x0a;&#x0a;This feature should only be used when you want to reset the tables and import new DBC files.</system:String>
+     <system:String x:Key="CopySpellRecord1">Copy an existing record?</system:String>
+     <system:String x:Key="CopySpellRecord2">Input the spell ID to copy from.</system:String>
+     <system:String x:Key="CopySpellRecord3">ERROR: Input spell ID was not an integer.</system:String>
+diff --git a/Documentation/Languages/frFR.xaml b/Documentation/Languages/frFR.xaml
+index 395d211..503e586 100644
+--- a/Documentation/Languages/frFR.xaml
++++ b/Documentation/Languages/frFR.xaml
+@@ -168,7 +168,6 @@
+     <system:String x:Key="butSaveIcon">Confirmer</system:String>
+     <system:String x:Key="sliderChangeIconSizeTooltip">Contrôle la largeur &amp; la hauteur de l'icône (en pixels)</system:String>
+     <system:String x:Key="butImportExportDBC">Importer/Exporter</system:String>
+-    <system:String x:Key="butRefresh">Refresh</system:String>
+     <system:String x:Key="butTruncateTable">Table tronquée</system:String>
+     <system:String x:Key="butInsertANewRecord">Nouveau sort</system:String>
+     <system:String x:Key="butDeleteARecord">Supprimer un sort</system:String>
+@@ -205,7 +204,7 @@
+     <system:String x:Key="Welcome" xml:space="preserve">Bienvenue dans l’éditeur de sorts WoW.&#x0a;&#x0a;Souhaitez-vous utiliser la version locale de l’éditeur (SQLite) ou vous connecter à un serveur (MySQL)?</system:String>
+     <system:String x:Key="Exit" xml:space="preserve">Êtes-vous sûr de vouloir quitter?&#x0a;&#x0a;Assurez-vous d’avoir enregistré avant d’effectuer cette action, sinon tout votre progrès sera perdu !</system:String>
+     <system:String x:Key="TruncateTable1">ÊTES-VOUS SÛR ?</system:String>
+-    <system:String x:Key="TruncateTable2" xml:space="preserve">This will drop all SQL tables. The editor will then reinitialize with the correct schema for your selected WoW version.&#x0a;&#x0a;Use this when switching WoW versions to ensure the correct table schema is applied.</system:String>
++    <system:String x:Key="TruncateTable2" xml:space="preserve">This will drop all SQL tables used by this program and create them again allowing you to start over.&#x0a;&#x0a;This feature should only be used when you want to reset the tables and import new DBC files.</system:String>
+     <system:String x:Key="CopySpellRecord1">Copier d'un sort existant ?</system:String>
+     <system:String x:Key="CopySpellRecord2">Entrez l'identifiant du sort pour copier.</system:String>
+     <system:String x:Key="CopySpellRecord3">ERREUR: L'identifiant du sort saisi n'était pas un entier.</system:String>
+diff --git a/Documentation/Languages/zhCN.xaml b/Documentation/Languages/zhCN.xaml
+index 8cc06c7..5b442d0 100644
+--- a/Documentation/Languages/zhCN.xaml
++++ b/Documentation/Languages/zhCN.xaml
+@@ -168,7 +168,6 @@
+     <system:String x:Key="butSaveIcon">确认</system:String>
+     <system:String x:Key="sliderChangeIconSizeTooltip">控制图标的宽度和高度(像素)</system:String>
+     <system:String x:Key="butImportExportDBC">导入/导出</system:String>
+-    <system:String x:Key="butRefresh">Refresh</system:String>
+     <system:String x:Key="butTruncateTable">清空表格</system:String>
+     <system:String x:Key="butInsertANewRecord">新法术</system:String>
+     <system:String x:Key="butDeleteARecord">删除法术</system:String>
+@@ -205,7 +204,7 @@
+     <system:String x:Key="Welcome" xml:space="preserve">欢迎使用魔兽世界技能编辑工具&#x0a;                               汉化 by Ayase   [部分标注(?)的表示不确定,仅是个人理解.]&#x0a;&#x0a;你希望使用编辑器的本地版本(SQLite)还是连接到服务器(MYSQL)?&#x0a;&#x0a;Mysql:数据储存在mysql服务器中.需要额外打开Mysql服务支持才可以启动.因为mysql支持多人联机同一个数据库.因此支持多人编辑同一个技能数据库.&#x0a;&#x0a;SQLite:使用本地的'SpellEditor.db'文件储存所有的数据.因此该模式中启动不再依赖Mysql服务.但因为数据储存在本地.所以仅用于单人编辑使用.</system:String>
+     <system:String x:Key="Exit" xml:space="preserve">您确定要退出吗?&#x0a;&#x0a;请确保在执行此操作之前已保存，否则将丢失所有进度!</system:String>
+     <system:String x:Key="TruncateTable1">您确定要清空表格吗?</system:String>
+-    <system:String x:Key="TruncateTable2" xml:space="preserve">This will drop all SQL tables. The editor will then reinitialize with the correct schema for your selected WoW version.&#x0a;&#x0a;Use this when switching WoW versions to ensure the correct table schema is applied.</system:String>
++    <system:String x:Key="TruncateTable2" xml:space="preserve">This will drop all SQL tables used by this program and create them again allowing you to start over.&#x0a;&#x0a;This feature should only be used when you want to reset the tables and import new DBC files.</system:String>
+     <system:String x:Key="CopySpellRecord1">复制现有记录?</system:String>
+     <system:String x:Key="CopySpellRecord2">输入要复制的法术ID。</system:String>
+     <system:String x:Key="CopySpellRecord3">错误:输入的法术ID不是整数。</system:String>
+diff --git a/Documentation/SpellFamilies/Definitions.json b/Documentation/SpellFamilies/Definitions.json
+index 67ae3ef..265023d 100644
+--- a/Documentation/SpellFamilies/Definitions.json
++++ b/Documentation/SpellFamilies/Definitions.json
+@@ -66,13 +66,13 @@
+   },
+   {
+     "Id": 13,
+-    "Name": "",
+-    "DefinitionFile": ""
++    "Name": "Potions",
++    "DefinitionFile": "FamilyPotions"
+   },
+   {
+     "Id": 14,
+-    "Name": "",
+-    "DefinitionFile": ""
++    "Name": "Professions",
++    "DefinitionFile": "FamilyProfessions"
+   },
+   {
+     "Id": 15,
+diff --git a/Documentation/SpellFamilies/FamilyPotions.json b/Documentation/SpellFamilies/FamilyPotions.json
+new file mode 100644
+index 0000000..06f7cbb
+--- /dev/null
++++ b/Documentation/SpellFamilies/FamilyPotions.json
+@@ -0,0 +1,98 @@
++{
++	"1": "Create Magic Potion",
++	"2": "Health Potions",
++	"3": "Mana Potions",
++	"4": "Rejuvenation",
++	"5": "Battle Elixirs (Reserved)",
++	"6": "Guardian Elixirs (Reserved)",
++	"7": "Flasks (Reserved)",
++	"8": "Reserved",
++	"9": "Reserved",
++	"10": "Reserved",
++	"11": null,
++	"12": null,
++	"13": null,
++	"14": null,
++	"15": null,
++	"16": null,
++	"17": null,
++	"18": null,
++	"19": null,
++	"20": null,
++	"21": null,
++	"22": null,
++	"23": null,
++	"24": null,
++	"25": null,
++	"26": null,
++	"27": null,
++	"28": null,
++	"29": null,
++	"30": null,
++	"31": null,
++	"32": "Alchemy Crafting",
++	"33": null,
++	"34": null,
++	"35": null,
++	"36": null,
++	"37": null,
++	"38": null,
++	"39": null,
++	"40": null,
++	"41": null,
++	"42": null,
++	"43": null,
++	"44": null,
++	"45": null,
++	"46": null,
++	"47": null,
++	"48": null,
++	"49": null,
++	"50": null,
++	"51": null,
++	"52": null,
++	"53": null,
++	"54": null,
++	"55": null,
++	"56": null,
++	"57": null,
++	"58": null,
++	"59": null,
++	"60": null,
++	"61": null,
++	"62": null,
++	"63": null,
++	"64": null,
++	"65": null,
++	"66": null,
++	"67": null,
++	"68": null,
++	"69": null,
++	"70": null,
++	"71": null,
++	"72": null,
++	"73": null,
++	"74": null,
++	"75": null,
++	"76": null,
++	"77": null,
++	"78": null,
++	"79": null,
++	"80": null,
++	"81": null,
++	"82": null,
++	"83": null,
++	"84": null,
++	"85": null,
++	"86": null,
++	"87": null,
++	"88": null,
++	"89": null,
++	"90": null,
++	"91": null,
++	"92": null,
++	"93": null,
++	"94": null,
++	"95": null,
++	"96": null
++}
+diff --git a/Documentation/SpellFamilies/FamilyProfessions.json b/Documentation/SpellFamilies/FamilyProfessions.json
+new file mode 100644
+index 0000000..5b24b63
+--- /dev/null
++++ b/Documentation/SpellFamilies/FamilyProfessions.json
+@@ -0,0 +1,98 @@
++{
++	"1": "Blacksmithing",
++	"2": "Herbalism",
++	"3": "Mining",
++	"4": "Skinning",
++	"5": "Leatherworking",
++	"6": "Tailoring",
++	"7": "Alchemy",
++	"8": "Engineering",
++	"9": "Enchanting",
++	"10": "Jewelcrafting",
++	"11": "Inscription",
++	"12": "Cooking",
++	"13": "Food",
++	"14": "Drink",
++	"15": null,
++	"16": null,
++	"17": null,
++	"18": null,
++	"19": null,
++	"20": null,
++	"21": null,
++	"22": null,
++	"23": null,
++	"24": null,
++	"25": null,
++	"26": null,
++	"27": "Aquatic Form",
++	"28": "Druid Form Glyphs",
++	"29": "Druid Forms",
++	"30": "Ghost Wolf Modifiers",
++	"31": "Ghost Wolf",
++	"32": "Mounts",
++	"33": null,
++	"34": null,
++	"35": null,
++	"36": null,
++	"37": null,
++	"38": null,
++	"39": null,
++	"40": null,
++	"41": null,
++	"42": null,
++	"43": null,
++	"44": null,
++	"45": null,
++	"46": null,
++	"47": null,
++	"48": null,
++	"49": null,
++	"50": null,
++	"51": null,
++	"52": null,
++	"53": null,
++	"54": null,
++	"55": null,
++	"56": null,
++	"57": null,
++	"58": null,
++	"59": null,
++	"60": null,
++	"61": null,
++	"62": null,
++	"63": null,
++	"64": null,
++	"65": null,
++	"66": null,
++	"67": null,
++	"68": null,
++	"69": null,
++	"70": null,
++	"71": null,
++	"72": null,
++	"73": null,
++	"74": null,
++	"75": null,
++	"76": null,
++	"77": null,
++	"78": null,
++	"79": null,
++	"80": null,
++	"81": null,
++	"82": null,
++	"83": null,
++	"84": null,
++	"85": null,
++	"86": null,
++	"87": null,
++	"88": null,
++	"89": null,
++	"90": null,
++	"91": null,
++	"92": null,
++	"93": null,
++	"94": null,
++	"95": null,
++	"96": null
++}
+diff --git a/Documentation/SpellFamilies/FamilyShaman.json b/Documentation/SpellFamilies/FamilyShaman.json
+index c26d303..8b4d53d 100644
+--- a/Documentation/SpellFamilies/FamilyShaman.json
++++ b/Documentation/SpellFamilies/FamilyShaman.json
+@@ -5,7 +5,7 @@
+   "3": "Magma Totem Damage",
+   "4": "Stoneclaw Totem",
+   "5": "Searing Totem",
+-  "6": "",
++  "6": "Healing Wave (Alt)",
+   "7": "Healing Wave",
+   "8": "Lesser Healing Wave",
+   "9": "Chain Heal",
+@@ -17,7 +17,7 @@
+   "15": "Mana Spring (Effect)",
+   "16": "Stoneskin (Effect)",
+   "17": "Strength of Earth (Effect)",
+-  "18": "",
++  "18": "Grounding Totem (Alt)",
+   "19": "Grounding Totem",
+   "20": "Healing+Mana Stream Totems",
+   "21": "Earth Shock",
+@@ -34,7 +34,7 @@
+   "32": "Frost Shock",
+   "33": "Earthbind Totem Effect",
+   "34": "Maelstrom Weapon",
+-  "35": "",
++  "35": "Cure Toxins / Cleanse Spirit",
+   "36": "Cleanse Spirit, Cure Toxins",
+   "37": "Stormstrike",
+   "38": "Water Shield",
+@@ -65,13 +65,13 @@
+   "63": "Astral Recall",
+   "64": "Fire Nova",
+   "65": "Tidal Force",
+-  "66": "",
++  "66": "Lava Lash (Alt)",
+   "67": "Lava Lash",
+   "68": "Improved Ghost Wolf",
+   "69": "Riptide",
+   "70": "Earthbind Totem",
+-  "71": "Earth Shield Heal",
+-  "72": "",
++  "71": "Earth Shield / Tidal Mastery",
++  "72": "Rockbiter Weapon (Passive)",
+   "73": "Windfury Weapon (Passive)",
+   "74": "Maelstrom Weapon",
+   "75": "Stormstrike",
+@@ -79,9 +79,9 @@
+   "77": "Stormstrike",
+   "78": "Static Shock",
+   "79": "Earthgrab (Unused)",
+-  "80": "",
+-  "81": "",
+-  "82": "",
++  "80": "Volcanic Shield (Trigger)",
++  "81": "Earth Totem (Custom)",
++  "82": "Rockslam",
+   "83": "",
+   "84": "",
+   "85": "",
+-- 
+2.34.1
+
