@@ -115,10 +115,15 @@ local function renderTooltip(tooltip, spellId)
     if rec.cons and (rec.dv or 0) == 0 then
         local v = ZepCompute.effectValues(rec, ctx)[rec.cons.eff]
         if v then
-            local lo, hi = v.lo, v.hi
-            if rec.cons.ps then lo, hi = lo / 5, hi / 5 end
-            addLine("Restores " .. fmt({ lo = lo, hi = hi }) .. " "
-                .. (rec.cons.kind == "mana" and "mana" or "health") .. (rec.cons.ps and " per second" or ""))
+            local kind = rec.cons.kind == "mana" and "mana" or "health"
+            if rec.cons.ps and rec.cons.dur and rec.cons.dur > 0 then
+                -- food/drink: effect value is per-5s; per-second = /5, total = per-sec * duration
+                local persec = v.lo / 5
+                addLine(string.format("Restores %s %s over %ds (%s/sec)",
+                    num(persec * rec.cons.dur), kind, rec.cons.dur, num(persec)))
+            else
+                addLine("Restores " .. fmt(v) .. " " .. kind)
+            end
         end
         if shown then tooltip:Show() end
         return

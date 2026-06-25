@@ -21,6 +21,7 @@ a live DB. See ``cli/commands/build.py`` (``build tooltip-data``) for the wiring
 
 from __future__ import annotations
 
+import re
 from typing import Dict, List, Optional
 
 # Aura type numbers (Zeppelin-Core SpellAuraDefines.h)
@@ -309,7 +310,13 @@ def classify(spell_id: int, spells: Dict[int, Dict],
         elif has(lambda e: e["type"] == 10) and not sp_ap:  # HEAL (no SP scaling) -> health potion
             consumable = {"kind": "health", "ps": False}
         if consumable and effects:
-            consumable["eff"] = max(effects, key=lambda e: e["base"])["i"]
+            # value effect = the one the STOCK desc references ($s1/$m2/$o1) — the desc names
+            # it; fall back to the largest-base effect (a drink's value is effect 2, not its
+            # -1 MOD_POWER_REGEN placeholder).
+            tok = re.search(r"\$[sSmMoO](\d)", row.get("spell_desc_enus") or "")
+            consumable["eff"] = int(tok.group(1)) if tok else max(effects, key=lambda e: e["base"])["i"]
+            if consumable["ps"]:
+                consumable["dur"] = int(row.get("_dur") or 0)  # seconds, for the total restore
     renderable = bool(sp_ap or weapon or stat_entries or custom_var) or is_custom or bool(consumable)
 
     return {
@@ -408,7 +415,9 @@ def emit_lua(records: List[Dict]) -> str:
                 desc_lua += ", dur=%d" % r["dur"]
         if r.get("consumable"):
             cn = r["consumable"]
-            desc_lua += ', cons={kind="%s",eff=%d,ps=%s}' % (cn["kind"], cn["eff"], "true" if cn["ps"] else "false")
+            desc_lua += ', cons={kind="%s",eff=%d,ps=%s%s}' % (
+                cn["kind"], cn["eff"], "true" if cn["ps"] else "false",
+                (",dur=%d" % cn["dur"]) if cn.get("dur") else "")
         lines.append(
             "  [%d] = {cd=%s, reasons=%s, dv=%d, dc=%d, bl=%d, ml=%d, sl=%d, eff=%s, sp=%s, "
             "weapon=%s, stat=%s, cost=%s, mods=%s%s},  -- %s"
