@@ -24,7 +24,7 @@
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 642);
 
     -- Compact Harvest Reaper
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 2676);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031, `lootid` = 2676 WHERE (`entry` = 2676);
 
     -- Mechanized Sentry
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6233);
@@ -33,7 +33,7 @@
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 4073);
 
     -- The Threshwackonator 4100
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6669);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031, `lootid` = 6669 WHERE (`entry` = 6669);
 
     -- Foe Reaper 4000
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 573);
@@ -50,7 +50,7 @@
 -- LEVEL 26 - 35 VANILLA CREATURES
 
     -- Obsidian Shard
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7209);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031, `lootid` = 7209 WHERE (`entry` = 7209);
 
     -- Mekgineer Thermaplugg
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7800);
@@ -83,7 +83,7 @@
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6226);
 
     -- Walking Bomb
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7915);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031, `lootid` = 7915 WHERE (`entry` = 7915);
 
 -- LEVEL 36 - 50 VANILLA CREATURES
 

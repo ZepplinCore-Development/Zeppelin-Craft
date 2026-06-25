@@ -85,7 +85,7 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100041 WHERE (`e
 -- Shadethicket Oracle
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`entry` = 3931);
 -- Rethiel the Greenwarden
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`entry` = 1244);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042, `lootid` = 1244 WHERE (`entry` = 1244);
 -- Fen Lord
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`entry` = 1041);
 -- Crazed Ancient
@@ -93,7 +93,7 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`e
 -- Shadethicket Bark Ripper
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`entry` = 3784);
 -- Treant Ally
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`entry` = 5806);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042, `lootid` = 5806 WHERE (`entry` = 5806);
 -- Withervine Creeper
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`entry` = 4382);
 -- Shadethicket Stone Mover
@@ -142,7 +142,7 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100043 WHERE (`e
 -- Withervine Creeper
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100043 WHERE (`entry` = 4382);
 -- Swamp Spirit
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100043 WHERE (`entry` = 6932);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100043, `lootid` = 6932 WHERE (`entry` = 6932);
 -- Swampwalker Elder
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100043 WHERE (`entry` = 765);
 -- Drogoth the Roamer

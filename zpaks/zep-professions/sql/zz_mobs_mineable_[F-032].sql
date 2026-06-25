@@ -1,11 +1,11 @@
 -- 1 - 15 VANILLA CREATURES
 
 -- Restless Spirit of Earth
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020 WHERE (`entry` = 17179);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020, `lootid` = 17179 WHERE (`entry` = 17179);
 -- Molten Elemental
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020 WHERE (`entry` = 11321);
 -- Minor Manifestation of Earth
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020 WHERE (`entry` = 5891);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020, `lootid` = 5891 WHERE (`entry` = 5891);
 
 -- 16 - 25 VANILLA CREATURES
 
@@ -29,9 +29,9 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100022 WHERE (`e
 -- Furious Stone Spirit
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100022 WHERE (`entry` = 4035);
 -- Gelkis Rumbler
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100022 WHERE (`entry` = 4661);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100022, `lootid` = 4661 WHERE (`entry` = 4661);
 -- Stone Rumbler
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100022 WHERE (`entry` = 4528);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100022, `lootid` = 4528 WHERE (`entry` = 4528);
 -- Stone Rumbler
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100022 WHERE (`entry` = 6073);
 
@@ -80,7 +80,7 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100023 WHERE (`e
 -- Smoldar
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100023 WHERE (`entry` = 8278);
 -- Rockbiter
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100023 WHERE (`entry` = 7765);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100023, `lootid` = 7765 WHERE (`entry` = 7765);
 -- Thenan
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100023 WHERE (`entry` = 2763);
 -- Anathemus
@@ -150,7 +150,7 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`e
 -- VANILLA RAID CREATURES
 
 -- Firesworn
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`entry` = 12099);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025, `lootid` = 12099 WHERE (`entry` = 12099);
 -- Lava Annihilator
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`entry` = 11665);
 -- Obsidian Destroyer
@@ -173,7 +173,7 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`e
 -- TBC Creatures 60 - 65
 
 -- Goliathon
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19305);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026, `lootid` = 19305 WHERE (`entry` = 19305);
 -- Infernal Warbringer
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19261);
 -- Raging Colossus
@@ -183,13 +183,13 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`e
 -- Tortured Earth Spirit
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 17156);
 -- Crystalhide Colossus
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19066);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026, `lootid` = 19066 WHERE (`entry` = 19066);
 -- Lured Colossus
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 20599);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026, `lootid` = 20599 WHERE (`entry` = 20599);
 -- Raging Shardling
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19419);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026, `lootid` = 19419 WHERE (`entry` = 19419);
 -- Goliathon Shardling
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19420);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026, `lootid` = 19420 WHERE (`entry` = 19420);
 
 
 -- TBC Creatures 65 - 69
@@ -227,17 +227,17 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`e
 -- Enraged Earth Spirit
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 21050);
 -- Crazed Shardling
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 21936);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 21936 WHERE (`entry` = 21936);
 -- Behemothon, King of the Colossi
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22054);
 -- Morcrush Shardling
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22344);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22344 WHERE (`entry` = 22344);
 -- Mountain Shardling
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22390);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22390 WHERE (`entry` = 22390);
 -- Vortex Shardling
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22391);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22391 WHERE (`entry` = 22391);
 -- Enraged Earth Shard
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22115);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22115 WHERE (`entry` = 22115);
 
 -- TBC Creatures 70+
 
@@ -250,7 +250,7 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`e
 -- Corok the Mighty
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 22011);
 -- Behemothon, King of the Colossi
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 22054);
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028, `lootid` = 22054 WHERE (`entry` = 22054);
 -- Apexis Guardian
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 22275);
 -- Karrog
