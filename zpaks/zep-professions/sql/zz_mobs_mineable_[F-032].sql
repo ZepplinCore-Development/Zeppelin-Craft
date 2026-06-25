@@ -210,6 +210,8 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18885);
 -- Farahlon Breaker
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18886);
+-- Farahlon Crumbler (lootid 21077 = vendor trash, prevents fast corpse despawn so mining loot is reachable)
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 21077 WHERE (`entry` = 21077);
 -- Crazed Colossus
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 19823);
 -- Son of Corok
