@@ -125,6 +125,13 @@ local function renderTooltip(tooltip, spellId)
         addLine(primaryLabel(pe, isSpeed) .. ": " .. fmt(pv, isSpeed and "%" or ""))
     end
 
+    -- scaling-source line: the DBC desc no longer states it, so the addon names the
+    -- stat(s) the value scales with (following cross-spell desc refs, e.g. VS -> armor).
+    if not isSpeed and ZepCompute.scalingSources then
+        local sources = ZepCompute.scalingSources(rec, function(id) return Data[id] end)
+        if #sources > 0 then addLine("Scales with " .. table.concat(sources, ", ")) end
+    end
+
     local w = ZepCompute.weapon(rec, ctx)
     if w and w > 0 then addLine("Weapon: ~" .. num(w)) end
     -- F-189 stat scaling (e.g. block value) is folded into the primary value above, not

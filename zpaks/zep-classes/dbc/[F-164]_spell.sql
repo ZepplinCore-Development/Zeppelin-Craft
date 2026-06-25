@@ -62,7 +62,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = '',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'A strike that becomes active after blocking, dodging, or parrying an opponent''s attack. Deals $<dmg> damage and restores $s2% of your maximum mana.',
+    `spell_desc_enus` = 'A strike that becomes active after blocking, dodging, or parrying an opponent''s attack. Deals $s1 damage and restores $s2% of your maximum mana.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
     `spell_tooltip_flags` = 16712190,
@@ -74,12 +74,12 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1,
-    `spell_desc_variable_id` = 197;
+    `spell_desc_variable_id` = 0;
 
 -- Variable 197: Earthen Reprisal tooltip damage (base + per-level + AP scaling)
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 197;
 
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (197, CONCAT( '$perlevel=${($pl-', @er_base_level, ')*', @er_dmg_perlevel, '}\n', '$apbonus=${$AP*', @er_ap_coeff, '}\n', '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
+-- [F-190] var 197 retired (desc -> stock tokens); DELETE above clears it
 
 -- ============================================================================
 -- Earthwarden Talent Tree Spells (F-164 Phase 2)
@@ -488,7 +488,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $900122s1 Fire damage, scaling with your armor, to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900125[ Each activation also restores $900125s1% of your maximum mana.][]$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][] Lasts $d.',
+    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $900122s1 Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900125[ Each activation also restores $900125s1% of your maximum mana.][]$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][] Lasts $d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $900122s1 Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900125[ Each activation also restores $900125s1% of your maximum mana.][]$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][]',
     `spell_tooltip_flags` = 16712190,
@@ -503,7 +503,7 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 4,
     `effect_bonus_multiplier_1` = 0.267,
-    `spell_desc_variable_id` = 187;
+    `spell_desc_variable_id` = 0;
 
 -- Rockslam scaling (shared between spell and desc variable 189)
 SET @rs_dmg_base = 75;
@@ -555,7 +555,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage. Scales with your shield block value.$?s900182[ Adds 2 stacks of Rocksteady per cast.][]$?s900181[ Adds 1 stack of Rocksteady per cast.][]',
+    `spell_desc_enus` = 'Bashes the target with your shield, dealing $s1 Physical damage.$?s900182[ Adds 2 stacks of Rocksteady per cast.][]$?s900181[ Adds 1 stack of Rocksteady per cast.][]',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
     `spell_tooltip_flags` = 16712190,
@@ -571,12 +571,12 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 1,
     `effect_bonus_multiplier_1` = @rs_ap_coeff,
-    `spell_desc_variable_id` = 189;
+    `spell_desc_variable_id` = 0;
 
 -- Variable 189: Rockslam tooltip damage (base + per-level + shield block value)
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 189;
 
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (189, CONCAT( '$perlevel=${($pl-', @rs_base_level, ')*', @rs_dmg_perlevel, '}\n', '$dmg=${$m1+$<perlevel>+$bv}'));
+-- [F-190] var 189 retired (desc -> stock tokens); DELETE above clears it
 
 -- ============================================================================
 -- F-164 single-target DPS package: Crag Strike (filler) + Rocksurge (spender).
@@ -636,7 +636,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Crag Strike',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'A swift weapon strike dealing $<dmg> Physical damage and cracking the target''s armor, reducing it by $900264s1% per stack. Scales with Attack Power.',
+    `spell_desc_enus` = 'A swift weapon strike dealing $s1 Physical damage and cracking the target''s armor, reducing it by $900264s1% per stack.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
     `spell_tooltip_flags` = 16712190,
@@ -649,12 +649,12 @@ INSERT INTO `spell` SET
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1,
-    `spell_desc_variable_id` = 190;
+    `spell_desc_variable_id` = 0;
 
 -- Crag Strike damage tooltip ($<dmg> = $m1 + per-level + AP*coeff).
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 190;
 
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (190, CONCAT( '$perlevel=${($pl-', @cs_base_level, ')*', @cs_dmg_perlevel, '}\n', '$apbonus=${$AP*', @cs_ap_coeff, '}\n', '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
+-- [F-190] var 190 retired (desc -> stock tokens); DELETE above clears it
 
 -- ----------------------------------------------------------------------------
 -- Cracked Armor (900264) - Crag Strike's armor debuff. Major armor reduction
@@ -749,7 +749,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rocksurge',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = CONCAT('A stone spike erupts below the current enemy target, dealing $<dmg> Physical damage, increased by $?s900272[', (@rsg_pct_per_stack + 5), '][', @rsg_pct_per_stack, ']% for each stack of Rocksteady you have. Scales with Attack Power.'),
+    `spell_desc_enus` = CONCAT('A stone spike erupts below the current enemy target, dealing $s1 Physical damage, increased by $?s900272[', (@rsg_pct_per_stack + 5), '][', @rsg_pct_per_stack, ']% for each stack of Rocksteady you have.'),
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals Physical damage, increased for each Rocksteady stack.',
     `spell_tooltip_flags` = 16712190,
@@ -762,12 +762,12 @@ INSERT INTO `spell` SET
     `prevention_type` = 1,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1,
-    `spell_desc_variable_id` = 193;
+    `spell_desc_variable_id` = 0;
 
 -- Variable 193 (NOT 191 — 191 is Earth Shock's): Rocksurge tooltip damage.
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 193;
 
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (193, CONCAT( '$perlevel=${($pl-', @rsg_base_level, ')*', @rsg_dmg_perlevel, '}\n', '$apbonus=${$AP*', @rsg_ap_coeff, '}\n', '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
+-- [F-190] var 193 retired (desc -> stock tokens); DELETE above clears it
 
 -- ============================================================================
 -- F-164 GLYPHS (PoC). Pipeline: glyph item (item_template, on-use) -> APPLY_GLYPH
@@ -1405,7 +1405,7 @@ DELETE FROM `spelldescriptionvariables` WHERE `id` = 187;
 -- $total = base eruption damage; $totalg = +20% (Glyph of Volcanic Shield 900278).
 -- Each glyphed component is pre-multiplied (var refs are addition-only safe, not
 -- multiplication), then summed. Desc/tooltip pick via $?s900278[$<totalg>][$<total>].
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (187, CONCAT( '$base=${', (@vs_dmg_base + @vs_dmg_die), '}\n', '$perlevel=${($pl-', @vs_base_level, ')*', @vs_dmg_perlevel, '}\n', '$spbonus=${$sp*', @vs_sp_coeff, '}\n', '$total=${$<base>+$<perlevel>+$<spbonus>}\n', '$baseg=${', (@vs_dmg_base + @vs_dmg_die), '*1.2}\n', '$perlevelg=${($pl-', @vs_base_level, ')*', @vs_dmg_perlevel, '*1.2}\n', '$spbonusg=${$sp*', @vs_sp_coeff, '*1.2}\n', '$totalg=${$<baseg>+$<perlevelg>+$<spbonusg>}'));
+-- [F-190] var 187 retired (desc -> stock tokens); DELETE above clears it
 
 -- ----------------------------------------------------------------------------
 -- Improved Volcanic Shield R1 (900123)
@@ -1559,7 +1559,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 10,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 127,
     `effect_implicit_target_a_2` = 1,
@@ -1596,7 +1596,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 10,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 127,
     `effect_implicit_target_a_2` = 1,
@@ -1633,7 +1633,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 10,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 127,
     `effect_implicit_target_a_2` = 1,
@@ -1670,7 +1670,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 10,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 127,
     `effect_implicit_target_a_2` = 1,
@@ -1730,9 +1730,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases the Strength bonus of Rockbiter Weapon by $s1%.',
+    `spell_desc_enus` = 'Your Rockbiter Weapon generates an additional $s2% threat while active, and increases the Strength bonus of Rockbiter Weapon by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Rockbiter Strength increased by $s1%, threat by $s2%.',
+    `spell_tooltip_enus` = 'Rockbiter: +$s1% Strength, +$s2% additional threat.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -1774,9 +1774,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases the Strength bonus of Rockbiter Weapon by $s1%.',
+    `spell_desc_enus` = 'Your Rockbiter Weapon generates an additional $s2% threat while active, and increases the Strength bonus of Rockbiter Weapon by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Rockbiter Strength increased by $s1%, threat by $s2%.',
+    `spell_tooltip_enus` = 'Rockbiter: +$s1% Strength, +$s2% additional threat.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -1816,9 +1816,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases the Strength bonus of Rockbiter Weapon by $s1%.',
+    `spell_desc_enus` = 'Your Rockbiter Weapon generates an additional $s2% threat while active, and increases the Strength bonus of Rockbiter Weapon by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Rockbiter Strength increased by $s1%, threat by $s2%.',
+    `spell_tooltip_enus` = 'Rockbiter: +$s1% Strength, +$s2% additional threat.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -2588,13 +2588,13 @@ INSERT INTO `spell` SET
 
 -- Rockbiter Weapon imbue desc - AP from passive aura (client auto-applies Imp Rockbiter SpellMod)
 -- Threat shown conditionally when Imp Rockbiter is known
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900138m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.' WHERE id = 8017;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900138m1 and threat generation by 5%.  Lasts 30 minutes.' WHERE id = 8017;
 
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900139m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.' WHERE id = 8018;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900139m1 and threat generation by 5%.  Lasts 30 minutes.' WHERE id = 8018;
 
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900140m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.' WHERE id = 8019;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900140m1 and threat generation by 5%.  Lasts 30 minutes.' WHERE id = 8019;
 
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900141m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.' WHERE id = 10399;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900141m1 and threat generation by 5%.  Lasts 30 minutes.' WHERE id = 10399;
 
 DELETE FROM `spell` WHERE `id` = 900153;
 
@@ -3062,14 +3062,14 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5312,
     `spell_name_enus` = 'Totemic Impact',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Summoning a totem sends a shockwave through the ground, dealing $<dmg> Nature damage, scaling with Attack Power, to all nearby enemies and generating 3 times normal threat. Cannot occur more than once every 4 sec.',
+    `spell_desc_enus` = 'Summoning a totem sends a shockwave through the ground, dealing $900166s1 Nature damage to all nearby enemies and generating 3 times normal threat. Cannot occur more than once every 4 sec.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Your totem summons deal $<dmg> Nature damage and generate 3x threat. 4 sec cooldown.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1,
     `effect_bonus_multiplier_1` = 1.0,
-    `spell_desc_variable_id` = 198;
+    `spell_desc_variable_id` = 0;
 
 -- Totemic Impact (900166) — triggered AOE Nature damage + threat
 -- SCHOOL_DAMAGE (2), Nature, AOE around caster (target_a=22, target_b=15, 10yd).
@@ -3133,7 +3133,7 @@ INSERT INTO `spell` SET
 -- Variable 198: Totemic Impact tooltip damage (base + per-level + AP scaling)
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 198;
 
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (198, CONCAT( '$perlevel=${($pl-', @ti_base_level, ')*', @ti_dmg_perlevel, '}\n', '$apbonus=${$AP*', @ti_ap_coeff, '}\n', '$dmg=${$900166m1+$<perlevel>+$<apbonus>}'));
+-- [F-190] var 198 retired (desc -> stock tokens); DELETE above clears it
 
 -- Thunderborne Leap damage scaling (shared between triggered spell, cast dummy, and desc variable 194)
 SET @tbl_dmg_base = 99;
@@ -3184,10 +3184,10 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Thunderborne Leap',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Leap to a targeted location, slamming down on all enemies within $900174a1 yards, causing $<total> Nature damage, scaling with Attack Power, and stunning them for $900174d.',
+    `spell_desc_enus` = 'Leap to a targeted location, slamming down on all enemies within $900174a1 yards, causing $900174s2 Nature damage and stunning them for $900174d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712190,
-    `spell_desc_variable_id` = 194,
+    `spell_desc_variable_id` = 0,
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
     `spell_class_set` = 11,
@@ -3252,7 +3252,7 @@ INSERT INTO `spell` SET
 -- Variable 194: Thunderborne Leap tooltip damage (base + per-level + AP scaling)
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 194;
 
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (194, CONCAT( '$perlevel=${($pl-', @tbl_base_level, ')*', @tbl_dmg_perlevel, '}\n', '$apbonus=${$AP*', @tbl_ap_coeff, '}\n', '$total=${$900174m2+$<perlevel>+$<apbonus>}'));
+-- [F-190] var 194 retired (desc -> stock tokens); DELETE above clears it
 
 -- ============================================================================
 -- Juggernaut (900175-900179) — 5-rank passive
@@ -4940,7 +4940,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 5',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900250m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900250m1 and threat generation by 5%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -4976,7 +4976,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 6',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900251m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900251m1 and threat generation by 5%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -5012,7 +5012,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 7',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900252m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900252m1 and threat generation by 5%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -5048,7 +5048,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 8',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900253m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900253m1 and threat generation by 5%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -5084,7 +5084,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 9',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900254m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900254m1 and threat generation by 5%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -5120,7 +5120,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 10',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900255m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900255m1 and threat generation by 5%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -5369,7 +5369,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 82,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -5403,7 +5403,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 152,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -5437,7 +5437,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 219,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -5471,7 +5471,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 271,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -5505,7 +5505,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 346,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -5539,7 +5539,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 444,
-    `effect_base_points_2` = -1,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,

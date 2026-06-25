@@ -128,6 +128,37 @@ function ZepCompute.effectValues(rec, ctx)
     return out
 end
 
+-- Human-readable label per F-189 stat id (for the scaling-source line).
+local STAT_LABEL = {
+    BLOCK_VALUE = "block value", ARMOR = "armor", ATTACK_POWER = "Attack Power",
+    SPELL_POWER = "Spell Power", STAMINA = "Stamina", STRENGTH = "Strength",
+    AGILITY = "Agility", INTELLECT = "Intellect", SPIRIT = "Spirit", MAX_HEALTH = "maximum health",
+}
+
+-- What a spell scales with, as an ordered de-duped label list (Attack Power, Spell Power,
+-- block value, armor, ...). The DBC desc no longer states the source; the addon does.
+-- Follows cross-spell $<id>sN refs in the desc so a proc/trigger spell reports the source
+-- that lives on the spell it points at (e.g. VS -> the armor-scaled eruption).
+function ZepCompute.scalingSources(rec, getRec)
+    local seen, order = {}, {}
+    local function add(label)
+        if label and not seen[label] then seen[label] = true; order[#order + 1] = label end
+    end
+    local function collect(r)
+        if not r then return end
+        if r.sp then
+            if (r.sp.ap or 0) ~= 0 or (r.sp.apo or 0) ~= 0 then add("Attack Power") end
+            if (r.sp.d or 0) ~= 0 or (r.sp.o or 0) ~= 0 then add("Spell Power") end
+        end
+        for _, s in ipairs(r.stat or {}) do add(STAT_LABEL[s.s] or s.s) end
+    end
+    collect(rec)
+    if rec.desc and getRec then
+        for id in rec.desc:gmatch("%$(%d+)[sSoOmM]%d") do collect(getRec(tonumber(id))) end
+    end
+    return order
+end
+
 -- Weapon-damage spells (effects 17/31/58/121): use the player's weapon, not base points.
 function ZepCompute.weapon(rec, ctx)
     if not rec or not rec.weapon then return 0 end
