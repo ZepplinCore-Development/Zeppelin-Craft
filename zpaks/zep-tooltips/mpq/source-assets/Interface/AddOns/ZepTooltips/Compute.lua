@@ -78,13 +78,16 @@ function ZepCompute.effectValues(rec, ctx)
     end
 
     if rec.sp then
-        for _, e in ipairs(rec.eff) do
-            local v = out[e.i]
-            if v then
-                local bonus = (ctx.sp or 0) * (rec.sp.d or 0) + (ctx.ap or 0) * (rec.sp.ap or 0)
-                v.lo = v.lo + bonus; v.hi = v.hi + bonus
-                break  -- direct coeff on the first value effect; DoT refinement later
-            end
+        -- apply SP/AP to the DISPLAYED (primary) effect, not the first effect — which may
+        -- be an aura (e.g. Earth Shock's damage is effect 2). DoT effects use the dot coeffs.
+        local pe = ZepCompute.primaryEffect(rec)
+        local v = pe and out[pe.i]
+        if v then
+            local isDot = (pe.a == 3 or pe.a == 8)
+            local spc = isDot and (rec.sp.o or 0) or (rec.sp.d or 0)
+            local apc = isDot and (rec.sp.apo or 0) or (rec.sp.ap or 0)
+            local bonus = (ctx.sp or 0) * spc + (ctx.ap or 0) * apc
+            v.lo = v.lo + bonus; v.hi = v.hi + bonus
         end
     end
     return out
