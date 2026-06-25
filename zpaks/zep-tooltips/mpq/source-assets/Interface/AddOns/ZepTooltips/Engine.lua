@@ -47,15 +47,31 @@ local function auraStacks(unit, id)
     return 0
 end
 
+-- Active glyph modifier spells. Glyphs apply a PASSIVE modifier (attr 0x40) that is neither
+-- "known" (IsSpellKnown) nor a visible aura (UnitAura skips passives), so detect them via the
+-- glyph sockets — GetGlyphSocketInfo's glyphSpell is our glyphproperties.spell_id (the
+-- modifier, e.g. 900272 Glyph of Rocksurge / 900276 Glyph of Crag Strike).
+local function activeGlyphs()
+    local g = {}
+    if GetNumGlyphSockets and GetGlyphSocketInfo then
+        for i = 1, GetNumGlyphSockets() do
+            local enabled, _, _, spell = GetGlyphSocketInfo(i)
+            if enabled and spell then g[spell] = true end
+        end
+    end
+    return g
+end
+
 local function buildCtx()
     local b, p, n = UnitAttackPower("player")
     local lo, hi = UnitDamage("player")
+    local glyphs = activeGlyphs()
     return {
         level = UnitLevel("player"),
         sp = GetSpellBonusDamage and GetSpellBonusDamage(2) or 0,
         ap = (b or 0) + (p or 0) + (n or 0),
         weaponAvg = (lo and hi) and (lo + hi) * 0.5 or 0,
-        knows = function(id) return IsSpellKnown and IsSpellKnown(id) or false end,
+        knows = function(id) return (IsSpellKnown and IsSpellKnown(id)) or glyphs[id] or false end,
         hasAura = function(id) return auraStacks("player", id) end,
         stat = function(sid) local r = StatReader[sid]; return r and r() or 0 end,
         baseMana = UnitPowerMax("player", 0) or 0,   -- approx (max mana ~ base for display)

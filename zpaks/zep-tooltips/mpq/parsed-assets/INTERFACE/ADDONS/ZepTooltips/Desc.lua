@@ -42,6 +42,12 @@ end
 
 local interpret   -- forward declaration (conditionals recurse)
 
+-- Duration seconds -> "N min" / "N sec" (matches the client's unit choice).
+local function durfmt(d)
+    if d >= 60 and d % 60 == 0 then return (d / 60) .. " min" end
+    return d .. " sec"
+end
+
 -- Resolve the $token at position i (s:sub(i,i) == '$'). Returns replacement, nextPos.
 local function token(s, i, rec, ctx, getRec)
     local r = s:sub(i)
@@ -58,13 +64,37 @@ local function token(s, i, rec, ctx, getRec)
         return interpret(on and a or b, rec, ctx, getRec), p2
     end
 
-    -- cross-spell value: $<id>sN / $<id>SN / $<id>oN / $<id>ON
-    local xid, xk, xn = r:match("^%$(%d+)([sSoO])(%d)")
+    -- cross-spell: $<id>aN radius, $<id>d duration, $<id>[sSoOmM]N value
+    local xid = r:match("^%$(%d+)")
     if xid then
-        local v = effectValue(ctx, getRec and getRec(tonumber(xid)), tonumber(xn), xk == "S" or xk == "O")
-        local nextp = i + 1 + #xid + 2        -- $ + digits + letter + digit
-        if v then return tostring(round(abs(v))), nextp end
-        return s:sub(i, nextp - 1), nextp      -- no record -> leave the token text
+        local rec2 = getRec and getRec(tonumber(xid))
+        local rest = r:sub(2 + #xid)          -- chars after "$<id>"
+        local an = rest:match("^a(%d)")
+        if an then
+            local nextp = i + 1 + #xid + 2
+            local rad = rec2 and rec2.rad and rec2.rad[tonumber(an)]
+            if rad then return tostring(round(rad)), nextp end
+            return s:sub(i, nextp - 1), nextp
+        end
+        if rest:match("^d") then
+            local nextp = i + 1 + #xid + 1
+            if rec2 and rec2.dur then return durfmt(rec2.dur), nextp end
+            return s:sub(i, nextp - 1), nextp
+        end
+        local vk, vn = rest:match("^([sSoOmM])(%d)")
+        if vk then
+            local nextp = i + 1 + #xid + 2
+            local v = effectValue(ctx, rec2, tonumber(vn), vk == "S" or vk == "O" or vk == "M")
+            if v then return tostring(round(abs(v))), nextp end
+            return s:sub(i, nextp - 1), nextp
+        end
+    end
+
+    -- self radius $aN
+    local an = r:match("^%$a(%d)")
+    if an then
+        local rad = rec and rec.rad and rec.rad[tonumber(an)]
+        if rad then return tostring(round(rad)), i + 3 end
     end
 
     -- self value: $sN / $SN / $oN / $mN / $MN
@@ -74,11 +104,9 @@ local function token(s, i, rec, ctx, getRec)
         if v then return tostring(round(abs(v))), i + 3 end
     end
 
-    -- duration $d -> "N min" / "N sec" (matches the client's unit choice)
+    -- self duration $d
     if r:match("^%$d") and rec and rec.dur then
-        local d = rec.dur
-        if d >= 60 and d % 60 == 0 then return (d / 60) .. " min", i + 2 end
-        return d .. " sec", i + 2
+        return durfmt(rec.dur), i + 2
     end
 
     -- unknown token: emit the '$' literally and keep scanning from the next char

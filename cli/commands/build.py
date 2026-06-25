@@ -707,10 +707,14 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
         spells = {int(r["ID"]): r for r in cursor.fetchall()}
         cursor.execute("SELECT `id`, `max_duration` FROM `spellduration`")
         durs = {int(r["id"]): int(r["max_duration"] or 0) for r in cursor.fetchall()}
+        cursor.execute("SELECT `id`, `radius` FROM `spellradius`")
+        rads = {int(r["id"]): float(r["radius"] or 0) for r in cursor.fetchall()}
         cursor.close()
-    # resolve $d duration (seconds) per spell for custom desc templates
+    # resolve $d duration (sec) and $aN radius (yards) per spell for desc templates
     for r in spells.values():
         r["_dur"] = durs.get(int(r.get("duration_index") or 0), 0) // 1000
+        r["_rad"] = {i: rads.get(int(r.get(f"effect_radius_index_{i}") or 0), 0)
+                     for i in (1, 2, 3) if rads.get(int(r.get(f"effect_radius_index_{i}") or 0), 0)}
 
     click.echo(f"Loaded {len(spells)} spells. Building reverse-107/108 index ...")
     mod_index = tg.build_modifier_index(spells)

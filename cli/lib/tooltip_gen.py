@@ -63,6 +63,7 @@ SPELL_COLUMNS = [
     "power_cost", "power_cost_percentage", "recovery_time", "category_recovery_time",
     "damage_class", "attributes", "spell_desc_variable_id",
     "spell_name_enus", "spell_desc_enus", "duration_index",
+    "effect_radius_index_1", "effect_radius_index_2", "effect_radius_index_3",
 ]
 
 # A spell-desc-variable id in this range is one of OUR custom tooltips (the roster the
@@ -331,6 +332,7 @@ def classify(spell_id: int, spells: Dict[int, Dict],
         # raw desc template (stock tokens) — Phase 6 in-client recompute, custom spells only
         "desc": (row.get("spell_desc_enus") or "") if is_custom else "",
         "dur": (int(row.get("_dur") or 0)) if is_custom else 0,   # $d duration (seconds)
+        "rad": (row.get("_rad") or {}) if is_custom else {},      # $aN radius (yards per effect)
         # full per-spell compute picture (engine inputs), all from OUR DBC:
         "levels": {"bl": _i(row, "base_level"), "ml": _i(row, "max_level"),
                    "sl": _i(row, "spell_level")},
@@ -410,9 +412,11 @@ def emit_lua(records: List[Dict]) -> str:
         cost = "{f=%d,p=%d,cd=%d,cdc=%d}" % (c["flat"], c["pct"], c["cd"], c["cdcat"])
         desc_lua = ""
         if r.get("desc"):
-            desc_lua = ", desc=%s" % _lua_str(r["desc"])
-            if r.get("dur"):
-                desc_lua += ", dur=%d" % r["dur"]
+            desc_lua += ", desc=%s" % _lua_str(r["desc"])
+        if r.get("dur"):
+            desc_lua += ", dur=%d" % r["dur"]
+        if r.get("rad"):
+            desc_lua += ", rad={%s}" % ",".join("[%d]=%s" % (e, _num(y)) for e, y in sorted(r["rad"].items()))
         if r.get("consumable"):
             cn = r["consumable"]
             desc_lua += ', cons={kind="%s",eff=%d,ps=%s%s}' % (

@@ -627,7 +627,9 @@ INSERT INTO `spell` SET
     `effect_real_points_per_level_1` = @cs_dmg_perlevel,
     `effect_base_points_1` = @cs_dmg_base,
     `effect_implicit_target_a_1` = 6,
-    `effect_bonus_multiplier_1` = @cs_ap_coeff,
+    `effect_bonus_multiplier_1` = 0,
+    `effect_misc_value_a_1` = 3,
+    `effect_misc_value_b_1` = 15,
     `effect_2` = 64,
     `effect_trigger_spell_2` = 900264,
     `effect_implicit_target_a_2` = 6,
@@ -1327,9 +1329,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Tectonic Blast',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Sends a wave of force through the ground in front of the caster, causing $<total> Nature damage, scaling with Attack Power, to all enemies within 13 yards in a frontal cone. Causes a high amount of threat. Enemies struck have their attack power reduced by $s2% for $d.',
+    `spell_desc_enus` = 'Sends a wave of force through the ground in front of the caster, causing $s1 Nature damage to all enemies within $a1 yards in a frontal cone. Causes a high amount of threat. Enemies struck have their attack power reduced by $s2% for $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<total> Nature damage in a frontal cone. Causes a high amount of threat. Reduces enemy attack power by $s2% for $d.',
+    `spell_tooltip_enus` = 'Reduces attack power by $s2% for $d.',
     `spell_tooltip_flags` = 16712190,
     `power_cost_percentage` = 10,
     `start_recovery_category` = 133,
@@ -1342,12 +1344,11 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_2` = 1.0,
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 8,
-    `spell_desc_variable_id` = 188;
+    `spell_desc_variable_id` = 0;
 
 -- Variable 188: Tectonic Blast tooltip damage (base + per-level + AP scaling)
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 188;
 
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (188, CONCAT( '$perlevel=${($pl-', @tb_base_level, ')*', @tb_dmg_perlevel, '}\n', '$apbonus=${$AP*', @tb_ap_coeff, '}\n', '$total=${$m1+$<perlevel>+$<apbonus>}'));
 
 -- ----------------------------------------------------------------------------
 -- Volcanic Shield Triggered (900122) - AOE Fire damage + % mana regen on block
