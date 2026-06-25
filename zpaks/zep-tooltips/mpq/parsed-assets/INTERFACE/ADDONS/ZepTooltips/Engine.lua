@@ -64,76 +64,80 @@ local function colorize(text)
         math.floor(c[1] * 255), math.floor(c[2] * 255), math.floor(c[3] * 255), text)
 end
 
+-- Whole number with thousands separators: 15234 -> "15,234".
+local function num(n)
+    n = math.floor(n + 0.5)
+    local neg = n < 0
+    local s = tostring(math.abs(n)):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
+    return (neg and "-" or "") .. s
+end
+
+-- A value (point or lo-hi range) with an optional suffix (e.g. "%").
 local function fmt(v, suffix)
+    suffix = suffix or ""
     if math.abs(v.hi - v.lo) < 0.5 then
-        return string.format("%d%s", math.floor(v.lo + 0.5), suffix)
+        return num(v.lo) .. suffix
     end
-    return string.format("%d-%d%s", math.floor(v.lo + 0.5), math.floor(v.hi + 0.5), suffix)
+    return num(v.lo) .. "-" .. num(v.hi) .. suffix
+end
+
+-- Label for the primary value line by effect kind.
+local function primaryLabel(pe, isSpeed)
+    if isSpeed then return "Speed" end
+    if pe and pe.t == 10 then return "Heal" end
+    return "Hit"
 end
 
 -- Shared render: look up the record, compute, add lines.
 local function renderTooltip(tooltip, spellId)
-    if not spellId then return end
+    if not spellId or ZepTooltipsDB.enabled == false then return end
     local rec = Data[spellId]
     if not rec then return end
     local ctx = buildCtx()
     local shown = false
+    local function addLine(text)
+        tooltip:AddLine(colorize(text), nil, nil, nil, true)
+        shown = true
+    end
 
     local pe = ZepCompute.primaryEffect(rec)
     local isSpeed = pe and ZepCompute.isSpeed(pe)
     local pv = pe and ZepCompute.effectValues(rec, ctx)[pe.i] or nil
     if pv then
-        tooltip:AddLine(colorize(fmt(pv, isSpeed and "%" or "")), nil, nil, nil, true)
-        shown = true
+        addLine(primaryLabel(pe, isSpeed) .. ": " .. fmt(pv, isSpeed and "%" or ""))
     end
 
     local w = ZepCompute.weapon(rec, ctx)
-    if w and w > 0 then
-        tooltip:AddLine(colorize(string.format("~%d with your weapon", math.floor(w + 0.5))), nil, nil, nil, true)
-        shown = true
-    end
+    if w and w > 0 then addLine("Weapon: ~" .. num(w)) end
 
     local s = ZepCompute.stat(rec, ctx)
-    if s and s > 0 then
-        tooltip:AddLine(colorize(string.format("+%d from your stats", math.floor(s + 0.5))), nil, nil, nil, true)
-        shown = true
-    end
+    if s and s > 0 then addLine("Stats: +" .. num(s)) end
 
     -- crit: a stock gap (no native line). Chance + the crit hit value. Damage/heal only.
     if pe and not isSpeed then
         local crit = ZepCompute.crit(rec, ctx)
         if crit and crit > 0 then
-            local line
             if pv then
                 local mult = ZepCompute.critMult(rec, ctx)
-                line = string.format("~%.0f%% crit for %s", crit,
-                    fmt({ lo = pv.lo * mult, hi = pv.hi * mult }, ""))
+                addLine(string.format("Crit: ~%.0f%% (%s)", crit,
+                    fmt({ lo = pv.lo * mult, hi = pv.hi * mult })))
             else
-                line = string.format("~%.0f%% crit", crit)
+                addLine(string.format("Crit: ~%.0f%%", crit))
             end
-            tooltip:AddLine(colorize(line), nil, nil, nil, true)
-            shown = true
         end
     end
 
     -- cost / cooldown: only when a talent the player has actually changes them (the
     -- value-add over native, which already shows the base).
     local cost, costMod = ZepCompute.cost(rec, ctx)
-    if costMod then
-        tooltip:AddLine(colorize(string.format("%d mana (your talents)", math.floor(cost + 0.5))), nil, nil, nil, true)
-        shown = true
-    end
+    if costMod then addLine("Mana: " .. num(cost) .. " (talents)") end
     local cdSec, cdMod = ZepCompute.cooldown(rec, ctx)
-    if cdMod then
-        tooltip:AddLine(colorize(string.format("%.1fs cooldown (your talents)", cdSec)), nil, nil, nil, true)
-        shown = true
-    end
+    if cdMod then addLine(string.format("Cooldown: %.1fs (talents)", cdSec)) end
 
     if ZepTooltipsDB.debug then
-        tooltip:AddLine(colorize(string.format("Zep #%d: %s [%s], %d mods", spellId,
+        addLine(string.format("Zep #%d: %s [%s], %d mods", spellId,
             rec.cd and "casterDependent" or "self-only",
-            table.concat(rec.reasons or {}, ","), rec.nmods or (rec.mods and #rec.mods) or 0)))
-        shown = true
+            table.concat(rec.reasons or {}, ","), rec.nmods or (rec.mods and #rec.mods) or 0))
     end
 
     if shown then tooltip:Show() end
@@ -187,13 +191,16 @@ end)
 SLASH_ZEPTT1 = "/zeptt"
 SlashCmdList["ZEPTT"] = function(msg)
     local a, b, c, d = msg:match("^(%S+)%s*(%S*)%s*(%S*)%s*(%S*)")
-    if a == "debug" then
+    if a == "on" or a == "off" then
+        ZepTooltipsDB.enabled = (a == "on")
+        DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: " .. a)
+    elseif a == "debug" then
         ZepTooltipsDB.debug = not ZepTooltipsDB.debug
         DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips debug: " .. tostring(ZepTooltipsDB.debug))
     elseif a == "color" and b ~= "" then
         ZepTooltipsDB.color = { tonumber(b) or 0.4, tonumber(c) or 0.8, tonumber(d) or 1.0 }
         DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips color set.")
     else
-        DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: /zeptt debug | /zeptt color r g b")
+        DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: /zeptt on|off | debug | color r g b")
     end
 end
