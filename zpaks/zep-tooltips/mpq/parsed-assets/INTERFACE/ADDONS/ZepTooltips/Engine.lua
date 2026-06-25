@@ -203,7 +203,9 @@ SlashCmdList["ZEPTT"] = function(msg)
     elseif a == "color" and b ~= "" then
         ZepTooltipsDB.color = { tonumber(b) or 0.4, tonumber(c) or 0.8, tonumber(d) or 1.0 }
         DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips color set.")
+    elseif a == "test" then
+        if ZepSelfTest then ZepSelfTest.run(true) else DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: self-test unavailable") end
     else
-        DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: /zeptt on|off | debug | color r g b")
+        DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: /zeptt on|off | debug | test | color r g b")
     end
 end

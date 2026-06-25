@@ -12,3 +12,6 @@ Generated.lua
 # Combine-engine (math) then hooks (WoW API + rendering).
 Compute.lua
 Engine.lua
+
+# Self-test: runs the engine over synthetic records + probes client APIs at login.
+SelfTest.lua

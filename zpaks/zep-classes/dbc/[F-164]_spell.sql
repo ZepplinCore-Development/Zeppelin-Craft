@@ -1192,7 +1192,7 @@ INSERT INTO `spell` SET
     -- Glyph of Hex). m3 bit 23 is unique. Imp Tectonic proc (spell_proc) and the
     -- Glyph of Tectonic Blast modifier (900274) updated to match.
     `spell_class_mask_3` = 8388608,
-    `damage_class` = 3,
+    `damage_class` = 1,   -- F-164/F-190: was 3 (RANGED, crit off ranged ~0 for casters) -> 1 (MAGIC): nature dmg crits off SPELL crit, un-dodgeable/parryable
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -2953,6 +2953,29 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `spell_class_set` = 11,
     `spell_class_mask_3` = 65536;
+
+-- Totemic Impact Pending (900265) — hidden marker used by the C++ multi-totem scaling.
+-- Applied to the caster during a Call-of-the-Elements cast: while present it suppresses
+-- the per-totem Totemic Impact proc (spell_sha_totemic_impact DoCheckProc), and its STACK
+-- AMOUNT carries the count of totems summoned so 900166 (spell_sha_totemic_impact_damage)
+-- can multiply its damage by it. Passive (attr 64) so it never shows client-side; applied
+-- and removed within the same Call cast. stack_amount high so SetStackAmount isn't clamped.
+DELETE FROM `spell` WHERE `id` = 900265;
+INSERT INTO `spell` SET
+    `id` = 900265,
+    `attributes` = 64,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `stack_amount` = 99,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 4,
+    `spell_name_enus` = 'Totemic Impact Pending',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
 
 -- Variable 198: Totemic Impact tooltip damage (base + per-level + AP scaling)
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 198;
