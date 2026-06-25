@@ -11,8 +11,6 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020, `lootid`
 
 -- Stone Behemoth
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100021 WHERE (`entry` = 2157);
--- Stone Rumbler
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100021 WHERE (`entry` = 4528);
 -- Enraged Stone Spirit
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100021 WHERE (`entry` = 4034);
 -- Boulderheart
@@ -178,8 +176,6 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026, `lootid`
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19261);
 -- Raging Colossus
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19188);
--- Enraged Crusher
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 18062);
 -- Tortured Earth Spirit
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 17156);
 -- Crystalhide Colossus
@@ -222,14 +218,10 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 20202);
 -- Sundered Shard
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 20498);
--- Netherock
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 20772);
 -- Enraged Earth Spirit
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 21050);
 -- Crazed Shardling
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 21936 WHERE (`entry` = 21936);
--- Behemothon, King of the Colossi
-UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22054);
 -- Morcrush Shardling
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22344 WHERE (`entry` = 22344);
 -- Mountain Shardling
