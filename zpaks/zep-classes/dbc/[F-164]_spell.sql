@@ -84,8 +84,11 @@ INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (197, CONCAT(
 -- Improved Volcanic Shield (new), triggered spells
 -- ============================================================================
 -- ----------------------------------------------------------------------------
--- Elemental Ward (900115, 900127, 900128) - 3 ranks, cloned from Elemental Warding (28996-28998)
--- Reduces magic damage taken by 3/5/7% per rank. Icon 5440.
+-- Elemental Ward (900115, 900127, 900128, 900207, 900208) - 5 ranks, cloned from Elemental Warding (28996-28998)
+-- E1 (aura 87, MOD_DAMAGE_PERCENT_TAKEN): reduces magic damage taken by 3/6/9/12/15% per rank.
+-- E2 (aura 186, MOD_ATTACKER_SPELL_HIT_CHANCE): 3/6/9/12/15% chance to fully resist (miss) incoming spells.
+-- Both effects use school mask 126 (all magic, excludes physical). Icon 5440.
+-- die_sides=1 convention: applied = base+1, so base -(pct+1) yields -pct (e.g. base -4 = -3% = displays 3).
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900115;
 
@@ -98,16 +101,22 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -3,
+    `effect_base_points_1` = -4,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 126,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -4,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 186,
+    `effect_misc_value_a_2` = 126,
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1% and gives a $s2% chance to fully resist harmful spells.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -125,16 +134,22 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -5,
+    `effect_base_points_1` = -7,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 126,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -7,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 186,
+    `effect_misc_value_a_2` = 126,
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1% and gives a $s2% chance to fully resist harmful spells.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -152,16 +167,22 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -7,
+    `effect_base_points_1` = -10,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 126,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -10,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 186,
+    `effect_misc_value_a_2` = 126,
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1% and gives a $s2% chance to fully resist harmful spells.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -179,16 +200,22 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -9,
+    `effect_base_points_1` = -13,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 126,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -13,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 186,
+    `effect_misc_value_a_2` = 126,
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 4',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1% and gives a $s2% chance to fully resist harmful spells.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -206,16 +233,22 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -11,
+    `effect_base_points_1` = -16,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 126,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -16,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 186,
+    `effect_misc_value_a_2` = 126,
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 5',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1% and gives a $s2% chance to fully resist harmful spells.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -485,7 +518,7 @@ SET @rs_dmg_die = 1;
 SET @rs_dmg_perlevel = 6.0;
 SET @rs_base_level = 20;
 SET @rs_max_level = 80;
-SET @rs_ap_coeff = 0;  -- AP scaling removed: Rockslam already double-dips on shield block value (C++ spell_sha_rockslam adds GetShieldBlockValue 1.0x). Block value is its sole scaling stat. To re-enable AP, set this AND re-add the 900119 spell_bonus_data ap_bonus row.
+SET @rs_ap_coeff = 0;  -- No AP/SP scaling. Block value is Rockslam's sole scaling stat, applied natively via effect_misc_value_a_1/b_1 (F-188 stat-scaled SCHOOL_DAMAGE: A=ZEP_STAT_BLOCK_VALUE, B=coeff*100), which replaced the old C++ spell_sha_rockslam script.
 
 -- ----------------------------------------------------------------------------
 -- Rockslam (900119) - Shield bash dealing flat damage + block buff
@@ -516,6 +549,8 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = @rs_dmg_die,
     `effect_real_points_per_level_1` = @rs_dmg_perlevel,
     `effect_base_points_1` = @rs_dmg_base,
+    `effect_misc_value_a_1` = 1,     -- F-188: ZEP_STAT_BLOCK_VALUE (stat selector)
+    `effect_misc_value_b_1` = 100,   -- F-188: coeff x1.00 -> hit += shield block value (replaces spell_sha_rockslam)
     `effect_implicit_target_a_1` = 6,
     `spell_visual_1` = 42,
     `spell_icon_id` = 5489,
@@ -548,7 +583,7 @@ INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (189, CONCAT(
 
 -- ============================================================================
 -- F-164 single-target DPS package: Crag Strike (filler) + Rocksurge (spender).
--- Rockslam (900119) also gains shield-block-value scaling via C++ spell_sha_rockslam.
+-- Rockslam (900119) gains shield-block-value scaling natively (F-188 effect_misc_value_b_1).
 -- Placeholder icons/visuals (5489 / 5494 / 42) — swap later.
 -- ============================================================================
 
@@ -1542,14 +1577,13 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ============================================================================
--- Improved Rockbiter Weapon (900129, 900130)
--- Passive talent, 2 ranks. Uses ADD_PCT_MODIFIER (aura 108) for AP boost
--- and ADD_FLAT_MODIFIER (aura 107) for threat.
--- E1: SPELLMOD_EFFECT1 (misc 3) → boosts MOD_ATTACK_POWER (E1) by 25%/50%
--- E2: SPELLMOD_EFFECT2 (misc 12) → boosts MOD_THREAT (E2) by +8%/+15%
--- Mask mapping: A/B/C = Effect 1/2/3, suffix 1/2/3 = mask_1/mask_2/mask_3
--- E1 targets Rockbiter Passive via A3 (spell_class_mask_3 = 128, bit 72)
--- E2 targets Rockbiter Passive via B3 (spell_class_mask_3 = 128, bit 72)
+-- Improved Rockbiter Weapon (900129, 900130, 900131) - 3 ranks, passive talent.
+-- Boosts the Rockbiter Weapon passive's own effects via SpellMod (aura 108 ADD_PCT / 107 ADD_FLAT):
+-- E1: SPELLMOD_EFFECT1 (misc 3)  -> +10/20/30% to Rockbiter AP (passive E1, aura 99)
+-- E2: SPELLMOD_EFFECT2 (misc 12) -> +5/10/15% to Rockbiter threat (passive E2)
+-- E3: SPELLMOD_EFFECT3 (misc 23) -> +10/20/30% to Rockbiter block value (passive E3, aura 158) - matches AP %
+-- Mask mapping: A/B/C = modifier Effect 1/2/3; suffix _3 = the affected spell's mask slot 3.
+-- All three target the Rockbiter Passive via its unique spell_class_mask_3 = 128 (bit 72).
 -- ============================================================================
 -- ----------------------------------------------------------------------------
 -- Improved Rockbiter Weapon R1 (900129): +15% AP, +8% threat (DR is on base imbue)
@@ -1577,20 +1611,29 @@ INSERT INTO `spell` SET
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_b_3` = 128,
+    `effect_3` = 6,
+    `effect_apply_aura_name_3` = 108,
+    `effect_base_points_3` = 9,
+    `effect_die_sides_3` = 1,
+    `effect_misc_value_a_3` = 23,
+    `effect_implicit_target_a_3` = 1,
+    `effect_spell_class_mask_c_3` = 128,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Improved Rockbiter Weapon',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.',
+    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases the attack power and block value bonuses of Rockbiter Weapon by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Rockbiter AP increased by $s1% and threat by $s2%.',
+    `spell_tooltip_enus` = 'Rockbiter AP and block value increased by $s1%, threat by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_3` = 1.0,
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
@@ -1619,20 +1662,29 @@ INSERT INTO `spell` SET
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_b_3` = 128,
+    `effect_3` = 6,
+    `effect_apply_aura_name_3` = 108,
+    `effect_base_points_3` = 19,
+    `effect_die_sides_3` = 1,
+    `effect_misc_value_a_3` = 23,
+    `effect_implicit_target_a_3` = 1,
+    `effect_spell_class_mask_c_3` = 128,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Improved Rockbiter Weapon',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.',
+    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases the attack power and block value bonuses of Rockbiter Weapon by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Rockbiter AP increased by $s1% and threat by $s2%.',
+    `spell_tooltip_enus` = 'Rockbiter AP and block value increased by $s1%, threat by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_3` = 1.0,
     `school_mask` = 8;
 
 -- Improved Rockbiter Weapon R3 (900131): +30% AP, +15% threat (DR is on base imbue)
@@ -1658,20 +1710,29 @@ INSERT INTO `spell` SET
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_b_3` = 128,
+    `effect_3` = 6,
+    `effect_apply_aura_name_3` = 108,
+    `effect_base_points_3` = 29,
+    `effect_die_sides_3` = 1,
+    `effect_misc_value_a_3` = 23,
+    `effect_implicit_target_a_3` = 1,
+    `effect_spell_class_mask_c_3` = 128,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Improved Rockbiter Weapon',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.',
+    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases the attack power and block value bonuses of Rockbiter Weapon by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Rockbiter AP increased by $s1% and threat by $s2%.',
+    `spell_tooltip_enus` = 'Rockbiter AP and block value increased by $s1%, threat by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_3` = 1.0,
     `school_mask` = 8;
 
 -- Clean up deleted Rockslam MH (consolidated into 900119)

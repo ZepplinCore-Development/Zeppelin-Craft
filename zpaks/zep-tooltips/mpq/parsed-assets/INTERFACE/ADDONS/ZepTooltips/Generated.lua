@@ -9654,10 +9654,10 @@ ZepTooltipData = {
   [900119] = {cd=true, reasons={"spellmod","stat_scaling"}, dv=189, dc=2, bl=20, ml=80, sl=20, eff={{i=1,t=2,a=0,b=75,d=1,p=6}}, sp=nil, weapon={}, stat={{e=1,s="BLOCK_VALUE",c=1}}, cost={f=0,p=8,cd=6000,cdc=0}, mods={{src=900181,op=3,k="pct",b=24,d=1,e=1,v="known"},{src=900182,op=3,k="pct",b=49,d=1,e=1,v="known"},{src=900187,op=7,k="flat",b=4,d=1,e=2,v="known"},{src=900188,op=7,k="flat",b=9,d=1,e=2,v="known"},{src=900189,op=14,k="pct",b=-3,d=1,e=1,v="known"},{src=900190,op=14,k="pct",b=-5,d=1,e=1,v="known"},{src=900191,op=14,k="pct",b=-7,d=1,e=1,v="known"},{src=900202,op=7,k="flat",b=14,d=1,e=2,v="known"},{src=900270,op=11,k="flat",b=-1500,d=0,e=1,v="known"}}},  -- Rockslam
   [900121] = {cd=true, reasons={"spellmod","sp_ap"}, dv=188, dc=3, bl=40, ml=80, sl=40, eff={{i=1,t=2,a=0,b=99,d=1,p=4}}, sp={d=0,o=0,ap=0.2,apo=0}, weapon={}, stat={}, cost={f=0,p=10,cd=0,cdc=10000}, mods={{src=900189,op=14,k="pct",b=-3,d=1,e=1,v="known"},{src=900190,op=14,k="pct",b=-5,d=1,e=1,v="known"},{src=900191,op=14,k="pct",b=-7,d=1,e=1,v="known"},{src=900274,op=0,k="pct",b=20,d=0,e=1,v="known"}}},  -- Tectonic Blast
   [900122] = {cd=true, reasons={"spellmod","sp_ap"}, dv=0, dc=0, bl=30, ml=80, sl=30, eff={{i=1,t=2,a=0,b=30,d=1,p=5},{i=2,t=137,a=0,b=-1,d=1,p=0}}, sp={d=0.15,o=0,ap=0,apo=0}, weapon={}, stat={}, cost={f=0,p=0,cd=0,cdc=0}, mods={{src=900123,op=12,k="flat",b=1,d=1,e=1,v="known"},{src=900124,op=12,k="flat",b=3,d=1,e=1,v="known"},{src=900125,op=12,k="flat",b=5,d=1,e=1,v="known"},{src=900278,op=0,k="pct",b=20,d=0,e=1,v="known"}}},  -- Volcanic Shield
-  [900138] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900139] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900140] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900141] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
+  [900138] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
+  [900139] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
+  [900140] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
+  [900141] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
   [900166] = {cd=true, reasons={"sp_ap"}, dv=0, dc=0, bl=10, ml=80, sl=10, eff={{i=1,t=2,a=0,b=9,d=1,p=0.5}}, sp={d=0,o=0,ap=0.1,apo=0}, weapon={}, stat={}, cost={f=0,p=0,cd=0,cdc=0}, mods={}},  -- Totemic Impact
   [900174] = {cd=true, reasons={"spellmod","sp_ap"}, dv=0, dc=2, bl=40, ml=80, sl=40, eff={{i=1,t=6,a=12,b=-1,d=1,p=0},{i=2,t=2,a=0,b=99,d=1,p=3}}, sp={d=0,o=0,ap=0.2,apo=0}, weapon={}, stat={}, cost={f=0,p=0,cd=0,cdc=0}, mods={{src=900282,op=1,k="flat",b=1000,d=0,e=1,v="known"}}},  -- Thunderborne Leap
   [900223] = {cd=true, reasons={"spellmod"}, nmods=1},  -- Rockwall
@@ -9667,12 +9667,12 @@ ZepTooltipData = {
   [900233] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
   [900234] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
   [900235] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900250] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900251] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900252] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900253] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900254] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
-  [900255] = {cd=true, reasons={"spellmod"}, nmods=6},  -- Rockbiter Weapon
+  [900250] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
+  [900251] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
+  [900252] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
+  [900253] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
+  [900254] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
+  [900255] = {cd=true, reasons={"spellmod"}, nmods=9},  -- Rockbiter Weapon
   [900261] = {cd=true, reasons={"spellmod"}, nmods=1},  -- Rocksteady
   [900262] = {cd=true, reasons={"spellmod","sp_ap"}, dv=190, dc=2, bl=20, ml=80, sl=20, eff={{i=1,t=2,a=0,b=30,d=1,p=3},{i=2,t=64,a=0,b=0,d=0,p=0}}, sp={d=0,o=0,ap=0.15,apo=0}, weapon={}, stat={}, cost={f=0,p=5,cd=4000,cdc=0}, mods={{src=900189,op=14,k="pct",b=-3,d=1,e=1,v="known"},{src=900190,op=14,k="pct",b=-5,d=1,e=1,v="known"},{src=900191,op=14,k="pct",b=-7,d=1,e=1,v="known"},{src=900276,op=0,k="pct",b=20,d=0,e=1,v="known"}}},  -- Crag Strike
   [900263] = {cd=true, reasons={"spellmod","sp_ap"}, dv=193, dc=1, bl=20, ml=80, sl=20, eff={{i=1,t=2,a=0,b=150,d=1,p=6}}, sp={d=0,o=0,ap=0.25,apo=0}, weapon={}, stat={}, cost={f=0,p=8,cd=12000,cdc=0}, mods={{src=900189,op=14,k="pct",b=-3,d=1,e=1,v="known"},{src=900190,op=14,k="pct",b=-5,d=1,e=1,v="known"},{src=900191,op=14,k="pct",b=-7,d=1,e=1,v="known"},{src=900261,op=0,k="pct",b=10,d=0,e=2,v="aura"}}},  -- Rocksurge

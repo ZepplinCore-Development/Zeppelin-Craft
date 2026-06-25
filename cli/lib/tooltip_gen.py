@@ -51,6 +51,7 @@ SPELL_COLUMNS = [
     "effect_1", "effect_2", "effect_3",
     "effect_apply_aura_name_1", "effect_apply_aura_name_2", "effect_apply_aura_name_3",
     "effect_misc_value_a_1", "effect_misc_value_a_2", "effect_misc_value_a_3",
+    "effect_misc_value_b_1", "effect_misc_value_b_2", "effect_misc_value_b_3",
     "effect_spell_class_mask_a_1", "effect_spell_class_mask_b_1", "effect_spell_class_mask_c_1",
     "effect_spell_class_mask_a_2", "effect_spell_class_mask_b_2", "effect_spell_class_mask_c_2",
     "effect_spell_class_mask_a_3", "effect_spell_class_mask_b_3", "effect_spell_class_mask_c_3",
@@ -215,6 +216,33 @@ def _has_sp_ap(bonus_row: Optional[Dict]) -> bool:
     return False
 
 
+# F-188 ZepStatScalingStat -> the addon StatReader key. A SCHOOL_DAMAGE effect with
+# MiscValueB != 0 scales on MiscValue's stat at coeff = MiscValueB/100 (mirrors the Core
+# EffectSchoolDMG handler). This is the single source of truth for stat scaling.
+ZEPSTAT_MAP = {
+    1: "BLOCK_VALUE", 2: "ARMOR", 3: "ATTACK_POWER", 4: "SPELL_POWER",
+    5: "STRENGTH", 6: "AGILITY", 7: "STAMINA", 8: "INTELLECT", 9: "SPIRIT", 10: "MAX_HEALTH",
+}
+
+SPELL_EFFECT_SCHOOL_DAMAGE = 2
+
+
+def miscvalue_stat_scaling(row: Dict) -> List[Dict]:
+    """Stat scaling carried natively on the spell effect (F-188): SCHOOL_DAMAGE effects
+    with MiscValueB != 0. Returns {eff, stat, coeff} entries matching the table format."""
+    out = []
+    for i in (1, 2, 3):
+        if _i(row, f"effect_{i}") != SPELL_EFFECT_SCHOOL_DAMAGE:
+            continue
+        coeff_raw = _i(row, f"effect_misc_value_b_{i}")
+        if coeff_raw == 0:
+            continue
+        stat = ZEPSTAT_MAP.get(_i(row, f"effect_misc_value_a_{i}"))
+        if stat:
+            out.append({"eff": i, "stat": stat, "coeff": coeff_raw / 100.0})
+    return out
+
+
 def classify(spell_id: int, spells: Dict[int, Dict],
              modifier_index: List[Modifier],
              spell_bonus: Optional[Dict[int, Dict]] = None,
@@ -239,12 +267,18 @@ def classify(spell_id: int, spells: Dict[int, Dict],
     stat_rows = (stat_scaling or {}).get(spell_id) or []
     weapon = weapon_effects(row)
 
+    # Stat scaling = legacy spell_stat_scaling table entries + native DBC MiscValue (F-188).
+    stat_entries = [{"eff": _i(r, "eff_index"), "stat": r.get("stat_id"),
+                     "coeff": float(r["coeff"]) if r.get("coeff") is not None else None}
+                    for r in stat_rows]
+    stat_entries += miscvalue_stat_scaling(row)
+
     reasons = []
     if mods:
         reasons.append("spellmod")
     if sp_ap:
         reasons.append("sp_ap")
-    if stat_rows:
+    if stat_entries:
         reasons.append("stat_scaling")
     if weapon:
         reasons.append("weapon")
@@ -255,7 +289,7 @@ def classify(spell_id: int, spells: Dict[int, Dict],
     # "renderable" = the engine would compute a number for it (so it needs the full
     # coefficient + modifier record). Pure caster-dependent buffs with no value get a
     # lean record. Keeps the shipped table bounded.
-    renderable = bool(sp_ap or weapon or stat_rows or custom_var)
+    renderable = bool(sp_ap or weapon or stat_entries or custom_var)
 
     return {
         "id": spell_id,
@@ -276,9 +310,7 @@ def classify(spell_id: int, spells: Dict[int, Dict],
         "sp_ap": {"d": _f(bonus_row, "direct_bonus"), "o": _f(bonus_row, "dot_bonus"),
                   "ap": _f(bonus_row, "ap_bonus"), "apo": _f(bonus_row, "ap_dot_bonus")}
                  if bonus_row else None,
-        "stat_scaling": [{"eff": _i(r, "eff_index"), "stat": r.get("stat_id"),
-                          "coeff": float(r["coeff"]) if r.get("coeff") is not None else None}
-                         for r in stat_rows] if stat_rows else None,
+        "stat_scaling": stat_entries or None,
         "weapon": weapon or None,
         "mods": [m.to_dict() for m in mods],
     }

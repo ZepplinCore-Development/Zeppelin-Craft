@@ -1,5 +1,5 @@
 -- [F-164] Shaman Earthwarden spec - spell_bonus_data, spell_threat, spell_proc
--- Rockslam (900119): no AP/SP coefficient - scales only off shield block value (added in C++ spell_sha_rockslam)
+-- Rockslam (900119): no AP/SP coefficient - scales only off shield block value (native F-188 effect_misc_value_b_1)
 -- Volcanic Shield triggered damage (900122): 30% SP coefficient
 -- Tectonic Blast (900121): 20% AP coefficient on nature damage
 
@@ -30,8 +30,8 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900226, 'spell_sha_stonebond_pulse'),
 -- Rockwall: instant CD that adds 5 Rocksteady stacks
 (900223, 'spell_sha_rockwall'),
--- Rockslam: adds shield block value to its damage (Shield Slam analog)
-(900119, 'spell_sha_rockslam'),
+-- Rockslam (900119): block-value scaling is now native (F-188 effect_misc_value_b_1) — no
+-- script. Stays in the DELETE above so the old 'spell_sha_rockslam' binding is removed.
 -- Rocksurge (900263): no script — scales via a SPELLMOD_DAMAGE effect on the
 -- Rocksteady buff (900261) targeting Rocksurge's family bit. 900263 stays in the
 -- DELETE above so any prior 'spell_sha_rocksurge' binding is cleaned up.
@@ -54,7 +54,7 @@ DELETE FROM `spell_bonus_data` WHERE `entry` IN (900114, 900116, 900117, 900118,
 
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
 (900114, 0, 0, 0.10, 0, 'Earthen Reprisal - 10% AP as bonus physical damage'),
--- Rockslam (900119) intentionally has NO spell_bonus_data row: AP scaling removed (double-dipped with shield block value). Block value is added in C++ (spell_sha_rockslam). Kept in the DELETE above so any stale row is cleared. Do NOT re-add a row with ap_bonus=0 and direct_bonus=0 unless effect_bonus_multiplier_1 is also 0, or coeff falls back to BonusMultiplier (SP scaling).
+-- Rockslam (900119) intentionally has NO spell_bonus_data row: AP scaling removed (double-dipped with shield block value). Block value is added natively (F-188 effect_misc_value_b_1). Kept in the DELETE above so any stale row is cleared. Do NOT re-add a row with ap_bonus=0 and direct_bonus=0 unless effect_bonus_multiplier_1 is also 0, or coeff falls back to BonusMultiplier (SP scaling).
 (900262, 0, 0, 0.15, 0, 'Crag Strike - 15% AP as bonus physical damage (spammable filler)'),
 (900263, 0, 0, 0.25, 0, 'Rocksurge - 25% AP as bonus physical damage (Rocksteady spender)'),
 (900122, 0.15, 0, 0, 0, 'Volcanic Shield (triggered) - 15% SP as AOE fire damage on block'),
