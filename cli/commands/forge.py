@@ -101,6 +101,14 @@ def get_module_path(craft_root: Path, acore_config: Dict[str, Any]) -> Path:
     Returns:
         Full path to the module directory
     """
+    # Explicit path override: forge-tracked repos that are NOT AzerothCore modules
+    # (e.g. the spell editor tool). Resolved relative to the project root (the parent
+    # of Zeppelin-Craft) unless absolute.
+    explicit = acore_config.get('path')
+    if explicit:
+        p = Path(explicit)
+        return p if p.is_absolute() else (craft_root.parent / p).resolve()
+
     zcore = get_zeppelin_core(craft_root)
     module_name = acore_config.get('module', '')
 

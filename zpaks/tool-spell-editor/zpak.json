@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "tool-spell-editor",
+  "version": "0.1.0",
+  "description": "WoW Spell Editor (stoneharry/WoW-Spell-Editor) - forge-tracked source + Zeppelin custom-effect patches (F-188)",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "spell-editor",
+    "source": "https://github.com/stoneharry/WoW-Spell-Editor.git",
+    "branch": "master",
+    "path": "Zeppelin-Tools/WoW-Spell-Editor-src",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100,
+  "feature_id": "F-188"
+}
