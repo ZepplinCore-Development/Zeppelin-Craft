@@ -4360,17 +4360,11 @@ INSERT INTO `spell` SET
 -- sub-variables (F-005 riding crop pattern, var 182). $?a inside a ${}
 -- arithmetic block doesn't resolve; only ${$<var>+$<var>} arithmetic works.
 -- $ep_total = base 10% + (5% if EP R1) + (10% if EP R2)
+-- [F-190] Earth Shock reverted to STOCK desc: var 191 + the custom desc/tooltip removed.
+-- The addon now computes the SP scaling + the "Scales with Spell Power" line, so the custom
+-- var is redundant. DELETE clears var 191; the 10 ES rows revert to stock on `dbc db rebuild
+-- -t spell` (their desc/var were only ever set by the UPDATE removed here).
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 191;
-
-INSERT INTO `spelldescriptionvariables` SET
-    `id` = 191,
-    `var` = '$spbonus=${$sp*0.386}\n$total=${$m2+$<spbonus>}\n$ep_r1=$?s51523[${5}][${0}]\n$ep_r2=$?s51524[${10}][${0}]\n$ep_total=${10+$<ep_r1>+$<ep_r2>}';
-
-UPDATE `spell` SET
-    `spell_desc_variable_id` = 191,
-    `spell_desc_enus` = 'Instantly shocks the target with concussive force, causing $<total> Nature damage and reducing melee attack speed by $<ep_total>% for $d.  Damage scales with spell power.',
-    `spell_tooltip_enus` = 'Time between attacks increased by $<ep_total>%.'
-WHERE `id` IN (8042, 8044, 8045, 8046, 10412, 10413, 10414, 25454, 49230, 49231);
 
 -- ============================================================================
 -- Enhancement Talent Tree Additions (F-164)
@@ -4794,16 +4788,10 @@ WHERE `id` IN (51525, 51526, 51527);
 -- displayed value is mildly optimistic at those low ranks (cosmetic only).
 -- Shows range "X to Y" using $m1 (min) and $M1 (max).
 -- ----------------------------------------------------------------------------
+-- [F-190] Lightning Bolt reverted to STOCK desc: var 192 + the custom desc removed (the addon
+-- now computes SP scaling + the "Scales with Spell Power" line). DELETE clears var 192; the 14
+-- LB rows revert to stock on `dbc db rebuild -t spell`.
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 192;
-
-INSERT INTO `spelldescriptionvariables` SET
-    `id` = 192,
-    `var` = '$spbonus=${$sp*0.714}\n$dmgmin=${$m1+$<spbonus>}\n$dmgmax=${$M1+$<spbonus>}';
-
-UPDATE `spell` SET
-    `spell_desc_variable_id` = 192,
-    `spell_desc_enus` = 'Casts a bolt of lightning at the target for $<dmgmin> to $<dmgmax> Nature damage. Damage scales with spell power.'
-WHERE `id` IN (403, 529, 548, 915, 943, 6041, 10391, 10392, 15207, 15208, 25448, 25449, 49237, 49238);
 
 -- ----------------------------------------------------------------------------
 -- Restore Enhancement Spirit Weapons (16268) threat reduction (F-164)
