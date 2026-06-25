@@ -26,4 +26,10 @@ internal.appendData({
 		icon = "Interface\\Icons\\INV_Misc_Eye_01",
 		categories = { 0 },
 	},
+	{
+		id = 29736,
+		name = "Arcane Rune",
+		icon = "Interface\\Icons\\INV_Misc_Rune_05",
+		categories = { 0 },
+	},
 })

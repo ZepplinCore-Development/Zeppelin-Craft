@@ -1,7 +1,7 @@
 From 46989ba025c57d461d50368518ea1c5443d6b196 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 11 Apr 2026 12:21:54 +0000
-Subject: [PATCH 01/11] Apply zeppelin F 020 Add Weak Flux to allowed items
+Subject: [PATCH 01/12] Apply zeppelin F 020 Add Weak Flux to allowed items
 
 ---
  client/src/1-configuration.lua                |  1 +
@@ -167,7 +167,7 @@ index 4d61602..ab92b41 100644
 From 8389d5c8d6f825cdafcc7823ef7ab1171da402e0 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 17 May 2026 12:12:24 +0000
-Subject: [PATCH 02/11] fix: I-181 - withdraw fails when worn bags have free
+Subject: [PATCH 02/12] fix: I-181 - withdraw fails when worn bags have free
  slots
 
 getFreeBagSlots used bag:GetBagSlot() (returns 255 for worn bags) and
@@ -218,7 +218,7 @@ index d631c19..e45711a 100644
 From 0c2c8768354bfe031ae08f4cbc039b042229598f Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sun, 7 Jun 2026 12:52:26 +0000
-Subject: [PATCH 03/11] feat: F-020 - add Argent Dawn turn-in items to vault
+Subject: [PATCH 03/12] feat: F-020 - add Argent Dawn turn-in items to vault
  whitelist (22526-22529)
 
 ---
@@ -245,7 +245,7 @@ index ab92b41..36f9089 100644
 From 5fdc9c5628dd24c59968738d950ddadfff7ceb79 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 12 Jun 2026 01:28:35 +0000
-Subject: [PATCH 04/11] feat: F-020 - add Sporeggar turn-in items to vault
+Subject: [PATCH 04/12] feat: F-020 - add Sporeggar turn-in items to vault
  whitelist (24245, 24291, 24449)
 
 ---
@@ -271,7 +271,7 @@ index 36f9089..b959a99 100644
 From 2fafa9d8a0c8879120fce42bdf03e8a17a8660bb Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 12 Jun 2026 04:11:11 +0000
-Subject: [PATCH 05/11] chore: I-195 - remove dead screwdriver items from vault
+Subject: [PATCH 05/12] chore: I-195 - remove dead screwdriver items from vault
  whitelist (57213-57215)
 
 ---
@@ -299,7 +299,7 @@ index b959a99..91cfeec 100644
 From 8662ed94a5c60c70f9af9105220bd5b81d7d712b Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 13 Jun 2026 11:41:13 +0000
-Subject: [PATCH 06/11] feat: F-020 - add Heavy Stock and Sanguine Hibiscus to
+Subject: [PATCH 06/12] feat: F-020 - add Heavy Stock and Sanguine Hibiscus to
  vault whitelist (4400, 24246)
 
 ---
@@ -324,7 +324,7 @@ index 91cfeec..922ca7c 100644
 From 8d39e8b0dfbc5629a1eaf1d5793be155f68db496 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sun, 14 Jun 2026 05:56:21 +0000
-Subject: [PATCH 07/11] feat: Add Dampscale Basilisk Eye and Mark of Kil'jaeden
+Subject: [PATCH 07/12] feat: Add Dampscale Basilisk Eye and Mark of Kil'jaeden
  to vault whitelist (F-020)
 
 ---
@@ -349,7 +349,7 @@ index 922ca7c..60b0839 100644
 From 6cf1a651260095323e181f3070b9243818fa9087 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sun, 14 Jun 2026 06:43:35 +0000
-Subject: [PATCH 08/11] feat: Add Firewing Signet to vault whitelist (F-020)
+Subject: [PATCH 08/12] feat: Add Firewing Signet to vault whitelist (F-020)
 
 ---
  server/src/storage/definition/enum/allowed-item-enum.lua | 1 +
@@ -372,7 +372,7 @@ index 60b0839..a5f5be4 100644
 From 43827ab6b7230fa11f4e02f6cb5ab8a5d82893a1 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 20 Jun 2026 01:14:56 +0000
-Subject: [PATCH 09/11] feat: Add Obsidian Warbeads and Dreadfang Venom Sac to
+Subject: [PATCH 09/12] feat: Add Obsidian Warbeads and Dreadfang Venom Sac to
  vault whitelist (F-020)
 
 ---
@@ -397,7 +397,7 @@ index a5f5be4..d1d72f6 100644
 From cd12b9e2ee809a3d082713ec94d009b073bfd975 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Wed, 24 Jun 2026 03:07:26 +0000
-Subject: [PATCH 10/11] feat: Sync Aldor/Scryers turn-ins + Oshu'gun Powder to
+Subject: [PATCH 10/12] feat: Sync Aldor/Scryers turn-ins + Oshu'gun Powder to
  vault whitelist (F-020)
 
 Client UI lists already shipped these in PATCH-A but the server enum was
@@ -433,7 +433,7 @@ index d1d72f6..9455ddd 100644
 From ed740897eb9ad77636e6441d7ed8dae02520850d Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Wed, 24 Jun 2026 03:40:05 +0000
-Subject: [PATCH 11/11] feat: Add Oshu'gun Crystal Fragment (25416) to vault
+Subject: [PATCH 11/12] feat: Add Oshu'gun Crystal Fragment (25416) to vault
  whitelist (F-020)
 
 Consortium turn-in item (Gezhe quests 9882/9883), grouped with the other
@@ -453,6 +453,34 @@ index 9455ddd..5d4fd5b 100644
  	[30810] = "Sunfury Signet",
  	[26043] = "Oshu'gun Crystal Powder Sample",
 +	[25416] = "Oshu'gun Crystal Fragment",
+ }
+-- 
+2.34.1
+
+
+From 0d29e299ca8e7c450e85969788766083dbe38f16 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Thu, 25 Jun 2026 00:04:55 +0000
+Subject: [PATCH 12/12] feat: Add Holy Dust + Arcane Rune currencies to vault
+ whitelist (F-020)
+
+Holy Dust (29735) = Aldor currency, Arcane Rune (29736) = Scryers currency.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ server/src/storage/definition/enum/allowed-item-enum.lua | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
+index 5d4fd5b..c5c2a61 100644
+--- a/server/src/storage/definition/enum/allowed-item-enum.lua
++++ b/server/src/storage/definition/enum/allowed-item-enum.lua
+@@ -738,4 +738,6 @@ return {
+ 	[30810] = "Sunfury Signet",
+ 	[26043] = "Oshu'gun Crystal Powder Sample",
+ 	[25416] = "Oshu'gun Crystal Fragment",
++	[29735] = "Holy Dust",
++	[29736] = "Arcane Rune",
  }
 -- 
 2.34.1

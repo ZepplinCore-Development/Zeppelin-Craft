@@ -26,4 +26,10 @@ internal.appendData({
 		icon = "Interface\\Icons\\INV_Misc_Organ_04",
 		categories = { 0 },
 	},
+	{
+		id = 29735,
+		name = "Holy Dust",
+		icon = "Interface\\Icons\\INV_Misc_Dust_06",
+		categories = { 0 },
+	},
 })
