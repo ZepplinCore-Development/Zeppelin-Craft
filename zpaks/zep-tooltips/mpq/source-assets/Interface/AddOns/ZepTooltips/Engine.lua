@@ -27,7 +27,10 @@ local StatReader = {
     MAX_HEALTH   = function() return UnitHealthMax("player") or 0 end,
     SPELL_POWER  = function() return GetSpellBonusDamage and GetSpellBonusDamage(2) or 0 end,
     ATTACK_POWER = function() local b, p, n = UnitAttackPower("player"); return (b or 0) + (p or 0) + (n or 0) end,
-    BLOCK_VALUE  = function() return GetShieldBlockValue and GetShieldBlockValue() or 0 end,
+    -- 3.3.5 client API is GetShieldBlock(); GetShieldBlockValue() is the SERVER method name
+    -- (the bug that made Rockslam show base-only). Try the real one first, fall back defensively.
+    BLOCK_VALUE  = function() return (GetShieldBlock and GetShieldBlock())
+                                  or (GetShieldBlockValue and GetShieldBlockValue()) or 0 end,
 }
 
 local function hasAuraById(unit, id)
