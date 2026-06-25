@@ -9,8 +9,9 @@
 # data table exists before the engine runs.
 Generated.lua
 
-# Combine-engine (math) then hooks (WoW API + rendering).
+# Combine-engine (math), desc-token interpreter, then hooks (WoW API + rendering).
 Compute.lua
+Desc.lua
 Engine.lua
 
 # Self-test: runs the engine over synthetic records + probes client APIs at login.

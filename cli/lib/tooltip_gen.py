@@ -61,7 +61,7 @@ SPELL_COLUMNS = [
     "base_level", "max_level", "spell_level",
     "power_cost", "power_cost_percentage", "recovery_time", "category_recovery_time",
     "damage_class", "attributes", "spell_desc_variable_id",
-    "spell_name_enus",
+    "spell_name_enus", "spell_desc_enus", "duration_index",
 ]
 
 # A spell-desc-variable id in this range is one of OUR custom tooltips (the roster the
@@ -289,7 +289,10 @@ def classify(spell_id: int, spells: Dict[int, Dict],
     # "renderable" = the engine would compute a number for it (so it needs the full
     # coefficient + modifier record). Pure caster-dependent buffs with no value get a
     # lean record. Keeps the shipped table bounded.
-    renderable = bool(sp_ap or weapon or stat_entries or custom_var)
+    # Custom content (>= 900000) always gets a full record so cross-spell desc refs
+    # ($<id>sN) within our own spells resolve (e.g. VS buff -> eruption / Improved-VS ranks).
+    is_custom = spell_id >= 900000
+    renderable = bool(sp_ap or weapon or stat_entries or custom_var) or is_custom
 
     return {
         "id": spell_id,
@@ -300,6 +303,9 @@ def classify(spell_id: int, spells: Dict[int, Dict],
         "dummyWarning": has_dummy(row),
         "renderable": renderable,
         "desc_var": desc_var if custom_var else 0,
+        # raw desc template (stock tokens) — Phase 6 in-client recompute, custom spells only
+        "desc": (row.get("spell_desc_enus") or "") if is_custom else "",
+        "dur": (int(row.get("_dur") or 0)) if is_custom else 0,   # $d duration (seconds)
         # full per-spell compute picture (engine inputs), all from OUR DBC:
         "levels": {"bl": _i(row, "base_level"), "ml": _i(row, "max_level"),
                    "sl": _i(row, "spell_level")},
@@ -321,6 +327,12 @@ def _num(x) -> str:
     if isinstance(x, float) and x.is_integer():
         return str(int(x))
     return repr(x) if isinstance(x, float) else str(x)
+
+
+def _lua_str(s: str) -> str:
+    """Lua double-quoted string literal with escaping (for desc templates)."""
+    s = s.replace("\\", "\\\\").replace('"', '\\"').replace("\r", "").replace("\n", "\\n")
+    return '"%s"' % s
 
 
 def emit_lua(records: List[Dict]) -> str:
@@ -370,11 +382,16 @@ def emit_lua(records: List[Dict]) -> str:
             for m in r["mods"]) + "}"
         c = r["cost"]
         cost = "{f=%d,p=%d,cd=%d,cdc=%d}" % (c["flat"], c["pct"], c["cd"], c["cdcat"])
+        desc_lua = ""
+        if r.get("desc"):
+            desc_lua = ", desc=%s" % _lua_str(r["desc"])
+            if r.get("dur"):
+                desc_lua += ", dur=%d" % r["dur"]
         lines.append(
             "  [%d] = {cd=%s, reasons=%s, dv=%d, dc=%d, bl=%d, ml=%d, sl=%d, eff=%s, sp=%s, "
-            "weapon=%s, stat=%s, cost=%s, mods=%s},  -- %s"
+            "weapon=%s, stat=%s, cost=%s, mods=%s%s},  -- %s"
             % (r["id"], cd, reasons, r["desc_var"], r["dclass"], lv["bl"], lv["ml"], lv["sl"],
-               eff, sp_lua, weapon, stat, cost, mods, r["name"])
+               eff, sp_lua, weapon, stat, cost, mods, desc_lua, r["name"])
         )
     lines.append("}")
     lines.append("")

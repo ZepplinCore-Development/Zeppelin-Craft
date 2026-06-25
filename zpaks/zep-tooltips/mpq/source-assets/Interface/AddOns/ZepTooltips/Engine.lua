@@ -107,10 +107,21 @@ local function renderTooltip(tooltip, spellId)
         shown = true
     end
 
+    -- Phase 6: recomputed desc (stock tokens -> real numbers) directly below the native
+    -- desc. When shown it conveys the hit/heal value, so the terse primary line is dropped.
+    local descShown = false
+    if rec.desc and ZepDesc then
+        local computed = ZepDesc.render(rec, ctx, function(id) return Data[id] end)
+        if computed and computed ~= "" then
+            addLine(computed)
+            descShown = true
+        end
+    end
+
     local pe = ZepCompute.primaryEffect(rec)
     local isSpeed = pe and ZepCompute.isSpeed(pe)
     local pv = pe and ZepCompute.effectValues(rec, ctx)[pe.i] or nil
-    if pv then
+    if pv and not descShown then
         addLine(primaryLabel(pe, isSpeed) .. ": " .. fmt(pv, isSpeed and "%" or ""))
     end
 

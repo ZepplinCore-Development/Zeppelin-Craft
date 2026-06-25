@@ -705,7 +705,12 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
         cols = "`, `".join(tg.SPELL_COLUMNS)
         cursor.execute(f"SELECT `{cols}` FROM `spell`")
         spells = {int(r["ID"]): r for r in cursor.fetchall()}
+        cursor.execute("SELECT `id`, `max_duration` FROM `spellduration`")
+        durs = {int(r["id"]): int(r["max_duration"] or 0) for r in cursor.fetchall()}
         cursor.close()
+    # resolve $d duration (seconds) per spell for custom desc templates
+    for r in spells.values():
+        r["_dur"] = durs.get(int(r.get("duration_index") or 0), 0) // 1000
 
     click.echo(f"Loaded {len(spells)} spells. Building reverse-107/108 index ...")
     mod_index = tg.build_modifier_index(spells)
@@ -764,7 +769,7 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
         # or casterDependent (drives aura-tt ALE routing). Inert self-only spells are
         # dropped — the addon no-ops on a missing key anyway, so this is lossless.
         emit = [r for r in records
-                if r["casterDependent"] or r.get("weapon") or r.get("stat_scaling")]
+                if r["casterDependent"] or r.get("renderable")]
         lua = tg.emit_lua(emit)
         if out_path:
             Path(out_path).write_text(lua, encoding='utf-8')
