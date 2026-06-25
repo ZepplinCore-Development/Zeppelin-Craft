@@ -14,7 +14,7 @@ local function mockCtx(o)
         baseMana = o.baseMana or 0,
         spellCrit = o.spellCrit or 0, meleeCrit = o.meleeCrit or 0, rangedCrit = o.rangedCrit or 0,
         knows = function(id) return o.known and o.known[id] or false end,
-        hasAura = function(id) return o.auras and o.auras[id] or false end,
+        hasAura = function(id) return o.auras and o.auras[id] or 0 end,
         stat = function(id) return o.stats and o.stats[id] or 0 end,
     }
 end
@@ -52,11 +52,12 @@ function ZepSelfTest.run(verbose)
         },
     }
     local c = mockCtx{ sp = 100, ap = 50, stats = { BLOCK_VALUE = 30 }, spellCrit = 10,
-                       known = { [1] = true, [3] = true, [4] = true, [5] = true }, auras = { [2] = true } }
+                       known = { [1] = true, [3] = true, [4] = true, [5] = true }, auras = { [2] = 1 } }
 
-    -- (100 +10 flat) *1.2 pct = 132; + SP 100*0.5 + AP 50*0.2 = 60 -> 192; + block 30*1 = 222
+    -- base 100 +10 (EFFECT1) = 110; + SP 100*0.5 + AP 50*0.2 = 60 -> 170; + block 30 = 200;
+    -- *1.2 (DAMAGE, applied last like the server) = 240
     local v = ZepCompute.effectValues(synth, c)[1]
-    check("value", v and v.lo, 222)
+    check("value", v and v.lo, 240)
     check("crit", ZepCompute.crit(synth, c), 15)
     check("cost", (ZepCompute.cost(synth, c)), 80)
     check("cooldown", (ZepCompute.cooldown(synth, c)), 5)

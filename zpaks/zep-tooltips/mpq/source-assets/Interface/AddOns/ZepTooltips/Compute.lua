@@ -18,23 +18,41 @@
 
 ZepCompute = ZepCompute or {}
 
-local OP_EFFECT = { [3] = 1, [12] = 2, [23] = 3 }       -- EFFECT1/2/3
-local OP_ALL = { [0] = true, [8] = true, [22] = true }  -- DAMAGE/ALL_EFFECTS/DOT
+local OP_EFFECT = { [3] = 1, [12] = 2, [23] = 3 }   -- EFFECT1/2/3 — modify one effect's base points
+local OP_ALL_EFFECTS = 8                            -- modify ALL effects' base points
+-- DAMAGE (0) / DOT (22) are TOTAL multipliers: AC applies them in SpellDamageBonusDone,
+-- AFTER the SP/AP coefficient, so they scale the SP/AP-inclusive hit (e.g. Rocksteady).
+local OP_TOTAL = { [0] = true, [22] = true }
 
 -- effects we display a computed number for (excludes weapon types — handled separately)
 local VALUE_TYPE = { [2] = true, [10] = true }          -- SCHOOL_DAMAGE / HEAL
 local SPEED_AURA = { [31] = true, [32] = true, [129] = true }
 local PERIODIC_AURA = { [3] = true, [8] = true }        -- periodic damage / heal
 
--- The `via` field is a hint; check both so talents (knows) AND glyphs/equip/buffs
--- (hasAura) are detected regardless of how the source was classified.
-local function playerHas(ctx, m)
-    return ctx.knows(m.src) or ctx.hasAura(m.src)
+-- Stack-aware presence -> the multiplier to apply this mod by. A known talent applies
+-- once (1); an aura applies once per stack (its UnitAura count). AC scales every aura's
+-- spellmod amount by GetStackAmount() (SpellAuraEffects.cpp:580), so e.g. Rocksteady
+-- scales Rocksurge per stack. Returns 0 when the mod's source isn't present.
+-- (`via` is a hint; we check both knows and aura.)
+local function modStacks(ctx, m)
+    if ctx.knows(m.src) then return 1 end
+    return ctx.hasAura(m.src) or 0
 end
 
 -- Applied modifier value: base + die_sides (die=1 -> the classic +1; die=0 -> exact base).
 local function modValue(m)
     return m.b + (m.d or 0)
+end
+
+-- Apply one mod (* stack count) to an effect's {lo,hi}: flat adds, pct multiplies.
+local function applyMod(v, m, stacks)
+    if m.k == "flat" then
+        local f = modValue(m) * stacks
+        v.lo = v.lo + f; v.hi = v.hi + f
+    else
+        local mul = 1 + modValue(m) * stacks / 100
+        v.lo = v.lo * mul; v.hi = v.hi * mul
+    end
 end
 
 -- Per-effect {lo,hi}: base(+1) .. base+die, + per-level (capped at max_level), then the
@@ -56,23 +74,15 @@ function ZepCompute.effectValues(rec, ctx)
         out[e.i] = { lo = lo, hi = hi }
     end
 
+    -- base-point modifiers (EFFECT1/2/3, ALL_EFFECTS) — applied to base BEFORE SP/AP
     for _, m in ipairs(rec.mods or {}) do
-        if playerHas(ctx, m) then
-            local targets = {}
+        local stacks = modStacks(ctx, m)
+        if stacks > 0 then
             local te = OP_EFFECT[m.op]
-            if te then targets[1] = te
-            elseif OP_ALL[m.op] then for i in pairs(out) do targets[#targets + 1] = i end end
-            for _, i in ipairs(targets) do
-                local v = out[i]
-                if v then
-                    if m.k == "flat" then
-                        local f = modValue(m)
-                        v.lo = v.lo + f; v.hi = v.hi + f
-                    else
-                        local mul = 1 + modValue(m) / 100
-                        v.lo = v.lo * mul; v.hi = v.hi * mul
-                    end
-                end
+            if te then
+                if out[te] then applyMod(out[te], m, stacks) end
+            elseif m.op == OP_ALL_EFFECTS then
+                for _, v in pairs(out) do applyMod(v, m, stacks) end
             end
         end
     end
@@ -102,6 +112,19 @@ function ZepCompute.effectValues(rec, ctx)
             end
         end
     end
+
+    -- total-damage modifiers (DAMAGE/DOT) — multiply the done total LAST, like AC's
+    -- SpellDamageBonusDone, so they scale the SP/AP- and stat-inclusive hit (e.g. the
+    -- Rocksteady buff scaling Rocksurge per stack).
+    for _, m in ipairs(rec.mods or {}) do
+        if OP_TOTAL[m.op] then
+            local stacks = modStacks(ctx, m)
+            if stacks > 0 then
+                for _, v in pairs(out) do applyMod(v, m, stacks) end
+            end
+        end
+    end
+
     return out
 end
 
@@ -133,9 +156,12 @@ end
 -- pct = *(1 + (base+1)/100); cost/cooldown reductions encode as negative bases).
 local function applyOp(rec, ctx, op, base)
     for _, m in ipairs(rec.mods or {}) do
-        if m.op == op and playerHas(ctx, m) then
-            if m.k == "flat" then base = base + modValue(m)
-            else base = base * (1 + modValue(m) / 100) end
+        if m.op == op then
+            local stacks = modStacks(ctx, m)
+            if stacks > 0 then
+                if m.k == "flat" then base = base + modValue(m) * stacks
+                else base = base * (1 + modValue(m) * stacks / 100) end
+            end
         end
     end
     return base
@@ -163,7 +189,10 @@ function ZepCompute.crit(rec, ctx)
     local dc = rec.dc or 0
     local c = (dc == 2 and ctx.meleeCrit) or (dc == 3 and ctx.rangedCrit) or ctx.spellCrit or 0
     for _, m in ipairs(rec.mods or {}) do
-        if m.op == 7 and m.k == "flat" and playerHas(ctx, m) then c = c + modValue(m) end
+        if m.op == 7 and m.k == "flat" then
+            local stacks = modStacks(ctx, m)
+            if stacks > 0 then c = c + modValue(m) * stacks end
+        end
     end
     return c
 end
@@ -175,7 +204,10 @@ function ZepCompute.critMult(rec, ctx)
     local bonus = (dc == 2 or dc == 3) and 1.0 or 0.5
     local extra = 0
     for _, m in ipairs(rec.mods or {}) do
-        if m.op == 15 and playerHas(ctx, m) then extra = extra + modValue(m) end
+        if m.op == 15 then
+            local stacks = modStacks(ctx, m)
+            if stacks > 0 then extra = extra + modValue(m) * stacks end
+        end
     end
     return 1 + bonus * (1 + extra / 100)
 end

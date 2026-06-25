@@ -33,15 +33,18 @@ local StatReader = {
                                   or (GetShieldBlockValue and GetShieldBlockValue()) or 0 end,
 }
 
-local function hasAuraById(unit, id)
+-- The aura's stack count on the player (>=1 if present, 0 if absent). Drives per-stack
+-- spellmod scaling — AC multiplies a spellmod's amount by the aura's stack count, so e.g.
+-- Rocksteady scales Rocksurge per stack.
+local function auraStacks(unit, id)
     for _, filter in ipairs({ "HELPFUL", "HARMFUL" }) do
         for i = 1, 40 do
-            local _, _, _, _, _, _, _, _, _, _, sid = UnitAura(unit, i, filter)
+            local _, _, _, cnt, _, _, _, _, _, _, sid = UnitAura(unit, i, filter)
             if not sid then break end
-            if sid == id then return true end
+            if sid == id then return (cnt and cnt > 0) and cnt or 1 end
         end
     end
-    return false
+    return 0
 end
 
 local function buildCtx()
@@ -53,7 +56,7 @@ local function buildCtx()
         ap = (b or 0) + (p or 0) + (n or 0),
         weaponAvg = (lo and hi) and (lo + hi) * 0.5 or 0,
         knows = function(id) return IsSpellKnown and IsSpellKnown(id) or false end,
-        hasAura = function(id) return hasAuraById("player", id) end,
+        hasAura = function(id) return auraStacks("player", id) end,
         stat = function(sid) local r = StatReader[sid]; return r and r() or 0 end,
         baseMana = UnitPowerMax("player", 0) or 0,   -- approx (max mana ~ base for display)
         spellCrit = GetSpellCritChance and GetSpellCritChance(2) or 0,  -- representative school

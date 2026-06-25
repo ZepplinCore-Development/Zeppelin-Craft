@@ -7,7 +7,7 @@ local function ctx(o)
     return {
         level = o.level or 80, sp = o.sp or 0, ap = o.ap or 0, weaponAvg = o.weaponAvg or 0,
         knows = function(id) return o.known and o.known[id] or false end,
-        hasAura = function(id) return o.auras and o.auras[id] or false end,
+        hasAura = function(id) return o.auras and o.auras[id] or 0 end,
         stat = function(id) return o.stats and o.stats[id] or 0 end,
     }
 end
@@ -24,9 +24,9 @@ print("=== GW: primaryEffect picks the speed aura (eff 2), not shapeshift ===")
 check("GW primaryEffect index", ZepCompute.primaryEffect(gw).i, 2)
 local function gwspeed(c) return ZepCompute.effectValues(gw, c)[2].lo end
 check("L80 no crop", gwspeed(ctx{}), 100)
-check("L80 + Artisan crop", gwspeed(ctx{auras={[100013]=true}}), 116)
+check("L80 + Artisan crop", gwspeed(ctx{auras={[100013]=1}}), 116)
 check("L40 no crop", gwspeed(ctx{level=40}), 60)
-check("L80 + Grand Master crop", gwspeed(ctx{auras={[100015]=true}}), 124)
+check("L80 + Grand Master crop", gwspeed(ctx{auras={[100015]=1}}), 124)
 
 print("=== Fireball: die-range (min..max), SP-inclusive ===")
 check("Fireball primaryEffect index", ZepCompute.primaryEffect(fb).i, 1)
@@ -69,7 +69,7 @@ print("=== real example: Rockslam (900119) cooldown with Glyph of Rockslam ===")
 local rs = ZepTooltipData[900119]
 -- 6000ms base; glyph 900270 op-11 flat -1500 (die=0) -> 4500ms = 4.5s exact (no +1)
 local cdNo = select(1, ZepCompute.cooldown(rs, ctx{}))
-local cdGlyph, gMod = ZepCompute.cooldown(rs, ctx{auras={[900270]=true}})
+local cdGlyph, gMod = ZepCompute.cooldown(rs, ctx{auras={[900270]=1}})
 check("Rockslam base cooldown", cdNo, 6)
 check("Rockslam cooldown w/ Glyph (6 - 1.5)", cdGlyph, 4.5)
 check("Rockslam cooldown modified by glyph", gMod and 1 or 0, 1)
@@ -91,6 +91,14 @@ check("Fireball critMult (spell 1.5x)", ZepCompute.critMult(fb, ctx{}), 1.5)
 -- op15 +100% crit-damage bonus on a spell: 0.5 * (1 + 100/100) = 1.0 -> mult 2.0
 local synth15 = { dc = 1, mods = { { src = 9, op = 15, k = "flat", b = 99, d = 1, v = "known" } } }
 check("op15 +100% bonus: spell 1.5x -> 2.0x", ZepCompute.critMult(synth15, ctx{ known = { [9] = true } }), 2.0)
+
+print("=== Rocksurge: Rocksteady (900261) spellmod scales per stack (op-0 DAMAGE) ===")
+local rsg = ZepTooltipData[900263]
+local function rsgdmg(c) local pe = ZepCompute.primaryEffect(rsg); return ZepCompute.effectValues(rsg, c)[pe.i].lo end
+-- L70, AP 2000: 151 + perlevel 300 + AP 500 = 951 (no Rocksteady)
+check("Rocksurge no Rocksteady", rsgdmg(ctx{level=70, ap=2000}), 951)
+-- 5 Rocksteady stacks: +10%/stack -> x1.5 -> 1426.5
+check("Rocksurge x5 Rocksteady stacks", rsgdmg(ctx{level=70, ap=2000, auras={[900261]=5}}), 1426.5)
 
 print(string.format("\n%d passed, %d failed", pass, fail))
 os.exit(fail == 0 and 0 or 1)
