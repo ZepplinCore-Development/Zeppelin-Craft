@@ -1,0 +1,139 @@
+From 23b14f3ad7d1c423c5cc18d0f0ef6cbb34504c12 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 25 Jun 2026 15:50:53 +0000
+Subject: [PATCH] feat: MOD_STAT_OF_ARMOR aura - armor-scaled base stats
+ (F-188); Ironhide (F-164)
+
+New custom aura SPELL_AURA_MOD_STAT_OF_ARMOR (317, TOTAL_AURAS 317->318): a base
+stat (MiscValue = Stats enum) gains 1 point per (base+die) armor. Extends the
+F-188 stat-scaling concept from the SCHOOL_DAMAGE path to the stat pipeline.
+
+- Computed live in Unit::GetTotalStatValue (armor / amount).
+- Player::UpdateArmor re-runs UpdateStats so it tracks armor changes and
+  cascades to AP / block value. Auto-refresh limited to STR/STA/SPI; AGI/INT
+  re-enter UpdateArmor (agi gives armor; int via MOD_RESISTANCE_OF_INTELLECT_PERCENT)
+  so they would loop.
+- Handler in SpellAuraEffects.cpp; declared in SpellAuraEffects.h.
+
+First consumer: Ironhide (F-164, 900192-194) reworked from aura-285 AP-of-armor
+to Strength-of-armor (150/100/50 armor per Str). Reusable for any base stat.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01WFCGguUqQdgNM386i4SDxQ
+---
+ src/server/game/Entities/Unit/StatSystem.cpp   | 14 ++++++++++++++
+ src/server/game/Entities/Unit/Unit.cpp         |  8 ++++++++
+ .../game/Spells/Auras/SpellAuraDefines.h       |  3 ++-
+ .../game/Spells/Auras/SpellAuraEffects.cpp     | 18 ++++++++++++++++++
+ .../game/Spells/Auras/SpellAuraEffects.h       |  1 +
+ 5 files changed, 43 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/game/Entities/Unit/StatSystem.cpp b/src/server/game/Entities/Unit/StatSystem.cpp
+index 24c025ac6..774d9aca7 100644
+--- a/src/server/game/Entities/Unit/StatSystem.cpp
++++ b/src/server/game/Entities/Unit/StatSystem.cpp
+@@ -287,6 +287,20 @@ void Player::UpdateArmor()
+ 
+     SetArmor(int32(value));
+ 
++    // F-188: refresh armor-scaled base stats (MOD_STAT_OF_ARMOR, e.g. Ironhide) so they
++    // track armor changes, then cascade to AP / block value. Only STR/STA/SPI are refreshed
++    // here for loop-safety: UpdateStats(AGI) and UpdateStats(INT) themselves call UpdateArmor()
++    // (AGI gives armor directly; INT only triggers it for the MOD_RESISTANCE_OF_INTELLECT_PERCENT
++    // aura -- INT does not otherwise give armor), so refreshing an armor->AGI/INT aura here would
++    // re-enter UpdateArmor and loop. All 5 stats still compute the bonus in GetTotalStatValue.
++    AuraEffectList const& mStatOfArmor = GetAuraEffectsByType(SPELL_AURA_MOD_STAT_OF_ARMOR);
++    for (AuraEffect const* eff : mStatOfArmor)
++    {
++        int32 stat = eff->GetMiscValue();
++        if (stat == STAT_STRENGTH || stat == STAT_STAMINA || stat == STAT_SPIRIT)
++            UpdateStats(Stats(stat));
++    }
++
+     UpdateAttackPowerAndDamage();                           // armor dependent auras update for SPELL_AURA_MOD_ATTACK_POWER_OF_ARMOR
+ }
+ 
+diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
+index c8192e724..b18186629 100644
+--- a/src/server/game/Entities/Unit/Unit.cpp
++++ b/src/server/game/Entities/Unit/Unit.cpp
+@@ -12184,6 +12184,14 @@ float Unit::GetTotalStatValue(Stats stat, float additionalValue) const
+     value += GetFlatModifierValue(unitMod, TOTAL_VALUE) + additionalValue;
+     value *= GetPctModifierValue(unitMod, TOTAL_PCT);
+ 
++    // F-188: armor-scaled stat (e.g. Ironhide). Each MOD_STAT_OF_ARMOR aura whose
++    // MiscValue is this stat grants 1 point per (amount = base+die) armor. Computed
++    // live here; Player::UpdateArmor re-runs UpdateStats so it tracks armor changes.
++    AuraEffectList const& mStatOfArmor = GetAuraEffectsByType(SPELL_AURA_MOD_STAT_OF_ARMOR);
++    for (AuraEffect const* eff : mStatOfArmor)
++        if (eff->GetMiscValue() == int32(stat) && eff->GetAmount() > 0)
++            value += float(int32(GetArmor()) / eff->GetAmount());
++
+     return value;
+ }
+ 
+diff --git a/src/server/game/Spells/Auras/SpellAuraDefines.h b/src/server/game/Spells/Auras/SpellAuraDefines.h
+index 94b56501c..a2ce8a56d 100644
+--- a/src/server/game/Spells/Auras/SpellAuraDefines.h
++++ b/src/server/game/Spells/Auras/SpellAuraDefines.h
+@@ -377,7 +377,8 @@ enum AuraType
+     SPELL_AURA_PREVENT_RESURRECTION                         = 314,
+     SPELL_AURA_UNDERWATER_WALKING                           = 315,
+     SPELL_AURA_PERIODIC_HASTE                               = 316,
+-    TOTAL_AURAS                                             = 317
++    SPELL_AURA_MOD_STAT_OF_ARMOR                            = 317, // F-188: MiscValue stat gains 1 point per (base+die) armor; computed in Unit::GetTotalStatValue
++    TOTAL_AURAS                                             = 318
+ };
+ 
+ enum AuraObjectType
+diff --git a/src/server/game/Spells/Auras/SpellAuraEffects.cpp b/src/server/game/Spells/Auras/SpellAuraEffects.cpp
+index 4817aa222..cc489a66f 100644
+--- a/src/server/game/Spells/Auras/SpellAuraEffects.cpp
++++ b/src/server/game/Spells/Auras/SpellAuraEffects.cpp
+@@ -379,6 +379,7 @@ pAuraEffectHandler AuraEffectHandler[TOTAL_AURAS] =
+     &AuraEffect::HandlePreventResurrection,                       //314 SPELL_AURA_PREVENT_RESURRECTION todo
+     &AuraEffect::HandleNoImmediateEffect,                         //315 SPELL_AURA_UNDERWATER_WALKING todo
+     &AuraEffect::HandleNoImmediateEffect,                         //316 SPELL_AURA_PERIODIC_HASTE implemented in AuraEffect::CalculatePeriodic
++    &AuraEffect::HandleAuraModStatOfArmor,                        //317 SPELL_AURA_MOD_STAT_OF_ARMOR implemented in Unit::GetTotalStatValue
+ };
+ 
+ AuraEffect::AuraEffect(Aura* base, uint8 effIndex, int32* baseAmount, Unit* caster):
+@@ -4970,6 +4971,23 @@ void AuraEffect::HandleAuraModAttackPowerOfArmor(AuraApplication const* aurApp,
+     if (target->IsPlayer())
+         target->ToPlayer()->UpdateAttackPowerAndDamage(false);
+ }
++
++// F-188: MiscValue picks the base stat that scales off armor; the math
++// (armor / amount) lives in Unit::GetTotalStatValue. On apply/remove/amount
++// change just re-run that stat so the bonus is (re)applied.
++void AuraEffect::HandleAuraModStatOfArmor(AuraApplication const* aurApp, uint8 mode, bool /*apply*/) const
++{
++    if (!(mode & (AURA_EFFECT_HANDLE_CHANGE_AMOUNT_MASK | AURA_EFFECT_HANDLE_STAT)))
++        return;
++
++    Unit* target = aurApp->GetTarget();
++    if (!target->IsPlayer())
++        return;
++
++    int32 stat = GetMiscValue();
++    if (stat >= STAT_STRENGTH && stat <= STAT_SPIRIT)
++        target->ToPlayer()->UpdateStats(Stats(stat));
++}
+ /********************************/
+ /***        DAMAGE BONUS      ***/
+ /********************************/
+diff --git a/src/server/game/Spells/Auras/SpellAuraEffects.h b/src/server/game/Spells/Auras/SpellAuraEffects.h
+index 5acdedda4..6aab6b7a1 100644
+--- a/src/server/game/Spells/Auras/SpellAuraEffects.h
++++ b/src/server/game/Spells/Auras/SpellAuraEffects.h
+@@ -293,6 +293,7 @@ public:
+     void HandleAuraModRangedAttackPowerOfStatPercent(AuraApplication const* aurApp, uint8 mode, bool apply) const;
+     void HandleAuraModAttackPowerOfStatPercent(AuraApplication const* aurApp, uint8 mode, bool apply) const;
+     void HandleAuraModAttackPowerOfArmor(AuraApplication const* aurApp, uint8 mode, bool apply) const;
++    void HandleAuraModStatOfArmor(AuraApplication const* aurApp, uint8 mode, bool apply) const;
+     //   damage bonus
+     void HandleModDamageDone(AuraApplication const* aurApp, uint8 mode, bool apply) const;
+     void HandleModDamagePercentDone(AuraApplication const* aurApp, uint8 mode, bool apply) const;
+-- 
+2.34.1
+
