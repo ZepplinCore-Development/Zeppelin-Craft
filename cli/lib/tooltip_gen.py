@@ -330,9 +330,11 @@ def classify(spell_id: int, spells: Dict[int, Dict],
         "renderable": renderable,
         "desc_var": desc_var if custom_var else 0,
         # raw desc template (stock tokens) — Phase 6 in-client recompute, custom spells only
-        "desc": (row.get("spell_desc_enus") or "") if is_custom else "",
-        "dur": (int(row.get("_dur") or 0)) if is_custom else 0,   # $d duration (seconds)
-        "rad": (row.get("_rad") or {}) if is_custom else {},      # $aN radius (yards per effect)
+        # full stock-desc parity: every renderable spell ships its raw desc template so the
+        # addon recomputes it (the interpreter aborts to a fallback on tokens it can't handle).
+        "desc": (row.get("spell_desc_enus") or "") if renderable else "",
+        "dur": (int(row.get("_dur") or 0)) if renderable else 0,   # $d duration (seconds)
+        "rad": (row.get("_rad") or {}) if renderable else {},      # $aN radius (yards per effect)
         # full per-spell compute picture (engine inputs), all from OUR DBC:
         "levels": {"bl": _i(row, "base_level"), "ml": _i(row, "max_level"),
                    "sl": _i(row, "spell_level")},

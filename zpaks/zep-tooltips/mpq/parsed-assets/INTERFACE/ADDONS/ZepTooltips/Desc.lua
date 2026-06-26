@@ -48,7 +48,53 @@ local function durfmt(d)
     return d .. " sec"
 end
 
--- Resolve the $token at position i (s:sub(i,i) == '$'). Returns replacement, nextPos.
+-- Read a balanced {...} block; s:sub(i,i) must be '{'. Returns inner, position-after-'}'.
+local function readBrace(s, i)
+    local depth = 0
+    for j = i, #s do
+        local c = s:sub(j, j)
+        if c == '{' then depth = depth + 1
+        elseif c == '}' then
+            depth = depth - 1
+            if depth == 0 then return s:sub(i + 1, j - 1), j + 1 end
+        end
+    end
+    return s:sub(i + 1), #s + 1
+end
+
+-- Resolve a $-token NAME (no leading $) to a number, for arithmetic inside ${...}.
+-- Handles $sN/$mN/$oN (self + cross-spell $<id>sN) and the scaling operands $pl/$AP/$sp/$bv.
+local function tokenNum(name, rec, ctx, getRec)
+    local id, k, n = name:match("^(%d+)([sSmMoO])(%d)$")   -- cross-spell $<id>sN
+    if id then return effectValue(ctx, getRec and getRec(tonumber(id)), tonumber(n), k == "S" or k == "M" or k == "O") end
+    local sk, sn = name:match("^([sSmMoO])(%d)$")           -- self $sN/$mN/$oN
+    if sk then return effectValue(ctx, rec, tonumber(sn), sk == "S" or sk == "M") end
+    if name == "pl" then return ctx.level end
+    if name == "AP" then return ctx.ap end
+    if name == "sp" then return ctx.sp end
+    if name == "bv" then return ctx.stat and ctx.stat("BLOCK_VALUE") end
+    return nil
+end
+
+-- Evaluate ${expr}: substitute $-tokens with numbers, then evaluate the arithmetic.
+-- Returns a number, or nil if a token/operator is unsupported (caller passes the literal through).
+local function evalExpr(expr, rec, ctx, getRec)
+    local resolved = true
+    local sub = expr:gsub("%$(%w+)", function(name)
+        local v = tokenNum(name, rec, ctx, getRec)
+        if v then return string.format("%.6g", v) else resolved = false; return "0" end
+    end)
+    if not resolved then return nil end
+    if sub:find("[^%d%.%+%-%*/%%%(%) ]") then return nil end   -- numeric arithmetic only
+    local f = loadstring and loadstring("return " .. sub)
+    if not f then return nil end
+    local good, res = pcall(f)
+    if good and type(res) == "number" then return res end
+    return nil
+end
+
+-- Resolve the $token at position i (s:sub(i,i) == '$'). Returns replacement, nextPos, bad
+-- (bad=true => unresolved; the literal text passes through. The flag is kept for debug.)
 local function token(s, i, rec, ctx, getRec)
     local r = s:sub(i)
 
@@ -61,7 +107,25 @@ local function token(s, i, rec, ctx, getRec)
         if s:sub(p2, p2) == '[' then b, p2 = readBlock(s, p2) end
         local on = (kind == "s") and (ctx.knows(tonumber(id)) and true or false)
                                   or ((ctx.hasAura(tonumber(id)) or 0) > 0)
-        return interpret(on and a or b, rec, ctx, getRec), p2
+        local bs, bok = interpret(on and a or b, rec, ctx, getRec)
+        return bs, p2, not bok
+    end
+
+    -- arithmetic ${expr}
+    if r:sub(1, 2) == "${" then
+        local expr, p2 = readBrace(s, i + 1)
+        local v = evalExpr(expr, rec, ctx, getRec)
+        if v then return tostring(round(v)), p2 end
+        return s:sub(i, p2 - 1), p2, true
+    end
+
+    -- divide $/N;sX -> $sX / N  (e.g. $/1000;s1)
+    local div, dk, dn = r:match("^%$/(%d+);([sSmMoO])(%d)")
+    if div then
+        local nextp = i + 3 + #div + 2        -- $ / digits ; letter digit
+        local v = effectValue(ctx, rec, tonumber(dn), dk == "S" or dk == "M")
+        if v then return tostring(round(v / tonumber(div))), nextp end
+        return s:sub(i, nextp - 1), nextp, true
     end
 
     -- cross-spell: $<id>aN radius, $<id>d duration, $<id>[sSoOmM]N value
@@ -74,19 +138,19 @@ local function token(s, i, rec, ctx, getRec)
             local nextp = i + 1 + #xid + 2
             local rad = rec2 and rec2.rad and rec2.rad[tonumber(an)]
             if rad then return tostring(round(rad)), nextp end
-            return s:sub(i, nextp - 1), nextp
+            return s:sub(i, nextp - 1), nextp, true
         end
         if rest:match("^d") then
             local nextp = i + 1 + #xid + 1
             if rec2 and rec2.dur then return durfmt(rec2.dur), nextp end
-            return s:sub(i, nextp - 1), nextp
+            return s:sub(i, nextp - 1), nextp, true
         end
         local vk, vn = rest:match("^([sSoOmM])(%d)")
         if vk then
             local nextp = i + 1 + #xid + 2
             local v = effectValue(ctx, rec2, tonumber(vn), vk == "S" or vk == "O" or vk == "M")
             if v then return tostring(round(abs(v))), nextp end
-            return s:sub(i, nextp - 1), nextp
+            return s:sub(i, nextp - 1), nextp, true
         end
     end
 
@@ -95,6 +159,7 @@ local function token(s, i, rec, ctx, getRec)
     if an then
         local rad = rec and rec.rad and rec.rad[tonumber(an)]
         if rad then return tostring(round(rad)), i + 3 end
+        return s:sub(i, i + 2), i + 3, true
     end
 
     -- self value: $sN / $SN / $oN / $mN / $MN
@@ -102,6 +167,7 @@ local function token(s, i, rec, ctx, getRec)
     if sk then
         local v = effectValue(ctx, rec, tonumber(sn), sk == "S" or sk == "M")
         if v then return tostring(round(abs(v))), i + 3 end
+        return s:sub(i, i + 2), i + 3, true
     end
 
     -- self duration $d
@@ -109,30 +175,34 @@ local function token(s, i, rec, ctx, getRec)
         return durfmt(rec.dur), i + 2
     end
 
-    -- unknown token: emit the '$' literally and keep scanning from the next char
-    return "$", i + 1
+    -- unhandled ($<var>, $g, $l, $d-without-dur, ...): pass through as a literal (spottable)
+    return "$", i + 1, true
 end
 
 interpret = function(template, rec, ctx, getRec)
-    if not template or template == "" then return "" end
-    local out, i, n = {}, 1, #template
+    if not template or template == "" then return "", true end
+    local out, i, n, ok = {}, 1, #template, true
     while i <= n do
         if template:sub(i, i) == '$' then
-            local rep, nextp = token(template, i, rec, ctx, getRec)
+            local rep, nextp, bad = token(template, i, rec, ctx, getRec)
             out[#out + 1] = rep
+            if bad then ok = false end
             i = nextp
         else
             out[#out + 1] = template:sub(i, i)
             i = i + 1
         end
     end
-    return table.concat(out)
+    return table.concat(out), ok
 end
 
--- Public: the recomputed desc string for a record (nil if there's no template).
+-- Public: the recomputed desc string, or nil if the template has tokens we can't resolve
+-- (caller then falls back to the native desc + the computed value line). No template -> nil.
 function ZepDesc.render(rec, ctx, getRec)
     if not rec or not rec.desc then return nil end
-    return interpret(rec.desc, rec, ctx, getRec)
+    -- always return the recompute; unresolved tokens pass through as literals so they're
+    -- easy to spot in-game, rather than silently dropping the whole desc.
+    return (interpret(rec.desc, rec, ctx, getRec))
 end
 
 -- Exposed for tests.
