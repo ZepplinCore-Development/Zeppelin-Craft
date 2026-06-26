@@ -417,26 +417,51 @@ def emit_lua(records: List[Dict]) -> str:
             for m in r["mods"]) + "}"
         c = r["cost"]
         cost = "{f=%d,p=%d,cd=%d,cdc=%d}" % (c["flat"], c["pct"], c["cd"], c["cdcat"])
-        desc_lua = ""
-        if r.get("desc"):
-            desc_lua += ", desc=%s" % _lua_str(r["desc"])
-        if r.get("tt") and r["tt"] != r.get("desc"):   # active-aura tooltip (only if it differs)
-            desc_lua += ", tt=%s" % _lua_str(r["tt"])
-        if r.get("dur"):
-            desc_lua += ", dur=%d" % r["dur"]
-        if r.get("rad"):
-            desc_lua += ", rad={%s}" % ",".join("[%d]=%s" % (e, _num(y)) for e, y in sorted(r["rad"].items()))
+        # cons (consumable line) stays in the hot table so it renders at startup; the bulky
+        # desc/tt/dur/rad text is lazy-loaded by emit_desc (the ZepTooltipsDesc sub-addon).
+        cons_lua = ""
         if r.get("consumable"):
             cn = r["consumable"]
-            desc_lua += ', cons={kind="%s",eff=%d,ps=%s%s}' % (
+            cons_lua = ', cons={kind="%s",eff=%d,ps=%s%s}' % (
                 cn["kind"], cn["eff"], "true" if cn["ps"] else "false",
                 (",dur=%d" % cn["dur"]) if cn.get("dur") else "")
         lines.append(
             "  [%d] = {cd=%s, reasons=%s, dv=%d, dc=%d, bl=%d, ml=%d, sl=%d, eff=%s, sp=%s, "
             "weapon=%s, stat=%s, cost=%s, mods=%s%s},  -- %s"
             % (r["id"], cd, reasons, r["desc_var"], r["dclass"], lv["bl"], lv["ml"], lv["sl"],
-               eff, sp_lua, weapon, stat, cost, mods, desc_lua, r["name"])
+               eff, sp_lua, weapon, stat, cost, mods, cons_lua, r["name"])
         )
     lines.append("}")
     lines.append("")
+    return "\n".join(lines)
+
+
+def emit_desc(records: List[Dict]) -> str:
+    """Bulky desc/tooltip templates, lazy-loaded as the ZepTooltipsDesc sub-addon and merged
+    into ZepTooltipData on load (keeps the startup Generated.lua small)."""
+    lines = [
+        "-- F-190 — desc/tooltip templates (lazy-loaded sub-addon). DO NOT EDIT BY HAND.",
+        "ZepTooltipDesc = {",
+    ]
+    for r in sorted(records, key=lambda r: r["id"]):
+        parts = []
+        if r.get("desc"):
+            parts.append("desc=%s" % _lua_str(r["desc"]))
+        if r.get("tt") and r["tt"] != r.get("desc"):
+            parts.append("tt=%s" % _lua_str(r["tt"]))
+        if r.get("dur"):
+            parts.append("dur=%d" % r["dur"])
+        if r.get("rad"):
+            parts.append("rad={%s}" % ",".join("[%d]=%s" % (e, _num(y)) for e, y in sorted(r["rad"].items())))
+        if parts:
+            lines.append("  [%d] = {%s}," % (r["id"], ", ".join(parts)))
+    lines += [
+        "}",
+        "-- merge the templates into the already-loaded hot table",
+        "if ZepTooltipData then for id, d in pairs(ZepTooltipDesc) do",
+        "  local r = ZepTooltipData[id]",
+        "  if r then r.desc, r.tt, r.dur, r.rad = d.desc, d.tt, d.dur, d.rad end",
+        "end end",
+        "",
+    ]
     return "\n".join(lines)

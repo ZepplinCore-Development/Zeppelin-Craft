@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: Zeppelin Tooltips - Desc Data
+## Notes: Lazy-loaded desc/tooltip templates for ZepTooltips (F-190). Loaded on demand a few
+## Notes: seconds after login so the bulky string table never blocks the loading screen.
+## LoadOnDemand: 1
+## Dependencies: ZepTooltips
+GeneratedDesc.lua

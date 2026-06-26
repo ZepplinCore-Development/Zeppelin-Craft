@@ -9,6 +9,21 @@
 
 local Data = rawget(_G, "ZepTooltipData") or {}
 
+-- The bulky desc/tt templates live in a LoadOnDemand sub-addon (ZepTooltipsDesc) so the big
+-- string table never blocks the loading screen. Pull it in on first need (synchronous: the
+-- merge into ZepTooltipData completes before we return, so the triggering tooltip recomputes).
+local descLoaded = false
+local function ensureDesc()
+    if descLoaded then return end
+    descLoaded = true
+    if LoadAddOn and not IsAddOnLoaded("ZepTooltipsDesc") then
+        local ok, reason = LoadAddOn("ZepTooltipsDesc")   -- LoadOnDemand: loads even if unchecked
+        if not ok and ZepTooltipsDB and ZepTooltipsDB.debug then
+            DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: desc data did not load (" .. tostring(reason) .. ")")
+        end
+    end
+end
+
 -- SpellModOp -> readable label, for the debug modifier breakdown.
 local OP_LABEL = {
     [0] = "damage", [1] = "duration", [3] = "effect", [7] = "crit", [8] = "all effects",
@@ -129,6 +144,7 @@ local function renderTooltip(tooltip, spellId, isAura)
     if not spellId or ZepTooltipsDB.enabled == false then return end
     local rec = Data[spellId]
     if not rec then return end
+    ensureDesc()   -- bring in the desc/tt templates if not yet loaded
     local ctx = buildCtx()
     local shown = false
     local function addLine(text)
@@ -271,6 +287,13 @@ f:SetScript("OnEvent", function(_, event, name)
         hookAura("SetUnitDebuff", UnitDebuff)
         local n = 0; for _ in pairs(Data) do n = n + 1 end
         DEFAULT_CHAT_FRAME:AddMessage("|cff66ccffZepTooltips|r loaded (" .. n .. " spells).")
+        -- pre-load the desc templates ~1s after entering the world (off the loading screen),
+        -- so the first tooltip hover doesn't pay the parse cost.
+        local delay = 0
+        f:SetScript("OnUpdate", function(self, e)
+            delay = delay + e
+            if delay > 1 then self:SetScript("OnUpdate", nil); ensureDesc() end
+        end)
     end
 end)
 
