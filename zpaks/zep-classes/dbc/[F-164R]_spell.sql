@@ -108,7 +108,7 @@ SET @rsg_dmg_perlevel = 6.0;
 SET @rsg_ap_coeff = 0.25;
 SET @rsg_base_level = 20;
 SET @rsg_max_level = 80;
-SET @rsg_pct_per_stack = 10;  -- +10% Rocksurge damage per Rocksteady stack (x10 stacks = +100% = double)
+SET @rsg_pct_per_stack = 10;  -- +10% Rocksurge damage per Rocksteady stack (x12 stacks = +120% at max)
 
 DELETE FROM `spell` WHERE `id` = 900263;
 
@@ -532,7 +532,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 2% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 10 times.',
+    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 2% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 12 times.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
@@ -554,7 +554,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 4% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 10 times.',
+    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 4% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 12 times.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
@@ -576,7 +576,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 6% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 10 times.',
+    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 6% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 12 times.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
@@ -598,7 +598,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 4',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 8% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 10 times.',
+    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 8% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 12 times.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
@@ -620,7 +620,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 5',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 10% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 10 times.',
+    `spell_desc_enus` = 'When you deal damage with a melee weapon, you have a 10% chance to gain a stack of Rocksteady, increasing your block chance by $900261s1%. Stacks up to 12 times.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
