@@ -22,7 +22,7 @@
 -- ============================================================================
 -- Rockbiter Weapon (Passive) - R1-R4 (900138-900141)
 -- Per-rank passives applied by SpellItemEnchantment (EQUIP_SPELL) while the
--- Rockbiter imbue is active. Grants Strength + 0%-base threat (Improved
+-- Rockbiter imbue is active. Grants Strength + 20% base threat (Improved
 -- Rockbiter enhances both). spell_class_mask_3 = 128 (unique) for modifier targeting.
 -- ============================================================================
 -- Rockbiter Weapon R1 (Passive) - 10 Strength
@@ -42,7 +42,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 10,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 127,
     `effect_implicit_target_a_2` = 1,
@@ -79,7 +79,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 10,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 127,
     `effect_implicit_target_a_2` = 1,
@@ -116,7 +116,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 10,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 127,
     `effect_implicit_target_a_2` = 1,
@@ -153,7 +153,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 10,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 127,
     `effect_implicit_target_a_2` = 1,
@@ -191,7 +191,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 59,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -225,7 +225,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 89,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -259,7 +259,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 129,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -293,7 +293,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 159,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -327,7 +327,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 199,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -361,7 +361,7 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 279,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 29,
@@ -388,12 +388,12 @@ INSERT INTO `spell` SET
 -- Improved Rockbiter Weapon (900129, 900130, 900131) - 3 ranks, passive talent.
 -- Boosts the Rockbiter passive via SpellMod (aura 108 ADD_PCT / 107 ADD_FLAT):
 -- E1: SPELLMOD_EFFECT1 (misc 3)  -> +10/20/30% Rockbiter Strength (passive E1, aura 29)
--- E2: SPELLMOD_EFFECT2 (misc 12) -> +5/10/15% Rockbiter threat (passive E2)
+-- E2: SPELLMOD_EFFECT2 (misc 12) -> +20/40/60% Rockbiter threat (passive E2; 20% base + this = up to 80%, on par with Righteous Fury)
 -- All target the Rockbiter passive via its unique spell_class_mask_3 = 128.
 -- Passive STR values are multiples of 10 so the +% always resolves to a whole number.
 -- The talent that grants these (talent 2930) lives in F-164 (parent) [F-164]_talent.sql.
 -- ============================================================================
--- Improved Rockbiter Weapon R1 (900129): +10% Strength, +5% threat
+-- Improved Rockbiter Weapon R1 (900129): +10% Strength, +20% threat
 DELETE FROM `spell` WHERE `id` = 900129;
 
 INSERT INTO `spell` SET
@@ -412,7 +412,7 @@ INSERT INTO `spell` SET
     `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 19,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
@@ -435,7 +435,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_3` = 1.0,
     `school_mask` = 8;
 
--- Improved Rockbiter Weapon R2 (900130): +20% Strength, +10% threat
+-- Improved Rockbiter Weapon R2 (900130): +20% Strength, +40% threat
 DELETE FROM `spell` WHERE `id` = 900130;
 
 INSERT INTO `spell` SET
@@ -454,7 +454,7 @@ INSERT INTO `spell` SET
     `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_2` = 9,
+    `effect_base_points_2` = 39,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
@@ -477,7 +477,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_3` = 1.0,
     `school_mask` = 8;
 
--- Improved Rockbiter Weapon R3 (900131): +30% Strength, +15% threat
+-- Improved Rockbiter Weapon R3 (900131): +30% Strength, +60% threat
 DELETE FROM `spell` WHERE `id` = 900131;
 
 INSERT INTO `spell` SET
@@ -496,7 +496,7 @@ INSERT INTO `spell` SET
     `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_2` = 14,
+    `effect_base_points_2` = 59,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
