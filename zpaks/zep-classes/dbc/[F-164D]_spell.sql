@@ -59,18 +59,14 @@ INSERT INTO `spell` SET
     `effect_die_sides_2` = @vs_dmg_die,
     `effect_base_points_2` = @vs_dmg_base,
     `effect_real_points_per_level_2` = @vs_dmg_perlevel,
-    `effect_3` = 6,
-    `effect_apply_aura_name_3` = 22,
-    `effect_misc_value_a_3` = 1,
-    `effect_implicit_target_a_3` = 1,
     `spell_visual_1` = 90003,
     `spell_icon_id` = 4610,
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $900122s1 Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900125[ Each activation also restores $900125s1% of your maximum mana.][]$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][] Lasts $d.',
+    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $900122s1 Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900125[ Each activation also restores $900125s1% of your maximum mana and $900125s2% of your maximum health.][]$?s900124[ Each activation also restores $900124s1% of your maximum mana and $900124s2% of your maximum health.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana and $900123s2% of your maximum health.][] Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $900122s1 Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900125[ Each activation also restores $900125s1% of your maximum mana.][]$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][]',
+    `spell_tooltip_enus` = 'Deals $900122s1 Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900125[ Each activation also restores $900125s1% mana and $900125s2% health.][]$?s900124[ Each activation also restores $900124s1% mana and $900124s2% health.][]$?s900123[ Each activation also restores $900123s1% mana and $900123s2% health.][]',
     `spell_tooltip_flags` = 16712190,
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
@@ -80,7 +76,6 @@ INSERT INTO `spell` SET
     `prevention_type` = 1,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 4,
     `effect_bonus_multiplier_1` = 0.267,
     `spell_desc_variable_id` = 0;
@@ -89,8 +84,9 @@ INSERT INTO `spell` SET
 -- Volcanic Shield Triggered (900122) - AOE Fire damage + % mana regen on block
 -- E1: SCHOOL_DAMAGE (effect 2) - 8yd AOE Fire damage around caster, Fire Nova visual.
 --     Scales on ARMOR natively (F-188 effect_misc_value_a_1=2 ZEP_STAT_ARMOR, b_1=2 -> 2% armor).
--- E2: ENERGIZE_PCT (effect 137) - base 0% max mana, boosted by Imp VS modifier.
---     Ref: Mana Leech (34650). Instant % mana restore, no duration needed.
+-- E2: ENERGIZE_PCT (effect 137) - base 0% max mana, boosted by Imp VS E1 modifier.
+-- E3: HEAL_PCT (effect 136) - base 0% max health, boosted by Imp VS E2 modifier.
+--     Both base 0, so plain Volcanic Shield restores nothing; Improved VS feeds them.
 -- spell_class_mask_3 = 32768 (bit 15) for modifier targeting by Imp VS / Glyph.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900122;
@@ -116,6 +112,10 @@ INSERT INTO `spell` SET
     `effect_die_sides_2` = 1,
     `effect_base_points_2` = -1,
     `effect_implicit_target_a_2` = 1,
+    `effect_3` = 136,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_3` = -1,
+    `effect_implicit_target_a_3` = 1,
     `spell_level` = @vs_spell_level,
     `base_level` = @vs_base_level,
     `max_level` = @vs_max_level,
@@ -133,19 +133,21 @@ INSERT INTO `spell` SET
     `spell_class_mask_3` = 32768,
     `school_mask` = 4,
     `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0;
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0;
 
 -- Variable 187 (Volcanic Shield tooltip damage) was retired by [F-190] when the
 -- VS desc/tooltip moved to stock tokens ($900122s1). DELETE clears any stale row.
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 187;
 
 -- ----------------------------------------------------------------------------
--- Improved Volcanic Shield R1 (900123)
--- effect_1 (KEEP): ADD_FLAT_MODIFIER op 12 (SPELLMOD_EFFECT2) +1 on the eruption
---   900122's energize (mask_a_3 = 32768) -> the mana restore.
--- effect_2 (NEW): MOD_RESISTANCE (22), school 1 (armor), bonus armor scaling with
---   level (base + ppl). Gauged off Stoneskin Totem (~50 + 11/level at full rank);
---   R1 = 1/3. Replaces the old +damage boost (folded into VS base damage instead).
+-- Improved Volcanic Shield R1 (900123) - mana + health restore on block (no armor)
+-- effect_1: ADD_FLAT_MODIFIER op 12 (SPELLMOD_EFFECT2) on eruption 900122's
+--   ENERGIZE_PCT (mask_a_3 = 32768) -> +3% max mana per block (= base_1 + 1).
+-- effect_2: ADD_FLAT_MODIFIER op 23 (SPELLMOD_EFFECT3) on eruption 900122's
+--   HEAL_PCT (mask_b_3 = 32768) -> +1% max health per block (= base_2 + 1).
+-- Bonus armor dropped 2026-06-26 (Earthwarden already stacks plenty of armor);
+-- mana cut 4/8/12 -> 3/6/9% per the shield-balance pass. % so it scales L40-80.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900123;
 
@@ -160,24 +162,24 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_1` = 3,   -- F-164: Imp VS R1 -> 4% mana (energize% = base+1)
-    `effect_base_points_2` = 17,
-    `effect_real_points_per_level_2` = 4.0,
+    `effect_base_points_1` = 2,   -- F-164D: Imp VS R1 -> 3% mana (energize% = base+1)
+    `effect_base_points_2` = 0,   -- F-164D: Imp VS R1 -> 1% health (heal% = base+1)
     `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
     `effect_misc_value_a_1` = 12,
     `effect_misc_value_a_2` = 23,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_a_3` = 32768,
-    `effect_spell_class_mask_b_1` = 1024,
+    `effect_spell_class_mask_b_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'While Volcanic Shield is active, you gain bonus armor based on your level, and its activation also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'While Volcanic Shield is active, each eruption also restores $s1% of your maximum mana and $s2% of your maximum health.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Bonus armor while Volcanic Shield is active; activation restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Each Volcanic Shield eruption restores $s1% max mana and $s2% max health.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -185,7 +187,7 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
--- Improved Volcanic Shield R2 (900124) - mana restore + bonus armor (2/3)
+-- Improved Volcanic Shield R2 (900124) - +6% mana / +2% health on block
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900124;
 
@@ -200,31 +202,31 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_1` = 7,   -- F-164: Imp VS R2 -> 8% mana
-    `effect_base_points_2` = 33,
-    `effect_real_points_per_level_2` = 7.0,
+    `effect_base_points_1` = 5,   -- F-164D: Imp VS R2 -> 6% mana
+    `effect_base_points_2` = 1,   -- F-164D: Imp VS R2 -> 2% health
     `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
     `effect_misc_value_a_1` = 12,
     `effect_misc_value_a_2` = 23,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_a_3` = 32768,
-    `effect_spell_class_mask_b_1` = 1024,
+    `effect_spell_class_mask_b_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'While Volcanic Shield is active, you gain bonus armor based on your level, and its activation also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'While Volcanic Shield is active, each eruption also restores $s1% of your maximum mana and $s2% of your maximum health.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Bonus armor while Volcanic Shield is active; activation restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Each Volcanic Shield eruption restores $s1% max mana and $s2% max health.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 8;
 
--- Improved Volcanic Shield R3 (900125) - mana restore + bonus armor (full ~= Stoneskin)
+-- Improved Volcanic Shield R3 (900125) - +9% mana / +3% health on block
 DELETE FROM `spell` WHERE `id` = 900125;
 
 INSERT INTO `spell` SET
@@ -238,24 +240,24 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_1` = 11,  -- F-164: Imp VS R3 -> 12% mana
-    `effect_base_points_2` = 50,
-    `effect_real_points_per_level_2` = 11.0,
+    `effect_base_points_1` = 8,   -- F-164D: Imp VS R3 -> 9% mana
+    `effect_base_points_2` = 2,   -- F-164D: Imp VS R3 -> 3% health
     `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
     `effect_misc_value_a_1` = 12,
     `effect_misc_value_a_2` = 23,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_a_3` = 32768,
-    `effect_spell_class_mask_b_1` = 1024,
+    `effect_spell_class_mask_b_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'While Volcanic Shield is active, you gain bonus armor based on your level, and its activation also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'While Volcanic Shield is active, each eruption also restores $s1% of your maximum mana and $s2% of your maximum health.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Bonus armor while Volcanic Shield is active; activation restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Each Volcanic Shield eruption restores $s1% max mana and $s2% max health.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
