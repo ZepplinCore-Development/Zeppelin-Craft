@@ -548,7 +548,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 5',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900250m1 and threat generation by 5%.  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900250m1 and threat generation by $900250m2%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -584,7 +584,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 6',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900251m1 and threat generation by 5%.  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900251m1 and threat generation by $900251m2%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -620,7 +620,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 7',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900252m1 and threat generation by 5%.  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900252m1 and threat generation by $900252m2%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -656,7 +656,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 8',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900253m1 and threat generation by 5%.  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900253m1 and threat generation by $900253m2%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -692,7 +692,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 9',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900254m1 and threat generation by 5%.  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900254m1 and threat generation by $900254m2%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -728,7 +728,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 10',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900255m1 and threat generation by 5%.  Lasts 30 minutes.',
+    `spell_desc_enus` = 'Imbue the Shaman''s weapon, increasing Strength by $900255m1 and threat generation by $900255m2%.  Lasts 30 minutes.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `power_cost_percentage` = 8,
@@ -971,7 +971,7 @@ INSERT INTO `spell` SET
 -- Point the desc at the per-rank passive's Strength ($9001xxm1); client
 -- auto-applies the Improved Rockbiter SpellMod. Stock rows -> consolidated UPDATE.
 -- ============================================================================
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900138m1 and threat generation by 5%.  Lasts 30 minutes.' WHERE id = 8017;
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900139m1 and threat generation by 5%.  Lasts 30 minutes.' WHERE id = 8018;
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900140m1 and threat generation by 5%.  Lasts 30 minutes.' WHERE id = 8019;
-UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900141m1 and threat generation by 5%.  Lasts 30 minutes.' WHERE id = 10399;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900138m1 and threat generation by $900138m2%.  Lasts 30 minutes.' WHERE id = 8017;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900139m1 and threat generation by $900139m2%.  Lasts 30 minutes.' WHERE id = 8018;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900140m1 and threat generation by $900140m2%.  Lasts 30 minutes.' WHERE id = 8019;
+UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing Strength by $900141m1 and threat generation by $900141m2%.  Lasts 30 minutes.' WHERE id = 10399;
