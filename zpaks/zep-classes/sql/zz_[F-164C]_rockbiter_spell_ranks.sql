@@ -1,4 +1,4 @@
--- [F-164] Rockbiter Weapon ranks 5-10: extend the spell_ranks chain.
+-- [F-164C] Rockbiter Weapon ranks 5-10: extend the spell_ranks chain (split from F-164).
 -- The stock chain is 8017(r1) -> 8018(r2) -> 8019(r3) -> 10399(r4). The new
 -- ranks (900230-900235) must be registered as ranks 5-10 of the same chain
 -- (first_spell_id = 8017) so the server recognizes them as Rockbiter ranks.
