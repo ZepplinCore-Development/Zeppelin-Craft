@@ -198,11 +198,14 @@ end
 
 -- Public: the recomputed desc string, or nil if the template has tokens we can't resolve
 -- (caller then falls back to the native desc + the computed value line). No template -> nil.
-function ZepDesc.render(rec, ctx, getRec)
-    if not rec or not rec.desc then return nil end
+-- useTt -> recompute the active-aura tooltip (spell_tooltip_enus); else the spellbook desc.
+function ZepDesc.render(rec, ctx, getRec, useTt)
+    if not rec then return nil end
+    local template = (useTt and rec.tt) or rec.desc
+    if not template then return nil end
     -- always return the recompute; unresolved tokens pass through as literals so they're
     -- easy to spot in-game, rather than silently dropping the whole desc.
-    return (interpret(rec.desc, rec, ctx, getRec))
+    return (interpret(template, rec, ctx, getRec))
 end
 
 -- Exposed for tests.

@@ -62,7 +62,7 @@ SPELL_COLUMNS = [
     "base_level", "max_level", "spell_level",
     "power_cost", "power_cost_percentage", "recovery_time", "category_recovery_time",
     "damage_class", "attributes", "spell_desc_variable_id",
-    "spell_name_enus", "spell_desc_enus", "duration_index",
+    "spell_name_enus", "spell_desc_enus", "spell_tooltip_enus", "duration_index",
     "effect_radius_index_1", "effect_radius_index_2", "effect_radius_index_3",
 ]
 
@@ -330,9 +330,11 @@ def classify(spell_id: int, spells: Dict[int, Dict],
         "renderable": renderable,
         "desc_var": desc_var if custom_var else 0,
         # raw desc template (stock tokens) — Phase 6 in-client recompute, custom spells only
-        # full stock-desc parity: every renderable spell ships its raw desc template so the
-        # addon recomputes it (the interpreter aborts to a fallback on tokens it can't handle).
+        # full stock-desc parity: every renderable spell ships its raw desc + tooltip templates
+        # so the addon recomputes them separately (desc -> spellbook/action bars; tt -> the
+        # active-aura tooltip). Unhandled tokens pass through as literals.
         "desc": (row.get("spell_desc_enus") or "") if renderable else "",
+        "tt": (row.get("spell_tooltip_enus") or "") if renderable else "",
         "dur": (int(row.get("_dur") or 0)) if renderable else 0,   # $d duration (seconds)
         "rad": (row.get("_rad") or {}) if renderable else {},      # $aN radius (yards per effect)
         # full per-spell compute picture (engine inputs), all from OUR DBC:
@@ -415,6 +417,8 @@ def emit_lua(records: List[Dict]) -> str:
         desc_lua = ""
         if r.get("desc"):
             desc_lua += ", desc=%s" % _lua_str(r["desc"])
+        if r.get("tt") and r["tt"] != r.get("desc"):   # active-aura tooltip (only if it differs)
+            desc_lua += ", tt=%s" % _lua_str(r["tt"])
         if r.get("dur"):
             desc_lua += ", dur=%d" % r["dur"]
         if r.get("rad"):

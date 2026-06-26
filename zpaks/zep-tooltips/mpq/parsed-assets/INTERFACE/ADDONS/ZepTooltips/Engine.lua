@@ -62,8 +62,14 @@ local function activeGlyphs()
     local g = {}
     if GetNumGlyphSockets and GetGlyphSocketInfo then
         for i = 1, GetNumGlyphSockets() do
-            local enabled, _, _, spell = GetGlyphSocketInfo(i)
-            if enabled and spell then g[spell] = true end
+            -- glyphSpell's return position varies by client build, so collect ANY return that
+            -- looks like a spell id (the only big numeric one) rather than a fixed position.
+            local info = { GetGlyphSocketInfo(i) }
+            if info[1] then  -- socket enabled
+                for _, v in ipairs(info) do
+                    if type(v) == "number" and v > 1000 then g[v] = true end
+                end
+            end
         end
     end
     return g
@@ -119,7 +125,7 @@ local function primaryLabel(pe, isSpeed)
 end
 
 -- Shared render: look up the record, compute, add lines.
-local function renderTooltip(tooltip, spellId)
+local function renderTooltip(tooltip, spellId, isAura)
     if not spellId or ZepTooltipsDB.enabled == false then return end
     local rec = Data[spellId]
     if not rec then return end
@@ -152,11 +158,12 @@ local function renderTooltip(tooltip, spellId)
         return
     end
 
-    -- Phase 6: recomputed desc (stock tokens -> real numbers) directly below the native
-    -- desc. When shown it conveys the hit/heal value, so the terse primary line is dropped.
+    -- Phase 6: recomputed text below the native line — the spellbook DESC for a spell tooltip,
+    -- the TOOLTIP (spell_tooltip_enus) for an active aura. When shown it conveys the value, so
+    -- the terse primary line is dropped.
     local descShown = false
-    if rec.desc and ZepDesc then
-        local computed = ZepDesc.render(rec, ctx, function(id) return Data[id] end)
+    if ZepDesc then
+        local computed = ZepDesc.render(rec, ctx, function(id) return Data[id] end, isAura)
         if computed and computed ~= "" then
             addLine(computed)
             descShown = true
@@ -241,7 +248,7 @@ local function handleAura(self, caster, spellId)
         end
         return
     end
-    renderTooltip(self, spellId)
+    renderTooltip(self, spellId, true)   -- active aura -> recompute the tooltip text, not the desc
 end
 
 local f = CreateFrame("Frame")
@@ -281,7 +288,17 @@ SlashCmdList["ZEPTT"] = function(msg)
         DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips color set.")
     elseif a == "test" then
         if ZepSelfTest then ZepSelfTest.run(true) else DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: self-test unavailable") end
+    elseif a == "glyphs" then
+        -- diagnostic: dump every glyph socket's raw GetGlyphSocketInfo returns so we can see
+        -- which position holds the modifier spell id (and whether it matches our $?s<id>).
+        local n = (GetNumGlyphSockets and GetNumGlyphSockets()) or 0
+        DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips glyph sockets: " .. n)
+        for i = 1, n do
+            local r1, r2, r3, r4, r5 = GetGlyphSocketInfo(i)
+            DEFAULT_CHAT_FRAME:AddMessage(string.format("  %d: %s | %s | %s | %s | %s",
+                i, tostring(r1), tostring(r2), tostring(r3), tostring(r4), tostring(r5)))
+        end
     else
-        DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: /zeptt on|off | debug | test | color r g b")
+        DEFAULT_CHAT_FRAME:AddMessage("ZepTooltips: /zeptt on|off | debug | test | glyphs | color r g b")
     end
 end
