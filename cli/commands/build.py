@@ -780,10 +780,13 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
             click.echo(click.style(
                 f"\nWrote {len(emit)} of {len(records)} records "
                 f"(dropped {len(records) - len(emit)} inert) -> {out_path}", fg='green'))
-            # lazy-loaded desc/tt templates -> sibling ZepTooltipsDesc sub-addon
-            desc_path = Path(out_path).parent.parent / "ZepTooltipsDesc" / "GeneratedDesc.lua"
-            desc_path.parent.mkdir(parents=True, exist_ok=True)
-            desc_path.write_text(tg.emit_desc(emit), encoding='utf-8')
-            click.echo(click.style(f"Wrote desc/tt templates -> {desc_path}", fg='green'))
+            # lazy-loaded desc/tt templates -> sibling ZepTooltipsDesc sub-addon (only for a
+            # real addon-dir output; scratch --out paths just get the hot table)
+            out_p = Path(out_path)
+            if out_p.parent.name == "ZepTooltips":
+                desc_path = out_p.parent.parent / "ZepTooltipsDesc" / "GeneratedDesc.lua"
+                desc_path.parent.mkdir(parents=True, exist_ok=True)
+                desc_path.write_text(tg.emit_desc(emit), encoding='utf-8')
+                click.echo(click.style(f"Wrote desc/tt templates -> {desc_path}", fg='green'))
         else:
             click.echo("\n" + lua)

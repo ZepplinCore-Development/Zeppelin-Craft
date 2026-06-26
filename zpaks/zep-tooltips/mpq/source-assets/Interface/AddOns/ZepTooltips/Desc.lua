@@ -26,6 +26,19 @@ local function effectValue(ctx, rec, n, useMax)
     return useMax and v.hi or v.lo
 end
 
+-- Display string for a record's effect N. mode "range" ($s/$o) shows "lo to hi" for a die
+-- spread (matches the client) and a single number when there's none; "lo" ($m) / "hi" ($S/$M).
+local function effectRange(ctx, rec, n, mode)
+    if not rec then return nil end
+    local v = ZepCompute.effectValues(rec, ctx)[n]
+    if not v then return nil end
+    local lo, hi = round(abs(v.lo)), round(abs(v.hi))
+    if mode == "hi" then return tostring(hi) end
+    if mode == "lo" then return tostring(lo) end
+    if lo ~= hi then return lo .. " to " .. hi end
+    return tostring(lo)
+end
+
 -- Read a balanced [...] block; s:sub(i,i) must be '['. Returns inner, position-after-']'.
 local function readBlock(s, i)
     local depth = 0
@@ -148,8 +161,9 @@ local function token(s, i, rec, ctx, getRec)
         local vk, vn = rest:match("^([sSoOmM])(%d)")
         if vk then
             local nextp = i + 1 + #xid + 2
-            local v = effectValue(ctx, rec2, tonumber(vn), vk == "S" or vk == "O" or vk == "M")
-            if v then return tostring(round(abs(v))), nextp end
+            local mode = (vk == "s" or vk == "o") and "range" or (vk == "m" and "lo" or "hi")
+            local txt = effectRange(ctx, rec2, tonumber(vn), mode)
+            if txt then return txt, nextp end
             return s:sub(i, nextp - 1), nextp, true
         end
     end
@@ -165,8 +179,9 @@ local function token(s, i, rec, ctx, getRec)
     -- self value: $sN / $SN / $oN / $mN / $MN
     local sk, sn = r:match("^%$([sSoOmM])(%d)")
     if sk then
-        local v = effectValue(ctx, rec, tonumber(sn), sk == "S" or sk == "M")
-        if v then return tostring(round(abs(v))), i + 3 end
+        local mode = (sk == "s" or sk == "o") and "range" or (sk == "m" and "lo" or "hi")
+        local txt = effectRange(ctx, rec, tonumber(sn), mode)
+        if txt then return txt, i + 3 end
         return s:sub(i, i + 2), i + 3, true
     end
 
