@@ -9,6 +9,13 @@
 
 local Data = rawget(_G, "ZepTooltipData") or {}
 
+-- SpellModOp -> readable label, for the debug modifier breakdown.
+local OP_LABEL = {
+    [0] = "damage", [1] = "duration", [3] = "effect", [7] = "crit", [8] = "all effects",
+    [10] = "cast time", [11] = "cooldown", [12] = "effect", [14] = "cost", [15] = "crit dmg",
+    [22] = "DoT", [23] = "effect",
+}
+
 ZepTooltipsDB = ZepTooltipsDB or {}
 local function cfg()
     if ZepTooltipsDB.color == nil then ZepTooltipsDB.color = { 0.40, 0.80, 1.00 } end
@@ -200,6 +207,16 @@ local function renderTooltip(tooltip, spellId)
         addLine(string.format("Zep #%d: %s [%s], %d mods", spellId,
             rec.cd and "casterDependent" or "self-only",
             table.concat(rec.reasons or {}, ","), rec.nmods or (rec.mods and #rec.mods) or 0))
+        -- per-mod breakdown: each active talent/glyph/aura, its op, magnitude, and the
+        -- amount it adds to the primary value
+        if ZepCompute.activeMods then
+            for _, m in ipairs(ZepCompute.activeMods(rec, ctx)) do
+                local nm = (GetSpellInfo and GetSpellInfo(m.src)) or ("#" .. m.src)
+                local mag = (m.kind == "pct") and string.format("%+d%%", m.value) or string.format("%+d", m.value)
+                local d = (m.delta and math.abs(m.delta) >= 0.5) and string.format(" = %+d", math.floor(m.delta + 0.5)) or ""
+                addLine(string.format("  %s %s <- %s%s", mag, OP_LABEL[m.op] or ("op" .. m.op), nm, d))
+            end
+        end
     end
 
     if shown then tooltip:Show() end

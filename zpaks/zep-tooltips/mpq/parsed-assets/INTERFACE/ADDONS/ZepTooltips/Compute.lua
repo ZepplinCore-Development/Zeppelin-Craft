@@ -35,6 +35,7 @@ local PERIODIC_AURA = { [3] = true, [8] = true }        -- periodic damage / hea
 -- scales Rocksurge per stack. Returns 0 when the mod's source isn't present.
 -- (`via` is a hint; we check both knows and aura.)
 local function modStacks(ctx, m)
+    if ctx.excl == m.src then return 0 end   -- excluded source (for the debug per-mod delta)
     if ctx.knows(m.src) then return 1 end
     return ctx.hasAura(m.src) or 0
 end
@@ -171,6 +172,29 @@ function ZepCompute.scalingSources(rec, getRec)
         for id in rec.desc:gmatch("%$(%d+)[sSoOmM]%d") do collect(getRec(tonumber(id))) end
     end
     return order
+end
+
+-- Active modifiers on a spell (debug breakdown): each spellmod the player actually has
+-- (talent/glyph/aura), with its op, applied magnitude (* stacks), and the DELTA it adds to
+-- the primary effect (re-run effectValues with that source excluded). delta is nil for mods
+-- that don't touch the primary value (crit/cost/cooldown).
+function ZepCompute.activeMods(rec, ctx)
+    local out = {}
+    local pe = ZepCompute.primaryEffect(rec)
+    local full = pe and ZepCompute.effectValues(rec, ctx)[pe.i] or nil
+    for _, m in ipairs(rec.mods or {}) do
+        local stacks = modStacks(ctx, m)
+        if stacks > 0 then
+            local delta
+            if full then
+                local ctx2 = setmetatable({ excl = m.src }, { __index = ctx })
+                local without = ZepCompute.effectValues(rec, ctx2)[pe.i]
+                if without then delta = full.lo - without.lo end
+            end
+            out[#out + 1] = { src = m.src, op = m.op, kind = m.k, value = modValue(m) * stacks, delta = delta }
+        end
+    end
+    return out
 end
 
 -- Weapon-damage spells (effects 17/31/58/121): use the player's weapon, not base points.
