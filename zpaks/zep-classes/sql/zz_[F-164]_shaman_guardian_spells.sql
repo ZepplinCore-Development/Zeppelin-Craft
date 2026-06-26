@@ -8,9 +8,9 @@
 -- ============================================================================
 -- 900224 kept in this DELETE to purge the orphaned old binding (spell_sha_stoneguard_totem,
 -- the retired custom totem); it is intentionally NOT re-inserted below.
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900167, 900168, 900169, 900171, 900172, 900224, 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582, 900226);  -- Rocksteady IDs (900119/900120/900180/900181/900182/900223/900256-900260/900261/900263) -> zz_[F-164R]_rocksteady_world.sql
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900170, 900167, 900168, 900169, 900171, 900172, 900224, 5730, 6390, 6391, 6392, 10427, 10428, 25525, 58580, 58581, 58582, 900226);  -- Rocksteady IDs (900119/900120/900180/900181/900182/900223/900256-900260/900261/900263) -> zz_[F-164R]_rocksteady_world.sql
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
-(900173, 'spell_sha_thunderborne_leap'),
+-- (Thunderborne Leap 900173 spell_sha_thunderborne_leap binding moved to zz_[F-164T]_thunderborne_leap.sql)
 (900170, 'spell_sha_living_guardian_aura'),
 -- Living Guardian heal-only filtering is data-driven (spell_proc SpellTypeMask=2 +
 -- SpellPhaseMask=2 on all 5 ranks); no proc-filter script needed.
@@ -38,10 +38,10 @@ INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 -- ============================================================================
 -- spell_bonus_data
 -- ============================================================================
-DELETE FROM `spell_bonus_data` WHERE `entry` IN (900114, 900117, 900118, 900174, 900262);  -- 900116/900122 (Volcanic Shield) -> zz_[F-164D]_; 900119/900263 (Rockslam/Rocksurge) -> zz_[F-164R]_rocksteady_world.sql
+DELETE FROM `spell_bonus_data` WHERE `entry` IN (900114, 900117, 900118, 900262);  -- 900116/900122 (Volcanic Shield) -> zz_[F-164D]_; 900119/900263 (Rockslam/Rocksurge) -> zz_[F-164R]_rocksteady_world.sql
 
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
-(900114, 0, 0, 0.10, 0, 'Earthen Reprisal - 10% AP as bonus physical damage'),
+(900114, 0, 0, 0.10, 0, 'Earthen Reprisal - 10% AP as bonus physical damage');
 -- Rockslam (900119) intentionally has NO spell_bonus_data row: AP scaling removed (double-dipped with shield block value). Block value is added natively (F-188 effect_misc_value_b_1). Kept in the DELETE above so any stale row is cleared. Do NOT re-add a row with ap_bonus=0 and direct_bonus=0 unless effect_bonus_multiplier_1 is also 0, or coeff falls back to BonusMultiplier (SP scaling).
 -- Crag Strike (900262): AP scaling migrated to F-188 native (effect_misc_value_a_1=3 ZEP_STAT_ATTACK_POWER, b_1=15 -> 15% AP), so the addon/calculator reads it from the DBC. No spell_bonus_data row; effect_bonus_multiplier_1=0 so the coeff can't fall back to SP. Kept in the DELETE above.
 -- (Rocksurge 900263 spell_bonus_data moved to zz_[F-164R]_rocksteady_world.sql)
@@ -50,7 +50,7 @@ INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`
 -- row; effect_bonus_multiplier_1=0 so the coeff can't fall back to SP. Kept in the DELETE above.
 -- [F-164A] Tectonic Blast (900121) spell_bonus_data + Totemic Impact snare (900166) cleanup
 -- moved to zz_[F-164A]_tectonic_blast.sql.
-(900174, 0, 0, 0.20, 0, 'Thunderborne Leap (triggered) - 20% AP as AOE nature damage on landing');
+-- (Thunderborne Leap impact 900174 spell_bonus_data moved to zz_[F-164T]_thunderborne_leap.sql)
 -- NOTE: Living Guardian (900170) SP scaling requires a C++ SpellScript
 -- (DoEffectCalcAmount handler), same as PW:S. spell_bonus_data has no effect
 -- on SPELL_AURA_SCHOOL_ABSORB auras. Base + ppl scaling works without script.
