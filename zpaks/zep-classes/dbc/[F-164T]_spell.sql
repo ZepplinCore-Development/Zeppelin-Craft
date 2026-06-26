@@ -99,7 +99,7 @@ INSERT INTO `spell` SET
     `effect_radius_index_1` = 14,
     `effect_radius_index_2` = 14,
     `effect_apply_aura_name_1` = 12,
-    `spell_visual_1` = 145,
+    `spell_visual_1` = 90041,
     `spell_icon_id` = 5364,
     `active_icon_id` = 5364,
     `spell_priority` = 50,
