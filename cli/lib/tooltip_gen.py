@@ -295,6 +295,9 @@ def classify(spell_id: int, spells: Dict[int, Dict],
     # ($<id>sN) within our own spells resolve (e.g. VS buff -> eruption / Improved-VS ranks).
     is_custom = spell_id >= 900000
     effects = spell_effects(row)
+    # spells whose desc points at ANOTHER spell ($<id>sN/$<id>aN, e.g. Fire Nova -> $8349s1)
+    # are recomputable even with no scaling of their own, so they need their desc emitted too.
+    has_xref = bool(re.search(r"\$\d+[sSoOmMa]", row.get("spell_desc_enus") or ""))
     # F-027/F-168 consumables: a casterDependent (Mixology/cooking spellmod) spell with a
     # restore effect. We render the restored amount; the % bonuses are ordinary spellmods the
     # engine already applies. Value effect = the largest-base effect (a drink's real value is
@@ -318,7 +321,7 @@ def classify(spell_id: int, spells: Dict[int, Dict],
             consumable["eff"] = int(tok.group(1)) if tok else max(effects, key=lambda e: e["base"])["i"]
             if consumable["ps"]:
                 consumable["dur"] = int(row.get("_dur") or 0)  # seconds, for the total restore
-    renderable = bool(sp_ap or weapon or stat_entries or custom_var) or is_custom or bool(consumable)
+    renderable = bool(sp_ap or weapon or stat_entries or custom_var) or is_custom or bool(consumable) or has_xref
 
     return {
         "id": spell_id,
