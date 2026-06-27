@@ -695,16 +695,17 @@ def build_talent_browser(ctx, target, database, overwrite_icons):
 def _load_world_scaling():
     """Load SP/AP coefficients + F-189 stat scaling from acore_world.
 
-    Returns (spell_bonus, stat_scaling):
+    Returns (spell_bonus, stat_scaling, base_mana):
       spell_bonus  : {entry: {direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus}}
       stat_scaling : {spell_id: [{eff_index, stat_id, coeff}, ...]} — empty if the
                      F-189 `spell_stat_scaling` table does not exist yet.
+      base_mana    : {classId: {level: basemana}} — for %-mana cost (player_class_stats).
     """
     from commands import sql as sqlmod
     try:
         import mysql.connector
     except ImportError:
-        return {}, {}
+        return {}, {}, {}
 
     conn = mysql.connector.connect(
         host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
@@ -722,9 +723,14 @@ def _load_world_scaling():
             stat_scaling.setdefault(int(r["spell_id"]), []).append(r)
     except mysql.connector.Error:
         pass  # F-189 spell_stat_scaling not created yet — fold in once it lands.
+
+    base_mana = {}
+    cur.execute("SELECT Class, Level, BaseMana FROM player_class_stats")
+    for r in cur.fetchall():
+        base_mana.setdefault(int(r["Class"]), {})[int(r["Level"])] = int(r["BaseMana"])
     cur.close()
     conn.close()
-    return spell_bonus, stat_scaling
+    return spell_bonus, stat_scaling, base_mana
 
 
 @build.command('tooltip-data')
@@ -764,6 +770,11 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
         durs = {int(r["id"]): int(r["max_duration"] or 0) for r in cursor.fetchall()}
         cursor.execute("SELECT `id`, `radius` FROM `spellradius`")
         rads = {int(r["id"]): float(r["radius"] or 0) for r in cursor.fetchall()}
+        # talent rank -> spell map: lets the addon detect learned talent ranks via the talent
+        # API even when the rank spell is a hidden passive (attr 0x80) IsSpellKnown can't see.
+        rank_cols = "`, `".join("rank_%d" % i for i in range(1, 10))
+        cursor.execute(f"SELECT `id`, `{rank_cols}` FROM `talent`")
+        talent_rows = cursor.fetchall()
         cursor.close()
     # resolve $d duration (sec) and $aN radius (yards) per spell for desc templates
     for r in spells.values():
@@ -776,7 +787,7 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
     click.echo(f"Indexed {len(mod_index)} spellmod effects.")
 
     # --- Phase 1b: SP/AP coefficients + F-189 stat scaling (acore_world) ---
-    spell_bonus, stat_scaling = _load_world_scaling()
+    spell_bonus, stat_scaling, base_mana = _load_world_scaling()
     click.echo(f"Loaded {len(spell_bonus)} spell_bonus_data rows; "
                f"{len(stat_scaling)} spell_stat_scaling spell(s).\n")
 
@@ -829,7 +840,8 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
         # dropped — the addon no-ops on a missing key anyway, so this is lossless.
         emit = [r for r in records
                 if r["casterDependent"] or r.get("renderable")]
-        lua = tg.emit_lua(emit)
+        lua = (tg.emit_lua(emit) + "\n" + tg.emit_talent_ranks(emit, talent_rows)
+               + "\n" + tg.emit_base_mana(base_mana))
         if out_path:
             Path(out_path).write_text(lua, encoding='utf-8')
             click.echo(click.style(

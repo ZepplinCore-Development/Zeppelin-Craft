@@ -237,10 +237,13 @@ local function applyOp(rec, ctx, op, base)
 end
 
 -- Mana cost (flat + % of base mana) after SPELLMOD_COST (op 14). Returns (value, modified).
+-- The server TRUNCATES (CalculatePct floors the %-of-base-mana part to an int before talent
+-- cost mods, and the final cost is an int) — so we floor to match, not round, else we over-
+-- report by 1 on a fractional cost (e.g. 221.6 -> client 221, naive round 222).
 function ZepCompute.cost(rec, ctx)
     if not rec or not rec.cost then return 0, false end
-    local base = (rec.cost.f or 0) + (rec.cost.p or 0) / 100 * (ctx.baseMana or 0)
-    local v = math.max(0, applyOp(rec, ctx, 14, base))
+    local base = (rec.cost.f or 0) + math.floor((rec.cost.p or 0) / 100 * (ctx.baseMana or 0))
+    local v = math.floor(math.max(0, applyOp(rec, ctx, 14, base)))
     return v, math.abs(v - base) >= 1
 end
 

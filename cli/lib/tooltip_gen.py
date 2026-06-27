@@ -436,6 +436,45 @@ def emit_lua(records: List[Dict]) -> str:
     return "\n".join(lines)
 
 
+def emit_talent_ranks(records: List[Dict], talent_rows: List[Dict]) -> str:
+    """ZepTalentRanks[talentId] = {rank1_spell, rank2_spell, ...}.
+
+    A hidden passive talent (attr 0x80 DO_NOT_DISPLAY, e.g. Bulwark cloned from Critical
+    Block) is NOT returned by IsSpellKnown — the same blind spot the engine already works
+    around for glyphs. The addon resolves the player's learned talent ranks via the talent
+    API (GetTalentInfo rank + GetTalentLink talentId) and maps each to its rank spell id
+    through this table, so a talent that modifies a spell is detected regardless of its
+    attributes (e.g. Bulwark -> Rockslam crit).
+
+    Scoped to talents whose rank spell actually modifies a tracked spell, to stay lean."""
+    referenced = {m["src"] for r in records for m in r.get("mods", [])}
+    lines = ["", "ZepTalentRanks = {"]
+    for t in sorted(talent_rows, key=lambda x: int(x["id"])):
+        ranks = []
+        for i in range(1, 10):                       # rank_1 .. rank_9, contiguous
+            s = int(t.get("rank_%d" % i) or 0)
+            if s == 0:
+                break
+            ranks.append(s)
+        if any(s in referenced for s in ranks):
+            lines.append("  [%d] = {%s}," % (int(t["id"]), ",".join(str(s) for s in ranks)))
+    lines += ["}", ""]
+    return "\n".join(lines)
+
+
+def emit_base_mana(base_mana: Dict[int, Dict[int, int]]) -> str:
+    """ZepBaseMana[classId][level] = base mana (the class/level constant from
+    player_class_stats). A spell's %-mana cost is a percentage of THIS, not the player's max
+    mana (which Intellect/gear inflate) — so the addon looks it up by the player's class+level
+    instead of UnitPowerMax, matching the client's cost display."""
+    lines = ["", "ZepBaseMana = {"]
+    for cls in sorted(base_mana):
+        inner = ",".join("[%d]=%d" % (lvl, base_mana[cls][lvl]) for lvl in sorted(base_mana[cls]))
+        lines.append("  [%d] = {%s}," % (cls, inner))
+    lines += ["}", ""]
+    return "\n".join(lines)
+
+
 def emit_desc(records: List[Dict]) -> str:
     """Bulky desc/tooltip templates, lazy-loaded as the ZepTooltipsDesc sub-addon and merged
     into ZepTooltipData on load (keeps the startup Generated.lua small)."""

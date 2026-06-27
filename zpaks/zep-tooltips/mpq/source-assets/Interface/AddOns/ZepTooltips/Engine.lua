@@ -31,6 +31,12 @@ local OP_LABEL = {
     [22] = "DoT", [23] = "effect",
 }
 
+-- Class token (UnitClass 2nd return) -> class id used by player_class_stats / ZepBaseMana.
+local CLASS_ID = {
+    WARRIOR = 1, PALADIN = 2, HUNTER = 3, ROGUE = 4, PRIEST = 5, DEATHKNIGHT = 6,
+    SHAMAN = 7, MAGE = 8, WARLOCK = 9, DRUID = 11,
+}
+
 ZepTooltipsDB = ZepTooltipsDB or {}
 local function cfg()
     if ZepTooltipsDB.color == nil then ZepTooltipsDB.color = { 0.40, 0.80, 1.00 } end
@@ -90,19 +96,54 @@ local function activeGlyphs()
     return g
 end
 
+-- Learned talent rank spells. A hidden passive talent (attr 0x80 DO_NOT_DISPLAY, e.g. Bulwark
+-- cloned from Critical Block) is, like a glyph, neither "known" (IsSpellKnown) nor a visible
+-- aura — so a talent that boosts a spell (Bulwark -> Rockslam crit) would silently not apply.
+-- Resolve it from the talent API instead: for each talent with rank > 0, map its CURRENT rank
+-- to the rank spell id via ZepTalentRanks (generated from Talent.dbc). GetTalentInfo gives the
+-- rank; GetTalentLink gives the Talent.dbc id (the rank-spell ids aren't exposed directly).
+local function activeTalents()
+    local t = {}
+    local ranks = rawget(_G, "ZepTalentRanks")
+    if not ranks or not GetNumTalentTabs then return t end
+    for tab = 1, (GetNumTalentTabs() or 0) do
+        for i = 1, (GetNumTalents and GetNumTalents(tab) or 0) do
+            local rank = select(5, GetTalentInfo(tab, i))   -- current rank (0 if untalented)
+            if rank and rank > 0 then
+                local link = GetTalentLink and GetTalentLink(tab, i)
+                local tid = link and tonumber(link:match("talent:(%d+)"))
+                local list = tid and ranks[tid]
+                if list and list[rank] then t[list[rank]] = true end
+            end
+        end
+    end
+    return t
+end
+
 local function buildCtx()
     local b, p, n = UnitAttackPower("player")
     local lo, hi = UnitDamage("player")
     local glyphs = activeGlyphs()
+    local talents = activeTalents()
+    -- A spell's %-mana cost is a percentage of BASE mana (a class/level constant), NOT the
+    -- player's max mana (which Intellect/gear inflate). Look it up by class+level from the
+    -- generated ZepBaseMana table so cost lines match the client; fall back to max mana.
+    local lvl = UnitLevel("player")
+    -- 3.3.5a UnitClass returns only (localizedName, TOKEN) — the numeric classId 3rd return is
+    -- Cata+, so resolve the id from the token (matches player_class_stats / ZepBaseMana keys).
+    local classId = CLASS_ID[select(2, UnitClass("player")) or ""]
+    local bm = rawget(_G, "ZepBaseMana")
+    local baseMana = (bm and classId and bm[classId] and bm[classId][lvl])
+                     or UnitPowerMax("player", 0) or 0
     return {
-        level = UnitLevel("player"),
+        level = lvl,
         sp = GetSpellBonusDamage and GetSpellBonusDamage(2) or 0,
         ap = (b or 0) + (p or 0) + (n or 0),
         weaponAvg = (lo and hi) and (lo + hi) * 0.5 or 0,
-        knows = function(id) return (IsSpellKnown and IsSpellKnown(id)) or glyphs[id] or false end,
+        knows = function(id) return (IsSpellKnown and IsSpellKnown(id)) or glyphs[id] or talents[id] or false end,
         hasAura = function(id) return auraStacks("player", id) end,
         stat = function(sid) local r = StatReader[sid]; return r and r() or 0 end,
-        baseMana = UnitPowerMax("player", 0) or 0,   -- approx (max mana ~ base for display)
+        baseMana = baseMana,
         spellCrit = GetSpellCritChance and GetSpellCritChance(2) or 0,  -- representative school
         meleeCrit = GetCritChance and GetCritChance() or 0,
         rangedCrit = GetRangedCritChance and GetRangedCritChance() or 0,
