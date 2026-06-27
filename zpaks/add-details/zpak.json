@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "add-details",
+  "version": "1.0.0",
+  "description": "Details! Damage Meter addon suite for 3.3.5a (server-shipped, crash-hardened)",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-A",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "launcher": {
+    "patch_name": "Addons",
+    "mandatory": true,
+    "enabled_by_default": true,
+    "auto_update": false,
+    "requires": []
+  },
+  "enabled": true,
+  "priority": 110
+}
