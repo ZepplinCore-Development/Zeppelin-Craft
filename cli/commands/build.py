@@ -733,6 +733,38 @@ def _load_world_scaling():
     return spell_bonus, stat_scaling, base_mana
 
 
+def _load_equip_sources(spell_ids):
+    """{modSpell: [item entry, ...]} for spells granted by an ON-EQUIP item aura
+    (relics/librams/idols/totems, equip auras). The addon detects such a hidden equip passive
+    by the equipped item, since it's neither IsSpellKnown nor a visible UnitAura (I-218)."""
+    want = set(int(s) for s in spell_ids)
+    if not want:
+        return {}
+    from commands import sql as sqlmod
+    try:
+        import mysql.connector
+    except ImportError:
+        return {}
+    conn = mysql.connector.connect(
+        host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
+        user=sqlmod.DB_USER, password=sqlmod.DB_PASS, database=sqlmod.DB_NAME,
+    )
+    cur = conn.cursor(dictionary=True)
+    cols = ", ".join("spellid_%d, spelltrigger_%d" % (i, i) for i in range(1, 6))
+    where = " OR ".join("spellid_%d > 0" % i for i in range(1, 6))
+    cur.execute(f"SELECT entry, {cols} FROM item_template WHERE {where}")
+    out = {}
+    for r in cur.fetchall():
+        for i in range(1, 6):
+            sid = int(r["spellid_%d" % i] or 0)
+            trig = int(r["spelltrigger_%d" % i] or 0)
+            if sid in want and trig == 1:          # 1 = ON_EQUIP
+                out.setdefault(sid, set()).add(int(r["entry"]))
+    cur.close()
+    conn.close()
+    return {s: sorted(v) for s, v in out.items()}
+
+
 @build.command('tooltip-data')
 @click.option('--spell', '-s', 'spell_ids', multiple=True, type=int,
               help='Report classification for specific spell ID(s). Repeatable.')
@@ -789,7 +821,17 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
     # --- Phase 1b: SP/AP coefficients + F-189 stat scaling (acore_world) ---
     spell_bonus, stat_scaling, base_mana = _load_world_scaling()
     click.echo(f"Loaded {len(spell_bonus)} spell_bonus_data rows; "
-               f"{len(stat_scaling)} spell_stat_scaling spell(s).\n")
+               f"{len(stat_scaling)} spell_stat_scaling spell(s).")
+
+    # I-218: a passive modifier granted by an ON-EQUIP item (relic/libram/idol/totem) is
+    # classified via="known" by the PASSIVE heuristic but isn't IsSpellKnown-able (gear, not a
+    # learned spell) and is hidden from UnitAura. Map mod sources to their granting items so the
+    # addon can detect them by equipped gear, and reclassify those modifiers via="equip".
+    equip_map = _load_equip_sources({m.src_id for m in mod_index})
+    for m in mod_index:
+        if m.src_id in equip_map:
+            m.via = "equip"
+    click.echo(f"Mapped {len(equip_map)} equip-granted modifier source(s).\n")
 
     def _classify(sid):
         return tg.classify(sid, spells, mod_index, spell_bonus, stat_scaling)
@@ -841,7 +883,8 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
         emit = [r for r in records
                 if r["casterDependent"] or r.get("renderable")]
         lua = (tg.emit_lua(emit) + "\n" + tg.emit_talent_ranks(emit, talent_rows)
-               + "\n" + tg.emit_base_mana(base_mana))
+               + "\n" + tg.emit_base_mana(base_mana)
+               + "\n" + tg.emit_equip_sources(emit, equip_map))
         if out_path:
             Path(out_path).write_text(lua, encoding='utf-8')
             click.echo(click.style(

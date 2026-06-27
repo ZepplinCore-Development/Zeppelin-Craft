@@ -120,11 +120,33 @@ local function activeTalents()
     return t
 end
 
+-- Equip-driven passives (relics/librams/idols/totems, equip auras): the modifier applies a
+-- hidden aura WHILE THE ITEM IS EQUIPPED — neither "known" (IsSpellKnown) nor a visible aura
+-- (UnitAura skips the hidden passive), same blind spot as glyphs/hidden talents. Detect by
+-- scanning equipped gear against ZepEquipSources (modSpell -> granting item entries). I-218.
+local function equippedSources()
+    local active = {}
+    local src = rawget(_G, "ZepEquipSources")
+    if not src or not GetInventoryItemID then return active end
+    local worn = {}
+    for slot = 1, 19 do                         -- 18 = relic/ranged; scan all gear to stay general
+        local id = GetInventoryItemID("player", slot)
+        if id then worn[id] = true end
+    end
+    for spell, items in pairs(src) do
+        for _, item in ipairs(items) do
+            if worn[item] then active[spell] = true; break end
+        end
+    end
+    return active
+end
+
 local function buildCtx()
     local b, p, n = UnitAttackPower("player")
     local lo, hi = UnitDamage("player")
     local glyphs = activeGlyphs()
     local talents = activeTalents()
+    local equipped = equippedSources()
     -- A spell's %-mana cost is a percentage of BASE mana (a class/level constant), NOT the
     -- player's max mana (which Intellect/gear inflate). Look it up by class+level from the
     -- generated ZepBaseMana table so cost lines match the client; fall back to max mana.
@@ -140,7 +162,7 @@ local function buildCtx()
         sp = GetSpellBonusDamage and GetSpellBonusDamage(2) or 0,
         ap = (b or 0) + (p or 0) + (n or 0),
         weaponAvg = (lo and hi) and (lo + hi) * 0.5 or 0,
-        knows = function(id) return (IsSpellKnown and IsSpellKnown(id)) or glyphs[id] or talents[id] or false end,
+        knows = function(id) return (IsSpellKnown and IsSpellKnown(id)) or glyphs[id] or talents[id] or equipped[id] or false end,
         hasAura = function(id) return auraStacks("player", id) end,
         stat = function(sid) local r = StatReader[sid]; return r and r() or 0 end,
         baseMana = baseMana,

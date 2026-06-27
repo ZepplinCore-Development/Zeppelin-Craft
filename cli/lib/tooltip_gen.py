@@ -475,6 +475,21 @@ def emit_base_mana(base_mana: Dict[int, Dict[int, int]]) -> str:
     return "\n".join(lines)
 
 
+def emit_equip_sources(records: List[Dict], equip_map: Dict[int, List[int]]) -> str:
+    """ZepEquipSources[modSpell] = {itemEntry,...} — items whose ON-EQUIP aura grants this
+    modifier (relics/librams/idols/totems, equip auras). Such a passive is hidden from both
+    IsSpellKnown and UnitAura, so the addon marks it active when one of these items is equipped.
+    Scoped to sources actually referenced as mods. (I-218: no item_set table exists on this
+    server, so every equip source is a single-item relic — threshold is implicitly 1.)"""
+    referenced = {m["src"] for r in records for m in r.get("mods", [])}
+    lines = ["", "ZepEquipSources = {"]
+    for spell in sorted(equip_map):
+        if spell in referenced and equip_map[spell]:
+            lines.append("  [%d] = {%s}," % (spell, ",".join(str(e) for e in equip_map[spell])))
+    lines += ["}", ""]
+    return "\n".join(lines)
+
+
 def emit_desc(records: List[Dict]) -> str:
     """Bulky desc/tooltip templates, lazy-loaded as the ZepTooltipsDesc sub-addon and merged
     into ZepTooltipData on load (keeps the startup Generated.lua small)."""
