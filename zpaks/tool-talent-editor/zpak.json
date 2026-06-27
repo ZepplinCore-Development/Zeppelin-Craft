@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "tool-talent-editor",
+  "version": "0.1.0",
+  "description": "Foereaper/TalentEditor - forge-tracked source + Zeppelin schema/icon patches (F-045)",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "talent-editor",
+    "source": "https://github.com/Foereaper/TalentEditor.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/TalentEditor",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100,
+  "feature_id": "F-045"
+}

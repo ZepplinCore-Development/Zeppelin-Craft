@@ -1,0 +1,446 @@
+From 8767252b14718939d348553b15de8b44723bf60b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Feb 2026 13:25:47 +0000
+Subject: [PATCH 1/2] feat: Adapt queries for Spell Editor compatible schema
+ (F-045)
+
+Updated SQL queries to match the camelCase column naming convention
+used by WoW Spell Editor:
+- TalentTab: Name1, iconId, classMask, orderIndex, etc.
+- Talent: talentTabId, tierId, spellRank1-9, prereqTalent1-3, etc.
+- Spell: SpellName0, SpellIconID, SpellDescription0
+- ChrClasses: Id, Name1, PetNameToken
+
+Also fixed lowercase table name in insertTalent max ID query.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/db_queries.go    | 86 ++++++++++++++++++++++++++------------------
+ src/talent_editor.go |  2 +-
+ 2 files changed, 52 insertions(+), 36 deletions(-)
+
+diff --git a/src/db_queries.go b/src/db_queries.go
+index 341d26e..4a06f82 100644
+--- a/src/db_queries.go
++++ b/src/db_queries.go
+@@ -14,10 +14,10 @@ import (
+ // TalentTab queries
+ func GetAllTalentTabs(ctx *AppContext) (map[int]TalentTab, error) {
+     query := `
+-        SELECT id, name_enus, spell_icon, class_mask, order_index, background_file, creature_family
+-        FROM TalentTab
++        SELECT id, Name1, iconId, classMask, orderIndex, backgroundFileName, creatureFamilyCategory
++        FROM talenttab
+         ORDER BY id`
+-    
++
+     rows, err := queryWithDebug(ctx.DB, query)
+     if err != nil {
+         return nil, err
+@@ -70,7 +70,7 @@ func GetSpellsByIDs(ctx *AppContext, ids []int) (map[int]Spell, error) {
+         }
+     }
+ 
+-    // If nothing missing, we’re done
++    // If nothing missing, we're done
+     if len(missing) == 0 {
+         return result, nil
+     }
+@@ -84,9 +84,9 @@ func GetSpellsByIDs(ctx *AppContext, ids []int) (map[int]Spell, error) {
+     }
+ 
+     query := fmt.Sprintf(`
+-        SELECT id, spell_name_enus, spell_icon_id, spell_desc_enus
+-        FROM Spell
+-        WHERE id IN (%s)`, strings.Join(placeholders, ","))
++        SELECT ID, SpellName0, SpellIconID, SpellDescription0
++        FROM spell
++        WHERE ID IN (%s)`, strings.Join(placeholders, ","))
+ 
+     rows, err := queryWithDebug(ctx.DB, query, args...)
+     if err != nil {
+@@ -96,9 +96,16 @@ func GetSpellsByIDs(ctx *AppContext, ids []int) (map[int]Spell, error) {
+ 
+     for rows.Next() {
+         var s Spell
+-        if err := rows.Scan(&s.ID, &s.NameENUS, &s.IconID, &s.Desc); err != nil {
++        var name, desc sql.NullString
++        if err := rows.Scan(&s.ID, &name, &s.IconID, &desc); err != nil {
+             return nil, err
+         }
++        if name.Valid {
++            s.NameENUS = name.String
++        }
++        if desc.Valid {
++            s.Desc = desc.String
++        }
+ 
+         // Update cache and result
+         ctx.Spells[s.ID] = s
+@@ -111,13 +118,13 @@ func GetSpellsByIDs(ctx *AppContext, ids []int) (map[int]Spell, error) {
+ // Talent queries
+ func GetTalentsForSpec(ctx *AppContext, specID int) ([]Talent, []int, error) {
+     query := `
+-        SELECT id, spec_id, tier_id, column_index,
+-               rank_1, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9,
+-               pre_req_talent_1, pre_req_talent_2, pre_req_talent_3,
+-               pre_req_rank_1, pre_req_rank_2, pre_req_rank_3,
+-               flags, req_spell_id, allow_for_pet_flags_1, allow_for_pet_flags_2
+-        FROM Talent
+-        WHERE spec_id = ?`
++        SELECT id, talentTabId, tierId, columnIndex,
++               spellRank1, spellRank2, spellRank3, spellRank4, spellRank5, spellRank6, spellRank7, spellRank8, spellRank9,
++               prereqTalent1, prereqTalent2, prereqTalent3,
++               prereqRank1, prereqRank2, prereqRank3,
++               flags, requiredSpellId, allowForPetFlags1, allowForPetFlags2
++        FROM talent
++        WHERE talentTabId = ?`
+ 
+     rows, err := queryWithDebug(ctx.DB, query, specID)
+     if err != nil {
+@@ -168,19 +175,19 @@ func GetAllSpellIcons(ctx *AppContext) (map[int]string, error) {
+         return ctx.SpellIcons, nil
+     }
+ 
+-    rows, err := queryWithDebug(ctx.DB, "SELECT id, name FROM SpellIcon")
++    rows, err := queryWithDebug(ctx.DB, "SELECT ID, Name FROM spellicon")
+     if err != nil {
+         return nil, err
+     }
+     defer rows.Close()
+-    
++
+     trimPrefixCaseInsensitive := func(s, prefix string) string {
+         if len(s) >= len(prefix) && strings.EqualFold(s[:len(prefix)], prefix) {
+             return s[len(prefix):]
+         }
+         return s
+     }
+-    
++
+     icons := make(map[int]string)
+     for rows.Next() {
+         var id int
+@@ -192,14 +199,14 @@ func GetAllSpellIcons(ctx *AppContext) (map[int]string, error) {
+             icons[id] = trimPrefixCaseInsensitive(name.String, `Interface\Icons\`)
+         }
+     }
+-    
++
+     ctx.SpellIcons = icons
+     return icons, nil
+ }
+ 
+ // Classes queries
+ func GetAllClasses(ctx *AppContext) (map[int]ChrClass, error) {
+-    rows, err := queryWithDebug(ctx.DB, "SELECT id, name_enus, pet_name_token FROM ChrClasses")
++    rows, err := queryWithDebug(ctx.DB, "SELECT Id, Name1, PetNameToken FROM chrclasses")
+     if err != nil {
+         return nil, err
+     }
+@@ -208,9 +215,18 @@ func GetAllClasses(ctx *AppContext) (map[int]ChrClass, error) {
+     classes := make(map[int]ChrClass)
+     for rows.Next() {
+         var c ChrClass
+-        if err := rows.Scan(&c.ID, &c.NameENUS, &c.PetName); err != nil {
++        var name sql.NullString
++        var petToken sql.NullInt64
++        if err := rows.Scan(&c.ID, &name, &petToken); err != nil {
+             return nil, err
+         }
++        if name.Valid {
++            c.NameENUS = name.String
++        }
++        // PetNameToken is an int in this schema, convert to string
++        if petToken.Valid {
++            c.PetName = fmt.Sprintf("%d", petToken.Int64)
++        }
+         classes[c.ID] = c
+     }
+ 
+@@ -225,12 +241,12 @@ func GetAllClasses(ctx *AppContext) (map[int]ChrClass, error) {
+ 
+ // Insert/Update/Delete Talent
+ func InsertTalentQuery(t *Talent) (string, []interface{}) {
+-    query := `INSERT INTO Talent (
+-        id, spec_id, tier_id, column_index,
+-        rank_1, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9,
+-        pre_req_talent_1, pre_req_talent_2, pre_req_talent_3,
+-        pre_req_rank_1, pre_req_rank_2, pre_req_rank_3,
+-        flags, req_spell_id, allow_for_pet_flags_1, allow_for_pet_flags_2
++    query := `INSERT INTO talent (
++        id, talentTabId, tierId, columnIndex,
++        spellRank1, spellRank2, spellRank3, spellRank4, spellRank5, spellRank6, spellRank7, spellRank8, spellRank9,
++        prereqTalent1, prereqTalent2, prereqTalent3,
++        prereqRank1, prereqRank2, prereqRank3,
++        flags, requiredSpellId, allowForPetFlags1, allowForPetFlags2
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+     args := []interface{}{
+         t.ID,
+@@ -247,12 +263,12 @@ func InsertTalentQuery(t *Talent) (string, []interface{}) {
+ }
+ 
+ func UpdateTalentQuery(t *Talent) (string, []interface{}) {
+-    query := `UPDATE Talent SET
+-        spec_id=?, tier_id=?, column_index=?,
+-        rank_1=?, rank_2=?, rank_3=?, rank_4=?, rank_5=?, rank_6=?, rank_7=?, rank_8=?, rank_9=?,
+-        pre_req_talent_1=?, pre_req_talent_2=?, pre_req_talent_3=?,
+-        pre_req_rank_1=?, pre_req_rank_2=?, pre_req_rank_3=?,
+-        flags=?, req_spell_id=?, allow_for_pet_flags_1=?, allow_for_pet_flags_2=?
++    query := `UPDATE talent SET
++        talentTabId=?, tierId=?, columnIndex=?,
++        spellRank1=?, spellRank2=?, spellRank3=?, spellRank4=?, spellRank5=?, spellRank6=?, spellRank7=?, spellRank8=?, spellRank9=?,
++        prereqTalent1=?, prereqTalent2=?, prereqTalent3=?,
++        prereqRank1=?, prereqRank2=?, prereqRank3=?,
++        flags=?, requiredSpellId=?, allowForPetFlags1=?, allowForPetFlags2=?
+         WHERE id=?`
+     args := []interface{}{
+         nullInt64ToInterface(t.SpecID), nullInt64ToInterface(t.TierID), nullInt64ToInterface(t.ColumnIndex),
+@@ -269,7 +285,7 @@ func UpdateTalentQuery(t *Talent) (string, []interface{}) {
+ }
+ 
+ func DeleteTalentQuery(id int) (string, []interface{}) {
+-    return "DELETE FROM Talent WHERE id = ?", []interface{}{id}
++    return "DELETE FROM talent WHERE id = ?", []interface{}{id}
+ }
+ 
+ // Query with automatic error logging
+@@ -295,4 +311,4 @@ func nullInt64ToInterface(n sql.NullInt64) interface{} {
+         return n.Int64
+     }
+     return nil
+-}
+\ No newline at end of file
++}
+diff --git a/src/talent_editor.go b/src/talent_editor.go
+index 412e5ad..5e0a268 100644
+--- a/src/talent_editor.go
++++ b/src/talent_editor.go
+@@ -836,7 +836,7 @@ func updateTalent(ctx *AppContext, talent *Talent) error {
+ func insertTalent(ctx *AppContext, talent *Talent) error {
+     if talent.ID == 0 {
+         var maxID int64
+-        err := ctx.DB.QueryRow("SELECT COALESCE(MAX(id), 0) FROM Talent").Scan(&maxID)
++        err := ctx.DB.QueryRow("SELECT COALESCE(MAX(id), 0) FROM talent").Scan(&maxID)
+         if err != nil {
+             return err
+         }
+-- 
+2.34.1
+
+
+From b656c8f44aba0a47b671b903f16e283979fc40e8 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 27 Jun 2026 10:59:00 +0000
+Subject: [PATCH 2/2] feat: Zeppelin dbc schema + custom-icon overlay (F-045)
+
+- db_queries.go: query the DBCTool/Zeppelin `dbc` schema (name_enus,
+  spec_id, rank_1, spell_name_enus, spell_icon_id, ...) so the editor
+  reads our live database instead of the WoW-Spell-Editor schema.
+- talent_editor.go: overlay an on-disk custom_icons/ folder on the
+  embedded icon set at runtime, so custom talent icons appear without
+  rebuilding the editor (folder synced by `zep build patch-mpq -p I`).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01GjB4dssuW71maGLTfTuhzf
+---
+ src/db_queries.go    | 47 ++++++++++++++++++++++----------------------
+ src/talent_editor.go | 42 +++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 63 insertions(+), 26 deletions(-)
+
+diff --git a/src/db_queries.go b/src/db_queries.go
+index 4a06f82..8b83e8b 100644
+--- a/src/db_queries.go
++++ b/src/db_queries.go
+@@ -14,7 +14,7 @@ import (
+ // TalentTab queries
+ func GetAllTalentTabs(ctx *AppContext) (map[int]TalentTab, error) {
+     query := `
+-        SELECT id, Name1, iconId, classMask, orderIndex, backgroundFileName, creatureFamilyCategory
++        SELECT id, name_enus, spell_icon, class_mask, order_index, background_file, creature_family
+         FROM talenttab
+         ORDER BY id`
+ 
+@@ -84,9 +84,9 @@ func GetSpellsByIDs(ctx *AppContext, ids []int) (map[int]Spell, error) {
+     }
+ 
+     query := fmt.Sprintf(`
+-        SELECT ID, SpellName0, SpellIconID, SpellDescription0
++        SELECT id, spell_name_enus, spell_icon_id, spell_desc_enus
+         FROM spell
+-        WHERE ID IN (%s)`, strings.Join(placeholders, ","))
++        WHERE id IN (%s)`, strings.Join(placeholders, ","))
+ 
+     rows, err := queryWithDebug(ctx.DB, query, args...)
+     if err != nil {
+@@ -118,13 +118,13 @@ func GetSpellsByIDs(ctx *AppContext, ids []int) (map[int]Spell, error) {
+ // Talent queries
+ func GetTalentsForSpec(ctx *AppContext, specID int) ([]Talent, []int, error) {
+     query := `
+-        SELECT id, talentTabId, tierId, columnIndex,
+-               spellRank1, spellRank2, spellRank3, spellRank4, spellRank5, spellRank6, spellRank7, spellRank8, spellRank9,
+-               prereqTalent1, prereqTalent2, prereqTalent3,
+-               prereqRank1, prereqRank2, prereqRank3,
+-               flags, requiredSpellId, allowForPetFlags1, allowForPetFlags2
++        SELECT id, spec_id, tier_id, column_index,
++               rank_1, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9,
++               pre_req_talent_1, pre_req_talent_2, pre_req_talent_3,
++               pre_req_rank_1, pre_req_rank_2, pre_req_rank_3,
++               flags, req_spell_id, allow_for_pet_flags_1, allow_for_pet_flags_2
+         FROM talent
+-        WHERE talentTabId = ?`
++        WHERE spec_id = ?`
+ 
+     rows, err := queryWithDebug(ctx.DB, query, specID)
+     if err != nil {
+@@ -175,7 +175,7 @@ func GetAllSpellIcons(ctx *AppContext) (map[int]string, error) {
+         return ctx.SpellIcons, nil
+     }
+ 
+-    rows, err := queryWithDebug(ctx.DB, "SELECT ID, Name FROM spellicon")
++    rows, err := queryWithDebug(ctx.DB, "SELECT id, name FROM spellicon")
+     if err != nil {
+         return nil, err
+     }
+@@ -206,7 +206,7 @@ func GetAllSpellIcons(ctx *AppContext) (map[int]string, error) {
+ 
+ // Classes queries
+ func GetAllClasses(ctx *AppContext) (map[int]ChrClass, error) {
+-    rows, err := queryWithDebug(ctx.DB, "SELECT Id, Name1, PetNameToken FROM chrclasses")
++    rows, err := queryWithDebug(ctx.DB, "SELECT id, name_enus, pet_name_token FROM chrclasses")
+     if err != nil {
+         return nil, err
+     }
+@@ -216,16 +216,15 @@ func GetAllClasses(ctx *AppContext) (map[int]ChrClass, error) {
+     for rows.Next() {
+         var c ChrClass
+         var name sql.NullString
+-        var petToken sql.NullInt64
++        var petToken sql.NullString
+         if err := rows.Scan(&c.ID, &name, &petToken); err != nil {
+             return nil, err
+         }
+         if name.Valid {
+             c.NameENUS = name.String
+         }
+-        // PetNameToken is an int in this schema, convert to string
+         if petToken.Valid {
+-            c.PetName = fmt.Sprintf("%d", petToken.Int64)
++            c.PetName = petToken.String
+         }
+         classes[c.ID] = c
+     }
+@@ -242,11 +241,11 @@ func GetAllClasses(ctx *AppContext) (map[int]ChrClass, error) {
+ // Insert/Update/Delete Talent
+ func InsertTalentQuery(t *Talent) (string, []interface{}) {
+     query := `INSERT INTO talent (
+-        id, talentTabId, tierId, columnIndex,
+-        spellRank1, spellRank2, spellRank3, spellRank4, spellRank5, spellRank6, spellRank7, spellRank8, spellRank9,
+-        prereqTalent1, prereqTalent2, prereqTalent3,
+-        prereqRank1, prereqRank2, prereqRank3,
+-        flags, requiredSpellId, allowForPetFlags1, allowForPetFlags2
++        id, spec_id, tier_id, column_index,
++        rank_1, rank_2, rank_3, rank_4, rank_5, rank_6, rank_7, rank_8, rank_9,
++        pre_req_talent_1, pre_req_talent_2, pre_req_talent_3,
++        pre_req_rank_1, pre_req_rank_2, pre_req_rank_3,
++        flags, req_spell_id, allow_for_pet_flags_1, allow_for_pet_flags_2
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+     args := []interface{}{
+         t.ID,
+@@ -264,11 +263,11 @@ func InsertTalentQuery(t *Talent) (string, []interface{}) {
+ 
+ func UpdateTalentQuery(t *Talent) (string, []interface{}) {
+     query := `UPDATE talent SET
+-        talentTabId=?, tierId=?, columnIndex=?,
+-        spellRank1=?, spellRank2=?, spellRank3=?, spellRank4=?, spellRank5=?, spellRank6=?, spellRank7=?, spellRank8=?, spellRank9=?,
+-        prereqTalent1=?, prereqTalent2=?, prereqTalent3=?,
+-        prereqRank1=?, prereqRank2=?, prereqRank3=?,
+-        flags=?, requiredSpellId=?, allowForPetFlags1=?, allowForPetFlags2=?
++        spec_id=?, tier_id=?, column_index=?,
++        rank_1=?, rank_2=?, rank_3=?, rank_4=?, rank_5=?, rank_6=?, rank_7=?, rank_8=?, rank_9=?,
++        pre_req_talent_1=?, pre_req_talent_2=?, pre_req_talent_3=?,
++        pre_req_rank_1=?, pre_req_rank_2=?, pre_req_rank_3=?,
++        flags=?, req_spell_id=?, allow_for_pet_flags_1=?, allow_for_pet_flags_2=?
+         WHERE id=?`
+     args := []interface{}{
+         nullInt64ToInterface(t.SpecID), nullInt64ToInterface(t.TierID), nullInt64ToInterface(t.ColumnIndex),
+diff --git a/src/talent_editor.go b/src/talent_editor.go
+index 5e0a268..590a4dc 100644
+--- a/src/talent_editor.go
++++ b/src/talent_editor.go
+@@ -15,6 +15,8 @@ import (
+     "image/png"
+     "io/fs"
+     "math"
++    "os"
++    "path/filepath"
+     "sort"
+     "strconv"
+     "strings"
+@@ -39,6 +41,12 @@ var iconsZip []byte
+ var iconsFS fs.FS
+ var iconLookup map[string]string
+ 
++// External (on-disk) icon overlay. Custom/reskinned icons are dropped into a
++// `custom_icons/` folder next to the binary (and/or the working dir) by the
++// `zep build patch-mpq -p I` sync step, so new custom talent icons appear WITHOUT
++// rebuilding this editor. These take priority over the embedded stock set.
++var extIconLookup map[string]string
++
+ const (
+     MAX_NUM_TALENT_TIERS = 15
+     NUM_TALENT_COLUMNS   = 4
+@@ -104,10 +112,35 @@ func init() {
+     fs.WalkDir(iconsFS, ".", func(path string, d fs.DirEntry, err error) error {
+         if !d.IsDir() {
+             // store lowercase → actual name
+-            iconLookup[strings.ToLower(path)] = path
++            iconLookup[strings.ToLower(filepath.Base(path))] = path
+         }
+         return nil
+     })
++
++    // Scan on-disk overlay folders for custom icons (lowercase basename → path).
++    // Checked before the embedded set so custom icons win. Later dirs do NOT
++    // overwrite earlier hits, so the exe-relative folder wins over the CWD one.
++    extIconLookup = make(map[string]string)
++    var extDirs []string
++    if exe, err := os.Executable(); err == nil {
++        extDirs = append(extDirs, filepath.Join(filepath.Dir(exe), "custom_icons"))
++    }
++    extDirs = append(extDirs, "custom_icons")
++    for _, dir := range extDirs {
++        entries, err := os.ReadDir(dir)
++        if err != nil {
++            continue
++        }
++        for _, e := range entries {
++            if e.IsDir() || strings.ToLower(filepath.Ext(e.Name())) != ".png" {
++                continue
++            }
++            key := strings.ToLower(e.Name())
++            if _, exists := extIconLookup[key]; !exists {
++                extIconLookup[key] = filepath.Join(dir, e.Name())
++            }
++        }
++    }
+ }
+ 
+ func main() {
+@@ -732,7 +765,12 @@ func createTalentButton(
+             if spell, ok := spells[rankSpellID]; ok && spell.IconID.Valid {
+                 if iconFile, ok := iconIDs[int(spell.IconID.Int64)]; ok {
+                     name := strings.ToLower(iconFile + ".png")
+-                    if actual, ok := iconLookup[name]; ok {
++                    if extPath, ok := extIconLookup[name]; ok {
++                        // On-disk custom icon overlay wins over the embedded set.
++                        if data, err := os.ReadFile(extPath); err == nil {
++                            iconResource = fyne.NewStaticResource(filepath.Base(extPath), data)
++                        }
++                    } else if actual, ok := iconLookup[name]; ok {
+                         if data, err := fs.ReadFile(iconsFS, actual); err == nil {
+                             iconResource = fyne.NewStaticResource(actual, data)
+                         }
+-- 
+2.34.1
+
