@@ -15,3 +15,15 @@ CREATE TEMPORARY TABLE `_rsg_evn` SELECT * FROM `spellvisualeffectname` WHERE `i
 UPDATE `_rsg_evn` SET `id` = 90020, `name` = 'Earth Spike (Rocksurge 0.9 scale, stock speed)', `scale` = `scale` * 0.9, `file_name` = 'Spells\\Rocksurge_Spike.mdx';
 INSERT INTO `spellvisualeffectname` SELECT * FROM `_rsg_evn`;
 DROP TEMPORARY TABLE `_rsg_evn`;
+
+-- Effect 90021: Rockwall orbiting rocks — clone of the Volcanic Shield state effect
+-- 90010 (F-164D), scaled up 1.8x so the same swirling volcanic rock formation reads as
+-- a bigger stone shell for the Rockwall defensive CD. Reuses the SAME model that already
+-- ships in PATCH-Z (spells\volcanicshield_state_base.mdx) — no new model required; only
+-- the scale differs, so Volcanic Shield (still effect 90010) is unaffected. Temp-table
+-- clone copies every other column exactly from 90010.
+DELETE FROM `spellvisualeffectname` WHERE `id` = 90021;
+CREATE TEMPORARY TABLE `_rkw_evn` SELECT * FROM `spellvisualeffectname` WHERE `id` = 90010;
+UPDATE `_rkw_evn` SET `id` = 90021, `name` = 'Rockwall State (Volcanic rocks 1.8 scale)', `scale` = `scale` * 1.8;
+INSERT INTO `spellvisualeffectname` SELECT * FROM `_rkw_evn`;
+DROP TEMPORARY TABLE `_rkw_evn`;
