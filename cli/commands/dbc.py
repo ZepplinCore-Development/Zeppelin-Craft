@@ -719,6 +719,40 @@ def dbc_status(ctx):
 # Diff Command
 # =============================================================================
 
+def _talent_ids_from_diff(diff) -> List[int]:
+    """Pull the changed talent ids (pk) out of a get_table_diff result."""
+    pk_cols = diff.get("primary_key") or ["id"]
+    try:
+        id_idx = pk_cols.index("id")
+    except ValueError:
+        id_idx = 0
+    ids: List[int] = []
+    for pk in diff.get("only_in_db1", []):
+        ids.append(pk[id_idx])
+    for pk in diff.get("only_in_db2", []):
+        ids.append(pk[id_idx])
+    for pk, _changes in diff.get("modified", []):
+        ids.append(pk[id_idx])
+    return ids
+
+
+def _print_talent_audit(config, talent_ids: List[int]) -> None:
+    """Print a points-per-row + total report card for every spec a talent diff
+    touched, comparing it to the stock 3.3.5a average. Best-effort: any failure
+    (e.g. original_dbc missing) is reported but never aborts the diff/extract."""
+    if not talent_ids:
+        return
+    try:
+        from lib.talent_audit import specs_for_talent_ids, audit_specs
+        specs = specs_for_talent_ids(config, talent_ids)
+        report = audit_specs(config, specs)
+        if report:
+            click.echo(f"\n{'=' * 60}")
+            click.echo(report)
+    except Exception as e:
+        click.echo(click.style(f"  (talent audit skipped: {e})", fg='yellow'))
+
+
 @db.command('diff')
 @click.option('--sql', 'output_sql', is_flag=True,
               help='Output SQL statements')
@@ -791,6 +825,7 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str],
 
                 # Collect tables with changes
                 tables_with_changes = []
+                talent_ids_changed = []
                 for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
                     diff = get_table_diff(db_conn, table, config.live, config.expected)
                     adds = len(diff["only_in_db1"])
@@ -798,6 +833,8 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str],
                     dels = len(diff["only_in_db2"])
                     if adds > 0 or mods > 0 or dels > 0:
                         tables_with_changes.append((table, adds, mods, dels))
+                    if table.lower() == 'talent':
+                        talent_ids_changed = _talent_ids_from_diff(diff)
 
                 # Filter to specific table if requested
                 if table_name:
@@ -836,6 +873,8 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str],
                     f"\nSaved {len(saved_files)} file(s) and synced expected_dbc",
                     fg='green'))
 
+                _print_talent_audit(config, talent_ids_changed)
+
         except Exception as e:
             raise click.ClickException(f"Save failed: {e}")
         return
@@ -869,6 +908,7 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str],
                     click.echo(f"Table '{table_name}' has no differences")
                     return
 
+            talent_ids_changed = []
             for table, count1, count2, cs1, cs2 in tables_to_show:
                 click.echo(click.style(f"Table: {table}", bold=True))
                 click.echo(f"  Rows: {count1} (live) vs {count2} (expected)")
@@ -876,6 +916,8 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str],
                 try:
                     diff = get_table_diff(db_conn, table, config.live, config.expected)
                     pk_cols = diff["primary_key"]
+                    if table.lower() == 'talent':
+                        talent_ids_changed = _talent_ids_from_diff(diff)
 
                     if diff["only_in_db1"]:
                         click.echo(click.style(f"  Added in live ({len(diff['only_in_db1'])}):", fg='green'))
@@ -908,6 +950,8 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str],
                     click.echo(click.style(f"  Error getting row diff: {e}", fg='red'))
 
                 click.echo()
+
+            _print_talent_audit(config, talent_ids_changed)
 
     except Exception as e:
         raise click.ClickException(f"Database error: {e}")

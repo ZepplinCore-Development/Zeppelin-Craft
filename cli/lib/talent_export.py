@@ -805,6 +805,27 @@ def export_icons(icon_names: List[str], out_dir: Path,
     return {"converted": converted, "missing": missing, "failed": failed}
 
 
+def sync_editor_icons(config: DBCConfig, out_dir: Path,
+                      database: str = "live",
+                      overwrite: bool = False) -> Dict[str, List[str]]:
+    """Sync the desktop TalentEditor's on-disk custom-icon overlay.
+
+    The editor only ever renders icons referenced by talents, so this converts
+    just that set (~hundreds) rather than the whole custom icon pack. Only icons
+    found in the CUSTOM zpak dirs are written — stock icons are already embedded
+    in the editor binary and come back as "missing" here (skipped, not an error).
+
+    The editor reads this folder (``custom_icons/`` next to its binary) at runtime
+    and overlays it on the embedded set, so new custom talent icons appear without
+    rebuilding the editor. PNG names preserve the BLP stem casing; editor lookup
+    is case-insensitive. Returns export_icons' {"converted","missing","failed"}.
+    """
+    data = build_talent_data(config, database=database)
+    icon_names = data["icons"]                       # talent-referenced names only
+    custom_dirs = [d for d in _default_icon_dirs() if "zpaks" in str(d)]
+    return export_icons(icon_names, Path(out_dir), dirs=custom_dirs, overwrite=overwrite)
+
+
 def deploy_site(src_dir: Path, dest_dir: Path, config: DBCConfig,
                 database: str = "live", overwrite_icons: bool = False) -> Dict[str, Any]:
     """Deploy the full talent browser to dest_dir.

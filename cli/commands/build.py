@@ -199,6 +199,18 @@ def build_patch(ctx, patch_letter: Optional[str],
                 click.echo(click.style(
                     f"  Talent browser regen failed (patch build OK): {e}", fg='yellow'))
 
+        # PATCH-I carries the custom icons; sync them into the desktop TalentEditor's
+        # on-disk overlay so new custom talent icons show there (no editor rebuild).
+        if 'PATCH-I.MPQ' in built_patches:
+            click.echo(f"\n{'=' * 60}")
+            click.echo("  TalentEditor Icon Sync")
+            click.echo(f"{'=' * 60}")
+            try:
+                _sync_talent_editor_icons(ctx)
+            except Exception as e:
+                click.echo(click.style(
+                    f"  TalentEditor icon sync failed (patch build OK): {e}", fg='yellow'))
+
     # Summary
     elapsed = time.time() - start
     click.echo(f"\n{'=' * 60}")
@@ -606,6 +618,49 @@ def _deploy_talent_browser(ctx, dest: Path, database: str = 'live',
     if icons['failed']:
         click.echo(click.style(f"  Failed to decode: {len(icons['failed'])}", fg='yellow'))
     return True
+
+
+def _sync_talent_editor_icons(ctx, overwrite: bool = False) -> bool:
+    """Convert custom-zpak icons to PNG into the desktop TalentEditor overlay.
+
+    The editor (Zeppelin-Tools/TalentEditor) embeds the stock icon set at build
+    time but also reads a `custom_icons/` folder next to its binary at runtime.
+    Dropping custom PNGs there makes new custom talent icons appear without
+    rebuilding the editor. Run automatically at the end of a PATCH-I build.
+    """
+    from lib.talent_export import sync_editor_icons
+    from commands.dbc import get_dbc_config
+
+    craft_root = ctx.obj['craft_root']
+    editor_root = craft_root.parent / 'Zeppelin-Tools' / 'TalentEditor'
+    if not editor_root.is_dir():
+        click.echo(click.style(f"  TalentEditor not found: {editor_root}", fg='yellow'))
+        return False
+
+    dest = editor_root / 'custom_icons'
+    config = get_dbc_config(ctx)
+    res = sync_editor_icons(config, dest, overwrite=overwrite)
+    # 'missing' = talent icons not in the custom dirs (i.e. stock, already embedded).
+    click.echo(f"  Custom talent icons -> {dest}")
+    click.echo(click.style(
+        f"  {len(res['converted'])} custom converted, "
+        f"{len(res['missing'])} stock (embedded, skipped), {len(res['failed'])} failed",
+        fg='green'))
+    if res['failed']:
+        click.echo(click.style(f"  Failed to decode: {', '.join(res['failed'][:8])}", fg='yellow'))
+    return True
+
+
+@build.command('talent-editor-icons')
+@click.option('--overwrite', is_flag=True, help='Re-convert even if a PNG already exists')
+@click.pass_context
+def build_talent_editor_icons(ctx, overwrite):
+    """Sync custom icons into the desktop TalentEditor overlay folder.
+
+    Also runs automatically at the end of a PATCH-I build.
+    """
+    if not _sync_talent_editor_icons(ctx, overwrite=overwrite):
+        raise click.ClickException("TalentEditor icon sync failed")
 
 
 @build.command('talent-browser')
