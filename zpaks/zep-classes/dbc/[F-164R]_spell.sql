@@ -487,7 +487,7 @@ INSERT INTO `spell` SET
     `stack_amount` = 12,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 4,
+    `effect_base_points_1` = 2,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 51,
     `effect_2` = 6,

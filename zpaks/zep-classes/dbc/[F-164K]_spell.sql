@@ -9,8 +9,9 @@
 --
 -- ----------------------------------------------------------------------------
 -- Stoneskin (900164) - Earthwarden defensive CD. Instant, 2 min CD, 12s.
---   E1 aura 87 (MOD_DAMAGE_PERCENT_TAKEN, all schools -127) -30% damage taken.
---   E2 aura 118 (MOD_HEALING_PCT) +30% healing received.
+--   E1 aura 87 (MOD_DAMAGE_PERCENT_TAKEN, all schools -127) -50% damage taken.
+--   (Healing-received bonus moved to Bastion of Earth [F-164N]; Stoneskin is now
+--    a pure Shield-Wall-tier damage cooldown.)
 -- Icon 5469 (the icon Rockwall used before it moved to the yellow icewall icon).
 -- Family mask_3 bit 4194304 reserved so a future Glyph of Stoneskin can target it.
 -- ----------------------------------------------------------------------------
@@ -28,21 +29,16 @@ INSERT INTO `spell` SET
     `effect_1` = 6,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 127,
-    `effect_base_points_1` = -31,
+    `effect_base_points_1` = -51,
     `effect_die_sides_1` = 1,
     `effect_implicit_target_a_1` = 1,
-    `effect_2` = 6,
-    `effect_apply_aura_name_2` = 118,
-    `effect_base_points_2` = 29,
-    `effect_die_sides_2` = 1,
-    `effect_implicit_target_a_2` = 1,
     `spell_visual_1` = 5787,
     `spell_icon_id` = 5469,
     `spell_name_enus` = 'Stoneskin',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Hardens your skin to stone, reducing all damage taken by 30% and increasing healing received by 30% for 12 sec.',
+    `spell_desc_enus` = 'Hardens your skin to stone, reducing all damage taken by 50% for 12 sec.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces damage taken by 30% and increases healing received by 30%.',
+    `spell_tooltip_enus` = 'Reduces damage taken by 50%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `spell_class_mask_3` = 4194304,
