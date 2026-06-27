@@ -251,9 +251,19 @@ local function renderTooltip(tooltip, spellId, isAura)
 
     local pe = ZepCompute.primaryEffect(rec)
     local isSpeed = pe and ZepCompute.isSpeed(pe)
-    local pv = pe and ZepCompute.effectValues(rec, ctx)[pe.i] or nil
-    if pv and not descShown then
-        addLine(primaryLabel(pe, isSpeed) .. ": " .. fmt(pv, isSpeed and "%" or ""))
+    if not descShown then
+        local speeds = ZepCompute.speedEffects(rec)
+        if #speeds > 0 then
+            -- a mount can grant several speeds at once (flight + ground, or ground + swim) —
+            -- show one labelled line per speed effect, e.g. "Flight: 310%" then "Ground: 100%".
+            for _, s in ipairs(speeds) do
+                local v = ZepCompute.effectValues(rec, ctx)[s.i]
+                if v then addLine(s.label .. ": " .. fmt(v, "%")) end
+            end
+        else
+            local pv = pe and ZepCompute.effectValues(rec, ctx)[pe.i] or nil
+            if pv then addLine(primaryLabel(pe, false) .. ": " .. fmt(pv)) end
+        end
     end
 
     -- scaling-source line: the DBC desc no longer states it, so the addon names the

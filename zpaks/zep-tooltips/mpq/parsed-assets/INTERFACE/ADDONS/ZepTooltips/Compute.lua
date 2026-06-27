@@ -26,7 +26,18 @@ local OP_TOTAL = { [0] = true, [22] = true }
 
 -- effects we display a computed number for (excludes weapon types — handled separately)
 local VALUE_TYPE = { [2] = true, [10] = true }          -- SCHOOL_DAMAGE / HEAL
-local SPEED_AURA = { [31] = true, [32] = true, [129] = true }
+-- Movement-speed auras -> the kind of speed they grant (membership also = "is a speed aura").
+-- A mount can carry several (a flying mount = Flight + Ground; a turtle = Ground + Swim), so we
+-- render one labelled line per speed effect rather than a single "Speed". Ground: 31 run, 32
+-- mounted, 129/130 always. Swim: 58. Flight: 206 flight, 207 mounted-flight, 208-211 stacking
+-- / non-stacking variants. Without these a mount's flight/swim speed never renders on the TT
+-- (primaryEffect/isSpeed didn't recognise the effect); the spellbook desc shows it via $s.
+local SPEED_LABEL = {
+    [31] = "Ground", [32] = "Ground", [129] = "Ground", [130] = "Ground",
+    [58] = "Swim",
+    [206] = "Flight", [207] = "Flight", [208] = "Flight",
+    [209] = "Flight", [210] = "Flight", [211] = "Flight",
+}
 local PERIODIC_AURA = { [3] = true, [8] = true }        -- periodic damage / heal
 
 -- Stack-aware presence -> the multiplier to apply this mod by. A known talent applies
@@ -288,9 +299,22 @@ end
 function ZepCompute.primaryEffect(rec)
     if not rec or not rec.eff then return nil end
     for _, e in ipairs(rec.eff) do
-        if VALUE_TYPE[e.t] or SPEED_AURA[e.a] or PERIODIC_AURA[e.a] then return e end
+        if VALUE_TYPE[e.t] or SPEED_LABEL[e.a] or PERIODIC_AURA[e.a] then return e end
     end
     return nil
 end
 
-function ZepCompute.isSpeed(e) return e and SPEED_AURA[e.a] or false end
+function ZepCompute.isSpeed(e) return e and SPEED_LABEL[e.a] ~= nil or false end
+
+-- Every movement-speed effect on the spell, in order, with its kind label (Ground / Flight /
+-- Swim) — a hybrid mount has more than one (flight + ground, or ground + swim), each shown as
+-- its own line. Empty for non-speed spells.
+function ZepCompute.speedEffects(rec)
+    local out = {}
+    if not rec or not rec.eff then return out end
+    for _, e in ipairs(rec.eff) do
+        local label = SPEED_LABEL[e.a]
+        if label then out[#out + 1] = { i = e.i, label = label } end
+    end
+    return out
+end

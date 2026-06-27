@@ -65,6 +65,29 @@ local sc0 = ctx{}; sc0.spellCrit = 10
 local _, cm0 = ZepCompute.cost(synth, sc0)
 check("cost not modified when no talent", cm0 and 1 or 0, 0)
 
+print("=== speedEffects: hybrid mounts yield one labelled line per speed effect ===")
+local fly = { bl = 0, ml = 0, eff = {
+    { i = 1, t = 6, a = 78,  b = 0,   d = 0, p = 0 },   -- mounted dummy (skipped)
+    { i = 2, t = 6, a = 207, b = 309, d = 1, p = 0 },   -- flight 310%
+    { i = 3, t = 6, a = 32,  b = 59,  d = 1, p = 0 },   -- ground 60%
+} }
+local fs = ZepCompute.speedEffects(fly)
+check("fly: 2 speed effects", #fs, 2)
+check("fly[1] is flight eff 2", fs[1].i, 2)
+check("fly[1] label Flight", fs[1].label == "Flight" and 1 or 0, 1)
+check("fly[1] value 310", ZepCompute.effectValues(fly, ctx{})[fs[1].i].lo, 310)
+check("fly[2] is ground eff 3", fs[2].i, 3)
+check("fly[2] label Ground", fs[2].label == "Ground" and 1 or 0, 1)
+check("fly[2] value 60", ZepCompute.effectValues(fly, ctx{})[fs[2].i].lo, 60)
+local turtle = { bl = 0, ml = 0, eff = {
+    { i = 1, t = 6, a = 78, b = 0,  d = 0, p = 0 },
+    { i = 2, t = 6, a = 32, b = 59, d = 1, p = 0 },   -- ground 60%
+    { i = 3, t = 6, a = 58, b = 59, d = 1, p = 0 },   -- swim 60%
+} }
+local ts = ZepCompute.speedEffects(turtle)
+check("turtle: 2 speed effects", #ts, 2)
+check("turtle[2] label Swim", ts[2].label == "Swim" and 1 or 0, 1)
+
 print("=== real example: Rockslam (900119) cooldown with Glyph of Rockslam ===")
 local rs = ZepTooltipData[900119]
 -- 6000ms base; glyph 900270 op-11 flat -1500 (die=0) -> 4500ms = 4.5s exact (no +1)
