@@ -1,4 +1,4 @@
-From d5ff89f8213e0212782feea76e258f4e1b3743da Mon Sep 17 00:00:00 2001
+From bb4318e77556dabe0b1f401261f08df9f3ce7a83 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:47:54 +0000
 Subject: [PATCH] F-024: Move mounts_and_riding.sql to optional

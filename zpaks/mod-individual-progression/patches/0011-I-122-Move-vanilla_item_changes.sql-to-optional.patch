@@ -1,4 +1,4 @@
-From 119955a71330046a664184dc83f59babdb3d05ad Mon Sep 17 00:00:00 2001
+From f85cf8c6f3efc667a02093dfeda71d8d7d36e793 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Mon, 9 Feb 2026 02:36:24 +0000
 Subject: [PATCH] I-122: Move vanilla_item_changes.sql to optional

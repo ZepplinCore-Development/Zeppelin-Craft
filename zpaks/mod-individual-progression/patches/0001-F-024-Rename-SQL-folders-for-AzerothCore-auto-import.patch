@@ -1,4 +1,4 @@
-From a5b63da5c9aa36c8db74be0468d122765a9d0039 Mon Sep 17 00:00:00 2001
+From 2d77f9918bbba7480627c8ebd18dc16a0697e7d2 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 7 Mar 2026 12:20:03 +0000
 Subject: [PATCH] F-024: Rename SQL folders for AzerothCore auto-import
@@ -50,7 +50,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/dungeon_scarlet_monastery.sql   | 0
  data/sql/{world => db-world}/base/dungeon_scholomance.sql         | 0
  data/sql/{world => db-world}/base/dungeon_shadowfang_keep.sql     | 0
- data/sql/{world => db-world}/base/dungeon_ssc.sql                 | 0
  data/sql/{world => db-world}/base/dungeon_stockade.sql            | 0
  data/sql/{world => db-world}/base/dungeon_stratholme.sql          | 0
  data/sql/{world => db-world}/base/dungeon_sunken_temple.sql       | 0
@@ -95,12 +94,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  .../sql/{world => db-world}/base/vanilla_creature_reputations.sql | 0
  data/sql/{world => db-world}/base/vanilla_creatures.sql           | 0
  data/sql/{world => db-world}/base/vanilla_item_changes.sql        | 0
- data/sql/{world => db-world}/base/vanilla_mechanic_immunity.sql   | 0
  .../{world => db-world}/base/vanilla_pooled_treasure_chests.sql   | 0
  data/sql/{world => db-world}/base/vanilla_quest_levels.sql        | 0
  data/sql/{world => db-world}/base/vanilla_quest_reputations.sql   | 0
  .../sql/{world => db-world}/base/vanilla_skinning_adjustments.sql | 0
- .../{world => db-world}/base/vanilla_spell_school_immunity.sql    | 0
  .../{world => db-world}/base/vanilla_spell_school_resistances.sql | 0
  data/sql/{world => db-world}/base/vanilla_vendors.sql             | 0
  .../{world => db-world}/base/vanilla_world_level_adjustments.sql  | 0
@@ -170,7 +167,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/zone_zangarmarsh.sql            | 0
  data/sql/{world => db-world}/updates/.gitignore                   | 0
  data/sql/{world => db-world}/updates/.gitkeep                     | 0
- 154 files changed, 0 insertions(+), 0 deletions(-)
+ 151 files changed, 0 insertions(+), 0 deletions(-)
  rename data/sql/{auth => db-auth}/updates/.gitkeep (100%)
  rename data/sql/{characters => db-characters}/updates/.gitkeep (100%)
  rename data/sql/{world => db-world}/base/.gitignore (100%)
@@ -205,7 +202,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/dungeon_scarlet_monastery.sql (100%)
  rename data/sql/{world => db-world}/base/dungeon_scholomance.sql (100%)
  rename data/sql/{world => db-world}/base/dungeon_shadowfang_keep.sql (100%)
- rename data/sql/{world => db-world}/base/dungeon_ssc.sql (100%)
  rename data/sql/{world => db-world}/base/dungeon_stockade.sql (100%)
  rename data/sql/{world => db-world}/base/dungeon_stratholme.sql (100%)
  rename data/sql/{world => db-world}/base/dungeon_sunken_temple.sql (100%)
@@ -250,12 +246,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/vanilla_creature_reputations.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_creatures.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_item_changes.sql (100%)
- rename data/sql/{world => db-world}/base/vanilla_mechanic_immunity.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_pooled_treasure_chests.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_quest_levels.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_quest_reputations.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_skinning_adjustments.sql (100%)
- rename data/sql/{world => db-world}/base/vanilla_spell_school_immunity.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_spell_school_resistances.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_vendors.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_world_level_adjustments.sql (100%)
@@ -462,10 +456,6 @@ diff --git a/data/sql/world/base/dungeon_shadowfang_keep.sql b/data/sql/db-world
 similarity index 100%
 rename from data/sql/world/base/dungeon_shadowfang_keep.sql
 rename to data/sql/db-world/base/dungeon_shadowfang_keep.sql
-diff --git a/data/sql/world/base/dungeon_ssc.sql b/data/sql/db-world/base/dungeon_ssc.sql
-similarity index 100%
-rename from data/sql/world/base/dungeon_ssc.sql
-rename to data/sql/db-world/base/dungeon_ssc.sql
 diff --git a/data/sql/world/base/dungeon_stockade.sql b/data/sql/db-world/base/dungeon_stockade.sql
 similarity index 100%
 rename from data/sql/world/base/dungeon_stockade.sql
@@ -642,10 +632,6 @@ diff --git a/data/sql/world/base/vanilla_item_changes.sql b/data/sql/db-world/ba
 similarity index 100%
 rename from data/sql/world/base/vanilla_item_changes.sql
 rename to data/sql/db-world/base/vanilla_item_changes.sql
-diff --git a/data/sql/world/base/vanilla_mechanic_immunity.sql b/data/sql/db-world/base/vanilla_mechanic_immunity.sql
-similarity index 100%
-rename from data/sql/world/base/vanilla_mechanic_immunity.sql
-rename to data/sql/db-world/base/vanilla_mechanic_immunity.sql
 diff --git a/data/sql/world/base/vanilla_pooled_treasure_chests.sql b/data/sql/db-world/base/vanilla_pooled_treasure_chests.sql
 similarity index 100%
 rename from data/sql/world/base/vanilla_pooled_treasure_chests.sql
@@ -662,10 +648,6 @@ diff --git a/data/sql/world/base/vanilla_skinning_adjustments.sql b/data/sql/db-
 similarity index 100%
 rename from data/sql/world/base/vanilla_skinning_adjustments.sql
 rename to data/sql/db-world/base/vanilla_skinning_adjustments.sql
-diff --git a/data/sql/world/base/vanilla_spell_school_immunity.sql b/data/sql/db-world/base/vanilla_spell_school_immunity.sql
-similarity index 100%
-rename from data/sql/world/base/vanilla_spell_school_immunity.sql
-rename to data/sql/db-world/base/vanilla_spell_school_immunity.sql
 diff --git a/data/sql/world/base/vanilla_spell_school_resistances.sql b/data/sql/db-world/base/vanilla_spell_school_resistances.sql
 similarity index 100%
 rename from data/sql/world/base/vanilla_spell_school_resistances.sql

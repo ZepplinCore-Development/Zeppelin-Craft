@@ -1,4 +1,4 @@
-From d81849d13ab840992af236a487df9226f2b13f79 Mon Sep 17 00:00:00 2001
+From c8a039cd2d774b130ccc6d1982633e945aaf9114 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 30 May 2026 01:48:29 +0000
 Subject: [PATCH] fix(Scripts/BRS): Arm Dragonspire room on player enter for

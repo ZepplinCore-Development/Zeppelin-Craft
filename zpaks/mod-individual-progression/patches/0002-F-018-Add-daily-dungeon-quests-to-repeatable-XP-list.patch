@@ -1,4 +1,4 @@
-From 08e2c481aa61cfb0dafd313e03e6b4fd1fc1e76b Mon Sep 17 00:00:00 2001
+From 8e9619d2c31e618e01fb73dc77dd093d4be894b5 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 12 Apr 2026 05:03:46 +0000
 Subject: [PATCH] F-018: Add daily dungeon quests to repeatable XP list
@@ -9,7 +9,7 @@ Subject: [PATCH] F-018: Add daily dungeon quests to repeatable XP list
  2 files changed, 127 insertions(+)
 
 diff --git a/src/IndividualProgression.h b/src/IndividualProgression.h
-index 9a169c3..00b62c3 100644
+index 9a8d241..49fd459 100644
 --- a/src/IndividualProgression.h
 +++ b/src/IndividualProgression.h
 @@ -69,6 +69,71 @@ enum ProgressionQuestIDs
@@ -85,10 +85,10 @@ index 9a169c3..00b62c3 100644
      MIGHT_OF_KALIMDOR         = 8742,
      BANG_A_GONG               = 8743,
 diff --git a/src/IndividualProgressionPlayer.cpp b/src/IndividualProgressionPlayer.cpp
-index 37ea1f0..f4fac92 100644
+index cb2f555..f84ad02 100644
 --- a/src/IndividualProgressionPlayer.cpp
 +++ b/src/IndividualProgressionPlayer.cpp
-@@ -846,6 +846,68 @@ public:
+@@ -867,6 +867,68 @@ public:
          case QUEST_TROLL_NECKLACE:
          case QUEST_DEADWOOD:
          case QUEST_WINTERFALL:

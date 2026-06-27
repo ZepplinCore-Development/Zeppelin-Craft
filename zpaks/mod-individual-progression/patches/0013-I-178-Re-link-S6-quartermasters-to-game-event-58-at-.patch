@@ -1,4 +1,4 @@
-From 32cd07158ec48a758520ca7d441ce873f5e678df Mon Sep 17 00:00:00 2001
+From c500763c6492951df399d6639f33c9c4fc05c797 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 16 May 2026 06:04:03 +0000
 Subject: [PATCH] I-178: Re-link S6 quartermasters to game event 58 at IPP
@@ -19,7 +19,7 @@ files so the event tag follows the creature INSERTs.
  2 files changed, 18 insertions(+)
 
 diff --git a/data/sql/db-world/base/zone_orgrimmar.sql b/data/sql/db-world/base/zone_orgrimmar.sql
-index 20fd160..d810cda 100644
+index 7488140..d62776a 100644
 --- a/data/sql/db-world/base/zone_orgrimmar.sql
 +++ b/data/sql/db-world/base/zone_orgrimmar.sql
 @@ -153,6 +153,15 @@ UPDATE `creature` SET `ScriptName` = 'npc_ipp_wotlk_S6' WHERE `guid` IN (@CGUID+
@@ -39,7 +39,7 @@ index 20fd160..d810cda 100644
  DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 23 AND `SourceGroup` IN (12796, 12792, 26397, 14581, 26396) AND `ConditionValue1` IN (66002, 66006, 66008);
  INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, 
 diff --git a/data/sql/db-world/base/zone_stormwind.sql b/data/sql/db-world/base/zone_stormwind.sql
-index 1da7c6d..1759755 100644
+index 306cc8d..4f4d08d 100644
 --- a/data/sql/db-world/base/zone_stormwind.sql
 +++ b/data/sql/db-world/base/zone_stormwind.sql
 @@ -114,6 +114,15 @@ UPDATE `creature` SET `ScriptName` = 'npc_ipp_wotlk_S6'  WHERE `guid` IN (@CGUID

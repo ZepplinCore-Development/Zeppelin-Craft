@@ -1,4 +1,4 @@
-From 1e2f3810e50127589fd1ba0ab42ee4c14e298808 Mon Sep 17 00:00:00 2001
+From 8e7cda18c95510f4e58ff864f82410a9fe60680f Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:48:06 +0000
 Subject: [PATCH] F-024: Move player_starting_weapon_skills.sql to optional
