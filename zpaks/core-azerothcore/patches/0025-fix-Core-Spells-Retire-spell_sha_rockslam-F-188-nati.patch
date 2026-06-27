@@ -1,4 +1,4 @@
-From 471b35e1207221fcfe7817982d0079362a247bd8 Mon Sep 17 00:00:00 2001
+From 94027e4ee56e41b83cb35d4c0dd486501d78413f Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 25 Jun 2026 10:38:23 +0000
 Subject: [PATCH] fix(Core/Spells): Retire spell_sha_rockslam (F-188 native

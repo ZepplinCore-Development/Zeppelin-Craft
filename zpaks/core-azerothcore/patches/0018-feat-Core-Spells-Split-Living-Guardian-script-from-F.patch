@@ -1,0 +1,58 @@
+From 4edc2d90924584598390194e291cad4ded553100 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 27 Jun 2026 02:08:39 +0000
+Subject: [PATCH] feat(Core/Spells): Split Living Guardian script from F-164
+ (F-164L)
+
+Extract the spell_sha_living_guardian_aura AuraScript (sets the SCHOOL_ABSORB
+amount to 10% of the caster's max health, PW:S-style) and its
+RegisterSpellScript line out of the consolidated F-164 Earthwarden core-scripts
+commit into their own [F-164L] patch. No behaviour change.
+---
+ src/server/scripts/Spells/spell_shaman.cpp | 25 ++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
+index 8e943de51..2376ecbe2 100644
+--- a/src/server/scripts/Spells/spell_shaman.cpp
++++ b/src/server/scripts/Spells/spell_shaman.cpp
+@@ -2274,6 +2274,30 @@ class spell_sha_thunderborne_leap : public SpellScript
+     }
+ };
+ 
++// Living Guardian (900170) — F-164 absorb shield
++// Sets the SCHOOL_ABSORB amount to a flat 10% of the caster's max health,
++// since aura 69 does not consult spell_bonus_data by default. This scales
++// with the Earthwarden's large health pool (bigger for tanks than off-specs).
++// Pattern mirrors spell_pri_power_word_shield_aura.
++class spell_sha_living_guardian_aura : public AuraScript
++{
++    PrepareAuraScript(spell_sha_living_guardian_aura);
++
++    void CalculateAmount(AuraEffect const* /*aurEff*/, int32& amount,
++        bool& canBeRecalculated)
++    {
++        canBeRecalculated = false;
++        if (Unit* caster = GetCaster())
++            amount = int32(caster->GetMaxHealth() / 10); // 10% of max health
++    }
++
++    void Register() override
++    {
++        DoEffectCalcAmount += AuraEffectCalcAmountFn(
++            spell_sha_living_guardian_aura::CalculateAmount,
++            EFFECT_0, SPELL_AURA_SCHOOL_ABSORB);
++    }
++};
+ 
+ void AddSC_shaman_spell_scripts()
+ {
+@@ -2336,4 +2360,5 @@ void AddSC_shaman_spell_scripts()
+     RegisterSpellScript(spell_sha_tidal_force_dummy);
+     RegisterSpellScript(spell_sha_windfury_weapon);
+     RegisterSpellScript(spell_sha_thunderborne_leap);
++    RegisterSpellScript(spell_sha_living_guardian_aura);
+ }
+-- 
+2.34.1
+

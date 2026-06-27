@@ -1,4 +1,4 @@
-From 3066c613c542f99b4adee4afbbd186fb2a34865c Mon Sep 17 00:00:00 2001
+From c8471f9e890bc820220f146489e6475d109708b8 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 25 Jun 2026 08:06:26 +0000
 Subject: [PATCH] feat(Core/Spells): Stat-scaled damage via MiscValueB (F-188)
@@ -23,7 +23,7 @@ Claude-Session: https://claude.ai/code/session_015qmedFMHJQaq91UUAWKWL2
  2 files changed, 44 insertions(+)
 
 diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
-index 121a1ae4d..f89c1dd46 100644
+index e5714edd5..7d6b722aa 100644
 --- a/src/server/game/Spells/SpellEffects.cpp
 +++ b/src/server/game/Spells/SpellEffects.cpp
 @@ -646,6 +646,30 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)

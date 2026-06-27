@@ -1,4 +1,4 @@
-From 45f389ab6ab209ba23e0c340f847021ca48faad0 Mon Sep 17 00:00:00 2001
+From e6cbde721c2570d7ce3feba30283e877e93307b1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 16 Jun 2026 00:01:38 +0000
 Subject: [PATCH] feat(Core/World): Raise CharactersPerRealm cap to 20 (F-180)
@@ -15,10 +15,10 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/server/game/World/WorldConfig.cpp b/src/server/game/World/WorldConfig.cpp
-index f1d872c0a..f3643e037 100644
+index 7f6b51e98..8faa28396 100644
 --- a/src/server/game/World/WorldConfig.cpp
 +++ b/src/server/game/World/WorldConfig.cpp
-@@ -223,7 +223,7 @@ void WorldConfig::BuildConfigCache()
+@@ -228,7 +228,7 @@ void WorldConfig::BuildConfigCache()
  
      SetConfigValue<uint32>(CONFIG_CHARACTER_CREATING_DISABLED_CLASSMASK, "CharacterCreating.Disabled.ClassMask", 0);
  

@@ -1,4 +1,4 @@
-From 0cd2cdb8674df6eead765ae6018537d22c744559 Mon Sep 17 00:00:00 2001
+From e6eab94c443c8f43844a840ff5afcd20ae1f6a06 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 10:47:20 +0000
 Subject: [PATCH] F-001: Profession tools - subclass enum and spell group fix
@@ -17,7 +17,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  2 files changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/src/server/game/Entities/Item/ItemTemplate.h b/src/server/game/Entities/Item/ItemTemplate.h
-index b41616c11..894db4924 100644
+index 9b43136df..c3bbe30dd 100644
 --- a/src/server/game/Entities/Item/ItemTemplate.h
 +++ b/src/server/game/Entities/Item/ItemTemplate.h
 @@ -404,10 +404,11 @@ enum ItemSubclassArmor
@@ -35,10 +35,10 @@ index b41616c11..894db4924 100644
  enum ItemSubclassProjectile
  {
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 3e65e30cb..f50e8c545 100644
+index 465dada40..9b0b5a776 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -7035,7 +7035,31 @@ void Player::ApplyItemObtainSpells(Item* item, bool apply)
+@@ -7044,7 +7044,31 @@ void Player::ApplyItemObtainSpells(Item* item, bool apply)
          if (apply)
          {
              if (!HasAura(spellId))

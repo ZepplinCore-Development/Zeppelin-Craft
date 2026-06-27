@@ -1,4 +1,4 @@
-From cf351f7a3d62e4160e218a4f12bb582711e1b11d Mon Sep 17 00:00:00 2001
+From c61d00249390e7f0c158272af9dbb1e214f2f879 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 24 Feb 2026 23:47:05 +0000
 Subject: [PATCH] F-014: Mage tanking - mana shield positivity and Magical
@@ -24,7 +24,7 @@ index f2e5d803c..e4ce51ae3 100644
      }
  
 diff --git a/src/server/scripts/Spells/spell_mage.cpp b/src/server/scripts/Spells/spell_mage.cpp
-index be2d979e5..d50d6840d 100644
+index b6a5cf812..498cfae3a 100644
 --- a/src/server/scripts/Spells/spell_mage.cpp
 +++ b/src/server/scripts/Spells/spell_mage.cpp
 @@ -71,7 +71,9 @@ enum MageSpells
@@ -38,7 +38,7 @@ index be2d979e5..d50d6840d 100644
  };
  
  enum MageSpellIcons
-@@ -1588,6 +1590,51 @@ class spell_mage_missile_barrage_proc : public AuraScript
+@@ -1607,6 +1609,51 @@ class spell_mage_deep_freeze_immunity_state : public AuraScript
      }
  };
  
@@ -90,10 +90,10 @@ index be2d979e5..d50d6840d 100644
  void AddSC_mage_spell_scripts()
  {
      RegisterSpellScript(spell_mage_arcane_blast);
-@@ -1632,4 +1679,5 @@ void AddSC_mage_spell_scripts()
-     RegisterSpellScript(spell_mage_summon_water_elemental);
+@@ -1652,4 +1699,5 @@ void AddSC_mage_spell_scripts()
      RegisterSpellScript(spell_mage_fingers_of_frost);
      RegisterSpellScript(spell_mage_magic_absorption);
+     RegisterSpellScript(spell_mage_deep_freeze_immunity_state);
 +    RegisterSpellScript(spell_mage_magical_attunement);
  }
 -- 
