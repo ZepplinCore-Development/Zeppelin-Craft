@@ -4,8 +4,8 @@
 -- Inscription line (773) for the glyph recipes. acquire_method 0 so a talent reset
 -- removes the talent-gated ones.
 
--- Stoneskin (900164) merged into Rockwall (900223); its old SLA 200079 stays removed.
-DELETE FROM `skilllineability` WHERE `id` = 200079;
+-- Stoneskin (900164) SLA 200079 split out to its own sub-feature:
+-- [F-164K]_skilllineability.sql (revived standalone defensive CD).
 
 -- Rockwall (900223) active on the Earthwarden line (9001) so it shows in the spellbook tab.
 DELETE FROM `skilllineability` WHERE `id` = 200096;

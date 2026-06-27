@@ -11,7 +11,7 @@
 -- Spells owned here:
 --   900119  Rockslam            builder (trainer L15/20; block-value scaled, F-188)
 --   900181/900182  Improved Rockslam  talent proc: Rockslam adds +1/+2 Rocksteady
---   900223  Rockwall            defensive CD, +5 Rocksteady burst (Stoneskin merged in)
+--   900223  Rockwall            defensive CD: +100% block value, +5 Rocksteady burst
 --   900256-900260  Rocksteady (talent ranks 1-5)  chance on melee to add a stack
 --   900261  Rocksteady (buff)   the stacking block-chance resource
 --   900263  Rocksurge           spender, scales off current Rocksteady stacks
@@ -19,17 +19,17 @@
 --   900272/900273  Glyph of Rocksurge (+5% dmg/stack)
 --   900280/900281  Glyph of Rockwall  (+6s duration)
 --   900290/900291/900295  glyph recipe (CREATE_ITEM) spells
---   900164  Stoneskin (DELETE; merged into Rockwall) ; 900120/900180 (DELETE; deprecated buffs)
+--   900120/900180 (DELETE; deprecated buffs)
 --
 -- NOTE: all rows currently ALSO live in [F-164]_spell.sql; this is the copy
 -- phase (idempotent DELETE+INSERT). The F-164 strip happens after the sibling
 -- F-191/F-192/F-193/F-194 split commits, to avoid racing shared-file edits.
 -- ============================================================================
 
--- Stoneskin (900164) - MERGED INTO Rockwall (900223). Its -30% damage reduction
--- is now Rockwall's effect 2; Rockwall keeps the +5 Rocksteady burst and uses
--- Stoneskin's icon 5469 + Stoneform visual. Talent repointed off 900164.
-DELETE FROM `spell` WHERE `id` = 900164;
+-- Stoneskin (900164) split out to its own sub-feature: [F-164K]_spell.sql
+-- (standalone defensive CD: -30% damage taken, +30% healing received). The old
+-- 900164 id once held the pre-merge Stoneskin and was DELETEd here while merged
+-- into Rockwall; ownership of the revived spell now lives entirely in F-164K.
 
 -- Rockslam scaling (shared between spell and the retired desc variable 189)
 SET @rs_dmg_base = 75;
@@ -164,9 +164,9 @@ DELETE FROM `spelldescriptionvariables` WHERE `id` = 193;
 --   Glyph              Item   Mod     Apply   Prop   Target  Effect
 --   Rockslam           57490  900270  900271  901    900119  -1.5s cooldown
 --   Rocksurge          57491  900272  900273  902    900263  +5%/Rocksteady stack
---   Rockwall           57495  900280  900281  906    900223  +6s duration (12->18s)
+--   Rockwall           57495  900280  900281  906    900223  +6s duration (10->16s)
 -- ============================================================================
-SET @glyph_rockwall_dur = 6000;      -- +ms Rockwall duration (12s base -> 18s)
+SET @glyph_rockwall_dur = 6000;      -- +ms Rockwall duration (10s base -> 16s)
 SET @glyph_rocksurge_per_stack = 5;  -- +% Rocksurge damage per Rocksteady stack (SPELLMOD_EFFECT2 on 900261)
 
 -- 900270 Glyph of Rockslam (modifier): passive SPELLMOD_COOLDOWN (-1.5s) on Rockslam.
@@ -427,10 +427,11 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ============================================================================
--- Rockwall (900223) - Earthwarden defensive CD (Stoneskin + Rockwall merged).
--- Instant, shield required, 1.5 min CD.
+-- Rockwall (900223) - Earthwarden defensive CD. Instant, shield required, 1 min CD, 10s.
 --   E1 DUMMY -> spell_sha_rockwall C++ adds 5 stacks of Rocksteady (900261).
---   E2 aura 87 (MOD_DAMAGE_PERCENT_TAKEN, all schools) -30% damage taken.
+--   E2 aura 150 (MOD_SHIELD_BLOCKVALUE_PCT) +100% block value while active.
+-- Icon 5810 (custom yellow icewall, [F-164R]_spellicon.sql). The -30% damage-taken
+-- DR was removed (moved to the standalone Stoneskin 900164).
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900223;
 
@@ -438,9 +439,9 @@ INSERT INTO `spell` SET
     `id` = 900223,
     `attributes` = 16,
     `cast_time_index` = 1,
-    `recovery_time` = 90000,
-    `category_recovery_time` = 90000,
-    `duration_index` = 29,
+    `recovery_time` = 60000,
+    `category_recovery_time` = 60000,
+    `duration_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = 4,
     `equipped_item_subclass_mask` = 64,
@@ -448,18 +449,17 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_implicit_target_a_1` = 1,
     `effect_2` = 6,
-    `effect_apply_aura_name_2` = 87,
-    `effect_misc_value_a_2` = 127,
-    `effect_base_points_2` = -31,
+    `effect_apply_aura_name_2` = 150,
+    `effect_base_points_2` = 99,
     `effect_die_sides_2` = 1,
     `effect_implicit_target_a_2` = 1,
-    `spell_visual_1` = 5787,
-    `spell_icon_id` = 5469,
+    `spell_visual_1` = 90021,
+    `spell_icon_id` = 5810,
     `spell_name_enus` = 'Rockwall',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by 30% for $?s900280[18][12] sec and instantly granting 5 stacks of Rocksteady.',
+    `spell_desc_enus` = 'Surrounds you with a wall of rocks, increasing your block value by 100% for $?s900280[16][10] sec and instantly granting 5 stacks of Rocksteady.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces damage taken by 30% and grants 5 stacks of Rocksteady.',
+    `spell_tooltip_enus` = 'Increases block value by 100% and grants 5 stacks of Rocksteady.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `spell_class_mask_3` = 2097152,
