@@ -46,9 +46,9 @@ local PERIODIC_AURA = { [3] = true, [8] = true }        -- periodic damage / hea
 -- scales Rocksurge per stack. Returns 0 when the mod's source isn't present.
 -- (`via` is a hint; we check both knows and aura.)
 local function modStacks(ctx, m)
-    if ctx.excl == m.src then return 0 end   -- excluded source (for the debug per-mod delta)
-    if ctx.knows(m.src) then return 1 end
-    return ctx.hasAura(m.src) or 0
+    if ctx.excl == m then return 0 end   -- exclude THIS mod (identity) for the debug per-mod
+    if ctx.knows(m.src) then return 1 end -- delta — not the whole source, else a multi-effect
+    return ctx.hasAura(m.src) or 0        -- source (e.g. a riding crop) credits every line its total
 end
 
 -- Applied modifier value: base + die_sides (die=1 -> the classic +1; die=0 -> exact base).
@@ -198,7 +198,7 @@ function ZepCompute.activeMods(rec, ctx)
         if stacks > 0 then
             local delta
             if full then
-                local ctx2 = setmetatable({ excl = m.src }, { __index = ctx })
+                local ctx2 = setmetatable({ excl = m }, { __index = ctx })
                 local without = ZepCompute.effectValues(rec, ctx2)[pe.i]
                 if without then delta = full.lo - without.lo end
             end

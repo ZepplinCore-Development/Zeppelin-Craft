@@ -26,9 +26,9 @@ end
 
 -- SpellModOp -> readable label, for the debug modifier breakdown.
 local OP_LABEL = {
-    [0] = "damage", [1] = "duration", [3] = "effect", [7] = "crit", [8] = "all effects",
-    [10] = "cast time", [11] = "cooldown", [12] = "effect", [14] = "cost", [15] = "crit dmg",
-    [22] = "DoT", [23] = "effect",
+    [0] = "damage", [1] = "duration", [3] = "eff1", [7] = "crit", [8] = "all effects",
+    [10] = "cast time", [11] = "cooldown", [12] = "eff2", [14] = "cost", [15] = "crit dmg",
+    [22] = "DoT", [23] = "eff3",
 }
 
 -- Class token (UnitClass 2nd return) -> class id used by player_class_stats / ZepBaseMana.
