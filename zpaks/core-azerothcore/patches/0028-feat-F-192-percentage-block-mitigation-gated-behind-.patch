@@ -1,0 +1,190 @@
+From c654b0e35fcd06f6bc097a22672eb33d1cd70466 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 28 Jun 2026 01:11:41 +0000
+Subject: [PATCH] feat: F-192 percentage block mitigation (gated behind
+ Block.PercentMode)
+
+Replace flat block value with percentage damage reduction scaled by block
+value on a level curve. Off by default (Block.PercentMode=0) -> stock flat
+block unchanged until enabled.
+
+- Unit.cpp: CalcBlockDamageReductionPct() (base + blockValue/perPct, capped,
+  x CritMult on a single isBlockCritical roll) at the spell- and melee-block
+  sites; falls through to stock flat block when disabled. Level curve loaded
+  from zep_block_value_per_pct (lazy, carry-forward fill, div-by-zero guard).
+- worldserver.conf.dist: Block.PercentMode/BaseDR/CapDR/CritMult (0/25/50/1.5).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01K3Frjmskg8zE2Z5wUdzwd6
+---
+ .../apps/worldserver/worldserver.conf.dist    | 25 +++++
+ src/server/game/Entities/Unit/Unit.cpp        | 99 ++++++++++++++++++-
+ 2 files changed, 120 insertions(+), 4 deletions(-)
+
+diff --git a/src/server/apps/worldserver/worldserver.conf.dist b/src/server/apps/worldserver/worldserver.conf.dist
+index 956972d3c..b7895f3c9 100644
+--- a/src/server/apps/worldserver/worldserver.conf.dist
++++ b/src/server/apps/worldserver/worldserver.conf.dist
+@@ -4838,6 +4838,31 @@ Respawn.ForceCompatibilityMode = 0
+ #
+ ###################################################################################################
+ 
++###################################################################################################
++# F-192 BLOCK MITIGATION REWORK (percentage block)
++#
++#    Block.PercentMode
++#        Description: Replace stock flat block value with percentage damage reduction on block.
++#                     0 = stock WotLK flat block. 1 = percent block, computed as:
++#                       blockDR% = min(Block.CapDR, Block.BaseDR + blockValue / value_per_pct(level))
++#                       critical block multiplies the result by Block.CritMult.
++#                     Mode 1 REQUIRES the zep_block_value_per_pct table
++#                     (zz_[F-192]_block_value_per_pct.sql) and pairs with the crit-block-chance
++#                     re-tune (Bulwark / Critical Block -> 10/20/30).
++#        Default:     0
++#
++#    Block.BaseDR   - floor block damage-reduction % applied on every block.       Default: 25
++#    Block.CapDR    - cap for the pre-crit block DR %.                             Default: 50
++#    Block.CritMult - critical-block multiplier applied after the cap (-> 75% max). Default: 1.5
++
++Block.PercentMode = 0
++Block.BaseDR = 25
++Block.CapDR = 50
++Block.CritMult = 1.5
++
++#
++###################################################################################################
++
+ ###################################################################################################
+ #                                                                                                 #
+ # GAME SETTINGS END                                                                               #
+diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
+index af02b9c5a..51097527b 100644
+--- a/src/server/game/Entities/Unit/Unit.cpp
++++ b/src/server/game/Entities/Unit/Unit.cpp
+@@ -72,10 +72,78 @@
+ #include "Vehicle.h"
+ #include "World.h"
+ #include "WorldPacket.h"
++#include "Config.h"
++#include "DatabaseEnv.h"
+ #include <algorithm>
++#include <array>
+ #include <cmath>
+ #include <limits>
+ 
++// F-192 Block Mitigation Rework — percentage block with level-scaled block value.
++// Server-side only; gated by config Block.PercentMode (default off → stock flat block).
++namespace
++{
++    constexpr uint8 ZEP_BLOCK_MAX_LEVEL = 100;
++    std::array<float, ZEP_BLOCK_MAX_LEVEL + 1> sBlockValuePerPct;
++    bool sBlockValuePerPctLoaded = false;
++
++    void LoadBlockValuePerPctTable()
++    {
++        sBlockValuePerPct.fill(0.0f);
++        if (QueryResult result = WorldDatabase.Query("SELECT level, value_per_pct FROM zep_block_value_per_pct ORDER BY level"))
++        {
++            do
++            {
++                Field* fields = result->Fetch();
++                uint32 lvl = fields[0].Get<uint8>();
++                float perPct = fields[1].Get<float>();
++                if (lvl <= ZEP_BLOCK_MAX_LEVEL)
++                    sBlockValuePerPct[lvl] = perPct;
++            } while (result->NextRow());
++        }
++        // Carry the last defined value forward so every level resolves (sparse tables OK).
++        float last = 1.0f;
++        for (uint8 i = 1; i <= ZEP_BLOCK_MAX_LEVEL; ++i)
++        {
++            if (sBlockValuePerPct[i] > 0.0f)
++                last = sBlockValuePerPct[i];
++            else
++                sBlockValuePerPct[i] = last;
++        }
++        sBlockValuePerPctLoaded = true;
++    }
++
++    float GetBlockValuePerPct(uint8 level)
++    {
++        if (!sBlockValuePerPctLoaded)
++            LoadBlockValuePerPctTable();
++        if (level > ZEP_BLOCK_MAX_LEVEL)
++            level = ZEP_BLOCK_MAX_LEVEL;
++        float const v = sBlockValuePerPct[level];
++        return v > 0.0f ? v : 1.0f; // guard against divide-by-zero
++    }
++
++    // Block damage-reduction percent (critical block already applied via ONE isBlockCritical roll).
++    // Returns -1.0f when percent-block mode is off, signalling callers to use stock flat block.
++    float CalcBlockDamageReductionPct(Unit* victim)
++    {
++        if (!sConfigMgr->GetOption<bool>("Block.PercentMode", false))
++            return -1.0f;
++        float const base = sConfigMgr->GetOption<float>("Block.BaseDR", 25.0f);
++        float const cap = sConfigMgr->GetOption<float>("Block.CapDR", 50.0f);
++        float const critMult = sConfigMgr->GetOption<float>("Block.CritMult", 1.5f);
++        float pct = base + float(victim->GetShieldBlockValue()) / GetBlockValuePerPct(victim->GetLevel());
++        if (pct > cap)
++            pct = cap;
++        if (victim->isBlockCritical())
++            pct *= critMult;
++        return pct;
++    }
++
++    // Reload hook (wire to a .reload command later): forces table re-read on next block.
++    [[maybe_unused]] void InvalidateBlockValuePerPctTable() { sBlockValuePerPctLoaded = false; }
++}
++
+ float baseMoveSpeed[MAX_MOVE_TYPE] =
+ {
+     2.5f,                  // MOVE_WALK
+@@ -1597,10 +1665,16 @@ void Unit::CalculateSpellDamageTaken(SpellNonMeleeDamage* damageInfo, int32 dama
+                 // Spell weapon based damage CAN BE crit & blocked at same time
+                 if (blocked)
+                 {
+-                    damageInfo->blocked = victim->GetShieldBlockValue();
+-                    // double blocked amount if block is critical
+-                    if (victim->isBlockCritical())
+-                        damageInfo->blocked *= 2;
++                    float const blockPct = CalcBlockDamageReductionPct(victim); // F-192
++                    if (blockPct >= 0.0f) // percent-block mode
++                        damageInfo->blocked = CalculatePct(uint32(damage), blockPct);
++                    else // stock flat block value
++                    {
++                        damageInfo->blocked = victim->GetShieldBlockValue();
++                        // double blocked amount if block is critical
++                        if (victim->isBlockCritical())
++                            damageInfo->blocked *= 2;
++                    }
+                     if (damage < int32(damageInfo->blocked))
+                         damageInfo->blocked = uint32(damage);
+ 
+@@ -1898,6 +1972,23 @@ void Unit::CalculateMeleeDamage(Unit* victim, CalcDamageInfo* damageInfo, Weapon
+         {
+             damageInfo->TargetState = VICTIMSTATE_HIT;
+             damageInfo->HitInfo |= HITINFO_BLOCK;
++
++            float const blockPct = CalcBlockDamageReductionPct(damageInfo->target); // F-192
++            if (blockPct >= 0.0f) // percent-block mode: reduce each damage component by blockPct%
++            {
++                damageInfo->blocked_amount = 0;
++                for (uint8 i = 0; i < MAX_ITEM_PROTO_DAMAGES; ++i)
++                {
++                    uint32 reduce = CalculatePct(damageInfo->damages[i].damage, blockPct);
++                    if (reduce > damageInfo->damages[i].damage)
++                        reduce = damageInfo->damages[i].damage;
++                    damageInfo->damages[i].damage -= reduce;
++                    damageInfo->cleanDamage += reduce;
++                    damageInfo->blocked_amount += reduce;
++                }
++                break;
++            }
++
+             damageInfo->blocked_amount = damageInfo->target->GetShieldBlockValue();
+             // double blocked amount if block is critical
+             if (damageInfo->target->isBlockCritical())
+-- 
+2.34.1
+
