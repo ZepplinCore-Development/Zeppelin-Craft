@@ -184,10 +184,12 @@ INSERT INTO `spell` SET
 -- reworked to 3 ranks. DELETE-only so `dbc db apply --changed` clears the live rows.
 DELETE FROM `spell` WHERE `id` IN (900207, 900208);
 
--- Molten Plating (900161-900163, 900203-900204) - 5 ranks, passive
--- E1 aura 142 (MOD_BASE_RESISTANCE_PCT, armor): +6% armor per rank (6/12/18/24/30%).
--- E2 aura 150 (MOD_SHIELD_BLOCKVALUE_PCT): +3% block value per rank (3/6/9/12/15%).
--- Block value feeds Rockslam scaling. Icon 4644.
+-- Molten Plating (900161-900163) - 3 ranks, passive (dropped from 5 ranks)
+-- E1 aura 142 (MOD_BASE_RESISTANCE_PCT, armor): +10/20/30% armor from items.
+-- E2 aura 150 (MOD_SHIELD_BLOCKVALUE_PCT): +5/10/15% block value (feeds Rockslam scaling).
+-- E3 aura 187 (MOD_ATTACKER_MELEE_CRIT_CHANCE): -2/4/6% crit taken -> -6% (uncrittable) at max R3.
+--   EW mail has no Defense itemization, so this is its only route to uncrittable (cf. Druid SotF).
+-- Icon 4644. Ranks 4-5 (900203/900204) retired below.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900161;
 
@@ -200,13 +202,13 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 5,
+    `effect_base_points_1` = 9,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 142,
     `effect_misc_value_a_1` = 1,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
-    `effect_base_points_2` = 2,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 150,
     `effect_3` = 6,
@@ -238,18 +240,18 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 11,
+    `effect_base_points_1` = 19,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 142,
     `effect_misc_value_a_1` = 1,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
-    `effect_base_points_2` = 5,
+    `effect_base_points_2` = 9,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 150,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -4,
+    `effect_base_points_3` = -5,
     `effect_implicit_target_a_3` = 1,
     `effect_apply_aura_name_3` = 187,
     `spell_icon_id` = 4644,
@@ -276,82 +278,6 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 17,
-    `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 142,
-    `effect_misc_value_a_1` = 1,
-    `effect_2` = 6,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_2` = 8,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_2` = 150,
-    `effect_3` = 6,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -5,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 187,
-    `spell_icon_id` = 4644,
-    `spell_name_enus` = 'Molten Plating',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 3',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your armor from items by $s1% and your block value by $s2%, and reduces your chance to be critically hit by melee attacks by $s3%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1% and block value by $s2%; reduces your chance to be critically hit by $s3%.',
-    `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `school_mask` = 1;
-
-DELETE FROM `spell` WHERE `id` = 900203;
-
-INSERT INTO `spell` SET
-    `id` = 900203,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `proc_chance` = 101,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 23,
-    `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 142,
-    `effect_misc_value_a_1` = 1,
-    `effect_2` = 6,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_2` = 11,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_2` = 150,
-    `effect_3` = 6,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -6,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 187,
-    `spell_icon_id` = 4644,
-    `spell_name_enus` = 'Molten Plating',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 4',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your armor from items by $s1% and your block value by $s2%, and reduces your chance to be critically hit by melee attacks by $s3%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1% and block value by $s2%; reduces your chance to be critically hit by $s3%.',
-    `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `school_mask` = 1;
-
-DELETE FROM `spell` WHERE `id` = 900204;
-
-INSERT INTO `spell` SET
-    `id` = 900204,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `proc_chance` = 101,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_die_sides_1` = 1,
     `effect_base_points_1` = 29,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 142,
@@ -369,7 +295,7 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 4644,
     `spell_name_enus` = 'Molten Plating',
     `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 5',
+    `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
     `spell_desc_enus` = 'Increases your armor from items by $s1% and your block value by $s2%, and reduces your chance to be critically hit by melee attacks by $s3%.',
     `spell_desc_flags` = 16712190,
@@ -378,6 +304,9 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 1;
+
+-- Ranks 4-5 (900203/900204) retired when Molten Plating dropped from 5 to 3 ranks.
+DELETE FROM `spell` WHERE `id` IN (900203, 900204);
 
 -- Bulwark (900187, 900188, 900202) - Passive, 3 ranks
 -- Straight clone of Critical Block (47294-47296) for Shaman.
