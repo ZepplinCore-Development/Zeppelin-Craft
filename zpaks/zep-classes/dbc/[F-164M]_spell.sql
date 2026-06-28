@@ -1,23 +1,27 @@
 -- [F-164M] Earthwarden - Defensive passives: spell.dbc rows (split from F-164 [F-164]_spell.sql, 2026-06-28).
 -- Talent-granted mitigation passives that previously lived in the F-164 monolith. Their talent rows
--- (2915 Ironhide, 2934 Molten Plating, 2957 Wild Protector, 2975 Anticipation, 2976 Elemental Ward,
+-- (2915 Ironhide, 2934 Molten Plating, 2957 Wild Protector, 2975 Anticipation, 2976 Tempered Ward,
 -- 2979 Bulwark) stay in [F-164]_talent.sql and reference these spell ids (parent owns the talent
 -- tree; ownership != dependency).
---   Elemental Ward  900115/900127/900128  (+ Tempered Ward proc buff 900328; old ranks 4/5 retired)
+--   Tempered Ward   900115/900127/900128 (talent, proc-only) + buffs 900328/900329/900330; old EW ranks 4/5 retired
 --   Molten Plating  900161/900162/900163/900203/900204
 --   Bulwark         900187/900188/900202
 --   Ironhide        900192/900193/900194
 --   Anticipation    900154/900155/900156
 --   Wild Protector  900195/900196/900197
 
--- Elemental Ward (900115, 900127, 900128) - 3 ranks, cloned from Elemental Warding (28996-28998)
--- E1 (aura 87, MOD_DAMAGE_PERCENT_TAKEN): reduces magic damage taken by 3/6/9% per rank.
--- E2 (aura 42, PROC_TRIGGER_SPELL): on taking magic damage (2s ICD - see the spell_proc row in
---   zz_[F-164M]_tempered_ward_proc.sql) triggers Tempered Ward (900328), a stacking magic-DR buff.
--- E1 uses school mask 126 (all magic, excludes physical). Icon 5440.
--- die_sides=1 convention: applied = base+1, so base -(pct+1) yields -pct (e.g. base -4 = -3% = displays 3).
--- Trimmed from 5 ranks to 3 on 2026-06-28; old ranks 4/5 (900207/900208) retired below, and the old
--- E2 "chance to fully resist" (aura 186) was replaced by the Tempered Ward proc.
+-- Tempered Ward (talent: 900115/900127/900128; buffs: 900328/900329/900330) - 3 ranks.
+-- Renamed from Elemental Ward and reworked: the talent has NO flat mitigation - its only
+-- effect (aura 42, PROC_TRIGGER_SPELL) is to apply the Tempered Ward buff on taking magic
+-- damage (2s ICD, see zz_[F-164M]_tempered_ward_proc.sql). Each talent rank triggers its OWN
+-- buff rank so the per-stack value scales with points spent:
+--   R1 900115 -> 900328  (-1%/stack, max 5%)
+--   R2 900127 -> 900329  (-2%/stack, max 10%)
+--   R3 900128 -> 900330  (-3%/stack, max 15%)
+-- Buff: aura 87 MOD_DAMAGE_PERCENT_TAKEN, school mask 126 (all magic), stack_amount 5, 30s
+-- (duration_index 9), refreshed on each proc; shares the talent icon (5440). die_sides=1
+-- convention: applied = base+1 (base -2 = 1%). Buff tooltip multiplies $s1 by stack count
+-- (live total); spellbook desc is per-stack (x1). Old ranks 4/5 (900207/900208) retired below.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900115;
 
@@ -30,24 +34,17 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -4,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 126,
-    `effect_2` = 6,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_2` = 42,
-    `effect_trigger_spell_2` = 900328,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900328,
     `spell_icon_id` = 5440,
-    `spell_name_enus` = 'Elemental Ward',
+    `spell_name_enus` = 'Tempered Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces magic damage taken by $s1%. When you take magic damage, you gain Tempered Ward, reducing magic damage taken by an additional 3% per stack. Stacks up to 5 times and lasts 30 sec.',
+    `spell_desc_enus` = 'When you take magic damage, you gain Tempered Ward, reducing magic damage taken by 1% per stack. Stacks up to 5 times and lasts 30 sec.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
 DELETE FROM `spell` WHERE `id` = 900127;
@@ -61,24 +58,17 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -7,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 126,
-    `effect_2` = 6,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_2` = 42,
-    `effect_trigger_spell_2` = 900328,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900329,
     `spell_icon_id` = 5440,
-    `spell_name_enus` = 'Elemental Ward',
+    `spell_name_enus` = 'Tempered Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces magic damage taken by $s1%. When you take magic damage, you gain Tempered Ward, reducing magic damage taken by an additional 3% per stack. Stacks up to 5 times and lasts 30 sec.',
+    `spell_desc_enus` = 'When you take magic damage, you gain Tempered Ward, reducing magic damage taken by 2% per stack. Stacks up to 5 times and lasts 30 sec.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
 DELETE FROM `spell` WHERE `id` = 900128;
@@ -92,38 +82,80 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -10,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 126,
-    `effect_2` = 6,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_2` = 42,
-    `effect_trigger_spell_2` = 900328,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900330,
     `spell_icon_id` = 5440,
-    `spell_name_enus` = 'Elemental Ward',
+    `spell_name_enus` = 'Tempered Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces magic damage taken by $s1%. When you take magic damage, you gain Tempered Ward, reducing magic damage taken by an additional 3% per stack. Stacks up to 5 times and lasts 30 sec.',
+    `spell_desc_enus` = 'When you take magic damage, you gain Tempered Ward, reducing magic damage taken by 3% per stack. Stacks up to 5 times and lasts 30 sec.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
--- ----------------------------------------------------------------------------
--- Tempered Ward (900328) - stacking magic-DR buff triggered by Elemental Ward's proc
--- (aura 42 on 900115/900127/900128). aura 87 MOD_DAMAGE_PERCENT_TAKEN, magic (mask 126):
--- -3% magic damage taken per stack (die_sides=1, base -4 = 3%). stack_amount 5, 30s
--- (duration_index 9); each proc adds a stack and refreshes the duration. Shares the
--- Elemental Ward icon (5440). The buff tooltip multiplies $s1 by the live stack count, so
--- it reads the running total (3/6/9/12/15%); the spellbook desc is per-stack (x1).
--- ----------------------------------------------------------------------------
+-- ---- Tempered Ward buff ranks (triggered by the talent above) ----
 DELETE FROM `spell` WHERE `id` = 900328;
 
 INSERT INTO `spell` SET
     `id` = 900328,
+    `attributes` = 0,
+    `cast_time_index` = 1,
+    `duration_index` = 9,
+    `stack_amount` = 5,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -2,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 126,
+    `spell_icon_id` = 5440,
+    `spell_name_enus` = 'Tempered Ward',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Magic damage taken reduced by $s1% per stack.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Magic damage taken reduced by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900329;
+
+INSERT INTO `spell` SET
+    `id` = 900329,
+    `attributes` = 0,
+    `cast_time_index` = 1,
+    `duration_index` = 9,
+    `stack_amount` = 5,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -3,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 126,
+    `spell_icon_id` = 5440,
+    `spell_name_enus` = 'Tempered Ward',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Magic damage taken reduced by $s1% per stack.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Magic damage taken reduced by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900330;
+
+INSERT INTO `spell` SET
+    `id` = 900330,
     `attributes` = 0,
     `cast_time_index` = 1,
     `duration_index` = 9,
@@ -139,6 +171,8 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Tempered Ward',
     `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
     `spell_desc_enus` = 'Magic damage taken reduced by $s1% per stack.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Magic damage taken reduced by $s1%.',
@@ -146,8 +180,8 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
--- Retired (2026-06-28): Elemental Ward ranks 4-5 (900207/900208) removed when EW was trimmed to
--- 3 ranks. DELETE-only so `dbc db apply --changed` clears the live rows without a full rebuild.
+-- Retired (2026-06-28): Elemental Ward ranks 4-5 (900207/900208) removed when the talent was
+-- reworked to 3 ranks. DELETE-only so `dbc db apply --changed` clears the live rows.
 DELETE FROM `spell` WHERE `id` IN (900207, 900208);
 
 -- Molten Plating (900161-900163, 900203-900204) - 5 ranks, passive

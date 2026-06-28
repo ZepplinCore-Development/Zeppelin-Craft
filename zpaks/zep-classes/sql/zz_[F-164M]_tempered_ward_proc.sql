@@ -1,7 +1,8 @@
 -- [F-164M] Tempered Ward proc gate.
--- Elemental Ward (900115/900127/900128) carries an aura 42 (PROC_TRIGGER_SPELL) effect that
--- casts Tempered Ward (900328) on the bearer; see [F-164M]_spell.sql. The spell DBC can't express
--- "only on magic damage taken, max once per 2s", so this spell_proc row supplies that gate.
+-- The Tempered Ward talent (900115/900127/900128) carries an aura 42 (PROC_TRIGGER_SPELL) effect
+-- that casts its rank's Tempered Ward buff (900328/900329/900330) on the bearer; see
+-- [F-164M]_spell.sql. The spell DBC can't express "only on magic damage taken, max once per 2s",
+-- so these spell_proc rows supply that gate.
 --   ProcFlags 655360 = TAKEN_SPELL_MAGIC_DMG_CLASS_NEG (0x20000) | TAKEN_PERIODIC (0x80000)
 --     -> direct magic hits AND magic damage-over-time ticks.
 --   SchoolMask 126 = all magic schools (excludes physical), so physical hits/bleeds never proc it.
