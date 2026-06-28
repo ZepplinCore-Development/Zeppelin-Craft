@@ -9,10 +9,10 @@ UPDATE `_rsg_vis` SET `id` = 90020, `impact_kit` = 90020;
 INSERT INTO `spellvisual` SELECT * FROM `_rsg_vis`;
 DROP TEMPORARY TABLE `_rsg_vis`;
 
--- Visual 90021: Rockwall (900223) persistent buff — the swirling Volcanic Shield rocks,
--- bigger. state_kit 90021 = the orbiting-rock state kit at 1.8x scale (kit 90021 ->
--- effect 90021, clones of Volcanic Shield's 90010 chain). Only state_kit is set: Rockwall
--- is an instant defensive CD, so no precast/cast/impact flourish — just the rock shell that
--- orbits for the buff duration. Rockwall (900223) spell_visual_1 -> 90021 (set in spell.sql).
+-- Visual 90021: Rockwall (900223) — a ring of 6 Uldum river-rock clumps orbiting the
+-- shaman (a wall of rocks), state-only. state_kit 90021 -> effect 90021 = the backported
+-- river-rocks model duplicated 6x at 60deg with a looping yaw track. No impact/cast/precast
+-- (no rock burst, no lightning, no hand animation) — just the orbiting rock wall.
+-- Rockwall (900223) spell_visual_1 -> 90021 (set in spell.sql).
 DELETE FROM `spellvisual` WHERE `id` = 90021;
 INSERT INTO `spellvisual` (`id`, `state_kit`) VALUES (90021, 90021);
