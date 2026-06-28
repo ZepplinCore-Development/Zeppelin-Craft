@@ -514,6 +514,17 @@ def emit_bag_buffs(records: List[Dict], bag_map: Dict[int, Dict]) -> str:
     return "\n".join(lines)
 
 
+def emit_item_spells(item_map: Dict[int, int]) -> str:
+    """ZepItemSpells[itemId] = useSpellId — an item's on-use ("Use:") spell, for items whose
+    spell the addon renders. The item-tooltip hook resolves the tied spell from the item link
+    deterministically (GetItemSpell is unreliable for consumables in 3.3.5a)."""
+    lines = ["", "ZepItemSpells = {"]
+    for item in sorted(item_map):
+        lines.append("  [%d]=%d," % (item, item_map[item]))
+    lines += ["}", ""]
+    return "\n".join(lines)
+
+
 def emit_desc(records: List[Dict]) -> str:
     """Bulky desc/tooltip templates, lazy-loaded as the ZepTooltipsDesc sub-addon and merged
     into ZepTooltipData on load (keeps the startup Generated.lua small)."""

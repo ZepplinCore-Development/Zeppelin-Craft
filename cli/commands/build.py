@@ -733,6 +733,37 @@ def _load_world_scaling():
     return spell_bonus, stat_scaling, base_mana
 
 
+def _load_use_item_spells():
+    """{itemId: useSpellId} for every item with an ON-USE spell (trigger 0/5 — potions, food,
+    scrolls, on-use trinkets, mount items, ...). Lets the addon resolve an item's tied spell
+    deterministically from the item link, since GetItemSpell is unreliable for consumables in
+    3.3.5a. The caller scopes this to items whose spell the addon actually renders."""
+    from commands import sql as sqlmod
+    try:
+        import mysql.connector
+    except ImportError:
+        return {}
+    conn = mysql.connector.connect(
+        host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
+        user=sqlmod.DB_USER, password=sqlmod.DB_PASS, database=sqlmod.DB_NAME,
+    )
+    cur = conn.cursor(dictionary=True)
+    cols = ", ".join("spellid_%d, spelltrigger_%d" % (i, i) for i in range(1, 6))
+    where = " OR ".join("spellid_%d > 0" % i for i in range(1, 6))
+    cur.execute(f"SELECT entry, {cols} FROM item_template WHERE {where}")
+    out = {}
+    for r in cur.fetchall():
+        for i in range(1, 6):
+            sid = int(r["spellid_%d" % i] or 0)
+            trig = int(r["spelltrigger_%d" % i] or 0)
+            if sid and trig in (0, 5):      # ON_USE / ON_USE_NO_DELAY — the item's "Use:" spell
+                out[int(r["entry"])] = sid
+                break
+    cur.close()
+    conn.close()
+    return out
+
+
 def _load_item_sources(spell_ids):
     """Map mod-source spells to the items that grant them, split by trigger:
       equip_map : {modSpell: [item entry, ...]}  on-equip auras (relics/librams/idols — I-218)
@@ -907,10 +938,15 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
         # dropped — the addon no-ops on a missing key anyway, so this is lossless.
         emit = [r for r in records
                 if r["casterDependent"] or r.get("renderable")]
+        # item -> use-spell map, scoped to items whose spell the addon actually renders, so the
+        # item-tooltip hook resolves the tied spell without depending on GetItemSpell.
+        emit_ids = {r["id"] for r in emit}
+        item_spell_map = {item: sp for item, sp in _load_use_item_spells().items() if sp in emit_ids}
         lua = (tg.emit_lua(emit) + "\n" + tg.emit_talent_ranks(emit, talent_rows)
                + "\n" + tg.emit_base_mana(base_mana)
                + "\n" + tg.emit_equip_sources(emit, equip_map)
-               + "\n" + tg.emit_bag_buffs(emit, bag_map))
+               + "\n" + tg.emit_bag_buffs(emit, bag_map)
+               + "\n" + tg.emit_item_spells(item_spell_map))
         if out_path:
             Path(out_path).write_text(lua, encoding='utf-8')
             click.echo(click.style(

@@ -351,6 +351,23 @@ local function onSpellTooltip(tooltip)
     renderTooltip(tooltip, spellId)
 end
 
+-- Item tooltips: an item with an on-use spell (GetItemSpell -> the "Use:" spell) gets the same
+-- recomputed desc/value lines as the spell itself, so potions, scrolls, on-use trinkets, mount
+-- items, riding crops, etc. show the real numbers. Equip-only items have no GetItemSpell (their
+-- modifier has no standalone value); their bonus surfaces on the spells they modify instead.
+local function onItemTooltip(tooltip)
+    local _, link = tooltip:GetItem()
+    if not link then return end
+    -- resolve the item's on-use spell from ZepItemSpells (deterministic; GetItemSpell is
+    -- unreliable for consumables in 3.3.5a), falling back to GetItemSpell for anything missing.
+    local spellId
+    local map = rawget(_G, "ZepItemSpells")
+    local itemId = tonumber(link:match("item:(%d+)"))
+    if map and itemId then spellId = map[itemId] end
+    if not spellId and GetItemSpell then spellId = select(2, GetItemSpell(link)) end
+    if spellId then renderTooltip(tooltip, spellId) end
+end
+
 -- Aura tooltips. Routing: a caster-dependent aura cast by someone else needs the live
 -- server value (Layer 3 / ALE — deferred); otherwise compute locally.
 local function handleAura(self, caster, spellId)
@@ -375,6 +392,8 @@ f:SetScript("OnEvent", function(_, event, name)
         cfg()
         Data = rawget(_G, "ZepTooltipData") or Data
         GameTooltip:HookScript("OnTooltipSetSpell", onSpellTooltip)
+        GameTooltip:HookScript("OnTooltipSetItem", onItemTooltip)
+        if ItemRefTooltip then ItemRefTooltip:HookScript("OnTooltipSetItem", onItemTooltip) end
         local function hookAura(method, resolver)
             if type(GameTooltip[method]) == "function" then
                 hooksecurefunc(GameTooltip, method, function(self, unit, index, filter)
