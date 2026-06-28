@@ -29,6 +29,11 @@ AURA_ADD_FLAT_MODIFIER = 107
 AURA_ADD_PCT_MODIFIER = 108
 AURA_DUMMY = 4
 
+# Movement-speed auras the addon renders as a "Speed" line (ground / swim / flight). A spell
+# carrying one is renderable (mounts/forms) so it ships full effect data even with no custom
+# desc var. Mirror of SPEED_LABEL in Compute.lua.
+SPEED_AURAS = {31, 32, 58, 129, 130, 206, 207, 208, 209, 210, 211}
+
 # Weapon-damage SPELL_EFFECT types (effect_N, NOT auras) — all route to
 # Spell::EffectWeaponDmg in core. Spells with these scale on the CASTER's weapon,
 # which is local player state (UnitDamage), so they are self-computable. They live
@@ -321,7 +326,10 @@ def classify(spell_id: int, spells: Dict[int, Dict],
             consumable["eff"] = int(tok.group(1)) if tok else max(effects, key=lambda e: e["base"])["i"]
             if consumable["ps"]:
                 consumable["dur"] = int(row.get("_dur") or 0)  # seconds, for the total restore
-    renderable = bool(sp_ap or weapon or stat_entries or custom_var) or is_custom or bool(consumable) or has_xref
+    # a movement-speed spell (mount/form) is renderable so the addon gets its effect data to
+    # show Ground/Flight/Swim lines, even now that the F-005 speed desc vars are retired.
+    has_speed = any(e["aura"] in SPEED_AURAS for e in effects)
+    renderable = bool(sp_ap or weapon or stat_entries or custom_var) or is_custom or bool(consumable) or has_xref or has_speed
 
     return {
         "id": spell_id,
@@ -486,6 +494,22 @@ def emit_equip_sources(records: List[Dict], equip_map: Dict[int, List[int]]) -> 
     for spell in sorted(equip_map):
         if spell in referenced and equip_map[spell]:
             lines.append("  [%d] = {%s}," % (spell, ",".join(str(e) for e in equip_map[spell])))
+    lines += ["}", ""]
+    return "\n".join(lines)
+
+
+def emit_bag_buffs(records: List[Dict], bag_map: Dict[int, Dict]) -> str:
+    """ZepBagSources[buffSpell] = {item, tier, grp} — a 0x80-hidden buff applied by USING an item
+    that persists in bags (riding crops, profession tools, ...). UnitAura can't see the hidden
+    buff, so the addon detects the ITEM in bags and applies the highest tier owned PER GROUP
+    (grp = the modifier's family+class-mask: buffs that modify the same spells are one
+    mutually-exclusive tier group). Generic — any such buff, scoped to referenced mod sources."""
+    referenced = {m["src"] for r in records for m in r.get("mods", [])}
+    lines = ["", "ZepBagSources = {"]
+    for buff in sorted(bag_map):
+        if buff in referenced:
+            i = bag_map[buff]
+            lines.append('  [%d] = {item=%d, tier=%d, grp="%s"},' % (buff, i["item"], i["tier"], i["grp"]))
     lines += ["}", ""]
     return "\n".join(lines)
 

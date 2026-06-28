@@ -141,12 +141,34 @@ local function equippedSources()
     return active
 end
 
+-- Catch-all bag detection: a 0x80-HIDDEN buff applied by USING an item that persists in bags
+-- (riding crops, profession tools, ...) is invisible to UnitAura, like the equip/glyph/talent
+-- blind spots. Detect the item in bags and apply the highest tier owned PER GROUP — buffs in a
+-- group (grp = they modify the same spells) are mutually-exclusive tiers, so only the best one
+-- applies; different groups (crop vs smithing tool) coexist. ZepBagSources: buff -> {item,
+-- tier, grp}. Returned buffs feed ctx.hasAura.
+local function activeBagBuffs()
+    local src = rawget(_G, "ZepBagSources")
+    if not src or not GetItemCount then return {} end
+    local bestByGrp = {}
+    for buff, info in pairs(src) do
+        if (GetItemCount(info.item) or 0) > 0 then
+            local cur = bestByGrp[info.grp]
+            if not cur or info.tier > cur.tier then bestByGrp[info.grp] = { buff = buff, tier = info.tier } end
+        end
+    end
+    local active = {}
+    for _, b in pairs(bestByGrp) do active[b.buff] = 1 end
+    return active
+end
+
 local function buildCtx()
     local b, p, n = UnitAttackPower("player")
     local lo, hi = UnitDamage("player")
     local glyphs = activeGlyphs()
     local talents = activeTalents()
     local equipped = equippedSources()
+    local bagBuffs = activeBagBuffs()
     -- A spell's %-mana cost is a percentage of BASE mana (a class/level constant), NOT the
     -- player's max mana (which Intellect/gear inflate). Look it up by class+level from the
     -- generated ZepBaseMana table so cost lines match the client; fall back to max mana.
@@ -163,7 +185,7 @@ local function buildCtx()
         ap = (b or 0) + (p or 0) + (n or 0),
         weaponAvg = (lo and hi) and (lo + hi) * 0.5 or 0,
         knows = function(id) return (IsSpellKnown and IsSpellKnown(id)) or glyphs[id] or talents[id] or equipped[id] or false end,
-        hasAura = function(id) return auraStacks("player", id) end,
+        hasAura = function(id) local a = auraStacks("player", id); if a > 0 then return a end; return bagBuffs[id] or 0 end,
         stat = function(sid) local r = StatReader[sid]; return r and r() or 0 end,
         baseMana = baseMana,
         spellCrit = GetSpellCritChance and GetSpellCritChance(2) or 0,  -- representative school
@@ -240,10 +262,17 @@ local function renderTooltip(tooltip, spellId, isAura)
     -- Phase 6: recomputed text below the native line — the spellbook DESC for a spell tooltip,
     -- the TOOLTIP (spell_tooltip_enus) for an active aura. When shown it conveys the value, so
     -- the terse primary line is dropped.
+    -- Speed/mount spells: the structured Speed lines below ARE the value, so skip the desc
+    -- recompute (mount/form descs are now flavor-only stock text — the F-005 $<flyingspeed>
+    -- desc-variables were retired as redundant with these lines).
+    local speeds = ZepCompute.speedEffects(rec)
     local descShown = false
-    if ZepDesc then
-        local computed = ZepDesc.render(rec, ctx, function(id) return Data[id] end, isAura)
-        if computed and computed ~= "" then
+    if #speeds == 0 and ZepDesc then
+        local computed, ok = ZepDesc.render(rec, ctx, function(id) return Data[id] end, isAura)
+        -- only show the recompute if it FULLY resolved; an unresolved client-side
+        -- SpellDescriptionVariable ($<...>) would otherwise print as a literal token, so we
+        -- defer. (Debug still shows it so unresolved tokens stay spottable in-game.)
+        if computed and computed ~= "" and (ok or ZepTooltipsDB.debug) then
             addLine(computed)
             descShown = true
         end
@@ -252,7 +281,6 @@ local function renderTooltip(tooltip, spellId, isAura)
     local pe = ZepCompute.primaryEffect(rec)
     local isSpeed = pe and ZepCompute.isSpeed(pe)
     if not descShown then
-        local speeds = ZepCompute.speedEffects(rec)
         if #speeds > 0 then
             -- a mount can grant several speeds at once (flight + ground, or ground + swim) —
             -- show one labelled line per speed effect, e.g. "Flight: 310%" then "Ground: 100%".

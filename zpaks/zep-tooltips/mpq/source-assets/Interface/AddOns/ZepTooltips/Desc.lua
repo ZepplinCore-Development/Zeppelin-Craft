@@ -218,9 +218,10 @@ function ZepDesc.render(rec, ctx, getRec, useTt)
     if not rec then return nil end
     local template = (useTt and rec.tt) or rec.desc
     if not template then return nil end
-    -- always return the recompute; unresolved tokens pass through as literals so they're
-    -- easy to spot in-game, rather than silently dropping the whole desc.
-    return (interpret(template, rec, ctx, getRec))
+    -- returns (text, ok). ok=false if a token couldn't resolve (it passes through as a literal,
+    -- e.g. a client-side SpellDescriptionVariable like $<flyingspeed> the engine doesn't
+    -- implement). The caller can then prefer the structured lines over a literal-bearing recompute.
+    return interpret(template, rec, ctx, getRec)
 end
 
 -- Exposed for tests.

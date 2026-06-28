@@ -733,18 +733,20 @@ def _load_world_scaling():
     return spell_bonus, stat_scaling, base_mana
 
 
-def _load_equip_sources(spell_ids):
-    """{modSpell: [item entry, ...]} for spells granted by an ON-EQUIP item aura
-    (relics/librams/idols/totems, equip auras). The addon detects such a hidden equip passive
-    by the equipped item, since it's neither IsSpellKnown nor a visible UnitAura (I-218)."""
+def _load_item_sources(spell_ids):
+    """Map mod-source spells to the items that grant them, split by trigger:
+      equip_map : {modSpell: [item entry, ...]}  on-equip auras (relics/librams/idols — I-218)
+      bag_items : {modSpell: item entry}          on-use buffs carried in bags (riding crops)
+    Both are 0x80-hidden (neither IsSpellKnown nor a visible UnitAura); the addon detects the
+    equipped item (equip) or the carried item (bag) instead."""
     want = set(int(s) for s in spell_ids)
     if not want:
-        return {}
+        return {}, {}
     from commands import sql as sqlmod
     try:
         import mysql.connector
     except ImportError:
-        return {}
+        return {}, {}
     conn = mysql.connector.connect(
         host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
         user=sqlmod.DB_USER, password=sqlmod.DB_PASS, database=sqlmod.DB_NAME,
@@ -753,16 +755,20 @@ def _load_equip_sources(spell_ids):
     cols = ", ".join("spellid_%d, spelltrigger_%d" % (i, i) for i in range(1, 6))
     where = " OR ".join("spellid_%d > 0" % i for i in range(1, 6))
     cur.execute(f"SELECT entry, {cols} FROM item_template WHERE {where}")
-    out = {}
+    equip, bag = {}, {}
     for r in cur.fetchall():
         for i in range(1, 6):
             sid = int(r["spellid_%d" % i] or 0)
             trig = int(r["spelltrigger_%d" % i] or 0)
-            if sid in want and trig == 1:          # 1 = ON_EQUIP
-                out.setdefault(sid, set()).add(int(r["entry"]))
+            if sid not in want:
+                continue
+            if trig == 1:                          # ON_EQUIP
+                equip.setdefault(sid, set()).add(int(r["entry"]))
+            elif trig in (0, 5):                   # ON_USE (5 = no-delay use, the riding crops)
+                bag.setdefault(sid, int(r["entry"]))
     cur.close()
     conn.close()
-    return {s: sorted(v) for s, v in out.items()}
+    return {s: sorted(v) for s, v in equip.items()}, bag
 
 
 @build.command('tooltip-data')
@@ -827,11 +833,30 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
     # classified via="known" by the PASSIVE heuristic but isn't IsSpellKnown-able (gear, not a
     # learned spell) and is hidden from UnitAura. Map mod sources to their granting items so the
     # addon can detect them by equipped gear, and reclassify those modifiers via="equip".
-    equip_map = _load_equip_sources({m.src_id for m in mod_index})
+    equip_map, bag_items = _load_item_sources({m.src_id for m in mod_index})
     for m in mod_index:
         if m.src_id in equip_map:
             m.via = "equip"
-    click.echo(f"Mapped {len(equip_map)} equip-granted modifier source(s).\n")
+    # Bag-detected buffs (riding crops, profession tools, ...): a 0x80-HIDDEN buff applied by
+    # USING an item that persists in bags is invisible to UnitAura, so the addon detects the
+    # item instead. (A VISIBLE use-buff — potion/trinket — is seen by UnitAura when actually
+    # active, so bag presence must NOT apply it: gate on 0x80.) Keep via="aura" (addon folds bag
+    # into hasAura). tier = effect-1 base; grp = the modifier's (family, class-mask) signature so
+    # buffs that modify the SAME spells are recognised as one anti-stack tier group (the addon
+    # applies only the best owned per group — crops don't compete with smithing tools, etc.).
+    buff_sig = {}
+    for m in mod_index:
+        buff_sig.setdefault(m.src_id, (m.family, tuple(m.mask)))
+    bag_map = {}
+    for buff, item in bag_items.items():
+        row = spells.get(buff)
+        if row and (tg._i(row, "attributes") & 0x80):
+            fam, mask = buff_sig.get(buff, (0, (0, 0, 0)))
+            grp = "%d:%d:%d:%d" % (fam, mask[0], mask[1], mask[2])
+            # tier = MAGNITUDE of the effect (the speed % / the cast-time reduction %), so the
+            # "best owned" pick is sign-agnostic — crops have +base, reduction tools have -base.
+            bag_map[buff] = {"item": item, "tier": abs(tg._i(row, "effect_base_points_1")), "grp": grp}
+    click.echo(f"Mapped {len(equip_map)} equip + {len(bag_map)} bag (crop) modifier source(s).\n")
 
     def _classify(sid):
         return tg.classify(sid, spells, mod_index, spell_bonus, stat_scaling)
@@ -884,7 +909,8 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
                 if r["casterDependent"] or r.get("renderable")]
         lua = (tg.emit_lua(emit) + "\n" + tg.emit_talent_ranks(emit, talent_rows)
                + "\n" + tg.emit_base_mana(base_mana)
-               + "\n" + tg.emit_equip_sources(emit, equip_map))
+               + "\n" + tg.emit_equip_sources(emit, equip_map)
+               + "\n" + tg.emit_bag_buffs(emit, bag_map))
         if out_path:
             Path(out_path).write_text(lua, encoding='utf-8')
             click.echo(click.style(
