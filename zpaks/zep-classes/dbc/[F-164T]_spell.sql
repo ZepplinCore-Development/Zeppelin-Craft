@@ -170,3 +170,23 @@ UPDATE `_glyph_apply` SET
 INSERT INTO `spell` SELECT * FROM `_glyph_apply`;
 
 DROP TEMPORARY TABLE `_glyph_apply`;
+
+-- 900296 Glyph of Thunderborne Leap (Inscription CREATE_ITEM recipe -> item 57496).
+-- Reagent Celestial Ink (43120). Split from [F-164]_spell.sql with the rest of the glyph.
+DELETE FROM `spell` WHERE `id` = 900296;
+
+INSERT INTO `spell` SET
+    `id` = 900296,
+    `attributes` = 65568,
+    `cast_time_index` = 14,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_item_type_1` = 57496,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `reagent_1` = 43120,
+    `reagent_count_1` = 1,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Glyph of Thunderborne Leap',
+    `spell_name_flags` = 16712190,
+    `school_mask` = 1;
