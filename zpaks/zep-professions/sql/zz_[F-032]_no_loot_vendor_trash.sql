@@ -132,6 +132,14 @@ INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`Quest
   (21078, 29580, 0, 1.3537,  0, 1, 0, 1, 1, 'Farahlon Shardling - Crystal Fragments'),
   (21078, 29581, 0, 0.2083,  0, 1, 0, 1, 1, 'Farahlon Shardling - Strange Crystal');
 
+-- 21328 Apex Crumbler (lvl 66-67, tier 100027)
+DELETE FROM `creature_loot_template` WHERE `Entry` = 21328;
+INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`QuestRequired`,`LootMode`,`GroupId`,`MinCount`,`MaxCount`,`Comment`) VALUES
+  (21328, 29579, 0, 100,     0, 1, 0, 1, 2, 'Apex Crumbler - Crystalized Stone Chips'),
+  (21328, 29578, 0, 17.3551, 0, 1, 0, 1, 1, 'Apex Crumbler - Crystalized Stone'),
+  (21328, 29580, 0, 1.3537,  0, 1, 0, 1, 1, 'Apex Crumbler - Crystal Fragments'),
+  (21328, 29581, 0, 0.2083,  0, 1, 0, 1, 1, 'Apex Crumbler - Strange Crystal');
+
 -- 21079 Cragskaar Shardling (lvl 69, tier 100027)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 21079;
 INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`QuestRequired`,`LootMode`,`GroupId`,`MinCount`,`MaxCount`,`Comment`) VALUES

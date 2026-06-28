@@ -214,6 +214,8 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 19824);
 -- Apex
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 19940);
+-- Apex Crumbler (lootid 21328 = vendor trash, prevents fast corpse despawn so mining loot is reachable)
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 21328 WHERE (`entry` = 21328);
 -- Cragskaar
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 20202);
 -- Sundered Shard
