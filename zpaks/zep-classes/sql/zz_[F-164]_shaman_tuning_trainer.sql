@@ -1,38 +1,15 @@
 -- [F-164] Shaman Tuning: trainer
--- Earthen Reprisal on Shaman trainer (TrainerId 14), level 6
 -- Ancestral Warcry on Shaman trainer (TrainerId 14), level 10
--- Rockslam on Shaman trainer (TrainerId 14), level 20
 
-DELETE FROM `trainer_spell` WHERE `SpellId` = 900114;
-INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
-VALUES (14, 900114, 100, 0, 0, 0, 0, 0, 6);
+-- (Earthen Reprisal 900114 Shaman-trainer row moved to zz_[F-164E]_earthen_reprisal_trainer.sql)
 
 DELETE FROM `trainer_spell` WHERE `SpellId` = 900153;
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
 VALUES (14, 900153, 200, 0, 0, 0, 0, 0, 10);
 
-DELETE FROM `trainer_spell` WHERE `SpellId` = 900119;
-INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
-VALUES (14, 900119, 500, 0, 0, 0, 0, 0, 20);
+-- (Rockslam 900119 + Rocksurge 900263 Shaman-trainer rows moved to zz_[F-164R]_trainer.sql)
 
--- Rocksurge (900263) Rocksteady spender on Shaman trainer (TrainerId 14), level 24.
--- Crag Strike (900262) is intentionally NOT trained here — it is talent-granted.
-DELETE FROM `trainer_spell` WHERE `SpellId` = 900263;
-INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
-VALUES (14, 900263, 800, 0, 0, 0, 0, 0, 24);
+-- (Spirit Communion 900185 Shaman-trainer row moved to zz_[F-164H]_trainer.sql)
 
--- Spirit Communion (active 900185) on Shaman trainer, level 12
-DELETE FROM `trainer_spell` WHERE `SpellId` = 900185;
-INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
-VALUES (14, 900185, 200, 0, 0, 0, 0, 0, 12);
-
--- Rockbiter Weapon ranks 5-10 (re-added TBC ranks + new WotLK R10) on Shaman trainer
-DELETE FROM `trainer_spell` WHERE `SpellId` IN (900230, 900231, 900232, 900233, 900234, 900235);
-INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
-VALUES
-    (14, 900230,  1000, 0, 0, 0, 0, 0, 34),
-    (14, 900231,  2500, 0, 0, 0, 0, 0, 44),
-    (14, 900232,  5000, 0, 0, 0, 0, 0, 54),
-    (14, 900233, 10000, 0, 0, 0, 0, 0, 62),
-    (14, 900234, 20000, 0, 0, 0, 0, 0, 70),
-    (14, 900235, 35000, 0, 0, 0, 0, 0, 78);
+-- [MIGRATED -> F-164C] Rockbiter Weapon ranks 5-10 trainer rows (900230-900235)
+-- moved to zz_[F-164C]_rockbiter_trainer.sql.

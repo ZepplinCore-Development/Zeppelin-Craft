@@ -10,7 +10,4 @@
 --   Rockslam   ReqLevel 15
 --   Rocksurge  ReqLevel 20
 -- ReqSkillLine 0 (class spell, gated by level), ReqSpell 0 (no rank prereq).
-DELETE FROM `npc_trainer` WHERE `ID` = 200018 AND `SpellID` IN (900119, 900263);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
-(200018, 900119, 1000, 0, 0, 15, 0),  -- Rockslam
-(200018, 900263, 2000, 0, 0, 20, 0);  -- Rocksurge
+-- (Rockslam 900119 + Rocksurge 900263 class-template rows moved to zz_[F-164R]_trainer.sql)

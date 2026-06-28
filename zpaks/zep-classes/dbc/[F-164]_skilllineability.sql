@@ -48,8 +48,7 @@ DELETE FROM `skilllineability` WHERE `id` = 200078;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
 (200078, 9001, 900173, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
--- Stoneskin (900164) merged into Rockwall (900223); its SLA 200079 removed.
-DELETE FROM `skilllineability` WHERE `id` = 200079;
+-- (Stoneskin SLA 200079 -> 900164 now owned by the standalone sub-feature [F-164K]_skilllineability.sql)
 
 -- Earthen Reprisal on Earthwarden skill line
 DELETE FROM `skilllineability` WHERE `id` = 200045;
@@ -115,39 +114,20 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200094, 9001, 900234, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200095, 9001, 900235, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
--- Rockwall (900223) active on the Earthwarden skill line (9001) so it shows in the spellbook tab
-DELETE FROM `skilllineability` WHERE `id` = 200096;
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200096, 9001, 900223, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+-- (Rockwall SLA 200096 -> 900223 moved to [F-164R]_skilllineability.sql)
 
 -- RETIRED (2026-06-16): SLA 200097 for the custom totem 900224 is removed (the
 -- totem is retired). Stonebond (900225) is a PASSIVE talent and needs no SLA.
 -- DELETE kept so the orphaned row is purged from the DBC.
 DELETE FROM `skilllineability` WHERE `id` = 200097;
 
--- Crag Strike (900262) — TALENT-GRANTED melee filler. acquire_method 0 so a talent
--- reset removes it. The talent itself (SpellRank -> 900262) is placed via the talent
--- editor; this SLA only gives it Earthwarden-tab membership (9001 is granted to all
--- shamans). Move to skill_line 373 if the talent is placed in the Enhancement tree.
-DELETE FROM `skilllineability` WHERE `id` = 200098;
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200098, 9001, 900262, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+-- Crag Strike SkillLineAbility rows (R1 200098 + R2-R8 200102-200108 + glyph recipe
+-- 200113) moved to [F-164B]_skilllineability.sql.
 
--- Rocksurge (900263) — baseline trainer-learned Rocksteady spender on the Earthwarden line.
-DELETE FROM `skilllineability` WHERE `id` = 200099;
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200099, 9001, 900263, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+-- (Rocksurge SLA 200099 -> 900263 moved to [F-164R]_skilllineability.sql)
 
--- F-164 Glyph recipes — Inscription (773). Any scribe (required_classes 0), trainer-learned
--- (acquire_method 0). Gated to each ability's ACTUAL acquisition level (talent tier / baseline)
--- and the ink's make-skill (Midnight ~80, Lion's ~115, Celestial ~215). min_skill = gate,
--- yellow = gate, grey = gate + 40.
-DELETE FROM `skilllineability` WHERE `id` IN (200110, 200111, 200112, 200113, 200114, 200115, 200116);
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200110, 773, 900290, 0, 0, 0, 0,  80, 0, 0, 120,  80, 0, 0),  -- Rockslam (~L19, Midnight)
-(200113, 773, 900293, 0, 0, 0, 0,  80, 0, 0, 120,  80, 0, 0),  -- Crag Strike (L19, Midnight)
-(200111, 773, 900291, 0, 0, 0, 0, 115, 0, 0, 155, 115, 0, 0),  -- Rocksurge (L24, Lion's)
-(200115, 773, 900295, 0, 0, 0, 0, 115, 0, 0, 155, 115, 0, 0),  -- Rockwall (L29, Lion's)
-(200114, 773, 900294, 0, 0, 0, 0, 130, 0, 0, 170, 130, 0, 0),  -- Volcanic Shield (L34, Lion's)
-(200112, 773, 900292, 0, 0, 0, 0, 145, 0, 0, 185, 145, 0, 0),  -- Tectonic Blast (L39, Lion's)
-(200116, 773, 900296, 0, 0, 0, 0, 215, 0, 0, 255, 215, 0, 0);  -- Thunderborne Leap (L59, Celestial)
+-- F-164 Glyph recipe Inscription (773) SLAs all migrated to their sub-feature files:
+--  200110/200111/200115 -> [F-164R]; 200113 -> [F-164B]; 200114 -> [F-164D];
+--  200112 -> [F-164A]_skilllineability.sql; 200116 -> [F-164T]_skilllineability.sql.
+
+-- Crag Strike R2-R8 SkillLineAbility (200102-200108) moved to [F-164B]_skilllineability.sql.

@@ -1,8 +1,6 @@
--- [F-164] Custom spellvisual for Volcanic Shield AOE proc
--- Visual 90001: Fire Nova area kit (2064), no cast_kit
--- Uses instant_area_kit, impact_area_kit, and caster_impact_kit for triggered spell compatibility
-DELETE FROM `spellvisual` WHERE `id` = 90001;
-INSERT INTO `spellvisual` (`id`, `instant_area_kit`, `impact_area_kit`, `caster_impact_kit`) VALUES (90001, 2064, 2064, 2064);
+-- [F-164] Custom spellvisual rows (Spirit Communion 90002).
+-- [MIGRATED -> F-164D] Volcanic Shield eruption visual 90001 moved to [F-164D]_spellvisual.sql.
+-- [MIGRATED -> F-164R] Rocksurge visual 90020 moved to [F-164R]_spellvisual.sql.
 
 -- Visual 90002: Spirit Communion — ghost/spirit effect + heal glow
 -- cast_kit 90001 = custom kit (Ghost_state + cast directed anim, blends with movement)
@@ -10,21 +8,6 @@ INSERT INTO `spellvisual` (`id`, `instant_area_kit`, `impact_area_kit`, `caster_
 DELETE FROM `spellvisual` WHERE `id` = 90002;
 INSERT INTO `spellvisual` (`id`, `cast_kit`, `caster_impact_kit`) VALUES (90002, 90001, 232);
 
--- Visual 90003: Volcanic Shield persistent buff — orbiting red rocks
--- state_kit 90010   = custom kit using the recolored Earth Shield state model
--- precast_kit 90011 / cast_kit 90012 = custom red-recolored Lightning hand flourish
--- impact_kit 90013  = custom partial-red LightningShield_Impact_Base — the "big lines coming
---   down from the sky" the shields play on the caster at cast completion (Volcanic had none).
--- Mirrors stock Earth Shield SpellVisual 7362 (state_kit 6428) + custom red cast anim
-DELETE FROM `spellvisual` WHERE `id` = 90003;
-INSERT INTO `spellvisual` (`id`, `precast_kit`, `cast_kit`, `impact_kit`, `state_kit`) VALUES (90003, 90011, 90012, 90013, 90010);
+-- [MIGRATED -> F-164D] Volcanic Shield buff visual 90003 moved to [F-164D]_spellvisual.sql.
 
--- Visual 90020: Rocksurge — clone of stock Ground Spike visual 12718, impact_kit
--- repointed to the 1/3-scale kit 90020 (cast_kit 181 kept). Rocksurge (900263)
--- spell_visual_1 -> 90020 (set in [F-164]_spell.sql). Temp-table clone copies the
--- rest of 12718 exactly.
-DELETE FROM `spellvisual` WHERE `id` = 90020;
-CREATE TEMPORARY TABLE `_rsg_vis` SELECT * FROM `spellvisual` WHERE `id` = 12718;
-UPDATE `_rsg_vis` SET `id` = 90020, `impact_kit` = 90020;
-INSERT INTO `spellvisual` SELECT * FROM `_rsg_vis`;
-DROP TEMPORARY TABLE `_rsg_vis`;
+-- (Rocksurge visual 90020 moved to [F-164R]_spellvisual.sql)
