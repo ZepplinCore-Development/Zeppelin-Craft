@@ -95,8 +95,8 @@ def validate_manifest(path: Path) -> Tuple[bool, str]:
 
     # Validate feature_id format if present
     feature_id = manifest.get('feature_id')
-    if feature_id and not re.match(r'^F-\d{3}$', feature_id):
-        return False, f"Invalid feature_id format: {feature_id} (must be F-XXX)"
+    if feature_id and not re.match(r'^F-\d{3}[A-Z]?$', feature_id):
+        return False, f"Invalid feature_id format: {feature_id} (must be F-XXX or sub-feature F-XXXL)"
 
     # Validate priority is integer if present
     priority = manifest.get('priority')
@@ -125,8 +125,9 @@ def get_manifest_path(craft_root: Path, name: str) -> Optional[Path]:
     return None
 
 
-# Feature ID pattern: F-001, I-002, etc. inside brackets
-_FEATURE_ID_RE = re.compile(r'[FI]-\d{3}')
+# Feature ID pattern: F-001, I-002, etc. inside brackets.
+# Optional trailing letter = sub-feature (e.g. F-164D split from parent F-164).
+_FEATURE_ID_RE = re.compile(r'[FI]-\d{3}[A-Z]?')
 
 
 def extract_feature_ids(filename: str) -> Set[str]:
@@ -148,6 +149,25 @@ def extract_feature_ids(filename: str) -> Set[str]:
     return set(_FEATURE_ID_RE.findall(filename))
 
 
+# Sub-feature suffix: a trailing uppercase letter on a base ID (e.g. F-164C)
+_SUBFEATURE_RE = re.compile(r'^([FI]-\d{3})[A-Z]$')
+
+
+def parent_feature_id(feature_id: str) -> str:
+    """Return the parent feature ID of a sub-feature.
+
+    Sub-features use a trailing uppercase letter on the parent ID, so
+    'F-164C' is sub-feature C of 'F-164'. A base feature ID (no trailing
+    letter) is returned unchanged.
+
+      F-164C -> F-164
+      F-164  -> F-164
+      I-042B -> I-042
+    """
+    m = _SUBFEATURE_RE.match(feature_id)
+    return m.group(1) if m else feature_id
+
+
 def is_feature_disabled(filename: str, disabled_features: Set[str]) -> bool:
     """Check if a file should be skipped based on disabled features.
 
@@ -166,4 +186,9 @@ def is_feature_disabled(filename: str, disabled_features: Set[str]) -> bool:
     ids = extract_feature_ids(filename)
     if not ids:
         return False
-    return ids.issubset(disabled_features)
+    # A feature ID is covered if it — or its parent — is disabled, so disabling
+    # a parent feature (e.g. F-164) cascades to its sub-features (F-164C, ...).
+    return all(
+        fid in disabled_features or parent_feature_id(fid) in disabled_features
+        for fid in ids
+    )

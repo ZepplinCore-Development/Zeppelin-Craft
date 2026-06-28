@@ -976,7 +976,7 @@ def validate_task_id(task_id: str) -> bool:
     Returns:
         True if valid format
     """
-    return bool(re.match(r'^[FI]-\d+$', task_id))
+    return bool(re.match(r'^[FI]-\d+[A-Z]?$', task_id))
 
 
 # =============================================================================
