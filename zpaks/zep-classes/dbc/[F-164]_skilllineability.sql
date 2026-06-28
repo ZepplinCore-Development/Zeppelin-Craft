@@ -1,7 +1,7 @@
 -- [F-164] Earthwarden skilllineability
 -- Maps talent-granted active spells to the Earthwarden skillline (9001)
 -- so they appear in the Earthwarden tab of the spellbook.
--- Also maps Shield Mastery to Enhancement and Earthen Reprisal to Earthwarden.
+-- Also maps Earthen Reprisal to Earthwarden.
 
 -- Base Earthwarden talent abilities (acquire_method=0 so talent reset removes them)
 DELETE FROM `skilllineability` WHERE `id` IN (200065, 200066, 200067, 200068, 200069, 200101);
@@ -21,15 +21,6 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200076, 9001, 900129, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200077, 9001, 900130, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200100, 9001, 900131, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
--- Shield Mastery (900133-900137) on Earthwarden skill line (9001)
-DELETE FROM `skilllineability` WHERE `id` IN (200070, 200071, 200072, 200073, 200074);
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200070, 9001, 900133, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-(200071, 9001, 900134, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-(200072, 9001, 900135, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-(200073, 9001, 900136, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-(200074, 9001, 900137, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0);
 
 -- Ancestral Warcry on Earthwarden skill line
 DELETE FROM `skilllineability` WHERE `id` = 200075;
@@ -131,3 +122,7 @@ DELETE FROM `skilllineability` WHERE `id` = 200097;
 --  200112 -> [F-164A]_skilllineability.sql; 200116 -> [F-164T]_skilllineability.sql.
 
 -- Crag Strike R2-R8 SkillLineAbility (200102-200108) moved to [F-164B]_skilllineability.sql.
+
+-- Shield Mastery SkillLineAbility (200070-200074) retired with its spells 900133-900137
+-- (deleted, not migrated — superseded by the F-192 block rework). DELETE-only cleanup.
+DELETE FROM `skilllineability` WHERE `id` IN (200070, 200071, 200072, 200073, 200074);
