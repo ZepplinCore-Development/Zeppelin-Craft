@@ -15,6 +15,7 @@
   },
   "dbc_source": "../../../Zeppelin-Core/modules/mod-worgoblin/data/patch/DBFilesClient",
   "dbc_import_skip_text": true,
+  "dbc_import_skip_tables": ["emotestextsound"],
   "launcher": {
     "mandatory": true,
     "enabled_by_default": true,

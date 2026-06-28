@@ -106,6 +106,19 @@ def get_dbc_config(ctx) -> DBCConfig:
     return DBCConfig.from_env(ENV_PATH)
 
 
+def _task_matches_file(task_id: str, filename: str) -> bool:
+    """True if a DBC SQL filename belongs to a task.
+
+    Matches an exact task tag ("[<task_id>]_...") and, when task_id is a base
+    feature (no trailing letter), any of its lettered sub-features
+    ("[<task_id><A-Z>]_..."), so --task F-164 rolls up to F-164C / F-164R / etc.
+    A sub-feature task_id (e.g. F-164C) matches only its own files.
+    """
+    if filename.startswith(f"[{task_id}]_"):
+        return True
+    return bool(re.match(rf"^\[{re.escape(task_id)}[A-Z]\]_", filename))
+
+
 def find_zpak_for_feature(craft_root: Path, feature_id: str, registry: Registry) -> Optional[Path]:
     """Find zpak path for a feature ID.
 
@@ -450,7 +463,7 @@ def dbc_modify(ctx, sql_file: str, task_id: Optional[str]):
     # Auto-detect task ID from filename if not provided
     if not task_id:
         import re as _re
-        match = _re.search(r'\[([FI]-\d+)\]', sql_path.name)
+        match = _re.search(r'\[([FI]-\d+[A-Z]?)\]', sql_path.name)
         if match:
             task_id = match.group(1)
         else:
@@ -2339,9 +2352,11 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
             if zpak_name and name != zpak_name:
                 continue
 
-            # Filter by task ID if specified (uses [F-XXX]_ format)
+            # Filter by task ID if specified (uses [F-XXX]_ format).
+            # A base feature rolls up to its lettered sub-features, so
+            # --task F-164 also matches [F-164C]_*, [F-164R]_*, etc.
             if task_id:
-                sql_files = [f for f in sql_files if f.name.startswith(f"[{task_id}]_")]
+                sql_files = [f for f in sql_files if _task_matches_file(task_id, f.name)]
 
             if sql_files:
                 zpak_groups.append((priority, name, sql_files))
@@ -2990,8 +3005,19 @@ def _import_single_module(ctx, zpak_path: Path, craft_root: Path) -> bool:
             if skip_text:
                 click.echo("  dbc_import_skip_text: dropping English text-only diffs\n")
 
+            # Honour the module manifest opt-in to skip regenerating specific
+            # tables entirely — used when a base dump collides with another zpak
+            # on a keyless table and the curated rows live in a hand-authored,
+            # non-[BASE,*] file (e.g. mod-worgoblin emotestextsound vs hd, I-220).
+            skip_tables = {t.lower() for t in _zmani.get('dbc_import_skip_tables', [])}
+            if skip_tables:
+                click.echo(f"  dbc_import_skip_tables: skipping {', '.join(sorted(skip_tables))}\n")
+
             tables_with_changes = []
             for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
+                if table.lower() in skip_tables:
+                    click.echo(f"    {table}: skipped (dbc_import_skip_tables)")
+                    continue
                 diff = get_table_diff(db_conn, table, config.scratch, config.original,
                                       skip_text=skip_text)
                 adds = len(diff["only_in_db1"])
