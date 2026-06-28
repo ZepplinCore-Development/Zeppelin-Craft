@@ -1,11 +1,14 @@
 -- [F-164M] Earthwarden - Defensive passives: spell.dbc rows (split from F-164 [F-164]_spell.sql, 2026-06-28).
 -- Talent-granted mitigation passives that previously lived in the F-164 monolith. Their talent rows
--- (2915 Ironhide, 2934 Molten Plating, 2976 Elemental Ward, 2979 Bulwark) stay in [F-164]_talent.sql and
--- reference these spell ids (parent owns the talent tree; ownership != dependency).
+-- (2915 Ironhide, 2934 Molten Plating, 2957 Wild Protector, 2975 Anticipation, 2976 Elemental Ward,
+-- 2979 Bulwark) stay in [F-164]_talent.sql and reference these spell ids (parent owns the talent
+-- tree; ownership != dependency).
 --   Elemental Ward  900115/900127/900128/900207/900208
 --   Molten Plating  900161/900162/900163/900203/900204
 --   Bulwark         900187/900188/900202
 --   Ironhide        900192/900193/900194
+--   Anticipation    900154/900155/900156
+--   Wild Protector  900195/900196/900197
 
 -- Elemental Ward (900115, 900127, 900128, 900207, 900208) - 5 ranks, cloned from Elemental Warding (28996-28998)
 -- E1 (aura 87, MOD_DAMAGE_PERCENT_TAKEN): reduces magic damage taken by 3/6/9/12/15% per rank.
@@ -560,6 +563,232 @@ INSERT INTO `spell` SET
     `spell_subtext_flags` = 16712190,
     `spell_desc_enus` = 'Increases your Strength by 1 for every $s1 armor value you have.',
     `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- Anticipation (900154-900156) - Cloned from 16254/16271/16272 with icon 5340
+-- Earthwarden talent tree (tier 2, col 3)
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900154;
+
+INSERT INTO `spell` SET
+    `id` = 900154,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -17,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 49,
+    `effect_apply_aura_name_2` = 234,
+    `effect_misc_value_a_2` = 3,
+    `spell_icon_id` = 5340,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Anticipation',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your chance to dodge by an additional $s1%, and reduces the duration of all Disarm effects used against you by $s2%. This does not stack with other Disarm duration reducing effects.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900155;
+
+INSERT INTO `spell` SET
+    `id` = 900155,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 1,
+    `effect_base_points_2` = -26,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 49,
+    `effect_apply_aura_name_2` = 234,
+    `effect_misc_value_a_2` = 3,
+    `spell_icon_id` = 5340,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Anticipation',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your chance to dodge by an additional $s1%, and reduces the duration of all Disarm effects used against you by $s2%. This does not stack with other Disarm duration reducing effects.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900156;
+
+INSERT INTO `spell` SET
+    `id` = 900156,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 2,
+    `effect_base_points_2` = -51,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 49,
+    `effect_apply_aura_name_2` = 234,
+    `effect_misc_value_a_2` = 3,
+    `spell_icon_id` = 5340,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Anticipation',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your chance to dodge by an additional $s1%, and reduces the duration of all Disarm effects used against you by $s2%. This does not stack with other Disarm duration reducing effects.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+-- Wild Protector (900195, 900196, 900197) - Passive, 3 ranks
+-- Mirrors Unleashed Rage (30802) pattern but swaps party AP% for party DR.
+-- E1: aura 240 MOD_EXPERTISE (self) - same expertise values as Unleashed Rage
+-- E2: APPLY_AREA_AURA_PARTY (65), aura 87 MOD_DAMAGE_PERCENT_TAKEN,
+--     misc 127 (all schools), radius 30yd - party DR (negative = reduces)
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` IN (900195, 900196, 900197);
+
+INSERT INTO `spell` SET
+    `id` = 900195,
+    `attributes` = 80,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 65,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 2,
+    `effect_base_points_2` = -3,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_radius_index_2` = 12,
+    `effect_apply_aura_name_1` = 240,
+    `effect_apply_aura_name_2` = 87,
+    `effect_misc_value_a_1` = 1,
+    `effect_misc_value_a_2` = 127,
+    `spell_icon_id` = 5490,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Wild Protector',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your expertise by $s1, and reduces all damage taken by party and raid members within $a2 yards of the Shaman by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases expertise by $s1. Reduces damage taken by allies within $a2 yards by $s2%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+INSERT INTO `spell` SET
+    `id` = 900196,
+    `attributes` = 80,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 65,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 5,
+    `effect_base_points_2` = -4,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_radius_index_2` = 12,
+    `effect_apply_aura_name_1` = 240,
+    `effect_apply_aura_name_2` = 87,
+    `effect_misc_value_a_1` = 1,
+    `effect_misc_value_a_2` = 127,
+    `spell_icon_id` = 5490,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Wild Protector',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your expertise by $s1, and reduces all damage taken by party and raid members within $a2 yards of the Shaman by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases expertise by $s1. Reduces damage taken by allies within $a2 yards by $s2%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+INSERT INTO `spell` SET
+    `id` = 900197,
+    `attributes` = 80,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 65,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 9,
+    `effect_base_points_2` = -6,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_radius_index_2` = 12,
+    `effect_apply_aura_name_1` = 240,
+    `effect_apply_aura_name_2` = 87,
+    `effect_misc_value_a_1` = 1,
+    `effect_misc_value_a_2` = 127,
+    `spell_icon_id` = 5490,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Wild Protector',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your expertise by $s1, and reduces all damage taken by party and raid members within $a2 yards of the Shaman by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases expertise by $s1. Reduces damage taken by allies within $a2 yards by $s2%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
