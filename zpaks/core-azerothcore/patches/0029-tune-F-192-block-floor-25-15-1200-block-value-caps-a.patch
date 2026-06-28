@@ -1,0 +1,38 @@
+From 163866b755bc5179be4953218d9af25a7a52d7e7 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 28 Jun 2026 02:37:17 +0000
+Subject: [PATCH] tune: F-192 block floor 25%->15% (1200 block value caps at
+ L70)
+
+Lower Block.BaseDR so block value drives more of the block DR (15->50 band vs
+25->50); pairs with the rescaled zep_block_value_per_pct curve where ~1200 block
+value reaches the 50% cap at level 70.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01K3Frjmskg8zE2Z5wUdzwd6
+---
+ src/server/apps/worldserver/worldserver.conf.dist | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/apps/worldserver/worldserver.conf.dist b/src/server/apps/worldserver/worldserver.conf.dist
+index b7895f3c9..503c5d4a9 100644
+--- a/src/server/apps/worldserver/worldserver.conf.dist
++++ b/src/server/apps/worldserver/worldserver.conf.dist
+@@ -4851,12 +4851,12 @@ Respawn.ForceCompatibilityMode = 0
+ #                     re-tune (Bulwark / Critical Block -> 10/20/30).
+ #        Default:     0
+ #
+-#    Block.BaseDR   - floor block damage-reduction % applied on every block.       Default: 25
++#    Block.BaseDR   - floor block damage-reduction % applied on every block.       Default: 15
+ #    Block.CapDR    - cap for the pre-crit block DR %.                             Default: 50
+ #    Block.CritMult - critical-block multiplier applied after the cap (-> 75% max). Default: 1.5
+ 
+ Block.PercentMode = 0
+-Block.BaseDR = 25
++Block.BaseDR = 15
+ Block.CapDR = 50
+ Block.CritMult = 1.5
+ 
+-- 
+2.34.1
+
