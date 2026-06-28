@@ -9,6 +9,9 @@
   "contents": {
     "mpq": ["mpq/**/*"]
   },
+  "build": {
+    "preprocessors": ["block-data"]
+  },
   "launcher": {
     "patch_name": "Addons",
     "mandatory": true,

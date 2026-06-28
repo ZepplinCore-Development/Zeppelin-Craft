@@ -1036,7 +1036,25 @@ function module:SetBlock(statFrame, unit)
 	local chance = GetBlockChance()
 	module:SetLabelAndText(statFrame, STAT_BLOCK, chance, 1)
 	statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, BLOCK_CHANCE).." "..format("%.02f", chance).."%"..FONT_COLOR_CODE_CLOSE
-	statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetCombatRating(CR_BLOCK), GetCombatRatingBonus(CR_BLOCK), GetShieldBlock())
+
+	-- F-192 percentage block: block value scales a damage-reduction %, not a flat absorb.
+	-- ZepBlockData is generated at PATCH-A build by the 'block-data' preprocessor from
+	-- worldserver.conf (Block.*) + acore_world.zep_block_value_per_pct -- never hand-edit it.
+	-- percentMode 0 (or missing data) falls back to the stock flat-block tooltip.
+	local zb = ZepBlockData
+	if zb and zb.percentMode == 1 then
+		local blockValue = GetShieldBlock()
+		local perPct = zb.perPct and zb.perPct[UnitLevel(unit)]
+		if not perPct or perPct < 1 then perPct = 1 end
+		local blockDR = zb.baseDR + blockValue / perPct
+		if blockDR > zb.capDR then blockDR = zb.capDR end
+		statFrame.tooltip2 =
+			HIGHLIGHT_FONT_COLOR_CODE..format("Blocked hits take %.1f%% less damage (%.1f%% on a critical block).", blockDR, blockDR * zb.critMult)..FONT_COLOR_CODE_CLOSE
+			.."\n"..format("Block Value: %d", blockValue)
+			.."\n"..format("Block Rating: %d (+%.2f%% block chance)", GetCombatRating(CR_BLOCK), GetCombatRatingBonus(CR_BLOCK))
+	else
+		statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetCombatRating(CR_BLOCK), GetCombatRatingBonus(CR_BLOCK), GetShieldBlock())
+	end
 	statFrame:Show()
 end
 
