@@ -1,0 +1,68 @@
+From 57431ee4bffae1ed578d2575605d757b23afa4c5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 28 Jun 2026 13:01:19 +0000
+Subject: [PATCH] feat(Core/Spells): Range-gate Stonebond damage soak at 30 yds
+ (F-164S)
+
+The native SPELL_AURA_SPLIT_DAMAGE_PCT handler has no distance check, so a
+Stonebond shaman could kite away from their earth totem and keep mitigating
+20% of incoming damage off it indefinitely. Add spell_sha_stonebond_split, an
+AuraScript on the split aura (900222) whose OnEffectSplit handler nulls the
+redirected amount when the totem (the aura's caster) is more than 30 yds from
+the shaman taking the hit (the aura's target).
+
+Binding row (spell_script_names 900222) ships in the F-164S world SQL.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/scripts/Spells/spell_shaman.cpp | 27 ++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
+index 71df71460..ea61c043f 100644
+--- a/src/server/scripts/Spells/spell_shaman.cpp
++++ b/src/server/scripts/Spells/spell_shaman.cpp
+@@ -1352,6 +1352,32 @@ class spell_sha_stonebond_pulse : public AuraScript
+     }
+ };
+ 
++// 900222 - Stonebond split (F-164): range-gate the damage soak. The native
++// SPLIT_DAMAGE_PCT handler has no distance check, so a shaman could kite away
++// from the totem and keep mitigating off it. Null the split when the totem
++// (the aura's caster) is more than STONEBOND_RANGE yds from the shaman taking
++// the hit (the aura's target), so the soak only holds while the shaman stays
++// near their totem.
++class spell_sha_stonebond_split : public AuraScript
++{
++    PrepareAuraScript(spell_sha_stonebond_split);
++
++    static constexpr float STONEBOND_RANGE = 30.0f;
++
++    void HandleSplit(AuraEffect* /*aurEff*/, DamageInfo& /*dmgInfo*/, uint32& splitAmount)
++    {
++        Unit* totem = GetCaster();
++        Unit* owner = GetTarget();
++        if (!totem || !owner || !totem->IsWithinDist(owner, STONEBOND_RANGE))
++            splitAmount = 0;
++    }
++
++    void Register() override
++    {
++        OnEffectSplit += AuraEffectSplitFn(spell_sha_stonebond_split::HandleSplit, EFFECT_0);
++    }
++};
++
+ // 900261 - Rocksteady (F-164 Earthwarden shared block buff)
+ // Per-stack block chance is fully DBC-driven: effect_base_points_1 on the
+ // MOD_BLOCK_PERCENT effect (currently +3%), which AuraEffect::CalculateAmount
+@@ -2490,6 +2516,7 @@ void AddSC_shaman_spell_scripts()
+     RegisterSpellScript(spell_sha_stoneclaw_totem);
+     RegisterSpellScript(spell_sha_stonebond);
+     RegisterSpellScript(spell_sha_stonebond_pulse);
++    RegisterSpellScript(spell_sha_stonebond_split);
+     RegisterSpellScript(spell_sha_rockwall);
+     RegisterSpellScript(spell_sha_rocksteady_block);
+     RegisterSpellScript(spell_sha_rocksteady_stack_proc);
+-- 
+2.34.1
+
