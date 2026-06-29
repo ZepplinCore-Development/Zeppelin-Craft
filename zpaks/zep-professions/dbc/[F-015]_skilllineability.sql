@@ -98,3 +98,22 @@ DELETE FROM `skilllineability` WHERE `id` = 100049;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100049, 773, 103346, 0, 0, 0, 0, 1, 0, 0, 460, 445, 0, 0);
 DELETE FROM `skilllineability` WHERE `id` = 100050;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100050, 773, 103347, 0, 0, 0, 0, 1, 0, 0, 460, 445, 0, 0);
+
+-- Armor Warding crafting spells (103348-103355). 7th defensive school: skill band
+-- offset +15 from Fire/Frost (after Nature/Holy +10), clamped to the 450 cap at rank VIII.
+DELETE FROM `skilllineability` WHERE `id` = 100051;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100051, 773, 103348, 0, 0, 0, 0, 1, 0, 0, 70, 55, 0, 0);
+DELETE FROM `skilllineability` WHERE `id` = 100052;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100052, 773, 103349, 0, 0, 0, 0, 1, 0, 0, 125, 110, 0, 0);
+DELETE FROM `skilllineability` WHERE `id` = 100053;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100053, 773, 103350, 0, 0, 0, 0, 1, 0, 0, 200, 185, 0, 0);
+DELETE FROM `skilllineability` WHERE `id` = 100054;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100054, 773, 103351, 0, 0, 0, 0, 1, 0, 0, 270, 255, 0, 0);
+DELETE FROM `skilllineability` WHERE `id` = 100055;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100055, 773, 103352, 0, 0, 0, 0, 1, 0, 0, 355, 340, 0, 0);
+DELETE FROM `skilllineability` WHERE `id` = 100056;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100056, 773, 103353, 0, 0, 0, 0, 1, 0, 0, 405, 390, 0, 0);
+DELETE FROM `skilllineability` WHERE `id` = 100057;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100057, 773, 103354, 0, 0, 0, 0, 1, 0, 0, 425, 410, 0, 0);
+DELETE FROM `skilllineability` WHERE `id` = 100058;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (100058, 773, 103355, 0, 0, 0, 0, 1, 0, 0, 450, 450, 0, 0);
