@@ -22,6 +22,7 @@ a live DB. See ``cli/commands/build.py`` (``build tooltip-data``) for the wiring
 from __future__ import annotations
 
 import re
+from pathlib import Path
 from typing import Dict, List, Optional
 
 # Aura type numbers (Zeppelin-Core SpellAuraDefines.h)
@@ -554,3 +555,261 @@ def emit_desc(records: List[Dict]) -> str:
         "",
     ]
     return "\n".join(lines)
+
+
+# =============================================================================
+# Orchestration — full load + emit pipeline
+#
+# The functions above are pure (plain dict rows, unit-testable). The helpers
+# below touch the live DBC + acore_world databases to assemble the complete
+# generator inputs, so both the `zep build tooltip-data` CLI command and the
+# `tooltip-data` patch-mpq preprocessor produce byte-identical output from one
+# code path. DB libraries are imported lazily so the pure layer stays import-light.
+# =============================================================================
+
+def _load_world_scaling():
+    """Load SP/AP coefficients + F-189 stat scaling from acore_world.
+
+    Returns (spell_bonus, stat_scaling, base_mana):
+      spell_bonus  : {entry: {direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus}}
+      stat_scaling : {spell_id: [{eff_index, stat_id, coeff}, ...]} — empty if the
+                     F-189 `spell_stat_scaling` table does not exist yet.
+      base_mana    : {classId: {level: basemana}} — for %-mana cost (player_class_stats).
+    """
+    from commands import sql as sqlmod
+    try:
+        import mysql.connector
+    except ImportError:
+        return {}, {}, {}
+
+    conn = mysql.connector.connect(
+        host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
+        user=sqlmod.DB_USER, password=sqlmod.DB_PASS, database=sqlmod.DB_NAME,
+    )
+    cur = conn.cursor(dictionary=True)
+    cur.execute("SELECT entry, direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus "
+                "FROM spell_bonus_data")
+    spell_bonus = {int(r["entry"]): r for r in cur.fetchall()}
+
+    stat_scaling = {}
+    try:
+        cur.execute("SELECT spell_id, eff_index, stat_id, coeff FROM spell_stat_scaling")
+        for r in cur.fetchall():
+            stat_scaling.setdefault(int(r["spell_id"]), []).append(r)
+    except mysql.connector.Error:
+        pass  # F-189 spell_stat_scaling not created yet — fold in once it lands.
+
+    base_mana = {}
+    cur.execute("SELECT Class, Level, BaseMana FROM player_class_stats")
+    for r in cur.fetchall():
+        base_mana.setdefault(int(r["Class"]), {})[int(r["Level"])] = int(r["BaseMana"])
+    cur.close()
+    conn.close()
+    return spell_bonus, stat_scaling, base_mana
+
+
+def _load_use_item_spells():
+    """{itemId: useSpellId} for every item with an ON-USE spell (trigger 0/5 — potions, food,
+    scrolls, on-use trinkets, mount items, ...). Lets the addon resolve an item's tied spell
+    deterministically from the item link, since GetItemSpell is unreliable for consumables in
+    3.3.5a. The caller scopes this to items whose spell the addon actually renders."""
+    from commands import sql as sqlmod
+    try:
+        import mysql.connector
+    except ImportError:
+        return {}
+    conn = mysql.connector.connect(
+        host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
+        user=sqlmod.DB_USER, password=sqlmod.DB_PASS, database=sqlmod.DB_NAME,
+    )
+    cur = conn.cursor(dictionary=True)
+    cols = ", ".join("spellid_%d, spelltrigger_%d" % (i, i) for i in range(1, 6))
+    where = " OR ".join("spellid_%d > 0" % i for i in range(1, 6))
+    cur.execute(f"SELECT entry, {cols} FROM item_template WHERE {where}")
+    out = {}
+    for r in cur.fetchall():
+        for i in range(1, 6):
+            sid = int(r["spellid_%d" % i] or 0)
+            trig = int(r["spelltrigger_%d" % i] or 0)
+            if sid and trig in (0, 5):      # ON_USE / ON_USE_NO_DELAY — the item's "Use:" spell
+                out[int(r["entry"])] = sid
+                break
+    cur.close()
+    conn.close()
+    return out
+
+
+def _load_item_sources(spell_ids):
+    """Map mod-source spells to the items that grant them, split by trigger:
+      equip_map : {modSpell: [item entry, ...]}  on-equip auras (relics/librams/idols — I-218)
+      bag_items : {modSpell: item entry}          on-use buffs carried in bags (riding crops)
+    Both are 0x80-hidden (neither IsSpellKnown nor a visible UnitAura); the addon detects the
+    equipped item (equip) or the carried item (bag) instead."""
+    want = set(int(s) for s in spell_ids)
+    if not want:
+        return {}, {}
+    from commands import sql as sqlmod
+    try:
+        import mysql.connector
+    except ImportError:
+        return {}, {}
+    conn = mysql.connector.connect(
+        host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
+        user=sqlmod.DB_USER, password=sqlmod.DB_PASS, database=sqlmod.DB_NAME,
+    )
+    cur = conn.cursor(dictionary=True)
+    cols = ", ".join("spellid_%d, spelltrigger_%d" % (i, i) for i in range(1, 6))
+    where = " OR ".join("spellid_%d > 0" % i for i in range(1, 6))
+    cur.execute(f"SELECT entry, {cols} FROM item_template WHERE {where}")
+    equip, bag = {}, {}
+    for r in cur.fetchall():
+        for i in range(1, 6):
+            sid = int(r["spellid_%d" % i] or 0)
+            trig = int(r["spelltrigger_%d" % i] or 0)
+            if sid not in want:
+                continue
+            if trig == 1:                          # ON_EQUIP
+                equip.setdefault(sid, set()).add(int(r["entry"]))
+            elif trig in (0, 5):                   # ON_USE (5 = no-delay use, the riding crops)
+                bag.setdefault(sid, int(r["entry"]))
+    cur.close()
+    conn.close()
+    return {s: sorted(v) for s, v in equip.items()}, bag
+
+
+class GeneratorContext:
+    """Loaded generator inputs + the classify/emit operations over them. Built by ``load``;
+    consumed by the CLI command (targeted report + emission) and the patch-mpq preprocessor."""
+
+    def __init__(self, spells, talent_rows, mod_index, spell_bonus, stat_scaling,
+                 base_mana, equip_map, bag_map):
+        self.spells = spells
+        self.talent_rows = talent_rows
+        self.mod_index = mod_index
+        self.spell_bonus = spell_bonus
+        self.stat_scaling = stat_scaling
+        self.base_mana = base_mana
+        self.equip_map = equip_map
+        self.bag_map = bag_map
+
+    def classify(self, sid: int) -> Optional[Dict]:
+        return classify(sid, self.spells, self.mod_index, self.spell_bonus, self.stat_scaling)
+
+    def emit(self, family: Optional[int] = None, spell_ids=None) -> Dict:
+        """Classify the scope (one family, specific ids, or all spells) and render the Lua.
+
+        Returns a dict: ``lua`` (the hot ZepTooltipData table + side tables), ``desc`` (the
+        lazy ZepTooltipsDesc templates), and the ``n_emit`` / ``n_total`` / ``n_dummy`` counts.
+        """
+        spells = self.spells
+        if family is not None:
+            scope_ids = [sid for sid, r in spells.items() if _i(r, "spell_class_set") == family]
+        elif spell_ids:
+            scope_ids = list(spell_ids)
+        else:
+            scope_ids = list(spells.keys())
+
+        records = [r for r in (self.classify(s) for s in scope_ids) if r]
+        n_dummy = sum(1 for r in records if r["dummyWarning"])
+        # Ship only records the addon can act on: weapon/stat_scaling (renderable now) or
+        # casterDependent (drives aura-tt ALE routing). Inert self-only spells are dropped —
+        # the addon no-ops on a missing key anyway, so this is lossless.
+        emit = [r for r in records if r["casterDependent"] or r.get("renderable")]
+        # item -> use-spell map, scoped to items whose spell the addon actually renders, so the
+        # item-tooltip hook resolves the tied spell without depending on GetItemSpell.
+        emit_ids = {r["id"] for r in emit}
+        item_spell_map = {item: sp for item, sp in _load_use_item_spells().items() if sp in emit_ids}
+        lua = (emit_lua(emit) + "\n" + emit_talent_ranks(emit, self.talent_rows)
+               + "\n" + emit_base_mana(self.base_mana)
+               + "\n" + emit_equip_sources(emit, self.equip_map)
+               + "\n" + emit_bag_buffs(emit, self.bag_map)
+               + "\n" + emit_item_spells(item_spell_map))
+        return {"lua": lua, "desc": emit_desc(emit),
+                "n_emit": len(emit), "n_total": len(records), "n_dummy": n_dummy}
+
+
+def load(config, db_name: str, echo=None) -> GeneratorContext:
+    """Assemble the full generator inputs from the DBC `spell` table (``db_name`` on
+    ``config``) plus the acore_world scaling/item tables. ``echo`` (e.g. ``click.echo`` or
+    ``print``) receives the progress lines; defaults to silent."""
+    from lib.dbc_utils import DBCConnection
+    if echo is None:
+        echo = lambda *a, **k: None
+
+    echo(f"Loading DBC `spell` from `{db_name}` ...")
+    with DBCConnection(config) as db_conn:
+        conn = db_conn.get_connection(db_name)
+        cursor = conn.cursor(dictionary=True)
+        cols = "`, `".join(SPELL_COLUMNS)
+        cursor.execute(f"SELECT `{cols}` FROM `spell`")
+        spells = {int(r["ID"]): r for r in cursor.fetchall()}
+        cursor.execute("SELECT `id`, `max_duration` FROM `spellduration`")
+        durs = {int(r["id"]): int(r["max_duration"] or 0) for r in cursor.fetchall()}
+        cursor.execute("SELECT `id`, `radius` FROM `spellradius`")
+        rads = {int(r["id"]): float(r["radius"] or 0) for r in cursor.fetchall()}
+        # talent rank -> spell map: lets the addon detect learned talent ranks via the talent
+        # API even when the rank spell is a hidden passive (attr 0x80) IsSpellKnown can't see.
+        rank_cols = "`, `".join("rank_%d" % i for i in range(1, 10))
+        cursor.execute(f"SELECT `id`, `{rank_cols}` FROM `talent`")
+        talent_rows = cursor.fetchall()
+        cursor.close()
+    # resolve $d duration (sec) and $aN radius (yards) per spell for desc templates
+    for r in spells.values():
+        r["_dur"] = durs.get(int(r.get("duration_index") or 0), 0) // 1000
+        r["_rad"] = {i: rads.get(int(r.get(f"effect_radius_index_{i}") or 0), 0)
+                     for i in (1, 2, 3) if rads.get(int(r.get(f"effect_radius_index_{i}") or 0), 0)}
+
+    echo(f"Loaded {len(spells)} spells. Building reverse-107/108 index ...")
+    mod_index = build_modifier_index(spells)
+    echo(f"Indexed {len(mod_index)} spellmod effects.")
+
+    spell_bonus, stat_scaling, base_mana = _load_world_scaling()
+    echo(f"Loaded {len(spell_bonus)} spell_bonus_data rows; "
+         f"{len(stat_scaling)} spell_stat_scaling spell(s).")
+
+    # I-218: a passive modifier granted by an ON-EQUIP item (relic/libram/idol/totem) is
+    # classified via="known" by the PASSIVE heuristic but isn't IsSpellKnown-able (gear, not a
+    # learned spell) and is hidden from UnitAura. Map mod sources to their granting items so the
+    # addon can detect them by equipped gear, and reclassify those modifiers via="equip".
+    equip_map, bag_items = _load_item_sources({m.src_id for m in mod_index})
+    for m in mod_index:
+        if m.src_id in equip_map:
+            m.via = "equip"
+    # Bag-detected buffs (riding crops, profession tools, ...): a 0x80-HIDDEN buff applied by
+    # USING an item that persists in bags is invisible to UnitAura, so the addon detects the
+    # item instead. (A VISIBLE use-buff — potion/trinket — is seen by UnitAura when actually
+    # active, so bag presence must NOT apply it: gate on 0x80.) Keep via="aura" (addon folds bag
+    # into hasAura). tier = effect-1 base; grp = the modifier's (family, class-mask) signature so
+    # buffs that modify the SAME spells are recognised as one anti-stack tier group (the addon
+    # applies only the best owned per group — crops don't compete with smithing tools, etc.).
+    buff_sig = {}
+    for m in mod_index:
+        buff_sig.setdefault(m.src_id, (m.family, tuple(m.mask)))
+    bag_map = {}
+    for buff, item in bag_items.items():
+        row = spells.get(buff)
+        if row and (_i(row, "attributes") & 0x80):
+            fam, mask = buff_sig.get(buff, (0, (0, 0, 0)))
+            grp = "%d:%d:%d:%d" % (fam, mask[0], mask[1], mask[2])
+            # tier = MAGNITUDE of the effect (the speed % / the cast-time reduction %), so the
+            # "best owned" pick is sign-agnostic — crops have +base, reduction tools have -base.
+            bag_map[buff] = {"item": item, "tier": abs(_i(row, "effect_base_points_1")), "grp": grp}
+    echo(f"Mapped {len(equip_map)} equip + {len(bag_map)} bag (crop) modifier source(s).\n")
+
+    return GeneratorContext(spells, talent_rows, mod_index, spell_bonus, stat_scaling,
+                            base_mana, equip_map, bag_map)
+
+
+def write_outputs(out_path, lua: str, desc: str) -> Optional[Path]:
+    """Write the hot ``Generated.lua`` to ``out_path``. When that path lives in a ``ZepTooltips``
+    addon dir, also write the lazy ``ZepTooltipsDesc/GeneratedDesc.lua`` sibling and return its
+    path (scratch ``--out`` paths just get the hot table). Returns the desc path or ``None``."""
+    out_p = Path(out_path)
+    out_p.parent.mkdir(parents=True, exist_ok=True)
+    out_p.write_text(lua, encoding='utf-8')
+    if out_p.parent.name == "ZepTooltips":
+        desc_path = out_p.parent.parent / "ZepTooltipsDesc" / "GeneratedDesc.lua"
+        desc_path.parent.mkdir(parents=True, exist_ok=True)
+        desc_path.write_text(desc, encoding='utf-8')
+        return desc_path
+    return None

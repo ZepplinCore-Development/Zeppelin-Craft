@@ -387,6 +387,7 @@ def _run_named_preprocessor(name: str, zpak: Dict[str, Any]) -> bool:
         'atlasloot-generator': _preprocess_atlasloot,
         'model-transforms': _preprocess_model_transforms,
         'block-data': _preprocess_block_data,
+        'tooltip-data': _preprocess_tooltip_data,
     }
 
     func = dispatch.get(name)
@@ -651,6 +652,51 @@ def _preprocess_atlasloot(zpak: Dict[str, Any]) -> bool:
     except Exception as e:
         print(f"    AtlasLoot generator error: {e}")
         logger.error(f"AtlasLoot generator failed: {e}")
+        return False
+
+
+def _preprocess_tooltip_data(zpak: Dict[str, Any]) -> bool:
+    """Regenerate the F-190 ZepTooltips addon data (Generated.lua + GeneratedDesc.lua) from
+    the live DBC, then sync into parsed-assets so it ships in the MPQ (F-190 Phase 3).
+
+    The addon reads a PRE-GENERATED spellmod/talent table — it does not match family/mask
+    live — so without this step the shipped table silently drifts whenever a spell is
+    redesigned. Running it here, in the same --parse-build that packs the patch, keeps the
+    addon in lockstep with the DBC the rest of the build ships. Reuses the exact load+emit
+    pipeline behind `zep build tooltip-data` (lib.tooltip_gen) so output is byte-identical.
+    """
+    zpak_path = Path(zpak['path'])
+    source_addon_dir = zpak_path / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
+    out_path = source_addon_dir / 'ZepTooltips' / 'Generated.lua'
+    if not source_addon_dir.exists():
+        print(f"    AddOns directory not found in source-assets")
+        return False
+
+    print(f"    Regenerating ZepTooltips data from live DBC...")
+    try:
+        from lib import tooltip_gen as tg
+        craft_root = zpak_path.parent.parent
+        config = DBCConfig.from_env(craft_root / 'cli' / '.env')
+
+        gen = tg.load(config, config.live, echo=lambda m="": print(f"    {m}" if m else ""))
+        result = gen.emit()
+        tg.write_outputs(out_path, result['lua'], result['desc'])
+        print(f"    Wrote {result['n_emit']} of {result['n_total']} records "
+              f"(dropped {result['n_total'] - result['n_emit']} inert)")
+
+        # Re-copy source-assets AddOns to parsed-assets so the regenerated Lua ships in the
+        # MPQ (the resource parser already ran on the stale copy). Mirrors atlasloot-generator.
+        parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'INTERFACE' / 'ADDONS'
+        if not parsed_addon_dir.exists():
+            parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'Interface' / 'AddOns'
+        if parsed_addon_dir.exists():
+            shutil.rmtree(parsed_addon_dir)
+        shutil.copytree(source_addon_dir, parsed_addon_dir)
+        print(f"    Synced regenerated AddOns to parsed-assets")
+        return True
+    except Exception as e:
+        print(f"    ZepTooltips generator error: {e}")
+        logger.error(f"ZepTooltips generator failed: {e}")
         return False
 
 
