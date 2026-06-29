@@ -18,3 +18,11 @@ UPDATE creature_template SET skinloot = 70063 WHERE entry IN (
   21381, -- Young Crust Burster (level 66-67)
   21380  -- Greater Crust Burster (level 67)
 );
+
+-- Tempest Keep (The Botanica) birds
+-- Use Phoenix-Hawk Hatchling skinloot 70065 (Knothide Leather)
+-- matching the other Tempest Keep birds for zone-consistent leather drops
+UPDATE creature_template SET skinloot = 70065 WHERE entry IN (
+  18155, -- Bloodfalcon (level 69)
+  21544  -- Bloodfalcon (level 70, duplicate entry)
+);
