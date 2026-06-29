@@ -11,11 +11,11 @@
 -- Bastion of Earth (900147-900149) - Passive talent, procs on block
 -- 3 ranks: chance on block to trigger buff (900150-900152).
 -- Each talent rank increases ONLY the proc chance (R1=15%, R2=25%, R3=35%).
--- While held, the buff (a) grants +15% healing received (boosts the free LHW it
--- enables AND any heals taken while held) and (b) makes the next Lesser Healing
--- Wave instant AND free. Casting LHW consumes the buff -- so it's a real choice:
--- keep the held healing bonus, or spend it on an emergency instant heal. The buff is
--- identical at every rank; only the proc chance scales.
+-- While held, the buff (a) reduces physical damage taken by 6% (aura 87) and
+-- (b) makes the next Lesser Healing Wave instant AND free. Casting LHW consumes the
+-- buff -- so it's a real choice: keep the held -6% physical mitigation, or spend it on
+-- an emergency instant heal. The buff is identical at every rank; only the proc chance
+-- scales. (Fills EW's constant-physical-DR gap without an always-on aura.)
 -- ============================================================================
 -- Bastion of Earth R1 (900147) - Passive, 10% on block, triggers 900150
 DELETE FROM `spell` WHERE `id` = 900147;
@@ -111,14 +111,13 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0;
 
 -- ============================================================================
--- Bastion of Earth Buff (900150-900152) - Held healing buff + free instant LHW
+-- Bastion of Earth Buff (900150-900152) - Held physical-DR buff + free instant LHW
 -- E1: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -100% LHW cast time (instant)
 -- E2: Aura 108 (ADD_PCT_MODIFIER), misc 14 (SPELLMOD_COST), -100% LHW cost (free)
--- E3: Aura 118 (MOD_HEALING_PCT), +15% healing received (held; applies to the free LHW it
---     enables -- the heal resolves before the buff is consumed -- and any heals taken while held)
+-- E3: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -6% physical damage taken while held
 -- Both SPELLMODs masked to Lesser Healing Wave (family flag class_mask_a=128).
 -- No stacking. Consumed when Lesser Healing Wave is cast (proc_charges=1) -- which
--- also drops the +15% healing bonus, making the consume a genuine trade-off.
+-- also drops the -6% physical mitigation, making the consume a genuine trade-off.
 -- All ranks identical; only the passive proc chance scales.
 -- ============================================================================
 -- Bastion of Earth buff R1 (900150) - instant + free LHW
@@ -150,15 +149,16 @@ INSERT INTO `spell` SET
     `effect_spell_class_mask_b_1` = 128,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = 14,
+    `effect_base_points_3` = -7,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 118,
+    `effect_apply_aura_name_3` = 87,
+    `effect_misc_value_a_3` = 1,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Healing received increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_desc_enus` = 'Reduces physical damage taken by $s3%. Your next Lesser Healing Wave is instant and costs no mana - casting it consumes this effect.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Healing received increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by $s3%. Your next Lesser Healing Wave is instant and costs no mana - casting it consumes this effect.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -196,15 +196,16 @@ INSERT INTO `spell` SET
     `effect_spell_class_mask_b_1` = 128,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = 14,
+    `effect_base_points_3` = -7,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 118,
+    `effect_apply_aura_name_3` = 87,
+    `effect_misc_value_a_3` = 1,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Healing received increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_desc_enus` = 'Reduces physical damage taken by $s3%. Your next Lesser Healing Wave is instant and costs no mana - casting it consumes this effect.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Healing received increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by $s3%. Your next Lesser Healing Wave is instant and costs no mana - casting it consumes this effect.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -242,15 +243,16 @@ INSERT INTO `spell` SET
     `effect_spell_class_mask_b_1` = 128,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = 14,
+    `effect_base_points_3` = -7,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 118,
+    `effect_apply_aura_name_3` = 87,
+    `effect_misc_value_a_3` = 1,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Healing received increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_desc_enus` = 'Reduces physical damage taken by $s3%. Your next Lesser Healing Wave is instant and costs no mana - casting it consumes this effect.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Healing received increased by $s3%.  Your next Lesser Healing Wave is instant and costs no mana.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by $s3%. Your next Lesser Healing Wave is instant and costs no mana - casting it consumes this effect.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
