@@ -1,0 +1,42 @@
+From 42305bf43ce4dc429cebbb0dff1cfc24eb2311a9 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 30 Jun 2026 11:12:04 +0000
+Subject: [PATCH] I-225: Keep 3.1 TBC Master profession trainers in Shattrath
+
+Disable the 'Optional' delete block that removed the WotLK-3.1 Master
+profession trainers (Onodo et al.) and two Shattrath flight keepers.
+These cap at 375 skill (TBC ceiling); Grandmaster (450) trainers are
+separate NPCs and remain untouched. Riding-trainer delete left active.
+
+Closes I-225
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ data/sql/db-world/base/professions.sql | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/data/sql/db-world/base/professions.sql b/data/sql/db-world/base/professions.sql
+index 831185d..fa98a39 100644
+--- a/data/sql/db-world/base/professions.sql
++++ b/data/sql/db-world/base/professions.sql
+@@ -116,10 +116,13 @@ DELETE FROM creature WHERE `id` IN (35093, 35100);
+ DELETE FROM creature_addon WHERE `guid` IN (88165, 88166);
+ 
+ -- Optional - delete TBC trainers added in WotLK 3.1
+-DELETE FROM creature WHERE `id` IN 
+-(33608, 33609, 33610, 33611, 33612, 33613, 33614, 33615, 33616, 33617, 33618, 33619, 
+-33621, 33623, 33630, 33631, 33633, 33634, 33635, 33636, 33637, 33639, 33640, 33641, 
+-33674, 33675, 33676, 33677, 33678, 33680, 33681, 33682, 33683, 33684, 35099, 35101);
++-- [I-225] Zeppelin keeps these 3.1 Master profession trainers (Onodo et al., cap 375 = TBC ceiling)
++-- and the two Shattrath flight keepers. Block disabled; spawns are restored from stock AC base data.
++-- Riding-trainer delete above (35093, 35100) intentionally left active to keep mount/flight gated.
++-- DELETE FROM creature WHERE `id` IN
++-- (33608, 33609, 33610, 33611, 33612, 33613, 33614, 33615, 33616, 33617, 33618, 33619,
++-- 33621, 33623, 33630, 33631, 33633, 33634, 33635, 33636, 33637, 33639, 33640, 33641,
++-- 33674, 33675, 33676, 33677, 33678, 33680, 33681, 33682, 33683, 33684, 35099, 35101);
+ 
+ -- TBC Recipes moved to trainers in 2.4.0
+ DELETE FROM `trainer_spell` WHERE `SpellID` IN (28905, 34590, 28903, 28914, 28925, 28910, 28917, 28916, 28950, 28903);
+-- 
+2.34.1
+
