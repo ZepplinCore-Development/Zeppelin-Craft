@@ -1,0 +1,12 @@
+-- I-227: Brilliant Glass should be gated on Jewelcrafting skill only, not character level.
+--
+-- Brilliant Glass (spell 47280, item 35945) outputs TBC-tier gems exclusively
+-- (epic ilvl70 Crimson Spinel/Pyrestone/Lionseye/Empyrean Sapphire/Shadowsong
+-- Amethyst/Seaspray Emerald + the rare TBC gems). Stock trainer data gates it at
+-- character level 71, but under Individual Progression a TBC-staged player is
+-- hard-capped at level 70 (no XP past 70 until TBC Tier 5 is cleared), so the
+-- recipe is unreachable while its output is still relevant. Drop the level gate;
+-- the ReqSkillRank 350 (Jewelcrafting) requirement is the only intended gate.
+--
+-- Stock rows (TrainerId 111 & 112 = Jewelcrafting trainers) -> single UPDATE.
+UPDATE trainer_spell SET ReqLevel = 0 WHERE SpellId = 47280 AND TrainerId IN (111, 112);
