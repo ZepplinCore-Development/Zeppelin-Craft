@@ -196,6 +196,7 @@ class LootDatabase:
                   OR (it.Quality = 3 AND clt.Chance >= {THRESHOLDS['rare_min_chance']} AND it.class != 12)
                   OR (it.Quality >= 4 AND clt.Chance >= {THRESHOLDS['epic_min_chance']} AND it.class != 12)
                   OR (it.Quality = 2 AND clt.Chance >= {THRESHOLDS['uncommon_min_chance']} AND it.class != 12)
+                  OR (it.class = 9 AND clt.Chance >= {THRESHOLDS['recipe_min_chance']})
                   OR (clt.Chance = 0 AND clt.GroupId > 0)
               )
             ORDER BY clt.GroupId, clt.Chance DESC, clt.Item
@@ -509,6 +510,7 @@ class LootDatabase:
                   OR (it.Quality = 3 AND clt.Chance >= 3 AND it.class != 12)
                   OR (it.Quality >= 4 AND clt.Chance >= 1 AND it.class != 12)
                   OR (it.Quality = 2 AND clt.Chance >= 10 AND it.class != 12)
+                  OR (it.class = 9 AND clt.Chance >= 5)
                   OR (clt.Chance = 0 AND clt.GroupId > 0)
               )
             ORDER BY clt.Entry, clt.GroupId, clt.Chance DESC, clt.Item
@@ -757,6 +759,7 @@ class LootDatabase:
                   OR (it.Quality = 3 AND glt.Chance >= 3 AND it.class != 12)
                   OR (it.Quality >= 4 AND glt.Chance >= 1 AND it.class != 12)
                   OR (it.Quality = 2 AND glt.Chance >= 10 AND it.class != 12)
+                  OR (it.class = 9 AND glt.Chance >= 5)
                   OR (glt.Chance = 0 AND glt.GroupId > 0)
               )
             ORDER BY glt.GroupId, glt.Chance DESC, glt.Item
