@@ -3035,21 +3035,25 @@ INSERT INTO `spell` SET
     `school_mask` = 1;
 
 -- Rename existing Scroll of Protection buffs to Warding: Protection
-UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8091;
+-- Armor rebalanced to the WotLK defense-elixir line (die_sides=1, so $s1 = base+1):
+--   I=65 II=150 III=250 IV=450 V=550 VI=650 VII=750 VIII=850
+--   Anchors: Minor/Defense/Greater/Superior/Major Defense (50/150/250/450/550) by level;
+--   VI-VIII extend past the elixirs (Elixir of Protection 40097 = 800 @ lvl 75). Rank I left at stock 65.
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `effect_base_points_1` = 64, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8091;
 
-UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8094;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `effect_base_points_1` = 149, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8094;
 
-UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8095;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `effect_base_points_1` = 249, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8095;
 
-UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 12175;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `effect_base_points_1` = 449, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 12175;
 
-UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 33079;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `effect_base_points_1` = 549, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 33079;
 
-UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 43196;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `effect_base_points_1` = 649, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 43196;
 
-UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 58452;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `effect_base_points_1` = 749, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 58452;
 
-UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 58453;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `effect_base_points_1` = 849, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 58453;
 
 -- ============================================================================
 -- Empowered Stat Scrolls
