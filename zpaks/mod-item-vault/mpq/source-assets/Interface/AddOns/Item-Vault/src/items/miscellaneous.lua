@@ -188,6 +188,12 @@ internal.appendData({
 		categories = { 182 },
 	},
 	{
+		id = 24368,
+		name = "Coilfang Armaments",
+		icon = "Interface\\Icons\\INV_Spear_06",
+		categories = { 0 },
+	},
+	{
 		id = 32468,
 		name = "Netherdust Pollen",
 		icon = "Interface\\Icons\\INV_Enchant_DustSoul",
