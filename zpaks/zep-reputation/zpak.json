@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-reputation",
+  "version": "0.1.0",
+  "description": "Reputation and faction features (F-019 tabards, F-072 Aldor/Scryer diplomacy, F-096 reputation improvements)",
+  "author": "Zeppelin Team",
+  "type": "native",
+  "client_patch": "PATCH-Z",
+  "contents": {
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ]
+  },
+  "feature_id": "F-072",
+  "enabled": true,
+  "priority": 999
+}
