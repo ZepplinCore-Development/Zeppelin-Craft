@@ -1,10 +1,9 @@
 -- ============================================================
 -- I-228 Highperch Wyvern Area Z fixes (OpenAzeroth terrain raise)
--- Idempotent UPDATEs on stock rows; X/Y preserved, Z re-fitted.
--- Creatures + props re-derived from .map heightmap (true visual ground):
---   creatures (4107/4109/4110): ground + 0.5 (model origin at feet)
---   props (eggs/shells/chest): ground + 0.3
--- Mining nodes: navmesh-snapped (unchanged). Waypoints: unchanged.
+-- v3: .map heightmap == client GroundZ (verified). X/Y preserved, Z re-fitted.
+--   gameobjects (nodes/eggs/shells/chest): heightmap + 0.1
+--   3 reported clipping creatures: heightmap + model-scaled lift (origin above feet)
+--   21 hand-placed creatures + waypoints: unchanged
 -- ============================================================
 
 -- Waypoints — Pao'ka Swiftmountain (entry 10427)
@@ -22,8 +21,7 @@ UPDATE `script_waypoint` SET `location_z` = -0.40 WHERE `entry` = 10427 AND `poi
 UPDATE `script_waypoint` SET `location_z` = -0.62 WHERE `entry` = 10427 AND `pointid` = 15;
 UPDATE `script_waypoint` SET `location_z` = -1.55 WHERE `entry` = 10427 AND `pointid` = 16;
 
--- Creatures — Highperch Wyverns 4107 / Consorts 4109 / Patriarchs 4110
--- (hand-placed spawns kept; only reported clipping guids re-fitted to heightmap)
+-- Creatures — hand-placed spawns kept:
 UPDATE `creature` SET `position_z` = 42.371780 WHERE `guid` = 21127; -- ID 4107, adjustment: -7.42y
 UPDATE `creature` SET `position_z` = 1.357602 WHERE `guid` = 21129; -- ID 4107, adjustment: +6.65y
 UPDATE `creature` SET `position_z` = 1.207779 WHERE `guid` = 21131; -- ID 4107, adjustment: +6.03y
@@ -45,73 +43,95 @@ UPDATE `creature` SET `position_z` = 1.704789 WHERE `guid` = 21128; -- ID 4107, 
 UPDATE `creature` SET `position_z` = 44.290489 WHERE `guid` = 21130; -- ID 4107, adjustment: -1.22y
 UPDATE `creature` SET `position_z` = 45.645166 WHERE `guid` = 21134; -- ID 4107, adjustment: -2.12y
 UPDATE `creature` SET `position_z` = 44.691765 WHERE `guid` = 21148; -- ID 4109, adjustment: -2.50y
--- re-fitted clipping creatures (heightmap ground + lift):
--- Highperch Wyvern (guid 21132) — was -0.62, ground -0.64 -> -0.14
-UPDATE `creature` SET `position_z` = -0.136618 WHERE `guid` = 21132;
--- Highperch Consort (guid 21149) — was -11.13, ground -0.52 -> -0.02
-UPDATE `creature` SET `position_z` = -0.019300 WHERE `guid` = 21149;
--- Highperch Patriarch (guid 21154) — was -0.43, ground -0.66 -> -0.16
-UPDATE `creature` SET `position_z` = -0.155411 WHERE `guid` = 21154;
+-- reported clipping creatures (heightmap + scaled lift):
+-- Highperch Wyvern (guid 21132) — ground -0.64 + 1.3 -> 0.66
+UPDATE `creature` SET `position_z` = 0.663382 WHERE `guid` = 21132;
+-- Highperch Consort (guid 21149) — ground -0.52 + 1.2 -> 0.68
+UPDATE `creature` SET `position_z` = 0.680700 WHERE `guid` = 21149;
+-- Highperch Patriarch (guid 21154) — ground -0.66 + 1.5 -> 0.84
+UPDATE `creature` SET `position_z` = 0.844589 WHERE `guid` = 21154;
 
--- Gameobjects: mining nodes — navmesh-snapped (unchanged)
-UPDATE `gameobject` SET `position_x` = -5082.933600, `position_y` = -953.866600, `position_z` = 2.645600 WHERE `guid` = 215922;
-UPDATE `gameobject` SET `position_x` = -5148.009800, `position_y` = -1109.333400, `position_z` = 47.500300 WHERE `guid` = 215973;
-UPDATE `gameobject` SET `position_x` = -4988.540000, `position_y` = -1004.270000, `position_z` = 1.169600 WHERE `guid` = 215985;
-UPDATE `gameobject` SET `position_x` = -4970.667000, `position_y` = -1079.466700, `position_z` = -39.901100 WHERE `guid` = 215987;
-UPDATE `gameobject` SET `position_x` = -4936.290000, `position_y` = -960.000000, `position_z` = 0.750000 WHERE `guid` = 215992;
-UPDATE `gameobject` SET `position_x` = -5138.890100, `position_y` = -910.054000, `position_z` = 1.045600 WHERE `guid` = 216110;
-UPDATE `gameobject` SET `position_x` = -5047.210000, `position_y` = -952.894000, `position_z` = 2.949800 WHERE `guid` = 216111;
-UPDATE `gameobject` SET `position_x` = -4909.810100, `position_y` = -920.933000, `position_z` = 2.198700 WHERE `guid` = 216116;
-UPDATE `gameobject` SET `position_x` = -5082.933600, `position_y` = -953.866600, `position_z` = 2.645600 WHERE `guid` = 215834;
-UPDATE `gameobject` SET `position_x` = -5148.009800, `position_y` = -1109.333400, `position_z` = 47.500300 WHERE `guid` = 215885;
-UPDATE `gameobject` SET `position_x` = -4988.540000, `position_y` = -1004.270000, `position_z` = 1.169600 WHERE `guid` = 215897;
-UPDATE `gameobject` SET `position_x` = -4970.667000, `position_y` = -1079.466700, `position_z` = -39.901100 WHERE `guid` = 215899;
-UPDATE `gameobject` SET `position_x` = -4936.290000, `position_y` = -960.000000, `position_z` = 0.750000 WHERE `guid` = 215904;
-UPDATE `gameobject` SET `position_x` = -5138.890100, `position_y` = -910.054000, `position_z` = 1.045600 WHERE `guid` = 216099;
-UPDATE `gameobject` SET `position_x` = -5047.210000, `position_y` = -952.894000, `position_z` = 2.949800 WHERE `guid` = 216100;
-UPDATE `gameobject` SET `position_x` = -4909.810100, `position_y` = -920.933000, `position_z` = 2.198700 WHERE `guid` = 216105;
-UPDATE `gameobject` SET `position_x` = -5082.933600, `position_y` = -953.866600, `position_z` = 2.645600 WHERE `guid` = 216010;
-UPDATE `gameobject` SET `position_x` = -5148.009800, `position_y` = -1109.333400, `position_z` = 47.500300 WHERE `guid` = 216061;
-UPDATE `gameobject` SET `position_x` = -4988.540000, `position_y` = -1004.270000, `position_z` = 1.169600 WHERE `guid` = 216073;
-UPDATE `gameobject` SET `position_x` = -4970.667000, `position_y` = -1079.466700, `position_z` = -39.901100 WHERE `guid` = 216075;
-UPDATE `gameobject` SET `position_x` = -4936.290000, `position_y` = -960.000000, `position_z` = 0.750000 WHERE `guid` = 216080;
-UPDATE `gameobject` SET `position_x` = -5138.890100, `position_y` = -910.054000, `position_z` = 1.045600 WHERE `guid` = 216121;
-UPDATE `gameobject` SET `position_x` = -5047.210000, `position_y` = -952.894000, `position_z` = 2.949800 WHERE `guid` = 216122;
-UPDATE `gameobject` SET `position_x` = -4909.810100, `position_y` = -920.933000, `position_z` = 2.198700 WHERE `guid` = 216127;
-
--- Gameobjects: eggs / shells / chest — heightmap-placed
--- Highperch Wyvern Egg (guid 16664) — was 46.63, ground 46.62 -> 46.92
-UPDATE `gameobject` SET `position_z` = 46.924050 WHERE `guid` = 16664;
--- Highperch Wyvern Egg (guid 16665) — was 48.37, ground 48.37 -> 48.67
-UPDATE `gameobject` SET `position_z` = 48.667698 WHERE `guid` = 16665;
--- Highperch Wyvern Egg (guid 16666) — was 49.34, ground 49.34 -> 49.64
-UPDATE `gameobject` SET `position_z` = 49.637719 WHERE `guid` = 16666;
--- Highperch Wyvern Egg (guid 16667) — was 0.10, ground -0.70 -> -0.40
-UPDATE `gameobject` SET `position_z` = -0.401174 WHERE `guid` = 16667;
--- Highperch Wyvern Egg (guid 16668) — was 1.30, ground 0.24 -> 0.54
-UPDATE `gameobject` SET `position_z` = 0.535730 WHERE `guid` = 16668;
--- Highperch Wyvern Egg (guid 16669) — was 0.71, ground -0.17 -> 0.13
-UPDATE `gameobject` SET `position_z` = 0.134849 WHERE `guid` = 16669;
--- Highperch Wyvern Egg (guid 16670) — was -5.53, ground -0.14 -> 0.16
-UPDATE `gameobject` SET `position_z` = 0.161592 WHERE `guid` = 16670;
--- Highperch Wyvern Egg (guid 16671) — was 1.58, ground 1.03 -> 1.33
-UPDATE `gameobject` SET `position_z` = 1.333609 WHERE `guid` = 16671;
--- Highperch Wyvern Egg (guid 16672) — was -3.27, ground 1.97 -> 2.27
-UPDATE `gameobject` SET `position_z` = 2.269565 WHERE `guid` = 16672;
--- Solid Chest (guid 16719) — was -5.58, ground 1.05 -> 1.35
-UPDATE `gameobject` SET `position_z` = 1.348886 WHERE `guid` = 16719;
--- Sunscorched Shell (guid 16673) — was -5.95, ground -0.33 -> -0.03
-UPDATE `gameobject` SET `position_z` = -0.033550 WHERE `guid` = 16673;
--- Sunscorched Shell (guid 16674) — was 3.45, ground 2.63 -> 2.93
-UPDATE `gameobject` SET `position_z` = 2.931547 WHERE `guid` = 16674;
--- Sunscorched Shell (guid 16705) — was -5.68, ground 1.40 -> 1.70
-UPDATE `gameobject` SET `position_z` = 1.695009 WHERE `guid` = 16705;
--- Sunscorched Shell (guid 16710) — was 1.70, ground 0.82 -> 1.12
-UPDATE `gameobject` SET `position_z` = 1.119632 WHERE `guid` = 16710;
--- Sunscorched Shell (guid 16711) — was 47.05, ground 47.05 -> 47.35
-UPDATE `gameobject` SET `position_z` = 47.351304 WHERE `guid` = 16711;
--- Sunscorched Shell (guid 16712) — was -0.01, ground -1.34 -> -1.04
-UPDATE `gameobject` SET `position_z` = -1.043814 WHERE `guid` = 16712;
--- Sunscorched Shell (guid 16714) — was -0.08, ground -1.02 -> -0.72
-UPDATE `gameobject` SET `position_z` = -0.721961 WHERE `guid` = 16714;
+-- Gameobjects — nodes/eggs/shells/chest at heightmap + 0.1 (X/Y kept):
+-- Gold Vein (guid 215922) — was 2.65, ground 1.91 -> 2.01
+UPDATE `gameobject` SET `position_z` = 2.008631 WHERE `guid` = 215922;
+-- Gold Vein (guid 215973) — was 47.50, ground 46.53 -> 46.63
+UPDATE `gameobject` SET `position_z` = 46.625861 WHERE `guid` = 215973;
+-- Gold Vein (guid 215985) — was 1.17, ground -1.03 -> -0.93
+UPDATE `gameobject` SET `position_z` = -0.926570 WHERE `guid` = 215985;
+-- Gold Vein (guid 215987) — was -39.90, ground -40.98 -> -40.88
+UPDATE `gameobject` SET `position_z` = -40.878355 WHERE `guid` = 215987;
+-- Gold Vein (guid 215992) — was 0.75, ground -0.25 -> -0.15
+UPDATE `gameobject` SET `position_z` = -0.150485 WHERE `guid` = 215992;
+-- Gold Vein (guid 216110) — was 1.05, ground 0.35 -> 0.45
+UPDATE `gameobject` SET `position_z` = 0.448861 WHERE `guid` = 216110;
+-- Gold Vein (guid 216111) — was 2.95, ground 2.21 -> 2.31
+UPDATE `gameobject` SET `position_z` = 2.306210 WHERE `guid` = 216111;
+-- Gold Vein (guid 216116) — was 2.20, ground 1.54 -> 1.64
+UPDATE `gameobject` SET `position_z` = 1.643095 WHERE `guid` = 216116;
+-- Highperch Wyvern Egg (guid 16664) — was 46.92, ground 46.62 -> 46.72
+UPDATE `gameobject` SET `position_z` = 46.724050 WHERE `guid` = 16664;
+-- Highperch Wyvern Egg (guid 16665) — was 48.67, ground 48.37 -> 48.47
+UPDATE `gameobject` SET `position_z` = 48.467698 WHERE `guid` = 16665;
+-- Highperch Wyvern Egg (guid 16666) — was 49.64, ground 49.34 -> 49.44
+UPDATE `gameobject` SET `position_z` = 49.437719 WHERE `guid` = 16666;
+-- Highperch Wyvern Egg (guid 16667) — was -0.40, ground -0.70 -> -0.60
+UPDATE `gameobject` SET `position_z` = -0.601174 WHERE `guid` = 16667;
+-- Highperch Wyvern Egg (guid 16668) — was 0.54, ground 0.24 -> 0.34
+UPDATE `gameobject` SET `position_z` = 0.335730 WHERE `guid` = 16668;
+-- Highperch Wyvern Egg (guid 16669) — was 0.13, ground -0.17 -> -0.07
+UPDATE `gameobject` SET `position_z` = -0.065151 WHERE `guid` = 16669;
+-- Highperch Wyvern Egg (guid 16670) — was 0.16, ground -0.14 -> -0.04
+UPDATE `gameobject` SET `position_z` = -0.038408 WHERE `guid` = 16670;
+-- Highperch Wyvern Egg (guid 16671) — was 1.33, ground 1.03 -> 1.13
+UPDATE `gameobject` SET `position_z` = 1.133609 WHERE `guid` = 16671;
+-- Highperch Wyvern Egg (guid 16672) — was 2.27, ground 1.97 -> 2.07
+UPDATE `gameobject` SET `position_z` = 2.069565 WHERE `guid` = 16672;
+-- Iron Deposit (guid 215834) — was 2.65, ground 1.91 -> 2.01
+UPDATE `gameobject` SET `position_z` = 2.008631 WHERE `guid` = 215834;
+-- Iron Deposit (guid 215885) — was 47.50, ground 46.53 -> 46.63
+UPDATE `gameobject` SET `position_z` = 46.625861 WHERE `guid` = 215885;
+-- Iron Deposit (guid 215897) — was 1.17, ground -1.03 -> -0.93
+UPDATE `gameobject` SET `position_z` = -0.926570 WHERE `guid` = 215897;
+-- Iron Deposit (guid 215899) — was -39.90, ground -40.98 -> -40.88
+UPDATE `gameobject` SET `position_z` = -40.878355 WHERE `guid` = 215899;
+-- Iron Deposit (guid 215904) — was 0.75, ground -0.25 -> -0.15
+UPDATE `gameobject` SET `position_z` = -0.150485 WHERE `guid` = 215904;
+-- Mithril Deposit (guid 216099) — was 1.05, ground 0.35 -> 0.45
+UPDATE `gameobject` SET `position_z` = 0.448861 WHERE `guid` = 216099;
+-- Mithril Deposit (guid 216100) — was 2.95, ground 2.21 -> 2.31
+UPDATE `gameobject` SET `position_z` = 2.306210 WHERE `guid` = 216100;
+-- Mithril Deposit (guid 216105) — was 2.20, ground 1.54 -> 1.64
+UPDATE `gameobject` SET `position_z` = 1.643095 WHERE `guid` = 216105;
+-- Silver Vein (guid 216010) — was 2.65, ground 1.91 -> 2.01
+UPDATE `gameobject` SET `position_z` = 2.008631 WHERE `guid` = 216010;
+-- Silver Vein (guid 216061) — was 47.50, ground 46.53 -> 46.63
+UPDATE `gameobject` SET `position_z` = 46.625861 WHERE `guid` = 216061;
+-- Silver Vein (guid 216073) — was 1.17, ground -1.03 -> -0.93
+UPDATE `gameobject` SET `position_z` = -0.926570 WHERE `guid` = 216073;
+-- Silver Vein (guid 216075) — was -39.90, ground -40.98 -> -40.88
+UPDATE `gameobject` SET `position_z` = -40.878355 WHERE `guid` = 216075;
+-- Silver Vein (guid 216080) — was 0.75, ground -0.25 -> -0.15
+UPDATE `gameobject` SET `position_z` = -0.150485 WHERE `guid` = 216080;
+-- Solid Chest (guid 16719) — was 1.35, ground 1.05 -> 1.15
+UPDATE `gameobject` SET `position_z` = 1.148886 WHERE `guid` = 16719;
+-- Sunscorched Shell (guid 16673) — was -0.03, ground -0.33 -> -0.23
+UPDATE `gameobject` SET `position_z` = -0.233550 WHERE `guid` = 16673;
+-- Sunscorched Shell (guid 16674) — was 2.93, ground 2.63 -> 2.73
+UPDATE `gameobject` SET `position_z` = 2.731547 WHERE `guid` = 16674;
+-- Sunscorched Shell (guid 16705) — was 1.70, ground 1.40 -> 1.50
+UPDATE `gameobject` SET `position_z` = 1.495009 WHERE `guid` = 16705;
+-- Sunscorched Shell (guid 16710) — was 1.12, ground 0.82 -> 0.92
+UPDATE `gameobject` SET `position_z` = 0.919632 WHERE `guid` = 16710;
+-- Sunscorched Shell (guid 16711) — was 47.35, ground 47.05 -> 47.15
+UPDATE `gameobject` SET `position_z` = 47.151304 WHERE `guid` = 16711;
+-- Sunscorched Shell (guid 16712) — was -1.04, ground -1.34 -> -1.24
+UPDATE `gameobject` SET `position_z` = -1.243814 WHERE `guid` = 16712;
+-- Sunscorched Shell (guid 16714) — was -0.72, ground -1.02 -> -0.92
+UPDATE `gameobject` SET `position_z` = -0.921961 WHERE `guid` = 16714;
+-- Truesilver Deposit (guid 216121) — was 1.05, ground 0.35 -> 0.45
+UPDATE `gameobject` SET `position_z` = 0.448861 WHERE `guid` = 216121;
+-- Truesilver Deposit (guid 216122) — was 2.95, ground 2.21 -> 2.31
+UPDATE `gameobject` SET `position_z` = 2.306210 WHERE `guid` = 216122;
+-- Truesilver Deposit (guid 216127) — was 2.20, ground 1.54 -> 1.64
+UPDATE `gameobject` SET `position_z` = 1.643095 WHERE `guid` = 216127;
 
