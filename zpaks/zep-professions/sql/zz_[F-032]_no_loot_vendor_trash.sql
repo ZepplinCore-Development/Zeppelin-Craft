@@ -148,6 +148,14 @@ INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`Quest
   (21079, 29580, 0, 1.3537,  0, 1, 0, 1, 1, 'Cragskaar Shardling - Crystal Fragments'),
   (21079, 29581, 0, 0.2083,  0, 1, 0, 1, 1, 'Cragskaar Shardling - Strange Crystal');
 
+-- 19759 Newly Crafted Infernal (lvl 68-69, tier 100027)
+DELETE FROM `creature_loot_template` WHERE `Entry` = 19759;
+INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`QuestRequired`,`LootMode`,`GroupId`,`MinCount`,`MaxCount`,`Comment`) VALUES
+  (19759, 29579, 0, 100,     0, 1, 0, 1, 2, 'Newly Crafted Infernal - Crystalized Stone Chips'),
+  (19759, 29578, 0, 17.3551, 0, 1, 0, 1, 1, 'Newly Crafted Infernal - Crystalized Stone'),
+  (19759, 29580, 0, 1.3537,  0, 1, 0, 1, 1, 'Newly Crafted Infernal - Crystal Fragments'),
+  (19759, 29581, 0, 0.2083,  0, 1, 0, 1, 1, 'Newly Crafted Infernal - Strange Crystal');
+
 -- =====================================================================
 -- ENGINEERING (mechanical scrap)
 -- =====================================================================

@@ -236,6 +236,10 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid`
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 21079 WHERE (`entry` = 21079);
 -- Enraged Earth Shard
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 22115 WHERE (`entry` = 22115);
+-- Cooling Infernal
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 19760 WHERE (`entry` = 19760);
+-- Newly Crafted Infernal (lootid 19759 = vendor trash, prevents fast corpse despawn so mining loot is reachable)
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027, `lootid` = 19759 WHERE (`entry` = 19759);
 
 -- TBC Creatures 70+
 
