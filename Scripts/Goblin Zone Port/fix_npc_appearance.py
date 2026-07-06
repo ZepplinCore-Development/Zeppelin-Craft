@@ -62,6 +62,8 @@ with open(os.path.join(ZPAK, "dbc/[F-011]" + SFX + "_creaturedisplayinfoextra.sq
         ints = list(ints)
         # equipment restored: Cata-new armor ItemDisplayInfo rows + component textures now ship
         # (build_npc_armor.py). Keep equipment fields 8-18 intact.
+        # clamp skin_color to worgoblin's shipped range (goblin skins 0-11); 15/16 have no BLP.
+        if ints[1] == 9 and ints[3] > 11: ints[3] = 6
         vals = ints + ["'%s'" % tex.replace("'", "''")]
         f.write("DELETE FROM creaturedisplayinfoextra WHERE id = %d;\n" % eid)
         f.write("INSERT INTO creaturedisplayinfoextra (%s) VALUES (%s);\n" % (
