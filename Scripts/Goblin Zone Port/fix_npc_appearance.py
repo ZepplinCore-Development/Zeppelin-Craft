@@ -35,6 +35,41 @@ for i in range(erc):
     tex = es(struct.unpack_from("<I", ed, b + 20 * 4)[0])
     extra[ints[0]] = (ints, tex)
 
+# valid goblin (race 9) CharSection combos from OUR client CharSections (what can actually bake).
+# A missing skin/face/hair/facialhair section fails the atomic bake -> green whole model.
+# CharSections layout (fc=10): race@1, sex@2, type@3, variation@8, color@9.
+_cs = open("/workspace/project/data/dbc/CharSections.dbc", "rb").read()
+_crc, _cfc, _crs = struct.unpack("<3I", _cs[4:16])
+VALID = {}   # (gender, type) -> set of (variation, color)
+for _i in range(_crc):
+    _b = 20 + _i * _crs
+    if struct.unpack_from("<i", _cs, _b + 4)[0] != 9: continue
+    _g = struct.unpack_from("<i", _cs, _b + 8)[0]; _t = struct.unpack_from("<i", _cs, _b + 12)[0]
+    _v = struct.unpack_from("<i", _cs, _b + 32)[0]; _c = struct.unpack_from("<i", _cs, _b + 36)[0]
+    VALID.setdefault((_g, _t), set()).add((_v, _c))
+
+def clamp_goblin(ints):
+    """Clamp grooming so every bake component (skin/face/hair/facialhair) resolves."""
+    g = ints[2]
+    skin, face, hstyle, hcolor, fhair = ints[3], ints[4], ints[5], ints[6], ints[7]
+    # bakeable skin = has BOTH a base-skin (type0) AND a face (type1) section; some high skin
+    # colors have skin but no face -> face bake fails -> green. Clamp skin into that range.
+    skin_cols = {c for v, c in VALID.get((g, 0), set())}
+    face_skins = {c for v, c in VALID.get((g, 1), set())}
+    bakeable = (skin_cols & face_skins) or skin_cols or {0}
+    if skin not in bakeable: skin = min(max(bakeable), skin) if skin > min(bakeable) else min(bakeable)
+    if skin not in bakeable: skin = min(bakeable)
+    if (face, skin) not in VALID.get((g, 1), set()):
+        cand = sorted(v for v, c in VALID.get((g, 1), set()) if c == skin)
+        face = cand[0] if cand else 0
+    if hstyle != 0 and (hstyle, hcolor) not in VALID.get((g, 3), set()):
+        cand = sorted(VALID.get((g, 3), set()))
+        hstyle, hcolor = (cand[0] if cand else (0, 0))
+    if fhair != 0 and (fhair, hcolor) not in VALID.get((g, 2), set()):
+        fhair = 0   # piercings/features layer: drop if the Cata variation has no goblin section
+    ints[3], ints[4], ints[5], ints[6], ints[7] = skin, face, hstyle, hcolor, fhair
+    return ints
+
 our = [int(l) for l in open(os.path.join(SCRATCH, "f011_disp%s.txt" % SFX)) if l.strip().isdigit()]
 updates = []; need_extra = set()
 for d in our:
@@ -62,8 +97,9 @@ with open(os.path.join(ZPAK, "dbc/[F-011]" + SFX + "_creaturedisplayinfoextra.sq
         ints = list(ints)
         # equipment restored: Cata-new armor ItemDisplayInfo rows + component textures now ship
         # (build_npc_armor.py). Keep equipment fields 8-18 intact.
-        # clamp skin_color to worgoblin's shipped range (goblin skins 0-11); 15/16 have no BLP.
-        if ints[1] == 9 and ints[3] > 11: ints[3] = 6
+        # clamp grooming to valid goblin CharSection combos (Cata values overrun 3.3.5a range
+        # -> a missing skin/face/facialhair section fails the whole bake -> green).
+        if ints[1] == 9: ints = clamp_goblin(ints)
         vals = ints + ["'%s'" % tex.replace("'", "''")]
         f.write("DELETE FROM creaturedisplayinfoextra WHERE id = %d;\n" % eid)
         f.write("INSERT INTO creaturedisplayinfoextra (%s) VALUES (%s);\n" % (
