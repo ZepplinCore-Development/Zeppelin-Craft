@@ -100,6 +100,8 @@ with open(os.path.join(ZPAK, "dbc/[F-011]" + SFX + "_creaturedisplayinfoextra.sq
         # clamp grooming to valid goblin CharSection combos (Cata values overrun 3.3.5a range
         # -> a missing skin/face/facialhair section fails the whole bake -> green).
         if ints[1] == 9: ints = clamp_goblin(ints)
+        if os.environ.get("F011_ZERO_EQUIP") == "1":
+            for _j in range(8, 19): ints[_j] = 0   # decisive test: skin-only bake (no equipment)
         vals = ints + ["'%s'" % tex.replace("'", "''")]
         f.write("DELETE FROM creaturedisplayinfoextra WHERE id = %d;\n" % eid)
         f.write("INSERT INTO creaturedisplayinfoextra (%s) VALUES (%s);\n" % (
