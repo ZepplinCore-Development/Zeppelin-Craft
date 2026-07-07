@@ -22,6 +22,22 @@
 -- Execute against acore_world database.
 
 -- =====================================================
+-- RENAME PRODUCED SCROLL ITEMS -> "Scroll of Armor Warding"
+-- =====================================================
+-- The craft spells (103348-103355) are named "Scroll of Armor Warding <rank>",
+-- but they create the vanilla "Scroll of Protection" items. Rename those stock
+-- items so the produced consumable matches the recipe name across all 8 ranks.
+-- These are stock rows (not defined by us), so one consolidated UPDATE per ID.
+UPDATE `item_template` SET `name` = 'Scroll of Armor Warding'      WHERE `entry` = 3013;   -- Rank I
+UPDATE `item_template` SET `name` = 'Scroll of Armor Warding II'   WHERE `entry` = 1478;   -- Rank II
+UPDATE `item_template` SET `name` = 'Scroll of Armor Warding III'  WHERE `entry` = 4421;   -- Rank III
+UPDATE `item_template` SET `name` = 'Scroll of Armor Warding IV'   WHERE `entry` = 10305;  -- Rank IV
+UPDATE `item_template` SET `name` = 'Scroll of Armor Warding V'    WHERE `entry` = 27500;  -- Rank V
+UPDATE `item_template` SET `name` = 'Scroll of Armor Warding VI'   WHERE `entry` = 33459;  -- Rank VI
+UPDATE `item_template` SET `name` = 'Scroll of Armor Warding VII'  WHERE `entry` = 43467;  -- Rank VII
+UPDATE `item_template` SET `name` = 'Scroll of Armor Warding VIII' WHERE `entry` = 43468;  -- Rank VIII
+
+-- =====================================================
 -- INSCRIPTION TRAINER ENTRIES (Starter Ranks Only)
 -- =====================================================
 -- Only starter ranks are trainer-taught (same as resistance schools):
@@ -50,16 +66,16 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- =====================================================
 -- PROGRESSION RANK RECIPE ITEMS (Dungeon Drops)
 -- =====================================================
--- "Technique: Scroll of Protection <rank>" - teach the matching crafting spell.
+-- "Technique: Scroll of Armor Warding <rank>" - teach the matching crafting spell.
 -- displayid 140301 (AO_Scroll_01) - already shipped by [F-015]_itemdisplayinfo.
 
--- Technique: Scroll of Protection II (Rank II, skill 95)
+-- Technique: Scroll of Armor Warding II (Rank II, skill 95)
 DELETE FROM `item_template` WHERE `entry` = 57402;
 INSERT INTO `item_template` SET
     `entry` = 57402,
     `class` = 9,
     `subclass` = 0,
-    `name` = 'Technique: Scroll of Protection II',
+    `name` = 'Technique: Scroll of Armor Warding II',
     `displayid` = 140301,
     `Quality` = 1,
     `BuyPrice` = 2000,
@@ -72,18 +88,18 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103349,
-    `description` = 'Teaches you how to scribe Scroll of Protection II.',
+    `description` = 'Teaches you how to scribe Scroll of Armor Warding II.',
     `spelltrigger_2` = 6,
     `spellcharges_1` = -1,
     `Flags` = 64;
 
--- Technique: Scroll of Protection III (Rank III, skill 170)
+-- Technique: Scroll of Armor Warding III (Rank III, skill 170)
 DELETE FROM `item_template` WHERE `entry` = 57403;
 INSERT INTO `item_template` SET
     `entry` = 57403,
     `class` = 9,
     `subclass` = 0,
-    `name` = 'Technique: Scroll of Protection III',
+    `name` = 'Technique: Scroll of Armor Warding III',
     `displayid` = 140301,
     `Quality` = 1,
     `BuyPrice` = 5000,
@@ -96,18 +112,18 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103350,
-    `description` = 'Teaches you how to scribe Scroll of Protection III.',
+    `description` = 'Teaches you how to scribe Scroll of Armor Warding III.',
     `spelltrigger_2` = 6,
     `spellcharges_1` = -1,
     `Flags` = 64;
 
--- Technique: Scroll of Protection IV (Rank IV, skill 240)
+-- Technique: Scroll of Armor Warding IV (Rank IV, skill 240)
 DELETE FROM `item_template` WHERE `entry` = 57497;
 INSERT INTO `item_template` SET
     `entry` = 57497,
     `class` = 9,
     `subclass` = 0,
-    `name` = 'Technique: Scroll of Protection IV',
+    `name` = 'Technique: Scroll of Armor Warding IV',
     `displayid` = 140301,
     `Quality` = 1,
     `BuyPrice` = 10000,
@@ -120,18 +136,18 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103351,
-    `description` = 'Teaches you how to scribe Scroll of Protection IV.',
+    `description` = 'Teaches you how to scribe Scroll of Armor Warding IV.',
     `spelltrigger_2` = 6,
     `spellcharges_1` = -1,
     `Flags` = 64;
 
--- Technique: Scroll of Protection VI (Rank VI, skill 375)
+-- Technique: Scroll of Armor Warding VI (Rank VI, skill 375)
 DELETE FROM `item_template` WHERE `entry` = 57498;
 INSERT INTO `item_template` SET
     `entry` = 57498,
     `class` = 9,
     `subclass` = 0,
-    `name` = 'Technique: Scroll of Protection VI',
+    `name` = 'Technique: Scroll of Armor Warding VI',
     `displayid` = 140301,
     `Quality` = 1,
     `BuyPrice` = 50000,
@@ -144,18 +160,18 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103353,
-    `description` = 'Teaches you how to scribe Scroll of Protection VI.',
+    `description` = 'Teaches you how to scribe Scroll of Armor Warding VI.',
     `spelltrigger_2` = 6,
     `spellcharges_1` = -1,
     `Flags` = 64;
 
--- Technique: Scroll of Protection VIII (Rank VIII, skill 435)
+-- Technique: Scroll of Armor Warding VIII (Rank VIII, skill 435)
 DELETE FROM `item_template` WHERE `entry` = 57499;
 INSERT INTO `item_template` SET
     `entry` = 57499,
     `class` = 9,
     `subclass` = 0,
-    `name` = 'Technique: Scroll of Protection VIII',
+    `name` = 'Technique: Scroll of Armor Warding VIII',
     `displayid` = 140301,
     `Quality` = 1,
     `BuyPrice` = 100000,
@@ -168,7 +184,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103355,
-    `description` = 'Teaches you how to scribe Scroll of Protection VIII.',
+    `description` = 'Teaches you how to scribe Scroll of Armor Warding VIII.',
     `spelltrigger_2` = 6,
     `spellcharges_1` = -1,
     `Flags` = 64;
@@ -183,35 +199,35 @@ DELETE FROM `creature_loot_template` WHERE `Item` IN (57402, 57403, 57497, 57498
 
 -- Rank II - Vanilla low-level dungeons (15%)
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(644,  57402, 15, 'Rhahk''Zor - Technique: Scroll of Protection II'),
-(1696, 57402, 15, 'Targorr the Dread - Technique: Scroll of Protection II');
+(644,  57402, 15, 'Rhahk''Zor - Technique: Scroll of Armor Warding II'),
+(1696, 57402, 15, 'Targorr the Dread - Technique: Scroll of Armor Warding II');
 
 -- Rank III - Vanilla mid-level dungeons (15%) - Uldaman stone wing
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(7228, 57403, 15, 'Ironaya - Technique: Scroll of Protection III'),
-(6910, 57403, 15, 'Revelosh - Technique: Scroll of Protection III');
+(7228, 57403, 15, 'Ironaya - Technique: Scroll of Armor Warding III'),
+(6910, 57403, 15, 'Revelosh - Technique: Scroll of Armor Warding III');
 
 -- Rank IV - Vanilla high-level dungeons (15%) - golem/earthen bosses
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(2748, 57497, 15, 'Archaedas - Technique: Scroll of Protection IV'),
-(8983, 57497, 15, 'Golem Lord Argelmach - Technique: Scroll of Protection IV');
+(2748, 57497, 15, 'Archaedas - Technique: Scroll of Armor Warding IV'),
+(8983, 57497, 15, 'Golem Lord Argelmach - Technique: Scroll of Armor Warding IV');
 
 -- Rank VI - TBC dungeons (15% normal) - Mechanar
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(19219, 57498, 15, 'Mechano-Lord Capacitus - Technique: Scroll of Protection VI'),
-(19220, 57498, 15, 'Pathaleon the Calculator - Technique: Scroll of Protection VI');
+(19219, 57498, 15, 'Mechano-Lord Capacitus - Technique: Scroll of Armor Warding VI'),
+(19220, 57498, 15, 'Pathaleon the Calculator - Technique: Scroll of Armor Warding VI');
 
 -- Rank VI - TBC heroic Mechanar (25%)
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(21533, 57498, 25, 'Mechano-Lord Capacitus (Heroic) - Technique: Scroll of Protection VI'),
-(21537, 57498, 25, 'Pathaleon the Calculator (Heroic) - Technique: Scroll of Protection VI');
+(21533, 57498, 25, 'Mechano-Lord Capacitus (Heroic) - Technique: Scroll of Armor Warding VI'),
+(21537, 57498, 25, 'Pathaleon the Calculator (Heroic) - Technique: Scroll of Armor Warding VI');
 
 -- Rank VIII - WotLK dungeons (15% normal) - Halls of Stone
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(27977, 57499, 15, 'Krystallus - Technique: Scroll of Protection VIII'),
-(27978, 57499, 15, 'Sjonnir The Ironshaper - Technique: Scroll of Protection VIII');
+(27977, 57499, 15, 'Krystallus - Technique: Scroll of Armor Warding VIII'),
+(27978, 57499, 15, 'Sjonnir The Ironshaper - Technique: Scroll of Armor Warding VIII');
 
 -- Rank VIII - WotLK heroic Halls of Stone (25%)
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(31381, 57499, 25, 'Krystallus (Heroic) - Technique: Scroll of Protection VIII'),
-(31386, 57499, 25, 'Sjonnir The Ironshaper (Heroic) - Technique: Scroll of Protection VIII');
+(31381, 57499, 25, 'Krystallus (Heroic) - Technique: Scroll of Armor Warding VIII'),
+(31386, 57499, 25, 'Sjonnir The Ironshaper (Heroic) - Technique: Scroll of Armor Warding VIII');
