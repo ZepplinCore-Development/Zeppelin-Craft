@@ -1,0 +1,441 @@
+From a0243c49506617b7f449639b585e746fce9c514e Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 7 Jul 2026 14:32:23 +0000
+Subject: [PATCH] feat: F-194 Cata zone phasing progression (PhaseMgr backport)
+
+- Backport TrinityCore 4.3.4 PhaseMgr (definition-driven, server-side phasemask) from
+  Project Neltharion. Per-zone ordered phase_definitions gated by CONDITION_SOURCE_TYPE_PHASE
+  (26) on quest state; resolved phasemask applied via Player::SetPhaseMask.
+- ObjectMgr: LoadPhaseDefinitions + store; ConditionMgr: enable source type 26 + accessor;
+  Player: PhaseMgr member, recalc on zone change + quest reward/status change + login.
+- Terrain swaps (terrainswapmap/phaseId) loaded but not applied (deferred until swap
+  terrains are ported).
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Conditions/ConditionMgr.cpp   | 32 +++++++++-
+ src/server/game/Conditions/ConditionMgr.h     |  2 +
+ src/server/game/Entities/Player/Player.cpp    |  2 +
+ src/server/game/Entities/Player/Player.h      |  4 ++
+ .../game/Entities/Player/PlayerQuest.cpp      |  7 +++
+ .../game/Entities/Player/PlayerUpdates.cpp    |  4 ++
+ src/server/game/Globals/ObjectMgr.cpp         | 42 +++++++++++++
+ src/server/game/Globals/ObjectMgr.h           |  7 +++
+ src/server/game/Maps/PhaseMgr.cpp             | 49 +++++++++++++++
+ src/server/game/Maps/PhaseMgr.h               | 63 +++++++++++++++++++
+ src/server/game/World/World.cpp               |  3 +
+ 11 files changed, 214 insertions(+), 1 deletion(-)
+ create mode 100644 src/server/game/Maps/PhaseMgr.cpp
+ create mode 100644 src/server/game/Maps/PhaseMgr.h
+
+diff --git a/src/server/game/Conditions/ConditionMgr.cpp b/src/server/game/Conditions/ConditionMgr.cpp
+index 32695a2e8..b98bafe4e 100644
+--- a/src/server/game/Conditions/ConditionMgr.cpp
++++ b/src/server/game/Conditions/ConditionMgr.cpp
+@@ -1012,6 +1012,16 @@ ConditionList ConditionMgr::GetConditionsForNotGroupedEntry(ConditionSourceType
+     return spellCond;
+ }
+ 
++// F-194 Cata zone phasing: conditions for a phase_definitions (zoneId, entry).
++ConditionList ConditionMgr::GetConditionsForPhaseDefinition(uint32 zoneId, uint32 entry)
++{
++    ConditionList cond;
++    auto itr = PhaseDefinitionConditionStore.find(std::make_pair(zoneId, entry));
++    if (itr != PhaseDefinitionConditionStore.end())
++        cond = itr->second;
++    return cond;
++}
++
+ ConditionList ConditionMgr::GetConditionsForSpellClickEvent(uint32 creatureId, uint32 spellId)
+ {
+     ConditionList                                   cond;
+@@ -1359,6 +1369,13 @@ void ConditionMgr::LoadConditions(bool isReload)
+                 ++count;
+                 continue; // do not add to AllocatedMemoryStore to avoid double-deleting
+             }
++            case CONDITION_SOURCE_TYPE_PHASE: // F-194 Cata zone phasing: SourceGroup=zoneId, SourceEntry=phase_definition entry
++            {
++                PhaseDefinitionConditionStore[std::make_pair(cond->SourceGroup, uint32(cond->SourceEntry))].push_back(cond);
++                valid = true;
++                ++count;
++                continue; // freed via PhaseDefinitionConditionStore in Clean(), not AllocatedMemoryStore
++            }
+             case CONDITION_SOURCE_TYPE_PLAYER_LOOT_TEMPLATE:
+             {
+                 valid = addToLootTemplate(cond, LootTemplates_Player.GetLootForConditionFill(cond->SourceGroup));
+@@ -1556,12 +1573,16 @@ bool ConditionMgr::isSourceTypeValid(Condition* cond)
+     switch (cond->SourceType)
+     {
+     case CONDITION_SOURCE_TYPE_TERRAIN_SWAP:
+-    case CONDITION_SOURCE_TYPE_PHASE:
+     case CONDITION_SOURCE_TYPE_GRAVEYARD:
+     {
+         LOG_ERROR("sql.sql", "ConditionSourceType {} in `condition` table is not supported on 3.3.5a, ignoring.", uint32(cond->SourceType));
+         return false;
+     }
++    case CONDITION_SOURCE_TYPE_PHASE: // F-194 Cata zone phasing: SourceGroup=zoneId, SourceEntry=phase_definition entry
++    {
++        // no cross-table existence check needed; matched against phase_definitions at runtime by PhaseMgr
++        break;
++    }
+     case CONDITION_SOURCE_TYPE_CREATURE_LOOT_TEMPLATE:
+     {
+         if (!LootTemplates_Creature.HaveLootFor(cond->SourceGroup))
+@@ -2726,6 +2747,15 @@ void ConditionMgr::Clean()
+ 
+     ObjectVisibilityConditionStore.clear();
+ 
++    // F-194 phase-definition conditions (bucketed, not in AllocatedMemoryStore)
++    for (auto& itr : PhaseDefinitionConditionStore)
++    {
++        for (Condition* cond : itr.second)
++            delete cond;
++        itr.second.clear();
++    }
++    PhaseDefinitionConditionStore.clear();
++
+     // this is a BIG hack, feel free to fix it if you can figure out the ConditionMgr ;)
+     for (std::list<Condition*>::const_iterator itr = AllocatedMemoryStore.begin(); itr != AllocatedMemoryStore.end(); ++itr) delete *itr;
+ 
+diff --git a/src/server/game/Conditions/ConditionMgr.h b/src/server/game/Conditions/ConditionMgr.h
+index 5cfd108fe..130e658bb 100644
+--- a/src/server/game/Conditions/ConditionMgr.h
++++ b/src/server/game/Conditions/ConditionMgr.h
+@@ -267,6 +267,7 @@ public:
+     [[nodiscard]] bool CanHaveSourceGroupSet(ConditionSourceType sourceType) const;
+     [[nodiscard]] bool CanHaveSourceIdSet(ConditionSourceType sourceType) const;
+     ConditionList GetConditionsForNotGroupedEntry(ConditionSourceType sourceType, uint32 entry);
++    ConditionList GetConditionsForPhaseDefinition(uint32 zoneId, uint32 entry); // F-194 Cata zone phasing
+     ConditionList GetConditionsForSpellClickEvent(uint32 creatureId, uint32 spellId);
+     ConditionList GetConditionsForSmartEvent(int32 entryOrGuid, uint32 eventId, uint32 sourceType);
+     ConditionList GetConditionsForVehicleSpell(uint32 creatureId, uint32 spellId);
+@@ -291,6 +292,7 @@ private:
+     NpcVendorConditionContainer        NpcVendorConditionContainerStore;
+     SmartEventConditionContainer       SmartEventConditionStore;
+     ObjectVisibilityConditionContainer ObjectVisibilityConditionStore;
++    std::map<std::pair<uint32 /*zoneId*/, uint32 /*entry*/>, ConditionList> PhaseDefinitionConditionStore; // F-194
+ };
+ 
+ #define sConditionMgr ConditionMgr::instance()
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+index 6fd84e9cc..1fffe8b22 100644
+--- a/src/server/game/Entities/Player/Player.cpp
++++ b/src/server/game/Entities/Player/Player.cpp
+@@ -164,6 +164,8 @@ Player::Player(WorldSession* session): Unit(), m_mover(this), _cinematicMgr(*thi
+     m_objectType |= TYPEMASK_PLAYER;
+     m_objectTypeId = TYPEID_PLAYER;
+ 
++    m_phaseMgr = std::make_unique<PhaseMgr>(this); // F-194 Cata zone phasing progression
++
+     m_valuesCount = PLAYER_END;
+ 
+     m_session = session;
+diff --git a/src/server/game/Entities/Player/Player.h b/src/server/game/Entities/Player/Player.h
+index a8e744a1b..3ff5a86f9 100644
+--- a/src/server/game/Entities/Player/Player.h
++++ b/src/server/game/Entities/Player/Player.h
+@@ -52,6 +52,7 @@ struct VendorItem;
+ 
+ class AchievementMgr;
+ class ReputationMgr;
++class PhaseMgr; // F-194 Cata zone phasing
+ class Channel;
+ class CharacterCreateInfo;
+ class Creature;
+@@ -1399,6 +1400,8 @@ public:
+     CinematicMgr& GetCinematicMgr() { return _cinematicMgr; }
+     CinematicMgr const& GetCinematicMgr() const { return _cinematicMgr; }
+ 
++    PhaseMgr* GetPhaseMgr() { return m_phaseMgr.get(); } // F-194 Cata zone phasing
++
+     void UpdateEnchantTime(uint32 time);
+     void UpdateSoulboundTradeItems();
+     void AddTradeableItem(Item* item);
+@@ -2987,6 +2990,7 @@ private:
+     Item* _LoadItem(CharacterDatabaseTransaction trans, uint32 zoneId, uint32 timeDiff, Field* fields);
+ 
+     CinematicMgr _cinematicMgr;
++    std::unique_ptr<PhaseMgr> m_phaseMgr; // F-194 Cata zone phasing progression
+ 
+     typedef GuidSet RefundableItemsSet;
+     RefundableItemsSet m_refundableItems;
+diff --git a/src/server/game/Entities/Player/PlayerQuest.cpp b/src/server/game/Entities/Player/PlayerQuest.cpp
+index 57735685e..3459554a4 100644
+--- a/src/server/game/Entities/Player/PlayerQuest.cpp
++++ b/src/server/game/Entities/Player/PlayerQuest.cpp
+@@ -25,6 +25,7 @@
+ #include "Group.h"
+ #include "MapMgr.h"
+ #include "Player.h"
++#include "PhaseMgr.h" // F-194 Cata zone phasing
+ #include "PoolMgr.h"
+ #include "QuestPackets.h"
+ #include "ReputationMgr.h"
+@@ -878,6 +879,9 @@ void Player::RewardQuest(Quest const* quest, uint32 reward, Object* questGiver,
+     UpdateAreaDependentAuras(GetAreaId());
+ 
+     sScriptMgr->OnPlayerCompleteQuest(this, quest);
++
++    if (PhaseMgr* pm = GetPhaseMgr()) // F-194 quest rewarded -> maybe re-phase the zone (world progresses)
++        pm->NotifyConditionChanged();
+ }
+ 
+ void Player::SetRewardedQuest(uint32 quest_id)
+@@ -1526,6 +1530,9 @@ void Player::SetQuestStatus(uint32 questId, QuestStatus status, bool update /*=
+ 
+     if (update)
+         SendQuestUpdate(questId);
++
++    if (PhaseMgr* pm = GetPhaseMgr()) // F-194 quest state changed -> maybe re-phase the zone
++        pm->NotifyConditionChanged();
+ }
+ 
+ void Player::RemoveActiveQuest(uint32 questId, bool update /*= true*/)
+diff --git a/src/server/game/Entities/Player/PlayerUpdates.cpp b/src/server/game/Entities/Player/PlayerUpdates.cpp
+index ab38650b0..ce84af5c2 100644
+--- a/src/server/game/Entities/Player/PlayerUpdates.cpp
++++ b/src/server/game/Entities/Player/PlayerUpdates.cpp
+@@ -30,6 +30,7 @@
+ #include "OutdoorPvPMgr.h"
+ #include "Pet.h"
+ #include "Player.h"
++#include "PhaseMgr.h" // F-194 Cata zone phasing
+ #include "ScriptMgr.h"
+ #include "SkillDiscovery.h"
+ #include "SpellAuraEffects.h"
+@@ -1295,6 +1296,9 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea, bool force)
+     m_zoneUpdateId    = newZone;
+     m_zoneUpdateTimer = ZONE_UPDATE_INTERVAL;
+ 
++    if (PhaseMgr* pm = GetPhaseMgr()) // F-194 recompute Cata zone phasing on zone change / login
++        pm->NotifyConditionChanged();
++
+     // zone changed, so area changed as well, update it
+     UpdateArea(newArea);
+ 
+diff --git a/src/server/game/Globals/ObjectMgr.cpp b/src/server/game/Globals/ObjectMgr.cpp
+index 849ee2627..e4169ed36 100644
+--- a/src/server/game/Globals/ObjectMgr.cpp
++++ b/src/server/game/Globals/ObjectMgr.cpp
+@@ -8602,6 +8602,48 @@ void ObjectMgr::LoadPointsOfInterest()
+     LOG_INFO("server.loading", " ");
+ }
+ 
++// F-194 Cata zone phasing progression: per-zone ordered definitions, gated by
++// CONDITION_SOURCE_TYPE_PHASE conditions on quest state, resolved by PhaseMgr.
++void ObjectMgr::LoadPhaseDefinitions()
++{
++    uint32 oldMSTime = getMSTime();
++    _phaseDefinitionStore.clear();
++
++    //                                                   0       1        2          3        4          5                6
++    QueryResult result = WorldDatabase.Query("SELECT zoneId, entry, phaseMask, phaseId, originmap, terrainswapmap, flags FROM phase_definitions ORDER BY entry ASC");
++    if (!result)
++    {
++        LOG_INFO("server.loading", ">> Loaded 0 phasing definitions. DB table `phase_definitions` is empty.");
++        LOG_INFO("server.loading", " ");
++        return;
++    }
++
++    uint32 count = 0;
++    do
++    {
++        Field* fields = result->Fetch();
++
++        PhaseDefinition pd;
++        pd.zoneId         = fields[0].Get<uint32>();
++        pd.entry          = fields[1].Get<uint32>();
++        pd.phasemask      = fields[2].Get<uint32>();
++        pd.phaseId        = fields[3].Get<uint32>();
++        pd.originmap      = fields[4].Get<uint32>();
++        pd.terrainswapmap = fields[5].Get<uint32>();
++        pd.flags          = uint8(fields[6].Get<uint32>());
++
++        // OVERWRITE + NEGATE is contradictory; keep OVERWRITE (matches TC behaviour)
++        if ((pd.flags & PHASE_FLAG_OVERWRITE_EXISTING) && (pd.flags & PHASE_FLAG_NEGATE_PHASE))
++            pd.flags &= ~PHASE_FLAG_NEGATE_PHASE;
++
++        _phaseDefinitionStore[pd.zoneId].push_back(pd);
++        ++count;
++    } while (result->NextRow());
++
++    LOG_INFO("server.loading", ">> Loaded {} phasing definitions in {} ms", count, GetMSTimeDiffToNow(oldMSTime));
++    LOG_INFO("server.loading", " ");
++}
++
+ void ObjectMgr::LoadQuestPOI()
+ {
+     if (!sWorld->getBoolConfig(CONFIG_QUEST_POI_ENABLED))
+diff --git a/src/server/game/Globals/ObjectMgr.h b/src/server/game/Globals/ObjectMgr.h
+index 8a89fc3fc..bdad7c187 100644
+--- a/src/server/game/Globals/ObjectMgr.h
++++ b/src/server/game/Globals/ObjectMgr.h
+@@ -41,6 +41,7 @@
+ #include <map>
+ #include <memory>
+ #include <string>
++#include "PhaseMgr.h" // F-194 PhaseDefinitionStore
+ 
+ class Item;
+ struct DungeonProgressionRequirements;
+@@ -1116,6 +1117,10 @@ public:
+ 
+     void LoadVendors();
+     void LoadTrainers();
++
++    // F-194 Cata zone phasing progression
++    void LoadPhaseDefinitions();
++    [[nodiscard]] PhaseDefinitionStore const& GetPhaseDefinitionStore() const { return _phaseDefinitionStore; }
+     void LoadCreatureDefaultTrainers();
+ 
+     std::string GeneratePetName(uint32 entry);
+@@ -1696,6 +1701,8 @@ private:
+     GossipMenuItemsLocaleContainer _gossipMenuItemsLocaleStore;
+     PointOfInterestLocaleContainer _pointOfInterestLocaleStore;
+ 
++    PhaseDefinitionStore _phaseDefinitionStore; // F-194 zone -> ordered phase definitions
++
+     CacheVendorItemContainer _cacheVendorItemStore;
+     std::unordered_map<uint32, Trainer::Trainer> _trainers;
+     std::unordered_map<uint8, std::vector<Trainer::Trainer const*>> _classTrainers;
+diff --git a/src/server/game/Maps/PhaseMgr.cpp b/src/server/game/Maps/PhaseMgr.cpp
+new file mode 100644
+index 000000000..483d197f9
+--- /dev/null
++++ b/src/server/game/Maps/PhaseMgr.cpp
+@@ -0,0 +1,49 @@
++/*
++ * Zeppelin custom content — Cata-style zone phasing progression (F-194).
++ * See PhaseMgr.h for the design.
++ */
++
++#include "PhaseMgr.h"
++#include "ConditionMgr.h"
++#include "ObjectMgr.h"
++#include "Player.h"
++
++void PhaseMgr::Recalculate()
++{
++    if (!_player)
++        return;
++
++    PhaseDefinitionStore const& store = sObjectMgr->GetPhaseDefinitionStore();
++    PhaseDefinitionStore::const_iterator itr = store.find(_player->GetZoneId());
++    if (itr == store.end())
++        return; // this zone is not phased — leave the phasemask as-is (auras / other systems own it)
++
++    if (_player->IsGameMaster())
++    {
++        if (_player->GetPhaseMask() != uint32(PHASEMASK_ANYWHERE))
++            _player->SetPhaseMask(PHASEMASK_ANYWHERE, true);
++        return;
++    }
++
++    uint32 phasemask = 0;
++    for (PhaseDefinition const& def : itr->second)
++    {
++        ConditionList const conditions = sConditionMgr->GetConditionsForPhaseDefinition(def.zoneId, def.entry);
++        if (!sConditionMgr->IsObjectMeetToConditions(_player, conditions))
++            continue;
++
++        if (def.IsOverwritingExistingPhases())
++            phasemask = def.phasemask;
++        else if (def.IsNegatingPhasemask())
++            phasemask &= ~def.phasemask;
++        else
++            phasemask |= def.phasemask;
++
++        if (def.IsLastDefinition())
++            break;
++    }
++
++    uint32 const finalMask = phasemask ? phasemask : uint32(PHASEMASK_NORMAL);
++    if (_player->GetPhaseMask() != finalMask)
++        _player->SetPhaseMask(finalMask, true);
++}
+diff --git a/src/server/game/Maps/PhaseMgr.h b/src/server/game/Maps/PhaseMgr.h
+new file mode 100644
+index 000000000..1c4535b06
+--- /dev/null
++++ b/src/server/game/Maps/PhaseMgr.h
+@@ -0,0 +1,63 @@
++/*
++ * Zeppelin custom content — Cata-style zone phasing progression (F-194).
++ *
++ * Server-side, definition-driven phasing backported from TrinityCore 4.3.4 (Project
++ * Neltharion) so a zone's world-state progresses as the player quests. Per-zone ordered
++ * phase_definitions are gated by conditions (CONDITION_SOURCE_TYPE_PHASE) on quest state;
++ * the resolved phasemask is applied via Player::SetPhaseMask (visibility). Terrain swaps
++ * (terrainswapmap/phaseId) are NOT applied here — deferred until the swap terrains are
++ * ported; those columns are loaded but ignored.
++ */
++
++#ifndef ZEPPELIN_PHASEMGR_H
++#define ZEPPELIN_PHASEMGR_H
++
++#include "Define.h"
++#include <list>
++#include <unordered_map>
++
++class Player;
++
++enum PhasingFlags
++{
++    PHASE_FLAG_OVERWRITE_EXISTING = 0x01, // replace the accumulated phasemask instead of OR-ing
++    PHASE_FLAG_NO_MORE_PHASES     = 0x02, // stop after this definition matches
++    PHASE_FLAG_NEGATE_PHASE       = 0x04  // clear these bits instead of setting them
++};
++
++struct PhaseDefinition
++{
++    uint32 zoneId         = 0;
++    uint32 entry          = 0;
++    uint32 phasemask      = 0;
++    uint32 phaseId        = 0;   // client-side (terrain-swap era) — ignored on 3.3.5a
++    uint32 terrainswapmap = 0;   // deferred (needs swap terrain ported) — ignored here
++    uint32 originmap      = 0;
++    uint8  flags          = 0;
++
++    [[nodiscard]] bool IsOverwritingExistingPhases() const { return (flags & PHASE_FLAG_OVERWRITE_EXISTING) != 0; }
++    [[nodiscard]] bool IsLastDefinition() const { return (flags & PHASE_FLAG_NO_MORE_PHASES) != 0; }
++    [[nodiscard]] bool IsNegatingPhasemask() const { return (flags & PHASE_FLAG_NEGATE_PHASE) != 0; }
++};
++
++typedef std::list<PhaseDefinition> PhaseDefinitionContainer;
++typedef std::unordered_map<uint32 /*zoneId*/, PhaseDefinitionContainer> PhaseDefinitionStore;
++
++class PhaseMgr
++{
++public:
++    explicit PhaseMgr(Player* player) : _player(player) { }
++
++    // Recompute the player's definition-driven phasemask for their current zone and apply it.
++    // Safe to call when the current zone has no phase_definitions (no-op).
++    void Recalculate();
++
++    // Fired when something that a phase condition could depend on changed (zone change,
++    // quest accept/complete/reward/abandon, login). Currently just recalculates.
++    void NotifyConditionChanged() { Recalculate(); }
++
++private:
++    Player* _player;
++};
++
++#endif // ZEPPELIN_PHASEMGR_H
+diff --git a/src/server/game/World/World.cpp b/src/server/game/World/World.cpp
+index c21465612..d1469820f 100644
+--- a/src/server/game/World/World.cpp
++++ b/src/server/game/World/World.cpp
+@@ -809,6 +809,9 @@ void World::SetInitialWorldSettings()
+     LOG_INFO("server.loading", "Loading Conditions...");
+     sConditionMgr->LoadConditions();
+ 
++    LOG_INFO("server.loading", "Loading Phase Definitions...");   // F-194 Cata zone phasing
++    sObjectMgr->LoadPhaseDefinitions();
++
+     LOG_INFO("server.loading", "Loading Faction Change Achievement Pairs...");
+     sObjectMgr->LoadFactionChangeAchievements();
+ 
+-- 
+2.34.1
+
