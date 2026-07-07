@@ -278,32 +278,29 @@ def main():
     spawns = con.execute("""SELECT * FROM creature WHERE TRIM(zone)=? ORDER BY CAST(guid AS INT)""", (ZONE,)).fetchall()
     spawns = [s for s in spawns if int(s["id"]) in real_set or int(s["id"]) in STOCK_COLLIDE]
     with W("sql/zz_[F-011]" + SFX + "_creatures_04_spawns.sql") as f:
-        f.write("-- F-011 Lost Isles creature spawns (map648->map1 offset, phase flattened)\n")
+        f.write("-- F-011 Lost Isles creature spawns (map648->map1 offset, source phaseMask preserved for F-194 phasing)\n")
         f.write("-- guid block %d..%d\n\n" % (GUID_BASE, GUID_BASE + len(spawns)))
         f.write("DELETE FROM creature WHERE guid BETWEEN %d AND %d;\n" % (GUID_BASE, GUID_BASE + len(spawns) + 10))
         f.write("INSERT INTO creature (guid,id,map,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,CreateObject,Comment) VALUES\n")
         vals = []
         g = GUID_BASE
-        seen = set(); deduped = 0
         for s in spawns:
+            g += 1
             x = float(s["position_x"]) + DX
             y = float(s["position_y"]) + DY
-            # Cata phaseMask is flattened to 1 -> phase-variants stack on one spot; keep one per cell
-            key = (int(s["id"]), round(x / SPAWN_DEDUP_GRID), round(y / SPAWN_DEDUP_GRID))
-            if key in seen:
-                deduped += 1; continue
-            seen.add(key)
-            g += 1
             z = float(s["position_z"])
             o = float(s["orientation"])
             mt = int(s["MovementType"] or 0)
             if mt == 2: mt = 0
             wd = float(s["spawndist"] or 0)
             st = int(s["spawntimesecs"] or 120)
-            vals.append("  (%d,%d,1,0,0,1,1,0,%s,%s,%s,%s,%d,%s,0,1,0,%d,0,0,0,'',0,1,'F-011 Lost Isles')" % (
-                g, int(s["id"]), esc(x), esc(y), esc(z), esc(o), st, esc(wd), mt))
+            # F-194: preserve the source Cata phaseMask so PhaseMgr shows the right world-state
+            # per quest progress (no flatten, no dedupe — the phase-variants are separated by phase).
+            pmask = int(s["phaseMask"] or 1) or 1
+            vals.append("  (%d,%d,1,0,0,1,%d,0,%s,%s,%s,%s,%d,%s,0,1,0,%d,0,0,0,'',0,1,'F-011 Lost Isles')" % (
+                g, int(s["id"]), pmask, esc(x), esc(y), esc(z), esc(o), st, esc(wd), mt))
         f.write(",\n".join(vals) + ";\n")
-        print("  spawns written: %d (deduped %d phase-variant stacks)" % (len(vals), deduped))
+        print("  spawns written: %d (source phaseMask preserved for F-194 phasing)" % len(vals))
 
     # ---- DBC additions ----
     DI_COLS = ["id","model_id","sound_id","extended_display_info_id","creature_model_scale","creature_model_alpha",
