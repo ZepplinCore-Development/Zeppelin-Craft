@@ -3,7 +3,7 @@
 
 DELETE FROM gameobject_template WHERE entry=195492;
 INSERT INTO gameobject_template (entry,type,displayId,name,size,Data0,Data1,Data3,ScriptName) VALUES
-  (195492,3,9436,'Kaja''mite Chunk',0.5,0,195492,1,'');
+  (195492,3,9129,'Kaja''mite Chunk',0.5,0,195492,1,'');
 
 DELETE FROM gameobject_loot_template WHERE Entry=195492;
 INSERT INTO gameobject_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount) VALUES

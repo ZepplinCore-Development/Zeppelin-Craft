@@ -30,7 +30,7 @@ with open(ZPAK + "/sql/zz_[F-011]_kajamite_chunk_nodes.sql", "w") as f:
     # template (type 3 chest; Data0=0 no lock so freely lootable; Data1=195492 lootId)
     f.write("DELETE FROM gameobject_template WHERE entry=195492;\n")
     f.write("INSERT INTO gameobject_template (entry,type,displayId,name,size,Data0,Data1,Data3,ScriptName) VALUES\n")
-    f.write("  (195492,3,9436,'Kaja''mite Chunk',0.5,0,195492,1,'');\n\n")
+    f.write("  (195492,3,9129,'Kaja''mite Chunk',0.5,0,195492,1,'');\n\n")
     # loot: quest item 84467 (was 48766), 100%
     f.write("DELETE FROM gameobject_loot_template WHERE Entry=195492;\n")
     f.write("INSERT INTO gameobject_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount) VALUES\n")
