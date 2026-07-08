@@ -51,7 +51,7 @@ with open(os.path.join(SCRATCH, "itemsparse_442.csv"), newline='', encoding='utf
             "entry": newid, "class": cls, "subclass": sub,
             "SoundOverrideSubclass": gi(m, 'Sound_override_subclassID', -1) if m.get('Sound_override_subclassID') else -1,
             "name": (s.get('Display_lang') or '').strip(), "displayid": 0,   # icon deferred (needs ItemDisplayInfo)
-            "Quality": gi(s, 'OverallQualityID'), "Flags": 0, "FlagsExtra": 0,
+            "Quality": gi(s, 'OverallQualityID'), "Flags": (gi(s,"Flags_0") & 0x7FFFFFFF),  # masked to WotLK bits (drop Cata sign-bit) "FlagsExtra": 0,
             "BuyCount": max(gi(s, 'VendorStackCount', 1), 1), "BuyPrice": gi(s, 'BuyPrice'), "SellPrice": gi(s, 'SellPrice'),
             "InventoryType": gi(s, 'InventoryType') or gi(m, 'InventoryType'),
             "AllowableClass": gi(s, 'AllowableClass', -1) or -1, "AllowableRace": gi(s, 'AllowableRace', -1) or -1,
