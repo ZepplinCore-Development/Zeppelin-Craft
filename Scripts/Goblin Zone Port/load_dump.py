@@ -20,6 +20,8 @@ TARGET = {
     "smart_scripts", "gossip_menu", "gossip_menu_option",
     "waypoints", "waypoint_data", "points_of_interest", "conditions",
     "reference_loot_template",
+    # added 2026-07-08 for gap remediation: gossip greeting text + profession loot
+    "npc_text", "skinning_loot_template", "pickpocketing_loot_template",
 }
 
 def statements(path, chunk=1 << 20):
