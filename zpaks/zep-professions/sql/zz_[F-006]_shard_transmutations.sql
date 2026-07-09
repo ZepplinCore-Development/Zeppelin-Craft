@@ -139,9 +139,19 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- =============================================================================
 
 -- Shatter Nexus Crystal -> Small Prismatic Shards (ItemLevel 60 -> 300 skill)
--- Reagent: 1x Nexus Crystal (20725) -> 3x Small Prismatic Shard (22448)
+-- Reagent: 1x Nexus Crystal (20725) -> 1-2x Small Prismatic Shard (22448)
+-- Yield is intentionally 1-2 (effect_die_sides_1 = 2) to keep it at/near a
+-- loss so it cannot be chained into an infinite Nexus <-> shard recycle loop.
 -- NOTE: Large Brilliant -> Nexus Crystal recipe (91000) already exists
 -- Available from: Master, Grand Master
+--
+-- Suppress the stock duplicate: AC ships spell 42613 "Nexus Transformation"
+-- (1x Nexus Crystal 20725 -> 1x Small Prismatic Shard 22448) on the same
+-- Master/Grand Master trainers at rank 300. It performs the identical
+-- conversion as our custom 91154, so remove it from all trainers to avoid
+-- two Nexus Crystal -> Small Prismatic Shard recipes appearing side by side.
+DELETE FROM `trainer_spell` WHERE `SpellId` = 42613;
+
 DELETE FROM `trainer_spell` WHERE `SpellId` = 91154;
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
 (95, 91154, 15000, 333, 300, 0, 0, 0, 0),
