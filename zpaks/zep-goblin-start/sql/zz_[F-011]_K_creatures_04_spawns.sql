@@ -1,5 +1,5 @@
 -- F-011 Lost Isles creature spawns (map648->map1 offset, source phaseMask preserved for F-194 phasing)
--- guid block 12000000..12001141
+-- guid block 12000000..12001139
 
 DELETE FROM creature WHERE guid BETWEEN 12000000 AND 12001151;
 INSERT INTO creature (guid,id,map,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,CreateObject,Comment) VALUES
@@ -1141,6 +1141,4 @@ INSERT INTO creature (guid,id,map,zoneId,areaId,spawnMask,phaseMask,equipment_id
   (12001136,75107,1,0,0,1,1,0,-8786.0833,-11329.79,41.4326,2.1175,300,0,0,1,0,0,0,0,0,'',0,1,'F-011 Lost Isles'),
   (12001137,75107,1,0,0,1,1,0,-8787.1233,-11300.73,41.9309,4.60721,300,0,0,1,0,0,0,0,0,'',0,1,'F-011 Lost Isles'),
   (12001138,75107,1,0,0,1,1,0,-8783.1733,-11301.67,41.6903,3.8493,300,0,0,1,0,0,0,0,0,'',0,1,'F-011 Lost Isles'),
-  (12001139,75107,1,0,0,1,1,0,-8795.4533,-11302.42,42.3285,4.63863,300,0,0,1,0,0,0,0,0,'',0,1,'F-011 Lost Isles'),
-  (12001140,1234567,1,0,0,1,1,0,-8953.0433,-11433.17,106.93,4.12754,300,0,0,1,0,0,0,0,0,'',0,1,'F-011 Lost Isles'),
-  (12001141,1337016,1,0,0,1,1,0,-8964.3133,-11437.98,105.763,3.31427,300,0,0,1,0,0,0,0,0,'',0,1,'F-011 Lost Isles');
+  (12001139,75107,1,0,0,1,1,0,-8795.4533,-11302.42,42.3285,4.63863,300,0,0,1,0,0,0,0,0,'',0,1,'F-011 Lost Isles');

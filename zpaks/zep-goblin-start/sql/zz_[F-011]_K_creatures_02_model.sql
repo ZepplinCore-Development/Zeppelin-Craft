@@ -380,11 +380,3 @@ DELETE FROM creature_template_model WHERE CreatureID = 75107;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
   (75107,0,29564,1,1,0);
 
-DELETE FROM creature_template_model WHERE CreatureID = 1234567;
-INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (1234567,0,31020,1,1,0);
-
-DELETE FROM creature_template_model WHERE CreatureID = 1337016;
-INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (1337016,0,1267,0.5,1,0);
-

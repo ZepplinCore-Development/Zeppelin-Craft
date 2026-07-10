@@ -1,5 +1,5 @@
 -- F-011 Lost Isles creature loot (direct drops; custom items remapped 84300+)
--- 91 loot rows across 7 loot tables. Shared references deferred (1 rows).
+-- 90 loot rows across 6 loot tables.
 
 UPDATE creature_template SET lootid = 34865 WHERE entry = 34865;
 UPDATE creature_template SET lootid = 35200 WHERE entry = 35200;
@@ -7,11 +7,9 @@ UPDATE creature_template SET lootid = 35234 WHERE entry = 35234;
 UPDATE creature_template SET lootid = 35294 WHERE entry = 35294;
 UPDATE creature_template SET lootid = 35609 WHERE entry = 35609;
 UPDATE creature_template SET lootid = 35613 WHERE entry = 35613;
-UPDATE creature_template SET lootid = 883 WHERE entry = 1337016;
 
-DELETE FROM creature_loot_template WHERE Entry IN (883,34865,35200,35234,35294,35609,35613);
+DELETE FROM creature_loot_template WHERE Entry IN (34865,35200,35234,35294,35609,35613);
 INSERT INTO creature_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount,Comment) VALUES
-  (883,785,0,33.333,0,1,0,2,2,' XP Rates'),
   (35294,5572,0,0.298,0,1,0,1,1,' Rebellious Troll'),
   (35294,6303,0,0.007,0,1,0,1,1,' Rebellious Troll'),
   (35294,21014,0,0.007,0,1,0,1,1,' Rebellious Troll'),
