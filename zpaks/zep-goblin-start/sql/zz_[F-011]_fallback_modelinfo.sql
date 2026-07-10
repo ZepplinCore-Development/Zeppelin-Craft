@@ -15,9 +15,9 @@ INSERT INTO creature_model_info (DisplayID,BoundingRadius,CombatReach,Gender,Dis
   (34202,0.5,1.5,2,0,0);
 
 UPDATE creature_template_model SET CreatureDisplayID=34202 WHERE CreatureID=33420;
-UPDATE creature_template_model SET CreatureDisplayID=31741 WHERE CreatureID=34830;
-UPDATE creature_template_model SET CreatureDisplayID=31745 WHERE CreatureID=35239;
-UPDATE creature_template_model SET CreatureDisplayID=31741 WHERE CreatureID=35294;
+-- I-232: trolls 34830/35239/35294/48984 repointed to stock Darkspear displays (28703/4083)
+-- in zz_[F-011]_K_creatures_02_model.sql (the canonical INSERT). Displays 31741/31745
+-- (FORESTTROLLMALE char model) render white/corrupted here: no baked texture, no geoset selection.
 UPDATE creature_template_model SET CreatureDisplayID=30165 WHERE CreatureID=35995;
 UPDATE creature_template_model SET CreatureDisplayID=30303 WHERE CreatureID=36735;
 UPDATE creature_template_model SET CreatureDisplayID=30306 WHERE CreatureID=36740;
@@ -26,4 +26,3 @@ UPDATE creature_template_model SET CreatureDisplayID=31296 WHERE CreatureID=3720
 UPDATE creature_template_model SET CreatureDisplayID=31185 WHERE CreatureID=38802;
 UPDATE creature_template_model SET CreatureDisplayID=31281 WHERE CreatureID=39039;
 UPDATE creature_template_model SET CreatureDisplayID=31782 WHERE CreatureID=39354;
-UPDATE creature_template_model SET CreatureDisplayID=31745 WHERE CreatureID=48984;

@@ -50,7 +50,7 @@ INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplaySca
 
 DELETE FROM creature_template_model WHERE CreatureID = 34830;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (34830,0,646,1,1,0);
+  (34830,0,28703,1,1,0); -- I-232: Sen'jin Champion (Darkspear jungle troll, armored) - was 646/31741 (white FORESTTROLL char model)
 
 DELETE FROM creature_template_model WHERE CreatureID = 34835;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
@@ -174,11 +174,11 @@ INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplaySca
 
 DELETE FROM creature_template_model WHERE CreatureID = 35239;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (35239,0,646,1,1,0);
+  (35239,0,4083,1,1,0); -- I-232: Sen'jin Watcher (Darkspear jungle troll, minimal) - was 646/31745 (white FORESTTROLL char model)
 
 DELETE FROM creature_template_model WHERE CreatureID = 35294;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (35294,0,646,1,1,0);
+  (35294,0,28703,1,1,0); -- I-232: Sen'jin Champion (Darkspear jungle troll, armored) - was 646/31741 (white FORESTTROLL char model)
 
 DELETE FROM creature_template_model WHERE CreatureID = 35304;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
@@ -338,7 +338,7 @@ INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplaySca
 
 DELETE FROM creature_template_model WHERE CreatureID = 48984;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (48984,0,646,1,1,0);
+  (48984,0,4083,1,1,0); -- I-232: Sen'jin Watcher (Darkspear jungle troll, minimal) - was 646/31745 (white FORESTTROLL char model)
 
 DELETE FROM creature_template_model WHERE CreatureID = 49131;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
