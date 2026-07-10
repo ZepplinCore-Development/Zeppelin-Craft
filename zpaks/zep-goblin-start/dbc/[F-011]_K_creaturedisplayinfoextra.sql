@@ -1,4 +1,6 @@
 -- F-011 CreatureDisplayInfoExtra (NPC skin-bake data from Whitemane 15595; race 9 goblin)
+-- [I-231] Human/orc/dwarf/nightelf/gnome extras (races 1-4,7): the `texture` BakeName is repointed
+-- to stock `_HD.blp` bakes so the face matches the HD Everything (PATCH-Q) models. See I-231.
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19478;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19478,9,0,1,0,2,3,1,0,0,60141,14731,55465,14730,14727,14728,14729,0,0,0,'CreatureDisplayExtra-19478.blp');
