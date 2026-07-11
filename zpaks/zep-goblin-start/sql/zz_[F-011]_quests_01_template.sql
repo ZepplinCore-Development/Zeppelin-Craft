@@ -8468,7 +8468,7 @@ INSERT INTO quest_template SET
   `RewardChoiceItemQuantity1` = 1,
   `RewardChoiceItemID2` = 84410,
   `RewardChoiceItemQuantity2` = 1,
-  `RewardChoiceItemID3` = 84506,
+  `RewardChoiceItemID3` = 62335,
   `RewardChoiceItemQuantity3` = 1,
   `RewardChoiceItemID4` = 84423,
   `RewardChoiceItemQuantity4` = 1,

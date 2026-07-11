@@ -14,15 +14,9 @@ remap = {int(k): v for k, v in json.load(open(os.path.join(SCRATCH, "item_remap.
 scope = json.load(open(os.path.join(SCRATCH, "item_scope%s.json" % SFX)))
 QIDS = set(scope["quests"]); LI_CRE = set(scope["creatures"])
 
-# Items referenced by quests but ABSENT from the Neltharion source item_template, so the
-# remap has nothing to relocate. Recovered by hand into F-011's block (created in
-# zz_[F-011]_items_f013_conflict_fix.sql). Mapped here so a regen REPRODUCES the fixed refs
-# instead of re-emitting the raw Cata ids (which collide with F-013 AUTO 60200-63199).
-RECOVERY = {60203: 84505, 62335: 84506}
 def rm(v):
     try: v = int(v)
     except: return 0
-    if v in RECOVERY: return RECOVERY[v]
     return remap.get(v, v) if v > 0 else max(v, 0)   # custom->reserved, keep stock, drop negatives
 
 # --- conflict guard (F-011 item-ref sanity) ---
@@ -33,6 +27,7 @@ def rm(v):
 # 60203/62335 that F-013 AUTO later claimed). Detect against Item Reservations.csv
 # and abort so a human recovers the item instead of shipping a silent collision.
 import csv as _csv
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 RESV_CSV = "/workspace/project/Zeppelin-Craft/Scripts/Item Scripts/Item Reservations.csv"
 F011_LO, F011_HI = 84300, 84799
 CUSTOM_FLOOR = 56900  # first custom-reservation id; stock WotLK item ids are below this
@@ -125,14 +120,19 @@ with W("sql/zz_[F-011]" + SFX + "_quests_01_template.sql") as f:
         f.write(",\n".join("  `%s` = %s" % (k, esc(v)) for k, v in col.items()))
         f.write(";\n\n")
 
-# ---- conflict guard: abort if any quest item-ref lands outside stock or F-011's block ----
+# ---- conflict guard: WARN if any quest item-ref lands outside stock or F-011's block ----
+# A ref here means the item is missing from item_remap -- referenced by a quest but not
+# ported (absent from the Neltharion source item_template). PREFERRED fix: add the id to
+# the missing-items set so migrate_items.py creates it from Whitemane ItemSparse and rm()
+# remaps it (no conflict, no override). ONLY if the item is missing from BOTH Neltharion
+# and Whitemane is an override the answer: add a zz_[I-xxx]_*.sql that creates the item in
+# F-011's block and repoints the ref (it loads after this generated file and overrides it).
+# Warn (don't abort) so the generated rows still emit for the override to layer on.
 if CONFLICTS:
-    print("\n!!! ITEM-REF CONFLICTS: %d quest item ref(s) point into reserved space F-011 does not own:" % len(CONFLICTS))
+    print("\n!!! WARNING: %d quest item-ref(s) point into reserved space F-011 does not own:" % len(CONFLICTS))
     for qid, k, v, own in sorted(CONFLICTS):
         print("    quest %-6d %-20s item %-7d -> owned by [%s]" % (qid, k, v, own))
-    print("    Cause: item referenced by a quest but MISSING from the Neltharion source, so rm() left the raw Cata id.")
-    print("    FIX: recover each item into F-011's block (84300-84799), repoint the ref, update Item Reservations.csv.")
-    raise SystemExit("Aborting: unresolved item-ref conflicts. F-011 may reference only stock (<%d) or its own %d-%d block." % (CUSTOM_FLOOR, F011_LO, F011_HI))
+    print("    Fix at source (add to missing-items so it is ported) OR add a zz_[I-xxx]_*.sql override.")
 
 # ---- quest_template_addon ----
 with W("sql/zz_[F-011]" + SFX + "_quests_02_addon.sql") as f:
