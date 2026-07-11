@@ -91,7 +91,7 @@ TARGET_TABLES = {
     "waypoints", "waypoint_data", "points_of_interest", "conditions",
     "reference_loot_template", "npc_text",
     "skinning_loot_template", "pickpocketing_loot_template",
-    "npc_trainer", "npc_vendor", "spell_dbc",
+    "npc_trainer", "npc_vendor", "npc_spellclick_spells", "spell_dbc",
 }
 
 _HDR = re.compile(r"^\s*REPLACE\s+INTO\s+`([a-z0-9_]+)`\s*\(([^)]*)\)\s+VALUES\s+", re.I | re.S)

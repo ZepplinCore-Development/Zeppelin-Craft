@@ -19,6 +19,7 @@
     "F-062": "zep-legacy",
     "F-031": "zep-legacy",
     "F-005": "zep-legacy",
-    "F-028": "low-level-relics"
+    "F-028": "low-level-relics",
+    "I-234": "zep-goblin-start"
   }
 }
