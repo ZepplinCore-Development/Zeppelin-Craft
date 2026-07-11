@@ -622,6 +622,38 @@ class _GenCtx:
         import json
         return json.load(open(os.path.join(FIXTURES_DIR, name + ".json")))
 
+    def dbc_query(self, sql, params=None):
+        """Query the live 3.3.5a DBC database (target client data)."""
+        import mysql.connector
+        con = mysql.connector.connect(host=DBC_HOST, port=DBC_PORT, user=DBC_USER,
+                                      password=DBC_PASS, database=DBC_NAME)
+        cur = con.cursor(dictionary=True); cur.execute(sql, params or ())
+        rows = cur.fetchall(); cur.close(); con.close()
+        return rows
+
+    def whitemane_dbc(self, name):
+        """Path to an extracted (fully patched) Whitemane Cata DBC/DB2 file."""
+        return os.path.join(WHITEMANE_OUT, "DBFilesClient", name)
+
+    @staticmethod
+    def read_wdbc(path):
+        """Read a WDBC file -> (records: list[tuple[int32 fields]], get_string(offset)->str)."""
+        d = open(path, "rb").read()
+        _magic, rc, fc, rs, _ss = struct.unpack_from("<4sIIII", d, 0)
+        base, sb = 20, 20 + rc * rs
+        recs = [struct.unpack_from("<%dI" % fc, d, base + i * rs) for i in range(rc)]
+
+        def get_string(off):
+            e = d.index(b"\0", sb + off)
+            return d[sb + off:e].decode("latin1")
+        return recs, get_string
+
+    @staticmethod
+    def esc(v):
+        if isinstance(v, str):
+            return "'" + v.replace("\\", "\\\\").replace("'", "''") + "'"
+        return str(v)
+
     def write(self, rel_name, body):
         path = os.path.join(ZPAK_DIR, rel_name)
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -634,71 +666,28 @@ class _GenCtx:
         except Exception: pass
 
 
-def _esc(v):
-    if isinstance(v, str):
-        return "'" + v.replace("\\", "\\\\").replace("'", "''") + "'"
-    return str(v)
+def _discover_domains():
+    """Auto-discover gen domain modules in ./goblin_gen/ (each defines NAME + emit(ctx))."""
+    import importlib.util
+    domains = {}
+    d = os.path.join(os.path.dirname(os.path.abspath(__file__)), "goblin_gen")
+    for path in sorted(glob.glob(os.path.join(d, "*.py"))):
+        base = os.path.basename(path)
+        if base.startswith("_"):
+            continue
+        try:
+            spec = importlib.util.spec_from_file_location("goblin_gen_" + base[:-3], path)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+        except Exception as e:      # a broken/half-written module must not break other domains
+            click.echo(f"  (skipping domain module {base}: {e})", err=True)
+            continue
+        if hasattr(mod, "NAME") and hasattr(mod, "emit"):
+            domains[mod.NAME] = mod.emit
+    return domains
 
 
-def _gen_trainers(ctx):
-    """npc_trainer (Cata) -> AC trainer / creature_default_trainer / trainer_spell."""
-    sfx = ctx.sfx
-    trainers = sorted(ctx.fixture("trainer_scope" + sfx)["trainers"])
-    present = ctx.dbc_spell_ids()
-    tnames = {int(r["entry"]): (r["name"] or "").strip()
-              for r in ctx.q("SELECT entry,name FROM creature_template")}
-    base = {"": 6600, "_K": 6700}[sfx]   # per-zone TrainerId block (Lost Isles / Kezan)
-
-    def spells_for(entry, seen):
-        if entry in seen: return []
-        seen.add(entry)
-        out = []
-        for r in ctx.q("SELECT * FROM npc_trainer WHERE entry=%s", (entry,)):
-            sp = int(r["spell"] or 0)
-            if sp < 0:
-                out += spells_for(-sp, seen)
-            elif sp > 0:
-                out.append((sp, int(r["spellcost"] or 0), int(r["reqskill"] or 0),
-                            int(r["reqskillvalue"] or 0), int(r["reqlevel"] or 0)))
-        return out
-
-    trainer_rows, cdt_rows, ts_rows, skipped = [], [], [], 0
-    tid = base
-    for e in trainers:
-        tid += 1
-        trainer_rows.append((tid, tnames.get(e, "")))
-        cdt_rows.append((e, tid))
-        added = set()
-        for (sp, cost, rsk, rskv, rlv) in spells_for(e, set()):
-            if sp not in present:
-                skipped += 1; continue
-            if sp in added:
-                continue
-            added.add(sp)
-            ts_rows.append((tid, sp, cost, rsk, rskv, rlv))
-
-    tids = ",".join(str(t[0]) for t in trainer_rows)
-    b = []
-    b.append("-- F-011 Lost Isles trainers (npc_trainer -> AC trainer/creature_default_trainer/trainer_spell)")
-    b.append("-- %d trainers, %d spell rows (%d spells absent from 3.3.5a DBC skipped). TrainerId block %d+.\n"
-             % (len(trainer_rows), len(ts_rows), skipped, base + 1))
-    b.append("DELETE FROM trainer_spell WHERE TrainerId IN (%s);" % tids)
-    b.append("DELETE FROM creature_default_trainer WHERE TrainerId IN (%s);" % tids)
-    b.append("DELETE FROM trainer WHERE Id IN (%s);\n" % tids)
-    b.append("INSERT INTO trainer (Id,Type,Requirement,Greeting,VerifiedBuild) VALUES")
-    greet = _esc("Ready to learn, ?")
-    b.append(",\n".join("  (%d,0,0,%s,0)" % (t, greet) for t, _nm in trainer_rows) + ";\n")
-    b.append("INSERT INTO creature_default_trainer (CreatureId,TrainerId) VALUES")
-    b.append(",\n".join("  (%d,%d)" % (cid, t) for cid, t in cdt_rows) + ";\n")
-    b.append("INSERT INTO trainer_spell (TrainerId,SpellId,MoneyCost,ReqSkillLine,ReqSkillRank,ReqAbility1,ReqAbility2,ReqAbility3,ReqLevel,VerifiedBuild) VALUES")
-    b.append(",\n".join("  (%d,%d,%d,%d,%d,0,0,0,%d,0)" % r for r in ts_rows) + ";")
-    ctx.write("sql/zz_[AUTO,F-011]%s_trainers.sql" % sfx, "\n".join(b) + "\n")
-    return f"trainers={len(trainer_rows)} trainer_spell={len(ts_rows)} skipped={skipped}"
-
-
-_GEN_DOMAINS = {
-    "trainers": _gen_trainers,
-}
+_GEN_DOMAINS = _discover_domains()
 
 
 @goblin.command("gen")
