@@ -1137,6 +1137,10 @@ dbc.add_command(outfit)
 from commands.forge import forge
 cli.add_command(forge)
 
+# -- goblin: Lost Isles / Kezan (F-011) source extraction + translation ------
+from commands.goblin import goblin
+cli.add_command(goblin)
+
 # -- zpak: package management ------------------------------------------------
 from commands.config import config
 zpak.add_command(config)
