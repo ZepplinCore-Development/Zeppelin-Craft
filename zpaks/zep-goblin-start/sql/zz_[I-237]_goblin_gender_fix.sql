@@ -1,5 +1,8 @@
--- F-011 fix green goblin NPCs: creature_model_info.Gender was 2 (none) -> server sends
--- genderless, client can't bake a gendered goblin skin -> green. Set to real gender.
+-- [I-237] Green goblin NPCs render green: creature_model_info.Gender was 2 (none) -> server
+-- sends genderless, client can't bake a gendered goblin skin -> green mesh. Set to real gender.
+-- Override for the generated *_creatures_03_model_info.sql; loads after it (I > F).
+-- PREFERRED long-term fix: emit correct Gender from the model-info generator (migrate_creatures /
+-- fix_npc_appearance), then retire this override.
 
 UPDATE creature_model_info SET Gender=0 WHERE DisplayID=29335;
 UPDATE creature_model_info SET Gender=0 WHERE DisplayID=29343;
