@@ -19,7 +19,9 @@ Only the SQL/DBC emitters are in scope for CLI integration; heavy asset builds
 import os
 import sys
 import re
+import glob
 import zipfile
+import subprocess
 
 import click
 
@@ -39,6 +41,8 @@ DEFAULT_WORLD_ZIP = os.getenv(
 )
 NELTHARION_DB = os.getenv("NELTHARION_DB_NAME", "neltharion")
 WHITEMANE_DATA = os.getenv("WHITEMANE_DATA", os.path.join(TOOLS, "whitemane-15595", "Data"))
+WHITEMANE_OUT = os.getenv("WHITEMANE_OUT", os.path.join(os.path.dirname(WHITEMANE_DATA), "extracted"))
+MPQCLI = os.getenv("MPQCLI_PATH", os.path.join(TOOLS, "mpqcli", "mpqcli"))
 
 DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
 DB_PORT = int(os.getenv("DB_PORT", "3306"))
@@ -339,15 +343,96 @@ def extract_neltharion(world_zip, db_name, all_tables, batch, text_schema):
     click.echo("\nNext: `zep goblin extract-whitemane`, then `zep goblin gen`.")
 
 
+# WoW 4.3.4 client MPQ load order, low -> high priority (later overrides earlier).
+# Tiers: base content < locale archives < wow-update-* patches (by build). Within the
+# base tier, supplementary/newer archives rank later. In this client the only cross-
+# archive conflicts are terrain (world/world2/expansionN) + a few sound files;
+# DBFilesClient and creature/item models/textures do NOT conflict, so this ordering
+# affects only terrain fidelity, never the F-011 translation inputs.
+_BASE_RANK = [
+    ("world.mpq", 10), ("world2.mpq", 11),
+    ("expansion1.mpq", 20), ("expansion2.mpq", 21), ("expansion3.mpq", 22),
+    ("oldworld.mpq", 30), ("sound.mpq", 40), ("art.mpq", 41),
+    ("alternate.mpq", 50), ("base-", 51),
+]
+
+
+def _order_mpqs(paths, data_dir):
+    """Order MPQs so the client's highest-priority version of each file is written last."""
+    data_dir = os.path.abspath(data_dir)
+
+    def key(p):
+        name = os.path.basename(p).lower()
+        if "wow-update" in name:                       # patch tier: always last, by build
+            m = re.search(r"(\d{4,6})", name)
+            return (300, int(m.group(1)) if m else 0, name)
+        is_locale = os.path.dirname(os.path.abspath(p)) != data_dir
+        if is_locale:                                  # locale tier: above base, below patches
+            sub = 5 if name.startswith("expansion") else 20 if "speech" in name else 10
+            return (200, sub, name)
+        for pat, r in _BASE_RANK:                       # base tier: explicit rank
+            if name == pat or name.startswith(pat):
+                return (100, r, name)
+        return (100, 90, name)
+
+    return sorted(paths, key=key)
+
+
 @goblin.command("extract-whitemane")
 @click.option("--data", "data_dir", default=WHITEMANE_DATA, show_default=True,
               help="Whitemane client Data/ directory containing the .MPQ archives.")
-def extract_whitemane(data_dir):
-    """Unpack the Whitemane 3.3.5a client MPQs (DBC / M2 / BLP). [Phase 1b — TODO]"""
-    raise click.ClickException(
-        "extract-whitemane is not implemented yet (Phase 1b). It will unpack "
-        f"{data_dir}/*.MPQ via mpqcli (MPQCLI_PATH) into an extracted-assets cache."
-    )
+@click.option("--out", "out_dir", default=WHITEMANE_OUT, show_default=True,
+              help="Output directory for the merged extracted tree.")
+@click.option("--include-cache", is_flag=True,
+              help="Also extract Data/Cache/*.MPQ (runtime caches; normally skipped).")
+def extract_whitemane(data_dir, out_dir, include_cache):
+    """Extract every Whitemane 4.3.4 client MPQ into one merged tree.
+
+    Walks Data/*.MPQ plus the locale sub-dirs (Data/<locale>/*.MPQ) and extracts
+    each archive (keeping folder structure) into a single output tree. Archives are
+    applied in patch order — base/locale first, then wow-update-* by build number —
+    so later patches overwrite earlier files, yielding the effective client
+    filesystem (DBFilesClient DBCs/DB2s, M2, BLP, etc.).
+    """
+    if not os.path.isdir(data_dir):
+        raise click.ClickException(f"Whitemane Data dir not found: {data_dir}")
+    if not os.path.exists(MPQCLI):
+        raise click.ClickException(f"mpqcli not found at {MPQCLI} (set MPQCLI_PATH)")
+
+    mpqs = glob.glob(os.path.join(data_dir, "*.[Mm][Pp][Qq]"))
+    for sub in sorted(os.listdir(data_dir)):
+        subp = os.path.join(data_dir, sub)
+        if not os.path.isdir(subp):
+            continue
+        if sub.lower() == "cache" and not include_cache:
+            continue
+        mpqs += glob.glob(os.path.join(subp, "*.[Mm][Pp][Qq]"))
+    if not mpqs:
+        raise click.ClickException(f"No .MPQ archives found under {data_dir}")
+
+    mpqs = _order_mpqs(mpqs, data_dir)
+    os.makedirs(out_dir, exist_ok=True)
+    click.echo(f"Extracting {len(mpqs)} MPQ(s) into {out_dir}")
+    click.echo("(patch order: base/locale first, wow-update-* last)\n")
+
+    ok, failures = 0, []
+    for i, m in enumerate(mpqs, 1):
+        click.echo(f"[{i:2}/{len(mpqs)}] {os.path.basename(m)}")
+        r = subprocess.run([MPQCLI, "extract", m, "-o", out_dir, "-k"],
+                           capture_output=True, text=True)
+        if r.returncode == 0:
+            ok += 1
+        else:
+            failures.append((os.path.basename(m), (r.stderr or r.stdout or "").strip()[:200]))
+
+    dbc = len(glob.glob(os.path.join(out_dir, "DBFilesClient", "*")))
+    click.echo(f"\nExtracted {ok}/{len(mpqs)} MPQs into {out_dir}")
+    click.echo(f"DBFilesClient entries: {dbc}")
+    if failures:
+        click.echo("\nFailures:")
+        for n, e in failures:
+            click.echo(f"  {n}: {e}")
+    click.echo("\nNext: `zep goblin gen`.")
 
 
 @goblin.command("gen")
