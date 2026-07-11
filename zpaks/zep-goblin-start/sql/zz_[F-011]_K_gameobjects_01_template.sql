@@ -1,3 +1,13 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by the F-011 Goblin Zone extraction pipeline
+-- (Zeppelin-Craft/Scripts/Goblin Zone Port/). Any manual edit
+-- here is overwritten the next time the pipeline runs.
+--   * To change this output: edit the migration/translation script.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- F-011 Lost Isles gameobject_template (Cata->WotLK; Data0-23, faction/flags/questItem dropped)
 
 DELETE FROM gameobject_template WHERE entry = 181886;
@@ -55,6 +65,8 @@ DELETE FROM gameobject_template WHERE entry = 201798;
 INSERT INTO gameobject_template SET `entry`=201798, `type`=3, `displayId`=9226, `name`='Kaja''Cola', `IconName`='', `castBarCaption`='Grabbing', `unk1`='', `size`=1, `Data0`=1818, `Data1`=201798, `Data2`=0, `Data3`=1, `Data4`=0, `Data5`=0, `Data6`=0, `Data7`=0, `Data8`=0, `Data9`=0, `Data10`=0, `Data11`=0, `Data12`=0, `Data13`=0, `Data14`=37379, `Data15`=0, `Data16`=0, `Data17`=10046, `Data18`=0, `Data19`=0, `Data20`=0, `Data21`=0, `Data22`=0, `Data23`=0, `AIName`='', `ScriptName`='', `VerifiedBuild`=0;
 DELETE FROM gameobject_template WHERE entry = 202865;
 INSERT INTO gameobject_template SET `entry`=202865, `type`=3, `displayId`=9359, `name`='Kaja''Cola', `IconName`='', `castBarCaption`='Grabbing', `unk1`='', `size`=1, `Data0`=1690, `Data1`=202865, `Data2`=0, `Data3`=1, `Data4`=0, `Data5`=0, `Data6`=0, `Data7`=0, `Data8`=0, `Data9`=0, `Data10`=0, `Data11`=0, `Data12`=0, `Data13`=0, `Data14`=37379, `Data15`=0, `Data16`=0, `Data17`=0, `Data18`=0, `Data19`=0, `Data20`=0, `Data21`=0, `Data22`=0, `Data23`=0, `AIName`='', `ScriptName`='', `VerifiedBuild`=0;
+DELETE FROM gameobject_template WHERE entry = 205112;
+INSERT INTO gameobject_template SET `entry`=205112, `type`=5, `displayId`=31, `name`='Stormwind Crate (scale x0.5)', `IconName`='', `castBarCaption`='', `unk1`='', `size`=0.5, `Data0`=0, `Data1`=0, `Data2`=0, `Data3`=1, `Data4`=0, `Data5`=0, `Data6`=0, `Data7`=0, `Data8`=0, `Data9`=0, `Data10`=0, `Data11`=0, `Data12`=0, `Data13`=0, `Data14`=0, `Data15`=0, `Data16`=0, `Data17`=0, `Data18`=0, `Data19`=0, `Data20`=0, `Data21`=0, `Data22`=0, `Data23`=0, `AIName`='', `ScriptName`='', `VerifiedBuild`=0;
 DELETE FROM gameobject_template WHERE entry = 205544;
 INSERT INTO gameobject_template SET `entry`=205544, `type`=19, `displayId`=9058, `name`='Mailbox', `IconName`='', `castBarCaption`='', `unk1`='', `size`=1, `Data0`=0, `Data1`=0, `Data2`=0, `Data3`=0, `Data4`=0, `Data5`=0, `Data6`=0, `Data7`=0, `Data8`=0, `Data9`=0, `Data10`=0, `Data11`=0, `Data12`=0, `Data13`=0, `Data14`=0, `Data15`=0, `Data16`=0, `Data17`=0, `Data18`=0, `Data19`=0, `Data20`=0, `Data21`=0, `Data22`=0, `Data23`=0, `AIName`='', `ScriptName`='', `VerifiedBuild`=0;
 DELETE FROM gameobject_template WHERE entry = 207237;

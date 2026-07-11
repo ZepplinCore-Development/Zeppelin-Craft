@@ -1,6 +1,17 @@
--- [F-011] creature_template_movement from InhabitType. migrate_immunities_movement.py.
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by the F-011 Goblin Zone extraction pipeline
+-- (Zeppelin-Craft/Scripts/Goblin Zone Port/). Any manual edit
+-- here is overwritten the next time the pipeline runs.
+--   * To change this output: edit the migration/translation script.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
 
-DELETE FROM creature_template_movement WHERE CreatureId IN (2110,4075,6491,6827,23837,24021,24110,33111,34763,35075,36127,36176,36177,36681,36682,36719,37203,37804,37872,37895,37896,37897,38111,38120,38412,38526,38855,38979,39039,39169,41266,44578,44579,44580,44588,44590,44591,44775,48526,75042,75044,75045,75046,75047,75048,75104,75106,75108,75112,75113,75114,75116,75118,75121,75122,75123,75124,75125,75126,75127,75128,240210);
+-- [F-011] creature_template_movement from Neltharion InhabitType (fliers/swimmers fell to ground).
+-- Ground/Swim from bits; Flight=1 (DisableGravity) keeps air units at spawn Z. migrate_immunities_movement.py.
+
+DELETE FROM creature_template_movement WHERE CreatureId IN (2110,4075,6491,6827,23837,24021,24110,33111,34763,35075,36127,36176,36177,36681,36682,36719,37203,37804,37872,37895,37896,37897,38111,38120,38412,38526,38855,38979,39039,39169,41266,44578,44579,44580,44588,44590,44591,44775,48526,75042,75044,75045,75046,75047,75048,75104,75106,75108,75112,75113,75114,75116,75118,75121,75122,75123,75124,75125,75126,75127,75128,240210,1337016);
 INSERT INTO creature_template_movement (CreatureId,Ground,Swim,Flight) VALUES
   (2110,1,0,0),
   (4075,1,0,0),
@@ -63,4 +74,5 @@ INSERT INTO creature_template_movement (CreatureId,Ground,Swim,Flight) VALUES
   (75126,0,0,1),
   (75127,0,0,1),
   (75128,0,0,1),
-  (240210,1,1,1);
+  (240210,1,1,1),
+  (1337016,0,0,1);

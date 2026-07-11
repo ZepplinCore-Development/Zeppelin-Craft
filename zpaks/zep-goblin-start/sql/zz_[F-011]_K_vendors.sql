@@ -1,6 +1,16 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by the F-011 Goblin Zone extraction pipeline
+-- (Zeppelin-Craft/Scripts/Goblin Zone Port/). Any manual edit
+-- here is overwritten the next time the pipeline runs.
+--   * To change this output: edit the migration/translation script.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- F-011 Lost Isles vendor inventories (npc_vendor; custom items remapped)
 
-DELETE FROM npc_vendor WHERE entry IN (35126,35128,35130,37500,37761,37762);
+DELETE FROM npc_vendor WHERE entry IN (35126,35128,35130,37500,37761,37762,1234567);
 INSERT INTO npc_vendor (entry,slot,item,maxcount,incrtime,ExtendedCost,VerifiedBuild) VALUES
   (37761,0,84457,0,0,0,0),
   (37761,0,84456,0,0,0,0),
@@ -32,4 +42,24 @@ INSERT INTO npc_vendor (entry,slot,item,maxcount,incrtime,ExtendedCost,VerifiedB
   (37500,0,67323,0,0,0,0),
   (37500,0,67289,0,0,0,0),
   (37500,0,67281,0,0,0,0),
-  (37500,0,67280,0,0,0,0);
+  (37500,0,67280,0,0,0,0),
+  (1234567,0,84509,0,0,0,0),
+  (1234567,0,84508,0,0,0,0),
+  (1234567,0,23162,0,0,0,0),
+  (1234567,0,63388,0,0,0,0),
+  (1234567,0,84504,0,0,0,0),
+  (1234567,0,84505,0,0,0,0),
+  (1234567,0,84506,0,0,0,0),
+  (1234567,0,84507,0,0,0,0),
+  (1234567,0,84498,0,0,0,0),
+  (1234567,0,84499,0,0,0,0),
+  (1234567,0,84497,0,0,0,0),
+  (1234567,0,67438,0,0,0,0),
+  (1234567,0,84496,0,0,0,0),
+  (1234567,0,84502,0,0,0,0),
+  (1234567,0,84501,0,0,0,0),
+  (1234567,0,84494,0,0,0,0),
+  (1234567,0,84495,0,0,0,0),
+  (1234567,0,84500,0,0,0,0),
+  (1234567,0,40211,0,0,0,0),
+  (1234567,0,84503,0,0,0,0);
