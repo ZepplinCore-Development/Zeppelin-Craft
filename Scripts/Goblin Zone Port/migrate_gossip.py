@@ -61,3 +61,34 @@ L.append(",\n".join(ov)+";\n")
 L += [f"UPDATE creature_template SET gossip_menu_id={menu_remap[m]} WHERE entry IN ({','.join(str(e) for e,mm in cre_menu.items() if mm==m)});" for m in menus]
 open("zpaks/zep-goblin-start/sql/zz_[F-011]_gossip.sql","w").write("\n".join(L)+"\n")
 print(f"gossip: {len(menus)} menus, {len(ntrows)} npc_text, {len(opts)} options, {len(cre_menu)} NPCs repointed")
+
+# --- HARDENING: port the gossip conditions too (type 14 greeting / 15 option). ---
+# Previously dropped -> AC's last-match-wins picked the post-quest greeting unconditionally
+# ("reads like the quest is already done"). Translate menu via menu_remap, greeting text via
+# text_remap (type 14 SourceEntry = text_id); type 15 SourceEntry = option id, unchanged.
+try:
+    crows = c.execute(
+        "SELECT SourceTypeOrReferenceId,SourceGroup,SourceEntry,SourceId,ElseGroup,"
+        "ConditionTypeOrReference,ConditionTarget,ConditionValue1,ConditionValue2,ConditionValue3,"
+        "NegativeCondition FROM conditions WHERE SourceTypeOrReferenceId IN (14,15) "
+        f"AND CAST(TRIM(SourceGroup) AS INT) IN ({mset})").fetchall()
+except sqlite3.OperationalError:
+    crows = []
+cv, dropped = [], 0
+for r in crows:
+    st, sg, se = i(r[0]), i(r[1]), i(r[2])
+    if sg not in menu_remap:
+        dropped += 1; continue
+    if st == 14 and se not in text_remap:   # greeting text was itself dropped -> can't map, skip
+        dropped += 1; continue
+    new_se = text_remap[se] if st == 14 else se
+    cv.append("  (%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,0,0,'','')" % (
+        st, menu_remap[sg], new_se, i(r[3]), i(r[4]), i(r[5]), i(r[6]), i(r[7]), i(r[8]), i(r[9]), i(r[10])))
+if cv:
+    cmenus = sorted({menu_remap[i(r[1])] for r in crows if i(r[1]) in menu_remap})
+    CL = ["-- [F-011] gossip greeting/option conditions (type 14/15) -- ported so greetings change with quest state.\n",
+          "DELETE FROM conditions WHERE SourceTypeOrReferenceId IN (14,15) AND SourceGroup IN (%s);" % ",".join(map(str, cmenus)),
+          "INSERT INTO conditions (SourceTypeOrReferenceId,SourceGroup,SourceEntry,SourceId,ElseGroup,ConditionTypeOrReference,ConditionTarget,ConditionValue1,ConditionValue2,ConditionValue3,NegativeCondition,ErrorType,ErrorTextId,ScriptName,Comment) VALUES",
+          ",\n".join(cv) + ";\n"]
+    open("zpaks/zep-goblin-start/sql/zz_[F-011]_gossip_conditions.sql", "w").write("\n".join(CL) + "\n")
+print("gossip conditions: %d ported, %d unmappable" % (len(cv), dropped))
