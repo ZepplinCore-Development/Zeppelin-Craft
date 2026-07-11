@@ -719,12 +719,21 @@ def gen(domains, zone):
             f"Available now: {', '.join(sorted(_GEN_DOMAINS))}.")
     sfxs = {"lost-isles": [""], "kezan": ["_K"], "both": ["", "_K"]}[zone]
 
+    failed = []
     for sfx in sfxs:
         label = "Kezan" if sfx == "_K" else "Lost Isles"
         ctx = _GenCtx(sfx)
         try:
             for d in todo:
-                click.echo(f"[{label}] gen {d}: " + _GEN_DOMAINS[d](ctx))
+                try:
+                    click.echo(f"[{label}] gen {d}: " + _GEN_DOMAINS[d](ctx))
+                except Exception as e:   # one domain's failure must not abort the rest
+                    failed.append((label, d, str(e)))
+                    click.echo(f"[{label}] gen {d}: FAILED — {e}", err=True)
         finally:
             ctx.close()
+    if failed:
+        click.echo(f"\n{len(failed)} domain run(s) failed:")
+        for lbl, d, e in failed:
+            click.echo(f"  [{lbl}] {d}: {e}")
     click.echo("\nDone. Review the emitted zz_[AUTO,F-011]_* files.")

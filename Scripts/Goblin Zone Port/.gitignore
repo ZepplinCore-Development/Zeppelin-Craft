@@ -1,6 +1,0 @@
-# Large / regenerable data — do not commit
-world.sql
-world_neltharion.zip
-*.sqlite
-tiles.json
-extract/

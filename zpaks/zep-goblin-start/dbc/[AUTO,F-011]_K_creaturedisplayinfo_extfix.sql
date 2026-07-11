@@ -1,0 +1,45 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by `zep goblin gen` (F-011 translation layer).
+-- Any manual edit here is overwritten the next time gen runs.
+--   * To change this output: edit the gen emitter or a fixture.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
+-- F-011 fix: correct extended_display_info_id to real 4.3.4 (Whitemane 15595) values
+
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19494 WHERE id = 29335;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19496 WHERE id = 29343;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19498 WHERE id = 29345;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19500 WHERE id = 29346;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19497 WHERE id = 29347;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19495 WHERE id = 29349;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19478 WHERE id = 29450;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19507 WHERE id = 29464;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19798 WHERE id = 29471;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 22822 WHERE id = 29472;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19511 WHERE id = 29473;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19512 WHERE id = 29474;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19556 WHERE id = 29482;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19557 WHERE id = 29495;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19580 WHERE id = 29554;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19581 WHERE id = 29555;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19585 WHERE id = 29564;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19620 WHERE id = 29617;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19622 WHERE id = 29620;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19623 WHERE id = 29621;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 20206 WHERE id = 29622;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19656 WHERE id = 29630;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19660 WHERE id = 29631;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19661 WHERE id = 29633;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 19658 WHERE id = 29666;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 20258 WHERE id = 30498;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 20259 WHERE id = 30499;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 20367 WHERE id = 30622;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 20455 WHERE id = 30703;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 23888 WHERE id = 36095;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 23983 WHERE id = 36244;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 24033 WHERE id = 36346;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 24037 WHERE id = 36350;
+UPDATE creaturedisplayinfo SET extended_display_info_id = 24690 WHERE id = 37365;
