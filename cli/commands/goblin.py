@@ -53,6 +53,28 @@ DB_PORT = int(os.getenv("DB_PORT", "3306"))
 DB_ROOT_USER = os.getenv("DB_ROOT_USER", "root")
 DB_ROOT_PASS = os.getenv("DB_ROOT_PASS", "")
 
+# 3.3.5a DBC database (target client data) + zpak / fixtures for the gen layer.
+DBC_HOST = os.getenv("DBC_HOST", DB_HOST)
+DBC_PORT = int(os.getenv("DBC_PORT", str(DB_PORT)))
+DBC_USER = os.getenv("DBC_USER", os.getenv("DB_USER", "acore"))
+DBC_PASS = os.getenv("DBC_PASS", os.getenv("DB_PASS", "acore"))
+DBC_NAME = os.getenv("LIVE_DBC_NAME", "dbc")   # the live DBC data db (not the spell-editor db)
+_CLI_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ZPAK_DIR = os.path.join(os.path.dirname(_CLI_DIR), "zpaks", "zep-goblin-start")
+FIXTURES_DIR = os.path.join(_CLI_DIR, "data", "goblin", "fixtures")
+
+# Banner stamped onto generated [AUTO,F-011] output (matches the pipeline banner).
+_AUTO_BANNER = (
+    "-- ============================================================\n"
+    "-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.\n"
+    "-- Produced by `zep goblin gen` (F-011 translation layer).\n"
+    "-- Any manual edit here is overwritten the next time gen runs.\n"
+    "--   * To change this output: edit the gen emitter or a fixture.\n"
+    "--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file\n"
+    "--     (it loads after these rows and overrides the ones it needs).\n"
+    "-- ============================================================\n\n"
+)
+
 # Content tables the F-011 translation layer reads. --all-tables overrides this.
 TARGET_TABLES = {
     "creature_template", "creature", "creature_template_addon", "creature_addon",
@@ -567,12 +589,142 @@ def extract_whitemane(data_dir, out_dir, include_cache):
     click.echo("\nNext: `zep goblin gen`.")
 
 
+# --------------------------------------------------------------------------
+# Layer 2 — translation (gen). Reads: neltharion (MySQL, Cata source), the 3.3.5a
+# DBC db (target client data), extracted Whitemane DBCs, and committed fixtures.
+# Emits [AUTO,F-011]-tagged SQL/DBC into the zpak. Each domain is a _gen_* fn.
+# --------------------------------------------------------------------------
+class _GenCtx:
+    def __init__(self, sfx):
+        import mysql.connector
+        self.sfx = sfx                       # "" (Lost Isles) or "_K" (Kezan)
+        self.nel = mysql.connector.connect(
+            host=DB_HOST, port=DB_PORT, user=DB_ROOT_USER, password=DB_ROOT_PASS,
+            database=NELTHARION_DB, autocommit=False)
+        self._dbc = None
+
+    def q(self, sql, params=None):
+        cur = self.nel.cursor(dictionary=True)
+        cur.execute(sql, params or ())
+        rows = cur.fetchall(); cur.close()
+        return rows
+
+    def dbc_spell_ids(self):
+        """Spell IDs present in the 3.3.5a target DBC (what a trainer can teach)."""
+        import mysql.connector
+        con = mysql.connector.connect(host=DBC_HOST, port=DBC_PORT, user=DBC_USER,
+                                      password=DBC_PASS, database=DBC_NAME)
+        cur = con.cursor(); cur.execute("SELECT ID FROM spell")
+        ids = set(r[0] for r in cur.fetchall()); cur.close(); con.close()
+        return ids
+
+    def fixture(self, name):
+        import json
+        return json.load(open(os.path.join(FIXTURES_DIR, name + ".json")))
+
+    def write(self, rel_name, body):
+        path = os.path.join(ZPAK_DIR, rel_name)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(_AUTO_BANNER + body)
+        return path
+
+    def close(self):
+        try: self.nel.close()
+        except Exception: pass
+
+
+def _esc(v):
+    if isinstance(v, str):
+        return "'" + v.replace("\\", "\\\\").replace("'", "''") + "'"
+    return str(v)
+
+
+def _gen_trainers(ctx):
+    """npc_trainer (Cata) -> AC trainer / creature_default_trainer / trainer_spell."""
+    sfx = ctx.sfx
+    trainers = sorted(ctx.fixture("trainer_scope" + sfx)["trainers"])
+    present = ctx.dbc_spell_ids()
+    tnames = {int(r["entry"]): (r["name"] or "").strip()
+              for r in ctx.q("SELECT entry,name FROM creature_template")}
+    base = {"": 6600, "_K": 6700}[sfx]   # per-zone TrainerId block (Lost Isles / Kezan)
+
+    def spells_for(entry, seen):
+        if entry in seen: return []
+        seen.add(entry)
+        out = []
+        for r in ctx.q("SELECT * FROM npc_trainer WHERE entry=%s", (entry,)):
+            sp = int(r["spell"] or 0)
+            if sp < 0:
+                out += spells_for(-sp, seen)
+            elif sp > 0:
+                out.append((sp, int(r["spellcost"] or 0), int(r["reqskill"] or 0),
+                            int(r["reqskillvalue"] or 0), int(r["reqlevel"] or 0)))
+        return out
+
+    trainer_rows, cdt_rows, ts_rows, skipped = [], [], [], 0
+    tid = base
+    for e in trainers:
+        tid += 1
+        trainer_rows.append((tid, tnames.get(e, "")))
+        cdt_rows.append((e, tid))
+        added = set()
+        for (sp, cost, rsk, rskv, rlv) in spells_for(e, set()):
+            if sp not in present:
+                skipped += 1; continue
+            if sp in added:
+                continue
+            added.add(sp)
+            ts_rows.append((tid, sp, cost, rsk, rskv, rlv))
+
+    tids = ",".join(str(t[0]) for t in trainer_rows)
+    b = []
+    b.append("-- F-011 Lost Isles trainers (npc_trainer -> AC trainer/creature_default_trainer/trainer_spell)")
+    b.append("-- %d trainers, %d spell rows (%d spells absent from 3.3.5a DBC skipped). TrainerId block %d+.\n"
+             % (len(trainer_rows), len(ts_rows), skipped, base + 1))
+    b.append("DELETE FROM trainer_spell WHERE TrainerId IN (%s);" % tids)
+    b.append("DELETE FROM creature_default_trainer WHERE TrainerId IN (%s);" % tids)
+    b.append("DELETE FROM trainer WHERE Id IN (%s);\n" % tids)
+    b.append("INSERT INTO trainer (Id,Type,Requirement,Greeting,VerifiedBuild) VALUES")
+    greet = _esc("Ready to learn, ?")
+    b.append(",\n".join("  (%d,0,0,%s,0)" % (t, greet) for t, _nm in trainer_rows) + ";\n")
+    b.append("INSERT INTO creature_default_trainer (CreatureId,TrainerId) VALUES")
+    b.append(",\n".join("  (%d,%d)" % (cid, t) for cid, t in cdt_rows) + ";\n")
+    b.append("INSERT INTO trainer_spell (TrainerId,SpellId,MoneyCost,ReqSkillLine,ReqSkillRank,ReqAbility1,ReqAbility2,ReqAbility3,ReqLevel,VerifiedBuild) VALUES")
+    b.append(",\n".join("  (%d,%d,%d,%d,%d,0,0,0,%d,0)" % r for r in ts_rows) + ";")
+    ctx.write("sql/zz_[AUTO,F-011]%s_trainers.sql" % sfx, "\n".join(b) + "\n")
+    return f"trainers={len(trainer_rows)} trainer_spell={len(ts_rows)} skipped={skipped}"
+
+
+_GEN_DOMAINS = {
+    "trainers": _gen_trainers,
+}
+
+
 @goblin.command("gen")
-@click.argument("target", required=False, default="all")
-def gen(target):
-    """Translate Neltharion + Whitemane -> [AUTO,F-011] SQL/DBC + assets. [Phase 2 — TODO]"""
-    raise click.ClickException(
-        "gen is not implemented yet (Phase 2). It will port the SQL/DBC emitters "
-        "from Scripts/Goblin Zone Port/ to read the neltharion MySQL DB + extracted "
-        "Whitemane DBCs + committed fixtures and emit [AUTO,F-011] output."
-    )
+@click.argument("domains", nargs=-1)
+@click.option("--zone", type=click.Choice(["lost-isles", "kezan", "both"]), default="both",
+              show_default=True, help="Which zone(s) to emit.")
+def gen(domains, zone):
+    """Translate Neltharion + Whitemane -> [AUTO,F-011] SQL/DBC (per domain).
+
+    DOMAINS: one or more of the emitter names (default: all implemented).
+    Currently implemented: trainers. (Remaining emitters are being ported.)
+    """
+    todo = list(domains) if domains else list(_GEN_DOMAINS)
+    unknown = [d for d in todo if d not in _GEN_DOMAINS]
+    if unknown:
+        raise click.ClickException(
+            f"Unknown/unported domain(s): {', '.join(unknown)}. "
+            f"Available now: {', '.join(sorted(_GEN_DOMAINS))}.")
+    sfxs = {"lost-isles": [""], "kezan": ["_K"], "both": ["", "_K"]}[zone]
+
+    for sfx in sfxs:
+        label = "Kezan" if sfx == "_K" else "Lost Isles"
+        ctx = _GenCtx(sfx)
+        try:
+            for d in todo:
+                click.echo(f"[{label}] gen {d}: " + _GEN_DOMAINS[d](ctx))
+        finally:
+            ctx.close()
+    click.echo("\nDone. Review the emitted zz_[AUTO,F-011]_* files.")
