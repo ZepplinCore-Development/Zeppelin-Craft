@@ -697,8 +697,8 @@ _GEN_DOMAINS = _discover_domains()
 def gen(domains, zone):
     """Translate Neltharion + Whitemane -> [AUTO,F-011] SQL/DBC (per domain).
 
-    DOMAINS: one or more of the emitter names (default: all implemented).
-    Currently implemented: trainers. (Remaining emitters are being ported.)
+    DOMAINS: one or more emitter names (default: all discovered domains in
+    goblin_gen/). Run `zep goblin gen <bad>` to see the available list.
     """
     todo = list(domains) if domains else list(_GEN_DOMAINS)
     unknown = [d for d in todo if d not in _GEN_DOMAINS]
