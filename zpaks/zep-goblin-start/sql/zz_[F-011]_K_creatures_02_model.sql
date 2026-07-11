@@ -1,3 +1,13 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by the F-011 Goblin Zone extraction pipeline
+-- (Zeppelin-Craft/Scripts/Goblin Zone Port/). Any manual edit
+-- here is overwritten the next time the pipeline runs.
+--   * To change this output: edit the migration/translation script.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- F-011 creature_template_model (display per creature)
 
 DELETE FROM creature_template_model WHERE CreatureID = 2110;
@@ -50,7 +60,7 @@ INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplaySca
 
 DELETE FROM creature_template_model WHERE CreatureID = 34830;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (34830,0,28703,1,1,0); -- I-232: Sen'jin Champion (Darkspear jungle troll, armored) - was 646/31741 (white FORESTTROLL char model)
+  (34830,0,646,1,1,0);
 
 DELETE FROM creature_template_model WHERE CreatureID = 34835;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
@@ -174,11 +184,11 @@ INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplaySca
 
 DELETE FROM creature_template_model WHERE CreatureID = 35239;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (35239,0,4083,1,1,0); -- I-232: Sen'jin Watcher (Darkspear jungle troll, minimal) - was 646/31745 (white FORESTTROLL char model)
+  (35239,0,646,1,1,0);
 
 DELETE FROM creature_template_model WHERE CreatureID = 35294;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (35294,0,28703,1,1,0); -- I-232: Sen'jin Champion (Darkspear jungle troll, armored) - was 646/31741 (white FORESTTROLL char model)
+  (35294,0,646,1,1,0);
 
 DELETE FROM creature_template_model WHERE CreatureID = 35304;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
@@ -338,7 +348,7 @@ INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplaySca
 
 DELETE FROM creature_template_model WHERE CreatureID = 48984;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
-  (48984,0,4083,1,1,0); -- I-232: Sen'jin Watcher (Darkspear jungle troll, minimal) - was 646/31745 (white FORESTTROLL char model)
+  (48984,0,646,1,1,0);
 
 DELETE FROM creature_template_model WHERE CreatureID = 49131;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
@@ -379,4 +389,12 @@ INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplaySca
 DELETE FROM creature_template_model WHERE CreatureID = 75107;
 INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
   (75107,0,29564,1,1,0);
+
+DELETE FROM creature_template_model WHERE CreatureID = 1234567;
+INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
+  (1234567,0,31020,1,1,0);
+
+DELETE FROM creature_template_model WHERE CreatureID = 1337016;
+INSERT INTO creature_template_model (CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES
+  (1337016,0,1267,0.5,1,0);
 
