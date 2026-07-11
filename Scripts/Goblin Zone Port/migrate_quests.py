@@ -14,9 +14,15 @@ remap = {int(k): v for k, v in json.load(open(os.path.join(SCRATCH, "item_remap.
 scope = json.load(open(os.path.join(SCRATCH, "item_scope%s.json" % SFX)))
 QIDS = set(scope["quests"]); LI_CRE = set(scope["creatures"])
 
+# Items referenced by quests but ABSENT from the Neltharion source item_template, so the
+# remap has nothing to relocate. Recovered by hand into F-011's block (created in
+# zz_[F-011]_items_f013_conflict_fix.sql). Mapped here so a regen REPRODUCES the fixed refs
+# instead of re-emitting the raw Cata ids (which collide with F-013 AUTO 60200-63199).
+RECOVERY = {60203: 84505, 62335: 84506}
 def rm(v):
     try: v = int(v)
     except: return 0
+    if v in RECOVERY: return RECOVERY[v]
     return remap.get(v, v) if v > 0 else max(v, 0)   # custom->reserved, keep stock, drop negatives
 
 # --- conflict guard (F-011 item-ref sanity) ---
