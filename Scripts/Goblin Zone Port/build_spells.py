@@ -5,6 +5,7 @@ Assembles Spell.dbc (48-field) + SpellEffect (by SpellID) + sub-tables (by ref I
 Cast/duration/range use safe 3.3.5a defaults. Emits spell DBC INSERTs + item wiring.
 """
 import struct, json, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 SCRATCH = "/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 CS = os.path.join(SCRATCH, "cata_spell")

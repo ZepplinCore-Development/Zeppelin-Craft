@@ -5,6 +5,7 @@ via listfile, create ItemDisplayInfo rows (200100+), set item_template.displayid
 ship the icon BLPs from the Whitemane client.
 """
 import csv, json, os, subprocess
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 SCRATCH = "/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 D = "/workspace/project/Zeppelin-Tools/whitemane-15595/Data"

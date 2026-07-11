@@ -6,6 +6,7 @@ nothing to mine. Create the template + loot (item 84467) + place a chunk at each
 Lost Isles Kaja'mite deposit (195622/202593). Freely lootable (no lock; quest is the gate).
 """
 import subprocess, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 CLI = "/workspace/project/Zeppelin-Craft"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 

@@ -5,6 +5,7 @@ ship) and wire them up: minimal CreatureModelData + CreatureDisplayInfo (client 
 creature_model_info (server), and repoint creature_template_model to the real display.
 """
 import os, json, struct, subprocess, shutil, glob
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 SCRATCH = "/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 AL = "/workspace/project/Zeppelin-Tools/Asset Library/GAME ASSETS"

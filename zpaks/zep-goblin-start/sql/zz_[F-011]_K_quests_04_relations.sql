@@ -1,3 +1,13 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by the F-011 Goblin Zone extraction pipeline
+-- (Zeppelin-Craft/Scripts/Goblin Zone Port/). Any manual edit
+-- here is overwritten the next time the pipeline runs.
+--   * To change this output: edit the migration/translation script.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- F-011 creature_queststarter / questender
 
 DELETE FROM creature_queststarter WHERE quest IN (14007,14008,14009,14010,14011,14012,14013,14069,14070,14071,14075,14109,14110,14113,14114,14115,14116,14120,14121,14122,14123,14124,14125,14126,14137,14138,14139,14153,14158,24488,24502,24503,24520,24521,24567,25473,25902,26711,26712,28349,28414,28606,28607);

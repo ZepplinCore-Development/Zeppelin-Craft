@@ -6,6 +6,7 @@ top of each other. Dedupe: for each (creature id, ~3-yard cell) keep one spawn (
 guid), delete the rest. Only touches F-011 spawn guid blocks (11M LI / 12M Kezan).
 """
 import subprocess, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 CLI = "/workspace/project/Zeppelin-Craft"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 GRID = 3.0

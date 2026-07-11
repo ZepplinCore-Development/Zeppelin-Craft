@@ -13,6 +13,7 @@ deferred — needs source->AC guid mapping. Idempotent. Emits
 zz_[F-011]_creature_template_addon.sql.
 """
 import sqlite3, struct, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 os.chdir('/workspace/project/Zeppelin-Craft')
 c=sqlite3.connect("/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad/neltharion.sqlite")
 def i(v,d=0):

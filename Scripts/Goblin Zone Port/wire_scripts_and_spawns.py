@@ -5,6 +5,7 @@ F-011: (1) spell_script_names for the 5 core-C++ quest-credit spells, and
 photographs — source has them in zone 4720 map 648; apply the map648->map1 transform.
 """
 import sqlite3, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 SCRATCH = "/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 DX, DY = -533.33, -12800.0   # map648 -> map1 uniform offset (F-011)

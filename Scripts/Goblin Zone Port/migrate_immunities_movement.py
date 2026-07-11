@@ -10,6 +10,7 @@ Movement: InhabitType bits -> Ground(1)/Swim(2)/Flight(4=DisableGravity, keeps
 air units at spawn Z). Emitted for non-default (not 0/3) InhabitType. Idempotent.
 """
 import sqlite3, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 os.chdir('/workspace/project/Zeppelin-Craft')
 SRC="/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad/neltharion.sqlite"
 c=sqlite3.connect(SRC)

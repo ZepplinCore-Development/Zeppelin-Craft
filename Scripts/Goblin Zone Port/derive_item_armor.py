@@ -13,6 +13,7 @@ Blizzlike values closely for the level 1-12 starter range.
 Emits an idempotent zz_[F-011]_item_armor.sql (UPDATE per item). Re-runnable.
 """
 import subprocess, json, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 os.chdir('/workspace/project/Zeppelin-Craft')
 def q(sql):
     out = subprocess.run(['python3','-m','cli.zep','world','sql','query',sql],

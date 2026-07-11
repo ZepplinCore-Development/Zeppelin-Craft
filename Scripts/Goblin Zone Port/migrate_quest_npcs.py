@@ -14,6 +14,7 @@ scope = json.load(open(os.path.join(SCRATCH, "item_scope%s.json" % SFX)))
 QIDS = scope["quests"]
 FACTION_REMAP = {2159:35,2160:35,2227:35,2231:35,2238:35,2200:14,2228:14}
 import struct as _struct
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 def _valid_factions():
     try:
         d = open("/workspace/project/data/dbc/FactionTemplate.dbc", "rb").read()

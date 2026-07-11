@@ -8,6 +8,7 @@ F-194: generate the phase_definitions table + rows + phase conditions for the go
   (QUESTREWARDED=8, QUESTTAKEN=9, QUEST_NONE=14, QUEST_COMPLETE=28).
 """
 import sqlite3, os, re
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 SCRATCH = "/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 ZONES = (4720, 4737)

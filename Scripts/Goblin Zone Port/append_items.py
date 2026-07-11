@@ -2,6 +2,7 @@
 """Append a list of new custom items to item_remap (stable) + emit item_template.
 Env: F011_NEW_ITEMS (json path), F011_SFX (output suffix)."""
 import csv, json, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 SCRATCH = "/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 SFX = os.environ.get("F011_SFX", "")

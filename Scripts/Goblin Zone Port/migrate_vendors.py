@@ -4,6 +4,7 @@ F-011 vendors: import 36 new vendor items (wago ItemSparse) appended to the rese
 block (stable remap), + npc_vendor rows. Items remapped custom->84424+.
 """
 import csv, json, os, sqlite3
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 SCRATCH = "/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
 

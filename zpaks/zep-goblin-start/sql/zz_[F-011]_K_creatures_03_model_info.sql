@@ -1,3 +1,13 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by the F-011 Goblin Zone extraction pipeline
+-- (Zeppelin-Craft/Scripts/Goblin Zone Port/). Any manual edit
+-- here is overwritten the next time the pipeline runs.
+--   * To change this output: edit the migration/translation script.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- F-011 creature_model_info (server, custom/non-stock displays)
 
 DELETE FROM creature_model_info WHERE DisplayID IN (29335,29343,29345,29346,29347,29349,29450,29464,29471,29472,29473,29474,29482,29495,29554,29555,29564,29617,29620,29621,29622,29630,29631,29633,29666,30244,30498,30499,30622,30703,31758,31988,32237,33559,36095,36101,36111,36244,36346,36350,37365);

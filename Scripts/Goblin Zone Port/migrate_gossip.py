@@ -10,6 +10,7 @@ BroadcastTextID*=0), gossip_menu (menu->text remapped), gossip_menu_option
 creature_template.gossip_menu_id. Idempotent (DELETE the emitted blocks first).
 """
 import sqlite3, os
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 os.chdir('/workspace/project/Zeppelin-Craft')
 SRC="/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad/neltharion.sqlite"
 c=sqlite3.connect(SRC)
