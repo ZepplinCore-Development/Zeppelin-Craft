@@ -12,6 +12,33 @@ SFX = os.environ.get("F011_SFX","")
 ZONE = os.environ.get("F011_ZONE","4720")
 remap = {int(k): v for k, v in json.load(open(os.path.join(SCRATCH, "item_remap.json"))).items()}
 
+# --- conflict guard (F-011 item-ref sanity), mirrors migrate_quests.py ---
+# A loot row may reference only (a) a real stock WotLK item (id < CUSTOM_FLOOR) or
+# (b) an item in F-011's own reserved block. Anything else means the remap left a ref
+# on a raw Cata id that lands in ANOTHER feature's reserved range -- the "item dropped
+# by a creature but MISSING from the Neltharion source" bug (e.g. 62328/62512/62514/
+# 62525 that F-013 AUTO 62200-63199 later claimed; see I-236). Detect against
+# Item Reservations.csv and abort so a human recovers the item instead of shipping a
+# silent collision.
+import csv as _csv
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
+RESV_CSV = "/workspace/project/Zeppelin-Craft/Scripts/Item Scripts/Item Reservations.csv"
+F011_LO, F011_HI = 84300, 84799
+CUSTOM_FLOOR = 56900  # first custom-reservation id; stock WotLK item ids are below this
+def _load_reservations():
+    rows = []
+    try:
+        with open(RESV_CSV, encoding="utf-8-sig") as fh:
+            for r in _csv.DictReader(fh):
+                try: rows.append((int(r["Start Range"]), int(r["End Range"]), r["Items"]))
+                except (ValueError, KeyError): pass
+    except FileNotFoundError: pass
+    return rows
+RESV = _load_reservations()
+def _owner(i):
+    return next((nm for lo, hi, nm in RESV if lo <= i <= hi), "UNRESERVED gap")
+CONFLICTS = []
+
 NOISE = ('bunny','invisible stalker','generateur','elm general','wondi','purpose bunny')
 tmpl = {int(r['entry']): r for r in c.execute("SELECT entry,name,lootid FROM creature_template")}
 spawned = [int(r[0]) for r in c.execute("SELECT DISTINCT TRIM(id) FROM creature WHERE TRIM(zone)=?", (ZONE,))]
@@ -40,6 +67,8 @@ for e, lid in lootids.items():
         item = int(r['item'] or 0)
         if item <= 0: continue
         newitem = remap.get(item, item)   # custom -> 84300+, stock unchanged
+        if newitem >= CUSTOM_FLOOR and not (F011_LO <= newitem <= F011_HI):
+            CONFLICTS.append((lid, item, newitem, _owner(newitem)))
         chance = float(r['ChanceOrQuestChance'] or 0)
         quest = 1 if chance < 0 else 0
         ch = abs(chance)
@@ -47,6 +76,19 @@ for e, lid in lootids.items():
         loot_rows.append((lid, newitem, 0, ch, quest, int(r['lootmode'] or 1),
                           int(r['groupid'] or 0), mn, mx, tmpl[e]['name']))
         entries.add(lid)
+
+# ---- conflict guard: warn if any loot item-ref lands outside stock or F-011's block ----
+# An out-of-block ref means an item dropped by a creature but MISSING from the Neltharion
+# source, so the remap left the raw Cata id (e.g. 62328/62512/62514/62525/67252/67256/67257
+# that F-013/F-179 AUTO later claimed; see I-236). Warn (don't abort) so the generated rows
+# still emit for an override to layer on. Fix at source (add to missing-items so the item is
+# ported and the remap repoints the ref) OR add a zz_[I-xxx]_*.sql override that creates the
+# item in F-011's block and repoints the ref (it loads after this generated file).
+if CONFLICTS:
+    print("\n!!! WARNING: %d loot item-ref(s) point into reserved space F-011 does not own:" % len(CONFLICTS))
+    for lid, raw, v, own in sorted(set(CONFLICTS)):
+        print("    loot table %-6d item %-7d -> owned by [%s]" % (lid, v, own))
+    print("    Fix at source (add to missing-items so it is ported) OR add a zz_[I-xxx]_*.sql override.")
 
 # write: set lootid + loot rows
 with open(os.path.join(ZPAK, "sql/zz_[F-011]" + SFX + "_loot_creatures.sql"), "w") as f:
