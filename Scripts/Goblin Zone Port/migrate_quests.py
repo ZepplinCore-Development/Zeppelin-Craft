@@ -18,6 +18,40 @@ def rm(v):
     try: v = int(v)
     except: return 0
     return remap.get(v, v) if v > 0 else max(v, 0)   # custom->reserved, keep stock, drop negatives
+
+# --- conflict guard (F-011 item-ref sanity) ---
+# A quest may reference only (a) a real stock WotLK item (id < CUSTOM_FLOOR) or
+# (b) an item in F-011's own reserved block. Anything else means the remap left a
+# ref on a raw Cata id that lands in ANOTHER feature's reserved range -- the classic
+# "item referenced by a quest but missing from the Neltharion source" bug (e.g.
+# 60203/62335 that F-013 AUTO later claimed). Detect against Item Reservations.csv
+# and abort so a human recovers the item instead of shipping a silent collision.
+import csv as _csv
+RESV_CSV = "/workspace/project/Zeppelin-Craft/Scripts/Item Scripts/Item Reservations.csv"
+F011_LO, F011_HI = 84300, 84799
+CUSTOM_FLOOR = 56900  # first custom-reservation id; stock WotLK item ids are below this
+def _load_reservations():
+    rows = []
+    try:
+        with open(RESV_CSV, encoding="utf-8-sig") as fh:
+            for r in _csv.DictReader(fh):
+                try: rows.append((int(r["Start Range"]), int(r["End Range"]), r["Items"]))
+                except (ValueError, KeyError): pass
+    except FileNotFoundError: pass
+    return rows
+RESV = _load_reservations()
+def _owner(i):
+    return next((nm for lo, hi, nm in RESV if lo <= i <= hi), "UNRESERVED gap")
+ITEM_COLS = (["StartItem"] + ["RewardItem%d" % n for n in range(1, 5)]
+             + ["ItemDrop%d" % n for n in range(1, 5)]
+             + ["RewardChoiceItemID%d" % n for n in range(1, 7)]
+             + ["RequiredItemId%d" % n for n in range(1, 7)])
+CONFLICTS = []
+def scan_conflicts(qid, col):
+    for k in ITEM_COLS:
+        v = col.get(k, 0) or 0
+        if v >= CUSTOM_FLOOR and not (F011_LO <= v <= F011_HI):
+            CONFLICTS.append((qid, k, v, _owner(v)))
 def gi(r, k, d=0):
     try: return int(float(r[k])) if r[k] not in (None, "") else d
     except: return d
@@ -79,10 +113,20 @@ with W("sql/zz_[F-011]" + SFX + "_quests_01_template.sql") as f:
         for n in range(1, 5):
             col["ObjectiveText%d" % n] = gs(s, "ObjectiveText%d" % n)
         col["VerifiedBuild"] = 0
+        scan_conflicts(qid, col)
         f.write("DELETE FROM quest_template WHERE ID = %d;\n" % qid)
         f.write("INSERT INTO quest_template SET\n")
         f.write(",\n".join("  `%s` = %s" % (k, esc(v)) for k, v in col.items()))
         f.write(";\n\n")
+
+# ---- conflict guard: abort if any quest item-ref lands outside stock or F-011's block ----
+if CONFLICTS:
+    print("\n!!! ITEM-REF CONFLICTS: %d quest item ref(s) point into reserved space F-011 does not own:" % len(CONFLICTS))
+    for qid, k, v, own in sorted(CONFLICTS):
+        print("    quest %-6d %-20s item %-7d -> owned by [%s]" % (qid, k, v, own))
+    print("    Cause: item referenced by a quest but MISSING from the Neltharion source, so rm() left the raw Cata id.")
+    print("    FIX: recover each item into F-011's block (84300-84799), repoint the ref, update Item Reservations.csv.")
+    raise SystemExit("Aborting: unresolved item-ref conflicts. F-011 may reference only stock (<%d) or its own %d-%d block." % (CUSTOM_FLOOR, F011_LO, F011_HI))
 
 # ---- quest_template_addon ----
 with W("sql/zz_[F-011]" + SFX + "_quests_02_addon.sql") as f:
