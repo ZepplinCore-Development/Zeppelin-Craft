@@ -1,6 +1,14 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by the F-011 Goblin Zone extraction pipeline
+-- (Zeppelin-Craft/Scripts/Goblin Zone Port/). Any manual edit
+-- here is overwritten the next time the pipeline runs.
+--   * To change this output: edit the migration/translation script.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- F-011 CreatureDisplayInfoExtra (NPC skin-bake data from Whitemane 15595; race 9 goblin)
--- [I-231] Human/orc/dwarf/nightelf/gnome extras (races 1-4,7): the `texture` BakeName is repointed
--- to stock `_HD.blp` bakes so the face matches the HD Everything (PATCH-Q) models. See I-231.
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19404;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19404,9,0,4,4,4,3,0,0,0,60001,7551,60002,7947,21849,10016,8169,0,0,0,'CreatureDisplayExtra-19404.blp');
@@ -21,37 +29,37 @@ INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_s
 DELETE FROM creaturedisplayinfoextra WHERE id = 19583;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19583,9,0,3,3,1,0,0,0,0,63067,63068,62682,62671,62617,0,62683,0,0,0,'CreatureDisplayExtra-19583.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19680;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19680,1,0,5,9,9,0,2,0,0,0,5623,6049,4310,7458,18316,0,0,0,0,'CreatureDisplayExtra-00996_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19680,1,0,5,9,9,0,2,0,0,0,5623,6049,4310,7458,18316,0,0,0,0,'CreatureDisplayExtra-19680.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19771;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19771,9,1,5,0,1,7,0,0,0,62688,62689,62491,62492,62493,0,62494,0,0,0,'CreatureDisplayExtra-19771.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19799;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19799,9,0,6,4,2,2,9,28589,0,0,7551,6049,7947,8262,0,0,0,0,0,'CreatureDisplayExtra-19799.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19809;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19809,2,0,5,5,1,1,3,0,5414,0,10991,8943,6300,11900,0,12744,0,0,0,'CreatureDisplayExtra-02563_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19809,2,0,5,5,1,1,3,0,5414,0,10991,8943,6300,11900,0,12744,0,0,0,'CreatureDisplayExtra-19809.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19824;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19824,2,1,10,7,0,1,0,0,5414,61038,8136,54656,25297,10663,10976,9366,0,0,0,'CreatureDisplayExtra-12203_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19824,2,1,10,7,0,1,0,0,5414,61038,8136,54656,25297,10663,10976,9366,0,0,0,'CreatureDisplayExtra-19824.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19835;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19835,2,0,0,8,4,2,6,0,0,61048,9175,61049,7710,9672,11204,10877,0,0,0,'CreatureDisplayExtra-00122_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19835,2,0,0,8,4,2,6,0,0,61048,9175,61049,7710,9672,11204,10877,0,0,0,'CreatureDisplayExtra-19835.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19841;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19841,2,0,7,0,9,5,0,0,0,60257,22844,61059,24717,22845,26938,0,0,0,0,'CreatureDisplayExtra-00078_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19841,2,0,7,0,9,5,0,0,0,60257,22844,61059,24717,22845,26938,0,0,0,0,'CreatureDisplayExtra-19841.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19842;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19842,2,0,6,2,4,5,3,0,0,61060,9177,61061,8152,31570,8210,0,0,0,0,'CreatureDisplayExtra-01120_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19842,2,0,6,2,4,5,3,0,0,61060,9177,61061,8152,31570,8210,0,0,0,0,'CreatureDisplayExtra-19842.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19859;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19859,9,1,1,0,0,0,0,61083,0,0,5710,4990,61084,4487,0,0,0,0,0,'CreatureDisplayExtra-19859.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19860;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19860,1,0,3,7,0,5,1,16137,0,61086,16134,61057,15680,16059,16244,16060,0,0,0,'CreatureDisplayExtra-00235_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19860,1,0,3,7,0,5,1,16137,0,61086,16134,61057,15680,16059,16244,16060,0,0,0,'CreatureDisplayExtra-19860.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19873;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19873,2,0,7,5,8,2,10,0,0,8150,0,6182,12431,12432,0,8191,0,0,0,'CreatureDisplayExtra-02457_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19873,2,0,7,5,8,2,10,0,0,8150,0,6182,12431,12432,0,8191,0,0,0,'CreatureDisplayExtra-19873.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19874;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19874,1,0,3,7,1,5,1,0,0,61086,16134,61057,15680,16059,16244,16060,0,0,0,'CreatureDisplayExtra-00235_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19874,1,0,3,7,1,5,1,0,0,61086,16134,61057,15680,16059,16244,16060,0,0,0,'CreatureDisplayExtra-19874.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19878;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19878,2,0,3,7,5,4,6,0,0,61065,10116,61066,6300,61152,0,10947,0,0,0,'CreatureDisplayExtra-00077_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19878,2,0,3,7,5,4,6,0,0,61065,10116,61066,6300,61152,0,10947,0,0,0,'CreatureDisplayExtra-19878.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19886;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19886,7,0,1,0,7,1,2,11976,11274,18225,18225,61158,1978,1981,1980,2362,0,0,0,'CreatureDisplayExtra-03060_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19886,7,0,1,0,7,1,2,11976,11274,18225,18225,61158,1978,1981,1980,2362,0,0,0,'CreatureDisplayExtra-19886.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19888;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19888,1,0,2,2,1,0,3,0,0,0,37096,8551,4439,8262,0,10372,7690,0,0,'CreatureDisplayExtra-00219_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19888,1,0,2,2,1,0,3,0,0,0,37096,8551,4439,8262,0,10372,7690,0,0,'CreatureDisplayExtra-19888.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19892;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19892,1,0,5,3,3,10,2,18871,0,0,37096,8551,5469,8262,0,3850,7690,0,0,'CreatureDisplayExtra-00445_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19892,1,0,5,3,3,10,2,18871,0,0,37096,8551,5469,8262,0,3850,7690,0,0,'CreatureDisplayExtra-19892.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19906;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19906,9,0,3,3,3,3,0,0,0,62489,62490,62491,62492,62493,0,62494,0,0,0,'CreatureDisplayExtra-19906.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19911;
@@ -67,7 +75,7 @@ INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_s
 DELETE FROM creaturedisplayinfoextra WHERE id = 19957;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19957,9,0,5,0,5,0,5,0,0,62657,62658,62659,62573,62628,0,0,0,0,0,'CreatureDisplayExtra-19957.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19958;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19958,2,0,6,3,4,7,6,0,0,62229,9171,62230,9187,62231,14161,0,0,0,0,'CreatureDisplayExtra-02458_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19958,2,0,6,3,4,7,6,0,0,62229,9171,62230,9187,62231,14161,0,0,0,0,'CreatureDisplayExtra-19958.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 19961;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (19961,9,0,6,4,6,1,0,0,0,62672,25131,62532,62573,62628,0,0,3454,0,0,'CreatureDisplayExtra-19961.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 20055;
@@ -89,15 +97,15 @@ INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_s
 DELETE FROM creaturedisplayinfoextra WHERE id = 20711;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (20711,13,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,'CreatureDisplayExtra-20711.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 20863;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (20863,1,0,4,4,5,4,4,0,0,57036,43069,43065,43067,43071,58600,43064,0,24013,0,'CreatureDisplayExtra-00167_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (20863,1,0,4,4,5,4,4,0,0,57036,43069,43065,43067,43071,58600,43064,0,24013,0,'CreatureDisplayExtra-20863.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 20864;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (20864,22,0,0,0,0,0,0,0,0,65809,64533,64562,64563,68659,64381,0,0,22988,0,'CreatureDisplayExtra-20864.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 20865;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (20865,4,1,4,4,0,7,4,0,0,65506,30327,30332,30329,31068,30331,32423,0,23042,0,'CreatureDisplayExtra-00795_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (20865,4,1,4,4,0,7,4,0,0,65506,30327,30332,30329,31068,30331,32423,0,23042,0,'CreatureDisplayExtra-20865.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 20892;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (20892,9,0,7,4,2,2,0,0,0,60114,31011,60115,60116,29799,29795,29800,0,16597,0,'CreatureDisplayExtra-20892.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 22530;
-INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (22530,3,0,3,3,3,3,3,0,0,69854,66665,69855,66663,66661,66664,66662,0,0,0,'CreatureDisplayExtra-00488_HD.blp');
+INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (22530,3,0,3,3,3,3,3,0,0,69854,66665,69855,66663,66661,66664,66662,0,0,0,'CreatureDisplayExtra-22530.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 22854;
 INSERT INTO creaturedisplayinfoextra (id,race,gender,skin_color,face_type,hair_style,hair_color,facial_hair,helm_id,shoulders_id,shirt_id,chest_id,belt_id,legs_id,boots_id,wrists_id,gloves_id,tabard_id,cape_id,can_equip,texture) VALUES (22854,9,1,1,3,16,0,9,62940,0,62660,62661,65543,62663,0,62664,0,0,0,0,'CreatureDisplayExtra-22854.blp');
 DELETE FROM creaturedisplayinfoextra WHERE id = 24852;
