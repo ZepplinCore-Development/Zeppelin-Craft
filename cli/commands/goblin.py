@@ -47,6 +47,10 @@ NELTHARION_DB = os.getenv("NELTHARION_DB_NAME", "neltharion")
 WHITEMANE_DATA = os.getenv("WHITEMANE_DATA", os.path.join(TOOLS, "whitemane-15595", "Data"))
 WHITEMANE_OUT = os.getenv("WHITEMANE_OUT", os.path.join(os.path.dirname(WHITEMANE_DATA), "extracted"))
 MPQCLI = os.getenv("MPQCLI_PATH", os.path.join(TOOLS, "mpqcli", "mpqcli"))
+# wago Cata Classic (4.4.x) CSV extracts — a 3rd reference source that carries fields
+# the 4.3.4 client computes at runtime and doesn't store (weapon MinDamage/MaxDamage,
+# MaxDurability, etc.). Lives under Zeppelin-Tools; source of the committed item data.
+WAGO_DIR = os.getenv("WAGO_DIR", os.path.join(TOOLS, "wago-cata-classic"))
 
 DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
 DB_PORT = int(os.getenv("DB_PORT", "3306"))
@@ -634,6 +638,13 @@ class _GenCtx:
     def whitemane_dbc(self, name):
         """Path to an extracted (fully patched) Whitemane Cata DBC/DB2 file."""
         return os.path.join(WHITEMANE_OUT, "DBFilesClient", name)
+
+    def wago(self, name):
+        """Rows (list[dict]) from a wago Cata Classic 4.4.x CSV extract, e.g. 'itemsparse_442'.
+        Carries fields the 4.3.4 client computes at runtime (weapon damage, MaxDurability)."""
+        import csv
+        with open(os.path.join(WAGO_DIR, name + ".csv"), newline="", encoding="utf-8") as f:
+            return list(csv.DictReader(f))
 
     @staticmethod
     def read_wdbc(path):
