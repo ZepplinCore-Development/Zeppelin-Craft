@@ -20,7 +20,11 @@ import os
 import sys
 import re
 import glob
+import struct
+import shutil
+import hashlib
 import zipfile
+import tempfile
 import subprocess
 
 import click
@@ -378,6 +382,88 @@ def _order_mpqs(paths, data_dir):
     return sorted(paths, key=key)
 
 
+# --------------------------------------------------------------------------
+# StormLib incremental-patch (PTCH) application.
+# The wow-update-*.MPQ archives store many files (incl. the key DBCs) as PTCH
+# incremental patches (RLE-compressed StormLib BSDIFF40). mpqcli extracts the raw
+# PTCH; to get the effective client file we must apply the patch chain onto the
+# base. Ported verbatim from StormLib SFilePatchArchives.cpp (TPatchHeader /
+# Decompress_RLE / ApplyMpqPatch_BSD0); verified against each patch's own MD5.
+# --------------------------------------------------------------------------
+_PTCH_HEADER_SIZE = 68            # sizeof(TPatchHeader)
+_SIZE_OF_XFRM_HEADER = 0x0C
+
+
+def _decompress_rle(comp, cb_out):
+    out = bytearray(cb_out)       # pre-filled with zeros
+    src, dst, n = 4, 0, len(comp)  # skip the leading DWORD
+    while src < n and dst < cb_out:
+        b = comp[src]; src += 1
+        if b & 0x80:
+            take = min((b & 0x7F) + 1, n - src, cb_out - dst)
+            out[dst:dst + take] = comp[src:src + take]
+            dst += take; src += take
+        else:
+            dst += (b + 1)
+    return bytes(out)
+
+
+def _apply_bsdiff(old, blob):
+    import numpy as np
+    sig, ctrl_sz, data_sz, _new = struct.unpack_from("<8sQQQ", blob, 0)
+    if sig != b"BSDIFF40":
+        raise ValueError("bad BSDIFF signature %r" % sig)
+    p = 32
+    ctrl = blob[p:p + ctrl_sz]; p += ctrl_sz
+    data = blob[p:p + data_sz]; p += data_sz
+    extra = blob[p:]
+    old = np.frombuffer(old, dtype=np.uint8)
+    new = np.zeros(_new, dtype=np.uint8)
+    no = oo = cp = dp = ep = 0
+    osz = len(old)
+    while no < _new:
+        add, mov, omv = struct.unpack_from("<III", ctrl, cp); cp += 12
+        if add:
+            seg = np.frombuffer(data[dp:dp + add], dtype=np.uint8).copy(); dp += add
+            k = min(add, osz - oo)
+            if k > 0:
+                seg[:k] = (seg[:k] + old[oo:oo + k]) & 0xFF
+            new[no:no + add] = seg; no += add; oo += add
+        if mov:
+            new[no:no + mov] = np.frombuffer(extra[ep:ep + mov], dtype=np.uint8)
+            ep += mov; no += mov
+        if omv & 0x80000000:
+            omv = (0x80000000 - omv) & 0xFFFFFFFF
+        oo = (oo + omv) & 0xFFFFFFFF
+    return new.tobytes()
+
+
+def _apply_ptch(base, ptch):
+    """Apply a StormLib PTCH incremental patch to `base`, returning the patched bytes."""
+    if ptch[:4] != b"PTCH":
+        raise ValueError("not a PTCH file")
+    sz_data = struct.unpack_from("<I", ptch, 0x04)[0]
+    md5_before, md5_after = ptch[0x18:0x28], ptch[0x28:0x38]
+    if ptch[0x38:0x3C] != b"XFRM":
+        raise ValueError("missing XFRM block")
+    xfrm_sz = struct.unpack_from("<I", ptch, 0x3C)[0]
+    ptype = ptch[0x40:0x44]
+    if hashlib.md5(base).digest() != md5_before:
+        raise ValueError("base md5 does not match patch's md5_before")
+    payload = ptch[_PTCH_HEADER_SIZE:_PTCH_HEADER_SIZE + (xfrm_sz - _SIZE_OF_XFRM_HEADER)]
+    if ptype == b"COPY":
+        result = payload
+    elif ptype == b"BSD0":
+        cb_dec = sz_data - _PTCH_HEADER_SIZE
+        blob = _decompress_rle(payload, cb_dec) if len(payload) < cb_dec else payload[:cb_dec]
+        result = _apply_bsdiff(base, blob)
+    else:
+        raise ValueError("unknown patch type %r" % ptype)
+    if hashlib.md5(result).digest() != md5_after:
+        raise ValueError("patched result md5 mismatch")
+    return result
+
+
 @goblin.command("extract-whitemane")
 @click.option("--data", "data_dir", default=WHITEMANE_DATA, show_default=True,
               help="Whitemane client Data/ directory containing the .MPQ archives.")
@@ -415,22 +501,68 @@ def extract_whitemane(data_dir, out_dir, include_cache):
     click.echo(f"Extracting {len(mpqs)} MPQ(s) into {out_dir}")
     click.echo("(patch order: base/locale first, wow-update-* last)\n")
 
-    ok, failures = 0, []
+    ok, patched, failures = 0, 0, []
     for i, m in enumerate(mpqs, 1):
-        click.echo(f"[{i:2}/{len(mpqs)}] {os.path.basename(m)}")
-        r = subprocess.run([MPQCLI, "extract", m, "-o", out_dir, "-k"],
-                           capture_output=True, text=True)
-        if r.returncode == 0:
+        is_patch = "wow-update" in os.path.basename(m).lower()
+        click.echo(f"[{i:2}/{len(mpqs)}] {os.path.basename(m)}{'  (patch)' if is_patch else ''}")
+
+        if not is_patch:
+            # base/locale archive: complete files, extract straight into the tree
+            r = subprocess.run([MPQCLI, "extract", m, "-o", out_dir, "-k"],
+                               capture_output=True, text=True)
+            if r.returncode == 0:
+                ok += 1
+            else:
+                failures.append((os.path.basename(m), (r.stderr or r.stdout or "").strip()[:200]))
+            continue
+
+        # patch archive: extract to a temp dir, then merge each file. PTCH files are
+        # applied onto the current tree version (chain); complete files just overwrite.
+        tmp = tempfile.mkdtemp(prefix="wm_patch_")
+        try:
+            r = subprocess.run([MPQCLI, "extract", m, "-o", tmp, "-k"],
+                               capture_output=True, text=True)
+            if r.returncode != 0:
+                failures.append((os.path.basename(m), (r.stderr or r.stdout or "").strip()[:200]))
+                continue
             ok += 1
-        else:
-            failures.append((os.path.basename(m), (r.stderr or r.stdout or "").strip()[:200]))
+            for root, _dirs, files in os.walk(tmp):
+                for fn in files:
+                    src = os.path.join(root, fn)
+                    rel = os.path.relpath(src, tmp)
+                    dst = os.path.join(out_dir, rel)
+                    with open(src, "rb") as fh:
+                        data = fh.read()
+                    if data[:4] == b"PTCH":
+                        if not os.path.exists(dst):
+                            failures.append((rel, "PTCH with no base file to patch"))
+                            continue
+                        try:
+                            with open(dst, "rb") as fh:
+                                base = fh.read()
+                            merged = _apply_ptch(base, data)
+                        except Exception as e:  # keep the base file rather than a broken one
+                            failures.append((rel, f"patch apply failed: {e}"))
+                            continue
+                        with open(dst, "wb") as fh:
+                            fh.write(merged)
+                        patched += 1
+                    else:
+                        os.makedirs(os.path.dirname(dst), exist_ok=True)
+                        with open(dst, "wb") as fh:
+                            fh.write(data)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
 
     dbc = len(glob.glob(os.path.join(out_dir, "DBFilesClient", "*")))
+    still_ptch = sum(1 for f in glob.glob(os.path.join(out_dir, "DBFilesClient", "*"))
+                     if open(f, "rb").read(4) == b"PTCH")
     click.echo(f"\nExtracted {ok}/{len(mpqs)} MPQs into {out_dir}")
-    click.echo(f"DBFilesClient entries: {dbc}")
+    click.echo(f"Applied {patched} incremental patches")
+    click.echo(f"DBFilesClient entries: {dbc}  (unresolved PTCH: {still_ptch})")
     if failures:
-        click.echo("\nFailures:")
-        for n, e in failures:
+        click.echo(f"\n{len(failures)} issue(s):")
+        for n, e in failures[:20]:
             click.echo(f"  {n}: {e}")
     click.echo("\nNext: `zep goblin gen`.")
 
