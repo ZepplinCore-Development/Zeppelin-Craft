@@ -147,6 +147,71 @@ def _parse_values(s):
     return rows
 
 
+_INT_RE = re.compile(r'^-?\d+$')
+_FLOAT_RE = re.compile(r'^-?(?:\d+\.\d*|\.\d+|\d+(?:\.\d*)?)(?:[eE][-+]?\d+)?$')
+
+
+def _infer_types(fh, want):
+    """Stream the dump once and infer a proper column type per table column.
+
+    The Neltharion (SkyFire/ArkCORE lineage) world schema is not shipped as DDL —
+    only the data-only dump exists — so we derive INT/BIGINT/DOUBLE/VARCHAR/TEXT
+    from the actual values. O(columns) memory; no rows held.
+    """
+    info = {}
+    for stmt in _statements(fh):
+        m = _HDR.match(stmt)
+        if not m:
+            continue
+        t = m.group(1)
+        if want is not None and t not in want:
+            continue
+        cols = [c.strip().strip('`') for c in m.group(2).split(',')]
+        d = info.get(t)
+        if d is None:
+            k = len(cols)
+            d = info[t] = {"cols": cols, "int": [True] * k, "flt": [True] * k,
+                           "seen": [False] * k, "maxlen": [0] * k, "maxabs": [0] * k}
+        for r in _parse_values(stmt[m.end():]):
+            if len(r) != len(cols):
+                continue
+            for i, v in enumerate(r):
+                if v is None:
+                    continue
+                d["seen"][i] = True
+                if len(v) > d["maxlen"][i]:
+                    d["maxlen"][i] = len(v)
+                s = v.strip()
+                if d["int"][i]:
+                    if _INT_RE.match(s):
+                        a = abs(int(s))
+                        if a > d["maxabs"][i]:
+                            d["maxabs"][i] = a
+                    else:
+                        d["int"][i] = False
+                if d["flt"][i] and not _FLOAT_RE.match(s):
+                    d["flt"][i] = False
+
+    schema = {}
+    for t, d in info.items():
+        cols_out = []
+        for i, c in enumerate(d["cols"]):
+            if not d["seen"][i]:
+                ty = "INT"                      # all-NULL column
+            elif d["int"][i]:
+                ty = "BIGINT" if d["maxabs"][i] > 2147483647 else "INT"
+            elif d["flt"][i]:
+                ty = "DOUBLE"
+            else:
+                L = d["maxlen"][i]
+                ty = (f"VARCHAR({max(1, L)})" if L <= 255
+                      else "TEXT" if L <= 65535
+                      else "MEDIUMTEXT" if L <= 16777215 else "LONGTEXT")
+            cols_out.append((c, ty))
+        schema[t] = cols_out
+    return schema
+
+
 def _open_world_sql(world_zip):
     """Return a text stream over world.sql, from a .zip or a plain .sql path."""
     if world_zip.lower().endswith(".zip"):
@@ -186,15 +251,31 @@ def goblin():
 @click.option("--all-tables", is_flag=True,
               help="Load every table in the dump, not just the F-011 content tables.")
 @click.option("--batch", default=2000, show_default=True, help="Rows per INSERT batch.")
-def extract_neltharion(world_zip, db_name, all_tables, batch):
+@click.option("--text-schema", is_flag=True,
+              help="Skip type inference; make every column LONGTEXT (faster, single pass).")
+def extract_neltharion(world_zip, db_name, all_tables, batch, text_schema):
     """Load the Project Neltharion 4.3.4 world dump into a MySQL database.
 
-    The dump is data-only (REPLACE INTO ... VALUES). Each target table is created
-    with a VARCHAR key column + LONGTEXT columns (the translation layer casts
-    values itself), then bulk-loaded. Idempotent: DROP + CREATE DATABASE first.
+    The dump is data-only (REPLACE INTO ... VALUES) and the Neltharion (SkyFire/
+    ArkCORE lineage) schema DDL is not shipped, so column TYPES are inferred from
+    the data — a first pass derives INT/BIGINT/DOUBLE/VARCHAR/TEXT per column, then
+    a second pass creates the typed tables and bulk-loads. --text-schema skips
+    inference (all LONGTEXT, one pass). Idempotent: DROP + CREATE DATABASE first.
     """
     if not os.path.exists(world_zip):
         raise click.ClickException(f"World dump not found: {world_zip}")
+    want = None if all_tables else TARGET_TABLES
+
+    # ---- pass 1: infer column types (unless --text-schema) ----
+    schema = None
+    if not text_schema:
+        click.echo("Pass 1/2: inferring column types from data ...")
+        fh = _open_world_sql(world_zip)
+        try:
+            schema = _infer_types(fh, want)
+        finally:
+            fh.close()
+        click.echo(f"  inferred types for {len(schema)} tables")
 
     click.echo(f"Recreating database `{db_name}` on {DB_HOST}:{DB_PORT} ...")
     root = _root_connect()
@@ -210,9 +291,18 @@ def extract_neltharion(world_zip, db_name, all_tables, batch):
     cur.execute("SET SESSION unique_checks=0")
     cur.execute("SET SESSION foreign_key_checks=0")
 
-    created, counts, warned = set(), {}, {}
-    want = None if all_tables else TARGET_TABLES
+    def _create(t, cols):
+        if schema is not None:
+            defs = [f"`{c}` {ty}" for c, ty in schema[t]]
+            keyty = schema[t][0][1]
+            keylen = "(64)" if keyty.upper() in ("TEXT", "MEDIUMTEXT", "LONGTEXT") else ""
+        else:
+            defs = [f"`{cols[0]}` VARCHAR(64)"] + [f"`{c}` LONGTEXT" for c in cols[1:]]
+            keylen = ""
+        cur.execute(f"CREATE TABLE `{t}` ({', '.join(defs)}, KEY `k0` (`{cols[0]}`{keylen})) ENGINE=InnoDB")
 
+    created, counts, warned = set(), {}, {}
+    click.echo(f"Pass 2/2: loading {'(typed)' if schema else '(text)'} tables ...")
     fh = _open_world_sql(world_zip)
     try:
         for stmt in _statements(fh):
@@ -224,9 +314,7 @@ def extract_neltharion(world_zip, db_name, all_tables, batch):
                 continue
             cols = [c.strip().strip('`') for c in m.group(2).split(',')]
             if t not in created:
-                # first column (usually the PK) is an indexed VARCHAR; rest LONGTEXT.
-                defs = [f"`{cols[0]}` VARCHAR(64)"] + [f"`{c}` LONGTEXT" for c in cols[1:]]
-                cur.execute(f"CREATE TABLE `{t}` ({', '.join(defs)}, KEY `k0` (`{cols[0]}`)) ENGINE=InnoDB")
+                _create(t, cols)
                 created.add(t)
                 counts[t] = 0
             rows = _parse_values(stmt[m.end():])
