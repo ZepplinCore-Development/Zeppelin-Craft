@@ -1,4 +1,4 @@
-From a0243c49506617b7f449639b585e746fce9c514e Mon Sep 17 00:00:00 2001
+From 46a1bafb1f9ae7a28d42a3be62c792db5e04d17f Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 7 Jul 2026 14:32:23 +0000
 Subject: [PATCH] feat: F-194 Cata zone phasing progression (PhaseMgr backport)
@@ -13,7 +13,7 @@ Subject: [PATCH] feat: F-194 Cata zone phasing progression (PhaseMgr backport)
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/server/game/Conditions/ConditionMgr.cpp   | 32 +++++++++-
+ src/server/game/Conditions/ConditionMgr.cpp   | 35 ++++++++++-
  src/server/game/Conditions/ConditionMgr.h     |  2 +
  src/server/game/Entities/Player/Player.cpp    |  2 +
  src/server/game/Entities/Player/Player.h      |  4 ++
@@ -24,15 +24,25 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  src/server/game/Maps/PhaseMgr.cpp             | 49 +++++++++++++++
  src/server/game/Maps/PhaseMgr.h               | 63 +++++++++++++++++++
  src/server/game/World/World.cpp               |  3 +
- 11 files changed, 214 insertions(+), 1 deletion(-)
+ 11 files changed, 216 insertions(+), 2 deletions(-)
  create mode 100644 src/server/game/Maps/PhaseMgr.cpp
  create mode 100644 src/server/game/Maps/PhaseMgr.h
 
 diff --git a/src/server/game/Conditions/ConditionMgr.cpp b/src/server/game/Conditions/ConditionMgr.cpp
-index 32695a2e8..b98bafe4e 100644
+index 32695a2e8..74f2d99ae 100644
 --- a/src/server/game/Conditions/ConditionMgr.cpp
 +++ b/src/server/game/Conditions/ConditionMgr.cpp
-@@ -1012,6 +1012,16 @@ ConditionList ConditionMgr::GetConditionsForNotGroupedEntry(ConditionSourceType
+@@ -985,7 +985,8 @@ bool ConditionMgr::CanHaveSourceGroupSet(ConditionSourceType sourceType) const
+ {
+     return (sourceType == CONDITION_SOURCE_TYPE_CREATURE_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_DISENCHANT_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_FISHING_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_GAMEOBJECT_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_ITEM_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_MAIL_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_MILLING_LOOT_TEMPLATE ||
+             sourceType == CONDITION_SOURCE_TYPE_PICKPOCKETING_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_PROSPECTING_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_REFERENCE_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_SKINNING_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_SPELL_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_GOSSIP_MENU || sourceType == CONDITION_SOURCE_TYPE_GOSSIP_MENU_OPTION || sourceType == CONDITION_SOURCE_TYPE_VEHICLE_SPELL || sourceType == CONDITION_SOURCE_TYPE_GOSSIP_HELLO ||
+-            sourceType == CONDITION_SOURCE_TYPE_SPELL_IMPLICIT_TARGET || sourceType == CONDITION_SOURCE_TYPE_SPELL_CLICK_EVENT || sourceType == CONDITION_SOURCE_TYPE_SMART_EVENT || sourceType == CONDITION_SOURCE_TYPE_NPC_VENDOR || sourceType == CONDITION_SOURCE_TYPE_PLAYER_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_OBJECT_VISIBILITY);
++            sourceType == CONDITION_SOURCE_TYPE_SPELL_IMPLICIT_TARGET || sourceType == CONDITION_SOURCE_TYPE_SPELL_CLICK_EVENT || sourceType == CONDITION_SOURCE_TYPE_SMART_EVENT || sourceType == CONDITION_SOURCE_TYPE_NPC_VENDOR || sourceType == CONDITION_SOURCE_TYPE_PLAYER_LOOT_TEMPLATE || sourceType == CONDITION_SOURCE_TYPE_OBJECT_VISIBILITY ||
++            sourceType == CONDITION_SOURCE_TYPE_PHASE); // F-194: phase-definition conditions key on SourceGroup = zoneId
+ }
+ 
+ bool ConditionMgr::CanHaveSourceIdSet(ConditionSourceType sourceType) const
+@@ -1012,6 +1013,16 @@ ConditionList ConditionMgr::GetConditionsForNotGroupedEntry(ConditionSourceType
      return spellCond;
  }
  
@@ -49,7 +59,7 @@ index 32695a2e8..b98bafe4e 100644
  ConditionList ConditionMgr::GetConditionsForSpellClickEvent(uint32 creatureId, uint32 spellId)
  {
      ConditionList                                   cond;
-@@ -1359,6 +1369,13 @@ void ConditionMgr::LoadConditions(bool isReload)
+@@ -1359,6 +1370,13 @@ void ConditionMgr::LoadConditions(bool isReload)
                  ++count;
                  continue; // do not add to AllocatedMemoryStore to avoid double-deleting
              }
@@ -63,7 +73,7 @@ index 32695a2e8..b98bafe4e 100644
              case CONDITION_SOURCE_TYPE_PLAYER_LOOT_TEMPLATE:
              {
                  valid = addToLootTemplate(cond, LootTemplates_Player.GetLootForConditionFill(cond->SourceGroup));
-@@ -1556,12 +1573,16 @@ bool ConditionMgr::isSourceTypeValid(Condition* cond)
+@@ -1556,12 +1574,16 @@ bool ConditionMgr::isSourceTypeValid(Condition* cond)
      switch (cond->SourceType)
      {
      case CONDITION_SOURCE_TYPE_TERRAIN_SWAP:
@@ -81,7 +91,7 @@ index 32695a2e8..b98bafe4e 100644
      case CONDITION_SOURCE_TYPE_CREATURE_LOOT_TEMPLATE:
      {
          if (!LootTemplates_Creature.HaveLootFor(cond->SourceGroup))
-@@ -2726,6 +2747,15 @@ void ConditionMgr::Clean()
+@@ -2726,6 +2748,15 @@ void ConditionMgr::Clean()
  
      ObjectVisibilityConditionStore.clear();
  
