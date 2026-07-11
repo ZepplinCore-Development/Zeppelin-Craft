@@ -3,11 +3,33 @@
 F-011 items: translate wago ItemSparse+Item (Cata 4.4.x) -> AC WotLK item_template,
 renumbered into the reserved 84300+ block. Emits item_remap.json + items SQL.
 """
-import csv, json, os
+import csv, json, os, sys
+import _autogen; _autogen.install()  # stamp generated .sql files with a DO-NOT-EDIT banner
 
 SCRATCH = "/tmp/claude-99/-workspace/1ae3daf4-1714-4a0c-9005-f289a71753fe/scratchpad"
 ZPAK = "/workspace/project/Zeppelin-Craft/zpaks/zep-goblin-start"
+CLI_DIR = "/workspace/project/Zeppelin-Craft/cli"
 RESERVE_BASE = 84300
+
+# Resolve item icons straight from the client data (IconFileDataID -> client listfile ->
+# ItemDisplayInfo.icon_1 -> displayid) instead of deferring them to displayid = 0.
+sys.path.insert(0, CLI_DIR)
+try:
+    from lib.icon_resolver import IconResolver
+    _resolver = IconResolver()
+    # Preload both maps up front so a missing listfile / unreachable DBC fails loudly here
+    # rather than silently zeroing every icon.
+    _resolver._fdid_to_icon = _resolver._load_listfile()
+    _resolver._icon_to_display = _resolver._load_displays()
+    print("icon resolver: %d listfile icons, %d ItemDisplayInfo icons loaded" % (
+        len(_resolver._fdid_to_icon), len(_resolver._icon_to_display)))
+except Exception as e:
+    print("WARN: icon resolution unavailable (%s); displayids will default to 0" % e)
+    _resolver = None
+
+def resolve_icon(meta):
+    """Client-sourced displayid for an Item.db2 row, or 0 if unresolved."""
+    return _resolver.resolve(meta.get('IconFileDataID')) if _resolver else 0
 
 missing = sorted(json.load(open(os.path.join(SCRATCH, "missing_items.json"))))
 remap = {cata: RESERVE_BASE + i for i, cata in enumerate(missing)}
@@ -50,7 +72,7 @@ with open(os.path.join(SCRATCH, "itemsparse_442.csv"), newline='', encoding='utf
         cols = {
             "entry": newid, "class": cls, "subclass": sub,
             "SoundOverrideSubclass": gi(m, 'Sound_override_subclassID', -1) if m.get('Sound_override_subclassID') else -1,
-            "name": (s.get('Display_lang') or '').strip(), "displayid": 0,   # icon deferred (needs ItemDisplayInfo)
+            "name": (s.get('Display_lang') or '').strip(), "displayid": resolve_icon(m),   # client-sourced icon
             "Quality": gi(s, 'OverallQualityID'), "Flags": (gi(s,"Flags_0") & 0x7FFFFFFF),  # masked to WotLK bits (drop Cata sign-bit) "FlagsExtra": 0,
             "BuyCount": max(gi(s, 'VendorStackCount', 1), 1), "BuyPrice": gi(s, 'BuyPrice'), "SellPrice": gi(s, 'SellPrice'),
             "InventoryType": gi(s, 'InventoryType') or gi(m, 'InventoryType'),
@@ -101,7 +123,8 @@ with open(os.path.join(SCRATCH, "itemsparse_442.csv"), newline='', encoding='utf
 rows_out.sort()
 with open(os.path.join(ZPAK, "sql/zz_[F-011]_items.sql"), "w") as f:
     f.write("-- F-011 Lost Isles custom items (from wago ItemSparse 4.4.2, renumbered to 84300+)\n")
-    f.write("-- %d items. Owned custom rows: DELETE+INSERT. Icons (displayid) deferred.\n\n" % len(rows_out))
+    f.write("-- %d items. Owned custom rows: DELETE+INSERT. Icons (displayid) resolved from\n"
+            "-- each item's Cata IconFileDataID via the client listfile + ItemDisplayInfo.\n\n" % len(rows_out))
     for newid, cata, cols in rows_out:
         f.write("-- Cata %d -> %d  (%s)\n" % (cata, newid, cols["name"]))
         f.write("DELETE FROM item_template WHERE entry = %d;\n" % newid)
@@ -109,3 +132,14 @@ with open(os.path.join(ZPAK, "sql/zz_[F-011]_items.sql"), "w") as f:
         f.write(",\n".join("  `%s` = %s" % (k, esc(v)) for k, v in cols.items()))
         f.write(";\n\n")
 print("wrote %d item_template rows" % len(rows_out))
+if _resolver is not None:
+    resolved = sum(1 for _, _, c in rows_out if c["displayid"])
+    print("icons: %d/%d resolved from client data, %d deferred (displayid=0)" % (
+        resolved, len(rows_out), len(rows_out) - resolved))
+    if _resolver.unresolved:
+        seen = {}
+        for fdid, reason in _resolver.unresolved:
+            seen.setdefault(reason, 0)
+            seen[reason] += 1
+        for reason, n in sorted(seen.items()):
+            print("  unresolved: %d x %s" % (n, reason))
