@@ -1,5 +1,13 @@
--- F-011 Lost Isles quest_template (Cata->WotLK). Item refs remapped. Reward factions zeroed.
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by `zep goblin gen` (F-011 translation layer).
+-- Any manual edit here is overwritten the next time gen runs.
+--   * To change this output: edit the gen emitter or a fixture.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
 
+-- F-011 Lost Isles quest_template (Cata->WotLK). Item refs remapped. Reward factions zeroed.
 DELETE FROM quest_template WHERE ID = 14007;
 INSERT INTO quest_template SET
   `ID` = 14007,

@@ -33,7 +33,8 @@ def emit(ctx):
 
     gob = {_i(r["id"]) for r in ctx.q(
         "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS id FROM creature "
-        "WHERE TRIM(zone) IN ('%s','%s')" % ZONES)}
+        "WHERE TRIM(zone) IN ('%s','%s')"
+        " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)}  # no dev/leet NPCs (I-233)
 
     imm, move = {}, []
     for r in ctx.q("SELECT entry, mechanic_immune_mask, InhabitType FROM creature_template"):

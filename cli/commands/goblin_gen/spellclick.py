@@ -32,7 +32,8 @@ def emit(ctx):
     present = ctx.dbc_spell_ids()
 
     zone_ids = {int(r["id"]) for r in
-                ctx.q("SELECT DISTINCT TRIM(id) AS id FROM creature WHERE TRIM(zone)=%s", (zone,))}
+                ctx.q("SELECT DISTINCT TRIM(id) AS id FROM creature WHERE TRIM(zone)=%s"
+                      " AND CAST(TRIM(id) AS SIGNED) < 1000000", (zone,))}  # no dev/leet NPCs (I-233)
 
     clicks, skipped = [], 0
     for r in ctx.q("SELECT npc_entry,spell_id,cast_flags,user_type FROM npc_spellclick_spells"):

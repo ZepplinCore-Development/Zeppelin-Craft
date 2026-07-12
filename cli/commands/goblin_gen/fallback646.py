@@ -14,7 +14,11 @@ Per creature: character-goblin displays (model 831/832) get a CreatureDisplayInf
 texture_variation; displays already present in the client are just repointed.
 Baked-texture shipping is an asset side effect and stays out of the CLI.
 
-Zone-independent; emitted once, on the Lost Isles pass.
+Zone-independent; emitted once, on the FINAL (Kezan) pass so the collector holds
+both zones' creatures-domain rows. Collector overlay domain: owns its displays /
+extras / model_info, repoints creature_template_model as overlays. The creatures
+domain treats GHOUL_FALLBACK as needmodel (placeholder 646) so ownership of these
+curated displays stays here.
 
 The set of ghoul-fallback creatures (GHOUL_FALLBACK) is a runtime-derived curation
 snapshot: the standalone script queried the live world DB for creatures still on
@@ -24,15 +28,17 @@ else — target display, char-vs-monster classification, scale, grooming clamp �
 recomputed from source.
 
 "Already in client" (OURDISP / OURMODELS) is evaluated against the *pre-fallback*
-client: stock 3.3.5a (Original DBC Files) UNION F-011's main creaturedisplayinfo /
-creaturemodeldata imports (the sibling committed files). The current live client
-cannot be used — it already contains the displays this emitter creates.
+client: stock 3.3.5a (Original DBC Files) UNION the creaturedisplayinfo /
+creaturemodeldata rows already in the collector (both zones). The current live
+client cannot be used — it already contains the displays this emitter creates.
 """
 import os
-import re
 import struct
 
 NAME = "fallback646"
+TABLES = ["creaturedisplayinfo", "creaturedisplayinfoextra", "creature_model_info",
+          "creature_template_model"]
+TIER = "overlay"
 
 # Creatures that fell back to ghoul display 646 (world DB CreatureDisplayID=646,
 # entry in [34000,52000]) at pipeline time — see module docstring.
@@ -63,31 +69,9 @@ def _idset(ctx, path):
     return set(r[0] for r in recs)
 
 
-def _zpak_dbc_dir():
-    here = os.path.dirname(os.path.abspath(__file__))
-    repo = os.path.dirname(os.path.dirname(os.path.dirname(here)))
-    return os.path.join(repo, "zpaks", "zep-goblin-start", "dbc")
-
-
-def _import_ids(table):
-    """Ids inserted by F-011's main <table> import (sibling committed files, both zones)."""
-    dbcdir = _zpak_dbc_dir()
-    rx = re.compile(r"INSERT INTO %s \([^)]*\) VALUES \((\d+)" % table)
-    ids = set()
-    for fn in os.listdir(dbcdir):
-        low = fn.lower()
-        if not low.endswith("_%s.sql" % table) or "fallback" in low:
-            continue
-        for line in open(os.path.join(dbcdir, fn)):
-            m = rx.search(line)
-            if m:
-                ids.add(int(m.group(1)))
-    return ids
-
-
 def emit(ctx):
-    if ctx.sfx == "_K":
-        return "skipped (zone-independent; emitted on Lost Isles pass)"
+    if ctx.sfx != "_K":
+        return "skipped (zone-independent; emitted on final pass, collector complete)"
 
     # --- Whitemane display + extra ---
     wrecs, wgs = ctx.read_wdbc(ctx.whitemane_dbc("CreatureDisplayInfo.dbc"))
@@ -99,9 +83,9 @@ def emit(ctx):
     for r in werecs:
         WEXTRA[r[0]] = (list(r[:20]), wegs(r[20]))
 
-    # --- pre-fallback client: stock UNION F-011 main imports ---
-    OURMODELS = _idset(ctx, os.path.join(STOCK_DBC, "CreatureModelData.dbc")) | _import_ids("creaturemodeldata")
-    OURDISP = _idset(ctx, os.path.join(STOCK_DBC, "CreatureDisplayInfo.dbc")) | _import_ids("creaturedisplayinfo")
+    # --- pre-fallback client: stock UNION rows already in the collector (both zones) ---
+    OURMODELS = _idset(ctx, os.path.join(STOCK_DBC, "CreatureModelData.dbc")) | set(ctx.col.pks("creaturemodeldata"))
+    OURDISP = _idset(ctx, os.path.join(STOCK_DBC, "CreatureDisplayInfo.dbc")) | set(ctx.col.pks("creaturedisplayinfo"))
 
     # --- valid goblin CharSection combos (clamp) from live tree ---
     crecs, _cgs = ctx.read_wdbc(os.path.join(LIVE_DBC, "CharSections.dbc"))
@@ -132,9 +116,6 @@ def emit(ctx):
         rows = ctx.q("SELECT modelid1 FROM creature_template WHERE TRIM(entry)=%s", (str(e),))
         cre_disp[e] = int(str(rows[0]["modelid1"]).strip() or 0) if rows else 0
 
-    def esc(v):
-        return "'" + v.replace("\\", "\\\\").replace("'", "''") + "'" if isinstance(v, str) else str(v)
-
     new_cdi, new_extra, new_minfo, repoint, pending = {}, {}, {}, {}, []
     for e, D in cre_disp.items():
         wm = WDISP.get(D)
@@ -161,29 +142,24 @@ def emit(ctx):
         new_minfo[D] = gender
         repoint[e] = D
 
-    # ---- DBC: displays + extras ----
-    b = ["-- F-011 import real displays for creatures that fell back to ghoul display 646\n\n"]
-    for D, row in sorted(new_cdi.items()):
-        b.append("DELETE FROM creaturedisplayinfo WHERE id=%d;\n" % D)
-        b.append("INSERT INTO creaturedisplayinfo (%s) VALUES (%s);\n" % (
-            ",".join(DI_COLS), ",".join(esc(v) for v in row)))
-    b.append("\n")
-    for ext, (ints, bakename) in sorted(new_extra.items()):
-        b.append("DELETE FROM creaturedisplayinfoextra WHERE id=%d;\n" % ext)
-        b.append("INSERT INTO creaturedisplayinfoextra (%s) VALUES (%s);\n" % (
-            ",".join(EXTRA_COLS), ",".join(str(v) for v in ints) + ",'%s'" % bakename))
-    ctx.write("dbc/[AUTO,F-011]_fallback646_displays.sql", "".join(b))
+    # ---- DBC: displays + extras (owned rows) ----
+    for D, row in new_cdi.items():
+        ctx.col.put("creaturedisplayinfo", D, dict(zip(DI_COLS, row)),
+                    tier="base", owner="fallback646")
+    for ext, (ints, bakename) in new_extra.items():
+        ctx.col.put("creaturedisplayinfoextra", ext,
+                    dict(zip(EXTRA_COLS, ints + [bakename])),
+                    tier="base", owner="fallback646")
 
-    # ---- server SQL: model_info + repoint ----
-    b = ["-- F-011 repoint ghoul-fallback creatures to their real displays + creature_model_info\n\n"]
-    if new_minfo:
-        b.append("DELETE FROM creature_model_info WHERE DisplayID IN (%s);\n"
-                 % ",".join(str(d) for d in sorted(new_minfo)))
-        b.append("INSERT INTO creature_model_info (DisplayID,BoundingRadius,CombatReach,Gender,DisplayID_Other_Gender,VerifiedBuild) VALUES\n")
-        b.append(",\n".join("  (%d,0.5,1.5,%d,0,0)" % (d, g) for d, g in sorted(new_minfo.items())) + ";\n\n")
-    for e, D in sorted(repoint.items()):
-        b.append("UPDATE creature_template_model SET CreatureDisplayID=%d WHERE CreatureID=%d;\n" % (D, e))
-    ctx.write("sql/zz_[AUTO,F-011]_fallback646_repoint.sql", "".join(b))
+    # ---- server: model_info (owned) + repoint (overlay on creatures base) ----
+    for d, g in new_minfo.items():
+        ctx.col.put("creature_model_info", d, {
+            "DisplayID": d, "BoundingRadius": 0.5, "CombatReach": 1.5,
+            "Gender": g, "DisplayID_Other_Gender": 0, "VerifiedBuild": 0,
+        }, tier="base", owner="fallback646")
+    for e, D in repoint.items():
+        ctx.col.put("creature_template_model", e,
+                    {"CreatureDisplayID": D}, tier="overlay")
 
     return "repoint=%d new_displays=%d new_extras=%d pending=%d" % (
         len(repoint), len(new_cdi), len(new_extra), len(pending))

@@ -6,9 +6,10 @@ Re-points our imported creature displays at the REAL 4.3.4 (Whitemane 15595)
 extended_display_info_id and ships the matching CreatureDisplayInfoExtra (bake)
 rows so the client loads the pre-baked goblin NPC skins.
 
-Emits (per zone, ctx.sfx):
-    dbc/[AUTO,F-011]{sfx}_creaturedisplayinfo_extfix.sql   -- correct ext id
-    dbc/[AUTO,F-011]{sfx}_creaturedisplayinfoextra.sql     -- bake data rows
+Collector overlay domain: patches extended_display_info_id onto the
+creaturedisplayinfo rows the `creatures` domain ships this zone (col.pks
+owner-filtered — the fallback domains curate their own ext ids), and owns the
+matching creaturedisplayinfoextra bake rows.
 
 Inputs:
     * Whitemane CreatureDisplayInfo.dbc / CreatureDisplayInfoExtra.dbc (the Cata
@@ -16,19 +17,17 @@ Inputs:
     * Our live 3.3.5a CharSections.dbc (worgoblin race-9 sections) — clamp grooming
       so every bake component resolves (a missing skin/face/hair/facialhair section
       fails the atomic bake -> green model).
-    * The zone's imported display ids, read from the sibling committed
-      [F-011]{sfx}_creaturedisplayinfo.sql (the set of displays F-011 ships) — this
-      is the `f011_disp{sfx}.txt` list the standalone script consumed.
 
 Grooming clamp only touches race-9 (goblin) extras; non-goblin (human/orc) extras
 are emitted verbatim — later hand-corrected by the I-231 override file, which is
 intentionally NOT part of this pure generator output.
 """
 import os
-import re
 import struct
 
 NAME = "npc_appearance"
+TABLES = ["creaturedisplayinfo", "creaturedisplayinfoextra"]
+TIER = "overlay"
 
 # Our live 3.3.5a client DBC tree (holds the worgoblin race-9 CharSections). The
 # standalone script read this file directly; keep that (env-overridable).
@@ -38,35 +37,6 @@ EXTRA_COLS = ["id", "race", "gender", "skin_color", "face_type", "hair_style",
               "hair_color", "facial_hair", "helm_id", "shoulders_id", "shirt_id",
               "chest_id", "belt_id", "legs_id", "boots_id", "wrists_id", "gloves_id",
               "tabard_id", "cape_id", "can_equip", "texture"]
-
-
-def _zpak_dbc_dir():
-    # cli/commands/goblin_gen/<mod>.py -> Zeppelin-Craft/zpaks/zep-goblin-start/dbc
-    here = os.path.dirname(os.path.abspath(__file__))
-    repo = os.path.dirname(os.path.dirname(os.path.dirname(here)))
-    return os.path.join(repo, "zpaks", "zep-goblin-start", "dbc")
-
-
-def _our_displays(sfx):
-    """Imported display ids for this zone (from the sibling creaturedisplayinfo file)."""
-    dbcdir = _zpak_dbc_dir()
-    want = "_K" if sfx == "_K" else ""
-    rx = re.compile(r"INSERT INTO creaturedisplayinfo \([^)]*\) VALUES \((\d+)")
-    for fn in os.listdir(dbcdir):
-        low = fn.lower()
-        if not low.endswith("_creaturedisplayinfo.sql") or "fallback" in low:
-            continue
-        # zone match: LI has no "_K_" segment, Kezan has "]_K_"
-        is_k = "]_k_" in low
-        if bool(want) != is_k:
-            continue
-        out = []
-        for line in open(os.path.join(dbcdir, fn)):
-            m = rx.search(line)
-            if m:
-                out.append(int(m.group(1)))
-        return out
-    return []
 
 
 def emit(ctx):
@@ -115,7 +85,9 @@ def emit(ctx):
         ints[3], ints[4], ints[5], ints[6], ints[7] = skin, face, hstyle, hcolor, fhair
         return ints
 
-    our = _our_displays(sfx)
+    # This zone's shipped displays, straight from the collector (creatures-owned
+    # only — the fallback domains curate their own ext ids and bake rows).
+    our = ctx.col.pks("creaturedisplayinfo", zone=sfx, owner="creatures")
     updates = []
     need_extra = set()
     for d in our:
@@ -125,18 +97,15 @@ def emit(ctx):
                 updates.append((d, ext))
                 need_extra.add(ext)
 
-    # ---- extfix: correct extended_display_info_id ----
-    ef = ["-- F-011 fix: correct extended_display_info_id to real 4.3.4 (Whitemane 15595) values\n\n"]
-    for d, ext in sorted(updates):
-        ef.append("UPDATE creaturedisplayinfo SET extended_display_info_id = %d WHERE id = %d;\n" % (ext, d))
-    ctx.write("dbc/[AUTO,F-011]%s_creaturedisplayinfo_extfix.sql" % sfx, "".join(ef))
+    # ---- overlay: correct extended_display_info_id on the shipped displays ----
+    for d, ext in updates:
+        ctx.col.put("creaturedisplayinfo", d, {"extended_display_info_id": ext},
+                    tier="overlay")
 
     # ---- creaturedisplayinfoextra: bake data rows ----
     warn = 0
-    ex = ["-- F-011 CreatureDisplayInfoExtra (NPC skin-bake data from Whitemane 15595; race 9 goblin)\n\n"]
     for eid in sorted(need_extra):
         if eid not in extra:
-            ex.append("-- WARN extra %d not in Whitemane DBC\n" % eid)
             warn += 1
             continue
         ints, tex = extra[eid]
@@ -145,10 +114,8 @@ def emit(ctx):
         # ItemDisplayInfo rows + component textures). Clamp only goblin grooming.
         if ints[1] == 9:
             ints = clamp_goblin(ints)
-        vals = ints + ["'%s'" % tex.replace("'", "''")]
-        ex.append("DELETE FROM creaturedisplayinfoextra WHERE id = %d;\n" % eid)
-        ex.append("INSERT INTO creaturedisplayinfoextra (%s) VALUES (%s);\n" % (
-            ",".join(EXTRA_COLS), ",".join(str(v) for v in vals)))
-    ctx.write("dbc/[AUTO,F-011]%s_creaturedisplayinfoextra.sql" % sfx, "".join(ex))
+        ctx.col.put("creaturedisplayinfoextra", eid,
+                    dict(zip(EXTRA_COLS, ints + [tex])),
+                    tier="base", zone=sfx, owner="npc_appearance")
 
     return "displays_extfix=%d extra=%d warn=%d" % (len(updates), len(need_extra), warn)

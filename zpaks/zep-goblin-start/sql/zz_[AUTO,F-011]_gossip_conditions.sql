@@ -1,9 +1,15 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by `zep goblin gen` (F-011 translation layer).
+-- Any manual edit here is overwritten the next time gen runs.
+--   * To change this output: edit the gen emitter or a fixture.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- [F-011] gossip greeting/option conditions (CONDITION_SOURCE_TYPE_GOSSIP_MENU=14, _OPTION=15)
--- Ported from Project Neltharion 4.3.4: migrate_gossip.py renumbered gossip_menu/npc_text into
--- 510000+/500000+ blocks but never ported the conditions that pick WHICH greeting shows, so AC's
--- last-match-wins gossip selection always showed the final (post-quest) text. Menu/text IDs mapped
--- back through creature_template + rank-paired gossip_menu texts; quest ids unchanged.
--- 74 conditions (50 greeting + 24 option) across 28 menus.
+-- Ported so the greeting changes with quest state (AC last-match-wins otherwise shows the
+-- final post-quest text). 74 conditions (50 greeting + 24 option) across 28 menus.
 
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` IN (14,15) AND `SourceGroup` IN (510001, 510015, 510016, 510017, 510023, 510030, 510033, 510054, 510057, 510058, 510059, 510060, 510061, 510063, 510064, 510067, 510068, 510069, 510070, 510071, 510073, 510074, 510090, 510091, 510092, 510093, 510094, 510095);
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES

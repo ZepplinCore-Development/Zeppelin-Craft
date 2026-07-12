@@ -9,7 +9,7 @@
 
 -- [F-011] creature_text (NPC yells/says) migrated from Neltharion. Resolves SmartAI
 -- SMART_ACTION_TALK references (groupid) that were dangling. BroadcastTextId=0 (inline Text used).
--- Regenerate with migrate_creature_text.py. Idempotent (DELETE+INSERT per CreatureID).
+-- Regenerate with `zep goblin gen creature_text`. Idempotent (DELETE+INSERT per CreatureID).
 
 DELETE FROM creature_text WHERE CreatureID IN (23837,34668,34673,34689,34692,34693,34695,34696,34697,34830,34835,34872,34874,34876,34877,34878,35053,35054,35120,35175,35186,35200,35201,35222,35239,35294,35304,35650,35758,35769,35786,35838,35875,35893,35917,36112,36129,36145,36161,36403,36425,36470,36471,36519,36600,37106,37500,37602,37804,38120,38122,38124,38381,38387,38409,38432,38441,38517,38643,38647,38696,38738,38745,38746,38855,38928,39065,39066,39193,39194,39363,39426,39456,39582,48305,48494,48496,366150);
 INSERT INTO creature_text (CreatureID,GroupID,ID,Text,Type,Language,Probability,Emote,Duration,Sound,BroadcastTextId,TextRange,comment) VALUES

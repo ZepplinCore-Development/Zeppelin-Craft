@@ -31,7 +31,8 @@ def emit(ctx):
 
     gob = {_i(r["id"]) for r in ctx.q(
         "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS id FROM creature "
-        "WHERE TRIM(zone) IN ('%s','%s')" % ZONES)}
+        "WHERE TRIM(zone) IN ('%s','%s')"
+        " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)}  # no dev/leet NPCs (I-233)
     present = ctx.dbc_spell_ids()
 
     # Full scan (non-indexed columns force the clustered/insertion-order scan);

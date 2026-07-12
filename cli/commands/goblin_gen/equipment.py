@@ -54,7 +54,8 @@ def emit(ctx):
 
     gob = {_i(r["id"]) for r in ctx.q(
         "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS id FROM creature "
-        "WHERE TRIM(zone) IN ('%s','%s')" % ZONES)}
+        "WHERE TRIM(zone) IN ('%s','%s')"
+        " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)}  # no dev/leet NPCs (I-233)
     gset = ",".join(map(str, gob))
     rows = [(_i(r["entry"]), _i(r["itemEntry1"]), _i(r["itemEntry2"]), _i(r["itemEntry3"]))
             for r in ctx.q("SELECT entry,itemEntry1,itemEntry2,itemEntry3 "

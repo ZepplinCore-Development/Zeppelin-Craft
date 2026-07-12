@@ -8,7 +8,7 @@
 -- ============================================================
 
 -- F-011 Lost Isles trainers (npc_trainer -> AC trainer/creature_default_trainer/trainer_spell)
--- 24 trainers, 1174 spell rows (172 Cata-only spells skipped). TrainerId block 6601+.
+-- 24 trainers, 1177 spell rows (169 spells absent from 3.3.5a DBC skipped). TrainerId block 6601+.
 
 DELETE FROM trainer_spell WHERE TrainerId IN (6601,6602,6603,6604,6605,6606,6607,6608,6609,6610,6611,6612,6613,6614,6615,6616,6617,6618,6619,6620,6621,6622,6623,6624);
 DELETE FROM creature_default_trainer WHERE TrainerId IN (6601,6602,6603,6604,6605,6606,6607,6608,6609,6610,6611,6612,6613,6614,6615,6616,6617,6618,6619,6620,6621,6622,6623,6624);
@@ -201,6 +201,7 @@ INSERT INTO trainer_spell (TrainerId,SpellId,MoneyCost,ReqSkillLine,ReqSkillRank
   (6604,20608,7500,0,0,0,0,0,30,0),
   (6604,36936,7500,0,0,0,0,0,30,0),
   (6604,8512,7500,0,0,0,0,0,30,0),
+  (6604,73899,60,0,0,0,0,0,3,0),
   (6604,8075,97,0,0,0,0,0,4,0),
   (6604,8042,142,0,0,0,0,0,5,0),
   (6604,331,285,0,0,0,0,0,7,0),
@@ -474,6 +475,7 @@ INSERT INTO trainer_spell (TrainerId,SpellId,MoneyCost,ReqSkillLine,ReqSkillRank
   (6611,20608,7500,0,0,0,0,0,30,0),
   (6611,36936,7500,0,0,0,0,0,30,0),
   (6611,8512,7500,0,0,0,0,0,30,0),
+  (6611,73899,60,0,0,0,0,0,3,0),
   (6611,8075,97,0,0,0,0,0,4,0),
   (6611,8042,142,0,0,0,0,0,5,0),
   (6611,331,285,0,0,0,0,0,7,0),
@@ -767,6 +769,7 @@ INSERT INTO trainer_spell (TrainerId,SpellId,MoneyCost,ReqSkillLine,ReqSkillRank
   (6619,20608,7500,0,0,0,0,0,30,0),
   (6619,36936,7500,0,0,0,0,0,30,0),
   (6619,8512,7500,0,0,0,0,0,30,0),
+  (6619,73899,60,0,0,0,0,0,3,0),
   (6619,8075,97,0,0,0,0,0,4,0),
   (6619,8042,142,0,0,0,0,0,5,0),
   (6619,331,285,0,0,0,0,0,7,0),

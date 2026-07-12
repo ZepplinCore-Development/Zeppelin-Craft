@@ -153,12 +153,13 @@ class Collector:
         rec = self._a.get(table, {}).get(pk)
         return rec.final() if rec else None
 
-    def pks(self, table, zone=None):
-        """PKs contributed to a Kind-A table, optionally filtered to a base zone."""
+    def pks(self, table, zone=None, owner=None):
+        """PKs contributed to a Kind-A table, optionally filtered to a base zone
+        and/or the domain that owns the base row."""
         rows = self._a.get(table, {})
-        if zone is None:
-            return list(rows.keys())
-        return [pk for pk, rec in rows.items() if rec.zone == zone]
+        return [pk for pk, rec in rows.items()
+                if (zone is None or rec.zone == zone)
+                and (owner is None or rec.base_owner == owner)]
 
     # ---- Kind B: grouped rows --------------------------------------------
     def delete(self, table, where_sql):

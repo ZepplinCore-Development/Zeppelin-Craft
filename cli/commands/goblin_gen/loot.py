@@ -59,7 +59,8 @@ def emit(ctx):
 
     tmpl = {int(r['entry']): r for r in ctx.q("SELECT entry,name,lootid FROM creature_template")}
     spawned = [int(r['id']) for r in
-               ctx.q("SELECT DISTINCT TRIM(id) AS id FROM creature WHERE TRIM(zone)=%s", (zone,))]
+               ctx.q("SELECT DISTINCT TRIM(id) AS id FROM creature WHERE TRIM(zone)=%s"
+                     " AND CAST(TRIM(id) AS SIGNED) < 1000000", (zone,))]  # no dev/leet NPCs (I-233)
     li = [e for e in spawned if e in tmpl
           and not any(k in (tmpl[e]['name'] or '').lower() for k in NOISE)]
 

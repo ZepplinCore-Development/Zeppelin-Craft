@@ -26,7 +26,7 @@ The source script also copies GO M2 models into the zpak MPQ folder; that asset
 step is out of scope here (this module only emits SQL/DBC).
 """
 NAME = "gameobjects"
-TABLES = ["gameobject_template"]   # spawns / loot / dbc still legacy (Phase 4 / 3b)
+TABLES = ["gameobject_template", "gameobjectdisplayinfo"]   # spawns / loot still legacy (Phase 4)
 TIER = "base"
 
 # Stock herb/mining nodes that already exist in AC — spawn them, but reuse AC's
@@ -88,9 +88,11 @@ def emit(ctx):
         ctx.col.put("gameobject_template", e, _template_cols(e, gt[e]),
                     tier="base", zone=sfx, owner="gameobjects")
 
-    # ---- 02 gameobject spawns ----
+    # ---- 02 gameobject spawns (scope-curated: keeps dev props like the I-233
+    # Gnomey crate/aura column out even though their templates exist in source) ----
     spawns = ctx.q("SELECT * FROM gameobject WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
-    spawns = [s for s in spawns if int(s["id"]) in gt]
+    scope_set = set(scope["ents"]) | STOCK_GO
+    spawns = [s for s in spawns if int(s["id"]) in gt and int(s["id"]) in scope_set]
     sb = ["-- F-011 Lost Isles gameobject spawns (map648->map1 offset, source phaseMask preserved for F-194 phasing)\n",
           "-- guid block %d..%d\n\n" % (guid_base, guid_base + len(spawns)),
           "DELETE FROM gameobject WHERE guid BETWEEN %d AND %d;\n" % (guid_base, guid_base + len(spawns) + 10),
@@ -164,12 +166,10 @@ def emit(ctx):
     # ---- DBC: GameObjectDisplayInfo additions (models absent from 3.3.5a) ----
     needed = sorted(set(_gi(gt[e], "displayId") for e in ents
                         if _gi(gt[e], "displayId") in disp_paths))
-    db = ["-- F-011 GameObjectDisplayInfo additions (client PATCH-Z; model paths from wago 4.4.2)\n\n"]
     for did in needed:
-        db.append("DELETE FROM gameobjectdisplayinfo WHERE id = %d;\n" % did)
-        db.append("INSERT INTO gameobjectdisplayinfo (id, model_name) VALUES (%d, %s);\n"
-                  % (did, _esc(disp_paths[did])))
-    ctx.write("dbc/[AUTO,F-011]%s_gameobjectdisplayinfo.sql" % sfx, "".join(db))
+        ctx.col.put("gameobjectdisplayinfo", did,
+                    {"id": did, "model_name": disp_paths[did]},
+                    tier="base", zone=sfx, owner="gameobjects")
 
     return ("templates=%d spawns=%d loot=%d/%d(rows/tables) quest_go=%d dbc_disp=%d"
             % (len([e for e in ents if e not in STOCK_GO]), len(spawns),

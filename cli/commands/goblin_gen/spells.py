@@ -6,8 +6,7 @@ Whitemane 4.3.4 DBCs into the 3.3.5a `spell` table. Assembles Spell.dbc (48-fiel
 3.3.5a defaults; name/desc/effects/school are real. Ported verbatim from
 Scripts/Goblin Zone Port/build_spells.py.
 
-Emitted as a SINGLE non-SFX DBC file (dbc/[AUTO,F-011]_spell.sql) — the spell set
-is zone-independent, matching the source script which writes one [F-011]_spell.sql.
+Rows feed the collector's `spell` table (one file, zone-independent set).
 
 NOTE: an earlier attempt to also port creature *ability* spells was reverted (boot
 crash at SpellInfo load, I-230); this emitter only ports the quest-item spells in
@@ -16,6 +15,8 @@ the missing_spells fixture, reproducing the current committed base state.
 import struct
 
 NAME = "spells"
+TABLES = ["spell"]
+TIER = "base"
 
 # columns that are `int unsigned` and hold high-bit masks -> convert signed read to unsigned
 UMASK = {"attributes", "attributes_ex_1", "attributes_ex_2", "attributes_ex_3", "attributes_ex_4",
@@ -54,6 +55,8 @@ def _rd(path):
 
 
 def emit(ctx):
+    if ctx.sfx:
+        return "skipped (zone-independent; emitted on Lost Isles pass)"
     missing = set(ctx.fixture("missing_spells"))
 
     # Spell.dbc (48 fields) index by ID -> row + string reader
@@ -134,11 +137,7 @@ def emit(ctx):
                 c["effect_spell_class_mask_a_%d" % n] = e[17]; c["effect_spell_class_mask_b_%d" % n] = e[18]; c["effect_spell_class_mask_c_%d" % n] = e[19]
         sql_rows.append((sid, name, c))
 
-    out = ["-- F-011 Cata-new quest-item spells ported from Whitemane 4.3.4 (name/desc/effects/school real; cast/range defaulted)\n"]
     for sid, name, c in sql_rows:
-        out.append("-- %d %s" % (sid, name))
-        out.append("DELETE FROM spell WHERE id=%d;" % sid)
         c = {k: (v & 0xFFFFFFFF if (k in UMASK and isinstance(v, int) and v < 0) else v) for k, v in c.items()}
-        out.append("INSERT INTO spell SET " + ", ".join("`%s`=%s" % (k, ctx.esc(v)) for k, v in c.items()) + ";\n")
-    ctx.write("dbc/[AUTO,F-011]_spell.sql", "\n".join(out) + "\n")
+        ctx.col.put("spell", sid, c, tier="base", owner="spells", note="%d %s" % (sid, name))
     return "spells=%d" % len(sql_rows)

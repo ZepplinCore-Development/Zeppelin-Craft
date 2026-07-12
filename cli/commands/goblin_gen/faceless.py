@@ -6,15 +6,18 @@ Faceless of the Deep (38448) was the last ghoul-fallback creature; its model 332
 (CREATURE\\FACELESSONEAQUATIC\\FACELESSONEAQUATIC.M2) is retroported Cata v272 ->
 WotLK v264 and shipped (asset side effect, outside the CLI). It is a monster model
 (texture_variation 'FacelessoneAquatic1Green', no bake). This emitter reproduces
-only the fixed wiring rows:
-
-    dbc/[AUTO,F-011]_faceless_retroport.sql   -- CreatureModelData + CreatureDisplayInfo
-    sql/[AUTO,F-011]_faceless_repoint.sql     -- creature_model_info + repoint
+only the fixed wiring rows, fed into the collector: creaturemodeldata +
+creaturedisplayinfo + creature_model_info (owned), and the creature_template_model
+repoint off the ghoul fallback as an overlay on the creatures-domain base row.
 
 Every value is a constant in the source script, so this output is fully static.
-Zone-independent; emitted once, on the Lost Isles pass.
+Zone-independent; emitted once, on the Lost Isles pass. Overlay wave so the
+creatures base rows exist when the repoint lands.
 """
 NAME = "faceless"
+TABLES = ["creaturemodeldata", "creaturedisplayinfo", "creature_model_info",
+          "creature_template_model"]
+TIER = "overlay"
 
 TEXVAR = "FacelessoneAquatic1Green"
 DISPLAY, MODELID, CREATURE = 31674, 3327, 38448
@@ -34,32 +37,25 @@ DI_COLS = ["id", "model_id", "sound_id", "extended_display_info_id", "creature_m
            "npc_sound_id", "praticle_color_id", "creature_geoset_data", "obj_effect_package_id"]
 
 
-def _esc(v):
-    return "'" + v.replace("\\", "\\\\").replace("'", "''") + "'" if isinstance(v, str) else str(v)
-
-
 def emit(ctx):
     if ctx.sfx == "_K":
         return "skipped (zone-independent; emitted on Lost Isles pass)"
 
-    # ---- DBC: model + display ----
-    b = ["-- F-011 Faceless of the Deep (38448) retroported model 3327 + display 31674\n\n"]
+    # ---- DBC: model + display (owned rows) ----
     md = [MODELID, 0, MODEL_PATH, 1, 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0, 2.5, 0,
           -1, -1, -1, 1, 1, 2, 1.0, 1.0, 0, 0, 0]
-    b.append("DELETE FROM creaturemodeldata WHERE id=%d;\n" % MODELID)
-    b.append("INSERT INTO creaturemodeldata (%s) VALUES (%s);\n" % (
-        ",".join(MD_COLS), ",".join(_esc(v) for v in md)))
+    ctx.col.put("creaturemodeldata", MODELID, dict(zip(MD_COLS, md)),
+                tier="base", owner="faceless")
     di = [DISPLAY, MODELID, 0, 0, 1.0, 255, TEXVAR, "", "", "", 0, 0, 0, 0, 0, 0]
-    b.append("DELETE FROM creaturedisplayinfo WHERE id=%d;\n" % DISPLAY)
-    b.append("INSERT INTO creaturedisplayinfo (%s) VALUES (%s);\n" % (
-        ",".join(DI_COLS), ",".join(_esc(v) for v in di)))
-    ctx.write("dbc/[AUTO,F-011]_faceless_retroport.sql", "".join(b))
+    ctx.col.put("creaturedisplayinfo", DISPLAY, dict(zip(DI_COLS, di)),
+                tier="base", owner="faceless")
 
-    # ---- server SQL: model_info + repoint ----
-    b = ["-- F-011 Faceless of the Deep model_info + repoint off ghoul fallback 646\n\n"]
-    b.append("DELETE FROM creature_model_info WHERE DisplayID=%d;\n" % DISPLAY)
-    b.append("INSERT INTO creature_model_info (DisplayID,BoundingRadius,CombatReach,Gender,DisplayID_Other_Gender,VerifiedBuild) VALUES (%d,1.0,3.0,2,0,0);\n\n" % DISPLAY)
-    b.append("UPDATE creature_template_model SET CreatureDisplayID=%d WHERE CreatureID=%d;\n" % (DISPLAY, CREATURE))
-    ctx.write("sql/zz_[AUTO,F-011]_faceless_repoint.sql", "".join(b))
+    # ---- server: model_info (owned) + repoint off ghoul fallback 646 (overlay) ----
+    ctx.col.put("creature_model_info", DISPLAY, {
+        "DisplayID": DISPLAY, "BoundingRadius": 1.0, "CombatReach": 3.0,
+        "Gender": 2, "DisplayID_Other_Gender": 0, "VerifiedBuild": 0,
+    }, tier="base", owner="faceless")
+    ctx.col.put("creature_template_model", CREATURE,
+                {"CreatureDisplayID": DISPLAY}, tier="overlay")
 
     return "display=%d model=%d repoint=%d" % (DISPLAY, MODELID, CREATURE)

@@ -59,7 +59,8 @@ def emit(ctx):
 
     zone_list = ",".join("'%s'" % z for z in _ZONES)
     gob = set(_i(r['e']) for r in ctx.q(
-        "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS e FROM creature WHERE TRIM(zone) IN (%s)" % zone_list))
+        "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS e FROM creature WHERE TRIM(zone) IN (%s)"
+        " AND CAST(TRIM(id) AS SIGNED) < 1000000" % zone_list))  # no dev/leet NPCs (I-233)
 
     def valid_items(tbl, idset):
         items = set(_i(r['item']) for r in ctx.q(

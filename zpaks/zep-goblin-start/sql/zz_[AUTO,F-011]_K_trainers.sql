@@ -8,7 +8,7 @@
 -- ============================================================
 
 -- F-011 Lost Isles trainers (npc_trainer -> AC trainer/creature_default_trainer/trainer_spell)
--- 7 trainers, 17 spell rows (1 Cata-only spells skipped). TrainerId block 6701+.
+-- 7 trainers, 18 spell rows (0 spells absent from 3.3.5a DBC skipped). TrainerId block 6701+.
 
 DELETE FROM trainer_spell WHERE TrainerId IN (6701,6702,6703,6704,6705,6706,6707);
 DELETE FROM creature_default_trainer WHERE TrainerId IN (6701,6702,6703,6704,6705,6706,6707);
@@ -43,6 +43,7 @@ INSERT INTO trainer_spell (TrainerId,SpellId,MoneyCost,ReqSkillLine,ReqSkillRank
   (6704,2098,60,0,0,0,0,0,3,0),
   (6704,1784,142,0,0,0,0,0,5,0),
   (6705,8042,142,0,0,0,0,0,5,0),
+  (6705,73899,60,0,0,0,0,0,3,0),
   (6705,8075,97,0,0,0,0,0,4,0),
   (6705,2825,117333,0,0,0,0,0,70,0),
   (6706,172,97,0,0,0,0,0,4,0),

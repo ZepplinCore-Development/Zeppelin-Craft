@@ -1,9 +1,16 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by `zep goblin gen` (F-011 translation layer).
+-- Any manual edit here is overwritten the next time gen runs.
+--   * To change this output: edit the gen emitter or a fixture.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- [F-011] DERIVED gossip greeting gating (NOT from Neltharion source).
--- These menus have a before/after greeting pair but no source condition, so AC's
--- last-match-wins gossip selection showed the "after" text unconditionally (greeting
--- read as if the quest was already done). Gating inferred from each NPC's quest
--- relations; each pair gated order-independently: before = NOT rewarded, after = rewarded.
--- Only the 3 high-confidence menus (others deferred: 510023 ambiguous, 510087 ambient).
+-- Menus with a before/after greeting pair but no source condition -> AC last-match-wins
+-- showed the "after" text unconditionally. Gating inferred from each NPC's quest
+-- relations; before = NOT rewarded, after = rewarded. Only high-confidence menus.
 
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=14 AND `SourceGroup` IN (510013,510025,510053);
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES

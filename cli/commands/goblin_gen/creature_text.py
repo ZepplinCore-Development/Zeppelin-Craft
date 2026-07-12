@@ -30,7 +30,8 @@ def emit(ctx):
 
     gob = sorted({_i(r["id"]) for r in ctx.q(
         "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS id FROM creature "
-        "WHERE TRIM(zone) IN ('%s','%s')" % ZONES)})
+        "WHERE TRIM(zone) IN ('%s','%s')"
+        " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)})  # no dev/leet NPCs (I-233)
     gset = ",".join(str(e) for e in gob)
     rows = ctx.q(
         "SELECT * FROM creature_text WHERE CAST(TRIM(entry) AS SIGNED) IN (%s) "

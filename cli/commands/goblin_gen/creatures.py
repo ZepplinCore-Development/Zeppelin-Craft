@@ -25,10 +25,21 @@ Asset Library scan; those non-reproducible inputs are replaced by the committed
 """
 import os
 import struct
+import importlib.util
 
 NAME = "creatures"
-TABLES = ["creature_template", "creature_template_model", "creature"]
+TABLES = ["creature_template", "creature_template_model", "creature",
+          "creature_model_info", "creaturemodeldata", "creaturedisplayinfo"]
 TIER = "base"
+
+
+def _sibling_const(modname, attr):
+    """Read a constant from a sibling gen-domain module (single source of truth)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
+    spec = importlib.util.spec_from_file_location("goblin_gen_" + modname, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return getattr(mod, attr)
 
 DX, DY = -533.3333, -12800.0                 # map648 -> map1 offset
 ZONE = {"": "4720", "_K": "4737"}            # Lost Isles / Kezan
@@ -41,6 +52,12 @@ FACTION_FALLBACK = 35
 # fallback stock displays for creatures whose model is unavailable, by creature type
 TYPE_FALLBACK = {1: 646, 2: 1126, 3: 1133, 4: 802, 6: 2400, 7: 1133, 0: 646, 8: 646, 10: 646}
 DEFAULT_FALLBACK = 646
+# STOCK CreatureModelData rows we INTENTIONALLY override with the Cata (Whitemane)
+# retune: goblin-zone displays use these models and the Cata meshes/values are the
+# shipped state (831/832 = HD goblin char models the playable worgoblin race uses).
+# Any other stock model id is never re-emitted — the Whitemane copy would clobber
+# the client's own model data (e.g. 49 HumanMale) for every creature that uses it.
+RETUNE_STOCK_MODELS = {611, 831, 832, 2353, 2354, 2923}
 # Cata cursor IconNames absent from the 3.3.5a client -> valid 3.3.5a equivalents.
 # An unknown IconName makes the client blank the mouseover cursor (I-234: Defiant Troll
 # 'openhandglow' -> no hover cursor). 'Interact' is the 3.3.5a gear/cog "use" cursor
@@ -58,17 +75,6 @@ MD_COLS = ["id", "flags", "model_path", "size_class", "model_scale", "blood_id",
            "mount_height", "geo_box_min_x", "geo_box_min_y", "geo_box_min_z", "geo_box_max_x",
            "geo_box_max_y", "geo_box_max_z", "world_effect_scale", "attached_effect_scale",
            "missile_collision_radius", "missile_collision_push", "missile_collision_raise"]
-
-
-def _esc(v):
-    """SQL literal, matching the source script (None->NULL, trimmed float, escaped str)."""
-    if v is None:
-        return "NULL"
-    if isinstance(v, str):
-        return "'" + v.replace("\\", "\\\\").replace("'", "''") + "'"
-    if isinstance(v, float):
-        return ("%.6f" % v).rstrip("0").rstrip(".") or "0"
-    return str(v)
 
 
 def _norm(p):
@@ -131,19 +137,30 @@ def emit(ctx):
     zone = ZONE[sfx]
     guid_base = GUID_BASE[sfx]
 
-    present_disp = {int(r["id"]) for r in ctx.dbc_query("SELECT id FROM creaturedisplayinfo")}
+    # STOCK display/model sets (pristine original_dbc, never the live/edited dbc) so
+    # ship-vs-stock classification is deterministic and independent of apply state.
+    present_disp = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM creaturedisplayinfo")}
+    present_mdl = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM creaturemodeldata")}
     valid_factions = _valid_faction_ids()
     disp = _read_typed(ctx, "CreatureDisplayInfo.dbc", 16, {6, 7, 8, 9}, {4})
     mdl = _read_typed(ctx, "CreatureModelData.dbc", 28, {2},
                       {4, 7, 8, 9, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27})
     fb = ctx.fixture("fb_plan")
     needmodel = {int(r[0]) for r in fb["needmodel"]}   # retroported later -> placeholder 646 now
+    # Creatures whose displays are CURATED by the fallback overlay domains (bake
+    # clamps / retroports): keep the 646 placeholder here, they repoint via overlay.
+    curated = set(_sibling_const("fallback646", "GHOUL_FALLBACK"))
+    curated.add(_sibling_const("faceless", "CREATURE"))
+    needmodel |= curated
 
     tmpl = {int(r["entry"]): r for r in ctx.q("SELECT * FROM creature_template")}
     ents = [int(r["id"]) for r in
             ctx.q("SELECT DISTINCT TRIM(id) AS id FROM creature WHERE TRIM(zone)=%s", (zone,))]
+    # e < 1000000: Neltharion donor dev/test NPCs use placeholder/leet entries
+    # (1234567 Gnomey, 1337016 XP Rates) — never real Cata content (I-233).
     real = [e for e in ents
-            if e in tmpl and not any(k in (tmpl[e]["name"] or "").lower() for k in NOISE)]
+            if e in tmpl and e < 1000000
+            and not any(k in (tmpl[e]["name"] or "").lower() for k in NOISE)]
     real_set = set(real)
     entries_sorted = sorted(real)
 
@@ -184,7 +201,11 @@ def emit(ctx):
                     mrow[2] = re.sub(r"(?i)_hd", "", mrow[2])   # _HD model -> its stock base path
                 model_id = di[1]
                 dbc_disp_needed[d0] = di
-                dbc_mdl_needed[model_id] = mrow
+                # never re-emit a STOCK model row (the Whitemane copy would
+                # overwrite the client's own char/creature model data) unless
+                # it is a curated Cata retune we ship the mesh for
+                if model_id not in present_mdl or model_id in RETUNE_STOCK_MODELS:
+                    dbc_mdl_needed[model_id] = mrow
                 scale = di[4] or 1.0
                 cw = mrow[14] or 0.0
                 ch = mrow[15] or 0.0
@@ -251,15 +272,11 @@ def emit(ctx):
         }, tier="base", zone=sfx, owner="creatures")
 
     # ---- server creature_model_info (custom displays) ----
-    b = ["-- F-011 creature_model_info (server, custom/non-stock displays)\n"]
-    if model_info_needed:
-        ids = ",".join(str(d) for d in sorted(model_info_needed))
-        b.append("DELETE FROM creature_model_info WHERE DisplayID IN (%s);" % ids)
-        b.append("INSERT INTO creature_model_info "
-                 "(DisplayID,BoundingRadius,CombatReach,Gender,DisplayID_Other_Gender,VerifiedBuild) VALUES")
-        b.append(",\n".join("  (%d,%s,%s,2,0,0)" % (d, _esc(br), _esc(cr))
-                            for d, (br, cr) in sorted(model_info_needed.items())) + ";")
-    ctx.write("sql/zz_[AUTO,F-011]%s_creatures_03_model_info.sql" % sfx, "\n".join(b) + "\n")
+    for d, (br, cr) in model_info_needed.items():
+        ctx.col.put("creature_model_info", d, {
+            "DisplayID": d, "BoundingRadius": br, "CombatReach": cr,
+            "Gender": 2, "DisplayID_Other_Gender": 0, "VerifiedBuild": 0,
+        }, tier="base", zone=sfx, owner="creatures")
 
     # ---- spawns ----
     spawns = ctx.q("SELECT * FROM creature WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
@@ -290,19 +307,16 @@ def emit(ctx):
         }, sort_key=g)
 
     # ---- DBC additions (client PATCH-Z) ----
-    b = ["-- F-011 CreatureModelData additions (client PATCH-Z)\n"]
-    for mid in sorted(dbc_mdl_needed):
-        b.append("DELETE FROM creaturemodeldata WHERE id = %d;" % mid)
-        b.append("INSERT INTO creaturemodeldata (%s) VALUES (%s);" % (
-            ",".join(MD_COLS), ",".join(_esc(v) for v in dbc_mdl_needed[mid])))
-    ctx.write("dbc/[AUTO,F-011]%s_creaturemodeldata.sql" % sfx, "\n".join(b) + "\n\n")
-
-    b = ["-- F-011 CreatureDisplayInfo additions (client PATCH-Z)\n"]
-    for did in sorted(dbc_disp_needed):
-        b.append("DELETE FROM creaturedisplayinfo WHERE id = %d;" % did)
-        b.append("INSERT INTO creaturedisplayinfo (%s) VALUES (%s);" % (
-            ",".join(DI_COLS), ",".join(_esc(v) for v in dbc_disp_needed[did])))
-    ctx.write("dbc/[AUTO,F-011]%s_creaturedisplayinfo.sql" % sfx, "\n".join(b) + "\n\n")
+    for mid, vals in dbc_mdl_needed.items():
+        # negative int sentinels (e.g. blood_id -1) -> unsigned, matching how the
+        # stock DBC stores them (columns are int unsigned; floats stay signed)
+        cols = {k: (v & 0xFFFFFFFF if isinstance(v, int) and v < 0 else v)
+                for k, v in zip(MD_COLS, vals)}
+        ctx.col.put("creaturemodeldata", mid, cols,
+                    tier="base", zone=sfx, owner="creatures")
+    for did, vals in dbc_disp_needed.items():
+        ctx.col.put("creaturedisplayinfo", did, dict(zip(DI_COLS, vals)),
+                    tier="base", zone=sfx, owner="creatures")
 
     return ("creatures=%d spawns=%d dbc_disp=%d dbc_mdl=%d model_info=%d" %
             (len(entries_sorted), len(spawns), len(dbc_disp_needed),

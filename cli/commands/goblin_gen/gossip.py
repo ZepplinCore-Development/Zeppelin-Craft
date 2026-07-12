@@ -72,7 +72,8 @@ def emit(ctx):
     # Goblin NPCs (both zones) and their gossip menus.
     gob = set(_i(r["c"]) for r in
               q("SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS c FROM creature "
-                "WHERE TRIM(zone) IN (%s)" % zone_in))
+                "WHERE TRIM(zone) IN (%s)"
+                " AND CAST(TRIM(id) AS SIGNED) < 1000000" % zone_in))  # no dev/leet NPCs (I-233)
     cre_menu = {}
     for r in q("SELECT CAST(TRIM(entry) AS SIGNED) AS e, gossip_menu_id AS gm "
                "FROM creature_template"):

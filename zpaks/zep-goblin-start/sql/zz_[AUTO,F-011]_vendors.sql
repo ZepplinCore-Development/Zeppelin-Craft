@@ -7,7 +7,7 @@
 --     (it loads after these rows and overrides the ones it needs).
 -- ============================================================
 
--- F-011 Lost Isles vendor inventories (npc_vendor; custom items remapped)
+-- F-011 vendor inventories (npc_vendor; custom items remapped)
 
 DELETE FROM npc_vendor WHERE entry IN (36427,36430,36432,36464,36465,36466,36467,36501,38381,38511,39063,45286);
 INSERT INTO npc_vendor (entry,slot,item,maxcount,incrtime,ExtendedCost,VerifiedBuild) VALUES
