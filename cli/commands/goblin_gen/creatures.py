@@ -39,6 +39,10 @@ FACTION_FALLBACK = 35
 # fallback stock displays for creatures whose model is unavailable, by creature type
 TYPE_FALLBACK = {1: 646, 2: 1126, 3: 1133, 4: 802, 6: 2400, 7: 1133, 0: 646, 8: 646, 10: 646}
 DEFAULT_FALLBACK = 646
+# Cata cursor IconNames absent from the 3.3.5a client -> valid 3.3.5a equivalents.
+# An unknown IconName makes the client blank the mouseover cursor (I-234: Defiant Troll
+# 'openhandglow' -> no hover cursor). Stock 3.3.5a click-quest mobs use 'LootAll'/'Pickup'.
+ICONNAME_MAP = {"openhandglow": "LootAll"}
 
 DI_COLS = ["id", "model_id", "sound_id", "extended_display_info_id", "creature_model_scale",
            "creature_model_alpha", "texture_variation_1", "texture_variation_2",
@@ -209,7 +213,7 @@ def emit(ctx):
             "entry": e, "difficulty_entry_1": 0, "difficulty_entry_2": 0, "difficulty_entry_3": 0,
             "KillCredit1": int(t["KillCredit1"] or 0), "KillCredit2": int(t["KillCredit2"] or 0),
             "name": (t["name"] or "").strip(), "subname": (t["subname"] or "").strip() or None,
-            "IconName": (t["IconName"] or "").strip() or None,
+            "IconName": (lambda s: ICONNAME_MAP.get(s, s) or None)((t["IconName"] or "").strip()),
             "gossip_menu_id": int(t["gossip_menu_id"] or 0),
             "minlevel": int(_or(t["minlevel"], 1)), "maxlevel": int(_or(t["maxlevel"], 1)),
             "exp": exp, "faction": faction, "npcflag": int(t["npcflag"] or 0),
