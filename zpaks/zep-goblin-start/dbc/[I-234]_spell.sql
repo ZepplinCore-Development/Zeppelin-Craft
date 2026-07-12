@@ -12,6 +12,7 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 3,
     `effect_implicit_target_a_1` = 25,
+    `spell_visual_1` = 173,
     `spell_icon_id` = 687,
     `spell_name_enus` = 'Goblin All-In-1-Der Belt Shocker',
     `spell_desc_enus` = 'Adjust the targeted Troll Slacker''s attitude using the battery from your Goblin All-In-1der Belt.',
