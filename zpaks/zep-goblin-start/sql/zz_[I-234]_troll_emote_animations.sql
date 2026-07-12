@@ -1,5 +1,5 @@
 -- I-234: give the Kezan camp trolls looping emote states that ACTUALLY render on
--- the forest-troll character model 2613 (set by zz_[I-235]_troll_forest_displays.sql).
+-- the forest-troll character model 2613 (set by zz_[I-234]_troll_forest_displays.sql).
 --
 -- Why this is needed: the Neltharion (Cata) import scripted the Defiant Troll to
 -- pick a random emote on respawn from actionlists 3483001..3483004, but only

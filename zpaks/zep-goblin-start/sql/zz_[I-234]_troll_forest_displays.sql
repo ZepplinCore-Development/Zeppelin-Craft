@@ -1,6 +1,8 @@
--- I-235: Kezan trolls (Defiant/Rebellious/Slave/Worker) use bare, self-textured
--- forest-troll looks on the native *character* model 2613
--- (CHARACTER\FORESTTROLL\MALE\FORESTTROLLMALE.M2).
+-- I-234 (merged, was I-235): Kezan trolls (Defiant/Rebellious/Slave/Worker) use
+-- bare, self-textured forest-troll looks on the native *character* model 2613
+-- (CHARACTER\FORESTTROLL\MALE\FORESTTROLLMALE.M2). The Kezan-troll render/display/
+-- animation work (former issues I-232, I-234, I-235) is now tracked under I-234;
+-- see also the companion emote file zz_[I-234]_troll_emote_animations.sql.
 --
 -- History / correction: earlier revisions of this file avoided model 2613 as
 -- "white / bake-dependent" and fell back to display 298 (creature model 119,
