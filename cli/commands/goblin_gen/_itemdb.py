@@ -72,10 +72,12 @@ class WhitemaneItems:
         # icon chain: DisplayInfoID -> Whitemane ItemDisplayInfo InventoryIcon (field 5)
         recs, gs = ctx.read_wdbc(ctx.whitemane_dbc("ItemDisplayInfo.dbc"))
         self._disp_icon = {r[0]: (gs(r[5]) if r[5] else "") for r in recs}
-        # live 3.3.5a itemdisplayinfo: icon basename (lower) -> lowest sharing displayid
+        # live 3.3.5a itemdisplayinfo: icon basename (lower) -> lowest sharing displayid.
+        # Restricted to the STOCK id range (< 200000) so resolution never depends on
+        # our own custom F-011 rows (200100+) that may or may not be applied yet.
         self._icon_disp = {}
         for row in ctx.dbc_query(
-                "SELECT id, icon_1 FROM itemdisplayinfo WHERE icon_1 <> '' ORDER BY id"):
+                "SELECT id, icon_1 FROM itemdisplayinfo WHERE icon_1 <> '' AND id < 200000 ORDER BY id"):
             k = (row["icon_1"] or "").strip().lower()
             if k and k not in self._icon_disp:
                 self._icon_disp[k] = row["id"]
@@ -101,6 +103,28 @@ def remap(ctx):
     """missing_items -> reserved 84300+ block (sorted; matches migrate_items snapshot)."""
     missing = sorted(ctx.fixture("missing_items"))
     return missing, {cata: RESERVE_BASE + i for i, cata in enumerate(missing)}
+
+
+def full_remap(ctx):
+    """The authoritative, already-aggregated Cata->newid map (item_remap.json:
+    Lost Isles + Kezan + vendor goods, 84300..84504). Keys coerced to int."""
+    return {int(k): v for k, v in ctx.fixture("item_remap").items()}
+
+
+def _fixture_opt(ctx, name):
+    try:
+        return ctx.fixture(name)
+    except (FileNotFoundError, IOError):
+        return None
+
+
+def zone_catas(ctx):
+    """Cata source ids owned by the current zone pass (ctx.sfx): the drop/quest
+    `missing_items{sfx}` set plus the `vendor_new_items{sfx}` goods."""
+    sfx = ctx.sfx
+    catas = set(_fixture_opt(ctx, "missing_items" + sfx) or [])
+    catas |= set(_fixture_opt(ctx, "vendor_new_items" + sfx) or [])
+    return sorted(int(c) for c in catas)
 
 
 def esc(v):

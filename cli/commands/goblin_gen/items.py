@@ -10,6 +10,8 @@ import os
 import sys
 
 NAME = "items"
+TABLES = ["item_template"]
+TIER = "base"
 RESERVE_BASE = 84300
 
 _CLI_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -42,16 +44,16 @@ def _esc(v):
 
 
 def emit(ctx):
-    if ctx.sfx:                      # single combined file built from the Lost Isles missing-items set
-        return "skipped (%s: items emit on the '' pass)" % ctx.sfx
-
-    from lib.icon_resolver import IconResolver
-    resolver = IconResolver()
-    resolver._fdid_to_icon = resolver._load_listfile()
-    resolver._icon_to_display = resolver._load_displays()
-
-    missing = sorted(ctx.fixture("missing_items"))
-    remap = {cata: RESERVE_BASE + i for i, cata in enumerate(missing)}
+    # Runs per zone pass. The drop/quest item set for this zone is missing_items{sfx};
+    # newids come from the authoritative item_remap.json (Lost Isles 84300+, Kezan 84460+).
+    # displayid is left 0 here and owned entirely by the item_icons overlay (which
+    # resolves it deterministically to a stock display or mints a custom icon row).
+    try:
+        missing = sorted(ctx.fixture("missing_items" + ctx.sfx))
+    except (FileNotFoundError, IOError):
+        return "skipped (no missing_items%s fixture)" % ctx.sfx
+    full = {int(k): v for k, v in ctx.fixture("item_remap").items()}
+    remap = {cata: full[cata] for cata in missing if cata in full}
 
     item_meta = {}
     for r in ctx.wago("item_442"):
@@ -77,7 +79,7 @@ def emit(ctx):
             "entry": newid, "class": _gi(m, "ClassID"), "subclass": _gi(m, "SubclassID"),
             "SoundOverrideSubclass": _gi(m, "Sound_override_subclassID", -1) if m.get("Sound_override_subclassID") else -1,
             "name": (s.get("Display_lang") or "").strip(),
-            "displayid": resolver.resolve(m.get("IconFileDataID")) if m else 0,
+            "displayid": 0,   # owned by item_icons overlay (stock-first, deterministic)
             "Quality": _gi(s, "OverallQualityID"), "Flags": (_gi(s, "Flags_0") & 0x7FFFFFFF),  # FlagsExtra omitted (commented out in the original)
             "BuyCount": max(_gi(s, "VendorStackCount", 1), 1), "BuyPrice": _gi(s, "BuyPrice"), "SellPrice": _gi(s, "SellPrice"),
             "InventoryType": _gi(s, "InventoryType") or _gi(m, "InventoryType"),
@@ -126,13 +128,8 @@ def emit(ctx):
         rows_out.append((newid, cata, cols))
 
     rows_out.sort()
-    b = ["-- F-011 Lost Isles custom items (from wago ItemSparse 4.4.2, renumbered to 84300+)",
-         "-- %d items. Owned custom rows: DELETE+INSERT. Icons (displayid) resolved from" % len(rows_out),
-         "-- each item's Cata IconFileDataID via the client listfile + ItemDisplayInfo.\n"]
     for newid, cata, cols in rows_out:
-        b.append("-- Cata %d -> %d  (%s)" % (cata, newid, cols["name"]))
-        b.append("DELETE FROM item_template WHERE entry = %d;" % newid)
-        b.append("INSERT INTO item_template SET")
-        b.append(",\n".join("  `%s` = %s" % (k, _esc(v)) for k, v in cols.items()) + ";\n")
-    ctx.write("sql/zz_[AUTO,F-011]_items.sql", "\n".join(b) + "\n")
-    return "items=%d (wago ItemSparse 4.4.2)" % len(rows_out)
+        ctx.col.put("item_template", newid, cols, tier="base", zone=ctx.sfx,
+                    owner="items", note="Cata %d -> %d  (%s)" % (cata, newid, cols["name"]))
+    return "items=%d (wago ItemSparse 4.4.2, %s)" % (
+        len(rows_out), "Kezan" if ctx.sfx else "Lost Isles")

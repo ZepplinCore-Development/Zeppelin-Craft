@@ -189,8 +189,13 @@ class Collector:
     def _render_a(self, table, cfg):
         pk = cfg["pk"]
         out = []
+        skipped = 0
         for key in sorted(self._a[table].keys(), key=lambda x: (isinstance(x, str), x)):
             rec = self._a[table][key]
+            if not rec.base:
+                # overlay-only row (no base contributor) -> would be column-incomplete; skip.
+                skipped += 1
+                continue
             row = rec.final()
             if not row:
                 continue
@@ -202,6 +207,8 @@ class Collector:
             out.append("DELETE FROM %s WHERE %s = %s;" % (table, pk, _esc(key)))
             out.append("INSERT INTO %s SET" % table)
             out.append(",\n".join("  `%s` = %s" % (k, _esc(v)) for k, v in row.items()) + ";\n")
+        if skipped:
+            out.insert(0, "-- note: %d overlay-only row(s) skipped (no base contributor)\n" % skipped)
         return "\n".join(out) + "\n"
 
     def _render_b(self, table):

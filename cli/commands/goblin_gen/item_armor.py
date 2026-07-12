@@ -15,10 +15,14 @@ depending on whether armor was already applied. Single file, emitted on the Lost
 import os
 
 NAME = "item_armor"
+TABLES = ["item_template"]
+TIER = "overlay"
 
 CUSTOM_LO, CUSTOM_HI = 84300, 84799
 ARMOR_SLOTS = "(1,3,5,6,7,8,9,10,14)"   # head/shoulder/chest/waist/legs/feet/wrist/hands/shield
 ARMOR_SUBCLASSES = "(1,2,3,4,6)"        # cloth/leather/mail/plate/shield
+_ARMOR_SLOT_SET = {1, 3, 5, 6, 7, 8, 9, 10, 14}
+_ARMOR_SUBCLASS_SET = {1, 2, 3, 4, 6}
 
 
 def _world_query(sql):
@@ -36,13 +40,17 @@ def _world_query(sql):
 
 
 def emit(ctx):
-    if ctx.sfx:
-        return "skipped (combined file emitted on Lost Isles pass only)"
-
-    items = _world_query(
-        "SELECT entry,class,subclass,InventoryType,ItemLevel FROM item_template "
-        "WHERE entry BETWEEN %d AND %d AND class=4 AND subclass IN %s "
-        "AND InventoryType IN %s" % (CUSTOM_LO, CUSTOM_HI, ARMOR_SUBCLASSES, ARMOR_SLOTS))
+    # Overlay: read this zone's custom armor pieces straight from the collector's
+    # base rows (no dependency on the item SQL being applied first), and derive
+    # armor from stock WotLK analogs still queried live (stock rows always exist).
+    items = []
+    for entry in ctx.col.pks("item_template", zone=ctx.sfx):
+        row = ctx.col.get("item_template", entry)
+        if not row or int(row.get("class", 0)) != 4:
+            continue
+        sc, it = int(row.get("subclass", 0)), int(row.get("InventoryType", 0))
+        if sc in _ARMOR_SUBCLASS_SET and it in _ARMOR_SLOT_SET:
+            items.append((entry, 4, sc, it, int(row.get("ItemLevel", 0))))
 
     stock = _world_query(
         "SELECT subclass,InventoryType,ItemLevel,ROUND(AVG(armor)) FROM item_template "
@@ -54,24 +62,14 @@ def emit(ctx):
     for sc, it, ilvl, arm in stock:
         lookup.setdefault((int(sc), int(it)), {})[int(ilvl)] = int(float(arm))
 
-    updates, missing = [], 0
+    applied, missing = 0, 0
     for entry, cls, sc, it, ilvl in items:
-        entry, sc, it, ilvl = int(entry), int(sc), int(it), int(ilvl)
         table = lookup.get((sc, it))
         if not table:
             missing += 1
             continue
         near = min(table, key=lambda L: abs(L - ilvl))
-        updates.append((entry, table[near], sc, it, ilvl, near))
-    updates.sort()
-
-    b = [
-        "-- [F-011] Derive base armor for custom goblin armor items (items emitter sets armor=0).",
-        "-- Armor derived from stock WotLK item_template analogs by (subclass,InventoryType) at nearest",
-        "-- ItemLevel (armor is ilvl+slot+type driven in 3.3.5a). Idempotent; stock rows untouched.\n",
-    ]
-    for entry, arm, sc, it, ilvl, near in updates:
-        b.append("UPDATE item_template SET armor=%d WHERE entry=%d;  -- sc%d inv%d ilvl%d~stock%d"
-                 % (arm, entry, sc, it, ilvl, near))
-    ctx.write("sql/zz_[AUTO,F-011]_item_armor.sql", "\n".join(b) + "\n")
-    return "armor=%d no-analog=%d" % (len(updates), missing)
+        ctx.col.put("item_template", entry, {"armor": table[near]}, tier="overlay")
+        applied += 1
+    return "armor=%d no-analog=%d (%s)" % (
+        applied, missing, "Kezan" if ctx.sfx else "Lost Isles")

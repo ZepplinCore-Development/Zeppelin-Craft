@@ -13,6 +13,8 @@ import os
 import re
 
 NAME = "item_spells"
+TABLES = ["item_template"]
+TIER = "overlay"
 
 # cli/commands/goblin_gen/item_spells.py -> zpak dbc dir
 _ZPAK = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
@@ -32,26 +34,22 @@ def _ported_spells():
 
 
 def emit(ctx):
+    # Overlay: on-use spell wiring. The fixture is keyed by final id and spans all
+    # zones, so it's applied once on the Lost Isles pass (overlay-wins merge lands
+    # it on Kezan base rows added on the later zone pass).
     if ctx.sfx:
-        return "skipped (combined file emitted on Lost Isles pass only)"
+        return "skipped (fixture spans all zones; applied on Lost Isles pass)"
     item_spell = ctx.fixture("item_spell_wm")          # newid -> [[spell, trigger], ...]
     usable = ctx.dbc_spell_ids() | _ported_spells()    # present in 3.3.5a OR ported by F-011
 
-    rows = []
+    n = 0
     for newid, pairs in item_spell.items():
-        sets = []
+        cols = {}
         for i, (sp, tr) in enumerate(pairs[:5], 1):
             if sp in usable:
-                sets.append("spellid_%d=%d, spelltrigger_%d=%d" % (i, sp, i, tr))
-        if sets:
-            rows.append((int(newid), sets))
-    rows.sort()
-
-    b = [
-        "-- F-011 wire custom items to on-use spells (stock + ported Whitemane 4.3.4 spells)",
-        "-- %d items wired.\n" % len(rows),
-    ]
-    for newid, sets in rows:
-        b.append("UPDATE item_template SET %s WHERE entry=%d;" % (", ".join(sets), newid))
-    ctx.write("sql/zz_[AUTO,F-011]_item_spells.sql", "\n".join(b) + "\n")
-    return "wired=%d" % len(rows)
+                cols["spellid_%d" % i] = sp
+                cols["spelltrigger_%d" % i] = tr
+        if cols:
+            ctx.col.put("item_template", int(newid), cols, tier="overlay")
+            n += 1
+    return "wired=%d" % n

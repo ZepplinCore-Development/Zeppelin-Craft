@@ -23,6 +23,8 @@ import os
 import struct
 
 NAME = "vendors"
+TABLES = ["item_template"]   # (npc_vendor still emitted via legacy ctx.write for now)
+TIER = "base"
 
 # ---- Item-sparse.db2 (build 15595) field indices (all 4-byte fields) ----
 _SP_QUALITY = 1
@@ -125,7 +127,7 @@ def emit(ctx):
             "subclass": (m[_IT_SUBCLASS] if m else 0),
             "SoundOverrideSubclass": -1,
             "name": gs(s[_SP_NAME]).strip(),
-            "displayid": 0,
+            "displayid": 0,   # owned by item_icons overlay (stock-first, deterministic)
             "Quality": s[_SP_QUALITY],
             "Flags": 0,
             "FlagsExtra": 0,
@@ -164,13 +166,9 @@ def emit(ctx):
         irows.append((newid, cata, col))
     irows.sort()
 
-    ib = ["-- F-011 vendor items (Whitemane Item-sparse build 15595, appended). Icons deferred.\n"]
     for newid, cata, col in irows:
-        ib.append("-- Cata %d -> %d (%s)" % (cata, newid, col["name"]))
-        ib.append("DELETE FROM item_template WHERE entry = %d;" % newid)
-        ib.append("INSERT INTO item_template SET "
-                  + ", ".join("`%s`=%s" % (k, _esc(v)) for k, v in col.items()) + ";\n")
-    ctx.write("sql/zz_[AUTO,F-011]%s_items_vendor.sql" % sfx, "\n".join(ib) + "\n")
+        ctx.col.put("item_template", newid, col, tier="base", zone=sfx,
+                    owner="vendors", note="Cata %d -> %d (%s)  [vendor]" % (cata, newid, col["name"]))
 
     # ---- npc_vendor inventories ----
     vrows = []

@@ -23,29 +23,26 @@ _idb = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_idb)
 
 NAME = "item_flags"
+TABLES = ["item_template"]
+TIER = "overlay"
 
 
 def emit(ctx):
+    # Overlay: authoritative item Flags from the Whitemane source, masked to
+    # WotLK-valid bits (0x7FFFFFFF drops the Cata sign bit). Covers the full remap
+    # (Lost Isles + Kezan + vendor) in one pass on Lost Isles; overlay-wins merge
+    # means it lands on Kezan base rows added on the later zone pass.
     if ctx.sfx:
-        return "skipped (combined file emitted on Lost Isles pass only)"
+        return "skipped (full remap covered on Lost Isles pass)"
     wm = _idb.WhitemaneItems(ctx)
-    missing, remap = _idb.remap(ctx)
+    remap = _idb.full_remap(ctx)
 
-    rows = []
-    for cata in sorted(remap, key=lambda c: remap[c]):
+    n = 0
+    for cata, newid in sorted(remap.items(), key=lambda kv: kv[1]):
         if not wm.sp.has(cata):
             continue
         flags = wm.sp.i(cata, 2) & 0x7FFFFFFF
         if flags:
-            rows.append((remap[cata], flags))
-    rows.sort()
-
-    b = [
-        "-- [F-011] Restore item_template.Flags for custom items from the Whitemane source.",
-        "-- Whitemane ItemSparse Flags masked to WotLK-valid bits (0x7FFFFFFF; drops the Cata sign bit).",
-        "-- Low bits (conjured/playercast/party-loot/millable/prospectable) are stable 3.3.5<->4.x. Idempotent.\n",
-    ]
-    for newid, flags in rows:
-        b.append("UPDATE item_template SET Flags=%d WHERE entry=%d;" % (flags, newid))
-    ctx.write("sql/zz_[AUTO,F-011]_item_flags.sql", "\n".join(b) + "\n")
-    return "flag rows=%d" % len(rows)
+            ctx.col.put("item_template", newid, {"Flags": flags}, tier="overlay")
+            n += 1
+    return "flag rows=%d (full remap)" % n
