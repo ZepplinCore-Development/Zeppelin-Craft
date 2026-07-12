@@ -72,12 +72,13 @@ class WhitemaneItems:
         # icon chain: DisplayInfoID -> Whitemane ItemDisplayInfo InventoryIcon (field 5)
         recs, gs = ctx.read_wdbc(ctx.whitemane_dbc("ItemDisplayInfo.dbc"))
         self._disp_icon = {r[0]: (gs(r[5]) if r[5] else "") for r in recs}
-        # live 3.3.5a itemdisplayinfo: icon basename (lower) -> lowest sharing displayid.
-        # Restricted to the STOCK id range (< 200000) so resolution never depends on
-        # our own custom F-011 rows (200100+) that may or may not be applied yet.
+        # STOCK 3.3.5a itemdisplayinfo: icon basename (lower) -> lowest sharing displayid.
+        # Read from the pristine stock DBC (original_dbc), NOT the live/edited db, so
+        # resolution is deterministic and never sees our own custom rows or any other
+        # feature's edits.
         self._icon_disp = {}
-        for row in ctx.dbc_query(
-                "SELECT id, icon_1 FROM itemdisplayinfo WHERE icon_1 <> '' AND id < 200000 ORDER BY id"):
+        for row in ctx.stock_dbc_query(
+                "SELECT id, icon_1 FROM itemdisplayinfo WHERE icon_1 <> '' ORDER BY id"):
             k = (row["icon_1"] or "").strip().lower()
             if k and k not in self._icon_disp:
                 self._icon_disp[k] = row["id"]

@@ -63,6 +63,9 @@ DBC_PORT = int(os.getenv("DBC_PORT", str(DB_PORT)))
 DBC_USER = os.getenv("DBC_USER", os.getenv("DB_USER", "acore"))
 DBC_PASS = os.getenv("DBC_PASS", os.getenv("DB_PASS", "acore"))
 DBC_NAME = os.getenv("LIVE_DBC_NAME", "dbc")   # the live DBC data db (not the spell-editor db)
+# Pristine 3.3.5a stock DBC (never modified). Resolving stock references against this
+# (not the live/edited db) keeps generation deterministic regardless of applied state.
+STOCK_DBC_NAME = os.getenv("BACKUP_DBC_NAME", "original_dbc")
 _CLI_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ZPAK_DIR = os.path.join(os.path.dirname(_CLI_DIR), "zpaks", "zep-goblin-start")
 FIXTURES_DIR = os.path.join(_CLI_DIR, "data", "goblin", "fixtures")
@@ -636,14 +639,19 @@ class _GenCtx:
         import json
         return json.load(open(os.path.join(FIXTURES_DIR, name + ".json")))
 
-    def dbc_query(self, sql, params=None):
-        """Query the live 3.3.5a DBC database (target client data)."""
+    def dbc_query(self, sql, params=None, db=None):
+        """Query the live 3.3.5a DBC database (target client data), or `db` if given."""
         import mysql.connector
         con = mysql.connector.connect(host=DBC_HOST, port=DBC_PORT, user=DBC_USER,
-                                      password=DBC_PASS, database=DBC_NAME)
+                                      password=DBC_PASS, database=db or DBC_NAME)
         cur = con.cursor(dictionary=True); cur.execute(sql, params or ())
         rows = cur.fetchall(); cur.close(); con.close()
         return rows
+
+    def stock_dbc_query(self, sql, params=None):
+        """Query the pristine stock DBC (original_dbc). Use this for STOCK references
+        so generation is deterministic and independent of what has been applied live."""
+        return self.dbc_query(sql, params, db=STOCK_DBC_NAME)
 
     def whitemane_dbc(self, name):
         """Path to an extracted (fully patched) Whitemane Cata DBC/DB2 file."""
