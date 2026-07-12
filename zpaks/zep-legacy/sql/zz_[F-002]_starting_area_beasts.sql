@@ -40,6 +40,9 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
     -- Scorpid Worker
     UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 3124;
 
+    -- Felstalker
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 3102;
+
 -- MULGORE -------------------------------------------------------
 
     -- Plainstrider
