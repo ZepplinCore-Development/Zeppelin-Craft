@@ -12,6 +12,8 @@ Scripts/Goblin Zone Port/create_kajamite_chunks.py; the original read the alread
 live gameobject spawns, this reads the Neltharion source directly and applies the offset.
 """
 NAME = "kajamite"
+TABLES = ["gameobject_template"]   # loot + spawns still legacy (Phase 4)
+TIER = "base"
 
 DX, DY = -533.3333, -12800.0          # map648 -> map1 offset (matches migrate_gameobjects)
 GUID0 = 6500426                       # first chunk spawn guid
@@ -28,13 +30,15 @@ def emit(ctx):
         "SELECT position_x,position_y,position_z,orientation FROM gameobject "
         "WHERE id IN (%d,%d) ORDER BY CAST(guid AS UNSIGNED)" % DEPOSITS)
 
+    # template (type 3 chest; Data0=0 no lock so freely lootable; Data1=195492 lootId) -> collector
+    ctx.col.put("gameobject_template", 195492, {
+        "entry": 195492, "type": 3, "displayId": 9129, "name": "Kaja'mite Chunk",
+        "size": 0.5, "Data0": 0, "Data1": 195492, "Data3": 1, "ScriptName": "",
+    }, tier="base", zone=ctx.sfx, owner="kajamite")
+
     b = []
-    b.append("-- F-011 create lootable Kaja'mite Chunk nodes (GO 195492) for quest 14124 'Liberate the Kaja'mite'.")
+    b.append("-- F-011 lootable Kaja'mite Chunk nodes (GO 195492) for quest 14124 'Liberate the Kaja'mite'.")
     b.append("-- Source DB had 0 spawns for this node; place one at each live deposit (195622/202593).\n")
-    # template (type 3 chest; Data0=0 no lock so freely lootable; Data1=195492 lootId)
-    b.append("DELETE FROM gameobject_template WHERE entry=195492;")
-    b.append("INSERT INTO gameobject_template (entry,type,displayId,name,size,Data0,Data1,Data3,ScriptName) VALUES")
-    b.append("  (195492,3,9129,'Kaja''mite Chunk',0.5,0,195492,1,'');\n")
     # loot: quest item 84467 (was 48766), 100%
     b.append("DELETE FROM gameobject_loot_template WHERE Entry=195492;")
     b.append("INSERT INTO gameobject_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount) VALUES")

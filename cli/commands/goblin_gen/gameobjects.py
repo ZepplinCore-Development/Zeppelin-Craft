@@ -26,6 +26,8 @@ The source script also copies GO M2 models into the zpak MPQ folder; that asset
 step is out of scope here (this module only emits SQL/DBC).
 """
 NAME = "gameobjects"
+TABLES = ["gameobject_template"]   # spawns / loot / dbc still legacy (Phase 4 / 3b)
+TIER = "base"
 
 # Stock herb/mining nodes that already exist in AC — spawn them, but reuse AC's
 # template + loot rather than overwriting them.
@@ -56,7 +58,7 @@ def _gi(r, k, d=0):
         return d
 
 
-def _template_row(e, t):
+def _template_cols(e, t):
     """Build the ordered gameobject_template column dict for one GO entry."""
     col = {"entry": e, "type": _gi(t, "type"), "displayId": _gi(t, "displayId"),
            "name": (t["name"] or "").strip(), "IconName": (t["IconName"] or "").strip(),
@@ -65,9 +67,7 @@ def _template_row(e, t):
     for n in range(24):
         col["Data%d" % n] = _gi(t, "data%d" % n)
     col.update({"AIName": "", "ScriptName": "", "VerifiedBuild": 0})
-    return ("DELETE FROM gameobject_template WHERE entry = %d;\n" % e
-            + "INSERT INTO gameobject_template SET "
-            + ", ".join("`%s`=%s" % (k, _esc(v)) for k, v in col.items()) + ";\n")
+    return col
 
 
 def emit(ctx):
@@ -81,13 +81,12 @@ def emit(ctx):
     gt = {int(r["entry"]): r for r in ctx.q("SELECT * FROM gameobject_template")}
     ents = [e for e in scope["ents"] if e in gt]
 
-    # ---- 01 gameobject_template (skip stock collisions) ----
-    b = ["-- F-011 Lost Isles gameobject_template (Cata->WotLK; Data0-23, faction/flags/questItem dropped)\n\n"]
+    # ---- 01 gameobject_template (skip stock collisions) -> collector ----
     for e in sorted(ents):
         if e in STOCK_GO:
             continue
-        b.append(_template_row(e, gt[e]))
-    ctx.write("sql/zz_[AUTO,F-011]%s_gameobjects_01_template.sql" % sfx, "".join(b))
+        ctx.col.put("gameobject_template", e, _template_cols(e, gt[e]),
+                    tier="base", zone=sfx, owner="gameobjects")
 
     # ---- 02 gameobject spawns ----
     spawns = ctx.q("SELECT * FROM gameobject WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
@@ -158,11 +157,9 @@ def emit(ctx):
                     refgo.add(-int(v))
     spawned = set(scope["ents"])
     quest_go = sorted(g for g in refgo if g not in spawned and g in gt)
-    if quest_go:
-        qb = ["-- F-011 quest-summoned GO templates (not fixed-spawned; makes quest objective refs valid)\n\n"]
-        for e in quest_go:
-            qb.append(_template_row(e, gt[e]))
-        ctx.write("sql/zz_[AUTO,F-011]%s_gameobjects_04_quest_go.sql" % sfx, "".join(qb))
+    for e in quest_go:
+        ctx.col.put("gameobject_template", e, _template_cols(e, gt[e]),
+                    tier="base", zone=sfx, owner="gameobjects")
 
     # ---- DBC: GameObjectDisplayInfo additions (models absent from 3.3.5a) ----
     needed = sorted(set(_gi(gt[e], "displayId") for e in ents
