@@ -1,50 +1,14 @@
+-- ============================================================
+-- AUTO-GENERATED FILE -- DO NOT EDIT BY HAND.
+-- Produced by `zep goblin gen` (F-011 translation layer).
+-- Any manual edit here is overwritten the next time gen runs.
+--   * To change this output: edit the gen emitter or a fixture.
+--   * For a one-off manual fix: add a separate zz_[I-xxx]_*.sql file
+--     (it loads after these rows and overrides the ones it needs).
+-- ============================================================
+
 -- F-011 Lost Isles creature loot (direct drops; custom items remapped 84300+)
 -- 3505 loot rows across 44 loot tables. Shared references deferred (0 rows).
-
-UPDATE creature_template SET lootid = 33420 WHERE entry = 33420;
-UPDATE creature_template SET lootid = 34699 WHERE entry = 34699;
-UPDATE creature_template SET lootid = 34763 WHERE entry = 34763;
-UPDATE creature_template SET lootid = 35812 WHERE entry = 35812;
-UPDATE creature_template SET lootid = 35838 WHERE entry = 35838;
-UPDATE creature_template SET lootid = 35904 WHERE entry = 35904;
-UPDATE creature_template SET lootid = 36092 WHERE entry = 36092;
-UPDATE creature_template SET lootid = 36103 WHERE entry = 36103;
-UPDATE creature_template SET lootid = 36129 WHERE entry = 36129;
-UPDATE creature_template SET lootid = 36149 WHERE entry = 36149;
-UPDATE creature_template SET lootid = 36153 WHERE entry = 36153;
-UPDATE creature_template SET lootid = 36681 WHERE entry = 36681;
-UPDATE creature_template SET lootid = 36719 WHERE entry = 36719;
-UPDATE creature_template SET lootid = 36732 WHERE entry = 36732;
-UPDATE creature_template SET lootid = 36735 WHERE entry = 36735;
-UPDATE creature_template SET lootid = 36740 WHERE entry = 36740;
-UPDATE creature_template SET lootid = 38187 WHERE entry = 38187;
-UPDATE creature_template SET lootid = 38359 WHERE entry = 38359;
-UPDATE creature_template SET lootid = 38360 WHERE entry = 38360;
-UPDATE creature_template SET lootid = 38574 WHERE entry = 38574;
-UPDATE creature_template SET lootid = 38575 WHERE entry = 38575;
-UPDATE creature_template SET lootid = 38696 WHERE entry = 38696;
-UPDATE creature_template SET lootid = 38808 WHERE entry = 38808;
-UPDATE creature_template SET lootid = 38809 WHERE entry = 38809;
-UPDATE creature_template SET lootid = 38810 WHERE entry = 38810;
-UPDATE creature_template SET lootid = 38811 WHERE entry = 38811;
-UPDATE creature_template SET lootid = 38813 WHERE entry = 38813;
-UPDATE creature_template SET lootid = 38845 WHERE entry = 38845;
-UPDATE creature_template SET lootid = 38850 WHERE entry = 38850;
-UPDATE creature_template SET lootid = 38851 WHERE entry = 38851;
-UPDATE creature_template SET lootid = 39069 WHERE entry = 39069;
-UPDATE creature_template SET lootid = 39141 WHERE entry = 39141;
-UPDATE creature_template SET lootid = 39142 WHERE entry = 39142;
-UPDATE creature_template SET lootid = 39143 WHERE entry = 39143;
-UPDATE creature_template SET lootid = 39193 WHERE entry = 39193;
-UPDATE creature_template SET lootid = 39194 WHERE entry = 39194;
-UPDATE creature_template SET lootid = 39195 WHERE entry = 39195;
-UPDATE creature_template SET lootid = 39354 WHERE entry = 39354;
-UPDATE creature_template SET lootid = 39363 WHERE entry = 39363;
-UPDATE creature_template SET lootid = 39376 WHERE entry = 39376;
-UPDATE creature_template SET lootid = 39426 WHERE entry = 39426;
-UPDATE creature_template SET lootid = 39449 WHERE entry = 39449;
-UPDATE creature_template SET lootid = 39589 WHERE entry = 39589;
-UPDATE creature_template SET lootid = 40064 WHERE entry = 40064;
 
 DELETE FROM creature_loot_template WHERE Entry IN (33420,34699,34763,35812,35838,35904,36092,36103,36129,36149,36153,36681,36719,36732,36735,36740,38187,38359,38360,38574,38575,38696,38808,38809,38810,38811,38813,38845,38850,38851,39069,39141,39142,39143,39193,39194,39195,39354,39363,39376,39426,39449,39589,40064);
 INSERT INTO creature_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount,Comment) VALUES

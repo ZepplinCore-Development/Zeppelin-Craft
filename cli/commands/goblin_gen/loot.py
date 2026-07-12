@@ -18,6 +18,8 @@ import os
 import csv as _csv
 
 NAME = "loot"
+TABLES = ["creature_template"]   # lootid overlay (creature_loot_template still legacy for now)
+TIER = "overlay"
 
 RESV_CSV = "/workspace/project/Zeppelin-Craft/Scripts/Item Scripts/Item Reservations.csv"
 F011_LO, F011_HI = 84300, 84799
@@ -101,14 +103,15 @@ def emit(ctx):
             print("    loot table %-6d item %-7d -> owned by [%s]" % (lid, v, own))
         print("    Fix at source (add to missing-items so it is ported) OR add a zz_[I-xxx]_*.sql override.")
 
+    # fold creature_template.lootid into the collector (final state on the INSERT)
+    for e, lid in sorted(lootids.items()):
+        if lid in entries:
+            ctx.col.put("creature_template", e, {"lootid": lid}, tier="overlay")
+
     b = []
     b.append("-- F-011 Lost Isles creature loot (direct drops; custom items remapped 84300+)")
     b.append("-- %d loot rows across %d loot tables. Shared references deferred (%d rows).\n"
              % (len(loot_rows), len(entries), ref_skipped))
-    for e, lid in sorted(lootids.items()):
-        if lid in entries:
-            b.append("UPDATE creature_template SET lootid = %d WHERE entry = %d;" % (lid, e))
-    b.append("")
     ids = ",".join(str(x) for x in sorted(entries))
     b.append("DELETE FROM creature_loot_template WHERE Entry IN (%s);" % ids)
     b.append("INSERT INTO creature_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount,Comment) VALUES")

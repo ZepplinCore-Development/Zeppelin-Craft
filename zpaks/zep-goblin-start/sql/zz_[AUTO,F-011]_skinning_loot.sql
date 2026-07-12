@@ -37,16 +37,3 @@ INSERT INTO skinning_loot_template (Entry,Item,Reference,Chance,QuestRequired,Lo
   (36719,2318,0,22.727,0,1,0,1,1),
   (40064,2318,0,39.124,0,1,0,1,6),
   (40064,2934,0,60.876,0,1,0,1,6);
-
-UPDATE creature_template SET skinloot=100008 WHERE entry=7395;
-UPDATE creature_template SET skinloot=33420 WHERE entry=33420;
-UPDATE creature_template SET skinloot=34699 WHERE entry=34699;
-UPDATE creature_template SET skinloot=35904 WHERE entry=35904;
-UPDATE creature_template SET skinloot=36681 WHERE entry=36681;
-UPDATE creature_template SET skinloot=36719 WHERE entry=36719;
-UPDATE creature_template SET skinloot=36740 WHERE entry=36740;
-UPDATE creature_template SET skinloot=38187 WHERE entry=38187;
-UPDATE creature_template SET skinloot=38845 WHERE entry=38845;
-UPDATE creature_template SET skinloot=39354 WHERE entry=39354;
-UPDATE creature_template SET skinloot=39376 WHERE entry=39376;
-UPDATE creature_template SET skinloot=40064 WHERE entry=40064;

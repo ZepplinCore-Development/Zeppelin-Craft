@@ -18,6 +18,8 @@ import sys
 import subprocess
 
 NAME = "equipment"
+TABLES = ["creature"]   # equipment_id patch onto spawns (creature_equip_template still legacy)
+TIER = "overlay"
 
 ZONES = ("4720", "4737")   # Lost Isles + Kezan (one combined file)
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(
@@ -78,9 +80,9 @@ def emit(ctx):
     ]
     out.append(",\n".join("  (%d,1,%d,%d,%d,0)" % (e, it[0], it[1], it[2])
                           for e, it in emit_rows) + ";")
-    out.append("\nUPDATE creature SET equipment_id=1 WHERE guid BETWEEN 11000000 AND 12999999 "
-               "AND id IN (%s);" % ",".join(map(str, ents)))
-
     ctx.write("sql/zz_[AUTO,F-011]%s_creature_equip.sql" % ctx.sfx, "\n".join(out) + "\n")
+
+    # fold creature.equipment_id onto the collected spawn rows (entry-keyed -> guid rows)
+    ctx.col.patch("creature", "id", ents, {"equipment_id": 1})
     return "equipment: armed %d creatures (%d/%d source items present in item_template)" % (
         len(emit_rows), len(have), len(items))

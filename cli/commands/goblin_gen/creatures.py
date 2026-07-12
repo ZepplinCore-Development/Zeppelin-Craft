@@ -27,6 +27,8 @@ import os
 import struct
 
 NAME = "creatures"
+TABLES = ["creature_template", "creature_template_model", "creature"]
+TIER = "base"
 
 DX, DY = -533.3333, -12800.0                 # map648 -> map1 offset
 ZONE = {"": "4720", "_K": "4737"}            # Lost Isles / Kezan
@@ -198,8 +200,6 @@ def emit(ctx):
         disp_plan[e] = final
 
     # ---- creature_template ----
-    b = ["-- F-011 Lost Isles creatures - creature_template (Cata->AC translation)",
-         "-- %d creatures. Owned custom rows: DELETE+INSERT (final state).\n" % len(entries_sorted)]
     for e in entries_sorted:
         t = tmpl[e]
         exp = min(int(t["exp"] or 0), 2)
@@ -240,20 +240,15 @@ def emit(ctx):
             "RegenHealth": int(_or(t["RegenHealth"], 1)), "CreatureImmunitiesId": 0,
             "flags_extra": 0, "ScriptName": "", "VerifiedBuild": 0,
         }
-        b.append("DELETE FROM creature_template WHERE entry = %d;" % e)
-        b.append("INSERT INTO creature_template SET")
-        b.append(",\n".join("  `%s` = %s" % (k, _esc(v)) for k, v in cols.items()) + ";\n")
-    ctx.write("sql/zz_[AUTO,F-011]%s_creatures_01_template.sql" % sfx, "\n".join(b) + "\n")
+        ctx.col.put("creature_template", e, cols, tier="base", zone=sfx, owner="creatures")
 
     # ---- creature_template_model ----
-    b = ["-- F-011 creature_template_model (display per creature)\n"]
     for e in entries_sorted:
         t = tmpl[e]
-        b.append("DELETE FROM creature_template_model WHERE CreatureID = %d;" % e)
-        b.append("INSERT INTO creature_template_model "
-                 "(CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) VALUES")
-        b.append("  (%d,0,%d,%s,1,0);\n" % (e, disp_plan[e], _esc(float(_or(t["scale"], 1)))))
-    ctx.write("sql/zz_[AUTO,F-011]%s_creatures_02_model.sql" % sfx, "\n".join(b) + "\n")
+        ctx.col.put("creature_template_model", e, {
+            "CreatureID": e, "Idx": 0, "CreatureDisplayID": disp_plan[e],
+            "DisplayScale": float(_or(t["scale"], 1)), "Probability": 1, "VerifiedBuild": 0,
+        }, tier="base", zone=sfx, owner="creatures")
 
     # ---- server creature_model_info (custom displays) ----
     b = ["-- F-011 creature_model_info (server, custom/non-stock displays)\n"]
@@ -269,14 +264,9 @@ def emit(ctx):
     # ---- spawns ----
     spawns = ctx.q("SELECT * FROM creature WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
     spawns = [s for s in spawns if int(s["id"]) in real_set or int(s["id"]) in STOCK_COLLIDE]
-    b = ["-- F-011 Lost Isles creature spawns (map648->map1 offset, source phaseMask preserved for F-194 phasing)",
-         "-- guid block %d..%d\n" % (guid_base, guid_base + len(spawns)),
-         "DELETE FROM creature WHERE guid BETWEEN %d AND %d;" % (guid_base, guid_base + len(spawns) + 10),
-         "INSERT INTO creature (guid,id,map,zoneId,areaId,spawnMask,phaseMask,equipment_id,"
-         "position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,"
-         "curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,"
-         "CreateObject,Comment) VALUES"]
-    vals = []
+    # Fixed per-zone 1,000,000-guid block DELETE (stable, count-independent), so stale
+    # spawns beyond the current count are always cleared. (equipment_id patched by equipment.py)
+    ctx.col.delete("creature", "guid BETWEEN %d AND %d" % (guid_base, guid_base + 999999))
     g = guid_base
     for s in spawns:
         g += 1
@@ -290,10 +280,14 @@ def emit(ctx):
         wd = float(s["spawndist"] or 0)
         st = int(s["spawntimesecs"] or 120)
         pmask = int(s["phaseMask"] or 1) or 1
-        vals.append("  (%d,%d,1,0,0,1,%d,0,%s,%s,%s,%s,%d,%s,0,1,0,%d,0,0,0,'',0,1,'F-011 Lost Isles')" % (
-            g, int(s["id"]), pmask, _esc(x), _esc(y), _esc(z), _esc(o), st, _esc(wd), mt))
-    b.append(",\n".join(vals) + ";")
-    ctx.write("sql/zz_[AUTO,F-011]%s_creatures_04_spawns.sql" % sfx, "\n".join(b) + "\n")
+        ctx.col.add("creature", {
+            "guid": g, "id": int(s["id"]), "map": 1, "zoneId": 0, "areaId": 0, "spawnMask": 1,
+            "phaseMask": pmask, "equipment_id": 0, "position_x": x, "position_y": y,
+            "position_z": z, "orientation": o, "spawntimesecs": st, "wander_distance": wd,
+            "currentwaypoint": 0, "curhealth": 1, "curmana": 0, "MovementType": mt, "npcflag": 0,
+            "unit_flags": 0, "dynamicflags": 0, "ScriptName": "", "VerifiedBuild": 0,
+            "CreateObject": 1, "Comment": "F-011 %s" % ("Kezan" if sfx else "Lost Isles"),
+        }, sort_key=g)
 
     # ---- DBC additions (client PATCH-Z) ----
     b = ["-- F-011 CreatureModelData additions (client PATCH-Z)\n"]

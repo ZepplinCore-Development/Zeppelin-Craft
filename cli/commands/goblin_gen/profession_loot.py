@@ -16,6 +16,8 @@ combined files.
 import os
 
 NAME = "profession_loot"
+TABLES = ["creature_template"]   # skin/pickpocket loot overlay (loot tables still legacy for now)
+TIER = "overlay"
 
 _ZONES = ('4720', '4737')
 
@@ -100,10 +102,10 @@ def emit(ctx):
             "DELETE FROM %s WHERE Entry IN (%s);" % (tbl, ",".join(str(x) for x in ents)),
             "INSERT INTO %s (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount) VALUES" % tbl,
             ",\n".join(vals) + ";",
-            "",
-            "\n".join("UPDATE creature_template SET %s=%d WHERE entry=%d;" % (lootcol, lid, e)
-                      for e, lid in sorted(lootids.items())),
         ]
         ctx.write("sql/zz_[AUTO,F-011]_%s.sql" % fname, "\n".join(out) + "\n")
+        # fold creature_template.skinloot / pickpocketloot into the collector INSERT
+        for e, lid in sorted(lootids.items()):
+            ctx.col.put("creature_template", e, {lootcol: lid}, tier="overlay")
         summary.append("%s=%d creatures/%d rows" % (kind, len(lootids), len(vals)))
     return "profession_loot: " + ", ".join(summary)

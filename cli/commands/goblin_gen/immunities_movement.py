@@ -14,6 +14,8 @@ entry.
 Two single combined files for both zones -> emitted only on the "" pass.
 """
 NAME = "immunities_movement"
+TABLES = ["creature_template"]   # CreatureImmunitiesId overlay (immunities/movement tables still legacy)
+TIER = "overlay"
 
 ZONES = ("4720", "4737")   # Lost Isles + Kezan (one combined file)
 
@@ -56,8 +58,9 @@ def emit(ctx):
         L.append("INSERT INTO creature_immunities (ID,SchoolMask,DispelTypeMask,MechanicsMask,"
                  "Effects,Auras,ImmuneAoE,ImmuneChain,Comment) VALUES "
                  "(%d,0,0,%d,0,0,0,0,'F-011 goblin boss immunities 0x%X');" % (iid, mask, mask))
-        L.append("UPDATE creature_template SET CreatureImmunitiesId=%d WHERE entry IN (%s);"
-                 % (iid, ",".join(map(str, sorted(ents)))))
+        # fold creature_template.CreatureImmunitiesId into the collector INSERT (was clobbered)
+        for e in sorted(ents):
+            ctx.col.put("creature_template", e, {"CreatureImmunitiesId": iid}, tier="overlay")
     ctx.write("sql/zz_[AUTO,F-011]%s_creature_immunities.sql" % ctx.sfx, "\n".join(L) + "\n")
 
     # --- creature_template_movement ---

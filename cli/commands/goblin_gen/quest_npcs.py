@@ -9,6 +9,8 @@ quest objective refs valid. Emits creatures_05_quest_npcs (creature_template +
 creature_template_model). Per-zone (uses ctx.sfx to pick the item_scope fixture).
 """
 NAME = "quest_npcs"
+TABLES = ["creature_template", "creature_template_model"]
+TIER = "base"
 
 # Invalid Cata factions with no 3.3.5a FactionTemplate row segfault the server -> remap.
 FACTION_REMAP = {2159: 35, 2160: 35, 2227: 35, 2231: 35, 2238: 35, 2200: 14, 2228: 14}
@@ -69,8 +71,6 @@ def emit(ctx):
     missing = sorted(t for t in targets if t not in imported and t in tmpl)
     absent = sorted(t for t in targets if t not in tmpl)   # not even in source
 
-    b = ["-- F-011 quest-target NPC templates (credit proxies / rescue targets, "
-         "template-only, stock display)\n"]
     for e in missing:
         t = tmpl[e]
         exp = min(int(_n(t["exp"], 0)), 2)
@@ -94,14 +94,11 @@ def emit(ctx):
             "RegenHealth": int(_n(t["RegenHealth"], 1)), "MovementType": 0, "unit_flags": int(_n(t["unit_flags"], 0)),
             "AIName": "", "flags_extra": 0, "lootid": 0, "VerifiedBuild": 0,
         }
-        b.append("DELETE FROM creature_template WHERE entry = %d;" % e)
-        b.append("INSERT INTO creature_template SET "
-                 + ", ".join("`%s`=%s" % (k, _esc(v)) for k, v in col.items()) + ";")
-        b.append("DELETE FROM creature_template_model WHERE CreatureID = %d;" % e)
-        b.append("INSERT INTO creature_template_model "
-                 "(CreatureID,Idx,CreatureDisplayID,DisplayScale,Probability,VerifiedBuild) "
-                 "VALUES (%d,0,%d,1,1,0);\n" % (e, disp))
+        ctx.col.put("creature_template", e, col, tier="base", zone=sfx, owner="quest_npcs")
+        ctx.col.put("creature_template_model", e, {
+            "CreatureID": e, "Idx": 0, "CreatureDisplayID": disp, "DisplayScale": 1,
+            "Probability": 1, "VerifiedBuild": 0,
+        }, tier="base", zone=sfx, owner="quest_npcs")
 
-    ctx.write("sql/zz_[AUTO,F-011]%s_creatures_05_quest_npcs.sql" % sfx, "\n".join(b) + "\n")
     return ("quest-npc templates=%d (targets=%d, absent-from-source=%d)"
             % (len(missing), len(targets), len(absent)))

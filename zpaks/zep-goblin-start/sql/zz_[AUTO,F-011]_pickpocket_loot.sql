@@ -129,28 +129,3 @@ INSERT INTO pickpocketing_loot_template (Entry,Item,Reference,Chance,QuestRequir
   (38809,858,0,0.478,0,1,0,1,1),
   (38810,5369,0,1.238,0,1,0,1,1),
   (38810,858,0,0.381,0,1,0,1,1);
-
-UPDATE creature_template SET pickpocketloot=35838 WHERE entry=35838;
-UPDATE creature_template SET pickpocketloot=36092 WHERE entry=36092;
-UPDATE creature_template SET pickpocketloot=36103 WHERE entry=36103;
-UPDATE creature_template SET pickpocketloot=36129 WHERE entry=36129;
-UPDATE creature_template SET pickpocketloot=36149 WHERE entry=36149;
-UPDATE creature_template SET pickpocketloot=38359 WHERE entry=38359;
-UPDATE creature_template SET pickpocketloot=38360 WHERE entry=38360;
-UPDATE creature_template SET pickpocketloot=38574 WHERE entry=38574;
-UPDATE creature_template SET pickpocketloot=38575 WHERE entry=38575;
-UPDATE creature_template SET pickpocketloot=38696 WHERE entry=38696;
-UPDATE creature_template SET pickpocketloot=38808 WHERE entry=38808;
-UPDATE creature_template SET pickpocketloot=38809 WHERE entry=38809;
-UPDATE creature_template SET pickpocketloot=38810 WHERE entry=38810;
-UPDATE creature_template SET pickpocketloot=38811 WHERE entry=38811;
-UPDATE creature_template SET pickpocketloot=38850 WHERE entry=38850;
-UPDATE creature_template SET pickpocketloot=39141 WHERE entry=39141;
-UPDATE creature_template SET pickpocketloot=39142 WHERE entry=39142;
-UPDATE creature_template SET pickpocketloot=39143 WHERE entry=39143;
-UPDATE creature_template SET pickpocketloot=39193 WHERE entry=39193;
-UPDATE creature_template SET pickpocketloot=39194 WHERE entry=39194;
-UPDATE creature_template SET pickpocketloot=39363 WHERE entry=39363;
-UPDATE creature_template SET pickpocketloot=39426 WHERE entry=39426;
-UPDATE creature_template SET pickpocketloot=39449 WHERE entry=39449;
-UPDATE creature_template SET pickpocketloot=39589 WHERE entry=39589;

@@ -8,7 +8,7 @@
 -- ============================================================
 
 -- [F-011] creature_template_movement from Neltharion InhabitType (fliers/swimmers fell to ground).
--- Ground/Swim from bits; Flight=1 (DisableGravity) keeps air units at spawn Z. migrate_immunities_movement.py.
+-- Ground/Swim from bits; Flight=1 (DisableGravity) keeps air units at spawn Z. Regenerate: `zep goblin gen immunities_movement`.
 
 DELETE FROM creature_template_movement WHERE CreatureId IN (2110,4075,6491,6827,23837,24021,24110,33111,34763,35075,36127,36176,36177,36681,36682,36719,37203,37804,37872,37895,37896,37897,38111,38120,38412,38526,38855,38979,39039,39169,41266,44578,44579,44580,44588,44590,44591,44775,48526,75042,75044,75045,75046,75047,75048,75104,75106,75108,75112,75113,75114,75116,75118,75121,75122,75123,75124,75125,75126,75127,75128,240210,1337016);
 INSERT INTO creature_template_movement (CreatureId,Ground,Swim,Flight) VALUES
