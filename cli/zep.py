@@ -1096,6 +1096,9 @@ build.add_command(mpq, 'mpq-tools')
 from commands.model import model
 cli.add_command(model)
 
+from commands.wxl import wxl
+cli.add_command(wxl)
+
 # -- world: sql, account, char, creature, bag -------------------------------
 @click.group()
 @click.pass_context

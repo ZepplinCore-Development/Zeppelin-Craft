@@ -202,6 +202,24 @@ def get_zpak_preprocessors(zpak: Dict[str, Any]) -> List[str]:
     return preprocessors
 
 
+def _flow_wxl_assets(zpak_path: Path) -> int:
+    """Copy mpq/wxl-assets/** into mpq/parsed-assets/** with UPPERCASE paths (matching the
+    resource-parser convention + case-insensitive MPQ lookup), so WarcraftXL modern assets
+    pack into the patch MPQ alongside native ones while staying segregated in the zpak (F-197)."""
+    src = zpak_path / 'mpq' / 'wxl-assets'
+    dst_root = zpak_path / 'mpq' / 'parsed-assets'
+    n = 0
+    for root, _dirs, files in os.walk(src):
+        for fn in files:
+            s = Path(root) / fn
+            rel = s.relative_to(src).as_posix().upper()
+            d = dst_root / rel
+            d.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(s, d)
+            n += 1
+    return n
+
+
 def _run_preprocessors(zpaks: List[Dict[str, Any]],
                        dry_run: bool = False) -> bool:
     """Run the preprocessing pipeline on a list of zpaks.
@@ -225,9 +243,10 @@ def _run_preprocessors(zpaks: List[Dict[str, Any]],
         zpak_path = Path(zpak['path'])
         source_dir = zpak_path / 'mpq' / 'source-assets'
         has_source = source_dir.exists()
+        has_wxl = (zpak_path / 'mpq' / 'wxl-assets').exists()
         named = get_zpak_preprocessors(zpak)
 
-        if not has_source and not named:
+        if not has_source and not named and not has_wxl:
             continue
 
         # Step 1+2: Run resource parser (handles copy + uppercase normalization)
@@ -253,6 +272,19 @@ def _run_preprocessors(zpaks: List[Dict[str, Any]],
                 return False
             else:
                 steps_run.append(name)
+
+        # Step 4: Flow WarcraftXL modern assets (F-197) into parsed-assets so they pack
+        # into the MPQ. Kept segregated in the zpak (mpq/wxl-assets/), merged here. The M2s
+        # stay modern MD21 — WXL downports them at load; we only place them at native paths.
+        if has_wxl:
+            _print_step_header('WXL-ASSETS', zpak['name'])
+            if dry_run:
+                print(f"[DRY RUN] Would flow wxl-assets -> parsed-assets")
+                steps_run.append('wxl-assets')
+            else:
+                n = _flow_wxl_assets(zpak_path)
+                print(f"  Merged {n} WarcraftXL asset(s) into parsed-assets (uppercased)")
+                steps_run.append('wxl-assets')
 
     # Summary
     elapsed = time.time() - start
