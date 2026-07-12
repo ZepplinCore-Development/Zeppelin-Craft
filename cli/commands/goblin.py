@@ -598,10 +598,20 @@ def extract_whitemane(data_dir, out_dir, include_cache):
 # DBC db (target client data), extracted Whitemane DBCs, and committed fixtures.
 # Emits [AUTO,F-011]-tagged SQL/DBC into the zpak. Each domain is a _gen_* fn.
 # --------------------------------------------------------------------------
+def _zpak_write(rel_name, body):
+    path = os.path.join(ZPAK_DIR, rel_name)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(_AUTO_BANNER + body)
+    return path
+
+
 class _GenCtx:
-    def __init__(self, sfx):
+    def __init__(self, sfx, col=None):
         import mysql.connector
         self.sfx = sfx                       # "" (Lost Isles) or "_K" (Kezan)
+        self.zone = sfx                      # alias used by collector-aware domains
+        self.col = col                       # shared cross-zone Collector (or None pre-migration)
         self.nel = mysql.connector.connect(
             host=DB_HOST, port=DB_PORT, user=DB_ROOT_USER, password=DB_ROOT_PASS,
             database=NELTHARION_DB, autocommit=False)
@@ -666,21 +676,27 @@ class _GenCtx:
         return str(v)
 
     def write(self, rel_name, body):
-        path = os.path.join(ZPAK_DIR, rel_name)
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(_AUTO_BANNER + body)
-        return path
+        return _zpak_write(rel_name, body)
 
     def close(self):
         try: self.nel.close()
         except Exception: pass
 
 
+def _load_collector():
+    """Load the (underscore-prefixed, non-domain) collector module."""
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "goblin_gen", "_collect.py")
+    spec = importlib.util.spec_from_file_location("goblin_gen__collect", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def _discover_domains():
     """Auto-discover gen domain modules in ./goblin_gen/ (each defines NAME + emit(ctx))."""
     import importlib.util
-    domains = {}
+    mods = {}
     d = os.path.join(os.path.dirname(os.path.abspath(__file__)), "goblin_gen")
     for path in sorted(glob.glob(os.path.join(d, "*.py"))):
         base = os.path.basename(path)
@@ -694,11 +710,39 @@ def _discover_domains():
             click.echo(f"  (skipping domain module {base}: {e})", err=True)
             continue
         if hasattr(mod, "NAME") and hasattr(mod, "emit"):
-            domains[mod.NAME] = mod.emit
-    return domains
+            mods[mod.NAME] = mod
+    return mods
 
 
-_GEN_DOMAINS = _discover_domains()
+_GEN_DOMAIN_MODS = _discover_domains()
+_GEN_DOMAINS = {name: mod.emit for name, mod in _GEN_DOMAIN_MODS.items()}
+
+
+def _domain_tables(name):
+    return set(getattr(_GEN_DOMAIN_MODS[name], "TABLES", []) or [])
+
+
+def _domain_tier(name):
+    return getattr(_GEN_DOMAIN_MODS[name], "TIER", "base")
+
+
+def _contributor_closure(requested):
+    """Expand `requested` to every domain that contributes to any table those
+    domains touch, so a partial `gen <domain>` still emits complete per-table files."""
+    t2d = {}
+    for name in _GEN_DOMAIN_MODS:
+        for t in _domain_tables(name):
+            t2d.setdefault(t, set()).add(name)
+    closure = set(requested)
+    changed = True
+    while changed:
+        changed = False
+        for name in list(closure):
+            for t in _domain_tables(name):
+                for d in t2d.get(t, ()):
+                    if d not in closure:
+                        closure.add(d); changed = True
+    return closure
 
 
 @goblin.command("gen")
@@ -711,20 +755,35 @@ def gen(domains, zone):
     DOMAINS: one or more emitter names (default: all discovered domains in
     goblin_gen/). Run `zep goblin gen <bad>` to see the available list.
     """
-    todo = list(domains) if domains else list(_GEN_DOMAINS)
-    unknown = [d for d in todo if d not in _GEN_DOMAINS]
+    requested = list(domains) if domains else list(_GEN_DOMAINS)
+    unknown = [d for d in requested if d not in _GEN_DOMAINS]
     if unknown:
         raise click.ClickException(
             f"Unknown/unported domain(s): {', '.join(unknown)}. "
             f"Available now: {', '.join(sorted(_GEN_DOMAINS))}.")
+    # Expand to the contributor closure so a partial run still writes complete
+    # per-table files (a lone overlay would otherwise clobber a table's file with
+    # a base-less version), then keep discovery order.
+    closure = _contributor_closure(requested)
+    todo = [d for d in _GEN_DOMAINS if d in closure]
+    if set(todo) != set(requested):
+        pulled = sorted(set(todo) - set(requested))
+        if pulled:
+            click.echo(f"(+ pulled in co-table domains: {', '.join(pulled)})")
     sfxs = {"lost-isles": [""], "kezan": ["_K"], "both": ["", "_K"]}[zone]
 
+    # Two-wave execution: all base-tier domains, then all overlay-tier domains,
+    # so overlays may read already-collected base rows (col.get / col.pks).
+    base_domains = [d for d in todo if _domain_tier(d) == "base"]
+    overlay_domains = [d for d in todo if _domain_tier(d) == "overlay"]
+
+    col = _load_collector().Collector()
     failed = []
     for sfx in sfxs:
         label = "Kezan" if sfx == "_K" else "Lost Isles"
-        ctx = _GenCtx(sfx)
+        ctx = _GenCtx(sfx, col)
         try:
-            for d in todo:
+            for d in base_domains + overlay_domains:
                 try:
                     click.echo(f"[{label}] gen {d}: " + _GEN_DOMAINS[d](ctx))
                 except Exception as e:   # one domain's failure must not abort the rest
@@ -732,6 +791,18 @@ def gen(domains, zone):
                     click.echo(f"[{label}] gen {d}: FAILED — {e}", err=True)
         finally:
             ctx.close()
+
+    # Single flush after both zone passes: one file per touched table.
+    try:
+        written = col.flush(_zpak_write)
+        if written:
+            click.echo(f"\nCollector flushed {len(written)} per-table file(s):")
+            for rel in written:
+                click.echo(f"  {rel}")
+    except Exception as e:
+        failed.append(("flush", "collector", str(e)))
+        click.echo(f"collector flush FAILED — {e}", err=True)
+
     if failed:
         click.echo(f"\n{len(failed)} domain run(s) failed:")
         for lbl, d, e in failed:
