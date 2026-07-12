@@ -227,7 +227,8 @@ def emit(ctx):
             "lootid": 0, "pickpocketloot": 0, "skinloot": 0,
             "PetSpellDataId": int(t["PetSpellDataId"] or 0), "VehicleId": int(t["VehicleId"] or 0),
             "mingold": int(t["mingold"] or 0), "maxgold": int(t["maxgold"] or 0),
-            "AIName": "", "MovementType": mtype, "HoverHeight": float(_or(t["HoverHeight"], 1)),
+            "AIName": (t["AIName"] or "").strip(),   # carry source AI (mostly 'SmartAI') — blank = SmartAI never runs, scripts dead
+            "MovementType": mtype, "HoverHeight": float(_or(t["HoverHeight"], 1)),
             "HealthModifier": float(_or(t["Health_mod"], 1)), "ManaModifier": float(_or(t["Mana_mod"], 1)),
             "ArmorModifier": float(_or(t["Armor_mod"], 1)), "ExperienceModifier": 1.0,
             "RacialLeader": int(t["RacialLeader"] or 0), "movementId": 0,
