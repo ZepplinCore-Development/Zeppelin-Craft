@@ -26,6 +26,9 @@ Three output files:
 Ported from Scripts/Goblin Zone Port/migrate_gossip.py.
 """
 NAME = "gossip"
+TABLES = ["npc_text", "gossip_menu", "gossip_menu_option", "conditions",
+          "creature_template"]
+TIER = "base"
 
 TXT_BASE = 500000
 MENU_BASE = 510000
@@ -118,35 +121,35 @@ def emit(ctx):
             return _esc(d.get(col))
         return str(_i(d.get(col)))
 
-    L = ["-- [F-011] gossip_menu/option + npc_text (NPC gossip) remapped to fresh blocks. gen gossip.\n",
-         f"DELETE FROM npc_text WHERE ID BETWEEN {TXT_BASE} AND {TXT_BASE + len(textids)};",
-         "INSERT INTO npc_text (" + ",".join(ac_txt_cols) + ") VALUES",
-         ",\n".join("  (" + ",".join(npc_val(r, col) for col in ac_txt_cols) + ")"
-                    for r in ntrows) + ";\n",
-         f"DELETE FROM gossip_menu WHERE MenuID BETWEEN {MENU_BASE} AND {MENU_BASE + len(menus)};",
-         "INSERT INTO gossip_menu (MenuID,TextID) VALUES",
-         ",\n".join(f"  ({menu_remap[m]},{text_remap.get(t, 0)})" for m, t in gm) + ";\n"]
+    R = ctx.col.Raw
+    # fixed 10,000-id block DELETEs (count-independent; blocks are F-011-owned)
+    ctx.col.delete("npc_text", "ID BETWEEN %d AND %d" % (TXT_BASE, TXT_BASE + 9999))
+    for r in ntrows:
+        ctx.col.add("npc_text", {col: R(npc_val(r, col)) for col in ac_txt_cols})
+
+    ctx.col.delete("gossip_menu", "MenuID BETWEEN %d AND %d" % (MENU_BASE, MENU_BASE + 9999))
+    for m, t in gm:
+        ctx.col.add("gossip_menu", {"MenuID": menu_remap[m], "TextID": text_remap.get(t, 0)})
 
     opts = q("SELECT menu_id,id,option_icon,option_text,option_id,npc_option_npcflag,"
              "action_menu_id,action_poi_id,box_coded,box_money,box_text FROM gossip_menu_option "
              "WHERE CAST(TRIM(menu_id) AS SIGNED) IN (%s)" % mset)
-    L.append(f"DELETE FROM gossip_menu_option WHERE MenuID BETWEEN {MENU_BASE} AND {MENU_BASE + len(menus)};")
-    L.append("INSERT INTO gossip_menu_option (MenuID,OptionID,OptionIcon,OptionText,"
-             "OptionBroadcastTextID,OptionType,OptionNpcFlag,ActionMenuID,ActionPoiID,"
-             "BoxCoded,BoxMoney,BoxText,BoxBroadcastTextID) VALUES")
-    ov = []
+    ctx.col.delete("gossip_menu_option", "MenuID BETWEEN %d AND %d" % (MENU_BASE, MENU_BASE + 9999))
     for r in opts:
-        mid, oid, icon, otext = r["menu_id"], r["id"], r["option_icon"], r["option_text"]
-        otype, onpc, amid = r["option_id"], r["npc_option_npcflag"], r["action_menu_id"]
-        apoi, bcoded, bmoney, btext = r["action_poi_id"], r["box_coded"], r["box_money"], r["box_text"]
-        amid2 = menu_remap.get(_i(amid), 0) if _i(amid) > 0 else 0
-        ov.append(f"  ({menu_remap[_i(mid)]},{_i(oid)},{_i(icon)},{_esc(otext)},0,"
-                  f"{_i(otype)},{_i(onpc)},{amid2},{_i(apoi)},{_i(bcoded)},{_i(bmoney)},"
-                  f"{_esc(btext)},0)")
-    L.append(",\n".join(ov) + ";\n")
-    L += [f"UPDATE creature_template SET gossip_menu_id={menu_remap[m]} WHERE entry IN "
-          f"({','.join(str(e) for e, mm in cre_menu.items() if mm == m)});" for m in menus]
-    ctx.write("sql/zz_[AUTO,F-011]%s_gossip.sql" % ctx.sfx, "\n".join(L) + "\n")
+        amid2 = menu_remap.get(_i(r["action_menu_id"]), 0) if _i(r["action_menu_id"]) > 0 else 0
+        ctx.col.add("gossip_menu_option", {
+            "MenuID": menu_remap[_i(r["menu_id"])], "OptionID": _i(r["id"]),
+            "OptionIcon": _i(r["option_icon"]), "OptionText": R(_esc(r["option_text"])),
+            "OptionBroadcastTextID": 0, "OptionType": _i(r["option_id"]),
+            "OptionNpcFlag": _i(r["npc_option_npcflag"]), "ActionMenuID": amid2,
+            "ActionPoiID": _i(r["action_poi_id"]), "BoxCoded": _i(r["box_coded"]),
+            "BoxMoney": _i(r["box_money"]), "BoxText": R(_esc(r["box_text"])),
+            "BoxBroadcastTextID": 0,
+        })
+    # repoint each NPC at its remapped menu — overlay onto our creature_template INSERTs
+    for e, mm in cre_menu.items():
+        ctx.col.put("creature_template", e, {"gossip_menu_id": menu_remap[mm]},
+                    tier="overlay")
 
     # ---- file 2: gossip conditions (type 14 greeting / 15 option) ----
     crows = q("SELECT SourceTypeOrReferenceId,SourceGroup,SourceEntry,SourceId,ElseGroup,"
@@ -173,51 +176,38 @@ def emit(ctx):
     cmenus = sorted({menu_remap[_i(r["SourceGroup"])] for r in crows
                      if _i(r["SourceGroup"]) in menu_remap})
     n14 = sum(1 for k in kept if k[0] == 14)
-    CL = ["-- [F-011] gossip greeting/option conditions (CONDITION_SOURCE_TYPE_GOSSIP_MENU=14, _OPTION=15)",
-          "-- Ported so the greeting changes with quest state (AC last-match-wins otherwise shows the",
-          "-- final post-quest text). %d conditions (%d greeting + %d option) across %d menus.\n"
-          % (len(kept), n14, len(kept) - n14, len(cmenus)),
-          "DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` IN (14,15) AND `SourceGroup` IN (%s);"
-          % ", ".join(map(str, cmenus)),
-          "INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, "
-          "`SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, "
-          "`ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, "
-          "`ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES",
-          ",\n".join("(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, 0, 0, '', '')" % k
-                     for k in kept) + ";"]
-    ctx.write("sql/zz_[AUTO,F-011]%s_gossip_conditions.sql" % ctx.sfx, "\n".join(CL) + "\n")
+    ctx.col.delete("conditions",
+                   "SourceTypeOrReferenceId IN (14,15) AND SourceGroup IN (%s)"
+                   % ", ".join(map(str, cmenus)))
+    for (st, sg, se, sid, eg, ct, ctg, cv1, cv2, cv3, neg) in kept:
+        ctx.col.add("conditions", {
+            "SourceTypeOrReferenceId": st, "SourceGroup": sg, "SourceEntry": se,
+            "SourceId": sid, "ElseGroup": eg, "ConditionTypeOrReference": ct,
+            "ConditionTarget": ctg, "ConditionValue1": cv1, "ConditionValue2": cv2,
+            "ConditionValue3": cv3, "NegativeCondition": neg,
+            "ErrorType": 0, "ErrorTextId": 0, "ScriptName": "", "Comment": "",
+        })
 
-    # ---- file 3: DERIVED greeting gating (hand-curated, not from source) ----
+    # ---- DERIVED greeting gating (hand-curated, not from source): menus with a
+    # before/after greeting pair but no source condition -> AC last-match-wins
+    # showed the "after" text unconditionally. before = NOT rewarded, after = rewarded.
     inv_menu = {v: k for k, v in menu_remap.items()}
     dmenus = [d[0] for d in _DERIVED]
-    DL = ["-- [F-011] DERIVED gossip greeting gating (NOT from Neltharion source).",
-          "-- Menus with a before/after greeting pair but no source condition -> AC last-match-wins",
-          "-- showed the \"after\" text unconditionally. Gating inferred from each NPC's quest",
-          "-- relations; before = NOT rewarded, after = rewarded. Only high-confidence menus.\n",
-          "DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=14 AND `SourceGroup` IN (%s);"
-          % ",".join(map(str, dmenus)),
-          "INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, "
-          "`SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, "
-          "`ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, "
-          "`ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES"]
-    # Build (kind, text) lines: 'c' = comment (no punctuation), 'r' = condition row.
-    lines = []
-    for menu, quest, note, cb, ca in _DERIVED:
+    ctx.col.delete("conditions",
+                   "SourceTypeOrReferenceId=14 AND SourceGroup IN (%s)"
+                   % ",".join(map(str, dmenus)))
+    for menu, quest, _note, cb, ca in _DERIVED:
         orig = inv_menu[menu]
         texts = [text_remap[t] for e, t in gm if e == orig and t > 0]
         before, after = texts[0], texts[1]
-        lines.append(("c", "-- %s" % note))
-        lines.append(("r", "(14, %d, %d, 0, 0, 8, 0, %d, 0, 0, 1, 0, 0, '', '%s')" % (menu, before, quest, cb)))
-        lines.append(("r", "(14, %d, %d, 0, 0, 8, 0, %d, 0, 0, 0, 0, 0, '', '%s')" % (menu, after, quest, ca)))
-    last_row = max(i for i, (k, _t) in enumerate(lines) if k == "r")
-    out = []
-    for i, (k, t) in enumerate(lines):
-        if k == "c":
-            out.append(t)
-        else:
-            out.append(t + ("," if i != last_row else ";"))
-    DL.append("\n".join(out))
-    ctx.write("sql/zz_[AUTO,F-011]%s_gossip_conditions_derived.sql" % ctx.sfx, "\n".join(DL) + "\n")
+        for se, neg, cm in ((before, 1, cb), (after, 0, ca)):
+            ctx.col.add("conditions", {
+                "SourceTypeOrReferenceId": 14, "SourceGroup": menu, "SourceEntry": se,
+                "SourceId": 0, "ElseGroup": 0, "ConditionTypeOrReference": 8,
+                "ConditionTarget": 0, "ConditionValue1": quest, "ConditionValue2": 0,
+                "ConditionValue3": 0, "NegativeCondition": neg,
+                "ErrorType": 0, "ErrorTextId": 0, "ScriptName": "", "Comment": cm,
+            })
 
     return ("gossip: %d menus, %d npc_text, %d options, %d NPCs repointed; "
             "conditions=%d (%d dropped); derived=%d menus"

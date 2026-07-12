@@ -11,6 +11,8 @@ covering BOTH zones' quests (union of item_scope + item_scope_K), so this emitte
 ignores ctx.sfx for scope and output name — both zone passes write identical content.
 """
 NAME = "quest_poi"
+TABLES = ["quest_poi", "quest_poi_points"]
+TIER = "base"
 
 DX, DY = -533.33, -12800.0
 
@@ -30,6 +32,8 @@ def _gf(v):
 
 
 def emit(ctx):
+    if ctx.sfx:
+        return "skipped (covers both zones; emitted on Lost Isles pass)"
     scope = ctx.fixture("item_scope")
     try:
         sk = ctx.fixture("item_scope_K")
@@ -63,17 +67,18 @@ def emit(ctx):
         pt_rows.append((_gi(r["questId"]), _gi(r["id"]), _gi(r["idx"]), round(x), round(y)))
 
     qlist = ",".join(str(q) for q in qids)
-    b = [
-        "-- F-011 quest POI (map-648 Lost Isles POIs remapped to map 1 + coord transform)",
-        "-- %d poi headers, %d points across %d quests.\n"
-        % (len(poi_rows), len(pt_rows), len(qids)),
-        "DELETE FROM quest_poi WHERE QuestID IN (%s);" % qlist,
-        "DELETE FROM quest_poi_points WHERE QuestID IN (%s);\n" % qlist,
-        "INSERT INTO quest_poi (QuestID,id,ObjectiveIndex,MapID,WorldMapAreaId,Floor,Priority,Flags,VerifiedBuild) VALUES",
-        ",\n".join("  (%d,%d,%d,%d,%d,%d,0,0,0)" % p[:6] for p in poi_rows) + ";\n",
-        "INSERT INTO quest_poi_points (QuestID,Idx1,Idx2,X,Y,VerifiedBuild) VALUES",
-        ",\n".join("  (%d,%d,%d,%d,%d,0)" % p for p in pt_rows) + ";",
-    ]
-    ctx.write("sql/zz_[AUTO,F-011]_quest_poi.sql", "\n".join(b) + "\n")
+    ctx.col.delete("quest_poi", "QuestID IN (%s)" % qlist)
+    ctx.col.delete("quest_poi_points", "QuestID IN (%s)" % qlist)
+    for (qid, pid, obj, mp, wma, fl, _is648) in poi_rows:
+        ctx.col.add("quest_poi", {
+            "QuestID": qid, "id": pid, "ObjectiveIndex": obj, "MapID": mp,
+            "WorldMapAreaId": wma, "Floor": fl, "Priority": 0, "Flags": 0,
+            "VerifiedBuild": 0,
+        })
+    for (qid, pid, idx, x, y) in pt_rows:
+        ctx.col.add("quest_poi_points", {
+            "QuestID": qid, "Idx1": pid, "Idx2": idx, "X": x, "Y": y,
+            "VerifiedBuild": 0,
+        })
     return ("quest_poi headers=%d points=%d quests=%d"
             % (len(poi_rows), len(pt_rows), len(qids)))

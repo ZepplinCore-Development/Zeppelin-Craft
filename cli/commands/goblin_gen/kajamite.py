@@ -12,7 +12,7 @@ Scripts/Goblin Zone Port/create_kajamite_chunks.py; the original read the alread
 live gameobject spawns, this reads the Neltharion source directly and applies the offset.
 """
 NAME = "kajamite"
-TABLES = ["gameobject_template"]   # loot + spawns still legacy (Phase 4)
+TABLES = ["gameobject_template", "gameobject", "gameobject_loot_template"]
 TIER = "base"
 
 DX, DY = -533.3333, -12800.0          # map648 -> map1 offset (matches migrate_gameobjects)
@@ -36,17 +36,15 @@ def emit(ctx):
         "size": 0.5, "Data0": 0, "Data1": 195492, "Data3": 1, "ScriptName": "",
     }, tier="base", zone=ctx.sfx, owner="kajamite")
 
-    b = []
-    b.append("-- F-011 lootable Kaja'mite Chunk nodes (GO 195492) for quest 14124 'Liberate the Kaja'mite'.")
-    b.append("-- Source DB had 0 spawns for this node; place one at each live deposit (195622/202593).\n")
     # loot: quest item 84467 (was 48766), 100%
-    b.append("DELETE FROM gameobject_loot_template WHERE Entry=195492;")
-    b.append("INSERT INTO gameobject_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount) VALUES")
-    b.append("  (195492,84467,0,100,1,1,0,1,1);\n")
-    # spawns
-    b.append("DELETE FROM gameobject WHERE id=195492;")
-    b.append("INSERT INTO gameobject (guid,id,map,zoneId,areaId,spawnMask,phaseMask,position_x,position_y,position_z,orientation,rotation0,rotation1,rotation2,rotation3,spawntimesecs,animprogress,state,VerifiedBuild) VALUES")
-    vals = []
+    ctx.col.delete("gameobject_loot_template", "Entry=195492")
+    ctx.col.add("gameobject_loot_template", {
+        "Entry": 195492, "Item": 84467, "Reference": 0, "Chance": 100,
+        "QuestRequired": 1, "LootMode": 1, "GroupId": 0, "MinCount": 1, "MaxCount": 1,
+    })
+    # spawns (one chunk per live deposit; deterministic scatter)
+    ctx.col.delete("gameobject", "id=195492")
+    R = ctx.col.Raw
     for i, r in enumerate(rows):
         x = float(r["position_x"]) + DX
         y = float(r["position_y"]) + DY
@@ -54,8 +52,12 @@ def emit(ctx):
         o = float(r["orientation"])
         dx, dy = OFF[i % len(OFF)]
         g = GUID0 + i
-        vals.append("  (%d,195492,1,0,0,1,1,%.4f,%.4f,%.4f,%.4f,0,0,0,1,120,100,1,0)" % (g, x + dx, y + dy, z, o))
-    b.append(",\n".join(vals) + ";")
-
-    ctx.write("sql/zz_[AUTO,F-011]_kajamite_chunk_nodes.sql", "\n".join(b) + "\n")
+        ctx.col.add("gameobject", {
+            "guid": g, "id": 195492, "map": 1, "zoneId": 0, "areaId": 0,
+            "spawnMask": 1, "phaseMask": 1,
+            "position_x": R("%.4f" % (x + dx)), "position_y": R("%.4f" % (y + dy)),
+            "position_z": R("%.4f" % z), "orientation": R("%.4f" % o),
+            "rotation0": 0, "rotation1": 0, "rotation2": 0, "rotation3": 1,
+            "spawntimesecs": 120, "animprogress": 100, "state": 1, "VerifiedBuild": 0,
+        }, sort_key=g)
     return "chunks=%d (guids %d..%d)" % (len(rows), GUID0, GUID0 + len(rows) - 1)

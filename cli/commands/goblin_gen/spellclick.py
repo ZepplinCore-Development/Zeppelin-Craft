@@ -17,6 +17,8 @@ The conditions gate each click on its quest being in the player's log (Condition
 = CONDITION_QUESTTAKEN), so a click is only offered to players actually on the quest.
 """
 NAME = "spellclick"
+TABLES = ["npc_spellclick_spells", "conditions"]
+TIER = "base"
 
 ZONE = {"": "4720", "_K": "4737"}   # Lost Isles / Kezan (matches creatures.py)
 
@@ -56,30 +58,19 @@ def emit(ctx):
             conds.append(tuple(r[c] for c in _COND_COLS))
 
     nlist = ",".join(str(n) for n in npcs) or "0"
-    b = [
-        "-- F-011 %s spellclick mechanics (npc_spellclick_spells + SourceType-18 conditions)"
-        % ("Kezan" if sfx == "_K" else "Lost Isles"),
-        "-- %d clickable NPCs, %d conditions (%d NPCs skipped: spellclick spell absent from 3.3.5a DBC)."
-        % (len(clicks), len(conds), skipped),
-        "-- Each click casts its spell on the NPC; the NPC's SmartAI reacts (spellhit) and gives quest credit.\n",
-        "DELETE FROM npc_spellclick_spells WHERE npc_entry IN (%s);" % nlist,
-    ]
-    if clicks:
-        b.append("INSERT INTO npc_spellclick_spells (npc_entry,spell_id,cast_flags,user_type) VALUES")
-        b.append(",\n".join("  (%d,%d,%d,%d)" % c for c in clicks) + ";")
-    b.append("\nDELETE FROM conditions WHERE SourceTypeOrReferenceId=18 AND SourceGroup IN (%s);" % nlist)
-    if conds:
-        b.append("INSERT INTO conditions\n  (%s)\nVALUES" % ",".join(_COND_COLS))
-        out = []
-        for c in conds:
-            vals = []
-            for col, v in zip(_COND_COLS, c):
-                if col in ("ScriptName", "Comment"):
-                    vals.append(ctx.esc((v or "").strip()))     # source stores ' ' -> ''
-                else:
-                    vals.append(str(int(v or 0)))
-            out.append("  (%s)" % ",".join(vals))
-        b.append(",\n".join(out) + ";")
-
-    ctx.write("sql/zz_[AUTO,F-011]%s_spellclick.sql" % sfx, "\n".join(b) + "\n")
+    ctx.col.delete("npc_spellclick_spells", "npc_entry IN (%s)" % nlist)
+    for npc, spell, cf, ut in clicks:
+        ctx.col.add("npc_spellclick_spells", {
+            "npc_entry": npc, "spell_id": spell, "cast_flags": cf, "user_type": ut,
+        })
+    ctx.col.delete("conditions",
+                   "SourceTypeOrReferenceId=18 AND SourceGroup IN (%s)" % nlist)
+    for c in conds:
+        row = {}
+        for col, v in zip(_COND_COLS, c):
+            if col in ("ScriptName", "Comment"):
+                row[col] = (v or "").strip()     # source stores ' ' -> ''
+            else:
+                row[col] = int(v or 0)
+        ctx.col.add("conditions", row)
     return "spellclick npcs=%d conditions=%d skipped=%d" % (len(clicks), len(conds), skipped)

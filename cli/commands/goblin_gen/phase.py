@@ -20,6 +20,8 @@ import re
 import zipfile
 
 NAME = "phase"
+TABLES = ["phase_definitions", "conditions"]
+TIER = "base"
 
 ZONES = (4720, 4737)
 
@@ -174,31 +176,36 @@ def emit(ctx):
                           gi(r["ConditionValue1"]), gi(r["ConditionValue2"]), gi(r["ConditionValue3"]),
                           gi(r["NegativeCondition"])))
 
-    b = []
-    b.append("-- F-194 Cata zone phasing progression: phase_definitions + phase conditions.")
-    b.append("-- Lost Isles (4720) + Kezan (4737). Terrain swaps deferred -> terrainswapmap/phaseId/originmap = 0.\n")
-    b.append("CREATE TABLE IF NOT EXISTS `phase_definitions` (")
-    b.append("  `zoneId` INT UNSIGNED NOT NULL DEFAULT 0,")
-    b.append("  `entry` INT UNSIGNED NOT NULL DEFAULT 0,")
-    b.append("  `phaseMask` INT UNSIGNED NOT NULL DEFAULT 0,")
-    b.append("  `phaseId` INT UNSIGNED NOT NULL DEFAULT 0,")
-    b.append("  `originmap` INT UNSIGNED NOT NULL DEFAULT 0,")
-    b.append("  `terrainswapmap` INT UNSIGNED NOT NULL DEFAULT 0,")
-    b.append("  `flags` TINYINT UNSIGNED NOT NULL DEFAULT 0,")
-    b.append("  `comment` TEXT DEFAULT NULL,")
-    b.append("  PRIMARY KEY (`zoneId`,`entry`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n")
-    b.append("DELETE FROM `phase_definitions` WHERE `zoneId` IN (%s);" % ",".join(map(str, ZONES)))
-    b.append("INSERT INTO `phase_definitions` (`zoneId`,`entry`,`phaseMask`,`phaseId`,`originmap`,`terrainswapmap`,`flags`,`comment`) VALUES")
-    b.append(",\n".join("  (%d,%d,%d,0,0,0,%d,'%s')" % (z, e, pm, fl, cm.replace("'", "''"))
-                        for z, e, pm, fl, cm in defs) + ";\n")
+    ctx.col.ddl("phase_definitions", "\n".join([
+        "CREATE TABLE IF NOT EXISTS `phase_definitions` (",
+        "  `zoneId` INT UNSIGNED NOT NULL DEFAULT 0,",
+        "  `entry` INT UNSIGNED NOT NULL DEFAULT 0,",
+        "  `phaseMask` INT UNSIGNED NOT NULL DEFAULT 0,",
+        "  `phaseId` INT UNSIGNED NOT NULL DEFAULT 0,",
+        "  `originmap` INT UNSIGNED NOT NULL DEFAULT 0,",
+        "  `terrainswapmap` INT UNSIGNED NOT NULL DEFAULT 0,",
+        "  `flags` TINYINT UNSIGNED NOT NULL DEFAULT 0,",
+        "  `comment` TEXT DEFAULT NULL,",
+        "  PRIMARY KEY (`zoneId`,`entry`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n",
+    ]))
+    ctx.col.delete("phase_definitions", "zoneId IN (%s)" % ",".join(map(str, ZONES)))
+    for z, e, pm, fl, cm in defs:
+        ctx.col.add("phase_definitions", {
+            "zoneId": z, "entry": e, "phaseMask": pm, "phaseId": 0,
+            "originmap": 0, "terrainswapmap": 0, "flags": fl, "comment": cm,
+        })
 
+    # phase conditions (CONDITION_SOURCE_TYPE_PHASE = 26; SourceGroup=zoneId)
     ids = ",".join(map(str, ZONES))
-    b.append("-- phase conditions (CONDITION_SOURCE_TYPE_PHASE = 26; SourceGroup=zoneId, SourceEntry=phase entry)")
-    b.append("DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=26 AND `SourceGroup` IN (%s);" % ids)
-    b.append("INSERT INTO `conditions` (`SourceTypeOrReferenceId`,`SourceGroup`,`SourceEntry`,`SourceId`,`ElseGroup`,`ConditionTypeOrReference`,`ConditionTarget`,`ConditionValue1`,`ConditionValue2`,`ConditionValue3`,`NegativeCondition`,`ErrorType`,`ErrorTextId`,`ScriptName`,`Comment`) VALUES")
-    b.append(",\n".join("  (26,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,0,0,'','F-194 phase')" % cd
-                        for cd in conds) + ";")
-
-    ctx.write("sql/zz_[AUTO,F-194]_phase_definitions.sql", "\n".join(b) + "\n")
+    ctx.col.delete("conditions",
+                   "SourceTypeOrReferenceId=26 AND SourceGroup IN (%s)" % ids)
+    for (z, se, sid, eg, ct, ctg, cv1, cv2, cv3, neg) in conds:
+        ctx.col.add("conditions", {
+            "SourceTypeOrReferenceId": 26, "SourceGroup": z, "SourceEntry": se,
+            "SourceId": sid, "ElseGroup": eg, "ConditionTypeOrReference": ct,
+            "ConditionTarget": ctg, "ConditionValue1": cv1, "ConditionValue2": cv2,
+            "ConditionValue3": cv3, "NegativeCondition": neg,
+            "ErrorType": 0, "ErrorTextId": 0, "ScriptName": "", "Comment": "F-194 phase",
+        })
     return "phase_definitions=%d (%d LI, %d Kezan) conditions=%d" % (
         len(defs), sum(1 for d in defs if d[0] == 4720), sum(1 for d in defs if d[0] == 4737), len(conds))

@@ -23,7 +23,7 @@ import os
 import struct
 
 NAME = "vendors"
-TABLES = ["item_template"]   # (npc_vendor still emitted via legacy ctx.write for now)
+TABLES = ["item_template", "npc_vendor"]
 TIER = "base"
 
 # ---- Item-sparse.db2 (build 15595) field indices (all 4-byte fields) ----
@@ -183,13 +183,12 @@ def emit(ctx):
                           int(r["maxcount"] or 0), int(r["incrtime"] or 0),
                           int(r["ExtendedCost"] or 0)))
     dels = ",".join(str(x) for x in sorted(set(vendors)))
-    vb = [
-        "-- F-011 vendor inventories (npc_vendor; custom items remapped)\n",
-        "DELETE FROM npc_vendor WHERE entry IN (%s);" % dels,
-        "INSERT INTO npc_vendor (entry,slot,item,maxcount,incrtime,ExtendedCost,VerifiedBuild) VALUES",
-        ",\n".join("  (%d,%d,%d,%d,%d,%d,0)" % v for v in vrows) + ";",
-    ]
-    ctx.write("sql/zz_[AUTO,F-011]%s_vendors.sql" % sfx, "\n".join(vb) + "\n")
+    ctx.col.delete("npc_vendor", "entry IN (%s)" % dels)
+    for e, slot, item, maxcount, incrtime, extcost in vrows:
+        ctx.col.add("npc_vendor", {
+            "entry": e, "slot": slot, "item": item, "maxcount": maxcount,
+            "incrtime": incrtime, "ExtendedCost": extcost, "VerifiedBuild": 0,
+        })
 
     return "npc_vendor rows=%d (%d vendors) items_vendor=%d" % (
         len(vrows), len(set(v[0] for v in vrows)), len(irows))

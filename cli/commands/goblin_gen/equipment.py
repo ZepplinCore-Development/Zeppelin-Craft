@@ -18,7 +18,7 @@ import sys
 import subprocess
 
 NAME = "equipment"
-TABLES = ["creature"]   # equipment_id patch onto spawns (creature_equip_template still legacy)
+TABLES = ["creature", "creature_equip_template"]
 TIER = "overlay"
 
 ZONES = ("4720", "4737")   # Lost Isles + Kezan (one combined file)
@@ -72,16 +72,13 @@ def emit(ctx):
             emit_rows.append((e, it))
 
     ents = [e for e, _ in emit_rows]
-    out = [
-        "-- [F-011] creature_equip_template (NPC weapons) from Neltharion. equipment_id=1 per creature.",
-        "-- Cata items absent from AC item_template zeroed (port-or-skip). "
-        "Regenerate: `zep goblin gen equipment`.\n",
-        "DELETE FROM creature_equip_template WHERE CreatureID IN (%s);" % ",".join(map(str, ents)),
-        "INSERT INTO creature_equip_template (CreatureID,ID,ItemID1,ItemID2,ItemID3,VerifiedBuild) VALUES",
-    ]
-    out.append(",\n".join("  (%d,1,%d,%d,%d,0)" % (e, it[0], it[1], it[2])
-                          for e, it in emit_rows) + ";")
-    ctx.write("sql/zz_[AUTO,F-011]%s_creature_equip.sql" % ctx.sfx, "\n".join(out) + "\n")
+    ctx.col.delete("creature_equip_template",
+                   "CreatureID IN (%s)" % ",".join(map(str, ents)))
+    for e, it in emit_rows:
+        ctx.col.add("creature_equip_template", {
+            "CreatureID": e, "ID": 1, "ItemID1": it[0], "ItemID2": it[1],
+            "ItemID3": it[2], "VerifiedBuild": 0,
+        })
 
     # fold creature.equipment_id onto the collected spawn rows (entry-keyed -> guid rows)
     ctx.col.patch("creature", "id", ents, {"equipment_id": 1})

@@ -6,6 +6,8 @@ BroadcastTextId forced to 0 (inline Text field is used). DELETE+INSERT per
 CreatureID. Single combined file for both zones -> emitted only on the "" pass.
 """
 NAME = "creature_text"
+TABLES = ["creature_text"]
+TIER = "base"
 
 ZONES = ("4720", "4737")   # Lost Isles + Kezan (one combined file)
 
@@ -39,23 +41,15 @@ def emit(ctx):
         "CAST(TRIM(id) AS SIGNED)" % gset)
     entries = sorted({_i(r["entry"]) for r in rows})
 
-    out = [
-        "-- [F-011] creature_text (NPC yells/says) migrated from Neltharion. Resolves SmartAI",
-        "-- SMART_ACTION_TALK references (groupid) that were dangling. BroadcastTextId=0 (inline Text used).",
-        "-- Regenerate with `zep goblin gen creature_text`. Idempotent (DELETE+INSERT per CreatureID).\n",
-        "DELETE FROM creature_text WHERE CreatureID IN (%s);" % ",".join(map(str, entries)),
-        "INSERT INTO creature_text (CreatureID,GroupID,ID,Text,Type,Language,Probability,"
-        "Emote,Duration,Sound,BroadcastTextId,TextRange,comment) VALUES",
-    ]
-    vals = []
+    ctx.col.delete("creature_text",
+                   "CreatureID IN (%s)" % ",".join(map(str, entries)))
     for r in rows:
-        vals.append(
-            "  (%d,%d,%d,%s,%d,%d,%d,%d,%d,%d,0,%d,%s)" % (
-                _i(r["entry"]), _i(r["groupid"]), _i(r["id"]), _esc(r["text"]),
-                _i(r["type"]), _i(r["language"]), _i(r["probability"], 100),
-                _i(r["emote"]), _i(r["duration"]), _i(r["sound"]),
-                _i(r["text_range"]), _esc(r["comment"])))
-    out.append(",\n".join(vals) + ";")
-
-    ctx.write("sql/zz_[AUTO,F-011]%s_creature_text.sql" % ctx.sfx, "\n".join(out) + "\n")
+        ctx.col.add("creature_text", {
+            "CreatureID": _i(r["entry"]), "GroupID": _i(r["groupid"]), "ID": _i(r["id"]),
+            "Text": str(r["text"] or "").strip(), "Type": _i(r["type"]),
+            "Language": _i(r["language"]), "Probability": _i(r["probability"], 100),
+            "Emote": _i(r["emote"]), "Duration": _i(r["duration"]), "Sound": _i(r["sound"]),
+            "BroadcastTextId": 0, "TextRange": _i(r["text_range"]),
+            "comment": str(r["comment"] or "").strip(),
+        })
     return "creature_text=%d rows across %d NPCs" % (len(rows), len(entries))

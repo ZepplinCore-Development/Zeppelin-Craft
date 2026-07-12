@@ -7,6 +7,8 @@ non-SFX file — the mapping is zone-independent, matching the source script whi
 writes one zz_[F-011]_spell_scripts.sql regardless of zone.
 """
 NAME = "spell_scripts"
+TABLES = ["spell_script_names"]
+TIER = "base"
 
 # spell_id -> C++ ScriptName (zeppelin_goblin_start.cpp quest-credit handlers).
 SCRIPTS = [
@@ -19,12 +21,10 @@ SCRIPTS = [
 
 
 def emit(ctx):
-    b = [
-        "-- F-011 register core-C++ quest-credit spell scripts (zeppelin_goblin_start.cpp)\n",
-        "DELETE FROM spell_script_names WHERE spell_id IN (%s);"
-        % ",".join(str(s) for s, _ in SCRIPTS),
-        "INSERT INTO spell_script_names (spell_id, ScriptName) VALUES",
-        ",\n".join("  (%d,'%s')" % (s, n) for s, n in SCRIPTS) + ";\n",
-    ]
-    ctx.write("sql/zz_[AUTO,F-011]_spell_scripts.sql", "\n".join(b))
+    if ctx.sfx:
+        return "skipped (zone-independent; emitted on Lost Isles pass)"
+    ctx.col.delete("spell_script_names",
+                   "spell_id IN (%s)" % ",".join(str(s) for s, _ in SCRIPTS))
+    for s, n in SCRIPTS:
+        ctx.col.add("spell_script_names", {"spell_id": s, "ScriptName": n})
     return "spell_script_names=%d" % len(SCRIPTS)

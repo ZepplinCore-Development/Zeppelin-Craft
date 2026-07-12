@@ -18,7 +18,7 @@ import os
 import csv as _csv
 
 NAME = "loot"
-TABLES = ["creature_template"]   # lootid overlay (creature_loot_template still legacy for now)
+TABLES = ["creature_template", "creature_loot_template"]
 TIER = "overlay"
 
 RESV_CSV = "/workspace/project/Zeppelin-Craft/Scripts/Item Scripts/Item Reservations.csv"
@@ -109,20 +109,14 @@ def emit(ctx):
         if lid in entries:
             ctx.col.put("creature_template", e, {"lootid": lid}, tier="overlay")
 
-    b = []
-    b.append("-- F-011 Lost Isles creature loot (direct drops; custom items remapped 84300+)")
-    b.append("-- %d loot rows across %d loot tables. Shared references deferred (%d rows).\n"
-             % (len(loot_rows), len(entries), ref_skipped))
     ids = ",".join(str(x) for x in sorted(entries))
-    b.append("DELETE FROM creature_loot_template WHERE Entry IN (%s);" % ids)
-    b.append("INSERT INTO creature_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount,Comment) VALUES")
-    vals = []
+    ctx.col.delete("creature_loot_template", "Entry IN (%s)" % ids)
     for (ent, it, ref, ch, q, lm, gid, mn, mx, nm) in loot_rows:
-        vals.append("  (%d,%d,%d,%s,%d,%d,%d,%d,%d,'%s')" % (
-            ent, it, ref, _esc(ch), q, lm, gid, mn, mx, (nm or '').replace("'", "''")[:40]))
-    b.append(",\n".join(vals) + ";")
-
-    ctx.write("sql/zz_[AUTO,F-011]%s_loot_creatures.sql" % sfx, "\n".join(b) + "\n")
+        ctx.col.add("creature_loot_template", {
+            "Entry": ent, "Item": it, "Reference": ref, "Chance": ch,
+            "QuestRequired": q, "LootMode": lm, "GroupId": gid,
+            "MinCount": mn, "MaxCount": mx, "Comment": (nm or '')[:40],
+        })
     custom = sum(1 for r in loot_rows if r[1] >= 84300)
     return ("loot_tables=%d rows=%d deferred_refs=%d custom_items=%d conflicts=%d"
             % (len(entries), len(loot_rows), ref_skipped, custom, len(set(conflicts))))

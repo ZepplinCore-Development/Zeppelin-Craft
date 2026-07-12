@@ -12,6 +12,8 @@ in the live 3.3.5a DBC. Reference implementation for the gen domain-module patte
         return "<one-line summary>"
 """
 NAME = "trainers"
+TABLES = ["trainer", "creature_default_trainer", "trainer_spell"]
+TIER = "base"
 
 
 def emit(ctx):
@@ -53,20 +55,18 @@ def emit(ctx):
             ts_rows.append((tid, sp, cost, rsk, rskv, rlv))
 
     tids = ",".join(str(t[0]) for t in trainer_rows)
-    greet = ctx.esc("Ready to learn, ?")
-    b = [
-        "-- F-011 Lost Isles trainers (npc_trainer -> AC trainer/creature_default_trainer/trainer_spell)",
-        "-- %d trainers, %d spell rows (%d spells absent from 3.3.5a DBC skipped). TrainerId block %d+.\n"
-        % (len(trainer_rows), len(ts_rows), skipped, base + 1),
-        "DELETE FROM trainer_spell WHERE TrainerId IN (%s);" % tids,
-        "DELETE FROM creature_default_trainer WHERE TrainerId IN (%s);" % tids,
-        "DELETE FROM trainer WHERE Id IN (%s);\n" % tids,
-        "INSERT INTO trainer (Id,Type,Requirement,Greeting,VerifiedBuild) VALUES",
-        ",\n".join("  (%d,0,0,%s,0)" % (t, greet) for t, _nm in trainer_rows) + ";\n",
-        "INSERT INTO creature_default_trainer (CreatureId,TrainerId) VALUES",
-        ",\n".join("  (%d,%d)" % (cid, t) for cid, t in cdt_rows) + ";\n",
-        "INSERT INTO trainer_spell (TrainerId,SpellId,MoneyCost,ReqSkillLine,ReqSkillRank,ReqAbility1,ReqAbility2,ReqAbility3,ReqLevel,VerifiedBuild) VALUES",
-        ",\n".join("  (%d,%d,%d,%d,%d,0,0,0,%d,0)" % r for r in ts_rows) + ";",
-    ]
-    ctx.write("sql/zz_[AUTO,F-011]%s_trainers.sql" % sfx, "\n".join(b) + "\n")
+    ctx.col.delete("trainer_spell", "TrainerId IN (%s)" % tids)
+    ctx.col.delete("creature_default_trainer", "TrainerId IN (%s)" % tids)
+    ctx.col.delete("trainer", "Id IN (%s)" % tids)
+    for t, _nm in trainer_rows:
+        ctx.col.add("trainer", {"Id": t, "Type": 0, "Requirement": 0,
+                                "Greeting": "Ready to learn, ?", "VerifiedBuild": 0})
+    for cid, t in cdt_rows:
+        ctx.col.add("creature_default_trainer", {"CreatureId": cid, "TrainerId": t})
+    for t, sp, cost, rsk, rskv, rlv in ts_rows:
+        ctx.col.add("trainer_spell", {
+            "TrainerId": t, "SpellId": sp, "MoneyCost": cost, "ReqSkillLine": rsk,
+            "ReqSkillRank": rskv, "ReqAbility1": 0, "ReqAbility2": 0, "ReqAbility3": 0,
+            "ReqLevel": rlv, "VerifiedBuild": 0,
+        })
     return f"trainers={len(trainer_rows)} trainer_spell={len(ts_rows)} skipped={skipped}"

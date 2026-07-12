@@ -14,7 +14,7 @@ entry.
 Two single combined files for both zones -> emitted only on the "" pass.
 """
 NAME = "immunities_movement"
-TABLES = ["creature_template"]   # CreatureImmunitiesId overlay (immunities/movement tables still legacy)
+TABLES = ["creature_template", "creature_immunities", "creature_template_movement"]
 TIER = "overlay"
 
 ZONES = ("4720", "4737")   # Lost Isles + Kezan (one combined file)
@@ -48,31 +48,23 @@ def emit(ctx):
         if it not in (0, 3):
             move.append((e, 1 if it & 1 else 0, 1 if it & 2 else 0, 1 if it & 4 else 0))
 
-    # --- creature_immunities ---
+    # --- creature_immunities (one row per distinct mask, ID block 91100+) ---
     base = 91100
-    L = ["-- [F-011] creature_immunities from Neltharion mechanic_immune_mask (bosses lost CC-immunity).",
-         "-- One row per distinct mask; creature_template.CreatureImmunitiesId repointed. "
-         "Regenerate: `zep goblin gen immunities_movement`.\n"]
     for idx, (mask, ents) in enumerate(sorted(imm.items())):
         iid = base + idx
-        L.append("DELETE FROM creature_immunities WHERE ID=%d;" % iid)
-        L.append("INSERT INTO creature_immunities (ID,SchoolMask,DispelTypeMask,MechanicsMask,"
-                 "Effects,Auras,ImmuneAoE,ImmuneChain,Comment) VALUES "
-                 "(%d,0,0,%d,0,0,0,0,'F-011 goblin boss immunities 0x%X');" % (iid, mask, mask))
+        ctx.col.put("creature_immunities", iid, {
+            "ID": iid, "SchoolMask": 0, "DispelTypeMask": 0, "MechanicsMask": mask,
+            "Effects": 0, "Auras": 0, "ImmuneAoE": 0, "ImmuneChain": 0,
+            "Comment": "F-011 goblin boss immunities 0x%X" % mask,
+        }, tier="base", owner="immunities_movement")
         # fold creature_template.CreatureImmunitiesId into the collector INSERT (was clobbered)
         for e in sorted(ents):
             ctx.col.put("creature_template", e, {"CreatureImmunitiesId": iid}, tier="overlay")
-    ctx.write("sql/zz_[AUTO,F-011]%s_creature_immunities.sql" % ctx.sfx, "\n".join(L) + "\n")
 
-    # --- creature_template_movement ---
-    ents = [m[0] for m in move]
-    M = ["-- [F-011] creature_template_movement from Neltharion InhabitType (fliers/swimmers fell to ground).",
-         "-- Ground/Swim from bits; Flight=1 (DisableGravity) keeps air units at spawn Z. "
-         "Regenerate: `zep goblin gen immunities_movement`.\n",
-         "DELETE FROM creature_template_movement WHERE CreatureId IN (%s);"
-         % ",".join(map(str, sorted(ents))),
-         "INSERT INTO creature_template_movement (CreatureId,Ground,Swim,Flight) VALUES"]
-    M.append(",\n".join("  (%d,%d,%d,%d)" % (e, g, s, fl) for e, g, s, fl in sorted(move)) + ";")
-    ctx.write("sql/zz_[AUTO,F-011]%s_creature_movement.sql" % ctx.sfx, "\n".join(M) + "\n")
+    # --- creature_template_movement (InhabitType bits; Flight=DisableGravity) ---
+    for e, g, s, fl in move:
+        ctx.col.put("creature_template_movement", e, {
+            "CreatureId": e, "Ground": g, "Swim": s, "Flight": fl,
+        }, tier="base", owner="immunities_movement")
 
     return "immunities=%d masks / movement=%d entries" % (len(imm), len(move))

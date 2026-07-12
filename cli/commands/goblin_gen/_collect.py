@@ -27,9 +27,21 @@ Three table *kinds* (declared in TABLES):
 """
 
 
+class Raw:
+    """Pre-rendered SQL literal — emitted verbatim by _esc (no quoting/formatting).
+    Use when a domain has already rendered the exact literal (e.g. source-string
+    passthrough values) and byte-stable output matters."""
+    __slots__ = ("s",)
+
+    def __init__(self, s):
+        self.s = str(s)
+
+
 def _esc(v):
     if v is None:
         return "NULL"
+    if isinstance(v, Raw):
+        return v.s
     if isinstance(v, str):
         return "'" + v.replace("\\", "\\\\").replace("'", "''") + "'"
     if isinstance(v, float):
@@ -60,10 +72,10 @@ TABLES = {
     "npc_text":                   dict(order=25, kind="B", dest="sql"),
     "gossip_menu":                dict(order=26, kind="B", dest="sql"),
     "gossip_menu_option":         dict(order=27, kind="B", dest="sql"),
-    "quest_template":             dict(order=30, kind="B", dest="sql"),
-    "quest_template_addon":       dict(order=31, kind="B", dest="sql"),
-    "quest_offer_reward":         dict(order=32, kind="B", dest="sql"),
-    "quest_request_items":        dict(order=33, kind="B", dest="sql"),
+    "quest_template":             dict(order=30, kind="A", pk="ID", dest="sql"),
+    "quest_template_addon":       dict(order=31, kind="A", pk="ID", dest="sql"),
+    "quest_offer_reward":         dict(order=32, kind="A", pk="ID", dest="sql"),
+    "quest_request_items":        dict(order=33, kind="A", pk="ID", dest="sql"),
     "quest_poi":                  dict(order=34, kind="B", dest="sql"),
     "quest_poi_points":           dict(order=35, kind="B", dest="sql"),
     "creature":                   dict(order=40, kind="B", dest="sql"),
@@ -111,6 +123,8 @@ class _RowA:
 
 
 class Collector:
+    Raw = Raw   # so domains can wrap pre-rendered literals via ctx.col.Raw(...)
+
     def __init__(self):
         self._a = {}      # table -> {pk -> _RowA}
         self._b = {}      # table -> {"deletes": [where], "rows": [(sortkey, cols)], "patches": []}
@@ -190,12 +204,19 @@ class Collector:
     def _render_a(self, table, cfg):
         pk = cfg["pk"]
         out = []
-        skipped = 0
+        updates = 0
         for key in sorted(self._a[table].keys(), key=lambda x: (isinstance(x, str), x)):
             rec = self._a[table][key]
             if not rec.base:
-                # overlay-only row (no base contributor) -> would be column-incomplete; skip.
-                skipped += 1
+                # overlay-only row (no base contributor): the row is not ours -> emit a
+                # consolidated UPDATE of just the overlay columns (stock-row rule),
+                # never a column-incomplete INSERT.
+                if rec.overlay:
+                    out.append("UPDATE %s SET %s WHERE %s = %s;\n" % (
+                        table,
+                        ", ".join("`%s` = %s" % (k, _esc(v)) for k, v in rec.overlay.items()),
+                        pk, _esc(key)))
+                    updates += 1
                 continue
             row = rec.final()
             if not row:
@@ -208,8 +229,8 @@ class Collector:
             out.append("DELETE FROM %s WHERE %s = %s;" % (table, pk, _esc(key)))
             out.append("INSERT INTO %s SET" % table)
             out.append(",\n".join("  `%s` = %s" % (k, _esc(v)) for k, v in row.items()) + ";\n")
-        if skipped:
-            out.insert(0, "-- note: %d overlay-only row(s) skipped (no base contributor)\n" % skipped)
+        if updates:
+            out.insert(0, "-- note: %d row(s) not owned here (no base contributor) -> consolidated UPDATE\n" % updates)
         return "\n".join(out) + "\n"
 
     def _render_b(self, table):

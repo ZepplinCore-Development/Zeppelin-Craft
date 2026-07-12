@@ -12,6 +12,8 @@ Emitted as a SINGLE non-SFX file (sql/zz_[AUTO,F-011]_smartai.sql) — scope is
 zone-independent, matching the source script's single zz_[F-011]_smartai.sql.
 """
 NAME = "smartai"
+TABLES = ["smart_scripts", "creature_template", "gameobject_template"]
+TIER = "overlay"   # AIName overlays need the template base rows collected first
 
 # 3.3.5a valid ceilings (AC 3.3.5a): SMART_EVENT ~ up to 74, SMART_ACTION up to ~135
 MAX_EVENT, MAX_ACTION = 74, 135
@@ -52,6 +54,8 @@ def _esc(v):
 
 
 def emit(ctx):
+    if ctx.sfx:
+        return "skipped (zone-independent scope; emitted on Lost Isles pass)"
     scope = ctx.fixture("smartai_scope")
     valid_spells = ctx.dbc_spell_ids()
 
@@ -86,19 +90,19 @@ def emit(ctx):
     cre = sorted(set(e for (st, e) in rows_by_key if st == 0))
     go = sorted(set(e for (st, e) in rows_by_key if st == 1))
 
-    b = ["-- F-011 scoped SmartAI (quest-relevant creatures/GOs + timed action-lists) from Neltharion."]
-    b.append("-- %d script blocks, %d rows total. %d Cata-only rows skipped (event/action out of 3.3.5a range); %d skipped (cast/aura of unported spell, I-230).\n" % (
-        len(rows_by_key), sum(len(v) for v in rows_by_key.values()), skipped, spell_skipped))
-    if cre:
-        b.append("UPDATE creature_template SET AIName='SmartAI' WHERE entry IN (%s);" % ",".join(map(str, cre)))
-    if go:
-        b.append("UPDATE gameobject_template SET AIName='SmartGameObjectAI' WHERE entry IN (%s);" % ",".join(map(str, go)))
-    b.append("")
+    # AIName so the scripts run — overlay onto our template INSERTs; entries we do
+    # not own (stock rows) render as a consolidated UPDATE by the collector.
+    for e in cre:
+        ctx.col.put("creature_template", e, {"AIName": "SmartAI"}, tier="overlay")
+    for e in go:
+        ctx.col.put("gameobject_template", e, {"AIName": "SmartGameObjectAI"}, tier="overlay")
+
     for (st, e), rws in sorted(rows_by_key.items()):
-        b.append("DELETE FROM smart_scripts WHERE source_type=%d AND entryorguid=%d;" % (st, e))
-        b.append("INSERT INTO smart_scripts (%s) VALUES" % ",".join(COLS))
-        vals = ["  (" + ",".join(_esc(r[c2]) for c2 in COLS) + ")" for r in rws]
-        b.append(",\n".join(vals) + ";\n")
-    ctx.write("sql/zz_[AUTO,F-011]_smartai.sql", "\n".join(b) + "\n")
+        ctx.col.delete("smart_scripts", "source_type=%d AND entryorguid=%d" % (st, e))
+        for r in rws:
+            # values pass through as source-string literals (Raw) to match the
+            # original dump rendering exactly (ints/floats/quoted strings)
+            ctx.col.add("smart_scripts",
+                        {c2: ctx.col.Raw(_esc(r[c2])) for c2 in COLS})
     return "blocks=%d rows=%d skipped(type)=%d skipped(spell)=%d cre=%d go=%d" % (
         len(rows_by_key), sum(len(v) for v in rows_by_key.values()), skipped, spell_skipped, len(cre), len(go))

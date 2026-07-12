@@ -26,7 +26,8 @@ The source script also copies GO M2 models into the zpak MPQ folder; that asset
 step is out of scope here (this module only emits SQL/DBC).
 """
 NAME = "gameobjects"
-TABLES = ["gameobject_template", "gameobjectdisplayinfo"]   # spawns / loot still legacy (Phase 4)
+TABLES = ["gameobject_template", "gameobjectdisplayinfo", "gameobject",
+          "gameobject_loot_template"]
 TIER = "base"
 
 # Stock herb/mining nodes that already exist in AC — spawn them, but reuse AC's
@@ -89,29 +90,32 @@ def emit(ctx):
                     tier="base", zone=sfx, owner="gameobjects")
 
     # ---- 02 gameobject spawns (scope-curated: keeps dev props like the I-233
-    # Gnomey crate/aura column out even though their templates exist in source) ----
+    # Gnomey crate/aura column out even though their templates exist in source).
+    # Fixed 500,000-guid block DELETE per zone (count-independent) so stale
+    # spawns beyond the current count are always cleared; kajamite's chunk guids
+    # live inside the Kezan block and re-insert from the same collected file. ----
     spawns = ctx.q("SELECT * FROM gameobject WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
     scope_set = set(scope["ents"]) | STOCK_GO
     spawns = [s for s in spawns if int(s["id"]) in gt and int(s["id"]) in scope_set]
-    sb = ["-- F-011 Lost Isles gameobject spawns (map648->map1 offset, source phaseMask preserved for F-194 phasing)\n",
-          "-- guid block %d..%d\n\n" % (guid_base, guid_base + len(spawns)),
-          "DELETE FROM gameobject WHERE guid BETWEEN %d AND %d;\n" % (guid_base, guid_base + len(spawns) + 10),
-          "INSERT INTO gameobject (guid,id,map,zoneId,areaId,spawnMask,phaseMask,position_x,position_y,position_z,orientation,rotation0,rotation1,rotation2,rotation3,spawntimesecs,animprogress,state,ScriptName,VerifiedBuild,Comment) VALUES\n"]
-    vals = []
+    ctx.col.delete("gameobject", "guid BETWEEN %d AND %d" % (guid_base, guid_base + 499999))
     g = guid_base
     for s in spawns:
         g += 1
         x = float(s["position_x"]) + DX
         y = float(s["position_y"]) + DY
-        z = float(s["position_z"])
         pmask = _gi(s, "phaseMask", 1) or 1   # F-194 preserve Cata phaseMask
-        vals.append("  (%d,%d,1,0,0,1,%d,%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%d,'',0,'F-011 Lost Isles')" % (
-            g, int(s["id"]), pmask, _esc(x), _esc(y), _esc(z), _esc(float(s["orientation"])),
-            _esc(float(s["rotation0"] or 0)), _esc(float(s["rotation1"] or 0)),
-            _esc(float(s["rotation2"] or 0)), _esc(float(s["rotation3"] or 0)),
-            _gi(s, "spawntimesecs", 300), _gi(s, "animprogress", 255), _gi(s, "state")))
-    sb.append(",\n".join(vals) + ";\n")
-    ctx.write("sql/zz_[AUTO,F-011]%s_gameobjects_02_spawns.sql" % sfx, "".join(sb))
+        ctx.col.add("gameobject", {
+            "guid": g, "id": int(s["id"]), "map": 1, "zoneId": 0, "areaId": 0,
+            "spawnMask": 1, "phaseMask": pmask,
+            "position_x": x, "position_y": y, "position_z": float(s["position_z"]),
+            "orientation": float(s["orientation"]),
+            "rotation0": float(s["rotation0"] or 0), "rotation1": float(s["rotation1"] or 0),
+            "rotation2": float(s["rotation2"] or 0), "rotation3": float(s["rotation3"] or 0),
+            "spawntimesecs": _gi(s, "spawntimesecs", 300),
+            "animprogress": _gi(s, "animprogress", 255), "state": _gi(s, "state"),
+            "ScriptName": "", "VerifiedBuild": 0,
+            "Comment": "F-011 %s" % ("Kezan" if sfx else "Lost Isles"),
+        }, sort_key=g)
 
     # ---- 03 gameobject_loot_template (chest GOs, remap custom items) ----
     gl_entries = set(int(r["entry"]) for r in
@@ -136,14 +140,15 @@ def emit(ctx):
                                       int(r["lootmode"] or 1), int(r["groupid"] or 0),
                                       max(mcr, 1), max(int(r["maxcount"] or 1), mcr, 1)))
                     loot_tables.add(lid)
-    lb = ["-- F-011 gameobject loot (chest/node GOs; custom items remapped)\n\n"]
     if loot_tables:
-        lb.append("DELETE FROM gameobject_loot_template WHERE Entry IN (%s);\n"
-                  % ",".join(str(x) for x in sorted(loot_tables)))
-        lb.append("INSERT INTO gameobject_loot_template (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount) VALUES\n")
-        lb.append(",\n".join("  (%d,%d,0,%s,%d,%d,%d,%d,%d)" % (ent, it, _esc(ch), q, lm, gid, mn, mx)
-                             for (ent, it, ch, q, lm, gid, mn, mx) in loot_rows) + ";\n")
-    ctx.write("sql/zz_[AUTO,F-011]%s_gameobjects_03_loot.sql" % sfx, "".join(lb))
+        ctx.col.delete("gameobject_loot_template",
+                       "Entry IN (%s)" % ",".join(str(x) for x in sorted(loot_tables)))
+        for (ent, it, ch, q2, lm, gid, mn, mx) in loot_rows:
+            ctx.col.add("gameobject_loot_template", {
+                "Entry": ent, "Item": it, "Reference": 0, "Chance": ch,
+                "QuestRequired": q2, "LootMode": lm, "GroupId": gid,
+                "MinCount": mn, "MaxCount": mx,
+            })
 
     # ---- 04 quest-summoned GO templates (referenced by in-scope quests, not spawned) ----
     quests = ctx.fixture("item_scope" + sfx)["quests"]

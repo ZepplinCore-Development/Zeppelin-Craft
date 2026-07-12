@@ -18,6 +18,9 @@ import os
 import csv as _csv
 
 NAME = "quests"
+TABLES = ["quest_template", "quest_template_addon", "quest_offer_reward",
+          "quest_request_items", "creature_queststarter", "creature_questender"]
+TIER = "base"
 
 RESV_CSV = "/workspace/project/Zeppelin-Craft/Scripts/Item Scripts/Item Reservations.csv"
 F011_LO, F011_HI = 84300, 84799
@@ -96,7 +99,6 @@ def emit(ctx):
     print("LI quests with source data:", len(qids), "of", len(QIDS))
 
     # ---- quest_template ----
-    b = ["-- F-011 Lost Isles quest_template (Cata->WotLK). Item refs remapped. Reward factions zeroed.\n"]
     for qid in qids:
         s = qt[qid]
         col = {
@@ -137,11 +139,7 @@ def emit(ctx):
             col["ObjectiveText%d" % n] = gs(s, "ObjectiveText%d" % n)
         col["VerifiedBuild"] = 0
         scan_conflicts(qid, col)
-        b.append("DELETE FROM quest_template WHERE ID = %d;\n" % qid)
-        b.append("INSERT INTO quest_template SET\n")
-        b.append(",\n".join("  `%s` = %s" % (k, esc(v)) for k, v in col.items()))
-        b.append(";\n\n")
-    ctx.write("sql/zz_[AUTO,F-011]%s_quests_01_template.sql" % sfx, "".join(b))
+        ctx.col.put("quest_template", qid, col, tier="base", zone=sfx, owner="quests")
 
     # ---- conflict guard: WARN if any quest item-ref lands outside stock or F-011's block ----
     if CONFLICTS:
@@ -151,7 +149,6 @@ def emit(ctx):
         print("    Fix at source (add to missing-items so it is ported) OR add a zz_[I-xxx]_*.sql override.")
 
     # ---- quest_template_addon ----
-    b = ["-- F-011 quest_template_addon (chains, prereqs, provided items)\n\n"]
     for qid in qids:
         s = qt[qid]
         a = {"ID": qid, "MaxLevel": gi(s, "MaxLevel"), "AllowableClasses": gi(s, "RequiredClasses"),
@@ -163,37 +160,38 @@ def emit(ctx):
              "RequiredMinRepFaction": gi(s, "RequiredMinRepFaction"), "RequiredMaxRepFaction": gi(s, "RequiredMaxRepFaction"),
              "RequiredMinRepValue": gi(s, "RequiredMinRepValue"), "RequiredMaxRepValue": gi(s, "RequiredMaxRepValue"),
              "ProvidedItemCount": gi(s, "SourceItemCount"), "SpecialFlags": gi(s, "SpecialFlags") & 0xF}
-        b.append("DELETE FROM quest_template_addon WHERE ID = %d;\n" % qid)
-        b.append("INSERT INTO quest_template_addon SET " + ", ".join("`%s`=%s" % (k, esc(v)) for k, v in a.items()) + ";\n")
-    ctx.write("sql/zz_[AUTO,F-011]%s_quests_02_addon.sql" % sfx, "".join(b))
+        ctx.col.put("quest_template_addon", qid, a, tier="base", zone=sfx, owner="quests")
 
     # ---- offer_reward + request_items text ----
-    b = ["-- F-011 quest turn-in text (offer_reward + request_items)\n\n"]
     for qid in qids:
         s = qt[qid]
-        b.append("DELETE FROM quest_offer_reward WHERE ID=%d;\n" % qid)
-        b.append("INSERT INTO quest_offer_reward (ID,Emote1,Emote2,Emote3,Emote4,EmoteDelay1,EmoteDelay2,EmoteDelay3,EmoteDelay4,RewardText,VerifiedBuild) VALUES (%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,0);\n" % (
-            qid, gi(s, "OfferRewardEmote1"), gi(s, "OfferRewardEmote2"), gi(s, "OfferRewardEmote3"), gi(s, "OfferRewardEmote4"),
-            gi(s, "OfferRewardEmoteDelay1"), gi(s, "OfferRewardEmoteDelay2"), gi(s, "OfferRewardEmoteDelay3"), gi(s, "OfferRewardEmoteDelay4"),
-            esc(gs(s, "OfferRewardText"))))
-        b.append("DELETE FROM quest_request_items WHERE ID=%d;\n" % qid)
-        b.append("INSERT INTO quest_request_items (ID,EmoteOnComplete,EmoteOnIncomplete,CompletionText,VerifiedBuild) VALUES (%d,%d,%d,%s,0);\n\n" % (
-            qid, gi(s, "EmoteOnComplete"), gi(s, "EmoteOnIncomplete"), esc(gs(s, "RequestItemsText"))))
-    ctx.write("sql/zz_[AUTO,F-011]%s_quests_03_text.sql" % sfx, "".join(b))
+        ctx.col.put("quest_offer_reward", qid, {
+            "ID": qid,
+            "Emote1": gi(s, "OfferRewardEmote1"), "Emote2": gi(s, "OfferRewardEmote2"),
+            "Emote3": gi(s, "OfferRewardEmote3"), "Emote4": gi(s, "OfferRewardEmote4"),
+            "EmoteDelay1": gi(s, "OfferRewardEmoteDelay1"), "EmoteDelay2": gi(s, "OfferRewardEmoteDelay2"),
+            "EmoteDelay3": gi(s, "OfferRewardEmoteDelay3"), "EmoteDelay4": gi(s, "OfferRewardEmoteDelay4"),
+            "RewardText": gs(s, "OfferRewardText"), "VerifiedBuild": 0,
+        }, tier="base", zone=sfx, owner="quests")
+        ctx.col.put("quest_request_items", qid, {
+            "ID": qid, "EmoteOnComplete": gi(s, "EmoteOnComplete"),
+            "EmoteOnIncomplete": gi(s, "EmoteOnIncomplete"),
+            "CompletionText": gs(s, "RequestItemsText"), "VerifiedBuild": 0,
+        }, tier="base", zone=sfx, owner="quests")
 
     # ---- creature_queststarter / questender ----
     starters = [(int(r["id"]), int(r["quest"])) for r in ctx.q("SELECT id, quest FROM creature_questrelation")
                 if r["id"] is not None and r["quest"] is not None and int(r["id"]) in LI_CRE and int(r["quest"]) in QIDS]
     enders = [(int(r["id"]), int(r["quest"])) for r in ctx.q("SELECT id, quest FROM creature_involvedrelation")
               if r["id"] is not None and r["quest"] is not None and int(r["id"]) in LI_CRE and int(r["quest"]) in QIDS]
-    b = ["-- F-011 creature_queststarter / questender\n\n"]
     if starters:
-        b.append("DELETE FROM creature_queststarter WHERE quest IN (%s);\n" % ",".join(str(q) for q in sorted(QIDS)))
-        b.append("INSERT INTO creature_queststarter (id,quest) VALUES\n" + ",\n".join("  (%d,%d)" % (i, q) for i, q in sorted(set(starters))) + ";\n\n")
+        ctx.col.delete("creature_queststarter", "quest IN (%s)" % ",".join(str(q) for q in sorted(QIDS)))
+        for i, q2 in sorted(set(starters)):
+            ctx.col.add("creature_queststarter", {"id": i, "quest": q2})
     if enders:
-        b.append("DELETE FROM creature_questender WHERE quest IN (%s);\n" % ",".join(str(q) for q in sorted(QIDS)))
-        b.append("INSERT INTO creature_questender (id,quest) VALUES\n" + ",\n".join("  (%d,%d)" % (i, q) for i, q in sorted(set(enders))) + ";\n")
-    ctx.write("sql/zz_[AUTO,F-011]%s_quests_04_relations.sql" % sfx, "".join(b))
+        ctx.col.delete("creature_questender", "quest IN (%s)" % ",".join(str(q) for q in sorted(QIDS)))
+        for i, q2 in sorted(set(enders)):
+            ctx.col.add("creature_questender", {"id": i, "quest": q2})
 
     print("quest_template: %d, addon: %d, starters: %d, enders: %d" % (len(qids), len(qids), len(set(starters)), len(set(enders))))
     return "quests=%d addon=%d starters=%d enders=%d conflicts=%d" % (

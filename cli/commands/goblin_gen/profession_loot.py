@@ -16,7 +16,7 @@ combined files.
 import os
 
 NAME = "profession_loot"
-TABLES = ["creature_template"]   # skin/pickpocket loot overlay (loot tables still legacy for now)
+TABLES = ["creature_template", "skinning_loot_template", "pickpocketing_loot_template"]
 TIER = "overlay"
 
 _ZONES = ('4720', '4737')
@@ -69,9 +69,9 @@ def emit(ctx):
         return _world_item_entries(items)
 
     summary = []
-    for kind, lootcol, tbl, fname in [
-            ("skin", "skinloot", "skinning_loot_template", "skinning_loot"),
-            ("pick", "pickpocketloot", "pickpocketing_loot_template", "pickpocket_loot")]:
+    for kind, lootcol, tbl in [
+            ("skin", "skinloot", "skinning_loot_template"),
+            ("pick", "pickpocketloot", "pickpocketing_loot_template")]:
         lootids = {e: _i(l) for e, l in
                    ((_i(r['e']), r['l']) for r in ctx.q(
                        "SELECT CAST(TRIM(entry) AS SIGNED) AS e, %s AS l FROM creature_template" % lootcol))
@@ -81,32 +81,26 @@ def emit(ctx):
         rows = ctx.q(
             "SELECT entry,item,ChanceOrQuestChance,lootmode,groupid,mincountOrRef,maxcount "
             "FROM %s WHERE CAST(TRIM(entry) AS SIGNED) IN (%s)" % (tbl, idset))
-        vals = []
+        ents = sorted(set(lootids.values()))
+        ctx.col.delete(tbl, "Entry IN (%s)" % ",".join(str(x) for x in ents))
+        nrows = 0
         for r in rows:
-            entry = r['entry']
             item = _i(r['item'])
             coq = _fl(r['ChanceOrQuestChance'])
             mcr = _i(r['mincountOrRef'])
             ref = -mcr if mcr < 0 else 0
             if ref == 0 and item not in have:
                 continue          # skip missing items (not references)
-            chance = abs(coq)
-            questreq = 1 if coq < 0 else 0
-            mincount = mcr if mcr > 0 else 1
-            vals.append("  (%d,%d,%d,%g,%d,%d,%d,%d,%d)" % (
-                _i(entry), item, ref, chance, questreq, _i(r['lootmode']),
-                _i(r['groupid']), mincount, _i(r['maxcount'], 1)))
-        ents = sorted(set(lootids.values()))
-        out = [
-            "-- [F-011] %s from Neltharion (old->new loot schema). migrate_profession_loot.py." % tbl,
-            "-- Items absent from AC item_template skipped (port-or-skip). Idempotent.\n",
-            "DELETE FROM %s WHERE Entry IN (%s);" % (tbl, ",".join(str(x) for x in ents)),
-            "INSERT INTO %s (Entry,Item,Reference,Chance,QuestRequired,LootMode,GroupId,MinCount,MaxCount) VALUES" % tbl,
-            ",\n".join(vals) + ";",
-        ]
-        ctx.write("sql/zz_[AUTO,F-011]_%s.sql" % fname, "\n".join(out) + "\n")
+            ctx.col.add(tbl, {
+                "Entry": _i(r['entry']), "Item": item, "Reference": ref,
+                "Chance": ctx.col.Raw("%g" % abs(coq)),
+                "QuestRequired": 1 if coq < 0 else 0, "LootMode": _i(r['lootmode']),
+                "GroupId": _i(r['groupid']), "MinCount": mcr if mcr > 0 else 1,
+                "MaxCount": _i(r['maxcount'], 1),
+            })
+            nrows += 1
         # fold creature_template.skinloot / pickpocketloot into the collector INSERT
         for e, lid in sorted(lootids.items()):
             ctx.col.put("creature_template", e, {lootcol: lid}, tier="overlay")
-        summary.append("%s=%d creatures/%d rows" % (kind, len(lootids), len(vals)))
+        summary.append("%s=%d creatures/%d rows" % (kind, len(lootids), nrows))
     return "profession_loot: " + ", ".join(summary)
