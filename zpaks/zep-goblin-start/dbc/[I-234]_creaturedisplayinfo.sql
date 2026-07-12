@@ -5,7 +5,7 @@ INSERT INTO creaturedisplayinfo SET
   `id` = 900103,
   `model_id` = 900006,
   `sound_id` = 0,
-  `extended_display_info_id` = 0,
+  `extended_display_info_id` = 900007,
   `creature_model_scale` = '1.2500000000000000',
   `creature_model_alpha` = 255,
   `texture_variation_1` = 'TrollSkinJungleForestMelee',
