@@ -41,8 +41,9 @@ TYPE_FALLBACK = {1: 646, 2: 1126, 3: 1133, 4: 802, 6: 2400, 7: 1133, 0: 646, 8: 
 DEFAULT_FALLBACK = 646
 # Cata cursor IconNames absent from the 3.3.5a client -> valid 3.3.5a equivalents.
 # An unknown IconName makes the client blank the mouseover cursor (I-234: Defiant Troll
-# 'openhandglow' -> no hover cursor). Stock 3.3.5a click-quest mobs use 'LootAll'/'Pickup'.
-ICONNAME_MAP = {"openhandglow": "LootAll"}
+# 'openhandglow' -> no hover cursor). 'Interact' is the 3.3.5a gear/cog "use" cursor
+# (same as doors/gameobjects) — the closest fit to Cata's open-hand interact glow.
+ICONNAME_MAP = {"openhandglow": "Interact"}
 
 DI_COLS = ["id", "model_id", "sound_id", "extended_display_info_id", "creature_model_scale",
            "creature_model_alpha", "texture_variation_1", "texture_variation_2",
