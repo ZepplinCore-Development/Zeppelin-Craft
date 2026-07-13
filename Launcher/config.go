@@ -9,6 +9,7 @@ const (
 	PatchRegisterURL = BaseURL + "patch_register.json"
 	MPQDownloadURL   = BaseURL + "MPQ/"
 	EXEDownloadURL   = BaseURL + "EXE/"
+	WXLDownloadURL   = BaseURL + "WXL/" // F-195: WarcraftXL client framework binaries
 
 	WowExecutable = "Wow.exe"
 	DataDirectory = "Data"

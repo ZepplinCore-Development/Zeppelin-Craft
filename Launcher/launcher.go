@@ -30,9 +30,19 @@ func (le *LauncherEngine) TestConnection() bool {
 }
 
 func (le *LauncherEngine) CheckFileExists(filename string) bool {
+	if files, ok := le.PatchRegister.BundleFiles(filename); ok { // F-195 bundle: exists only if all members do
+		for _, f := range files {
+			if !fileExists(wxlFilePath(f.Name)) {
+				return false
+			}
+		}
+		return true
+	}
 	lower := strings.ToLower(filename)
 	var filePath string
-	if strings.HasSuffix(lower, ".mpq") {
+	if _, ok := wxlSubdir(filename); ok { // F-195: app dir, host under Utils/
+		filePath = wxlFilePath(filename)
+	} else if strings.HasSuffix(lower, ".mpq") {
 		filePath = filepath.Join(getAppDirectory(), DataDirectory, filename)
 	} else {
 		filePath = filepath.Join(getAppDirectory(), filename)

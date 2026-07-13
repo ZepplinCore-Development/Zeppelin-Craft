@@ -346,9 +346,11 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
                 if patch_key not in new_patches[req]['required_for']:
                     new_patches[req]['required_for'].append(patch_key)
 
-    # Preserve non-zpak entries (e.g., Wow.exe managed by exe patcher)
+    # Preserve non-zpak entries. Only PATCH-*.MPQ keys are rebuilt from zpak manifests; every other key
+    # is a special/manual entry not owned by a zpak (Wow.exe from the exe patcher, the WarcraftXL
+    # framework bundle + its wxl-assets marker, etc.). Keep them all so a regenerate never drops them.
     for key, entry in old_patches.items():
-        if entry.get('build_source') == 'exe_patcher' and key not in new_patches:
+        if not key.upper().startswith('PATCH-') and key not in new_patches:
             new_patches[key] = entry
             synced.append(key)
 

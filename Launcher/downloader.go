@@ -22,6 +22,32 @@ type DownloadResult struct {
 	FinalState string // "updated", "pending", or "missing"
 }
 
+// wxlBinaries are the WarcraftXL client-framework files (F-195), served from WXL/ and installed next
+// to Wow.exe. d3d9.dll is the proxy load vector (the client loads it ahead of system32 and it
+// bootstraps WarcraftXL.dll, the framework); the host runs from Utils/. The value is the app-dir
+// subfolder ("" = alongside Wow.exe). These are DLL/EXE loaded while the game runs, so — like Wow.exe —
+// they stage to temp when WoW is open and install on the next check.
+var wxlBinaries = map[string]string{
+	"WarcraftXL.dll":     "",
+	"d3d9.dll":           "",
+	"WarcraftXLHost.exe": "Utils",
+	"wxl-assets":         "", // asset-pipeline enable marker, next to Wow.exe (routed via WXL/ like the binaries)
+}
+
+func wxlSubdir(filename string) (string, bool) {
+	sub, ok := wxlBinaries[filename]
+	return sub, ok
+}
+
+// wxlFilePath is the installed path of a WarcraftXL binary next to Wow.exe (host under Utils/).
+func wxlFilePath(filename string) string {
+	dir := getAppDirectory()
+	if sub, ok := wxlSubdir(filename); ok && sub != "" {
+		dir = filepath.Join(dir, sub)
+	}
+	return filepath.Join(dir, filename)
+}
+
 func StartDownload(
 	filename string,
 	patchRegister *PatchRegisterClient,
@@ -41,9 +67,41 @@ func performDownload(
 	progressCh chan<- DownloadProgress,
 	cancelCh <-chan struct{},
 ) DownloadResult {
+	// A bundle entry (e.g. "WarcraftXL") is one launcher line backed by several real files; download each
+	// under the bundle's display name so progress + version tracking stay on the single bundle row.
+	if files, ok := pr.BundleFiles(filename); ok {
+		anyPending := false
+		for _, f := range files {
+			r := downloadOne(f.Name, filename, progressCh, cancelCh)
+			if !r.Success {
+				return DownloadResult{filename, false, fmt.Sprintf("%s: %s", f.Name, r.Message), "missing"}
+			}
+			if r.FinalState == "pending" {
+				anyPending = true
+			}
+		}
+		state := "updated"
+		if anyPending {
+			state = "pending"
+		}
+		return DownloadResult{filename, true, fmt.Sprintf("Downloaded %s", filename), state}
+	}
+	return downloadOne(filename, filename, progressCh, cancelCh)
+}
+
+// downloadOne fetches a single file, reporting progress + the result under displayName (which is the
+// bundle name for bundle members, the filename otherwise).
+func downloadOne(
+	filename string,
+	displayName string,
+	progressCh chan<- DownloadProgress,
+	cancelCh <-chan struct{},
+) DownloadResult {
 	// Determine URL from file type
 	var baseURL string
-	if strings.HasSuffix(strings.ToLower(filename), ".exe") {
+	if _, ok := wxlSubdir(filename); ok {
+		baseURL = WXLDownloadURL
+	} else if strings.HasSuffix(strings.ToLower(filename), ".exe") {
 		baseURL = EXEDownloadURL
 	} else {
 		baseURL = MPQDownloadURL
@@ -92,7 +150,7 @@ func performDownload(
 		if n > 0 {
 			out.Write(buf[:n])
 			downloaded += int64(n)
-			progressCh <- DownloadProgress{filename, downloaded, total}
+			progressCh <- DownloadProgress{displayName, downloaded, total}
 		}
 		if readErr != nil {
 			if readErr == io.EOF {
@@ -129,6 +187,17 @@ func resolveDownloadPath(filename string) string {
 	if strings.HasSuffix(lower, ".mpq") {
 		return filepath.Join(getTempDownloadDir(), filename)
 	}
+	if sub, ok := wxlSubdir(filename); ok {
+		if isWowRunning() { // in use while the game runs; stage and install on the next check
+			logInfo("WoW running - staging " + filename + " to temp")
+			return filepath.Join(getTempDownloadDir(), filename)
+		}
+		dir := getAppDirectory()
+		if sub != "" {
+			dir = filepath.Join(dir, sub)
+		}
+		return filepath.Join(dir, filename)
+	}
 	if lower == "wow.exe" && isWowRunning() {
 		logInfo("WoW running - downloading " + filename + " to temp")
 		return filepath.Join(getTempDownloadDir(), filename)
@@ -154,6 +223,13 @@ func installOrStage(filename, localPath string) string {
 		}
 		logInfo(fmt.Sprintf("WoW running - %s staged for later install", filename))
 		return "pending"
+	}
+
+	if _, ok := wxlSubdir(filename); ok {
+		if filepath.Dir(localPath) == getTempDownloadDir() {
+			return "pending" // WoW running; installed on the next check
+		}
+		return "updated"
 	}
 
 	if lower == "wow.exe" {

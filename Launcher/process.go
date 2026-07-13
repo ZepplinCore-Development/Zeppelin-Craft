@@ -39,7 +39,8 @@ func getPendingPatches(excludeDownloading string) []string {
 		}
 		name := entry.Name()
 		lower := strings.ToLower(name)
-		if strings.HasSuffix(lower, ".mpq") || strings.HasSuffix(lower, ".exe") {
+		_, isWxl := wxlSubdir(name)
+		if strings.HasSuffix(lower, ".mpq") || strings.HasSuffix(lower, ".exe") || isWxl {
 			if excludeDownloading != "" && name == excludeDownloading {
 				continue
 			}
@@ -73,14 +74,22 @@ func installPendingPatches() InstallResult {
 		}
 		name := entry.Name()
 		lower := strings.ToLower(name)
-		if !strings.HasSuffix(lower, ".mpq") && !strings.HasSuffix(lower, ".exe") {
+		wxlSub, isWxl := wxlSubdir(name)
+		if !strings.HasSuffix(lower, ".mpq") && !strings.HasSuffix(lower, ".exe") && !isWxl {
 			continue
 		}
 
 		tempFile := filepath.Join(tempDir, name)
 
 		var targetFile string
-		if strings.HasSuffix(lower, ".mpq") {
+		if isWxl { // F-195: WarcraftXL binary → app dir (host under Utils/)
+			dir := getAppDirectory()
+			if wxlSub != "" {
+				dir = filepath.Join(dir, wxlSub)
+				os.MkdirAll(dir, 0755)
+			}
+			targetFile = filepath.Join(dir, name)
+		} else if strings.HasSuffix(lower, ".mpq") {
 			targetFile = filepath.Join(dataDir, name)
 		} else {
 			targetFile = filepath.Join(getAppDirectory(), name)
