@@ -22,12 +22,12 @@ IndividualProgression.Enable = 1
 
 # IndividualProgression.EnforceGroupRules
 #
-#        Description: Only allow players to group with others in the same progression phase
+#        Description: Enable this to only allow players to group with others in the same progression phase
 #
-#        Default:     1 - Enabled
-#                     0 - Disabled
+#        Default:     0 - Disabled
+#                     1 - Enabled
 #
-IndividualProgression.EnforceGroupRules = 1
+IndividualProgression.EnforceGroupRules = 0
 
 # IndividualProgression.VanillaPowerAdjustment
 #
@@ -108,14 +108,19 @@ IndividualProgression.RequireNaxxStrathEntrance = 0
 # IndividualProgression.doableNaxx40Bosses
 #
 #        Description: If enabled, this will make certain bosses in Naxx40 easier.
-#                     - Razuvious will cast disrupting shout instead of mana burn
-#                     - Four Horsemen's ability damage will be much lower. So they can be fought together without a strategy.
-#                     - Gluth will search for a zombie every 9 seconds instead of 3.
+#                     - Four Horsemen's ability damage will be much lower. So they can be fought together without a strategy. 
+#                       Blaumeux's Void Zone will be disabled as well. Bots won't move out of aoe until they take damage, so they were taking massive damage from this.
+#                     - Gluth will search for a zombie every 12 seconds instead of 3.
+#                     - Patchwerk's Hateful Strike will do 80% of it's normal damage.
+#                     - Razuvious will cast disrupting shout instead of mana burn.
 #
 #        Default:     0 - Disabled
 #                     1 - Enabled
 #
-IndividualProgression.doableNaxx40Bosses = 0
+IndividualProgression.doableNaxx40Bosses_4H = 0
+IndividualProgression.doableNaxx40Bosses_Gluth = 0
+IndividualProgression.doableNaxx40Bosses_Patchwerk = 0
+IndividualProgression.doableNaxx40Bosses_Razuvious = 0
 
 # IndividualProgression.MoltenCore.ManualRuneHandling
 #
@@ -205,7 +210,7 @@ IndividualProgression.DisableRDF = 0
 #        Description: Enable or disable Max Monster Sight.
 #                     The AC default setting is 50 yards. Enabling this will increase the range to 80 yards.
 #                     The reason behind this are the tower and bunker archers in Alterac Valley. 
-#                     These archers should have a 80 yard ranged attack.
+#                     This does NOT effect aggro range.
 #
 #        Default:     1 - Enabled
 #                     0 - Disabled
@@ -311,6 +316,16 @@ IndividualProgression.DeathKnightStartingProgression = 13
 #
 IndividualProgression.RequiredZulGurubProgression = 3
 
+# IndividualProgression.RequiredZulAmanProgression
+#
+#        Description: The progression stage at which Zul'Aman will be available
+#
+#        Default:     12 - Zul'Aman opens after Black Temple (Default, Blizzlike)
+#        Suggested:   9  - Zul'Aman opens after Karazhan / Prince Malchezaar.
+#                     0-18 - Set a different required progression stage for Zul'Aman
+#
+IndividualProgression.RequiredZulAmanProgression = 12
+
 # IndividualProgression.DisableDefaultProgression
 #
 #        Description: Disable the regular progression flow, so progression must be advanced through custom creature progression entries
@@ -324,10 +339,11 @@ IndividualProgression.DisableDefaultProgression = 0
 #
 #        Description: A list of creature IDs paired to progression states. When a creature on the list is defeated by a player,
 #                     the player will be set to that progression state. Used for custom, non-standard progression.
-#                     Not needed for regular, Blizz-like progress through expansions, which works by default.
-#                     Example: IndividualProgression.CustomProgression="448 8, 639 13"
-#                     This example would allow players access to TBC content for defeating Hogger (entry 448), and Northrend content for defeating VanCleef (entry 639)
-#                     Leave empty to disable (default.)
+#                     This will replace the default progression. Progression states that haven't been giving a custom creature kill remain the same.
+#
+#                     Example: IndividualProgression.CustomProgression = "639 8, 3975, 13"
+#                     This would allow players access to TBC after defeating VanCleef (entry 639) and Northrend after defeating Herod (entry 3975).
+#                     Only works for creatures with a rank higher than ELITE to avoid having to check progression after every kill.
 #
 #        Default:     "" - Disabled (default)
 #
@@ -443,6 +459,19 @@ IndividualProgression.BotAccountsRegex = "^RNDBOT.*"
 #        Default:     ""
 #
 IndividualProgression.ExcludedAccountsRegex = ""
+
+# IndividualProgression.EnableAllSpellRanks
+#
+#        Description: Enable this to allow all spell ranks to be cast during WotLK. 
+#                     All spell ranks had the same % mana cost during WotLK, there was no reason to cast lower ranks of spells.
+#                     By default Individual Progression will block vanilla and tbc ranks of spells after the player progresses to WotLK.
+#                     This is done because if patch-V is used these vanilla and tbc spells will have their static mana cost restored.
+#                     They should not exist during WotLK. But if you want them to be available anyways, you can enable this config option.
+#
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+IndividualProgression.EnableAllSpellRanks = 0
 
 # IndividualProgression.EnableSetRepCommand
 #
