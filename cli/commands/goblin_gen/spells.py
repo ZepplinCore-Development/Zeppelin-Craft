@@ -2,8 +2,9 @@
 
 Port the Cata-new quest-item spells (missing_spells fixture) from the extracted
 Whitemane 4.3.4 DBCs into the 3.3.5a `spell` table. Assembles Spell.dbc (48-field)
-+ SpellEffect (by SpellID) + sub-tables (by ref ID). Cast/duration/range use safe
-3.3.5a defaults; name/desc/effects/school are real. Ported verbatim from
++ SpellEffect (by SpellID) + sub-tables (by ref ID). Cast/duration/range pass the
+real Cata index through when stock 3.3.5a has that row (shared tables), else fall
+back to safe defaults; name/desc/effects/school are real. Ported from
 Scripts/Goblin Zone Port/build_spells.py.
 
 Rows feed the collector's `spell` table (one file, zone-independent set).
@@ -59,6 +60,15 @@ def emit(ctx):
         return "skipped (zone-independent; emitted on Lost Isles pass)"
     missing = set(ctx.fixture("missing_spells"))
 
+    # Cast/duration/range index tables are shared WotLK<->Cata; pass the REAL Cata
+    # index through whenever stock 3.3.5a has that row, so e.g. a ride-vehicle aura
+    # keeps its permanent duration (index 21) instead of expiring instantly under
+    # the old blanket duration_index=0 default (I-242). Unknown indexes still fall
+    # back to the safe defaults (cast 1 / duration 0 / range 13).
+    stock_cast = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM spellcasttimes")}
+    stock_dur = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM spellduration")}
+    stock_rng = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM spellrange")}
+
     # Spell.dbc (48 fields) index by ID -> row + string reader
     ds, fcs, rss, ss, rowss = _rd(ctx.whitemane_dbc("Spell.dbc"))
     spell = {}
@@ -98,7 +108,9 @@ def emit(ctx):
              "attributes": row[1], "attributes_ex_1": row[2], "attributes_ex_2": row[3],
              "attributes_ex_3": row[4], "attributes_ex_4": row[5], "attributes_ex_5": row[6],
              "attributes_ex_6": row[7], "attributes_ex_7": row[8],
-             "cast_time_index": 1, "duration_index": 0, "range_index": 13,   # safe defaults
+             "cast_time_index": row[F['cast']] if row[F['cast']] in stock_cast else 1,
+             "duration_index": row[F['dur']] if row[F['dur']] in stock_dur else 0,
+             "range_index": row[F['rng']] if row[F['rng']] in stock_rng else 13,
              "power_type": row[F['power']], "speed": struct.unpack_from("<f", ds, b + F['speed'] * 4)[0],
              "spell_visual_1": row[F['vis']], "spell_icon_id": row[F['icon']], "active_icon_id": row[F['active']],
              "school_mask": row[F['school']],

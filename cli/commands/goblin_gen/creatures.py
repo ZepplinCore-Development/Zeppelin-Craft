@@ -162,6 +162,17 @@ def emit(ctx):
             if e in tmpl and e < 1000000
             and not any(k in (tmpl[e]["name"] or "").lower() for k in NOISE)]
     real_set = set(real)
+    # Summon-only creatures (no spawn row anywhere -> invisible to the zone sweep)
+    # referenced by ported spells' SUMMON effects (I-242 Hot Rod 34840). Emitted
+    # once, on the Lost Isles pass, like the zone-independent spells domain; they
+    # get template/model rows below but never spawn rows (spawns stay spawn-driven).
+    summoned = {}
+    if not sfx:
+        summoned = _sibling_const("_summons", "summoned_entries")(ctx)
+        for e in sorted(summoned):
+            if e not in real_set and e in tmpl:
+                real.append(e)
+                real_set.add(e)
     entries_sorted = sorted(real)
 
     # ---- resolve display per entry ----

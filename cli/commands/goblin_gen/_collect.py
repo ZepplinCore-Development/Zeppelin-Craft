@@ -69,6 +69,7 @@ TABLES = {
     # ---- world SQL, Kind B (grouped: range/scope/owner DELETE + rows) ----
     "creature_equip_template":    dict(order=16, kind="B", dest="sql"),
     "creature_text":              dict(order=17, kind="B", dest="sql"),
+    "creature_template_spell":    dict(order=18, kind="B", dest="sql"),
     "npc_text":                   dict(order=25, kind="B", dest="sql"),
     "gossip_menu":                dict(order=26, kind="B", dest="sql"),
     "gossip_menu_option":         dict(order=27, kind="B", dest="sql"),
@@ -102,6 +103,8 @@ TABLES = {
     "gameobjectdisplayinfo":      dict(order=0, kind="A", pk="id", dest="dbc"),
     "itemdisplayinfo":            dict(order=0, kind="A", pk="id", dest="dbc"),
     "spell":                      dict(order=0, kind="A", pk="id", dest="dbc"),
+    "vehicle":                    dict(order=0, kind="A", pk="id", dest="dbc"),
+    "vehicleseat":                dict(order=0, kind="A", pk="id", dest="dbc"),
 }
 
 

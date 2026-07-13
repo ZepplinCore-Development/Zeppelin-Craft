@@ -12,7 +12,7 @@
 DELETE FROM conditions WHERE SourceTypeOrReferenceId IN (14,15) AND SourceGroup IN (510001, 510015, 510016, 510017, 510023, 510030, 510033, 510054, 510057, 510058, 510059, 510060, 510061, 510063, 510064, 510067, 510068, 510069, 510070, 510071, 510073, 510074, 510090, 510091, 510092, 510093, 510094, 510095);
 DELETE FROM conditions WHERE SourceTypeOrReferenceId=14 AND SourceGroup IN (510013,510025,510053);
 DELETE FROM conditions WHERE SourceTypeOrReferenceId=26 AND SourceGroup IN (4720,4737);
-DELETE FROM conditions WHERE SourceTypeOrReferenceId=18 AND SourceGroup IN (35995,38802,39039,39592);
+DELETE FROM conditions WHERE SourceTypeOrReferenceId=18 AND SourceGroup IN (34840,35995,38802,39039,39592);
 DELETE FROM conditions WHERE SourceTypeOrReferenceId=18 AND SourceGroup IN (34830,35999,48526,48721,75106);
 
 INSERT INTO conditions (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES

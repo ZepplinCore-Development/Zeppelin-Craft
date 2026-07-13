@@ -16,11 +16,23 @@ like trainers.py — a click that casts a nonexistent spell is broken):
 The conditions gate each click on its quest being in the player's log (ConditionType 9
 = CONDITION_QUESTTAKEN), so a click is only offered to players actually on the quest.
 """
+import os
+import importlib.util
+
 NAME = "spellclick"
 TABLES = ["npc_spellclick_spells", "conditions"]
 TIER = "base"
 
 ZONE = {"": "4720", "_K": "4737"}   # Lost Isles / Kezan (matches creatures.py)
+
+
+def _sibling(modname):
+    """Load a sibling gen module (domains are file-loaded, not a package)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
+    spec = importlib.util.spec_from_file_location("goblin_gen_" + modname, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 _COND_COLS = ("SourceTypeOrReferenceId", "SourceGroup", "SourceEntry", "SourceId",
               "ElseGroup", "ConditionTypeOrReference", "ConditionTarget",
@@ -31,11 +43,18 @@ _COND_COLS = ("SourceTypeOrReferenceId", "SourceGroup", "SourceEntry", "SourceId
 def emit(ctx):
     sfx = ctx.sfx
     zone = ZONE[sfx]
-    present = ctx.dbc_spell_ids()
+    # live DBC (catches [I-xxx] clones like 66306) UNION the missing_spells port
+    # set — a fixture spell generated this very run isn't applied to live yet, and
+    # its click row must not silently drop on a fresh regen (I-242: 34840/66392).
+    present = ctx.dbc_spell_ids() | set(ctx.fixture("missing_spells"))
 
     zone_ids = {int(r["id"]) for r in
                 ctx.q("SELECT DISTINCT TRIM(id) AS id FROM creature WHERE TRIM(zone)=%s"
                       " AND CAST(TRIM(id) AS SIGNED) < 1000000", (zone,))}  # no dev/leet NPCs (I-233)
+    if not sfx:
+        # Summon-only creatures (I-242 Hot Rod 34840) have no spawn row but still
+        # carry spellclicks (e.g. 66392 ride-vehicle); once per run, like creatures.py.
+        zone_ids |= set(_sibling("_summons").summoned_entries(ctx))
 
     clicks, skipped = [], 0
     for r in ctx.q("SELECT npc_entry,spell_id,cast_flags,user_type FROM npc_spellclick_spells"):
