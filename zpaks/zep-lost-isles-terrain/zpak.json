@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-lost-isles-terrain",
+  "version": "0.1.0",
+  "description": "F-196 Lost Isles phase terrain (Cata ADTs, host-converted) for OA map 1",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-T",
+  "enabled": true,
+  "priority": 200
+}

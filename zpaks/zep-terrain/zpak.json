@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-terrain",
+  "version": "0.1.0",
+  "description": "F-196 terrain-phase client addons (WarcraftXL-driven)",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-A",
+  "enabled": true,
+  "priority": 100
+}

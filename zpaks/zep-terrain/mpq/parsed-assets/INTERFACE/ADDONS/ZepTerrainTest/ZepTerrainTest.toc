@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: Zep Terrain Test
+## Notes: Manually drive the WarcraftXL terrain-phase swap for F-196 testing.
+## Author: Zeppelin
+## Version: 1.0
+ZepTerrainTest.lua
