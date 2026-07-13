@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from .dbc_utils import DBCConfig, DBCConnection
+from .tooltip_gen import miscvalue_stat_scaling
 
 # class_mask bit -> player class name (3.3.5a). 512 is unused.
 CLASS_NAMES = {
@@ -133,6 +134,20 @@ _STATS = {
     "RAP": "Ranged Attack Power",
     "sp": "Spell Power", "SP": "Spell Power", "SPH": "Spell Power",
     "mw": "weapon damage", "MW": "weapon damage",
+    "blockvalue": "Block Value", "armor": "Armor",
+    "strength": "Strength", "agility": "Agility", "stamina": "Stamina",
+    "intellect": "Intellect", "spirit": "Spirit", "maxhealth": "max Health",
+}
+
+# F-188 ZepStatScalingStat name -> _STATS linear-form key. SCHOOL_DAMAGE effects
+# with MiscValueB carry stat scaling on the spell itself (single source of truth);
+# we inject it into the $s/$m value so the rendered damage shows "(+ X% of <stat>)"
+# even when the description has no $AP/$sp token (mirrors the F-190 addon).
+_ZEPSTAT_TO_LF = {
+    "ATTACK_POWER": "AP", "SPELL_POWER": "sp", "BLOCK_VALUE": "blockvalue",
+    "ARMOR": "armor", "STRENGTH": "strength", "AGILITY": "agility",
+    "STAMINA": "stamina", "INTELLECT": "intellect", "SPIRIT": "spirit",
+    "MAX_HEALTH": "maxhealth",
 }
 
 
@@ -175,6 +190,138 @@ def _lf_addsub(a, b, sign):
 # Indexed numeric tokens that read a value off the spell context (effect index
 # 1-3). s/S/m/o/O -> effect min value; M -> effect max; a -> radius (yards);
 # t/T -> periodic tick (seconds); x/X -> chain targets.
+def _perlevel(ctx: Dict[str, Any], idx: int) -> float:
+    """Per-level scaling at the level cap: real_points_per_level * (80 - base_level).
+    Spells without per-level scaling (most auras) contribute 0, unchanged."""
+    ppl = ctx.get("ppl", {}).get(idx, 0.0)
+    if not ppl:
+        return 0.0
+    return float(ppl) * max(0, LEVEL_CAP - int(ctx.get("base_level", 0) or 0))
+
+
+def _scale_suffix(ctx: Dict[str, Any], idx: int) -> str:
+    """' (+ A% of X + B% of Y)' for an effect carrying stat scaling -- stock
+    spell_bonus_data and/or F-188 MiscValue -- else ''. Mirrors the F-190 addon:
+    the coefficient lives on the spell, so descriptions use plain $s/$m tokens."""
+    terms = ctx.get("scale", {}).get(idx)
+    if not terms:
+        return ""
+    parts = [f"{_fmt_num(c * 100)}% of {_STATS.get(k, k)}" for k, c in terms if k and c]
+    return f" (+ {' + '.join(parts)})" if parts else ""
+
+
+def _build_scale(s: Dict[str, Any], bonus: Optional[Dict]) -> Dict[int, list]:
+    """Per-effect stat scaling {eff_idx: [(lf_key, coeff), ...]} from two sources:
+      - F-188 MiscValue (custom stats: block value, armor, AP, ...), per effect.
+      - stock spell_bonus_data (acore_world): direct_bonus->SP / ap_bonus->AP on the
+        direct SCHOOL_DAMAGE effect; dot_bonus / ap_dot_bonus on the periodic effect.
+    The F-188 migration removes the spell_bonus_data row, so a spell normally has one
+    source; both are merged here defensively."""
+    scale: Dict[int, list] = {}
+    for e in miscvalue_stat_scaling(s):
+        key = _ZEPSTAT_TO_LF.get(e["stat"])
+        if key:
+            scale.setdefault(e["eff"], []).append((key, e["coeff"]))
+    if bonus:
+        direct = next((i for i in (1, 2, 3) if s.get(f"effect_{i}") == 2), None)
+        dot = next((i for i in (1, 2, 3)
+                    if s.get(f"effect_{i}") == 6
+                    and s.get(f"effect_apply_aura_name_{i}") == 3), None)
+        if direct:
+            for key, col in (("AP", "ap_bonus"), ("sp", "direct_bonus")):
+                c = float(bonus.get(col) or 0)
+                if c:
+                    scale.setdefault(direct, []).append((key, c))
+        if dot:
+            for key, col in (("AP", "ap_dot_bonus"), ("sp", "dot_bonus")):
+                c = float(bonus.get(col) or 0)
+                if c:
+                    scale.setdefault(dot, []).append((key, c))
+    return scale
+
+
+def _world_conn():
+    """pymysql connection to acore_world, or None on any failure. The world DB is
+    optional for the browser -- MiscValue + desc tokens still render without it."""
+    try:
+        import os
+        import pymysql
+        from dotenv import load_dotenv
+        load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+        return pymysql.connect(
+            host=os.getenv("DB_HOST", "192.168.0.55"),
+            port=int(os.getenv("DB_PORT", "3306")),
+            user=os.getenv("DB_USER", "acore"),
+            passwd=os.getenv("DB_PASS", "acore"),
+            db="acore_world",
+            cursorclass=pymysql.cursors.DictCursor,
+        )
+    except Exception:
+        return None
+
+
+def _world_bonus_data(spell_ids) -> Dict[int, Dict]:
+    """Stock spell_bonus_data (acore_world) SP/AP coefficients for the given spells."""
+    if not spell_ids:
+        return {}
+    conn = _world_conn()
+    if conn is None:
+        return {}
+    try:
+        out: Dict[int, Dict] = {}
+        with conn.cursor() as cur:
+            ids = ",".join(str(int(i)) for i in spell_ids)
+            cur.execute(
+                "SELECT entry, direct_bonus, ap_bonus, dot_bonus, ap_dot_bonus "
+                f"FROM spell_bonus_data WHERE entry IN ({ids})"
+            )
+            for r in cur.fetchall():
+                out[r["entry"]] = r
+        conn.close()
+        return out
+    except Exception:
+        return {}
+
+
+def _resolve_top_ranks(spell_ids) -> Dict[int, int]:
+    """Follow the stock spell_ranks chain (acore_world) to the highest-rank spell in
+    each input spell's chain. Returns {spell_id: top_spell_id} only where a higher
+    rank exists -- so an ability-granting talent (which grants rank 1) is displayed
+    at its endgame trained rank. {} if no chain / world DB unreachable."""
+    if not spell_ids:
+        return {}
+    conn = _world_conn()
+    if conn is None:
+        return {}
+    try:
+        out: Dict[int, int] = {}
+        with conn.cursor() as cur:
+            ids = ",".join(str(int(i)) for i in spell_ids)
+            cur.execute(
+                f"SELECT spell_id, first_spell_id FROM spell_ranks WHERE spell_id IN ({ids})"
+            )
+            firsts = {r["spell_id"]: r["first_spell_id"] for r in cur.fetchall()}
+            if firsts:
+                chains = ",".join(str(int(c)) for c in set(firsts.values()))
+                cur.execute(
+                    "SELECT first_spell_id, spell_id, `rank` FROM spell_ranks "
+                    f"WHERE first_spell_id IN ({chains})"
+                )
+                top: Dict[int, tuple] = {}
+                for r in cur.fetchall():
+                    fs = r["first_spell_id"]
+                    if fs not in top or r["rank"] > top[fs][0]:
+                        top[fs] = (r["rank"], r["spell_id"])
+                for sid, fs in firsts.items():
+                    tid = top.get(fs, (0, sid))[1]
+                    if tid != sid:
+                        out[sid] = tid
+        conn.close()
+        return out
+    except Exception:
+        return {}
+
+
 def _token_value(ctx: Dict[str, Any], letter: str, idx: int) -> Optional[float]:
     if letter in ("s", "S", "m", "o", "O"):
         base, die = ctx.get("eff", {}).get(idx, (0, 0))
@@ -265,6 +412,9 @@ def _eval_expr(expr, ctx, spells, assigns, seen):
             v = _token_value(ctx, letters, int(digits))
             if v is None:
                 raise _Unresolvable()
+            # NOTE: stat scaling (MiscValue / spell_bonus_data) is injected only in
+            # the bare-token pass (_resolve_tokens), not here, so desc variables that
+            # already express scaling via $AP / manual per-level don't double-count.
             return {"_const": float(v)}
         if not digits and letters in ("i", "n", "u", "h"):
             v = _token_scalar(ctx, letters)
@@ -319,7 +469,7 @@ def _parse_descvars(var_text: Optional[str]) -> Dict[str, str]:
         m = re.match(r"\s*\$([A-Za-z]\w*)\s*=\s*(.+?)\s*$", line)
         if not m:
             continue
-        rhs = m.group(2)
+        rhs = _resolve_conditionals(m.group(2))      # collapse $?a/$?s glyph/talent conds
         wrap = re.match(r"^\$\{(.*)\}$", rhs)        # strip ${...} wrapper
         assigns[m.group(1)] = wrap.group(1) if wrap else rhs
     return assigns
@@ -371,6 +521,25 @@ def _resolve_grammar(text: Optional[str]) -> Optional[str]:
     return text
 
 
+# $?<cond>[A][B] conditional: has-aura ($?a<id>), knows-spell ($?s<id>), etc. The
+# viewer has no character, so we render the FALSE branch B -- the base case shown
+# in-game before any glyph/talent applies (e.g. Earth Shield's $<heal> picks $m1, not
+# the Glyph-of-Earth-Shield $m1*1.2). A one-branch $?<cond>[A] yields '' when false.
+# The condition part is matched as any non-bracket text so compound/negated forms
+# ($?!s123, $?s1&s2) collapse too; iterated so nested conditionals resolve inside-out.
+_COND_RE = re.compile(r"\$\?[^\[\]]+(\[[^\[\]]*\])(\[[^\[\]]*\])?")
+
+
+def _resolve_conditionals(text: Optional[str]) -> Optional[str]:
+    if not text:
+        return text
+    prev = None
+    while prev != text:
+        prev = text
+        text = _COND_RE.sub(lambda m: m.group(2)[1:-1] if m.group(2) else "", text)
+    return text
+
+
 def _resolve_tokens(text: Optional[str], self_id: int,
                     spells: Dict[int, Dict[str, Any]]) -> Optional[str]:
     """Resolve single-token references against the spell context.
@@ -399,20 +568,27 @@ def _resolve_tokens(text: Optional[str], self_id: int,
                 if eff is None:
                     return m.group(0)
                 lo, hi = _effect_value_range(*eff)
-                lo, hi = abs(lo), abs(hi)
-                return _fmt_num(lo) if lo == hi else f"{_fmt_num(lo)} to {_fmt_num(hi)}"
+                pl = _perlevel(sp, idx)                 # per-level @ level cap (80)
+                lo, hi = abs(lo) + pl, abs(hi) + pl
+                out = _fmt_num(lo) if lo == hi else f"{_fmt_num(lo)} to {_fmt_num(hi)}"
+                return out + _scale_suffix(sp, idx)
             v = _token_value(sp, ind, idx)
             if v is None:
                 return m.group(0)
+            if ind in ("s", "S", "m", "M", "o", "O") and not div:
+                v += _perlevel(sp, idx)            # per-level @ level cap (80)
             if div:
                 v /= div
-            return _fmt_num(abs(v) if ind in ("s", "S", "m", "M", "o", "O") else v)
+            out = _fmt_num(abs(v) if ind in ("s", "S", "m", "M", "o", "O") else v)
+            if ind in ("s", "S", "m", "M", "o", "O") and not div:
+                out += _scale_suffix(sp, idx)
+            return out
 
         if dur:                                        # $d / $D duration
             return _format_duration(sp.get("duration")) or m.group(0)
 
         v = _token_scalar(sp, scalar)                  # $h / $n / $i / $u
-        if not v:
+        if v is None:                                  # 0 is a real value (e.g. chargeless $n)
             return m.group(0)
         if div:
             v /= div
@@ -489,6 +665,12 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
                 if sid:
                     rank_spell_ids.add(sid)
 
+        # Follow the spell_ranks chain to the highest trained rank, so an ability-
+        # granting talent shows its endgame value (e.g. Aimed Shot rank 1 -> rank 9),
+        # not the rank-1 it grants. We fetch + render the top rank's text/values.
+        top_rank = _resolve_top_ranks(rank_spell_ids)
+        rank_spell_ids |= set(top_rank.values())
+
         _NUMERIC_COLS = """
             effect_base_points_1, effect_base_points_2, effect_base_points_3,
             effect_die_sides_1, effect_die_sides_2, effect_die_sides_3,
@@ -498,7 +680,13 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
             effect_points_per_combo_point_1, effect_points_per_combo_point_2,
             effect_points_per_combo_point_3,
             max_affected_targets, proc_charges, stack_amount,
-            duration_index, proc_chance, spell_desc_variable_id
+            duration_index, proc_chance, spell_desc_variable_id,
+            effect_real_points_per_level_1, effect_real_points_per_level_2,
+            effect_real_points_per_level_3, base_level,
+            effect_1, effect_2, effect_3,
+            effect_apply_aura_name_1, effect_apply_aura_name_2, effect_apply_aura_name_3,
+            effect_misc_value_a_1, effect_misc_value_a_2, effect_misc_value_a_3,
+            effect_misc_value_b_1, effect_misc_value_b_2, effect_misc_value_b_3
         """
 
         spell_text: Dict[int, Dict[str, Any]] = {}
@@ -581,6 +769,9 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
 
         cur.close()
 
+    # Stock spell_bonus_data (acore_world) SP/AP coeffs for everything loaded.
+    bonus_rows = _world_bonus_data(set(spell_text) | set(ref_spells))
+
     # Token-resolution context for every spell we loaded (ranks + cross-refs).
     spell_ctx: Dict[int, Dict[str, Any]] = {}
     for sid, s in {**ref_spells, **spell_text}.items():
@@ -592,6 +783,12 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
                       s.get(f"effect_die_sides_{idx}") or 0)
                 for idx in (1, 2, 3)
             },
+            "ppl": {
+                idx: (s.get(f"effect_real_points_per_level_{idx}") or 0.0)
+                for idx in (1, 2, 3)
+            },
+            "base_level": s.get("base_level") or 0,
+            "scale": _build_scale(s, bonus_rows.get(sid)),
             "radius": {
                 idx: radius_yd[ri] for idx in (1, 2, 3)
                 if (ri := s.get(f"effect_radius_index_{idx}")) in radius_yd
@@ -628,19 +825,20 @@ def build_talent_data(config: DBCConfig, database: str = "live") -> Dict[str, An
         ranks = []
         for i in range(max_rank):
             sid = rank_ids[i]
-            txt = spell_text.get(sid, {})
+            disp = top_rank.get(sid, sid)        # render the highest trained rank
+            txt = spell_text.get(disp, {})
             raw_desc = txt.get("spell_desc_enus")
             raw_tip = txt.get("spell_tooltip_enus")
             # Per-token pass first ($s/$a/$t/$d/... incl. cross-spell refs) so
             # that refs nested inside ${...} math become plain numbers; then the
             # descvar/inline-math pass ($<name> + ${...}). $<name>/${...}/$AP are
             # untouched by the token pass, so order is safe.
-            ctx = spell_ctx.get(sid, {})
+            ctx = spell_ctx.get(disp, {})
             assigns = ctx.get("assigns", {})
             desc = _resolve_grammar(_resolve_descvars(
-                _resolve_tokens(raw_desc, sid, spell_ctx), ctx, spell_ctx, assigns))
+                _resolve_tokens(_resolve_conditionals(raw_desc), disp, spell_ctx), ctx, spell_ctx, assigns))
             tooltip = _resolve_grammar(_resolve_descvars(
-                _resolve_tokens(raw_tip, sid, spell_ctx), ctx, spell_ctx, assigns))
+                _resolve_tokens(_resolve_conditionals(raw_tip), disp, spell_ctx), ctx, spell_ctx, assigns))
 
             for raw in (raw_desc, raw_tip):
                 if raw and "$" in raw:
