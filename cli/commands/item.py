@@ -210,3 +210,40 @@ def item_scale_existing(ctx, tier, difficulty, seed, quiet):
 
     click.echo()
     click.echo(f"Wrote {total_items} items across {len(difficulties)} files.")
+
+
+@item.command('purge-whites')
+@click.option('--dry-run', is_flag=True, help='Report without writing files or roster')
+@click.pass_context
+def item_purge_whites(ctx, dry_run):
+    """F-081: flag non-vendor white statless gear as disenchantable.
+
+    Items stay white (core patch 0033 lowers the disenchant quality gate);
+    each gets a +1 class-relevant stat and a 'Disenchantable.' description
+    as the signal. Vendor-sold items are excluded and reverted to stock.
+    Re-run after adding white gear or changing vendor stock.
+    """
+    from lib.item.whites import run
+
+    craft_root = ctx.obj['craft_root']
+    written, summary = run(craft_root, dry_run=dry_run)
+
+    click.echo("F-081 Purge Whites")
+    click.echo(f"  New whites discovered: {summary['_discovered_new']}")
+    if summary['_vendor_reverted']:
+        click.echo(f"  Vendor-sold reverted to stock: {len(summary['_vendor_reverted'])}")
+    click.echo(f"  Total items covered:   {summary['_total']}")
+    for name in sorted(k for k in summary if not k.startswith('_')):
+        click.echo(f"    +1 {name}: {summary[name]}")
+    for path in written:
+        click.echo(click.style(f"  {'would write' if dry_run else '✓'} {path}", fg='green'))
+    for entry, name in summary['_skipped_unmapped']:
+        click.echo(click.style(
+            f"  ! entry {entry} ({name}) in unmapped custom range — "
+            f"add its zpak to CUSTOM_ZPAK_RANGES in lib/item/whites.py", fg='yellow'))
+    if summary['_missing_from_db']:
+        click.echo(click.style(
+            f"  ! {len(summary['_missing_from_db'])} roster entries missing from "
+            f"item_template: {summary['_missing_from_db'][:10]}", fg='yellow'))
+    if not dry_run:
+        click.echo("Apply with: zep world sql changed")

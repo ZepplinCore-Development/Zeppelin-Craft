@@ -1,0 +1,33 @@
+From 18383159733b4bb80ea0d769538befd983bb56e0 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 13 Jul 2026 11:28:14 +0000
+Subject: [PATCH] feat(Core/Spells): Allow disenchanting white-quality items
+ with DisenchantID (F-081)
+
+- Spell::CheckItems disenchant gate lowered from quality 2-4 to 1-4
+- Stock whites keep DisenchantID=0 so only F-081-flagged items qualify
+- Poor (grey) quality stays blocked
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Spells/Spell.cpp | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/game/Spells/Spell.cpp b/src/server/game/Spells/Spell.cpp
+index 68f028a95..b6545e8d2 100644
+--- a/src/server/game/Spells/Spell.cpp
++++ b/src/server/game/Spells/Spell.cpp
+@@ -7576,7 +7576,9 @@ SpellCastResult Spell::CheckItems(uint32* param1, uint32* param2)
+                         return SPELL_FAILED_CANT_BE_DISENCHANTED;
+                     if (item_disenchantskilllevel > player->GetSkillValue(SKILL_ENCHANTING))
+                         return SPELL_FAILED_LOW_CASTLEVEL;
+-                    if (item_quality > 4 || item_quality < 2)
++                    // Zeppelin F-081: white (quality 1) items are disenchantable when
++                    // flagged with a DisenchantID; poor (quality 0) stays blocked
++                    if (item_quality > 4 || item_quality < 1)
+                         return SPELL_FAILED_CANT_BE_DISENCHANTED;
+                     if (itemProto->Class != ITEM_CLASS_WEAPON && itemProto->Class != ITEM_CLASS_ARMOR)
+                         return SPELL_FAILED_CANT_BE_DISENCHANTED;
+-- 
+2.34.1
+
