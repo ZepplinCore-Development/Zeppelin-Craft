@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-modern-assets",
+  "version": "0.1.0",
+  "description": "WarcraftXL consolidated modern-asset module (F-195) - M2/M3/WMO/BLP, forge-tracked (WarcraftXL/wxl-modern-assets). Replaces wxl-modern-blp/m2/wmo.",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "wxl-modern-assets",
+    "source": "https://github.com/WarcraftXL/wxl-modern-assets.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core-main/scripts/wxl-modern-assets",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100,
+  "feature_id": "F-195"
+}

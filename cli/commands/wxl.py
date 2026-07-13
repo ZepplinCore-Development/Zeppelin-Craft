@@ -13,6 +13,7 @@ sibling path. See F-197.
 """
 import os
 import struct
+import subprocess
 import urllib.request
 
 import click
@@ -148,3 +149,62 @@ def acquire(target, zpak, build, listfile, force):
                    % (len(unresolved), unresolved[:10]), err=True)
     click.echo("\nDisplay repoint: set creaturemodeldata.model_path = '%s'"
                % root_path.replace("/", "\\"))
+
+
+# WarcraftXL framework binaries (F-195): cross-compiled from Linux (llvm-mingw, no wine) and shipped to
+# the launcher's WXL/ endpoint. These wrap the canonical scripts so the register/version logic stays in
+# one place: build.sh (compile) and Scripts/deploy_warcraftxl.py (stage + activate).
+_WXL_BUILD_SH = os.path.join(_TOOLS, "WarcraftXL", "build.sh")
+_WXL_BUILD_OUT = os.path.join(_TOOLS, "WarcraftXL", "build-output")
+_WXL_DEPLOY_PY = os.path.join(_CRAFT, "Scripts", "deploy_warcraftxl.py")
+
+
+@wxl.command("build")
+@click.option("--ship", "ship_after", is_flag=True,
+              help="After a successful build, stage to the launcher (equivalent to `zep wxl ship`).")
+@click.option("--activate", is_flag=True,
+              help="With --ship: register the bundle (pushes to players via the launcher).")
+def build(ship_after, activate):
+    """Cross-compile the WarcraftXL client binaries (F-195).
+
+    Runs Zeppelin-Tools/WarcraftXL/build.sh (llvm-mingw cross-compile, no wine) to produce
+    WarcraftXL.dll, d3d9.dll, WarcraftXLHost.exe, wxl-patcher.exe in build-output/.
+    """
+    if not os.path.isfile(_WXL_BUILD_SH):
+        raise click.ClickException("build.sh not found: %s" % _WXL_BUILD_SH)
+    click.echo("Building WarcraftXL binaries (llvm-mingw cross-compile)...")
+    rc = subprocess.call(["bash", _WXL_BUILD_SH])
+    if rc != 0:
+        raise click.ClickException("build.sh failed (exit %d)" % rc)
+    click.echo("Build complete: %s" % _WXL_BUILD_OUT)
+    if ship_after:
+        _run_ship(activate=activate, mandatory=False)
+
+
+@wxl.command("ship")
+@click.option("--activate", is_flag=True,
+              help="Register the bundle in patch_register.json — the launcher then pushes it to players. "
+                   "Default: stage only (copy to WXL/, print the entry, no push).")
+@click.option("--mandatory", is_flag=True,
+              help="With --activate: mark the bundle mandatory + enabled-by-default (default: opt-in).")
+def ship(activate, mandatory):
+    """Stage the built WarcraftXL binaries to the launcher; --activate to push to players.
+
+    Wraps Scripts/deploy_warcraftxl.py. Staging copies build-output/ into nginx/wow/WXL/ and prints the
+    register entry it WOULD write. --activate writes it (content-derived version bump), which makes the
+    live launcher distribute the framework — a deliberate rollout step.
+    """
+    _run_ship(activate=activate, mandatory=mandatory)
+
+
+def _run_ship(activate: bool, mandatory: bool):
+    if not os.path.isfile(_WXL_DEPLOY_PY):
+        raise click.ClickException("deploy script not found: %s" % _WXL_DEPLOY_PY)
+    cmd = ["python3", _WXL_DEPLOY_PY]
+    if activate:
+        cmd.append("--activate")
+    if mandatory:
+        cmd.append("--mandatory")
+    rc = subprocess.call(cmd)
+    if rc != 0:
+        raise click.ClickException("deploy_warcraftxl.py failed (exit %d)" % rc)

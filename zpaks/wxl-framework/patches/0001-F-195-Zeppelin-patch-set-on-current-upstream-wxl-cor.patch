@@ -1,0 +1,560 @@
+From 825ff12caece67355f1fb1c63e8d1e78b72415ac Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 12 Jul 2026 14:48:11 +0000
+Subject: [PATCH] F-195: Zeppelin patch set on current upstream wxl-core
+
+llvm-mingw Linux cross-compile port (mingw-compat d3d9on12.h, CMakeLists),
+On12 opt-in + asset-pipeline opt-out gating (Proxy/Main), terrain-swap Lua
+bridge (PhasingHooks + offsets/Script.hpp, F-194/F-196), RenderHooks SEH
+restructure, MpqStore. Rebased onto upstream (adt runtime moved to module).
+
+F-195
+---
+ .gitignore                    |  4 +-
+ CMakeLists.txt                | 19 ++++++++-
+ deps/mingw-compat/d3d9on12.h  | 49 ++++++++++++++++++++++
+ src/core/Main.cpp             | 29 ++++++++++---
+ src/gpu/Proxy.cpp             | 23 +++++++++-
+ src/host/mpq/MpqStore.cpp     | 20 ++++++++-
+ src/offsets/engine/Script.hpp | 55 ++++++++++++++++++++++++
+ src/runtime/PhasingHooks.cpp  | 79 ++++++++++++++++++++++++++++++++++-
+ src/runtime/RenderHooks.cpp   | 53 ++++++++++++++---------
+ 9 files changed, 299 insertions(+), 32 deletions(-)
+ create mode 100644 deps/mingw-compat/d3d9on12.h
+ create mode 100644 src/offsets/engine/Script.hpp
+
+diff --git a/.gitignore b/.gitignore
+index b2262d0..db586dc 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -66,4 +66,6 @@ vcpkg_installed/
+ 
+ # test output & cache
+ Testing/
+-.cache/
+\ No newline at end of file
++.cache/
++# Zeppelin: modern-* modules tracked as their own forge repos
++scripts/
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 260810b..069ae14 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -82,6 +82,14 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+     add_subdirectory(deps/minhook)
+     target_link_libraries(WarcraftXL PRIVATE minhook d3d9 d3dcompiler)
+     target_compile_definitions(WarcraftXL PRIVATE ${WXL_DEFS})
++    if(NOT MSVC)
++        # F-194/195 mingw: wxl-modern-render (compiled into the DLL) uses d3d9on12.h + the DComposition
++        # 2/Desktop APIs; supply the compat header + raise _WIN32_WINNT (MSVC's SDK defaults it high).
++        target_include_directories(WarcraftXL PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/deps/mingw-compat")
++        target_compile_definitions(WarcraftXL PRIVATE _WIN32_WINNT=0x0A00)
++        # MSVC auto-links these via #pragma comment(lib); mingw needs them explicit (DWM + DComposition).
++        target_link_libraries(WarcraftXL PRIVATE dwmapi dcomp)
++    endif()
+ 
+     source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${WXL_CORE_SRC} ${WXL_RUNTIME_SCRIPT})
+ 
+@@ -120,7 +128,16 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+     set_target_properties(d3d9 PROPERTIES OUTPUT_NAME "d3d9" PREFIX "")
+     target_include_directories(d3d9 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+     target_link_libraries(d3d9 PRIVATE d3d12 dxgi dcomp d3dcompiler)
+-    target_link_options(d3d9 PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/src/gpu/Proxy.def")
++    if(MSVC)
++        target_link_options(d3d9 PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/src/gpu/Proxy.def")
++    else()
++        # mingw/GCC: a .def listed as a source defines the DLL exports; deps/mingw-compat supplies
++        # d3d9on12.h (F-195 — the SDK interop header mingw-w64 does not ship). _WIN32_WINNT=0x0A00
++        # unlocks the DComposition 2/Desktop APIs (MSVC's SDK defaults it high; mingw does not).
++        target_sources(d3d9 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gpu/Proxy.def")
++        target_include_directories(d3d9 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/deps/mingw-compat")
++        target_compile_definitions(d3d9 PRIVATE _WIN32_WINNT=0x0A00)
++    endif()
+     target_compile_definitions(d3d9 PRIVATE ${WXL_DEFS})
+ 
+     # Deploy: copy the freshly linked proxy into the client folder after every build.
+diff --git a/deps/mingw-compat/d3d9on12.h b/deps/mingw-compat/d3d9on12.h
+new file mode 100644
+index 0000000..cbea985
+--- /dev/null
++++ b/deps/mingw-compat/d3d9on12.h
+@@ -0,0 +1,49 @@
++/*
++ * Minimal d3d9on12.h for mingw-w64 (F-195 / Zeppelin).
++ *
++ * mingw-w64 (GCC 10) does not ship the Windows-SDK D3D9On12 interop header. This provides the
++ * documented, ABI-correct subset the WarcraftXL d3d9 proxy uses: the D3D9ON12_ARGS override
++ * struct and the IDirect3DDevice9On12 interface. Layout/vtable order match the public MS SDK
++ * (docs.microsoft.com/windows/win32/api/d3d9on12), so binaries built against this are
++ * interchangeable with ones built against the real header. IID via mingw's __CRT_UUID_DECL.
++ */
++
++#ifndef _D3D9ON12_H_
++#define _D3D9ON12_H_
++
++#include <d3d9.h>
++#include <d3d12.h>
++
++#ifndef MAX_D3D9ON12_QUEUES
++#define MAX_D3D9ON12_QUEUES 2
++#endif
++
++/* Override list entry passed to Direct3DCreate9On12 / Ex. */
++typedef struct _D3D9ON12_ARGS
++{
++    BOOL      Enable9On12;
++    IUnknown* pD3D12Device;
++    IUnknown* ppD3D12Queues[MAX_D3D9ON12_QUEUES];
++    UINT      NumQueues;
++    UINT      NodeMask;
++} D3D9ON12_ARGS;
++
++/* {e7fda234-b589-4049-940d-8878977531c8} — IID_IDirect3DDevice9On12 */
++#ifdef __cplusplus
++
++struct IDirect3DDevice9On12 : public IUnknown
++{
++    virtual HRESULT STDMETHODCALLTYPE GetD3D12Device(REFIID riid, void** ppvDevice) = 0;
++    virtual HRESULT STDMETHODCALLTYPE UnwrapUnderlyingResource(IDirect3DResource9* pResource, ID3D12CommandQueue* pCommandQueue, REFIID riid, void** ppvResource12) = 0;
++    virtual HRESULT STDMETHODCALLTYPE ReturnUnderlyingResource(IDirect3DResource9* pResource, UINT NumSync, UINT64* pSignalValues, ID3D12Fence** ppFences) = 0;
++};
++
++__CRT_UUID_DECL(IDirect3DDevice9On12, 0xe7fda234, 0xb589, 0x4049, 0x94, 0x0d, 0x88, 0x78, 0x97, 0x75, 0x31, 0xc8)
++
++#endif /* __cplusplus */
++
++/* Exported by d3d9.dll at runtime; the proxy resolves these via GetProcAddress. */
++typedef IDirect3D9* (WINAPI* PFN_Direct3DCreate9On12)(UINT SDKVersion, D3D9ON12_ARGS* pOverrideList, UINT NumOverrideEntries);
++typedef HRESULT     (WINAPI* PFN_Direct3DCreate9On12Ex)(UINT SDKVersion, D3D9ON12_ARGS* pOverrideList, UINT NumOverrideEntries, IDirect3D9Ex** ppOutputInterface);
++
++#endif /* _D3D9ON12_H_ */
+diff --git a/src/core/Main.cpp b/src/core/Main.cpp
+index 5b687a7..3c025b9 100644
+--- a/src/core/Main.cpp
++++ b/src/core/Main.cpp
+@@ -15,6 +15,7 @@
+ // along with this program. If not, see <https://www.gnu.org/licenses/>.
+ 
+ #include <windows.h>
++#include <cstdio>
+ 
+ #include "core/Hook.hpp"
+ #include "core/Logger.hpp"
+@@ -36,13 +37,26 @@ namespace
+ {
+     constexpr int kDeviceWaitTicks = 600; // ~60 s at 100 ms
+ 
++    // The modern-asset pipeline (storage/adt/phasing hooks + the terrain Lua bridge) is ON by default:
++    // it is what F-196 terrain phasing needs, and the host now launches reliably so its file hooks pass
++    // non-modern files (addons/Lua/XML) through natively. It can be disabled for troubleshooting — without
++    // redeploying the DLL — by dropping a "wxl-noassets" file next to Wow.exe.
++    bool AssetsEnabled()
++    {
++        FILE* f = nullptr;
++        if (fopen_s(&f, "wxl-noassets", "rb") == 0 && f) { fclose(f); return false; }
++        return true;
++    }
++
+     /**
+      * @brief Waits for the graphics device, then installs every detour and enables all hooks.
+      * @return thread exit code (0).
+      */
+     DWORD WINAPI MainThread(LPVOID)
+     {
+-        wxl::runtime::storage::Install();
++        const bool assets = AssetsEnabled();
++        if (assets)
++            wxl::runtime::storage::Install(); // archive file-open redirect to the host (intrusive)
+ 
+         // Wait for the graphics device (and the window) before installing detours that publish the
+         // events the runtime scripts subscribed to at load time. The detours are enabled in one batch
+@@ -51,13 +65,15 @@ namespace
+             Sleep(100);
+ 
+         wxl::runtime::render::Install(); // device/render events: OnEndScene, OnFrame, OnM2BatchDraw, ...
+-        wxl::runtime::modules::RunAll(); // module-registered installers (wxl-modern-adt, ...)
++        if (assets)
++            wxl::runtime::modules::RunAll(); // module installers (wxl-modern-adt, ...) — asset-gated (Zeppelin opt-in)
+         wxl::runtime::game::Install();   // game events: OnModelLoad, ...
+         wxl::runtime::input::Install();  // window events: OnInput
+-        wxl::runtime::phasing::Install(); // terrain-phase per-tile loader redirect
++        if (assets)
++            wxl::runtime::phasing::Install(); // terrain-phase per-tile loader redirect
+         wxl::core::hook::EnableAll();
+ 
+-        WLOG_INFO("wxl-core ready");
++        WLOG_INFO("wxl-core ready (asset pipeline %s)", assets ? "ON (wxl-assets marker)" : "off");
+         return 0;
+     }
+ }
+@@ -84,7 +100,10 @@ BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID)
+         // Arm the archive-mount guard now, on the loader thread, before the client builds its archive
+         // set: the deferred main thread below is raced past by the client's startup, so a guard armed
+         // there would miss the mount. Drops the host-owned loose directories so the client stays lean.
+-        wxl::runtime::storage::InstallArchiveGuard();
++        // Gated with the rest of the asset pipeline (see AssetsEnabled) so the default build never
++        // touches the client's archive set — addon/Lua patches load exactly as they do without WarcraftXL.
++        if (AssetsEnabled())
++            wxl::runtime::storage::InstallArchiveGuard();
+ 
+         // Module boot installers: memory patches that must land before the client's own startup
+         // code runs (boot-sized allocations), e.g. the wxl-modern-blp mip-scratch widening.
+diff --git a/src/gpu/Proxy.cpp b/src/gpu/Proxy.cpp
+index 780820a..dfdc978 100644
+--- a/src/gpu/Proxy.cpp
++++ b/src/gpu/Proxy.cpp
+@@ -18,6 +18,7 @@
+ 
+ #include <windows.h>
+ #include <d3d9.h>
++#include <cstdio>
+ 
+ #include "gpu/Device.hpp"
+ #include "gpu/Capture.hpp"
+@@ -34,6 +35,7 @@ namespace
+     Create9ExFn     g_realCreate9Ex     = nullptr;
+     Create9On12Fn   g_realCreate9On12   = nullptr;
+     Create9On12ExFn g_realCreate9On12Ex = nullptr;
++    bool            g_on12Enabled       = false; // D3D9On12 is opt-in; default = transparent native passthrough
+ 
+     /**
+      * @brief Loads the real d3d9 from the system directory, falling back to a local d3d9_real.dll.
+@@ -66,6 +68,23 @@ namespace
+         g_realCreate9On12Ex = reinterpret_cast<Create9On12ExFn>(GetProcAddress(r, "Direct3DCreate9On12Ex"));
+         Log("d3d9proxy: system d3d9 loaded (9=%p Ex=%p On12=%p On12Ex=%p)",
+             g_realCreate9, g_realCreate9Ex, g_realCreate9On12, g_realCreate9On12Ex);
++
++        // D3D9On12 (DX9-on-DX12) needs a usable DX12 device; on a VM/headless/older GPU it can create
++        // a factory that later fails WoW's device creation ("unable to find a suitable display device").
++        // So it is OPT-IN: default to transparent native d3d9 passthrough (WoW renders exactly as before,
++        // the framework still loads); enable On12 only when a marker file "wxl-on12" sits next to Wow.exe.
++        FILE* marker = nullptr;
++        if (fopen_s(&marker, "wxl-on12", "rb") == 0 && marker) { g_on12Enabled = true; fclose(marker); }
++        Log("d3d9proxy: On12 %s", g_on12Enabled ? "ENABLED (wxl-on12 marker)" : "disabled (native passthrough)");
++
++        // F-195 (Zeppelin deployment): this proxy is the framework load vector. The client loads
++        // d3d9.dll from its own folder ahead of system32, so bootstrapping WarcraftXL here — on the
++        // first Direct3DCreate9, safely outside loader lock — means no Wow.exe import-table edit is
++        // needed. WarcraftXL imports this proxy's Wxl* exports; by now the proxy is fully resolved.
++        if (HMODULE wxl = LoadLibraryA("WarcraftXL.dll"))
++            Log("d3d9proxy: WarcraftXL.dll loaded (%p)", wxl);
++        else
++            Log("d3d9proxy: WarcraftXL.dll not found (framework disabled)");
+     }
+ }
+ 
+@@ -77,7 +96,7 @@ namespace
+ extern "C" IDirect3D9* WINAPI Direct3DCreate9(UINT sdkVersion)
+ {
+     EnsureReal();
+-    if (g_realCreate9On12)
++    if (g_on12Enabled && g_realCreate9On12)
+     {
+         D3D9ON12_ARGS args = wxl::gpu::MakeOn12Args();
+         IDirect3D9* d3d = g_realCreate9On12(sdkVersion, &args, 1);
+@@ -97,7 +116,7 @@ extern "C" IDirect3D9* WINAPI Direct3DCreate9(UINT sdkVersion)
+ extern "C" HRESULT WINAPI Direct3DCreate9Ex(UINT sdkVersion, IDirect3D9Ex** out)
+ {
+     EnsureReal();
+-    if (g_realCreate9On12Ex)
++    if (g_on12Enabled && g_realCreate9On12Ex)
+     {
+         D3D9ON12_ARGS args = wxl::gpu::MakeOn12Args();
+         HRESULT hr = g_realCreate9On12Ex(sdkVersion, &args, 1, out);
+diff --git a/src/host/mpq/MpqStore.cpp b/src/host/mpq/MpqStore.cpp
+index ee7ac8f..4db00ba 100644
+--- a/src/host/mpq/MpqStore.cpp
++++ b/src/host/mpq/MpqStore.cpp
+@@ -93,6 +93,7 @@ namespace wxl::host::mpq
+         // override folders (Data\Patch*.MPQ that are DIRECTORIES, highest priority).
+         m_locale.clear();
+         std::vector<std::string> looseDirs;
++        std::vector<std::string> customPatches;   // Data\PATCH-<letter>.MPQ files (Zeppelin launcher overrides)
+         {
+             WIN32_FIND_DATAA fd{};
+             HANDLE h = FindFirstFileA((data + "\\*").c_str(), &fd);
+@@ -100,12 +101,20 @@ namespace wxl::host::mpq
+             {
+                 do
+                 {
+-                    if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) continue;
+                     std::string d = fd.cFileName;
+                     if (d == "." || d == "..") continue;
++                    std::string dl = ToLower(d);
++                    if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
++                    {
++                        // Zeppelin custom patch FILE: Data\PATCH-<letter>.MPQ (letter, not the stock
++                        // numbered patch-2/patch-3). These are launcher-shipped content overrides.
++                        if (dl.rfind("patch-", 0) == 0 && dl.size() > 7 &&
++                            dl.substr(dl.size() - 4) == ".mpq" && dl[6] >= 'a' && dl[6] <= 'z')
++                            customPatches.push_back(d);
++                        continue;
++                    }
+                     if (m_locale.empty() && FileExistsOnDisk(data + "\\" + d + "\\locale-" + d + ".MPQ"))
+                         m_locale = d;
+-                    std::string dl = ToLower(d);
+                     if (dl.rfind("patch", 0) == 0 && dl.size() > 4 && dl.substr(dl.size() - 4) == ".mpq")
+                         looseDirs.push_back(d);
+                 } while (FindNextFileA(h, &fd));
+@@ -138,6 +147,13 @@ namespace wxl::host::mpq
+             "Data\\common.MPQ",
+         };
+ 
++        // Zeppelin custom patches (Data\PATCH-*.MPQ) override the stock set -> search them first.
++        std::sort(customPatches.begin(), customPatches.end(), [](const std::string& a, const std::string& b) {
++            return ToLower(a) > ToLower(b);
++        });
++        for (auto it = customPatches.rbegin(); it != customPatches.rend(); ++it)
++            candidates.insert(candidates.begin(), "Data\\" + *it);
++
+         // Resolve by exact name only (never enumerate); skip the internal (listfile) and (attributes).
+         const DWORD openFlags = MPQ_OPEN_READ_ONLY | MPQ_OPEN_NO_LISTFILE | MPQ_OPEN_NO_ATTRIBUTES;
+ 
+diff --git a/src/offsets/engine/Script.hpp b/src/offsets/engine/Script.hpp
+new file mode 100644
+index 0000000..ae66ac2
+--- /dev/null
++++ b/src/offsets/engine/Script.hpp
+@@ -0,0 +1,55 @@
++// Client FrameScript / Lua entry points: register native C functions into the client's Lua state so
++// server-driven addon messages (ALE + CSMH) can invoke them. Every address below is verified against
++// nginx/wow/EXE/Wow.exe build 12340 (see the disassembly notes on each constant).
++// Copyright (C) 2026 WarcraftXL. GPLv3.
++
++#pragma once
++
++#include <cstddef>
++#include <cstdint>
++
++// INTERNAL to the core. Modules never include this; they use wxl::game / wxl::events.
++namespace wxl::offsets::engine::script
++{
++    // void __cdecl FrameScript_RegisterFunction(const char* name, lua_CFunction fn): binds fn as a
++    // global Lua function `name` in the live FrameScript state. Verified body: it reads the state from
++    // *(lua_State**)kLuaState, then lua_pushcclosure(L, fn, 0) + setglobal(L, name). Must run while a
++    // state exists (kLuaState non-null) -- see hkFrameScriptInit, which registers right after the state
++    // is (re)created.
++    //
++    // NOTE: an earlier revision used 0x00819D40 here. That is a DIFFERENT FrameScript helper -- it takes
++    // (name, int, int) and builds+runs a Lua string; it never takes a function pointer, so the bridge
++    // was never actually installed as a C function (the observed NULL lua_State crash). The real
++    // registrar, the one the client's own Script_* table loop calls, is 0x00817F90.
++    constexpr uintptr_t kRegisterFunction = 0x00817F90;
++    using RegisterFunctionFn = void(__cdecl*)(const char* name, int(__cdecl* fn)(void* L));
++
++    // FrameScript_Initialize @0x00819BB0 (__cdecl, one forwarded arg, plain `ret`): creates a fresh Lua
++    // state (lua_newstate) and stores it at kLuaState. WoW recreates the state on every glue<->world
++    // transition (paired with FrameScript_Destroy @0x0081A9B0, which lua_close()s it and writes null to
++    // kLuaState), so any C function registered into the old state is lost. We post-hook this to
++    // re-register the bridge into each new state.
++    constexpr uintptr_t kFrameScriptInitialize = 0x00819BB0;
++    using FrameScriptInitializeFn = void*(__cdecl*)(void* arg);
++
++    // The live FrameScript lua_State*: *(void**)kLuaState. Null before init / after destroy. Both the
++    // engine's own RegisterFunction and every stock Script_* handler resolve L from here
++    // (mov esi, [0x00D3F78C]).
++    constexpr uintptr_t kLuaState = 0x00D3F78C;
++
++    // const char* __cdecl lua_tolstring(lua_State* L, int idx, size_t* len): reads a Lua stack value as
++    // a string (len may be null; returns null when the value is not a string). Confirmed: the stock
++    // Script_RunScript handler @0x004DD490 calls exactly this as lua_tolstring([ebp+8], 1, 0).
++    constexpr uintptr_t kToLString = 0x0084E0E0;
++    using ToLStringFn = const char*(__cdecl*)(void* L, int idx, size_t* len);
++
++    // Before dispatching a registered Lua C function, the client validates its pointer against Wow.exe's
++    // own .text bounds (validator @0x0086B5A0): valid iff  *kTextLo <= fn < *kTextHi, else ERROR #134
++    // "Invalid function pointer". Our bridge functions live in this DLL, ABOVE .text, so the stock guard
++    // rejects them. We raise *kTextHi so DLL code is accepted. This regresses nothing: every stock C
++    // function is below the original *kTextHi and still passes -- we only additionally accept higher
++    // (DLL) addresses. The guard treats a non-zero *kTextHi as "already computed" and skips its
++    // recompute (0x0086B5B5: test ecx,ecx / jne), so the widened value sticks for the session.
++    constexpr uintptr_t kTextLo = 0x00D415B8; // Wow.exe .text lower bound (== 0x00401000 for 12340)
++    constexpr uintptr_t kTextHi = 0x00D415BC; // Wow.exe .text upper bound (the value we widen)
++}
+diff --git a/src/runtime/PhasingHooks.cpp b/src/runtime/PhasingHooks.cpp
+index 20cdb74..975f6f5 100644
+--- a/src/runtime/PhasingHooks.cpp
++++ b/src/runtime/PhasingHooks.cpp
+@@ -18,7 +18,9 @@
+ 
+ #include "core/Hook.hpp"
+ #include "core/Logger.hpp"
++#include "game/Binding.hpp"
+ #include "game/world/Loading.hpp"
++#include "offsets/engine/Script.hpp"
+ #include "offsets/game/World.hpp"
+ #include "runtime/storage/ShmClient.hpp"
+ 
+@@ -147,11 +149,86 @@ namespace wxl::game::world
+ 
+ namespace wxl::runtime::phasing
+ {
++    namespace se = wxl::offsets::engine::script;
++
++    se::FrameScriptInitializeFn g_origFrameScriptInit = nullptr;
++
++    /** @brief The live FrameScript lua_State, or null before init / after destroy. */
++    void* LuaState() { return *reinterpret_cast<void* const*>(se::kLuaState); }
++
++    // Bound into the client's Lua so the server can drive terrain swaps over an addon message
++    // (ALE server script -> CSMH -> these globals). WarcraftXL_SetTerrainPhase("<mapDir>") overlays the
++    // phase-variant map; WarcraftXL_ClearTerrainPhase() restores the base. lua_CFunction: __cdecl,
++    // returns the number of results pushed (0). The state is resolved from the FrameScript global
++    // (kLuaState) -- the same pointer the engine's own Script_* handlers use -- which is the state the
++    // addon message runs on, so it is guaranteed non-null and holds the call's arguments.
++    static int __cdecl Lua_SetTerrainPhase(void*)
++    {
++        void* L = LuaState();
++        if (!L) return 0;
++        const char* dir = wxl::game::Native<se::ToLStringFn>(se::kToLString)(L, 1, nullptr);
++        if (dir && dir[0])
++            wxl::game::world::SetTerrainPhase(dir);
++        return 0;
++    }
++
++    static int __cdecl Lua_ClearTerrainPhase(void*)
++    {
++        wxl::game::world::ClearTerrainPhase();
++        return 0;
++    }
++
++    /**
++     * @brief Lets the client dispatch Lua C functions that live in this DLL. The stock guard (Script.hpp
++     *        kTextLo/kTextHi) rejects any function pointer outside Wow.exe's .text with ERROR #134; our
++     *        bridge functions are in the DLL, above .text. Raising the upper bound accepts them and
++     *        regresses no stock call (every stock pointer is below the original bound and still passes).
++     *        Idempotent -- safe to call on every (re)registration.
++     */
++    void AllowDllFunctionPointers()
++    {
++        *reinterpret_cast<uint32_t*>(se::kTextLo) = 0x00401000; // Wow.exe .text start (fixed, 12340)
++        *reinterpret_cast<uint32_t*>(se::kTextHi) = 0xFFFF0000; // accept DLL code above .text
++    }
++
++    /** @brief Registers the terrain bridge globals into the current FrameScript state. */
++    void RegisterBridge()
++    {
++        AllowDllFunctionPointers(); // or the client rejects our DLL-resident closures on call (#134)
++        auto reg = wxl::game::Native<se::RegisterFunctionFn>(se::kRegisterFunction);
++        reg("WarcraftXL_SetTerrainPhase", &Lua_SetTerrainPhase);
++        reg("WarcraftXL_ClearTerrainPhase", &Lua_ClearTerrainPhase);
++    }
++
++    /**
++     * @brief Post-detour on FrameScript_Initialize: after the client builds a fresh Lua state, register
++     *        the bridge into it. WoW recreates the state on every glue<->world transition, so this is
++     *        what keeps the globals present in whatever state is live (a one-shot registration is lost
++     *        the first time the state is torn down and rebuilt).
++     */
++    void* __cdecl hkFrameScriptInit(void* arg)
++    {
++        void* r = g_origFrameScriptInit(arg); // let the client finish building the state first
++        RegisterBridge();
++        WLOG_INFO("phasing: terrain Lua bridge registered into FrameScript state %p", LuaState());
++        return r;
++    }
++
+     void Install()
+     {
+         wxl::core::hook::Install("TileLoader", woff::kTileLoader,
+                                  reinterpret_cast<void*>(&hkTileLoad),
+                                  reinterpret_cast<void**>(&g_origTileLoad));
+-        WLOG_INFO("phasing: terrain-phase loader hook installed");
++
++        // Register the terrain bridge into every FrameScript state via a post-hook on
++        // FrameScript_Initialize (see Script.hpp). If a state already exists at install time (injected
++        // mid-session), register into it now -- the hook only fires on subsequent (re)creations.
++        wxl::core::hook::Install("FrameScriptInit", se::kFrameScriptInitialize,
++                                 reinterpret_cast<void*>(&hkFrameScriptInit),
++                                 reinterpret_cast<void**>(&g_origFrameScriptInit));
++        if (LuaState())
++            RegisterBridge();
++
++        WLOG_INFO("phasing: terrain-phase loader hook + Lua bridge installed");
+     }
+ }
+diff --git a/src/runtime/RenderHooks.cpp b/src/runtime/RenderHooks.cpp
+index aacf6d3..6887ab1 100644
+--- a/src/runtime/RenderHooks.cpp
++++ b/src/runtime/RenderHooks.cpp
+@@ -774,6 +774,25 @@ namespace
+      * @param stateBlock  native render state block.
+      * @return the native ribbon-draw result.
+      */
++    // F-195 (Linux/llvm-mingw): clang cannot codegen an i686 SEH funclet around a *call*. The emitter
++    // pointer deref is the fault risk, so guard only the read/write of layerCount here; the event
++    // dispatch + sampler bind (calls) run outside __try on the already-validated emitter.
++    bool ReadRibbonLayers(uint8_t* emitter, uint32_t*& layerCountPtr, uint32_t& layers)
++    {
++        __try
++        {
++            layerCountPtr = &reinterpret_cast<m2off::RibbonEmitter*>(emitter)->layerCount;
++            layers        = *layerCountPtr;
++            return true;
++        }
++        __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
++    }
++
++    void WriteRibbonLayers(uint32_t* layerCountPtr, uint32_t value)
++    {
++        __try { *layerCountPtr = value; } __except (EXCEPTION_EXECUTE_HANDLER) {}
++    }
++
+     int __fastcall hkRibbonDraw(void* self, void* edx, void* stateBlock)
+     {
+         g_ribbonModern = false;
+@@ -782,37 +801,31 @@ namespace
+         bool      bridged       = false;
+         uint32_t  savedLayers   = 0;
+         uint32_t* layerCountPtr = nullptr;
++        uint32_t  layers        = 0;
+ 
+-        if (emitter)
++        if (emitter && ReadRibbonLayers(emitter, layerCountPtr, layers))
+         {
+-            __try
+-            {
+-                layerCountPtr = &reinterpret_cast<m2off::RibbonEmitter*>(emitter)->layerCount;
+-                uint32_t layers = *layerCountPtr;
+-
+-                bool useMulti = false;
+-                ev::RibbonDrawArgs a{ emitter, layers, &useMulti };
+-                ev::Emit(ev::Event::OnRibbonDraw, &a);
++            bool useMulti = false;
++            ev::RibbonDrawArgs a{ emitter, layers, &useMulti };
++            ev::Emit(ev::Event::OnRibbonDraw, &a);
+ 
+-                if (useMulti && layers >= 3)
++            if (useMulti && layers >= 3)
++            {
++                void* gxDev = GxDeviceObject();
++                if (gxDev && BindRibbonExtraSamplers(gxDev, emitter))
+                 {
+-                    void* gxDev = GxDeviceObject();
+-                    if (gxDev && BindRibbonExtraSamplers(gxDev, emitter))
+-                    {
+-                        g_ribbonModern = true;
+-                        savedLayers    = layers;
+-                        *layerCountPtr = 1;
+-                        bridged        = true;
+-                    }
++                    g_ribbonModern = true;
++                    savedLayers    = layers;
++                    WriteRibbonLayers(layerCountPtr, 1);
++                    bridged        = true;
+                 }
+             }
+-            __except (EXCEPTION_EXECUTE_HANDLER) { bridged = false; g_ribbonModern = false; }
+         }
+ 
+         int r = g_origRibbonDraw(self, edx, stateBlock);
+ 
+         if (bridged && layerCountPtr)
+-            __try { *layerCountPtr = savedLayers; } __except (EXCEPTION_EXECUTE_HANDLER) {}
++            WriteRibbonLayers(layerCountPtr, savedLayers);
+         g_ribbonModern = false;
+         return r;
+     }
+-- 
+2.34.1
+

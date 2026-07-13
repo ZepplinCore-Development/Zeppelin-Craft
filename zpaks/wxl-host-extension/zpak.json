@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-host-extension",
+  "version": "0.1.0",
+  "description": "WarcraftXL module wxl-host-extension (F-195) - forge-tracked source + Zeppelin patches",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": { "patches": ["patches/*.patch"] },
+  "acore": {
+    "module": "wxl-host-extension",
+    "source": "https://github.com/WarcraftXL/wxl-host-extension.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core-main/scripts/wxl-host-extension",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100,
+  "feature_id": "F-195"
+}

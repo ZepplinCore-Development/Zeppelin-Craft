@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-modern-adt",
+  "version": "0.1.0",
+  "description": "WarcraftXL module wxl-modern-adt (F-195) - forge-tracked source + Zeppelin patches",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": { "patches": ["patches/*.patch"] },
+  "acore": {
+    "module": "wxl-modern-adt",
+    "source": "https://github.com/WarcraftXL/wxl-modern-adt.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core-main/scripts/wxl-modern-adt",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100,
+  "feature_id": "F-195"
+}

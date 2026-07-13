@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-framework",
+  "version": "0.1.0",
+  "description": "WarcraftXL client framework (F-195) - forge-tracked source (WarcraftXL/wxl-core) + Zeppelin patch set (Linux/llvm-mingw cross-compile port, i686 SEH restructures, populated modern-* modules, host BLP UI-cap fix)",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "wxl-core",
+    "source": "https://github.com/WarcraftXL/wxl-core.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core-main",
+    "patch_mode": "granular"
+  },
+  "enabled": true,
+  "priority": 100,
+  "feature_id": "F-195"
+}

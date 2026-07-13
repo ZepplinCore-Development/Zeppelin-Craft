@@ -1,0 +1,64 @@
+From dfbb846cf2756c7398cf1e799ef7befdcb1a17c1 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 12 Jul 2026 14:48:11 +0000
+Subject: [PATCH] F-195: i686 SEH restructure for ApplyScale (clang funclet
+ fix)
+
+Move the shader-constant upload call out of the __try onto validated pointers
+(ScaleConstants helper); clang cannot codegen a 32-bit SEH funclet whose body
+contains a call. F-195
+---
+ src/Adt.cpp | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
+
+diff --git a/src/Adt.cpp b/src/Adt.cpp
+index 5a71b43..ded19a2 100644
+--- a/src/Adt.cpp
++++ b/src/Adt.cpp
+@@ -131,7 +131,12 @@ namespace wxl::scripts::modernadt
+ 
+         // SEH-apply: divide c18+i.xy by 1<<exp[i] (a bigger texture covers more ground, so it tiles less),
+         // then re-upload c18..c(18+count-1) so the GPU sees it.
+-        void ApplyScale(uint8_t count, const uint8_t exp[4])
++        //
++        // Zeppelin/F-195: clang cannot codegen a 32-bit SEH funclet when the __try body contains a function
++        // CALL (emits an unresolvable $parent_frame_offset label). So the guarded block does only the raw
++        // game-memory reads/writes and hands back validated pointers; the shader-constant upload call runs
++        // OUTSIDE the __try on that already-validated data (the deref is the real fault source).
++        bool ScaleConstants(uint8_t count, const uint8_t exp[4], void*& deviceOut, void*& setConstOut)
+         {
+             __try
+             {
+@@ -146,13 +151,24 @@ namespace wxl::scripts::modernadt
+                 }
+                 void* device = *reinterpret_cast<void**>(gx::kGxDevicePtr);
+                 if (!device)
+-                    return;
++                    return false;
+                 void** vt = *reinterpret_cast<void***>(device);
+-                auto setConst = reinterpret_cast<gx::Gx_SetShaderConstantFn>(vt[gx::kVtSetShaderConstant]);
+-                setConst(device, nullptr, 0, off::kVsConstC18Reg,
+-                         reinterpret_cast<const float*>(off::kVsConstC18), count);
++                deviceOut   = device;
++                setConstOut = vt[gx::kVtSetShaderConstant];
++                return true;
+             }
+-            __except (EXCEPTION_EXECUTE_HANDLER) {}
++            __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
++        }
++
++        void ApplyScale(uint8_t count, const uint8_t exp[4])
++        {
++            void* device = nullptr;
++            void* setConstPtr = nullptr;
++            if (!ScaleConstants(count, exp, device, setConstPtr))
++                return;
++            auto setConst = reinterpret_cast<gx::Gx_SetShaderConstantFn>(setConstPtr);
++            setConst(device, nullptr, 0, off::kVsConstC18Reg,
++                     reinterpret_cast<const float*>(off::kVsConstC18), count);
+         }
+ 
+         void __cdecl BuildConstantsDetour(void* node, uint32_t a1, uint32_t a2)
+-- 
+2.34.1
+

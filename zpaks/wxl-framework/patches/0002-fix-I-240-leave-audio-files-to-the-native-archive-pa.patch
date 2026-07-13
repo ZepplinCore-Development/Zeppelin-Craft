@@ -1,0 +1,48 @@
+From 84a2da7fef0e0bdbcec7ae52e7a0935e60b0775d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 13 Jul 2026 11:24:09 +0000
+Subject: [PATCH] fix: I-240 - leave audio files to the native archive path
+
+World sound loads use the client's async read path, which synthetic host handles never complete; glue music (sync reads) played while all in-world audio was silent. Audio needs no host transform and has no host-only source, so skip interception for .wav/.mp3/.ogg. Adds a one-shot diagnostic when an async-style read hits a host handle.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/runtime/storage/StorageHook.cpp | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/src/runtime/storage/StorageHook.cpp b/src/runtime/storage/StorageHook.cpp
+index 5952df1..241b624 100644
+--- a/src/runtime/storage/StorageHook.cpp
++++ b/src/runtime/storage/StorageHook.cpp
+@@ -136,6 +136,11 @@ namespace
+     {
+         if (EndsWithCI(name, ".pub") || EndsWithCI(name, ".url")) return false;
+         if (EndsWithCI(name, ".tex") || EndsWithCI(name, "_lod.adt")) return false;
++        // Audio stays native (I-240): world sound loads read through the client's async path, which a
++        // synthetic handle does not complete (glue music reads synchronously and survives, world SFX/music
++        // never finish loading -> total in-world silence). No transform targets audio and no host-only
++        // source ships it, so the native archives serve it correctly.
++        if (EndsWithCI(name, ".wav") || EndsWithCI(name, ".mp3") || EndsWithCI(name, ".ogg")) return false;
+         return true;
+     }
+ 
+@@ -429,6 +434,16 @@ namespace
+         if (IsOurs(handle))
+         {
+             auto* f = reinterpret_cast<HostFile*>(handle);
++            // Async-read watch (I-240 evidence): a caller handing an overlapped/async block to a synthetic
++            // handle gets a synchronous copy and no completion callback -- flag the first few so the file
++            // classes relying on async completion are identifiable in the log.
++            static uint32_t s_asyncSeen = 0;
++            if ((ovl || unk) && s_asyncSeen < 8)
++            {
++                ++s_asyncSeen;
++                WLOG_WARN("Storage: async-style read on host handle '%s' (ovl=%p unk=%u) served synchronously",
++                          f->fullName ? f->fullName : "?", ovl, unk);
++            }
+             uint32_t avail = (f->position < f->size) ? (f->size - f->position) : 0;
+             uint32_t want = (len < avail) ? len : avail;
+             uint32_t got = 0;
+-- 
+2.34.1
+

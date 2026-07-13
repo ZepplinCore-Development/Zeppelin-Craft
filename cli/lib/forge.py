@@ -313,16 +313,16 @@ def generate_patches(
             old_patch.unlink()
 
         if patch_mode == "single":
-            # Single combined patch file
+            # Single combined patch file. Capture/write as bytes: patch content is arbitrary bytes
+            # (binary diffs, or source with non-UTF-8 comment bytes), so decoding as text can crash.
             patch_file = patch_dir / "zeppelin.patch"
             result = subprocess.run(
                 ["git", "format-patch", f"upstream/{upstream_branch}..HEAD", "--stdout"],
                 cwd=module_path,
                 capture_output=True,
-                text=True,
                 check=True
             )
-            with open(patch_file, 'w') as f:
+            with open(patch_file, 'wb') as f:
                 f.write(result.stdout)
 
             size = patch_file.stat().st_size / 1024
