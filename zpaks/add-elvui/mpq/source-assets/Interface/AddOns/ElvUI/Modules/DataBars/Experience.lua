@@ -45,6 +45,13 @@ end
 function mod:ExperienceBar_QuestXPUpdate(event)
 	if event == "ZONE_CHANGED_NEW_AREA" and not self.db.experience.questXP.questCurrentZoneOnly then return end
 
+	-- curExp/maxExp are populated by ExperienceBar_Update; early events (QUEST_LOG_UPDATE,
+	-- PLAYER_ENTERING_WORLD) can fire before it has run, leaving maxExp nil and breaking SetMinMaxValues
+	if not self.expBar.maxExp then
+		self.expBar.curExp = UnitXP("player")
+		self.expBar.maxExp = max(1, UnitXPMax("player"))
+	end
+
 	self.questTotalXP = getQuestXP(self.db.experience.questXP.questCompletedOnly, self.db.experience.questXP.questCurrentZoneOnly)
 
 	if self.questTotalXP > 0 then
