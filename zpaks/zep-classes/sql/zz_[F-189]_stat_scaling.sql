@@ -17,6 +17,4 @@ CREATE TABLE IF NOT EXISTS spell_stat_scaling (
   PRIMARY KEY (spell_id, eff_index, stat_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Rockslam (900119): MOVED to native F-188 (effect_misc_value_a_1 = 1 BLOCK_VALUE, b_1 = 100).
--- The DELETE clears the old stopgap row so the addon reads scaling from the DBC, not here.
-DELETE FROM spell_stat_scaling WHERE spell_id = 900119;
+-- (Rockslam 900119 stat-scaling cleanup moved to zz_[F-164R]_stat_scaling.sql)
