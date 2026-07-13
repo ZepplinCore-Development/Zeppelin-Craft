@@ -1356,7 +1356,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 0, "RoM_stellar_dice", "=q6=Golem Lord Argelmach", "=q5=CHANCE TO DROP"};
     { 6, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "80.0%" };
     { 7, 21956, "", "=q3=Design: Dark Iron Scorpid", "=ds=#e2#", "", "60.0%" };
-    { 8, 57497, "", "=q1=Technique: Scroll of Protection IV", "=ds=#e2#", "", "15.0%" };
+    { 8, 57497, "", "=q1=Technique: Scroll of Armor Warding IV", "=ds=#e2#", "", "15.0%" };
     { 10, 0, "AO_Unknown", "=q6=Golem Lord Argelmach", "=q5=ONE WILL DROP"};
     { 11, 11669, "", "=q3=Naglering", "=ds=#s13#", "", "30.7%" };
     { 12, 11822, "", "=q3=Omnicast Boots", "=ds=#a1#", "", "30.7%" };
@@ -6162,7 +6162,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["VCRhahkZor"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Rhahk'Zor", "=q5=CHANCE TO DROP"};
-    { 2, 57402, "", "=q1=Technique: Scroll of Protection II", "=ds=#e2#", "", "15.0%" };
+    { 2, 57402, "", "=q1=Technique: Scroll of Armor Warding II", "=ds=#e2#", "", "15.0%" };
     { 4, 0, "AO_Unknown", "=q6=Rhahk'Zor", "=q5=ONE WILL DROP"};
     { 5, 5187, "", "=q3=Rhahk'Zor's Hammer", "=ds=#w6#", "", "95.0%" };
     { 6, 872, "", "=q3=Rockslicer", "=ds=#w1#", "", "5.00%" };
@@ -7796,7 +7796,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Targorr the Dread", "=q5=ALL WILL DROP"};
     { 2, 3630, "", "=q1=Head of Targorr", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Targorr the Dread", "=q5=CHANCE TO DROP"};
-    { 5, 57402, "", "=q1=Technique: Scroll of Protection II", "=ds=#e2#", "", "15.0%" };
+    { 5, 57402, "", "=q1=Technique: Scroll of Armor Warding II", "=ds=#e2#", "", "15.0%" };
     { 6, 59047, "", "=q2=Libram of Justice's Edge", "", "", "10.0%" };
     { 7, 24062, "", "=q3=Enduring Talasite", "", "", "5.00%" };
     { 9, 0, "AO_Unknown", "=q6=Targorr the Dread", "=q5=ONE WILL DROP"};
@@ -8238,7 +8238,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Revelosh", "=q5=ALL WILL DROP"};
     { 2, 7741, "", "=q3=The Shaft of Tsol", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Revelosh", "=q5=CHANCE TO DROP"};
-    { 5, 57403, "", "=q1=Technique: Scroll of Protection III", "=ds=#e2#", "", "15.0%" };
+    { 5, 57403, "", "=q1=Technique: Scroll of Armor Warding III", "=ds=#e2#", "", "15.0%" };
     { 6, 59063, "", "=q3=Idol of Buried Stars", "", "", "10.0%" };
     { 7, 9387, "", "=q3=Revelosh's Boots", "=ds=#a4#", "", "23.0%" };
     { 8, 9389, "", "=q3=Revelosh's Spaulders", "=ds=#a2#", "", "23.0%" };
@@ -8276,7 +8276,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Ironaya", "=q5=ALL WILL DROP"};
     { 2, 58728, "", "=q1=Titanforged Beacon", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Ironaya", "=q5=CHANCE TO DROP"};
-    { 5, 57403, "", "=q1=Technique: Scroll of Protection III", "=ds=#e2#", "", "15.0%" };
+    { 5, 57403, "", "=q1=Technique: Scroll of Armor Warding III", "=ds=#e2#", "", "15.0%" };
     { 6, 57624, "", "=q6=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
     { 7, 59064, "", "=q3=Libram of the Discsmith", "", "", "10.0%" };
     { 9, 0, "AO_Unknown", "=q6=Ironaya", "=q5=ONE WILL DROP"};
@@ -8477,7 +8477,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 58711, "", "=q1=Resonating Stone of Unity", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Archaedas", "=q5=CHANCE TO DROP"};
     { 6, 57467, "", "=q1=Technique: Scroll of Arcane Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 7, 57497, "", "=q1=Technique: Scroll of Protection IV", "=ds=#e2#", "", "15.0%" };
+    { 7, 57497, "", "=q1=Technique: Scroll of Armor Warding IV", "=ds=#e2#", "", "15.0%" };
     { 8, 59066, "", "=q3=Idol of the Stone Ursine", "", "", "10.0%" };
     { 10, 0, "AO_Unknown", "=q6=Archaedas", "=q5=ONE WILL DROP"};
     { 11, 11118, "", "=q3=Archaedic Stone", "=ds=#s13#", "", "60.0%" };

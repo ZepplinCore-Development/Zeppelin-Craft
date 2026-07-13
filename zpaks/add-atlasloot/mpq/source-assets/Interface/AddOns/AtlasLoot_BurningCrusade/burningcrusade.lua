@@ -2527,7 +2527,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["TKMechCapacitus"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Mechano-Lord Capacitus", "=q5=CHANCE TO DROP"};
     { 2, 35582, "", "=q3=Schematic: Rocket Boots Xtreme Lite", "=ds=#e2#", "", "20.0%" };
-    { 3, 57498, "", "=q1=Technique: Scroll of Protection VI", "=ds=#e2#", "", "15.0%" };
+    { 3, 57498, "", "=q1=Technique: Scroll of Armor Warding VI", "=ds=#e2#", "", "15.0%" };
     { 5, 0, "AO_Unknown", "=q6=Mechano-Lord Capacitus", "=q5=ONE WILL DROP"};
     { 6, 28253, "", "=q3=Plasma Rat's Hyper-Scythe", "=ds=#w7#", "", "20.0%" };
     { 7, 28254, "", "=q3=Warp Engineer's Prismatic Chain", "=ds=#s2#", "", "20.0%" };
@@ -2539,7 +2539,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["TKMechCapacitusMYTHIC"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Mechano-Lord Capacitus", "=q5=CHANCE TO DROP"};
     { 2, 35582, "", "=q3=Schematic: Rocket Boots Xtreme Lite", "=ds=#e2#", "", "20.0%" };
-    { 3, 57498, "", "=q1=Technique: Scroll of Protection VI", "=ds=#e2#", "", "15.0%" };
+    { 3, 57498, "", "=q1=Technique: Scroll of Armor Warding VI", "=ds=#e2#", "", "15.0%" };
     { 5, 0, "AO_Unknown", "=q6=Mechano-Lord Capacitus", "=q5=ONE WILL DROP"};
     { 6, 28253, "", "=q3=Plasma Rat's Hyper-Scythe", "=ds=#w7#", "", "20.0%" };
     { 7, 28254, "", "=q3=Warp Engineer's Prismatic Chain", "=ds=#s2#", "", "20.0%" };
@@ -2552,7 +2552,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Mechano-Lord Capacitus (1)", "=q5=ALL WILL DROP"};
     { 2, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Mechano-Lord Capacitus (1)", "=q5=CHANCE TO DROP"};
-    { 5, 57498, "", "=q1=Technique: Scroll of Protection VI", "=ds=#e2#", "", "25.0%" };
+    { 5, 57498, "", "=q1=Technique: Scroll of Armor Warding VI", "=ds=#e2#", "", "25.0%" };
     { 6, 35582, "", "=q3=Schematic: Rocket Boots Xtreme Lite", "=ds=#e2#", "", "38.0%" };
     { 8, 0, "AO_Unknown", "=q6=Mechano-Lord Capacitus (1)", "=q5=ONE WILL DROP"};
     { 9, 28253, "", "=q3=Plasma Rat's Hyper-Scythe", "=ds=#w7#", "", "20.0%" };
@@ -2568,7 +2568,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 3, 58743, "", "=q1=Arcane Abacus", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Pathaleon the Calculator", "=q5=CHANCE TO DROP"};
     { 6, 57459, "", "=q1=Technique: Scroll of Fire Resistance VI", "=ds=#e2#", "", "15.0%" };
-    { 7, 57498, "", "=q1=Technique: Scroll of Protection VI", "=ds=#e2#", "", "15.0%" };
+    { 7, 57498, "", "=q1=Technique: Scroll of Armor Warding VI", "=ds=#e2#", "", "15.0%" };
     { 8, 21907, "", "=q3=Pattern: Arcanoweave Robe", "=ds=#e2#", "", "10.0%" };
     { 9, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
     { 16, 0, "AO_Unknown", "=q6=Pathaleon the Calculator", "=q5=ONE WILL DROP"};
@@ -2593,7 +2593,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 3, 58743, "", "=q1=Arcane Abacus", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Pathaleon the Calculator", "=q5=CHANCE TO DROP"};
     { 6, 57459, "", "=q1=Technique: Scroll of Fire Resistance VI", "=ds=#e2#", "", "15.0%" };
-    { 7, 57498, "", "=q1=Technique: Scroll of Protection VI", "=ds=#e2#", "", "15.0%" };
+    { 7, 57498, "", "=q1=Technique: Scroll of Armor Warding VI", "=ds=#e2#", "", "15.0%" };
     { 8, 21907, "", "=q3=Pattern: Arcanoweave Robe", "=ds=#e2#", "", "10.0%" };
     { 9, 23572, "", "=q3=Primal Nether", "=ds=#e7#", "", "5.00%" };
     { 16, 0, "AO_Unknown", "=q6=Pathaleon the Calculator", "=q5=ONE WILL DROP"};
@@ -2621,7 +2621,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 7, 0, "RoM_stellar_dice", "=q6=Pathaleon the Calculator (1)", "=q5=CHANCE TO DROP"};
     { 8, 59338, "", "=q3=Ornate Gem Cache", "=ds=#e10#", "", "46.0%" };
     { 9, 57459, "", "=q1=Technique: Scroll of Fire Resistance VI", "=ds=#e2#", "", "25.0%" };
-    { 10, 57498, "", "=q1=Technique: Scroll of Protection VI", "=ds=#e2#", "", "25.0%" };
+    { 10, 57498, "", "=q1=Technique: Scroll of Armor Warding VI", "=ds=#e2#", "", "25.0%" };
     { 11, 21910, "", "=q4=Pattern: Spellfire Robe", "=ds=#e2#", "", "10.0%" };
     { 13, 0, "AO_Unknown", "=q6=Pathaleon the Calculator (1)", "=q5=ONE WILL DROP"};
     { 14, 29251, "", "=q4=Boots of the Pious", "=ds=#a1#", "", "25.0%" };
