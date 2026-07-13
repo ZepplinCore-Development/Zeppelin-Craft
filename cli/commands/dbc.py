@@ -2376,12 +2376,19 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
         stored_hashes = get_all_stored_dbc_hashes(config)
 
         for priority, zpak, sql_files in zpak_groups:
+            # Ordering cascade (I-244): within a zpak, DBC files apply in sorted
+            # filename order and later files may override earlier ones' rows
+            # (e.g. [I-xxx] overrides on [AUTO,*] output). Once one file in the
+            # zpak is due, every file sorting after it re-applies too, so
+            # re-applying an earlier file can't silently revert an override.
+            cascading = False
             for sql_file in sql_files:
                 current_hash = calculate_file_hash(sql_file)
                 stored = stored_hashes.get(sql_file.name)
                 stored_hash = stored[0] if stored else None
 
-                if stored_hash != current_hash:
+                if cascading or stored_hash != current_hash:
+                    cascading = True
                     files_to_apply.append((sql_file, zpak, priority, current_hash))
 
         if not files_to_apply:

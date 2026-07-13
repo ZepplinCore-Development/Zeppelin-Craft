@@ -581,9 +581,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
     # For auth/characters, use custom_only=True because AC's world base SQL
     # pre-loads RELEASED tracking entries that don't mean the file was actually
     # applied to the target database.
-    files_to_execute = []
-    skipped = 0
-
+    pending = []
     for sql_file, zpak, source, database in sql_files:
         current_hash = calculate_file_hash(sql_file)
         tracking_name = _tracking_key(sql_file.name, database)
@@ -593,8 +591,29 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
             database=database, native_name=sql_file.name,
             custom_only=custom_only,
         )
-        if not applied:
-            files_to_execute.append((sql_file, zpak, source, current_hash, database))
+        pending.append((sql_file, zpak, source, current_hash, database, not applied))
+
+    # Ordering cascade (I-244): within a zpak's own SQL, files apply in sorted
+    # filename order and later files may override earlier ones' rows (e.g.
+    # zz_[I-xxx] overrides on zz_[AUTO,*] output). Re-applying an earlier file
+    # without re-running the later ones silently reverts those overrides. So
+    # once one file in a (zpak, source, database) group is due, every file
+    # sorting after it in that group re-applies too. Zpak SQL is idempotent by
+    # convention; AC's sequential 'updates'/'base' migrations are exempt.
+    CASCADE_SOURCES = {'contents', 'zpak', 'chars_contents', 'chars_zpak', 'auth_zpak'}
+    cascading = set()
+    files_to_execute = []
+    skipped = 0
+    for sql_file, zpak, source, current_hash, database, due in pending:
+        group = (zpak, source, database)
+        cascaded = False
+        if source in CASCADE_SOURCES:
+            if due:
+                cascading.add(group)
+            elif group in cascading:
+                due, cascaded = True, True
+        if due:
+            files_to_execute.append((sql_file, zpak, source, current_hash, database, cascaded))
         else:
             skipped += 1
 
@@ -608,7 +627,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
     error_count = 0
     current_folder = None
 
-    for sql_file, zpak, source, file_hash, database in files_to_execute:
+    for sql_file, zpak, source, file_hash, database, cascaded in files_to_execute:
         # Get folder path relative to craft_root or its parent
         try:
             rel_folder = sql_file.parent.relative_to(craft_root)
@@ -629,7 +648,8 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         if success:
             icon = click.style("✓", fg='green')
             time_str = f" ({exec_ms}ms)" if exec_ms > 0 else ""
-            click.echo(f"    {icon} {sql_file.name}{time_str}")
+            cascade_tag = " (cascade)" if cascaded else ""
+            click.echo(f"    {icon} {sql_file.name}{time_str}{cascade_tag}")
             success_count += 1
             if not dry_run:
                 tracking_name = _tracking_key(sql_file.name, database)
