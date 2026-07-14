@@ -1,0 +1,7 @@
+World\Maps\LostIslesPhase2\LostIslesPhase2_27_30_tex1.adt
+World\Maps\LostIslesPhase2\LostIslesPhase2.tex
+World\Maps\LostIslesPhase2\LostIslesPhase2_27_30.adt
+World\Maps\LostIslesPhase2\LostIslesPhase2_27_30_obj0.adt
+World\Maps\LostIslesPhase2\LostIslesPhase2_27_30_tex0.adt
+World\Maps\LostIslesPhase2\LostIslesPhase2.wdt
+World\maps\LostIslesPhase2\LostIslesPhase2.wdl

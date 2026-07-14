@@ -31,5 +31,6 @@ reproducible and the curation is not lost).
 | `item_remap.json` | migrate_items / migrate_vendors / append_items | Cata item id → F-011 84300–84799 block. Snapshot; regenerated once those emitters are ported into `gen`. |
 | `go_scope*` | scope_zone | (also scope curation) |
 
-Source of record while migrating off `Scripts/Goblin Zone Port/`. See the
+Source of record for the `zep goblin` pipeline (the predecessor
+`Scripts/Goblin Zone Port/` scripts are retired and deleted). See the
 `zep goblin` reference note for the pipeline overview.
