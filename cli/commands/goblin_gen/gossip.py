@@ -92,6 +92,10 @@ def emit(ctx):
     textids = sorted(set(t for _e, t in gm if t > 0))
     menu_remap = {m: MENU_BASE + ix for ix, m in enumerate(menus)}
     text_remap = {t: TXT_BASE + ix for ix, t in enumerate(textids)}
+    # stash for later domains (smartai remaps SMART_EVENT_GOSSIP_SELECT menu ids);
+    # gossip is base-tier and contributes creature_template, so any gen run that
+    # includes smartai pulls gossip in first via the contributor closure.
+    ctx.col.gossip_menu_remap = dict(menu_remap)
 
     # ---- file 1: npc_text + gossip_menu + gossip_menu_option + repoint ----
     cur = ctx.nel.cursor(dictionary=True)
@@ -157,6 +161,7 @@ def emit(ctx):
               "ConditionValue3,NegativeCondition FROM conditions "
               "WHERE SourceTypeOrReferenceId IN (14,15) "
               "AND CAST(TRIM(SourceGroup) AS SIGNED) IN (%s)" % mset)
+    iremap = {int(k): v for k, v in ctx.fixture("item_remap").items()}
     kept, dropped = [], 0
     for r in crows:
         st, sg, se = _i(r["SourceTypeOrReferenceId"]), _i(r["SourceGroup"]), _i(r["SourceEntry"])
@@ -167,9 +172,12 @@ def emit(ctx):
             dropped += 1
             continue
         new_se = text_remap[se] if st == 14 else se
+        ct, cv1 = _i(r["ConditionTypeOrReference"]), _i(r["ConditionValue1"])
+        if ct in (2, 3):   # CONDITION_ITEM / _ITEM_EQUIPPED: Value1 is a Cata item id (I-245)
+            cv1 = iremap.get(cv1, cv1)
         kept.append((st, menu_remap[sg], new_se, _i(r["SourceId"]), _i(r["ElseGroup"]),
-                     _i(r["ConditionTypeOrReference"]), _i(r["ConditionTarget"]),
-                     _i(r["ConditionValue1"]), _i(r["ConditionValue2"]),
+                     ct, _i(r["ConditionTarget"]),
+                     cv1, _i(r["ConditionValue2"]),
                      _i(r["ConditionValue3"]), _i(r["NegativeCondition"])))
     # stable order: (remapped SourceGroup, SourceType, final SourceEntry, ElseGroup)
     kept.sort(key=lambda x: (x[1], x[0], x[2], x[4]))

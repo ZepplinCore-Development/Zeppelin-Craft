@@ -46,8 +46,9 @@ INSERT INTO smart_scripts (entryorguid,source_type,id,link,event_type,event_phas
 UPDATE smart_scripts SET action_param5=3483005, action_param6=3483006
   WHERE entryorguid=34830 AND source_type=0 AND event_type=11 AND action_type=87;
 
--- Rebellious Troll (35294): AUTO emits no SmartAI for it; give it the same
--- RESPAWN random-emote event (we own this event) -> DELETE + INSERT.
+-- Rebellious Troll (35294): AUTO (derived scope, I-245 follow-up) owns source
+-- rows id 0-2 (frozen Neltharion dump, so 0-2 is permanent); append our
+-- RESPAWN random-emote event as id 3 (we own this event) -> DELETE + INSERT.
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=35294 AND event_type=11 AND action_type=87;
 INSERT INTO smart_scripts (entryorguid,source_type,id,link,event_type,event_phase_mask,event_chance,event_flags,event_param1,event_param2,event_param3,event_param4,action_type,action_param1,action_param2,action_param3,action_param4,action_param5,action_param6,target_type,target_param1,target_param2,target_param3,target_param4,target_x,target_y,target_z,target_o,comment) VALUES
-  (35294,0,0,0,11,0,100,0,0,0,0,0,87,3483001,3483002,3483003,3483004,3483005,3483006,1,0,0,0,0,0,0,0,0,'Rebellious Troll - RESPAWN - random slacker emote state');
+  (35294,0,3,0,11,0,100,0,0,0,0,0,87,3483001,3483002,3483003,3483004,3483005,3483006,1,0,0,0,0,0,0,0,0,'Rebellious Troll - RESPAWN - random slacker emote state');

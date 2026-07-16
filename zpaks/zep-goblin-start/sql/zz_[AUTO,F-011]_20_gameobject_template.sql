@@ -1385,7 +1385,7 @@ INSERT INTO gameobject_template SET
   `Data21` = 0,
   `Data22` = 0,
   `Data23` = 0,
-  `AIName` = '',
+  `AIName` = 'SmartGameObjectAI',
   `ScriptName` = '',
   `VerifiedBuild` = 0;
 
@@ -3133,7 +3133,7 @@ INSERT INTO gameobject_template SET
   `Data21` = 0,
   `Data22` = 0,
   `Data23` = 0,
-  `AIName` = '',
+  `AIName` = 'SmartGameObjectAI',
   `ScriptName` = '',
   `VerifiedBuild` = 0;
 
