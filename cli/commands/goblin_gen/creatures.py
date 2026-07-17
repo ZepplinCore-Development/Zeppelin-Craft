@@ -5,9 +5,10 @@ standalone Scripts/Goblin Zone Port/migrate_creatures.py onto the `zep goblin ge
 ctx API. Emits, per zone (ctx.sfx):
 
   sql/  creatures_01_template  (creature_template)
-        creatures_02_model     (creature_template_model, one display per creature)
+        creatures_02_model     (creature_template_model, Idx 0..n source variety, I-249)
         creatures_03_model_info (creature_model_info, server rows for custom displays)
         creatures_04_spawns    (creature, map648->map1 offset, source phaseMask kept)
+        + creature_addon / waypoint_data (per-spawn TDB 4.3.4 overlay, I-249)
   dbc/  [F-011]<sfx>_creaturedisplayinfo / _creaturemodeldata (client PATCH-Z)
 
 Display resolution (preserved from the source script):
@@ -18,6 +19,11 @@ Display resolution (preserved from the source script):
     "needmodel" (needmodel)         creatures a real model is retroported for later; here they get 646).
   * else                    -> ship it: add CreatureDisplayInfo + CreatureModelData
                                (from the Whitemane Cata DBCs) + server creature_model_info.
+  * modelid2-4 (I-249)      -> same stock/ship resolution per variant, emitted as
+                               creature_template_model Idx 1..n; only when the primary
+                               resolved to its real display (fallback/curated creatures
+                               stay single-model so overlay repoints keep ownership);
+                               unresolvable variants are dropped, never 646'd.
 
 The old script decided "ship vs fallback" from a scratch shipped-model list + a local
 Asset Library scan; those non-reproducible inputs are replaced by the committed
@@ -29,6 +35,7 @@ import importlib.util
 
 NAME = "creatures"
 TABLES = ["creature_template", "creature_template_model", "creature",
+          "creature_addon", "waypoint_data",
           "creature_model_info", "creaturemodeldata", "creaturedisplayinfo"]
 TIER = "base"
 
@@ -185,19 +192,55 @@ def emit(ctx):
     entries_sorted = sorted(real)
 
     # ---- resolve display per entry ----
-    disp_plan = {}          # entry -> final display id
+    disp_plan = {}          # entry -> final display id (Idx 0 / primary)
+    models_plan = {}        # entry -> [display ids, Idx 0..n] (source variety, I-249)
     dbc_disp_needed = {}    # display_id -> displayinfo row
     dbc_mdl_needed = {}     # model_id  -> modeldata row (possibly _HD-stripped)
     model_info_needed = {}  # display_id -> (bounding, reach)
+    tex_ship = {"present": 0, "shipped": 0, "missing": 0}   # tv BLPs (I-249)
+
+    def _try_ship(d):
+        """Ship Cata display d (CreatureDisplayInfo + CreatureModelData + server
+        creature_model_info) from the Whitemane DBCs. False if unresolvable."""
+        di = disp.get(d)
+        mrow = mdl.get(di[1]) if di else None
+        if di is None or mrow is None:
+            return False
+        di = di[:]
+        mrow = mrow[:]
+        if mrow[2] and "_hd" in _norm(mrow[2]):
+            import re
+            mrow[2] = re.sub(r"(?i)_hd", "", mrow[2])   # _HD model -> its stock base path
+        model_id = di[1]
+        dbc_disp_needed[d] = di
+        # never re-emit a STOCK model row (the Whitemane copy would
+        # overwrite the client's own char/creature model data) unless
+        # it is a curated Cata retune we ship the mesh for
+        if model_id not in present_mdl or model_id in RETUNE_STOCK_MODELS:
+            dbc_mdl_needed[model_id] = mrow
+        scale = di[4] or 1.0
+        cw = mrow[14] or 0.0
+        ch = mrow[15] or 0.0
+        model_info_needed[d] = (round((cw * scale) or 0.306, 4),
+                                round((ch * scale) or 1.5, 4))
+        # ship the display's texture-variation BLPs (I-249: a shipped display row
+        # whose skin BLP isn't in the client renders solid green). BLPs only —
+        # the model mesh itself is stock/retroported, never raw-copied here.
+        mdir = os.path.dirname(mrow[2].replace("\\", "/"))
+        for tv in (di[6], di[7], di[8]):
+            tv = str(tv or "").strip()
+            if tv:
+                tex_ship[ctx.ship_asset("%s/%s.blp" % (mdir, tv))] += 1
+        return True
 
     for e in real:
         t = tmpl[e]
-        d0 = 0
+        models = []
         for k in ("modelid1", "modelid2", "modelid3", "modelid4"):
             v = t[k]
-            if v and str(v).strip() not in ("0", ""):
-                d0 = int(v)
-                break
+            if v and str(v).strip() not in ("0", "") and int(v) not in models:
+                models.append(int(v))
+        d0 = models[0] if models else 0
         final = d0
         force_default = False
         if d0 == 0:
@@ -207,30 +250,10 @@ def emit(ctx):
         elif e in needmodel:
             status = "fallback"
             force_default = True          # fb_plan placeholder -> 646 (retroport wires the real one)
+        elif _try_ship(d0):
+            status = "shipped"
         else:
-            di = disp.get(d0)
-            mrow = mdl.get(di[1]) if di else None
-            if di is None or mrow is None:
-                status = "fallback"
-            else:
-                status = "shipped"
-                di = di[:]
-                mrow = mrow[:]
-                if mrow[2] and "_hd" in _norm(mrow[2]):
-                    import re
-                    mrow[2] = re.sub(r"(?i)_hd", "", mrow[2])   # _HD model -> its stock base path
-                model_id = di[1]
-                dbc_disp_needed[d0] = di
-                # never re-emit a STOCK model row (the Whitemane copy would
-                # overwrite the client's own char/creature model data) unless
-                # it is a curated Cata retune we ship the mesh for
-                if model_id not in present_mdl or model_id in RETUNE_STOCK_MODELS:
-                    dbc_mdl_needed[model_id] = mrow
-                scale = di[4] or 1.0
-                cw = mrow[14] or 0.0
-                ch = mrow[15] or 0.0
-                model_info_needed[d0] = (round((cw * scale) or 0.306, 4),
-                                         round((ch * scale) or 1.5, 4))
+            status = "fallback"
         if status == "fallback":
             if force_default:
                 final = DEFAULT_FALLBACK
@@ -239,6 +262,15 @@ def emit(ctx):
                 if final not in present_disp:
                     final = DEFAULT_FALLBACK
         disp_plan[e] = final
+        # modelid2-4 variants (I-249): only when the primary resolved to its real
+        # display — fallback/curated creatures stay single-model so the overlay
+        # repoints (which land on Idx 0) keep full ownership of the appearance.
+        plan = [final]
+        if status in ("stock", "shipped"):
+            for d in models[1:]:
+                if d in present_disp or _try_ship(d):
+                    plan.append(d)         # unresolvable variants are dropped, never 646'd
+        models_plan[e] = plan
 
     # ---- creature_template ----
     for e in entries_sorted:
@@ -283,13 +315,14 @@ def emit(ctx):
         }
         ctx.col.put("creature_template", e, cols, tier="base", zone=sfx, owner="creatures")
 
-    # ---- creature_template_model ----
+    # ---- creature_template_model (Idx 0..n, equal-weight variants) ----
     for e in entries_sorted:
         t = tmpl[e]
-        ctx.col.put("creature_template_model", e, {
-            "CreatureID": e, "Idx": 0, "CreatureDisplayID": disp_plan[e],
-            "DisplayScale": float(_or(t["scale"], 1)), "Probability": 1, "VerifiedBuild": 0,
-        }, tier="base", zone=sfx, owner="creatures")
+        for idx, d in enumerate(models_plan[e]):
+            ctx.col.put("creature_template_model", (e, idx), {
+                "CreatureID": e, "Idx": idx, "CreatureDisplayID": d,
+                "DisplayScale": float(_or(t["scale"], 1)), "Probability": 1, "VerifiedBuild": 0,
+            }, tier="base", zone=sfx, owner="creatures")
 
     # ---- server creature_model_info (custom displays) ----
     for d, (br, cr) in model_info_needed.items():
@@ -301,11 +334,96 @@ def emit(ctx):
     # ---- spawns ----
     spawns = ctx.q("SELECT * FROM creature WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
     spawns = [s for s in spawns if int(s["id"]) in real_set or int(s["id"]) in STOCK_COLLIDE]
+
+    # ---- TDB 4.3.4 movement / per-spawn addon overlay (I-249) ----
+    # Neltharion drove civilian NPCs (Kezan Citizen 35075) through C++ scripts, so its
+    # dump carries MovementType=0/spawndist=0 and no per-spawn addons for them; the TDB
+    # 4.3.4 dump keeps the data-driven behaviour. Two layers, applied only to spawns
+    # Neltharion itself left static:
+    #   exact : nearest unconsumed TDB spawn of the same id within 1y (source map-648
+    #           coords) -> its MovementType/spawndist, addon bytes/emote/mount/auras,
+    #           and waypoint path (mt=2; points re-keyed to our guid*10, map-1 offset).
+    #   fill  : entries Neltharion left fully static that TDB majority-wanders (>=50%)
+    #           get the TDB wander fraction spread evenly over the unmatched spawns.
+    tdb_rows = ctx.tdb_q(
+        "SELECT c.guid, c.id, c.position_x x, c.position_y y, c.MovementType mt, "
+        "c.spawndist wd, a.mount, a.bytes1, a.bytes2, a.emote, a.auras, "
+        "a.visibilityDistanceType vdt, a.waypointPathId wp "
+        "FROM creature c LEFT JOIN creature_addon a ON a.guid = c.guid WHERE c.map = 648")
+    tdb_by_id = {}
+    for r in tdb_rows:
+        tdb_by_id.setdefault(int(r["id"]), []).append(r)
+
+    def _static(s):
+        return int(s["MovementType"] or 0) == 0 and float(s["spawndist"] or 0) == 0
+
+    by_entry = {}
+    for i, s in enumerate(spawns):
+        by_entry.setdefault(int(s["id"]), []).append(i)
+
+    tdb_match = {}       # spawn index -> matched TDB row
+    consumed = set()
+    for i, s in enumerate(spawns):
+        px, py = float(s["position_x"]), float(s["position_y"])
+        best, best_d = None, 1.0
+        for tr in tdb_by_id.get(int(s["id"]), ()):
+            if id(tr) in consumed:
+                continue
+            d = max(abs(float(tr["x"]) - px), abs(float(tr["y"]) - py))
+            if d < best_d:
+                best, best_d = tr, d
+        if best is not None:
+            consumed.add(id(best))
+            tdb_match[i] = best
+
+    # waypoint walkers (mt=2): their recorded TDB spawn point drifts (walkers roam,
+    # nel re-authored placements), so 1y never matches — attach each unconsumed TDB
+    # path to the nearest still-unmatched static spawn of the same id within 25y.
+    for tr in tdb_rows:
+        if int(tr["mt"] or 0) != 2 or not tr["wp"] or id(tr) in consumed:
+            continue
+        best, best_d = None, 25.0
+        for i in by_entry.get(int(tr["id"]), []):
+            if i in tdb_match or not _static(spawns[i]):
+                continue
+            d = max(abs(float(spawns[i]["position_x"]) - float(tr["x"])),
+                    abs(float(spawns[i]["position_y"]) - float(tr["y"])))
+            if d < best_d:
+                best, best_d = i, d
+        if best is not None:
+            consumed.add(id(tr))
+            tdb_match[best] = tr
+
+    wander_fill = {}     # spawn index -> wander distance
+    for sid, idxs in by_entry.items():
+        ts = tdb_by_id.get(sid)
+        if not ts or any(not _static(spawns[i]) for i in idxs):
+            continue                       # Neltharion has movement of its own -> trust it
+        wanderers = [tr for tr in ts if int(tr["mt"] or 0) == 1]
+        frac = len(wanderers) / float(len(ts))
+        if frac < 0.5:
+            continue
+        wd_fill = max(float(tr["wd"] or 0) for tr in wanderers) or 10.0
+        have = sum(1 for i in idxs
+                   if i in tdb_match and int(tdb_match[i]["mt"] or 0) == 1)
+        need = int(round(frac * len(idxs))) - have
+        unmatched = [i for i in idxs if i not in tdb_match]
+        if need <= 0 or not unmatched:
+            continue
+        need = min(need, len(unmatched))
+        for j, i in enumerate(unmatched):  # deterministic even spread
+            if j * need // len(unmatched) != (j + 1) * need // len(unmatched):
+                wander_fill[i] = wd_fill
+
     # Fixed per-zone 1,000,000-guid block DELETE (stable, count-independent), so stale
     # spawns beyond the current count are always cleared. (equipment_id patched by equipment.py)
     ctx.col.delete("creature", "guid BETWEEN %d AND %d" % (guid_base, guid_base + 999999))
+    ctx.col.delete("creature_addon", "guid BETWEEN %d AND %d" % (guid_base, guid_base + 999999))
+    ctx.col.delete("waypoint_data", "id BETWEEN %d AND %d" % (guid_base * 10, (guid_base + 999999) * 10 + 9))
     g = guid_base
-    for s in spawns:
+    present_spells = None   # lazy: only loaded if a matched TDB addon carries auras
+    n_addon = n_wp = 0
+    for i, s in enumerate(spawns):
         g += 1
         x = float(s["position_x"]) + DX
         y = float(s["position_y"]) + DY
@@ -313,8 +431,60 @@ def emit(ctx):
         o = float(s["orientation"])
         mt = int(s["MovementType"] or 0)
         if mt == 2:
-            mt = 0
+            mt = 0                         # nel waypoint refs unavailable (paths not in its dump)
         wd = float(s["spawndist"] or 0)
+        tm = tdb_match.get(i)
+        wp_path = 0
+        if mt == 0 and wd == 0:
+            if tm is not None:
+                tmt, twd = int(tm["mt"] or 0), float(tm["wd"] or 0)
+                if tmt == 2 and tm["wp"]:
+                    pts = ctx.tdb_q("SELECT point, position_x, position_y, position_z, "
+                                    "orientation, delay, move_type FROM waypoint_data "
+                                    "WHERE id = %s ORDER BY point", (int(tm["wp"]),))
+                    if pts:
+                        wp_path = g * 10
+                        mt = 2
+                        n_wp += 1
+                        for p in pts:
+                            ctx.col.add("waypoint_data", {
+                                "id": wp_path, "point": int(p["point"]),
+                                "position_x": float(p["position_x"]) + DX,
+                                "position_y": float(p["position_y"]) + DY,
+                                "position_z": float(p["position_z"]),
+                                "orientation": None if p["orientation"] is None else float(p["orientation"]),
+                                "delay": int(p["delay"] or 0),
+                                "move_type": int(p["move_type"] or 0),
+                                "action": 0, "action_chance": 100, "wpguid": 0,
+                            }, sort_key=(wp_path, int(p["point"])))
+                elif tmt == 1 or twd > 0:
+                    mt, wd = 1, (twd or 10.0)
+            elif i in wander_fill:
+                mt, wd = 1, wander_fill[i]
+        # per-spawn addon (sitting / emote-state / mount / aura NPCs + waypoint path link)
+        if tm is not None:
+            b1, em = int(tm["bytes1"] or 0), int(tm["emote"] or 0)
+            mount = int(tm["mount"] or 0)
+            if mount and mount not in present_disp and mount not in dbc_disp_needed:
+                mount = 0                  # Cata-only mount display we don't ship
+            auras = []
+            for a in str(tm["auras"] or "").split():
+                if present_spells is None:
+                    present_spells = ctx.dbc_spell_ids()
+                try:
+                    aid = int(a)
+                except ValueError:
+                    continue
+                if aid in present_spells:
+                    auras.append(str(aid))
+            if wp_path or b1 or em or mount or auras:
+                n_addon += 1
+                ctx.col.add("creature_addon", {
+                    "guid": g, "path_id": wp_path, "mount": mount, "bytes1": b1,
+                    "bytes2": int(tm["bytes2"] or 0), "emote": em,
+                    "visibilityDistanceType": int(tm["vdt"] or 0),
+                    "auras": " ".join(auras),
+                }, sort_key=g)
         st = int(s["spawntimesecs"] or 120)
         pmask = int(s["phaseMask"] or 1) or 1
         ctx.col.add("creature", {
@@ -358,6 +528,10 @@ def emit(ctx):
         ctx.col.put("creaturedisplayinfo", did, dict(zip(DI_COLS, vals)),
                     tier="base", zone=sfx, owner="creatures")
 
-    return ("creatures=%d spawns=%d dbc_disp=%d dbc_mdl=%d model_info=%d" %
+    return ("creatures=%d spawns=%d dbc_disp=%d dbc_mdl=%d model_info=%d "
+            "model_variants=%d tdb_match=%d wander_fill=%d addons=%d wp_paths=%d "
+            "tex_shipped=%d tex_missing=%d" %
             (len(entries_sorted), len(spawns) + len(manual_spawn_rows), len(dbc_disp_needed),
-             len(dbc_mdl_needed), len(model_info_needed)))
+             len(dbc_mdl_needed), len(model_info_needed),
+             sum(len(p) - 1 for p in models_plan.values()), len(tdb_match),
+             len(wander_fill), n_addon, n_wp, tex_ship["shipped"], tex_ship["missing"]))

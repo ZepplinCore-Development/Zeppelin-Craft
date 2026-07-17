@@ -90,6 +90,24 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 29385;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29385,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29386;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29386,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 29450;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29450,
@@ -198,6 +216,42 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 29565;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29565,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29566;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29566,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29585;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29585,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29587;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29587,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 29617;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29617,
@@ -252,9 +306,45 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 29632;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29632,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 29633;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29633,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29663;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29663,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29664;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29664,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29665;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29665,
   `BoundingRadius` = 0.6111,
   `CombatReach` = 1.4422,
   `Gender` = 2,
@@ -270,11 +360,47 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 29667;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29667,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29669;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29669,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 29676;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29676,
   `BoundingRadius` = 0.6111,
   `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29677;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29677,
+  `BoundingRadius` = 0.4167,
+  `CombatReach` = 1.9135,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29678;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29678,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.6066,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
@@ -369,6 +495,33 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 29925;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29925,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29926;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29926,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29927;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29927,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 29933;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29933,
@@ -396,6 +549,33 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 29943;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29943,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29944;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29944,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29945;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29945,
+  `BoundingRadius` = 0.4722,
+  `CombatReach` = 2.0515,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 29950;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29950,
@@ -414,6 +594,33 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 29952;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29952,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29953;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29953,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29954;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29954,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 29977;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29977,
@@ -426,6 +633,33 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 29979;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29979,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29980;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29980,
+  `BoundingRadius` = 0.4167,
+  `CombatReach` = 1.9135,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29981;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29981,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 29982;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29982,
   `BoundingRadius` = 0.6111,
   `CombatReach` = 2.0313,
   `Gender` = 2,
@@ -459,11 +693,65 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 30011;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30011,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30012;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30012,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30013;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30013,
+  `BoundingRadius` = 0.4167,
+  `CombatReach` = 1.9135,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 30014;
 INSERT INTO creature_model_info SET
   `DisplayID` = 30014,
   `BoundingRadius` = 0.6111,
   `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30015;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30015,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30016;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30016,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30017;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30017,
+  `BoundingRadius` = 0.4722,
+  `CombatReach` = 2.0515,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
@@ -486,11 +774,47 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 30032;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30032,
+  `BoundingRadius` = 0.6417,
+  `CombatReach` = 2.1328,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30033;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30033,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 2.0313,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30034;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30034,
+  `BoundingRadius` = 0.4167,
+  `CombatReach` = 1.9135,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 30035;
 INSERT INTO creature_model_info SET
   `DisplayID` = 30035,
   `BoundingRadius` = 0.6722,
   `CombatReach` = 2.2344,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30043;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30043,
+  `BoundingRadius` = 0.9168,
+  `CombatReach` = 3.0465,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
@@ -567,11 +891,56 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 30123;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30123,
+  `BoundingRadius` = 0.4584,
+  `CombatReach` = 1.5232,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30127;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30127,
+  `BoundingRadius` = 0.764,
+  `CombatReach` = 2.5387,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 30129;
 INSERT INTO creature_model_info SET
   `DisplayID` = 30129,
   `BoundingRadius` = 0.6112,
   `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30135;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30135,
+  `BoundingRadius` = 0.764,
+  `CombatReach` = 2.5387,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30138;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30138,
+  `BoundingRadius` = 0.4584,
+  `CombatReach` = 1.5232,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30140;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30140,
+  `BoundingRadius` = 0.9168,
+  `CombatReach` = 3.0465,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
@@ -597,6 +966,33 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 30184;
 INSERT INTO creature_model_info SET
   `DisplayID` = 30184,
+  `BoundingRadius` = 0.3667,
+  `CombatReach` = 1.2188,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30185;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30185,
+  `BoundingRadius` = 0.3667,
+  `CombatReach` = 1.2188,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30186;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30186,
+  `BoundingRadius` = 0.3667,
+  `CombatReach` = 1.2188,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30187;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30187,
   `BoundingRadius` = 0.3667,
   `CombatReach` = 1.2188,
   `Gender` = 2,
@@ -630,6 +1026,15 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 30261;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30261,
+  `BoundingRadius` = 0.6112,
+  `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 30262;
 INSERT INTO creature_model_info SET
   `DisplayID` = 30262,
@@ -653,6 +1058,15 @@ INSERT INTO creature_model_info SET
   `DisplayID` = 30306,
   `BoundingRadius` = 0.5,
   `CombatReach` = 1.5,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30418;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30418,
+  `BoundingRadius` = 0.9168,
+  `CombatReach` = 3.0465,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
@@ -720,6 +1134,24 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 30970;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30970,
+  `BoundingRadius` = 0.764,
+  `CombatReach` = 2.5387,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30971;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30971,
+  `BoundingRadius` = 0.9168,
+  `CombatReach` = 3.0465,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 30997;
 INSERT INTO creature_model_info SET
   `DisplayID` = 30997,
@@ -738,11 +1170,65 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 31062;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 31062,
+  `BoundingRadius` = 0.7029,
+  `CombatReach` = 2.3356,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 31063;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 31063,
+  `BoundingRadius` = 0.764,
+  `CombatReach` = 2.5387,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 31064;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 31064,
+  `BoundingRadius` = 0.6418,
+  `CombatReach` = 2.1325,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 31065;
 INSERT INTO creature_model_info SET
   `DisplayID` = 31065,
   `BoundingRadius` = 0.6112,
   `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 31066;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 31066,
+  `BoundingRadius` = 0.6418,
+  `CombatReach` = 2.1325,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 31067;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 31067,
+  `BoundingRadius` = 0.7029,
+  `CombatReach` = 2.3356,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 31068;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 31068,
+  `BoundingRadius` = 0.764,
+  `CombatReach` = 2.5387,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
@@ -891,6 +1377,15 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 31482;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 31482,
+  `BoundingRadius` = 0.9168,
+  `CombatReach` = 3.0465,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 31484;
 INSERT INTO creature_model_info SET
   `DisplayID` = 31484,
@@ -972,6 +1467,24 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 32090;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 32090,
+  `BoundingRadius` = 0.6112,
+  `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 32094;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 32094,
+  `BoundingRadius` = 0.6112,
+  `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 32095;
 INSERT INTO creature_model_info SET
   `DisplayID` = 32095,
@@ -984,6 +1497,15 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 32100;
 INSERT INTO creature_model_info SET
   `DisplayID` = 32100,
+  `BoundingRadius` = 0.6112,
+  `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 32102;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 32102,
   `BoundingRadius` = 0.6112,
   `CombatReach` = 2.031,
   `Gender` = 2,
@@ -1035,6 +1557,15 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 32116;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 32116,
+  `BoundingRadius` = 0.6112,
+  `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 32118;
 INSERT INTO creature_model_info SET
   `DisplayID` = 32118,
@@ -1076,6 +1607,33 @@ INSERT INTO creature_model_info SET
   `DisplayID` = 33958,
   `BoundingRadius` = 0.6111,
   `CombatReach` = 1.6066,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 33959;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 33959,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.6066,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 33960;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 33960,
+  `BoundingRadius` = 0.4444,
+  `CombatReach` = 1.5278,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 33961;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 33961,
+  `BoundingRadius` = 0.6944,
+  `CombatReach` = 1.0556,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
@@ -1152,6 +1710,33 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 36096;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36096,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36097;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36097,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36098;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36098,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 36101;
 INSERT INTO creature_model_info SET
   `DisplayID` = 36101,
@@ -1179,6 +1764,33 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 36245;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36245,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36246;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36246,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36247;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36247,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 36346;
 INSERT INTO creature_model_info SET
   `DisplayID` = 36346,
@@ -1188,9 +1800,63 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 36347;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36347,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36348;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36348,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36349;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36349,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 36350;
 INSERT INTO creature_model_info SET
   `DisplayID` = 36350,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36351;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36351,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36352;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36352,
+  `BoundingRadius` = 0.6111,
+  `CombatReach` = 1.4422,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36353;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36353,
   `BoundingRadius` = 0.6111,
   `CombatReach` = 1.4422,
   `Gender` = 2,
@@ -1218,6 +1884,24 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 36760;
 INSERT INTO creature_model_info SET
   `DisplayID` = 36760,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36761;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36761,
+  `BoundingRadius` = 0.5133,
+  `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36762;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36762,
   `BoundingRadius` = 0.5133,
   `CombatReach` = 1.2736,
   `Gender` = 2,

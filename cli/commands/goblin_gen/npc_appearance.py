@@ -102,20 +102,27 @@ def emit(ctx):
         ctx.col.put("creaturedisplayinfo", d, {"extended_display_info_id": ext},
                     tier="overlay")
 
-    # ---- creaturedisplayinfoextra: bake data rows ----
+    # ---- creaturedisplayinfoextra: bake data rows + pre-baked texture BLPs ----
+    # The client renders these NPCs from the shipped Cata pre-baked texture
+    # (Textures\BakedNpcTextures\CreatureDisplayExtra-<id>.blp) — an extra row
+    # without its BLP renders solid green (I-249). Ship it with the row.
     warn = 0
+    bakes = {"present": 0, "shipped": 0, "missing": 0}
     for eid in sorted(need_extra):
         if eid not in extra:
             warn += 1
             continue
         ints, tex = extra[eid]
         ints = list(ints)
-        # equipment fields 8-18 kept intact (build_npc_armor ships the referenced
-        # ItemDisplayInfo rows + component textures). Clamp only goblin grooming.
+        # equipment fields 8-18 kept intact (npc_armor ships the referenced
+        # ItemDisplayInfo rows). Clamp only goblin grooming.
         if ints[1] == 9:
             ints = clamp_goblin(ints)
         ctx.col.put("creaturedisplayinfoextra", eid,
                     dict(zip(EXTRA_COLS, ints + [tex])),
                     tier="base", zone=sfx, owner="npc_appearance")
+        bakes[ctx.ship_asset(
+            "Textures/BakedNpcTextures/CreatureDisplayExtra-%d.blp" % eid)] += 1
 
-    return "displays_extfix=%d extra=%d warn=%d" % (len(updates), len(need_extra), warn)
+    return ("displays_extfix=%d extra=%d warn=%d bakes_shipped=%d bakes_missing=%d" %
+            (len(updates), len(need_extra), warn, bakes["shipped"], bakes["missing"]))

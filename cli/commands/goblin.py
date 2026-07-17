@@ -44,6 +44,10 @@ DEFAULT_WORLD_ZIP = os.getenv(
                  "source", "sql", "base", "world.zip"),
 )
 NELTHARION_DB = os.getenv("NELTHARION_DB_NAME", "neltharion")
+# TDB 4.3.4 world dump (TrinityCore). Secondary reference source: carries the
+# data-driven spawn movement / per-spawn addons that Neltharion replaced with
+# C++ scripts and stripped from its dump (I-249 static Kezan citizens).
+TDB434_DB = os.getenv("TDB434_DB_NAME", "tdb434")
 WHITEMANE_DATA = os.getenv("WHITEMANE_DATA", os.path.join(TOOLS, "whitemane-15595", "Data"))
 WHITEMANE_OUT = os.getenv("WHITEMANE_OUT", os.path.join(os.path.dirname(WHITEMANE_DATA), "extracted"))
 MPQCLI = os.getenv("MPQCLI_PATH", os.path.join(TOOLS, "mpqcli", "mpqcli"))
@@ -619,9 +623,25 @@ class _GenCtx:
             host=DB_HOST, port=DB_PORT, user=DB_ROOT_USER, password=DB_ROOT_PASS,
             database=NELTHARION_DB, autocommit=False)
         self._dbc = None
+        self._tdb = None
+        self._wm_index = None      # lowercase client path -> abs path (Whitemane extract)
+        self._zpak_assets = None   # lowercase rel paths already in mpq/source-assets
 
     def q(self, sql, params=None):
         cur = self.nel.cursor(dictionary=True)
+        cur.execute(sql, params or ())
+        rows = cur.fetchall(); cur.close()
+        return rows
+
+    def tdb_q(self, sql, params=None):
+        """Query the TDB 4.3.4 reference world dump (I-249: data-driven movement /
+        per-spawn addons that Neltharion script-ified away). Lazy connect."""
+        if self._tdb is None:
+            import mysql.connector
+            self._tdb = mysql.connector.connect(
+                host=DB_HOST, port=DB_PORT, user=DB_ROOT_USER, password=DB_ROOT_PASS,
+                database=TDB434_DB)
+        cur = self._tdb.cursor(dictionary=True)
         cur.execute(sql, params or ())
         rows = cur.fetchall(); cur.close()
         return rows
@@ -657,6 +677,44 @@ class _GenCtx:
         """Path to an extracted (fully patched) Whitemane Cata DBC/DB2 file."""
         return os.path.join(WHITEMANE_OUT, "DBFilesClient", name)
 
+    def ship_asset(self, rel):
+        """Copy one client art file (case-insensitive client path, e.g.
+        'Textures\\BakedNpcTextures\\CreatureDisplayExtra-19584.blp') from the
+        Whitemane extract into this zpak's mpq/source-assets unless some case
+        variant is already there. Returns 'present' | 'shipped' | 'missing'.
+
+        BLP-safe only: textures are format-stable across 3.3.5a<->4.3.4. M2/skin
+        meshes are NOT (v264 vs v272) and stay a curated retroport step — never
+        route them through here (I-249: green NPCs were DBC rows shipped for
+        displays whose texture files this step now closes the loop on)."""
+        rel = rel.replace("\\", "/").strip("/")
+        key = rel.lower()
+        assets_root = os.path.join(ZPAK_DIR, "mpq", "source-assets")
+        if self._zpak_assets is None:
+            idx = set()
+            for dp, _dn, fns in os.walk(assets_root):
+                for fn in fns:
+                    idx.add(os.path.relpath(os.path.join(dp, fn), assets_root)
+                            .replace("\\", "/").lower())
+            self._zpak_assets = idx
+        if key in self._zpak_assets:
+            return "present"
+        if self._wm_index is None:
+            idx = {}
+            for dp, _dn, fns in os.walk(WHITEMANE_OUT):
+                for fn in fns:
+                    p = os.path.join(dp, fn)
+                    idx[os.path.relpath(p, WHITEMANE_OUT).replace("\\", "/").lower()] = p
+            self._wm_index = idx
+        src = self._wm_index.get(key)
+        if src is None:
+            return "missing"
+        dest = os.path.join(assets_root, os.path.relpath(src, WHITEMANE_OUT))
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        shutil.copy2(src, dest)
+        self._zpak_assets.add(key)
+        return "shipped"
+
     def wago(self, name):
         """Rows (list[dict]) from a wago Cata Classic 4.4.x CSV extract, e.g. 'itemsparse_442'.
         Carries fields the 4.3.4 client computes at runtime (weapon damage, MaxDurability)."""
@@ -689,6 +747,9 @@ class _GenCtx:
     def close(self):
         try: self.nel.close()
         except Exception: pass
+        if self._tdb is not None:
+            try: self._tdb.close()
+            except Exception: pass
 
 
 def _load_collector():

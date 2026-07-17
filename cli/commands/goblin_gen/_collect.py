@@ -53,6 +53,10 @@ def _esc(v):
 #   order : zero-padded prefix controlling cross-table apply order (sql only)
 #   kind  : "A" merged wide rows | "B" grouped rows | "C" ddl+grouped
 #   pk    : primary-key column (Kind A) used in the per-row DELETE
+#   pk2   : secondary key column (Kind A) for tables holding several rows per pk
+#           (creature_template_model Idx). put() keys are (pk, pk2) tuples; a
+#           scalar key normalizes to (key, 0) so single-row callers (overlay
+#           repoints) keep working. The DELETE clears the whole pk group.
 #   dest  : "sql" (world DB) or "dbc" (client DB, applied by id -- order irrelevant)
 #   tag   : feature tag in the filename (default "AUTO,F-011")
 TABLES = {
@@ -62,7 +66,7 @@ TABLES = {
     "gameobject_template":    dict(order=20, kind="A", pk="entry", dest="sql"),
     # ---- world SQL, Kind A single-owner (still merged-by-pk, no overlay) ----
     "creature_template_addon":    dict(order=11, kind="A", pk="entry", dest="sql"),
-    "creature_template_model":    dict(order=12, kind="A", pk="CreatureID", dest="sql"),
+    "creature_template_model":    dict(order=12, kind="A", pk="CreatureID", pk2="Idx", dest="sql"),
     "creature_model_info":        dict(order=13, kind="A", pk="DisplayID", dest="sql"),
     "creature_template_movement": dict(order=14, kind="A", pk="CreatureId", dest="sql"),
     "creature_immunities":        dict(order=15, kind="A", pk="ID", dest="sql"),
@@ -81,6 +85,8 @@ TABLES = {
     "quest_poi_points":           dict(order=35, kind="B", dest="sql"),
     "creature":                   dict(order=40, kind="B", dest="sql"),
     "gameobject":                 dict(order=41, kind="B", dest="sql"),
+    "creature_addon":             dict(order=42, kind="B", dest="sql"),
+    "waypoint_data":              dict(order=43, kind="B", dest="sql"),
     "creature_queststarter":      dict(order=45, kind="B", dest="sql"),
     "creature_questender":        dict(order=46, kind="B", dest="sql"),
     "creature_loot_template":     dict(order=50, kind="B", dest="sql"),
@@ -135,7 +141,15 @@ class Collector:
         self._touched = set()
 
     # ---- Kind A: merged wide rows ----------------------------------------
+    @staticmethod
+    def _norm_key(table, pk):
+        """pk2 tables key rows by (pk, pk2); a scalar key means (pk, 0)."""
+        if TABLES.get(table, {}).get("pk2") is not None and not isinstance(pk, tuple):
+            return (pk, 0)
+        return pk
+
     def put(self, table, pk, cols, tier="base", zone="", owner=None, note=None):
+        pk = self._norm_key(table, pk)
         self._touched.add(table)
         rows = self._a.setdefault(table, {})
         rec = rows.get(pk)
@@ -167,7 +181,7 @@ class Collector:
 
     def get(self, table, pk):
         """Merged column dict for one collected row so far, or None."""
-        rec = self._a.get(table, {}).get(pk)
+        rec = self._a.get(table, {}).get(self._norm_key(table, pk))
         return rec.final() if rec else None
 
     def pks(self, table, zone=None, owner=None, owned=None):
@@ -209,30 +223,43 @@ class Collector:
     # ---- render + flush ---------------------------------------------------
     def _render_a(self, table, cfg):
         pk = cfg["pk"]
+        pk2 = cfg.get("pk2")
         out = []
         updates = 0
+        last_del = object()   # pk2 tables: one group DELETE per distinct pk value
         for key in sorted(self._a[table].keys(), key=lambda x: (isinstance(x, str), x)):
             rec = self._a[table][key]
+            k1, k2 = key if pk2 else (key, None)
             if not rec.base:
                 # overlay-only row (no base contributor): the row is not ours -> emit a
                 # consolidated UPDATE of just the overlay columns (stock-row rule),
                 # never a column-incomplete INSERT.
                 if rec.overlay:
-                    out.append("UPDATE %s SET %s WHERE %s = %s;\n" % (
+                    where = "%s = %s" % (pk, _esc(k1))
+                    if pk2:
+                        where += " AND %s = %s" % (pk2, _esc(k2))
+                    out.append("UPDATE %s SET %s WHERE %s;\n" % (
                         table,
                         ", ".join("`%s` = %s" % (k, _esc(v)) for k, v in rec.overlay.items()),
-                        pk, _esc(key)))
+                        where))
                     updates += 1
                 continue
             row = rec.final()
             if not row:
                 continue
-            missing_pk = pk not in row
-            if missing_pk:
-                row = dict(row); row[pk] = key
+            row = dict(row)
+            if pk not in row:
+                row[pk] = k1
+            if pk2 and pk2 not in row:
+                row[pk2] = k2
             if rec.note:
                 out.append("-- %s" % rec.note)
-            out.append("DELETE FROM %s WHERE %s = %s;" % (table, pk, _esc(key)))
+            if pk2:
+                if k1 != last_del:
+                    out.append("DELETE FROM %s WHERE %s = %s;" % (table, pk, _esc(k1)))
+                    last_del = k1
+            else:
+                out.append("DELETE FROM %s WHERE %s = %s;" % (table, pk, _esc(key)))
             out.append("INSERT INTO %s SET" % table)
             out.append(",\n".join("  `%s` = %s" % (k, _esc(v)) for k, v in row.items()) + ";\n")
         if updates:

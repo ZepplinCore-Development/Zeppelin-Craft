@@ -177,6 +177,54 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19435.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 19436;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19436,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 6,
+  `face_type` = 1,
+  `hair_style` = 5,
+  `hair_color` = 2,
+  `facial_hair` = 4,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 62582,
+  `chest_id` = 62586,
+  `belt_id` = 62584,
+  `legs_id` = 62587,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19436.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19437;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19437,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 7,
+  `face_type` = 3,
+  `hair_style` = 0,
+  `hair_color` = 6,
+  `facial_hair` = 6,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 62582,
+  `chest_id` = 62586,
+  `belt_id` = 62584,
+  `legs_id` = 62587,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19437.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 19478;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 19478,
@@ -561,6 +609,30 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19583.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 19584;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19584,
+  `race` = 9,
+  `gender` = 0,
+  `skin_color` = 4,
+  `face_type` = 4,
+  `hair_style` = 2,
+  `hair_color` = 3,
+  `facial_hair` = 1,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 63069,
+  `chest_id` = 62734,
+  `belt_id` = 63070,
+  `legs_id` = 62728,
+  `boots_id` = 63071,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19584.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 19585;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 19585,
@@ -584,6 +656,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19585.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19586;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19586,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 4,
+  `face_type` = 4,
+  `hair_style` = 2,
+  `hair_color` = 1,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 63074,
+  `chest_id` = 63075,
+  `belt_id` = 62685,
+  `legs_id` = 62686,
+  `boots_id` = 62687,
+  `wrists_id` = 0,
+  `gloves_id` = 63076,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19586.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19602;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19602,
+  `race` = 9,
+  `gender` = 0,
+  `skin_color` = 6,
+  `face_type` = 1,
+  `hair_style` = 4,
+  `hair_color` = 3,
+  `facial_hair` = 10,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 60233,
+  `chest_id` = 60310,
+  `belt_id` = 60311,
+  `legs_id` = 27755,
+  `boots_id` = 60312,
+  `wrists_id` = 0,
+  `gloves_id` = 60313,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19602.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19604;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19604,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 6,
+  `face_type` = 0,
+  `hair_style` = 4,
+  `hair_color` = 3,
+  `facial_hair` = 5,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 62660,
+  `chest_id` = 62673,
+  `belt_id` = 62662,
+  `legs_id` = 62674,
+  `boots_id` = 3454,
+  `wrists_id` = 62664,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19604.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19620;
 INSERT INTO creaturedisplayinfoextra SET
@@ -681,6 +825,30 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19656.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 19657;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19657,
+  `race` = 9,
+  `gender` = 0,
+  `skin_color` = 6,
+  `face_type` = 4,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 2,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 60389,
+  `chest_id` = 60390,
+  `belt_id` = 60391,
+  `legs_id` = 60107,
+  `boots_id` = 60108,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19657.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 19658;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 19658,
@@ -704,6 +872,30 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19658.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19659;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19659,
+  `race` = 9,
+  `gender` = 0,
+  `skin_color` = 3,
+  `face_type` = 3,
+  `hair_style` = 3,
+  `hair_color` = 3,
+  `facial_hair` = 8,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 33504,
+  `chest_id` = 60372,
+  `belt_id` = 60371,
+  `legs_id` = 33491,
+  `boots_id` = 33492,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19659.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19660;
 INSERT INTO creaturedisplayinfoextra SET
@@ -753,6 +945,102 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19661.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 19663;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19663,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 7,
+  `face_type` = 3,
+  `hair_style` = 5,
+  `hair_color` = 1,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 11922,
+  `chest_id` = 60381,
+  `belt_id` = 53430,
+  `legs_id` = 60382,
+  `boots_id` = 11924,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19663.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19665;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19665,
+  `race` = 9,
+  `gender` = 0,
+  `skin_color` = 4,
+  `face_type` = 4,
+  `hair_style` = 4,
+  `hair_color` = 4,
+  `facial_hair` = 5,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 0,
+  `belt_id` = 0,
+  `legs_id` = 47693,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19665.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19666;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19666,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 0,
+  `face_type` = 0,
+  `hair_style` = 0,
+  `hair_color` = 7,
+  `facial_hair` = 5,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 32665,
+  `belt_id` = 0,
+  `legs_id` = 8185,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19666.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19667;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19667,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 1,
+  `face_type` = 0,
+  `hair_style` = 1,
+  `hair_color` = 3,
+  `facial_hair` = 6,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 60387,
+  `belt_id` = 0,
+  `legs_id` = 17612,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19667.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 19671;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 19671,
@@ -800,6 +1088,54 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19680.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19681;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19681,
+  `race` = 1,
+  `gender` = 1,
+  `skin_color` = 6,
+  `face_type` = 4,
+  `hair_style` = 22,
+  `hair_color` = 3,
+  `facial_hair` = 6,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 5623,
+  `belt_id` = 6049,
+  `legs_id` = 4310,
+  `boots_id` = 7458,
+  `wrists_id` = 18316,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19681.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19682;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19682,
+  `race` = 3,
+  `gender` = 0,
+  `skin_color` = 9,
+  `face_type` = 0,
+  `hair_style` = 4,
+  `hair_color` = 5,
+  `facial_hair` = 3,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 5623,
+  `belt_id` = 6049,
+  `legs_id` = 4310,
+  `boots_id` = 7458,
+  `wrists_id` = 18316,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19682.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19771;
 INSERT INTO creaturedisplayinfoextra SET
@@ -945,6 +1281,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19835.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 19836;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19836,
+  `race` = 2,
+  `gender` = 0,
+  `skin_color` = 1,
+  `face_type` = 0,
+  `hair_style` = 5,
+  `hair_color` = 3,
+  `facial_hair` = 7,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 61050,
+  `chest_id` = 9519,
+  `belt_id` = 61051,
+  `legs_id` = 10114,
+  `boots_id` = 11821,
+  `wrists_id` = 0,
+  `gloves_id` = 11286,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19836.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19837;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19837,
+  `race` = 2,
+  `gender` = 0,
+  `skin_color` = 2,
+  `face_type` = 1,
+  `hair_style` = 6,
+  `hair_color` = 4,
+  `facial_hair` = 8,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 60001,
+  `chest_id` = 7551,
+  `belt_id` = 60002,
+  `legs_id` = 7947,
+  `boots_id` = 10872,
+  `wrists_id` = 10016,
+  `gloves_id` = 12774,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19837.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19838;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19838,
+  `race` = 2,
+  `gender` = 1,
+  `skin_color` = 3,
+  `face_type` = 5,
+  `hair_style` = 0,
+  `hair_color` = 2,
+  `facial_hair` = 1,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 10094,
+  `chest_id` = 10094,
+  `belt_id` = 0,
+  `legs_id` = 8175,
+  `boots_id` = 0,
+  `wrists_id` = 16901,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19838.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 19841;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 19841,
@@ -992,6 +1400,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19842.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19843;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19843,
+  `race` = 2,
+  `gender` = 0,
+  `skin_color` = 5,
+  `face_type` = 1,
+  `hair_style` = 3,
+  `hair_color` = 4,
+  `facial_hair` = 2,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 61067,
+  `belt_id` = 8133,
+  `legs_id` = 7011,
+  `boots_id` = 12541,
+  `wrists_id` = 0,
+  `gloves_id` = 27954,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19843.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19844;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19844,
+  `race` = 2,
+  `gender` = 0,
+  `skin_color` = 4,
+  `face_type` = 0,
+  `hair_style` = 2,
+  `hair_color` = 3,
+  `facial_hair` = 1,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 61065,
+  `chest_id` = 10116,
+  `belt_id` = 61066,
+  `legs_id` = 6300,
+  `boots_id` = 16186,
+  `wrists_id` = 0,
+  `gloves_id` = 7711,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19844.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19845;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19845,
+  `race` = 2,
+  `gender` = 0,
+  `skin_color` = 3,
+  `face_type` = 8,
+  `hair_style` = 0,
+  `hair_color` = 2,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 61068,
+  `chest_id` = 6298,
+  `belt_id` = 61069,
+  `legs_id` = 11063,
+  `boots_id` = 9169,
+  `wrists_id` = 0,
+  `gloves_id` = 11110,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19845.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19859;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1041,6 +1521,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19860.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 19861;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19861,
+  `race` = 1,
+  `gender` = 1,
+  `skin_color` = 2,
+  `face_type` = 8,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 40238,
+  `shoulders_id` = 0,
+  `shirt_id` = 61086,
+  `chest_id` = 16134,
+  `belt_id` = 61057,
+  `legs_id` = 15680,
+  `boots_id` = 16059,
+  `wrists_id` = 16244,
+  `gloves_id` = 16060,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19861.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19862;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19862,
+  `race` = 1,
+  `gender` = 0,
+  `skin_color` = 7,
+  `face_type` = 8,
+  `hair_style` = 0,
+  `hair_color` = 2,
+  `facial_hair` = 1,
+  `helm_id` = 16137,
+  `shoulders_id` = 0,
+  `shirt_id` = 61086,
+  `chest_id` = 16134,
+  `belt_id` = 61057,
+  `legs_id` = 15680,
+  `boots_id` = 16059,
+  `wrists_id` = 16244,
+  `gloves_id` = 16060,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19862.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19863;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19863,
+  `race` = 1,
+  `gender` = 0,
+  `skin_color` = 9,
+  `face_type` = 11,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 1,
+  `helm_id` = 16137,
+  `shoulders_id` = 0,
+  `shirt_id` = 61086,
+  `chest_id` = 16134,
+  `belt_id` = 61057,
+  `legs_id` = 15680,
+  `boots_id` = 16059,
+  `wrists_id` = 16244,
+  `gloves_id` = 16060,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19863.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 19873;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 19873,
@@ -1089,6 +1641,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19874.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 19875;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19875,
+  `race` = 1,
+  `gender` = 0,
+  `skin_color` = 7,
+  `face_type` = 8,
+  `hair_style` = 12,
+  `hair_color` = 2,
+  `facial_hair` = 1,
+  `helm_id` = 15676,
+  `shoulders_id` = 0,
+  `shirt_id` = 61086,
+  `chest_id` = 16134,
+  `belt_id` = 61057,
+  `legs_id` = 15680,
+  `boots_id` = 16059,
+  `wrists_id` = 16244,
+  `gloves_id` = 16060,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19875.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19876;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19876,
+  `race` = 1,
+  `gender` = 0,
+  `skin_color` = 9,
+  `face_type` = 11,
+  `hair_style` = 4,
+  `hair_color` = 0,
+  `facial_hair` = 1,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 61086,
+  `chest_id` = 16134,
+  `belt_id` = 61057,
+  `legs_id` = 15680,
+  `boots_id` = 16059,
+  `wrists_id` = 16244,
+  `gloves_id` = 16060,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19876.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19877;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19877,
+  `race` = 1,
+  `gender` = 1,
+  `skin_color` = 2,
+  `face_type` = 8,
+  `hair_style` = 7,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 61086,
+  `chest_id` = 16134,
+  `belt_id` = 61057,
+  `legs_id` = 15680,
+  `boots_id` = 16059,
+  `wrists_id` = 16244,
+  `gloves_id` = 16060,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19877.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 19878;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 19878,
@@ -1112,6 +1736,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19878.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19879;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19879,
+  `race` = 2,
+  `gender` = 0,
+  `skin_color` = 4,
+  `face_type` = 8,
+  `hair_style` = 6,
+  `hair_color` = 5,
+  `facial_hair` = 7,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 26972,
+  `chest_id` = 26972,
+  `belt_id` = 61153,
+  `legs_id` = 22816,
+  `boots_id` = 46696,
+  `wrists_id` = 0,
+  `gloves_id` = 29556,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19879.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19880;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19880,
+  `race` = 2,
+  `gender` = 0,
+  `skin_color` = 6,
+  `face_type` = 0,
+  `hair_style` = 7,
+  `hair_color` = 2,
+  `facial_hair` = 8,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 61154,
+  `chest_id` = 11055,
+  `belt_id` = 61155,
+  `legs_id` = 10942,
+  `boots_id` = 27093,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19880.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19881;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19881,
+  `race` = 2,
+  `gender` = 1,
+  `skin_color` = 6,
+  `face_type` = 8,
+  `hair_style` = 3,
+  `hair_color` = 4,
+  `facial_hair` = 4,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 61156,
+  `belt_id` = 9179,
+  `legs_id` = 19198,
+  `boots_id` = 16186,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19881.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19886;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1160,6 +1856,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-19888.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19889;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19889,
+  `race` = 1,
+  `gender` = 0,
+  `skin_color` = 9,
+  `face_type` = 2,
+  `hair_style` = 0,
+  `hair_color` = 4,
+  `facial_hair` = 3,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 37096,
+  `belt_id` = 8551,
+  `legs_id` = 4439,
+  `boots_id` = 8262,
+  `wrists_id` = 0,
+  `gloves_id` = 10372,
+  `tabard_id` = 7690,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19889.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19890;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19890,
+  `race` = 1,
+  `gender` = 0,
+  `skin_color` = 5,
+  `face_type` = 5,
+  `hair_style` = 5,
+  `hair_color` = 1,
+  `facial_hair` = 5,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 37096,
+  `belt_id` = 8551,
+  `legs_id` = 4439,
+  `boots_id` = 8262,
+  `wrists_id` = 0,
+  `gloves_id` = 10372,
+  `tabard_id` = 7690,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19890.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 19891;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 19891,
+  `race` = 1,
+  `gender` = 1,
+  `skin_color` = 5,
+  `face_type` = 10,
+  `hair_style` = 21,
+  `hair_color` = 2,
+  `facial_hair` = 5,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 37096,
+  `belt_id` = 8551,
+  `legs_id` = 4439,
+  `boots_id` = 8262,
+  `wrists_id` = 0,
+  `gloves_id` = 10372,
+  `tabard_id` = 7690,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-19891.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19892;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1617,6 +2385,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-20692.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 20693;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 20693,
+  `race` = 13,
+  `gender` = 0,
+  `skin_color` = 0,
+  `face_type` = 0,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 66990,
+  `shirt_id` = 66266,
+  `chest_id` = 66267,
+  `belt_id` = 66268,
+  `legs_id` = 0,
+  `boots_id` = 0,
+  `wrists_id` = 66271,
+  `gloves_id` = 66272,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-20693.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 20694;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 20694,
+  `race` = 13,
+  `gender` = 0,
+  `skin_color` = 3,
+  `face_type` = 0,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 66990,
+  `shirt_id` = 67599,
+  `chest_id` = 67600,
+  `belt_id` = 67601,
+  `legs_id` = 0,
+  `boots_id` = 0,
+  `wrists_id` = 66271,
+  `gloves_id` = 66272,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-20694.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 20695;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 20695,
+  `race` = 13,
+  `gender` = 0,
+  `skin_color` = 4,
+  `face_type` = 0,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 66990,
+  `shirt_id` = 66266,
+  `chest_id` = 66267,
+  `belt_id` = 66268,
+  `legs_id` = 0,
+  `boots_id` = 0,
+  `wrists_id` = 66271,
+  `gloves_id` = 66272,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-20695.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 20696;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 20696,
@@ -1640,6 +2480,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-20696.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 20697;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 20697,
+  `race` = 13,
+  `gender` = 1,
+  `skin_color` = 1,
+  `face_type` = 0,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 64022,
+  `chest_id` = 37869,
+  `belt_id` = 0,
+  `legs_id` = 0,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-20697.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 20698;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 20698,
+  `race` = 13,
+  `gender` = 1,
+  `skin_color` = 2,
+  `face_type` = 0,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 64022,
+  `chest_id` = 37869,
+  `belt_id` = 0,
+  `legs_id` = 0,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-20698.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 20699;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 20699,
+  `race` = 13,
+  `gender` = 1,
+  `skin_color` = 3,
+  `face_type` = 0,
+  `hair_style` = 0,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 64022,
+  `chest_id` = 37869,
+  `belt_id` = 0,
+  `legs_id` = 0,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-20699.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 20708;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1857,6 +2769,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-22530.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 22531;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 22531,
+  `race` = 3,
+  `gender` = 0,
+  `skin_color` = 4,
+  `face_type` = 4,
+  `hair_style` = 4,
+  `hair_color` = 4,
+  `facial_hair` = 4,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 69854,
+  `chest_id` = 66665,
+  `belt_id` = 69855,
+  `legs_id` = 66663,
+  `boots_id` = 66661,
+  `wrists_id` = 66664,
+  `gloves_id` = 66662,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-22531.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 22532;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 22532,
+  `race` = 3,
+  `gender` = 1,
+  `skin_color` = 1,
+  `face_type` = 4,
+  `hair_style` = 1,
+  `hair_color` = 2,
+  `facial_hair` = 1,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 69854,
+  `chest_id` = 66665,
+  `belt_id` = 69855,
+  `legs_id` = 66663,
+  `boots_id` = 66661,
+  `wrists_id` = 66664,
+  `gloves_id` = 66662,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-22532.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 22533;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 22533,
+  `race` = 7,
+  `gender` = 0,
+  `skin_color` = 4,
+  `face_type` = 0,
+  `hair_style` = 7,
+  `hair_color` = 4,
+  `facial_hair` = 1,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 69854,
+  `chest_id` = 66665,
+  `belt_id` = 69855,
+  `legs_id` = 66663,
+  `boots_id` = 66661,
+  `wrists_id` = 66664,
+  `gloves_id` = 66662,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-22533.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 22822;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 22822,
@@ -1929,6 +2913,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-23888.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 23889;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 23889,
+  `race` = 9,
+  `gender` = 0,
+  `skin_color` = 5,
+  `face_type` = 1,
+  `hair_style` = 14,
+  `hair_color` = 4,
+  `facial_hair` = 7,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 62670,
+  `chest_id` = 62614,
+  `belt_id` = 73498,
+  `legs_id` = 62671,
+  `boots_id` = 62617,
+  `wrists_id` = 0,
+  `gloves_id` = 62683,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-23889.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 23890;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 23890,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 8,
+  `face_type` = 1,
+  `hair_style` = 2,
+  `hair_color` = 5,
+  `facial_hair` = 10,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 62489,
+  `chest_id` = 62490,
+  `belt_id` = 62697,
+  `legs_id` = 62492,
+  `boots_id` = 62493,
+  `wrists_id` = 0,
+  `gloves_id` = 62494,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-23890.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 23891;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 23891,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 5,
+  `face_type` = 6,
+  `hair_style` = 14,
+  `hair_color` = 1,
+  `facial_hair` = 6,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 63072,
+  `chest_id` = 62570,
+  `belt_id` = 62572,
+  `legs_id` = 62573,
+  `boots_id` = 62628,
+  `wrists_id` = 0,
+  `gloves_id` = 63073,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-23891.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 23983;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 23983,
@@ -1952,6 +3008,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-23983.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 23984;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 23984,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 6,
+  `face_type` = 6,
+  `hair_style` = 6,
+  `hair_color` = 6,
+  `facial_hair` = 6,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 74747,
+  `chest_id` = 74748,
+  `belt_id` = 63429,
+  `legs_id` = 7520,
+  `boots_id` = 66467,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-23984.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 23985;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 23985,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 0,
+  `face_type` = 9,
+  `hair_style` = 9,
+  `hair_color` = 0,
+  `facial_hair` = 9,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 74747,
+  `chest_id` = 74748,
+  `belt_id` = 63429,
+  `legs_id` = 7520,
+  `boots_id` = 66467,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-23985.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 23986;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 23986,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 4,
+  `face_type` = 0,
+  `hair_style` = 12,
+  `hair_color` = 4,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 74747,
+  `chest_id` = 74748,
+  `belt_id` = 63429,
+  `legs_id` = 7520,
+  `boots_id` = 66467,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-23986.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 24033;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1977,6 +3105,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-24033.blp';
 
+DELETE FROM creaturedisplayinfoextra WHERE id = 24034;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 24034,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 6,
+  `face_type` = 3,
+  `hair_style` = 10,
+  `hair_color` = 0,
+  `facial_hair` = 10,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 12359,
+  `belt_id` = 0,
+  `legs_id` = 38131,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-24034.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 24035;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 24035,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 5,
+  `face_type` = 6,
+  `hair_style` = 13,
+  `hair_color` = 1,
+  `facial_hair` = 8,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 5623,
+  `belt_id` = 0,
+  `legs_id` = 74825,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-24035.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 24036;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 24036,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 8,
+  `face_type` = 9,
+  `hair_style` = 14,
+  `hair_color` = 5,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 31492,
+  `belt_id` = 0,
+  `legs_id` = 17612,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-24036.blp';
+
 DELETE FROM creaturedisplayinfoextra WHERE id = 24037;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 24037,
@@ -2000,6 +3200,78 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-24037.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 24038;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 24038,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 2,
+  `face_type` = 3,
+  `hair_style` = 8,
+  `hair_color` = 4,
+  `facial_hair` = 8,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 74828,
+  `belt_id` = 0,
+  `legs_id` = 7814,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-24038.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 24039;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 24039,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 4,
+  `face_type` = 5,
+  `hair_style` = 9,
+  `hair_color` = 7,
+  `facial_hair` = 10,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 74829,
+  `belt_id` = 0,
+  `legs_id` = 35011,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-24039.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 24040;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 24040,
+  `race` = 9,
+  `gender` = 1,
+  `skin_color` = 5,
+  `face_type` = 9,
+  `hair_style` = 15,
+  `hair_color` = 8,
+  `facial_hair` = 10,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 0,
+  `chest_id` = 0,
+  `belt_id` = 34006,
+  `legs_id` = 0,
+  `boots_id` = 0,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 62939,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-24040.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 24690;
 INSERT INTO creaturedisplayinfoextra SET
@@ -2072,4 +3344,52 @@ INSERT INTO creaturedisplayinfoextra SET
   `cape_id` = 0,
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-24853.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 24854;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 24854,
+  `race` = 9,
+  `gender` = 0,
+  `skin_color` = 11,
+  `face_type` = 0,
+  `hair_style` = 1,
+  `hair_color` = 0,
+  `facial_hair` = 0,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 62670,
+  `chest_id` = 62614,
+  `belt_id` = 63429,
+  `legs_id` = 62671,
+  `boots_id` = 62617,
+  `wrists_id` = 0,
+  `gloves_id` = 62683,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-24854.blp';
+
+DELETE FROM creaturedisplayinfoextra WHERE id = 24855;
+INSERT INTO creaturedisplayinfoextra SET
+  `id` = 24855,
+  `race` = 9,
+  `gender` = 0,
+  `skin_color` = 11,
+  `face_type` = 0,
+  `hair_style` = 2,
+  `hair_color` = 3,
+  `facial_hair` = 1,
+  `helm_id` = 0,
+  `shoulders_id` = 0,
+  `shirt_id` = 63069,
+  `chest_id` = 62734,
+  `belt_id` = 67386,
+  `legs_id` = 62728,
+  `boots_id` = 63071,
+  `wrists_id` = 0,
+  `gloves_id` = 0,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-24855.blp';
 
