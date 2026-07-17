@@ -42,6 +42,11 @@ def emit(ctx):
     scope = ctx.fixture("item_scope" + sfx)
     qids = scope["quests"]
     imported = set(scope["creatures"])   # creatures already spawned in-zone (main import)
+    # Hand-placed spawns (manual_spawns fixture, I-246) get a FULL template from
+    # creatures.py — a second template-only proxy row here would fight it for
+    # creature_template ownership (Bilgewater Buccaneer 37179 lost its VehicleId
+    # and display exactly this way).
+    imported |= {int(r["entry"]) for r in ctx.fixture("manual_spawns" + sfx)}
 
     # unremapped Cata factions with no 3.3.5a DBC row would crash the server
     try:

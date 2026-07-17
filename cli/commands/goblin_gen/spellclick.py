@@ -55,6 +55,10 @@ def emit(ctx):
         # Summon-only creatures (I-242 Hot Rod 34840) have no spawn row but still
         # carry spellclicks (e.g. 66392 ride-vehicle); once per run, like creatures.py.
         zone_ids |= set(_sibling("_summons").summoned_entries(ctx))
+    # Hand-placed spawns (manual_spawns fixture, I-246): fixture creatures join the
+    # sweep like spawned ones — the Bilgewater Buccaneer 37179 carries the 70016
+    # ride-vehicle spellclick that boards the shredder for quest 24502.
+    zone_ids |= _sibling("_manual").manual_entries(ctx)
 
     clicks, skipped = [], 0
     for r in ctx.q("SELECT npc_entry,spell_id,cast_flags,user_type FROM npc_spellclick_spells"):

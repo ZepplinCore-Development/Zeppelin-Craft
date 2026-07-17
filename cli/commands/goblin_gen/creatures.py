@@ -173,6 +173,15 @@ def emit(ctx):
             if e not in real_set and e in tmpl:
                 real.append(e)
                 real_set.add(e)
+    # Hand-placed spawns (manual_spawns fixture, I-246): creatures the source dump
+    # neither spawns nor summons (Bilgewater Buccaneer 37179) join the sweep here so
+    # template/model/DBC ship like any spawned creature; their spawn rows are emitted
+    # from the fixture below.
+    manual_spawn_rows = _sibling_const("_manual", "manual_rows")(ctx)
+    for e in sorted({int(r["entry"]) for r in manual_spawn_rows}):
+        if e not in real_set and e in tmpl:
+            real.append(e)
+            real_set.add(e)
     entries_sorted = sorted(real)
 
     # ---- resolve display per entry ----
@@ -317,6 +326,26 @@ def emit(ctx):
             "CreateObject": 1, "Comment": "F-011 %s" % ("Kezan" if sfx else "Lost Isles"),
         }, sort_key=g)
 
+    # hand-placed spawns (manual_spawns fixture, I-246): FINAL map-1 coords, explicit
+    # guids high in the zone block (cleared by the same block DELETE above)
+    for m in manual_spawn_rows:
+        mg = int(m["guid"])
+        assert guid_base + 900000 <= mg <= guid_base + 949999, \
+            "manual spawn guid %d outside reserved block [%d, %d] (base+950000+ is " \
+            "for hand [I-xxx] spawn files)" % (mg, guid_base + 900000, guid_base + 949999)
+        ctx.col.add("creature", {
+            "guid": mg, "id": int(m["entry"]), "map": 1, "zoneId": 0, "areaId": 0,
+            "spawnMask": 1, "phaseMask": int(m.get("phaseMask", 1)), "equipment_id": 0,
+            "position_x": float(m["x"]), "position_y": float(m["y"]),
+            "position_z": float(m["z"]), "orientation": float(m["o"]),
+            "spawntimesecs": int(m.get("spawntimesecs", 120)),
+            "wander_distance": float(m.get("wander_distance", 0)), "currentwaypoint": 0,
+            "curhealth": 1, "curmana": 0, "MovementType": int(m.get("MovementType", 0)),
+            "npcflag": 0, "unit_flags": 0, "dynamicflags": 0, "ScriptName": "",
+            "VerifiedBuild": 0, "CreateObject": 1,
+            "Comment": str(m.get("comment", "F-011 manual spawn")),
+        }, sort_key=mg)
+
     # ---- DBC additions (client PATCH-Z) ----
     for mid, vals in dbc_mdl_needed.items():
         # negative int sentinels (e.g. blood_id -1) -> unsigned, matching how the
@@ -330,5 +359,5 @@ def emit(ctx):
                     tier="base", zone=sfx, owner="creatures")
 
     return ("creatures=%d spawns=%d dbc_disp=%d dbc_mdl=%d model_info=%d" %
-            (len(entries_sorted), len(spawns), len(dbc_disp_needed),
+            (len(entries_sorted), len(spawns) + len(manual_spawn_rows), len(dbc_disp_needed),
              len(dbc_mdl_needed), len(model_info_needed)))

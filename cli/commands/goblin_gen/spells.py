@@ -16,8 +16,14 @@ the missing_spells fixture, reproducing the current committed base state.
 import struct
 
 NAME = "spells"
-TABLES = ["spell"]
+TABLES = ["spell", "conditions"]
 TIER = "base"
+
+# conditions column order (mirrors spellclick.py's type-18 port)
+_COND_COLS = ("SourceTypeOrReferenceId", "SourceGroup", "SourceEntry", "SourceId",
+              "ElseGroup", "ConditionTypeOrReference", "ConditionTarget",
+              "ConditionValue1", "ConditionValue2", "ConditionValue3",
+              "NegativeCondition", "ErrorType", "ErrorTextId", "ScriptName", "Comment")
 
 # columns that are `int unsigned` and hold high-bit masks -> convert signed read to unsigned
 UMASK = {"attributes", "attributes_ex_1", "attributes_ex_2", "attributes_ex_3", "attributes_ex_4",
@@ -136,7 +142,9 @@ def emit(ctx):
         if lv:
             c["base_level"] = lv[1]; c["max_level"] = lv[2]; c["spell_level"] = lv[3]
         # effects (up to 3) — SpellEffect: Effect@1, EffectAura@3, AuraPeriod@4, BasePoints@5,
-        #   DieSides@9, Mechanic@11, MiscA@12, MiscB@13, RadiusIndex@15, ClassMask@17-19, Trigger@20, TargetA@22, TargetB@23
+        #   DieSides@9, Mechanic@11, MiscA@12, MiscB@13, RadiusIndex@15, RealPointsPerLevel(float)@17,
+        #   ClassMask@18-20, Trigger@21, TargetA@22, TargetB@23 (I-246: trigger/classmask were read
+        #   one field early — @17-19/@20 — silently zeroing every ported trigger spell)
         for idx in range(3):
             e = effects.get(sid, {}).get(idx)
             n = idx + 1
@@ -144,12 +152,31 @@ def emit(ctx):
                 c["effect_%d" % n] = e[1]; c["effect_apply_aura_name_%d" % n] = e[3]; c["effect_amplitude_%d" % n] = e[4]
                 c["effect_base_points_%d" % n] = e[5]; c["effect_die_sides_%d" % n] = max(e[9], 1)
                 c["effect_mechanic_%d" % n] = e[11]; c["effect_misc_value_a_%d" % n] = e[12]; c["effect_misc_value_b_%d" % n] = e[13]
-                c["effect_radius_index_%d" % n] = e[15]; c["effect_trigger_spell_%d" % n] = e[20]
+                c["effect_radius_index_%d" % n] = e[15]; c["effect_trigger_spell_%d" % n] = e[21]
                 c["effect_implicit_target_a_%d" % n] = e[22]; c["effect_implicit_target_b_%d" % n] = e[23]
-                c["effect_spell_class_mask_a_%d" % n] = e[17]; c["effect_spell_class_mask_b_%d" % n] = e[18]; c["effect_spell_class_mask_c_%d" % n] = e[19]
+                c["effect_real_points_per_level_%d" % n] = struct.unpack("<f", struct.pack("<I", e[17] & 0xFFFFFFFF))[0]
+                c["effect_spell_class_mask_a_%d" % n] = e[18]; c["effect_spell_class_mask_b_%d" % n] = e[19]; c["effect_spell_class_mask_c_%d" % n] = e[20]
         sql_rows.append((sid, name, c))
 
     for sid, name, c in sql_rows:
         c = {k: (v & 0xFFFFFFFF if (k in UMASK and isinstance(v, int) and v < 0) else v) for k, v in c.items()}
         ctx.col.put("spell", sid, c, tier="base", owner="spells", note="%d %s" % (sid, name))
-    return "spells=%d" % len(sql_rows)
+
+    # world-side: SourceType-13 (SPELL_IMPLICIT_TARGET) conditions of the ported spells.
+    # A TARGET_UNIT_*_AREA_ENTRY effect selects NOTHING without its entry condition —
+    # e.g. 69993 footbomb impact needs 13/1/69993 -> creature 37114 Steamwheedle Shark
+    # or the throw never hits (I-246).
+    sin = ",".join(str(s) for s in sorted(missing))
+    crows = ctx.q("SELECT * FROM conditions WHERE SourceTypeOrReferenceId=13 "
+                  "AND SourceEntry IN (%s) ORDER BY SourceEntry,SourceGroup,ElseGroup" % sin)
+    ctx.col.delete("conditions", "SourceTypeOrReferenceId=13 AND SourceEntry IN (%s)" % sin)
+    for r in crows:
+        row = {}
+        for col in _COND_COLS:
+            v = r[col]
+            if col in ("ScriptName", "Comment"):
+                row[col] = (v or "").strip()     # source stores ' ' -> ''
+            else:
+                row[col] = int(v or 0)
+        ctx.col.add("conditions", row)
+    return "spells=%d target_conditions=%d" % (len(sql_rows), len(crows))

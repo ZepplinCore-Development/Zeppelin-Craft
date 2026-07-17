@@ -72,9 +72,22 @@ def emit(ctx):
         ctx.col.put("creaturemodeldata", mid, dict(zip(MD_COLS, vals)),
                     tier="base", owner="fallback_models")
 
-    # ---- creaturedisplayinfo (point at retroported models; embedded textures) ----
+    # ---- creaturedisplayinfo (point at retroported models) ----
+    # Texture variations + scale/alpha come from the Whitemane source row: not every
+    # retroported model embeds its textures — GOBLINSHREDDER_LOW (shark 31781, I-246)
+    # uses monster-skin slots 11/12/13, which resolve texture_variation_1-3 at runtime
+    # and render UNTEXTURED when the variations are blank. Sound/extended-info stay 0
+    # (Cata ids; ported separately where needed).
+    import struct as _struct
+    wm_di = {}
+    recs, gsr = ctx.read_wdbc(ctx.whitemane_dbc("CreatureDisplayInfo.dbc"))
+    for r in recs:
+        if r[0] in dis:
+            wm_di[r[0]] = ((_struct.unpack("<f", _struct.pack("<I", r[4]))[0] or 1.0),
+                           r[5] & 0xFF, gsr(r[6]), gsr(r[7]), gsr(r[8]))
     for d0, mid in dis.items():
-        vals = [d0, mid, 0, 0, 1.0, 255, "", "", "", "", 0, 0, 0, 0, 0, 0]
+        scale, alpha, tv1, tv2, tv3 = wm_di.get(d0, (1.0, 255, "", "", ""))
+        vals = [d0, mid, 0, 0, scale, alpha, tv1, tv2, tv3, "", 0, 0, 0, 0, 0, 0]
         ctx.col.put("creaturedisplayinfo", d0, dict(zip(DI_COLS, vals)),
                     tier="base", owner="fallback_models")
 
