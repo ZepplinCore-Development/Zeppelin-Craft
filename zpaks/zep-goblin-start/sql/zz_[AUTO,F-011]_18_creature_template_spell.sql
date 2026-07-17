@@ -10,7 +10,7 @@
 -- F-011 creature_template_spell (one file per table; rows carry final state)
 
 DELETE FROM creature_template_spell WHERE CreatureID IN (34840);
-DELETE FROM creature_template_spell WHERE CreatureID IN (35999);
+DELETE FROM creature_template_spell WHERE CreatureID IN (35999,37179);
 
 INSERT INTO creature_template_spell (`CreatureID`, `Index`, `Spell`, `VerifiedBuild`) VALUES
   (34840, 0, 66300, 0),
@@ -20,5 +20,6 @@ INSERT INTO creature_template_spell (`CreatureID`, `Index`, `Spell`, `VerifiedBu
   (35999, 0, 66300, 0),
   (35999, 1, 61178, 0),
   (35999, 2, 66298, 0),
-  (35999, 3, 66299, 0);
+  (35999, 3, 66299, 0),
+  (37179, 0, 69992, 0);
 

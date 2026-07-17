@@ -2808,6 +2808,15 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 75042;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 75042,
+  `Idx` = 0,
+  `CreatureDisplayID` = 16480,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 75106;
 INSERT INTO creature_template_model SET
   `CreatureID` = 75106,

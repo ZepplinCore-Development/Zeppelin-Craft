@@ -10,6 +10,11 @@ Immunities: one creature_immunities row per distinct goblin mechanic_immune_mask
 Movement: InhabitType bits -> Ground(1)/Swim(2)/Flight(4 = DisableGravity, keeps
 air units at spawn Z). Emitted for non-default (not 0/3) InhabitType, sorted by
 entry.
+Training dummies (I-247): the source roots/pacifies these via the
+npc_training_dummy C++ script, which the port drops (the SAI quest-credit rows
+need AIName=SmartAI, and a ScriptName would silence them). The script's
+behaviour is ported as data instead: creature_template_movement Rooted=1 (never
+chases) + UNIT_FLAG_PACIFIED (never retaliates).
 
 Two single combined files for both zones -> emitted only on the "" pass.
 """
@@ -36,8 +41,9 @@ def emit(ctx):
         "WHERE TRIM(zone) IN ('%s','%s')"
         " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)}  # no dev/leet NPCs (I-233)
 
-    imm, move = {}, []
-    for r in ctx.q("SELECT entry, mechanic_immune_mask, InhabitType FROM creature_template"):
+    imm, move, dummies = {}, [], []
+    for r in ctx.q("SELECT entry, mechanic_immune_mask, InhabitType, ScriptName, "
+                   "unit_flags FROM creature_template"):
         e = _i(r["entry"])
         if e not in gob:
             continue
@@ -47,6 +53,8 @@ def emit(ctx):
         it = _i(r["InhabitType"])
         if it not in (0, 3):
             move.append((e, 1 if it & 1 else 0, 1 if it & 2 else 0, 1 if it & 4 else 0))
+        if str(r["ScriptName"] or "").strip() == "npc_training_dummy":
+            dummies.append((e, _i(r["unit_flags"])))
 
     # --- creature_immunities (one row per distinct mask, ID block 91100+) ---
     base = 91100
@@ -67,4 +75,12 @@ def emit(ctx):
             "CreatureId": e, "Ground": g, "Swim": s, "Flight": fl,
         }, tier="base", owner="immunities_movement")
 
-    return "immunities=%d masks / movement=%d entries" % (len(imm), len(move))
+    # --- training dummies: rooted + pacified (I-247, see module docstring) ---
+    for e, uf in sorted(dummies):
+        ctx.col.put("creature_template_movement", e, {
+            "CreatureId": e, "Ground": 1, "Swim": 0, "Flight": 0, "Rooted": 1,
+        }, tier="base", owner="immunities_movement")
+        ctx.col.put("creature_template", e, {"unit_flags": uf | 0x20000}, tier="overlay")
+
+    return "immunities=%d masks / movement=%d entries / dummies=%d rooted+pacified" % (
+        len(imm), len(move), len(dummies))

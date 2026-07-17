@@ -18,6 +18,11 @@ through as-is; gossip menu ids (event 62) and item ids (actions 56/57) WERE
 renumbered by the port, so those params are remapped via gossip.py's menu remap
 + the item_remap fixture (I-245: "The New You" vendor gossip).
 
+Also translates Cata-native "cast spell N on creature RequiredNpcOrGoN" quest
+objectives (quest_template.RequiredSpellCastN — a mechanic 3.3.5a AC dropped)
+into "on spellhit -> CALL_KILLEDMONSTER" rows, since without them those
+objectives can never complete (I-247: the Kezan class quests).
+
 Emitted as a SINGLE file on the LAST (_K) pass — the derived scope needs both
 zones' templates collected first, so a partial --zone run raises instead of
 emitting half coverage.
@@ -164,6 +169,88 @@ def emit(ctx):
         collect(9, tid)
         pending |= _tal_refs(rows_by_key.get((9, tid), ())) - done
 
+    # --- RequiredSpellCast objectives -> spellhit credit rows (I-247) ---------
+    # Cata quests carry native "cast spell N on creature RequiredNpcOrGoN"
+    # objectives (RequiredSpellCastN); 3.3.5a AC has no such mechanic, so each
+    # ported objective must be satisfied by an SAI credit row. Most source dummy
+    # rows credit a bunny the quest does not require (all six Kezan class-quest
+    # rows credit 44175, but only the mage quest requires it), so coverage is
+    # checked per (spell, credit) pair:
+    #   * covered — one row does both (mage), or the spellhit calls a timed
+    #     actionlist that grants the credit (Cluster Cluck 24671);
+    #   * spellhit exists but credits the wrong entry — append a credit row on
+    #     each creature already granting credit for that spell (the five broken
+    #     Kezan class quests);
+    #   * no spellhit anywhere — emit one on the credit creature itself (cast
+    #     target == credit entry, the common retail shape).
+    def _num(v):
+        return int(float(_val(v)))
+
+    direct = set()        # (spell, credit) satisfied by a single imported row
+    credit_hosts = {}     # spellId -> entries whose spellhit row grants SOME credit
+    spellhit_tal = set()  # spellIds whose spellhit row calls a timed actionlist
+    tal_credits = set()   # credits granted inside imported timed actionlists
+    for (st, e), rws in rows_by_key.items():
+        for r in rws:
+            at = _num(r["action_type"])
+            if st == 9 and at == 33:
+                tal_credits.add(_num(r["action_param1"]))
+            if st == 0 and _num(r["event_type"]) == 8:
+                sp = _num(r["event_param1"])
+                if at == 33:
+                    credit_hosts.setdefault(sp, set()).add(e)
+                    direct.add((sp, _num(r["action_param1"])))
+                elif at in (TAL_CALL, TAL_RANDOM, TAL_RANGE):
+                    spellhit_tal.add(sp)
+
+    qids = sorted(set(ctx.fixture("item_scope").get("quests", []))
+                  | set(ctx.fixture("item_scope_K").get("quests", [])))
+    sc_cols = ", ".join("RequiredNpcOrGo%d, RequiredSpellCast%d" % (n, n) for n in (1, 2, 3, 4))
+    sc_quests = ctx.q(
+        "SELECT Id, Title, " + sc_cols + " FROM quest_template"
+        " WHERE Id IN (%s)" % ",".join(str(int(q)) for q in qids) +
+        " AND (RequiredSpellCast1<>0 OR RequiredSpellCast2<>0"
+        " OR RequiredSpellCast3<>0 OR RequiredSpellCast4<>0)") if qids else []
+
+    sc_covered, sc_added, sc_warns = 0, 0, []
+    for q in sorted(sc_quests, key=lambda r: _num(r["Id"])):
+        qid, qtitle = _num(q["Id"]), str(q["Title"] or "").strip()
+        for n in (1, 2, 3, 4):
+            spell = _num(q["RequiredSpellCast%d" % n])
+            if not spell:
+                continue
+            cred = _num(q["RequiredNpcOrGo%d" % n])
+            if cred <= 0:
+                sc_warns.append("quest %d '%s': RequiredSpellCast%d=%d without a creature "
+                                "credit (RequiredNpcOrGo%d=%d) — not translatable"
+                                % (qid, qtitle, n, spell, n, cred))
+                continue
+            if (spell, cred) in direct or (spell in spellhit_tal and cred in tal_credits):
+                sc_covered += 1
+                continue
+            if spell not in valid_spells:
+                sc_warns.append("quest %d '%s': RequiredSpellCast%d spell %d not in the "
+                                "3.3.5a DBC — objective stays broken" % (qid, qtitle, n, spell))
+                continue
+            for host in sorted(credit_hosts.get(spell, set())) or [cred]:
+                if (0, host) not in rows_by_key and host not in cre_scope:
+                    sc_warns.append("quest %d '%s': credit creature %d not in SAI scope"
+                                    % (qid, qtitle, host))
+                    continue
+                rws = rows_by_key.setdefault((0, host), [])
+                row = {c2: 0 for c2 in COLS}
+                row.update({
+                    "entryorguid": host, "source_type": 0,
+                    "id": max((_num(r["id"]) for r in rws), default=-1) + 1,
+                    "event_type": 8, "event_chance": 100, "event_param1": spell,
+                    "action_type": 33, "action_param1": cred, "target_type": 7,
+                    "comment": "F-011 - On Spell Hit %d - Quest %d Credit %d "
+                               "(RequiredSpellCast port, I-247)" % (spell, qid, cred),
+                })
+                rws.append(row)
+                direct.add((spell, cred))
+                sc_added += 1
+
     cre = sorted(set(e for (st, e) in rows_by_key if st == 0))
     go = sorted(set(e for (st, e) in rows_by_key if st == 1))
 
@@ -183,7 +270,10 @@ def emit(ctx):
                         {c2: ctx.col.Raw(_esc(r[c2])) for c2 in COLS})
     tal = sorted(set(e for (st, e) in rows_by_key if st == 9))
     return ("scope cre=%d go=%d (excluded cre=%d go=%d) -> blocks=%d rows=%d "
-            "[cre=%d go=%d tal=%d] skipped(type)=%d skipped(spell)=%d" % (
+            "[cre=%d go=%d tal=%d] skipped(type)=%d skipped(spell)=%d "
+            "spellcast: covered=%d added=%d%s" % (
                 len(cre_scope), len(go_scope), len(excl_cre), len(excl_go),
                 len(rows_by_key), sum(len(v) for v in rows_by_key.values()),
-                len(cre), len(go), len(tal), skipped, spell_skipped))
+                len(cre), len(go), len(tal), skipped, spell_skipped,
+                sc_covered, sc_added,
+                "".join("\n  WARN " + w for w in sc_warns)))

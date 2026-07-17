@@ -13,7 +13,8 @@ DELETE FROM conditions WHERE SourceTypeOrReferenceId IN (14,15) AND SourceGroup 
 DELETE FROM conditions WHERE SourceTypeOrReferenceId=14 AND SourceGroup IN (510013,510025,510053);
 DELETE FROM conditions WHERE SourceTypeOrReferenceId=26 AND SourceGroup IN (4720,4737);
 DELETE FROM conditions WHERE SourceTypeOrReferenceId=18 AND SourceGroup IN (34840,35995,38802,39039,39592);
-DELETE FROM conditions WHERE SourceTypeOrReferenceId=18 AND SourceGroup IN (34830,35999,48526,48721,75106);
+DELETE FROM conditions WHERE SourceTypeOrReferenceId=13 AND SourceEntry IN (56576,66298,66299,66300,66392,66393,66987,67682,67917,68211,68280,68376,69303,69971,69992,69993,70016,70478,71170,71914,72652,72891,72971,73066,73417,73425,73583,73702,73899,74028,78607,78990,78993,79469,79470,79471,79472,79476,79633,79634,80719,80720,80721,80723,87604);
+DELETE FROM conditions WHERE SourceTypeOrReferenceId=18 AND SourceGroup IN (34830,35999,37179,48526,48721,75106);
 
 INSERT INTO conditions (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
   (15, 510001, 0, 0, 0, 12, 0, 12, 0, 0, 0, 0, 0, '', ''),
@@ -123,6 +124,17 @@ INSERT INTO conditions (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`,
   (26, 4737, 4, 0, 0, 8, 0, 14125, 0, 0, 0, 0, 0, '', 'F-194 phase'),
   (18, 39592, 56685, 0, 0, 9, 0, 25251, 0, 0, 0, 0, 0, '', ''),
   (18, 39592, 56685, 0, 0, 1, 0, 73989, 0, 0, 1, 0, 0, '', ''),
+  (13, 1, 56576, 0, 0, 31, 0, 3, 75113, 0, 0, 0, 0, '', ''),
+  (13, 1, 67682, 0, 0, 31, 0, 5, 195489, 0, 0, 0, 0, '', ''),
+  (13, 2, 67682, 0, 0, 31, 0, 3, 35294, 0, 0, 0, 0, '', ''),
+  (13, 1, 68280, 0, 0, 31, 0, 3, 37872, 0, 0, 0, 0, '', ''),
+  (13, 1, 68280, 0, 1, 31, 0, 3, 37895, 0, 0, 0, 0, '', ''),
+  (13, 1, 68280, 0, 2, 31, 0, 3, 37896, 0, 0, 0, 0, '', ''),
+  (13, 1, 68280, 0, 3, 31, 0, 3, 37897, 0, 0, 0, 0, '', ''),
+  (13, 1, 69971, 0, 0, 31, 0, 3, 75042, 0, 0, 0, 0, '', ''),
+  (13, 1, 69993, 0, 0, 31, 0, 3, 37114, 0, 0, 0, 0, '', ''),
+  (13, 1, 73425, 0, 0, 31, 0, 5, 202472, 0, 0, 0, 0, '', ''),
+  (13, 1, 73425, 0, 1, 31, 0, 5, 202463, 0, 0, 0, 0, '', ''),
   (18, 34830, 66306, 0, 0, 9, 0, 14069, 0, 0, 0, 0, 0, '', ''),
   (18, 48526, 56685, 0, 0, 9, 0, 28414, 0, 0, 0, 0, 0, '', ''),
   (18, 75106, 56685, 0, 0, 9, 0, 24502, 0, 0, 0, 0, 0, '', '');
