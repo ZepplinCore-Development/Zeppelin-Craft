@@ -19,9 +19,9 @@ TABLES = ["item_template"]
 TIER = "overlay"
 
 CUSTOM_LO, CUSTOM_HI = 84300, 84799
-ARMOR_SLOTS = "(1,3,5,6,7,8,9,10,14)"   # head/shoulder/chest/waist/legs/feet/wrist/hands/shield
+ARMOR_SLOTS = "(1,3,5,6,7,8,9,10,14,16,20)"  # head/shoulder/chest/waist/legs/feet/wrist/hands/shield/back/robe
 ARMOR_SUBCLASSES = "(1,2,3,4,6)"        # cloth/leather/mail/plate/shield
-_ARMOR_SLOT_SET = {1, 3, 5, 6, 7, 8, 9, 10, 14}
+_ARMOR_SLOT_SET = {1, 3, 5, 6, 7, 8, 9, 10, 14, 16, 20}
 _ARMOR_SUBCLASS_SET = {1, 2, 3, 4, 6}
 
 
