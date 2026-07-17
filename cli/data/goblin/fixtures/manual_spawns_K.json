@@ -5,7 +5,13 @@
   {"entry": 37179, "guid": 12900002, "x": -8786.0, "y": -11319.0, "z": 41.5979, "o": 3.1416,
    "phaseMask": 3, "spawntimesecs": 30,
    "comment": "I-246 Bilgewater Buccaneer (rideable shredder), quest 24502 field, at objective-0 POI"},
-  {"entry": 75042, "guid": 12900003, "x": -8828.4, "y": -11315.1, "z": 44.3187, "o": 0.0,
+  {"entry": 75042, "guid": 12900005, "x": -8827.43, "y": -11308.5, "z": 44.2706, "o": 0.0,
    "phaseMask": 3, "spawntimesecs": 30,
-   "comment": "I-246 shark-lane marker (Neltharion 'Generic Nearby Target 0'): TARGET_DEST_NEARBY_ENTRY dest for summon 69971; center-west Kajaro field (src had 3 lane bunnies at the north/center/south west end; single center lane shipped)"}
+   "comment": "I-246 shark-lane marker NORTH (src 648:-8294.1,1491.54): TARGET_DEST_NEARBY_ENTRY dest for summon 69971 eff1 (cond 13/1 from source). NOTE all 3 lanes must be manual entries — marker bunnies are NOISE-filtered from the sweep, so a lane without a manual entry loses its spawns entirely; the imported phase-1 source duplicates are deleted in zz_[I-246]_necessary_roughness_field.sql."},
+  {"entry": 75044, "guid": 12900003, "x": -8828.4, "y": -11315.1, "z": 44.3187, "o": 0.0,
+   "phaseMask": 3, "spawntimesecs": 30,
+   "comment": "I-246 shark-lane marker CENTER (src 648:-8295.05,1484.86): TARGET_DEST_NEARBY_ENTRY dest for summon 69971 eff2 (cond 13/2)."},
+  {"entry": 75045, "guid": 12900004, "x": -8828.4, "y": -11322.3, "z": 44.2687, "o": 0.0,
+   "phaseMask": 3, "spawntimesecs": 30,
+   "comment": "I-246 shark-lane marker SOUTH (src 648:-8295.05,1477.75): TARGET_DEST_NEARBY_ENTRY dest for summon 69971 eff3 (cond 13/4)."}
 ]
