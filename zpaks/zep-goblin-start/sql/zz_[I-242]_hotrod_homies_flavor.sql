@@ -26,6 +26,11 @@ INSERT INTO spell_area (`spell`, `area`, `quest_start`, `quest_end`, `aura_spell
 UPDATE creature_template_addon SET auras = '49415 62165' WHERE entry = 34890;
 UPDATE creature_template_addon SET auras = '49414 62165' WHERE entry = 34892;
 UPDATE creature_template_addon SET auras = '60921 62165' WHERE entry = 34954;
+-- Guid-keyed creature_addon rows (tdb434 pose data, e.g. Izzy sitting) OVERRIDE the
+-- template addon entirely in AC, so the spotlight must ride on them too. Joined by
+-- entry — AUTO spawn guids are never pinned in overrides. Ace has no guid row.
+UPDATE creature_addon ca JOIN creature c ON c.guid = ca.guid SET ca.auras = '49415 62165' WHERE c.id = 34890;
+UPDATE creature_addon ca JOIN creature c ON c.guid = ca.guid SET ca.auras = '60921 62165' WHERE c.id = 34954;
 
 -- ---- SmartAI ----
 DELETE FROM smart_scripts WHERE source_type = 0 AND entryorguid IN (34890, 34892, 34954, 34840, 35999);

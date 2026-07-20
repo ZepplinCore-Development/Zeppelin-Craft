@@ -36,7 +36,10 @@ import importlib.util
 NAME = "creatures"
 TABLES = ["creature_template", "creature_template_model", "creature",
           "creature_addon", "waypoint_data",
-          "creature_model_info", "creaturemodeldata", "creaturedisplayinfo"]
+          "creature_model_info", "creaturemodeldata", "creaturedisplayinfo",
+          # read-only: per-guid addon rows union in the entry's collected
+          # template-addon auras (creature_addon domain runs first in the wave)
+          "creature_template_addon"]
 TIER = "base"
 
 
@@ -478,6 +481,13 @@ def emit(ctx):
                 if aid in present_spells:
                     auras.append(str(aid))
             if wp_path or b1 or em or mount or auras:
+                # AC applies a guid-keyed creature_addon INSTEAD of the entry's
+                # creature_template_addon, so this row would strip the template
+                # auras (e.g. homie quest-invisibility) — union them back in.
+                tpl = ctx.col.get("creature_template_addon", int(s["id"]))
+                for a in str((tpl or {}).get("auras") or "").split():
+                    if a not in auras:
+                        auras.append(a)
                 n_addon += 1
                 ctx.col.add("creature_addon", {
                     "guid": g, "path_id": wp_path, "mount": mount, "bytes1": b1,
