@@ -20,9 +20,14 @@ def emit(ctx):
     sfx = ctx.sfx
     trainers = sorted(ctx.fixture("trainer_scope" + sfx)["trainers"])
     present = ctx.dbc_spell_ids()
-    tnames = {int(r["entry"]): (r["name"] or "").strip()
-              for r in ctx.q("SELECT entry,name FROM creature_template")}
     base = {"": 6600, "_K": 6700}[sfx]   # per-zone TrainerId block (Lost Isles / Kezan)
+
+    # I-260: class/first-aid trainers point at STOCK 3.3.5a trainer profiles so
+    # goblins get WotLK spell ranks/levels, not the rank-less Cata npc_trainer
+    # lists. Entries not in the fixture keep a gen-built profile from Neltharion.
+    stock = {int(e): int(tid)
+             for tid, entries in ctx.fixture("trainer_stock_profiles")["profiles"].items()
+             for e in entries}
 
     def spells_for(entry, seen):
         if entry in seen:
@@ -41,8 +46,11 @@ def emit(ctx):
     trainer_rows, cdt_rows, ts_rows, skipped = [], [], [], 0
     tid = base
     for e in trainers:
-        tid += 1
-        trainer_rows.append((tid, tnames.get(e, "")))
+        tid += 1   # slot stays reserved even when stock-mapped, so gen'd ids are stable
+        if e in stock:
+            cdt_rows.append((e, stock[e]))
+            continue
+        trainer_rows.append(tid)
         cdt_rows.append((e, tid))
         added = set()
         for (sp, cost, rsk, rskv, rlv) in spells_for(e, set()):
@@ -54,11 +62,14 @@ def emit(ctx):
             added.add(sp)
             ts_rows.append((tid, sp, cost, rsk, rskv, rlv))
 
-    tids = ",".join(str(t[0]) for t in trainer_rows)
-    ctx.col.delete("trainer_spell", "TrainerId IN (%s)" % tids)
-    ctx.col.delete("creature_default_trainer", "TrainerId IN (%s)" % tids)
-    ctx.col.delete("trainer", "Id IN (%s)" % tids)
-    for t, _nm in trainer_rows:
+    # Delete the whole per-zone TrainerId block (not just emitted ids) so profiles
+    # dropped by a rerun — e.g. the pre-I-260 Cata class lists — are purged too.
+    blk = "BETWEEN %d AND %d" % (base + 1, base + 99)
+    ctx.col.delete("trainer_spell", "TrainerId %s" % blk)
+    ctx.col.delete("creature_default_trainer",
+                   "CreatureId IN (%s)" % ",".join(str(e) for e in trainers))
+    ctx.col.delete("trainer", "Id %s" % blk)
+    for t in trainer_rows:
         ctx.col.add("trainer", {"Id": t, "Type": 0, "Requirement": 0,
                                 "Greeting": "Ready to learn, ?", "VerifiedBuild": 0})
     for cid, t in cdt_rows:
@@ -69,4 +80,5 @@ def emit(ctx):
             "ReqSkillRank": rskv, "ReqAbility1": 0, "ReqAbility2": 0, "ReqAbility3": 0,
             "ReqLevel": rlv, "VerifiedBuild": 0,
         })
-    return f"trainers={len(trainer_rows)} trainer_spell={len(ts_rows)} skipped={skipped}"
+    return (f"trainers={len(trainer_rows)} stock_mapped={len(cdt_rows) - len(trainer_rows)} "
+            f"trainer_spell={len(ts_rows)} skipped={skipped}")

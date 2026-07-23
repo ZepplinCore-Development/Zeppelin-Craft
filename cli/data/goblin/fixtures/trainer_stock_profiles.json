@@ -1,0 +1,13 @@
+{
+  "_note": "I-260: creature entry -> stock 3.3.5a trainer profile Id (creature_default_trainer). Goblin class/first-aid trainers must teach stock WotLK progression (ranks + WotLK req levels), not gen'd Cata npc_trainer lists. Profiles: 1=warrior 7=hunter 9=rogue 11=priest 14=shaman 16=mage 31=warlock 645=first aid. Entries absent here keep a gen-built profile (KTC Train-a-Tron 45286, pending its own recipe audit).",
+  "profiles": {
+    "1": [35807, 36525, 38518, 34697],
+    "7": [35758, 36518, 38122, 34673],
+    "9": [35806, 36524, 38517, 34693],
+    "11": [35805, 36523, 38516, 34692],
+    "14": [35786, 36521, 38515, 34695],
+    "16": [35780, 36520, 38514, 34689],
+    "31": [35778, 36519, 38513, 34696],
+    "645": [36615, 366150]
+  }
+}
