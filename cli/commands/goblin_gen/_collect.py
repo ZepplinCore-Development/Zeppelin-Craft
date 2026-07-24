@@ -66,6 +66,7 @@ TABLES = {
     "gameobject_template":    dict(order=20, kind="A", pk="entry", dest="sql"),
     # ---- world SQL, Kind A single-owner (still merged-by-pk, no overlay) ----
     "creature_template_addon":    dict(order=11, kind="A", pk="entry", dest="sql"),
+    "gameobject_template_addon":  dict(order=21, kind="A", pk="entry", dest="sql"),
     "creature_template_model":    dict(order=12, kind="A", pk="CreatureID", pk2="Idx", dest="sql"),
     "creature_model_info":        dict(order=13, kind="A", pk="DisplayID", dest="sql"),
     "creature_template_movement": dict(order=14, kind="A", pk="CreatureId", dest="sql"),

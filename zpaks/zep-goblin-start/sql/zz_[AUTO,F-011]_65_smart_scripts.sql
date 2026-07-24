@@ -9,6 +9,7 @@
 
 -- F-011 smart_scripts (one file per table; rows carry final state)
 
+DELETE FROM smart_scripts WHERE entryorguid IN (195488,195489) AND source_type=1;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=6827;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=33420;
 DELETE FROM smart_scripts WHERE source_type=0 AND entryorguid=34668;
@@ -219,6 +220,14 @@ DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=7511600;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=7511601;
 DELETE FROM smart_scripts WHERE source_type=9 AND entryorguid=7511602;
 
+INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
+  (195488, 1, 0, 0, 70, 0, 100, 0, 2, 0, 0, 0, 0, 0, 50, 195492, 120, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1.8, 1.1, 0, 0, 'Kaja''mite Deposit - On Activated (Kablooey Bombs) - Summon Kaja''mite Chunk 1/3 (I-256)'),
+  (195488, 1, 1, 0, 70, 0, 100, 0, 2, 0, 0, 0, 0, 0, 50, 195492, 120, 0, 0, 0, 0, 1, 0, 0, 0, 0, -2, 0.7, 0, 0, 'Kaja''mite Deposit - On Activated (Kablooey Bombs) - Summon Kaja''mite Chunk 2/3 (I-256)'),
+  (195488, 1, 2, 0, 70, 0, 100, 0, 2, 0, 0, 0, 0, 0, 50, 195492, 120, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.2, -2.1, 0, 0, 'Kaja''mite Deposit - On Activated (Kablooey Bombs) - Summon Kaja''mite Chunk 3/3 (I-256)'),
+  (195489, 1, 0, 0, 70, 0, 100, 0, 2, 0, 0, 0, 0, 0, 50, 195492, 120, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1.8, 1.1, 0, 0, 'Kaja''mite Deposit - On Activated (Kablooey Bombs) - Summon Kaja''mite Chunk 1/3 (I-256)'),
+  (195489, 1, 1, 0, 70, 0, 100, 0, 2, 0, 0, 0, 0, 0, 50, 195492, 120, 0, 0, 0, 0, 1, 0, 0, 0, 0, -2, 0.7, 0, 0, 'Kaja''mite Deposit - On Activated (Kablooey Bombs) - Summon Kaja''mite Chunk 2/3 (I-256)'),
+  (195489, 1, 2, 0, 70, 0, 100, 0, 2, 0, 0, 0, 0, 0, 50, 195492, 120, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0.2, -2.1, 0, 0, 'Kaja''mite Deposit - On Activated (Kablooey Bombs) - Summon Kaja''mite Chunk 3/3 (I-256)');
+
 INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
   (6827, 0, 0, 0, 11, 0, 100, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (33420, 0, 1, 0, 4, 0, 100, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -300,6 +309,7 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (35128, 0, 0, 0, 62, 0, 100, 0, 510016, 0, 0, 0, 56, 84464, 1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (35130, 0, 0, 0, 62, 0, 100, 0, 510017, 0, 0, 0, 56, 84465, 1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (35175, 0, 0, 1, 23, 0, 100, 0, 66916, 1, 15000, 15000, 33, 35175, 0, 0, 0, 0, 0, 18, 1, 0, 0, 0, 0, 0, 0, 0, 'Bubu'),
+  (35175, 0, 1, 0, 1, 0, 100, 0, 15000, 15000, 15000, 15000, 28, 66916, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
   (35185, 0, 201, 0, 60, 0, 100, 0, 0, 5000, 5000, 30000, 89, 24, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Flee'),
   (35200, 0, 0, 0, 1, 0, 20, 0, 10000, 80000, 10000, 320000, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Say Out of combat'),
   (35200, 0, 1, 0, 4, 0, 60, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Say on aggro'),

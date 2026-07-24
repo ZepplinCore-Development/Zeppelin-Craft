@@ -324,6 +324,11 @@ INSERT INTO gameobjectdisplayinfo SET
   `id` = 9371,
   `model_name` = 'world\\generic\\goblin\\passivedoodads\\kezan\\items\\goblin_forge_01.MDX';
 
+DELETE FROM gameobjectdisplayinfo WHERE id = 9436;
+INSERT INTO gameobjectdisplayinfo SET
+  `id` = 9436,
+  `model_name` = 'world\\skillactivated\\tradeskillnodes\\kajamite_01.mdx';
+
 DELETE FROM gameobjectdisplayinfo WHERE id = 9606;
 INSERT INTO gameobjectdisplayinfo SET
   `id` = 9606,

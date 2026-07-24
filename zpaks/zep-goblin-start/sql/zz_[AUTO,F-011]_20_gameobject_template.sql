@@ -199,16 +199,43 @@ INSERT INTO gameobject_template SET
   `ScriptName` = '',
   `VerifiedBuild` = 0;
 
+DELETE FROM gameobject_template WHERE entry = 195488;
+INSERT INTO gameobject_template SET
+  `entry` = 195488,
+  `type` = 10,
+  `displayId` = 9129,
+  `name` = 'Kaja''mite Deposit',
+  `size` = 2,
+  `Data3` = 2000,
+  `Data5` = 1,
+  `AIName` = 'SmartGameObjectAI',
+  `ScriptName` = '';
+
+DELETE FROM gameobject_template WHERE entry = 195489;
+INSERT INTO gameobject_template SET
+  `entry` = 195489,
+  `type` = 10,
+  `displayId` = 9129,
+  `name` = 'Kaja''mite Deposit',
+  `size` = 2,
+  `Data3` = 2000,
+  `Data5` = 1,
+  `AIName` = 'SmartGameObjectAI',
+  `ScriptName` = '',
+  `Data0` = 43;
+
 DELETE FROM gameobject_template WHERE entry = 195492;
 INSERT INTO gameobject_template SET
   `entry` = 195492,
   `type` = 3,
-  `displayId` = 9129,
+  `displayId` = 9436,
   `name` = 'Kaja''mite Chunk',
+  `castBarCaption` = 'Collecting',
   `size` = 0.5,
-  `Data0` = 0,
+  `Data0` = 43,
   `Data1` = 195492,
   `Data3` = 1,
+  `Data8` = 14124,
   `ScriptName` = '';
 
 DELETE FROM gameobject_template WHERE entry = 195515;
@@ -331,7 +358,7 @@ INSERT INTO gameobject_template SET
   `type` = 10,
   `displayId` = 7605,
   `name` = 'First Bank of Kezan Vault',
-  `IconName` = 'openhandglow',
+  `IconName` = 'Interact',
   `castBarCaption` = '',
   `unk1` = '',
   `size` = 2,
@@ -354,7 +381,7 @@ INSERT INTO gameobject_template SET
   `Data16` = 0,
   `Data17` = 1,
   `Data18` = 0,
-  `Data19` = 11013,
+  `Data19` = 0,
   `Data20` = 1,
   `Data21` = 0,
   `Data22` = 0,
@@ -1364,7 +1391,7 @@ INSERT INTO gameobject_template SET
   `Data0` = 0,
   `Data1` = 0,
   `Data2` = 0,
-  `Data3` = 10808,
+  `Data3` = 510096,
   `Data4` = 0,
   `Data5` = 0,
   `Data6` = 0,
@@ -2418,7 +2445,7 @@ INSERT INTO gameobject_template SET
 DELETE FROM gameobject_template WHERE entry = 196837;
 INSERT INTO gameobject_template SET
   `entry` = 196837,
-  `type` = 11,
+  `type` = 5,
   `displayId` = 9135,
   `name` = 'Doodad_Goblin_PoolElevator01',
   `IconName` = '',
@@ -2456,7 +2483,7 @@ INSERT INTO gameobject_template SET
 DELETE FROM gameobject_template WHERE entry = 196838;
 INSERT INTO gameobject_template SET
   `entry` = 196838,
-  `type` = 11,
+  `type` = 5,
   `displayId` = 9135,
   `name` = 'Doodad_Goblin_PoolElevator01',
   `IconName` = '',
@@ -2991,7 +3018,7 @@ INSERT INTO gameobject_template SET
   `type` = 10,
   `displayId` = 348,
   `name` = 'Leaky Stove',
-  `IconName` = 'openhandglow',
+  `IconName` = 'Interact',
   `castBarCaption` = '',
   `unk1` = '',
   `size` = 1.5,
@@ -3029,7 +3056,7 @@ INSERT INTO gameobject_template SET
   `type` = 10,
   `displayId` = 9308,
   `name` = 'Flammable Bed',
-  `IconName` = 'openhandglow',
+  `IconName` = 'Interact',
   `castBarCaption` = '',
   `unk1` = '',
   `size` = 1.25,
@@ -3067,7 +3094,7 @@ INSERT INTO gameobject_template SET
   `type` = 10,
   `displayId` = 9210,
   `name` = 'Defective Generator',
-  `IconName` = 'openhandglow',
+  `IconName` = 'Interact',
   `castBarCaption` = '',
   `unk1` = '',
   `size` = 1,
@@ -3128,7 +3155,7 @@ INSERT INTO gameobject_template SET
   `Data16` = 0,
   `Data17` = 1,
   `Data18` = 0,
-  `Data19` = 31000,
+  `Data19` = 510097,
   `Data20` = 1,
   `Data21` = 0,
   `Data22` = 0,
@@ -3584,7 +3611,7 @@ INSERT INTO gameobject_template SET
   `Data16` = 0,
   `Data17` = 1,
   `Data18` = 0,
-  `Data19` = 11013,
+  `Data19` = 0,
   `Data20` = 1,
   `Data21` = 0,
   `Data22` = 0,
@@ -11123,7 +11150,7 @@ INSERT INTO gameobject_template SET
   `type` = 22,
   `displayId` = 9925,
   `name` = 'Last Chance Yacht Boarding Mortar',
-  `IconName` = 'openhandglow',
+  `IconName` = 'Interact',
   `castBarCaption` = '',
   `unk1` = '',
   `size` = 2,
