@@ -66,7 +66,17 @@ def emit(ctx):
         repoint2.append((e, d0))
 
     # ---- creaturemodeldata (retroported, minimal 3.3.5a rows) ----
+    # fb_plan entries can be flagged needmodel because the Cata *display* is missing
+    # from WotLK while the *model* is stock (forest troll, infernal, ...). The stock
+    # row is authoritative — emitting the minimal row over it zeroes sound_data and
+    # collision globally (I-258). Only emit models genuinely absent from stock.
+    stock_mdl = {int(r["id"]) for r in
+                 ctx.stock_dbc_query("SELECT id FROM creaturemodeldata")}
+    skipped_stock = 0
     for mid, mpath in mds.items():
+        if mid in stock_mdl:
+            skipped_stock += 1
+            continue
         vals = [mid, 0, mpath, 1, 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0, 2.5, 0,
                 -1, -1, -1, 1, 1, 2, 1.0, 1.0, 0, 0, 0]
         ctx.col.put("creaturemodeldata", mid, dict(zip(MD_COLS, vals)),
@@ -101,4 +111,5 @@ def emit(ctx):
         ctx.col.put("creature_template_model", e,
                     {"CreatureDisplayID": d0}, tier="overlay")
 
-    return "models=%d displays=%d repoint=%d" % (len(mds), len(dis), len(set(repoint2)))
+    return "models=%d (stock-skipped=%d) displays=%d repoint=%d" % (
+        len(mds) - skipped_stock, skipped_stock, len(dis), len(set(repoint2)))
