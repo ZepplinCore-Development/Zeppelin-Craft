@@ -428,8 +428,11 @@ def dbc_export_talents(ctx, output: str, database: str, pretty: bool,
 @click.argument('sql_file', type=click.Path(exists=True))
 @click.option('--task', '-t', 'task_id',
               help='Task ID (F-XXX or I-XXX) — auto-detected from filename if not given')
+@click.option('--no-cascade', is_flag=True,
+              help='Skip the I-244 cascade (re-apply of later-sorting, previously-applied '
+                   'zpak files) — later overrides on this file\'s rows may be reverted')
 @click.pass_context
-def dbc_modify(ctx, sql_file: str, task_id: Optional[str]):
+def dbc_modify(ctx, sql_file: str, task_id: Optional[str], no_cascade: bool):
     """Apply a DBC SQL file to live and expected databases.
 
     Takes a SQL file path (must already exist in a zpak dbc/ folder) and
@@ -437,6 +440,13 @@ def dbc_modify(ctx, sql_file: str, task_id: Optional[str]):
 
     The task ID is auto-detected from the filename (e.g. [F-004]_spell.sql)
     but can be overridden with --task.
+
+    Within a zpak, DBC files apply in sorted filename order and later files
+    may override earlier ones' rows (e.g. [I-xxx] overrides on [AUTO,*]
+    output). Applying one file alone would silently revert those overrides,
+    so after the file applies, every previously-applied file in the same
+    zpak that sorts after it re-applies too (the I-244 ordering cascade,
+    same rule as 'db apply --changed'). Suppress with --no-cascade.
 
     Write your SQL changes to zpak files first, then apply with this command.
     For bulk application of new/modified files, use 'zep dbc db apply --changed'.
@@ -504,7 +514,75 @@ def dbc_modify(ctx, sql_file: str, task_id: Optional[str]):
     else:
         click.echo(click.style("  OK", fg='green'))
 
+    _cascade_after_modify(config, sql_path, no_cascade)
+
     click.echo(click.style("\nModification complete", fg='green'))
+
+
+def _cascade_after_modify(config, sql_path: Path, no_cascade: bool):
+    """Re-apply later-sorting, previously-applied files from the same zpak.
+
+    Ordering cascade (I-244), mirrored from 'db apply --changed': within a
+    zpak, later-sorting files may override earlier ones' rows, so applying a
+    file alone would silently revert those overrides. All later-sorting
+    files re-apply, tracked or not — files applied via older versions of
+    this command have no tracking row, and they are exactly the overrides
+    most at risk.
+    """
+    import time
+
+    if sql_path.parent.name != 'dbc':
+        return
+    manifest = load_manifest(sql_path.parent.parent / 'zpak.json')
+    if not manifest:
+        return
+    zpak_name = manifest['name']
+
+    ensure_dbc_tracking_table(config)
+    update_dbc_tracking(config, sql_path.name, calculate_file_hash(sql_path), zpak_name)
+
+    disabled = set(manifest.get('disabled_features', []))
+    cascade_files = [
+        f for f in sorted(sql_path.parent.glob('*.sql'))
+        if f.name > sql_path.name and not is_feature_disabled(f.name, disabled)
+    ]
+    if not cascade_files:
+        return
+
+    if no_cascade:
+        click.echo(click.style(
+            f"\n--no-cascade: skipped re-applying {len(cascade_files)} later-sorting file(s) — "
+            "overrides they carry on this file's rows may now be reverted", fg='yellow'))
+        return
+
+    click.echo(f"\nCascade (I-244): re-applying {len(cascade_files)} later-sorting file(s) "
+               "so this file can't revert their overrides")
+    errors = []
+    for f in cascade_files:
+        with open(f) as fh:
+            cascade_sql = fh.read()
+        if not cascade_sql.strip():
+            continue
+
+        start_time = time.time()
+        live_ok, live_out = run_sql(cascade_sql, config, config.live)
+        exp_ok, exp_out = run_sql(cascade_sql, config, config.expected)
+        exec_ms = int((time.time() - start_time) * 1000)
+
+        live_status = click.style("OK", fg='green') if live_ok else click.style("FAIL", fg='red')
+        exp_status = click.style("OK", fg='green') if exp_ok else click.style("FAIL", fg='red')
+        click.echo(f"  {f.name:<40} dbc: {live_status}  expected: {exp_status}  ({exec_ms}ms)")
+
+        if live_ok:
+            update_dbc_tracking(config, f.name, calculate_file_hash(f), zpak_name, exec_ms)
+        else:
+            errors.append((f.name, live_out))
+
+    if errors:
+        detail = '\n'.join(f"  {name}: {out[:100]}" for name, out in errors)
+        raise click.ClickException(
+            f"Cascade failed for {len(errors)} file(s) — their overrides may be reverted:\n{detail}"
+        )
 
 
 # =============================================================================
