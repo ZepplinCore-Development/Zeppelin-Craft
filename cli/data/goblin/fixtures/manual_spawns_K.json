@@ -10,8 +10,5 @@
    "comment": "I-246 shark-lane marker CENTER (src 648:-8295.05,1484.86): TARGET_DEST_NEARBY_ENTRY dest for summon 69971 eff2 (cond 13/2)."},
   {"entry": 75045, "guid": 12900004, "x": -8828.4, "y": -11322.3, "z": 44.2687, "o": 0.0,
    "phaseMask": 3, "spawntimesecs": 30,
-   "comment": "I-246 shark-lane marker SOUTH (src 648:-8295.05,1477.75): TARGET_DEST_NEARBY_ENTRY dest for summon 69971 eff3 (cond 13/4)."},
-  {"entry": 6491, "guid": 12900006, "x": -8844.0, "y": -11062.0, "z": 50.5252, "o": 4.12,
-   "phaseMask": 65535, "spawntimesecs": 30,
-   "comment": "I-252 Spirit Healer at graveyard 4737 (Kezan - Bilgewater hub). Graveyard was relocated from the Cata site to the hub (zz_[F-011]_K_graveyard.sql) but the only source-spawned healer (old site, ~450yd away) stayed behind; ghosts released with no healer at the res point. Ground Z via terrain height."}
+   "comment": "I-246 shark-lane marker SOUTH (src 648:-8295.05,1477.75): TARGET_DEST_NEARBY_ENTRY dest for summon 69971 eff3 (cond 13/4)."}
 ]
