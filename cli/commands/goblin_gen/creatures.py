@@ -307,7 +307,7 @@ def emit(ctx):
             "type_flags": int(t["type_flags"] or 0),
             "lootid": 0, "pickpocketloot": 0, "skinloot": 0,
             "PetSpellDataId": int(t["PetSpellDataId"] or 0), "VehicleId": int(t["VehicleId"] or 0),
-            "mingold": int(t["mingold"] or 0), "maxgold": int(t["maxgold"] or 0),
+            "mingold": 0, "maxgold": 0,   # F-073 compliance: no sub-1g money drops. Source Cata values are all well under 1g, and F-073's sweep lives in zep-legacy (prio 900) which the I-244 cascade can't reach from this zpak — so zero at the source instead of relying on apply order.
             "AIName": (t["AIName"] or "").strip(),   # carry source AI (mostly 'SmartAI') — blank = SmartAI never runs, scripts dead
             "MovementType": mtype, "HoverHeight": float(_or(t["HoverHeight"], 1)),
             "HealthModifier": float(_or(t["Health_mod"], 1)), "ManaModifier": float(_or(t["Mana_mod"], 1)),
