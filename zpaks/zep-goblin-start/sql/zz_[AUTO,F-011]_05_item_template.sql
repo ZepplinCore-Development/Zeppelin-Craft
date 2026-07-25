@@ -10,6 +10,7 @@
 -- F-011 item_template (one file per table; rows carry final state)
 
 -- Cata 46828 -> 84300  (Crate of Tools)
+
 DELETE FROM item_template WHERE entry = 84300;
 INSERT INTO item_template SET
   `entry` = 84300,
@@ -151,6 +152,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49028 -> 84301  (Nitro-Potassium Bananas)
+
 DELETE FROM item_template WHERE entry = 84301;
 INSERT INTO item_template SET
   `entry` = 84301,
@@ -292,6 +294,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49090 -> 84302  (Field Journal)
+
 DELETE FROM item_template WHERE entry = 84302;
 INSERT INTO item_template SET
   `entry` = 84302,
@@ -433,6 +436,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49108 -> 84303  (Weed Whacker)
+
 DELETE FROM item_template WHERE entry = 84303;
 INSERT INTO item_template SET
   `entry` = 84303,
@@ -574,6 +578,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49424 -> 84304  (Gyrochoppa Keys)
+
 DELETE FROM item_template WHERE entry = 84304;
 INSERT INTO item_template SET
   `entry` = 84304,
@@ -715,6 +720,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49611 -> 84305  (Infrared Heat Focals)
+
 DELETE FROM item_template WHERE entry = 84305;
 INSERT INTO item_template SET
   `entry` = 84305,
@@ -856,6 +862,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49624 -> 84306  (Tiny Scaly Tail)
+
 DELETE FROM item_template WHERE entry = 84306;
 INSERT INTO item_template SET
   `entry` = 84306,
@@ -997,6 +1004,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49626 -> 84307  (Dented Fish Scale)
+
 DELETE FROM item_template WHERE entry = 84307;
 INSERT INTO item_template SET
   `entry` = 84307,
@@ -1138,6 +1146,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49627 -> 84308  (Broken Fishbones)
+
 DELETE FROM item_template WHERE entry = 84308;
 INSERT INTO item_template SET
   `entry` = 84308,
@@ -1279,6 +1288,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49887 -> 84309  (KTC Snapflash)
+
 DELETE FROM item_template WHERE entry = 84309;
 INSERT INTO item_template SET
   `entry` = 84309,
@@ -1420,6 +1430,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50222 -> 84310  (Wildmane Cat Pelt)
+
 DELETE FROM item_template WHERE entry = 84310;
 INSERT INTO item_template SET
   `entry` = 84310,
@@ -1561,6 +1572,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50232 -> 84311  (Wild Clucker Eggs)
+
 DELETE FROM item_template WHERE entry = 84311;
 INSERT INTO item_template SET
   `entry` = 84311,
@@ -1702,6 +1714,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50239 -> 84312  (Spiny Raptor Egg)
+
 DELETE FROM item_template WHERE entry = 84312;
 INSERT INTO item_template SET
   `entry` = 84312,
@@ -1843,6 +1856,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50261 -> 84313  (The Biggest Egg Ever)
+
 DELETE FROM item_template WHERE entry = 84313;
 INSERT INTO item_template SET
   `entry` = 84313,
@@ -1984,6 +1998,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50381 -> 84314  (Shark Parts)
+
 DELETE FROM item_template WHERE entry = 84314;
 INSERT INTO item_template SET
   `entry` = 84314,
@@ -2125,6 +2140,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50437 -> 84315  (Intact Naga Hide)
+
 DELETE FROM item_template WHERE entry = 84315;
 INSERT INTO item_template SET
   `entry` = 84315,
@@ -2266,6 +2282,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50438 -> 84316  (Damaged Naga Hide)
+
 DELETE FROM item_template WHERE entry = 84316;
 INSERT INTO item_template SET
   `entry` = 84316,
@@ -2407,6 +2424,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50448 -> 84317  (Kaldorei Artifact)
+
 DELETE FROM item_template WHERE entry = 84317;
 INSERT INTO item_template SET
   `entry` = 84317,
@@ -2548,6 +2566,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 50602 -> 84318  (Irresistible Pool Pony)
+
 DELETE FROM item_template WHERE entry = 84318;
 INSERT INTO item_template SET
   `entry` = 84318,
@@ -2689,6 +2708,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 51781 -> 84319  (Yngwie's Body)
+
 DELETE FROM item_template WHERE entry = 84319;
 INSERT INTO item_template SET
   `entry` = 84319,
@@ -2830,6 +2850,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52013 -> 84320  (Super Booster Rocket Boots)
+
 DELETE FROM item_template WHERE entry = 84320;
 INSERT INTO item_template SET
   `entry` = 84320,
@@ -2971,6 +2992,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52024 -> 84321  (Rockin' Powder)
+
 DELETE FROM item_template WHERE entry = 84321;
 INSERT INTO item_template SET
   `entry` = 84321,
@@ -3112,6 +3134,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52032 -> 84322  (Rockin' Powder Infused Rocket Boots)
+
 DELETE FROM item_template WHERE entry = 84322;
 INSERT INTO item_template SET
   `entry` = 84322,
@@ -3253,6 +3276,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52035 -> 84323  (Fire Gland)
+
 DELETE FROM item_template WHERE entry = 84323;
 INSERT INTO item_template SET
   `entry` = 84323,
@@ -3394,6 +3418,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52043 -> 84324  (Bootzooka)
+
 DELETE FROM item_template WHERE entry = 84324;
 INSERT INTO item_template SET
   `entry` = 84324,
@@ -3535,6 +3560,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52080 -> 84325  (Fresh Crawler Meat)
+
 DELETE FROM item_template WHERE entry = 84325;
 INSERT INTO item_template SET
   `entry` = 84325,
@@ -3676,6 +3702,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52280 -> 84326  (Satchel of Grenades)
+
 DELETE FROM item_template WHERE entry = 84326;
 INSERT INTO item_template SET
   `entry` = 84326,
@@ -3817,6 +3844,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52346 -> 84327  (Commander Arrington's Head)
+
 DELETE FROM item_template WHERE entry = 84327;
 INSERT INTO item_template SET
   `entry` = 84327,
@@ -3958,6 +3986,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52347 -> 84328  (Darkblade Cyn's Head)
+
 DELETE FROM item_template WHERE entry = 84328;
 INSERT INTO item_template SET
   `entry` = 84328,
@@ -4099,6 +4128,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52349 -> 84329  (Alexi Silenthowl's Head)
+
 DELETE FROM item_template WHERE entry = 84329;
 INSERT INTO item_template SET
   `entry` = 84329,
@@ -4240,6 +4270,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52481 -> 84330  (Blastshadow's Soulstone)
+
 DELETE FROM item_template WHERE entry = 84330;
 INSERT INTO item_template SET
   `entry` = 84330,
@@ -4381,6 +4412,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52483 -> 84331  (Kaja'Cola Zero-One)
+
 DELETE FROM item_template WHERE entry = 84331;
 INSERT INTO item_template SET
   `entry` = 84331,
@@ -4522,6 +4554,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52484 -> 84332  (Kaja'Cola Zero-One)
+
 DELETE FROM item_template WHERE entry = 84332;
 INSERT INTO item_template SET
   `entry` = 84332,
@@ -4663,6 +4696,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52530 -> 84333  (Spare Shredder Parts)
+
 DELETE FROM item_template WHERE entry = 84333;
 INSERT INTO item_template SET
   `entry` = 84333,
@@ -4804,6 +4838,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52531 -> 84334  (Still-Beating Heart)
+
 DELETE FROM item_template WHERE entry = 84334;
 INSERT INTO item_template SET
   `entry` = 84334,
@@ -4945,6 +4980,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52559 -> 84335  (Fickle Heart)
+
 DELETE FROM item_template WHERE entry = 84335;
 INSERT INTO item_template SET
   `entry` = 84335,
@@ -5086,6 +5122,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52560 -> 84336  (Kajaro 0W Grade Oil)
+
 DELETE FROM item_template WHERE entry = 84336;
 INSERT INTO item_template SET
   `entry` = 84336,
@@ -5227,6 +5264,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52561 -> 84337  (Single-Stage Booster Rockets)
+
 DELETE FROM item_template WHERE entry = 84337;
 INSERT INTO item_template SET
   `entry` = 84337,
@@ -5368,6 +5406,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52575 -> 84338  (Slave Pits Cage Key)
+
 DELETE FROM item_template WHERE entry = 84338;
 INSERT INTO item_template SET
   `entry` = 84338,
@@ -5509,6 +5548,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52582 -> 84339  (Sealed Package)
+
 DELETE FROM item_template WHERE entry = 84339;
 INSERT INTO item_template SET
   `entry` = 84339,
@@ -5650,6 +5690,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52712 -> 84340  (Remote Control Fireworks)
+
 DELETE FROM item_template WHERE entry = 84340;
 INSERT INTO item_template SET
   `entry` = 84340,
@@ -5791,6 +5832,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52898 -> 84341  (Banana Peel Slippers)
+
 DELETE FROM item_template WHERE entry = 84341;
 INSERT INTO item_template SET
   `entry` = 84341,
@@ -5798,7 +5840,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Banana Peel Slippers',
-  `displayid` = 200105,
+  `displayid` = 201000,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -5932,6 +5974,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52899 -> 84342  (Weed Fiber Pants)
+
 DELETE FROM item_template WHERE entry = 84342;
 INSERT INTO item_template SET
   `entry` = 84342,
@@ -5939,7 +5982,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Weed Fiber Pants',
-  `displayid` = 200106,
+  `displayid` = 201001,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -6073,6 +6116,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52900 -> 84343  (Spy Choker Cord)
+
 DELETE FROM item_template WHERE entry = 84343;
 INSERT INTO item_template SET
   `entry` = 84343,
@@ -6080,7 +6124,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Spy Choker Cord',
-  `displayid` = 200107,
+  `displayid` = 201002,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -6214,6 +6258,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52901 -> 84344  (Whirling Axe)
+
 DELETE FROM item_template WHERE entry = 84344;
 INSERT INTO item_template SET
   `entry` = 84344,
@@ -6355,6 +6400,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52902 -> 84345  (Salvaged Bracers)
+
 DELETE FROM item_template WHERE entry = 84345;
 INSERT INTO item_template SET
   `entry` = 84345,
@@ -6362,7 +6408,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Salvaged Bracers',
-  `displayid` = 200108,
+  `displayid` = 201003,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -6496,6 +6542,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52903 -> 84346  (Pilot's Gloves)
+
 DELETE FROM item_template WHERE entry = 84346;
 INSERT INTO item_template SET
   `entry` = 84346,
@@ -6503,7 +6550,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Pilot''s Gloves',
-  `displayid` = 200109,
+  `displayid` = 201004,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -6637,6 +6684,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52904 -> 84347  (Broken Plunger)
+
 DELETE FROM item_template WHERE entry = 84347;
 INSERT INTO item_template SET
   `entry` = 84347,
@@ -6644,7 +6692,7 @@ INSERT INTO item_template SET
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
   `name` = 'Broken Plunger',
-  `displayid` = 200110,
+  `displayid` = 200105,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -6778,6 +6826,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52905 -> 84348  (Best. Bracers. Ever.)
+
 DELETE FROM item_template WHERE entry = 84348;
 INSERT INTO item_template SET
   `entry` = 84348,
@@ -6785,7 +6834,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Best. Bracers. Ever.',
-  `displayid` = 200111,
+  `displayid` = 201005,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -6919,6 +6968,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52906 -> 84349  (Leftover Mechachicken Legs)
+
 DELETE FROM item_template WHERE entry = 84349;
 INSERT INTO item_template SET
   `entry` = 84349,
@@ -6926,7 +6976,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Leftover Mechachicken Legs',
-  `displayid` = 200112,
+  `displayid` = 201006,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -7060,6 +7110,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52907 -> 84350  (Snake Scale Belt)
+
 DELETE FROM item_template WHERE entry = 84350;
 INSERT INTO item_template SET
   `entry` = 84350,
@@ -7067,7 +7118,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Snake Scale Belt',
-  `displayid` = 200113,
+  `displayid` = 201007,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -7201,6 +7252,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52908 -> 84351  (Hatchling Handlers)
+
 DELETE FROM item_template WHERE entry = 84351;
 INSERT INTO item_template SET
   `entry` = 84351,
@@ -7208,7 +7260,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Hatchling Handlers',
-  `displayid` = 200114,
+  `displayid` = 201008,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -7342,6 +7394,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52909 -> 84352  (Mini B.C. Eliminator)
+
 DELETE FROM item_template WHERE entry = 84352;
 INSERT INTO item_template SET
   `entry` = 84352,
@@ -7483,6 +7536,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52910 -> 84353  (Yngwie's Vest)
+
 DELETE FROM item_template WHERE entry = 84353;
 INSERT INTO item_template SET
   `entry` = 84353,
@@ -7490,7 +7544,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Yngwie''s Vest',
-  `displayid` = 200115,
+  `displayid` = 201009,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -7624,6 +7678,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52911 -> 84354  (Yngwie's Vest)
+
 DELETE FROM item_template WHERE entry = 84354;
 INSERT INTO item_template SET
   `entry` = 84354,
@@ -7631,7 +7686,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Yngwie''s Vest',
-  `displayid` = 8649,
+  `displayid` = 201010,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -7765,6 +7820,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52912 -> 84355  (S.B.R.B. Prototype 1)
+
 DELETE FROM item_template WHERE entry = 84355;
 INSERT INTO item_template SET
   `entry` = 84355,
@@ -7772,7 +7828,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'S.B.R.B. Prototype 1',
-  `displayid` = 200116,
+  `displayid` = 201011,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -7906,6 +7962,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52913 -> 84356  (Witchdoctor Leggings)
+
 DELETE FROM item_template WHERE entry = 84356;
 INSERT INTO item_template SET
   `entry` = 84356,
@@ -7913,7 +7970,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Witchdoctor Leggings',
-  `displayid` = 365,
+  `displayid` = 201012,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -8047,6 +8104,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52914 -> 84357  (Rescue Ladder Cord)
+
 DELETE FROM item_template WHERE entry = 84357;
 INSERT INTO item_template SET
   `entry` = 84357,
@@ -8054,7 +8112,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Rescue Ladder Cord',
-  `displayid` = 4505,
+  `displayid` = 201013,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -8188,6 +8246,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52915 -> 84358  (Aggra's Sash)
+
 DELETE FROM item_template WHERE entry = 84358;
 INSERT INTO item_template SET
   `entry` = 84358,
@@ -8195,7 +8254,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Aggra''s Sash',
-  `displayid` = 13366,
+  `displayid` = 201014,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -8329,6 +8388,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52916 -> 84359  (Gunner's Gloves)
+
 DELETE FROM item_template WHERE entry = 84359;
 INSERT INTO item_template SET
   `entry` = 84359,
@@ -8336,7 +8396,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Gunner''s Gloves',
-  `displayid` = 12390,
+  `displayid` = 201015,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -8470,6 +8530,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52917 -> 84360  (Gallywix Laborer's Gloves)
+
 DELETE FROM item_template WHERE entry = 84360;
 INSERT INTO item_template SET
   `entry` = 84360,
@@ -8477,7 +8538,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Gallywix Laborer''s Gloves',
-  `displayid` = 200117,
+  `displayid` = 201016,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -8611,6 +8672,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52918 -> 84361  (Delicia's Tights)
+
 DELETE FROM item_template WHERE entry = 84361;
 INSERT INTO item_template SET
   `entry` = 84361,
@@ -8618,7 +8680,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Delicia''s Tights',
-  `displayid` = 1356,
+  `displayid` = 201017,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -8752,6 +8814,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52919 -> 84362  (Oxidizing Axe)
+
 DELETE FROM item_template WHERE entry = 84362;
 INSERT INTO item_template SET
   `entry` = 84362,
@@ -8893,6 +8956,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52920 -> 84363  (Cardio-Extractor Gloves)
+
 DELETE FROM item_template WHERE entry = 84363;
 INSERT INTO item_template SET
   `entry` = 84363,
@@ -8900,7 +8964,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Cardio-Extractor Gloves',
-  `displayid` = 12324,
+  `displayid` = 201018,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -9034,6 +9098,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52921 -> 84364  (Ex-Stealer's Gloves)
+
 DELETE FROM item_template WHERE entry = 84364;
 INSERT INTO item_template SET
   `entry` = 84364,
@@ -9041,7 +9106,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Ex-Stealer''s Gloves',
-  `displayid` = 13655,
+  `displayid` = 201019,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -9175,6 +9240,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52922 -> 84365  (Demolitionist's Boots)
+
 DELETE FROM item_template WHERE entry = 84365;
 INSERT INTO item_template SET
   `entry` = 84365,
@@ -9182,7 +9248,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Demolitionist''s Boots',
-  `displayid` = 4921,
+  `displayid` = 201020,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -9316,6 +9382,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52923 -> 84366  (Rocket-Fuel Soaked Bracers)
+
 DELETE FROM item_template WHERE entry = 84366;
 INSERT INTO item_template SET
   `entry` = 84366,
@@ -9323,7 +9390,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Rocket-Fuel Soaked Bracers',
-  `displayid` = 3620,
+  `displayid` = 201021,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -9457,6 +9524,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52927 -> 84367  (Victor's Robes)
+
 DELETE FROM item_template WHERE entry = 84367;
 INSERT INTO item_template SET
   `entry` = 84367,
@@ -9464,7 +9532,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Victor''s Robes',
-  `displayid` = 12471,
+  `displayid` = 201022,
   `Quality` = 3,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -9598,6 +9666,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52928 -> 84368  (Banana Holder)
+
 DELETE FROM item_template WHERE entry = 84368;
 INSERT INTO item_template SET
   `entry` = 84368,
@@ -9605,7 +9674,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Banana Holder',
-  `displayid` = 200118,
+  `displayid` = 201023,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -9739,6 +9808,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52929 -> 84369  (Kilag's Vest)
+
 DELETE FROM item_template WHERE entry = 84369;
 INSERT INTO item_template SET
   `entry` = 84369,
@@ -9746,7 +9816,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Kilag''s Vest',
-  `displayid` = 200119,
+  `displayid` = 201024,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -9880,6 +9950,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52930 -> 84370  (Spy Poker)
+
 DELETE FROM item_template WHERE entry = 84370;
 INSERT INTO item_template SET
   `entry` = 84370,
@@ -10021,6 +10092,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52931 -> 84371  (Orcish Scout Boots)
+
 DELETE FROM item_template WHERE entry = 84371;
 INSERT INTO item_template SET
   `entry` = 84371,
@@ -10028,7 +10100,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Orcish Scout Boots',
-  `displayid` = 200120,
+  `displayid` = 201025,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -10162,6 +10234,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52932 -> 84372  (Parachute Wrist Straps)
+
 DELETE FROM item_template WHERE entry = 84372;
 INSERT INTO item_template SET
   `entry` = 84372,
@@ -10169,7 +10242,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Parachute Wrist Straps',
-  `displayid` = 200121,
+  `displayid` = 201026,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -10303,6 +10376,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52933 -> 84373  (Mechachicken Feather Cloak)
+
 DELETE FROM item_template WHERE entry = 84373;
 INSERT INTO item_template SET
   `entry` = 84373,
@@ -10444,6 +10518,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52934 -> 84374  (Pygmy Cloak)
+
 DELETE FROM item_template WHERE entry = 84374;
 INSERT INTO item_template SET
   `entry` = 84374,
@@ -10585,6 +10660,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52935 -> 84375  (Pygmy Cloak)
+
 DELETE FROM item_template WHERE entry = 84375;
 INSERT INTO item_template SET
   `entry` = 84375,
@@ -10726,6 +10802,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52936 -> 84376  (S.B.R.B. Prototype 3)
+
 DELETE FROM item_template WHERE entry = 84376;
 INSERT INTO item_template SET
   `entry` = 84376,
@@ -10733,7 +10810,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'S.B.R.B. Prototype 3',
-  `displayid` = 200122,
+  `displayid` = 201027,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -10867,6 +10944,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52937 -> 84377  (Chip's Cloak)
+
 DELETE FROM item_template WHERE entry = 84377;
 INSERT INTO item_template SET
   `entry` = 84377,
@@ -11008,6 +11086,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52938 -> 84378  (Jealousy's Edge)
+
 DELETE FROM item_template WHERE entry = 84378;
 INSERT INTO item_template SET
   `entry` = 84378,
@@ -11149,6 +11228,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52939 -> 84379  (Cage-Launcher's Mail)
+
 DELETE FROM item_template WHERE entry = 84379;
 INSERT INTO item_template SET
   `entry` = 84379,
@@ -11156,7 +11236,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Cage-Launcher''s Mail',
-  `displayid` = 8645,
+  `displayid` = 201028,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -11290,6 +11370,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52940 -> 84380  (Candy's Cloak)
+
 DELETE FROM item_template WHERE entry = 84380;
 INSERT INTO item_template SET
   `entry` = 84380,
@@ -11431,6 +11512,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52941 -> 84381  (Jealousy's Edge)
+
 DELETE FROM item_template WHERE entry = 84381;
 INSERT INTO item_template SET
   `entry` = 84381,
@@ -11572,6 +11654,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52943 -> 84382  (Monkey Handler Gloves)
+
 DELETE FROM item_template WHERE entry = 84382;
 INSERT INTO item_template SET
   `entry` = 84382,
@@ -11579,7 +11662,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Monkey Handler Gloves',
-  `displayid` = 200123,
+  `displayid` = 201029,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -11713,6 +11796,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52944 -> 84383  (Miner's Vest)
+
 DELETE FROM item_template WHERE entry = 84383;
 INSERT INTO item_template SET
   `entry` = 84383,
@@ -11720,7 +11804,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Miner''s Vest',
-  `displayid` = 200124,
+  `displayid` = 201030,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -11854,6 +11938,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52945 -> 84384  (Weed Stompers)
+
 DELETE FROM item_template WHERE entry = 84384;
 INSERT INTO item_template SET
   `entry` = 84384,
@@ -11861,7 +11946,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Weed Stompers',
-  `displayid` = 200125,
+  `displayid` = 201031,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -11995,6 +12080,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52946 -> 84385  (Spy Strangler Gloves)
+
 DELETE FROM item_template WHERE entry = 84385;
 INSERT INTO item_template SET
   `entry` = 84385,
@@ -12002,7 +12088,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Spy Strangler Gloves',
-  `displayid` = 200126,
+  `displayid` = 201032,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -12136,6 +12222,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52947 -> 84386  (Cyclone Staff)
+
 DELETE FROM item_template WHERE entry = 84386;
 INSERT INTO item_template SET
   `entry` = 84386,
@@ -12277,6 +12364,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52948 -> 84387  (Sailor's Leggings)
+
 DELETE FROM item_template WHERE entry = 84387;
 INSERT INTO item_template SET
   `entry` = 84387,
@@ -12284,7 +12372,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Sailor''s Leggings',
-  `displayid` = 200127,
+  `displayid` = 201033,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -12418,6 +12506,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52949 -> 84388  (Gyrochoppa Seat Belt)
+
 DELETE FROM item_template WHERE entry = 84388;
 INSERT INTO item_template SET
   `entry` = 84388,
@@ -12425,7 +12514,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Gyrochoppa Seat Belt',
-  `displayid` = 200128,
+  `displayid` = 201034,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -12559,6 +12648,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52950 -> 84389  (Whamo Kablamo)
+
 DELETE FROM item_template WHERE entry = 84389;
 INSERT INTO item_template SET
   `entry` = 84389,
@@ -12700,6 +12790,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52951 -> 84390  (Chicken Chopper)
+
 DELETE FROM item_template WHERE entry = 84390;
 INSERT INTO item_template SET
   `entry` = 84390,
@@ -12841,6 +12932,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52952 -> 84391  (The Hammer)
+
 DELETE FROM item_template WHERE entry = 84391;
 INSERT INTO item_template SET
   `entry` = 84391,
@@ -12982,6 +13074,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52953 -> 84392  (Banner Cloak)
+
 DELETE FROM item_template WHERE entry = 84392;
 INSERT INTO item_template SET
   `entry` = 84392,
@@ -13123,6 +13216,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52954 -> 84393  (Hatchling Prodder)
+
 DELETE FROM item_template WHERE entry = 84393;
 INSERT INTO item_template SET
   `entry` = 84393,
@@ -13264,6 +13358,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52955 -> 84394  (Town-In-A-Box Lid Fragment)
+
 DELETE FROM item_template WHERE entry = 84394;
 INSERT INTO item_template SET
   `entry` = 84394,
@@ -13405,6 +13500,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52956 -> 84395  (Oomlot Staff)
+
 DELETE FROM item_template WHERE entry = 84395;
 INSERT INTO item_template SET
   `entry` = 84395,
@@ -13546,6 +13642,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52957 -> 84396  (Oomlot Staff)
+
 DELETE FROM item_template WHERE entry = 84396;
 INSERT INTO item_template SET
   `entry` = 84396,
@@ -13687,6 +13784,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52958 -> 84397  (S.B.R.B. Prototype 2)
+
 DELETE FROM item_template WHERE entry = 84397;
 INSERT INTO item_template SET
   `entry` = 84397,
@@ -13694,7 +13792,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'S.B.R.B. Prototype 2',
-  `displayid` = 200125,
+  `displayid` = 201031,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -13828,6 +13926,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52959 -> 84398  (Oystein Bracers)
+
 DELETE FROM item_template WHERE entry = 84398;
 INSERT INTO item_template SET
   `entry` = 84398,
@@ -13835,7 +13934,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Oystein Bracers',
-  `displayid` = 59177,
+  `displayid` = 201035,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -13969,6 +14068,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52960 -> 84399  (Silver Platter)
+
 DELETE FROM item_template WHERE entry = 84399;
 INSERT INTO item_template SET
   `entry` = 84399,
@@ -14110,6 +14210,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52961 -> 84400  (Gnomish Parachute Scrap)
+
 DELETE FROM item_template WHERE entry = 84400;
 INSERT INTO item_template SET
   `entry` = 84400,
@@ -14251,6 +14352,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52962 -> 84401  (Greely's Spare Dagger)
+
 DELETE FROM item_template WHERE entry = 84401;
 INSERT INTO item_template SET
   `entry` = 84401,
@@ -14392,6 +14494,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52963 -> 84402  (Soulstone Breaker Wristbands)
+
 DELETE FROM item_template WHERE entry = 84402;
 INSERT INTO item_template SET
   `entry` = 84402,
@@ -14399,7 +14502,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Soulstone Breaker Wristbands',
-  `displayid` = 3600,
+  `displayid` = 201036,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -14533,6 +14636,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52964 -> 84403  (Heat-Applied Metallic Cooking Container)
+
 DELETE FROM item_template WHERE entry = 84403;
 INSERT INTO item_template SET
   `entry` = 84403,
@@ -14674,6 +14778,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52965 -> 84404  (Heartache Dagger)
+
 DELETE FROM item_template WHERE entry = 84404;
 INSERT INTO item_template SET
   `entry` = 84404,
@@ -14815,6 +14920,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52966 -> 84405  (Fickle Belt)
+
 DELETE FROM item_template WHERE entry = 84405;
 INSERT INTO item_template SET
   `entry` = 84405,
@@ -14822,7 +14928,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Fickle Belt',
-  `displayid` = 4507,
+  `displayid` = 201037,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -14956,6 +15062,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52967 -> 84406  (Oil-Stained Leggings)
+
 DELETE FROM item_template WHERE entry = 84406;
 INSERT INTO item_template SET
   `entry` = 84406,
@@ -14963,7 +15070,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Oil-Stained Leggings',
-  `displayid` = 37483,
+  `displayid` = 201038,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -15097,6 +15204,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52968 -> 84407  (Orbital Leggings)
+
 DELETE FROM item_template WHERE entry = 84407;
 INSERT INTO item_template SET
   `entry` = 84407,
@@ -15104,7 +15212,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Orbital Leggings',
-  `displayid` = 13649,
+  `displayid` = 201039,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -15238,6 +15346,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52969 -> 84408  (Heartache Dagger)
+
 DELETE FROM item_template WHERE entry = 84408;
 INSERT INTO item_template SET
   `entry` = 84408,
@@ -15379,6 +15488,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52970 -> 84409  (Fickle Belt)
+
 DELETE FROM item_template WHERE entry = 84409;
 INSERT INTO item_template SET
   `entry` = 84409,
@@ -15386,7 +15496,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Fickle Belt',
-  `displayid` = 4507,
+  `displayid` = 201037,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -15520,6 +15630,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52971 -> 84410  (Igneous Leggings)
+
 DELETE FROM item_template WHERE entry = 84410;
 INSERT INTO item_template SET
   `entry` = 84410,
@@ -15527,7 +15638,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Igneous Leggings',
-  `displayid` = 12395,
+  `displayid` = 201040,
   `Quality` = 3,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -15661,6 +15772,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 52972 -> 84411  (Ex-Stealer's Gloves)
+
 DELETE FROM item_template WHERE entry = 84411;
 INSERT INTO item_template SET
   `entry` = 84411,
@@ -15668,7 +15780,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Ex-Stealer''s Gloves',
-  `displayid` = 13655,
+  `displayid` = 201019,
   `Quality` = 2,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -15802,6 +15914,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54619 -> 84412  (Banana Peel)
+
 DELETE FROM item_template WHERE entry = 84412;
 INSERT INTO item_template SET
   `entry` = 84412,
@@ -15943,6 +16056,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54620 -> 84413  (Empty Banana Kaja'Cola Bottle)
+
 DELETE FROM item_template WHERE entry = 84413;
 INSERT INTO item_template SET
   `entry` = 84413,
@@ -16084,6 +16198,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54621 -> 84414  (Crushed Fez)
+
 DELETE FROM item_template WHERE entry = 84414;
 INSERT INTO item_template SET
   `entry` = 84414,
@@ -16091,7 +16206,7 @@ INSERT INTO item_template SET
   `subclass` = 0,
   `SoundOverrideSubclass` = -1,
   `name` = 'Crushed Fez',
-  `displayid` = 200129,
+  `displayid` = 200106,
   `Quality` = 0,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -16225,6 +16340,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54623 -> 84415  (Flimsy Sprocket)
+
 DELETE FROM item_template WHERE entry = 84415;
 INSERT INTO item_template SET
   `entry` = 84415,
@@ -16366,6 +16482,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54624 -> 84416  (Defective Gear)
+
 DELETE FROM item_template WHERE entry = 84416;
 INSERT INTO item_template SET
   `entry` = 84416,
@@ -16507,6 +16624,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54625 -> 84417  (Twitchy Scaly Tail)
+
 DELETE FROM item_template WHERE entry = 84417;
 INSERT INTO item_template SET
   `entry` = 84417,
@@ -16648,6 +16766,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 55885 -> 84418  (Dampwick's "Best" Robes)
+
 DELETE FROM item_template WHERE entry = 84418;
 INSERT INTO item_template SET
   `entry` = 84418,
@@ -16655,7 +16774,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Dampwick''s "Best" Robes',
-  `displayid` = 200130,
+  `displayid` = 201041,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -16789,6 +16908,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 55973 -> 84419  (Inert Elemental Speck)
+
 DELETE FROM item_template WHERE entry = 84419;
 INSERT INTO item_template SET
   `entry` = 84419,
@@ -16930,6 +17050,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 55974 -> 84420  (Inert Elemental Particle)
+
 DELETE FROM item_template WHERE entry = 84420;
 INSERT INTO item_template SET
   `entry` = 84420,
@@ -17071,6 +17192,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 55983 -> 84421  (Inert Elemental Scintilla)
+
 DELETE FROM item_template WHERE entry = 84421;
 INSERT INTO item_template SET
   `entry` = 84421,
@@ -17212,6 +17334,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 56149 -> 84422  (Empty Town-In-A-Box)
+
 DELETE FROM item_template WHERE entry = 84422;
 INSERT INTO item_template SET
   `entry` = 84422,
@@ -17353,6 +17476,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 58499 -> 84423  (Grasp of Victory)
+
 DELETE FROM item_template WHERE entry = 84423;
 INSERT INTO item_template SET
   `entry` = 84423,
@@ -17360,7 +17484,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Grasp of Victory',
-  `displayid` = 18292,
+  `displayid` = 201042,
   `Quality` = 3,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -17494,6 +17618,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49241 -> 84424 (Waterlogged Cloth Vest)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84424;
 INSERT INTO item_template SET
   `entry` = 84424,
@@ -17501,7 +17626,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Waterlogged Cloth Vest',
-  `displayid` = 7905,
+  `displayid` = 201043,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17550,6 +17675,7 @@ INSERT INTO item_template SET
   `armor` = 10;
 
 -- Cata 49242 -> 84425 (Waterlogged Cloth Belt)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84425;
 INSERT INTO item_template SET
   `entry` = 84425,
@@ -17557,7 +17683,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Waterlogged Cloth Belt',
-  `displayid` = 12335,
+  `displayid` = 201044,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17606,6 +17732,7 @@ INSERT INTO item_template SET
   `armor` = 6;
 
 -- Cata 49243 -> 84426 (Waterlogged Cloth Pants)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84426;
 INSERT INTO item_template SET
   `entry` = 84426,
@@ -17613,7 +17740,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Waterlogged Cloth Pants',
-  `displayid` = 14412,
+  `displayid` = 201045,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17662,6 +17789,7 @@ INSERT INTO item_template SET
   `armor` = 9;
 
 -- Cata 49244 -> 84427 (Waterlogged Cloth Boots)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84427;
 INSERT INTO item_template SET
   `entry` = 84427,
@@ -17669,7 +17797,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Waterlogged Cloth Boots',
-  `displayid` = 1861,
+  `displayid` = 201046,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17718,6 +17846,7 @@ INSERT INTO item_template SET
   `armor` = 7;
 
 -- Cata 49245 -> 84428 (Waterlogged Cloth Bracers)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84428;
 INSERT INTO item_template SET
   `entry` = 84428,
@@ -17725,7 +17854,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Waterlogged Cloth Bracers',
-  `displayid` = 3620,
+  `displayid` = 201047,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17774,6 +17903,7 @@ INSERT INTO item_template SET
   `armor` = 4;
 
 -- Cata 49246 -> 84429 (Waterlogged Cloth Gloves)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84429;
 INSERT INTO item_template SET
   `entry` = 84429,
@@ -17781,7 +17911,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Waterlogged Cloth Gloves',
-  `displayid` = 13319,
+  `displayid` = 201048,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17830,6 +17960,7 @@ INSERT INTO item_template SET
   `armor` = 6;
 
 -- Cata 49247 -> 84430 (Drenched Leather Belt)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84430;
 INSERT INTO item_template SET
   `entry` = 84430,
@@ -17837,7 +17968,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Drenched Leather Belt',
-  `displayid` = 4504,
+  `displayid` = 201049,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17886,6 +18017,7 @@ INSERT INTO item_template SET
   `armor` = 19;
 
 -- Cata 49248 -> 84431 (Drenched Leather Boots)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84431;
 INSERT INTO item_template SET
   `entry` = 84431,
@@ -17893,7 +18025,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Drenched Leather Boots',
-  `displayid` = 4921,
+  `displayid` = 201050,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17942,6 +18074,7 @@ INSERT INTO item_template SET
   `armor` = 23;
 
 -- Cata 49249 -> 84432 (Drenched Leather Bracers)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84432;
 INSERT INTO item_template SET
   `entry` = 84432,
@@ -17949,7 +18082,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Drenched Leather Bracers',
-  `displayid` = 3597,
+  `displayid` = 201051,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -17998,6 +18131,7 @@ INSERT INTO item_template SET
   `armor` = 15;
 
 -- Cata 49250 -> 84433 (Drenched Leather Gloves)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84433;
 INSERT INTO item_template SET
   `entry` = 84433,
@@ -18005,7 +18139,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Drenched Leather Gloves',
-  `displayid` = 14045,
+  `displayid` = 201052,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18054,6 +18188,7 @@ INSERT INTO item_template SET
   `armor` = 21;
 
 -- Cata 49251 -> 84434 (Drenched Leather Pants)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84434;
 INSERT INTO item_template SET
   `entry` = 84434,
@@ -18061,7 +18196,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Drenched Leather Pants',
-  `displayid` = 704,
+  `displayid` = 201053,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18110,6 +18245,7 @@ INSERT INTO item_template SET
   `armor` = 29;
 
 -- Cata 49252 -> 84435 (Drenched Leather Vest)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84435;
 INSERT INTO item_template SET
   `entry` = 84435,
@@ -18117,7 +18253,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Drenched Leather Vest',
-  `displayid` = 7848,
+  `displayid` = 201054,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18166,6 +18302,7 @@ INSERT INTO item_template SET
   `armor` = 33;
 
 -- Cata 49253 -> 84436 (Slightly Worm-Eaten Hardtack)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84436;
 INSERT INTO item_template SET
   `entry` = 84436,
@@ -18223,6 +18360,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 49254 -> 84437 (Tarp Collected Dew)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84437;
 INSERT INTO item_template SET
   `entry` = 84437,
@@ -18230,7 +18368,7 @@ INSERT INTO item_template SET
   `subclass` = 5,
   `SoundOverrideSubclass` = -1,
   `name` = 'Tarp Collected Dew',
-  `displayid` = 200131,
+  `displayid` = 200107,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18280,6 +18418,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 49257 -> 84438 (Seashell Throwing Axe)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84438;
 INSERT INTO item_template SET
   `entry` = 84438,
@@ -18335,6 +18474,7 @@ INSERT INTO item_template SET
   `duration` = 0;
 
 -- Cata 49258 -> 84439 (Light Throwing Tusk)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84439;
 INSERT INTO item_template SET
   `entry` = 84439,
@@ -18342,7 +18482,7 @@ INSERT INTO item_template SET
   `subclass` = 16,
   `SoundOverrideSubclass` = -1,
   `name` = 'Light Throwing Tusk',
-  `displayid` = 200132,
+  `displayid` = 200108,
   `Quality` = 1,
   `Flags` = 4194304,
   `FlagsExtra` = 0,
@@ -18390,6 +18530,7 @@ INSERT INTO item_template SET
   `duration` = 0;
 
 -- Cata 49259 -> 84440 (Salvaged Chain Armor)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84440;
 INSERT INTO item_template SET
   `entry` = 84440,
@@ -18397,7 +18538,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Salvaged Chain Armor',
-  `displayid` = 954,
+  `displayid` = 201055,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18446,6 +18587,7 @@ INSERT INTO item_template SET
   `armor` = 103;
 
 -- Cata 49260 -> 84441 (Salvaged Chain Belt)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84441;
 INSERT INTO item_template SET
   `entry` = 84441,
@@ -18453,7 +18595,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Salvaged Chain Belt',
-  `displayid` = 4503,
+  `displayid` = 201056,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18502,6 +18644,7 @@ INSERT INTO item_template SET
   `armor` = 58;
 
 -- Cata 49261 -> 84442 (Salvaged Chain Boots)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84442;
 INSERT INTO item_template SET
   `entry` = 84442,
@@ -18509,7 +18652,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Salvaged Chain Boots',
-  `displayid` = 222,
+  `displayid` = 201057,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18558,6 +18701,7 @@ INSERT INTO item_template SET
   `armor` = 70;
 
 -- Cata 49262 -> 84443 (Salvaged Chain Bracers)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84443;
 INSERT INTO item_template SET
   `entry` = 84443,
@@ -18565,7 +18709,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Salvaged Chain Bracers',
-  `displayid` = 3628,
+  `displayid` = 201058,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18614,6 +18758,7 @@ INSERT INTO item_template SET
   `armor` = 45;
 
 -- Cata 49263 -> 84444 (Salvaged Chain Gloves)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84444;
 INSERT INTO item_template SET
   `entry` = 84444,
@@ -18621,7 +18766,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Salvaged Chain Gloves',
-  `displayid` = 510,
+  `displayid` = 201059,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18670,6 +18815,7 @@ INSERT INTO item_template SET
   `armor` = 64;
 
 -- Cata 49264 -> 84445 (Salvaged Chain Leggings)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84445;
 INSERT INTO item_template SET
   `entry` = 84445,
@@ -18677,7 +18823,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Salvaged Chain Leggings',
-  `displayid` = 685,
+  `displayid` = 201060,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18726,6 +18872,7 @@ INSERT INTO item_template SET
   `armor` = 92;
 
 -- Cata 49265 -> 84446 (Recovered Knit Belt)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84446;
 INSERT INTO item_template SET
   `entry` = 84446,
@@ -18733,7 +18880,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Recovered Knit Belt',
-  `displayid` = 12335,
+  `displayid` = 201061,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18782,6 +18929,7 @@ INSERT INTO item_template SET
   `armor` = 10;
 
 -- Cata 49266 -> 84447 (Recovered Knit Boots)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84447;
 INSERT INTO item_template SET
   `entry` = 84447,
@@ -18789,7 +18937,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Recovered Knit Boots',
-  `displayid` = 845,
+  `displayid` = 201062,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18838,6 +18986,7 @@ INSERT INTO item_template SET
   `armor` = 13;
 
 -- Cata 49267 -> 84448 (Recovered Knit Bracers)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84448;
 INSERT INTO item_template SET
   `entry` = 84448,
@@ -18845,7 +18994,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Recovered Knit Bracers',
-  `displayid` = 3641,
+  `displayid` = 201063,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18894,6 +19043,7 @@ INSERT INTO item_template SET
   `armor` = 8;
 
 -- Cata 49268 -> 84449 (Recovered Knit Gloves)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84449;
 INSERT INTO item_template SET
   `entry` = 84449,
@@ -18901,7 +19051,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Recovered Knit Gloves',
-  `displayid` = 14386,
+  `displayid` = 201064,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -18950,6 +19100,7 @@ INSERT INTO item_template SET
   `armor` = 11;
 
 -- Cata 49269 -> 84450 (Recovered Knit Pants)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84450;
 INSERT INTO item_template SET
   `entry` = 84450,
@@ -18957,7 +19108,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Recovered Knit Pants',
-  `displayid` = 12388,
+  `displayid` = 201065,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -19006,6 +19157,7 @@ INSERT INTO item_template SET
   `armor` = 16;
 
 -- Cata 49270 -> 84451 (Recovered Knit Vest)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84451;
 INSERT INTO item_template SET
   `entry` = 84451,
@@ -19013,7 +19165,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Recovered Knit Vest',
-  `displayid` = 7848,
+  `displayid` = 201066,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -19062,6 +19214,7 @@ INSERT INTO item_template SET
   `armor` = 18;
 
 -- Cata 49271 -> 84452 (Water-Stained Leather Belt)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84452;
 INSERT INTO item_template SET
   `entry` = 84452,
@@ -19069,7 +19222,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Water-Stained Leather Belt',
-  `displayid` = 4499,
+  `displayid` = 201067,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -19118,6 +19271,7 @@ INSERT INTO item_template SET
   `armor` = 29;
 
 -- Cata 49272 -> 84453 (Water-Stained Leather Boots)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84453;
 INSERT INTO item_template SET
   `entry` = 84453,
@@ -19125,7 +19279,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Water-Stained Leather Boots',
-  `displayid` = 703,
+  `displayid` = 201068,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -19174,6 +19328,7 @@ INSERT INTO item_template SET
   `armor` = 36;
 
 -- Cata 49273 -> 84454 (Water-Stained Leather Bracers)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84454;
 INSERT INTO item_template SET
   `entry` = 84454,
@@ -19181,7 +19336,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Water-Stained Leather Bracers',
-  `displayid` = 3598,
+  `displayid` = 201069,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -19230,6 +19385,7 @@ INSERT INTO item_template SET
   `armor` = 23;
 
 -- Cata 49274 -> 84455 (Water-Stained Leather Gloves)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84455;
 INSERT INTO item_template SET
   `entry` = 84455,
@@ -19237,7 +19393,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Water-Stained Leather Gloves',
-  `displayid` = 14045,
+  `displayid` = 201070,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -19286,6 +19442,7 @@ INSERT INTO item_template SET
   `armor` = 33;
 
 -- Cata 49275 -> 84456 (Water-Stained Leather Harness)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84456;
 INSERT INTO item_template SET
   `entry` = 84456,
@@ -19293,7 +19450,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Water-Stained Leather Harness',
-  `displayid` = 8695,
+  `displayid` = 201071,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -19342,6 +19499,7 @@ INSERT INTO item_template SET
   `armor` = 54;
 
 -- Cata 49276 -> 84457 (Water-Stained Leather Pants)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84457;
 INSERT INTO item_template SET
   `entry` = 84457,
@@ -19349,7 +19507,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Water-Stained Leather Pants',
-  `displayid` = 704,
+  `displayid` = 201072,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -19398,6 +19556,7 @@ INSERT INTO item_template SET
   `armor` = 47;
 
 -- Cata 49600 -> 84458 (Goblin Shortbread)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84458;
 INSERT INTO item_template SET
   `entry` = 84458,
@@ -19455,6 +19614,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 49601 -> 84459 (Volcanic Spring Water)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84459;
 INSERT INTO item_template SET
   `entry` = 84459,
@@ -19512,6 +19672,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 46856 -> 84460  (Keys to the Hot Rod)
+
 DELETE FROM item_template WHERE entry = 84460;
 INSERT INTO item_template SET
   `entry` = 84460,
@@ -19653,6 +19814,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 46858 -> 84461  (Personal Riches)
+
 DELETE FROM item_template WHERE entry = 84461;
 INSERT INTO item_template SET
   `entry` = 84461,
@@ -19794,6 +19956,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 47044 -> 84462  (Stack of Macaroons)
+
 DELETE FROM item_template WHERE entry = 84462;
 INSERT INTO item_template SET
   `entry` = 84462,
@@ -19935,6 +20098,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 47045 -> 84463  (Shiny Bling)
+
 DELETE FROM item_template WHERE entry = 84463;
 INSERT INTO item_template SET
   `entry` = 84463,
@@ -20076,6 +20240,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 47046 -> 84464  (Hip New Outfit)
+
 DELETE FROM item_template WHERE entry = 84464;
 INSERT INTO item_template SET
   `entry` = 84464,
@@ -20217,6 +20382,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 47047 -> 84465  (Cool Shades)
+
 DELETE FROM item_template WHERE entry = 84465;
 INSERT INTO item_template SET
   `entry` = 84465,
@@ -20224,7 +20390,7 @@ INSERT INTO item_template SET
   `subclass` = 0,
   `SoundOverrideSubclass` = -1,
   `name` = 'Cool Shades',
-  `displayid` = 200133,
+  `displayid` = 200109,
   `Quality` = 1,
   `Flags` = 131072,
   `BuyCount` = 1,
@@ -20358,6 +20524,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 47530 -> 84466  (Stolen Loot)
+
 DELETE FROM item_template WHERE entry = 84466;
 INSERT INTO item_template SET
   `entry` = 84466,
@@ -20499,6 +20666,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 48766 -> 84467  (Kaja'mite Chunk)
+
 DELETE FROM item_template WHERE entry = 84467;
 INSERT INTO item_template SET
   `entry` = 84467,
@@ -20640,6 +20808,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 48768 -> 84468  (Kablooey Bombs)
+
 DELETE FROM item_template WHERE entry = 84468;
 INSERT INTO item_template SET
   `entry` = 84468,
@@ -20781,6 +20950,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 48937 -> 84469  (Maldy's Falcon)
+
 DELETE FROM item_template WHERE entry = 84469;
 INSERT INTO item_template SET
   `entry` = 84469,
@@ -20922,6 +21092,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 48939 -> 84470  (The Goblin Lisa)
+
 DELETE FROM item_template WHERE entry = 84470;
 INSERT INTO item_template SET
   `entry` = 84470,
@@ -20929,7 +21100,7 @@ INSERT INTO item_template SET
   `subclass` = 0,
   `SoundOverrideSubclass` = 0,
   `name` = 'The Goblin Lisa',
-  `displayid` = 200134,
+  `displayid` = 200110,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -21063,6 +21234,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 48941 -> 84471  (The Ultimate Bomb)
+
 DELETE FROM item_template WHERE entry = 84471;
 INSERT INTO item_template SET
   `entry` = 84471,
@@ -21204,6 +21376,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49752 -> 84472  (Replacement Parts)
+
 DELETE FROM item_template WHERE entry = 84472;
 INSERT INTO item_template SET
   `entry` = 84472,
@@ -21345,6 +21518,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49866 -> 84473  (Life Savings)
+
 DELETE FROM item_template WHERE entry = 84473;
 INSERT INTO item_template SET
   `entry` = 84473,
@@ -21486,6 +21660,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 49884 -> 84474  (Kaja'Cola)
+
 DELETE FROM item_template WHERE entry = 84474;
 INSERT INTO item_template SET
   `entry` = 84474,
@@ -21627,6 +21802,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54292 -> 84475  (KTC Executive Slippers)
+
 DELETE FROM item_template WHERE entry = 84475;
 INSERT INTO item_template SET
   `entry` = 84475,
@@ -21634,7 +21810,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'KTC Executive Slippers',
-  `displayid` = 200135,
+  `displayid` = 201073,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -21768,6 +21944,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54293 -> 84476  (Tunnel Worm Vest)
+
 DELETE FROM item_template WHERE entry = 84476;
 INSERT INTO item_template SET
   `entry` = 84476,
@@ -21775,7 +21952,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Tunnel Worm Vest',
-  `displayid` = 200136,
+  `displayid` = 201074,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -21909,6 +22086,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54294 -> 84477  (Athlete's Robe)
+
 DELETE FROM item_template WHERE entry = 84477;
 INSERT INTO item_template SET
   `entry` = 84477,
@@ -21916,7 +22094,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Athlete''s Robe',
-  `displayid` = 200137,
+  `displayid` = 201075,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -22050,6 +22228,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54295 -> 84478  (Crosscheck Breastplate)
+
 DELETE FROM item_template WHERE entry = 84478;
 INSERT INTO item_template SET
   `entry` = 84478,
@@ -22057,7 +22236,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Crosscheck Breastplate',
-  `displayid` = 200138,
+  `displayid` = 201076,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -22191,6 +22370,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54296 -> 84479  (Debt Collector's Gloves)
+
 DELETE FROM item_template WHERE entry = 84479;
 INSERT INTO item_template SET
   `entry` = 84479,
@@ -22198,7 +22378,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Debt Collector''s Gloves',
-  `displayid` = 200139,
+  `displayid` = 201077,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -22332,6 +22512,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54297 -> 84480  (Cracking Whip)
+
 DELETE FROM item_template WHERE entry = 84480;
 INSERT INTO item_template SET
   `entry` = 84480,
@@ -22339,7 +22520,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Cracking Whip',
-  `displayid` = 200140,
+  `displayid` = 201078,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -22473,6 +22654,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54298 -> 84481  (Skyrocket Gun)
+
 DELETE FROM item_template WHERE entry = 84481;
 INSERT INTO item_template SET
   `entry` = 84481,
@@ -22614,6 +22796,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54299 -> 84482  (Fancy Pants)
+
 DELETE FROM item_template WHERE entry = 84482;
 INSERT INTO item_template SET
   `entry` = 84482,
@@ -22621,7 +22804,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Fancy Pants',
-  `displayid` = 200141,
+  `displayid` = 201079,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -22755,6 +22938,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54300 -> 84483  (Tight-Fitting Leather Leggings)
+
 DELETE FROM item_template WHERE entry = 84483;
 INSERT INTO item_template SET
   `entry` = 84483,
@@ -22762,7 +22946,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Tight-Fitting Leather Leggings',
-  `displayid` = 200142,
+  `displayid` = 201080,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -22896,6 +23080,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54302 -> 84484  (Southsea Sash)
+
 DELETE FROM item_template WHERE entry = 84484;
 INSERT INTO item_template SET
   `entry` = 84484,
@@ -22903,7 +23088,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Southsea Sash',
-  `displayid` = 200143,
+  `displayid` = 201081,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -23037,6 +23222,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54303 -> 84485  (Total Disaster Bracers)
+
 DELETE FROM item_template WHERE entry = 84485;
 INSERT INTO item_template SET
   `entry` = 84485,
@@ -23044,7 +23230,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Total Disaster Bracers',
-  `displayid` = 200144,
+  `displayid` = 201082,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -23178,6 +23364,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54304 -> 84486  (First Bank Knocker)
+
 DELETE FROM item_template WHERE entry = 84486;
 INSERT INTO item_template SET
   `entry` = 84486,
@@ -23185,7 +23372,7 @@ INSERT INTO item_template SET
   `subclass` = 4,
   `SoundOverrideSubclass` = -1,
   `name` = 'First Bank Knocker',
-  `displayid` = 200110,
+  `displayid` = 200105,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -23319,6 +23506,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54305 -> 84487  (Tasseled Shoes)
+
 DELETE FROM item_template WHERE entry = 84487;
 INSERT INTO item_template SET
   `entry` = 84487,
@@ -23326,7 +23514,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Tasseled Shoes',
-  `displayid` = 200145,
+  `displayid` = 201083,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -23460,6 +23648,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54306 -> 84488  (Vault Cracker Gloves)
+
 DELETE FROM item_template WHERE entry = 84488;
 INSERT INTO item_template SET
   `entry` = 84488,
@@ -23467,7 +23656,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Vault Cracker Gloves',
-  `displayid` = 200146,
+  `displayid` = 201084,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -23601,6 +23790,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54307 -> 84489  (Flame-Retardant Pajama Sleeves)
+
 DELETE FROM item_template WHERE entry = 84489;
 INSERT INTO item_template SET
   `entry` = 84489,
@@ -23608,7 +23798,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Flame-Retardant Pajama Sleeves',
-  `displayid` = 200147,
+  `displayid` = 201085,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -23742,6 +23932,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54308 -> 84490  (Gassy Bracers)
+
 DELETE FROM item_template WHERE entry = 84490;
 INSERT INTO item_template SET
   `entry` = 84490,
@@ -23749,7 +23940,7 @@ INSERT INTO item_template SET
   `subclass` = 2,
   `SoundOverrideSubclass` = -1,
   `name` = 'Gassy Bracers',
-  `displayid` = 200148,
+  `displayid` = 201086,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -23883,6 +24074,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54309 -> 84491  (Gas Soaked Boots)
+
 DELETE FROM item_template WHERE entry = 84491;
 INSERT INTO item_template SET
   `entry` = 84491,
@@ -23890,7 +24082,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Gas Soaked Boots',
-  `displayid` = 200149,
+  `displayid` = 201087,
   `Quality` = 1,
   `Flags` = 0,
   `BuyCount` = 1,
@@ -24024,6 +24216,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 54453 -> 84492  (Six-Pack of Kaja'Cola)
+
 DELETE FROM item_template WHERE entry = 84492;
 INSERT INTO item_template SET
   `entry` = 84492,
@@ -24165,6 +24358,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 56148 -> 84493  (Bank Robber's Bag)
+
 DELETE FROM item_template WHERE entry = 84493;
 INSERT INTO item_template SET
   `entry` = 84493,
@@ -24306,6 +24500,7 @@ INSERT INTO item_template SET
   `VerifiedBuild` = 0;
 
 -- Cata 57192 -> 84494 (Mythical Mana Potion)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84494;
 INSERT INTO item_template SET
   `entry` = 84494,
@@ -24313,7 +24508,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Mythical Mana Potion',
-  `displayid` = 200150,
+  `displayid` = 200111,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24363,6 +24558,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 57194 -> 84495 (Potion of Concentration)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84495;
 INSERT INTO item_template SET
   `entry` = 84495,
@@ -24370,7 +24566,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Potion of Concentration',
-  `displayid` = 200151,
+  `displayid` = 200112,
   `Quality` = 1,
   `Flags` = 64,
   `FlagsExtra` = 0,
@@ -24420,6 +24616,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 58085 -> 84496 (Flask of Steelskin)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84496;
 INSERT INTO item_template SET
   `entry` = 84496,
@@ -24427,7 +24624,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Flask of Steelskin',
-  `displayid` = 200152,
+  `displayid` = 200113,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24477,6 +24674,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 58086 -> 84497 (Flask of the Draconic Mind)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84497;
 INSERT INTO item_template SET
   `entry` = 84497,
@@ -24484,7 +24682,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Flask of the Draconic Mind',
-  `displayid` = 200153,
+  `displayid` = 200114,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24534,6 +24732,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 58087 -> 84498 (Flask of the Winds)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84498;
 INSERT INTO item_template SET
   `entry` = 84498,
@@ -24541,7 +24740,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Flask of the Winds',
-  `displayid` = 200154,
+  `displayid` = 200115,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24591,6 +24790,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 58088 -> 84499 (Flask of Titanic Strength)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84499;
 INSERT INTO item_template SET
   `entry` = 84499,
@@ -24598,7 +24798,7 @@ INSERT INTO item_template SET
   `subclass` = 3,
   `SoundOverrideSubclass` = -1,
   `name` = 'Flask of Titanic Strength',
-  `displayid` = 200155,
+  `displayid` = 200116,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24648,6 +24848,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 58091 -> 84500 (Volcanic Potion)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84500;
 INSERT INTO item_template SET
   `entry` = 84500,
@@ -24655,7 +24856,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Volcanic Potion',
-  `displayid` = 200156,
+  `displayid` = 200117,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24705,6 +24906,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 58145 -> 84501 (Potion of the Tol'vir)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84501;
 INSERT INTO item_template SET
   `entry` = 84501,
@@ -24712,7 +24914,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Potion of the Tol''vir',
-  `displayid` = 200157,
+  `displayid` = 200118,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24762,6 +24964,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 58146 -> 84502 (Golemblood Potion)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84502;
 INSERT INTO item_template SET
   `entry` = 84502,
@@ -24769,7 +24972,7 @@ INSERT INTO item_template SET
   `subclass` = 1,
   `SoundOverrideSubclass` = -1,
   `name` = 'Golemblood Potion',
-  `displayid` = 200158,
+  `displayid` = 200119,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24819,6 +25022,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 62649 -> 84503 (Fortune Cookie)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84503;
 INSERT INTO item_template SET
   `entry` = 84503,
@@ -24826,7 +25030,7 @@ INSERT INTO item_template SET
   `subclass` = 5,
   `SoundOverrideSubclass` = -1,
   `name` = 'Fortune Cookie',
-  `displayid` = 200159,
+  `displayid` = 200120,
   `Quality` = 1,
   `Flags` = 0,
   `FlagsExtra` = 0,
@@ -24876,6 +25080,7 @@ INSERT INTO item_template SET
   `spelltrigger_1` = 0;
 
 -- Cata 64670 -> 84504 (Vanishing Powder)  [vendor]
+
 DELETE FROM item_template WHERE entry = 84504;
 INSERT INTO item_template SET
   `entry` = 84504,
@@ -24929,4 +25134,3 @@ INSERT INTO item_template SET
   `startquest` = 0,
   `RequiredDisenchantSkill` = -1,
   `duration` = 0;
-

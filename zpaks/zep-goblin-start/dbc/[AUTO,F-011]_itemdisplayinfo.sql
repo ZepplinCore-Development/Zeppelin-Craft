@@ -5670,330 +5670,2559 @@ INSERT INTO itemdisplayinfo SET
 DELETE FROM itemdisplayinfo WHERE id = 200105;
 INSERT INTO itemdisplayinfo SET
   `id` = 200105,
-  `icon_1` = 'inv_boots_cloth_31',
+  `icon_1` = 'inv_mace_121',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200106;
 INSERT INTO itemdisplayinfo SET
   `id` = 200106,
-  `icon_1` = 'inv_pants_cloth_41v2',
+  `icon_1` = 'inv_misc_clothscrap_02',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200107;
 INSERT INTO itemdisplayinfo SET
   `id` = 200107,
-  `icon_1` = 'inv_belt_79v2',
+  `icon_1` = 'inv_drink_waterskin_04',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200108;
 INSERT INTO itemdisplayinfo SET
   `id` = 200108,
-  `icon_1` = 'inv_bracer_73v2',
+  `icon_1` = 'achievement_reputation_tuskarr',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200109;
 INSERT INTO itemdisplayinfo SET
   `id` = 200109,
-  `icon_1` = 'inv_gauntlets_114v2',
+  `icon_1` = 'inv_helmet_176',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200110;
 INSERT INTO itemdisplayinfo SET
   `id` = 200110,
-  `icon_1` = 'inv_mace_121',
+  `icon_1` = 'achievement_character_orc_female',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200111;
 INSERT INTO itemdisplayinfo SET
   `id` = 200111,
-  `icon_1` = 'inv_bracer_74v4',
+  `icon_1` = 'inv_misc_potionsetc',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200112;
 INSERT INTO itemdisplayinfo SET
   `id` = 200112,
-  `icon_1` = 'inv_pants_mail_36v2',
+  `icon_1` = 'inv_potionc_3',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200113;
 INSERT INTO itemdisplayinfo SET
   `id` = 200113,
-  `icon_1` = 'inv_belt_84v2',
+  `icon_1` = 'inv_potione_1',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200114;
 INSERT INTO itemdisplayinfo SET
   `id` = 200114,
-  `icon_1` = 'inv_gauntlets_102v4',
+  `icon_1` = 'inv_potione_5',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200115;
 INSERT INTO itemdisplayinfo SET
   `id` = 200115,
-  `icon_1` = 'inv_chest_leather_26v4',
+  `icon_1` = 'inv_potione_2',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200116;
 INSERT INTO itemdisplayinfo SET
   `id` = 200116,
-  `icon_1` = 'inv_boots_cloth_31v2',
+  `icon_1` = 'inv_potione_6',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200117;
 INSERT INTO itemdisplayinfo SET
   `id` = 200117,
-  `icon_1` = 'inv_gauntlets_105v3',
+  `icon_1` = 'inv_potiond_3',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200118;
 INSERT INTO itemdisplayinfo SET
   `id` = 200118,
-  `icon_1` = 'inv_belt_84v4',
+  `icon_1` = 'inv_potiond_4',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200119;
 INSERT INTO itemdisplayinfo SET
   `id` = 200119,
-  `icon_1` = 'inv_chest_mail_16v2',
+  `icon_1` = 'inv_potiond_1',
   `icon_2` = '';
 
 DELETE FROM itemdisplayinfo WHERE id = 200120;
 INSERT INTO itemdisplayinfo SET
   `id` = 200120,
-  `icon_1` = 'inv_boots_mail_11v3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200121;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200121,
-  `icon_1` = 'inv_bracer_61v2',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200122;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200122,
-  `icon_1` = 'inv_boots_mail_11v2',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200123;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200123,
-  `icon_1` = 'inv_gauntlets_102',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200124;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200124,
-  `icon_1` = 'inv_chest_leather_26',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200125;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200125,
-  `icon_1` = 'inv_boots_leather_10v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200126;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200126,
-  `icon_1` = 'inv_gauntlets_105v2',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200127;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200127,
-  `icon_1` = 'inv_pants_leather_38v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200128;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200128,
-  `icon_1` = 'inv_belt_80v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200129;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200129,
-  `icon_1` = 'inv_misc_clothscrap_02',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200130;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200130,
-  `icon_1` = 'inv_chest_cloth_84',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200131;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200131,
-  `icon_1` = 'inv_drink_waterskin_04',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200132;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200132,
-  `icon_1` = 'achievement_reputation_tuskarr',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200133;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200133,
-  `icon_1` = 'inv_helmet_176',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200134;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200134,
-  `icon_1` = 'achievement_character_orc_female',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200135;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200135,
-  `icon_1` = 'inv_boots_cloth_31v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200136;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200136,
-  `icon_1` = 'inv_chest_leather_26v2',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200137;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200137,
-  `icon_1` = 'inv_chest_cloth_84v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200138;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200138,
-  `icon_1` = 'inv_chest_mail_16v3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200139;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200139,
-  `icon_1` = 'inv_gauntlets_102v2',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200140;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200140,
-  `icon_1` = 'inv_belt_84v3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200141;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200141,
-  `icon_1` = 'inv_pants_cloth_41v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200142;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200142,
-  `icon_1` = 'inv_pants_leather_38v2',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200143;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200143,
-  `icon_1` = 'inv_belt_79v3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200144;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200144,
-  `icon_1` = 'inv_bracer_61v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200145;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200145,
-  `icon_1` = 'inv_boots_leather_10v3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200146;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200146,
-  `icon_1` = 'inv_gauntlets_105v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200147;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200147,
-  `icon_1` = 'inv_bracer_73v3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200148;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200148,
-  `icon_1` = 'inv_bracer_74v3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200149;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200149,
-  `icon_1` = 'inv_boots_mail_11v4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200150;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200150,
-  `icon_1` = 'inv_misc_potionsetc',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200151;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200151,
-  `icon_1` = 'inv_potionc_3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200152;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200152,
-  `icon_1` = 'inv_potione_1',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200153;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200153,
-  `icon_1` = 'inv_potione_5',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200154;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200154,
-  `icon_1` = 'inv_potione_2',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200155;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200155,
-  `icon_1` = 'inv_potione_6',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200156;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200156,
-  `icon_1` = 'inv_potiond_3',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200157;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200157,
-  `icon_1` = 'inv_potiond_4',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200158;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200158,
-  `icon_1` = 'inv_potiond_1',
-  `icon_2` = '';
-
-DELETE FROM itemdisplayinfo WHERE id = 200159;
-INSERT INTO itemdisplayinfo SET
-  `id` = 200159,
   `icon_1` = 'inv_misc_fortunecookie',
   `icon_2` = '';
 
+DELETE FROM itemdisplayinfo WHERE id = 201000;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201000,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_cloth_31',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = 'robe_common_a_01blue_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201001;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201001,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_pants_cloth_41v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'robe_common_a_01red_Pant_LU',
+  `lower_leg_texture` = 'robe_common_a_01red_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201002;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201002,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_belt_79v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'robe_common_a_01red_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201003;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201003,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_bracer_73v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'robe_common_a_01red_bracer_al',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201004;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201004,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_114v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'robe_common_a_01red_Glove_AL',
+  `hands_texture` = 'robe_common_a_01red_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201005;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201005,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_bracer_74v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'leather_common_a_01red_bracer_al',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201006;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201006,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_pants_mail_36v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'mail_common_a_01brown_Pant_LU',
+  `lower_leg_texture` = 'mail_common_a_01brown_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201007;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201007,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_belt_84v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'mail_common_a_01brown_belt_lu',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201008;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201008,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_102v4',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'leather_common_a_01red_Glove_AL',
+  `hands_texture` = 'leather_common_a_01red_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201009;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201009,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_leather_26v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'leather_common_a_01red_Sleeve_AU',
+  `lower_arm_texture` = 'leather_common_a_01red_Sleeve_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'leather_common_a_01red_Chest_TU',
+  `lower_torso_texture` = 'leather_common_a_01red_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201010;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201010,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_leather_08',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'Leather_B_01_Sleeve_AU',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'Leather_B_01_Chest_TU',
+  `lower_torso_texture` = 'Leather_B_01_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201011;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201011,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_cloth_31v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = 'robe_common_a_01red_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201012;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201012,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Pants_02',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Leather_B_01_Pant_LU',
+  `lower_leg_texture` = 'Leather_B_01_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201013;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201013,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_belt_05',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'leather_a_01white_belt_lu',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201014;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201014,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_belt_25',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Cloth_B_07White_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201015;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201015,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_24',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = 'Leather_B_01_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201016;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201016,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_105v3',
+  `icon_2` = '',
+  `geoset_group_1` = 2,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'mail_common_a_01gray_Glove_AL',
+  `hands_texture` = 'mail_common_a_01gray_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201017;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201017,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Pants_01',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 1,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Cloth_B_07White_Pant_LU',
+  `lower_leg_texture` = 'Cloth_B_07White_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201018;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201018,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_21',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = 'leather_b_01purple_glove_ha',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201019;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201019,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Gauntlets_16',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Cloth_B_07White_Glove_AL',
+  `hands_texture` = 'Cloth_B_07White_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201020;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201020,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_06',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'leather_b_01purple_boot_ll',
+  `foot_texture` = 'leather_b_01purple_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201021;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201021,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Bracer_07',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Cloth_B_07White_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201022;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201022,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Chest_Cloth_32',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 1,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'Robe_B_02WarmWhite_Sleeve_AU',
+  `lower_arm_texture` = 'Robe_B_02WarmWhite_Sleeve_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'Robe_B_02WarmWhite_Chest_TU',
+  `lower_torso_texture` = 'Robe_B_02WarmWhite_Chest_TL',
+  `upper_leg_texture` = 'Robe_B_02WarmWhite_Pants_LU',
+  `lower_leg_texture` = 'Robe_B_02WarmWhite_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201023;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201023,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_belt_84v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = 'mail_common_a_01green_Belt_TL',
+  `upper_leg_texture` = 'mail_common_a_01green_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201024;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201024,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_mail_16v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'mail_common_a_01brown_Sleeve_AU',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'mail_common_a_01brown_Chest_TU',
+  `lower_torso_texture` = 'mail_common_a_01brown_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201025;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201025,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_mail_11v3',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'mail_common_a_01gray_Boot_LL',
+  `foot_texture` = 'mail_common_a_01gray_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201026;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201026,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_bracer_61v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'mail_common_a_01brown_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201027;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201027,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_mail_11v2',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'mail_common_a_01brown_Boot_LL',
+  `foot_texture` = 'mail_common_a_01brown_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201028;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201028,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_chain_08',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'Mail_A_02_Sleeve_AU',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'Mail_A_02_Chest_TU',
+  `lower_torso_texture` = 'Mail_A_02_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201029;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201029,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_102',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'leather_common_a_01blue_Glove_AL',
+  `hands_texture` = 'leather_common_a_01blue_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201030;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201030,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_leather_26',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'leather_common_a_01blue_Sleeve_AU',
+  `lower_arm_texture` = 'leather_common_a_01blue_Sleeve_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'leather_common_a_01blue_Chest_TU',
+  `lower_torso_texture` = 'leather_common_a_01blue_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201031;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201031,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_leather_10v4',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'leather_common_a_01red_Boot_LL',
+  `foot_texture` = 'leather_common_a_01red_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201032;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201032,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_105v2',
+  `icon_2` = '',
+  `geoset_group_1` = 2,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'mail_common_a_01brown_Glove_AL',
+  `hands_texture` = 'mail_common_a_01brown_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201033;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201033,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_pants_leather_38v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'leather_common_a_01red_Pant_LU',
+  `lower_leg_texture` = 'leather_common_a_01red_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201034;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201034,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_belt_80v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'leather_common_a_01red_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201035;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201035,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_bracer_27b',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Mail_A_02_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201036;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201036,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Bracer_01',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Leather_B_01_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201037;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201037,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Belt_02',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'leather_a_01dark_belt_lu',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201038;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201038,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_pants_mail_05',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Mail_A_02_Pant_LU',
+  `lower_leg_texture` = 'Mail_A_02_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201039;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201039,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_pants_08',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Leather_B_01Purple_Pant_LU',
+  `lower_leg_texture` = 'Leather_B_01Purple_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201040;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201040,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_pants_07',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Leather_B_01Black_Pant_LU',
+  `lower_leg_texture` = 'Leather_B_01Black_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201041;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201041,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_cloth_84',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 1,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'robe_common_a_01blue_Sleeve_AU',
+  `lower_arm_texture` = 'robe_common_a_01blue_Sleeve_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'robe_common_a_01blue_Chest_TU',
+  `lower_torso_texture` = 'robe_common_a_01blue_Chest_TL',
+  `upper_leg_texture` = 'robe_common_a_01blue_Robe_LU',
+  `lower_leg_texture` = 'robe_common_a_01blue_Robe_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201042;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201042,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_12',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Mail_A_02_Glove_AL',
+  `hands_texture` = 'Mail_A_02_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201043;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201043,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Shirt_Black_01',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'Cloth_Horde_A_01Black_Sleeve_AU',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'Cloth_Horde_A_01Black_Chest_TU',
+  `lower_torso_texture` = 'Cloth_Horde_A_01Black_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201044;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201044,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Belt_24',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Cloth_Horde_A_01Black_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201045;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201045,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Pants_12',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Cloth_Horde_A_01Black_Pant_LU',
+  `lower_leg_texture` = 'Cloth_Horde_A_01Black_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201046;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201046,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Boots_05',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'Cloth_Horde_A_01Black_Boot_LL',
+  `foot_texture` = 'Cloth_Horde_A_01Black_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201047;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201047,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Bracer_07',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Cloth_Horde_A_01Black_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201048;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201048,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Gauntlets_27',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Cloth_Horde_A_01Black_Glove_AL',
+  `hands_texture` = 'Cloth_Horde_A_01Black_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201049;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201049,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Belt_04',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Leather_Horde_A_01Brown_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201050;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201050,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Boots_06',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'Leather_Horde_A_01Brown_Boot_LL',
+  `foot_texture` = 'Leather_Horde_A_01Brown_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201051;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201051,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Bracer_04',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Leather_Horde_A_01Brown_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201052;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201052,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Gauntlets_18',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Leather_Horde_A_01Brown_Glove_AL',
+  `hands_texture` = 'Leather_Horde_A_01Brown_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201053;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201053,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Pants_Wolf',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Leather_Horde_A_01Brown_Pant_LU',
+  `lower_leg_texture` = 'Leather_Horde_A_01Brown_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201054;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201054,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Shirt_07',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'Leather_Horde_A_01Brown_Chest_TU',
+  `lower_torso_texture` = 'Leather_Horde_A_01Brown_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201055;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201055,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Chest_Chain',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'Mail_A_02_Sleeve_AU',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'Mail_A_02_Chest_TU',
+  `lower_torso_texture` = 'Mail_A_02_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201056;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201056,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Belt_06',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Plate_A_01Black_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201057;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201057,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Boots_01',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'Mail_A_02_Boot_LL',
+  `foot_texture` = 'Mail_A_02_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201058;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201058,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Bracer_05',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Mail_A_02_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201059;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201059,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Gauntlets_04',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Mail_A_02_Glove_AL',
+  `hands_texture` = 'Mail_A_02_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201060;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201060,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Pants_03',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Mail_A_02_Pant_LU',
+  `lower_leg_texture` = 'Mail_A_02_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201061;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201061,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Belt_24',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Cloth_Horde_A_02Red_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201062;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201062,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Boots_09',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'Cloth_Horde_A_02Red_Boot_LL',
+  `foot_texture` = 'Cloth_Horde_A_02Red_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201063;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201063,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Bracer_10',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Cloth_Horde_A_02Red_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201064;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201064,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Gauntlets_23',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Cloth_Horde_A_02Red_Glove_AL',
+  `hands_texture` = 'Cloth_Horde_A_02Red_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201065;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201065,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Pants_06',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 1,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Cloth_Horde_A_02Red_Pant_LU',
+  `lower_leg_texture` = 'Cloth_Horde_A_02Red_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201066;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201066,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Shirt_07',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'Cloth_Horde_A_02Red_Sleeve_AU',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'Cloth_Horde_A_02Red_Chest_TU',
+  `lower_torso_texture` = 'Cloth_Horde_A_02Red_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201067;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201067,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Belt_03',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Leather_Horde_A_03Red_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201068;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201068,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Boots_Wolf',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'Leather_Horde_A_03Red_Boot_LL',
+  `foot_texture` = 'Leather_Horde_A_03Red_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201069;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201069,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Bracer_02',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Leather_Horde_A_03Red_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201070;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201070,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Gauntlets_18',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'Leather_Horde_A_03Red_Glove_AL',
+  `hands_texture` = 'Leather_Horde_A_03Red_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201071;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201071,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Chest_Leather_04',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'Leather_Horde_A_03Red_Sleeve_AU',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'Leather_Horde_A_03Red_Chest_TU',
+  `lower_torso_texture` = 'Leather_Horde_A_03Red_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201072;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201072,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'INV_Pants_Wolf',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 2,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'Leather_Horde_A_03Red_Pant_LU',
+  `lower_leg_texture` = 'Leather_Horde_A_03Red_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201073;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201073,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_cloth_31v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = 'robe_common_a_01green_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201074;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201074,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_leather_26v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'leather_common_a_01_Sleeve_AU',
+  `lower_arm_texture` = 'leather_common_a_01_Sleeve_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'leather_common_a_01_Chest_TU',
+  `lower_torso_texture` = 'leather_common_a_01_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201075;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201075,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_cloth_84v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 1,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'robe_common_a_01green_Sleeve_AU',
+  `lower_arm_texture` = 'robe_common_a_01green_Sleeve_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'robe_common_a_01green_Chest_TU',
+  `lower_torso_texture` = 'robe_common_a_01green_Chest_TL',
+  `upper_leg_texture` = 'robe_common_a_01green_Robe_LU',
+  `lower_leg_texture` = 'robe_common_a_01green_Robe_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201076;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201076,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_chest_mail_16v3',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'mail_common_a_01gray_Sleeve_AU',
+  `lower_arm_texture` = 'mail_common_a_01gray_Sleeve_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'mail_common_a_01gray_Chest_TU',
+  `lower_torso_texture` = 'mail_common_a_01gray_Chest_TL',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201077;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201077,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_102v2',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'leather_common_a_01_Glove_AL',
+  `hands_texture` = 'leather_common_a_01_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201078;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201078,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_belt_84v3',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'mail_common_a_01gray_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201079;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201079,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_pants_cloth_41v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'robe_common_a_01green_Pant_LU',
+  `lower_leg_texture` = 'robe_common_a_01green_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201080;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201080,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_pants_leather_38v2',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'leather_common_a_01_Pant_LU',
+  `lower_leg_texture` = 'leather_common_a_01_Pant_LL',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201081;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201081,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_belt_79v3',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'robe_common_a_01yellow_Belt_LU',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201082;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201082,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_bracer_61v4',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'mail_common_a_01green_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201083;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201083,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_leather_10v3',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'leather_common_a_01black_Boot_LL',
+  `foot_texture` = 'leather_common_a_01black_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201084;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201084,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_gauntlets_105v4',
+  `icon_2` = '',
+  `geoset_group_1` = 2,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'mail_common_a_01green_Glove_AL',
+  `hands_texture` = 'mail_common_a_01green_Glove_HA',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201085;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201085,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_bracer_73v3',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'robe_common_a_01yellow_bracer_al',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201086;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201086,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_bracer_74v3',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 7,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'leather_common_a_01black_Bracer_AL',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+DELETE FROM itemdisplayinfo WHERE id = 201087;
+INSERT INTO itemdisplayinfo SET
+  `id` = 201087,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = 'inv_boots_mail_11v4',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 10,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'mail_common_a_01green_Boot_LL',
+  `foot_texture` = 'mail_common_a_01green_Boot_FO',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
