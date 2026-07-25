@@ -353,6 +353,17 @@ def emit(ctx):
         "c.spawndist wd, a.mount, a.bytes1, a.bytes2, a.emote, a.auras, "
         "a.visibilityDistanceType vdt, a.waypointPathId wp "
         "FROM creature c LEFT JOIN creature_addon a ON a.guid = c.guid WHERE c.map = 648")
+
+    # Neltharion's OWN per-guid addon rows — authored pose/emote/mount/aura data
+    # (e.g. the KTC pool-party aftermath corpses: bytes1=7 dead + emote 65 in the
+    # post-14116 phase). Keyed to the exact source guid and phase-staged, so they
+    # beat the spatial TDB overlay for the same spawn (a phase-4 alive pirate and
+    # its phase-6144 corpse sit yards apart and would cross-match). Its
+    # distance_visibility col is a lineage-wide constant 2 (no signal) -> dropped;
+    # emitted rows use visibilityDistanceType 0.
+    nel_addons = {int(r["guid"]): r for r in ctx.q(
+        "SELECT a.guid, a.mount, a.bytes1, a.bytes2, a.emote, a.auras "
+        "FROM creature_addon a JOIN creature c ON c.guid = a.guid WHERE c.map = 648")}
     tdb_by_id = {}
     for r in tdb_rows:
         tdb_by_id.setdefault(int(r["id"]), []).append(r)
@@ -465,13 +476,15 @@ def emit(ctx):
             elif i in wander_fill:
                 mt, wd = 1, wander_fill[i]
         # per-spawn addon (sitting / emote-state / mount / aura NPCs + waypoint path link)
-        if tm is not None:
-            b1, em = int(tm["bytes1"] or 0), int(tm["emote"] or 0)
-            mount = int(tm["mount"] or 0)
+        na = nel_addons.get(int(s["guid"]))
+        src = na if na is not None else tm
+        if src is not None:
+            b1, em = int(src["bytes1"] or 0), int(src["emote"] or 0)
+            mount = int(src["mount"] or 0)
             if mount and mount not in present_disp and mount not in dbc_disp_needed:
                 mount = 0                  # Cata-only mount display we don't ship
             auras = []
-            for a in str(tm["auras"] or "").split():
+            for a in str(src["auras"] or "").split():
                 if present_spells is None:
                     present_spells = ctx.dbc_spell_ids()
                 try:
@@ -491,8 +504,8 @@ def emit(ctx):
                 n_addon += 1
                 ctx.col.add("creature_addon", {
                     "guid": g, "path_id": wp_path, "mount": mount, "bytes1": b1,
-                    "bytes2": int(tm["bytes2"] or 0), "emote": em,
-                    "visibilityDistanceType": int(tm["vdt"] or 0),
+                    "bytes2": int(src["bytes2"] or 0), "emote": em,
+                    "visibilityDistanceType": int(tm["vdt"] or 0) if src is tm else 0,
                     "auras": " ".join(auras),
                 }, sort_key=g)
         st = int(s["spawntimesecs"] or 120)
@@ -501,8 +514,12 @@ def emit(ctx):
             "guid": g, "id": int(s["id"]), "map": 1, "zoneId": 0, "areaId": 0, "spawnMask": 1,
             "phaseMask": pmask, "equipment_id": 0, "position_x": x, "position_y": y,
             "position_z": z, "orientation": o, "spawntimesecs": st, "wander_distance": wd,
-            "currentwaypoint": 0, "curhealth": 1, "curmana": 0, "MovementType": mt, "npcflag": 0,
-            "unit_flags": 0, "dynamicflags": 0, "ScriptName": "", "VerifiedBuild": 0,
+            "currentwaypoint": 0, "curhealth": 1, "curmana": 0, "MovementType": mt,
+            # per-spawn flag overrides (AC ChooseCreatureFlags: nonzero replaces the
+            # template value) — Neltharion stages corpses/decor with these, e.g. the
+            # pool-party aftermath: dynamicflags 0x20 DEAD + NOT_SELECTABLE|IMMUNE_TO_PC
+            "npcflag": int(s["npcflag"] or 0), "unit_flags": int(s["unit_flags"] or 0),
+            "dynamicflags": int(s["dynamicflags"] or 0), "ScriptName": "", "VerifiedBuild": 0,
             "CreateObject": 1, "Comment": "F-011 %s" % ("Kezan" if sfx else "Lost Isles"),
         }, sort_key=g)
 
