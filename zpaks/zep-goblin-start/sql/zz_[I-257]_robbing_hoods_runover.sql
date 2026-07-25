@@ -48,18 +48,20 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 -- Two independent rows on the same spellhit, gated differently:
 --   * row 10 (ITEM, quest-gated via the type-22 condition below): Create
 --     Stolen Loot at the driver, only while 14121 is incomplete.
---   * row 11 chain (DEATH, unconditional — retail cars are always lethal,
---     including after the quest): interrupt any cast in progress (the AUTO
---     Torch Toss row keeps firing while airborne), set PACIFIED|SILENCED
---     (0x20000|0x2000 = 139264), then delayed KillSelf at 1500ms ~ landing.
+--   * row 11 chain (STUN + DEATH, unconditional — retail cars are always
+--     lethal, including after the quest): cast 66302 on self — a real
+--     MOD_STUN aura, NOT a SET_UNIT_FLAG (the flag never calls SetStunned so
+--     it neither stuns nor blocks Torch Toss; that was the bug). The stun's
+--     SetStunned() does CastStop() + blocks new casts/melee for 2s, so no
+--     mid-air Torch Toss and no landing melee, and the client shows stun
+--     stars. Linked -> KillSelf at 1500ms ~ landing (stun 2s outlasts it).
 -- Deliberately NOT react-passive at the template level — looters still
 -- retaliate normally on the kill-and-loot path, like retail.
 DELETE FROM smart_scripts WHERE entryorguid = 35234 AND source_type = 0 AND id IN (10, 11, 12, 13);
 INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
   (35234, 0, 10, 0, 8, 0, 100, 0, 66301, 0, 6000, 6000, 11, 67041, 2, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hired Looter - On Spellhit Hot Rod Knockback - Create Stolen Loot for driver (quest-gated)'),
-  (35234, 0, 11, 12, 8, 0, 100, 0, 66301, 0, 6000, 6000, 92, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hired Looter - On Spellhit Hot Rod Knockback - Interrupt casts (no mid-air Torch Toss)'),
-  (35234, 0, 12, 13, 61, 0, 100, 0, 0, 0, 0, 0, 18, 139264, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hired Looter - Linked - Pacify and silence until death'),
-  (35234, 0, 13, 0, 61, 0, 100, 0, 0, 0, 0, 0, 37, 1500, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hired Looter - Linked - Die on landing (1.5s)');
+  (35234, 0, 11, 12, 8, 0, 100, 0, 66301, 0, 6000, 6000, 11, 66302, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hired Looter - On Spellhit Hot Rod Knockback - Stun self (no mid-air Torch Toss)'),
+  (35234, 0, 12, 0, 61, 0, 100, 0, 0, 0, 0, 0, 37, 1500, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hired Looter - Linked - Die on landing (1.5s)');
 
 -- Item creation only while 14121 is INCOMPLETE in the invoker's log (stops
 -- surplus 84466 piling up once 12/12 is reached mid-drive).

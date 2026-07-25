@@ -58,9 +58,32 @@ INSERT INTO spell SET
   effect_implicit_target_a_1 = 60,
   spell_icon_id = 3208;
 
--- Retired first-attempt carrier (spellclick-row aura): the slot stays
--- reserved for I-257 but must not exist as a spell.
+-- 66302 (I-257-reserved slot; formerly the retired spellclick carrier) is now
+-- the run-over stun: SAI-cast on the looter itself on spellhit of 66301. A
+-- real MOD_STUN aura (12) is required — SmartAI SET_UNIT_FLAG(0x40000) only
+-- flips the display bit and never calls SetStunned(), so it neither shows the
+-- stun visual nor blocks the looter's Torch Toss. MOD_STUN sets
+-- UNIT_STATE_STUNNED -> CastStop() + no new casts/melee + client stun stars.
+-- duration_index 39 = 2000ms (covers the 1500ms until the linked death);
+-- attributes 0x10 (CANT_BE_REFLECTED-adjacent unused here) omitted — keep it
+-- plain so it always lands on the lvl-5 looters (no immunities).
 DELETE FROM spell WHERE id = 66302;
+INSERT INTO spell SET
+  id = 66302,
+  spell_name_enus = 'Robbing Hoods: Run Them Over!',
+  spell_desc_enus = 'Stunned after being flattened by a Hot Rod.',
+  school_mask = 1,
+  cast_time_index = 1,
+  duration_index = 39,
+  range_index = 1,
+  proc_chance = 101,
+  equipped_item_class = -1,
+  effect_1 = 6,
+  effect_apply_aura_name_1 = 12,
+  effect_base_points_1 = 0,
+  effect_die_sides_1 = 1,
+  effect_implicit_target_a_1 = 1,
+  spell_icon_id = 3208;
 
 -- Stock-row rule: 66392/66393 are owned by the AUTO import — one consolidated
 -- UPDATE per id. eff2 = the run-over driver: aura 23, 250ms periodic, cast on
