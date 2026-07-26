@@ -25,14 +25,37 @@ item_scope[/ _K] (quest scope, for the quest-summoned GO templates).
 The source script also copies GO M2 models into the zpak MPQ folder; that asset
 step is out of scope here (this module only emits SQL/DBC).
 """
+import importlib.util
+import os
+
 NAME = "gameobjects"
 TABLES = ["gameobject_template", "gameobjectdisplayinfo", "gameobject",
           "gameobject_loot_template"]
 TIER = "base"
 
+
+def _sibling_const(modname, attr):
+    """Read a constant from a sibling gen-domain module (single source of truth)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
+    spec = importlib.util.spec_from_file_location("goblin_gen_" + modname, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return getattr(mod, attr)
+
+
+# I-234/I-261: a Cata cursor IconName the 3.3.5a client doesn't know blanks the
+# mouseover cursor (vault 195525 shipped 'openhandglow'). Same map as creatures.
+ICONNAME_MAP = _sibling_const("creatures", "ICONNAME_MAP")
+
 # Stock herb/mining nodes that already exist in AC — spawn them, but reuse AC's
 # template + loot rather than overwriting them.
 STOCK_GO = {1617, 1618, 1619, 1731}
+
+# Kezan PoolElevator GOs are type 11 (TRANSPORT) in the Cata source, but the
+# WotLK model (9135) has no TransportAnimation -> StaticTransport::Create fails
+# at grid load and they never spawn. Emit as type 5 (GENERIC static prop) so
+# they render as scenery.
+TYPE_OVERRIDE = {196837: 5, 196838: 5}
 
 # map648 (Cata Lost Isles/Kezan) -> map1 (Kalimdor) coordinate offset.
 DX, DY = -533.3333, -12800.0
@@ -61,12 +84,23 @@ def _gi(r, k, d=0):
 
 def _template_cols(e, t):
     """Build the ordered gameobject_template column dict for one GO entry."""
-    col = {"entry": e, "type": _gi(t, "type"), "displayId": _gi(t, "displayId"),
-           "name": (t["name"] or "").strip(), "IconName": (t["IconName"] or "").strip(),
+    typ = TYPE_OVERRIDE.get(e, _gi(t, "type"))
+    icon = (t["IconName"] or "").strip()
+    col = {"entry": e, "type": typ, "displayId": _gi(t, "displayId"),
+           "name": (t["name"] or "").strip(), "IconName": ICONNAME_MAP.get(icon, icon),
            "castBarCaption": (t["castBarCaption"] or "").strip(), "unk1": (t["unk1"] or "").strip(),
            "size": float(t["size"] or 1)}
     for n in range(24):
         col["Data%d" % n] = _gi(t, "data%d" % n)
+    # Gossip menu refs live in the data fields (type 2 questgiver -> Data3,
+    # type 10 goober -> Data19) and are raw Cata menu ids that collide with the
+    # stock 3.3.5 menu space (I-261: vault 195525 Data19=11013 = the stock ICC
+    # Scourge Transporter menu). Zero them here; gossip.py overlays the
+    # remapped 510xxx id for menus it ports.
+    if typ == 2:
+        col["Data3"] = 0
+    elif typ == 10:
+        col["Data19"] = 0
     col.update({"AIName": "", "ScriptName": "", "VerifiedBuild": 0})
     return col
 

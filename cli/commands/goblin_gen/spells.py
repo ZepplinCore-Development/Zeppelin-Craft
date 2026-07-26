@@ -75,6 +75,9 @@ def emit(ctx):
     stock_dur = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM spellduration")}
     stock_rng = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM spellrange")}
 
+    # Cata item id -> custom AC item id (for CREATE_ITEM EffectItemType, I-261)
+    iremap = {int(k): v for k, v in ctx.fixture("item_remap").items()}
+
     # Spell.dbc (48 fields) index by ID -> row + string reader
     ds, fcs, rss, ss, rowss = _rd(ctx.whitemane_dbc("Spell.dbc"))
     spell = {}
@@ -142,15 +145,19 @@ def emit(ctx):
         if lv:
             c["base_level"] = lv[1]; c["max_level"] = lv[2]; c["spell_level"] = lv[3]
         # effects (up to 3) — SpellEffect: Effect@1, EffectAura@3, AuraPeriod@4, BasePoints@5,
-        #   DieSides@9, Mechanic@11, MiscA@12, MiscB@13, RadiusIndex@15, RealPointsPerLevel(float)@17,
-        #   ClassMask@18-20, Trigger@21, TargetA@22, TargetB@23 (I-246: trigger/classmask were read
-        #   one field early — @17-19/@20 — silently zeroing every ported trigger spell)
+        #   DieSides@9, ItemType@10, Mechanic@11, MiscA@12, MiscB@13, RadiusIndex@15,
+        #   RealPointsPerLevel(float)@17, ClassMask@18-20, Trigger@21, TargetA@22, TargetB@23
+        #   (I-246: trigger/classmask were read one field early — @17-19/@20 — silently
+        #   zeroing every ported trigger spell)
         for idx in range(3):
             e = effects.get(sid, {}).get(idx)
             n = idx + 1
             if e:
                 c["effect_%d" % n] = e[1]; c["effect_apply_aura_name_%d" % n] = e[3]; c["effect_amplitude_%d" % n] = e[4]
                 c["effect_base_points_%d" % n] = e[5]; c["effect_die_sides_%d" % n] = max(e[9], 1)
+                # EffectItemType was never ported (I-261: 67492 'Vault Cracked!'
+                # created nothing); CREATE_ITEM item ids are Cata ids -> remap.
+                c["effect_item_type_%d" % n] = iremap.get(e[10], e[10]) if e[10] else 0
                 c["effect_mechanic_%d" % n] = e[11]; c["effect_misc_value_a_%d" % n] = e[12]; c["effect_misc_value_b_%d" % n] = e[13]
                 c["effect_radius_index_%d" % n] = e[15]; c["effect_trigger_spell_%d" % n] = e[21]
                 c["effect_implicit_target_a_%d" % n] = e[22]; c["effect_implicit_target_b_%d" % n] = e[23]

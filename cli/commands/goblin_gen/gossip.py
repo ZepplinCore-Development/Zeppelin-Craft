@@ -27,7 +27,7 @@ Ported from Scripts/Goblin Zone Port/migrate_gossip.py.
 """
 NAME = "gossip"
 TABLES = ["npc_text", "gossip_menu", "gossip_menu_option", "conditions",
-          "creature_template"]
+          "creature_template", "gameobject_template"]
 TIER = "base"
 
 TXT_BASE = 500000
@@ -83,13 +83,58 @@ def emit(ctx):
         e, gmid = _i(r["e"]), _i(r["gm"])
         if e in gob and gmid > 0:
             cre_menu[e] = gmid
-    menus = sorted(set(cre_menu.values()))
+
+    # Goober/questgiver GOs reference gossip menus from their data fields
+    # (type 2 questgiver -> Data3, type 10 goober -> Data19). Raw Cata menu ids
+    # clash with the stock 3.3.5 menu space exactly like creature menus (I-261:
+    # vault 195525 Data19=11013 = the stock ICC Scourge Transporter menu).
+    # gameobjects.py zeroes the base field; menus ported here are overlaid back
+    # as remapped 510xxx ids. Scope mirrors gameobjects.py: spawned GOs
+    # (go_scope) plus quest-objective-referenced templates (item_scope quests).
+    GO_MENU_SKIP = {
+        195525,  # First Bank of Kezan Vault: vestigial retail ref to the ICC transporter menu; click drives the heist (I-261)
+        202108,  # Mechashark X-Steam Controller: same vestigial 11013 ref
+    }
+    go_ents = set()
+    for z in ("", "_K"):
+        go_ents |= set(ctx.fixture("go_scope" + z)["ents"])
+        quests = ctx.fixture("item_scope" + z)["quests"]
+        if quests:
+            for r in q("SELECT RequiredNpcOrGo1,RequiredNpcOrGo2,RequiredNpcOrGo3,RequiredNpcOrGo4 "
+                       "FROM quest_template WHERE TRIM(Id) IN (%s)"
+                       % ",".join(str(int(x)) for x in quests)):
+                for k in ("RequiredNpcOrGo1", "RequiredNpcOrGo2",
+                          "RequiredNpcOrGo3", "RequiredNpcOrGo4"):
+                    if r[k] is not None and _i(r[k]) < 0:
+                        go_ents.add(-_i(r[k]))
+    go_menu = {}   # GO entry -> (data field, source menu id)
+    for r in q("SELECT CAST(TRIM(entry) AS SIGNED) AS e, CAST(TRIM(type) AS SIGNED) AS ty, "
+               "CAST(TRIM(data3) AS SIGNED) AS d3, CAST(TRIM(data19) AS SIGNED) AS d19 "
+               "FROM gameobject_template WHERE CAST(TRIM(type) AS SIGNED) IN (2, 10)"):
+        e = _i(r["e"])
+        if e not in go_ents or e in GO_MENU_SKIP:
+            continue
+        fld, m = ("Data3", _i(r["d3"])) if _i(r["ty"]) == 2 else ("Data19", _i(r["d19"]))
+        if m > 0:
+            go_menu[e] = (fld, m)
+
+    # Creature menus keep their historical 510xxx ids (hand overrides + the
+    # _DERIVED table reference them); GO-only menus append AFTER, so adding
+    # them never renumbers the existing remap.
+    cre_menus = sorted(set(cre_menu.values()))
+    go_only = sorted({m for _f, m in go_menu.values()} - set(cre_menus))
+    menus = cre_menus + go_only
     mset = ",".join(map(str, menus))
 
     gm = [(_i(r["e"]), _i(r["t"])) for r in
           q("SELECT CAST(TRIM(entry) AS SIGNED) AS e, CAST(TRIM(text_id) AS SIGNED) AS t "
             "FROM gossip_menu WHERE CAST(TRIM(entry) AS SIGNED) IN (%s)" % mset)]
-    textids = sorted(set(t for _e, t in gm if t > 0))
+    # Same append-only stability for npc_text ids: creature-menu texts keep
+    # their historical 500xxx ids, GO-only-menu texts append after.
+    cre_menu_set = set(cre_menus)
+    cre_textids = sorted({t for e, t in gm if t > 0 and e in cre_menu_set})
+    go_textids = sorted({t for e, t in gm if t > 0} - set(cre_textids))
+    textids = cre_textids + go_textids
     menu_remap = {m: MENU_BASE + ix for ix, m in enumerate(menus)}
     text_remap = {t: TXT_BASE + ix for ix, t in enumerate(textids)}
     # stash for later domains (smartai remaps SMART_EVENT_GOSSIP_SELECT menu ids);
@@ -154,6 +199,14 @@ def emit(ctx):
     for e, mm in cre_menu.items():
         ctx.col.put("creature_template", e, {"gossip_menu_id": menu_remap[mm]},
                     tier="overlay")
+    # repoint gossip-bearing GOs at their remapped menus (only menus that exist
+    # in the source gossip_menu; anything else stays at the zeroed base value)
+    go_existing = {e for e, _t in gm}
+    go_repointed = 0
+    for e, (fld, m) in sorted(go_menu.items()):
+        if m in go_existing:
+            ctx.col.put("gameobject_template", e, {fld: menu_remap[m]}, tier="overlay")
+            go_repointed += 1
 
     # ---- file 2: gossip conditions (type 14 greeting / 15 option) ----
     crows = q("SELECT SourceTypeOrReferenceId,SourceGroup,SourceEntry,SourceId,ElseGroup,"
@@ -217,7 +270,7 @@ def emit(ctx):
                 "ErrorType": 0, "ErrorTextId": 0, "ScriptName": "", "Comment": cm,
             })
 
-    return ("gossip: %d menus, %d npc_text, %d options, %d NPCs repointed; "
+    return ("gossip: %d menus, %d npc_text, %d options, %d NPCs + %d GOs repointed; "
             "conditions=%d (%d dropped); derived=%d menus"
-            % (len(menus), len(ntrows), len(opts), len(cre_menu),
+            % (len(menus), len(ntrows), len(opts), len(cre_menu), go_repointed,
                len(kept), dropped, len(_DERIVED)))
