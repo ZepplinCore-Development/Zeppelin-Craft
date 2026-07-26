@@ -27,18 +27,34 @@ Emitted as a SINGLE file on the LAST (_K) pass — the derived scope needs both
 zones' templates collected first, so a partial --zone run raises instead of
 emitting half coverage.
 """
+import os
+import importlib.util
+
 NAME = "smartai"
 TABLES = ["smart_scripts", "creature_template", "gameobject_template"]
 TIER = "overlay"   # AIName overlays need the template base rows collected first
 
-# 3.3.5a valid ceilings (AC 3.3.5a): SMART_EVENT ~ up to 74, SMART_ACTION up to ~135
-MAX_EVENT, MAX_ACTION = 74, 135
 
-# SMART_ACTION types whose action_param1 is a spellId. A cast/aura action referencing a
-# spell absent from Spell.dbc crashes the worldserver (NULL SpellInfo deref) when the
-# event fires — see I-230. Drop those actions at import time. Mirrors
-# zz_[I-230]_smartai_strip_missing_cast_spells.sql.
-SPELL_ACTION_TYPES = {11, 28, 75, 85, 86, 118, 134}   # 86 CROSS_CAST added (I-242: donor 98xxx ride spells)
+def _scope():
+    """Load the shared derived-spell-scope helper (single source of truth)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_spellscope.py")
+    spec = importlib.util.spec_from_file_location("goblin_gen__spellscope", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+# Scope constants live in _spellscope so this emitter and the spell port cannot
+# disagree about which actions carry a spellId or where the 3.3.5a ceilings are
+# (I-274 — they disagreed silently before, and quests paid for it).
+_SCOPE = _scope()
+MAX_EVENT, MAX_ACTION = _SCOPE.MAX_EVENT, _SCOPE.MAX_ACTION
+SPELL_ACTION_TYPES = _SCOPE.SPELL_ACTION_TYPES
+# Opcode numbering differs between the 4.3.4 source core and AC 3.3.5a — see the
+# audit in _spellscope. Rows are imported verbatim apart from these.
+ACTION_REMAP = _SCOPE.ACTION_REMAP
+ACTION_DIVERGENT = _SCOPE.ACTION_DIVERGENT
+EVENT_DIVERGENT = _SCOPE.EVENT_DIVERGENT
 
 COLS = ["entryorguid", "source_type", "id", "link", "event_type", "event_phase_mask", "event_chance",
         "event_flags", "event_param1", "event_param2", "event_param3", "event_param4", "action_type",
@@ -71,30 +87,9 @@ def _esc(v):
 
 # SMART_ACTION types that call timed action-lists; their referenced source_type-9
 # blocks are pulled in recursively rather than enumerated in a fixture.
-TAL_CALL = 80          # CALL_TIMED_ACTIONLIST: param1 = id
-TAL_RANDOM = 87        # CALL_RANDOM_TIMED_ACTIONLIST: params 1-6 = ids (0 = unused)
-TAL_RANGE = 88         # CALL_RANDOM_RANGE_TIMED_ACTIONLIST: param1..param2 = id range
-
-
-def _tal_refs(rows):
-    ids = set()
-    for r in rows:
-        at = int(float(_val(r["action_type"])))
-        if at == TAL_CALL:
-            ids.add(int(float(_val(r["action_param1"]))))
-        elif at == TAL_RANDOM:
-            for c in ("action_param1", "action_param2", "action_param3",
-                      "action_param4", "action_param5", "action_param6"):
-                v = int(float(_val(r[c])))
-                if v:
-                    ids.add(v)
-        elif at == TAL_RANGE:
-            a = int(float(_val(r["action_param1"])))
-            b = int(float(_val(r["action_param2"])))
-            if 0 < a <= b and b - a <= 200:
-                ids.update(range(a, b + 1))
-    ids.discard(0)
-    return ids
+# Defined in _spellscope so the spell-reference walk follows the same closure.
+TAL_CALL, TAL_RANDOM, TAL_RANGE = _SCOPE.TAL_CALL, _SCOPE.TAL_RANDOM, _SCOPE.TAL_RANGE
+_tal_refs = _SCOPE.tal_refs
 
 
 def emit(ctx):
@@ -103,13 +98,15 @@ def emit(ctx):
     if not getattr(ctx.col, "gossip_menu_remap", None):
         raise RuntimeError("gossip menu remap not collected — smartai needs a full "
                            "--zone both run (gossip emits on the Lost Isles pass)")
+    scope = _SCOPE
     excl = ctx.fixture("smartai_exclude")
     excl_cre, excl_go = set(excl.get("cre", [])), set(excl.get("go", []))
-    cre_scope = sorted(int(e) for e in ctx.col.pks("creature_template", owned=True)
-                       if int(e) not in excl_cre)
-    go_scope = sorted(int(e) for e in ctx.col.pks("gameobject_template", owned=True)
-                      if int(e) not in excl_go)
-    valid_spells = ctx.dbc_spell_ids()
+    cre_scope, go_scope = scope.sai_scope(ctx)
+    # I-274: the spells the port emits count as present. Previously this was the
+    # live DBC alone, so every Cata-only spell reached from SmartAI failed the
+    # check and its row was dropped — including the head rows of quest credit
+    # chains (quest 14125 "447" lost all four objectives this way).
+    valid_spells = ctx.dbc_spell_ids() | scope.ported(ctx)
     iremap = {int(k): v for k, v in ctx.fixture("item_remap").items()}
     # gossip.py (base tier, same gen run via contributor closure) stashes its
     # source->510xxx menu renumbering here for event 62 params.
@@ -118,6 +115,9 @@ def emit(ctx):
     rows_by_key = {}
     skipped = 0
     spell_skipped = 0
+    spell_drops = {}      # spellId -> [(source_type, entryorguid, row id)] (I-274)
+    opcode_drops = []     # rows refused for a divergent source opcode (I-274)
+    remapped = {}         # source action id -> count rewritten to AC's number
 
     def fetch(source_type, entry):
         return ctx.q("SELECT * FROM smart_scripts WHERE source_type=%s AND entryorguid=%s ORDER BY id",
@@ -144,8 +144,30 @@ def emit(ctx):
             if et > MAX_EVENT or at > MAX_ACTION:
                 skipped += 1; continue
             if at in SPELL_ACTION_TYPES and int(float(_val(r["action_param1"]))) not in valid_spells:
-                spell_skipped += 1; continue   # I-230: unported spell -> NULL SpellInfo crash on fire
+                # I-230: unported spell -> NULL SpellInfo crash on fire. This
+                # emit-time filter is the ONLY guard now; the hand-authored
+                # zz_[I-230]_smartai_strip_missing_cast_spells.sql override was
+                # retired in I-274 — it was a frozen snapshot that had started
+                # deleting 91 rows whose spells the derived port now ships.
+                # I-274: record WHAT was dropped, not just how many. A dropped
+                # row is often the head of a quest credit chain, and a bare
+                # counter made that invisible for the whole life of the port.
+                spell_skipped += 1
+                spell_drops.setdefault(int(float(_val(r["action_param1"]))), []).append(
+                    (source_type, entry, int(float(_val(r["id"])))))
+                continue
+            # I-274: opcode numbers are NOT identical across the two cores. An id
+            # that means something else in AC must never be trusted through; one
+            # that only moved gets rewritten to AC's number.
+            if at in ACTION_DIVERGENT or et in EVENT_DIVERGENT:
+                opcode_drops.append((source_type, entry, int(float(_val(r["id"]))),
+                                     ACTION_DIVERGENT.get(at) or EVENT_DIVERGENT.get(et)))
+                skipped += 1
+                continue
             remap_refs(r, et, at)
+            if at in ACTION_REMAP:
+                r["action_type"] = ACTION_REMAP[at]
+                remapped[at] = remapped.get(at, 0) + 1
             out.append(r)
         if out:
             rows_by_key[(source_type, entry)] = out
@@ -269,11 +291,60 @@ def emit(ctx):
             ctx.col.add("smart_scripts",
                         {c2: ctx.col.Raw(_esc(r[c2])) for c2 in COLS})
     tal = sorted(set(e for (st, e) in rows_by_key if st == 9))
+
+    # --- dropped-row report (I-274) ------------------------------------------
+    # Two failure shapes a bare skip counter used to hide:
+    #   * an entry that lost EVERY row -> an inert creature/GO (the three quest
+    #     447 goobers);
+    #   * a surviving SMART_EVENT_LINK (61) whose head row was dropped -> a
+    #     chain that can never start, which is how the Gasbot control panel's
+    #     gossip option became a no-op.
+    drop_lines = []
+    if remapped:
+        drop_lines.append("  opcode remap (source -> AC): "
+                          + ", ".join("%d->%d x%d" % (a, ACTION_REMAP[a], n)
+                                      for a, n in sorted(remapped.items())))
+    for (st, e, rid, why) in opcode_drops:
+        drop_lines.append("    WARN %s %d row %d refused: divergent opcode — %s"
+                          % ("GO" if st == 1 else "creature" if st == 0 else "actionlist",
+                             e, rid, why))
+    if spell_drops:
+        dropped_entries = {}
+        for sid, sites in spell_drops.items():
+            for (st, e, _rid) in sites:
+                dropped_entries.setdefault((st, e), set()).add(sid)
+        lost_all = sorted(k for k in dropped_entries if k not in rows_by_key)
+        orphan_links = []
+        for (st, e), rws in sorted(rows_by_key.items()):
+            if (st, e) not in dropped_entries:
+                continue
+            ids = {int(float(_val(r["id"]))) for r in rws}
+            for r in rws:
+                if int(float(_val(r["event_type"]))) == 61:
+                    # a link row is only reachable if some surviving row links to it
+                    rid = int(float(_val(r["id"])))
+                    if not any(int(float(_val(o["link"]))) == rid for o in rws):
+                        orphan_links.append((st, e, rid))
+            del ids
+        drop_lines.append("  %d row(s) dropped for %d unportable spell(s): %s"
+                          % (spell_skipped, len(spell_drops),
+                             ", ".join(str(s) for s in sorted(spell_drops))))
+        for (st, e) in lost_all:
+            drop_lines.append("    WARN %s %d lost ALL SmartAI (spell%s %s) — inert"
+                              % ("GO" if st == 1 else "creature" if st == 0 else "actionlist",
+                                 e, "s" if len(dropped_entries[(st, e)]) > 1 else "",
+                                 ", ".join(str(s) for s in sorted(dropped_entries[(st, e)]))))
+        for (st, e, rid) in orphan_links:
+            drop_lines.append("    WARN %s %d row %d is a LINK with no surviving head — "
+                              "chain cannot start"
+                              % ("GO" if st == 1 else "creature", e, rid))
+
     return ("scope cre=%d go=%d (excluded cre=%d go=%d) -> blocks=%d rows=%d "
             "[cre=%d go=%d tal=%d] skipped(type)=%d skipped(spell)=%d "
-            "spellcast: covered=%d added=%d%s" % (
+            "spellcast: covered=%d added=%d%s%s" % (
                 len(cre_scope), len(go_scope), len(excl_cre), len(excl_go),
                 len(rows_by_key), sum(len(v) for v in rows_by_key.values()),
                 len(cre), len(go), len(tal), skipped, spell_skipped,
                 sc_covered, sc_added,
+                "".join("\n" + line for line in drop_lines),
                 "".join("\n  WARN " + w for w in sc_warns)))

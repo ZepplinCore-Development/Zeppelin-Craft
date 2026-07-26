@@ -26,11 +26,22 @@ Per-zone dedup: rows are emitted for creatures whose collected base zone matches
 the current pass (col.pks(zone=...)), plus zone-less rows (summon-only creatures,
 added on the Lost Isles pass) — each creature is processed exactly once per run.
 """
+import os
 import struct
+import importlib.util
 
 NAME = "vehicles"
 TABLES = ["vehicle", "vehicleseat", "creature_template_spell"]
 TIER = "overlay"
+
+
+def _sibling(modname):
+    """Load a sibling gen module (domains are file-loaded, not a package)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
+    spec = importlib.util.spec_from_file_location("goblin_gen_" + modname, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 WOTLK_SEAT_FIELDS = 58   # 3.3.5a VehicleSeat.dbc field count (Cata appends 8 more)
 
@@ -129,9 +140,11 @@ def emit(ctx):
 
     # ---- vehicle action bars (creature_template_spell) ----
     # A spell only goes on the bar if 3.3.5a will actually have it: stock DBC or
-    # the ported missing_spells set (deterministic — never the mutable live db).
+    # the ported Cata set (deterministic — never the mutable live db). I-274: the
+    # ported set is derived + validated by _spellscope rather than read from the
+    # hand-curated missing_spells fixture, which it now folds in.
     present = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM spell")}
-    present |= set(ctx.fixture("missing_spells"))
+    present |= _sibling("_spellscope").ported(ctx)
 
     bar_entries = sorted(veh_by_entry)
     ph = ",".join(["%s"] * len(bar_entries))

@@ -43,10 +43,13 @@ _COND_COLS = ("SourceTypeOrReferenceId", "SourceGroup", "SourceEntry", "SourceId
 def emit(ctx):
     sfx = ctx.sfx
     zone = ZONE[sfx]
-    # live DBC (catches [I-xxx] clones like 66306) UNION the missing_spells port
-    # set — a fixture spell generated this very run isn't applied to live yet, and
-    # its click row must not silently drop on a fresh regen (I-242: 34840/66392).
-    present = ctx.dbc_spell_ids() | set(ctx.fixture("missing_spells"))
+    # live DBC (catches [I-xxx] clones like 66306) UNION the ported Cata spell set
+    # — a spell generated this very run isn't applied to live yet, and its click
+    # row must not silently drop on a fresh regen (I-242: 34840/66392).
+    # I-274: that set is now derived + validated by _spellscope rather than read
+    # from the hand-curated missing_spells fixture (which it still folds in), so
+    # it can only be a superset of the old behaviour.
+    present = ctx.dbc_spell_ids() | _sibling("_spellscope").ported(ctx)
 
     zone_ids = {int(r["id"]) for r in
                 ctx.q("SELECT DISTINCT TRIM(id) AS id FROM creature WHERE TRIM(zone)=%s"

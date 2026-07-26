@@ -88,6 +88,9 @@ TABLES = {
     "gameobject":                 dict(order=41, kind="B", dest="sql"),
     "creature_addon":             dict(order=42, kind="B", dest="sql"),
     "waypoint_data":              dict(order=43, kind="B", dest="sql"),
+    # SmartAI escort paths (SmartWaypointMgr) — a DIFFERENT table from waypoint_data,
+    # which only feeds creature MovementType=2 (I-274).
+    "waypoints":                  dict(order=44, kind="B", dest="sql"),
     "creature_queststarter":      dict(order=45, kind="B", dest="sql"),
     "creature_questender":        dict(order=46, kind="B", dest="sql"),
     "creature_loot_template":     dict(order=50, kind="B", dest="sql"),

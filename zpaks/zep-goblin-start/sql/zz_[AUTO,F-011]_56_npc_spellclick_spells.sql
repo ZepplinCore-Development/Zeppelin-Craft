@@ -9,15 +9,23 @@
 
 -- F-011 npc_spellclick_spells (one file per table; rows carry final state)
 
-DELETE FROM npc_spellclick_spells WHERE npc_entry IN (34840,35995,38802,39039,39592);
+DELETE FROM npc_spellclick_spells WHERE npc_entry IN (34840,35486,35995,38111,38412,38526,38802,39039,39456,39592,44578,44579,44580);
 DELETE FROM npc_spellclick_spells WHERE npc_entry IN (34830,35999,37179,48526,48721,75106);
 
 INSERT INTO npc_spellclick_spells (`npc_entry`, `spell_id`, `cast_flags`, `user_type`) VALUES
   (34840, 66392, 1, 0),
+  (35486, 67476, 1, 0),
   (35995, 46598, 1, 0),
+  (38111, 66727, 1, 0),
+  (38412, 83142, 1, 0),
+  (38526, 72240, 1, 0),
   (38802, 72971, 0, 0),
   (39039, 46598, 1, 0),
+  (39456, 73947, 1, 0),
   (39592, 56685, 1, 0),
+  (44578, 83142, 1, 0),
+  (44579, 83142, 1, 0),
+  (44580, 83142, 1, 0),
   (34830, 66306, 1, 0),
   (35999, 46598, 0, 0),
   (37179, 70016, 1, 0),

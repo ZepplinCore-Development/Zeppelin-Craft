@@ -1,23 +1,49 @@
 """gen domain: spells.
 
-Port the Cata-new quest-item spells (missing_spells fixture) from the extracted
-Whitemane 4.3.4 DBCs into the 3.3.5a `spell` table. Assembles Spell.dbc (48-field)
-+ SpellEffect (by SpellID) + sub-tables (by ref ID). Cast/duration/range pass the
-real Cata index through when stock 3.3.5a has that row (shared tables), else fall
-back to safe defaults; name/desc/effects/school are real. Ported from
+Port the Cata spells the F-011 port needs from the extracted Whitemane 4.3.4
+DBCs into the 3.3.5a `spell` table. Assembles Spell.dbc (48-field) + SpellEffect
+(by SpellID) + sub-tables (by ref ID). Cast/duration/range pass the real Cata
+index through when stock 3.3.5a has that row (shared tables), else fall back to
+safe defaults; name/desc/effects/school are real. Ported from
 Scripts/Goblin Zone Port/build_spells.py.
 
 Rows feed the collector's `spell` table (one file, zone-independent set).
 
-NOTE: an earlier attempt to also port creature *ability* spells was reverted (boot
-crash at SpellInfo load, I-230); this emitter only ports the quest-item spells in
-the missing_spells fixture, reproducing the current committed base state.
+SCOPE IS DERIVED, NOT CURATED (I-274). The set comes from _spellscope.required()
+— every spell the port actually references (SmartAI cast/aura actions, spellclick
+rows, quest RequiredSpellCast objectives) plus the transitive closure over
+effect_trigger_spell — validated against the four ceilings the core ASSERTs on in
+SpellMgr::LoadSpellInfoCustomAttributes. The `missing_spells` fixture is now just
+an explicit ADDITIONS list folded into that derivation.
+
+The old behaviour was to port only the fixture's hand-listed ids, which meant a
+spell reached solely from SmartAI was never ported and smartai.py then silently
+dropped the row referencing it — killing quest credit chains with no error
+anywhere (I-274). The earlier wide-port attempt (I-230) crashed at boot because
+this emitter copied Effect / ApplyAuraName / TargetA / TargetB straight through
+unchecked while carefully guarding cast/duration/range; _spellscope now applies
+the checks it was missing, per effect, so a Cata-only aura on one effect no
+longer costs the whole spell.
+
+Emitted on the LAST (_K) pass: the derived scope needs both zones' templates
+collected before the reference walk can see them.
 """
+import os
 import struct
+import importlib.util
 
 NAME = "spells"
 TABLES = ["spell", "conditions"]
 TIER = "base"
+
+
+def _scope():
+    """Load the shared derived-spell-scope helper (single source of truth)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_spellscope.py")
+    spec = importlib.util.spec_from_file_location("goblin_gen__spellscope", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 # conditions column order (mirrors spellclick.py's type-18 port)
 _COND_COLS = ("SourceTypeOrReferenceId", "SourceGroup", "SourceEntry", "SourceId",
@@ -62,9 +88,11 @@ def _rd(path):
 
 
 def emit(ctx):
-    if ctx.sfx:
-        return "skipped (zone-independent; emitted on Lost Isles pass)"
-    missing = set(ctx.fixture("missing_spells"))
+    if not ctx.sfx:
+        return "deferred (derived scope needs both zones' templates; emitted on the _K pass)"
+    scope = _scope()
+    port_map, dropped_effects, rejected = scope.analyse(ctx)
+    missing = set(port_map)
 
     # Cast/duration/range index tables are shared WotLK<->Cata; pass the REAL Cata
     # index through whenever stock 3.3.5a has that row, so e.g. a ride-vehicle aura
@@ -152,7 +180,11 @@ def emit(ctx):
         for idx in range(3):
             e = effects.get(sid, {}).get(idx)
             n = idx + 1
-            if e:
+            # I-274: emit only effects 3.3.5a can represent. An effect carrying a
+            # Cata-only aura/target/effect id would trip the SpellInfo load ASSERT
+            # and take the worldserver down at boot, so it is left zeroed rather
+            # than costing us the whole spell.
+            if e and idx in port_map.get(sid, set()):
                 c["effect_%d" % n] = e[1]; c["effect_apply_aura_name_%d" % n] = e[3]; c["effect_amplitude_%d" % n] = e[4]
                 c["effect_base_points_%d" % n] = e[5]; c["effect_die_sides_%d" % n] = max(e[9], 1)
                 # EffectItemType was never ported (I-261: 67492 'Vault Cracked!'
@@ -186,4 +218,30 @@ def emit(ctx):
             else:
                 row[col] = int(v or 0)
         ctx.col.add("conditions", row)
-    return "spells=%d target_conditions=%d" % (len(sql_rows), len(crows))
+
+    # --- report (I-274) -------------------------------------------------------
+    # A spell the port needs but cannot have is a broken quest waiting to be
+    # found. Print every refusal with its reason and the reference site that
+    # wanted it — never a bare counter.
+    reasons = scope.required(ctx)
+    out = ["spells=%d target_conditions=%d" % (len(sql_rows), len(crows))]
+    if dropped_effects:
+        out.append("  %d spell(s) ship with an effect omitted (unrepresentable in 3.3.5a):"
+                   % len(dropped_effects))
+        for sid in sorted(dropped_effects):
+            for idx in sorted(dropped_effects[sid]):
+                out.append("    spell %d effect %d: %s"
+                           % (sid, idx + 1, "; ".join(dropped_effects[sid][idx])))
+    if rejected:
+        out.append("  %d spell(s) REJECTED — anything referencing these stays broken:"
+                   % len(rejected))
+        for sid in sorted(rejected):
+            why = "; ".join(rejected[sid])
+            wanted = ", ".join(sorted(reasons.get(sid, ()))[:3]) or "unknown"
+            out.append("    spell %d: %s  [wanted by: %s]" % (sid, why, wanted))
+    unc = scope.uncovered(ctx)
+    if unc:
+        out.append("  note: %d creature ability spell(s) referenced by "
+                   "creature_template_spell are not walked by the reference derivation "
+                   "yet (see _spellscope.uncovered)." % len(unc))
+    return "\n".join(out)
