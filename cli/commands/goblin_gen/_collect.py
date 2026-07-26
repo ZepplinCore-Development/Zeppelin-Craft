@@ -103,6 +103,8 @@ TABLES = {
     "trainer":                    dict(order=58, kind="B", dest="sql"),
     "trainer_spell":              dict(order=59, kind="B", dest="sql"),
     "spell_script_names":         dict(order=60, kind="B", dest="sql"),
+    # TARGET_DEST_DB destinations for the ported spells (I-275).
+    "spell_target_position":      dict(order=61, kind="B", dest="sql"),
     "smart_scripts":              dict(order=65, kind="B", dest="sql"),
     "conditions":                 dict(order=70, kind="B", dest="sql"),
     "phase_definitions":          dict(order=90, kind="C", dest="sql", tag="AUTO,F-194"),

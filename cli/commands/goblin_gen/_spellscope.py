@@ -44,10 +44,13 @@ SCOPE (deliberately bounded)
 ----------------------------
 Reference sites walked: SmartAI cast/aura actions on owned creature/GO
 templates (plus their timed-actionlist closure), `npc_spellclick_spells` on
-owned creatures, and `quest_template.RequiredSpellCast*` on ported quests —
-i.e. the sites where a missing spell silently breaks a quest. Creature ability
-spells (`creature_template_spell`) are NOT walked yet; `uncovered()` counts
-them so the remaining gap is visible rather than assumed absent.
+owned creatures, `quest_template.RequiredSpellCast*` on ported quests, and the
+spell ids GO templates cast out of their own data fields (I-275: the Life
+Savings boarding mortar, a type-22 SPELLCASTER, was a dead click because its
+Data0 spell reached no reference site) — i.e. the sites where a missing spell
+silently breaks a quest. Creature ability spells (`creature_template_spell`)
+are NOT walked yet; `uncovered()` counts them so the remaining gap is visible
+rather than assumed absent.
 
 The `missing_spells` fixture survives as an explicit ADDITIONS list (things no
 reference site can reach, e.g. hand-authored substitutes), unioned in by
@@ -112,6 +115,26 @@ TOTAL_SPELL_TARGETS = 111
 E_EFFECT, E_AURA, E_RADIUS = 1, 3, 15
 E_TRIGGER, E_TARGET_A, E_TARGET_B = 21, 22, 23
 E_SPELLID, E_INDEX = 24, 25
+
+# --- GO templates that cast a spell out of their own data fields (I-275) ---
+# gameobjects.py copies Cata Data0-23 through verbatim, so the reference ships;
+# nothing used to tell this walk the spell was needed. A type-22 SPELLCASTER
+# whose Data0 spell is absent is the only one AC reports (ObjectMgr.cpp:8040
+# CheckGOSpellId, its single call site) — the type-10 goobers fail silently.
+# Field indices are AC 3.3.5a's GameObjectTemplate union (GameObjectData.h);
+# the Cata source agrees on every index listed here.
+GO_SPELL_FIELDS = {
+    6:  ("Data3",),             # trap.spellId
+    10: ("Data10",),            # goober.spellId
+    18: ("Data1", "Data4"),     # summoningRitual.spellId / .casterTargetSpell
+    22: ("Data0",),             # spellcaster.spellId
+}
+
+# TARGET_DEST_DB — the implicit target that reads its destination from the world
+# DB table `spell_target_position` (SpellMgr.cpp:1561). A spell using it without
+# a destination row lands the caster nowhere, so the scope treats a missing
+# destination as an unrepresentable effect rather than shipping a silent no-op.
+TARGET_DEST_DB = 17
 
 
 def _val(v):
@@ -296,7 +319,17 @@ def _spell_refs(ctx):
             for n in (1, 2, 3, 4):
                 note(_num(r["RequiredSpellCast%d" % n]), "quest %d objective" % _num(r["Id"]))
 
-    # 4. explicit additions the reference walk cannot reach
+    # 4. gameobject templates that cast a spell out of their data fields (I-275).
+    #    Read from the COLLECTOR, not the source DB, so the walk sees the row the
+    #    port will actually emit — gameobjects.py rewrites `type` for some entries
+    #    (TYPE_OVERRIDE) and zeroes gossip ids, and a spell reference derived from
+    #    a template we do not ship would be a phantom requirement.
+    for e in sorted(int(x) for x in ctx.col.pks("gameobject_template", owned=True)):
+        row = ctx.col.get("gameobject_template", e) or {}
+        for f in GO_SPELL_FIELDS.get(_num(row.get("type", 0)), ()):
+            note(_num(row.get(f, 0)), "GO %d %s (type %d)" % (e, f, _num(row.get("type", 0))))
+
+    # 5. explicit additions the reference walk cannot reach
     for sid in ctx.fixture("missing_spells"):
         note(int(sid), "missing_spells fixture")
     return refs
@@ -324,6 +357,39 @@ def whitemane_spells(ctx):
         eff.setdefault(r[E_SPELLID], {})[r[E_INDEX]] = r
     ctx.col._spellscope_wm = (have, eff)
     return have, eff
+
+
+SRC_MAP, DST_MAP = 648, 1
+DX, DY = -533.3333, -12800.0   # map648 -> map1 offset (mirrors gameobjects.py)
+
+
+def dest_positions(ctx):
+    """{spell_id: {effect_index: dict(MapID, PositionX/Y/Z, Orientation)}}.
+
+    Destinations for TARGET_DEST_DB effects. TDB 4.3.4 is the only source we hold
+    that carries `spell_target_position` at all — the Neltharion dump has no such
+    table, and the GOs whose spells it would cover are driven there by C++ scripts
+    that are not in its source tree. Rows on map 648 are translated to map 1 with
+    the same offset the spawn emitters apply; rows on any other map pass through.
+
+    The whole table is read once (a few thousand rows) rather than filtered by the
+    required set, so this stays free of the required() -> analyse() cycle.
+    """
+    cached = getattr(ctx.col, "_spellscope_dest", None)
+    if cached is not None:
+        return cached
+    out = {}
+    for r in ctx.tdb_q("SELECT ID, EffectIndex, MapID, PositionX, PositionY, "
+                       "PositionZ, Orientation FROM spell_target_position"):
+        m = _num(r["MapID"])
+        x, y = float(r["PositionX"]), float(r["PositionY"])
+        if m == SRC_MAP:
+            m, x, y = DST_MAP, x + DX, y + DY
+        out.setdefault(_num(r["ID"]), {})[_num(r["EffectIndex"])] = dict(
+            MapID=m, PositionX=x, PositionY=y,
+            PositionZ=float(r["PositionZ"]), Orientation=float(r["Orientation"]))
+    ctx.col._spellscope_dest = out
+    return out
 
 
 def stock_spell_ids(ctx):
@@ -418,7 +484,7 @@ def _build_required(ctx):
     return {s: r for s, r in refs.items() if s not in stock}
 
 
-def _problems(ctx, sid, stock_radius):
+def _problems(ctx, sid, stock_radius, dests):
     """Per-effect representability problems for one spell.
 
     Returns (usable_effect_indices, {effect_index: [reason]}, [spell_level reason]).
@@ -432,6 +498,12 @@ def _problems(ctx, sid, stock_radius):
     usable, bad = set(), {}
     for idx, e in effects.items():
         why = []
+        # I-275: TARGET_DEST_DB reads its destination from `spell_target_position`.
+        # Shipping the effect without one gives a spell that fires the caster
+        # nowhere — a silent no-op, exactly what this walk exists to prevent.
+        if TARGET_DEST_DB in (e[E_TARGET_A], e[E_TARGET_B]) and idx not in dests.get(sid, {}):
+            why.append("TARGET_DEST_DB but no spell_target_position row for effect "
+                       "%d in any held source" % (idx + 1))
         if e[E_EFFECT] >= TOTAL_SPELL_EFFECTS:
             why.append("Effect %d >= %d" % (e[E_EFFECT], TOTAL_SPELL_EFFECTS))
         if e[E_AURA] >= TOTAL_AURAS:
@@ -469,9 +541,10 @@ def analyse(ctx):
 
 def _build_analysis(ctx):
     stock_radius = _stock_radius(ctx)
+    dests = dest_positions(ctx)
     ported, dropped, rejected = {}, {}, {}
     for sid in sorted(required(ctx)):
-        usable, bad, fatal = _problems(ctx, sid, stock_radius)
+        usable, bad, fatal = _problems(ctx, sid, stock_radius, dests)
         if fatal:
             rejected[sid] = fatal
             continue

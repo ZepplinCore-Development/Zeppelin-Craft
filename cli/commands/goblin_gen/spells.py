@@ -33,7 +33,7 @@ import struct
 import importlib.util
 
 NAME = "spells"
-TABLES = ["spell", "conditions"]
+TABLES = ["spell", "conditions", "spell_target_position"]
 TIER = "base"
 
 
@@ -219,12 +219,33 @@ def emit(ctx):
                 row[col] = int(v or 0)
         ctx.col.add("conditions", row)
 
+    # world-side: TARGET_DEST_DB destinations (I-275). Effects using implicit target
+    # 17 read where to put the caster from `spell_target_position`; without the row
+    # the spell fires him nowhere. _spellscope rejects any spell whose only usable
+    # effects need a destination it cannot resolve, so every id reaching here has one.
+    dests = scope.dest_positions(ctx)
+    dest_rows = []
+    for sid in sorted(port_map):
+        for idx in sorted(port_map[sid]):
+            e = effects.get(sid, {}).get(idx)
+            if not e or scope.TARGET_DEST_DB not in (e[22], e[23]):
+                continue
+            d = dests.get(sid, {}).get(idx)
+            if d:
+                dest_rows.append(dict(ID=sid, EffectIndex=idx, **d))
+    if dest_rows:
+        ctx.col.delete("spell_target_position",
+                       "ID IN (%s)" % ",".join(str(s) for s in sorted({r["ID"] for r in dest_rows})))
+        for r in dest_rows:
+            ctx.col.add("spell_target_position", r, sort_key=(r["ID"], r["EffectIndex"]))
+
     # --- report (I-274) -------------------------------------------------------
     # A spell the port needs but cannot have is a broken quest waiting to be
     # found. Print every refusal with its reason and the reference site that
     # wanted it — never a bare counter.
     reasons = scope.required(ctx)
-    out = ["spells=%d target_conditions=%d" % (len(sql_rows), len(crows))]
+    out = ["spells=%d target_conditions=%d dest_positions=%d"
+           % (len(sql_rows), len(crows), len(dest_rows))]
     if dropped_effects:
         out.append("  %d spell(s) ship with an effect omitted (unrepresentable in 3.3.5a):"
                    % len(dropped_effects))
