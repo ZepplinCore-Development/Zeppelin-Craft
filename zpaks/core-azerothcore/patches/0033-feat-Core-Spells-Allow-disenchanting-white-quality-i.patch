@@ -1,4 +1,4 @@
-From 18383159733b4bb80ea0d769538befd983bb56e0 Mon Sep 17 00:00:00 2001
+From 557ad9bd23cf439c6c7c86158a941b129f90983c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Mon, 13 Jul 2026 11:28:14 +0000
 Subject: [PATCH] feat(Core/Spells): Allow disenchanting white-quality items
