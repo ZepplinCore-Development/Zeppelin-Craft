@@ -242,9 +242,19 @@ end
 
 local lastChildern, numChildren = 0, 0
 local function findChatBubbles(...)
-	for i = lastChildern + 1, numChildren do
+	-- I-278: scan from 1, not from lastChildern + 1.
+	-- lastChildern tracks the last observed WorldFrame CHILD COUNT, not a stable
+	-- high-water mark of scanned frames. WorldFrame children are transient: chat
+	-- bubbles and nameplates are added and removed constantly, so the count goes
+	-- both up and down. Once it drops, any new bubble that lands at an index at
+	-- or below the previous count was never scanned, never skinned, and -- because
+	-- SkinBubble is what re-adds a visible backdrop after wiping the frame's
+	-- textures -- rendered as nothing at all. That is why NPC RP lines appeared in
+	-- the chat log with no bubble above the speaker.
+	-- The isSkinnedElvUI guard already makes rescanning cheap and idempotent.
+	for i = 1, numChildren do
 		local frame = select(i, ...)
-		if not frame.isSkinnedElvUI and M:IsChatBubble(frame) then
+		if frame and not frame.isSkinnedElvUI and M:IsChatBubble(frame) then
 			M:SkinBubble(frame)
 		end
 	end
