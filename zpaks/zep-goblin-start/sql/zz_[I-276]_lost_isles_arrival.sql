@@ -278,17 +278,35 @@ UPDATE `quest_template_addon` SET `PrevQuestID` = 0 WHERE `ID` = 14474;
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 14474;
 
 
--- ---- 5. The goblin cinematic — MOVED TO I-280 ---------------------------
--- Gallywix used to fire SMART_ACTION_PLAYMOVIE (68) for movie 22 on this same
--- event. The trigger chain is proven -- pointing it at movie 14 plays Wrathgate
--- correctly on hand-in -- but nothing we can build for movie 22 actually plays,
--- so it is stripped from here and tracked on its own. See I-280 for the file
--- format, the muxer finding and the parked state, and I-279 for the client's
--- hardcoded 1024/800 resolution ceiling.
+-- ---- 5. The goblin cinematic ---------------------------------------------
+-- SMART_ACTION_PLAYMOVIE (68), param1 = Movie.dbc id 22 = the goblin cinematic,
+-- fired alongside the teleport so the world loads behind the video -- which is
+-- how Blizzard sequences zone-transition movies.
 --
--- Row id 1 is removed; id 2 below (taking the Keys to the Hot Rod) stays, since
--- that is transition behaviour and works.
+-- This is shipped deliberately even though the video does not currently play.
+-- The trigger chain is PROVEN: pointing this same action at movie 14 plays
+-- Wrathgate correctly on hand-in, so the event, the invoker and
+-- Player::SendMovieStart all work. What is missing is only a file the client
+-- accepts -- see I-280, where the format is documented and the blocker is the
+-- AVI muxer rather than the codec. SendMovieStart for a movie the client cannot
+-- render is inert, so wiring it now costs nothing and means the cinematic simply
+-- starts working the day a playable file lands, with no change needed here.
+-- Client resolution ceiling tracked separately as I-279.
+--
+-- Event **20 SMART_EVENT_REWARD_QUEST**, param1 = 14126. NOT event 50
+-- SMART_EVENT_QUEST_REWARDED, which takes no quest id and is absent from
+-- SmartAIMgr::EventHasInvoker() (SmartScriptMgr.cpp:398) -- an ACTION_INVOKER
+-- action on it is refused outright at load.
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 35222 AND `source_type` = 0 AND `id` IN (1, 2);
+INSERT INTO `smart_scripts`
+  (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`,
+   `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`,
+   `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`,
+   `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`,
+   `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`)
+VALUES
+  (35222, 0, 1, 0, 20, 0, 100, 0, 14126, 0, 0, 0, 68, 22, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0,
+   'Trade Prince Gallywix - On Reward Quest Life Savings - Play the goblin cinematic (I-276/I-280)');
 
 
 -- ---- 5b. Gallywix takes the Keys to the Hot Rod --------------------------
