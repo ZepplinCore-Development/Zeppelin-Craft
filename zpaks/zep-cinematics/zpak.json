@@ -2,7 +2,7 @@
   "$schema": "../../schemas/zpak.schema.json",
   "name": "zep-cinematics",
   "version": "0.1.0",
-  "description": "Pre-rendered cinematics the 3.3.5a client does not ship (F-011 goblin intro). DISABLED - no file we can produce actually plays; see I-280.",
+  "description": "F-200 Retroported and unscaled cinematics \u2014 video the 3.3.5a client does not ship. Disabled until a playable file exists (I-280); resolution ceiling tracked as I-279.",
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-X",
