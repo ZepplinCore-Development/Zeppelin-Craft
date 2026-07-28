@@ -278,29 +278,29 @@ UPDATE `quest_template_addon` SET `PrevQuestID` = 0 WHERE `ID` = 14474;
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 14474;
 
 
--- ---- 5. The goblin cinematic --------------------------------------------
--- SMART_ACTION_PLAYMOVIE (68), param1 = Movie.dbc id 22 = the goblin cinematic.
--- Fires alongside the RewardSpell teleport -- the world loads behind the video,
--- which is how Blizzard sequences zone-transition movies.
+-- ---- 5. The goblin cinematic — MOVED TO I-280 ---------------------------
+-- Gallywix used to fire SMART_ACTION_PLAYMOVIE (68) for movie 22 on this same
+-- event. The trigger chain is proven -- pointing it at movie 14 plays Wrathgate
+-- correctly on hand-in -- but nothing we can build for movie 22 actually plays,
+-- so it is stripped from here and tracked on its own. See I-280 for the file
+-- format, the muxer finding and the parked state, and I-279 for the client's
+-- hardcoded 1024/800 resolution ceiling.
 --
--- The trigger chain is PROVEN. Pointing this action at movie 14 (Wrathgate) --
--- the one cinematic the 3.3.5a client definitely ships a working file for --
--- played it correctly on hand-in. So the event, the invoker, SendMovieStart and
--- the client's movie handling are all fine, and any remaining failure of movie
--- 22 is the goblin FILE alone (codec, filename or location). Reverted to 22.
---
--- Event **20 SMART_EVENT_REWARD_QUEST**, param1 = 14126. NOT event 50
--- SMART_EVENT_QUEST_REWARDED, which is a different event that takes no quest id
--- and is absent from SmartAIMgr::EventHasInvoker() (SmartScriptMgr.cpp:398) --
--- so a SMART_TARGET_ACTION_INVOKER action on it is refused outright at load:
---
---   SmartAIMgr: Entry 35222 SourceType 0 Event 50 Action 68 has invoker target,
---               but event does not provide any invoker!
---
--- ...which is exactly why the first attempt played no cinematic. Event 20 is on
--- the whitelist AND filters by quest id, so it needs no conditions row either.
--- Gallywix's ported SAI ends at id 0, so this takes id 1.
+-- Row id 1 is removed; id 2 below (taking the Keys to the Hot Rod) stays, since
+-- that is transition behaviour and works.
 DELETE FROM `smart_scripts` WHERE `entryorguid` = 35222 AND `source_type` = 0 AND `id` IN (1, 2);
+
+
+-- ---- 5b. Gallywix takes the Keys to the Hot Rod --------------------------
+-- SMART_ACTION_REMOVE_ITEM (57), item 84460, on SMART_EVENT_REWARD_QUEST (20)
+-- for 14126. His offer text is explicit that he is taking the car -- "I see that
+-- you've brought me all that I asked for, INCLUDING YOUR HOT ROD" -- but the keys
+-- are not one of the quest's RequiredItemIds, so nothing removed them and the
+-- player kept a dead quest item (bonding 4, MaxCount 1) forever.
+--
+-- Event 20 SMART_EVENT_REWARD_QUEST filters by quest id AND is on the
+-- EventHasInvoker whitelist (SmartScriptMgr.cpp:398), so ACTION_INVOKER resolves.
+-- Event 50 SMART_EVENT_QUEST_REWARDED is a different event that does neither.
 INSERT INTO `smart_scripts`
   (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`,
    `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`,
@@ -308,24 +308,8 @@ INSERT INTO `smart_scripts`
    `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`,
    `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`)
 VALUES
-  (35222, 0, 1, 0, 20, 0, 100, 0, 14126, 0, 0, 0, 68, 22, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0,
-   'Trade Prince Gallywix - On Reward Quest Life Savings - Play the goblin cinematic (I-276)'),
   (35222, 0, 2, 0, 20, 0, 100, 0, 14126, 0, 0, 0, 57, 84460, 1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0,
    'Trade Prince Gallywix - On Reward Quest Life Savings - Take the Keys to the Hot Rod (I-276)');
-
--- SMART_ACTION_REMOVE_ITEM (57), itemID 84460 'Keys to the Hot Rod', count 1.
--- Gallywix's offer text is explicit that he is taking the car -- "I see that
--- you've brought me all that I asked for, INCLUDING YOUR HOT ROD" -- but the
--- keys are not one of the quest's RequiredItemIds, so nothing removed them and
--- the player kept a dead quest item (bonding 4, MaxCount 1) forever. Retail
--- strips them from the same script that runs the rest of this hand-in.
---
--- A second row on the same event rather than a link, for the same reason the
--- actionlist rows carry no link: a `link` must target a SMART_EVENT_LINK row.
-
--- Event 20 filters by quest id itself, so the conditions row the event-50
--- version needed is gone. Clear any leftover from the previous attempt.
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 22 AND `SourceEntry` = 35222;
 
 
 -- ---- 6. Reposition Geargrinder Gizmo -------------------------------------

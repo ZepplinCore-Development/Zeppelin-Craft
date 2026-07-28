@@ -1,5 +1,10 @@
 -- ============================================================
--- I-276  Movie.dbc rows (F-011)
+-- I-280  Movie.dbc rows (F-011 goblin cinematic)
+--
+-- Split out of I-276 once the transition and arrival scene were finished and the
+-- cinematic was parked. The trigger chain is PROVEN -- pointing
+-- SMART_ACTION_PLAYMOVIE at movie 14 plays Wrathgate correctly -- but no file we
+-- can produce for movie 22 plays. See I-280.
 --
 -- Quest 14126's retail reward spell 91847 plays movie 22 via Cata effect 45
 -- SPELL_EFFECT_PLAY_MOVIE. We cannot port 91847: effect 45 in AC 3.3.5a is
