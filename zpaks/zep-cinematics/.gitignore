@@ -1,0 +1,10 @@
+# Large binary files (not tracked in git)
+*.mpq
+*.MPQ
+
+# Pre-rendered cinematics: video lifted from the Whitemane 4.3.4 client and
+# re-encoded (see I-276). Reproducible from that source, so they ship in the
+# built MPQ rather than being committed here.
+*.avi
+*.AVI
+mpq/parsed-assets/

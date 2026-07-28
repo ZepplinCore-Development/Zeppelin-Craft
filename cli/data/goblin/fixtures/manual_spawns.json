@@ -1,1 +1,24 @@
-[]
+[
+ {
+  "entry": 6491,
+  "guid": 11900001,
+  "x": 1836.0,
+  "y": -10872.0,
+  "z": 21.5915,
+  "o": 3.93,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4720 (Lost Isles - Gobber's Inn hub). Hand-placed graveyard (zz_[F-011]_lost_isles_graveyard.sql) has no Cata counterpart, so the source dump never spawned a healer here; ghosts released with no healer at the res point. Ground Z via terrain height."
+ },
+ {
+  "entry": 36608,
+  "guid": 11900002,
+  "x": 1.8019743,
+  "y": -9529.661,
+  "z": 0.2621,
+  "o": 1.7911077,
+  "phaseMask": 1,
+  "spawntimesecs": 30,
+  "comment": "I-276 Doc Zapnozzle at the Shipwreck Shore arrival point. Ender of 14239 \"Don't Go Into the Light!\", the revive that opens the Lost Isles. Retail script-summons him (spell 69018, effect 28 SUMMON misc 36608), so neither the Neltharion dump nor TDB 4.3.4 has a spawn row and the spawn-driven zone sweep never saw him -- he was absent from creature_template entirely. Position is Justin's in-game .gps reading, z = FloorZ 0.26209486 (GroundZ there is -15.99, i.e. the heightmap seabed under the vmap shore -- never place off GroundZ here)."
+ }
+]

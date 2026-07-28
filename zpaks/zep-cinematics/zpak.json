@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-cinematics",
+  "version": "0.1.0",
+  "description": "Pre-rendered cinematics the 3.3.5a client does not ship (F-011 goblin intro)",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-X",
+  "enabled": true,
+  "priority": 100
+}
