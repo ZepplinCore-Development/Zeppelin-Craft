@@ -57,6 +57,74 @@ STOCK_GO = {1617, 1618, 1619, 1731}
 # they render as scenery.
 TYPE_OVERRIDE = {196837: 5, 196838: 5}
 
+# I-277: per-entry corrections to the raw Cata Data0-23 block, applied last so
+# they beat both the verbatim copy and the type-based zeroing below.
+#
+# The Neltharion dump carries GO data-field spell ids from a build LATER than
+# the 4.3.4 client DBCs the port validates against (a 1511xx band; same shape as
+# the unportable 1511xx phase spells in I-274). _spellscope walks these fields
+# (GO_SPELL_FIELDS, I-275) and correctly rejects them — "absent from the 4.3.4
+# client Spell.dbc" — but nothing rewrote the field, so the emitted GO cast a
+# spell that exists nowhere. AC never reports it for a type-10 goober:
+# ObjectMgr::CheckGOSpellId (ObjectMgr.cpp:8040) has one call site and it only
+# covers type-22 SPELLCASTER. Silent no-op.
+#
+# Values below are real 4.3.4 client spells, resolved by name out of the
+# Whitemane Spell.dbc. Correcting the field here (rather than in an override
+# SQL file) is what lets _spellscope reach the right spell and port it, since
+# the walk reads the collector, not the source DB.
+DATA_OVERRIDE = {
+    # 195188 Goblin Escape Pod — quest 14474 "Goblin Escape Pods".
+    #
+    # Data10 (goober.spellId) 151140 -> 66137 "Goblin Escape Pods: Summon Live
+    # Goblin Survivor" (effect 28 SUMMON, MiscValue 34748, SummonProperties 64).
+    # Retail points this at 66136, a bare DUMMY whose C++ script rolls live
+    # (66137) against dead (66138) — 66138 summons 34736, which the port does
+    # not carry, and we have no script for the controller, so the live branch is
+    # wired directly. Summoning 34748 from the player is the whole credit path:
+    # SmartAI 34748 event 54 JUST_SUMMONED -> actionlist 3474800 -> action 33
+    # KILL_CREDIT 34748 on target_type 7 ACTION_INVOKER, which is the summoner.
+    # TDB 4.3.4's answer here (67474 "Goblin Escape Pods: Force Cast") is a
+    # server-side spell_dbc stub with ZERO spelleffect_dbc rows — TC never
+    # implemented the pod either, so it is no use to us.
+    #
+    # Data3 (goober.autoCloseTime) 0 -> 1000ms. AC gates the entire goober state
+    # change on it (GameObject.cpp:1615, `if (info->GetAutoCloseTime())`) where
+    # TC does not; at 0 the pod reaches neither SetGoState(GO_STATE_ACTIVE) nor
+    # SetLootState(GO_ACTIVATED), so it never opens and Data5 (consumable=1)
+    # never processes. Both source dumps carry 0 — this is an AC-specific
+    # adaptation, not a correction of the source.
+    #
+    # Data4 (goober.customAnim) 0 -> 1 SUPPRESSES THE SECOND EXPLOSION.
+    # A consumable goober bursts TWICE: once on use via SetGoState(GO_STATE_ACTIVE),
+    # and again when autoCloseTime expires, where AC runs in one tick
+    # SetGoState(GO_STATE_READY) -> SendObjectDeSpawnAnim -> DestroyForVisiblePlayers
+    # (GameObject.cpp:830-878). The tail pair is not suppressible from data:
+    # the state reset is unconditional for goobers, and SendObjectDeSpawnAnim is
+    # gated on IsDespawnAtAction() == goober.consumable (GameObjectData.h:398),
+    # which we must keep or the pod stays standing and re-clickable and one pod
+    # farms all six credits. Shortening Data3 does NOT merge them — tested at
+    # 1000ms and the two bursts were still ~1s apart.
+    #
+    # So kill the FIRST one instead. customAnim makes Use() skip
+    # SetGoState(GO_STATE_ACTIVE) entirely and call SendCustomAnim(GetGoAnimProgress())
+    # instead — and animprogress is 255 on every pod spawn, which is not a valid
+    # animation index, so nothing plays. The pod then never leaves GO_STATE_READY,
+    # so the tail SetGoState(GO_STATE_READY) is a no-op that sends no update at all
+    # (Object::SetByteValue:749 only dirties on an actual change). What survives is
+    # exactly one SendObjectDeSpawnAnim, fired as the pod is destroyed.
+    #
+    # Net: click -> Data3 -> ONE burst, and the pod is gone with it. Data3 is now
+    # just the delay between the click and that burst; 500ms keeps it snappy.
+    195188: {"Data10": 66137, "Data3": 500, "Data4": 1},
+    # Still open (I-277), deliberately NOT fixed here: 201938 Town-In-A-Box
+    # Plunger (Data10 151144) and 205061 Big Red Button (Data10 151157) have the
+    # same dead-spell defect. TDB 4.3.4 models both as type 22 SPELLCASTER with
+    # Data0 68938 / 73892 rather than type 10, so they need a TYPE_OVERRIDE plus
+    # a field move, and their quests (14245, 25207) are untested. Left alone
+    # rather than reworked on inference.
+}
+
 # map648 (Cata Lost Isles/Kezan) -> map1 (Kalimdor) coordinate offset.
 DX, DY = -533.3333, -12800.0
 
@@ -101,6 +169,9 @@ def _template_cols(e, t):
         col["Data3"] = 0
     elif typ == 10:
         col["Data19"] = 0
+    # I-277 corrections last, so they win over both the verbatim copy and the
+    # gossip zeroing above.
+    col.update(DATA_OVERRIDE.get(e, {}))
     col.update({"AIName": "", "ScriptName": "", "VerifiedBuild": 0})
     return col
 

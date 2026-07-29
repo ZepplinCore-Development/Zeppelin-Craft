@@ -51,6 +51,54 @@ _COND_COLS = ("SourceTypeOrReferenceId", "SourceGroup", "SourceEntry", "SourceId
               "ConditionValue1", "ConditionValue2", "ConditionValue3",
               "NegativeCondition", "ErrorType", "ErrorTextId", "ScriptName", "Comment")
 
+# I-277: source type-13 anchors that point at something not present where the
+# spell is actually cast here. These are NOT cosmetic: implicit target 46
+# TARGET_DEST_NEARBY_ENTRY picks the effect's destination by searching for the
+# nearest object matching this condition (Spell.cpp:1161 SearchNearbyTarget),
+# and the condition's ConditionValue1 is what narrows the grid searcher at all
+# (ConditionMgr.cpp:712). A wrong anchor is a hard miss -> no destination -> the
+# effect does nothing.
+# Keyed (SourceEntry, SourceGroup) -> (ConditionValue1, ConditionValue2), where
+# ConditionValue1 is a TypeID: 3 = TYPEID_UNIT, 5 = TYPEID_GAMEOBJECT.
+COND_TARGET_OVERRIDE = {
+    # 66137 "Goblin Escape Pods: Summon Live Goblin Survivor" (GO 195188's
+    # goober.spellId, see gameobjects.DATA_OVERRIDE). Neltharion anchors it to
+    # their own scaffolding creature 75044 "Wondi's Bunny - Generic Nearby
+    # Target 1", which has exactly ONE spawn in the whole DB — in Kezan, ~2000
+    # yards from the pod field — so the search finds nothing and the summon
+    # never lands. Anchor it to the pod instead: GO 195188 is by definition
+    # within range, because casting this spell IS using that GO, and the
+    # spell's range_index 7 (10 yd) comfortably covers the ~5.5 yd interaction
+    # distance. Also puts the survivor at the pod rather than on the swimming
+    # player. Same shape as the port's existing GO anchor 13/1/67682 -> 195489.
+    (66137, 1): (5, 195188),
+}
+
+# I-277: per-spell overrides of emitted effect columns, applied last.
+#
+# Background — the port has a SYSTEMATIC off-by-one in every effect value. The
+# two DBC generations encode "value" differently:
+#   3.3.5a: value = BasePoints + rand(1, DieSides); DieSides is 1 on 29k of 44k
+#           stock rows, so "value 1" is stored as BasePoints 0, DieSides 1.
+#   4.3.4:  BasePoints already IS the value; DieSides is 0 on ~90% of rows.
+# The emit path forces `effect_die_sides = max(e[9], 1)` (line ~212) so the
+# client's $s tooltip token renders — but does not decrement BasePoints to
+# compensate, so AC's SpellEffectInfo::CalcValue (SpellInfo.cpp:435, `case 1:
+# basePoints += 1`) computes value+1 for every ported spell whose source
+# DieSides was 0. On a damage effect that is an invisible 1-point drift; here it
+# is not. Fixing it globally would move several hundred ported spells at once
+# and belongs in its own issue — this table corrects only where it changes
+# behaviour.
+EFFECT_OVERRIDE = {
+    # 66137 summons with SummonProperties 64, and 64 is on AC's multi-summon
+    # list (SpellEffects.cpp:2402), so `numSummons = damage`. Source BasePoints
+    # 1 / DieSides 0 = one survivor; emitted as 1/1 it calculates to 2, which
+    # would pop two Goblin Survivors out of every pod and hand out two quest
+    # credits per click — finishing 14474 in 3 pods instead of 6. Store the
+    # 3.3.5a encoding of "1": BasePoints 0 with the forced DieSides 1.
+    66137: {"effect_base_points_1": 0},
+}
+
 # columns that are `int unsigned` and hold high-bit masks -> convert signed read to unsigned
 UMASK = {"attributes", "attributes_ex_1", "attributes_ex_2", "attributes_ex_3", "attributes_ex_4",
          "attributes_ex_5", "attributes_ex_6", "attributes_ex_7", "school_mask", "targets", "stances",
@@ -199,6 +247,7 @@ def emit(ctx):
 
     for sid, name, c in sql_rows:
         c = {k: (v & 0xFFFFFFFF if (k in UMASK and isinstance(v, int) and v < 0) else v) for k, v in c.items()}
+        c.update(EFFECT_OVERRIDE.get(sid, {}))
         ctx.col.put("spell", sid, c, tier="base", owner="spells", note="%d %s" % (sid, name))
 
     # world-side: SourceType-13 (SPELL_IMPLICIT_TARGET) conditions of the ported spells.
@@ -217,6 +266,9 @@ def emit(ctx):
                 row[col] = (v or "").strip()     # source stores ' ' -> ''
             else:
                 row[col] = int(v or 0)
+        ov = COND_TARGET_OVERRIDE.get((row["SourceEntry"], row["SourceGroup"]))
+        if ov:
+            row["ConditionValue1"], row["ConditionValue2"] = ov
         ctx.col.add("conditions", row)
 
     # world-side: TARGET_DEST_DB destinations (I-275). Effects using implicit target
