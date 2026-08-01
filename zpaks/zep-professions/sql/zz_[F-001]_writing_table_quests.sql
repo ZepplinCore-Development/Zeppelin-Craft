@@ -6,15 +6,16 @@
 -- =====================================================
 
 -- Clean up
-DELETE FROM `quest_template` WHERE `ID` BETWEEN 90136 AND 90154;
-DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90136 AND 90154;
-DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90136 AND 90154;
-DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90136 AND 90154;
-DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90136 AND 90154;
-DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90136 AND 90154;
+DELETE FROM `quest_template` WHERE `ID` BETWEEN 90136 AND 90154 OR `ID` = 90183;
+DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90136 AND 90154 OR `ID` = 90183;
+DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90136 AND 90154 OR `ID` = 90183;
+DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90136 AND 90154 OR `ID` = 90183;
+DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90136 AND 90154 OR `quest` = 90183;
+DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90136 AND 90154 OR `quest` = 90183;
 
 -- Add QUESTGIVER npcflag (2) to Inscription trainers
-UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` IN (30706, 30709, 30710, 30711, 30713, 30715, 30716, 30717, 30721, 30722, 28702);
+-- (33638 Scribe Lanloer / 33679 Recorder Lidio are the Shattrath Master trainers for quest 90183)
+UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` IN (30706, 30709, 30710, 30711, 30713, 30715, 30716, 30717, 30721, 30722, 28702, 33638, 33679);
 
 -- =====================================================
 -- JOURNEYMAN WRITING TABLE (skill 75) - 8 city quests
@@ -385,6 +386,27 @@ INSERT INTO `quest_request_items` SET `ID` = 90153, `EmoteOnComplete` = 1, `Comp
 INSERT INTO `creature_queststarter` VALUES (30722, 90153);
 INSERT INTO `creature_questender` VALUES (30722, 90153);
 
+-- 90183: Recorder Lidio (33679, Aldor Rise) / Scribe Lanloer (33638, Scryer's Tier) - Shattrath (neutral)
+-- One quest, offered and turned in at either trainer so both Aldor and Scryer players have access.
+INSERT INTO `quest_template` SET
+    `ID` = 90183, `QuestLevel` = 70, `MinLevel` = 0, `QuestSortID` = -371, -- Inscription
+    `RewardXPDifficulty` = 5, `Flags` = 136,
+    `RequiredItemId1` = 43124, `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 43125, `RequiredItemCount2` = 10,
+    `RequiredItemId3` = 57487, `RequiredItemCount3` = 1, -- Artisan Writing Table (trade-in)
+    `LogTitle` = 'Master Scribe''s Tools',
+    `LogDescription` = 'Bring 10 Ethereal Inks and 10 Darkflame Inks to Recorder Lidio on the Aldor Rise or Scribe Lanloer on the Scryer''s Tier in Shattrath City.',
+    `QuestDescription` = 'Every treaty, tithe and refugee ledger in Shattrath crosses a scribe''s table, and ours are older than the Sha''tar''s tenure here. A steady surface is the difference between a glyph that holds and one that bleeds. Bring me Ethereal and Darkflame Inks to restock the archives, trade in your Artisan table, and I''ll fit you a Master Writing Table worthy of the City of Light.$B$BRequired:$B- 10 Ethereal Ink$B- 10 Darkflame Ink$B- Your Artisan Writing Table (traded in)',
+    `QuestCompletionLog` = 'Return to an Inscription trainer in Shattrath City.',
+    `RewardItem1` = 57488, `RewardAmount1` = 1, `VerifiedBuild` = 0;
+INSERT INTO `quest_template_addon` SET `ID` = 90183, `RequiredSkillID` = 773, `RequiredSkillPoints` = 300, `ExclusiveGroup` = 90152;
+INSERT INTO `quest_offer_reward` SET `ID` = 90183, `RewardText` = 'These inks are exquisite. Your Master Writing Table is ready.';
+INSERT INTO `quest_request_items` SET `ID` = 90183, `EmoteOnComplete` = 1, `CompletionText` = 'Did you bring the Ethereal and Darkflame Inks?';
+INSERT INTO `creature_queststarter` VALUES (33679, 90183);
+INSERT INTO `creature_questender` VALUES (33679, 90183);
+INSERT INTO `creature_queststarter` VALUES (33638, 90183);
+INSERT INTO `creature_questender` VALUES (33638, 90183);
+
 -- =====================================================
 -- GRAND MASTER WRITING TABLE (skill 375) - 1 Dalaran quest
 -- Turn in: 5 Weapon Vellum III (43146) + 5 Armor Vellum III (43145) + 10 Ink of the Sea (43126)
@@ -445,7 +467,8 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90152;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
 (-90152, 0, 0, 0, 0, 8, 0, 90152, 0, 0, 0, 0, 0, '', 'Master table rewarded (Michael Schwan)'),
-(-90152, 0, 0, 0, 1, 8, 0, 90153, 0, 0, 0, 0, 0, '', 'Master table rewarded (Neferatti)');
+(-90152, 0, 0, 0, 1, 8, 0, 90153, 0, 0, 0, 0, 0, '', 'Master table rewarded (Neferatti)'),
+(-90152, 0, 0, 0, 2, 8, 0, 90183, 0, 0, 0, 0, 0, '', 'Master table rewarded (Shattrath)');
 
 -- Artisan quests: require any Journeyman table
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90144 AND 90151;
@@ -460,10 +483,11 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 (19, 0, 90151, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (UC) - any JM table');
 
 -- Master quests: require any Artisan table
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` IN (90152, 90153);
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` IN (90152, 90153, 90183);
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
 (19, 0, 90152, 0, 0, -90144, 0, 0, 0, 0, 0, 0, 0, '', 'Master Table (Schwan) - any Artisan table'),
-(19, 0, 90153, 0, 0, -90144, 0, 0, 0, 0, 0, 0, 0, '', 'Master Table (Neferatti) - any Artisan table');
+(19, 0, 90153, 0, 0, -90144, 0, 0, 0, 0, 0, 0, 0, '', 'Master Table (Neferatti) - any Artisan table'),
+(19, 0, 90183, 0, 0, -90144, 0, 0, 0, 0, 0, 0, 0, '', 'Master Table (Shattrath) - any Artisan table');
 
 -- Grand Master quest: require any Master table
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90154;
@@ -474,8 +498,8 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 -- QUEST POIs - turn-in map markers [I-195]
 -- One blob per quest at the quest ender (trainer) spawn
 -- =====================================================
-DELETE FROM `quest_poi` WHERE `QuestID` IN (90136,90137,90138,90139,90140,90141,90142,90143,90144,90145,90146,90147,90148,90149,90150,90151,90152,90153,90154);
-DELETE FROM `quest_poi_points` WHERE `QuestID` IN (90136,90137,90138,90139,90140,90141,90142,90143,90144,90145,90146,90147,90148,90149,90150,90151,90152,90153,90154);
+DELETE FROM `quest_poi` WHERE `QuestID` IN (90136,90137,90138,90139,90140,90141,90142,90143,90144,90145,90146,90147,90148,90149,90150,90151,90152,90153,90154,90183);
+DELETE FROM `quest_poi_points` WHERE `QuestID` IN (90136,90137,90138,90139,90140,90141,90142,90143,90144,90145,90146,90147,90148,90149,90150,90151,90152,90153,90154,90183);
 
 INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`) VALUES
 (90136, 0, -1, 0, 301, 0, 0, 1, 0),
@@ -497,7 +521,9 @@ INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAr
 (90152, 0, -1, 530, 465, 0, 0, 1, 0),
 (90153, 0, -1, 530, 465, 0, 0, 1, 0),
 (90154, 0, -1, 571, 510, 0, 0, 1, 0),
-(90154, 1, -1, 571, 504, 1, 0, 3, 0);
+(90154, 1, -1, 571, 504, 1, 0, 3, 0),
+(90183, 0, -1, 530, 481, 0, 0, 1, 0), -- Recorder Lidio (Aldor Rise)
+(90183, 1, -1, 530, 481, 0, 0, 1, 0); -- Scribe Lanloer (Scryer's Tier)
 
 INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
 (90136, 0, 0, -8882, 837, 0),
@@ -579,4 +605,12 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 (90154, 1, 0, 5841, 687, 0),
 (90154, 1, 1, 5841, 727, 0),
 (90154, 1, 2, 5881, 727, 0),
-(90154, 1, 3, 5881, 687, 0);
+(90154, 1, 3, 5881, 687, 0),
+(90183, 0, 0, -1873, 5644, 0),
+(90183, 0, 1, -1873, 5684, 0),
+(90183, 0, 2, -1833, 5684, 0),
+(90183, 0, 3, -1833, 5644, 0),
+(90183, 1, 0, -2142, 5386, 0),
+(90183, 1, 1, -2142, 5426, 0),
+(90183, 1, 2, -2102, 5426, 0),
+(90183, 1, 3, -2102, 5386, 0);

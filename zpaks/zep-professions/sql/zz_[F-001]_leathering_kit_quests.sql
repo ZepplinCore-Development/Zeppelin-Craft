@@ -1203,17 +1203,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 15407, -- Cured Rugged Hide
+    `RequiredItemId1` = 23793, -- Heavy Knothide Leather
     `RequiredItemCount1` = 5,
-    `RequiredItemId2` = 34330, -- Knothide Armor Kit
+    `RequiredItemId2` = 34330, -- Heavy Knothide Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57614, -- Artisan Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 1011, -- Lower City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Bring 5 Cured Rugged Hides, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Darmari in Shattrath''s Lower City.',
-    `QuestDescription` = 'Everything the Lower City owns was carried here on someone''s back and mended ten times over - we know leatherwork. Outland hide is thick and ill-tempered, and a slow kit means cold shoulders come nightfall. Bring me cured hides and armor kits for the refugees, trade in your Artisan kit, and take a Master kit that works as fast as need demands.$B$BRequired:$B- 5 Cured Rugged Hide$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
+    `LogDescription` = 'Bring 5 Heavy Knothide Leather, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Darmari in Shattrath''s Lower City.',
+    `QuestDescription` = 'Everything the Lower City owns was carried here on someone''s back and mended ten times over - we know leatherwork. Outland hide is thick and ill-tempered, and a slow kit means cold shoulders come nightfall. Bring me heavy knothide leather and armor kits for the refugees, trade in your Artisan kit, and take a Master kit that works as fast as need demands.$B$BRequired:$B- 5 Heavy Knothide Leather$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
     `QuestCompletionLog` = 'Return to Darmari in Shattrath City',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1233,7 +1233,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 5 Cured Rugged Hides, 5 Knothide Armor Kits, and your old Artisan kit?';
+    `CompletionText` = 'Did you bring the 5 Heavy Knothide Leather, 5 Heavy Knothide Armor Kits, and your old Artisan kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -1253,17 +1253,17 @@ INSERT INTO `quest_template` SET
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
-    `RequiredItemId1` = 15407, -- Cured Rugged Hide
+    `RequiredItemId1` = 23793, -- Heavy Knothide Leather
     `RequiredItemCount1` = 5,
-    `RequiredItemId2` = 34330, -- Knothide Armor Kit
+    `RequiredItemId2` = 34330, -- Heavy Knothide Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57614, -- Artisan Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 946, -- Honor Hold
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Bring 5 Cured Rugged Hides, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Brumman at Honor Hold in Hellfire Peninsula.',
-    `QuestDescription` = 'Half the armor in this keep came oot o'' my workshop, and the other half''s waitin'' on repairs. Knothide''s thick as boot soles - a dull kit''ll have ye sawin'' till sundown. Bring me cured hides and armor kits fer the garrison, hand over yer Artisan kit, and I''ll give ye a Master kit that cuts clean the first time, every time.$B$BRequired:$B- 5 Cured Rugged Hide$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
+    `LogDescription` = 'Bring 5 Heavy Knothide Leather, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Brumman at Honor Hold in Hellfire Peninsula.',
+    `QuestDescription` = 'Half the armor in this keep came oot o'' my workshop, and the other half''s waitin'' on repairs. Knothide''s thick as boot soles - a dull kit''ll have ye sawin'' till sundown. Bring me heavy knothide leather and armor kits fer the garrison, hand over yer Artisan kit, and I''ll give ye a Master kit that cuts clean the first time, every time.$B$BRequired:$B- 5 Heavy Knothide Leather$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
     `QuestCompletionLog` = 'Return to Brumman in Honor Hold',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1283,7 +1283,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 5 Cured Rugged Hides, 5 Knothide Armor Kits, and your old Artisan kit?';
+    `CompletionText` = 'Did you bring the 5 Heavy Knothide Leather, 5 Heavy Knothide Armor Kits, and your old Artisan kit?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -1304,17 +1304,17 @@ INSERT INTO `quest_template` SET
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
-    `RequiredItemId1` = 15407, -- Cured Rugged Hide
+    `RequiredItemId1` = 23793, -- Heavy Knothide Leather
     `RequiredItemCount1` = 5,
-    `RequiredItemId2` = 34330, -- Knothide Armor Kit
+    `RequiredItemId2` = 34330, -- Heavy Knothide Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57614, -- Artisan Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 947, -- Thrallmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Bring 5 Cured Rugged Hides, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Barim Spilthoof at Thrallmar in Hellfire Peninsula.',
-    `QuestDescription` = 'The beasts of this land give heavy hides, $Gbrother:sister;, and heavy hides deserve a worthy hand. A craftsman who fights his own tools honors no one. Bring me cured hides and armor kits for Thrallmar''s warriors, and trade me your Artisan kit. The Master kit will let your hands work as fast as your heart.$B$BRequired:$B- 5 Cured Rugged Hide$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
+    `LogDescription` = 'Bring 5 Heavy Knothide Leather, 5 Heavy Knothide Armor Kits and your Artisan Leathering Kit to Barim Spilthoof at Thrallmar in Hellfire Peninsula.',
+    `QuestDescription` = 'The beasts of this land give heavy hides, $Gbrother:sister;, and heavy hides deserve a worthy hand. A craftsman who fights his own tools honors no one. Bring me heavy knothide leather and armor kits for Thrallmar''s warriors, and trade me your Artisan kit. The Master kit will let your hands work as fast as your heart.$B$BRequired:$B- 5 Heavy Knothide Leather$B- 5 Heavy Knothide Armor Kit$B- Artisan Leathering Kit',
     `QuestCompletionLog` = 'Return to Barim Spilthoof in Thrallmar',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1334,7 +1334,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the cured hides and armor kits and your old Artisan kit, friend?';
+    `CompletionText` = 'Did you bring the heavy knothide leather and armor kits and your old Artisan kit, friend?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -1638,3 +1638,22 @@ INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBu
 (90110, 0, 1, 129, 2656, 0),
 (90110, 0, 2, 169, 2656, 0),
 (90110, 0, 3, 169, 2616, 0);
+
+-- =====================================================
+-- IPP PRE-T3 CLONE QUEST GIVERS
+-- mod-individual-progression hides the real TBC leatherworking
+-- trainers (script npc_ipp_tbc_t3: visible only after passing
+-- TBC Tier 2) and shows +100000 clone NPCs (npc_ipp_tbc_pre_t3)
+-- in their place. The clones must offer the same Master quests,
+-- or the Master tier is unreachable before SSC/TK are cleared.
+-- Clone rows are created by the IPP module SQL, so only the
+-- questgiver flag is patched here (single consolidated UPDATE).
+-- =====================================================
+UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` IN (119187, 118771, 118754);
+
+INSERT INTO `creature_queststarter` VALUES (119187, 90089); -- Darmari clone (Shattrath)
+INSERT INTO `creature_questender` VALUES (119187, 90089);
+INSERT INTO `creature_queststarter` VALUES (118771, 90109); -- Brumman clone (Honor Hold)
+INSERT INTO `creature_questender` VALUES (118771, 90109);
+INSERT INTO `creature_queststarter` VALUES (118754, 90110); -- Barim Spilthoof clone (Thrallmar)
+INSERT INTO `creature_questender` VALUES (118754, 90110);
