@@ -427,8 +427,22 @@ function ENP:FindNameplateByChatMsg(event, msg, author, _, _, _, _, _, channelID
 	local info = ChatTypeInfo[chatType]
 	if not info then return end
 
+	-- I-278: prefer an exact GUID match so a message from one "Frightened Miner"
+	-- does not bubble on every same-named plate. Falls back to name matching
+	-- when no plate carries the speaker's GUID (plate GUIDs are best-effort on
+	-- 3.3.5 -- combat log / mouseover cache).
+	local exactMatch
+	if guid and guid ~= "" then
+		for frame in pairs(NP.VisiblePlates) do
+			if frame.guid == guid then
+				exactMatch = frame
+				break
+			end
+		end
+	end
+
 	for frame in pairs(NP.VisiblePlates) do
-		if frame.UnitName == author then
+		if exactMatch and frame == exactMatch or not exactMatch and frame.UnitName == author then
 			local bubbleFrame
 			if not frame.bubbleFrame then
 				bubbleFrame = AcquireBubble()

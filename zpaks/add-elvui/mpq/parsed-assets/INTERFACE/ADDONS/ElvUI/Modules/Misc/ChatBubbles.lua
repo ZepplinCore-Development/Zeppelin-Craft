@@ -99,7 +99,9 @@ function M:AddChatBubbleName(chatBubble, guid, name)
 		color = "|cffffffff"
 	end
 
-	chatBubble.Name:SetFormattedText("%s%s|r", color, name)
+	-- I-278: non-player GUIDs (NPC speech) resolve no class, leaving color nil;
+	-- fall back to white instead of erroring inside SetFormattedText.
+	chatBubble.Name:SetFormattedText("%s%s|r", color or "|cffffffff", name)
 end
 
 function M:SkinBubble(frame)
@@ -219,6 +221,11 @@ function M:SkinBubble(frame)
 
 	frame:HookScript("OnShow", M.UpdateBubbleBorder)
 	frame:SetFrameStrata("BACKGROUND")
+	-- I-278: ElvUI nameplates raise plate frames to levels 11-891 in this same
+	-- BACKGROUND strata (NP:SetPlateFrameLevel), so a bubble left at its default
+	-- low level renders BEHIND any overlapping plate. Stock client draws bubbles
+	-- above plates; keep that ordering.
+	frame:SetFrameLevel(900)
 	M.UpdateBubbleBorder(frame)
 
 	frame.isSkinnedElvUI = true
@@ -240,11 +247,21 @@ local function ChatBubble_OnEvent(self, event, msg, sender, _, _, _, _, _, _, _,
 	messageToSender[msg] = sender
 end
 
-local lastChildern, numChildren = 0, 0
+local numChildren = 0
 local function findChatBubbles(...)
-	for i = lastChildern + 1, numChildren do
+	-- I-278: scan the FULL child list, every tick, unconditionally.
+	-- Round 1 replaced the windowed scan (lastChildern + 1 .. numChildren) with a
+	-- full scan, because WorldFrame children are transient and the window missed
+	-- bubbles landing at reused low indices. Round 2 removes the child-COUNT gate
+	-- as well: bubbles and nameplates are both WorldFrame children, so with
+	-- friendly nameplates enabled the count churns constantly, and a bubble that
+	-- appears in the same 0.1s sample as an offsetting change (old bubble
+	-- destroyed, plate created) leaves the count equal -- gate closed, bubble
+	-- never skinned, rendered as nothing. The isSkinnedElvUI guard makes the
+	-- unconditional rescan cheap and idempotent (~10 sweeps/sec).
+	for i = 1, numChildren do
 		local frame = select(i, ...)
-		if not frame.isSkinnedElvUI and M:IsChatBubble(frame) then
+		if frame and not frame.isSkinnedElvUI and M:IsChatBubble(frame) then
 			M:SkinBubble(frame)
 		end
 	end
@@ -256,10 +273,28 @@ local function ChatBubble_OnUpdate(self, elapsed)
 	self.lastupdate = 0
 
 	numChildren = WorldGetNumChildren(WorldFrame)
-	if lastChildern ~= numChildren then
-		findChatBubbles(WorldGetChildren(WorldFrame))
-		lastChildern = numChildren
+	findChatBubbles(WorldGetChildren(WorldFrame))
+end
+
+-- I-278 diagnostic: /zepbubbles dumps the state of every bubble frame found
+-- among WorldFrame children. Run while an NPC line should be bubbling.
+SLASH_ZEPBUBBLES1 = "/zepbubbles"
+SlashCmdList.ZEPBUBBLES = function()
+	local total = WorldGetNumChildren(WorldFrame)
+	local found = 0
+	for i = 1, total do
+		local frame = select(i, WorldGetChildren(WorldFrame))
+		if frame and (frame.isSkinnedElvUI or M:IsChatBubble(frame)) then
+			found = found + 1
+			print(format("bubble %d: skinned=%s shown=%s alpha=%.2f eff=%.2f strata=%s level=%d size=%dx%d text=%s",
+				found, tostring(frame.isSkinnedElvUI or false), tostring(frame:IsShown()),
+				frame:GetAlpha(), frame:GetEffectiveAlpha(),
+				tostring(frame:GetFrameStrata()), frame:GetFrameLevel(),
+				frame:GetWidth(), frame:GetHeight(),
+				(frame.text and frame.text:GetText()) or "<no text region>"))
+		end
 	end
+	print(format("ZepBubbles: %d WorldFrame children, %d bubble frame(s)", total, found))
 end
 
 function M:LoadChatBubbles()

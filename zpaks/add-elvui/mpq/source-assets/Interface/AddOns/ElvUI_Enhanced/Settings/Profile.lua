@@ -100,7 +100,10 @@ P.enhanced = {
 	},
 	nameplates = {
 		classCache = false,
-		chatBubbles = false,
+		-- I-278: the 3.3.5 client never draws its own chat bubble for a unit with
+		-- a visible nameplate. This feature is the workaround: ElvUI-drawn bubbles
+		-- anchored to the plate. Default ON so bubbles survive ally nameplates.
+		chatBubbles = true,
 		titleCache = false,
 		guild = {
 			font = "PT Sans Narrow",

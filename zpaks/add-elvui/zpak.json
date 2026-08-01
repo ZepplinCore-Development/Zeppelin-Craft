@@ -7,16 +7,17 @@
   "type": "mpq",
   "client_patch": "PATCH-A",
   "contents": {
-    "mpq": ["mpq/**/*"]
+    "mpq": [
+      "mpq/**/*"
+    ]
   },
   "build": {
-    "preprocessors": ["block-data"]
+    "preprocessors": [
+      "block-data"
+    ]
   },
   "launcher": {
     "patch_name": "Addons",
-    "mandatory": true,
-    "enabled_by_default": true,
-    "auto_update": false,
     "requires": []
   },
   "enabled": true,
