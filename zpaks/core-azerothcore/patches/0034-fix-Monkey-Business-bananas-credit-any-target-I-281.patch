@@ -1,0 +1,67 @@
+From ce181f7bf2242fc7ba378fcd6af210e7d75d0d2a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 29 Jul 2026 23:58:21 +0000
+Subject: [PATCH] fix: Monkey Business bananas credit any target (I-281)
+
+Quest 14019 'Monkey Business': using Nitro-Potassium Bananas granted a
+credit on every use regardless of target, and the fed monkey never
+reacted or despawned, so one monkey could be fed 10 times.
+
+spell_script_names wired spell 67917 to spell_zep_fixed_credit<35760>,
+whose handler credits the caster on ANY effect hit without inspecting the
+target. The fed monkey's own SmartAI already implements the whole intended
+sequence (credit the invoker, Sanctuary, self-root, Exploding Bananas,
+FORCE_DESPAWN 4s) but was keyed on SPELLHIT 98914, a Cata dummy the 3.3.5a
+chain never casts.
+
+Credit ownership moves entirely to data:
+
+- Dropped the RegisterSpellScriptWithArgs for
+  'spell_zep_q14019_monkey_business'; a comment points at the SmartAI that
+  now owns the behaviour.
+- Removed the now-unused NPC_MONKEY_BUSINESS_CREDIT and
+  SPELL_NITRO_POTASSIUM_BANANAS enum entries.
+
+The other four spell_zep_fixed_credit users (Weed Whacker, KTC Snapflash,
+Cluster Cluck, Zombies Booster) are untouched. The SmartAI re-point and
+the target-gating condition live in Zeppelin-Craft
+zz_[I-281]_monkey_business_feed.sql.
+
+Closes I-281
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/scripts/Custom/zeppelin_goblin_start.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/server/scripts/Custom/zeppelin_goblin_start.cpp b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+index 5def761d8..379d60148 100644
+--- a/src/server/scripts/Custom/zeppelin_goblin_start.cpp
++++ b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+@@ -22,12 +22,10 @@
+ enum ZepGoblinCredits
+ {
+     // fixed kill-credit NPCs (invisible quest triggers)
+-    NPC_MONKEY_BUSINESS_CREDIT   = 35760, // q14019
+     NPC_WEED_WHACKER_CREDIT      = 35816, // q14236 (Miner Troubles / Weed Whacker credit)
+     NPC_CLUSTER_CLUCK_CREDIT     = 38117, // q24671
+     NPC_ZOMBIES_BOOSTER_CREDIT   = 38807, // q24942
+ 
+-    SPELL_NITRO_POTASSIUM_BANANAS = 67917, // SCRIPT_EFFECT
+     SPELL_WEED_WHACKER            = 68211, // DUMMY
+     SPELL_KTC_SNAPFLASH           = 68280, // DUMMY (photograph target -> credit that entry)
+     SPELL_REMOTE_CONTROL_FIREWORKS = 71170, // DUMMY
+@@ -204,7 +202,9 @@ class spell_zep_item_kajacola : public AuraScript
+ 
+ void AddSC_zeppelin_goblin_start()
+ {
+-    RegisterSpellScriptWithArgs(spell_zep_fixed_credit<NPC_MONKEY_BUSINESS_CREDIT>, "spell_zep_q14019_monkey_business");
++    // q14019 Monkey Business has no C++ script: the credit is granted by the fed
++    // monkey's own SmartAI (34699 SPELLHIT 67917 -> actionlist 3469900), which
++    // also roots, explodes and despawns it. See zz_[I-281]_monkey_business_feed.sql.
+     RegisterSpellScriptWithArgs(spell_zep_fixed_credit<NPC_WEED_WHACKER_CREDIT>, "spell_zep_q14236_weed_whacker");
+     RegisterSpellScriptWithArgs(spell_zep_fixed_credit<NPC_CLUSTER_CLUCK_CREDIT>, "spell_zep_q24671_cluster_cluck");
+     RegisterSpellScriptWithArgs(spell_zep_fixed_credit<NPC_ZOMBIES_BOOSTER_CREDIT>, "spell_zep_q24942_zombies_booster");
+-- 
+2.34.1
+

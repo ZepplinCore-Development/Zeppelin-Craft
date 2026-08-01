@@ -1,0 +1,203 @@
+From 9d488d8cf9e1fd77c9f12786aa22dfe0b7a4566d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 1 Aug 2026 07:29:57 +0000
+Subject: [PATCH] feat: SMART_EVENT_QUEST_ABANDONED SAI event (I-285)
+
+- New creature SAI event 111, fired on creatures within 150yd of a player
+  abandoning a quest, after quest status and spell_area auras are cleaned up
+- param1 = QuestID (0 = any), param2 = onlyOwnSummon: when 1 the event only
+  fires if the creature is a TempSummon of the abandoning player
+- New UnitAI::sQuestAbandon virtual, forwarded by SmartAI
+- Used to despawn the Frightened Miner escort (quest 14021) on abandon
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01DaASnkBNWigBWmKxyaYuN8
+---
+ src/server/game/AI/CoreAI/UnitAI.h            |  2 ++
+ src/server/game/AI/SmartScripts/SmartAI.cpp   |  5 +++++
+ src/server/game/AI/SmartScripts/SmartAI.h     |  1 +
+ .../game/AI/SmartScripts/SmartScript.cpp      | 15 +++++++++++++++
+ .../game/AI/SmartScripts/SmartScriptMgr.cpp   |  9 +++++++++
+ .../game/AI/SmartScripts/SmartScriptMgr.h     | 10 +++++++++-
+ src/server/game/Handlers/QuestHandler.cpp     | 19 +++++++++++++++++++
+ 7 files changed, 60 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/game/AI/CoreAI/UnitAI.h b/src/server/game/AI/CoreAI/UnitAI.h
+index a4c01dd47..dc6b75e48 100644
+--- a/src/server/game/AI/CoreAI/UnitAI.h
++++ b/src/server/game/AI/CoreAI/UnitAI.h
+@@ -420,6 +420,8 @@ public:
+     virtual void sQuestSelect(Player* /*player*/, Quest const* /*quest*/) {}
+     virtual void sQuestComplete(Player* /*player*/, Quest const* /*quest*/) {}
+     virtual void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/) {}
++    // Zeppelin: fired on creatures near a player who abandons a quest (SMART_EVENT_QUEST_ABANDONED)
++    virtual void sQuestAbandon(Player* /*player*/, Quest const* /*quest*/) {}
+     virtual void sOnGameEvent(bool /*start*/, uint16 /*eventId*/) {}
+ 
+     virtual std::string GetDebugInfo() const;
+diff --git a/src/server/game/AI/SmartScripts/SmartAI.cpp b/src/server/game/AI/SmartScripts/SmartAI.cpp
+index eec86a422..c1dc0e49c 100644
+--- a/src/server/game/AI/SmartScripts/SmartAI.cpp
++++ b/src/server/game/AI/SmartScripts/SmartAI.cpp
+@@ -1160,6 +1160,11 @@ void SmartAI::sQuestAccept(Player* player, Quest const* quest)
+     GetScript()->ProcessEventsFor(SMART_EVENT_ACCEPTED_QUEST, player, quest->GetQuestId());
+ }
+ 
++void SmartAI::sQuestAbandon(Player* player, Quest const* quest)
++{
++    GetScript()->ProcessEventsFor(SMART_EVENT_QUEST_ABANDONED, player, quest->GetQuestId());
++}
++
+ void SmartAI::sQuestReward(Player* player, Quest const* quest, uint32 opt)
+ {
+     GetScript()->ProcessEventsFor(SMART_EVENT_REWARD_QUEST, player, quest->GetQuestId(), opt);
+diff --git a/src/server/game/AI/SmartScripts/SmartAI.h b/src/server/game/AI/SmartScripts/SmartAI.h
+index 5a8ec52bc..50fc5779e 100644
+--- a/src/server/game/AI/SmartScripts/SmartAI.h
++++ b/src/server/game/AI/SmartScripts/SmartAI.h
+@@ -195,6 +195,7 @@ public:
+     //void sQuestSelect(Player* player, Quest const* quest);
+     //void sQuestComplete(Player* player, Quest const* quest);
+     void sQuestReward(Player* player, Quest const* quest, uint32 opt) override;
++    void sQuestAbandon(Player* player, Quest const* quest) override;
+     void sOnGameEvent(bool start, uint16 eventId) override;
+ 
+     uint32 mEscortQuestID;
+diff --git a/src/server/game/AI/SmartScripts/SmartScript.cpp b/src/server/game/AI/SmartScripts/SmartScript.cpp
+index a5cf7b90c..f8b3b30c0 100644
+--- a/src/server/game/AI/SmartScripts/SmartScript.cpp
++++ b/src/server/game/AI/SmartScripts/SmartScript.cpp
+@@ -4608,6 +4608,21 @@ void SmartScript::ProcessEvent(SmartScriptHolder& e, Unit* unit, uint32 var0, ui
+                 ProcessAction(e, unit, var0);
+                 break;
+             }
++        case SMART_EVENT_QUEST_ABANDONED:
++            {
++                if (!unit)
++                    return;
++                if (e.event.questAbandon.quest && var0 != e.event.questAbandon.quest)
++                    return;
++                if (e.event.questAbandon.onlyOwnSummon)
++                {
++                    TempSummon* summon = me ? me->ToTempSummon() : nullptr;
++                    if (!summon || summon->GetSummonerGUID() != unit->GetGUID())
++                        return;
++                }
++                ProcessAction(e, unit, var0);
++                break;
++            }
+         case SMART_EVENT_TRANSPORT_ADDCREATURE:
+             {
+                 if (e.event.transportAddCreature.creature && var0 != e.event.transportAddCreature.creature)
+diff --git a/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp b/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
+index ac0216405..a7339823d 100644
+--- a/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
++++ b/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
+@@ -418,6 +418,7 @@ void SmartAIMgr::CheckIfSmartAIInDatabaseExists()
+         case SMART_EVENT_GOSSIP_SELECT:
+         case SMART_EVENT_ACCEPTED_QUEST:
+         case SMART_EVENT_REWARD_QUEST:
++        case SMART_EVENT_QUEST_ABANDONED:
+         case SMART_EVENT_FOLLOW_COMPLETED:
+         case SMART_EVENT_ON_SPELLCLICK:
+         case SMART_EVENT_GO_STATE_CHANGED:
+@@ -615,6 +616,7 @@ bool SmartAIMgr::CheckUnusedEventParams(SmartScriptHolder const& e)
+             case SMART_EVENT_TARGET_MANA_PCT: return sizeof(SmartEvent::minMaxRepeat);
+             case SMART_EVENT_ACCEPTED_QUEST: return sizeof(SmartEvent::quest);
+             case SMART_EVENT_REWARD_QUEST: return sizeof(SmartEvent::quest);
++            case SMART_EVENT_QUEST_ABANDONED: return sizeof(SmartEvent::questAbandon);
+             case SMART_EVENT_REACHED_HOME: return NO_PARAMS;
+             case SMART_EVENT_RECEIVE_EMOTE: return sizeof(SmartEvent::emote);
+             case SMART_EVENT_HAS_AURA: return sizeof(SmartEvent::aura);
+@@ -1231,6 +1233,13 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
+                 if (!IsMinMaxValid(e, e.event.quest.cooldownMin, e.event.quest.cooldownMax))
+                     return false;
+                 break;
++            case SMART_EVENT_QUEST_ABANDONED:
++                if (e.event.questAbandon.quest && !IsQuestValid(e, e.event.questAbandon.quest))
++                    return false;
++
++                if (!IsSAIBoolValid(e, e.event.questAbandon.onlyOwnSummon))
++                    return false;
++                break;
+             case SMART_EVENT_RECEIVE_EMOTE:
+                 {
+                     if (e.event.emote.emote && !IsTextEmoteValid(e, e.event.emote.emote))
+diff --git a/src/server/game/AI/SmartScripts/SmartScriptMgr.h b/src/server/game/AI/SmartScripts/SmartScriptMgr.h
+index a8ae1cc9f..a30997cf3 100644
+--- a/src/server/game/AI/SmartScripts/SmartScriptMgr.h
++++ b/src/server/game/AI/SmartScripts/SmartScriptMgr.h
+@@ -197,8 +197,9 @@ enum SMART_EVENT
+     SMART_EVENT_WAYPOINT_REACHED         = 108,      // PointId (0: any), pathId (0: any)
+     SMART_EVENT_WAYPOINT_ENDED           = 109,      // PointId (0: any), pathId (0: any)
+     SMART_EVENT_IS_IN_MELEE_RANGE        = 110,      // min, max, repeatMin, repeatMax, dist, invert (0: false, 1: true)
++    SMART_EVENT_QUEST_ABANDONED          = 111,      // QuestID (0 = any), onlyOwnSummon (1 = only fire if creature is a TempSummon of the abandoning player); fired on creatures near the player
+ 
+-    SMART_EVENT_AC_END                   = 111
++    SMART_EVENT_AC_END                   = 112
+ };
+ 
+ struct SmartEvent
+@@ -305,6 +306,12 @@ struct SmartEvent
+             uint32 cooldownMax;
+         } quest;
+ 
++        struct
++        {
++            uint32 quest;
++            SAIBool onlyOwnSummon;
++        } questAbandon;
++
+         struct
+         {
+             uint32 emote;
+@@ -1945,6 +1952,7 @@ const uint32 SmartAIEventMask[SMART_EVENT_AC_END][2] =
+     {SMART_EVENT_WAYPOINT_REACHED,     SMART_SCRIPT_TYPE_MASK_CREATURE },
+     {SMART_EVENT_WAYPOINT_ENDED,       SMART_SCRIPT_TYPE_MASK_CREATURE },
+     {SMART_EVENT_IS_IN_MELEE_RANGE,         SMART_SCRIPT_TYPE_MASK_CREATURE },
++    {SMART_EVENT_QUEST_ABANDONED,           SMART_SCRIPT_TYPE_MASK_CREATURE },
+ };
+ 
+ enum SmartEventFlags
+diff --git a/src/server/game/Handlers/QuestHandler.cpp b/src/server/game/Handlers/QuestHandler.cpp
+index 89a0a84af..70d08fa64 100644
+--- a/src/server/game/Handlers/QuestHandler.cpp
++++ b/src/server/game/Handlers/QuestHandler.cpp
+@@ -17,8 +17,12 @@
+ 
+ #include "Battleground.h"
+ #include "BattlegroundAV.h"
++#include "CellImpl.h"
+ #include "Chat.h"
++#include "CreatureAI.h"
+ #include "GameObjectAI.h"
++#include "GridNotifiers.h"
++#include "GridNotifiersImpl.h"
+ #include "Group.h"
+ #include "Language.h"
+ #include "Log.h"
+@@ -423,6 +427,21 @@ void WorldSession::HandleQuestLogRemoveQuest(WorldPackets::Quest::QuestLogRemove
+ 
+             sScriptMgr->OnPlayerQuestAbandon(_player, questId);
+ 
++            // Zeppelin: SMART_EVENT_QUEST_ABANDONED for creatures near the player (e.g. summoned
++            // quest companions). Runs after RemoveActiveQuest, so the quest status and any
++            // spell_area auras are already cleaned up when the event fires.
++            if (Quest const* quest = sObjectMgr->GetQuestTemplate(questId))
++            {
++                std::list<Unit*> nearby;
++                Acore::AnyUnitInObjectRangeCheck check(_player, 150.0f);
++                Acore::UnitListSearcher<Acore::AnyUnitInObjectRangeCheck> searcher(_player, nearby, check);
++                Cell::VisitObjects(_player, searcher, 150.0f);
++                for (Unit* nearbyUnit : nearby)
++                    if (Creature* creature = nearbyUnit->ToCreature())
++                        if (creature->IsAIEnabled)
++                            creature->AI()->sQuestAbandon(_player, quest);
++            }
++
+             LOG_DEBUG("network.opcode", "Player {} abandoned quest {}", _player->GetGUID().ToString(), questId);
+             // check if Quest Tracker is enabled
+             if (sWorld->getBoolConfig(CONFIG_QUEST_ENABLE_QUEST_TRACKER))
+-- 
+2.34.1
+

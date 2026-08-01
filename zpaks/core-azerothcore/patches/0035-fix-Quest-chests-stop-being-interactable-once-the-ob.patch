@@ -1,0 +1,309 @@
+From d2461afc8508775d2f82044ca6b1cc771381365d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 31 Jul 2026 08:24:20 +0000
+Subject: [PATCH] fix: Quest chests stop being interactable once the objective
+ is full (I-284)
+
+AC has no quest gate for chest interaction. chest.questId is unused
+(GameObjectData.h:92), chests are absent from GameObject::Use, and opening runs
+client lock cast -> Spell::EffectOpenLock -> Player::SendLoot without ever
+reading quest status. The loot does come out empty past the quota, but the click
+still lands, and a consumable chest despawns on the loot release - so a player
+who is done deletes chests the players behind them still need. No data shape
+fixes this: the client does not gate the interact cursor on the quest dynflag,
+and stock's own quest chests (Olemba Cone 182541) behave the same way.
+
+- GameObject::IsQuestChestUnavailableFor: chest that IsGameObjectForQuests, that
+  ActivateToQuest rejects for this player, whose loot table holds nothing outside
+  a quest gate, and which has no template-addon gold. Mixed treasure chests such
+  as 153123 Kim'jael's Equipment are untouched.
+- LootStore::HaveNonQuestLootFor -> LootTemplate::HasNonQuestDrop (+ LootGroup),
+  recursive through references and groups.
+- GameObject::BuildValuesUpdate ORs GO_FLAG_LOCKED | GO_FLAG_NOT_SELECTABLE into
+  that one player's GAMEOBJECT_FLAGS, beside the existing chest.groupLootRules
+  branch, GMs exempt. Quest chests force the field on EVERY update: the stored
+  value never changes, so nothing dirties the mask, and if it only travelled
+  while the lock applied then accepting the quest would leave the client holding
+  a stale lock with the chest dead. Quest transitions run
+  UpdateForQuestWorldObjects, so both edges land without a relog.
+- Player::SendLoot refuses such a chest, so a client that ignores the flag cannot
+  consume it either.
+
+Closes I-284
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01R3mVmezJCwwVP8EYZdfYUq
+---
+ .../game/Entities/GameObject/GameObject.cpp   | 54 ++++++++++-
+ .../game/Entities/GameObject/GameObject.h     |  2 +
+ src/server/game/Entities/Player/Player.cpp    | 11 +++
+ src/server/game/Loot/LootMgr.cpp              | 94 +++++++++++++++++++
+ src/server/game/Loot/LootMgr.h                |  4 +
+ 5 files changed, 164 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/game/Entities/GameObject/GameObject.cpp b/src/server/game/Entities/GameObject/GameObject.cpp
+index 523144f2c..ee65610a2 100644
+--- a/src/server/game/Entities/GameObject/GameObject.cpp
++++ b/src/server/game/Entities/GameObject/GameObject.cpp
+@@ -1363,6 +1363,43 @@ bool GameObject::ActivateToQuest(Player* target) const
+     return false;
+ }
+ 
++// A chest whose whole loot table is quest gated has nothing to offer a player who is not
++// on that quest, or who has already filled the objective. The core does not model that:
++// chest.questId is unused (GameObjectData.h), chests are absent from GameObject::Use, and
++// opening runs client lock cast -> Spell::EffectOpenLock -> Player::SendLoot without ever
++// reading quest status. So the chest stays interactable, hands out an empty loot window,
++// and — when chest.consumable is set — despawns on the loot release, taking it away from
++// the players who still need it.
++//
++// This is what ActivateToQuest already computes for the sparkle; the flag work in
++// BuildValuesUpdate turns the same answer into GO_FLAG_LOCKED | GO_FLAG_NOT_SELECTABLE for
++// that one player, exactly as the chest.groupLootRules branch does for a player outside the
++// loot group. Chests that also hold loot anyone may take (a treasure chest with a quest item
++// mixed in, e.g. 153123 Kim'jael's Equipment) are deliberately left alone.
++bool GameObject::IsQuestChestUnavailableFor(Player* target) const
++{
++    if (GetGoType() != GAMEOBJECT_TYPE_CHEST)
++        return false;
++
++    GameObjectTemplate const* info = GetGOInfo();
++    if (!info->IsGameObjectForQuests())
++        return false;
++
++    // still wanted by one of this player's quests
++    if (ActivateToQuest(target))
++        return false;
++
++    if (LootTemplates_Gameobject.HaveNonQuestLootFor(info->GetLootId()))
++        return false;
++
++    // template addon gold is lootable regardless of quest status
++    if (GameObjectTemplateAddon const* addon = GetTemplateAddon())
++        if (addon->maxgold > 0)
++            return false;
++
++    return true;
++}
++
+ void GameObject::TriggeringLinkedGameObject(uint32 trapEntry, Unit* target)
+ {
+     GameObjectTemplate const* trapInfo = sObjectMgr->GetGameObjectTemplate(trapEntry);
+@@ -2762,8 +2799,18 @@ void GameObject::BuildValuesUpdate(uint8 updateType, ByteBuffer* data, Player* t
+     if (!target)
+         return;
+ 
+-    bool forcedFlags = GetGoType() == GAMEOBJECT_TYPE_CHEST && GetGOInfo()->chest.groupLootRules && HasLootRecipient();
+     bool targetIsGM = target->IsGameMaster() && target->GetSession()->IsGMAccount();
++    // A quest chest re-sends GAMEOBJECT_FLAGS on EVERY update for this player, not only
++    // while the lock applies. The lock below is per-player while the stored field never
++    // changes, so nothing dirties the mask on its own: if the field only travelled when
++    // the lock was on, accepting the quest would leave the client holding a stale
++    // GO_FLAG_LOCKED | GO_FLAG_NOT_SELECTABLE and the chest would stay dead. Player quest
++    // transitions run UpdateForQuestWorldObjects (PlayerQuest.cpp:1635/1914/1955), which
++    // rebuilds every visible gameobject for that player, so this lands the moment the
++    // objective fills or the quest is taken.
++    bool questChest = GetGoType() == GAMEOBJECT_TYPE_CHEST && GetGOInfo()->IsGameObjectForQuests();
++    bool questChestUnavailable = questChest && !targetIsGM && IsQuestChestUnavailableFor(target);
++    bool forcedFlags = questChest || (GetGoType() == GAMEOBJECT_TYPE_CHEST && GetGOInfo()->chest.groupLootRules && HasLootRecipient());
+ 
+     ByteBuffer fieldBuffer;
+ 
+@@ -2845,6 +2892,11 @@ void GameObject::BuildValuesUpdate(uint8 updateType, ByteBuffer* data, Player* t
+                     goFlags |= GO_FLAG_LOCKED | GO_FLAG_NOT_SELECTABLE;
+                 }
+ 
++                if (questChestUnavailable)
++                {
++                    goFlags |= GO_FLAG_LOCKED | GO_FLAG_NOT_SELECTABLE;
++                }
++
+                 fieldBuffer << goFlags;
+             }
+             else
+diff --git a/src/server/game/Entities/GameObject/GameObject.h b/src/server/game/Entities/GameObject/GameObject.h
+index 3cae54de9..98f18d9e3 100644
+--- a/src/server/game/Entities/GameObject/GameObject.h
++++ b/src/server/game/Entities/GameObject/GameObject.h
+@@ -263,6 +263,8 @@ public:
+     [[nodiscard]] bool hasQuest(uint32 quest_id) const override;
+     [[nodiscard]] bool hasInvolvedQuest(uint32 quest_id) const override;
+     bool ActivateToQuest(Player* target) const;
++    // True for a quest-only chest (every drop it holds is quest gated) that this player has no use for
++    bool IsQuestChestUnavailableFor(Player* target) const;
+     void UseDoorOrButton(uint32 time_to_restore = 0, bool alternative = false, Unit* user = nullptr);
+     // 0 = use `gameobject`.`spawntimesecs`
+     void ResetDoorOrButton();
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+index 1fffe8b22..95a9dddbc 100644
+--- a/src/server/game/Entities/Player/Player.cpp
++++ b/src/server/game/Entities/Player/Player.cpp
+@@ -7888,6 +7888,17 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
+             return;
+         }
+ 
++        // A quest-only chest this player has no use for cannot be opened at all. The
++        // per-target GO_FLAG_NOT_SELECTABLE from GameObject::BuildValuesUpdate stops the
++        // client offering it; this stops a client that ignores the flag from consuming it
++        // anyway, since a consumable chest despawns on the loot release even when the loot
++        // came out empty.
++        if (!IsGameMaster() && go->IsQuestChestUnavailableFor(this))
++        {
++            SendLootRelease(guid);
++            return;
++        }
++
+         loot = &go->loot;
+ 
+         // Xinef: loot was generated and respawntime has passed since then, allow to recreate loot
+diff --git a/src/server/game/Loot/LootMgr.cpp b/src/server/game/Loot/LootMgr.cpp
+index e661a71da..44323b86b 100644
+--- a/src/server/game/Loot/LootMgr.cpp
++++ b/src/server/game/Loot/LootMgr.cpp
+@@ -100,6 +100,7 @@ public:
+     void AddEntry(LootStoreItem* item);                     // Adds an entry to the group (at loading stage)
+     bool HasQuestDrop(LootTemplateMap const& store) const;  // True if group includes at least 1 quest drop entry
+     bool HasQuestDropForPlayer(Player const* player, LootTemplateMap const& store) const;
++    bool HasNonQuestDrop(LootTemplateMap const& store) const; // True if group includes at least 1 entry that is not quest gated
+     // The same for active quests of the player
+     void Process(Loot& loot, Player const* player, LootStore const& lootstore, uint16 lootMode, uint16 nonRefIterationsLeft) const;    // Rolls an item from the group (if any) and adds the item to the loot
+     float RawTotalChance() const;                       // Overall chance for the group (without equal chanced items)
+@@ -235,6 +236,15 @@ bool LootStore::HaveQuestLootForPlayer(uint32 loot_id, Player const* player) con
+     return false;
+ }
+ 
++bool LootStore::HaveNonQuestLootFor(uint32 loot_id) const
++{
++    LootTemplateMap::const_iterator itr = m_LootTemplates.find(loot_id);
++    if (itr == m_LootTemplates.end())
++        return false;
++
++    return itr->second->HasNonQuestDrop(m_LootTemplates);
++}
++
+ void LootStore::ResetConditions()
+ {
+     for (LootTemplateMap::iterator itr = m_LootTemplates.begin(); itr != m_LootTemplates.end(); ++itr)
+@@ -1373,6 +1383,56 @@ bool LootTemplate::LootGroup::HasQuestDrop(LootTemplateMap const& store) const
+     return false;
+ }
+ 
++// True if group includes at least 1 entry any player may take regardless of quest status
++bool LootTemplate::LootGroup::HasNonQuestDrop(LootTemplateMap const& store) const
++{
++    for (LootStoreItemList::const_iterator i = ExplicitlyChanced.begin(); i != ExplicitlyChanced.end(); ++i)
++    {
++        LootStoreItem* item = *i;
++        if (item->reference) // References
++        {
++            LootTemplateMap::const_iterator Referenced = store.find(std::abs(item->reference));
++            if (Referenced == store.end())
++            {
++                continue; // Error message [should be] already printed at loading stage
++            }
++
++            if (Referenced->second->HasNonQuestDrop(store))
++            {
++                return true;
++            }
++        }
++        else if (!item->needs_quest)
++        {
++            return true;
++        }
++    }
++
++    for (LootStoreItemList::const_iterator i = EqualChanced.begin(); i != EqualChanced.end(); ++i)
++    {
++        LootStoreItem* item = *i;
++        if (item->reference) // References
++        {
++            LootTemplateMap::const_iterator Referenced = store.find(std::abs(item->reference));
++            if (Referenced == store.end())
++            {
++                continue; // Error message [should be] already printed at loading stage
++            }
++
++            if (Referenced->second->HasNonQuestDrop(store))
++            {
++                return true;
++            }
++        }
++        else if (!item->needs_quest)
++        {
++            return true;
++        }
++    }
++
++    return false;
++}
++
+ // True if group includes at least 1 quest drop entry for active quests of the player
+ bool LootTemplate::LootGroup::HasQuestDropForPlayer(Player const* player, LootTemplateMap const& store) const
+ {
+@@ -1796,6 +1856,40 @@ bool LootTemplate::HasQuestDrop(LootTemplateMap const& store) const
+     return false;
+ }
+ 
++// True if template includes at least 1 drop that is not gated behind a quest
++bool LootTemplate::HasNonQuestDrop(LootTemplateMap const& store) const
++{
++    for (LootStoreItemList::const_iterator i = Entries.begin(); i != Entries.end(); ++i)
++    {
++        LootStoreItem* item = *i;
++        if (item->reference)                                // References
++        {
++            LootTemplateMap::const_iterator Referenced = store.find(std::abs(item->reference));
++            if (Referenced == store.end())
++                continue;                                   // Error message [should be] already printed at loading stage
++
++            if (Referenced->second->HasNonQuestDrop(store))
++                return true;
++        }
++        else if (!item->needs_quest)
++            return true;                                    // non-quest drop found
++    }
++
++    // Now processing groups
++    for (LootGroups::const_iterator i = Groups.begin(); i != Groups.end(); ++i)
++    {
++        if (LootGroup* group = *i)
++        {
++            if (group->HasNonQuestDrop(store))
++            {
++                return true;
++            }
++        }
++    }
++
++    return false;
++}
++
+ // True if template includes at least 1 quest drop for an active quest of the player
+ bool LootTemplate::HasQuestDropForPlayer(LootTemplateMap const& store, Player const* player) const
+ {
+diff --git a/src/server/game/Loot/LootMgr.h b/src/server/game/Loot/LootMgr.h
+index 079eba002..cabf4cb5f 100644
+--- a/src/server/game/Loot/LootMgr.h
++++ b/src/server/game/Loot/LootMgr.h
+@@ -224,6 +224,8 @@ public:
+     [[nodiscard]] bool HaveLootFor(uint32 loot_id) const { return m_LootTemplates.find(loot_id) != m_LootTemplates.end(); }
+     [[nodiscard]] bool HaveQuestLootFor(uint32 loot_id) const;
+     bool HaveQuestLootForPlayer(uint32 loot_id, Player const* player) const;
++    // True if the template holds anything that is NOT gated behind a quest
++    [[nodiscard]] bool HaveNonQuestLootFor(uint32 loot_id) const;
+ 
+     [[nodiscard]] LootTemplate const* GetLootFor(uint32 loot_id) const;
+     [[nodiscard]] LootTemplate* GetLootForConditionFill(uint32 loot_id) const;
+@@ -261,6 +263,8 @@ public:
+     [[nodiscard]] bool HasQuestDrop(LootTemplateMap const& store) const;
+     // True if template includes at least 1 quest drop for an active quest of the player
+     bool HasQuestDropForPlayer(LootTemplateMap const& store, Player const* player) const;
++    // True if template includes at least 1 drop that is not gated behind a quest
++    [[nodiscard]] bool HasNonQuestDrop(LootTemplateMap const& store) const;
+ 
+     // Checks integrity of the template
+     void Verify(LootStore const& store, uint32 Id) const;
+-- 
+2.34.1
+
