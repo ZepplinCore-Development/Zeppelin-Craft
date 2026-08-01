@@ -1,0 +1,82 @@
+From f2e367043b9a68cb66fe7c3190e6ab493a99fe48 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 1 Aug 2026 15:36:28 +0000
+Subject: [PATCH] fix(wmo): gate modern-source color repairs off native WMOs
+ (I-304)
+
+- Clear MOHD flag 0x8 (skip FixColorVertexAlpha) only for modern-marker
+  roots: a native root that sets it ships final MOCV, and clearing it
+  made the 3.3.5 client re-apply the fix and blow out stock interiors
+  (Stormwind bank washed white when any rebuild trigger fired)
+- Neutralize near-white MOCV only in modern groups (MPY2/MOGX present):
+  native bright vertex colors are real baked lamp/window light
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ shared/models/wmo/WmoTranslate.cpp | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/shared/models/wmo/WmoTranslate.cpp b/shared/models/wmo/WmoTranslate.cpp
+index e6711df..afd0265 100644
+--- a/shared/models/wmo/WmoTranslate.cpp
++++ b/shared/models/wmo/WmoTranslate.cpp
+@@ -374,7 +374,12 @@ namespace wxl::modern::assets::wmo
+             if (magic == kMOHD)
+             {
+                 iff::Chunk c{};
+-                if (reader.Find(kMOHD, c) && c.size >= 0x3E)
++                // Flag 0x8 = "do not run CMapObjGroup::FixColorVertexAlpha". Clear it only for a modern
++                // source, whose translated colors still need the Client's fix. A NATIVE root that sets it
++                // ships MOCV already in final form -- clearing it there makes the Client re-apply the fix
++                // ((c + c*a/64)/2 per interior vertex, up to ~2.5x) and blow out its interiors the moment
++                // any other edit (e.g. runTimeData zeroing) triggers this rebuild.
++                if (reader.Find(kMOHD, c) && c.size >= 0x3E && modern)
+                 {
+                     std::vector<uint8_t> mohd(c.data, c.data + c.size);
+                     Wr16(mohd.data() + 0x3C, uint16_t(Rd16(mohd.data() + 0x3C) & ~uint16_t(0x8)));
+@@ -434,13 +439,15 @@ namespace wxl::modern::assets::wmo
+         iff::Chunk motv2{}, mocv2{};
+         bool hasMOBN = false, hasMOBR = false, hasMOCV = false, hasMOLR = false, hasMODR = false, hasMLIQ = false;
+         bool seenMOTV = false;
++        bool modernGroup = false; // any source-only chunk marks a modern group; a native group has none
+ 
+         gr.ForEach([&](const iff::Chunk& c)
+         {
+             switch (c.magic)
+             {
++                case kMOGX: modernGroup = true; break;
+                 case kMOPY: if (!mopy.data) mopy = c; break;
+-                case kMPY2: if (!mpy2.data) mpy2 = c; break;
++                case kMPY2: modernGroup = true; if (!mpy2.data) mpy2 = c; break;
+                 case kMOVI: if (!movi.data) movi = c; break;
+                 case kMOVT: if (!movt.data) movt = c; break;
+                 case kMONR: if (!monr.data) monr = c; break;
+@@ -520,19 +527,23 @@ namespace wxl::modern::assets::wmo
+         if (hasMODR) iff::EmitRaw(subRegion, modr);
+         if (hasMOBN) iff::EmitRaw(subRegion, mobn);
+         if (hasMOBR) iff::EmitRaw(subRegion, mobr);
+-        if (hasMOCV)
++        if (hasMOCV && modernGroup)
+         {
+             // A modern source leaves some exterior groups' vertex colors at a near-white placeholder (its
+             // shader path needs no baked lighting), while the groups that shade correctly carry near-black
+             // colors. The Client multiplies the surface by the vertex color, so a near-white group renders
+             // over-bright. Neutralize a near-white entry to black so it shades from the ambient/scene light
+-            // like the correct groups; meaningful (darker) colors are left untouched.
++            // like the correct groups; meaningful (darker) colors are left untouched. NATIVE groups are
++            // exempt: their bright MOCV entries are real baked light (lamps, windows) and blacking them
++            // corrupts stock interiors.
+             std::vector<uint8_t> cv(mocv.data, mocv.data + mocv.size);
+             for (uint32_t v = 0; v + 4 <= cv.size(); v += 4)
+                 if (cv[v] >= 220 && cv[v + 1] >= 220 && cv[v + 2] >= 220)
+                     { cv[v] = 0; cv[v + 1] = 0; cv[v + 2] = 0; }
+             iff::Emit(subRegion, kMOCV, cv.data(), static_cast<uint32_t>(cv.size()));
+         }
++        else if (hasMOCV)
++            iff::EmitRaw(subRegion, mocv);
+         if (hasMLIQ) iff::EmitRaw(subRegion, mliq);
+ 
+         // Native two-layer (shader 6) needs a 2nd texcoord + 2nd color set: the 2nd MOCV's alpha blends the
+-- 
+2.34.1
+
