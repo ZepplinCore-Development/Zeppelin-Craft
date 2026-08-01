@@ -51,6 +51,21 @@ _DERIVED = [
 ]
 
 
+# Sub-menus the action_menu_id closure must NOT drag in (I-286). These are the
+# donor core's own scaffolding, reached from stock/non-goblin NPCs that merely
+# happen to spawn inside the zone boxes — porting them would ship visibly wrong
+# text in our 510xxx block. Everything else in the closure is real zone content.
+MENU_CLOSURE_SKIP = {
+    1,      # Neltharion's raid-size picker, French ("On est 16 ...") — from 10716
+            # "Let me fly back to Vengeance Wake!" (Vashj'ir) and 11244
+    1221,   # stock innkeeper "What can I do at an inn?" — AC answers this natively
+    10371,  # Dual Talent Specialization info; AC drives it from OptionType 18
+    23620,  # "Back." page of the dual-spec menu above
+    12045,  # French profession-vendor lists reached from 12002 (donor scaffolding)
+    12046,
+}
+
+
 def _i(v, d=0):
     try:
         return int(float(str(v).strip()))
@@ -64,12 +79,27 @@ def _esc(v):
     return "'" + s + "'"
 
 
+def _entext():
+    """Load the shared enUS repair helper (domains are file-loaded, not a package)."""
+    import importlib.util
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_entext.py")
+    spec = importlib.util.spec_from_file_location("goblin_gen__entext", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def emit(ctx):
     # Combined file, both zones queried together -> emit once on the "" pass.
     if ctx.sfx == "_K":
         return "skipped (combined file emitted on the Lost Isles pass)"
 
     q = ctx.q
+    # I-302: the Neltharion dump is a partly French fork and is double-encoded
+    # throughout. Every string that leaves this domain goes through `en` first.
+    et = _entext()
+    en = et.EnglishText(ctx)
     zone_in = ",".join("'%s'" % z for z in GOB_ZONES)
 
     # Goblin NPCs (both zones) and their gossip menus.
@@ -123,7 +153,29 @@ def emit(ctx):
     # them never renumbers the existing remap.
     cre_menus = sorted(set(cre_menu.values()))
     go_only = sorted({m for _f, m in go_menu.values()} - set(cre_menus))
-    menus = cre_menus + go_only
+
+    # ---- transitive closure over action_menu_id (I-286) --------------------
+    # A gossip option of OptionType 1 (GOSSIP) does exactly one thing in AC: open
+    # the menu named by ActionMenuID (Player::OnGossipSelect). Those sub-menus are
+    # reached ONLY from an option, never from creature_template.gossip_menu_id, so
+    # the scope above never collected them and the remap lookup below quietly
+    # resolved them to 0 — i.e. an option that renders normally and does NOTHING
+    # when clicked (Foreman Dampwick 10677: both options). Close over the chain so
+    # the sub-menus ship and the id resolves. Appended LAST for the same
+    # append-only stability the GO menus rely on.
+    known = set(cre_menus) | set(go_only)
+    closure, frontier = set(), set(known)
+    while frontier:
+        ids = ",".join(map(str, frontier))
+        nxt = {_i(r["a"]) for r in
+               q("SELECT DISTINCT CAST(TRIM(action_menu_id) AS SIGNED) AS a "
+                 "FROM gossip_menu_option WHERE CAST(TRIM(menu_id) AS SIGNED) IN (%s) "
+                 "AND CAST(TRIM(action_menu_id) AS SIGNED) > 0" % ids)}
+        frontier = nxt - known - closure - MENU_CLOSURE_SKIP
+        closure |= frontier
+    closure_only = sorted(closure)
+
+    menus = cre_menus + go_only + closure_only
     mset = ",".join(map(str, menus))
 
     gm = [(_i(r["e"]), _i(r["t"])) for r in
@@ -131,10 +183,16 @@ def emit(ctx):
             "FROM gossip_menu WHERE CAST(TRIM(entry) AS SIGNED) IN (%s)" % mset)]
     # Same append-only stability for npc_text ids: creature-menu texts keep
     # their historical 500xxx ids, GO-only-menu texts append after.
-    cre_menu_set = set(cre_menus)
+    # Three tiers, appended in the order the tiers were added to the port, so a new
+    # tier never renumbers an older one (I-286: a flat cre/go split put the closure
+    # sub-menus' lower source ids ahead of the GO texts and shifted 500145/500146).
+    cre_menu_set, go_menu_set = set(cre_menus), set(go_only)
     cre_textids = sorted({t for e, t in gm if t > 0 and e in cre_menu_set})
-    go_textids = sorted({t for e, t in gm if t > 0} - set(cre_textids))
-    textids = cre_textids + go_textids
+    go_textids = sorted({t for e, t in gm if t > 0 and e in go_menu_set}
+                        - set(cre_textids))
+    closure_textids = sorted({t for e, t in gm if t > 0}
+                             - set(cre_textids) - set(go_textids))
+    textids = cre_textids + go_textids + closure_textids
     menu_remap = {m: MENU_BASE + ix for ix, m in enumerate(menus)}
     text_remap = {t: TXT_BASE + ix for ix, t in enumerate(textids)}
     # stash for later domains (smartai remaps SMART_EVENT_GOSSIP_SELECT menu ids);
@@ -167,7 +225,8 @@ def emit(ctx):
         if col.startswith("Probability"):
             return str(_i(d.get("prob" + col[len('Probability'):]), 100))
         if col.startswith("text"):
-            return _esc(d.get(col))
+            # I-302: keyed on the SOURCE id, which tdb434 shares with the dump.
+            return _esc(en.npc_text_field(_i(d['ID']), col, d.get(col)))
         return str(_i(d.get(col)))
 
     R = ctx.col.Raw
@@ -184,15 +243,27 @@ def emit(ctx):
              "action_menu_id,action_poi_id,box_coded,box_money,box_text FROM gossip_menu_option "
              "WHERE CAST(TRIM(menu_id) AS SIGNED) IN (%s)" % mset)
     ctx.col.delete("gossip_menu_option", "MenuID BETWEEN %d AND %d" % (MENU_BASE, MENU_BASE + 9999))
+    dead_clicks = []
     for r in opts:
-        amid2 = menu_remap.get(_i(r["action_menu_id"]), 0) if _i(r["action_menu_id"]) > 0 else 0
+        amid = _i(r["action_menu_id"])
+        amid2 = menu_remap.get(amid, 0) if amid > 0 else 0
+        if amid > 0 and not amid2:
+            # An OptionType-1 option with an unresolved ActionMenuID renders fine and
+            # does nothing when clicked. That must never be a silent 0 again (I-286).
+            dead_clicks.append((menu_remap[_i(r["menu_id"])], _i(r["id"]), amid,
+                                (r["option_text"] or "").strip()[:40]))
+        src_menu, oidx = _i(r["menu_id"]), _i(r["id"])
         ctx.col.add("gossip_menu_option", {
-            "MenuID": menu_remap[_i(r["menu_id"])], "OptionID": _i(r["id"]),
-            "OptionIcon": _i(r["option_icon"]), "OptionText": R(_esc(r["option_text"])),
+            "MenuID": menu_remap[src_menu], "OptionID": oidx,
+            "OptionIcon": _i(r["option_icon"]),
+            # I-302: keyed on the SOURCE menu id, which tdb434 shares with the dump.
+            "OptionText": R(_esc(en.gossip_option(src_menu, oidx, r["option_text"]))),
             "OptionBroadcastTextID": 0, "OptionType": _i(r["option_id"]),
             "OptionNpcFlag": _i(r["npc_option_npcflag"]), "ActionMenuID": amid2,
             "ActionPoiID": _i(r["action_poi_id"]), "BoxCoded": _i(r["box_coded"]),
-            "BoxMoney": _i(r["box_money"]), "BoxText": R(_esc(r["box_text"])),
+            "BoxMoney": _i(r["box_money"]),
+            # No BoxText in the port is localised; demojibake only (I-302).
+            "BoxText": R(_esc(et.demojibake(r["box_text"]))),
             "BoxBroadcastTextID": 0,
         })
     # repoint each NPC at its remapped menu — overlay onto our creature_template INSERTs
@@ -270,7 +341,15 @@ def emit(ctx):
                 "ErrorType": 0, "ErrorTextId": 0, "ScriptName": "", "Comment": cm,
             })
 
-    return ("gossip: %d menus, %d npc_text, %d options, %d NPCs + %d GOs repointed; "
-            "conditions=%d (%d dropped); derived=%d menus"
-            % (len(menus), len(ntrows), len(opts), len(cre_menu), go_repointed,
-               len(kept), dropped, len(_DERIVED)))
+    out = ("gossip: %d menus (+%d chained sub-menus), %d npc_text, %d options, "
+           "%d NPCs + %d GOs repointed; conditions=%d (%d dropped); derived=%d menus"
+           "\n  %s"
+           % (len(menus), len(closure_only), len(ntrows), len(opts), len(cre_menu),
+              go_repointed, len(kept), dropped, len(_DERIVED), en.summary()))
+    if dead_clicks:
+        out += "\n  %d option(s) keep ActionMenuID=0 -> DEAD CLICK:" % len(dead_clicks)
+        for mm, oid, src, txt in dead_clicks:
+            why = "MENU_CLOSURE_SKIP" if src in MENU_CLOSURE_SKIP else "no source gossip_menu row"
+            out += "\n    menu %d option %d -> source menu %d (%s): \"%s\"" % (
+                mm, oid, src, why, txt)
+    return out

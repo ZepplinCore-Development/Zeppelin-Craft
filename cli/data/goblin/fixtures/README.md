@@ -23,6 +23,7 @@ reproducible and the curation is not lost).
 | `npc_equip_missing.json` | NPCs needing equipment recovery |
 | `my_baked_extras.json` | Extra baked-NPC texture entries |
 | `fb_plan.json` | Fallback creature-model plan (which displays get retroported fallbacks) |
+| `text_overrides.json` | I-302 enUS strings for rows tdb434 cannot key (see `goblin_gen/_entext.py`) |
 | `item_spell_wm.json` | Item → on-use spell mapping sourced from Whitemane |
 
 ## Derived (a generator exists — snapshotted here; `gen` will regenerate)

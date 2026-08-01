@@ -1,0 +1,55 @@
+{
+  "_comment": [
+    "I-302 -- hand-verified enUS strings for Neltharion rows that tdb434 cannot key.",
+    "Keys are SOURCE (Neltharion/Cata) ids, not the remapped 5xxxxx block, so this",
+    "fixture survives any renumbering of the port's id blocks.",
+    "gossip_menu_option: '<srcMenuId>/<optionIndex>'",
+    "npc_text:           '<srcTextId>/<field>'",
+    "creature_text:      '<creatureId>/<groupId>/<id>'  (Neltharion GroupID numbering)",
+    "Every string below was traced to a tdb434 broadcast_text row or to the stock",
+    "AzerothCore wording for that option type; none of it is invented."
+  ],
+
+  "gossip_menu_option": {
+    "10618/0": "I would like to check my deposit box.",
+    "11047/0": "I am interested in mage training.",
+    "10816/0": "I am interested in mage training."
+  },
+
+  "npc_text": {},
+
+  "creature_text": {
+    "35201/1/0": {
+      "Text": "This sparkling white wine is delicious! Wherever did you get it?",
+      "comment": "Kezan Partygoer",
+      "_src": "tdb434 broadcast_text 35419 -- the shipped row is ~6 rounds of double encoding deep and unrecoverable by demojibake alone"
+    },
+    "35838/0/0": {
+      "Text": "Sooie nah mi juju, gobin!",
+      "comment": "Pygmy Witchdoctor",
+      "_src": "tdb434 broadcast_text 36347"
+    },
+    "35201/7/0": {
+      "Text": "A disco ball?! Groovy!",
+      "comment": "Kezan Partygoer",
+      "_src": "tdb434 broadcast_text 35425 -- shipped row is the French line machine-translated back"
+    },
+    "38745/0/8": {
+      "comment": "Kezan Citizen"
+    },
+    "35838/0/1": {
+      "comment": "Pygmy Witchdoctor"
+    },
+    "35838/0/2": {
+      "comment": "Pygmy Witchdoctor"
+    },
+    "36129/0/0": {
+      "comment": "Gyrochoppa Pilot"
+    },
+    "39066/1/0": {
+      "Text": "Up the ramp, $n! Help Thrall defeat the Trade Prince!",
+      "comment": "Kilag Gorefang to Player",
+      "_src": "tdb434 broadcast_text 39532 -- shipped row is the French line machine-translated back ('Cimb the ramp', 'merchant prince' for Trade Prince)"
+    }
+  }
+}
