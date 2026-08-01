@@ -23,11 +23,14 @@
 --        won't re-render a passenger's model swap — protection still active, the
 --        look pops when you hop out (retail's rider rig couldn't render there
 --        either).
---   aura_interrupt_flags 0x3002: dropped by attacking or taking damage — combat
---        exposes you (mooks turn on you), and re-hits keep it suppressed while
---        the fight lasts (the periodic full-mask recast bypasses the in-combat
---        CheckCast gate, Spell.cpp TRIGGERED_IGNORE_CASTER_AURASTATE — the
---        take-damage flag is what keeps the flicker honest).
+--   aura_interrupt_flags 0x1002 (take damage | melee attack): combat exposes you
+--        (mooks turn on you). Round 4 dropped 0x2000 SPELL_ATTACK — the core fires
+--        that bit on EVERY stealth-breaking cast (Spell.cpp:3634), so Skinning a
+--        pig corpse was knocking the cap off. Ranged/spell combat entries are
+--        covered by the carrier's script instead: spell_zep_mook_disguise_carrier
+--        (zeppelin_goblin_start.cpp) makes the 5s periodic strip the disguise
+--        while in combat and only re-cast it once combat ends — no mid-fight
+--        buff/transform flicker.
 
 DELETE FROM `spell` WHERE `id` = 67435;
 
@@ -67,7 +70,7 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `duration_index` = 21,
-    `aura_interrupt_flags` = 12290,
+    `aura_interrupt_flags` = 4098,
     `effect_1` = 6,
     `effect_apply_aura_name_1` = 139,
     `effect_base_points_1` = 3,

@@ -1,0 +1,69 @@
+From abd42a1766aa54925222db86416152211523ab9d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 1 Aug 2026 15:24:49 +0000
+Subject: [PATCH] fix: Mook disguise combat flicker and skinning drop (I-262)
+
+- spell_zep_mook_disguise_carrier (AuraScript on carrier 67435): while in
+  combat the 5s periodic strips the disguise instead of re-casting it, so
+  the buff/transform no longer toggles every tick mid-fight; the cap
+  returns within 5s of leaving combat (retail kezan.cpp behaviour)
+- pairs with dbc change: 70467 aura_interrupt_flags 0x3002 -> 0x1002.
+  AURA_INTERRUPT_FLAG_SPELL_ATTACK fires on every stealth-breaking cast
+  (Spell.cpp:3634), so Skinning a pig corpse was knocking the cap off
+
+Closes I-262 round 4
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01WozCPUtucaVsV7ZZs1sb4w
+---
+ .../scripts/Custom/zeppelin_goblin_start.cpp  | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/src/server/scripts/Custom/zeppelin_goblin_start.cpp b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+index 379d60148..0f36b10bd 100644
+--- a/src/server/scripts/Custom/zeppelin_goblin_start.cpp
++++ b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+@@ -200,6 +200,34 @@ class spell_zep_item_kajacola : public AuraScript
+     }
+ };
+ 
++// I-262 Waltz Right In (q14123): carrier 67435's 5s periodic re-applies the mook
++// disguise (70467). Retail gated this on being out of combat (kezan.cpp); without
++// the gate the tick re-casts mid-fight and the next hit knocks it straight back
++// off — buff/transform flicker for the whole scrap. While in combat the tick
++// instead strips a lingering disguise (covers combat entries the aura interrupt
++// flags can't see, e.g. opening with a ranged/spell attack).
++class spell_zep_mook_disguise_carrier : public AuraScript
++{
++    PrepareAuraScript(spell_zep_mook_disguise_carrier);
++
++    static constexpr uint32 SPELL_MOOK_DISGUISE = 70467;
++
++    void HandlePeriodic(AuraEffect const* /*aurEff*/)
++    {
++        Unit* target = GetTarget();
++        if (target->IsInCombat())
++        {
++            PreventDefaultAction();
++            target->RemoveAurasDueToSpell(SPELL_MOOK_DISGUISE);
++        }
++    }
++
++    void Register() override
++    {
++        OnEffectPeriodic += AuraEffectPeriodicFn(spell_zep_mook_disguise_carrier::HandlePeriodic, EFFECT_0, SPELL_AURA_PERIODIC_TRIGGER_SPELL);
++    }
++};
++
+ void AddSC_zeppelin_goblin_start()
+ {
+     // q14019 Monkey Business has no C++ script: the credit is granted by the fed
+@@ -211,4 +239,5 @@ void AddSC_zeppelin_goblin_start()
+     RegisterSpellScript(spell_zep_q14031_ktc_snapflash);
+     RegisterSpellScript(spell_zep_q28414_footbomb_goal);
+     RegisterSpellScript(spell_zep_item_kajacola);
++    RegisterSpellScript(spell_zep_mook_disguise_carrier);
+ }
+-- 
+2.34.1
+

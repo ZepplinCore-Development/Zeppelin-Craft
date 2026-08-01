@@ -13,6 +13,10 @@
 --     disguise 70467 (I-254 verified pattern) — instant disguise on entry, clean
 --     removal on leaving/turn-in; the carrier's 5s periodic re-applies it after
 --     a combat drop (dbc/[I-262]_spell.sql).
+--   * spell_script_names: round-4 out-of-combat gate on the carrier
+--     (spell_zep_mook_disguise_carrier, zeppelin_goblin_start.cpp) — while in
+--     combat the periodic strips the disguise instead of re-casting it, so no
+--     buff/transform flicker mid-fight; it returns <=5s after combat ends.
 
 -- ---- transform helper template (we own; referenced by aura 56 misc only) ----
 DELETE FROM creature_template WHERE entry = 948925;
@@ -40,3 +44,8 @@ INSERT INTO spell_area (spell, area, quest_start, quest_end, aura_spell, racemas
 DELETE FROM spell_linked_spell WHERE spell_trigger = 67435;
 INSERT INTO spell_linked_spell (spell_trigger, spell_effect, type, comment) VALUES
   (67435, 70467, 2, 'Waltz Right In: cap carrier - co-apply/remove mook disguise (I-262)');
+
+-- ---- out-of-combat gate on the carrier periodic (round 4) ----
+DELETE FROM spell_script_names WHERE spell_id = 67435;
+INSERT INTO spell_script_names (spell_id, ScriptName) VALUES
+  (67435, 'spell_zep_mook_disguise_carrier');
