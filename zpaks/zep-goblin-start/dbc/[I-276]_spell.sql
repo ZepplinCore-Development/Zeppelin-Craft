@@ -36,10 +36,21 @@
 -- spell is only ever cast on a target the script has already chosen, so an
 -- unrestricted range costs nothing.
 --
--- duration_index 21 = PERMANENT. The lifecycle is owned by `spell_area`, which
--- applies this on entering Shipwreck Shore with Life Savings done and removes it
--- the moment 14239 is handed in -- so a timer would serve no purpose except to
--- expire mid-scene and replay the collapse animation on re-application.
+-- duration_index 5 = 300s, a FAILSAFE and nothing else (round 2). The lifecycle is
+-- still owned by `spell_area` + Doc's scene, which strips the aura roughly 35s
+-- after Doc first sees the player -- five minutes never expires during a healthy
+-- run, so the collapse animation is never replayed mid-scene.
+--
+-- It was duration_index 21 (PERMANENT) and that is a trap: this aura is
+-- FEIGN_DEATH + MOD_ROOT + MOD_STUN with NO_AURA_CANCEL set, so a player holding
+-- it cannot move, cannot turn, and cannot right-click it off. If the scene never
+-- reaches its removal row -- Doc dead or despawned, the player out of invoker
+-- range, a worldserver restart mid-RP, or the spell_area release condition
+-- failing for any reason -- a permanent duration pins that character forever and
+-- the only way out is a GM `.unaura` or a direct edit of `character_aura`. That
+-- is exactly how the round-2 regression was found: a live character logged out
+-- rooted in a cave. A hard ceiling costs nothing and makes the worst case
+-- self-healing.
 --
 -- attributes carries SPELL_ATTR0_NO_AURA_CANCEL (0x80000000) on top of the
 -- existing 0x80. The player could still WALK after talking to Doc even with the
@@ -58,7 +69,7 @@ INSERT INTO `spell` SET
   `spell_desc_enus` = 'Washed up on the shore of the Lost Isles, barely breathing.',
   `attributes` = 0x80000080,
   `attributes_ex_1` = 0x10000000,
-  `duration_index` = 21,
+  `duration_index` = 5,
   `range_index` = 13,
   `cast_time_index` = 1,
   `school_mask` = 1,
@@ -138,6 +149,22 @@ INSERT INTO `spell` SET
 -- on Doc so the RP could "complete" it. That worked mechanically but modelled
 -- being resuscitated as killing the medic, which is wrong on its face and would
 -- have shown Doc as a kill target in the quest log.
+--
+-- attributes_ex_3 0x00100000 = SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD, "persists
+-- through death" (SharedDefines.h:517, SpellInfo::IsDeathPersistent
+-- SpellInfo.cpp:1249). THIS IS LOAD-BEARING, not decoration (round 2).
+--
+-- Unit::RemoveAllAurasOnDeath (Unit.cpp:5733) strips every non-passive aura that
+-- is not death-persistent. Without this flag the marker is destroyed by the
+-- player's FIRST death anywhere in the world -- and a marker that a level-6
+-- goblin reliably loses is not a marker. Once it is gone the `spell_area` gate
+-- (aura_spell = -900843) matches again forever, so the prone lock re-applies on
+-- every later entry to Shipwreck Shore: on hearth (74100 BINDS the hearth to
+-- area 4721, so every hearth lands inside the trigger), on login there, and on
+-- walking back in -- area 4721 is ~224 map cells, roughly 1000x1000 yards, and
+-- it includes the cave at (102, -9803, -12), several quests further on.
+--
+-- A permanent hidden aura is only a durable state flag if it survives death.
 DELETE FROM `spell` WHERE `id` = 900843;
 INSERT INTO `spell` SET
   `id` = 900843,
@@ -145,6 +172,7 @@ INSERT INTO `spell` SET
   `spell_desc_enus` = 'Back among the living, thanks to a pair of wet jumper cables.',
   `attributes` = 0x80000080,
   `attributes_ex_1` = 0x10000000,
+  `attributes_ex_3` = 0x00100000,
   `duration_index` = 21,
   `range_index` = 13,
   `cast_time_index` = 1,

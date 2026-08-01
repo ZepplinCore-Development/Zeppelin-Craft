@@ -20,7 +20,7 @@
 -- ---- 1. Lock the player prone on arrival ---------------------------------
 -- 74100 (the Life Savings teleport) triggers custom aura 900841 'Shipwrecked'
 -- on hit: FEIGN_DEATH + MOD_ROOT, hidden from the buff bar. The player is held
--- down until Doc's script strips it -- the 3-minute duration on the spell is a
+-- down until Doc's script strips it -- the 5-minute duration on the spell is a
 -- failsafe against the scene never firing, not the intended lifetime.
 --
 -- type 0 = SPELL_LINK_CAST: cast spell_effect when spell_trigger is cast.
@@ -83,12 +83,19 @@ VALUES
    80, 3660800, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
    'Doc Zapnozzle - On LOS of a shipwrecked player - Run the revive scene');
 
--- id 1 -- THE PLAYER GETS UP HERE, not on a timer. SMART_EVENT_REWARD_QUEST (20)
--- is on the EventHasInvoker whitelist (SmartScriptMgr.cpp:398), so
--- ACTION_INVOKER resolves. Because the quest is granted as step 0 of the scene,
--- the player may hand it in at any moment -- immediately, or after sitting
--- through the whole speech -- and the prone lock ends exactly then. That is what
--- makes the RP skippable instead of a fixed sentence.
+-- id 1 -- DEAD CODE, kept deliberately. SMART_EVENT_REWARD_QUEST (20) is on the
+-- EventHasInvoker whitelist (SmartScriptMgr.cpp:398), so ACTION_INVOKER resolves
+-- and the row loads clean -- but it can never FIRE, because quest 14239 is
+-- unwired: Doc has no creature_queststarter or creature_questender row, an
+-- earlier revision's "grant 14239 as step 0 of the scene" action no longer
+-- exists in list 3660800, and nothing else in the DB hands it out. Nobody can
+-- reward a quest they cannot obtain, so list 3660802 below is unreachable too.
+--
+-- Left in place because it is the correct wiring the day 14239 is given back to
+-- Doc, and because it is harmless -- but do NOT count it as a release path for
+-- the prone lock. It was silently doing nothing while three separate gates were
+-- written on the assumption that it worked (round 2). The lock's real release is
+-- actionlist 3660800 rows 13-15, plus the spell_area condition ceasing to match.
 INSERT INTO `smart_scripts`
   (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`,
    `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`,
@@ -122,7 +129,34 @@ VALUES
 
 -- CONDITION_SOURCE_TYPE_SMART_EVENT (22), keyed SourceEntry = entryorguid,
 -- SourceGroup = event id + 1, SourceId = source_type (ConditionMgr.cpp:1058).
--- SourceGroup 1 = event id 0. Both rows share ElseGroup 0, so they AND.
+-- SourceGroup 1 = event id 0. All rows share ElseGroup 0, so they AND.
+--
+-- ConditionTarget 0 is the PLAYER: SmartScript builds
+-- ConditionSourceInfo(unit, GetBaseObject(), ...) at SmartScript.cpp:147, so
+-- target 0 is the unit that tripped the event and target 1 is Doc.
+--
+-- Round 2 of this issue rewrote this gate. It used to read "14126 rewarded AND 14239 not
+-- rewarded AND 14239 not taken", which sounds like a once-only gate and is
+-- nothing of the sort: **quest 14239 is deliberately unwired** -- Doc has no
+-- creature_queststarter and no creature_questender row, and neither does anyone
+-- else -- so GetQuestStatus(14239) is QUEST_STATUS_NONE for every character
+-- forever and both negative rows are permanently true. The whole gate reduced to
+-- "has finished Life Savings", which every goblin past Kezan has, permanently.
+--
+-- Live consequence: Doc re-ran the entire resuscitation scene on any goblin who
+-- came back into 20y of him -- hours later, many quests on, and after 14474 had
+-- dropped the detection aura so he was not even visible while doing it. Reported
+-- as "Doc was trying to zap me again when I hearthed back", and the hearth is
+-- the common case because 74100 binds it to this beach.
+--
+-- The two gates below are the ones that actually close:
+--   * NOT aura 900843 -- the Revived marker, the primary signal. Now
+--     death-persistent (see the DBC file), so it survives the rest of the zone.
+--     CONDITION_AURA calls HasAuraEffect(spell, effIndex) (ConditionMgr.cpp:63),
+--     hence ConditionValue2 = 0 for 900843's single effect at index 0.
+--   * NOT rewarded 14474 -- the same backstop the 49416 detection spell_area
+--     row uses, so Doc's script and Doc's visibility stop together instead of
+--     one outliving the other.
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 22 AND `SourceEntry` = 36608 AND `SourceId` = 0;
 INSERT INTO `conditions`
   (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`,
@@ -131,10 +165,10 @@ INSERT INTO `conditions`
 VALUES
   (22, 1, 36608, 0, 0, 8, 0, 14126, 0, 0, 0, 0, 0, '',
    'I-276 Doc revives only someone who just finished Life Savings'),
-  (22, 1, 36608, 0, 0, 8, 0, 14239, 0, 0, 1, 0, 0, '',
-   'I-276 ...who has not already been revived'),
-  (22, 1, 36608, 0, 0, 9, 0, 14239, 0, 0, 1, 0, 0, '',
-   'I-276 ...and does not already have the quest, so the RP plays through once only');
+  (22, 1, 36608, 0, 0, 1, 0, 900843, 0, 0, 1, 0, 0, '',
+   'I-276 ...who is not already carrying the Revived marker'),
+  (22, 1, 36608, 0, 0, 8, 0, 14474, 0, 0, 1, 0, 0, '',
+   'I-276 ...and has not yet handed in Goblin Escape Pods');
 
 -- The scene. Rows fire in ID ORDER off their own delays; `link` is 0 throughout,
 -- because a non-zero link must point at a SMART_EVENT_LINK (61) row and pointing
@@ -286,11 +320,18 @@ DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` 
 -- This is shipped deliberately even though the video does not currently play.
 -- The trigger chain is PROVEN: pointing this same action at movie 14 plays
 -- Wrathgate correctly on hand-in, so the event, the invoker and
--- Player::SendMovieStart all work. What is missing is only a file the client
--- accepts -- see I-280, where the format is documented and the blocker is the
--- AVI muxer rather than the codec. SendMovieStart for a movie the client cannot
--- render is inert, so wiring it now costs nothing and means the cinematic simply
--- starts working the day a playable file lands, with no change needed here.
+-- Player::SendMovieStart all work.
+--
+-- **Fires movie 16, not 22 (I-280, resolved 2026-07-31).** The client only
+-- resolves the ids in its own stock Movie.dbc -- 1, 2, 14, 16. Our Movie.dbc
+-- ships correctly in PATCH-Z but is shadowed at runtime, so row 22 never
+-- resolved and SendMovieStart(22) was silently inert. That, not the AVI, is why
+-- the cinematic never played: the file itself is fine and plays with audio.
+--
+-- Id 16 (WOW_FoTLK) is unused, so the goblin cinematic ships as
+-- `WOW_FoTLK_1024.avi` in the zep-cinematics zpak (PATCH-X) and is triggered
+-- here as movie 16. Movie.dbc row 22 is kept for server-side bookkeeping only.
+-- Revert to 22 if the DBC override is ever fixed.
 -- Client resolution ceiling tracked separately as I-279.
 --
 -- Event **20 SMART_EVENT_REWARD_QUEST**, param1 = 14126. NOT event 50
@@ -305,8 +346,8 @@ INSERT INTO `smart_scripts`
    `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`,
    `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`)
 VALUES
-  (35222, 0, 1, 0, 20, 0, 100, 0, 14126, 0, 0, 0, 68, 22, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0,
-   'Trade Prince Gallywix - On Reward Quest Life Savings - Play the goblin cinematic (I-276/I-280)');
+  (35222, 0, 1, 0, 20, 0, 100, 0, 14126, 0, 0, 0, 68, 16, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0,
+   'Trade Prince Gallywix - On Reward Quest Life Savings - Play the goblin cinematic, movie 16 (I-276/I-280)');
 
 
 -- ---- 5b. Gallywix takes the Keys to the Hot Rod --------------------------
@@ -395,7 +436,7 @@ INSERT INTO `spell_area`
    `autocast`, `quest_start_status`, `quest_end_status`)
 VALUES
   (49416, 4721, 14126, 14474, 0, 0, 2, 1, 64, 27),
-  (900841, 4721, 14126, 14239, -900843, 0, 2, 1, 64, 27);
+  (900841, 4721, 14126, 14474, -900843, 0, 2, 1, 64, 27);
 
 -- The second row is the PRONE LOCK, and it is here rather than in Doc's scene
 -- for a reason. Two earlier placements both failed:
@@ -410,7 +451,18 @@ VALUES
 -- `aura_spell` = **-900843** is the release. A negative value means "applies only
 -- while the player does NOT have this aura" (SpellMgr.cpp:1084). Doc applies the
 -- 'Revived' marker at the end of the RP, the condition stops matching, and the
--- prone lock drops -- and because the marker is permanent it never re-applies.
+-- prone lock drops.
+--
+-- "Permanent" was not enough for that marker, and round 2 of this issue is the
+-- bill for it. A permanent aura still dies with the player -- Unit::RemoveAllAurasOnDeath
+-- (Unit.cpp:5733) strips everything non-passive that lacks
+-- SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD -- so the first time a goblin died anywhere,
+-- the release signal was destroyed and this row started matching again. Area
+-- 4721 is not the strip of sand it sounds like: ~224 map cells across four
+-- tiles, about 1000x1000 yards, including the cave at (102, -9803, -12) where a
+-- live character was found rooted several quests later. And 74100 binds the
+-- HEARTHSTONE here, so the most common way back into the zone lands inside the
+-- trigger. 900843 now carries the death-persistent attribute; see the DBC file.
 --
 -- Decoupling the release from quest state is what lets the quest be handed over
 -- at the START of the scene, which is where it belongs. Two earlier designs did
@@ -418,15 +470,23 @@ VALUES
 -- granted, and giving 14239 a kill-credit objective so the RP could complete it
 -- modelled resuscitation as killing the medic.
 --
--- quest_end_status is back to 27 (not yet REWARDED) purely as a backstop -- the
--- marker aura is the real signal. Player::UpdateAreaDependentAuras runs on aura
--- and quest changes as well as area changes (PlayerQuest.cpp:598).
+-- `quest_end` is **14474** (round 2), not 14239. It was 14239 as a "backstop", but
+-- 14239 is unwired -- nobody gives it and nobody ends it -- so
+-- GetQuestStatus(14239) is QUEST_STATUS_NONE forever, bit 1 is inside mask 27,
+-- and the backstop could never close. It was decoration, and it was the only
+-- thing standing behind a marker aura that death deletes.
 --
--- The earlier mask of 27 held the aura until 14239 was REWARDED, which meant
--- spell_area kept re-applying it after the scene had explicitly removed it --
--- that is the "hit by the aura randomly a couple of minutes later" symptom.
--- Removing an aura that spell_area still wants is futile; the condition has to
--- stop matching instead.
+-- 14474 "Goblin Escape Pods" is handed in to Sassy Hardwrench, which is the real
+-- end of the arrival sequence, and it is already what gates the 49416 detection
+-- row directly above. Sharing it means the prone lock and the two NPCs go out of
+-- scope on the same hand-in: past that point this row cannot match on any
+-- character, whatever happened to their auras.
+--
+-- Note the release mechanism is genuinely the CONDITION ceasing to match, not a
+-- removal: Player::UpdateAreaDependentAuras drops auras whose spell_area no
+-- longer fits via SpellInfo::CheckLocation, so removing an aura that spell_area
+-- still wants is futile -- that was the "hit by the aura randomly a couple of
+-- minutes later" symptom in the first round of this issue.
 --
 -- spell_area applies on the area update that fires as the teleport completes --
 -- the earliest data-driven hook there is -- so the collapse happens behind the
