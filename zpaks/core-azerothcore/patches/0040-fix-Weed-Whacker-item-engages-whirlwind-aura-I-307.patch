@@ -1,0 +1,79 @@
+From 2aad870e7dcf591960038c1690b215550a425fad Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 2 Aug 2026 12:39:51 +0000
+Subject: [PATCH] fix: Weed Whacker item engages whirlwind aura (I-307)
+
+- 68211 dummy no longer fires spell_zep_fixed_credit<35816> (Miner
+  Troubles q14021 credit - wrong quest, and exploitable cross-quest)
+- dedicated spell_zep_q14236_weed_whacker toggles whirlwind aura 68212
+  on the caster; plants (35897) self-credit on death
+
+Closes I-307
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UjkDSozMzr68fiZwbgQnfc
+---
+ .../scripts/Custom/zeppelin_goblin_start.cpp  | 29 +++++++++++++++++--
+ 1 file changed, 27 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/scripts/Custom/zeppelin_goblin_start.cpp b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+index 0f36b10bd..331ca8bb9 100644
+--- a/src/server/scripts/Custom/zeppelin_goblin_start.cpp
++++ b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+@@ -22,11 +22,11 @@
+ enum ZepGoblinCredits
+ {
+     // fixed kill-credit NPCs (invisible quest triggers)
+-    NPC_WEED_WHACKER_CREDIT      = 35816, // q14236 (Miner Troubles / Weed Whacker credit)
+     NPC_CLUSTER_CLUCK_CREDIT     = 38117, // q24671
+     NPC_ZOMBIES_BOOSTER_CREDIT   = 38807, // q24942
+ 
+     SPELL_WEED_WHACKER            = 68211, // DUMMY
++    SPELL_WEED_WHACKER_AURA       = 68212, // whirlwind state, periodic 68213 mow pulse
+     SPELL_KTC_SNAPFLASH           = 68280, // DUMMY (photograph target -> credit that entry)
+     SPELL_REMOTE_CONTROL_FIREWORKS = 71170, // DUMMY
+     SPELL_SUPER_BOOSTER_ROCKET_BOOTS = 72891 // SCRIPT_EFFECT
+@@ -50,6 +50,31 @@ class spell_zep_fixed_credit : public SpellScript
+     }
+ };
+ 
++// I-307 Weed Whacker (q14236): the item's dummy (68211) toggles the whirlwind
++// aura 68212, whose periodic pulse (68213) mows the Deadly Jungle Plants. No
++// direct credit here — the plants (35897) self-credit on death.
++class spell_zep_q14236_weed_whacker : public SpellScript
++{
++    PrepareSpellScript(spell_zep_q14236_weed_whacker);
++
++    void HandleDummy(SpellEffIndex /*effIndex*/)
++    {
++        Unit* caster = GetCaster();
++        if (!caster)
++            return;
++
++        if (caster->HasAura(SPELL_WEED_WHACKER_AURA))
++            caster->RemoveAurasDueToSpell(SPELL_WEED_WHACKER_AURA);
++        else
++            caster->CastSpell(caster, SPELL_WEED_WHACKER_AURA, true);
++    }
++
++    void Register() override
++    {
++        OnEffectHitTarget += SpellEffectFn(spell_zep_q14236_weed_whacker::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
++    }
++};
++
+ // KTC Snapflash: photograph the targeted creature -> credit its own entry.
+ class spell_zep_q14031_ktc_snapflash : public SpellScript
+ {
+@@ -233,7 +258,7 @@ void AddSC_zeppelin_goblin_start()
+     // q14019 Monkey Business has no C++ script: the credit is granted by the fed
+     // monkey's own SmartAI (34699 SPELLHIT 67917 -> actionlist 3469900), which
+     // also roots, explodes and despawns it. See zz_[I-281]_monkey_business_feed.sql.
+-    RegisterSpellScriptWithArgs(spell_zep_fixed_credit<NPC_WEED_WHACKER_CREDIT>, "spell_zep_q14236_weed_whacker");
++    RegisterSpellScript(spell_zep_q14236_weed_whacker);
+     RegisterSpellScriptWithArgs(spell_zep_fixed_credit<NPC_CLUSTER_CLUCK_CREDIT>, "spell_zep_q24671_cluster_cluck");
+     RegisterSpellScriptWithArgs(spell_zep_fixed_credit<NPC_ZOMBIES_BOOSTER_CREDIT>, "spell_zep_q24942_zombies_booster");
+     RegisterSpellScript(spell_zep_q14031_ktc_snapflash);
+-- 
+2.34.1
+
