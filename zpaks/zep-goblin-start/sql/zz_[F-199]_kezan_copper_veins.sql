@@ -38,7 +38,9 @@
 -- gameobject range (base 6500000, gen DELETEs base..base+499999 and this file
 -- sorts after the AUTO one, so the rows survive a regen via the I-244 cascade).
 
-DELETE FROM `gameobject` WHERE `guid` BETWEEN 6950000 AND 6999999;
+-- (DELETE narrowed from ..6999999 to this file's own guids when F-202 started
+--  placing Lost Isles nodes in the shared 6950000+ hand-authored block.)
+DELETE FROM `gameobject` WHERE `guid` BETWEEN 6950000 AND 6950003;
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`, `ScriptName`, `VerifiedBuild`, `Comment`) VALUES
   (6950000, 1731, 1, 0, 0, 1, 65535, -9192.4648, -11438.1221, 29.8694, 0.0000, 0, 0, 0.000000, 1.000000, 900, 100, 1, '', 0, 'F-199 Kaja''mine copper vein - NW mouth'),
   (6950001, 1731, 1, 0, 0, 1, 65535, -9028.0000, -11546.1328, 54.1562, 5.0615, 0, 0, 0.573558, -0.819165, 900, 100, 1, '', 0, 'F-199 Kaja''mine copper vein - middle chamber'),
