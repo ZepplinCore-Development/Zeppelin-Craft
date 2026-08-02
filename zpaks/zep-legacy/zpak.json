@@ -8,9 +8,6 @@
   "client_patch": "PATCH-Z",
   "patch_display_name": "Zepcraft",
   "launcher": {
-    "mandatory": true,
-    "enabled_by_default": true,
-    "auto_update": true,
     "requires": []
   },
   "feature_id": "F-044",
@@ -18,7 +15,8 @@
     "preprocessors": [
       "model-transforms",
       "item-dbc-sync",
-      "dbc-export"
+      "dbc-export",
+      "trs-generate"
     ],
     "force_parse": true
   },

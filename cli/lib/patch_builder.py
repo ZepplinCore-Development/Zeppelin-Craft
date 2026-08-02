@@ -416,6 +416,7 @@ def _run_named_preprocessor(name: str, zpak: Dict[str, Any]) -> bool:
         'item-dbc-sync': _preprocess_item_dbc_sync,
         'dbc-export': _preprocess_dbc_export,
         'dbc-reorder': _preprocess_dbc_reorder,
+        'trs-generate': _preprocess_trs_generate,
         'atlasloot-generator': _preprocess_atlasloot,
         'model-transforms': _preprocess_model_transforms,
         'block-data': _preprocess_block_data,
@@ -467,6 +468,31 @@ def _preprocess_dbc_reorder(zpak: Dict[str, Any]) -> bool:
         print(f"Warning: CharSections reorder failed, continuing anyway")
     else:
         print(f"Reordered CharSections.dbc")
+    return True
+
+
+def _preprocess_trs_generate(zpak: Dict[str, Any]) -> bool:
+    """Serialize dbc.md5translate into the zpak's parsed-assets (F-201).
+
+    The minimap texture table is managed as a pseudo-DBC table (stock layer
+    in original_dbc + zpak SQL layers); this emits the complete
+    textures/minimap/md5translate.trs the client actually loads. PATCH-Z
+    loads after PATCH-O, so this whole-file override wins over OA's copy.
+    """
+    from lib.trs_utils import export_trs_from_db
+
+    zpak_path = Path(zpak['path'])
+    craft_root = zpak_path.parent.parent
+    env_path = craft_root / 'cli' / '.env'
+    dbc_config = DBCConfig.from_env(env_path)
+
+    out = zpak_path / 'mpq' / 'parsed-assets' / 'TEXTURES' / 'MINIMAP' / 'MD5TRANSLATE.TRS'
+    try:
+        count = export_trs_from_db(dbc_config, dbc_config.live, out)
+    except Exception as e:
+        print(f"TRS generation failed: {e}")
+        return False
+    print(f"Generated md5translate.trs ({count} entries)")
     return True
 
 
