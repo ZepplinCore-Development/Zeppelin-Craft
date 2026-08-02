@@ -68,10 +68,23 @@ DELETE FROM `smart_scripts` WHERE `source_type` = 9 AND `entryorguid` = 3660800;
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 36608;
 
--- id 0 -- the trigger. SMART_EVENT_OOC_LOS (10): HostilityMode 1 (NotHostile,
--- per LOSHostilityMode at SmartScriptMgr.h:523), range 20y, 120s cooldown so the
--- list cannot restart on top of itself, PlayerOnly. Gated by the conditions rows
--- below to a player who has finished Life Savings and not yet been revived.
+-- id 0 -- the trigger. SMART_EVENT_MOVIE_COMPLETED (113, Zeppelin custom, round
+-- 3): param1 = movie id 16, the goblin cinematic (shipped as movie 16 per
+-- I-280). Fired on creatures within 150y of the player when the client sends
+-- CMSG_COMPLETE_MOVIE -- i.e. when the cinematic has actually left the screen,
+-- whether it played through (~83s) or was skipped with Escape. Invoker = the
+-- player. Gated by the conditions rows below to a player who has finished Life
+-- Savings and not yet been revived.
+--
+-- Round 3: this was SMART_EVENT_OOC_LOS (10), which fires the moment the player
+-- lands -- 2y from Doc -- while the client is still inside the 83s movie. The
+-- whole 35s scene started AND finished behind the cinematic, so a player who
+-- watched it through missed the entire RP. The server cannot infer movie state;
+-- only the client's completion packet places the scene after it.
+--
+-- If the completion packet never arrives (disconnect mid-movie), no scene runs:
+-- the prone lock self-heals via its 300s ceiling and 14474 is still takeable,
+-- so the player skips the RP but is never stuck.
 INSERT INTO `smart_scripts`
   (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`,
    `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`,
@@ -79,9 +92,9 @@ INSERT INTO `smart_scripts`
    `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`,
    `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`)
 VALUES
-  (36608, 0, 0, 0, 10, 0, 100, 0, 1, 20, 120000, 120000, 1,
+  (36608, 0, 0, 0, 113, 0, 100, 0, 16, 0, 0, 0, 0,
    80, 3660800, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-   'Doc Zapnozzle - On LOS of a shipwrecked player - Run the revive scene');
+   'Doc Zapnozzle - On goblin cinematic completed - Run the revive scene');
 
 -- id 1 -- DEAD CODE, kept deliberately. SMART_EVENT_REWARD_QUEST (20) is on the
 -- EventHasInvoker whitelist (SmartScriptMgr.cpp:398), so ACTION_INVOKER resolves

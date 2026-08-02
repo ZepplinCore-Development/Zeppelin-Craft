@@ -1,0 +1,263 @@
+From d5e4c89c8a2645de7b24937c453371e6fafc98aa Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 2 Aug 2026 07:43:09 +0000
+Subject: [PATCH] feat: SMART_EVENT_MOVIE_COMPLETED SAI event via
+ CMSG_COMPLETE_MOVIE (I-276)
+
+- Handle CMSG_COMPLETE_MOVIE (0x465), previously discarded (Handle_NULL)
+- Player::SendMovieStart remembers the pending movie id; the completion
+  packet carries no payload
+- Player::CompletedMovie fires SMART_EVENT_MOVIE_COMPLETED (113) on
+  creatures within 150y, invoker = player; fires on skip too
+- Lets scripted scenes start when the movie leaves the screen instead of
+  racing it (Doc Zapnozzle revive RP played behind the goblin cinematic)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/AI/CoreAI/UnitAI.h            |  2 ++
+ src/server/game/AI/SmartScripts/SmartAI.cpp   |  5 ++++
+ src/server/game/AI/SmartScripts/SmartAI.h     |  1 +
+ .../game/AI/SmartScripts/SmartScript.cpp      |  9 +++++++
+ .../game/AI/SmartScripts/SmartScriptMgr.cpp   |  3 +++
+ .../game/AI/SmartScripts/SmartScriptMgr.h     |  9 ++++++-
+ src/server/game/Entities/Player/Player.cpp    | 25 +++++++++++++++++++
+ src/server/game/Entities/Player/Player.h      |  4 +++
+ src/server/game/Handlers/MiscHandler.cpp      |  8 ++++++
+ src/server/game/Server/Protocol/Opcodes.cpp   |  2 +-
+ src/server/game/Server/WorldSession.h         |  1 +
+ 11 files changed, 67 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/game/AI/CoreAI/UnitAI.h b/src/server/game/AI/CoreAI/UnitAI.h
+index dc6b75e48..84b4c1479 100644
+--- a/src/server/game/AI/CoreAI/UnitAI.h
++++ b/src/server/game/AI/CoreAI/UnitAI.h
+@@ -422,6 +422,8 @@ public:
+     virtual void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/) {}
+     // Zeppelin: fired on creatures near a player who abandons a quest (SMART_EVENT_QUEST_ABANDONED)
+     virtual void sQuestAbandon(Player* /*player*/, Quest const* /*quest*/) {}
++    // Zeppelin: fired on creatures near a player whose client reported a movie ended or was skipped (SMART_EVENT_MOVIE_COMPLETED)
++    virtual void sMovieCompleted(Player* /*player*/, uint32 /*movieId*/) {}
+     virtual void sOnGameEvent(bool /*start*/, uint16 /*eventId*/) {}
+ 
+     virtual std::string GetDebugInfo() const;
+diff --git a/src/server/game/AI/SmartScripts/SmartAI.cpp b/src/server/game/AI/SmartScripts/SmartAI.cpp
+index 00a9d581b..7c6c24e02 100644
+--- a/src/server/game/AI/SmartScripts/SmartAI.cpp
++++ b/src/server/game/AI/SmartScripts/SmartAI.cpp
+@@ -1175,6 +1175,11 @@ void SmartAI::sQuestReward(Player* player, Quest const* quest, uint32 opt)
+     GetScript()->ProcessEventsFor(SMART_EVENT_REWARD_QUEST, player, quest->GetQuestId(), opt);
+ }
+ 
++void SmartAI::sMovieCompleted(Player* player, uint32 movieId)
++{
++    GetScript()->ProcessEventsFor(SMART_EVENT_MOVIE_COMPLETED, player, movieId);
++}
++
+ void SmartAI::SetCombatMovement(bool on, bool stopOrStartMovement)
+ {
+     if (on)
+diff --git a/src/server/game/AI/SmartScripts/SmartAI.h b/src/server/game/AI/SmartScripts/SmartAI.h
+index b0ae7d5d5..bfc237d93 100644
+--- a/src/server/game/AI/SmartScripts/SmartAI.h
++++ b/src/server/game/AI/SmartScripts/SmartAI.h
+@@ -196,6 +196,7 @@ public:
+     void sQuestComplete(Player* player, Quest const* quest) override;
+     void sQuestReward(Player* player, Quest const* quest, uint32 opt) override;
+     void sQuestAbandon(Player* player, Quest const* quest) override;
++    void sMovieCompleted(Player* player, uint32 movieId) override;
+     void sOnGameEvent(bool start, uint16 eventId) override;
+ 
+     uint32 mEscortQuestID;
+diff --git a/src/server/game/AI/SmartScripts/SmartScript.cpp b/src/server/game/AI/SmartScripts/SmartScript.cpp
+index c10501168..23e7e4f97 100644
+--- a/src/server/game/AI/SmartScripts/SmartScript.cpp
++++ b/src/server/game/AI/SmartScripts/SmartScript.cpp
+@@ -4624,6 +4624,15 @@ void SmartScript::ProcessEvent(SmartScriptHolder& e, Unit* unit, uint32 var0, ui
+                 ProcessAction(e, unit, var0);
+                 break;
+             }
++        case SMART_EVENT_MOVIE_COMPLETED:
++            {
++                if (!unit)
++                    return;
++                if (e.event.movie.movieId && var0 != e.event.movie.movieId)
++                    return;
++                ProcessAction(e, unit, var0);
++                break;
++            }
+         case SMART_EVENT_TRANSPORT_ADDCREATURE:
+             {
+                 if (e.event.transportAddCreature.creature && var0 != e.event.transportAddCreature.creature)
+diff --git a/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp b/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
+index 5a5811ff5..9cc1d61c2 100644
+--- a/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
++++ b/src/server/game/AI/SmartScripts/SmartScriptMgr.cpp
+@@ -420,6 +420,7 @@ void SmartAIMgr::CheckIfSmartAIInDatabaseExists()
+         case SMART_EVENT_REWARD_QUEST:
+         case SMART_EVENT_QUEST_ABANDONED:
+         case SMART_EVENT_QUEST_COMPLETED:
++        case SMART_EVENT_MOVIE_COMPLETED:
+         case SMART_EVENT_FOLLOW_COMPLETED:
+         case SMART_EVENT_ON_SPELLCLICK:
+         case SMART_EVENT_GO_STATE_CHANGED:
+@@ -619,6 +620,7 @@ bool SmartAIMgr::CheckUnusedEventParams(SmartScriptHolder const& e)
+             case SMART_EVENT_REWARD_QUEST: return sizeof(SmartEvent::quest);
+             case SMART_EVENT_QUEST_ABANDONED: return sizeof(SmartEvent::questAbandon);
+             case SMART_EVENT_QUEST_COMPLETED: return sizeof(SmartEvent::questAbandon);
++            case SMART_EVENT_MOVIE_COMPLETED: return sizeof(SmartEvent::movie);
+             case SMART_EVENT_REACHED_HOME: return NO_PARAMS;
+             case SMART_EVENT_RECEIVE_EMOTE: return sizeof(SmartEvent::emote);
+             case SMART_EVENT_HAS_AURA: return sizeof(SmartEvent::aura);
+@@ -1485,6 +1487,7 @@ bool SmartAIMgr::IsEventValid(SmartScriptHolder& e)
+             case SMART_EVENT_ON_SPELLCLICK:
+             case SMART_EVENT_WAYPOINT_REACHED:
+             case SMART_EVENT_WAYPOINT_ENDED:
++            case SMART_EVENT_MOVIE_COMPLETED:
+                 break;
+             default:
+                 LOG_ERROR("sql.sql", "SmartAIMgr: Not handled event_type({}), Entry {} SourceType {} Event {} Action {}, skipped.", e.GetEventType(), e.entryOrGuid, e.GetScriptType(), e.event_id, e.GetActionType());
+diff --git a/src/server/game/AI/SmartScripts/SmartScriptMgr.h b/src/server/game/AI/SmartScripts/SmartScriptMgr.h
+index 4ee1fc761..34fc8c844 100644
+--- a/src/server/game/AI/SmartScripts/SmartScriptMgr.h
++++ b/src/server/game/AI/SmartScripts/SmartScriptMgr.h
+@@ -199,8 +199,9 @@ enum SMART_EVENT
+     SMART_EVENT_IS_IN_MELEE_RANGE        = 110,      // min, max, repeatMin, repeatMax, dist, invert (0: false, 1: true)
+     SMART_EVENT_QUEST_ABANDONED          = 111,      // QuestID (0 = any), onlyOwnSummon (1 = only fire if creature is a TempSummon of the abandoning player); fired on creatures near the player
+     SMART_EVENT_QUEST_COMPLETED          = 112,      // QuestID (0 = any), onlyOwnSummon (1 = only fire if creature is a TempSummon of the completing player); fired on creatures near the player when all objectives are done (not hand-in)
++    SMART_EVENT_MOVIE_COMPLETED          = 113,      // MovieID (0 = any); fired on creatures near the player when the client reports a movie (SMSG_TRIGGER_MOVIE) finished playing or was skipped
+ 
+-    SMART_EVENT_AC_END                   = 113
++    SMART_EVENT_AC_END                   = 114
+ };
+ 
+ struct SmartEvent
+@@ -313,6 +314,11 @@ struct SmartEvent
+             SAIBool onlyOwnSummon;
+         } questAbandon;
+ 
++        struct
++        {
++            uint32 movieId;
++        } movie;
++
+         struct
+         {
+             uint32 emote;
+@@ -1955,6 +1961,7 @@ const uint32 SmartAIEventMask[SMART_EVENT_AC_END][2] =
+     {SMART_EVENT_IS_IN_MELEE_RANGE,         SMART_SCRIPT_TYPE_MASK_CREATURE },
+     {SMART_EVENT_QUEST_ABANDONED,           SMART_SCRIPT_TYPE_MASK_CREATURE },
+     {SMART_EVENT_QUEST_COMPLETED,           SMART_SCRIPT_TYPE_MASK_CREATURE },
++    {SMART_EVENT_MOVIE_COMPLETED,           SMART_SCRIPT_TYPE_MASK_CREATURE },
+ };
+ 
+ enum SmartEventFlags
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+index 95a9dddbc..e6f9a1e94 100644
+--- a/src/server/game/Entities/Player/Player.cpp
++++ b/src/server/game/Entities/Player/Player.cpp
+@@ -5714,11 +5714,36 @@ void Player::SendCinematicStart(uint32 CinematicSequenceId) const
+ 
+ void Player::SendMovieStart(uint32 MovieId)
+ {
++    // Zeppelin: remembered so CMSG_COMPLETE_MOVIE can be matched back to the movie
++    // it ends -- the packet itself carries no movie id
++    _pendingMovieId = MovieId;
++
+     WorldPacket data(SMSG_TRIGGER_MOVIE, 4);
+     data << uint32(MovieId);
+     SendDirectMessage(&data);
+ }
+ 
++void Player::CompletedMovie()
++{
++    uint32 movieId = _pendingMovieId;
++    if (!movieId)
++        return;
++
++    _pendingMovieId = 0;
++
++    // Zeppelin: SMART_EVENT_MOVIE_COMPLETED for creatures near the player, so scripted
++    // scenes can start when the player can actually see the world again instead of
++    // racing the movie. Fires on skip too -- the client sends the same packet.
++    std::list<Unit*> nearby;
++    Acore::AnyUnitInObjectRangeCheck check(this, 150.0f);
++    Acore::UnitListSearcher<Acore::AnyUnitInObjectRangeCheck> searcher(this, nearby, check);
++    Cell::VisitObjects(this, searcher, 150.0f);
++    for (Unit* nearbyUnit : nearby)
++        if (Creature* creature = nearbyUnit->ToCreature())
++            if (creature->IsAIEnabled)
++                creature->AI()->sMovieCompleted(this, movieId);
++}
++
+ void Player::CheckAreaExploreAndOutdoor()
+ {
+     if (!IsAlive())
+diff --git a/src/server/game/Entities/Player/Player.h b/src/server/game/Entities/Player/Player.h
+index 3ff5a86f9..35d43e51d 100644
+--- a/src/server/game/Entities/Player/Player.h
++++ b/src/server/game/Entities/Player/Player.h
+@@ -2463,6 +2463,9 @@ public:
+ 
+     void SendCinematicStart(uint32 CinematicSequenceId) const;
+     void SendMovieStart(uint32 MovieId);
++    // Zeppelin: called from CMSG_COMPLETE_MOVIE when the client reports the movie
++    // triggered by SendMovieStart ended (played through or skipped)
++    void CompletedMovie();
+ 
+     uint32 DoRandomRoll(uint32 minimum, uint32 maximum);
+ 
+@@ -2991,6 +2994,7 @@ private:
+ 
+     CinematicMgr _cinematicMgr;
+     std::unique_ptr<PhaseMgr> m_phaseMgr; // F-194 Cata zone phasing progression
++    uint32 _pendingMovieId = 0; // Zeppelin: movie sent via SendMovieStart, awaiting CMSG_COMPLETE_MOVIE; not persisted
+ 
+     typedef GuidSet RefundableItemsSet;
+     RefundableItemsSet m_refundableItems;
+diff --git a/src/server/game/Handlers/MiscHandler.cpp b/src/server/game/Handlers/MiscHandler.cpp
+index 97c40e936..7ec78c19c 100644
+--- a/src/server/game/Handlers/MiscHandler.cpp
++++ b/src/server/game/Handlers/MiscHandler.cpp
+@@ -949,6 +949,14 @@ void WorldSession::HandleNextCinematicCamera(WorldPacket& /*recv_data*/)
+     GetPlayer()->GetCinematicMgr().StartCinematicCamera();
+ }
+ 
++void WorldSession::HandleCompleteMovie(WorldPacket& /*recv_data*/)
++{
++    // Zeppelin: sent by the client when the movie triggered by SMSG_TRIGGER_MOVIE ends,
++    // whether it played through or was skipped. The packet carries no payload; the
++    // movie id is remembered by Player::SendMovieStart.
++    GetPlayer()->CompletedMovie();
++}
++
+ void WorldSession::HandleSetActionBarToggles(WorldPacket& recv_data)
+ {
+     uint8 ActionBar;
+diff --git a/src/server/game/Server/Protocol/Opcodes.cpp b/src/server/game/Server/Protocol/Opcodes.cpp
+index 55113a806..787fc174b 100644
+--- a/src/server/game/Server/Protocol/Opcodes.cpp
++++ b/src/server/game/Server/Protocol/Opcodes.cpp
+@@ -1253,7 +1253,7 @@ void OpcodeTable::Initialize()
+     /*0x462*/ DEFINE_HANDLER(CMSG_UPDATE_MISSILE_TRAJECTORY,                                        STATUS_LOGGEDIN,   PROCESS_THREADUNSAFE,   &WorldSession::HandleUpdateMissileTrajectory            );
+     /*0x463*/ DEFINE_SERVER_OPCODE_HANDLER(SMSG_UPDATE_ACCOUNT_DATA_COMPLETE,                       STATUS_NEVER);
+     /*0x464*/ DEFINE_SERVER_OPCODE_HANDLER(SMSG_TRIGGER_MOVIE,                                      STATUS_NEVER);
+-    /*0x465*/ DEFINE_HANDLER(CMSG_COMPLETE_MOVIE,                                                   STATUS_NEVER,      PROCESS_INPLACE,        &WorldSession::Handle_NULL                              );
++    /*0x465*/ DEFINE_HANDLER(CMSG_COMPLETE_MOVIE,                                                   STATUS_LOGGEDIN,   PROCESS_THREADSAFE,     &WorldSession::HandleCompleteMovie                      );
+     /*0x466*/ DEFINE_HANDLER(CMSG_SET_GLYPH_SLOT,                                                   STATUS_NEVER,      PROCESS_INPLACE,        &WorldSession::Handle_NULL                              );
+     /*0x467*/ DEFINE_HANDLER(CMSG_SET_GLYPH,                                                        STATUS_NEVER,      PROCESS_INPLACE,        &WorldSession::Handle_NULL                              );
+     /*0x468*/ DEFINE_SERVER_OPCODE_HANDLER(SMSG_ACHIEVEMENT_EARNED,                                 STATUS_NEVER);
+diff --git a/src/server/game/Server/WorldSession.h b/src/server/game/Server/WorldSession.h
+index b588ad8f1..5207fcd23 100644
+--- a/src/server/game/Server/WorldSession.h
++++ b/src/server/game/Server/WorldSession.h
+@@ -971,6 +971,7 @@ public:                                                 // opcodes handlers
+ 
+     void HandleCompleteCinematic(WorldPacket& recvPacket);
+     void HandleNextCinematicCamera(WorldPacket& recvPacket);
++    void HandleCompleteMovie(WorldPacket& recvPacket);
+ 
+     void HandlePageTextQueryOpcode(WorldPacket& recvPacket);
+ 
+-- 
+2.34.1
+
