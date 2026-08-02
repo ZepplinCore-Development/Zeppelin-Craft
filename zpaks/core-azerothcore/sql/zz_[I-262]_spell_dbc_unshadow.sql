@@ -1,0 +1,24 @@
+-- I-262 "Waltz Right In" (14123) — mook disguise cap dead despite correct Spell.dbc.
+--
+-- ROOT CAUSE: the world `spell_dbc` table is a SERVER-SIDE OVERRIDE of Spell.dbc —
+-- DBCDatabaseLoader.cpp:77 ("If exist in DBC file override from DB") replaces the
+-- loaded record for every ID present in the table. Stock TDB base spell_dbc.sql
+-- ships a retail serverside stub at 70467 ("Waltz Right In: Disguise AoE Pulse",
+-- zero effects, duration 0 — retail did the work in kezan.cpp). It shadows our
+-- hand-owned 70467 "Hobart's Ingenious Cap of Mook Foolery": the hidden carrier
+-- 67435 applies and triggers 70467 every 5s, which then does nothing — no
+-- transform, no force-reaction, mooks aggro. A full `zep world sql rebuild`
+-- re-imports the stock base, resurrecting the stub — which is how this bug
+-- "returned" after being verified fixed.
+--
+-- The stub is referenced by nothing (no SAI casts, no links, no creature spells).
+-- Deleting it makes the server fall back to our Spell.dbc record.
+--
+-- Same-class collisions found in the 2026-08-01 sweep (custom DBC ids shadowed by
+-- spell_dbc rows): 79058 (stock zzOld stub vs F-004 Arcane Brilliance — owned by
+-- zep-legacy zz_[F-004]_spell_dbc_unshadow.sql) and 91003 (IPP dungeon_onyxia.sql
+-- Summon Onyxia Whelp vs custom Rupture Weakness — IPP owns the id, do NOT delete;
+-- Rupture Weakness must migrate to a free id). The worgoblin racial rows
+-- (68975-69070, 87090/87091, 103195/103196) are mod-worgoblin's own and stay.
+
+DELETE FROM `spell_dbc` WHERE `ID` = 70467;
