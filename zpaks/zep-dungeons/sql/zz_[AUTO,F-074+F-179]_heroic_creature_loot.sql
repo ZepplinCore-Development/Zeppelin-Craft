@@ -58,7 +58,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11320;
 -- Update Earthborer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11320 AND `map` = 389;
+WHERE `id` = 11320 AND `map` = 389;
 
 -- Loot table for Heroic Earthborer (lootid 9100000)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100000;
@@ -110,7 +110,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11321;
 -- Update Molten Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11321 AND `map` = 389;
+WHERE `id` = 11321 AND `map` = 389;
 
 -- Loot table for Heroic Molten Elemental (lootid 9100001)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100001;
@@ -162,7 +162,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11319;
 -- Update Ragefire Shaman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11319 AND `map` = 389;
+WHERE `id` = 11319 AND `map` = 389;
 
 -- Loot table for Heroic Ragefire Shaman (lootid 9100002)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100002;
@@ -214,7 +214,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11318;
 -- Update Ragefire Trogg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11318 AND `map` = 389;
+WHERE `id` = 11318 AND `map` = 389;
 
 -- Loot table for Heroic Ragefire Trogg (lootid 9100003)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100003;
@@ -266,7 +266,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11322;
 -- Update Searing Blade Cultist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11322 AND `map` = 389;
+WHERE `id` = 11322 AND `map` = 389;
 
 -- Loot table for Heroic Searing Blade Cultist (lootid 9100004)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100004;
@@ -318,7 +318,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11323;
 -- Update Searing Blade Enforcer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11323 AND `map` = 389;
+WHERE `id` = 11323 AND `map` = 389;
 
 -- Loot table for Heroic Searing Blade Enforcer (lootid 9100005)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100005;
@@ -370,7 +370,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11324;
 -- Update Searing Blade Warlock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11324 AND `map` = 389;
+WHERE `id` = 11324 AND `map` = 389;
 
 -- Loot table for Heroic Searing Blade Warlock (lootid 9100006)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100006;
@@ -422,7 +422,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11519;
 -- Update Bazzalan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11519 AND `map` = 389;
+WHERE `id` = 11519 AND `map` = 389;
 
 -- Loot table for Heroic Bazzalan (lootid 9100007)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100007;
@@ -474,7 +474,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11518;
 -- Update Jergosh the Invoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11518 AND `map` = 389;
+WHERE `id` = 11518 AND `map` = 389;
 
 -- Loot table for Heroic Jergosh the Invoker (lootid 9100008)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100008;
@@ -526,7 +526,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11517;
 -- Update Oggleflint spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11517 AND `map` = 389;
+WHERE `id` = 11517 AND `map` = 389;
 
 -- Loot table for Heroic Oggleflint (lootid 9100009)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100009;
@@ -578,7 +578,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11520;
 -- Update Taragaman the Hungerer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11520 AND `map` = 389;
+WHERE `id` = 11520 AND `map` = 389;
 
 -- Loot table for Heroic Taragaman the Hungerer (lootid 9100010)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100010;
@@ -630,7 +630,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17830;
 -- Update Zelemar the Wrathful spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17830 AND `map` = 389;
+WHERE `id` = 17830 AND `map` = 389;
 
 -- Loot table for Heroic Zelemar the Wrathful (lootid 9100011)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100011;
@@ -682,7 +682,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11834;
 -- Update Maur Grimtotem spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11834 AND `map` = 389;
+WHERE `id` = 11834 AND `map` = 389;
 
 -- Loot table for Heroic Maur Grimtotem (lootid 9100012)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100012;
@@ -730,7 +730,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8996;
 -- Update Voidwalker Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8996 AND `map` = 389;
+WHERE `id` = 8996 AND `map` = 389;
 
 -- Loot table for Heroic Voidwalker Minion (lootid 9100013)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100013;
@@ -778,7 +778,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11320;
 -- Update Earthborer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11320 AND `map` = 389;
+WHERE `id` = 11320 AND `map` = 389;
 
 -- Loot table for Mythic Earthborer (lootid 9100014)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100014;
@@ -830,7 +830,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11321;
 -- Update Molten Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11321 AND `map` = 389;
+WHERE `id` = 11321 AND `map` = 389;
 
 -- Loot table for Mythic Molten Elemental (lootid 9100015)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100015;
@@ -882,7 +882,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11319;
 -- Update Ragefire Shaman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11319 AND `map` = 389;
+WHERE `id` = 11319 AND `map` = 389;
 
 -- Loot table for Mythic Ragefire Shaman (lootid 9100016)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100016;
@@ -934,7 +934,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11318;
 -- Update Ragefire Trogg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11318 AND `map` = 389;
+WHERE `id` = 11318 AND `map` = 389;
 
 -- Loot table for Mythic Ragefire Trogg (lootid 9100017)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100017;
@@ -986,7 +986,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11322;
 -- Update Searing Blade Cultist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11322 AND `map` = 389;
+WHERE `id` = 11322 AND `map` = 389;
 
 -- Loot table for Mythic Searing Blade Cultist (lootid 9100018)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100018;
@@ -1038,7 +1038,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11323;
 -- Update Searing Blade Enforcer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11323 AND `map` = 389;
+WHERE `id` = 11323 AND `map` = 389;
 
 -- Loot table for Mythic Searing Blade Enforcer (lootid 9100019)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100019;
@@ -1090,7 +1090,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11324;
 -- Update Searing Blade Warlock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11324 AND `map` = 389;
+WHERE `id` = 11324 AND `map` = 389;
 
 -- Loot table for Mythic Searing Blade Warlock (lootid 9100020)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100020;
@@ -1142,7 +1142,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11519;
 -- Update Bazzalan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11519 AND `map` = 389;
+WHERE `id` = 11519 AND `map` = 389;
 
 -- Loot table for Mythic Bazzalan (lootid 9100021)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100021;
@@ -1194,7 +1194,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11518;
 -- Update Jergosh the Invoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11518 AND `map` = 389;
+WHERE `id` = 11518 AND `map` = 389;
 
 -- Loot table for Mythic Jergosh the Invoker (lootid 9100022)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100022;
@@ -1246,7 +1246,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11517;
 -- Update Oggleflint spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11517 AND `map` = 389;
+WHERE `id` = 11517 AND `map` = 389;
 
 -- Loot table for Mythic Oggleflint (lootid 9100023)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100023;
@@ -1298,7 +1298,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11520;
 -- Update Taragaman the Hungerer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11520 AND `map` = 389;
+WHERE `id` = 11520 AND `map` = 389;
 
 -- Loot table for Mythic Taragaman the Hungerer (lootid 9100024)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100024;
@@ -1350,7 +1350,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17830;
 -- Update Zelemar the Wrathful spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17830 AND `map` = 389;
+WHERE `id` = 17830 AND `map` = 389;
 
 -- Loot table for Mythic Zelemar the Wrathful (lootid 9100025)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100025;
@@ -1402,7 +1402,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11834;
 -- Update Maur Grimtotem spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11834 AND `map` = 389;
+WHERE `id` = 11834 AND `map` = 389;
 
 -- Loot table for Mythic Maur Grimtotem (lootid 9100026)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100026;
@@ -1450,7 +1450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8996;
 -- Update Voidwalker Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8996 AND `map` = 389;
+WHERE `id` = 8996 AND `map` = 389;
 
 -- Loot table for Mythic Voidwalker Minion (lootid 9100027)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100027;
@@ -1500,7 +1500,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5048;
 -- Update Deviate Adder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5048 AND `map` = 43;
+WHERE `id` = 5048 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Adder (lootid 9100100)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100100;
@@ -1552,7 +1552,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5056;
 -- Update Deviate Dreadfang spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5056 AND `map` = 43;
+WHERE `id` = 5056 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Dreadfang (lootid 9100101)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100101;
@@ -1604,7 +1604,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3637;
 -- Update Deviate Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3637 AND `map` = 43;
+WHERE `id` = 3637 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Guardian (lootid 9100102)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100102;
@@ -1656,7 +1656,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5762;
 -- Update Deviate Moccasin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5762 AND `map` = 43;
+WHERE `id` = 5762 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Moccasin (lootid 9100103)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100103;
@@ -1708,7 +1708,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3636;
 -- Update Deviate Ravager spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3636 AND `map` = 43;
+WHERE `id` = 3636 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Ravager (lootid 9100104)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100104;
@@ -1760,7 +1760,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5761;
 -- Update Deviate Shambler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5761 AND `map` = 43;
+WHERE `id` = 5761 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Shambler (lootid 9100105)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100105;
@@ -1812,7 +1812,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5756;
 -- Update Deviate Venomwing spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5756 AND `map` = 43;
+WHERE `id` = 5756 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Venomwing (lootid 9100106)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100106;
@@ -1864,7 +1864,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5755;
 -- Update Deviate Viper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5755 AND `map` = 43;
+WHERE `id` = 5755 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Viper (lootid 9100107)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100107;
@@ -1916,7 +1916,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3678;
 -- Update Disciple of Naralex spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3678 AND `map` = 43;
+WHERE `id` = 3678 AND `map` = 43;
 
 -- Loot table for Heroic Disciple of Naralex (lootid 9100108)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100108;
@@ -1964,7 +1964,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3840;
 -- Update Druid of the Fang spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3840 AND `map` = 43;
+WHERE `id` = 3840 AND `map` = 43;
 
 -- Loot table for Heroic Druid of the Fang (lootid 9100109)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100109;
@@ -2016,7 +2016,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3640;
 -- Update Evolving Ectoplasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3640 AND `map` = 43;
+WHERE `id` = 3640 AND `map` = 43;
 
 -- Loot table for Heroic Evolving Ectoplasm (lootid 9100110)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100110;
@@ -2068,7 +2068,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5763;
 -- Update Nightmare Ectoplasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5763 AND `map` = 43;
+WHERE `id` = 5763 AND `map` = 43;
 
 -- Loot table for Heroic Nightmare Ectoplasm (lootid 9100111)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100111;
@@ -2120,7 +2120,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3653;
 -- Update Kresh spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3653 AND `map` = 43;
+WHERE `id` = 3653 AND `map` = 43;
 
 -- Loot table for Heroic Kresh (lootid 9100112)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100112;
@@ -2172,7 +2172,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3671;
 -- Update Lady Anacondra spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3671 AND `map` = 43;
+WHERE `id` = 3671 AND `map` = 43;
 
 -- Loot table for Heroic Lady Anacondra (lootid 9100113)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100113;
@@ -2224,7 +2224,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3669;
 -- Update Lord Cobrahn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3669 AND `map` = 43;
+WHERE `id` = 3669 AND `map` = 43;
 
 -- Loot table for Heroic Lord Cobrahn (lootid 9100114)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100114;
@@ -2276,7 +2276,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3670;
 -- Update Lord Pythas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3670 AND `map` = 43;
+WHERE `id` = 3670 AND `map` = 43;
 
 -- Loot table for Heroic Lord Pythas (lootid 9100115)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100115;
@@ -2328,7 +2328,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3673;
 -- Update Lord Serpentis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3673 AND `map` = 43;
+WHERE `id` = 3673 AND `map` = 43;
 
 -- Loot table for Heroic Lord Serpentis (lootid 9100116)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100116;
@@ -2380,7 +2380,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3654;
 -- Update Mutanus the Devourer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3654 AND `map` = 43;
+WHERE `id` = 3654 AND `map` = 43;
 
 -- Loot table for Heroic Mutanus the Devourer (lootid 9100117)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100117;
@@ -2432,7 +2432,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3674;
 -- Update Skum spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3674 AND `map` = 43;
+WHERE `id` = 3674 AND `map` = 43;
 
 -- Loot table for Heroic Skum (lootid 9100118)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100118;
@@ -2484,7 +2484,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5775;
 -- Update Verdan the Everliving spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5775 AND `map` = 43;
+WHERE `id` = 5775 AND `map` = 43;
 
 -- Loot table for Heroic Verdan the Everliving (lootid 9100119)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100119;
@@ -2536,7 +2536,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5912;
 -- Update Deviate Faerie Dragon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5912 AND `map` = 43;
+WHERE `id` = 5912 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Faerie Dragon (lootid 9100120)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100120;
@@ -2588,7 +2588,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8886;
 -- Update Deviate Python spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8886 AND `map` = 43;
+WHERE `id` = 8886 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Python (lootid 9100121)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100121;
@@ -2640,7 +2640,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5053;
 -- Update Deviate Crocolisk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5053 AND `map` = 43;
+WHERE `id` = 5053 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Crocolisk (lootid 9100122)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100122;
@@ -2692,7 +2692,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5055;
 -- Update Deviate Lasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5055 AND `map` = 43;
+WHERE `id` = 5055 AND `map` = 43;
 
 -- Loot table for Heroic Deviate Lasher (lootid 9100123)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100123;
@@ -2744,7 +2744,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3679;
 -- Update Naralex spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3679 AND `map` = 43;
+WHERE `id` = 3679 AND `map` = 43;
 
 -- Loot table for Heroic Naralex (lootid 9100124)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100124;
@@ -2792,7 +2792,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5048;
 -- Update Deviate Adder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5048 AND `map` = 43;
+WHERE `id` = 5048 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Adder (lootid 9100125)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100125;
@@ -2844,7 +2844,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5056;
 -- Update Deviate Dreadfang spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5056 AND `map` = 43;
+WHERE `id` = 5056 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Dreadfang (lootid 9100126)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100126;
@@ -2896,7 +2896,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3637;
 -- Update Deviate Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3637 AND `map` = 43;
+WHERE `id` = 3637 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Guardian (lootid 9100127)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100127;
@@ -2948,7 +2948,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5762;
 -- Update Deviate Moccasin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5762 AND `map` = 43;
+WHERE `id` = 5762 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Moccasin (lootid 9100128)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100128;
@@ -3000,7 +3000,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3636;
 -- Update Deviate Ravager spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3636 AND `map` = 43;
+WHERE `id` = 3636 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Ravager (lootid 9100129)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100129;
@@ -3052,7 +3052,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5761;
 -- Update Deviate Shambler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5761 AND `map` = 43;
+WHERE `id` = 5761 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Shambler (lootid 9100130)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100130;
@@ -3104,7 +3104,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5756;
 -- Update Deviate Venomwing spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5756 AND `map` = 43;
+WHERE `id` = 5756 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Venomwing (lootid 9100131)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100131;
@@ -3156,7 +3156,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5755;
 -- Update Deviate Viper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5755 AND `map` = 43;
+WHERE `id` = 5755 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Viper (lootid 9100132)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100132;
@@ -3208,7 +3208,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3678;
 -- Update Disciple of Naralex spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3678 AND `map` = 43;
+WHERE `id` = 3678 AND `map` = 43;
 
 -- Loot table for Mythic Disciple of Naralex (lootid 9100133)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100133;
@@ -3256,7 +3256,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3840;
 -- Update Druid of the Fang spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3840 AND `map` = 43;
+WHERE `id` = 3840 AND `map` = 43;
 
 -- Loot table for Mythic Druid of the Fang (lootid 9100134)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100134;
@@ -3308,7 +3308,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3640;
 -- Update Evolving Ectoplasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3640 AND `map` = 43;
+WHERE `id` = 3640 AND `map` = 43;
 
 -- Loot table for Mythic Evolving Ectoplasm (lootid 9100135)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100135;
@@ -3360,7 +3360,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5763;
 -- Update Nightmare Ectoplasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5763 AND `map` = 43;
+WHERE `id` = 5763 AND `map` = 43;
 
 -- Loot table for Mythic Nightmare Ectoplasm (lootid 9100136)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100136;
@@ -3412,7 +3412,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3653;
 -- Update Kresh spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3653 AND `map` = 43;
+WHERE `id` = 3653 AND `map` = 43;
 
 -- Loot table for Mythic Kresh (lootid 9100137)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100137;
@@ -3464,7 +3464,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3671;
 -- Update Lady Anacondra spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3671 AND `map` = 43;
+WHERE `id` = 3671 AND `map` = 43;
 
 -- Loot table for Mythic Lady Anacondra (lootid 9100138)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100138;
@@ -3516,7 +3516,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3669;
 -- Update Lord Cobrahn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3669 AND `map` = 43;
+WHERE `id` = 3669 AND `map` = 43;
 
 -- Loot table for Mythic Lord Cobrahn (lootid 9100139)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100139;
@@ -3568,7 +3568,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3670;
 -- Update Lord Pythas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3670 AND `map` = 43;
+WHERE `id` = 3670 AND `map` = 43;
 
 -- Loot table for Mythic Lord Pythas (lootid 9100140)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100140;
@@ -3620,7 +3620,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3673;
 -- Update Lord Serpentis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3673 AND `map` = 43;
+WHERE `id` = 3673 AND `map` = 43;
 
 -- Loot table for Mythic Lord Serpentis (lootid 9100141)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100141;
@@ -3672,7 +3672,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3654;
 -- Update Mutanus the Devourer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3654 AND `map` = 43;
+WHERE `id` = 3654 AND `map` = 43;
 
 -- Loot table for Mythic Mutanus the Devourer (lootid 9100142)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100142;
@@ -3724,7 +3724,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3674;
 -- Update Skum spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3674 AND `map` = 43;
+WHERE `id` = 3674 AND `map` = 43;
 
 -- Loot table for Mythic Skum (lootid 9100143)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100143;
@@ -3776,7 +3776,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5775;
 -- Update Verdan the Everliving spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5775 AND `map` = 43;
+WHERE `id` = 5775 AND `map` = 43;
 
 -- Loot table for Mythic Verdan the Everliving (lootid 9100144)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100144;
@@ -3828,7 +3828,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5912;
 -- Update Deviate Faerie Dragon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5912 AND `map` = 43;
+WHERE `id` = 5912 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Faerie Dragon (lootid 9100145)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100145;
@@ -3880,7 +3880,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8886;
 -- Update Deviate Python spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8886 AND `map` = 43;
+WHERE `id` = 8886 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Python (lootid 9100146)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100146;
@@ -3932,7 +3932,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5053;
 -- Update Deviate Crocolisk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5053 AND `map` = 43;
+WHERE `id` = 5053 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Crocolisk (lootid 9100147)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100147;
@@ -3984,7 +3984,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5055;
 -- Update Deviate Lasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5055 AND `map` = 43;
+WHERE `id` = 5055 AND `map` = 43;
 
 -- Loot table for Mythic Deviate Lasher (lootid 9100148)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100148;
@@ -4036,7 +4036,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3679;
 -- Update Naralex spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3679 AND `map` = 43;
+WHERE `id` = 3679 AND `map` = 43;
 
 -- Loot table for Mythic Naralex (lootid 9100149)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100149;
@@ -4086,7 +4086,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 636;
 -- Update Defias Blackguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 636 AND `map` = 36;
+WHERE `id` = 636 AND `map` = 36;
 
 -- Loot table for Heroic Defias Blackguard (lootid 9100200)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100200;
@@ -4138,7 +4138,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1732;
 -- Update Defias Squallshaper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1732 AND `map` = 36;
+WHERE `id` = 1732 AND `map` = 36;
 
 -- Loot table for Heroic Defias Squallshaper (lootid 9100201)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100201;
@@ -4190,7 +4190,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3947;
 -- Update Goblin Shipbuilder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3947 AND `map` = 36;
+WHERE `id` = 3947 AND `map` = 36;
 
 -- Loot table for Heroic Goblin Shipbuilder (lootid 9100202)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100202;
@@ -4242,7 +4242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4417;
 -- Update Defias Taskmaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4417 AND `map` = 36;
+WHERE `id` = 4417 AND `map` = 36;
 
 -- Loot table for Heroic Defias Taskmaster (lootid 9100203)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100203;
@@ -4294,7 +4294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4418;
 -- Update Defias Wizard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4418 AND `map` = 36;
+WHERE `id` = 4418 AND `map` = 36;
 
 -- Loot table for Heroic Defias Wizard (lootid 9100204)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100204;
@@ -4346,7 +4346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1731;
 -- Update Goblin Craftsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1731 AND `map` = 36;
+WHERE `id` = 1731 AND `map` = 36;
 
 -- Loot table for Heroic Goblin Craftsman (lootid 9100205)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100205;
@@ -4398,7 +4398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 622;
 -- Update Goblin Engineer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 622 AND `map` = 36;
+WHERE `id` = 622 AND `map` = 36;
 
 -- Loot table for Heroic Goblin Engineer (lootid 9100206)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100206;
@@ -4450,7 +4450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 641;
 -- Update Goblin Woodcarver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 641 AND `map` = 36;
+WHERE `id` = 641 AND `map` = 36;
 
 -- Loot table for Heroic Goblin Woodcarver (lootid 9100207)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100207;
@@ -4502,7 +4502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 2520;
 -- Update Remote-Controlled Golem spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 2520 AND `map` = 36;
+WHERE `id` = 2520 AND `map` = 36;
 
 -- Loot table for Heroic Remote-Controlled Golem (lootid 9100208)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100208;
@@ -4550,7 +4550,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1729;
 -- Update Defias Evoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1729 AND `map` = 36;
+WHERE `id` = 1729 AND `map` = 36;
 
 -- Loot table for Heroic Defias Evoker (lootid 9100209)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100209;
@@ -4602,7 +4602,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 634;
 -- Update Defias Overseer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 634 AND `map` = 36;
+WHERE `id` = 634 AND `map` = 36;
 
 -- Loot table for Heroic Defias Overseer (lootid 9100210)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100210;
@@ -4654,7 +4654,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1725;
 -- Update Defias Watchman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1725 AND `map` = 36;
+WHERE `id` = 1725 AND `map` = 36;
 
 -- Loot table for Heroic Defias Watchman (lootid 9100211)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100211;
@@ -4706,7 +4706,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 657;
 -- Update Defias Pirate spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 657 AND `map` = 36;
+WHERE `id` = 657 AND `map` = 36;
 
 -- Loot table for Heroic Defias Pirate (lootid 9100212)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100212;
@@ -4758,7 +4758,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 639;
 -- Update Edwin VanCleef spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 639 AND `map` = 36;
+WHERE `id` = 639 AND `map` = 36;
 
 -- Loot table for Heroic Edwin VanCleef (lootid 9100213)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100213;
@@ -4810,7 +4810,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 647;
 -- Update Captain Greenskin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 647 AND `map` = 36;
+WHERE `id` = 647 AND `map` = 36;
 
 -- Loot table for Heroic Captain Greenskin (lootid 9100214)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100214;
@@ -4862,7 +4862,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 645;
 -- Update Cookie spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 645 AND `map` = 36;
+WHERE `id` = 645 AND `map` = 36;
 
 -- Loot table for Heroic Cookie (lootid 9100215)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100215;
@@ -4914,7 +4914,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1763;
 -- Update Gilnid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1763 AND `map` = 36;
+WHERE `id` = 1763 AND `map` = 36;
 
 -- Loot table for Heroic Gilnid (lootid 9100216)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100216;
@@ -4966,7 +4966,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 646;
 -- Update Mr. Smite spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 646 AND `map` = 36;
+WHERE `id` = 646 AND `map` = 36;
 
 -- Loot table for Heroic Mr. Smite (lootid 9100217)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100217;
@@ -5018,7 +5018,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 643;
 -- Update Sneed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 643 AND `map` = 36;
+WHERE `id` = 643 AND `map` = 36;
 
 -- Loot table for Heroic Sneed (lootid 9100218)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100218;
@@ -5070,7 +5070,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 642;
 -- Update Sneed's Shredder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 642 AND `map` = 36;
+WHERE `id` = 642 AND `map` = 36;
 
 -- Loot table for Heroic Sneed's Shredder (lootid 9100219)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100219;
@@ -5122,7 +5122,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 644;
 -- Update Rhahk'Zor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 644 AND `map` = 36;
+WHERE `id` = 644 AND `map` = 36;
 
 -- Loot table for Heroic Rhahk'Zor (lootid 9100220)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100220;
@@ -5174,7 +5174,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3586;
 -- Update Miner Johnson spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3586 AND `map` = 36;
+WHERE `id` = 3586 AND `map` = 36;
 
 -- Loot table for Heroic Miner Johnson (lootid 9100221)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100221;
@@ -5226,7 +5226,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4416;
 -- Update Defias Strip Miner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4416 AND `map` = 36;
+WHERE `id` = 4416 AND `map` = 36;
 
 -- Loot table for Heroic Defias Strip Miner (lootid 9100222)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100222;
@@ -5278,7 +5278,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 598;
 -- Update Defias Miner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 598 AND `map` = 36;
+WHERE `id` = 598 AND `map` = 36;
 
 -- Loot table for Heroic Defias Miner (lootid 9100223)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100223;
@@ -5330,7 +5330,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3450;
 -- Update Defias Companion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3450 AND `map` = 36;
+WHERE `id` = 3450 AND `map` = 36;
 
 -- Loot table for Heroic Defias Companion (lootid 9100224)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100224;
@@ -5378,7 +5378,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 636;
 -- Update Defias Blackguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 636 AND `map` = 36;
+WHERE `id` = 636 AND `map` = 36;
 
 -- Loot table for Mythic Defias Blackguard (lootid 9100225)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100225;
@@ -5430,7 +5430,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1732;
 -- Update Defias Squallshaper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1732 AND `map` = 36;
+WHERE `id` = 1732 AND `map` = 36;
 
 -- Loot table for Mythic Defias Squallshaper (lootid 9100226)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100226;
@@ -5482,7 +5482,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3947;
 -- Update Goblin Shipbuilder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3947 AND `map` = 36;
+WHERE `id` = 3947 AND `map` = 36;
 
 -- Loot table for Mythic Goblin Shipbuilder (lootid 9100227)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100227;
@@ -5534,7 +5534,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4417;
 -- Update Defias Taskmaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4417 AND `map` = 36;
+WHERE `id` = 4417 AND `map` = 36;
 
 -- Loot table for Mythic Defias Taskmaster (lootid 9100228)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100228;
@@ -5586,7 +5586,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4418;
 -- Update Defias Wizard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4418 AND `map` = 36;
+WHERE `id` = 4418 AND `map` = 36;
 
 -- Loot table for Mythic Defias Wizard (lootid 9100229)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100229;
@@ -5638,7 +5638,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1731;
 -- Update Goblin Craftsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1731 AND `map` = 36;
+WHERE `id` = 1731 AND `map` = 36;
 
 -- Loot table for Mythic Goblin Craftsman (lootid 9100230)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100230;
@@ -5690,7 +5690,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 622;
 -- Update Goblin Engineer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 622 AND `map` = 36;
+WHERE `id` = 622 AND `map` = 36;
 
 -- Loot table for Mythic Goblin Engineer (lootid 9100231)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100231;
@@ -5742,7 +5742,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 641;
 -- Update Goblin Woodcarver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 641 AND `map` = 36;
+WHERE `id` = 641 AND `map` = 36;
 
 -- Loot table for Mythic Goblin Woodcarver (lootid 9100232)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100232;
@@ -5794,7 +5794,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 2520;
 -- Update Remote-Controlled Golem spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 2520 AND `map` = 36;
+WHERE `id` = 2520 AND `map` = 36;
 
 -- Loot table for Mythic Remote-Controlled Golem (lootid 9100233)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100233;
@@ -5842,7 +5842,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1729;
 -- Update Defias Evoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1729 AND `map` = 36;
+WHERE `id` = 1729 AND `map` = 36;
 
 -- Loot table for Mythic Defias Evoker (lootid 9100234)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100234;
@@ -5894,7 +5894,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 634;
 -- Update Defias Overseer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 634 AND `map` = 36;
+WHERE `id` = 634 AND `map` = 36;
 
 -- Loot table for Mythic Defias Overseer (lootid 9100235)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100235;
@@ -5946,7 +5946,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1725;
 -- Update Defias Watchman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1725 AND `map` = 36;
+WHERE `id` = 1725 AND `map` = 36;
 
 -- Loot table for Mythic Defias Watchman (lootid 9100236)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100236;
@@ -5998,7 +5998,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 657;
 -- Update Defias Pirate spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 657 AND `map` = 36;
+WHERE `id` = 657 AND `map` = 36;
 
 -- Loot table for Mythic Defias Pirate (lootid 9100237)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100237;
@@ -6050,7 +6050,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 639;
 -- Update Edwin VanCleef spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 639 AND `map` = 36;
+WHERE `id` = 639 AND `map` = 36;
 
 -- Loot table for Mythic Edwin VanCleef (lootid 9100238)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100238;
@@ -6102,7 +6102,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 647;
 -- Update Captain Greenskin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 647 AND `map` = 36;
+WHERE `id` = 647 AND `map` = 36;
 
 -- Loot table for Mythic Captain Greenskin (lootid 9100239)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100239;
@@ -6154,7 +6154,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 645;
 -- Update Cookie spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 645 AND `map` = 36;
+WHERE `id` = 645 AND `map` = 36;
 
 -- Loot table for Mythic Cookie (lootid 9100240)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100240;
@@ -6206,7 +6206,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1763;
 -- Update Gilnid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1763 AND `map` = 36;
+WHERE `id` = 1763 AND `map` = 36;
 
 -- Loot table for Mythic Gilnid (lootid 9100241)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100241;
@@ -6258,7 +6258,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 646;
 -- Update Mr. Smite spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 646 AND `map` = 36;
+WHERE `id` = 646 AND `map` = 36;
 
 -- Loot table for Mythic Mr. Smite (lootid 9100242)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100242;
@@ -6310,7 +6310,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 643;
 -- Update Sneed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 643 AND `map` = 36;
+WHERE `id` = 643 AND `map` = 36;
 
 -- Loot table for Mythic Sneed (lootid 9100243)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100243;
@@ -6362,7 +6362,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 642;
 -- Update Sneed's Shredder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 642 AND `map` = 36;
+WHERE `id` = 642 AND `map` = 36;
 
 -- Loot table for Mythic Sneed's Shredder (lootid 9100244)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100244;
@@ -6414,7 +6414,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 644;
 -- Update Rhahk'Zor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 644 AND `map` = 36;
+WHERE `id` = 644 AND `map` = 36;
 
 -- Loot table for Mythic Rhahk'Zor (lootid 9100245)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100245;
@@ -6466,7 +6466,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3586;
 -- Update Miner Johnson spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3586 AND `map` = 36;
+WHERE `id` = 3586 AND `map` = 36;
 
 -- Loot table for Mythic Miner Johnson (lootid 9100246)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100246;
@@ -6518,7 +6518,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4416;
 -- Update Defias Strip Miner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4416 AND `map` = 36;
+WHERE `id` = 4416 AND `map` = 36;
 
 -- Loot table for Mythic Defias Strip Miner (lootid 9100247)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100247;
@@ -6570,7 +6570,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 598;
 -- Update Defias Miner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 598 AND `map` = 36;
+WHERE `id` = 598 AND `map` = 36;
 
 -- Loot table for Mythic Defias Miner (lootid 9100248)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100248;
@@ -6622,7 +6622,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3450;
 -- Update Defias Companion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3450 AND `map` = 36;
+WHERE `id` = 3450 AND `map` = 36;
 
 -- Loot table for Mythic Defias Companion (lootid 9100249)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100249;
@@ -6672,7 +6672,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3861;
 -- Update Bleak Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3861 AND `map` = 33;
+WHERE `id` = 3861 AND `map` = 33;
 
 -- Loot table for Heroic Bleak Worg (lootid 9100300)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100300;
@@ -6724,7 +6724,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3868;
 -- Update Blood Seeker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3868 AND `map` = 33;
+WHERE `id` = 3868 AND `map` = 33;
 
 -- Loot table for Heroic Blood Seeker (lootid 9100301)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100301;
@@ -6776,7 +6776,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3849;
 -- Update Deathstalker Adamant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3849 AND `map` = 33;
+WHERE `id` = 3849 AND `map` = 33;
 
 -- Loot table for Heroic Deathstalker Adamant (lootid 9100302)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100302;
@@ -6828,7 +6828,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3864;
 -- Update Fel Steed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3864 AND `map` = 33;
+WHERE `id` = 3864 AND `map` = 33;
 
 -- Loot table for Heroic Fel Steed (lootid 9100303)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100303;
@@ -6880,7 +6880,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3875;
 -- Update Haunted Servitor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3875 AND `map` = 33;
+WHERE `id` = 3875 AND `map` = 33;
 
 -- Loot table for Heroic Haunted Servitor (lootid 9100304)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100304;
@@ -6932,7 +6932,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3863;
 -- Update Lupine Horror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3863 AND `map` = 33;
+WHERE `id` = 3863 AND `map` = 33;
 
 -- Loot table for Heroic Lupine Horror (lootid 9100305)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100305;
@@ -6984,7 +6984,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3865;
 -- Update Shadow Charger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3865 AND `map` = 33;
+WHERE `id` = 3865 AND `map` = 33;
 
 -- Loot table for Heroic Shadow Charger (lootid 9100306)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100306;
@@ -7036,7 +7036,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3855;
 -- Update Shadowfang Darksoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3855 AND `map` = 33;
+WHERE `id` = 3855 AND `map` = 33;
 
 -- Loot table for Heroic Shadowfang Darksoul (lootid 9100307)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100307;
@@ -7088,7 +7088,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3857;
 -- Update Shadowfang Glutton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3857 AND `map` = 33;
+WHERE `id` = 3857 AND `map` = 33;
 
 -- Loot table for Heroic Shadowfang Glutton (lootid 9100308)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100308;
@@ -7140,7 +7140,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3853;
 -- Update Shadowfang Moonwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3853 AND `map` = 33;
+WHERE `id` = 3853 AND `map` = 33;
 
 -- Loot table for Heroic Shadowfang Moonwalker (lootid 9100309)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100309;
@@ -7192,7 +7192,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3859;
 -- Update Shadowfang Ragetooth spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3859 AND `map` = 33;
+WHERE `id` = 3859 AND `map` = 33;
 
 -- Loot table for Heroic Shadowfang Ragetooth (lootid 9100310)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100310;
@@ -7244,7 +7244,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3851;
 -- Update Shadowfang Whitescalp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3851 AND `map` = 33;
+WHERE `id` = 3851 AND `map` = 33;
 
 -- Loot table for Heroic Shadowfang Whitescalp (lootid 9100311)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100311;
@@ -7296,7 +7296,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3854;
 -- Update Shadowfang Wolfguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3854 AND `map` = 33;
+WHERE `id` = 3854 AND `map` = 33;
 
 -- Loot table for Heroic Shadowfang Wolfguard (lootid 9100312)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100312;
@@ -7348,7 +7348,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3862;
 -- Update Slavering Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3862 AND `map` = 33;
+WHERE `id` = 3862 AND `map` = 33;
 
 -- Loot table for Heroic Slavering Worg (lootid 9100313)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100313;
@@ -7400,7 +7400,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 2529;
 -- Update Son of Arugal spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 2529 AND `map` = 33;
+WHERE `id` = 2529 AND `map` = 33;
 
 -- Loot table for Heroic Son of Arugal (lootid 9100314)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100314;
@@ -7452,7 +7452,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3850;
 -- Update Sorcerer Ashcrombe spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3850 AND `map` = 33;
+WHERE `id` = 3850 AND `map` = 33;
 
 -- Loot table for Heroic Sorcerer Ashcrombe (lootid 9100315)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100315;
@@ -7504,7 +7504,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3873;
 -- Update Tormented Officer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3873 AND `map` = 33;
+WHERE `id` = 3873 AND `map` = 33;
 
 -- Loot table for Heroic Tormented Officer (lootid 9100316)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100316;
@@ -7556,7 +7556,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3866;
 -- Update Vile Bat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3866 AND `map` = 33;
+WHERE `id` = 3866 AND `map` = 33;
 
 -- Loot table for Heroic Vile Bat (lootid 9100317)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100317;
@@ -7608,7 +7608,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3877;
 -- Update Wailing Guardsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3877 AND `map` = 33;
+WHERE `id` = 3877 AND `map` = 33;
 
 -- Loot table for Heroic Wailing Guardsman (lootid 9100318)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100318;
@@ -7660,7 +7660,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14682;
 -- Update Sever spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14682 AND `map` = 33;
+WHERE `id` = 14682 AND `map` = 33;
 
 -- Loot table for Heroic Sever (lootid 9100319)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100319;
@@ -7712,7 +7712,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3914;
 -- Update Rethilgore spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3914 AND `map` = 33;
+WHERE `id` = 3914 AND `map` = 33;
 
 -- Loot table for Heroic Rethilgore (lootid 9100320)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100320;
@@ -7764,7 +7764,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3886;
 -- Update Razorclaw the Butcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3886 AND `map` = 33;
+WHERE `id` = 3886 AND `map` = 33;
 
 -- Loot table for Heroic Razorclaw the Butcher (lootid 9100321)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100321;
@@ -7816,7 +7816,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3887;
 -- Update Baron Silverlaine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3887 AND `map` = 33;
+WHERE `id` = 3887 AND `map` = 33;
 
 -- Loot table for Heroic Baron Silverlaine (lootid 9100322)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100322;
@@ -7868,7 +7868,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4278;
 -- Update Commander Springvale spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4278 AND `map` = 33;
+WHERE `id` = 4278 AND `map` = 33;
 
 -- Loot table for Heroic Commander Springvale (lootid 9100323)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100323;
@@ -7920,7 +7920,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4279;
 -- Update Odo the Blindwatcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4279 AND `map` = 33;
+WHERE `id` = 4279 AND `map` = 33;
 
 -- Loot table for Heroic Odo the Blindwatcher (lootid 9100324)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100324;
@@ -7972,7 +7972,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3872;
 -- Update Deathsworn Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3872 AND `map` = 33;
+WHERE `id` = 3872 AND `map` = 33;
 
 -- Loot table for Heroic Deathsworn Captain (lootid 9100325)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100325;
@@ -8024,7 +8024,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4274;
 -- Update Fenrus the Devourer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4274 AND `map` = 33;
+WHERE `id` = 4274 AND `map` = 33;
 
 -- Loot table for Heroic Fenrus the Devourer (lootid 9100326)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100326;
@@ -8076,7 +8076,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3927;
 -- Update Wolf Master Nandos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3927 AND `map` = 33;
+WHERE `id` = 3927 AND `map` = 33;
 
 -- Loot table for Heroic Wolf Master Nandos (lootid 9100327)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100327;
@@ -8128,7 +8128,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4275;
 -- Update Archmage Arugal spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4275 AND `map` = 33;
+WHERE `id` = 4275 AND `map` = 33;
 
 -- Loot table for Heroic Archmage Arugal (lootid 9100328)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100328;
@@ -8180,7 +8180,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4627;
 -- Update Arugal's Voidwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4627 AND `map` = 33;
+WHERE `id` = 4627 AND `map` = 33;
 
 -- Loot table for Heroic Arugal's Voidwalker (lootid 9100329)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100329;
@@ -8232,7 +8232,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4444;
 -- Update Deathstalker Vincent spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4444 AND `map` = 33;
+WHERE `id` = 4444 AND `map` = 33;
 
 -- Loot table for Heroic Deathstalker Vincent (lootid 9100330)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100330;
@@ -8280,7 +8280,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4958;
 -- Update Haunting Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4958 AND `map` = 33;
+WHERE `id` = 4958 AND `map` = 33;
 
 -- Loot table for Heroic Haunting Spirit (lootid 9100331)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100331;
@@ -8328,7 +8328,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5097;
 -- Update Lupine Delusion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5097 AND `map` = 33;
+WHERE `id` = 5097 AND `map` = 33;
 
 -- Loot table for Heroic Lupine Delusion (lootid 9100332)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100332;
@@ -8376,7 +8376,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5058;
 -- Update Wolfguard Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5058 AND `map` = 33;
+WHERE `id` = 5058 AND `map` = 33;
 
 -- Loot table for Heroic Wolfguard Worg (lootid 9100333)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100333;
@@ -8428,7 +8428,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3861;
 -- Update Bleak Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3861 AND `map` = 33;
+WHERE `id` = 3861 AND `map` = 33;
 
 -- Loot table for Mythic Bleak Worg (lootid 9100334)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100334;
@@ -8480,7 +8480,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3868;
 -- Update Blood Seeker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3868 AND `map` = 33;
+WHERE `id` = 3868 AND `map` = 33;
 
 -- Loot table for Mythic Blood Seeker (lootid 9100335)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100335;
@@ -8532,7 +8532,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3849;
 -- Update Deathstalker Adamant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3849 AND `map` = 33;
+WHERE `id` = 3849 AND `map` = 33;
 
 -- Loot table for Mythic Deathstalker Adamant (lootid 9100336)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100336;
@@ -8584,7 +8584,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3864;
 -- Update Fel Steed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3864 AND `map` = 33;
+WHERE `id` = 3864 AND `map` = 33;
 
 -- Loot table for Mythic Fel Steed (lootid 9100337)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100337;
@@ -8636,7 +8636,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3875;
 -- Update Haunted Servitor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3875 AND `map` = 33;
+WHERE `id` = 3875 AND `map` = 33;
 
 -- Loot table for Mythic Haunted Servitor (lootid 9100338)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100338;
@@ -8688,7 +8688,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3863;
 -- Update Lupine Horror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3863 AND `map` = 33;
+WHERE `id` = 3863 AND `map` = 33;
 
 -- Loot table for Mythic Lupine Horror (lootid 9100339)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100339;
@@ -8740,7 +8740,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3865;
 -- Update Shadow Charger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3865 AND `map` = 33;
+WHERE `id` = 3865 AND `map` = 33;
 
 -- Loot table for Mythic Shadow Charger (lootid 9100340)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100340;
@@ -8792,7 +8792,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3855;
 -- Update Shadowfang Darksoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3855 AND `map` = 33;
+WHERE `id` = 3855 AND `map` = 33;
 
 -- Loot table for Mythic Shadowfang Darksoul (lootid 9100341)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100341;
@@ -8844,7 +8844,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3857;
 -- Update Shadowfang Glutton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3857 AND `map` = 33;
+WHERE `id` = 3857 AND `map` = 33;
 
 -- Loot table for Mythic Shadowfang Glutton (lootid 9100342)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100342;
@@ -8896,7 +8896,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3853;
 -- Update Shadowfang Moonwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3853 AND `map` = 33;
+WHERE `id` = 3853 AND `map` = 33;
 
 -- Loot table for Mythic Shadowfang Moonwalker (lootid 9100343)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100343;
@@ -8948,7 +8948,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3859;
 -- Update Shadowfang Ragetooth spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3859 AND `map` = 33;
+WHERE `id` = 3859 AND `map` = 33;
 
 -- Loot table for Mythic Shadowfang Ragetooth (lootid 9100344)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100344;
@@ -9000,7 +9000,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3851;
 -- Update Shadowfang Whitescalp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3851 AND `map` = 33;
+WHERE `id` = 3851 AND `map` = 33;
 
 -- Loot table for Mythic Shadowfang Whitescalp (lootid 9100345)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100345;
@@ -9052,7 +9052,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3854;
 -- Update Shadowfang Wolfguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3854 AND `map` = 33;
+WHERE `id` = 3854 AND `map` = 33;
 
 -- Loot table for Mythic Shadowfang Wolfguard (lootid 9100346)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100346;
@@ -9104,7 +9104,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3862;
 -- Update Slavering Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3862 AND `map` = 33;
+WHERE `id` = 3862 AND `map` = 33;
 
 -- Loot table for Mythic Slavering Worg (lootid 9100347)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100347;
@@ -9156,7 +9156,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 2529;
 -- Update Son of Arugal spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 2529 AND `map` = 33;
+WHERE `id` = 2529 AND `map` = 33;
 
 -- Loot table for Mythic Son of Arugal (lootid 9100348)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100348;
@@ -9208,7 +9208,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3850;
 -- Update Sorcerer Ashcrombe spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3850 AND `map` = 33;
+WHERE `id` = 3850 AND `map` = 33;
 
 -- Loot table for Mythic Sorcerer Ashcrombe (lootid 9100349)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100349;
@@ -9260,7 +9260,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3873;
 -- Update Tormented Officer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3873 AND `map` = 33;
+WHERE `id` = 3873 AND `map` = 33;
 
 -- Loot table for Mythic Tormented Officer (lootid 9100350)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100350;
@@ -9312,7 +9312,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3866;
 -- Update Vile Bat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3866 AND `map` = 33;
+WHERE `id` = 3866 AND `map` = 33;
 
 -- Loot table for Mythic Vile Bat (lootid 9100351)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100351;
@@ -9364,7 +9364,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3877;
 -- Update Wailing Guardsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3877 AND `map` = 33;
+WHERE `id` = 3877 AND `map` = 33;
 
 -- Loot table for Mythic Wailing Guardsman (lootid 9100352)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100352;
@@ -9416,7 +9416,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14682;
 -- Update Sever spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14682 AND `map` = 33;
+WHERE `id` = 14682 AND `map` = 33;
 
 -- Loot table for Mythic Sever (lootid 9100353)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100353;
@@ -9468,7 +9468,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3914;
 -- Update Rethilgore spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3914 AND `map` = 33;
+WHERE `id` = 3914 AND `map` = 33;
 
 -- Loot table for Mythic Rethilgore (lootid 9100354)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100354;
@@ -9520,7 +9520,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3886;
 -- Update Razorclaw the Butcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3886 AND `map` = 33;
+WHERE `id` = 3886 AND `map` = 33;
 
 -- Loot table for Mythic Razorclaw the Butcher (lootid 9100355)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100355;
@@ -9572,7 +9572,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3887;
 -- Update Baron Silverlaine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3887 AND `map` = 33;
+WHERE `id` = 3887 AND `map` = 33;
 
 -- Loot table for Mythic Baron Silverlaine (lootid 9100356)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100356;
@@ -9624,7 +9624,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4278;
 -- Update Commander Springvale spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4278 AND `map` = 33;
+WHERE `id` = 4278 AND `map` = 33;
 
 -- Loot table for Mythic Commander Springvale (lootid 9100357)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100357;
@@ -9676,7 +9676,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4279;
 -- Update Odo the Blindwatcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4279 AND `map` = 33;
+WHERE `id` = 4279 AND `map` = 33;
 
 -- Loot table for Mythic Odo the Blindwatcher (lootid 9100358)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100358;
@@ -9728,7 +9728,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3872;
 -- Update Deathsworn Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3872 AND `map` = 33;
+WHERE `id` = 3872 AND `map` = 33;
 
 -- Loot table for Mythic Deathsworn Captain (lootid 9100359)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100359;
@@ -9780,7 +9780,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4274;
 -- Update Fenrus the Devourer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4274 AND `map` = 33;
+WHERE `id` = 4274 AND `map` = 33;
 
 -- Loot table for Mythic Fenrus the Devourer (lootid 9100360)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100360;
@@ -9832,7 +9832,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3927;
 -- Update Wolf Master Nandos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3927 AND `map` = 33;
+WHERE `id` = 3927 AND `map` = 33;
 
 -- Loot table for Mythic Wolf Master Nandos (lootid 9100361)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100361;
@@ -9884,7 +9884,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4275;
 -- Update Archmage Arugal spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4275 AND `map` = 33;
+WHERE `id` = 4275 AND `map` = 33;
 
 -- Loot table for Mythic Archmage Arugal (lootid 9100362)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100362;
@@ -9936,7 +9936,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4627;
 -- Update Arugal's Voidwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4627 AND `map` = 33;
+WHERE `id` = 4627 AND `map` = 33;
 
 -- Loot table for Mythic Arugal's Voidwalker (lootid 9100363)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100363;
@@ -9988,7 +9988,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4444;
 -- Update Deathstalker Vincent spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4444 AND `map` = 33;
+WHERE `id` = 4444 AND `map` = 33;
 
 -- Loot table for Mythic Deathstalker Vincent (lootid 9100364)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100364;
@@ -10036,7 +10036,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4958;
 -- Update Haunting Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4958 AND `map` = 33;
+WHERE `id` = 4958 AND `map` = 33;
 
 -- Loot table for Mythic Haunting Spirit (lootid 9100365)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100365;
@@ -10084,7 +10084,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5097;
 -- Update Lupine Delusion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5097 AND `map` = 33;
+WHERE `id` = 5097 AND `map` = 33;
 
 -- Loot table for Mythic Lupine Delusion (lootid 9100366)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100366;
@@ -10132,7 +10132,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5058;
 -- Update Wolfguard Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5058 AND `map` = 33;
+WHERE `id` = 5058 AND `map` = 33;
 
 -- Loot table for Mythic Wolfguard Worg (lootid 9100367)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100367;
@@ -10186,7 +10186,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1706;
 -- Update Defias Prisoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1706 AND `map` = 34;
+WHERE `id` = 1706 AND `map` = 34;
 
 -- Loot table for Heroic Defias Prisoner (lootid 9100400)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100400;
@@ -10238,7 +10238,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1707;
 -- Update Defias Captive spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1707 AND `map` = 34;
+WHERE `id` = 1707 AND `map` = 34;
 
 -- Loot table for Heroic Defias Captive (lootid 9100401)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100401;
@@ -10290,7 +10290,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1708;
 -- Update Defias Inmate spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1708 AND `map` = 34;
+WHERE `id` = 1708 AND `map` = 34;
 
 -- Loot table for Heroic Defias Inmate (lootid 9100402)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100402;
@@ -10342,7 +10342,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1711;
 -- Update Defias Convict spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1711 AND `map` = 34;
+WHERE `id` = 1711 AND `map` = 34;
 
 -- Loot table for Heroic Defias Convict (lootid 9100403)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100403;
@@ -10394,7 +10394,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1715;
 -- Update Defias Insurgent spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1715 AND `map` = 34;
+WHERE `id` = 1715 AND `map` = 34;
 
 -- Loot table for Heroic Defias Insurgent (lootid 9100404)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100404;
@@ -10446,7 +10446,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1696;
 -- Update Targorr the Dread spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1696 AND `map` = 34;
+WHERE `id` = 1696 AND `map` = 34;
 
 -- Loot table for Heroic Targorr the Dread (lootid 9100405)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100405;
@@ -10498,7 +10498,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1663;
 -- Update Dextren Ward spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1663 AND `map` = 34;
+WHERE `id` = 1663 AND `map` = 34;
 
 -- Loot table for Heroic Dextren Ward (lootid 9100406)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100406;
@@ -10550,7 +10550,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1720;
 -- Update Bruegal Ironknuckle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1720 AND `map` = 34;
+WHERE `id` = 1720 AND `map` = 34;
 
 -- Loot table for Heroic Bruegal Ironknuckle (lootid 9100407)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100407;
@@ -10602,7 +10602,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1666;
 -- Update Kam Deepfury spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1666 AND `map` = 34;
+WHERE `id` = 1666 AND `map` = 34;
 
 -- Loot table for Heroic Kam Deepfury (lootid 9100408)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100408;
@@ -10654,7 +10654,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1717;
 -- Update Hamhock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1717 AND `map` = 34;
+WHERE `id` = 1717 AND `map` = 34;
 
 -- Loot table for Heroic Hamhock (lootid 9100409)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100409;
@@ -10706,7 +10706,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1716;
 -- Update Bazil Thredd spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1716 AND `map` = 34;
+WHERE `id` = 1716 AND `map` = 34;
 
 -- Loot table for Heroic Bazil Thredd (lootid 9100410)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100410;
@@ -10758,7 +10758,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1706;
 -- Update Defias Prisoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1706 AND `map` = 34;
+WHERE `id` = 1706 AND `map` = 34;
 
 -- Loot table for Mythic Defias Prisoner (lootid 9100411)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100411;
@@ -10810,7 +10810,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1707;
 -- Update Defias Captive spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1707 AND `map` = 34;
+WHERE `id` = 1707 AND `map` = 34;
 
 -- Loot table for Mythic Defias Captive (lootid 9100412)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100412;
@@ -10862,7 +10862,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1708;
 -- Update Defias Inmate spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1708 AND `map` = 34;
+WHERE `id` = 1708 AND `map` = 34;
 
 -- Loot table for Mythic Defias Inmate (lootid 9100413)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100413;
@@ -10914,7 +10914,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1711;
 -- Update Defias Convict spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1711 AND `map` = 34;
+WHERE `id` = 1711 AND `map` = 34;
 
 -- Loot table for Mythic Defias Convict (lootid 9100414)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100414;
@@ -10966,7 +10966,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1715;
 -- Update Defias Insurgent spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1715 AND `map` = 34;
+WHERE `id` = 1715 AND `map` = 34;
 
 -- Loot table for Mythic Defias Insurgent (lootid 9100415)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100415;
@@ -11018,7 +11018,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1696;
 -- Update Targorr the Dread spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1696 AND `map` = 34;
+WHERE `id` = 1696 AND `map` = 34;
 
 -- Loot table for Mythic Targorr the Dread (lootid 9100416)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100416;
@@ -11070,7 +11070,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1663;
 -- Update Dextren Ward spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1663 AND `map` = 34;
+WHERE `id` = 1663 AND `map` = 34;
 
 -- Loot table for Mythic Dextren Ward (lootid 9100417)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100417;
@@ -11122,7 +11122,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1720;
 -- Update Bruegal Ironknuckle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1720 AND `map` = 34;
+WHERE `id` = 1720 AND `map` = 34;
 
 -- Loot table for Mythic Bruegal Ironknuckle (lootid 9100418)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100418;
@@ -11174,7 +11174,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1666;
 -- Update Kam Deepfury spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1666 AND `map` = 34;
+WHERE `id` = 1666 AND `map` = 34;
 
 -- Loot table for Mythic Kam Deepfury (lootid 9100419)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100419;
@@ -11226,7 +11226,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1717;
 -- Update Hamhock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1717 AND `map` = 34;
+WHERE `id` = 1717 AND `map` = 34;
 
 -- Loot table for Mythic Hamhock (lootid 9100420)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100420;
@@ -11278,7 +11278,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1716;
 -- Update Bazil Thredd spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1716 AND `map` = 34;
+WHERE `id` = 1716 AND `map` = 34;
 
 -- Loot table for Mythic Bazil Thredd (lootid 9100421)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100421;
@@ -11332,7 +11332,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4821;
 -- Update Skittering Crustacean spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4821 AND `map` = 48;
+WHERE `id` = 4821 AND `map` = 48;
 
 -- Loot table for Heroic Skittering Crustacean (lootid 9100500)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100500;
@@ -11384,7 +11384,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4815;
 -- Update Murkshallow Snapclaw spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4815 AND `map` = 48;
+WHERE `id` = 4815 AND `map` = 48;
 
 -- Loot table for Heroic Murkshallow Snapclaw (lootid 9100501)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100501;
@@ -11436,7 +11436,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4818;
 -- Update Blindlight Murloc spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4818 AND `map` = 48;
+WHERE `id` = 4818 AND `map` = 48;
 
 -- Loot table for Heroic Blindlight Murloc (lootid 9100502)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100502;
@@ -11488,7 +11488,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4807;
 -- Update Blackfathom Myrmidon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4807 AND `map` = 48;
+WHERE `id` = 4807 AND `map` = 48;
 
 -- Loot table for Heroic Blackfathom Myrmidon (lootid 9100503)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100503;
@@ -11540,7 +11540,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4812;
 -- Update Twilight Loreseeker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4812 AND `map` = 48;
+WHERE `id` = 4812 AND `map` = 48;
 
 -- Loot table for Heroic Twilight Loreseeker (lootid 9100504)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100504;
@@ -11592,7 +11592,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4809;
 -- Update Twilight Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4809 AND `map` = 48;
+WHERE `id` = 4809 AND `map` = 48;
 
 -- Loot table for Heroic Twilight Acolyte (lootid 9100505)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100505;
@@ -11644,7 +11644,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4822;
 -- Update Snapping Crustacean spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4822 AND `map` = 48;
+WHERE `id` = 4822 AND `map` = 48;
 
 -- Loot table for Heroic Snapping Crustacean (lootid 9100506)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100506;
@@ -11696,7 +11696,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4798;
 -- Update Fallenroot Shadowstalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4798 AND `map` = 48;
+WHERE `id` = 4798 AND `map` = 48;
 
 -- Loot table for Heroic Fallenroot Shadowstalker (lootid 9100507)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100507;
@@ -11748,7 +11748,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4799;
 -- Update Fallenroot Hellcaller spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4799 AND `map` = 48;
+WHERE `id` = 4799 AND `map` = 48;
 
 -- Loot table for Heroic Fallenroot Hellcaller (lootid 9100508)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100508;
@@ -11800,7 +11800,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4827;
 -- Update Deep Pool Threshfin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4827 AND `map` = 48;
+WHERE `id` = 4827 AND `map` = 48;
 
 -- Loot table for Heroic Deep Pool Threshfin (lootid 9100509)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100509;
@@ -11852,7 +11852,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4978;
 -- Update Aku'mai Servant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4978 AND `map` = 48;
+WHERE `id` = 4978 AND `map` = 48;
 
 -- Loot table for Heroic Aku'mai Servant (lootid 9100510)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100510;
@@ -11904,7 +11904,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4825;
 -- Update Aku'mai Snapjaw spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4825 AND `map` = 48;
+WHERE `id` = 4825 AND `map` = 48;
 
 -- Loot table for Heroic Aku'mai Snapjaw (lootid 9100511)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100511;
@@ -11956,7 +11956,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4823;
 -- Update Barbed Crustacean spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4823 AND `map` = 48;
+WHERE `id` = 4823 AND `map` = 48;
 
 -- Loot table for Heroic Barbed Crustacean (lootid 9100512)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100512;
@@ -12008,7 +12008,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4819;
 -- Update Blindlight Muckdweller spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4819 AND `map` = 48;
+WHERE `id` = 4819 AND `map` = 48;
 
 -- Loot table for Heroic Blindlight Muckdweller (lootid 9100513)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100513;
@@ -12060,7 +12060,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4820;
 -- Update Blindlight Oracle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4820 AND `map` = 48;
+WHERE `id` = 4820 AND `map` = 48;
 
 -- Loot table for Heroic Blindlight Oracle (lootid 9100514)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100514;
@@ -12112,7 +12112,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4811;
 -- Update Twilight Aquamancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4811 AND `map` = 48;
+WHERE `id` = 4811 AND `map` = 48;
 
 -- Loot table for Heroic Twilight Aquamancer (lootid 9100515)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100515;
@@ -12164,7 +12164,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4814;
 -- Update Twilight Elementalist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4814 AND `map` = 48;
+WHERE `id` = 4814 AND `map` = 48;
 
 -- Loot table for Heroic Twilight Elementalist (lootid 9100516)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100516;
@@ -12216,7 +12216,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4810;
 -- Update Twilight Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4810 AND `map` = 48;
+WHERE `id` = 4810 AND `map` = 48;
 
 -- Loot table for Heroic Twilight Reaver (lootid 9100517)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100517;
@@ -12268,7 +12268,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4813;
 -- Update Twilight Shadowmage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4813 AND `map` = 48;
+WHERE `id` = 4813 AND `map` = 48;
 
 -- Loot table for Heroic Twilight Shadowmage (lootid 9100518)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100518;
@@ -12320,7 +12320,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4824;
 -- Update Aku'mai Fisher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4824 AND `map` = 48;
+WHERE `id` = 4824 AND `map` = 48;
 
 -- Loot table for Heroic Aku'mai Fisher (lootid 9100519)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100519;
@@ -12372,7 +12372,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4805;
 -- Update Blackfathom Sea Witch spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4805 AND `map` = 48;
+WHERE `id` = 4805 AND `map` = 48;
 
 -- Loot table for Heroic Blackfathom Sea Witch (lootid 9100520)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100520;
@@ -12424,7 +12424,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4829;
 -- Update Aku'mai spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4829 AND `map` = 48;
+WHERE `id` = 4829 AND `map` = 48;
 
 -- Loot table for Heroic Aku'mai (lootid 9100521)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100521;
@@ -12476,7 +12476,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12876;
 -- Update Baron Aquanis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12876 AND `map` = 48;
+WHERE `id` = 12876 AND `map` = 48;
 
 -- Loot table for Heroic Baron Aquanis (lootid 9100522)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100522;
@@ -12528,7 +12528,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6243;
 -- Update Gelihast spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6243 AND `map` = 48;
+WHERE `id` = 6243 AND `map` = 48;
 
 -- Loot table for Heroic Gelihast (lootid 9100523)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100523;
@@ -12580,7 +12580,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12902;
 -- Update Lorgus Jett spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12902 AND `map` = 48;
+WHERE `id` = 12902 AND `map` = 48;
 
 -- Loot table for Heroic Lorgus Jett (lootid 9100524)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100524;
@@ -12632,7 +12632,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4830;
 -- Update Old Serra'kis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4830 AND `map` = 48;
+WHERE `id` = 4830 AND `map` = 48;
 
 -- Loot table for Heroic Old Serra'kis (lootid 9100525)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100525;
@@ -12684,7 +12684,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4832;
 -- Update Twilight Lord Kelris spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4832 AND `map` = 48;
+WHERE `id` = 4832 AND `map` = 48;
 
 -- Loot table for Heroic Twilight Lord Kelris (lootid 9100526)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100526;
@@ -12736,7 +12736,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4887;
 -- Update Ghamoo-ra spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4887 AND `map` = 48;
+WHERE `id` = 4887 AND `map` = 48;
 
 -- Loot table for Heroic Ghamoo-ra (lootid 9100527)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100527;
@@ -12788,7 +12788,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4831;
 -- Update Lady Sarevess spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4831 AND `map` = 48;
+WHERE `id` = 4831 AND `map` = 48;
 
 -- Loot table for Heroic Lady Sarevess (lootid 9100528)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100528;
@@ -12840,7 +12840,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6047;
 -- Update Aqua Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6047 AND `map` = 48;
+WHERE `id` = 6047 AND `map` = 48;
 
 -- Loot table for Heroic Aqua Guardian (lootid 9100529)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100529;
@@ -12888,7 +12888,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4787;
 -- Update Argent Guard Thaelrid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4787 AND `map` = 48;
+WHERE `id` = 4787 AND `map` = 48;
 
 -- Loot table for Heroic Argent Guard Thaelrid (lootid 9100530)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100530;
@@ -12940,7 +12940,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8996;
 -- Update Voidwalker Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8996 AND `map` = 48;
+WHERE `id` = 8996 AND `map` = 48;
 
 -- Loot table for Heroic Voidwalker Minion (lootid 9100531)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100531;
@@ -12988,7 +12988,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4977;
 -- Update Murkshallow Softshell spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4977 AND `map` = 48;
+WHERE `id` = 4977 AND `map` = 48;
 
 -- Loot table for Heroic Murkshallow Softshell (lootid 9100532)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100532;
@@ -13040,7 +13040,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6729;
 -- Update Morridune spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6729 AND `map` = 48;
+WHERE `id` = 6729 AND `map` = 48;
 
 -- Loot table for Heroic Morridune (lootid 9100533)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100533;
@@ -13088,7 +13088,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4821;
 -- Update Skittering Crustacean spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4821 AND `map` = 48;
+WHERE `id` = 4821 AND `map` = 48;
 
 -- Loot table for Mythic Skittering Crustacean (lootid 9100534)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100534;
@@ -13140,7 +13140,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4815;
 -- Update Murkshallow Snapclaw spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4815 AND `map` = 48;
+WHERE `id` = 4815 AND `map` = 48;
 
 -- Loot table for Mythic Murkshallow Snapclaw (lootid 9100535)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100535;
@@ -13192,7 +13192,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4818;
 -- Update Blindlight Murloc spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4818 AND `map` = 48;
+WHERE `id` = 4818 AND `map` = 48;
 
 -- Loot table for Mythic Blindlight Murloc (lootid 9100536)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100536;
@@ -13244,7 +13244,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4807;
 -- Update Blackfathom Myrmidon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4807 AND `map` = 48;
+WHERE `id` = 4807 AND `map` = 48;
 
 -- Loot table for Mythic Blackfathom Myrmidon (lootid 9100537)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100537;
@@ -13296,7 +13296,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4812;
 -- Update Twilight Loreseeker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4812 AND `map` = 48;
+WHERE `id` = 4812 AND `map` = 48;
 
 -- Loot table for Mythic Twilight Loreseeker (lootid 9100538)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100538;
@@ -13348,7 +13348,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4809;
 -- Update Twilight Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4809 AND `map` = 48;
+WHERE `id` = 4809 AND `map` = 48;
 
 -- Loot table for Mythic Twilight Acolyte (lootid 9100539)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100539;
@@ -13400,7 +13400,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4822;
 -- Update Snapping Crustacean spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4822 AND `map` = 48;
+WHERE `id` = 4822 AND `map` = 48;
 
 -- Loot table for Mythic Snapping Crustacean (lootid 9100540)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100540;
@@ -13452,7 +13452,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4798;
 -- Update Fallenroot Shadowstalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4798 AND `map` = 48;
+WHERE `id` = 4798 AND `map` = 48;
 
 -- Loot table for Mythic Fallenroot Shadowstalker (lootid 9100541)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100541;
@@ -13504,7 +13504,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4799;
 -- Update Fallenroot Hellcaller spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4799 AND `map` = 48;
+WHERE `id` = 4799 AND `map` = 48;
 
 -- Loot table for Mythic Fallenroot Hellcaller (lootid 9100542)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100542;
@@ -13556,7 +13556,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4827;
 -- Update Deep Pool Threshfin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4827 AND `map` = 48;
+WHERE `id` = 4827 AND `map` = 48;
 
 -- Loot table for Mythic Deep Pool Threshfin (lootid 9100543)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100543;
@@ -13608,7 +13608,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4978;
 -- Update Aku'mai Servant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4978 AND `map` = 48;
+WHERE `id` = 4978 AND `map` = 48;
 
 -- Loot table for Mythic Aku'mai Servant (lootid 9100544)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100544;
@@ -13660,7 +13660,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4825;
 -- Update Aku'mai Snapjaw spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4825 AND `map` = 48;
+WHERE `id` = 4825 AND `map` = 48;
 
 -- Loot table for Mythic Aku'mai Snapjaw (lootid 9100545)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100545;
@@ -13712,7 +13712,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4823;
 -- Update Barbed Crustacean spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4823 AND `map` = 48;
+WHERE `id` = 4823 AND `map` = 48;
 
 -- Loot table for Mythic Barbed Crustacean (lootid 9100546)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100546;
@@ -13764,7 +13764,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4819;
 -- Update Blindlight Muckdweller spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4819 AND `map` = 48;
+WHERE `id` = 4819 AND `map` = 48;
 
 -- Loot table for Mythic Blindlight Muckdweller (lootid 9100547)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100547;
@@ -13816,7 +13816,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4820;
 -- Update Blindlight Oracle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4820 AND `map` = 48;
+WHERE `id` = 4820 AND `map` = 48;
 
 -- Loot table for Mythic Blindlight Oracle (lootid 9100548)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100548;
@@ -13868,7 +13868,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4811;
 -- Update Twilight Aquamancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4811 AND `map` = 48;
+WHERE `id` = 4811 AND `map` = 48;
 
 -- Loot table for Mythic Twilight Aquamancer (lootid 9100549)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100549;
@@ -13920,7 +13920,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4814;
 -- Update Twilight Elementalist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4814 AND `map` = 48;
+WHERE `id` = 4814 AND `map` = 48;
 
 -- Loot table for Mythic Twilight Elementalist (lootid 9100550)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100550;
@@ -13972,7 +13972,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4810;
 -- Update Twilight Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4810 AND `map` = 48;
+WHERE `id` = 4810 AND `map` = 48;
 
 -- Loot table for Mythic Twilight Reaver (lootid 9100551)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100551;
@@ -14024,7 +14024,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4813;
 -- Update Twilight Shadowmage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4813 AND `map` = 48;
+WHERE `id` = 4813 AND `map` = 48;
 
 -- Loot table for Mythic Twilight Shadowmage (lootid 9100552)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100552;
@@ -14076,7 +14076,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4824;
 -- Update Aku'mai Fisher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4824 AND `map` = 48;
+WHERE `id` = 4824 AND `map` = 48;
 
 -- Loot table for Mythic Aku'mai Fisher (lootid 9100553)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100553;
@@ -14128,7 +14128,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4805;
 -- Update Blackfathom Sea Witch spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4805 AND `map` = 48;
+WHERE `id` = 4805 AND `map` = 48;
 
 -- Loot table for Mythic Blackfathom Sea Witch (lootid 9100554)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100554;
@@ -14180,7 +14180,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4829;
 -- Update Aku'mai spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4829 AND `map` = 48;
+WHERE `id` = 4829 AND `map` = 48;
 
 -- Loot table for Mythic Aku'mai (lootid 9100555)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100555;
@@ -14232,7 +14232,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12876;
 -- Update Baron Aquanis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12876 AND `map` = 48;
+WHERE `id` = 12876 AND `map` = 48;
 
 -- Loot table for Mythic Baron Aquanis (lootid 9100556)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100556;
@@ -14284,7 +14284,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6243;
 -- Update Gelihast spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6243 AND `map` = 48;
+WHERE `id` = 6243 AND `map` = 48;
 
 -- Loot table for Mythic Gelihast (lootid 9100557)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100557;
@@ -14336,7 +14336,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12902;
 -- Update Lorgus Jett spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12902 AND `map` = 48;
+WHERE `id` = 12902 AND `map` = 48;
 
 -- Loot table for Mythic Lorgus Jett (lootid 9100558)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100558;
@@ -14388,7 +14388,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4830;
 -- Update Old Serra'kis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4830 AND `map` = 48;
+WHERE `id` = 4830 AND `map` = 48;
 
 -- Loot table for Mythic Old Serra'kis (lootid 9100559)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100559;
@@ -14440,7 +14440,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4832;
 -- Update Twilight Lord Kelris spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4832 AND `map` = 48;
+WHERE `id` = 4832 AND `map` = 48;
 
 -- Loot table for Mythic Twilight Lord Kelris (lootid 9100560)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100560;
@@ -14492,7 +14492,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4887;
 -- Update Ghamoo-ra spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4887 AND `map` = 48;
+WHERE `id` = 4887 AND `map` = 48;
 
 -- Loot table for Mythic Ghamoo-ra (lootid 9100561)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100561;
@@ -14544,7 +14544,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4831;
 -- Update Lady Sarevess spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4831 AND `map` = 48;
+WHERE `id` = 4831 AND `map` = 48;
 
 -- Loot table for Mythic Lady Sarevess (lootid 9100562)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100562;
@@ -14596,7 +14596,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6047;
 -- Update Aqua Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6047 AND `map` = 48;
+WHERE `id` = 6047 AND `map` = 48;
 
 -- Loot table for Mythic Aqua Guardian (lootid 9100563)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100563;
@@ -14644,7 +14644,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4787;
 -- Update Argent Guard Thaelrid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4787 AND `map` = 48;
+WHERE `id` = 4787 AND `map` = 48;
 
 -- Loot table for Mythic Argent Guard Thaelrid (lootid 9100564)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100564;
@@ -14696,7 +14696,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8996;
 -- Update Voidwalker Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8996 AND `map` = 48;
+WHERE `id` = 8996 AND `map` = 48;
 
 -- Loot table for Mythic Voidwalker Minion (lootid 9100565)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100565;
@@ -14744,7 +14744,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4977;
 -- Update Murkshallow Softshell spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4977 AND `map` = 48;
+WHERE `id` = 4977 AND `map` = 48;
 
 -- Loot table for Mythic Murkshallow Softshell (lootid 9100566)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100566;
@@ -14796,7 +14796,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6729;
 -- Update Morridune spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6729 AND `map` = 48;
+WHERE `id` = 6729 AND `map` = 48;
 
 -- Loot table for Mythic Morridune (lootid 9100567)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100567;
@@ -14846,7 +14846,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6232;
 -- Update Arcane Nullifier X-21 spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6232 AND `map` = 90;
+WHERE `id` = 6232 AND `map` = 90;
 
 -- Loot table for Heroic Arcane Nullifier X-21 (lootid 9100600)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100600;
@@ -14898,7 +14898,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7998;
 -- Update Blastmaster Emi Shortfuse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7998 AND `map` = 90;
+WHERE `id` = 7998 AND `map` = 90;
 
 -- Loot table for Heroic Blastmaster Emi Shortfuse (lootid 9100601)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100601;
@@ -14946,7 +14946,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6206;
 -- Update Caverndeep Burrower spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6206 AND `map` = 90;
+WHERE `id` = 6206 AND `map` = 90;
 
 -- Loot table for Heroic Caverndeep Burrower (lootid 9100602)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100602;
@@ -14998,7 +14998,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6211;
 -- Update Caverndeep Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6211 AND `map` = 90;
+WHERE `id` = 6211 AND `map` = 90;
 
 -- Loot table for Heroic Caverndeep Reaver (lootid 9100603)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100603;
@@ -15050,7 +15050,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6215;
 -- Update Chomper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6215 AND `map` = 90;
+WHERE `id` = 6215 AND `map` = 90;
 
 -- Loot table for Heroic Chomper (lootid 9100604)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100604;
@@ -15102,7 +15102,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6219;
 -- Update Corrosive Lurker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6219 AND `map` = 90;
+WHERE `id` = 6219 AND `map` = 90;
 
 -- Loot table for Heroic Corrosive Lurker (lootid 9100605)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100605;
@@ -15154,7 +15154,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6212;
 -- Update Dark Iron Agent spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6212 AND `map` = 90;
+WHERE `id` = 6212 AND `map` = 90;
 
 -- Loot table for Heroic Dark Iron Agent (lootid 9100606)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100606;
@@ -15206,7 +15206,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6392;
 -- Update Holdout Medic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6392 AND `map` = 90;
+WHERE `id` = 6392 AND `map` = 90;
 
 -- Loot table for Heroic Holdout Medic (lootid 9100607)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100607;
@@ -15258,7 +15258,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6407;
 -- Update Holdout Technician spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6407 AND `map` = 90;
+WHERE `id` = 6407 AND `map` = 90;
 
 -- Loot table for Heroic Holdout Technician (lootid 9100608)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100608;
@@ -15310,7 +15310,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6391;
 -- Update Holdout Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6391 AND `map` = 90;
+WHERE `id` = 6391 AND `map` = 90;
 
 -- Loot table for Heroic Holdout Warrior (lootid 9100609)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100609;
@@ -15362,7 +15362,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6220;
 -- Update Irradiated Horror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6220 AND `map` = 90;
+WHERE `id` = 6220 AND `map` = 90;
 
 -- Loot table for Heroic Irradiated Horror (lootid 9100610)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100610;
@@ -15414,7 +15414,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6329;
 -- Update Irradiated Pillager spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6329 AND `map` = 90;
+WHERE `id` = 6329 AND `map` = 90;
 
 -- Loot table for Heroic Irradiated Pillager (lootid 9100611)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100611;
@@ -15466,7 +15466,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6218;
 -- Update Irradiated Slime spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6218 AND `map` = 90;
+WHERE `id` = 6218 AND `map` = 90;
 
 -- Loot table for Heroic Irradiated Slime (lootid 9100612)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100612;
@@ -15518,7 +15518,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6223;
 -- Update Leprous Defender spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6223 AND `map` = 90;
+WHERE `id` = 6223 AND `map` = 90;
 
 -- Loot table for Heroic Leprous Defender (lootid 9100613)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100613;
@@ -15570,7 +15570,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6234;
 -- Update Mechanized Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6234 AND `map` = 90;
+WHERE `id` = 6234 AND `map` = 90;
 
 -- Loot table for Heroic Mechanized Guardian (lootid 9100614)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100614;
@@ -15622,7 +15622,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6233;
 -- Update Mechanized Sentry spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6233 AND `map` = 90;
+WHERE `id` = 6233 AND `map` = 90;
 
 -- Loot table for Heroic Mechanized Sentry (lootid 9100615)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100615;
@@ -15674,7 +15674,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6226;
 -- Update Mechano-Flamewalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6226 AND `map` = 90;
+WHERE `id` = 6226 AND `map` = 90;
 
 -- Loot table for Heroic Mechano-Flamewalker (lootid 9100616)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100616;
@@ -15726,7 +15726,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6227;
 -- Update Mechano-Frostwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6227 AND `map` = 90;
+WHERE `id` = 6227 AND `map` = 90;
 
 -- Loot table for Heroic Mechano-Frostwalker (lootid 9100617)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100617;
@@ -15778,7 +15778,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6225;
 -- Update Mechano-Tank spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6225 AND `map` = 90;
+WHERE `id` = 6225 AND `map` = 90;
 
 -- Loot table for Heroic Mechano-Tank (lootid 9100618)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100618;
@@ -15830,7 +15830,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6230;
 -- Update Peacekeeper Security Suit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6230 AND `map` = 90;
+WHERE `id` = 6230 AND `map` = 90;
 
 -- Loot table for Heroic Peacekeeper Security Suit (lootid 9100619)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100619;
@@ -15882,7 +15882,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6229;
 -- Update Crowd Pummeler 9-60 spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6229 AND `map` = 90;
+WHERE `id` = 6229 AND `map` = 90;
 
 -- Loot table for Heroic Crowd Pummeler 9-60 (lootid 9100620)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100620;
@@ -15934,7 +15934,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6235;
 -- Update Electrocutioner 6000 spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6235 AND `map` = 90;
+WHERE `id` = 6235 AND `map` = 90;
 
 -- Loot table for Heroic Electrocutioner 6000 (lootid 9100621)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100621;
@@ -15986,7 +15986,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7361;
 -- Update Grubbis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7361 AND `map` = 90;
+WHERE `id` = 7361 AND `map` = 90;
 
 -- Loot table for Heroic Grubbis (lootid 9100622)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100622;
@@ -16038,7 +16038,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7800;
 -- Update Mekgineer Thermaplugg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7800 AND `map` = 90;
+WHERE `id` = 7800 AND `map` = 90;
 
 -- Loot table for Heroic Mekgineer Thermaplugg (lootid 9100623)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100623;
@@ -16090,7 +16090,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7079;
 -- Update Viscous Fallout spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7079 AND `map` = 90;
+WHERE `id` = 7079 AND `map` = 90;
 
 -- Loot table for Heroic Viscous Fallout (lootid 9100624)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100624;
@@ -16142,7 +16142,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6228;
 -- Update Dark Iron Ambassador spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6228 AND `map` = 90;
+WHERE `id` = 6228 AND `map` = 90;
 
 -- Loot table for Heroic Dark Iron Ambassador (lootid 9100625)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100625;
@@ -16194,7 +16194,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7915;
 -- Update Walking Bomb spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7915 AND `map` = 90;
+WHERE `id` = 7915 AND `map` = 90;
 
 -- Loot table for Heroic Walking Bomb (lootid 9100626)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100626;
@@ -16242,7 +16242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9676;
 -- Update Tink Sprocketwhistle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9676 AND `map` = 90;
+WHERE `id` = 9676 AND `map` = 90;
 
 -- Loot table for Heroic Tink Sprocketwhistle (lootid 9100627)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100627;
@@ -16294,7 +16294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7849;
 -- Update Mobile Alert System spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7849 AND `map` = 90;
+WHERE `id` = 7849 AND `map` = 90;
 
 -- Loot table for Heroic Mobile Alert System (lootid 9100628)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100628;
@@ -16346,7 +16346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6222;
 -- Update Leprous Technician spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6222 AND `map` = 90;
+WHERE `id` = 6222 AND `map` = 90;
 
 -- Loot table for Heroic Leprous Technician (lootid 9100629)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100629;
@@ -16398,7 +16398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6224;
 -- Update Leprous Machinesmith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6224 AND `map` = 90;
+WHERE `id` = 6224 AND `map` = 90;
 
 -- Loot table for Heroic Leprous Machinesmith (lootid 9100630)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100630;
@@ -16450,7 +16450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7603;
 -- Update Leprous Assistant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7603 AND `map` = 90;
+WHERE `id` = 7603 AND `map` = 90;
 
 -- Loot table for Heroic Leprous Assistant (lootid 9100631)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100631;
@@ -16502,7 +16502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7850;
 -- Update Kernobee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7850 AND `map` = 90;
+WHERE `id` = 7850 AND `map` = 90;
 
 -- Loot table for Heroic Kernobee (lootid 9100632)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100632;
@@ -16550,7 +16550,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7266;
 -- Update Ember spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7266 AND `map` = 90;
+WHERE `id` = 7266 AND `map` = 90;
 
 -- Loot table for Heroic Ember (lootid 9100633)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100633;
@@ -16598,7 +16598,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8035;
 -- Update Dark Iron Land Mine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8035 AND `map` = 90;
+WHERE `id` = 8035 AND `map` = 90;
 
 -- Loot table for Heroic Dark Iron Land Mine (lootid 9100634)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100634;
@@ -16646,7 +16646,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6207;
 -- Update Caverndeep Ambusher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6207 AND `map` = 90;
+WHERE `id` = 6207 AND `map` = 90;
 
 -- Loot table for Heroic Caverndeep Ambusher (lootid 9100635)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100635;
@@ -16698,7 +16698,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7738;
 -- Update Burning Servant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7738 AND `map` = 90;
+WHERE `id` = 7738 AND `map` = 90;
 
 -- Loot table for Heroic Burning Servant (lootid 9100636)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100636;
@@ -16746,7 +16746,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7897;
 -- Update Alarm-a-bomb 2600 spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7897 AND `map` = 90;
+WHERE `id` = 7897 AND `map` = 90;
 
 -- Loot table for Heroic Alarm-a-bomb 2600 (lootid 9100637)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100637;
@@ -16794,7 +16794,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6232;
 -- Update Arcane Nullifier X-21 spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6232 AND `map` = 90;
+WHERE `id` = 6232 AND `map` = 90;
 
 -- Loot table for Mythic Arcane Nullifier X-21 (lootid 9100638)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100638;
@@ -16846,7 +16846,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7998;
 -- Update Blastmaster Emi Shortfuse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7998 AND `map` = 90;
+WHERE `id` = 7998 AND `map` = 90;
 
 -- Loot table for Mythic Blastmaster Emi Shortfuse (lootid 9100639)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100639;
@@ -16894,7 +16894,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6206;
 -- Update Caverndeep Burrower spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6206 AND `map` = 90;
+WHERE `id` = 6206 AND `map` = 90;
 
 -- Loot table for Mythic Caverndeep Burrower (lootid 9100640)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100640;
@@ -16946,7 +16946,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6211;
 -- Update Caverndeep Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6211 AND `map` = 90;
+WHERE `id` = 6211 AND `map` = 90;
 
 -- Loot table for Mythic Caverndeep Reaver (lootid 9100641)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100641;
@@ -16998,7 +16998,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6215;
 -- Update Chomper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6215 AND `map` = 90;
+WHERE `id` = 6215 AND `map` = 90;
 
 -- Loot table for Mythic Chomper (lootid 9100642)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100642;
@@ -17050,7 +17050,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6219;
 -- Update Corrosive Lurker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6219 AND `map` = 90;
+WHERE `id` = 6219 AND `map` = 90;
 
 -- Loot table for Mythic Corrosive Lurker (lootid 9100643)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100643;
@@ -17102,7 +17102,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6212;
 -- Update Dark Iron Agent spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6212 AND `map` = 90;
+WHERE `id` = 6212 AND `map` = 90;
 
 -- Loot table for Mythic Dark Iron Agent (lootid 9100644)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100644;
@@ -17154,7 +17154,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6392;
 -- Update Holdout Medic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6392 AND `map` = 90;
+WHERE `id` = 6392 AND `map` = 90;
 
 -- Loot table for Mythic Holdout Medic (lootid 9100645)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100645;
@@ -17206,7 +17206,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6407;
 -- Update Holdout Technician spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6407 AND `map` = 90;
+WHERE `id` = 6407 AND `map` = 90;
 
 -- Loot table for Mythic Holdout Technician (lootid 9100646)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100646;
@@ -17258,7 +17258,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6391;
 -- Update Holdout Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6391 AND `map` = 90;
+WHERE `id` = 6391 AND `map` = 90;
 
 -- Loot table for Mythic Holdout Warrior (lootid 9100647)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100647;
@@ -17310,7 +17310,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6220;
 -- Update Irradiated Horror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6220 AND `map` = 90;
+WHERE `id` = 6220 AND `map` = 90;
 
 -- Loot table for Mythic Irradiated Horror (lootid 9100648)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100648;
@@ -17362,7 +17362,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6329;
 -- Update Irradiated Pillager spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6329 AND `map` = 90;
+WHERE `id` = 6329 AND `map` = 90;
 
 -- Loot table for Mythic Irradiated Pillager (lootid 9100649)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100649;
@@ -17414,7 +17414,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6218;
 -- Update Irradiated Slime spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6218 AND `map` = 90;
+WHERE `id` = 6218 AND `map` = 90;
 
 -- Loot table for Mythic Irradiated Slime (lootid 9100650)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100650;
@@ -17466,7 +17466,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6223;
 -- Update Leprous Defender spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6223 AND `map` = 90;
+WHERE `id` = 6223 AND `map` = 90;
 
 -- Loot table for Mythic Leprous Defender (lootid 9100651)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100651;
@@ -17518,7 +17518,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6234;
 -- Update Mechanized Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6234 AND `map` = 90;
+WHERE `id` = 6234 AND `map` = 90;
 
 -- Loot table for Mythic Mechanized Guardian (lootid 9100652)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100652;
@@ -17570,7 +17570,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6233;
 -- Update Mechanized Sentry spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6233 AND `map` = 90;
+WHERE `id` = 6233 AND `map` = 90;
 
 -- Loot table for Mythic Mechanized Sentry (lootid 9100653)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100653;
@@ -17622,7 +17622,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6226;
 -- Update Mechano-Flamewalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6226 AND `map` = 90;
+WHERE `id` = 6226 AND `map` = 90;
 
 -- Loot table for Mythic Mechano-Flamewalker (lootid 9100654)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100654;
@@ -17674,7 +17674,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6227;
 -- Update Mechano-Frostwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6227 AND `map` = 90;
+WHERE `id` = 6227 AND `map` = 90;
 
 -- Loot table for Mythic Mechano-Frostwalker (lootid 9100655)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100655;
@@ -17726,7 +17726,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6225;
 -- Update Mechano-Tank spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6225 AND `map` = 90;
+WHERE `id` = 6225 AND `map` = 90;
 
 -- Loot table for Mythic Mechano-Tank (lootid 9100656)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100656;
@@ -17778,7 +17778,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6230;
 -- Update Peacekeeper Security Suit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6230 AND `map` = 90;
+WHERE `id` = 6230 AND `map` = 90;
 
 -- Loot table for Mythic Peacekeeper Security Suit (lootid 9100657)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100657;
@@ -17830,7 +17830,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6229;
 -- Update Crowd Pummeler 9-60 spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6229 AND `map` = 90;
+WHERE `id` = 6229 AND `map` = 90;
 
 -- Loot table for Mythic Crowd Pummeler 9-60 (lootid 9100658)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100658;
@@ -17882,7 +17882,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6235;
 -- Update Electrocutioner 6000 spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6235 AND `map` = 90;
+WHERE `id` = 6235 AND `map` = 90;
 
 -- Loot table for Mythic Electrocutioner 6000 (lootid 9100659)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100659;
@@ -17934,7 +17934,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7361;
 -- Update Grubbis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7361 AND `map` = 90;
+WHERE `id` = 7361 AND `map` = 90;
 
 -- Loot table for Mythic Grubbis (lootid 9100660)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100660;
@@ -17986,7 +17986,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7800;
 -- Update Mekgineer Thermaplugg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7800 AND `map` = 90;
+WHERE `id` = 7800 AND `map` = 90;
 
 -- Loot table for Mythic Mekgineer Thermaplugg (lootid 9100661)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100661;
@@ -18038,7 +18038,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7079;
 -- Update Viscous Fallout spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7079 AND `map` = 90;
+WHERE `id` = 7079 AND `map` = 90;
 
 -- Loot table for Mythic Viscous Fallout (lootid 9100662)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100662;
@@ -18090,7 +18090,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6228;
 -- Update Dark Iron Ambassador spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6228 AND `map` = 90;
+WHERE `id` = 6228 AND `map` = 90;
 
 -- Loot table for Mythic Dark Iron Ambassador (lootid 9100663)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100663;
@@ -18142,7 +18142,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7915;
 -- Update Walking Bomb spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7915 AND `map` = 90;
+WHERE `id` = 7915 AND `map` = 90;
 
 -- Loot table for Mythic Walking Bomb (lootid 9100664)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100664;
@@ -18190,7 +18190,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9676;
 -- Update Tink Sprocketwhistle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9676 AND `map` = 90;
+WHERE `id` = 9676 AND `map` = 90;
 
 -- Loot table for Mythic Tink Sprocketwhistle (lootid 9100665)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100665;
@@ -18242,7 +18242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7849;
 -- Update Mobile Alert System spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7849 AND `map` = 90;
+WHERE `id` = 7849 AND `map` = 90;
 
 -- Loot table for Mythic Mobile Alert System (lootid 9100666)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100666;
@@ -18294,7 +18294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6222;
 -- Update Leprous Technician spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6222 AND `map` = 90;
+WHERE `id` = 6222 AND `map` = 90;
 
 -- Loot table for Mythic Leprous Technician (lootid 9100667)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100667;
@@ -18346,7 +18346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6224;
 -- Update Leprous Machinesmith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6224 AND `map` = 90;
+WHERE `id` = 6224 AND `map` = 90;
 
 -- Loot table for Mythic Leprous Machinesmith (lootid 9100668)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100668;
@@ -18398,7 +18398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7603;
 -- Update Leprous Assistant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7603 AND `map` = 90;
+WHERE `id` = 7603 AND `map` = 90;
 
 -- Loot table for Mythic Leprous Assistant (lootid 9100669)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100669;
@@ -18450,7 +18450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7850;
 -- Update Kernobee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7850 AND `map` = 90;
+WHERE `id` = 7850 AND `map` = 90;
 
 -- Loot table for Mythic Kernobee (lootid 9100670)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100670;
@@ -18498,7 +18498,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7266;
 -- Update Ember spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7266 AND `map` = 90;
+WHERE `id` = 7266 AND `map` = 90;
 
 -- Loot table for Mythic Ember (lootid 9100671)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100671;
@@ -18546,7 +18546,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8035;
 -- Update Dark Iron Land Mine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8035 AND `map` = 90;
+WHERE `id` = 8035 AND `map` = 90;
 
 -- Loot table for Mythic Dark Iron Land Mine (lootid 9100672)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100672;
@@ -18594,7 +18594,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6207;
 -- Update Caverndeep Ambusher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6207 AND `map` = 90;
+WHERE `id` = 6207 AND `map` = 90;
 
 -- Loot table for Mythic Caverndeep Ambusher (lootid 9100673)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100673;
@@ -18646,7 +18646,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7738;
 -- Update Burning Servant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7738 AND `map` = 90;
+WHERE `id` = 7738 AND `map` = 90;
 
 -- Loot table for Mythic Burning Servant (lootid 9100674)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100674;
@@ -18694,7 +18694,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7897;
 -- Update Alarm-a-bomb 2600 spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7897 AND `map` = 90;
+WHERE `id` = 7897 AND `map` = 90;
 
 -- Loot table for Mythic Alarm-a-bomb 2600 (lootid 9100675)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100675;
@@ -18744,7 +18744,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4511;
 -- Update Agam'ar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4511 AND `map` = 47;
+WHERE `id` = 4511 AND `map` = 47;
 
 -- Loot table for Heroic Agam'ar (lootid 9100700)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100700;
@@ -18796,7 +18796,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4541;
 -- Update Blood of Agamaggan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4541 AND `map` = 47;
+WHERE `id` = 4541 AND `map` = 47;
 
 -- Loot table for Heroic Blood of Agamaggan (lootid 9100701)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100701;
@@ -18848,7 +18848,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6021;
 -- Update Boar Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6021 AND `map` = 47;
+WHERE `id` = 6021 AND `map` = 47;
 
 -- Loot table for Heroic Boar Spirit (lootid 9100702)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100702;
@@ -18896,7 +18896,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4515;
 -- Update Death's Head Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4515 AND `map` = 47;
+WHERE `id` = 4515 AND `map` = 47;
 
 -- Loot table for Heroic Death's Head Acolyte (lootid 9100703)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100703;
@@ -18948,7 +18948,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4516;
 -- Update Death's Head Adept spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4516 AND `map` = 47;
+WHERE `id` = 4516 AND `map` = 47;
 
 -- Loot table for Heroic Death's Head Adept (lootid 9100704)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100704;
@@ -19000,7 +19000,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4517;
 -- Update Death's Head Priest spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4517 AND `map` = 47;
+WHERE `id` = 4517 AND `map` = 47;
 
 -- Loot table for Heroic Death's Head Priest (lootid 9100705)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100705;
@@ -19052,7 +19052,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4518;
 -- Update Death's Head Sage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4518 AND `map` = 47;
+WHERE `id` = 4518 AND `map` = 47;
 
 -- Loot table for Heroic Death's Head Sage (lootid 9100706)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100706;
@@ -19104,7 +19104,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4519;
 -- Update Death's Head Seer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4519 AND `map` = 47;
+WHERE `id` = 4519 AND `map` = 47;
 
 -- Loot table for Heroic Death's Head Seer (lootid 9100707)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100707;
@@ -19156,7 +19156,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4539;
 -- Update Greater Kraul Bat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4539 AND `map` = 47;
+WHERE `id` = 4539 AND `map` = 47;
 
 -- Loot table for Heroic Greater Kraul Bat (lootid 9100708)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100708;
@@ -19208,7 +19208,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4538;
 -- Update Kraul Bat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4538 AND `map` = 47;
+WHERE `id` = 4538 AND `map` = 47;
 
 -- Loot table for Heroic Kraul Bat (lootid 9100709)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100709;
@@ -19260,7 +19260,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4623;
 -- Update Quilguard Champion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4623 AND `map` = 47;
+WHERE `id` = 4623 AND `map` = 47;
 
 -- Loot table for Heroic Quilguard Champion (lootid 9100710)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100710;
@@ -19312,7 +19312,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4514;
 -- Update Raging Agam'ar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4514 AND `map` = 47;
+WHERE `id` = 4514 AND `map` = 47;
 
 -- Loot table for Heroic Raging Agam'ar (lootid 9100711)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100711;
@@ -19364,7 +19364,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4531;
 -- Update Razorfen Beast Trainer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4531 AND `map` = 47;
+WHERE `id` = 4531 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Beast Trainer (lootid 9100712)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100712;
@@ -19416,7 +19416,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4532;
 -- Update Razorfen Beastmaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4532 AND `map` = 47;
+WHERE `id` = 4532 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Beastmaster (lootid 9100713)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100713;
@@ -19468,7 +19468,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4442;
 -- Update Razorfen Defender spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4442 AND `map` = 47;
+WHERE `id` = 4442 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Defender (lootid 9100714)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100714;
@@ -19520,7 +19520,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4522;
 -- Update Razorfen Dustweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4522 AND `map` = 47;
+WHERE `id` = 4522 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Dustweaver (lootid 9100715)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100715;
@@ -19572,7 +19572,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4525;
 -- Update Razorfen Earthbreaker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4525 AND `map` = 47;
+WHERE `id` = 4525 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Earthbreaker (lootid 9100716)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100716;
@@ -19624,7 +19624,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4520;
 -- Update Razorfen Geomancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4520 AND `map` = 47;
+WHERE `id` = 4520 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Geomancer (lootid 9100717)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100717;
@@ -19676,7 +19676,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4523;
 -- Update Razorfen Groundshaker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4523 AND `map` = 47;
+WHERE `id` = 4523 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Groundshaker (lootid 9100718)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100718;
@@ -19728,7 +19728,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4530;
 -- Update Razorfen Handler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4530 AND `map` = 47;
+WHERE `id` = 4530 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Handler (lootid 9100719)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100719;
@@ -19780,7 +19780,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4436;
 -- Update Razorfen Quilguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4436 AND `map` = 47;
+WHERE `id` = 4436 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Quilguard (lootid 9100720)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100720;
@@ -19832,7 +19832,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4438;
 -- Update Razorfen Spearhide spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4438 AND `map` = 47;
+WHERE `id` = 4438 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Spearhide (lootid 9100721)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100721;
@@ -19884,7 +19884,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6035;
 -- Update Razorfen Stalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6035 AND `map` = 47;
+WHERE `id` = 6035 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Stalker (lootid 9100722)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100722;
@@ -19936,7 +19936,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4440;
 -- Update Razorfen Totemic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4440 AND `map` = 47;
+WHERE `id` = 4440 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Totemic (lootid 9100723)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100723;
@@ -19988,7 +19988,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4437;
 -- Update Razorfen Warden spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4437 AND `map` = 47;
+WHERE `id` = 4437 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Warden (lootid 9100724)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100724;
@@ -20040,7 +20040,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4435;
 -- Update Razorfen Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4435 AND `map` = 47;
+WHERE `id` = 4435 AND `map` = 47;
 
 -- Loot table for Heroic Razorfen Warrior (lootid 9100725)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100725;
@@ -20092,7 +20092,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4512;
 -- Update Rotting Agam'ar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4512 AND `map` = 47;
+WHERE `id` = 4512 AND `map` = 47;
 
 -- Loot table for Heroic Rotting Agam'ar (lootid 9100726)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100726;
@@ -20144,7 +20144,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4528;
 -- Update Stone Rumbler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4528 AND `map` = 47;
+WHERE `id` = 4528 AND `map` = 47;
 
 -- Loot table for Heroic Stone Rumbler (lootid 9100727)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100727;
@@ -20192,7 +20192,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4535;
 -- Update Tamed Battleboar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4535 AND `map` = 47;
+WHERE `id` = 4535 AND `map` = 47;
 
 -- Loot table for Heroic Tamed Battleboar (lootid 9100728)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100728;
@@ -20240,7 +20240,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4534;
 -- Update Tamed Hyena spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4534 AND `map` = 47;
+WHERE `id` = 4534 AND `map` = 47;
 
 -- Loot table for Heroic Tamed Hyena (lootid 9100729)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100729;
@@ -20288,7 +20288,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4427;
 -- Update Ward Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4427 AND `map` = 47;
+WHERE `id` = 4427 AND `map` = 47;
 
 -- Loot table for Heroic Ward Guardian (lootid 9100730)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100730;
@@ -20340,7 +20340,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4526;
 -- Update Wind Howler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4526 AND `map` = 47;
+WHERE `id` = 4526 AND `map` = 47;
 
 -- Loot table for Heroic Wind Howler (lootid 9100731)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100731;
@@ -20388,7 +20388,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4508;
 -- Update Willix the Importer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4508 AND `map` = 47;
+WHERE `id` = 4508 AND `map` = 47;
 
 -- Loot table for Heroic Willix the Importer (lootid 9100732)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100732;
@@ -20436,7 +20436,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4422;
 -- Update Agathelos the Raging spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4422 AND `map` = 47;
+WHERE `id` = 4422 AND `map` = 47;
 
 -- Loot table for Heroic Agathelos the Raging (lootid 9100733)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100733;
@@ -20488,7 +20488,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4424;
 -- Update Aggem Thorncurse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4424 AND `map` = 47;
+WHERE `id` = 4424 AND `map` = 47;
 
 -- Loot table for Heroic Aggem Thorncurse (lootid 9100734)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100734;
@@ -20540,7 +20540,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4421;
 -- Update Charlga Razorflank spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4421 AND `map` = 47;
+WHERE `id` = 4421 AND `map` = 47;
 
 -- Loot table for Heroic Charlga Razorflank (lootid 9100735)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100735;
@@ -20592,7 +20592,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4428;
 -- Update Death Speaker Jargba spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4428 AND `map` = 47;
+WHERE `id` = 4428 AND `map` = 47;
 
 -- Loot table for Heroic Death Speaker Jargba (lootid 9100736)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100736;
@@ -20644,7 +20644,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4420;
 -- Update Overlord Ramtusk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4420 AND `map` = 47;
+WHERE `id` = 4420 AND `map` = 47;
 
 -- Loot table for Heroic Overlord Ramtusk (lootid 9100737)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100737;
@@ -20696,7 +20696,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6168;
 -- Update Roogug spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6168 AND `map` = 47;
+WHERE `id` = 6168 AND `map` = 47;
 
 -- Loot table for Heroic Roogug (lootid 9100738)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100738;
@@ -20748,7 +20748,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4425;
 -- Update Blind Hunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4425 AND `map` = 47;
+WHERE `id` = 4425 AND `map` = 47;
 
 -- Loot table for Heroic Blind Hunter (lootid 9100739)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100739;
@@ -20800,7 +20800,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4842;
 -- Update Earthcaller Halmgar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4842 AND `map` = 47;
+WHERE `id` = 4842 AND `map` = 47;
 
 -- Loot table for Heroic Earthcaller Halmgar (lootid 9100740)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100740;
@@ -20852,7 +20852,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4625;
 -- Update Death's Head Ward Keeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4625 AND `map` = 47;
+WHERE `id` = 4625 AND `map` = 47;
 
 -- Loot table for Heroic Death's Head Ward Keeper (lootid 9100741)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100741;
@@ -20900,7 +20900,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4510;
 -- Update Heralath Fallowbrook spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4510 AND `map` = 47;
+WHERE `id` = 4510 AND `map` = 47;
 
 -- Loot table for Heroic Heralath Fallowbrook (lootid 9100742)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100742;
@@ -20948,7 +20948,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4511;
 -- Update Agam'ar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4511 AND `map` = 47;
+WHERE `id` = 4511 AND `map` = 47;
 
 -- Loot table for Mythic Agam'ar (lootid 9100743)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100743;
@@ -21000,7 +21000,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4541;
 -- Update Blood of Agamaggan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4541 AND `map` = 47;
+WHERE `id` = 4541 AND `map` = 47;
 
 -- Loot table for Mythic Blood of Agamaggan (lootid 9100744)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100744;
@@ -21052,7 +21052,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6021;
 -- Update Boar Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6021 AND `map` = 47;
+WHERE `id` = 6021 AND `map` = 47;
 
 -- Loot table for Mythic Boar Spirit (lootid 9100745)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100745;
@@ -21100,7 +21100,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4515;
 -- Update Death's Head Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4515 AND `map` = 47;
+WHERE `id` = 4515 AND `map` = 47;
 
 -- Loot table for Mythic Death's Head Acolyte (lootid 9100746)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100746;
@@ -21152,7 +21152,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4516;
 -- Update Death's Head Adept spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4516 AND `map` = 47;
+WHERE `id` = 4516 AND `map` = 47;
 
 -- Loot table for Mythic Death's Head Adept (lootid 9100747)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100747;
@@ -21204,7 +21204,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4517;
 -- Update Death's Head Priest spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4517 AND `map` = 47;
+WHERE `id` = 4517 AND `map` = 47;
 
 -- Loot table for Mythic Death's Head Priest (lootid 9100748)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100748;
@@ -21256,7 +21256,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4518;
 -- Update Death's Head Sage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4518 AND `map` = 47;
+WHERE `id` = 4518 AND `map` = 47;
 
 -- Loot table for Mythic Death's Head Sage (lootid 9100749)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100749;
@@ -21308,7 +21308,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4519;
 -- Update Death's Head Seer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4519 AND `map` = 47;
+WHERE `id` = 4519 AND `map` = 47;
 
 -- Loot table for Mythic Death's Head Seer (lootid 9100750)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100750;
@@ -21360,7 +21360,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4539;
 -- Update Greater Kraul Bat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4539 AND `map` = 47;
+WHERE `id` = 4539 AND `map` = 47;
 
 -- Loot table for Mythic Greater Kraul Bat (lootid 9100751)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100751;
@@ -21412,7 +21412,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4538;
 -- Update Kraul Bat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4538 AND `map` = 47;
+WHERE `id` = 4538 AND `map` = 47;
 
 -- Loot table for Mythic Kraul Bat (lootid 9100752)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100752;
@@ -21464,7 +21464,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4623;
 -- Update Quilguard Champion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4623 AND `map` = 47;
+WHERE `id` = 4623 AND `map` = 47;
 
 -- Loot table for Mythic Quilguard Champion (lootid 9100753)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100753;
@@ -21516,7 +21516,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4514;
 -- Update Raging Agam'ar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4514 AND `map` = 47;
+WHERE `id` = 4514 AND `map` = 47;
 
 -- Loot table for Mythic Raging Agam'ar (lootid 9100754)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100754;
@@ -21568,7 +21568,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4531;
 -- Update Razorfen Beast Trainer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4531 AND `map` = 47;
+WHERE `id` = 4531 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Beast Trainer (lootid 9100755)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100755;
@@ -21620,7 +21620,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4532;
 -- Update Razorfen Beastmaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4532 AND `map` = 47;
+WHERE `id` = 4532 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Beastmaster (lootid 9100756)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100756;
@@ -21672,7 +21672,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4442;
 -- Update Razorfen Defender spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4442 AND `map` = 47;
+WHERE `id` = 4442 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Defender (lootid 9100757)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100757;
@@ -21724,7 +21724,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4522;
 -- Update Razorfen Dustweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4522 AND `map` = 47;
+WHERE `id` = 4522 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Dustweaver (lootid 9100758)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100758;
@@ -21776,7 +21776,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4525;
 -- Update Razorfen Earthbreaker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4525 AND `map` = 47;
+WHERE `id` = 4525 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Earthbreaker (lootid 9100759)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100759;
@@ -21828,7 +21828,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4520;
 -- Update Razorfen Geomancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4520 AND `map` = 47;
+WHERE `id` = 4520 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Geomancer (lootid 9100760)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100760;
@@ -21880,7 +21880,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4523;
 -- Update Razorfen Groundshaker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4523 AND `map` = 47;
+WHERE `id` = 4523 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Groundshaker (lootid 9100761)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100761;
@@ -21932,7 +21932,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4530;
 -- Update Razorfen Handler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4530 AND `map` = 47;
+WHERE `id` = 4530 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Handler (lootid 9100762)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100762;
@@ -21984,7 +21984,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4436;
 -- Update Razorfen Quilguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4436 AND `map` = 47;
+WHERE `id` = 4436 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Quilguard (lootid 9100763)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100763;
@@ -22036,7 +22036,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4438;
 -- Update Razorfen Spearhide spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4438 AND `map` = 47;
+WHERE `id` = 4438 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Spearhide (lootid 9100764)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100764;
@@ -22088,7 +22088,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6035;
 -- Update Razorfen Stalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6035 AND `map` = 47;
+WHERE `id` = 6035 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Stalker (lootid 9100765)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100765;
@@ -22140,7 +22140,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4440;
 -- Update Razorfen Totemic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4440 AND `map` = 47;
+WHERE `id` = 4440 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Totemic (lootid 9100766)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100766;
@@ -22192,7 +22192,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4437;
 -- Update Razorfen Warden spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4437 AND `map` = 47;
+WHERE `id` = 4437 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Warden (lootid 9100767)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100767;
@@ -22244,7 +22244,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4435;
 -- Update Razorfen Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4435 AND `map` = 47;
+WHERE `id` = 4435 AND `map` = 47;
 
 -- Loot table for Mythic Razorfen Warrior (lootid 9100768)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100768;
@@ -22296,7 +22296,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4512;
 -- Update Rotting Agam'ar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4512 AND `map` = 47;
+WHERE `id` = 4512 AND `map` = 47;
 
 -- Loot table for Mythic Rotting Agam'ar (lootid 9100769)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100769;
@@ -22348,7 +22348,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4528;
 -- Update Stone Rumbler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4528 AND `map` = 47;
+WHERE `id` = 4528 AND `map` = 47;
 
 -- Loot table for Mythic Stone Rumbler (lootid 9100770)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100770;
@@ -22396,7 +22396,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4535;
 -- Update Tamed Battleboar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4535 AND `map` = 47;
+WHERE `id` = 4535 AND `map` = 47;
 
 -- Loot table for Mythic Tamed Battleboar (lootid 9100771)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100771;
@@ -22444,7 +22444,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4534;
 -- Update Tamed Hyena spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4534 AND `map` = 47;
+WHERE `id` = 4534 AND `map` = 47;
 
 -- Loot table for Mythic Tamed Hyena (lootid 9100772)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100772;
@@ -22492,7 +22492,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4427;
 -- Update Ward Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4427 AND `map` = 47;
+WHERE `id` = 4427 AND `map` = 47;
 
 -- Loot table for Mythic Ward Guardian (lootid 9100773)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100773;
@@ -22544,7 +22544,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4526;
 -- Update Wind Howler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4526 AND `map` = 47;
+WHERE `id` = 4526 AND `map` = 47;
 
 -- Loot table for Mythic Wind Howler (lootid 9100774)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100774;
@@ -22592,7 +22592,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4508;
 -- Update Willix the Importer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4508 AND `map` = 47;
+WHERE `id` = 4508 AND `map` = 47;
 
 -- Loot table for Mythic Willix the Importer (lootid 9100775)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100775;
@@ -22640,7 +22640,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4422;
 -- Update Agathelos the Raging spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4422 AND `map` = 47;
+WHERE `id` = 4422 AND `map` = 47;
 
 -- Loot table for Mythic Agathelos the Raging (lootid 9100776)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100776;
@@ -22692,7 +22692,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4424;
 -- Update Aggem Thorncurse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4424 AND `map` = 47;
+WHERE `id` = 4424 AND `map` = 47;
 
 -- Loot table for Mythic Aggem Thorncurse (lootid 9100777)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100777;
@@ -22744,7 +22744,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4421;
 -- Update Charlga Razorflank spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4421 AND `map` = 47;
+WHERE `id` = 4421 AND `map` = 47;
 
 -- Loot table for Mythic Charlga Razorflank (lootid 9100778)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100778;
@@ -22796,7 +22796,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4428;
 -- Update Death Speaker Jargba spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4428 AND `map` = 47;
+WHERE `id` = 4428 AND `map` = 47;
 
 -- Loot table for Mythic Death Speaker Jargba (lootid 9100779)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100779;
@@ -22848,7 +22848,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4420;
 -- Update Overlord Ramtusk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4420 AND `map` = 47;
+WHERE `id` = 4420 AND `map` = 47;
 
 -- Loot table for Mythic Overlord Ramtusk (lootid 9100780)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100780;
@@ -22900,7 +22900,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6168;
 -- Update Roogug spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6168 AND `map` = 47;
+WHERE `id` = 6168 AND `map` = 47;
 
 -- Loot table for Mythic Roogug (lootid 9100781)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100781;
@@ -22952,7 +22952,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4425;
 -- Update Blind Hunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4425 AND `map` = 47;
+WHERE `id` = 4425 AND `map` = 47;
 
 -- Loot table for Mythic Blind Hunter (lootid 9100782)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100782;
@@ -23004,7 +23004,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4842;
 -- Update Earthcaller Halmgar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4842 AND `map` = 47;
+WHERE `id` = 4842 AND `map` = 47;
 
 -- Loot table for Mythic Earthcaller Halmgar (lootid 9100783)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100783;
@@ -23056,7 +23056,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4625;
 -- Update Death's Head Ward Keeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4625 AND `map` = 47;
+WHERE `id` = 4625 AND `map` = 47;
 
 -- Loot table for Mythic Death's Head Ward Keeper (lootid 9100784)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100784;
@@ -23104,7 +23104,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4510;
 -- Update Heralath Fallowbrook spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4510 AND `map` = 47;
+WHERE `id` = 4510 AND `map` = 47;
 
 -- Loot table for Mythic Heralath Fallowbrook (lootid 9100785)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100785;
@@ -23154,7 +23154,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4306;
 -- Update Scarlet Torturer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4306 AND `map` = 189;
+WHERE `id` = 4306 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Torturer (lootid 9100800)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100800;
@@ -23206,7 +23206,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4293;
 -- Update Scarlet Scryer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4293 AND `map` = 189;
+WHERE `id` = 4293 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Scryer (lootid 9100801)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100801;
@@ -23258,7 +23258,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6426;
 -- Update Anguished Dead spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6426 AND `map` = 189;
+WHERE `id` = 6426 AND `map` = 189;
 
 -- Loot table for Heroic Anguished Dead (lootid 9100802)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100802;
@@ -23310,7 +23310,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6427;
 -- Update Haunting Phantasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6427 AND `map` = 189;
+WHERE `id` = 6427 AND `map` = 189;
 
 -- Loot table for Heroic Haunting Phantasm (lootid 9100803)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100803;
@@ -23362,7 +23362,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6493;
 -- Update Illusionary Phantasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6493 AND `map` = 189;
+WHERE `id` = 6493 AND `map` = 189;
 
 -- Loot table for Heroic Illusionary Phantasm (lootid 9100804)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100804;
@@ -23410,7 +23410,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4304;
 -- Update Scarlet Tracking Hound spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4304 AND `map` = 189;
+WHERE `id` = 4304 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Tracking Hound (lootid 9100805)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100805;
@@ -23462,7 +23462,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4287;
 -- Update Scarlet Gallant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4287 AND `map` = 189;
+WHERE `id` = 4287 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Gallant (lootid 9100806)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100806;
@@ -23514,7 +23514,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4296;
 -- Update Scarlet Adept spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4296 AND `map` = 189;
+WHERE `id` = 4296 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Adept (lootid 9100807)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100807;
@@ -23566,7 +23566,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4303;
 -- Update Scarlet Abbot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4303 AND `map` = 189;
+WHERE `id` = 4303 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Abbot (lootid 9100808)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100808;
@@ -23618,7 +23618,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4302;
 -- Update Scarlet Champion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4302 AND `map` = 189;
+WHERE `id` = 4302 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Champion (lootid 9100809)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100809;
@@ -23670,7 +23670,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4301;
 -- Update Scarlet Centurion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4301 AND `map` = 189;
+WHERE `id` = 4301 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Centurion (lootid 9100810)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100810;
@@ -23722,7 +23722,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4300;
 -- Update Scarlet Wizard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4300 AND `map` = 189;
+WHERE `id` = 4300 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Wizard (lootid 9100811)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100811;
@@ -23774,7 +23774,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4298;
 -- Update Scarlet Defender spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4298 AND `map` = 189;
+WHERE `id` = 4298 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Defender (lootid 9100812)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100812;
@@ -23826,7 +23826,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4295;
 -- Update Scarlet Myrmidon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4295 AND `map` = 189;
+WHERE `id` = 4295 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Myrmidon (lootid 9100813)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100813;
@@ -23878,7 +23878,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4294;
 -- Update Scarlet Sorcerer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4294 AND `map` = 189;
+WHERE `id` = 4294 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Sorcerer (lootid 9100814)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100814;
@@ -23930,7 +23930,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4289;
 -- Update Scarlet Evoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4289 AND `map` = 189;
+WHERE `id` = 4289 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Evoker (lootid 9100815)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100815;
@@ -23982,7 +23982,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4290;
 -- Update Scarlet Guardsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4290 AND `map` = 189;
+WHERE `id` = 4290 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Guardsman (lootid 9100816)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100816;
@@ -24034,7 +24034,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4292;
 -- Update Scarlet Protector spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4292 AND `map` = 189;
+WHERE `id` = 4292 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Protector (lootid 9100817)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100817;
@@ -24086,7 +24086,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4297;
 -- Update Scarlet Conjuror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4297 AND `map` = 189;
+WHERE `id` = 4297 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Conjuror (lootid 9100818)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100818;
@@ -24138,7 +24138,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4540;
 -- Update Scarlet Monk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4540 AND `map` = 189;
+WHERE `id` = 4540 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Monk (lootid 9100819)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100819;
@@ -24190,7 +24190,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4286;
 -- Update Scarlet Soldier spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4286 AND `map` = 189;
+WHERE `id` = 4286 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Soldier (lootid 9100820)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100820;
@@ -24242,7 +24242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4299;
 -- Update Scarlet Chaplain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4299 AND `map` = 189;
+WHERE `id` = 4299 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Chaplain (lootid 9100821)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100821;
@@ -24294,7 +24294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4288;
 -- Update Scarlet Beastmaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4288 AND `map` = 189;
+WHERE `id` = 4288 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Beastmaster (lootid 9100822)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100822;
@@ -24346,7 +24346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4291;
 -- Update Scarlet Diviner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4291 AND `map` = 189;
+WHERE `id` = 4291 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Diviner (lootid 9100823)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100823;
@@ -24398,7 +24398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14693;
 -- Update Scorn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14693 AND `map` = 189;
+WHERE `id` = 14693 AND `map` = 189;
 
 -- Loot table for Heroic Scorn (lootid 9100824)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100824;
@@ -24450,7 +24450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3983;
 -- Update Interrogator Vishas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3983 AND `map` = 189;
+WHERE `id` = 3983 AND `map` = 189;
 
 -- Loot table for Heroic Interrogator Vishas (lootid 9100825)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100825;
@@ -24502,7 +24502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3977;
 -- Update High Inquisitor Whitemane spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3977 AND `map` = 189;
+WHERE `id` = 3977 AND `map` = 189;
 
 -- Loot table for Heroic High Inquisitor Whitemane (lootid 9100826)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100826;
@@ -24554,7 +24554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3976;
 -- Update Scarlet Commander Mograine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3976 AND `map` = 189;
+WHERE `id` = 3976 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Commander Mograine (lootid 9100827)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100827;
@@ -24606,7 +24606,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3975;
 -- Update Herod spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3975 AND `map` = 189;
+WHERE `id` = 3975 AND `map` = 189;
 
 -- Loot table for Heroic Herod (lootid 9100828)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100828;
@@ -24658,7 +24658,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4542;
 -- Update High Inquisitor Fairbanks spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4542 AND `map` = 189;
+WHERE `id` = 4542 AND `map` = 189;
 
 -- Loot table for Heroic High Inquisitor Fairbanks (lootid 9100829)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100829;
@@ -24710,7 +24710,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6487;
 -- Update Arcanist Doan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6487 AND `map` = 189;
+WHERE `id` = 6487 AND `map` = 189;
 
 -- Loot table for Heroic Arcanist Doan (lootid 9100830)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100830;
@@ -24762,7 +24762,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4543;
 -- Update Bloodmage Thalnos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4543 AND `map` = 189;
+WHERE `id` = 4543 AND `map` = 189;
 
 -- Loot table for Heroic Bloodmage Thalnos (lootid 9100831)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100831;
@@ -24814,7 +24814,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3974;
 -- Update Houndmaster Loksey spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3974 AND `map` = 189;
+WHERE `id` = 3974 AND `map` = 189;
 
 -- Loot table for Heroic Houndmaster Loksey (lootid 9100832)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100832;
@@ -24866,7 +24866,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6488;
 -- Update Fallen Champion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6488 AND `map` = 189;
+WHERE `id` = 6488 AND `map` = 189;
 
 -- Loot table for Heroic Fallen Champion (lootid 9100833)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100833;
@@ -24918,7 +24918,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6490;
 -- Update Azshir the Sleepless spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6490 AND `map` = 189;
+WHERE `id` = 6490 AND `map` = 189;
 
 -- Loot table for Heroic Azshir the Sleepless (lootid 9100834)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100834;
@@ -24970,7 +24970,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6489;
 -- Update Ironspine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6489 AND `map` = 189;
+WHERE `id` = 6489 AND `map` = 189;
 
 -- Loot table for Heroic Ironspine (lootid 9100835)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100835;
@@ -25022,7 +25022,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 575;
 -- Update Fire Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 575 AND `map` = 189;
+WHERE `id` = 575 AND `map` = 189;
 
 -- Loot table for Heroic Fire Elemental (lootid 9100836)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100836;
@@ -25070,7 +25070,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4308;
 -- Update Unfettered Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4308 AND `map` = 189;
+WHERE `id` = 4308 AND `map` = 189;
 
 -- Loot table for Heroic Unfettered Spirit (lootid 9100837)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100837;
@@ -25122,7 +25122,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6575;
 -- Update Scarlet Trainee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6575 AND `map` = 189;
+WHERE `id` = 6575 AND `map` = 189;
 
 -- Loot table for Heroic Scarlet Trainee (lootid 9100838)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100838;
@@ -25174,7 +25174,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4306;
 -- Update Scarlet Torturer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4306 AND `map` = 189;
+WHERE `id` = 4306 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Torturer (lootid 9100839)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100839;
@@ -25226,7 +25226,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4293;
 -- Update Scarlet Scryer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4293 AND `map` = 189;
+WHERE `id` = 4293 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Scryer (lootid 9100840)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100840;
@@ -25278,7 +25278,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6426;
 -- Update Anguished Dead spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6426 AND `map` = 189;
+WHERE `id` = 6426 AND `map` = 189;
 
 -- Loot table for Mythic Anguished Dead (lootid 9100841)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100841;
@@ -25330,7 +25330,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6427;
 -- Update Haunting Phantasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6427 AND `map` = 189;
+WHERE `id` = 6427 AND `map` = 189;
 
 -- Loot table for Mythic Haunting Phantasm (lootid 9100842)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100842;
@@ -25382,7 +25382,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6493;
 -- Update Illusionary Phantasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6493 AND `map` = 189;
+WHERE `id` = 6493 AND `map` = 189;
 
 -- Loot table for Mythic Illusionary Phantasm (lootid 9100843)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100843;
@@ -25430,7 +25430,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4304;
 -- Update Scarlet Tracking Hound spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4304 AND `map` = 189;
+WHERE `id` = 4304 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Tracking Hound (lootid 9100844)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100844;
@@ -25482,7 +25482,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4287;
 -- Update Scarlet Gallant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4287 AND `map` = 189;
+WHERE `id` = 4287 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Gallant (lootid 9100845)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100845;
@@ -25534,7 +25534,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4296;
 -- Update Scarlet Adept spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4296 AND `map` = 189;
+WHERE `id` = 4296 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Adept (lootid 9100846)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100846;
@@ -25586,7 +25586,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4303;
 -- Update Scarlet Abbot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4303 AND `map` = 189;
+WHERE `id` = 4303 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Abbot (lootid 9100847)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100847;
@@ -25638,7 +25638,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4302;
 -- Update Scarlet Champion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4302 AND `map` = 189;
+WHERE `id` = 4302 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Champion (lootid 9100848)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100848;
@@ -25690,7 +25690,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4301;
 -- Update Scarlet Centurion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4301 AND `map` = 189;
+WHERE `id` = 4301 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Centurion (lootid 9100849)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100849;
@@ -25742,7 +25742,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4300;
 -- Update Scarlet Wizard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4300 AND `map` = 189;
+WHERE `id` = 4300 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Wizard (lootid 9100850)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100850;
@@ -25794,7 +25794,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4298;
 -- Update Scarlet Defender spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4298 AND `map` = 189;
+WHERE `id` = 4298 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Defender (lootid 9100851)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100851;
@@ -25846,7 +25846,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4295;
 -- Update Scarlet Myrmidon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4295 AND `map` = 189;
+WHERE `id` = 4295 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Myrmidon (lootid 9100852)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100852;
@@ -25898,7 +25898,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4294;
 -- Update Scarlet Sorcerer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4294 AND `map` = 189;
+WHERE `id` = 4294 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Sorcerer (lootid 9100853)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100853;
@@ -25950,7 +25950,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4289;
 -- Update Scarlet Evoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4289 AND `map` = 189;
+WHERE `id` = 4289 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Evoker (lootid 9100854)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100854;
@@ -26002,7 +26002,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4290;
 -- Update Scarlet Guardsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4290 AND `map` = 189;
+WHERE `id` = 4290 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Guardsman (lootid 9100855)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100855;
@@ -26054,7 +26054,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4292;
 -- Update Scarlet Protector spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4292 AND `map` = 189;
+WHERE `id` = 4292 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Protector (lootid 9100856)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100856;
@@ -26106,7 +26106,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4297;
 -- Update Scarlet Conjuror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4297 AND `map` = 189;
+WHERE `id` = 4297 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Conjuror (lootid 9100857)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100857;
@@ -26158,7 +26158,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4540;
 -- Update Scarlet Monk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4540 AND `map` = 189;
+WHERE `id` = 4540 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Monk (lootid 9100858)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100858;
@@ -26210,7 +26210,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4286;
 -- Update Scarlet Soldier spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4286 AND `map` = 189;
+WHERE `id` = 4286 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Soldier (lootid 9100859)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100859;
@@ -26262,7 +26262,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4299;
 -- Update Scarlet Chaplain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4299 AND `map` = 189;
+WHERE `id` = 4299 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Chaplain (lootid 9100860)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100860;
@@ -26314,7 +26314,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4288;
 -- Update Scarlet Beastmaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4288 AND `map` = 189;
+WHERE `id` = 4288 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Beastmaster (lootid 9100861)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100861;
@@ -26366,7 +26366,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4291;
 -- Update Scarlet Diviner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4291 AND `map` = 189;
+WHERE `id` = 4291 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Diviner (lootid 9100862)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100862;
@@ -26418,7 +26418,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14693;
 -- Update Scorn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14693 AND `map` = 189;
+WHERE `id` = 14693 AND `map` = 189;
 
 -- Loot table for Mythic Scorn (lootid 9100863)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100863;
@@ -26470,7 +26470,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3983;
 -- Update Interrogator Vishas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3983 AND `map` = 189;
+WHERE `id` = 3983 AND `map` = 189;
 
 -- Loot table for Mythic Interrogator Vishas (lootid 9100864)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100864;
@@ -26522,7 +26522,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3977;
 -- Update High Inquisitor Whitemane spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3977 AND `map` = 189;
+WHERE `id` = 3977 AND `map` = 189;
 
 -- Loot table for Mythic High Inquisitor Whitemane (lootid 9100865)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100865;
@@ -26574,7 +26574,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3976;
 -- Update Scarlet Commander Mograine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3976 AND `map` = 189;
+WHERE `id` = 3976 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Commander Mograine (lootid 9100866)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100866;
@@ -26626,7 +26626,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3975;
 -- Update Herod spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3975 AND `map` = 189;
+WHERE `id` = 3975 AND `map` = 189;
 
 -- Loot table for Mythic Herod (lootid 9100867)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100867;
@@ -26678,7 +26678,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4542;
 -- Update High Inquisitor Fairbanks spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4542 AND `map` = 189;
+WHERE `id` = 4542 AND `map` = 189;
 
 -- Loot table for Mythic High Inquisitor Fairbanks (lootid 9100868)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100868;
@@ -26730,7 +26730,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6487;
 -- Update Arcanist Doan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6487 AND `map` = 189;
+WHERE `id` = 6487 AND `map` = 189;
 
 -- Loot table for Mythic Arcanist Doan (lootid 9100869)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100869;
@@ -26782,7 +26782,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4543;
 -- Update Bloodmage Thalnos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4543 AND `map` = 189;
+WHERE `id` = 4543 AND `map` = 189;
 
 -- Loot table for Mythic Bloodmage Thalnos (lootid 9100870)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100870;
@@ -26834,7 +26834,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 3974;
 -- Update Houndmaster Loksey spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 3974 AND `map` = 189;
+WHERE `id` = 3974 AND `map` = 189;
 
 -- Loot table for Mythic Houndmaster Loksey (lootid 9100871)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100871;
@@ -26886,7 +26886,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6488;
 -- Update Fallen Champion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6488 AND `map` = 189;
+WHERE `id` = 6488 AND `map` = 189;
 
 -- Loot table for Mythic Fallen Champion (lootid 9100872)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100872;
@@ -26938,7 +26938,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6490;
 -- Update Azshir the Sleepless spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6490 AND `map` = 189;
+WHERE `id` = 6490 AND `map` = 189;
 
 -- Loot table for Mythic Azshir the Sleepless (lootid 9100873)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100873;
@@ -26990,7 +26990,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6489;
 -- Update Ironspine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6489 AND `map` = 189;
+WHERE `id` = 6489 AND `map` = 189;
 
 -- Loot table for Mythic Ironspine (lootid 9100874)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100874;
@@ -27042,7 +27042,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 575;
 -- Update Fire Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 575 AND `map` = 189;
+WHERE `id` = 575 AND `map` = 189;
 
 -- Loot table for Mythic Fire Elemental (lootid 9100875)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100875;
@@ -27090,7 +27090,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4308;
 -- Update Unfettered Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4308 AND `map` = 189;
+WHERE `id` = 4308 AND `map` = 189;
 
 -- Loot table for Mythic Unfettered Spirit (lootid 9100876)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100876;
@@ -27142,7 +27142,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6575;
 -- Update Scarlet Trainee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6575 AND `map` = 189;
+WHERE `id` = 6575 AND `map` = 189;
 
 -- Loot table for Mythic Scarlet Trainee (lootid 9100877)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100877;
@@ -27196,7 +27196,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7347;
 -- Update Boneflayer Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7347 AND `map` = 129;
+WHERE `id` = 7347 AND `map` = 129;
 
 -- Loot table for Heroic Boneflayer Ghoul (lootid 9100900)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100900;
@@ -27248,7 +27248,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7335;
 -- Update Death's Head Geomancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7335 AND `map` = 129;
+WHERE `id` = 7335 AND `map` = 129;
 
 -- Loot table for Heroic Death's Head Geomancer (lootid 9100901)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100901;
@@ -27300,7 +27300,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7337;
 -- Update Death's Head Necromancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7337 AND `map` = 129;
+WHERE `id` = 7337 AND `map` = 129;
 
 -- Loot table for Heroic Death's Head Necromancer (lootid 9100902)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100902;
@@ -27352,7 +27352,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7353;
 -- Update Freezing Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7353 AND `map` = 129;
+WHERE `id` = 7353 AND `map` = 129;
 
 -- Loot table for Heroic Freezing Spirit (lootid 9100903)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100903;
@@ -27404,7 +27404,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7352;
 -- Update Frozen Soul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7352 AND `map` = 129;
+WHERE `id` = 7352 AND `map` = 129;
 
 -- Loot table for Heroic Frozen Soul (lootid 9100904)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100904;
@@ -27456,7 +27456,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7341;
 -- Update Skeletal Frostweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7341 AND `map` = 129;
+WHERE `id` = 7341 AND `map` = 129;
 
 -- Loot table for Heroic Skeletal Frostweaver (lootid 9100905)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100905;
@@ -27508,7 +27508,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7342;
 -- Update Skeletal Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7342 AND `map` = 129;
+WHERE `id` = 7342 AND `map` = 129;
 
 -- Loot table for Heroic Skeletal Summoner (lootid 9100906)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100906;
@@ -27560,7 +27560,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7345;
 -- Update Splinterbone Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7345 AND `map` = 129;
+WHERE `id` = 7345 AND `map` = 129;
 
 -- Loot table for Heroic Splinterbone Captain (lootid 9100907)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100907;
@@ -27612,7 +27612,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7344;
 -- Update Splinterbone Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7344 AND `map` = 129;
+WHERE `id` = 7344 AND `map` = 129;
 
 -- Loot table for Heroic Splinterbone Warrior (lootid 9100908)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100908;
@@ -27664,7 +27664,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7348;
 -- Update Thorn Eater Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7348 AND `map` = 129;
+WHERE `id` = 7348 AND `map` = 129;
 
 -- Loot table for Heroic Thorn Eater Ghoul (lootid 9100909)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100909;
@@ -27716,7 +27716,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7351;
 -- Update Tomb Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7351 AND `map` = 129;
+WHERE `id` = 7351 AND `map` = 129;
 
 -- Loot table for Heroic Tomb Reaver (lootid 9100910)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100910;
@@ -27768,7 +27768,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7329;
 -- Update Withered Quilguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7329 AND `map` = 129;
+WHERE `id` = 7329 AND `map` = 129;
 
 -- Loot table for Heroic Withered Quilguard (lootid 9100911)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100911;
@@ -27820,7 +27820,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7328;
 -- Update Withered Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7328 AND `map` = 129;
+WHERE `id` = 7328 AND `map` = 129;
 
 -- Loot table for Heroic Withered Reaver (lootid 9100912)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100912;
@@ -27872,7 +27872,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7332;
 -- Update Withered Spearhide spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7332 AND `map` = 129;
+WHERE `id` = 7332 AND `map` = 129;
 
 -- Loot table for Heroic Withered Spearhide (lootid 9100913)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100913;
@@ -27924,7 +27924,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7327;
 -- Update Withered Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7327 AND `map` = 129;
+WHERE `id` = 7327 AND `map` = 129;
 
 -- Loot table for Heroic Withered Warrior (lootid 9100914)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100914;
@@ -27976,7 +27976,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7358;
 -- Update Amnennar the Coldbringer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7358 AND `map` = 129;
+WHERE `id` = 7358 AND `map` = 129;
 
 -- Loot table for Heroic Amnennar the Coldbringer (lootid 9100915)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100915;
@@ -28028,7 +28028,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8567;
 -- Update Glutton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8567 AND `map` = 129;
+WHERE `id` = 8567 AND `map` = 129;
 
 -- Loot table for Heroic Glutton (lootid 9100916)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100916;
@@ -28080,7 +28080,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14686;
 -- Update Lady Falther'ess spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14686 AND `map` = 129;
+WHERE `id` = 14686 AND `map` = 129;
 
 -- Loot table for Heroic Lady Falther'ess (lootid 9100917)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100917;
@@ -28132,7 +28132,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7357;
 -- Update Mordresh Fire Eye spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7357 AND `map` = 129;
+WHERE `id` = 7357 AND `map` = 129;
 
 -- Loot table for Heroic Mordresh Fire Eye (lootid 9100918)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100918;
@@ -28184,7 +28184,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7356;
 -- Update Plaguemaw the Rotting spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7356 AND `map` = 129;
+WHERE `id` = 7356 AND `map` = 129;
 
 -- Loot table for Heroic Plaguemaw the Rotting (lootid 9100919)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100919;
@@ -28236,7 +28236,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7354;
 -- Update Ragglesnout spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7354 AND `map` = 129;
+WHERE `id` = 7354 AND `map` = 129;
 
 -- Loot table for Heroic Ragglesnout (lootid 9100920)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100920;
@@ -28288,7 +28288,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7355;
 -- Update Tuten'kash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7355 AND `map` = 129;
+WHERE `id` = 7355 AND `map` = 129;
 
 -- Loot table for Heroic Tuten'kash (lootid 9100921)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100921;
@@ -28340,7 +28340,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7334;
 -- Update Battle Boar Horror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7334 AND `map` = 129;
+WHERE `id` = 7334 AND `map` = 129;
 
 -- Loot table for Heroic Battle Boar Horror (lootid 9100922)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100922;
@@ -28392,7 +28392,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8516;
 -- Update Belnistrasz spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8516 AND `map` = 129;
+WHERE `id` = 8516 AND `map` = 129;
 
 -- Loot table for Heroic Belnistrasz (lootid 9100923)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100923;
@@ -28440,7 +28440,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8585;
 -- Update Frost Spectre spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8585 AND `map` = 129;
+WHERE `id` = 8585 AND `map` = 129;
 
 -- Loot table for Heroic Frost Spectre (lootid 9100924)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100924;
@@ -28488,7 +28488,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8696;
 -- Update Henry Stern spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8696 AND `map` = 129;
+WHERE `id` = 8696 AND `map` = 129;
 
 -- Loot table for Heroic Henry Stern (lootid 9100925)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100925;
@@ -28536,7 +28536,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8767;
 -- Update Sah'rhee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8767 AND `map` = 129;
+WHERE `id` = 8767 AND `map` = 129;
 
 -- Loot table for Heroic Sah'rhee (lootid 9100926)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100926;
@@ -28584,7 +28584,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8477;
 -- Update Skeletal Servant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8477 AND `map` = 129;
+WHERE `id` = 8477 AND `map` = 129;
 
 -- Loot table for Heroic Skeletal Servant (lootid 9100927)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100927;
@@ -28632,7 +28632,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7340;
 -- Update Skeletal Shadowcaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7340 AND `map` = 129;
+WHERE `id` = 7340 AND `map` = 129;
 
 -- Loot table for Heroic Skeletal Shadowcaster (lootid 9100928)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100928;
@@ -28684,7 +28684,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7346;
 -- Update Splinterbone Centurion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7346 AND `map` = 129;
+WHERE `id` = 7346 AND `map` = 129;
 
 -- Loot table for Heroic Splinterbone Centurion (lootid 9100929)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100929;
@@ -28736,7 +28736,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7343;
 -- Update Splinterbone Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7343 AND `map` = 129;
+WHERE `id` = 7343 AND `map` = 129;
 
 -- Loot table for Heroic Splinterbone Skeleton (lootid 9100930)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100930;
@@ -28784,7 +28784,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7349;
 -- Update Tomb Fiend spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7349 AND `map` = 129;
+WHERE `id` = 7349 AND `map` = 129;
 
 -- Loot table for Heroic Tomb Fiend (lootid 9100931)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100931;
@@ -28836,7 +28836,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7333;
 -- Update Withered Battle Boar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7333 AND `map` = 129;
+WHERE `id` = 7333 AND `map` = 129;
 
 -- Loot table for Heroic Withered Battle Boar (lootid 9100932)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100932;
@@ -28888,7 +28888,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7347;
 -- Update Boneflayer Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7347 AND `map` = 129;
+WHERE `id` = 7347 AND `map` = 129;
 
 -- Loot table for Mythic Boneflayer Ghoul (lootid 9100933)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100933;
@@ -28940,7 +28940,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7335;
 -- Update Death's Head Geomancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7335 AND `map` = 129;
+WHERE `id` = 7335 AND `map` = 129;
 
 -- Loot table for Mythic Death's Head Geomancer (lootid 9100934)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100934;
@@ -28992,7 +28992,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7337;
 -- Update Death's Head Necromancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7337 AND `map` = 129;
+WHERE `id` = 7337 AND `map` = 129;
 
 -- Loot table for Mythic Death's Head Necromancer (lootid 9100935)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100935;
@@ -29044,7 +29044,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7353;
 -- Update Freezing Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7353 AND `map` = 129;
+WHERE `id` = 7353 AND `map` = 129;
 
 -- Loot table for Mythic Freezing Spirit (lootid 9100936)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100936;
@@ -29096,7 +29096,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7352;
 -- Update Frozen Soul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7352 AND `map` = 129;
+WHERE `id` = 7352 AND `map` = 129;
 
 -- Loot table for Mythic Frozen Soul (lootid 9100937)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100937;
@@ -29148,7 +29148,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7341;
 -- Update Skeletal Frostweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7341 AND `map` = 129;
+WHERE `id` = 7341 AND `map` = 129;
 
 -- Loot table for Mythic Skeletal Frostweaver (lootid 9100938)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100938;
@@ -29200,7 +29200,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7342;
 -- Update Skeletal Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7342 AND `map` = 129;
+WHERE `id` = 7342 AND `map` = 129;
 
 -- Loot table for Mythic Skeletal Summoner (lootid 9100939)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100939;
@@ -29252,7 +29252,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7345;
 -- Update Splinterbone Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7345 AND `map` = 129;
+WHERE `id` = 7345 AND `map` = 129;
 
 -- Loot table for Mythic Splinterbone Captain (lootid 9100940)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100940;
@@ -29304,7 +29304,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7344;
 -- Update Splinterbone Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7344 AND `map` = 129;
+WHERE `id` = 7344 AND `map` = 129;
 
 -- Loot table for Mythic Splinterbone Warrior (lootid 9100941)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100941;
@@ -29356,7 +29356,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7348;
 -- Update Thorn Eater Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7348 AND `map` = 129;
+WHERE `id` = 7348 AND `map` = 129;
 
 -- Loot table for Mythic Thorn Eater Ghoul (lootid 9100942)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100942;
@@ -29408,7 +29408,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7351;
 -- Update Tomb Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7351 AND `map` = 129;
+WHERE `id` = 7351 AND `map` = 129;
 
 -- Loot table for Mythic Tomb Reaver (lootid 9100943)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100943;
@@ -29460,7 +29460,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7329;
 -- Update Withered Quilguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7329 AND `map` = 129;
+WHERE `id` = 7329 AND `map` = 129;
 
 -- Loot table for Mythic Withered Quilguard (lootid 9100944)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100944;
@@ -29512,7 +29512,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7328;
 -- Update Withered Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7328 AND `map` = 129;
+WHERE `id` = 7328 AND `map` = 129;
 
 -- Loot table for Mythic Withered Reaver (lootid 9100945)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100945;
@@ -29564,7 +29564,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7332;
 -- Update Withered Spearhide spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7332 AND `map` = 129;
+WHERE `id` = 7332 AND `map` = 129;
 
 -- Loot table for Mythic Withered Spearhide (lootid 9100946)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100946;
@@ -29616,7 +29616,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7327;
 -- Update Withered Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7327 AND `map` = 129;
+WHERE `id` = 7327 AND `map` = 129;
 
 -- Loot table for Mythic Withered Warrior (lootid 9100947)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100947;
@@ -29668,7 +29668,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7358;
 -- Update Amnennar the Coldbringer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7358 AND `map` = 129;
+WHERE `id` = 7358 AND `map` = 129;
 
 -- Loot table for Mythic Amnennar the Coldbringer (lootid 9100948)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100948;
@@ -29720,7 +29720,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8567;
 -- Update Glutton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8567 AND `map` = 129;
+WHERE `id` = 8567 AND `map` = 129;
 
 -- Loot table for Mythic Glutton (lootid 9100949)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100949;
@@ -29772,7 +29772,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14686;
 -- Update Lady Falther'ess spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14686 AND `map` = 129;
+WHERE `id` = 14686 AND `map` = 129;
 
 -- Loot table for Mythic Lady Falther'ess (lootid 9100950)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100950;
@@ -29824,7 +29824,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7357;
 -- Update Mordresh Fire Eye spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7357 AND `map` = 129;
+WHERE `id` = 7357 AND `map` = 129;
 
 -- Loot table for Mythic Mordresh Fire Eye (lootid 9100951)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100951;
@@ -29876,7 +29876,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7356;
 -- Update Plaguemaw the Rotting spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7356 AND `map` = 129;
+WHERE `id` = 7356 AND `map` = 129;
 
 -- Loot table for Mythic Plaguemaw the Rotting (lootid 9100952)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100952;
@@ -29928,7 +29928,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7354;
 -- Update Ragglesnout spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7354 AND `map` = 129;
+WHERE `id` = 7354 AND `map` = 129;
 
 -- Loot table for Mythic Ragglesnout (lootid 9100953)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100953;
@@ -29980,7 +29980,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7355;
 -- Update Tuten'kash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7355 AND `map` = 129;
+WHERE `id` = 7355 AND `map` = 129;
 
 -- Loot table for Mythic Tuten'kash (lootid 9100954)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100954;
@@ -30032,7 +30032,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7334;
 -- Update Battle Boar Horror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7334 AND `map` = 129;
+WHERE `id` = 7334 AND `map` = 129;
 
 -- Loot table for Mythic Battle Boar Horror (lootid 9100955)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100955;
@@ -30084,7 +30084,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8516;
 -- Update Belnistrasz spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8516 AND `map` = 129;
+WHERE `id` = 8516 AND `map` = 129;
 
 -- Loot table for Mythic Belnistrasz (lootid 9100956)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100956;
@@ -30132,7 +30132,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8585;
 -- Update Frost Spectre spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8585 AND `map` = 129;
+WHERE `id` = 8585 AND `map` = 129;
 
 -- Loot table for Mythic Frost Spectre (lootid 9100957)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100957;
@@ -30180,7 +30180,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8696;
 -- Update Henry Stern spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8696 AND `map` = 129;
+WHERE `id` = 8696 AND `map` = 129;
 
 -- Loot table for Mythic Henry Stern (lootid 9100958)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100958;
@@ -30228,7 +30228,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8767;
 -- Update Sah'rhee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8767 AND `map` = 129;
+WHERE `id` = 8767 AND `map` = 129;
 
 -- Loot table for Mythic Sah'rhee (lootid 9100959)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100959;
@@ -30276,7 +30276,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8477;
 -- Update Skeletal Servant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8477 AND `map` = 129;
+WHERE `id` = 8477 AND `map` = 129;
 
 -- Loot table for Mythic Skeletal Servant (lootid 9100960)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100960;
@@ -30324,7 +30324,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7340;
 -- Update Skeletal Shadowcaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7340 AND `map` = 129;
+WHERE `id` = 7340 AND `map` = 129;
 
 -- Loot table for Mythic Skeletal Shadowcaster (lootid 9100961)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100961;
@@ -30376,7 +30376,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7346;
 -- Update Splinterbone Centurion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7346 AND `map` = 129;
+WHERE `id` = 7346 AND `map` = 129;
 
 -- Loot table for Mythic Splinterbone Centurion (lootid 9100962)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100962;
@@ -30428,7 +30428,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7343;
 -- Update Splinterbone Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7343 AND `map` = 129;
+WHERE `id` = 7343 AND `map` = 129;
 
 -- Loot table for Mythic Splinterbone Skeleton (lootid 9100963)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100963;
@@ -30476,7 +30476,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7349;
 -- Update Tomb Fiend spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7349 AND `map` = 129;
+WHERE `id` = 7349 AND `map` = 129;
 
 -- Loot table for Mythic Tomb Fiend (lootid 9100964)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100964;
@@ -30528,7 +30528,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7333;
 -- Update Withered Battle Boar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7333 AND `map` = 129;
+WHERE `id` = 7333 AND `map` = 129;
 
 -- Loot table for Mythic Withered Battle Boar (lootid 9100965)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9100965;
@@ -30582,7 +30582,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11073;
 -- Update Annora spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11073 AND `map` = 70;
+WHERE `id` = 11073 AND `map` = 70;
 
 -- Loot table for Heroic Annora (lootid 9101000)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101000;
@@ -30630,7 +30630,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4863;
 -- Update Jadespine Basilisk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4863 AND `map` = 70;
+WHERE `id` = 4863 AND `map` = 70;
 
 -- Loot table for Heroic Jadespine Basilisk (lootid 9101001)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101001;
@@ -30682,7 +30682,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7172;
 -- Update Lore Keeper of Norgannon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7172 AND `map` = 70;
+WHERE `id` = 7172 AND `map` = 70;
 
 -- Loot table for Heroic Lore Keeper of Norgannon (lootid 9101002)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101002;
@@ -30730,7 +30730,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7209;
 -- Update Obsidian Shard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7209 AND `map` = 70;
+WHERE `id` = 7209 AND `map` = 70;
 
 -- Loot table for Heroic Obsidian Shard (lootid 9101003)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101003;
@@ -30778,7 +30778,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6912;
 -- Update Remains of a Paladin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6912 AND `map` = 70;
+WHERE `id` = 6912 AND `map` = 70;
 
 -- Loot table for Heroic Remains of a Paladin (lootid 9101004)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101004;
@@ -30826,7 +30826,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7091;
 -- Update Shadowforge Ambusher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7091 AND `map` = 70;
+WHERE `id` = 7091 AND `map` = 70;
 
 -- Loot table for Heroic Shadowforge Ambusher (lootid 9101005)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101005;
@@ -30878,7 +30878,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4849;
 -- Update Shadowforge Archaeologist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4849 AND `map` = 70;
+WHERE `id` = 4849 AND `map` = 70;
 
 -- Loot table for Heroic Shadowforge Archaeologist (lootid 9101006)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101006;
@@ -30930,7 +30930,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4848;
 -- Update Shadowforge Darkcaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4848 AND `map` = 70;
+WHERE `id` = 4848 AND `map` = 70;
 
 -- Loot table for Heroic Shadowforge Darkcaster (lootid 9101007)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101007;
@@ -30982,7 +30982,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7030;
 -- Update Shadowforge Geologist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7030 AND `map` = 70;
+WHERE `id` = 7030 AND `map` = 70;
 
 -- Loot table for Heroic Shadowforge Geologist (lootid 9101008)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101008;
@@ -31034,7 +31034,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4847;
 -- Update Shadowforge Relic Hunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4847 AND `map` = 70;
+WHERE `id` = 4847 AND `map` = 70;
 
 -- Loot table for Heroic Shadowforge Relic Hunter (lootid 9101009)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101009;
@@ -31086,7 +31086,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7290;
 -- Update Shadowforge Sharpshooter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7290 AND `map` = 70;
+WHERE `id` = 7290 AND `map` = 70;
 
 -- Loot table for Heroic Shadowforge Sharpshooter (lootid 9101010)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101010;
@@ -31138,7 +31138,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4861;
 -- Update Shrike Bat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4861 AND `map` = 70;
+WHERE `id` = 4861 AND `map` = 70;
 
 -- Loot table for Heroic Shrike Bat (lootid 9101011)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101011;
@@ -31190,7 +31190,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4860;
 -- Update Stone Steward spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4860 AND `map` = 70;
+WHERE `id` = 4860 AND `map` = 70;
 
 -- Loot table for Heroic Stone Steward (lootid 9101012)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101012;
@@ -31242,7 +31242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4855;
 -- Update Stonevault Brawler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4855 AND `map` = 70;
+WHERE `id` = 4855 AND `map` = 70;
 
 -- Loot table for Heroic Stonevault Brawler (lootid 9101013)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101013;
@@ -31294,7 +31294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4850;
 -- Update Stonevault Cave Lurker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4850 AND `map` = 70;
+WHERE `id` = 4850 AND `map` = 70;
 
 -- Loot table for Heroic Stonevault Cave Lurker (lootid 9101014)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101014;
@@ -31346,7 +31346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7321;
 -- Update Stonevault Flameweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7321 AND `map` = 70;
+WHERE `id` = 7321 AND `map` = 70;
 
 -- Loot table for Heroic Stonevault Flameweaver (lootid 9101015)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101015;
@@ -31398,7 +31398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4853;
 -- Update Stonevault Geomancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4853 AND `map` = 70;
+WHERE `id` = 4853 AND `map` = 70;
 
 -- Loot table for Heroic Stonevault Geomancer (lootid 9101016)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101016;
@@ -31450,7 +31450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7320;
 -- Update Stonevault Mauler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7320 AND `map` = 70;
+WHERE `id` = 7320 AND `map` = 70;
 
 -- Loot table for Heroic Stonevault Mauler (lootid 9101017)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101017;
@@ -31502,7 +31502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4852;
 -- Update Stonevault Oracle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4852 AND `map` = 70;
+WHERE `id` = 4852 AND `map` = 70;
 
 -- Loot table for Heroic Stonevault Oracle (lootid 9101018)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101018;
@@ -31554,7 +31554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10120;
 -- Update Vault Warder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10120 AND `map` = 70;
+WHERE `id` = 10120 AND `map` = 70;
 
 -- Loot table for Heroic Vault Warder (lootid 9101019)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101019;
@@ -31606,7 +31606,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7022;
 -- Update Venomlash Scorpid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7022 AND `map` = 70;
+WHERE `id` = 7022 AND `map` = 70;
 
 -- Loot table for Heroic Venomlash Scorpid (lootid 9101020)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101020;
@@ -31658,7 +31658,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7206;
 -- Update Ancient Stone Keeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7206 AND `map` = 70;
+WHERE `id` = 7206 AND `map` = 70;
 
 -- Loot table for Heroic Ancient Stone Keeper (lootid 9101021)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101021;
@@ -31710,7 +31710,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 2748;
 -- Update Archaedas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 2748 AND `map` = 70;
+WHERE `id` = 2748 AND `map` = 70;
 
 -- Loot table for Heroic Archaedas (lootid 9101022)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101022;
@@ -31762,7 +31762,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6906;
 -- Update Baelog spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6906 AND `map` = 70;
+WHERE `id` = 6906 AND `map` = 70;
 
 -- Loot table for Heroic Baelog (lootid 9101023)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101023;
@@ -31814,7 +31814,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6907;
 -- Update Eric "The Swift" spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6907 AND `map` = 70;
+WHERE `id` = 6907 AND `map` = 70;
 
 -- Loot table for Heroic Eric "The Swift" (lootid 9101024)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101024;
@@ -31866,7 +31866,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7291;
 -- Update Galgann Firehammer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7291 AND `map` = 70;
+WHERE `id` = 7291 AND `map` = 70;
 
 -- Loot table for Heroic Galgann Firehammer (lootid 9101025)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101025;
@@ -31918,7 +31918,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4854;
 -- Update Grimlok spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4854 AND `map` = 70;
+WHERE `id` = 4854 AND `map` = 70;
 
 -- Loot table for Heroic Grimlok (lootid 9101026)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101026;
@@ -31970,7 +31970,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7228;
 -- Update Ironaya spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7228 AND `map` = 70;
+WHERE `id` = 7228 AND `map` = 70;
 
 -- Loot table for Heroic Ironaya (lootid 9101027)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101027;
@@ -32022,7 +32022,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7023;
 -- Update Obsidian Sentinel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7023 AND `map` = 70;
+WHERE `id` = 7023 AND `map` = 70;
 
 -- Loot table for Heroic Obsidian Sentinel (lootid 9101028)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101028;
@@ -32074,7 +32074,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6908;
 -- Update Olaf spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6908 AND `map` = 70;
+WHERE `id` = 6908 AND `map` = 70;
 
 -- Loot table for Heroic Olaf (lootid 9101029)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101029;
@@ -32126,7 +32126,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6910;
 -- Update Revelosh spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6910 AND `map` = 70;
+WHERE `id` = 6910 AND `map` = 70;
 
 -- Loot table for Heroic Revelosh (lootid 9101030)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101030;
@@ -32178,7 +32178,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4857;
 -- Update Stone Keeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4857 AND `map` = 70;
+WHERE `id` = 4857 AND `map` = 70;
 
 -- Loot table for Heroic Stone Keeper (lootid 9101031)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101031;
@@ -32230,7 +32230,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7078;
 -- Update Cleft Scorpid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7078 AND `map` = 70;
+WHERE `id` = 7078 AND `map` = 70;
 
 -- Loot table for Heroic Cleft Scorpid (lootid 9101032)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101032;
@@ -32282,7 +32282,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7405;
 -- Update Deadly Cleft Scorpid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7405 AND `map` = 70;
+WHERE `id` = 7405 AND `map` = 70;
 
 -- Loot table for Heroic Deadly Cleft Scorpid (lootid 9101033)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101033;
@@ -32334,7 +32334,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7309;
 -- Update Earthen Custodian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7309 AND `map` = 70;
+WHERE `id` = 7309 AND `map` = 70;
 
 -- Loot table for Heroic Earthen Custodian (lootid 9101034)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101034;
@@ -32386,7 +32386,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7076;
 -- Update Earthen Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7076 AND `map` = 70;
+WHERE `id` = 7076 AND `map` = 70;
 
 -- Loot table for Heroic Earthen Guardian (lootid 9101035)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101035;
@@ -32438,7 +32438,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7077;
 -- Update Earthen Hallshaper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7077 AND `map` = 70;
+WHERE `id` = 7077 AND `map` = 70;
 
 -- Loot table for Heroic Earthen Hallshaper (lootid 9101036)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101036;
@@ -32490,7 +32490,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7011;
 -- Update Earthen Rocksmasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7011 AND `map` = 70;
+WHERE `id` = 7011 AND `map` = 70;
 
 -- Loot table for Heroic Earthen Rocksmasher (lootid 9101037)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101037;
@@ -32542,7 +32542,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7012;
 -- Update Earthen Sculptor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7012 AND `map` = 70;
+WHERE `id` = 7012 AND `map` = 70;
 
 -- Loot table for Heroic Earthen Sculptor (lootid 9101038)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101038;
@@ -32594,7 +32594,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7396;
 -- Update Earthen Stonebreaker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7396 AND `map` = 70;
+WHERE `id` = 7396 AND `map` = 70;
 
 -- Loot table for Heroic Earthen Stonebreaker (lootid 9101039)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101039;
@@ -32646,7 +32646,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7397;
 -- Update Earthen Stonecarver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7397 AND `map` = 70;
+WHERE `id` = 7397 AND `map` = 70;
 
 -- Loot table for Heroic Earthen Stonecarver (lootid 9101040)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101040;
@@ -32698,7 +32698,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4851;
 -- Update Stonevault Rockchewer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4851 AND `map` = 70;
+WHERE `id` = 4851 AND `map` = 70;
 
 -- Loot table for Heroic Stonevault Rockchewer (lootid 9101041)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101041;
@@ -32750,7 +32750,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7175;
 -- Update Stonevault Ambusher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7175 AND `map` = 70;
+WHERE `id` = 7175 AND `map` = 70;
 
 -- Loot table for Heroic Stonevault Ambusher (lootid 9101042)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101042;
@@ -32802,7 +32802,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11073;
 -- Update Annora spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11073 AND `map` = 70;
+WHERE `id` = 11073 AND `map` = 70;
 
 -- Loot table for Mythic Annora (lootid 9101043)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101043;
@@ -32850,7 +32850,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4863;
 -- Update Jadespine Basilisk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4863 AND `map` = 70;
+WHERE `id` = 4863 AND `map` = 70;
 
 -- Loot table for Mythic Jadespine Basilisk (lootid 9101044)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101044;
@@ -32902,7 +32902,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7172;
 -- Update Lore Keeper of Norgannon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7172 AND `map` = 70;
+WHERE `id` = 7172 AND `map` = 70;
 
 -- Loot table for Mythic Lore Keeper of Norgannon (lootid 9101045)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101045;
@@ -32950,7 +32950,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7209;
 -- Update Obsidian Shard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7209 AND `map` = 70;
+WHERE `id` = 7209 AND `map` = 70;
 
 -- Loot table for Mythic Obsidian Shard (lootid 9101046)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101046;
@@ -32998,7 +32998,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6912;
 -- Update Remains of a Paladin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6912 AND `map` = 70;
+WHERE `id` = 6912 AND `map` = 70;
 
 -- Loot table for Mythic Remains of a Paladin (lootid 9101047)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101047;
@@ -33046,7 +33046,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7091;
 -- Update Shadowforge Ambusher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7091 AND `map` = 70;
+WHERE `id` = 7091 AND `map` = 70;
 
 -- Loot table for Mythic Shadowforge Ambusher (lootid 9101048)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101048;
@@ -33098,7 +33098,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4849;
 -- Update Shadowforge Archaeologist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4849 AND `map` = 70;
+WHERE `id` = 4849 AND `map` = 70;
 
 -- Loot table for Mythic Shadowforge Archaeologist (lootid 9101049)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101049;
@@ -33150,7 +33150,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4848;
 -- Update Shadowforge Darkcaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4848 AND `map` = 70;
+WHERE `id` = 4848 AND `map` = 70;
 
 -- Loot table for Mythic Shadowforge Darkcaster (lootid 9101050)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101050;
@@ -33202,7 +33202,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7030;
 -- Update Shadowforge Geologist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7030 AND `map` = 70;
+WHERE `id` = 7030 AND `map` = 70;
 
 -- Loot table for Mythic Shadowforge Geologist (lootid 9101051)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101051;
@@ -33254,7 +33254,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4847;
 -- Update Shadowforge Relic Hunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4847 AND `map` = 70;
+WHERE `id` = 4847 AND `map` = 70;
 
 -- Loot table for Mythic Shadowforge Relic Hunter (lootid 9101052)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101052;
@@ -33306,7 +33306,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7290;
 -- Update Shadowforge Sharpshooter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7290 AND `map` = 70;
+WHERE `id` = 7290 AND `map` = 70;
 
 -- Loot table for Mythic Shadowforge Sharpshooter (lootid 9101053)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101053;
@@ -33358,7 +33358,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4861;
 -- Update Shrike Bat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4861 AND `map` = 70;
+WHERE `id` = 4861 AND `map` = 70;
 
 -- Loot table for Mythic Shrike Bat (lootid 9101054)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101054;
@@ -33410,7 +33410,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4860;
 -- Update Stone Steward spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4860 AND `map` = 70;
+WHERE `id` = 4860 AND `map` = 70;
 
 -- Loot table for Mythic Stone Steward (lootid 9101055)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101055;
@@ -33462,7 +33462,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4855;
 -- Update Stonevault Brawler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4855 AND `map` = 70;
+WHERE `id` = 4855 AND `map` = 70;
 
 -- Loot table for Mythic Stonevault Brawler (lootid 9101056)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101056;
@@ -33514,7 +33514,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4850;
 -- Update Stonevault Cave Lurker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4850 AND `map` = 70;
+WHERE `id` = 4850 AND `map` = 70;
 
 -- Loot table for Mythic Stonevault Cave Lurker (lootid 9101057)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101057;
@@ -33566,7 +33566,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7321;
 -- Update Stonevault Flameweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7321 AND `map` = 70;
+WHERE `id` = 7321 AND `map` = 70;
 
 -- Loot table for Mythic Stonevault Flameweaver (lootid 9101058)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101058;
@@ -33618,7 +33618,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4853;
 -- Update Stonevault Geomancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4853 AND `map` = 70;
+WHERE `id` = 4853 AND `map` = 70;
 
 -- Loot table for Mythic Stonevault Geomancer (lootid 9101059)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101059;
@@ -33670,7 +33670,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7320;
 -- Update Stonevault Mauler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7320 AND `map` = 70;
+WHERE `id` = 7320 AND `map` = 70;
 
 -- Loot table for Mythic Stonevault Mauler (lootid 9101060)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101060;
@@ -33722,7 +33722,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4852;
 -- Update Stonevault Oracle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4852 AND `map` = 70;
+WHERE `id` = 4852 AND `map` = 70;
 
 -- Loot table for Mythic Stonevault Oracle (lootid 9101061)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101061;
@@ -33774,7 +33774,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10120;
 -- Update Vault Warder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10120 AND `map` = 70;
+WHERE `id` = 10120 AND `map` = 70;
 
 -- Loot table for Mythic Vault Warder (lootid 9101062)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101062;
@@ -33826,7 +33826,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7022;
 -- Update Venomlash Scorpid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7022 AND `map` = 70;
+WHERE `id` = 7022 AND `map` = 70;
 
 -- Loot table for Mythic Venomlash Scorpid (lootid 9101063)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101063;
@@ -33878,7 +33878,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7206;
 -- Update Ancient Stone Keeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7206 AND `map` = 70;
+WHERE `id` = 7206 AND `map` = 70;
 
 -- Loot table for Mythic Ancient Stone Keeper (lootid 9101064)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101064;
@@ -33930,7 +33930,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 2748;
 -- Update Archaedas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 2748 AND `map` = 70;
+WHERE `id` = 2748 AND `map` = 70;
 
 -- Loot table for Mythic Archaedas (lootid 9101065)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101065;
@@ -33982,7 +33982,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6906;
 -- Update Baelog spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6906 AND `map` = 70;
+WHERE `id` = 6906 AND `map` = 70;
 
 -- Loot table for Mythic Baelog (lootid 9101066)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101066;
@@ -34034,7 +34034,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6907;
 -- Update Eric "The Swift" spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6907 AND `map` = 70;
+WHERE `id` = 6907 AND `map` = 70;
 
 -- Loot table for Mythic Eric "The Swift" (lootid 9101067)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101067;
@@ -34086,7 +34086,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7291;
 -- Update Galgann Firehammer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7291 AND `map` = 70;
+WHERE `id` = 7291 AND `map` = 70;
 
 -- Loot table for Mythic Galgann Firehammer (lootid 9101068)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101068;
@@ -34138,7 +34138,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4854;
 -- Update Grimlok spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4854 AND `map` = 70;
+WHERE `id` = 4854 AND `map` = 70;
 
 -- Loot table for Mythic Grimlok (lootid 9101069)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101069;
@@ -34190,7 +34190,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7228;
 -- Update Ironaya spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7228 AND `map` = 70;
+WHERE `id` = 7228 AND `map` = 70;
 
 -- Loot table for Mythic Ironaya (lootid 9101070)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101070;
@@ -34242,7 +34242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7023;
 -- Update Obsidian Sentinel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7023 AND `map` = 70;
+WHERE `id` = 7023 AND `map` = 70;
 
 -- Loot table for Mythic Obsidian Sentinel (lootid 9101071)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101071;
@@ -34294,7 +34294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6908;
 -- Update Olaf spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6908 AND `map` = 70;
+WHERE `id` = 6908 AND `map` = 70;
 
 -- Loot table for Mythic Olaf (lootid 9101072)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101072;
@@ -34346,7 +34346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 6910;
 -- Update Revelosh spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 6910 AND `map` = 70;
+WHERE `id` = 6910 AND `map` = 70;
 
 -- Loot table for Mythic Revelosh (lootid 9101073)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101073;
@@ -34398,7 +34398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4857;
 -- Update Stone Keeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4857 AND `map` = 70;
+WHERE `id` = 4857 AND `map` = 70;
 
 -- Loot table for Mythic Stone Keeper (lootid 9101074)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101074;
@@ -34450,7 +34450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7078;
 -- Update Cleft Scorpid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7078 AND `map` = 70;
+WHERE `id` = 7078 AND `map` = 70;
 
 -- Loot table for Mythic Cleft Scorpid (lootid 9101075)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101075;
@@ -34502,7 +34502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7405;
 -- Update Deadly Cleft Scorpid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7405 AND `map` = 70;
+WHERE `id` = 7405 AND `map` = 70;
 
 -- Loot table for Mythic Deadly Cleft Scorpid (lootid 9101076)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101076;
@@ -34554,7 +34554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7309;
 -- Update Earthen Custodian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7309 AND `map` = 70;
+WHERE `id` = 7309 AND `map` = 70;
 
 -- Loot table for Mythic Earthen Custodian (lootid 9101077)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101077;
@@ -34606,7 +34606,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7076;
 -- Update Earthen Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7076 AND `map` = 70;
+WHERE `id` = 7076 AND `map` = 70;
 
 -- Loot table for Mythic Earthen Guardian (lootid 9101078)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101078;
@@ -34658,7 +34658,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7077;
 -- Update Earthen Hallshaper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7077 AND `map` = 70;
+WHERE `id` = 7077 AND `map` = 70;
 
 -- Loot table for Mythic Earthen Hallshaper (lootid 9101079)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101079;
@@ -34710,7 +34710,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7011;
 -- Update Earthen Rocksmasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7011 AND `map` = 70;
+WHERE `id` = 7011 AND `map` = 70;
 
 -- Loot table for Mythic Earthen Rocksmasher (lootid 9101080)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101080;
@@ -34762,7 +34762,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7012;
 -- Update Earthen Sculptor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7012 AND `map` = 70;
+WHERE `id` = 7012 AND `map` = 70;
 
 -- Loot table for Mythic Earthen Sculptor (lootid 9101081)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101081;
@@ -34814,7 +34814,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7396;
 -- Update Earthen Stonebreaker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7396 AND `map` = 70;
+WHERE `id` = 7396 AND `map` = 70;
 
 -- Loot table for Mythic Earthen Stonebreaker (lootid 9101082)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101082;
@@ -34866,7 +34866,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7397;
 -- Update Earthen Stonecarver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7397 AND `map` = 70;
+WHERE `id` = 7397 AND `map` = 70;
 
 -- Loot table for Mythic Earthen Stonecarver (lootid 9101083)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101083;
@@ -34918,7 +34918,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 4851;
 -- Update Stonevault Rockchewer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 4851 AND `map` = 70;
+WHERE `id` = 4851 AND `map` = 70;
 
 -- Loot table for Mythic Stonevault Rockchewer (lootid 9101084)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101084;
@@ -34970,7 +34970,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7175;
 -- Update Stonevault Ambusher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7175 AND `map` = 70;
+WHERE `id` = 7175 AND `map` = 70;
 
 -- Loot table for Mythic Stonevault Ambusher (lootid 9101085)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101085;
@@ -35024,7 +35024,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7274;
 -- Update Sandfury Executioner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7274 AND `map` = 209;
+WHERE `id` = 7274 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Executioner (lootid 9101100)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101100;
@@ -35076,7 +35076,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7608;
 -- Update Murta Grimgut spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7608 AND `map` = 209;
+WHERE `id` = 7608 AND `map` = 209;
 
 -- Loot table for Heroic Murta Grimgut (lootid 9101101)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101101;
@@ -35128,7 +35128,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7606;
 -- Update Oro Eyegouge spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7606 AND `map` = 209;
+WHERE `id` = 7606 AND `map` = 209;
 
 -- Loot table for Heroic Oro Eyegouge (lootid 9101102)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101102;
@@ -35180,7 +35180,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7605;
 -- Update Raven spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7605 AND `map` = 209;
+WHERE `id` = 7605 AND `map` = 209;
 
 -- Loot table for Heroic Raven (lootid 9101103)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101103;
@@ -35232,7 +35232,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5649;
 -- Update Sandfury Blood Drinker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5649 AND `map` = 209;
+WHERE `id` = 5649 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Blood Drinker (lootid 9101104)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101104;
@@ -35284,7 +35284,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7789;
 -- Update Sandfury Cretin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7789 AND `map` = 209;
+WHERE `id` = 7789 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Cretin (lootid 9101105)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101105;
@@ -35336,7 +35336,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7268;
 -- Update Sandfury Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7268 AND `map` = 209;
+WHERE `id` = 7268 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Guardian (lootid 9101106)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101106;
@@ -35388,7 +35388,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5648;
 -- Update Sandfury Shadowcaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5648 AND `map` = 209;
+WHERE `id` = 5648 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Shadowcaster (lootid 9101107)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101107;
@@ -35440,7 +35440,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7246;
 -- Update Sandfury Shadowhunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7246 AND `map` = 209;
+WHERE `id` = 7246 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Shadowhunter (lootid 9101108)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101108;
@@ -35492,7 +35492,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7247;
 -- Update Sandfury Soul Eater spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7247 AND `map` = 209;
+WHERE `id` = 7247 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Soul Eater (lootid 9101109)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101109;
@@ -35544,7 +35544,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5650;
 -- Update Sandfury Witch Doctor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5650 AND `map` = 209;
+WHERE `id` = 5650 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Witch Doctor (lootid 9101110)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101110;
@@ -35596,7 +35596,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7604;
 -- Update Sergeant Bly spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7604 AND `map` = 209;
+WHERE `id` = 7604 AND `map` = 209;
 
 -- Loot table for Heroic Sergeant Bly (lootid 9101111)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101111;
@@ -35648,7 +35648,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8156;
 -- Update Servant of Antu'sul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8156 AND `map` = 209;
+WHERE `id` = 8156 AND `map` = 209;
 
 -- Loot table for Heroic Servant of Antu'sul (lootid 9101112)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101112;
@@ -35696,7 +35696,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8120;
 -- Update Sul'lithuz Abomination spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8120 AND `map` = 209;
+WHERE `id` = 8120 AND `map` = 209;
 
 -- Loot table for Heroic Sul'lithuz Abomination (lootid 9101113)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101113;
@@ -35748,7 +35748,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8130;
 -- Update Sul'lithuz Hatchling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8130 AND `map` = 209;
+WHERE `id` = 8130 AND `map` = 209;
 
 -- Loot table for Heroic Sul'lithuz Hatchling (lootid 9101114)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101114;
@@ -35796,7 +35796,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8095;
 -- Update Sul'lithuz Sandcrawler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8095 AND `map` = 209;
+WHERE `id` = 8095 AND `map` = 209;
 
 -- Loot table for Heroic Sul'lithuz Sandcrawler (lootid 9101115)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101115;
@@ -35848,7 +35848,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7607;
 -- Update Weegli Blastfuse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7607 AND `map` = 209;
+WHERE `id` = 7607 AND `map` = 209;
 
 -- Loot table for Heroic Weegli Blastfuse (lootid 9101116)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101116;
@@ -35900,7 +35900,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7286;
 -- Update Zul'Farrak Zombie spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7286 AND `map` = 209;
+WHERE `id` = 7286 AND `map` = 209;
 
 -- Loot table for Heroic Zul'Farrak Zombie (lootid 9101117)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101117;
@@ -35952,7 +35952,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8127;
 -- Update Antu'sul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8127 AND `map` = 209;
+WHERE `id` = 8127 AND `map` = 209;
 
 -- Loot table for Heroic Antu'sul (lootid 9101118)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101118;
@@ -36004,7 +36004,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7267;
 -- Update Chief Ukorz Sandscalp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7267 AND `map` = 209;
+WHERE `id` = 7267 AND `map` = 209;
 
 -- Loot table for Heroic Chief Ukorz Sandscalp (lootid 9101119)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101119;
@@ -36056,7 +36056,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7273;
 -- Update Gahz'rilla spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7273 AND `map` = 209;
+WHERE `id` = 7273 AND `map` = 209;
 
 -- Loot table for Heroic Gahz'rilla (lootid 9101120)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101120;
@@ -36108,7 +36108,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7795;
 -- Update Hydromancer Velratha spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7795 AND `map` = 209;
+WHERE `id` = 7795 AND `map` = 209;
 
 -- Loot table for Heroic Hydromancer Velratha (lootid 9101121)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101121;
@@ -36160,7 +36160,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7796;
 -- Update Nekrum Gutchewer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7796 AND `map` = 209;
+WHERE `id` = 7796 AND `map` = 209;
 
 -- Loot table for Heroic Nekrum Gutchewer (lootid 9101122)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101122;
@@ -36212,7 +36212,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7797;
 -- Update Ruuzlu spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7797 AND `map` = 209;
+WHERE `id` = 7797 AND `map` = 209;
 
 -- Loot table for Heroic Ruuzlu (lootid 9101123)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101123;
@@ -36264,7 +36264,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7275;
 -- Update Shadowpriest Sezz'ziz spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7275 AND `map` = 209;
+WHERE `id` = 7275 AND `map` = 209;
 
 -- Loot table for Heroic Shadowpriest Sezz'ziz (lootid 9101124)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101124;
@@ -36316,7 +36316,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7272;
 -- Update Theka the Martyr spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7272 AND `map` = 209;
+WHERE `id` = 7272 AND `map` = 209;
 
 -- Loot table for Heroic Theka the Martyr (lootid 9101125)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101125;
@@ -36368,7 +36368,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7271;
 -- Update Witch Doctor Zum'rah spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7271 AND `map` = 209;
+WHERE `id` = 7271 AND `map` = 209;
 
 -- Loot table for Heroic Witch Doctor Zum'rah (lootid 9101126)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101126;
@@ -36420,7 +36420,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10080;
 -- Update Sandarr Dunereaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10080 AND `map` = 209;
+WHERE `id` = 10080 AND `map` = 209;
 
 -- Loot table for Heroic Sandarr Dunereaver (lootid 9101127)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101127;
@@ -36472,7 +36472,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10081;
 -- Update Dustwraith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10081 AND `map` = 209;
+WHERE `id` = 10081 AND `map` = 209;
 
 -- Loot table for Heroic Dustwraith (lootid 9101128)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101128;
@@ -36524,7 +36524,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10082;
 -- Update Zerillis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10082 AND `map` = 209;
+WHERE `id` = 10082 AND `map` = 209;
 
 -- Loot table for Heroic Zerillis (lootid 9101129)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101129;
@@ -36576,7 +36576,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15578;
 -- Update Elder Wildmane spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15578 AND `map` = 209;
+WHERE `id` = 15578 AND `map` = 209;
 
 -- Loot table for Heroic Elder Wildmane (lootid 9101130)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101130;
@@ -36624,7 +36624,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7527;
 -- Update Goblin Land Mine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7527 AND `map` = 209;
+WHERE `id` = 7527 AND `map` = 209;
 
 -- Loot table for Heroic Goblin Land Mine (lootid 9101131)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101131;
@@ -36672,7 +36672,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8179;
 -- Update Greater Healing Ward spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8179 AND `map` = 209;
+WHERE `id` = 8179 AND `map` = 209;
 
 -- Loot table for Heroic Greater Healing Ward (lootid 9101132)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101132;
@@ -36724,7 +36724,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8876;
 -- Update Sandfury Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8876 AND `map` = 209;
+WHERE `id` = 8876 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Acolyte (lootid 9101133)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101133;
@@ -36776,7 +36776,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7788;
 -- Update Sandfury Drudge spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7788 AND `map` = 209;
+WHERE `id` = 7788 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Drudge (lootid 9101134)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101134;
@@ -36828,7 +36828,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7787;
 -- Update Sandfury Slave spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7787 AND `map` = 209;
+WHERE `id` = 7787 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Slave (lootid 9101135)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101135;
@@ -36880,7 +36880,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8877;
 -- Update Sandfury Zealot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8877 AND `map` = 209;
+WHERE `id` = 8877 AND `map` = 209;
 
 -- Loot table for Heroic Sandfury Zealot (lootid 9101136)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101136;
@@ -36932,7 +36932,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7269;
 -- Update Scarab spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7269 AND `map` = 209;
+WHERE `id` = 7269 AND `map` = 209;
 
 -- Loot table for Heroic Scarab (lootid 9101137)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101137;
@@ -36984,7 +36984,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7786;
 -- Update Skeleton of Zum'rah spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7786 AND `map` = 209;
+WHERE `id` = 7786 AND `map` = 209;
 
 -- Loot table for Heroic Skeleton of Zum'rah (lootid 9101138)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101138;
@@ -37032,7 +37032,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8138;
 -- Update Sul'lithuz Broodling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8138 AND `map` = 209;
+WHERE `id` = 8138 AND `map` = 209;
 
 -- Loot table for Heroic Sul'lithuz Broodling (lootid 9101139)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101139;
@@ -37084,7 +37084,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7785;
 -- Update Ward of Zum'rah spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7785 AND `map` = 209;
+WHERE `id` = 7785 AND `map` = 209;
 
 -- Loot table for Heroic Ward of Zum'rah (lootid 9101140)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101140;
@@ -37132,7 +37132,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7276;
 -- Update Zul'Farrak Dead Hero spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7276 AND `map` = 209;
+WHERE `id` = 7276 AND `map` = 209;
 
 -- Loot table for Heroic Zul'Farrak Dead Hero (lootid 9101141)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101141;
@@ -37184,7 +37184,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7274;
 -- Update Sandfury Executioner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7274 AND `map` = 209;
+WHERE `id` = 7274 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Executioner (lootid 9101142)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101142;
@@ -37236,7 +37236,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7608;
 -- Update Murta Grimgut spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7608 AND `map` = 209;
+WHERE `id` = 7608 AND `map` = 209;
 
 -- Loot table for Mythic Murta Grimgut (lootid 9101143)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101143;
@@ -37288,7 +37288,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7606;
 -- Update Oro Eyegouge spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7606 AND `map` = 209;
+WHERE `id` = 7606 AND `map` = 209;
 
 -- Loot table for Mythic Oro Eyegouge (lootid 9101144)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101144;
@@ -37340,7 +37340,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7605;
 -- Update Raven spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7605 AND `map` = 209;
+WHERE `id` = 7605 AND `map` = 209;
 
 -- Loot table for Mythic Raven (lootid 9101145)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101145;
@@ -37392,7 +37392,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5649;
 -- Update Sandfury Blood Drinker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5649 AND `map` = 209;
+WHERE `id` = 5649 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Blood Drinker (lootid 9101146)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101146;
@@ -37444,7 +37444,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7789;
 -- Update Sandfury Cretin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7789 AND `map` = 209;
+WHERE `id` = 7789 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Cretin (lootid 9101147)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101147;
@@ -37496,7 +37496,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7268;
 -- Update Sandfury Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7268 AND `map` = 209;
+WHERE `id` = 7268 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Guardian (lootid 9101148)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101148;
@@ -37548,7 +37548,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5648;
 -- Update Sandfury Shadowcaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5648 AND `map` = 209;
+WHERE `id` = 5648 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Shadowcaster (lootid 9101149)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101149;
@@ -37600,7 +37600,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7246;
 -- Update Sandfury Shadowhunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7246 AND `map` = 209;
+WHERE `id` = 7246 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Shadowhunter (lootid 9101150)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101150;
@@ -37652,7 +37652,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7247;
 -- Update Sandfury Soul Eater spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7247 AND `map` = 209;
+WHERE `id` = 7247 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Soul Eater (lootid 9101151)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101151;
@@ -37704,7 +37704,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5650;
 -- Update Sandfury Witch Doctor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5650 AND `map` = 209;
+WHERE `id` = 5650 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Witch Doctor (lootid 9101152)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101152;
@@ -37756,7 +37756,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7604;
 -- Update Sergeant Bly spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7604 AND `map` = 209;
+WHERE `id` = 7604 AND `map` = 209;
 
 -- Loot table for Mythic Sergeant Bly (lootid 9101153)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101153;
@@ -37808,7 +37808,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8156;
 -- Update Servant of Antu'sul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8156 AND `map` = 209;
+WHERE `id` = 8156 AND `map` = 209;
 
 -- Loot table for Mythic Servant of Antu'sul (lootid 9101154)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101154;
@@ -37856,7 +37856,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8120;
 -- Update Sul'lithuz Abomination spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8120 AND `map` = 209;
+WHERE `id` = 8120 AND `map` = 209;
 
 -- Loot table for Mythic Sul'lithuz Abomination (lootid 9101155)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101155;
@@ -37908,7 +37908,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8130;
 -- Update Sul'lithuz Hatchling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8130 AND `map` = 209;
+WHERE `id` = 8130 AND `map` = 209;
 
 -- Loot table for Mythic Sul'lithuz Hatchling (lootid 9101156)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101156;
@@ -37956,7 +37956,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8095;
 -- Update Sul'lithuz Sandcrawler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8095 AND `map` = 209;
+WHERE `id` = 8095 AND `map` = 209;
 
 -- Loot table for Mythic Sul'lithuz Sandcrawler (lootid 9101157)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101157;
@@ -38008,7 +38008,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7607;
 -- Update Weegli Blastfuse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7607 AND `map` = 209;
+WHERE `id` = 7607 AND `map` = 209;
 
 -- Loot table for Mythic Weegli Blastfuse (lootid 9101158)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101158;
@@ -38060,7 +38060,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7286;
 -- Update Zul'Farrak Zombie spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7286 AND `map` = 209;
+WHERE `id` = 7286 AND `map` = 209;
 
 -- Loot table for Mythic Zul'Farrak Zombie (lootid 9101159)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101159;
@@ -38112,7 +38112,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8127;
 -- Update Antu'sul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8127 AND `map` = 209;
+WHERE `id` = 8127 AND `map` = 209;
 
 -- Loot table for Mythic Antu'sul (lootid 9101160)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101160;
@@ -38164,7 +38164,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7267;
 -- Update Chief Ukorz Sandscalp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7267 AND `map` = 209;
+WHERE `id` = 7267 AND `map` = 209;
 
 -- Loot table for Mythic Chief Ukorz Sandscalp (lootid 9101161)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101161;
@@ -38216,7 +38216,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7273;
 -- Update Gahz'rilla spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7273 AND `map` = 209;
+WHERE `id` = 7273 AND `map` = 209;
 
 -- Loot table for Mythic Gahz'rilla (lootid 9101162)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101162;
@@ -38268,7 +38268,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7795;
 -- Update Hydromancer Velratha spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7795 AND `map` = 209;
+WHERE `id` = 7795 AND `map` = 209;
 
 -- Loot table for Mythic Hydromancer Velratha (lootid 9101163)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101163;
@@ -38320,7 +38320,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7796;
 -- Update Nekrum Gutchewer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7796 AND `map` = 209;
+WHERE `id` = 7796 AND `map` = 209;
 
 -- Loot table for Mythic Nekrum Gutchewer (lootid 9101164)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101164;
@@ -38372,7 +38372,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7797;
 -- Update Ruuzlu spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7797 AND `map` = 209;
+WHERE `id` = 7797 AND `map` = 209;
 
 -- Loot table for Mythic Ruuzlu (lootid 9101165)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101165;
@@ -38424,7 +38424,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7275;
 -- Update Shadowpriest Sezz'ziz spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7275 AND `map` = 209;
+WHERE `id` = 7275 AND `map` = 209;
 
 -- Loot table for Mythic Shadowpriest Sezz'ziz (lootid 9101166)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101166;
@@ -38476,7 +38476,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7272;
 -- Update Theka the Martyr spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7272 AND `map` = 209;
+WHERE `id` = 7272 AND `map` = 209;
 
 -- Loot table for Mythic Theka the Martyr (lootid 9101167)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101167;
@@ -38528,7 +38528,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7271;
 -- Update Witch Doctor Zum'rah spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7271 AND `map` = 209;
+WHERE `id` = 7271 AND `map` = 209;
 
 -- Loot table for Mythic Witch Doctor Zum'rah (lootid 9101168)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101168;
@@ -38580,7 +38580,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10080;
 -- Update Sandarr Dunereaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10080 AND `map` = 209;
+WHERE `id` = 10080 AND `map` = 209;
 
 -- Loot table for Mythic Sandarr Dunereaver (lootid 9101169)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101169;
@@ -38632,7 +38632,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10081;
 -- Update Dustwraith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10081 AND `map` = 209;
+WHERE `id` = 10081 AND `map` = 209;
 
 -- Loot table for Mythic Dustwraith (lootid 9101170)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101170;
@@ -38684,7 +38684,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10082;
 -- Update Zerillis spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10082 AND `map` = 209;
+WHERE `id` = 10082 AND `map` = 209;
 
 -- Loot table for Mythic Zerillis (lootid 9101171)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101171;
@@ -38736,7 +38736,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15578;
 -- Update Elder Wildmane spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15578 AND `map` = 209;
+WHERE `id` = 15578 AND `map` = 209;
 
 -- Loot table for Mythic Elder Wildmane (lootid 9101172)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101172;
@@ -38784,7 +38784,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7527;
 -- Update Goblin Land Mine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7527 AND `map` = 209;
+WHERE `id` = 7527 AND `map` = 209;
 
 -- Loot table for Mythic Goblin Land Mine (lootid 9101173)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101173;
@@ -38832,7 +38832,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8179;
 -- Update Greater Healing Ward spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8179 AND `map` = 209;
+WHERE `id` = 8179 AND `map` = 209;
 
 -- Loot table for Mythic Greater Healing Ward (lootid 9101174)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101174;
@@ -38884,7 +38884,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8876;
 -- Update Sandfury Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8876 AND `map` = 209;
+WHERE `id` = 8876 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Acolyte (lootid 9101175)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101175;
@@ -38936,7 +38936,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7788;
 -- Update Sandfury Drudge spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7788 AND `map` = 209;
+WHERE `id` = 7788 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Drudge (lootid 9101176)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101176;
@@ -38988,7 +38988,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7787;
 -- Update Sandfury Slave spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7787 AND `map` = 209;
+WHERE `id` = 7787 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Slave (lootid 9101177)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101177;
@@ -39040,7 +39040,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8877;
 -- Update Sandfury Zealot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8877 AND `map` = 209;
+WHERE `id` = 8877 AND `map` = 209;
 
 -- Loot table for Mythic Sandfury Zealot (lootid 9101178)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101178;
@@ -39092,7 +39092,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7269;
 -- Update Scarab spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7269 AND `map` = 209;
+WHERE `id` = 7269 AND `map` = 209;
 
 -- Loot table for Mythic Scarab (lootid 9101179)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101179;
@@ -39144,7 +39144,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7786;
 -- Update Skeleton of Zum'rah spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7786 AND `map` = 209;
+WHERE `id` = 7786 AND `map` = 209;
 
 -- Loot table for Mythic Skeleton of Zum'rah (lootid 9101180)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101180;
@@ -39192,7 +39192,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8138;
 -- Update Sul'lithuz Broodling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8138 AND `map` = 209;
+WHERE `id` = 8138 AND `map` = 209;
 
 -- Loot table for Mythic Sul'lithuz Broodling (lootid 9101181)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101181;
@@ -39244,7 +39244,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7785;
 -- Update Ward of Zum'rah spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7785 AND `map` = 209;
+WHERE `id` = 7785 AND `map` = 209;
 
 -- Loot table for Mythic Ward of Zum'rah (lootid 9101182)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101182;
@@ -39292,7 +39292,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 7276;
 -- Update Zul'Farrak Dead Hero spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 7276 AND `map` = 209;
+WHERE `id` = 7276 AND `map` = 209;
 
 -- Loot table for Mythic Zul'Farrak Dead Hero (lootid 9101183)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101183;
@@ -39346,7 +39346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11792;
 -- Update Putridus Shadowstalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11792 AND `map` = 349;
+WHERE `id` = 11792 AND `map` = 349;
 
 -- Loot table for Heroic Putridus Shadowstalker (lootid 9101200)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101200;
@@ -39398,7 +39398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13141;
 -- Update Deeprot Stomper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13141 AND `map` = 349;
+WHERE `id` = 13141 AND `map` = 349;
 
 -- Loot table for Heroic Deeprot Stomper (lootid 9101201)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101201;
@@ -39450,7 +39450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11790;
 -- Update Putridus Satyr spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11790 AND `map` = 349;
+WHERE `id` = 11790 AND `map` = 349;
 
 -- Loot table for Heroic Putridus Satyr (lootid 9101202)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101202;
@@ -39502,7 +39502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12219;
 -- Update Barbed Lasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12219 AND `map` = 349;
+WHERE `id` = 12219 AND `map` = 349;
 
 -- Loot table for Heroic Barbed Lasher (lootid 9101203)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101203;
@@ -39554,7 +39554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13142;
 -- Update Deeprot Tangler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13142 AND `map` = 349;
+WHERE `id` = 13142 AND `map` = 349;
 
 -- Loot table for Heroic Deeprot Tangler (lootid 9101204)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101204;
@@ -39606,7 +39606,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11791;
 -- Update Putridus Trickster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11791 AND `map` = 349;
+WHERE `id` = 11791 AND `map` = 349;
 
 -- Loot table for Heroic Putridus Trickster (lootid 9101205)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101205;
@@ -39658,7 +39658,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12223;
 -- Update Cavern Lurker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12223 AND `map` = 349;
+WHERE `id` = 12223 AND `map` = 349;
 
 -- Loot table for Heroic Cavern Lurker (lootid 9101206)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101206;
@@ -39710,7 +39710,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11793;
 -- Update Celebrian Dryad spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11793 AND `map` = 349;
+WHERE `id` = 11793 AND `map` = 349;
 
 -- Loot table for Heroic Celebrian Dryad (lootid 9101207)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101207;
@@ -39762,7 +39762,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12220;
 -- Update Constrictor Vine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12220 AND `map` = 349;
+WHERE `id` = 12220 AND `map` = 349;
 
 -- Loot table for Heroic Constrictor Vine (lootid 9101208)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101208;
@@ -39814,7 +39814,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12222;
 -- Update Creeping Sludge spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12222 AND `map` = 349;
+WHERE `id` = 12222 AND `map` = 349;
 
 -- Loot table for Heroic Creeping Sludge (lootid 9101209)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101209;
@@ -39866,7 +39866,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13533;
 -- Update Spewed Larva spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13533 AND `map` = 349;
+WHERE `id` = 13533 AND `map` = 349;
 
 -- Loot table for Heroic Spewed Larva (lootid 9101210)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101210;
@@ -39918,7 +39918,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12242;
 -- Update Spirit of Maraudos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12242 AND `map` = 349;
+WHERE `id` = 12242 AND `map` = 349;
 
 -- Loot table for Heroic Spirit of Maraudos (lootid 9101211)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101211;
@@ -39970,7 +39970,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13599;
 -- Update Stolid Snapjaw spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13599 AND `map` = 349;
+WHERE `id` = 13599 AND `map` = 349;
 
 -- Loot table for Heroic Stolid Snapjaw (lootid 9101212)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101212;
@@ -40022,7 +40022,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12224;
 -- Update Cavern Shambler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12224 AND `map` = 349;
+WHERE `id` = 12224 AND `map` = 349;
 
 -- Loot table for Heroic Cavern Shambler (lootid 9101213)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101213;
@@ -40074,7 +40074,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12221;
 -- Update Noxious Slime spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12221 AND `map` = 349;
+WHERE `id` = 12221 AND `map` = 349;
 
 -- Loot table for Heroic Noxious Slime (lootid 9101214)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101214;
@@ -40126,7 +40126,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11794;
 -- Update Sister of Celebras spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11794 AND `map` = 349;
+WHERE `id` = 11794 AND `map` = 349;
 
 -- Loot table for Heroic Sister of Celebras (lootid 9101215)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101215;
@@ -40178,7 +40178,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12207;
 -- Update Thessala Hydra spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12207 AND `map` = 349;
+WHERE `id` = 12207 AND `map` = 349;
 
 -- Loot table for Heroic Thessala Hydra (lootid 9101216)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101216;
@@ -40230,7 +40230,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13323;
 -- Update Subterranean Diemetradon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13323 AND `map` = 349;
+WHERE `id` = 13323 AND `map` = 349;
 
 -- Loot table for Heroic Subterranean Diemetradon (lootid 9101217)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101217;
@@ -40282,7 +40282,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11784;
 -- Update Theradrim Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11784 AND `map` = 349;
+WHERE `id` = 11784 AND `map` = 349;
 
 -- Loot table for Heroic Theradrim Guardian (lootid 9101218)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101218;
@@ -40334,7 +40334,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12243;
 -- Update Spirit of Veng spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12243 AND `map` = 349;
+WHERE `id` = 12243 AND `map` = 349;
 
 -- Loot table for Heroic Spirit of Veng (lootid 9101219)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101219;
@@ -40386,7 +40386,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12206;
 -- Update Primordial Behemoth spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12206 AND `map` = 349;
+WHERE `id` = 12206 AND `map` = 349;
 
 -- Loot table for Heroic Primordial Behemoth (lootid 9101220)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101220;
@@ -40438,7 +40438,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13716;
 -- Update Celebras the Redeemed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13716 AND `map` = 349;
+WHERE `id` = 13716 AND `map` = 349;
 
 -- Loot table for Heroic Celebras the Redeemed (lootid 9101221)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101221;
@@ -40486,7 +40486,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12238;
 -- Update Zaetar's Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12238 AND `map` = 349;
+WHERE `id` = 12238 AND `map` = 349;
 
 -- Loot table for Heroic Zaetar's Spirit (lootid 9101222)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101222;
@@ -40534,7 +40534,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12225;
 -- Update Celebras the Cursed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12225 AND `map` = 349;
+WHERE `id` = 12225 AND `map` = 349;
 
 -- Loot table for Heroic Celebras the Cursed (lootid 9101223)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101223;
@@ -40586,7 +40586,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12203;
 -- Update Landslide spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12203 AND `map` = 349;
+WHERE `id` = 12203 AND `map` = 349;
 
 -- Loot table for Heroic Landslide (lootid 9101224)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101224;
@@ -40638,7 +40638,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12236;
 -- Update Lord Vyletongue spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12236 AND `map` = 349;
+WHERE `id` = 12236 AND `map` = 349;
 
 -- Loot table for Heroic Lord Vyletongue (lootid 9101225)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101225;
@@ -40690,7 +40690,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13282;
 -- Update Noxxion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13282 AND `map` = 349;
+WHERE `id` = 13282 AND `map` = 349;
 
 -- Loot table for Heroic Noxxion (lootid 9101226)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101226;
@@ -40742,7 +40742,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12201;
 -- Update Princess Theradras spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12201 AND `map` = 349;
+WHERE `id` = 12201 AND `map` = 349;
 
 -- Loot table for Heroic Princess Theradras (lootid 9101227)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101227;
@@ -40794,7 +40794,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12258;
 -- Update Razorlash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12258 AND `map` = 349;
+WHERE `id` = 12258 AND `map` = 349;
 
 -- Loot table for Heroic Razorlash (lootid 9101228)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101228;
@@ -40846,7 +40846,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13596;
 -- Update Rotgrip spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13596 AND `map` = 349;
+WHERE `id` = 13596 AND `map` = 349;
 
 -- Loot table for Heroic Rotgrip (lootid 9101229)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101229;
@@ -40898,7 +40898,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13601;
 -- Update Tinkerer Gizlock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13601 AND `map` = 349;
+WHERE `id` = 13601 AND `map` = 349;
 
 -- Loot table for Heroic Tinkerer Gizlock (lootid 9101230)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101230;
@@ -40950,7 +40950,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12237;
 -- Update Meshlok the Harvester spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12237 AND `map` = 349;
+WHERE `id` = 12237 AND `map` = 349;
 
 -- Loot table for Heroic Meshlok the Harvester (lootid 9101231)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101231;
@@ -41002,7 +41002,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11783;
 -- Update Theradrim Shardling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11783 AND `map` = 349;
+WHERE `id` = 11783 AND `map` = 349;
 
 -- Loot table for Heroic Theradrim Shardling (lootid 9101232)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101232;
@@ -41054,7 +41054,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12218;
 -- Update Vile Larva spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12218 AND `map` = 349;
+WHERE `id` = 12218 AND `map` = 349;
 
 -- Loot table for Heroic Vile Larva (lootid 9101233)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101233;
@@ -41106,7 +41106,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12216;
 -- Update Poison Sprite spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12216 AND `map` = 349;
+WHERE `id` = 12216 AND `map` = 349;
 
 -- Loot table for Heroic Poison Sprite (lootid 9101234)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101234;
@@ -41158,7 +41158,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13696;
 -- Update Noxxious Scion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13696 AND `map` = 349;
+WHERE `id` = 13696 AND `map` = 349;
 
 -- Loot table for Heroic Noxxious Scion (lootid 9101235)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101235;
@@ -41210,7 +41210,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13456;
 -- Update Noxxion's Spawn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13456 AND `map` = 349;
+WHERE `id` = 13456 AND `map` = 349;
 
 -- Loot table for Heroic Noxxion's Spawn (lootid 9101236)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101236;
@@ -41258,7 +41258,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15556;
 -- Update Elder Splitrock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15556 AND `map` = 349;
+WHERE `id` = 15556 AND `map` = 349;
 
 -- Loot table for Heroic Elder Splitrock (lootid 9101237)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101237;
@@ -41306,7 +41306,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11789;
 -- Update Deep Borer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11789 AND `map` = 349;
+WHERE `id` = 11789 AND `map` = 349;
 
 -- Loot table for Heroic Deep Borer (lootid 9101238)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101238;
@@ -41358,7 +41358,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12217;
 -- Update Corruptor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12217 AND `map` = 349;
+WHERE `id` = 12217 AND `map` = 349;
 
 -- Loot table for Heroic Corruptor (lootid 9101239)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101239;
@@ -41410,7 +41410,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13743;
 -- Update Corrupt Force of Nature spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13743 AND `map` = 349;
+WHERE `id` = 13743 AND `map` = 349;
 
 -- Loot table for Heroic Corrupt Force of Nature (lootid 9101240)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101240;
@@ -41458,7 +41458,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11792;
 -- Update Putridus Shadowstalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11792 AND `map` = 349;
+WHERE `id` = 11792 AND `map` = 349;
 
 -- Loot table for Mythic Putridus Shadowstalker (lootid 9101241)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101241;
@@ -41510,7 +41510,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13141;
 -- Update Deeprot Stomper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13141 AND `map` = 349;
+WHERE `id` = 13141 AND `map` = 349;
 
 -- Loot table for Mythic Deeprot Stomper (lootid 9101242)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101242;
@@ -41562,7 +41562,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11790;
 -- Update Putridus Satyr spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11790 AND `map` = 349;
+WHERE `id` = 11790 AND `map` = 349;
 
 -- Loot table for Mythic Putridus Satyr (lootid 9101243)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101243;
@@ -41614,7 +41614,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12219;
 -- Update Barbed Lasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12219 AND `map` = 349;
+WHERE `id` = 12219 AND `map` = 349;
 
 -- Loot table for Mythic Barbed Lasher (lootid 9101244)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101244;
@@ -41666,7 +41666,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13142;
 -- Update Deeprot Tangler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13142 AND `map` = 349;
+WHERE `id` = 13142 AND `map` = 349;
 
 -- Loot table for Mythic Deeprot Tangler (lootid 9101245)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101245;
@@ -41718,7 +41718,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11791;
 -- Update Putridus Trickster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11791 AND `map` = 349;
+WHERE `id` = 11791 AND `map` = 349;
 
 -- Loot table for Mythic Putridus Trickster (lootid 9101246)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101246;
@@ -41770,7 +41770,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12223;
 -- Update Cavern Lurker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12223 AND `map` = 349;
+WHERE `id` = 12223 AND `map` = 349;
 
 -- Loot table for Mythic Cavern Lurker (lootid 9101247)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101247;
@@ -41822,7 +41822,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11793;
 -- Update Celebrian Dryad spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11793 AND `map` = 349;
+WHERE `id` = 11793 AND `map` = 349;
 
 -- Loot table for Mythic Celebrian Dryad (lootid 9101248)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101248;
@@ -41874,7 +41874,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12220;
 -- Update Constrictor Vine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12220 AND `map` = 349;
+WHERE `id` = 12220 AND `map` = 349;
 
 -- Loot table for Mythic Constrictor Vine (lootid 9101249)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101249;
@@ -41926,7 +41926,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12222;
 -- Update Creeping Sludge spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12222 AND `map` = 349;
+WHERE `id` = 12222 AND `map` = 349;
 
 -- Loot table for Mythic Creeping Sludge (lootid 9101250)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101250;
@@ -41978,7 +41978,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13533;
 -- Update Spewed Larva spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13533 AND `map` = 349;
+WHERE `id` = 13533 AND `map` = 349;
 
 -- Loot table for Mythic Spewed Larva (lootid 9101251)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101251;
@@ -42030,7 +42030,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12242;
 -- Update Spirit of Maraudos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12242 AND `map` = 349;
+WHERE `id` = 12242 AND `map` = 349;
 
 -- Loot table for Mythic Spirit of Maraudos (lootid 9101252)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101252;
@@ -42082,7 +42082,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13599;
 -- Update Stolid Snapjaw spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13599 AND `map` = 349;
+WHERE `id` = 13599 AND `map` = 349;
 
 -- Loot table for Mythic Stolid Snapjaw (lootid 9101253)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101253;
@@ -42134,7 +42134,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12224;
 -- Update Cavern Shambler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12224 AND `map` = 349;
+WHERE `id` = 12224 AND `map` = 349;
 
 -- Loot table for Mythic Cavern Shambler (lootid 9101254)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101254;
@@ -42186,7 +42186,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12221;
 -- Update Noxious Slime spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12221 AND `map` = 349;
+WHERE `id` = 12221 AND `map` = 349;
 
 -- Loot table for Mythic Noxious Slime (lootid 9101255)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101255;
@@ -42238,7 +42238,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11794;
 -- Update Sister of Celebras spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11794 AND `map` = 349;
+WHERE `id` = 11794 AND `map` = 349;
 
 -- Loot table for Mythic Sister of Celebras (lootid 9101256)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101256;
@@ -42290,7 +42290,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12207;
 -- Update Thessala Hydra spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12207 AND `map` = 349;
+WHERE `id` = 12207 AND `map` = 349;
 
 -- Loot table for Mythic Thessala Hydra (lootid 9101257)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101257;
@@ -42342,7 +42342,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13323;
 -- Update Subterranean Diemetradon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13323 AND `map` = 349;
+WHERE `id` = 13323 AND `map` = 349;
 
 -- Loot table for Mythic Subterranean Diemetradon (lootid 9101258)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101258;
@@ -42394,7 +42394,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11784;
 -- Update Theradrim Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11784 AND `map` = 349;
+WHERE `id` = 11784 AND `map` = 349;
 
 -- Loot table for Mythic Theradrim Guardian (lootid 9101259)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101259;
@@ -42446,7 +42446,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12243;
 -- Update Spirit of Veng spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12243 AND `map` = 349;
+WHERE `id` = 12243 AND `map` = 349;
 
 -- Loot table for Mythic Spirit of Veng (lootid 9101260)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101260;
@@ -42498,7 +42498,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12206;
 -- Update Primordial Behemoth spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12206 AND `map` = 349;
+WHERE `id` = 12206 AND `map` = 349;
 
 -- Loot table for Mythic Primordial Behemoth (lootid 9101261)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101261;
@@ -42550,7 +42550,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13716;
 -- Update Celebras the Redeemed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13716 AND `map` = 349;
+WHERE `id` = 13716 AND `map` = 349;
 
 -- Loot table for Mythic Celebras the Redeemed (lootid 9101262)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101262;
@@ -42598,7 +42598,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12238;
 -- Update Zaetar's Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12238 AND `map` = 349;
+WHERE `id` = 12238 AND `map` = 349;
 
 -- Loot table for Mythic Zaetar's Spirit (lootid 9101263)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101263;
@@ -42646,7 +42646,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12225;
 -- Update Celebras the Cursed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12225 AND `map` = 349;
+WHERE `id` = 12225 AND `map` = 349;
 
 -- Loot table for Mythic Celebras the Cursed (lootid 9101264)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101264;
@@ -42698,7 +42698,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12203;
 -- Update Landslide spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12203 AND `map` = 349;
+WHERE `id` = 12203 AND `map` = 349;
 
 -- Loot table for Mythic Landslide (lootid 9101265)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101265;
@@ -42750,7 +42750,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12236;
 -- Update Lord Vyletongue spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12236 AND `map` = 349;
+WHERE `id` = 12236 AND `map` = 349;
 
 -- Loot table for Mythic Lord Vyletongue (lootid 9101266)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101266;
@@ -42802,7 +42802,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13282;
 -- Update Noxxion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13282 AND `map` = 349;
+WHERE `id` = 13282 AND `map` = 349;
 
 -- Loot table for Mythic Noxxion (lootid 9101267)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101267;
@@ -42854,7 +42854,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12201;
 -- Update Princess Theradras spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12201 AND `map` = 349;
+WHERE `id` = 12201 AND `map` = 349;
 
 -- Loot table for Mythic Princess Theradras (lootid 9101268)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101268;
@@ -42906,7 +42906,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12258;
 -- Update Razorlash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12258 AND `map` = 349;
+WHERE `id` = 12258 AND `map` = 349;
 
 -- Loot table for Mythic Razorlash (lootid 9101269)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101269;
@@ -42958,7 +42958,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13596;
 -- Update Rotgrip spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13596 AND `map` = 349;
+WHERE `id` = 13596 AND `map` = 349;
 
 -- Loot table for Mythic Rotgrip (lootid 9101270)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101270;
@@ -43010,7 +43010,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13601;
 -- Update Tinkerer Gizlock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13601 AND `map` = 349;
+WHERE `id` = 13601 AND `map` = 349;
 
 -- Loot table for Mythic Tinkerer Gizlock (lootid 9101271)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101271;
@@ -43062,7 +43062,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12237;
 -- Update Meshlok the Harvester spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12237 AND `map` = 349;
+WHERE `id` = 12237 AND `map` = 349;
 
 -- Loot table for Mythic Meshlok the Harvester (lootid 9101272)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101272;
@@ -43114,7 +43114,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11783;
 -- Update Theradrim Shardling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11783 AND `map` = 349;
+WHERE `id` = 11783 AND `map` = 349;
 
 -- Loot table for Mythic Theradrim Shardling (lootid 9101273)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101273;
@@ -43166,7 +43166,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12218;
 -- Update Vile Larva spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12218 AND `map` = 349;
+WHERE `id` = 12218 AND `map` = 349;
 
 -- Loot table for Mythic Vile Larva (lootid 9101274)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101274;
@@ -43218,7 +43218,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12216;
 -- Update Poison Sprite spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12216 AND `map` = 349;
+WHERE `id` = 12216 AND `map` = 349;
 
 -- Loot table for Mythic Poison Sprite (lootid 9101275)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101275;
@@ -43270,7 +43270,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13696;
 -- Update Noxxious Scion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13696 AND `map` = 349;
+WHERE `id` = 13696 AND `map` = 349;
 
 -- Loot table for Mythic Noxxious Scion (lootid 9101276)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101276;
@@ -43322,7 +43322,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13456;
 -- Update Noxxion's Spawn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13456 AND `map` = 349;
+WHERE `id` = 13456 AND `map` = 349;
 
 -- Loot table for Mythic Noxxion's Spawn (lootid 9101277)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101277;
@@ -43370,7 +43370,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15556;
 -- Update Elder Splitrock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15556 AND `map` = 349;
+WHERE `id` = 15556 AND `map` = 349;
 
 -- Loot table for Mythic Elder Splitrock (lootid 9101278)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101278;
@@ -43418,7 +43418,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11789;
 -- Update Deep Borer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11789 AND `map` = 349;
+WHERE `id` = 11789 AND `map` = 349;
 
 -- Loot table for Mythic Deep Borer (lootid 9101279)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101279;
@@ -43470,7 +43470,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12217;
 -- Update Corruptor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12217 AND `map` = 349;
+WHERE `id` = 12217 AND `map` = 349;
 
 -- Loot table for Mythic Corruptor (lootid 9101280)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101280;
@@ -43522,7 +43522,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13743;
 -- Update Corrupt Force of Nature spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13743 AND `map` = 349;
+WHERE `id` = 13743 AND `map` = 349;
 
 -- Loot table for Mythic Corrupt Force of Nature (lootid 9101281)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101281;
@@ -43572,7 +43572,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5270;
 -- Update Atal'ai Corpse Eater spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5270 AND `map` = 109;
+WHERE `id` = 5270 AND `map` = 109;
 
 -- Loot table for Heroic Atal'ai Corpse Eater (lootid 9101300)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101300;
@@ -43624,7 +43624,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5271;
 -- Update Atal'ai Deathwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5271 AND `map` = 109;
+WHERE `id` = 5271 AND `map` = 109;
 
 -- Loot table for Heroic Atal'ai Deathwalker (lootid 9101301)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101301;
@@ -43676,7 +43676,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8317;
 -- Update Atal'ai Deathwalker's Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8317 AND `map` = 109;
+WHERE `id` = 8317 AND `map` = 109;
 
 -- Loot table for Heroic Atal'ai Deathwalker's Spirit (lootid 9101302)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101302;
@@ -43724,7 +43724,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5273;
 -- Update Atal'ai High Priest spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5273 AND `map` = 109;
+WHERE `id` = 5273 AND `map` = 109;
 
 -- Loot table for Heroic Atal'ai High Priest (lootid 9101303)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101303;
@@ -43776,7 +43776,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5256;
 -- Update Atal'ai Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5256 AND `map` = 109;
+WHERE `id` = 5256 AND `map` = 109;
 
 -- Loot table for Heroic Atal'ai Warrior (lootid 9101304)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101304;
@@ -43828,7 +43828,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5259;
 -- Update Atal'ai Witch Doctor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5259 AND `map` = 109;
+WHERE `id` = 5259 AND `map` = 109;
 
 -- Loot table for Heroic Atal'ai Witch Doctor (lootid 9101305)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101305;
@@ -43880,7 +43880,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8384;
 -- Update Deep Lurker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8384 AND `map` = 109;
+WHERE `id` = 8384 AND `map` = 109;
 
 -- Loot table for Heroic Deep Lurker (lootid 9101306)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101306;
@@ -43932,7 +43932,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8438;
 -- Update Hakkari Bloodkeeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8438 AND `map` = 109;
+WHERE `id` = 8438 AND `map` = 109;
 
 -- Loot table for Heroic Hakkari Bloodkeeper (lootid 9101307)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101307;
@@ -43984,7 +43984,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5291;
 -- Update Hakkari Frostwing spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5291 AND `map` = 109;
+WHERE `id` = 5291 AND `map` = 109;
 
 -- Loot table for Heroic Hakkari Frostwing (lootid 9101308)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101308;
@@ -44036,7 +44036,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8336;
 -- Update Hakkari Sapper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8336 AND `map` = 109;
+WHERE `id` = 8336 AND `map` = 109;
 
 -- Loot table for Heroic Hakkari Sapper (lootid 9101309)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101309;
@@ -44088,7 +44088,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15362;
 -- Update Malfurion Stormrage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15362 AND `map` = 109;
+WHERE `id` = 15362 AND `map` = 109;
 
 -- Loot table for Heroic Malfurion Stormrage (lootid 9101310)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101310;
@@ -44136,7 +44136,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5226;
 -- Update Murk Worm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5226 AND `map` = 109;
+WHERE `id` = 5226 AND `map` = 109;
 
 -- Loot table for Heroic Murk Worm (lootid 9101311)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101311;
@@ -44188,7 +44188,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5277;
 -- Update Nightmare Scalebane spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5277 AND `map` = 109;
+WHERE `id` = 5277 AND `map` = 109;
 
 -- Loot table for Heroic Nightmare Scalebane (lootid 9101312)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101312;
@@ -44240,7 +44240,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8497;
 -- Update Nightmare Suppressor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8497 AND `map` = 109;
+WHERE `id` = 8497 AND `map` = 109;
 
 -- Loot table for Heroic Nightmare Suppressor (lootid 9101313)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101313;
@@ -44292,7 +44292,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5283;
 -- Update Nightmare Wanderer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5283 AND `map` = 109;
+WHERE `id` = 5283 AND `map` = 109;
 
 -- Loot table for Heroic Nightmare Wanderer (lootid 9101314)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101314;
@@ -44344,7 +44344,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5280;
 -- Update Nightmare Wyrmkin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5280 AND `map` = 109;
+WHERE `id` = 5280 AND `map` = 109;
 
 -- Loot table for Heroic Nightmare Wyrmkin (lootid 9101315)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101315;
@@ -44396,7 +44396,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5228;
 -- Update Saturated Ooze spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5228 AND `map` = 109;
+WHERE `id` = 5228 AND `map` = 109;
 
 -- Loot table for Heroic Saturated Ooze (lootid 9101316)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101316;
@@ -44448,7 +44448,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8440;
 -- Update Shade of Hakkar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8440 AND `map` = 109;
+WHERE `id` = 8440 AND `map` = 109;
 
 -- Loot table for Heroic Shade of Hakkar (lootid 9101317)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101317;
@@ -44496,7 +44496,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5708;
 -- Update Spawn of Hakkar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5708 AND `map` = 109;
+WHERE `id` = 5708 AND `map` = 109;
 
 -- Loot table for Heroic Spawn of Hakkar (lootid 9101318)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101318;
@@ -44548,7 +44548,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5267;
 -- Update Unliving Atal'ai spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5267 AND `map` = 109;
+WHERE `id` = 5267 AND `map` = 109;
 
 -- Loot table for Heroic Unliving Atal'ai (lootid 9101319)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101319;
@@ -44600,7 +44600,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8443;
 -- Update Avatar of Hakkar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8443 AND `map` = 109;
+WHERE `id` = 8443 AND `map` = 109;
 
 -- Loot table for Heroic Avatar of Hakkar (lootid 9101320)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101320;
@@ -44652,7 +44652,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5721;
 -- Update Dreamscythe spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5721 AND `map` = 109;
+WHERE `id` = 5721 AND `map` = 109;
 
 -- Loot table for Heroic Dreamscythe (lootid 9101321)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101321;
@@ -44704,7 +44704,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5722;
 -- Update Hazzas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5722 AND `map` = 109;
+WHERE `id` = 5722 AND `map` = 109;
 
 -- Loot table for Heroic Hazzas (lootid 9101322)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101322;
@@ -44756,7 +44756,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5710;
 -- Update Jammal'an the Prophet spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5710 AND `map` = 109;
+WHERE `id` = 5710 AND `map` = 109;
 
 -- Loot table for Heroic Jammal'an the Prophet (lootid 9101323)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101323;
@@ -44808,7 +44808,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5719;
 -- Update Morphaz spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5719 AND `map` = 109;
+WHERE `id` = 5719 AND `map` = 109;
 
 -- Loot table for Heroic Morphaz (lootid 9101324)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101324;
@@ -44860,7 +44860,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5711;
 -- Update Ogom the Wretched spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5711 AND `map` = 109;
+WHERE `id` = 5711 AND `map` = 109;
 
 -- Loot table for Heroic Ogom the Wretched (lootid 9101325)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101325;
@@ -44912,7 +44912,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5709;
 -- Update Shade of Eranikus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5709 AND `map` = 109;
+WHERE `id` = 5709 AND `map` = 109;
 
 -- Loot table for Heroic Shade of Eranikus (lootid 9101326)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101326;
@@ -44964,7 +44964,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5720;
 -- Update Weaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5720 AND `map` = 109;
+WHERE `id` = 5720 AND `map` = 109;
 
 -- Loot table for Heroic Weaver (lootid 9101327)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101327;
@@ -45016,7 +45016,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5715;
 -- Update Hukku spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5715 AND `map` = 109;
+WHERE `id` = 5715 AND `map` = 109;
 
 -- Loot table for Heroic Hukku (lootid 9101328)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101328;
@@ -45068,7 +45068,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5714;
 -- Update Loro spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5714 AND `map` = 109;
+WHERE `id` = 5714 AND `map` = 109;
 
 -- Loot table for Heroic Loro (lootid 9101329)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101329;
@@ -45120,7 +45120,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5717;
 -- Update Mijan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5717 AND `map` = 109;
+WHERE `id` = 5717 AND `map` = 109;
 
 -- Loot table for Heroic Mijan (lootid 9101330)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101330;
@@ -45172,7 +45172,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5712;
 -- Update Zolo spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5712 AND `map` = 109;
+WHERE `id` = 5712 AND `map` = 109;
 
 -- Loot table for Heroic Zolo (lootid 9101331)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101331;
@@ -45224,7 +45224,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5716;
 -- Update Zul'Lor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5716 AND `map` = 109;
+WHERE `id` = 5716 AND `map` = 109;
 
 -- Loot table for Heroic Zul'Lor (lootid 9101332)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101332;
@@ -45276,7 +45276,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5713;
 -- Update Gasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5713 AND `map` = 109;
+WHERE `id` = 5713 AND `map` = 109;
 
 -- Loot table for Heroic Gasher (lootid 9101333)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101333;
@@ -45328,7 +45328,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8580;
 -- Update Atal'alarion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8580 AND `map` = 109;
+WHERE `id` = 8580 AND `map` = 109;
 
 -- Loot table for Heroic Atal'alarion (lootid 9101334)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101334;
@@ -45380,7 +45380,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8324;
 -- Update Atal'ai Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8324 AND `map` = 109;
+WHERE `id` = 8324 AND `map` = 109;
 
 -- Loot table for Heroic Atal'ai Skeleton (lootid 9101335)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101335;
@@ -45428,7 +45428,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8318;
 -- Update Atal'ai Slave spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8318 AND `map` = 109;
+WHERE `id` = 8318 AND `map` = 109;
 
 -- Loot table for Heroic Atal'ai Slave (lootid 9101336)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101336;
@@ -45480,7 +45480,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15593;
 -- Update Elder Starsong spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15593 AND `map` = 109;
+WHERE `id` = 15593 AND `map` = 109;
 
 -- Loot table for Heroic Elder Starsong (lootid 9101337)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101337;
@@ -45528,7 +45528,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8437;
 -- Update Hakkari Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8437 AND `map` = 109;
+WHERE `id` = 8437 AND `map` = 109;
 
 -- Loot table for Heroic Hakkari Minion (lootid 9101338)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101338;
@@ -45576,7 +45576,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8658;
 -- Update Hukku's Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8658 AND `map` = 109;
+WHERE `id` = 8658 AND `map` = 109;
 
 -- Loot table for Heroic Hukku's Imp (lootid 9101339)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101339;
@@ -45624,7 +45624,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8657;
 -- Update Hukku's Succubus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8657 AND `map` = 109;
+WHERE `id` = 8657 AND `map` = 109;
 
 -- Loot table for Heroic Hukku's Succubus (lootid 9101340)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101340;
@@ -45672,7 +45672,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8656;
 -- Update Hukku's Voidwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8656 AND `map` = 109;
+WHERE `id` = 8656 AND `map` = 109;
 
 -- Loot table for Heroic Hukku's Voidwalker (lootid 9101341)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101341;
@@ -45720,7 +45720,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8319;
 -- Update Nightmare Whelp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8319 AND `map` = 109;
+WHERE `id` = 8319 AND `map` = 109;
 
 -- Loot table for Heroic Nightmare Whelp (lootid 9101342)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101342;
@@ -45772,7 +45772,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8257;
 -- Update Oozeling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8257 AND `map` = 109;
+WHERE `id` = 8257 AND `map` = 109;
 
 -- Loot table for Heroic Oozeling (lootid 9101343)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101343;
@@ -45820,7 +45820,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8311;
 -- Update Slime Maggot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8311 AND `map` = 109;
+WHERE `id` = 8311 AND `map` = 109;
 
 -- Loot table for Heroic Slime Maggot (lootid 9101344)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101344;
@@ -45872,7 +45872,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5270;
 -- Update Atal'ai Corpse Eater spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5270 AND `map` = 109;
+WHERE `id` = 5270 AND `map` = 109;
 
 -- Loot table for Mythic Atal'ai Corpse Eater (lootid 9101345)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101345;
@@ -45924,7 +45924,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5271;
 -- Update Atal'ai Deathwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5271 AND `map` = 109;
+WHERE `id` = 5271 AND `map` = 109;
 
 -- Loot table for Mythic Atal'ai Deathwalker (lootid 9101346)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101346;
@@ -45976,7 +45976,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8317;
 -- Update Atal'ai Deathwalker's Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8317 AND `map` = 109;
+WHERE `id` = 8317 AND `map` = 109;
 
 -- Loot table for Mythic Atal'ai Deathwalker's Spirit (lootid 9101347)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101347;
@@ -46024,7 +46024,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5273;
 -- Update Atal'ai High Priest spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5273 AND `map` = 109;
+WHERE `id` = 5273 AND `map` = 109;
 
 -- Loot table for Mythic Atal'ai High Priest (lootid 9101348)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101348;
@@ -46076,7 +46076,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5256;
 -- Update Atal'ai Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5256 AND `map` = 109;
+WHERE `id` = 5256 AND `map` = 109;
 
 -- Loot table for Mythic Atal'ai Warrior (lootid 9101349)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101349;
@@ -46128,7 +46128,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5259;
 -- Update Atal'ai Witch Doctor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5259 AND `map` = 109;
+WHERE `id` = 5259 AND `map` = 109;
 
 -- Loot table for Mythic Atal'ai Witch Doctor (lootid 9101350)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101350;
@@ -46180,7 +46180,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8384;
 -- Update Deep Lurker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8384 AND `map` = 109;
+WHERE `id` = 8384 AND `map` = 109;
 
 -- Loot table for Mythic Deep Lurker (lootid 9101351)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101351;
@@ -46232,7 +46232,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8438;
 -- Update Hakkari Bloodkeeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8438 AND `map` = 109;
+WHERE `id` = 8438 AND `map` = 109;
 
 -- Loot table for Mythic Hakkari Bloodkeeper (lootid 9101352)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101352;
@@ -46284,7 +46284,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5291;
 -- Update Hakkari Frostwing spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5291 AND `map` = 109;
+WHERE `id` = 5291 AND `map` = 109;
 
 -- Loot table for Mythic Hakkari Frostwing (lootid 9101353)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101353;
@@ -46336,7 +46336,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8336;
 -- Update Hakkari Sapper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8336 AND `map` = 109;
+WHERE `id` = 8336 AND `map` = 109;
 
 -- Loot table for Mythic Hakkari Sapper (lootid 9101354)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101354;
@@ -46388,7 +46388,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15362;
 -- Update Malfurion Stormrage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15362 AND `map` = 109;
+WHERE `id` = 15362 AND `map` = 109;
 
 -- Loot table for Mythic Malfurion Stormrage (lootid 9101355)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101355;
@@ -46436,7 +46436,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5226;
 -- Update Murk Worm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5226 AND `map` = 109;
+WHERE `id` = 5226 AND `map` = 109;
 
 -- Loot table for Mythic Murk Worm (lootid 9101356)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101356;
@@ -46488,7 +46488,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5277;
 -- Update Nightmare Scalebane spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5277 AND `map` = 109;
+WHERE `id` = 5277 AND `map` = 109;
 
 -- Loot table for Mythic Nightmare Scalebane (lootid 9101357)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101357;
@@ -46540,7 +46540,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8497;
 -- Update Nightmare Suppressor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8497 AND `map` = 109;
+WHERE `id` = 8497 AND `map` = 109;
 
 -- Loot table for Mythic Nightmare Suppressor (lootid 9101358)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101358;
@@ -46592,7 +46592,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5283;
 -- Update Nightmare Wanderer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5283 AND `map` = 109;
+WHERE `id` = 5283 AND `map` = 109;
 
 -- Loot table for Mythic Nightmare Wanderer (lootid 9101359)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101359;
@@ -46644,7 +46644,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5280;
 -- Update Nightmare Wyrmkin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5280 AND `map` = 109;
+WHERE `id` = 5280 AND `map` = 109;
 
 -- Loot table for Mythic Nightmare Wyrmkin (lootid 9101360)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101360;
@@ -46696,7 +46696,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5228;
 -- Update Saturated Ooze spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5228 AND `map` = 109;
+WHERE `id` = 5228 AND `map` = 109;
 
 -- Loot table for Mythic Saturated Ooze (lootid 9101361)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101361;
@@ -46748,7 +46748,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8440;
 -- Update Shade of Hakkar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8440 AND `map` = 109;
+WHERE `id` = 8440 AND `map` = 109;
 
 -- Loot table for Mythic Shade of Hakkar (lootid 9101362)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101362;
@@ -46796,7 +46796,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5708;
 -- Update Spawn of Hakkar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5708 AND `map` = 109;
+WHERE `id` = 5708 AND `map` = 109;
 
 -- Loot table for Mythic Spawn of Hakkar (lootid 9101363)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101363;
@@ -46848,7 +46848,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5267;
 -- Update Unliving Atal'ai spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5267 AND `map` = 109;
+WHERE `id` = 5267 AND `map` = 109;
 
 -- Loot table for Mythic Unliving Atal'ai (lootid 9101364)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101364;
@@ -46900,7 +46900,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8443;
 -- Update Avatar of Hakkar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8443 AND `map` = 109;
+WHERE `id` = 8443 AND `map` = 109;
 
 -- Loot table for Mythic Avatar of Hakkar (lootid 9101365)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101365;
@@ -46952,7 +46952,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5721;
 -- Update Dreamscythe spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5721 AND `map` = 109;
+WHERE `id` = 5721 AND `map` = 109;
 
 -- Loot table for Mythic Dreamscythe (lootid 9101366)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101366;
@@ -47004,7 +47004,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5722;
 -- Update Hazzas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5722 AND `map` = 109;
+WHERE `id` = 5722 AND `map` = 109;
 
 -- Loot table for Mythic Hazzas (lootid 9101367)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101367;
@@ -47056,7 +47056,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5710;
 -- Update Jammal'an the Prophet spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5710 AND `map` = 109;
+WHERE `id` = 5710 AND `map` = 109;
 
 -- Loot table for Mythic Jammal'an the Prophet (lootid 9101368)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101368;
@@ -47108,7 +47108,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5719;
 -- Update Morphaz spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5719 AND `map` = 109;
+WHERE `id` = 5719 AND `map` = 109;
 
 -- Loot table for Mythic Morphaz (lootid 9101369)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101369;
@@ -47160,7 +47160,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5711;
 -- Update Ogom the Wretched spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5711 AND `map` = 109;
+WHERE `id` = 5711 AND `map` = 109;
 
 -- Loot table for Mythic Ogom the Wretched (lootid 9101370)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101370;
@@ -47212,7 +47212,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5709;
 -- Update Shade of Eranikus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5709 AND `map` = 109;
+WHERE `id` = 5709 AND `map` = 109;
 
 -- Loot table for Mythic Shade of Eranikus (lootid 9101371)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101371;
@@ -47264,7 +47264,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5720;
 -- Update Weaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5720 AND `map` = 109;
+WHERE `id` = 5720 AND `map` = 109;
 
 -- Loot table for Mythic Weaver (lootid 9101372)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101372;
@@ -47316,7 +47316,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5715;
 -- Update Hukku spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5715 AND `map` = 109;
+WHERE `id` = 5715 AND `map` = 109;
 
 -- Loot table for Mythic Hukku (lootid 9101373)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101373;
@@ -47368,7 +47368,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5714;
 -- Update Loro spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5714 AND `map` = 109;
+WHERE `id` = 5714 AND `map` = 109;
 
 -- Loot table for Mythic Loro (lootid 9101374)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101374;
@@ -47420,7 +47420,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5717;
 -- Update Mijan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5717 AND `map` = 109;
+WHERE `id` = 5717 AND `map` = 109;
 
 -- Loot table for Mythic Mijan (lootid 9101375)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101375;
@@ -47472,7 +47472,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5712;
 -- Update Zolo spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5712 AND `map` = 109;
+WHERE `id` = 5712 AND `map` = 109;
 
 -- Loot table for Mythic Zolo (lootid 9101376)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101376;
@@ -47524,7 +47524,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5716;
 -- Update Zul'Lor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5716 AND `map` = 109;
+WHERE `id` = 5716 AND `map` = 109;
 
 -- Loot table for Mythic Zul'Lor (lootid 9101377)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101377;
@@ -47576,7 +47576,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 5713;
 -- Update Gasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 5713 AND `map` = 109;
+WHERE `id` = 5713 AND `map` = 109;
 
 -- Loot table for Mythic Gasher (lootid 9101378)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101378;
@@ -47628,7 +47628,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8580;
 -- Update Atal'alarion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8580 AND `map` = 109;
+WHERE `id` = 8580 AND `map` = 109;
 
 -- Loot table for Mythic Atal'alarion (lootid 9101379)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101379;
@@ -47680,7 +47680,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8324;
 -- Update Atal'ai Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8324 AND `map` = 109;
+WHERE `id` = 8324 AND `map` = 109;
 
 -- Loot table for Mythic Atal'ai Skeleton (lootid 9101380)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101380;
@@ -47728,7 +47728,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8318;
 -- Update Atal'ai Slave spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8318 AND `map` = 109;
+WHERE `id` = 8318 AND `map` = 109;
 
 -- Loot table for Mythic Atal'ai Slave (lootid 9101381)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101381;
@@ -47780,7 +47780,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15593;
 -- Update Elder Starsong spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15593 AND `map` = 109;
+WHERE `id` = 15593 AND `map` = 109;
 
 -- Loot table for Mythic Elder Starsong (lootid 9101382)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101382;
@@ -47828,7 +47828,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8437;
 -- Update Hakkari Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8437 AND `map` = 109;
+WHERE `id` = 8437 AND `map` = 109;
 
 -- Loot table for Mythic Hakkari Minion (lootid 9101383)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101383;
@@ -47876,7 +47876,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8658;
 -- Update Hukku's Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8658 AND `map` = 109;
+WHERE `id` = 8658 AND `map` = 109;
 
 -- Loot table for Mythic Hukku's Imp (lootid 9101384)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101384;
@@ -47924,7 +47924,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8657;
 -- Update Hukku's Succubus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8657 AND `map` = 109;
+WHERE `id` = 8657 AND `map` = 109;
 
 -- Loot table for Mythic Hukku's Succubus (lootid 9101385)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101385;
@@ -47972,7 +47972,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8656;
 -- Update Hukku's Voidwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8656 AND `map` = 109;
+WHERE `id` = 8656 AND `map` = 109;
 
 -- Loot table for Mythic Hukku's Voidwalker (lootid 9101386)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101386;
@@ -48020,7 +48020,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8319;
 -- Update Nightmare Whelp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8319 AND `map` = 109;
+WHERE `id` = 8319 AND `map` = 109;
 
 -- Loot table for Mythic Nightmare Whelp (lootid 9101387)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101387;
@@ -48072,7 +48072,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8257;
 -- Update Oozeling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8257 AND `map` = 109;
+WHERE `id` = 8257 AND `map` = 109;
 
 -- Loot table for Mythic Oozeling (lootid 9101388)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101388;
@@ -48120,7 +48120,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8311;
 -- Update Slime Maggot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8311 AND `map` = 109;
+WHERE `id` = 8311 AND `map` = 109;
 
 -- Loot table for Mythic Slime Maggot (lootid 9101389)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101389;
@@ -48174,7 +48174,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8903;
 -- Update Anvilrage Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8903 AND `map` = 230;
+WHERE `id` = 8903 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Captain (lootid 9101400)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101400;
@@ -48226,7 +48226,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8892;
 -- Update Anvilrage Footman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8892 AND `map` = 230;
+WHERE `id` = 8892 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Footman (lootid 9101401)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101401;
@@ -48278,7 +48278,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8891;
 -- Update Anvilrage Guardsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8891 AND `map` = 230;
+WHERE `id` = 8891 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Guardsman (lootid 9101402)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101402;
@@ -48330,7 +48330,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8898;
 -- Update Anvilrage Marshal spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8898 AND `map` = 230;
+WHERE `id` = 8898 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Marshal (lootid 9101403)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101403;
@@ -48382,7 +48382,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8894;
 -- Update Anvilrage Medic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8894 AND `map` = 230;
+WHERE `id` = 8894 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Medic (lootid 9101404)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101404;
@@ -48434,7 +48434,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8895;
 -- Update Anvilrage Officer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8895 AND `map` = 230;
+WHERE `id` = 8895 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Officer (lootid 9101405)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101405;
@@ -48486,7 +48486,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8889;
 -- Update Anvilrage Overseer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8889 AND `map` = 230;
+WHERE `id` = 8889 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Overseer (lootid 9101406)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101406;
@@ -48538,7 +48538,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8893;
 -- Update Anvilrage Soldier spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8893 AND `map` = 230;
+WHERE `id` = 8893 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Soldier (lootid 9101407)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101407;
@@ -48590,7 +48590,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8890;
 -- Update Anvilrage Warden spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8890 AND `map` = 230;
+WHERE `id` = 8890 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Warden (lootid 9101408)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101408;
@@ -48642,7 +48642,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9541;
 -- Update Blackbreath Crony spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9541 AND `map` = 230;
+WHERE `id` = 9541 AND `map` = 230;
 
 -- Loot table for Heroic Blackbreath Crony (lootid 9101409)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101409;
@@ -48694,7 +48694,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8910;
 -- Update Blazing Fireguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8910 AND `map` = 230;
+WHERE `id` = 8910 AND `map` = 230;
 
 -- Loot table for Heroic Blazing Fireguard (lootid 9101410)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101410;
@@ -48746,7 +48746,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9020;
 -- Update Commander Gor'shak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9020 AND `map` = 230;
+WHERE `id` = 9020 AND `map` = 230;
 
 -- Loot table for Heroic Commander Gor'shak (lootid 9101411)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101411;
@@ -48794,7 +48794,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9680;
 -- Update Crest Killer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9680 AND `map` = 230;
+WHERE `id` = 9680 AND `map` = 230;
 
 -- Loot table for Heroic Crest Killer (lootid 9101412)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101412;
@@ -48846,7 +48846,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9445;
 -- Update Dark Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9445 AND `map` = 230;
+WHERE `id` = 9445 AND `map` = 230;
 
 -- Loot table for Heroic Dark Guard (lootid 9101413)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101413;
@@ -48898,7 +48898,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8899;
 -- Update Doomforge Dragoon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8899 AND `map` = 230;
+WHERE `id` = 8899 AND `map` = 230;
 
 -- Loot table for Heroic Doomforge Dragoon (lootid 9101414)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101414;
@@ -48950,7 +48950,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9022;
 -- Update Dughal Stormwing spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9022 AND `map` = 230;
+WHERE `id` = 9022 AND `map` = 230;
 
 -- Loot table for Heroic Dughal Stormwing (lootid 9101415)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101415;
@@ -48998,7 +48998,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8909;
 -- Update Fireguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8909 AND `map` = 230;
+WHERE `id` = 8909 AND `map` = 230;
 
 -- Loot table for Heroic Fireguard (lootid 9101416)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101416;
@@ -49050,7 +49050,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8911;
 -- Update Fireguard Destroyer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8911 AND `map` = 230;
+WHERE `id` = 8911 AND `map` = 230;
 
 -- Loot table for Heroic Fireguard Destroyer (lootid 9101417)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101417;
@@ -49102,7 +49102,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9547;
 -- Update Guzzling Patron spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9547 AND `map` = 230;
+WHERE `id` = 9547 AND `map` = 230;
 
 -- Loot table for Heroic Guzzling Patron (lootid 9101418)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101418;
@@ -49154,7 +49154,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9554;
 -- Update Hammered Patron spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9554 AND `map` = 230;
+WHERE `id` = 9554 AND `map` = 230;
 
 -- Loot table for Heroic Hammered Patron (lootid 9101419)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101419;
@@ -49206,7 +49206,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10096;
 -- Update High Justice Grimstone spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10096 AND `map` = 230;
+WHERE `id` = 10096 AND `map` = 230;
 
 -- Loot table for Heroic High Justice Grimstone (lootid 9101420)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101420;
@@ -49254,7 +49254,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9681;
 -- Update Jaz spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9681 AND `map` = 230;
+WHERE `id` = 9681 AND `map` = 230;
 
 -- Loot table for Heroic Jaz (lootid 9101421)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101421;
@@ -49306,7 +49306,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9021;
 -- Update Kharan Mighthammer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9021 AND `map` = 230;
+WHERE `id` = 9021 AND `map` = 230;
 
 -- Loot table for Heroic Kharan Mighthammer (lootid 9101422)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101422;
@@ -49354,7 +49354,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16053;
 -- Update Korv spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16053 AND `map` = 230;
+WHERE `id` = 16053 AND `map` = 230;
 
 -- Loot table for Heroic Korv (lootid 9101423)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101423;
@@ -49402,7 +49402,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16049;
 -- Update Lefty spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16049 AND `map` = 230;
+WHERE `id` = 16049 AND `map` = 230;
 
 -- Loot table for Heroic Lefty (lootid 9101424)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101424;
@@ -49450,7 +49450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16052;
 -- Update Malgen Longspear spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16052 AND `map` = 230;
+WHERE `id` = 16052 AND `map` = 230;
 
 -- Loot table for Heroic Malgen Longspear (lootid 9101425)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101425;
@@ -49498,7 +49498,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9023;
 -- Update Marshal Windsor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9023 AND `map` = 230;
+WHERE `id` = 9023 AND `map` = 230;
 
 -- Loot table for Heroic Marshal Windsor (lootid 9101426)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101426;
@@ -49546,7 +49546,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9500;
 -- Update Mistress Nagmara spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9500 AND `map` = 230;
+WHERE `id` = 9500 AND `map` = 230;
 
 -- Loot table for Heroic Mistress Nagmara (lootid 9101427)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101427;
@@ -49594,7 +49594,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8908;
 -- Update Molten War Golem spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8908 AND `map` = 230;
+WHERE `id` = 8908 AND `map` = 230;
 
 -- Loot table for Heroic Molten War Golem (lootid 9101428)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101428;
@@ -49646,7 +49646,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9677;
 -- Update Ograbisi spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9677 AND `map` = 230;
+WHERE `id` = 9677 AND `map` = 230;
 
 -- Loot table for Heroic Ograbisi (lootid 9101429)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101429;
@@ -49698,7 +49698,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9503;
 -- Update Private Rocknot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9503 AND `map` = 230;
+WHERE `id` = 9503 AND `map` = 230;
 
 -- Loot table for Heroic Private Rocknot (lootid 9101430)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101430;
@@ -49746,7 +49746,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8906;
 -- Update Ragereaver Golem spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8906 AND `map` = 230;
+WHERE `id` = 8906 AND `map` = 230;
 
 -- Loot table for Heroic Ragereaver Golem (lootid 9101431)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101431;
@@ -49798,7 +49798,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16054;
 -- Update Rezznik spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16054 AND `map` = 230;
+WHERE `id` = 16054 AND `map` = 230;
 
 -- Loot table for Heroic Rezznik (lootid 9101432)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101432;
@@ -49846,7 +49846,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10043;
 -- Update Ribbly's Crony spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10043 AND `map` = 230;
+WHERE `id` = 10043 AND `map` = 230;
 
 -- Loot table for Heroic Ribbly's Crony (lootid 9101433)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101433;
@@ -49898,7 +49898,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16050;
 -- Update Rotfang spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16050 AND `map` = 230;
+WHERE `id` = 16050 AND `map` = 230;
 
 -- Loot table for Heroic Rotfang (lootid 9101434)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101434;
@@ -49946,7 +49946,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8902;
 -- Update Shadowforge Citizen spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8902 AND `map` = 230;
+WHERE `id` = 8902 AND `map` = 230;
 
 -- Loot table for Heroic Shadowforge Citizen (lootid 9101435)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101435;
@@ -49998,7 +49998,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9956;
 -- Update Shadowforge Flame Keeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9956 AND `map` = 230;
+WHERE `id` = 9956 AND `map` = 230;
 
 -- Loot table for Heroic Shadowforge Flame Keeper (lootid 9101436)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101436;
@@ -50050,7 +50050,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8896;
 -- Update Shadowforge Peasant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8896 AND `map` = 230;
+WHERE `id` = 8896 AND `map` = 230;
 
 -- Loot table for Heroic Shadowforge Peasant (lootid 9101437)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101437;
@@ -50102,7 +50102,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8904;
 -- Update Shadowforge Senator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8904 AND `map` = 230;
+WHERE `id` = 8904 AND `map` = 230;
 
 -- Loot table for Heroic Shadowforge Senator (lootid 9101438)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101438;
@@ -50154,7 +50154,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9678;
 -- Update Shill Dinger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9678 AND `map` = 230;
+WHERE `id` = 9678 AND `map` = 230;
 
 -- Loot table for Heroic Shill Dinger (lootid 9101439)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101439;
@@ -50206,7 +50206,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10116;
 -- Update Slave spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10116 AND `map` = 230;
+WHERE `id` = 10116 AND `map` = 230;
 
 -- Loot table for Heroic Slave (lootid 9101440)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101440;
@@ -50254,7 +50254,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16051;
 -- Update Snokh Blackspine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16051 AND `map` = 230;
+WHERE `id` = 16051 AND `map` = 230;
 
 -- Loot table for Heroic Snokh Blackspine (lootid 9101441)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101441;
@@ -50302,7 +50302,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9436;
 -- Update Spawn of Bael'Gar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9436 AND `map` = 230;
+WHERE `id` = 9436 AND `map` = 230;
 
 -- Loot table for Heroic Spawn of Bael'Gar (lootid 9101442)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101442;
@@ -50350,7 +50350,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9679;
 -- Update Tobias Seecher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9679 AND `map` = 230;
+WHERE `id` = 9679 AND `map` = 230;
 
 -- Loot table for Heroic Tobias Seecher (lootid 9101443)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101443;
@@ -50398,7 +50398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10117;
 -- Update Tortured Slave spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10117 AND `map` = 230;
+WHERE `id` = 10117 AND `map` = 230;
 
 -- Loot table for Heroic Tortured Slave (lootid 9101444)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101444;
@@ -50446,7 +50446,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8914;
 -- Update Twilight Bodyguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8914 AND `map` = 230;
+WHERE `id` = 8914 AND `map` = 230;
 
 -- Loot table for Heroic Twilight Bodyguard (lootid 9101445)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101445;
@@ -50498,7 +50498,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8913;
 -- Update Twilight Emissary spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8913 AND `map` = 230;
+WHERE `id` = 8913 AND `map` = 230;
 
 -- Loot table for Heroic Twilight Emissary (lootid 9101446)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101446;
@@ -50550,7 +50550,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8915;
 -- Update Twilight's Hammer Ambassador spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8915 AND `map` = 230;
+WHERE `id` = 8915 AND `map` = 230;
 
 -- Loot table for Heroic Twilight's Hammer Ambassador (lootid 9101447)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101447;
@@ -50602,7 +50602,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9398;
 -- Update Twilight's Hammer Executioner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9398 AND `map` = 230;
+WHERE `id` = 9398 AND `map` = 230;
 
 -- Loot table for Heroic Twilight's Hammer Executioner (lootid 9101448)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101448;
@@ -50654,7 +50654,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8912;
 -- Update Twilight's Hammer Torturer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8912 AND `map` = 230;
+WHERE `id` = 8912 AND `map` = 230;
 
 -- Loot table for Heroic Twilight's Hammer Torturer (lootid 9101449)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101449;
@@ -50706,7 +50706,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16055;
 -- Update Va'jashni spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16055 AND `map` = 230;
+WHERE `id` = 16055 AND `map` = 230;
 
 -- Loot table for Heroic Va'jashni (lootid 9101450)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101450;
@@ -50754,7 +50754,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16058;
 -- Update Volida spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16058 AND `map` = 230;
+WHERE `id` = 16058 AND `map` = 230;
 
 -- Loot table for Heroic Volida (lootid 9101451)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101451;
@@ -50802,7 +50802,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8905;
 -- Update Warbringer Construct spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8905 AND `map` = 230;
+WHERE `id` = 8905 AND `map` = 230;
 
 -- Loot table for Heroic Warbringer Construct (lootid 9101452)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101452;
@@ -50854,7 +50854,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8920;
 -- Update Weapon Technician spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8920 AND `map` = 230;
+WHERE `id` = 8920 AND `map` = 230;
 
 -- Loot table for Heroic Weapon Technician (lootid 9101453)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101453;
@@ -50906,7 +50906,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8907;
 -- Update Wrath Hammer Construct spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8907 AND `map` = 230;
+WHERE `id` = 8907 AND `map` = 230;
 
 -- Loot table for Heroic Wrath Hammer Construct (lootid 9101454)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101454;
@@ -50958,7 +50958,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8929;
 -- Update Princess Moira Bronzebeard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8929 AND `map` = 230;
+WHERE `id` = 8929 AND `map` = 230;
 
 -- Loot table for Heroic Princess Moira Bronzebeard (lootid 9101455)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101455;
@@ -51010,7 +51010,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8983;
 -- Update Golem Lord Argelmach spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8983 AND `map` = 230;
+WHERE `id` = 8983 AND `map` = 230;
 
 -- Loot table for Heroic Golem Lord Argelmach (lootid 9101456)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101456;
@@ -51062,7 +51062,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9016;
 -- Update Bael'Gar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9016 AND `map` = 230;
+WHERE `id` = 9016 AND `map` = 230;
 
 -- Loot table for Heroic Bael'Gar (lootid 9101457)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101457;
@@ -51114,7 +51114,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9017;
 -- Update Lord Incendius spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9017 AND `map` = 230;
+WHERE `id` = 9017 AND `map` = 230;
 
 -- Loot table for Heroic Lord Incendius (lootid 9101458)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101458;
@@ -51166,7 +51166,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9018;
 -- Update High Interrogator Gerstahn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9018 AND `map` = 230;
+WHERE `id` = 9018 AND `map` = 230;
 
 -- Loot table for Heroic High Interrogator Gerstahn (lootid 9101459)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101459;
@@ -51218,7 +51218,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9019;
 -- Update Emperor Dagran Thaurissan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9019 AND `map` = 230;
+WHERE `id` = 9019 AND `map` = 230;
 
 -- Loot table for Heroic Emperor Dagran Thaurissan (lootid 9101460)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101460;
@@ -51270,7 +51270,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9024;
 -- Update Pyromancer Loregrain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9024 AND `map` = 230;
+WHERE `id` = 9024 AND `map` = 230;
 
 -- Loot table for Heroic Pyromancer Loregrain (lootid 9101461)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101461;
@@ -51322,7 +51322,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9025;
 -- Update Lord Roccor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9025 AND `map` = 230;
+WHERE `id` = 9025 AND `map` = 230;
 
 -- Loot table for Heroic Lord Roccor (lootid 9101462)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101462;
@@ -51374,7 +51374,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9027;
 -- Update Gorosh the Dervish spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9027 AND `map` = 230;
+WHERE `id` = 9027 AND `map` = 230;
 
 -- Loot table for Heroic Gorosh the Dervish (lootid 9101463)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101463;
@@ -51426,7 +51426,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9028;
 -- Update Grizzle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9028 AND `map` = 230;
+WHERE `id` = 9028 AND `map` = 230;
 
 -- Loot table for Heroic Grizzle (lootid 9101464)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101464;
@@ -51478,7 +51478,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9029;
 -- Update Eviscerator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9029 AND `map` = 230;
+WHERE `id` = 9029 AND `map` = 230;
 
 -- Loot table for Heroic Eviscerator (lootid 9101465)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101465;
@@ -51530,7 +51530,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9030;
 -- Update Ok'thor the Breaker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9030 AND `map` = 230;
+WHERE `id` = 9030 AND `map` = 230;
 
 -- Loot table for Heroic Ok'thor the Breaker (lootid 9101466)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101466;
@@ -51582,7 +51582,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9031;
 -- Update Anub'shiah spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9031 AND `map` = 230;
+WHERE `id` = 9031 AND `map` = 230;
 
 -- Loot table for Heroic Anub'shiah (lootid 9101467)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101467;
@@ -51634,7 +51634,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9032;
 -- Update Hedrum the Creeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9032 AND `map` = 230;
+WHERE `id` = 9032 AND `map` = 230;
 
 -- Loot table for Heroic Hedrum the Creeper (lootid 9101468)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101468;
@@ -51686,7 +51686,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9033;
 -- Update General Angerforge spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9033 AND `map` = 230;
+WHERE `id` = 9033 AND `map` = 230;
 
 -- Loot table for Heroic General Angerforge (lootid 9101469)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101469;
@@ -51738,7 +51738,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9034;
 -- Update Hate'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9034 AND `map` = 230;
+WHERE `id` = 9034 AND `map` = 230;
 
 -- Loot table for Heroic Hate'rel (lootid 9101470)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101470;
@@ -51785,7 +51785,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9035;
 -- Update Anger'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9035 AND `map` = 230;
+WHERE `id` = 9035 AND `map` = 230;
 
 -- Loot table for Heroic Anger'rel (lootid 9101471)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101471;
@@ -51832,7 +51832,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9036;
 -- Update Vile'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9036 AND `map` = 230;
+WHERE `id` = 9036 AND `map` = 230;
 
 -- Loot table for Heroic Vile'rel (lootid 9101472)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101472;
@@ -51879,7 +51879,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9037;
 -- Update Gloom'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9037 AND `map` = 230;
+WHERE `id` = 9037 AND `map` = 230;
 
 -- Loot table for Heroic Gloom'rel (lootid 9101473)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101473;
@@ -51926,7 +51926,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9038;
 -- Update Seeth'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9038 AND `map` = 230;
+WHERE `id` = 9038 AND `map` = 230;
 
 -- Loot table for Heroic Seeth'rel (lootid 9101474)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101474;
@@ -51973,7 +51973,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9039;
 -- Update Doom'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9039 AND `map` = 230;
+WHERE `id` = 9039 AND `map` = 230;
 
 -- Loot table for Heroic Doom'rel (lootid 9101475)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101475;
@@ -52020,7 +52020,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9040;
 -- Update Dope'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9040 AND `map` = 230;
+WHERE `id` = 9040 AND `map` = 230;
 
 -- Loot table for Heroic Dope'rel (lootid 9101476)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101476;
@@ -52067,7 +52067,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9041;
 -- Update Warder Stilgiss spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9041 AND `map` = 230;
+WHERE `id` = 9041 AND `map` = 230;
 
 -- Loot table for Heroic Warder Stilgiss (lootid 9101477)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101477;
@@ -52119,7 +52119,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9042;
 -- Update Verek spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9042 AND `map` = 230;
+WHERE `id` = 9042 AND `map` = 230;
 
 -- Loot table for Heroic Verek (lootid 9101478)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101478;
@@ -52171,7 +52171,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9056;
 -- Update Fineous Darkvire spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9056 AND `map` = 230;
+WHERE `id` = 9056 AND `map` = 230;
 
 -- Loot table for Heroic Fineous Darkvire (lootid 9101479)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101479;
@@ -52223,7 +52223,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9156;
 -- Update Ambassador Flamelash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9156 AND `map` = 230;
+WHERE `id` = 9156 AND `map` = 230;
 
 -- Loot table for Heroic Ambassador Flamelash (lootid 9101480)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101480;
@@ -52275,7 +52275,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9319;
 -- Update Houndmaster Grebmar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9319 AND `map` = 230;
+WHERE `id` = 9319 AND `map` = 230;
 
 -- Loot table for Heroic Houndmaster Grebmar (lootid 9101481)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101481;
@@ -52327,7 +52327,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9437;
 -- Update Dark Keeper Vorfalk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9437 AND `map` = 230;
+WHERE `id` = 9437 AND `map` = 230;
 
 -- Loot table for Heroic Dark Keeper Vorfalk (lootid 9101482)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101482;
@@ -52379,7 +52379,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9438;
 -- Update Dark Keeper Bethek spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9438 AND `map` = 230;
+WHERE `id` = 9438 AND `map` = 230;
 
 -- Loot table for Heroic Dark Keeper Bethek (lootid 9101483)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101483;
@@ -52431,7 +52431,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9439;
 -- Update Dark Keeper Uggel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9439 AND `map` = 230;
+WHERE `id` = 9439 AND `map` = 230;
 
 -- Loot table for Heroic Dark Keeper Uggel (lootid 9101484)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101484;
@@ -52483,7 +52483,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9441;
 -- Update Dark Keeper Zimrel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9441 AND `map` = 230;
+WHERE `id` = 9441 AND `map` = 230;
 
 -- Loot table for Heroic Dark Keeper Zimrel (lootid 9101485)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101485;
@@ -52535,7 +52535,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9442;
 -- Update Dark Keeper Ofgut spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9442 AND `map` = 230;
+WHERE `id` = 9442 AND `map` = 230;
 
 -- Loot table for Heroic Dark Keeper Ofgut (lootid 9101486)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101486;
@@ -52587,7 +52587,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9443;
 -- Update Dark Keeper Pelver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9443 AND `map` = 230;
+WHERE `id` = 9443 AND `map` = 230;
 
 -- Loot table for Heroic Dark Keeper Pelver (lootid 9101487)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101487;
@@ -52639,7 +52639,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9476;
 -- Update Watchman Doomgrip spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9476 AND `map` = 230;
+WHERE `id` = 9476 AND `map` = 230;
 
 -- Loot table for Heroic Watchman Doomgrip (lootid 9101488)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101488;
@@ -52691,7 +52691,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9499;
 -- Update Plugger Spazzring spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9499 AND `map` = 230;
+WHERE `id` = 9499 AND `map` = 230;
 
 -- Loot table for Heroic Plugger Spazzring (lootid 9101489)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101489;
@@ -52743,7 +52743,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9502;
 -- Update Phalanx spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9502 AND `map` = 230;
+WHERE `id` = 9502 AND `map` = 230;
 
 -- Loot table for Heroic Phalanx (lootid 9101490)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101490;
@@ -52795,7 +52795,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9537;
 -- Update Hurley Blackbreath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9537 AND `map` = 230;
+WHERE `id` = 9537 AND `map` = 230;
 
 -- Loot table for Heroic Hurley Blackbreath (lootid 9101491)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101491;
@@ -52847,7 +52847,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9543;
 -- Update Ribbly Screwspigot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9543 AND `map` = 230;
+WHERE `id` = 9543 AND `map` = 230;
 
 -- Loot table for Heroic Ribbly Screwspigot (lootid 9101492)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101492;
@@ -52899,7 +52899,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9938;
 -- Update Magmus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9938 AND `map` = 230;
+WHERE `id` = 9938 AND `map` = 230;
 
 -- Loot table for Heroic Magmus (lootid 9101493)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101493;
@@ -52951,7 +52951,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16059;
 -- Update Theldren spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16059 AND `map` = 230;
+WHERE `id` = 16059 AND `map` = 230;
 
 -- Loot table for Heroic Theldren (lootid 9101494)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101494;
@@ -53003,7 +53003,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8923;
 -- Update Panzor the Invincible spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8923 AND `map` = 230;
+WHERE `id` = 8923 AND `map` = 230;
 
 -- Loot table for Heroic Panzor the Invincible (lootid 9101495)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101495;
@@ -53055,7 +53055,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8996;
 -- Update Voidwalker Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8996 AND `map` = 230;
+WHERE `id` = 8996 AND `map` = 230;
 
 -- Loot table for Heroic Voidwalker Minion (lootid 9101496)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101496;
@@ -53103,7 +53103,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8901;
 -- Update Anvilrage Reservist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8901 AND `map` = 230;
+WHERE `id` = 8901 AND `map` = 230;
 
 -- Loot table for Heroic Anvilrage Reservist (lootid 9101497)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101497;
@@ -53151,7 +53151,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12473;
 -- Update Arcanite Dragonling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12473 AND `map` = 230;
+WHERE `id` = 12473 AND `map` = 230;
 
 -- Loot table for Heroic Arcanite Dragonling (lootid 9101498)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101498;
@@ -53199,7 +53199,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8916;
 -- Update Arena Spectator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8916 AND `map` = 230;
+WHERE `id` = 8916 AND `map` = 230;
 
 -- Loot table for Heroic Arena Spectator (lootid 9101499)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101499;
@@ -53251,7 +53251,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8921;
 -- Update Bloodhound spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8921 AND `map` = 230;
+WHERE `id` = 8921 AND `map` = 230;
 
 -- Loot table for Heroic Bloodhound (lootid 9101500)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101500;
@@ -53303,7 +53303,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8922;
 -- Update Bloodhound Mastiff spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8922 AND `map` = 230;
+WHERE `id` = 8922 AND `map` = 230;
 
 -- Loot table for Heroic Bloodhound Mastiff (lootid 9101501)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101501;
@@ -53355,7 +53355,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8932;
 -- Update Borer Beetle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8932 AND `map` = 230;
+WHERE `id` = 8932 AND `map` = 230;
 
 -- Loot table for Heroic Borer Beetle (lootid 9101502)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101502;
@@ -53407,7 +53407,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9178;
 -- Update Burning Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9178 AND `map` = 230;
+WHERE `id` = 9178 AND `map` = 230;
 
 -- Loot table for Heroic Burning Spirit (lootid 9101503)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101503;
@@ -53455,7 +53455,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8928;
 -- Update Burrowing Thundersnout spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8928 AND `map` = 230;
+WHERE `id` = 8928 AND `map` = 230;
 
 -- Loot table for Heroic Burrowing Thundersnout (lootid 9101504)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101504;
@@ -53507,7 +53507,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8933;
 -- Update Cave Creeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8933 AND `map` = 230;
+WHERE `id` = 8933 AND `map` = 230;
 
 -- Loot table for Heroic Cave Creeper (lootid 9101505)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101505;
@@ -53559,7 +53559,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12944;
 -- Update Lokhtos Darkbargainer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12944 AND `map` = 230;
+WHERE `id` = 12944 AND `map` = 230;
 
 -- Loot table for Heroic Lokhtos Darkbargainer (lootid 9101506)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101506;
@@ -53607,7 +53607,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9545;
 -- Update Grim Patron spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9545 AND `map` = 230;
+WHERE `id` = 9545 AND `map` = 230;
 
 -- Loot table for Heroic Grim Patron (lootid 9101507)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101507;
@@ -53659,7 +53659,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16095;
 -- Update Gnashjaw spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16095 AND `map` = 230;
+WHERE `id` = 16095 AND `map` = 230;
 
 -- Loot table for Heroic Gnashjaw (lootid 9101508)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101508;
@@ -53707,7 +53707,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 2675;
 -- Update Explosive Sheep spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 2675 AND `map` = 230;
+WHERE `id` = 2675 AND `map` = 230;
 
 -- Loot table for Heroic Explosive Sheep (lootid 9101509)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101509;
@@ -53755,7 +53755,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15549;
 -- Update Elder Morndeep spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15549 AND `map` = 230;
+WHERE `id` = 15549 AND `map` = 230;
 
 -- Loot table for Heroic Elder Morndeep (lootid 9101510)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101510;
@@ -53803,7 +53803,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8925;
 -- Update Dredge Worm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8925 AND `map` = 230;
+WHERE `id` = 8925 AND `map` = 230;
 
 -- Loot table for Heroic Dredge Worm (lootid 9101511)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101511;
@@ -53855,7 +53855,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8897;
 -- Update Doomforge Craftsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8897 AND `map` = 230;
+WHERE `id` = 8897 AND `map` = 230;
 
 -- Loot table for Heroic Doomforge Craftsman (lootid 9101512)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101512;
@@ -53907,7 +53907,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8900;
 -- Update Doomforge Arcanasmith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8900 AND `map` = 230;
+WHERE `id` = 8900 AND `map` = 230;
 
 -- Loot table for Heroic Doomforge Arcanasmith (lootid 9101513)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101513;
@@ -53959,7 +53959,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8926;
 -- Update Deep Stinger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8926 AND `map` = 230;
+WHERE `id` = 8926 AND `map` = 230;
 
 -- Loot table for Heroic Deep Stinger (lootid 9101514)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101514;
@@ -54011,7 +54011,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8927;
 -- Update Dark Screecher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8927 AND `map` = 230;
+WHERE `id` = 8927 AND `map` = 230;
 
 -- Loot table for Heroic Dark Screecher (lootid 9101515)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101515;
@@ -54063,7 +54063,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8903;
 -- Update Anvilrage Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8903 AND `map` = 230;
+WHERE `id` = 8903 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Captain (lootid 9101516)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101516;
@@ -54115,7 +54115,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8892;
 -- Update Anvilrage Footman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8892 AND `map` = 230;
+WHERE `id` = 8892 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Footman (lootid 9101517)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101517;
@@ -54167,7 +54167,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8891;
 -- Update Anvilrage Guardsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8891 AND `map` = 230;
+WHERE `id` = 8891 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Guardsman (lootid 9101518)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101518;
@@ -54219,7 +54219,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8898;
 -- Update Anvilrage Marshal spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8898 AND `map` = 230;
+WHERE `id` = 8898 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Marshal (lootid 9101519)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101519;
@@ -54271,7 +54271,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8894;
 -- Update Anvilrage Medic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8894 AND `map` = 230;
+WHERE `id` = 8894 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Medic (lootid 9101520)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101520;
@@ -54323,7 +54323,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8895;
 -- Update Anvilrage Officer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8895 AND `map` = 230;
+WHERE `id` = 8895 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Officer (lootid 9101521)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101521;
@@ -54375,7 +54375,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8889;
 -- Update Anvilrage Overseer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8889 AND `map` = 230;
+WHERE `id` = 8889 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Overseer (lootid 9101522)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101522;
@@ -54427,7 +54427,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8893;
 -- Update Anvilrage Soldier spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8893 AND `map` = 230;
+WHERE `id` = 8893 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Soldier (lootid 9101523)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101523;
@@ -54479,7 +54479,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8890;
 -- Update Anvilrage Warden spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8890 AND `map` = 230;
+WHERE `id` = 8890 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Warden (lootid 9101524)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101524;
@@ -54531,7 +54531,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9541;
 -- Update Blackbreath Crony spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9541 AND `map` = 230;
+WHERE `id` = 9541 AND `map` = 230;
 
 -- Loot table for Mythic Blackbreath Crony (lootid 9101525)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101525;
@@ -54583,7 +54583,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8910;
 -- Update Blazing Fireguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8910 AND `map` = 230;
+WHERE `id` = 8910 AND `map` = 230;
 
 -- Loot table for Mythic Blazing Fireguard (lootid 9101526)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101526;
@@ -54635,7 +54635,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9020;
 -- Update Commander Gor'shak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9020 AND `map` = 230;
+WHERE `id` = 9020 AND `map` = 230;
 
 -- Loot table for Mythic Commander Gor'shak (lootid 9101527)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101527;
@@ -54683,7 +54683,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9680;
 -- Update Crest Killer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9680 AND `map` = 230;
+WHERE `id` = 9680 AND `map` = 230;
 
 -- Loot table for Mythic Crest Killer (lootid 9101528)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101528;
@@ -54735,7 +54735,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9445;
 -- Update Dark Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9445 AND `map` = 230;
+WHERE `id` = 9445 AND `map` = 230;
 
 -- Loot table for Mythic Dark Guard (lootid 9101529)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101529;
@@ -54787,7 +54787,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8899;
 -- Update Doomforge Dragoon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8899 AND `map` = 230;
+WHERE `id` = 8899 AND `map` = 230;
 
 -- Loot table for Mythic Doomforge Dragoon (lootid 9101530)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101530;
@@ -54839,7 +54839,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9022;
 -- Update Dughal Stormwing spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9022 AND `map` = 230;
+WHERE `id` = 9022 AND `map` = 230;
 
 -- Loot table for Mythic Dughal Stormwing (lootid 9101531)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101531;
@@ -54887,7 +54887,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8909;
 -- Update Fireguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8909 AND `map` = 230;
+WHERE `id` = 8909 AND `map` = 230;
 
 -- Loot table for Mythic Fireguard (lootid 9101532)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101532;
@@ -54939,7 +54939,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8911;
 -- Update Fireguard Destroyer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8911 AND `map` = 230;
+WHERE `id` = 8911 AND `map` = 230;
 
 -- Loot table for Mythic Fireguard Destroyer (lootid 9101533)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101533;
@@ -54991,7 +54991,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9547;
 -- Update Guzzling Patron spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9547 AND `map` = 230;
+WHERE `id` = 9547 AND `map` = 230;
 
 -- Loot table for Mythic Guzzling Patron (lootid 9101534)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101534;
@@ -55043,7 +55043,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9554;
 -- Update Hammered Patron spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9554 AND `map` = 230;
+WHERE `id` = 9554 AND `map` = 230;
 
 -- Loot table for Mythic Hammered Patron (lootid 9101535)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101535;
@@ -55095,7 +55095,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10096;
 -- Update High Justice Grimstone spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10096 AND `map` = 230;
+WHERE `id` = 10096 AND `map` = 230;
 
 -- Loot table for Mythic High Justice Grimstone (lootid 9101536)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101536;
@@ -55143,7 +55143,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9681;
 -- Update Jaz spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9681 AND `map` = 230;
+WHERE `id` = 9681 AND `map` = 230;
 
 -- Loot table for Mythic Jaz (lootid 9101537)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101537;
@@ -55195,7 +55195,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9021;
 -- Update Kharan Mighthammer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9021 AND `map` = 230;
+WHERE `id` = 9021 AND `map` = 230;
 
 -- Loot table for Mythic Kharan Mighthammer (lootid 9101538)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101538;
@@ -55243,7 +55243,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16053;
 -- Update Korv spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16053 AND `map` = 230;
+WHERE `id` = 16053 AND `map` = 230;
 
 -- Loot table for Mythic Korv (lootid 9101539)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101539;
@@ -55291,7 +55291,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16049;
 -- Update Lefty spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16049 AND `map` = 230;
+WHERE `id` = 16049 AND `map` = 230;
 
 -- Loot table for Mythic Lefty (lootid 9101540)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101540;
@@ -55339,7 +55339,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16052;
 -- Update Malgen Longspear spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16052 AND `map` = 230;
+WHERE `id` = 16052 AND `map` = 230;
 
 -- Loot table for Mythic Malgen Longspear (lootid 9101541)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101541;
@@ -55387,7 +55387,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9023;
 -- Update Marshal Windsor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9023 AND `map` = 230;
+WHERE `id` = 9023 AND `map` = 230;
 
 -- Loot table for Mythic Marshal Windsor (lootid 9101542)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101542;
@@ -55435,7 +55435,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9500;
 -- Update Mistress Nagmara spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9500 AND `map` = 230;
+WHERE `id` = 9500 AND `map` = 230;
 
 -- Loot table for Mythic Mistress Nagmara (lootid 9101543)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101543;
@@ -55483,7 +55483,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8908;
 -- Update Molten War Golem spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8908 AND `map` = 230;
+WHERE `id` = 8908 AND `map` = 230;
 
 -- Loot table for Mythic Molten War Golem (lootid 9101544)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101544;
@@ -55535,7 +55535,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9677;
 -- Update Ograbisi spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9677 AND `map` = 230;
+WHERE `id` = 9677 AND `map` = 230;
 
 -- Loot table for Mythic Ograbisi (lootid 9101545)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101545;
@@ -55587,7 +55587,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9503;
 -- Update Private Rocknot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9503 AND `map` = 230;
+WHERE `id` = 9503 AND `map` = 230;
 
 -- Loot table for Mythic Private Rocknot (lootid 9101546)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101546;
@@ -55635,7 +55635,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8906;
 -- Update Ragereaver Golem spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8906 AND `map` = 230;
+WHERE `id` = 8906 AND `map` = 230;
 
 -- Loot table for Mythic Ragereaver Golem (lootid 9101547)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101547;
@@ -55687,7 +55687,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16054;
 -- Update Rezznik spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16054 AND `map` = 230;
+WHERE `id` = 16054 AND `map` = 230;
 
 -- Loot table for Mythic Rezznik (lootid 9101548)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101548;
@@ -55735,7 +55735,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10043;
 -- Update Ribbly's Crony spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10043 AND `map` = 230;
+WHERE `id` = 10043 AND `map` = 230;
 
 -- Loot table for Mythic Ribbly's Crony (lootid 9101549)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101549;
@@ -55787,7 +55787,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16050;
 -- Update Rotfang spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16050 AND `map` = 230;
+WHERE `id` = 16050 AND `map` = 230;
 
 -- Loot table for Mythic Rotfang (lootid 9101550)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101550;
@@ -55835,7 +55835,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8902;
 -- Update Shadowforge Citizen spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8902 AND `map` = 230;
+WHERE `id` = 8902 AND `map` = 230;
 
 -- Loot table for Mythic Shadowforge Citizen (lootid 9101551)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101551;
@@ -55887,7 +55887,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9956;
 -- Update Shadowforge Flame Keeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9956 AND `map` = 230;
+WHERE `id` = 9956 AND `map` = 230;
 
 -- Loot table for Mythic Shadowforge Flame Keeper (lootid 9101552)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101552;
@@ -55939,7 +55939,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8896;
 -- Update Shadowforge Peasant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8896 AND `map` = 230;
+WHERE `id` = 8896 AND `map` = 230;
 
 -- Loot table for Mythic Shadowforge Peasant (lootid 9101553)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101553;
@@ -55991,7 +55991,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8904;
 -- Update Shadowforge Senator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8904 AND `map` = 230;
+WHERE `id` = 8904 AND `map` = 230;
 
 -- Loot table for Mythic Shadowforge Senator (lootid 9101554)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101554;
@@ -56043,7 +56043,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9678;
 -- Update Shill Dinger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9678 AND `map` = 230;
+WHERE `id` = 9678 AND `map` = 230;
 
 -- Loot table for Mythic Shill Dinger (lootid 9101555)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101555;
@@ -56095,7 +56095,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10116;
 -- Update Slave spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10116 AND `map` = 230;
+WHERE `id` = 10116 AND `map` = 230;
 
 -- Loot table for Mythic Slave (lootid 9101556)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101556;
@@ -56143,7 +56143,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16051;
 -- Update Snokh Blackspine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16051 AND `map` = 230;
+WHERE `id` = 16051 AND `map` = 230;
 
 -- Loot table for Mythic Snokh Blackspine (lootid 9101557)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101557;
@@ -56191,7 +56191,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9436;
 -- Update Spawn of Bael'Gar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9436 AND `map` = 230;
+WHERE `id` = 9436 AND `map` = 230;
 
 -- Loot table for Mythic Spawn of Bael'Gar (lootid 9101558)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101558;
@@ -56239,7 +56239,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9679;
 -- Update Tobias Seecher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9679 AND `map` = 230;
+WHERE `id` = 9679 AND `map` = 230;
 
 -- Loot table for Mythic Tobias Seecher (lootid 9101559)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101559;
@@ -56287,7 +56287,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10117;
 -- Update Tortured Slave spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10117 AND `map` = 230;
+WHERE `id` = 10117 AND `map` = 230;
 
 -- Loot table for Mythic Tortured Slave (lootid 9101560)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101560;
@@ -56335,7 +56335,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8914;
 -- Update Twilight Bodyguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8914 AND `map` = 230;
+WHERE `id` = 8914 AND `map` = 230;
 
 -- Loot table for Mythic Twilight Bodyguard (lootid 9101561)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101561;
@@ -56387,7 +56387,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8913;
 -- Update Twilight Emissary spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8913 AND `map` = 230;
+WHERE `id` = 8913 AND `map` = 230;
 
 -- Loot table for Mythic Twilight Emissary (lootid 9101562)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101562;
@@ -56439,7 +56439,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8915;
 -- Update Twilight's Hammer Ambassador spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8915 AND `map` = 230;
+WHERE `id` = 8915 AND `map` = 230;
 
 -- Loot table for Mythic Twilight's Hammer Ambassador (lootid 9101563)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101563;
@@ -56491,7 +56491,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9398;
 -- Update Twilight's Hammer Executioner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9398 AND `map` = 230;
+WHERE `id` = 9398 AND `map` = 230;
 
 -- Loot table for Mythic Twilight's Hammer Executioner (lootid 9101564)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101564;
@@ -56543,7 +56543,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8912;
 -- Update Twilight's Hammer Torturer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8912 AND `map` = 230;
+WHERE `id` = 8912 AND `map` = 230;
 
 -- Loot table for Mythic Twilight's Hammer Torturer (lootid 9101565)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101565;
@@ -56595,7 +56595,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16055;
 -- Update Va'jashni spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16055 AND `map` = 230;
+WHERE `id` = 16055 AND `map` = 230;
 
 -- Loot table for Mythic Va'jashni (lootid 9101566)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101566;
@@ -56643,7 +56643,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16058;
 -- Update Volida spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16058 AND `map` = 230;
+WHERE `id` = 16058 AND `map` = 230;
 
 -- Loot table for Mythic Volida (lootid 9101567)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101567;
@@ -56691,7 +56691,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8905;
 -- Update Warbringer Construct spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8905 AND `map` = 230;
+WHERE `id` = 8905 AND `map` = 230;
 
 -- Loot table for Mythic Warbringer Construct (lootid 9101568)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101568;
@@ -56743,7 +56743,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8920;
 -- Update Weapon Technician spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8920 AND `map` = 230;
+WHERE `id` = 8920 AND `map` = 230;
 
 -- Loot table for Mythic Weapon Technician (lootid 9101569)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101569;
@@ -56795,7 +56795,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8907;
 -- Update Wrath Hammer Construct spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8907 AND `map` = 230;
+WHERE `id` = 8907 AND `map` = 230;
 
 -- Loot table for Mythic Wrath Hammer Construct (lootid 9101570)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101570;
@@ -56847,7 +56847,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8929;
 -- Update Princess Moira Bronzebeard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8929 AND `map` = 230;
+WHERE `id` = 8929 AND `map` = 230;
 
 -- Loot table for Mythic Princess Moira Bronzebeard (lootid 9101571)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101571;
@@ -56899,7 +56899,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8983;
 -- Update Golem Lord Argelmach spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8983 AND `map` = 230;
+WHERE `id` = 8983 AND `map` = 230;
 
 -- Loot table for Mythic Golem Lord Argelmach (lootid 9101572)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101572;
@@ -56951,7 +56951,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9016;
 -- Update Bael'Gar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9016 AND `map` = 230;
+WHERE `id` = 9016 AND `map` = 230;
 
 -- Loot table for Mythic Bael'Gar (lootid 9101573)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101573;
@@ -57003,7 +57003,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9017;
 -- Update Lord Incendius spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9017 AND `map` = 230;
+WHERE `id` = 9017 AND `map` = 230;
 
 -- Loot table for Mythic Lord Incendius (lootid 9101574)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101574;
@@ -57055,7 +57055,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9018;
 -- Update High Interrogator Gerstahn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9018 AND `map` = 230;
+WHERE `id` = 9018 AND `map` = 230;
 
 -- Loot table for Mythic High Interrogator Gerstahn (lootid 9101575)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101575;
@@ -57107,7 +57107,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9019;
 -- Update Emperor Dagran Thaurissan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9019 AND `map` = 230;
+WHERE `id` = 9019 AND `map` = 230;
 
 -- Loot table for Mythic Emperor Dagran Thaurissan (lootid 9101576)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101576;
@@ -57159,7 +57159,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9024;
 -- Update Pyromancer Loregrain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9024 AND `map` = 230;
+WHERE `id` = 9024 AND `map` = 230;
 
 -- Loot table for Mythic Pyromancer Loregrain (lootid 9101577)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101577;
@@ -57211,7 +57211,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9025;
 -- Update Lord Roccor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9025 AND `map` = 230;
+WHERE `id` = 9025 AND `map` = 230;
 
 -- Loot table for Mythic Lord Roccor (lootid 9101578)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101578;
@@ -57263,7 +57263,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9027;
 -- Update Gorosh the Dervish spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9027 AND `map` = 230;
+WHERE `id` = 9027 AND `map` = 230;
 
 -- Loot table for Mythic Gorosh the Dervish (lootid 9101579)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101579;
@@ -57315,7 +57315,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9028;
 -- Update Grizzle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9028 AND `map` = 230;
+WHERE `id` = 9028 AND `map` = 230;
 
 -- Loot table for Mythic Grizzle (lootid 9101580)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101580;
@@ -57367,7 +57367,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9029;
 -- Update Eviscerator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9029 AND `map` = 230;
+WHERE `id` = 9029 AND `map` = 230;
 
 -- Loot table for Mythic Eviscerator (lootid 9101581)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101581;
@@ -57419,7 +57419,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9030;
 -- Update Ok'thor the Breaker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9030 AND `map` = 230;
+WHERE `id` = 9030 AND `map` = 230;
 
 -- Loot table for Mythic Ok'thor the Breaker (lootid 9101582)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101582;
@@ -57471,7 +57471,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9031;
 -- Update Anub'shiah spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9031 AND `map` = 230;
+WHERE `id` = 9031 AND `map` = 230;
 
 -- Loot table for Mythic Anub'shiah (lootid 9101583)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101583;
@@ -57523,7 +57523,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9032;
 -- Update Hedrum the Creeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9032 AND `map` = 230;
+WHERE `id` = 9032 AND `map` = 230;
 
 -- Loot table for Mythic Hedrum the Creeper (lootid 9101584)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101584;
@@ -57575,7 +57575,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9033;
 -- Update General Angerforge spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9033 AND `map` = 230;
+WHERE `id` = 9033 AND `map` = 230;
 
 -- Loot table for Mythic General Angerforge (lootid 9101585)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101585;
@@ -57627,7 +57627,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9034;
 -- Update Hate'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9034 AND `map` = 230;
+WHERE `id` = 9034 AND `map` = 230;
 
 -- Loot table for Mythic Hate'rel (lootid 9101586)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101586;
@@ -57674,7 +57674,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9035;
 -- Update Anger'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9035 AND `map` = 230;
+WHERE `id` = 9035 AND `map` = 230;
 
 -- Loot table for Mythic Anger'rel (lootid 9101587)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101587;
@@ -57721,7 +57721,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9036;
 -- Update Vile'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9036 AND `map` = 230;
+WHERE `id` = 9036 AND `map` = 230;
 
 -- Loot table for Mythic Vile'rel (lootid 9101588)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101588;
@@ -57768,7 +57768,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9037;
 -- Update Gloom'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9037 AND `map` = 230;
+WHERE `id` = 9037 AND `map` = 230;
 
 -- Loot table for Mythic Gloom'rel (lootid 9101589)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101589;
@@ -57815,7 +57815,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9038;
 -- Update Seeth'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9038 AND `map` = 230;
+WHERE `id` = 9038 AND `map` = 230;
 
 -- Loot table for Mythic Seeth'rel (lootid 9101590)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101590;
@@ -57862,7 +57862,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9039;
 -- Update Doom'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9039 AND `map` = 230;
+WHERE `id` = 9039 AND `map` = 230;
 
 -- Loot table for Mythic Doom'rel (lootid 9101591)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101591;
@@ -57909,7 +57909,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9040;
 -- Update Dope'rel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9040 AND `map` = 230;
+WHERE `id` = 9040 AND `map` = 230;
 
 -- Loot table for Mythic Dope'rel (lootid 9101592)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101592;
@@ -57956,7 +57956,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9041;
 -- Update Warder Stilgiss spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9041 AND `map` = 230;
+WHERE `id` = 9041 AND `map` = 230;
 
 -- Loot table for Mythic Warder Stilgiss (lootid 9101593)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101593;
@@ -58008,7 +58008,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9042;
 -- Update Verek spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9042 AND `map` = 230;
+WHERE `id` = 9042 AND `map` = 230;
 
 -- Loot table for Mythic Verek (lootid 9101594)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101594;
@@ -58060,7 +58060,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9056;
 -- Update Fineous Darkvire spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9056 AND `map` = 230;
+WHERE `id` = 9056 AND `map` = 230;
 
 -- Loot table for Mythic Fineous Darkvire (lootid 9101595)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101595;
@@ -58112,7 +58112,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9156;
 -- Update Ambassador Flamelash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9156 AND `map` = 230;
+WHERE `id` = 9156 AND `map` = 230;
 
 -- Loot table for Mythic Ambassador Flamelash (lootid 9101596)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101596;
@@ -58164,7 +58164,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9319;
 -- Update Houndmaster Grebmar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9319 AND `map` = 230;
+WHERE `id` = 9319 AND `map` = 230;
 
 -- Loot table for Mythic Houndmaster Grebmar (lootid 9101597)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101597;
@@ -58216,7 +58216,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9437;
 -- Update Dark Keeper Vorfalk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9437 AND `map` = 230;
+WHERE `id` = 9437 AND `map` = 230;
 
 -- Loot table for Mythic Dark Keeper Vorfalk (lootid 9101598)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101598;
@@ -58268,7 +58268,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9438;
 -- Update Dark Keeper Bethek spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9438 AND `map` = 230;
+WHERE `id` = 9438 AND `map` = 230;
 
 -- Loot table for Mythic Dark Keeper Bethek (lootid 9101599)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101599;
@@ -58320,7 +58320,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9439;
 -- Update Dark Keeper Uggel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9439 AND `map` = 230;
+WHERE `id` = 9439 AND `map` = 230;
 
 -- Loot table for Mythic Dark Keeper Uggel (lootid 9101600)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101600;
@@ -58372,7 +58372,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9441;
 -- Update Dark Keeper Zimrel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9441 AND `map` = 230;
+WHERE `id` = 9441 AND `map` = 230;
 
 -- Loot table for Mythic Dark Keeper Zimrel (lootid 9101601)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101601;
@@ -58424,7 +58424,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9442;
 -- Update Dark Keeper Ofgut spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9442 AND `map` = 230;
+WHERE `id` = 9442 AND `map` = 230;
 
 -- Loot table for Mythic Dark Keeper Ofgut (lootid 9101602)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101602;
@@ -58476,7 +58476,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9443;
 -- Update Dark Keeper Pelver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9443 AND `map` = 230;
+WHERE `id` = 9443 AND `map` = 230;
 
 -- Loot table for Mythic Dark Keeper Pelver (lootid 9101603)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101603;
@@ -58528,7 +58528,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9476;
 -- Update Watchman Doomgrip spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9476 AND `map` = 230;
+WHERE `id` = 9476 AND `map` = 230;
 
 -- Loot table for Mythic Watchman Doomgrip (lootid 9101604)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101604;
@@ -58580,7 +58580,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9499;
 -- Update Plugger Spazzring spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9499 AND `map` = 230;
+WHERE `id` = 9499 AND `map` = 230;
 
 -- Loot table for Mythic Plugger Spazzring (lootid 9101605)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101605;
@@ -58632,7 +58632,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9502;
 -- Update Phalanx spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9502 AND `map` = 230;
+WHERE `id` = 9502 AND `map` = 230;
 
 -- Loot table for Mythic Phalanx (lootid 9101606)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101606;
@@ -58684,7 +58684,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9537;
 -- Update Hurley Blackbreath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9537 AND `map` = 230;
+WHERE `id` = 9537 AND `map` = 230;
 
 -- Loot table for Mythic Hurley Blackbreath (lootid 9101607)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101607;
@@ -58736,7 +58736,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9543;
 -- Update Ribbly Screwspigot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9543 AND `map` = 230;
+WHERE `id` = 9543 AND `map` = 230;
 
 -- Loot table for Mythic Ribbly Screwspigot (lootid 9101608)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101608;
@@ -58788,7 +58788,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9938;
 -- Update Magmus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9938 AND `map` = 230;
+WHERE `id` = 9938 AND `map` = 230;
 
 -- Loot table for Mythic Magmus (lootid 9101609)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101609;
@@ -58840,7 +58840,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16059;
 -- Update Theldren spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16059 AND `map` = 230;
+WHERE `id` = 16059 AND `map` = 230;
 
 -- Loot table for Mythic Theldren (lootid 9101610)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101610;
@@ -58892,7 +58892,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8923;
 -- Update Panzor the Invincible spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8923 AND `map` = 230;
+WHERE `id` = 8923 AND `map` = 230;
 
 -- Loot table for Mythic Panzor the Invincible (lootid 9101611)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101611;
@@ -58944,7 +58944,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8996;
 -- Update Voidwalker Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8996 AND `map` = 230;
+WHERE `id` = 8996 AND `map` = 230;
 
 -- Loot table for Mythic Voidwalker Minion (lootid 9101612)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101612;
@@ -58992,7 +58992,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8901;
 -- Update Anvilrage Reservist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8901 AND `map` = 230;
+WHERE `id` = 8901 AND `map` = 230;
 
 -- Loot table for Mythic Anvilrage Reservist (lootid 9101613)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101613;
@@ -59040,7 +59040,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12473;
 -- Update Arcanite Dragonling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12473 AND `map` = 230;
+WHERE `id` = 12473 AND `map` = 230;
 
 -- Loot table for Mythic Arcanite Dragonling (lootid 9101614)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101614;
@@ -59088,7 +59088,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8916;
 -- Update Arena Spectator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8916 AND `map` = 230;
+WHERE `id` = 8916 AND `map` = 230;
 
 -- Loot table for Mythic Arena Spectator (lootid 9101615)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101615;
@@ -59140,7 +59140,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8921;
 -- Update Bloodhound spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8921 AND `map` = 230;
+WHERE `id` = 8921 AND `map` = 230;
 
 -- Loot table for Mythic Bloodhound (lootid 9101616)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101616;
@@ -59192,7 +59192,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8922;
 -- Update Bloodhound Mastiff spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8922 AND `map` = 230;
+WHERE `id` = 8922 AND `map` = 230;
 
 -- Loot table for Mythic Bloodhound Mastiff (lootid 9101617)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101617;
@@ -59244,7 +59244,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8932;
 -- Update Borer Beetle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8932 AND `map` = 230;
+WHERE `id` = 8932 AND `map` = 230;
 
 -- Loot table for Mythic Borer Beetle (lootid 9101618)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101618;
@@ -59296,7 +59296,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9178;
 -- Update Burning Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9178 AND `map` = 230;
+WHERE `id` = 9178 AND `map` = 230;
 
 -- Loot table for Mythic Burning Spirit (lootid 9101619)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101619;
@@ -59344,7 +59344,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8928;
 -- Update Burrowing Thundersnout spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8928 AND `map` = 230;
+WHERE `id` = 8928 AND `map` = 230;
 
 -- Loot table for Mythic Burrowing Thundersnout (lootid 9101620)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101620;
@@ -59396,7 +59396,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8933;
 -- Update Cave Creeper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8933 AND `map` = 230;
+WHERE `id` = 8933 AND `map` = 230;
 
 -- Loot table for Mythic Cave Creeper (lootid 9101621)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101621;
@@ -59448,7 +59448,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 12944;
 -- Update Lokhtos Darkbargainer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 12944 AND `map` = 230;
+WHERE `id` = 12944 AND `map` = 230;
 
 -- Loot table for Mythic Lokhtos Darkbargainer (lootid 9101622)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101622;
@@ -59496,7 +59496,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9545;
 -- Update Grim Patron spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9545 AND `map` = 230;
+WHERE `id` = 9545 AND `map` = 230;
 
 -- Loot table for Mythic Grim Patron (lootid 9101623)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101623;
@@ -59548,7 +59548,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16095;
 -- Update Gnashjaw spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16095 AND `map` = 230;
+WHERE `id` = 16095 AND `map` = 230;
 
 -- Loot table for Mythic Gnashjaw (lootid 9101624)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101624;
@@ -59596,7 +59596,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 2675;
 -- Update Explosive Sheep spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 2675 AND `map` = 230;
+WHERE `id` = 2675 AND `map` = 230;
 
 -- Loot table for Mythic Explosive Sheep (lootid 9101625)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101625;
@@ -59644,7 +59644,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15549;
 -- Update Elder Morndeep spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15549 AND `map` = 230;
+WHERE `id` = 15549 AND `map` = 230;
 
 -- Loot table for Mythic Elder Morndeep (lootid 9101626)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101626;
@@ -59692,7 +59692,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8925;
 -- Update Dredge Worm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8925 AND `map` = 230;
+WHERE `id` = 8925 AND `map` = 230;
 
 -- Loot table for Mythic Dredge Worm (lootid 9101627)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101627;
@@ -59744,7 +59744,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8897;
 -- Update Doomforge Craftsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8897 AND `map` = 230;
+WHERE `id` = 8897 AND `map` = 230;
 
 -- Loot table for Mythic Doomforge Craftsman (lootid 9101628)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101628;
@@ -59796,7 +59796,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8900;
 -- Update Doomforge Arcanasmith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8900 AND `map` = 230;
+WHERE `id` = 8900 AND `map` = 230;
 
 -- Loot table for Mythic Doomforge Arcanasmith (lootid 9101629)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101629;
@@ -59848,7 +59848,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8926;
 -- Update Deep Stinger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8926 AND `map` = 230;
+WHERE `id` = 8926 AND `map` = 230;
 
 -- Loot table for Mythic Deep Stinger (lootid 9101630)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101630;
@@ -59900,7 +59900,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8927;
 -- Update Dark Screecher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8927 AND `map` = 230;
+WHERE `id` = 8927 AND `map` = 230;
 
 -- Loot table for Mythic Dark Screecher (lootid 9101631)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101631;
@@ -59954,7 +59954,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9045;
 -- Update Scarshield Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9045 AND `map` = 229;
+WHERE `id` = 9045 AND `map` = 229;
 
 -- Loot table for Heroic Scarshield Acolyte (lootid 9101700)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101700;
@@ -60006,7 +60006,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10299;
 -- Update Scarshield Infiltrator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10299 AND `map` = 229;
+WHERE `id` = 10299 AND `map` = 229;
 
 -- Loot table for Heroic Scarshield Infiltrator (lootid 9101701)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101701;
@@ -60054,7 +60054,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9097;
 -- Update Scarshield Legionnaire spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9097 AND `map` = 229;
+WHERE `id` = 9097 AND `map` = 229;
 
 -- Loot table for Heroic Scarshield Legionnaire (lootid 9101702)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101702;
@@ -60106,7 +60106,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9098;
 -- Update Scarshield Spellbinder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9098 AND `map` = 229;
+WHERE `id` = 9098 AND `map` = 229;
 
 -- Loot table for Heroic Scarshield Spellbinder (lootid 9101703)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101703;
@@ -60158,7 +60158,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9257;
 -- Update Scarshield Warlock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9257 AND `map` = 229;
+WHERE `id` = 9257 AND `map` = 229;
 
 -- Loot table for Heroic Scarshield Warlock (lootid 9101704)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101704;
@@ -60210,7 +60210,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9199;
 -- Update Spirestone Enforcer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9199 AND `map` = 229;
+WHERE `id` = 9199 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Enforcer (lootid 9101705)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101705;
@@ -60262,7 +60262,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9201;
 -- Update Spirestone Ogre Magus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9201 AND `map` = 229;
+WHERE `id` = 9201 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Ogre Magus (lootid 9101706)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101706;
@@ -60314,7 +60314,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10601;
 -- Update Urok Enforcer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10601 AND `map` = 229;
+WHERE `id` = 10601 AND `map` = 229;
 
 -- Loot table for Heroic Urok Enforcer (lootid 9101707)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101707;
@@ -60366,7 +60366,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10602;
 -- Update Urok Ogre Magus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10602 AND `map` = 229;
+WHERE `id` = 10602 AND `map` = 229;
 
 -- Loot table for Heroic Urok Ogre Magus (lootid 9101708)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101708;
@@ -60418,7 +60418,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10375;
 -- Update Spire Spiderling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10375 AND `map` = 229;
+WHERE `id` = 10375 AND `map` = 229;
 
 -- Loot table for Heroic Spire Spiderling (lootid 9101709)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101709;
@@ -60470,7 +60470,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9258;
 -- Update Scarshield Raider spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9258 AND `map` = 229;
+WHERE `id` = 9258 AND `map` = 229;
 
 -- Loot table for Heroic Scarshield Raider (lootid 9101710)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101710;
@@ -60522,7 +60522,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9267;
 -- Update Smolderthorn Axe Thrower spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9267 AND `map` = 229;
+WHERE `id` = 9267 AND `map` = 229;
 
 -- Loot table for Heroic Smolderthorn Axe Thrower (lootid 9101711)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101711;
@@ -60574,7 +60574,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9239;
 -- Update Smolderthorn Mystic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9239 AND `map` = 229;
+WHERE `id` = 9239 AND `map` = 229;
 
 -- Loot table for Heroic Smolderthorn Mystic (lootid 9101712)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101712;
@@ -60626,7 +60626,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9240;
 -- Update Smolderthorn Shadow Priest spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9240 AND `map` = 229;
+WHERE `id` = 9240 AND `map` = 229;
 
 -- Loot table for Heroic Smolderthorn Shadow Priest (lootid 9101713)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101713;
@@ -60678,7 +60678,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9198;
 -- Update Spirestone Mystic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9198 AND `map` = 229;
+WHERE `id` = 9198 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Mystic (lootid 9101714)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101714;
@@ -60730,7 +60730,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9200;
 -- Update Spirestone Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9200 AND `map` = 229;
+WHERE `id` = 9200 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Reaver (lootid 9101715)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101715;
@@ -60782,7 +60782,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9261;
 -- Update Firebrand Darkweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9261 AND `map` = 229;
+WHERE `id` = 9261 AND `map` = 229;
 
 -- Loot table for Heroic Firebrand Darkweaver (lootid 9101716)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101716;
@@ -60834,7 +60834,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9259;
 -- Update Firebrand Grunt spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9259 AND `map` = 229;
+WHERE `id` = 9259 AND `map` = 229;
 
 -- Loot table for Heroic Firebrand Grunt (lootid 9101717)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101717;
@@ -60886,7 +60886,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9262;
 -- Update Firebrand Invoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9262 AND `map` = 229;
+WHERE `id` = 9262 AND `map` = 229;
 
 -- Loot table for Heroic Firebrand Invoker (lootid 9101718)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101718;
@@ -60938,7 +60938,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9241;
 -- Update Smolderthorn Headhunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9241 AND `map` = 229;
+WHERE `id` = 9241 AND `map` = 229;
 
 -- Loot table for Heroic Smolderthorn Headhunter (lootid 9101719)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101719;
@@ -60990,7 +60990,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9269;
 -- Update Smolderthorn Seer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9269 AND `map` = 229;
+WHERE `id` = 9269 AND `map` = 229;
 
 -- Loot table for Heroic Smolderthorn Seer (lootid 9101720)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101720;
@@ -61042,7 +61042,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9265;
 -- Update Smolderthorn Shadow Hunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9265 AND `map` = 229;
+WHERE `id` = 9265 AND `map` = 229;
 
 -- Loot table for Heroic Smolderthorn Shadow Hunter (lootid 9101721)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101721;
@@ -61094,7 +61094,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9266;
 -- Update Smolderthorn Witch Doctor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9266 AND `map` = 229;
+WHERE `id` = 9266 AND `map` = 229;
 
 -- Loot table for Heroic Smolderthorn Witch Doctor (lootid 9101722)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101722;
@@ -61146,7 +61146,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10218;
 -- Update Superior Healing Ward spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10218 AND `map` = 229;
+WHERE `id` = 10218 AND `map` = 229;
 
 -- Loot table for Heroic Superior Healing Ward (lootid 9101723)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101723;
@@ -61194,7 +61194,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10740;
 -- Update Awbee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10740 AND `map` = 229;
+WHERE `id` = 10740 AND `map` = 229;
 
 -- Loot table for Heroic Awbee (lootid 9101724)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101724;
@@ -61242,7 +61242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9692;
 -- Update Bloodaxe Raider spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9692 AND `map` = 229;
+WHERE `id` = 9692 AND `map` = 229;
 
 -- Loot table for Heroic Bloodaxe Raider (lootid 9101725)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101725;
@@ -61294,7 +61294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9717;
 -- Update Bloodaxe Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9717 AND `map` = 229;
+WHERE `id` = 9717 AND `map` = 229;
 
 -- Loot table for Heroic Bloodaxe Summoner (lootid 9101726)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101726;
@@ -61346,7 +61346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9716;
 -- Update Bloodaxe Warmonger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9716 AND `map` = 229;
+WHERE `id` = 9716 AND `map` = 229;
 
 -- Loot table for Heroic Bloodaxe Warmonger (lootid 9101727)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101727;
@@ -61398,7 +61398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9263;
 -- Update Firebrand Dreadweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9263 AND `map` = 229;
+WHERE `id` = 9263 AND `map` = 229;
 
 -- Loot table for Heroic Firebrand Dreadweaver (lootid 9101728)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101728;
@@ -61450,7 +61450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9260;
 -- Update Firebrand Legionnaire spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9260 AND `map` = 229;
+WHERE `id` = 9260 AND `map` = 229;
 
 -- Loot table for Heroic Firebrand Legionnaire (lootid 9101729)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101729;
@@ -61502,7 +61502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9264;
 -- Update Firebrand Pyromancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9264 AND `map` = 229;
+WHERE `id` = 9264 AND `map` = 229;
 
 -- Loot table for Heroic Firebrand Pyromancer (lootid 9101730)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101730;
@@ -61554,7 +61554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9268;
 -- Update Smolderthorn Berserker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9268 AND `map` = 229;
+WHERE `id` = 9268 AND `map` = 229;
 
 -- Loot table for Heroic Smolderthorn Berserker (lootid 9101731)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101731;
@@ -61606,7 +61606,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10374;
 -- Update Spire Spider spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10374 AND `map` = 229;
+WHERE `id` = 10374 AND `map` = 229;
 
 -- Loot table for Heroic Spire Spider (lootid 9101732)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101732;
@@ -61658,7 +61658,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9197;
 -- Update Spirestone Battle Mage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9197 AND `map` = 229;
+WHERE `id` = 9197 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Battle Mage (lootid 9101733)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101733;
@@ -61710,7 +61710,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9216;
 -- Update Spirestone Warlord spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9216 AND `map` = 229;
+WHERE `id` = 9216 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Warlord (lootid 9101734)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101734;
@@ -61762,7 +61762,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10257;
 -- Update Bijou spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10257 AND `map` = 229;
+WHERE `id` = 10257 AND `map` = 229;
 
 -- Loot table for Heroic Bijou (lootid 9101735)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101735;
@@ -61810,7 +61810,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9693;
 -- Update Bloodaxe Evoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9693 AND `map` = 229;
+WHERE `id` = 9693 AND `map` = 229;
 
 -- Loot table for Heroic Bloodaxe Evoker (lootid 9101736)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101736;
@@ -61862,7 +61862,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9583;
 -- Update Bloodaxe Veteran spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9583 AND `map` = 229;
+WHERE `id` = 9583 AND `map` = 229;
 
 -- Loot table for Heroic Bloodaxe Veteran (lootid 9101737)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101737;
@@ -61914,7 +61914,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9096;
 -- Update Rage Talon Dragonspawn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9096 AND `map` = 229;
+WHERE `id` = 9096 AND `map` = 229;
 
 -- Loot table for Heroic Rage Talon Dragonspawn (lootid 9101738)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101738;
@@ -61966,7 +61966,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10083;
 -- Update Rage Talon Flamescale spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10083 AND `map` = 229;
+WHERE `id` = 10083 AND `map` = 229;
 
 -- Loot table for Heroic Rage Talon Flamescale (lootid 9101739)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101739;
@@ -62018,7 +62018,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10258;
 -- Update Rookery Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10258 AND `map` = 229;
+WHERE `id` = 10258 AND `map` = 229;
 
 -- Loot table for Heroic Rookery Guardian (lootid 9101740)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101740;
@@ -62070,7 +62070,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10683;
 -- Update Rookery Hatcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10683 AND `map` = 229;
+WHERE `id` = 10683 AND `map` = 229;
 
 -- Loot table for Heroic Rookery Hatcher (lootid 9101741)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101741;
@@ -62122,7 +62122,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10742;
 -- Update Blackhand Dragon Handler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10742 AND `map` = 229;
+WHERE `id` = 10742 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Dragon Handler (lootid 9101742)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101742;
@@ -62174,7 +62174,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9817;
 -- Update Blackhand Dreadweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9817 AND `map` = 229;
+WHERE `id` = 9817 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Dreadweaver (lootid 9101743)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101743;
@@ -62226,7 +62226,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9818;
 -- Update Blackhand Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9818 AND `map` = 229;
+WHERE `id` = 9818 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Summoner (lootid 9101744)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101744;
@@ -62278,7 +62278,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9819;
 -- Update Blackhand Veteran spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9819 AND `map` = 229;
+WHERE `id` = 9819 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Veteran (lootid 9101745)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101745;
@@ -62330,7 +62330,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10447;
 -- Update Chromatic Dragonspawn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10447 AND `map` = 229;
+WHERE `id` = 10447 AND `map` = 229;
 
 -- Loot table for Heroic Chromatic Dragonspawn (lootid 9101746)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101746;
@@ -62382,7 +62382,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10814;
 -- Update Chromatic Elite Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10814 AND `map` = 229;
+WHERE `id` = 10814 AND `map` = 229;
 
 -- Loot table for Heroic Chromatic Elite Guard (lootid 9101747)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101747;
@@ -62434,7 +62434,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10680;
 -- Update Summoned Blackhand Dreadweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10680 AND `map` = 229;
+WHERE `id` = 10680 AND `map` = 229;
 
 -- Loot table for Heroic Summoned Blackhand Dreadweaver (lootid 9101748)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101748;
@@ -62486,7 +62486,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10681;
 -- Update Summoned Blackhand Veteran spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10681 AND `map` = 229;
+WHERE `id` = 10681 AND `map` = 229;
 
 -- Loot table for Heroic Summoned Blackhand Veteran (lootid 9101749)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101749;
@@ -62538,7 +62538,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11859;
 -- Update Doomguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11859 AND `map` = 229;
+WHERE `id` = 11859 AND `map` = 229;
 
 -- Loot table for Heroic Doomguard (lootid 9101750)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101750;
@@ -62586,7 +62586,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10799;
 -- Update Warosh spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10799 AND `map` = 229;
+WHERE `id` = 10799 AND `map` = 229;
 
 -- Loot table for Heroic Warosh (lootid 9101751)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101751;
@@ -62634,7 +62634,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10762;
 -- Update Blackhand Thug spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10762 AND `map` = 229;
+WHERE `id` = 10762 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Thug (lootid 9101752)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101752;
@@ -62686,7 +62686,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10776;
 -- Update Finkle Einhorn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10776 AND `map` = 229;
+WHERE `id` = 10776 AND `map` = 229;
 
 -- Loot table for Heroic Finkle Einhorn (lootid 9101753)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101753;
@@ -62734,7 +62734,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10318;
 -- Update Blackhand Assassin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10318 AND `map` = 229;
+WHERE `id` = 10318 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Assassin (lootid 9101754)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101754;
@@ -62786,7 +62786,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10317;
 -- Update Blackhand Elite spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10317 AND `map` = 229;
+WHERE `id` = 10317 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Elite (lootid 9101755)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101755;
@@ -62838,7 +62838,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10319;
 -- Update Blackhand Iron Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10319 AND `map` = 229;
+WHERE `id` = 10319 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Iron Guard (lootid 9101756)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101756;
@@ -62890,7 +62890,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10366;
 -- Update Rage Talon Dragon Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10366 AND `map` = 229;
+WHERE `id` = 10366 AND `map` = 229;
 
 -- Loot table for Heroic Rage Talon Dragon Guard (lootid 9101757)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101757;
@@ -62942,7 +62942,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10372;
 -- Update Rage Talon Fire Tongue spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10372 AND `map` = 229;
+WHERE `id` = 10372 AND `map` = 229;
 
 -- Loot table for Heroic Rage Talon Fire Tongue (lootid 9101758)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101758;
@@ -62994,7 +62994,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10371;
 -- Update Rage Talon Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10371 AND `map` = 229;
+WHERE `id` = 10371 AND `map` = 229;
 
 -- Loot table for Heroic Rage Talon Captain (lootid 9101759)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101759;
@@ -63046,7 +63046,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10340;
 -- Update Vaelastrasz the Red spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10340 AND `map` = 229;
+WHERE `id` = 10340 AND `map` = 229;
 
 -- Loot table for Heroic Vaelastrasz the Red (lootid 9101760)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101760;
@@ -63094,7 +63094,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16073;
 -- Update Spirit of Lord Valthalak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16073 AND `map` = 229;
+WHERE `id` = 16073 AND `map` = 229;
 
 -- Loot table for Heroic Spirit of Lord Valthalak (lootid 9101761)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101761;
@@ -63142,7 +63142,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10162;
 -- Update Lord Victor Nefarius spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10162 AND `map` = 229;
+WHERE `id` = 10162 AND `map` = 229;
 
 -- Loot table for Heroic Lord Victor Nefarius (lootid 9101762)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101762;
@@ -63190,7 +63190,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10363;
 -- Update General Drakkisath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10363 AND `map` = 229;
+WHERE `id` = 10363 AND `map` = 229;
 
 -- Loot table for Heroic General Drakkisath (lootid 9101763)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101763;
@@ -63242,7 +63242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16042;
 -- Update Lord Valthalak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16042 AND `map` = 229;
+WHERE `id` = 16042 AND `map` = 229;
 
 -- Loot table for Heroic Lord Valthalak (lootid 9101764)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101764;
@@ -63294,7 +63294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9816;
 -- Update Pyroguard Emberseer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9816 AND `map` = 229;
+WHERE `id` = 9816 AND `map` = 229;
 
 -- Loot table for Heroic Pyroguard Emberseer (lootid 9101765)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101765;
@@ -63346,7 +63346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10430;
 -- Update The Beast spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10430 AND `map` = 229;
+WHERE `id` = 10430 AND `map` = 229;
 
 -- Loot table for Heroic The Beast (lootid 9101766)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101766;
@@ -63398,7 +63398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10429;
 -- Update Warchief Rend Blackhand spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10429 AND `map` = 229;
+WHERE `id` = 10429 AND `map` = 229;
 
 -- Loot table for Heroic Warchief Rend Blackhand (lootid 9101767)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101767;
@@ -63450,7 +63450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10339;
 -- Update Gyth spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10339 AND `map` = 229;
+WHERE `id` = 10339 AND `map` = 229;
 
 -- Loot table for Heroic Gyth (lootid 9101768)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101768;
@@ -63502,7 +63502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10584;
 -- Update Urok Doomhowl spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10584 AND `map` = 229;
+WHERE `id` = 10584 AND `map` = 229;
 
 -- Loot table for Heroic Urok Doomhowl (lootid 9101769)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101769;
@@ -63554,7 +63554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10268;
 -- Update Gizrul the Slavener spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10268 AND `map` = 229;
+WHERE `id` = 10268 AND `map` = 229;
 
 -- Loot table for Heroic Gizrul the Slavener (lootid 9101770)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101770;
@@ -63606,7 +63606,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16080;
 -- Update Mor Grayhoof spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16080 AND `map` = 229;
+WHERE `id` = 16080 AND `map` = 229;
 
 -- Loot table for Heroic Mor Grayhoof (lootid 9101771)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101771;
@@ -63658,7 +63658,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9568;
 -- Update Overlord Wyrmthalak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9568 AND `map` = 229;
+WHERE `id` = 9568 AND `map` = 229;
 
 -- Loot table for Heroic Overlord Wyrmthalak (lootid 9101772)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101772;
@@ -63710,7 +63710,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10264;
 -- Update Solakar Flamewreath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10264 AND `map` = 229;
+WHERE `id` = 10264 AND `map` = 229;
 
 -- Loot table for Heroic Solakar Flamewreath (lootid 9101773)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101773;
@@ -63762,7 +63762,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9736;
 -- Update Quartermaster Zigris spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9736 AND `map` = 229;
+WHERE `id` = 9736 AND `map` = 229;
 
 -- Loot table for Heroic Quartermaster Zigris (lootid 9101774)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101774;
@@ -63814,7 +63814,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10220;
 -- Update Halycon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10220 AND `map` = 229;
+WHERE `id` = 10220 AND `map` = 229;
 
 -- Loot table for Heroic Halycon (lootid 9101775)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101775;
@@ -63866,7 +63866,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9196;
 -- Update Highlord Omokk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9196 AND `map` = 229;
+WHERE `id` = 9196 AND `map` = 229;
 
 -- Loot table for Heroic Highlord Omokk (lootid 9101776)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101776;
@@ -63918,7 +63918,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10596;
 -- Update Mother Smolderweb spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10596 AND `map` = 229;
+WHERE `id` = 10596 AND `map` = 229;
 
 -- Loot table for Heroic Mother Smolderweb (lootid 9101777)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101777;
@@ -63970,7 +63970,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9237;
 -- Update War Master Voone spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9237 AND `map` = 229;
+WHERE `id` = 9237 AND `map` = 229;
 
 -- Loot table for Heroic War Master Voone (lootid 9101778)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101778;
@@ -64022,7 +64022,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9236;
 -- Update Shadow Hunter Vosh'gajin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9236 AND `map` = 229;
+WHERE `id` = 9236 AND `map` = 229;
 
 -- Loot table for Heroic Shadow Hunter Vosh'gajin (lootid 9101779)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101779;
@@ -64074,7 +64074,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9596;
 -- Update Bannok Grimaxe spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9596 AND `map` = 229;
+WHERE `id` = 9596 AND `map` = 229;
 
 -- Loot table for Heroic Bannok Grimaxe (lootid 9101780)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101780;
@@ -64126,7 +64126,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10263;
 -- Update Burning Felguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10263 AND `map` = 229;
+WHERE `id` = 10263 AND `map` = 229;
 
 -- Loot table for Heroic Burning Felguard (lootid 9101781)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101781;
@@ -64178,7 +64178,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10376;
 -- Update Crystal Fang spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10376 AND `map` = 229;
+WHERE `id` = 10376 AND `map` = 229;
 
 -- Loot table for Heroic Crystal Fang (lootid 9101782)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101782;
@@ -64230,7 +64230,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9718;
 -- Update Ghok Bashguud spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9718 AND `map` = 229;
+WHERE `id` = 9718 AND `map` = 229;
 
 -- Loot table for Heroic Ghok Bashguud (lootid 9101783)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101783;
@@ -64282,7 +64282,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9218;
 -- Update Spirestone Battle Lord spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9218 AND `map` = 229;
+WHERE `id` = 9218 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Battle Lord (lootid 9101784)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101784;
@@ -64334,7 +64334,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9219;
 -- Update Spirestone Butcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9219 AND `map` = 229;
+WHERE `id` = 9219 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Butcher (lootid 9101785)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101785;
@@ -64386,7 +64386,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9217;
 -- Update Spirestone Lord Magus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9217 AND `map` = 229;
+WHERE `id` = 9217 AND `map` = 229;
 
 -- Loot table for Heroic Spirestone Lord Magus (lootid 9101786)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101786;
@@ -64438,7 +64438,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10509;
 -- Update Jed Runewatcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10509 AND `map` = 229;
+WHERE `id` = 10509 AND `map` = 229;
 
 -- Loot table for Heroic Jed Runewatcher (lootid 9101787)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101787;
@@ -64490,7 +64490,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10899;
 -- Update Goraluk Anvilcrack spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10899 AND `map` = 229;
+WHERE `id` = 10899 AND `map` = 229;
 
 -- Loot table for Heroic Goraluk Anvilcrack (lootid 9101788)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101788;
@@ -64542,7 +64542,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9701;
 -- Update Spire Scorpid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9701 AND `map` = 229;
+WHERE `id` = 9701 AND `map` = 229;
 
 -- Loot table for Heroic Spire Scorpid (lootid 9101789)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101789;
@@ -64594,7 +64594,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10177;
 -- Update Spire Scarab spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10177 AND `map` = 229;
+WHERE `id` = 10177 AND `map` = 229;
 
 -- Loot table for Heroic Spire Scarab (lootid 9101790)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101790;
@@ -64646,7 +64646,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16066;
 -- Update Spectral Assassin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16066 AND `map` = 229;
+WHERE `id` = 16066 AND `map` = 229;
 
 -- Loot table for Heroic Spectral Assassin (lootid 9101791)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101791;
@@ -64694,7 +64694,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9416;
 -- Update Scarshield Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9416 AND `map` = 229;
+WHERE `id` = 9416 AND `map` = 229;
 
 -- Loot table for Heroic Scarshield Worg (lootid 9101792)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101792;
@@ -64746,7 +64746,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10161;
 -- Update Rookery Whelp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10161 AND `map` = 229;
+WHERE `id` = 10161 AND `map` = 229;
 
 -- Loot table for Heroic Rookery Whelp (lootid 9101793)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101793;
@@ -64794,7 +64794,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15560;
 -- Update Elder Stonefort spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15560 AND `map` = 229;
+WHERE `id` = 15560 AND `map` = 229;
 
 -- Loot table for Heroic Elder Stonefort (lootid 9101794)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101794;
@@ -64842,7 +64842,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10442;
 -- Update Chromatic Whelp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10442 AND `map` = 229;
+WHERE `id` = 10442 AND `map` = 229;
 
 -- Loot table for Heroic Chromatic Whelp (lootid 9101795)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101795;
@@ -64894,7 +64894,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9708;
 -- Update Burning Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9708 AND `map` = 229;
+WHERE `id` = 9708 AND `map` = 229;
 
 -- Loot table for Heroic Burning Imp (lootid 9101796)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101796;
@@ -64942,7 +64942,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10261;
 -- Update Burning Felhound spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10261 AND `map` = 229;
+WHERE `id` = 10261 AND `map` = 229;
 
 -- Loot table for Heroic Burning Felhound (lootid 9101797)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101797;
@@ -64990,7 +64990,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10221;
 -- Update Bloodaxe Worg Pup spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10221 AND `map` = 229;
+WHERE `id` = 10221 AND `map` = 229;
 
 -- Loot table for Heroic Bloodaxe Worg Pup (lootid 9101798)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101798;
@@ -65042,7 +65042,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9696;
 -- Update Bloodaxe Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9696 AND `map` = 229;
+WHERE `id` = 9696 AND `map` = 229;
 
 -- Loot table for Heroic Bloodaxe Worg (lootid 9101799)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101799;
@@ -65094,7 +65094,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10316;
 -- Update Blackhand Incarcerator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10316 AND `map` = 229;
+WHERE `id` = 10316 AND `map` = 229;
 
 -- Loot table for Heroic Blackhand Incarcerator (lootid 9101800)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101800;
@@ -65146,7 +65146,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9045;
 -- Update Scarshield Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9045 AND `map` = 229;
+WHERE `id` = 9045 AND `map` = 229;
 
 -- Loot table for Mythic Scarshield Acolyte (lootid 9101801)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101801;
@@ -65198,7 +65198,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10299;
 -- Update Scarshield Infiltrator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10299 AND `map` = 229;
+WHERE `id` = 10299 AND `map` = 229;
 
 -- Loot table for Mythic Scarshield Infiltrator (lootid 9101802)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101802;
@@ -65246,7 +65246,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9097;
 -- Update Scarshield Legionnaire spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9097 AND `map` = 229;
+WHERE `id` = 9097 AND `map` = 229;
 
 -- Loot table for Mythic Scarshield Legionnaire (lootid 9101803)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101803;
@@ -65298,7 +65298,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9098;
 -- Update Scarshield Spellbinder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9098 AND `map` = 229;
+WHERE `id` = 9098 AND `map` = 229;
 
 -- Loot table for Mythic Scarshield Spellbinder (lootid 9101804)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101804;
@@ -65350,7 +65350,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9257;
 -- Update Scarshield Warlock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9257 AND `map` = 229;
+WHERE `id` = 9257 AND `map` = 229;
 
 -- Loot table for Mythic Scarshield Warlock (lootid 9101805)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101805;
@@ -65402,7 +65402,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9199;
 -- Update Spirestone Enforcer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9199 AND `map` = 229;
+WHERE `id` = 9199 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Enforcer (lootid 9101806)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101806;
@@ -65454,7 +65454,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9201;
 -- Update Spirestone Ogre Magus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9201 AND `map` = 229;
+WHERE `id` = 9201 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Ogre Magus (lootid 9101807)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101807;
@@ -65506,7 +65506,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10601;
 -- Update Urok Enforcer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10601 AND `map` = 229;
+WHERE `id` = 10601 AND `map` = 229;
 
 -- Loot table for Mythic Urok Enforcer (lootid 9101808)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101808;
@@ -65558,7 +65558,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10602;
 -- Update Urok Ogre Magus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10602 AND `map` = 229;
+WHERE `id` = 10602 AND `map` = 229;
 
 -- Loot table for Mythic Urok Ogre Magus (lootid 9101809)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101809;
@@ -65610,7 +65610,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10375;
 -- Update Spire Spiderling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10375 AND `map` = 229;
+WHERE `id` = 10375 AND `map` = 229;
 
 -- Loot table for Mythic Spire Spiderling (lootid 9101810)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101810;
@@ -65662,7 +65662,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9258;
 -- Update Scarshield Raider spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9258 AND `map` = 229;
+WHERE `id` = 9258 AND `map` = 229;
 
 -- Loot table for Mythic Scarshield Raider (lootid 9101811)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101811;
@@ -65714,7 +65714,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9267;
 -- Update Smolderthorn Axe Thrower spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9267 AND `map` = 229;
+WHERE `id` = 9267 AND `map` = 229;
 
 -- Loot table for Mythic Smolderthorn Axe Thrower (lootid 9101812)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101812;
@@ -65766,7 +65766,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9239;
 -- Update Smolderthorn Mystic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9239 AND `map` = 229;
+WHERE `id` = 9239 AND `map` = 229;
 
 -- Loot table for Mythic Smolderthorn Mystic (lootid 9101813)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101813;
@@ -65818,7 +65818,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9240;
 -- Update Smolderthorn Shadow Priest spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9240 AND `map` = 229;
+WHERE `id` = 9240 AND `map` = 229;
 
 -- Loot table for Mythic Smolderthorn Shadow Priest (lootid 9101814)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101814;
@@ -65870,7 +65870,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9198;
 -- Update Spirestone Mystic spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9198 AND `map` = 229;
+WHERE `id` = 9198 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Mystic (lootid 9101815)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101815;
@@ -65922,7 +65922,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9200;
 -- Update Spirestone Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9200 AND `map` = 229;
+WHERE `id` = 9200 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Reaver (lootid 9101816)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101816;
@@ -65974,7 +65974,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9261;
 -- Update Firebrand Darkweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9261 AND `map` = 229;
+WHERE `id` = 9261 AND `map` = 229;
 
 -- Loot table for Mythic Firebrand Darkweaver (lootid 9101817)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101817;
@@ -66026,7 +66026,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9259;
 -- Update Firebrand Grunt spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9259 AND `map` = 229;
+WHERE `id` = 9259 AND `map` = 229;
 
 -- Loot table for Mythic Firebrand Grunt (lootid 9101818)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101818;
@@ -66078,7 +66078,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9262;
 -- Update Firebrand Invoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9262 AND `map` = 229;
+WHERE `id` = 9262 AND `map` = 229;
 
 -- Loot table for Mythic Firebrand Invoker (lootid 9101819)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101819;
@@ -66130,7 +66130,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9241;
 -- Update Smolderthorn Headhunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9241 AND `map` = 229;
+WHERE `id` = 9241 AND `map` = 229;
 
 -- Loot table for Mythic Smolderthorn Headhunter (lootid 9101820)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101820;
@@ -66182,7 +66182,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9269;
 -- Update Smolderthorn Seer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9269 AND `map` = 229;
+WHERE `id` = 9269 AND `map` = 229;
 
 -- Loot table for Mythic Smolderthorn Seer (lootid 9101821)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101821;
@@ -66234,7 +66234,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9265;
 -- Update Smolderthorn Shadow Hunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9265 AND `map` = 229;
+WHERE `id` = 9265 AND `map` = 229;
 
 -- Loot table for Mythic Smolderthorn Shadow Hunter (lootid 9101822)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101822;
@@ -66286,7 +66286,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9266;
 -- Update Smolderthorn Witch Doctor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9266 AND `map` = 229;
+WHERE `id` = 9266 AND `map` = 229;
 
 -- Loot table for Mythic Smolderthorn Witch Doctor (lootid 9101823)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101823;
@@ -66338,7 +66338,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10218;
 -- Update Superior Healing Ward spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10218 AND `map` = 229;
+WHERE `id` = 10218 AND `map` = 229;
 
 -- Loot table for Mythic Superior Healing Ward (lootid 9101824)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101824;
@@ -66386,7 +66386,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10740;
 -- Update Awbee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10740 AND `map` = 229;
+WHERE `id` = 10740 AND `map` = 229;
 
 -- Loot table for Mythic Awbee (lootid 9101825)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101825;
@@ -66434,7 +66434,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9692;
 -- Update Bloodaxe Raider spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9692 AND `map` = 229;
+WHERE `id` = 9692 AND `map` = 229;
 
 -- Loot table for Mythic Bloodaxe Raider (lootid 9101826)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101826;
@@ -66486,7 +66486,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9717;
 -- Update Bloodaxe Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9717 AND `map` = 229;
+WHERE `id` = 9717 AND `map` = 229;
 
 -- Loot table for Mythic Bloodaxe Summoner (lootid 9101827)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101827;
@@ -66538,7 +66538,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9716;
 -- Update Bloodaxe Warmonger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9716 AND `map` = 229;
+WHERE `id` = 9716 AND `map` = 229;
 
 -- Loot table for Mythic Bloodaxe Warmonger (lootid 9101828)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101828;
@@ -66590,7 +66590,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9263;
 -- Update Firebrand Dreadweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9263 AND `map` = 229;
+WHERE `id` = 9263 AND `map` = 229;
 
 -- Loot table for Mythic Firebrand Dreadweaver (lootid 9101829)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101829;
@@ -66642,7 +66642,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9260;
 -- Update Firebrand Legionnaire spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9260 AND `map` = 229;
+WHERE `id` = 9260 AND `map` = 229;
 
 -- Loot table for Mythic Firebrand Legionnaire (lootid 9101830)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101830;
@@ -66694,7 +66694,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9264;
 -- Update Firebrand Pyromancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9264 AND `map` = 229;
+WHERE `id` = 9264 AND `map` = 229;
 
 -- Loot table for Mythic Firebrand Pyromancer (lootid 9101831)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101831;
@@ -66746,7 +66746,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9268;
 -- Update Smolderthorn Berserker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9268 AND `map` = 229;
+WHERE `id` = 9268 AND `map` = 229;
 
 -- Loot table for Mythic Smolderthorn Berserker (lootid 9101832)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101832;
@@ -66798,7 +66798,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10374;
 -- Update Spire Spider spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10374 AND `map` = 229;
+WHERE `id` = 10374 AND `map` = 229;
 
 -- Loot table for Mythic Spire Spider (lootid 9101833)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101833;
@@ -66850,7 +66850,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9197;
 -- Update Spirestone Battle Mage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9197 AND `map` = 229;
+WHERE `id` = 9197 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Battle Mage (lootid 9101834)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101834;
@@ -66902,7 +66902,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9216;
 -- Update Spirestone Warlord spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9216 AND `map` = 229;
+WHERE `id` = 9216 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Warlord (lootid 9101835)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101835;
@@ -66954,7 +66954,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10257;
 -- Update Bijou spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10257 AND `map` = 229;
+WHERE `id` = 10257 AND `map` = 229;
 
 -- Loot table for Mythic Bijou (lootid 9101836)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101836;
@@ -67002,7 +67002,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9693;
 -- Update Bloodaxe Evoker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9693 AND `map` = 229;
+WHERE `id` = 9693 AND `map` = 229;
 
 -- Loot table for Mythic Bloodaxe Evoker (lootid 9101837)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101837;
@@ -67054,7 +67054,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9583;
 -- Update Bloodaxe Veteran spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9583 AND `map` = 229;
+WHERE `id` = 9583 AND `map` = 229;
 
 -- Loot table for Mythic Bloodaxe Veteran (lootid 9101838)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101838;
@@ -67106,7 +67106,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9096;
 -- Update Rage Talon Dragonspawn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9096 AND `map` = 229;
+WHERE `id` = 9096 AND `map` = 229;
 
 -- Loot table for Mythic Rage Talon Dragonspawn (lootid 9101839)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101839;
@@ -67158,7 +67158,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10083;
 -- Update Rage Talon Flamescale spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10083 AND `map` = 229;
+WHERE `id` = 10083 AND `map` = 229;
 
 -- Loot table for Mythic Rage Talon Flamescale (lootid 9101840)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101840;
@@ -67210,7 +67210,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10258;
 -- Update Rookery Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10258 AND `map` = 229;
+WHERE `id` = 10258 AND `map` = 229;
 
 -- Loot table for Mythic Rookery Guardian (lootid 9101841)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101841;
@@ -67262,7 +67262,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10683;
 -- Update Rookery Hatcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10683 AND `map` = 229;
+WHERE `id` = 10683 AND `map` = 229;
 
 -- Loot table for Mythic Rookery Hatcher (lootid 9101842)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101842;
@@ -67314,7 +67314,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10742;
 -- Update Blackhand Dragon Handler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10742 AND `map` = 229;
+WHERE `id` = 10742 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Dragon Handler (lootid 9101843)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101843;
@@ -67366,7 +67366,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9817;
 -- Update Blackhand Dreadweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9817 AND `map` = 229;
+WHERE `id` = 9817 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Dreadweaver (lootid 9101844)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101844;
@@ -67418,7 +67418,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9818;
 -- Update Blackhand Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9818 AND `map` = 229;
+WHERE `id` = 9818 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Summoner (lootid 9101845)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101845;
@@ -67470,7 +67470,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9819;
 -- Update Blackhand Veteran spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9819 AND `map` = 229;
+WHERE `id` = 9819 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Veteran (lootid 9101846)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101846;
@@ -67522,7 +67522,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10447;
 -- Update Chromatic Dragonspawn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10447 AND `map` = 229;
+WHERE `id` = 10447 AND `map` = 229;
 
 -- Loot table for Mythic Chromatic Dragonspawn (lootid 9101847)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101847;
@@ -67574,7 +67574,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10814;
 -- Update Chromatic Elite Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10814 AND `map` = 229;
+WHERE `id` = 10814 AND `map` = 229;
 
 -- Loot table for Mythic Chromatic Elite Guard (lootid 9101848)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101848;
@@ -67626,7 +67626,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10680;
 -- Update Summoned Blackhand Dreadweaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10680 AND `map` = 229;
+WHERE `id` = 10680 AND `map` = 229;
 
 -- Loot table for Mythic Summoned Blackhand Dreadweaver (lootid 9101849)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101849;
@@ -67678,7 +67678,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10681;
 -- Update Summoned Blackhand Veteran spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10681 AND `map` = 229;
+WHERE `id` = 10681 AND `map` = 229;
 
 -- Loot table for Mythic Summoned Blackhand Veteran (lootid 9101850)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101850;
@@ -67730,7 +67730,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11859;
 -- Update Doomguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11859 AND `map` = 229;
+WHERE `id` = 11859 AND `map` = 229;
 
 -- Loot table for Mythic Doomguard (lootid 9101851)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101851;
@@ -67778,7 +67778,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10799;
 -- Update Warosh spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10799 AND `map` = 229;
+WHERE `id` = 10799 AND `map` = 229;
 
 -- Loot table for Mythic Warosh (lootid 9101852)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101852;
@@ -67826,7 +67826,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10762;
 -- Update Blackhand Thug spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10762 AND `map` = 229;
+WHERE `id` = 10762 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Thug (lootid 9101853)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101853;
@@ -67878,7 +67878,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10776;
 -- Update Finkle Einhorn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10776 AND `map` = 229;
+WHERE `id` = 10776 AND `map` = 229;
 
 -- Loot table for Mythic Finkle Einhorn (lootid 9101854)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101854;
@@ -67926,7 +67926,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10318;
 -- Update Blackhand Assassin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10318 AND `map` = 229;
+WHERE `id` = 10318 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Assassin (lootid 9101855)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101855;
@@ -67978,7 +67978,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10317;
 -- Update Blackhand Elite spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10317 AND `map` = 229;
+WHERE `id` = 10317 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Elite (lootid 9101856)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101856;
@@ -68030,7 +68030,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10319;
 -- Update Blackhand Iron Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10319 AND `map` = 229;
+WHERE `id` = 10319 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Iron Guard (lootid 9101857)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101857;
@@ -68082,7 +68082,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10366;
 -- Update Rage Talon Dragon Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10366 AND `map` = 229;
+WHERE `id` = 10366 AND `map` = 229;
 
 -- Loot table for Mythic Rage Talon Dragon Guard (lootid 9101858)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101858;
@@ -68134,7 +68134,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10372;
 -- Update Rage Talon Fire Tongue spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10372 AND `map` = 229;
+WHERE `id` = 10372 AND `map` = 229;
 
 -- Loot table for Mythic Rage Talon Fire Tongue (lootid 9101859)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101859;
@@ -68186,7 +68186,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10371;
 -- Update Rage Talon Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10371 AND `map` = 229;
+WHERE `id` = 10371 AND `map` = 229;
 
 -- Loot table for Mythic Rage Talon Captain (lootid 9101860)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101860;
@@ -68238,7 +68238,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10340;
 -- Update Vaelastrasz the Red spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10340 AND `map` = 229;
+WHERE `id` = 10340 AND `map` = 229;
 
 -- Loot table for Mythic Vaelastrasz the Red (lootid 9101861)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101861;
@@ -68286,7 +68286,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16073;
 -- Update Spirit of Lord Valthalak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16073 AND `map` = 229;
+WHERE `id` = 16073 AND `map` = 229;
 
 -- Loot table for Mythic Spirit of Lord Valthalak (lootid 9101862)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101862;
@@ -68334,7 +68334,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10162;
 -- Update Lord Victor Nefarius spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10162 AND `map` = 229;
+WHERE `id` = 10162 AND `map` = 229;
 
 -- Loot table for Mythic Lord Victor Nefarius (lootid 9101863)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101863;
@@ -68382,7 +68382,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10363;
 -- Update General Drakkisath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10363 AND `map` = 229;
+WHERE `id` = 10363 AND `map` = 229;
 
 -- Loot table for Mythic General Drakkisath (lootid 9101864)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101864;
@@ -68434,7 +68434,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16042;
 -- Update Lord Valthalak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16042 AND `map` = 229;
+WHERE `id` = 16042 AND `map` = 229;
 
 -- Loot table for Mythic Lord Valthalak (lootid 9101865)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101865;
@@ -68486,7 +68486,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9816;
 -- Update Pyroguard Emberseer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9816 AND `map` = 229;
+WHERE `id` = 9816 AND `map` = 229;
 
 -- Loot table for Mythic Pyroguard Emberseer (lootid 9101866)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101866;
@@ -68538,7 +68538,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10430;
 -- Update The Beast spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10430 AND `map` = 229;
+WHERE `id` = 10430 AND `map` = 229;
 
 -- Loot table for Mythic The Beast (lootid 9101867)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101867;
@@ -68590,7 +68590,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10429;
 -- Update Warchief Rend Blackhand spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10429 AND `map` = 229;
+WHERE `id` = 10429 AND `map` = 229;
 
 -- Loot table for Mythic Warchief Rend Blackhand (lootid 9101868)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101868;
@@ -68642,7 +68642,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10339;
 -- Update Gyth spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10339 AND `map` = 229;
+WHERE `id` = 10339 AND `map` = 229;
 
 -- Loot table for Mythic Gyth (lootid 9101869)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101869;
@@ -68694,7 +68694,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10584;
 -- Update Urok Doomhowl spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10584 AND `map` = 229;
+WHERE `id` = 10584 AND `map` = 229;
 
 -- Loot table for Mythic Urok Doomhowl (lootid 9101870)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101870;
@@ -68746,7 +68746,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10268;
 -- Update Gizrul the Slavener spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10268 AND `map` = 229;
+WHERE `id` = 10268 AND `map` = 229;
 
 -- Loot table for Mythic Gizrul the Slavener (lootid 9101871)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101871;
@@ -68798,7 +68798,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16080;
 -- Update Mor Grayhoof spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16080 AND `map` = 229;
+WHERE `id` = 16080 AND `map` = 229;
 
 -- Loot table for Mythic Mor Grayhoof (lootid 9101872)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101872;
@@ -68850,7 +68850,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9568;
 -- Update Overlord Wyrmthalak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9568 AND `map` = 229;
+WHERE `id` = 9568 AND `map` = 229;
 
 -- Loot table for Mythic Overlord Wyrmthalak (lootid 9101873)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101873;
@@ -68902,7 +68902,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10264;
 -- Update Solakar Flamewreath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10264 AND `map` = 229;
+WHERE `id` = 10264 AND `map` = 229;
 
 -- Loot table for Mythic Solakar Flamewreath (lootid 9101874)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101874;
@@ -68954,7 +68954,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9736;
 -- Update Quartermaster Zigris spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9736 AND `map` = 229;
+WHERE `id` = 9736 AND `map` = 229;
 
 -- Loot table for Mythic Quartermaster Zigris (lootid 9101875)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101875;
@@ -69006,7 +69006,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10220;
 -- Update Halycon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10220 AND `map` = 229;
+WHERE `id` = 10220 AND `map` = 229;
 
 -- Loot table for Mythic Halycon (lootid 9101876)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101876;
@@ -69058,7 +69058,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9196;
 -- Update Highlord Omokk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9196 AND `map` = 229;
+WHERE `id` = 9196 AND `map` = 229;
 
 -- Loot table for Mythic Highlord Omokk (lootid 9101877)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101877;
@@ -69110,7 +69110,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10596;
 -- Update Mother Smolderweb spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10596 AND `map` = 229;
+WHERE `id` = 10596 AND `map` = 229;
 
 -- Loot table for Mythic Mother Smolderweb (lootid 9101878)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101878;
@@ -69162,7 +69162,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9237;
 -- Update War Master Voone spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9237 AND `map` = 229;
+WHERE `id` = 9237 AND `map` = 229;
 
 -- Loot table for Mythic War Master Voone (lootid 9101879)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101879;
@@ -69214,7 +69214,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9236;
 -- Update Shadow Hunter Vosh'gajin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9236 AND `map` = 229;
+WHERE `id` = 9236 AND `map` = 229;
 
 -- Loot table for Mythic Shadow Hunter Vosh'gajin (lootid 9101880)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101880;
@@ -69266,7 +69266,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9596;
 -- Update Bannok Grimaxe spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9596 AND `map` = 229;
+WHERE `id` = 9596 AND `map` = 229;
 
 -- Loot table for Mythic Bannok Grimaxe (lootid 9101881)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101881;
@@ -69318,7 +69318,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10263;
 -- Update Burning Felguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10263 AND `map` = 229;
+WHERE `id` = 10263 AND `map` = 229;
 
 -- Loot table for Mythic Burning Felguard (lootid 9101882)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101882;
@@ -69370,7 +69370,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10376;
 -- Update Crystal Fang spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10376 AND `map` = 229;
+WHERE `id` = 10376 AND `map` = 229;
 
 -- Loot table for Mythic Crystal Fang (lootid 9101883)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101883;
@@ -69422,7 +69422,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9718;
 -- Update Ghok Bashguud spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9718 AND `map` = 229;
+WHERE `id` = 9718 AND `map` = 229;
 
 -- Loot table for Mythic Ghok Bashguud (lootid 9101884)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101884;
@@ -69474,7 +69474,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9218;
 -- Update Spirestone Battle Lord spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9218 AND `map` = 229;
+WHERE `id` = 9218 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Battle Lord (lootid 9101885)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101885;
@@ -69526,7 +69526,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9219;
 -- Update Spirestone Butcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9219 AND `map` = 229;
+WHERE `id` = 9219 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Butcher (lootid 9101886)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101886;
@@ -69578,7 +69578,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9217;
 -- Update Spirestone Lord Magus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9217 AND `map` = 229;
+WHERE `id` = 9217 AND `map` = 229;
 
 -- Loot table for Mythic Spirestone Lord Magus (lootid 9101887)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101887;
@@ -69630,7 +69630,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10509;
 -- Update Jed Runewatcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10509 AND `map` = 229;
+WHERE `id` = 10509 AND `map` = 229;
 
 -- Loot table for Mythic Jed Runewatcher (lootid 9101888)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101888;
@@ -69682,7 +69682,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10899;
 -- Update Goraluk Anvilcrack spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10899 AND `map` = 229;
+WHERE `id` = 10899 AND `map` = 229;
 
 -- Loot table for Mythic Goraluk Anvilcrack (lootid 9101889)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101889;
@@ -69734,7 +69734,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9701;
 -- Update Spire Scorpid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9701 AND `map` = 229;
+WHERE `id` = 9701 AND `map` = 229;
 
 -- Loot table for Mythic Spire Scorpid (lootid 9101890)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101890;
@@ -69786,7 +69786,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10177;
 -- Update Spire Scarab spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10177 AND `map` = 229;
+WHERE `id` = 10177 AND `map` = 229;
 
 -- Loot table for Mythic Spire Scarab (lootid 9101891)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101891;
@@ -69838,7 +69838,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16066;
 -- Update Spectral Assassin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16066 AND `map` = 229;
+WHERE `id` = 16066 AND `map` = 229;
 
 -- Loot table for Mythic Spectral Assassin (lootid 9101892)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101892;
@@ -69886,7 +69886,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9416;
 -- Update Scarshield Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9416 AND `map` = 229;
+WHERE `id` = 9416 AND `map` = 229;
 
 -- Loot table for Mythic Scarshield Worg (lootid 9101893)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101893;
@@ -69938,7 +69938,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10161;
 -- Update Rookery Whelp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10161 AND `map` = 229;
+WHERE `id` = 10161 AND `map` = 229;
 
 -- Loot table for Mythic Rookery Whelp (lootid 9101894)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101894;
@@ -69986,7 +69986,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15560;
 -- Update Elder Stonefort spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15560 AND `map` = 229;
+WHERE `id` = 15560 AND `map` = 229;
 
 -- Loot table for Mythic Elder Stonefort (lootid 9101895)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101895;
@@ -70034,7 +70034,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10442;
 -- Update Chromatic Whelp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10442 AND `map` = 229;
+WHERE `id` = 10442 AND `map` = 229;
 
 -- Loot table for Mythic Chromatic Whelp (lootid 9101896)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101896;
@@ -70086,7 +70086,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9708;
 -- Update Burning Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9708 AND `map` = 229;
+WHERE `id` = 9708 AND `map` = 229;
 
 -- Loot table for Mythic Burning Imp (lootid 9101897)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101897;
@@ -70134,7 +70134,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10261;
 -- Update Burning Felhound spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10261 AND `map` = 229;
+WHERE `id` = 10261 AND `map` = 229;
 
 -- Loot table for Mythic Burning Felhound (lootid 9101898)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101898;
@@ -70182,7 +70182,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10221;
 -- Update Bloodaxe Worg Pup spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10221 AND `map` = 229;
+WHERE `id` = 10221 AND `map` = 229;
 
 -- Loot table for Mythic Bloodaxe Worg Pup (lootid 9101899)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101899;
@@ -70234,7 +70234,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 9696;
 -- Update Bloodaxe Worg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 9696 AND `map` = 229;
+WHERE `id` = 9696 AND `map` = 229;
 
 -- Loot table for Mythic Bloodaxe Worg (lootid 9101900)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101900;
@@ -70286,7 +70286,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10316;
 -- Update Blackhand Incarcerator spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10316 AND `map` = 229;
+WHERE `id` = 10316 AND `map` = 229;
 
 -- Loot table for Mythic Blackhand Incarcerator (lootid 9101901)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9101901;
@@ -70340,7 +70340,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15438;
 -- Update Greater Fire Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15438 AND `map` = 289;
+WHERE `id` = 15438 AND `map` = 289;
 
 -- Loot table for Heroic Greater Fire Elemental (lootid 9102000)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102000;
@@ -70388,7 +70388,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14516;
 -- Update Death Knight Darkreaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14516 AND `map` = 289;
+WHERE `id` = 14516 AND `map` = 289;
 
 -- Loot table for Heroic Death Knight Darkreaver (lootid 9102001)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102001;
@@ -70440,7 +70440,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11439;
 -- Update Illusion of Jandice Barov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11439 AND `map` = 289;
+WHERE `id` = 11439 AND `map` = 289;
 
 -- Loot table for Heroic Illusion of Jandice Barov (lootid 9102002)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102002;
@@ -70488,7 +70488,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14861;
 -- Update Blood Steward of Kirtonos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14861 AND `map` = 289;
+WHERE `id` = 14861 AND `map` = 289;
 
 -- Loot table for Heroic Blood Steward of Kirtonos (lootid 9102003)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102003;
@@ -70540,7 +70540,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10486;
 -- Update Risen Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10486 AND `map` = 289;
+WHERE `id` = 10486 AND `map` = 289;
 
 -- Loot table for Heroic Risen Warrior (lootid 9102004)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102004;
@@ -70592,7 +70592,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10500;
 -- Update Spectral Teacher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10500 AND `map` = 289;
+WHERE `id` = 10500 AND `map` = 289;
 
 -- Loot table for Heroic Spectral Teacher (lootid 9102005)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102005;
@@ -70644,7 +70644,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10488;
 -- Update Risen Construct spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10488 AND `map` = 289;
+WHERE `id` = 10488 AND `map` = 289;
 
 -- Loot table for Heroic Risen Construct (lootid 9102006)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102006;
@@ -70696,7 +70696,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14511;
 -- Update Shadowed Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14511 AND `map` = 289;
+WHERE `id` = 14511 AND `map` = 289;
 
 -- Loot table for Heroic Shadowed Spirit (lootid 9102007)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102007;
@@ -70744,7 +70744,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16120;
 -- Update Bone Mage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16120 AND `map` = 289;
+WHERE `id` = 16120 AND `map` = 289;
 
 -- Loot table for Heroic Bone Mage (lootid 9102008)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102008;
@@ -70792,7 +70792,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14521;
 -- Update Aspect of Shadow spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14521 AND `map` = 289;
+WHERE `id` = 14521 AND `map` = 289;
 
 -- Loot table for Heroic Aspect of Shadow (lootid 9102009)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102009;
@@ -70844,7 +70844,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14520;
 -- Update Aspect of Malice spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14520 AND `map` = 289;
+WHERE `id` = 14520 AND `map` = 289;
 
 -- Loot table for Heroic Aspect of Malice (lootid 9102010)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102010;
@@ -70896,7 +70896,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14519;
 -- Update Aspect of Corruption spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14519 AND `map` = 289;
+WHERE `id` = 14519 AND `map` = 289;
 
 -- Loot table for Heroic Aspect of Corruption (lootid 9102011)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102011;
@@ -70948,7 +70948,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14518;
 -- Update Aspect of Banality spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14518 AND `map` = 289;
+WHERE `id` = 14518 AND `map` = 289;
 
 -- Loot table for Heroic Aspect of Banality (lootid 9102012)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102012;
@@ -71000,7 +71000,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10478;
 -- Update Splintered Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10478 AND `map` = 289;
+WHERE `id` = 10478 AND `map` = 289;
 
 -- Loot table for Heroic Splintered Skeleton (lootid 9102013)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102013;
@@ -71052,7 +71052,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11257;
 -- Update Scholomance Handler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11257 AND `map` = 289;
+WHERE `id` = 11257 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Handler (lootid 9102014)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102014;
@@ -71104,7 +71104,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14513;
 -- Update Malicious Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14513 AND `map` = 289;
+WHERE `id` = 14513 AND `map` = 289;
 
 -- Loot table for Heroic Malicious Spirit (lootid 9102015)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102015;
@@ -71152,7 +71152,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14512;
 -- Update Corrupted Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14512 AND `map` = 289;
+WHERE `id` = 14512 AND `map` = 289;
 
 -- Loot table for Heroic Corrupted Spirit (lootid 9102016)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102016;
@@ -71200,7 +71200,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10498;
 -- Update Spectral Tutor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10498 AND `map` = 289;
+WHERE `id` = 10498 AND `map` = 289;
 
 -- Loot table for Heroic Spectral Tutor (lootid 9102017)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102017;
@@ -71252,7 +71252,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10499;
 -- Update Spectral Researcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10499 AND `map` = 289;
+WHERE `id` = 10499 AND `map` = 289;
 
 -- Loot table for Heroic Spectral Researcher (lootid 9102018)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102018;
@@ -71304,7 +71304,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10487;
 -- Update Risen Protector spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10487 AND `map` = 289;
+WHERE `id` = 10487 AND `map` = 289;
 
 -- Loot table for Heroic Risen Protector (lootid 9102019)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102019;
@@ -71356,7 +71356,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11551;
 -- Update Necrofiend spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11551 AND `map` = 289;
+WHERE `id` = 11551 AND `map` = 289;
 
 -- Loot table for Heroic Necrofiend (lootid 9102020)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102020;
@@ -71408,7 +71408,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10475;
 -- Update Scholomance Student spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10475 AND `map` = 289;
+WHERE `id` = 10475 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Student (lootid 9102021)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102021;
@@ -71460,7 +71460,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10472;
 -- Update Scholomance Occultist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10472 AND `map` = 289;
+WHERE `id` = 10472 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Occultist (lootid 9102022)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102022;
@@ -71512,7 +71512,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10477;
 -- Update Scholomance Necromancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10477 AND `map` = 289;
+WHERE `id` = 10477 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Necromancer (lootid 9102023)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102023;
@@ -71564,7 +71564,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11582;
 -- Update Scholomance Dark Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11582 AND `map` = 289;
+WHERE `id` = 11582 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Dark Summoner (lootid 9102024)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102024;
@@ -71616,7 +71616,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10469;
 -- Update Scholomance Adept spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10469 AND `map` = 289;
+WHERE `id` = 10469 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Adept (lootid 9102025)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102025;
@@ -71668,7 +71668,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10491;
 -- Update Risen Bonewarder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10491 AND `map` = 289;
+WHERE `id` = 10491 AND `map` = 289;
 
 -- Loot table for Heroic Risen Bonewarder (lootid 9102026)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102026;
@@ -71720,7 +71720,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10495;
 -- Update Diseased Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10495 AND `map` = 289;
+WHERE `id` = 10495 AND `map` = 289;
 
 -- Loot table for Heroic Diseased Ghoul (lootid 9102027)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102027;
@@ -71772,7 +71772,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10489;
 -- Update Risen Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10489 AND `map` = 289;
+WHERE `id` = 10489 AND `map` = 289;
 
 -- Loot table for Heroic Risen Guard (lootid 9102028)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102028;
@@ -71824,7 +71824,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10470;
 -- Update Scholomance Neophyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10470 AND `map` = 289;
+WHERE `id` = 10470 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Neophyte (lootid 9102029)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102029;
@@ -71876,7 +71876,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10476;
 -- Update Scholomance Necrolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10476 AND `map` = 289;
+WHERE `id` = 10476 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Necrolyte (lootid 9102030)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102030;
@@ -71928,7 +71928,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10471;
 -- Update Scholomance Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10471 AND `map` = 289;
+WHERE `id` = 10471 AND `map` = 289;
 
 -- Loot table for Heroic Scholomance Acolyte (lootid 9102031)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102031;
@@ -71980,7 +71980,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10506;
 -- Update Kirtonos the Herald spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10506 AND `map` = 289;
+WHERE `id` = 10506 AND `map` = 289;
 
 -- Loot table for Heroic Kirtonos the Herald (lootid 9102032)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102032;
@@ -72032,7 +72032,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10503;
 -- Update Jandice Barov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10503 AND `map` = 289;
+WHERE `id` = 10503 AND `map` = 289;
 
 -- Loot table for Heroic Jandice Barov (lootid 9102033)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102033;
@@ -72084,7 +72084,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11622;
 -- Update Rattlegore spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11622 AND `map` = 289;
+WHERE `id` = 11622 AND `map` = 289;
 
 -- Loot table for Heroic Rattlegore (lootid 9102034)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102034;
@@ -72136,7 +72136,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10433;
 -- Update Marduk Blackpool spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10433 AND `map` = 289;
+WHERE `id` = 10433 AND `map` = 289;
 
 -- Loot table for Heroic Marduk Blackpool (lootid 9102035)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102035;
@@ -72188,7 +72188,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10432;
 -- Update Vectus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10432 AND `map` = 289;
+WHERE `id` = 10432 AND `map` = 289;
 
 -- Loot table for Heroic Vectus (lootid 9102036)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102036;
@@ -72240,7 +72240,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10508;
 -- Update Ras Frostwhisper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10508 AND `map` = 289;
+WHERE `id` = 10508 AND `map` = 289;
 
 -- Loot table for Heroic Ras Frostwhisper (lootid 9102037)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102037;
@@ -72292,7 +72292,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10505;
 -- Update Instructor Malicia spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10505 AND `map` = 289;
+WHERE `id` = 10505 AND `map` = 289;
 
 -- Loot table for Heroic Instructor Malicia (lootid 9102038)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102038;
@@ -72344,7 +72344,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11261;
 -- Update Doctor Theolen Krastinov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11261 AND `map` = 289;
+WHERE `id` = 11261 AND `map` = 289;
 
 -- Loot table for Heroic Doctor Theolen Krastinov (lootid 9102039)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102039;
@@ -72396,7 +72396,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10901;
 -- Update Lorekeeper Polkelt spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10901 AND `map` = 289;
+WHERE `id` = 10901 AND `map` = 289;
 
 -- Loot table for Heroic Lorekeeper Polkelt (lootid 9102040)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102040;
@@ -72448,7 +72448,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10507;
 -- Update The Ravenian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10507 AND `map` = 289;
+WHERE `id` = 10507 AND `map` = 289;
 
 -- Loot table for Heroic The Ravenian (lootid 9102041)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102041;
@@ -72500,7 +72500,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10504;
 -- Update Lord Alexei Barov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10504 AND `map` = 289;
+WHERE `id` = 10504 AND `map` = 289;
 
 -- Loot table for Heroic Lord Alexei Barov (lootid 9102042)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102042;
@@ -72552,7 +72552,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10502;
 -- Update Lady Illucia Barov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10502 AND `map` = 289;
+WHERE `id` = 10502 AND `map` = 289;
 
 -- Loot table for Heroic Lady Illucia Barov (lootid 9102043)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102043;
@@ -72604,7 +72604,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1853;
 -- Update Darkmaster Gandling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1853 AND `map` = 289;
+WHERE `id` = 1853 AND `map` = 289;
 
 -- Loot table for Heroic Darkmaster Gandling (lootid 9102044)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102044;
@@ -72656,7 +72656,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16118;
 -- Update Kormok spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16118 AND `map` = 289;
+WHERE `id` = 16118 AND `map` = 289;
 
 -- Loot table for Heroic Kormok (lootid 9102045)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102045;
@@ -72708,7 +72708,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14695;
 -- Update Lord Blackwood spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14695 AND `map` = 289;
+WHERE `id` = 14695 AND `map` = 289;
 
 -- Loot table for Heroic Lord Blackwood (lootid 9102046)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102046;
@@ -72760,7 +72760,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14514;
 -- Update Banal Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14514 AND `map` = 289;
+WHERE `id` = 14514 AND `map` = 289;
 
 -- Loot table for Heroic Banal Spirit (lootid 9102047)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102047;
@@ -72808,7 +72808,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16119;
 -- Update Bone Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16119 AND `map` = 289;
+WHERE `id` = 16119 AND `map` = 289;
 
 -- Loot table for Heroic Bone Minion (lootid 9102048)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102048;
@@ -72856,7 +72856,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14568;
 -- Update Darkreaver's Fallen Charger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14568 AND `map` = 289;
+WHERE `id` = 14568 AND `map` = 289;
 
 -- Loot table for Heroic Darkreaver's Fallen Charger (lootid 9102049)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102049;
@@ -72904,7 +72904,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11258;
 -- Update Frail Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11258 AND `map` = 289;
+WHERE `id` = 11258 AND `map` = 289;
 
 -- Loot table for Heroic Frail Skeleton (lootid 9102050)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102050;
@@ -72952,7 +72952,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14500;
 -- Update J'eevee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14500 AND `map` = 289;
+WHERE `id` = 14500 AND `map` = 289;
 
 -- Loot table for Heroic J'eevee (lootid 9102051)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102051;
@@ -73000,7 +73000,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10678;
 -- Update Plagued Hatchling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10678 AND `map` = 289;
+WHERE `id` = 10678 AND `map` = 289;
 
 -- Loot table for Heroic Plagued Hatchling (lootid 9102052)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102052;
@@ -73052,7 +73052,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10481;
 -- Update Reanimated Corpse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10481 AND `map` = 289;
+WHERE `id` = 10481 AND `map` = 289;
 
 -- Loot table for Heroic Reanimated Corpse (lootid 9102053)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102053;
@@ -73104,7 +73104,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10485;
 -- Update Risen Aberration spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10485 AND `map` = 289;
+WHERE `id` = 10485 AND `map` = 289;
 
 -- Loot table for Heroic Risen Aberration (lootid 9102054)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102054;
@@ -73156,7 +73156,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11598;
 -- Update Risen Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11598 AND `map` = 289;
+WHERE `id` = 11598 AND `map` = 289;
 
 -- Loot table for Heroic Risen Guardian (lootid 9102055)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102055;
@@ -73208,7 +73208,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10482;
 -- Update Risen Lackey spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10482 AND `map` = 289;
+WHERE `id` = 10482 AND `map` = 289;
 
 -- Loot table for Heroic Risen Lackey (lootid 9102056)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102056;
@@ -73260,7 +73260,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11263;
 -- Update Spectral Projection spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11263 AND `map` = 289;
+WHERE `id` = 11263 AND `map` = 289;
 
 -- Loot table for Heroic Spectral Projection (lootid 9102057)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102057;
@@ -73308,7 +73308,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10480;
 -- Update Unstable Corpse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10480 AND `map` = 289;
+WHERE `id` = 10480 AND `map` = 289;
 
 -- Loot table for Heroic Unstable Corpse (lootid 9102058)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102058;
@@ -73360,7 +73360,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15438;
 -- Update Greater Fire Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15438 AND `map` = 289;
+WHERE `id` = 15438 AND `map` = 289;
 
 -- Loot table for Mythic Greater Fire Elemental (lootid 9102059)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102059;
@@ -73408,7 +73408,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14516;
 -- Update Death Knight Darkreaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14516 AND `map` = 289;
+WHERE `id` = 14516 AND `map` = 289;
 
 -- Loot table for Mythic Death Knight Darkreaver (lootid 9102060)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102060;
@@ -73460,7 +73460,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11439;
 -- Update Illusion of Jandice Barov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11439 AND `map` = 289;
+WHERE `id` = 11439 AND `map` = 289;
 
 -- Loot table for Mythic Illusion of Jandice Barov (lootid 9102061)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102061;
@@ -73508,7 +73508,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14861;
 -- Update Blood Steward of Kirtonos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14861 AND `map` = 289;
+WHERE `id` = 14861 AND `map` = 289;
 
 -- Loot table for Mythic Blood Steward of Kirtonos (lootid 9102062)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102062;
@@ -73560,7 +73560,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10486;
 -- Update Risen Warrior spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10486 AND `map` = 289;
+WHERE `id` = 10486 AND `map` = 289;
 
 -- Loot table for Mythic Risen Warrior (lootid 9102063)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102063;
@@ -73612,7 +73612,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10500;
 -- Update Spectral Teacher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10500 AND `map` = 289;
+WHERE `id` = 10500 AND `map` = 289;
 
 -- Loot table for Mythic Spectral Teacher (lootid 9102064)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102064;
@@ -73664,7 +73664,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10488;
 -- Update Risen Construct spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10488 AND `map` = 289;
+WHERE `id` = 10488 AND `map` = 289;
 
 -- Loot table for Mythic Risen Construct (lootid 9102065)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102065;
@@ -73716,7 +73716,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14511;
 -- Update Shadowed Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14511 AND `map` = 289;
+WHERE `id` = 14511 AND `map` = 289;
 
 -- Loot table for Mythic Shadowed Spirit (lootid 9102066)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102066;
@@ -73764,7 +73764,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16120;
 -- Update Bone Mage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16120 AND `map` = 289;
+WHERE `id` = 16120 AND `map` = 289;
 
 -- Loot table for Mythic Bone Mage (lootid 9102067)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102067;
@@ -73812,7 +73812,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14521;
 -- Update Aspect of Shadow spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14521 AND `map` = 289;
+WHERE `id` = 14521 AND `map` = 289;
 
 -- Loot table for Mythic Aspect of Shadow (lootid 9102068)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102068;
@@ -73864,7 +73864,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14520;
 -- Update Aspect of Malice spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14520 AND `map` = 289;
+WHERE `id` = 14520 AND `map` = 289;
 
 -- Loot table for Mythic Aspect of Malice (lootid 9102069)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102069;
@@ -73916,7 +73916,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14519;
 -- Update Aspect of Corruption spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14519 AND `map` = 289;
+WHERE `id` = 14519 AND `map` = 289;
 
 -- Loot table for Mythic Aspect of Corruption (lootid 9102070)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102070;
@@ -73968,7 +73968,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14518;
 -- Update Aspect of Banality spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14518 AND `map` = 289;
+WHERE `id` = 14518 AND `map` = 289;
 
 -- Loot table for Mythic Aspect of Banality (lootid 9102071)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102071;
@@ -74020,7 +74020,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10478;
 -- Update Splintered Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10478 AND `map` = 289;
+WHERE `id` = 10478 AND `map` = 289;
 
 -- Loot table for Mythic Splintered Skeleton (lootid 9102072)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102072;
@@ -74072,7 +74072,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11257;
 -- Update Scholomance Handler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11257 AND `map` = 289;
+WHERE `id` = 11257 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Handler (lootid 9102073)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102073;
@@ -74124,7 +74124,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14513;
 -- Update Malicious Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14513 AND `map` = 289;
+WHERE `id` = 14513 AND `map` = 289;
 
 -- Loot table for Mythic Malicious Spirit (lootid 9102074)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102074;
@@ -74172,7 +74172,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14512;
 -- Update Corrupted Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14512 AND `map` = 289;
+WHERE `id` = 14512 AND `map` = 289;
 
 -- Loot table for Mythic Corrupted Spirit (lootid 9102075)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102075;
@@ -74220,7 +74220,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10498;
 -- Update Spectral Tutor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10498 AND `map` = 289;
+WHERE `id` = 10498 AND `map` = 289;
 
 -- Loot table for Mythic Spectral Tutor (lootid 9102076)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102076;
@@ -74272,7 +74272,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10499;
 -- Update Spectral Researcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10499 AND `map` = 289;
+WHERE `id` = 10499 AND `map` = 289;
 
 -- Loot table for Mythic Spectral Researcher (lootid 9102077)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102077;
@@ -74324,7 +74324,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10487;
 -- Update Risen Protector spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10487 AND `map` = 289;
+WHERE `id` = 10487 AND `map` = 289;
 
 -- Loot table for Mythic Risen Protector (lootid 9102078)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102078;
@@ -74376,7 +74376,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11551;
 -- Update Necrofiend spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11551 AND `map` = 289;
+WHERE `id` = 11551 AND `map` = 289;
 
 -- Loot table for Mythic Necrofiend (lootid 9102079)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102079;
@@ -74428,7 +74428,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10475;
 -- Update Scholomance Student spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10475 AND `map` = 289;
+WHERE `id` = 10475 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Student (lootid 9102080)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102080;
@@ -74480,7 +74480,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10472;
 -- Update Scholomance Occultist spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10472 AND `map` = 289;
+WHERE `id` = 10472 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Occultist (lootid 9102081)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102081;
@@ -74532,7 +74532,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10477;
 -- Update Scholomance Necromancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10477 AND `map` = 289;
+WHERE `id` = 10477 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Necromancer (lootid 9102082)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102082;
@@ -74584,7 +74584,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11582;
 -- Update Scholomance Dark Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11582 AND `map` = 289;
+WHERE `id` = 11582 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Dark Summoner (lootid 9102083)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102083;
@@ -74636,7 +74636,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10469;
 -- Update Scholomance Adept spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10469 AND `map` = 289;
+WHERE `id` = 10469 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Adept (lootid 9102084)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102084;
@@ -74688,7 +74688,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10491;
 -- Update Risen Bonewarder spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10491 AND `map` = 289;
+WHERE `id` = 10491 AND `map` = 289;
 
 -- Loot table for Mythic Risen Bonewarder (lootid 9102085)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102085;
@@ -74740,7 +74740,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10495;
 -- Update Diseased Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10495 AND `map` = 289;
+WHERE `id` = 10495 AND `map` = 289;
 
 -- Loot table for Mythic Diseased Ghoul (lootid 9102086)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102086;
@@ -74792,7 +74792,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10489;
 -- Update Risen Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10489 AND `map` = 289;
+WHERE `id` = 10489 AND `map` = 289;
 
 -- Loot table for Mythic Risen Guard (lootid 9102087)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102087;
@@ -74844,7 +74844,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10470;
 -- Update Scholomance Neophyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10470 AND `map` = 289;
+WHERE `id` = 10470 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Neophyte (lootid 9102088)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102088;
@@ -74896,7 +74896,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10476;
 -- Update Scholomance Necrolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10476 AND `map` = 289;
+WHERE `id` = 10476 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Necrolyte (lootid 9102089)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102089;
@@ -74948,7 +74948,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10471;
 -- Update Scholomance Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10471 AND `map` = 289;
+WHERE `id` = 10471 AND `map` = 289;
 
 -- Loot table for Mythic Scholomance Acolyte (lootid 9102090)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102090;
@@ -75000,7 +75000,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10506;
 -- Update Kirtonos the Herald spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10506 AND `map` = 289;
+WHERE `id` = 10506 AND `map` = 289;
 
 -- Loot table for Mythic Kirtonos the Herald (lootid 9102091)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102091;
@@ -75052,7 +75052,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10503;
 -- Update Jandice Barov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10503 AND `map` = 289;
+WHERE `id` = 10503 AND `map` = 289;
 
 -- Loot table for Mythic Jandice Barov (lootid 9102092)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102092;
@@ -75104,7 +75104,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11622;
 -- Update Rattlegore spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11622 AND `map` = 289;
+WHERE `id` = 11622 AND `map` = 289;
 
 -- Loot table for Mythic Rattlegore (lootid 9102093)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102093;
@@ -75156,7 +75156,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10433;
 -- Update Marduk Blackpool spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10433 AND `map` = 289;
+WHERE `id` = 10433 AND `map` = 289;
 
 -- Loot table for Mythic Marduk Blackpool (lootid 9102094)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102094;
@@ -75208,7 +75208,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10432;
 -- Update Vectus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10432 AND `map` = 289;
+WHERE `id` = 10432 AND `map` = 289;
 
 -- Loot table for Mythic Vectus (lootid 9102095)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102095;
@@ -75260,7 +75260,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10508;
 -- Update Ras Frostwhisper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10508 AND `map` = 289;
+WHERE `id` = 10508 AND `map` = 289;
 
 -- Loot table for Mythic Ras Frostwhisper (lootid 9102096)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102096;
@@ -75312,7 +75312,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10505;
 -- Update Instructor Malicia spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10505 AND `map` = 289;
+WHERE `id` = 10505 AND `map` = 289;
 
 -- Loot table for Mythic Instructor Malicia (lootid 9102097)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102097;
@@ -75364,7 +75364,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11261;
 -- Update Doctor Theolen Krastinov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11261 AND `map` = 289;
+WHERE `id` = 11261 AND `map` = 289;
 
 -- Loot table for Mythic Doctor Theolen Krastinov (lootid 9102098)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102098;
@@ -75416,7 +75416,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10901;
 -- Update Lorekeeper Polkelt spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10901 AND `map` = 289;
+WHERE `id` = 10901 AND `map` = 289;
 
 -- Loot table for Mythic Lorekeeper Polkelt (lootid 9102099)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102099;
@@ -75468,7 +75468,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10507;
 -- Update The Ravenian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10507 AND `map` = 289;
+WHERE `id` = 10507 AND `map` = 289;
 
 -- Loot table for Mythic The Ravenian (lootid 9102100)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102100;
@@ -75520,7 +75520,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10504;
 -- Update Lord Alexei Barov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10504 AND `map` = 289;
+WHERE `id` = 10504 AND `map` = 289;
 
 -- Loot table for Mythic Lord Alexei Barov (lootid 9102101)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102101;
@@ -75572,7 +75572,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10502;
 -- Update Lady Illucia Barov spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10502 AND `map` = 289;
+WHERE `id` = 10502 AND `map` = 289;
 
 -- Loot table for Mythic Lady Illucia Barov (lootid 9102102)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102102;
@@ -75624,7 +75624,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 1853;
 -- Update Darkmaster Gandling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 1853 AND `map` = 289;
+WHERE `id` = 1853 AND `map` = 289;
 
 -- Loot table for Mythic Darkmaster Gandling (lootid 9102103)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102103;
@@ -75676,7 +75676,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16118;
 -- Update Kormok spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16118 AND `map` = 289;
+WHERE `id` = 16118 AND `map` = 289;
 
 -- Loot table for Mythic Kormok (lootid 9102104)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102104;
@@ -75728,7 +75728,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14695;
 -- Update Lord Blackwood spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14695 AND `map` = 289;
+WHERE `id` = 14695 AND `map` = 289;
 
 -- Loot table for Mythic Lord Blackwood (lootid 9102105)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102105;
@@ -75780,7 +75780,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14514;
 -- Update Banal Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14514 AND `map` = 289;
+WHERE `id` = 14514 AND `map` = 289;
 
 -- Loot table for Mythic Banal Spirit (lootid 9102106)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102106;
@@ -75828,7 +75828,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16119;
 -- Update Bone Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16119 AND `map` = 289;
+WHERE `id` = 16119 AND `map` = 289;
 
 -- Loot table for Mythic Bone Minion (lootid 9102107)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102107;
@@ -75876,7 +75876,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14568;
 -- Update Darkreaver's Fallen Charger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14568 AND `map` = 289;
+WHERE `id` = 14568 AND `map` = 289;
 
 -- Loot table for Mythic Darkreaver's Fallen Charger (lootid 9102108)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102108;
@@ -75924,7 +75924,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11258;
 -- Update Frail Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11258 AND `map` = 289;
+WHERE `id` = 11258 AND `map` = 289;
 
 -- Loot table for Mythic Frail Skeleton (lootid 9102109)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102109;
@@ -75972,7 +75972,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14500;
 -- Update J'eevee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14500 AND `map` = 289;
+WHERE `id` = 14500 AND `map` = 289;
 
 -- Loot table for Mythic J'eevee (lootid 9102110)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102110;
@@ -76020,7 +76020,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10678;
 -- Update Plagued Hatchling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10678 AND `map` = 289;
+WHERE `id` = 10678 AND `map` = 289;
 
 -- Loot table for Mythic Plagued Hatchling (lootid 9102111)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102111;
@@ -76072,7 +76072,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10481;
 -- Update Reanimated Corpse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10481 AND `map` = 289;
+WHERE `id` = 10481 AND `map` = 289;
 
 -- Loot table for Mythic Reanimated Corpse (lootid 9102112)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102112;
@@ -76124,7 +76124,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10485;
 -- Update Risen Aberration spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10485 AND `map` = 289;
+WHERE `id` = 10485 AND `map` = 289;
 
 -- Loot table for Mythic Risen Aberration (lootid 9102113)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102113;
@@ -76176,7 +76176,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11598;
 -- Update Risen Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11598 AND `map` = 289;
+WHERE `id` = 11598 AND `map` = 289;
 
 -- Loot table for Mythic Risen Guardian (lootid 9102114)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102114;
@@ -76228,7 +76228,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10482;
 -- Update Risen Lackey spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10482 AND `map` = 289;
+WHERE `id` = 10482 AND `map` = 289;
 
 -- Loot table for Mythic Risen Lackey (lootid 9102115)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102115;
@@ -76280,7 +76280,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11263;
 -- Update Spectral Projection spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11263 AND `map` = 289;
+WHERE `id` = 11263 AND `map` = 289;
 
 -- Loot table for Mythic Spectral Projection (lootid 9102116)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102116;
@@ -76328,7 +76328,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10480;
 -- Update Unstable Corpse spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10480 AND `map` = 289;
+WHERE `id` = 10480 AND `map` = 289;
 
 -- Loot table for Mythic Unstable Corpse (lootid 9102117)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102117;
@@ -76382,7 +76382,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17913;
 -- Update Aelmar the Vanquisher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17913 AND `map` = 329;
+WHERE `id` = 17913 AND `map` = 329;
 
 -- Loot table for Heroic Aelmar the Vanquisher (lootid 9102200)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102200;
@@ -76430,7 +76430,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10917;
 -- Update Aurius spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10917 AND `map` = 329;
+WHERE `id` = 10917 AND `map` = 329;
 
 -- Loot table for Heroic Aurius (lootid 9102201)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102201;
@@ -76478,7 +76478,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10416;
 -- Update Bile Spewer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10416 AND `map` = 329;
+WHERE `id` = 10416 AND `map` = 329;
 
 -- Loot table for Heroic Bile Spewer (lootid 9102202)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102202;
@@ -76530,7 +76530,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10394;
 -- Update Black Guard Sentry spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10394 AND `map` = 329;
+WHERE `id` = 10394 AND `map` = 329;
 
 -- Loot table for Heroic Black Guard Sentry (lootid 9102203)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102203;
@@ -76582,7 +76582,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17911;
 -- Update Cathela the Seeker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17911 AND `map` = 329;
+WHERE `id` = 17911 AND `map` = 329;
 
 -- Loot table for Heroic Cathela the Seeker (lootid 9102204)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102204;
@@ -76630,7 +76630,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10425;
 -- Update Crimson Battle Mage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10425 AND `map` = 329;
+WHERE `id` = 10425 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Battle Mage (lootid 9102205)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102205;
@@ -76682,7 +76682,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10419;
 -- Update Crimson Conjuror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10419 AND `map` = 329;
+WHERE `id` = 10419 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Conjuror (lootid 9102206)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102206;
@@ -76734,7 +76734,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10421;
 -- Update Crimson Defender spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10421 AND `map` = 329;
+WHERE `id` = 10421 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Defender (lootid 9102207)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102207;
@@ -76786,7 +76786,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10424;
 -- Update Crimson Gallant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10424 AND `map` = 329;
+WHERE `id` = 10424 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Gallant (lootid 9102208)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102208;
@@ -76838,7 +76838,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10418;
 -- Update Crimson Guardsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10418 AND `map` = 329;
+WHERE `id` = 10418 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Guardsman (lootid 9102209)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102209;
@@ -76890,7 +76890,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10420;
 -- Update Crimson Initiate spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10420 AND `map` = 329;
+WHERE `id` = 10420 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Initiate (lootid 9102210)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102210;
@@ -76942,7 +76942,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10426;
 -- Update Crimson Inquisitor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10426 AND `map` = 329;
+WHERE `id` = 10426 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Inquisitor (lootid 9102211)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102211;
@@ -76994,7 +76994,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11043;
 -- Update Crimson Monk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11043 AND `map` = 329;
+WHERE `id` = 11043 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Monk (lootid 9102212)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102212;
@@ -77046,7 +77046,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10423;
 -- Update Crimson Priest spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10423 AND `map` = 329;
+WHERE `id` = 10423 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Priest (lootid 9102213)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102213;
@@ -77098,7 +77098,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10422;
 -- Update Crimson Sorcerer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10422 AND `map` = 329;
+WHERE `id` = 10422 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Sorcerer (lootid 9102214)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102214;
@@ -77150,7 +77150,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10413;
 -- Update Crypt Beast spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10413 AND `map` = 329;
+WHERE `id` = 10413 AND `map` = 329;
 
 -- Loot table for Heroic Crypt Beast (lootid 9102215)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102215;
@@ -77202,7 +77202,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10412;
 -- Update Crypt Crawler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10412 AND `map` = 329;
+WHERE `id` = 10412 AND `map` = 329;
 
 -- Loot table for Heroic Crypt Crawler (lootid 9102216)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102216;
@@ -77254,7 +77254,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17252;
 -- Update Felguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17252 AND `map` = 329;
+WHERE `id` = 17252 AND `map` = 329;
 
 -- Loot table for Heroic Felguard (lootid 9102217)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102217;
@@ -77302,7 +77302,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 417;
 -- Update Felhunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 417 AND `map` = 329;
+WHERE `id` = 417 AND `map` = 329;
 
 -- Loot table for Heroic Felhunter (lootid 9102218)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102218;
@@ -77350,7 +77350,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10407;
 -- Update Fleshflayer Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10407 AND `map` = 329;
+WHERE `id` = 10407 AND `map` = 329;
 
 -- Loot table for Heroic Fleshflayer Ghoul (lootid 9102219)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102219;
@@ -77402,7 +77402,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10385;
 -- Update Ghostly Citizen spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10385 AND `map` = 329;
+WHERE `id` = 10385 AND `map` = 329;
 
 -- Loot table for Heroic Ghostly Citizen (lootid 9102220)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102220;
@@ -77454,7 +77454,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10406;
 -- Update Ghoul Ravener spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10406 AND `map` = 329;
+WHERE `id` = 10406 AND `map` = 329;
 
 -- Loot table for Heroic Ghoul Ravener (lootid 9102221)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102221;
@@ -77506,7 +77506,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10812;
 -- Update Grand Crusader Dathrohan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10812 AND `map` = 329;
+WHERE `id` = 10812 AND `map` = 329;
 
 -- Loot table for Heroic Grand Crusader Dathrohan (lootid 9102222)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102222;
@@ -77554,7 +77554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15438;
 -- Update Greater Fire Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15438 AND `map` = 329;
+WHERE `id` = 15438 AND `map` = 329;
 
 -- Loot table for Heroic Greater Fire Elemental (lootid 9102223)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102223;
@@ -77602,7 +77602,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17910;
 -- Update Gregor the Justiciar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17910 AND `map` = 329;
+WHERE `id` = 17910 AND `map` = 329;
 
 -- Loot table for Heroic Gregor the Justiciar (lootid 9102224)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102224;
@@ -77650,7 +77650,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 416;
 -- Update Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 416 AND `map` = 329;
+WHERE `id` = 416 AND `map` = 329;
 
 -- Loot table for Heroic Imp (lootid 9102225)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102225;
@@ -77698,7 +77698,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10382;
 -- Update Mangled Cadaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10382 AND `map` = 329;
+WHERE `id` = 10382 AND `map` = 329;
 
 -- Loot table for Heroic Mangled Cadaver (lootid 9102226)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102226;
@@ -77750,7 +77750,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17912;
 -- Update Nemas the Arbiter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17912 AND `map` = 329;
+WHERE `id` = 17912 AND `map` = 329;
 
 -- Loot table for Heroic Nemas the Arbiter (lootid 9102227)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102227;
@@ -77798,7 +77798,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10414;
 -- Update Patchwork Horror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10414 AND `map` = 329;
+WHERE `id` = 10414 AND `map` = 329;
 
 -- Loot table for Heroic Patchwork Horror (lootid 9102228)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102228;
@@ -77850,7 +77850,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10405;
 -- Update Plague Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10405 AND `map` = 329;
+WHERE `id` = 10405 AND `map` = 329;
 
 -- Loot table for Heroic Plague Ghoul (lootid 9102229)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102229;
@@ -77902,7 +77902,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10381;
 -- Update Ravaged Cadaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10381 AND `map` = 329;
+WHERE `id` = 10381 AND `map` = 329;
 
 -- Loot table for Heroic Ravaged Cadaver (lootid 9102230)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102230;
@@ -77954,7 +77954,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10408;
 -- Update Rockwing Gargoyle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10408 AND `map` = 329;
+WHERE `id` = 10408 AND `map` = 329;
 
 -- Loot table for Heroic Rockwing Gargoyle (lootid 9102231)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102231;
@@ -78006,7 +78006,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10409;
 -- Update Rockwing Screecher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10409 AND `map` = 329;
+WHERE `id` = 10409 AND `map` = 329;
 
 -- Loot table for Heroic Rockwing Screecher (lootid 9102232)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102232;
@@ -78058,7 +78058,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10463;
 -- Update Shrieking Banshee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10463 AND `map` = 329;
+WHERE `id` = 10463 AND `map` = 329;
 
 -- Loot table for Heroic Shrieking Banshee (lootid 9102233)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102233;
@@ -78110,7 +78110,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10384;
 -- Update Spectral Citizen spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10384 AND `map` = 329;
+WHERE `id` = 10384 AND `map` = 329;
 
 -- Loot table for Heroic Spectral Citizen (lootid 9102234)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102234;
@@ -78162,7 +78162,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16103;
 -- Update Spirit of Jarien spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16103 AND `map` = 329;
+WHERE `id` = 16103 AND `map` = 329;
 
 -- Loot table for Heroic Spirit of Jarien (lootid 9102235)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102235;
@@ -78210,7 +78210,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16104;
 -- Update Spirit of Sothos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16104 AND `map` = 329;
+WHERE `id` = 16104 AND `map` = 329;
 
 -- Loot table for Heroic Spirit of Sothos (lootid 9102236)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102236;
@@ -78258,7 +78258,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10400;
 -- Update Thuzadin Necromancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10400 AND `map` = 329;
+WHERE `id` = 10400 AND `map` = 329;
 
 -- Loot table for Heroic Thuzadin Necromancer (lootid 9102237)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102237;
@@ -78310,7 +78310,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10398;
 -- Update Thuzadin Shadowcaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10398 AND `map` = 329;
+WHERE `id` = 10398 AND `map` = 329;
 
 -- Loot table for Heroic Thuzadin Shadowcaster (lootid 9102238)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102238;
@@ -78362,7 +78362,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11142;
 -- Update Undead Postman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11142 AND `map` = 329;
+WHERE `id` = 11142 AND `map` = 329;
 
 -- Loot table for Heroic Undead Postman (lootid 9102239)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102239;
@@ -78414,7 +78414,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10417;
 -- Update Venom Belcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10417 AND `map` = 329;
+WHERE `id` = 10417 AND `map` = 329;
 
 -- Loot table for Heroic Venom Belcher (lootid 9102240)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102240;
@@ -78466,7 +78466,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17914;
 -- Update Vicar Hieronymus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17914 AND `map` = 329;
+WHERE `id` = 17914 AND `map` = 329;
 
 -- Loot table for Heroic Vicar Hieronymus (lootid 9102241)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102241;
@@ -78514,7 +78514,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10464;
 -- Update Wailing Banshee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10464 AND `map` = 329;
+WHERE `id` = 10464 AND `map` = 329;
 
 -- Loot table for Heroic Wailing Banshee (lootid 9102242)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102242;
@@ -78566,7 +78566,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10811;
 -- Update Archivist Galford spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10811 AND `map` = 329;
+WHERE `id` = 10811 AND `map` = 329;
 
 -- Loot table for Heroic Archivist Galford (lootid 9102243)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102243;
@@ -78618,7 +78618,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10813;
 -- Update Balnazzar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10813 AND `map` = 329;
+WHERE `id` = 10813 AND `map` = 329;
 
 -- Loot table for Heroic Balnazzar (lootid 9102244)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102244;
@@ -78670,7 +78670,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10436;
 -- Update Baroness Anastari spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10436 AND `map` = 329;
+WHERE `id` = 10436 AND `map` = 329;
 
 -- Loot table for Heroic Baroness Anastari (lootid 9102245)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102245;
@@ -78722,7 +78722,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11121;
 -- Update Black Guard Swordsmith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11121 AND `map` = 329;
+WHERE `id` = 11121 AND `map` = 329;
 
 -- Loot table for Heroic Black Guard Swordsmith (lootid 9102246)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102246;
@@ -78774,7 +78774,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10997;
 -- Update Cannon Master Willey spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10997 AND `map` = 329;
+WHERE `id` = 10997 AND `map` = 329;
 
 -- Loot table for Heroic Cannon Master Willey (lootid 9102247)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102247;
@@ -78826,7 +78826,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11120;
 -- Update Crimson Hammersmith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11120 AND `map` = 329;
+WHERE `id` = 11120 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Hammersmith (lootid 9102248)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102248;
@@ -78878,7 +78878,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11058;
 -- Update Fras Siabi spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11058 AND `map` = 329;
+WHERE `id` = 11058 AND `map` = 329;
 
 -- Loot table for Heroic Fras Siabi (lootid 9102249)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102249;
@@ -78930,7 +78930,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16101;
 -- Update Jarien spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16101 AND `map` = 329;
+WHERE `id` = 16101 AND `map` = 329;
 
 -- Loot table for Heroic Jarien (lootid 9102250)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102250;
@@ -78982,7 +78982,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10435;
 -- Update Magistrate Barthilas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10435 AND `map` = 329;
+WHERE `id` = 10435 AND `map` = 329;
 
 -- Loot table for Heroic Magistrate Barthilas (lootid 9102251)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102251;
@@ -79034,7 +79034,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10438;
 -- Update Maleki the Pallid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10438 AND `map` = 329;
+WHERE `id` = 10438 AND `map` = 329;
 
 -- Loot table for Heroic Maleki the Pallid (lootid 9102252)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102252;
@@ -79086,7 +79086,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11032;
 -- Update Malor the Zealous spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11032 AND `map` = 329;
+WHERE `id` = 11032 AND `map` = 329;
 
 -- Loot table for Heroic Malor the Zealous (lootid 9102253)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102253;
@@ -79138,7 +79138,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10437;
 -- Update Nerub'enkan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10437 AND `map` = 329;
+WHERE `id` = 10437 AND `map` = 329;
 
 -- Loot table for Heroic Nerub'enkan (lootid 9102254)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102254;
@@ -79190,7 +79190,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11143;
 -- Update Postmaster Malown spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11143 AND `map` = 329;
+WHERE `id` = 11143 AND `map` = 329;
 
 -- Loot table for Heroic Postmaster Malown (lootid 9102255)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102255;
@@ -79242,7 +79242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10439;
 -- Update Ramstein the Gorger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10439 AND `map` = 329;
+WHERE `id` = 10439 AND `map` = 329;
 
 -- Loot table for Heroic Ramstein the Gorger (lootid 9102256)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102256;
@@ -79294,7 +79294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16102;
 -- Update Sothos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16102 AND `map` = 329;
+WHERE `id` = 16102 AND `map` = 329;
 
 -- Loot table for Heroic Sothos (lootid 9102257)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102257;
@@ -79346,7 +79346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11082;
 -- Update Stratholme Courier spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11082 AND `map` = 329;
+WHERE `id` = 11082 AND `map` = 329;
 
 -- Loot table for Heroic Stratholme Courier (lootid 9102258)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102258;
@@ -79398,7 +79398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10516;
 -- Update The Unforgiven spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10516 AND `map` = 329;
+WHERE `id` = 10516 AND `map` = 329;
 
 -- Loot table for Heroic The Unforgiven (lootid 9102259)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102259;
@@ -79450,7 +79450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10808;
 -- Update Timmy the Cruel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10808 AND `map` = 329;
+WHERE `id` = 10808 AND `map` = 329;
 
 -- Loot table for Heroic Timmy the Cruel (lootid 9102260)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102260;
@@ -79502,7 +79502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16387;
 -- Update Atiesh spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16387 AND `map` = 329;
+WHERE `id` = 16387 AND `map` = 329;
 
 -- Loot table for Heroic Atiesh (lootid 9102261)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102261;
@@ -79549,7 +79549,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14684;
 -- Update Balzaphon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14684 AND `map` = 329;
+WHERE `id` = 14684 AND `map` = 329;
 
 -- Loot table for Heroic Balzaphon (lootid 9102262)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102262;
@@ -79601,7 +79601,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10440;
 -- Update Baron Rivendare spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10440 AND `map` = 329;
+WHERE `id` = 10440 AND `map` = 329;
 
 -- Loot table for Heroic Baron Rivendare (lootid 9102263)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102263;
@@ -79653,7 +79653,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10558;
 -- Update Hearthsinger Forresten spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10558 AND `map` = 329;
+WHERE `id` = 10558 AND `map` = 329;
 
 -- Loot table for Heroic Hearthsinger Forresten (lootid 9102264)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102264;
@@ -79705,7 +79705,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10393;
 -- Update Skul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10393 AND `map` = 329;
+WHERE `id` = 10393 AND `map` = 329;
 
 -- Loot table for Heroic Skul (lootid 9102265)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102265;
@@ -79757,7 +79757,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10809;
 -- Update Stonespine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10809 AND `map` = 329;
+WHERE `id` = 10809 AND `map` = 329;
 
 -- Loot table for Heroic Stonespine (lootid 9102266)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102266;
@@ -79809,7 +79809,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10697;
 -- Update Bile Slime spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10697 AND `map` = 329;
+WHERE `id` = 10697 AND `map` = 329;
 
 -- Loot table for Heroic Bile Slime (lootid 9102267)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102267;
@@ -79857,7 +79857,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10383;
 -- Update Broken Cadaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10383 AND `map` = 329;
+WHERE `id` = 10383 AND `map` = 329;
 
 -- Loot table for Heroic Broken Cadaver (lootid 9102268)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102268;
@@ -79905,7 +79905,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11054;
 -- Update Crimson Rifleman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11054 AND `map` = 329;
+WHERE `id` = 11054 AND `map` = 329;
 
 -- Loot table for Heroic Crimson Rifleman (lootid 9102269)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102269;
@@ -79953,7 +79953,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15607;
 -- Update Elder Farwhisper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15607 AND `map` = 329;
+WHERE `id` = 15607 AND `map` = 329;
 
 -- Loot table for Heroic Elder Farwhisper (lootid 9102270)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102270;
@@ -80001,7 +80001,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10411;
 -- Update Eye of Naxxramas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10411 AND `map` = 329;
+WHERE `id` = 10411 AND `map` = 329;
 
 -- Loot table for Heroic Eye of Naxxramas (lootid 9102271)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102271;
@@ -80053,7 +80053,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11197;
 -- Update Mindless Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11197 AND `map` = 329;
+WHERE `id` = 11197 AND `map` = 329;
 
 -- Loot table for Heroic Mindless Skeleton (lootid 9102272)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102272;
@@ -80101,7 +80101,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11030;
 -- Update Mindless Undead spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11030 AND `map` = 329;
+WHERE `id` = 11030 AND `map` = 329;
 
 -- Loot table for Heroic Mindless Undead (lootid 9102273)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102273;
@@ -80149,7 +80149,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10461;
 -- Update Plagued Insect spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10461 AND `map` = 329;
+WHERE `id` = 10461 AND `map` = 329;
 
 -- Loot table for Heroic Plagued Insect (lootid 9102274)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102274;
@@ -80197,7 +80197,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10536;
 -- Update Plagued Maggot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10536 AND `map` = 329;
+WHERE `id` = 10536 AND `map` = 329;
 
 -- Loot table for Heroic Plagued Maggot (lootid 9102275)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102275;
@@ -80245,7 +80245,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10441;
 -- Update Plagued Rat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10441 AND `map` = 329;
+WHERE `id` = 10441 AND `map` = 329;
 
 -- Loot table for Heroic Plagued Rat (lootid 9102276)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102276;
@@ -80293,7 +80293,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11122;
 -- Update Restless Soul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11122 AND `map` = 329;
+WHERE `id` = 11122 AND `map` = 329;
 
 -- Loot table for Heroic Restless Soul (lootid 9102277)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102277;
@@ -80341,7 +80341,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10391;
 -- Update Skeletal Berserker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10391 AND `map` = 329;
+WHERE `id` = 10391 AND `map` = 329;
 
 -- Loot table for Heroic Skeletal Berserker (lootid 9102278)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102278;
@@ -80393,7 +80393,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10390;
 -- Update Skeletal Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10390 AND `map` = 329;
+WHERE `id` = 10390 AND `map` = 329;
 
 -- Loot table for Heroic Skeletal Guardian (lootid 9102279)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102279;
@@ -80445,7 +80445,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8477;
 -- Update Skeletal Servant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8477 AND `map` = 329;
+WHERE `id` = 8477 AND `map` = 329;
 
 -- Loot table for Heroic Skeletal Servant (lootid 9102280)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102280;
@@ -80493,7 +80493,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10388;
 -- Update Spiteful Phantom spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10388 AND `map` = 329;
+WHERE `id` = 10388 AND `map` = 329;
 
 -- Loot table for Heroic Spiteful Phantom (lootid 9102281)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102281;
@@ -80541,7 +80541,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10955;
 -- Update Summoned Water Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10955 AND `map` = 329;
+WHERE `id` = 10955 AND `map` = 329;
 
 -- Loot table for Heroic Summoned Water Elemental (lootid 9102282)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102282;
@@ -80589,7 +80589,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10399;
 -- Update Thuzadin Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10399 AND `map` = 329;
+WHERE `id` = 10399 AND `map` = 329;
 
 -- Loot table for Heroic Thuzadin Acolyte (lootid 9102283)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102283;
@@ -80641,7 +80641,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10876;
 -- Update Undead Scarab spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10876 AND `map` = 329;
+WHERE `id` = 10876 AND `map` = 329;
 
 -- Loot table for Heroic Undead Scarab (lootid 9102284)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102284;
@@ -80689,7 +80689,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10387;
 -- Update Vengeful Phantom spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10387 AND `map` = 329;
+WHERE `id` = 10387 AND `map` = 329;
 
 -- Loot table for Heroic Vengeful Phantom (lootid 9102285)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102285;
@@ -80741,7 +80741,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10389;
 -- Update Wrath Phantom spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10389 AND `map` = 329;
+WHERE `id` = 10389 AND `map` = 329;
 
 -- Loot table for Heroic Wrath Phantom (lootid 9102286)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102286;
@@ -80789,7 +80789,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16031;
 -- Update Ysida Harmon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16031 AND `map` = 329;
+WHERE `id` = 16031 AND `map` = 329;
 
 -- Loot table for Heroic Ysida Harmon (lootid 9102287)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102287;
@@ -80837,7 +80837,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17913;
 -- Update Aelmar the Vanquisher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17913 AND `map` = 329;
+WHERE `id` = 17913 AND `map` = 329;
 
 -- Loot table for Mythic Aelmar the Vanquisher (lootid 9102288)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102288;
@@ -80885,7 +80885,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10917;
 -- Update Aurius spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10917 AND `map` = 329;
+WHERE `id` = 10917 AND `map` = 329;
 
 -- Loot table for Mythic Aurius (lootid 9102289)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102289;
@@ -80933,7 +80933,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10416;
 -- Update Bile Spewer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10416 AND `map` = 329;
+WHERE `id` = 10416 AND `map` = 329;
 
 -- Loot table for Mythic Bile Spewer (lootid 9102290)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102290;
@@ -80985,7 +80985,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10394;
 -- Update Black Guard Sentry spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10394 AND `map` = 329;
+WHERE `id` = 10394 AND `map` = 329;
 
 -- Loot table for Mythic Black Guard Sentry (lootid 9102291)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102291;
@@ -81037,7 +81037,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17911;
 -- Update Cathela the Seeker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17911 AND `map` = 329;
+WHERE `id` = 17911 AND `map` = 329;
 
 -- Loot table for Mythic Cathela the Seeker (lootid 9102292)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102292;
@@ -81085,7 +81085,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10425;
 -- Update Crimson Battle Mage spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10425 AND `map` = 329;
+WHERE `id` = 10425 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Battle Mage (lootid 9102293)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102293;
@@ -81137,7 +81137,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10419;
 -- Update Crimson Conjuror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10419 AND `map` = 329;
+WHERE `id` = 10419 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Conjuror (lootid 9102294)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102294;
@@ -81189,7 +81189,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10421;
 -- Update Crimson Defender spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10421 AND `map` = 329;
+WHERE `id` = 10421 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Defender (lootid 9102295)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102295;
@@ -81241,7 +81241,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10424;
 -- Update Crimson Gallant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10424 AND `map` = 329;
+WHERE `id` = 10424 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Gallant (lootid 9102296)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102296;
@@ -81293,7 +81293,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10418;
 -- Update Crimson Guardsman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10418 AND `map` = 329;
+WHERE `id` = 10418 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Guardsman (lootid 9102297)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102297;
@@ -81345,7 +81345,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10420;
 -- Update Crimson Initiate spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10420 AND `map` = 329;
+WHERE `id` = 10420 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Initiate (lootid 9102298)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102298;
@@ -81397,7 +81397,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10426;
 -- Update Crimson Inquisitor spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10426 AND `map` = 329;
+WHERE `id` = 10426 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Inquisitor (lootid 9102299)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102299;
@@ -81449,7 +81449,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11043;
 -- Update Crimson Monk spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11043 AND `map` = 329;
+WHERE `id` = 11043 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Monk (lootid 9102300)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102300;
@@ -81501,7 +81501,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10423;
 -- Update Crimson Priest spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10423 AND `map` = 329;
+WHERE `id` = 10423 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Priest (lootid 9102301)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102301;
@@ -81553,7 +81553,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10422;
 -- Update Crimson Sorcerer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10422 AND `map` = 329;
+WHERE `id` = 10422 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Sorcerer (lootid 9102302)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102302;
@@ -81605,7 +81605,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10413;
 -- Update Crypt Beast spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10413 AND `map` = 329;
+WHERE `id` = 10413 AND `map` = 329;
 
 -- Loot table for Mythic Crypt Beast (lootid 9102303)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102303;
@@ -81657,7 +81657,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10412;
 -- Update Crypt Crawler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10412 AND `map` = 329;
+WHERE `id` = 10412 AND `map` = 329;
 
 -- Loot table for Mythic Crypt Crawler (lootid 9102304)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102304;
@@ -81709,7 +81709,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17252;
 -- Update Felguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17252 AND `map` = 329;
+WHERE `id` = 17252 AND `map` = 329;
 
 -- Loot table for Mythic Felguard (lootid 9102305)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102305;
@@ -81757,7 +81757,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 417;
 -- Update Felhunter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 417 AND `map` = 329;
+WHERE `id` = 417 AND `map` = 329;
 
 -- Loot table for Mythic Felhunter (lootid 9102306)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102306;
@@ -81805,7 +81805,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10407;
 -- Update Fleshflayer Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10407 AND `map` = 329;
+WHERE `id` = 10407 AND `map` = 329;
 
 -- Loot table for Mythic Fleshflayer Ghoul (lootid 9102307)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102307;
@@ -81857,7 +81857,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10385;
 -- Update Ghostly Citizen spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10385 AND `map` = 329;
+WHERE `id` = 10385 AND `map` = 329;
 
 -- Loot table for Mythic Ghostly Citizen (lootid 9102308)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102308;
@@ -81909,7 +81909,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10406;
 -- Update Ghoul Ravener spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10406 AND `map` = 329;
+WHERE `id` = 10406 AND `map` = 329;
 
 -- Loot table for Mythic Ghoul Ravener (lootid 9102309)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102309;
@@ -81961,7 +81961,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10812;
 -- Update Grand Crusader Dathrohan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10812 AND `map` = 329;
+WHERE `id` = 10812 AND `map` = 329;
 
 -- Loot table for Mythic Grand Crusader Dathrohan (lootid 9102310)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102310;
@@ -82009,7 +82009,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15438;
 -- Update Greater Fire Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15438 AND `map` = 329;
+WHERE `id` = 15438 AND `map` = 329;
 
 -- Loot table for Mythic Greater Fire Elemental (lootid 9102311)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102311;
@@ -82057,7 +82057,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17910;
 -- Update Gregor the Justiciar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17910 AND `map` = 329;
+WHERE `id` = 17910 AND `map` = 329;
 
 -- Loot table for Mythic Gregor the Justiciar (lootid 9102312)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102312;
@@ -82105,7 +82105,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 416;
 -- Update Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 416 AND `map` = 329;
+WHERE `id` = 416 AND `map` = 329;
 
 -- Loot table for Mythic Imp (lootid 9102313)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102313;
@@ -82153,7 +82153,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10382;
 -- Update Mangled Cadaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10382 AND `map` = 329;
+WHERE `id` = 10382 AND `map` = 329;
 
 -- Loot table for Mythic Mangled Cadaver (lootid 9102314)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102314;
@@ -82205,7 +82205,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17912;
 -- Update Nemas the Arbiter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17912 AND `map` = 329;
+WHERE `id` = 17912 AND `map` = 329;
 
 -- Loot table for Mythic Nemas the Arbiter (lootid 9102315)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102315;
@@ -82253,7 +82253,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10414;
 -- Update Patchwork Horror spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10414 AND `map` = 329;
+WHERE `id` = 10414 AND `map` = 329;
 
 -- Loot table for Mythic Patchwork Horror (lootid 9102316)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102316;
@@ -82305,7 +82305,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10405;
 -- Update Plague Ghoul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10405 AND `map` = 329;
+WHERE `id` = 10405 AND `map` = 329;
 
 -- Loot table for Mythic Plague Ghoul (lootid 9102317)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102317;
@@ -82357,7 +82357,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10381;
 -- Update Ravaged Cadaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10381 AND `map` = 329;
+WHERE `id` = 10381 AND `map` = 329;
 
 -- Loot table for Mythic Ravaged Cadaver (lootid 9102318)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102318;
@@ -82409,7 +82409,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10408;
 -- Update Rockwing Gargoyle spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10408 AND `map` = 329;
+WHERE `id` = 10408 AND `map` = 329;
 
 -- Loot table for Mythic Rockwing Gargoyle (lootid 9102319)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102319;
@@ -82461,7 +82461,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10409;
 -- Update Rockwing Screecher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10409 AND `map` = 329;
+WHERE `id` = 10409 AND `map` = 329;
 
 -- Loot table for Mythic Rockwing Screecher (lootid 9102320)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102320;
@@ -82513,7 +82513,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10463;
 -- Update Shrieking Banshee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10463 AND `map` = 329;
+WHERE `id` = 10463 AND `map` = 329;
 
 -- Loot table for Mythic Shrieking Banshee (lootid 9102321)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102321;
@@ -82565,7 +82565,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10384;
 -- Update Spectral Citizen spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10384 AND `map` = 329;
+WHERE `id` = 10384 AND `map` = 329;
 
 -- Loot table for Mythic Spectral Citizen (lootid 9102322)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102322;
@@ -82617,7 +82617,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16103;
 -- Update Spirit of Jarien spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16103 AND `map` = 329;
+WHERE `id` = 16103 AND `map` = 329;
 
 -- Loot table for Mythic Spirit of Jarien (lootid 9102323)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102323;
@@ -82665,7 +82665,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16104;
 -- Update Spirit of Sothos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16104 AND `map` = 329;
+WHERE `id` = 16104 AND `map` = 329;
 
 -- Loot table for Mythic Spirit of Sothos (lootid 9102324)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102324;
@@ -82713,7 +82713,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10400;
 -- Update Thuzadin Necromancer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10400 AND `map` = 329;
+WHERE `id` = 10400 AND `map` = 329;
 
 -- Loot table for Mythic Thuzadin Necromancer (lootid 9102325)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102325;
@@ -82765,7 +82765,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10398;
 -- Update Thuzadin Shadowcaster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10398 AND `map` = 329;
+WHERE `id` = 10398 AND `map` = 329;
 
 -- Loot table for Mythic Thuzadin Shadowcaster (lootid 9102326)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102326;
@@ -82817,7 +82817,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11142;
 -- Update Undead Postman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11142 AND `map` = 329;
+WHERE `id` = 11142 AND `map` = 329;
 
 -- Loot table for Mythic Undead Postman (lootid 9102327)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102327;
@@ -82869,7 +82869,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10417;
 -- Update Venom Belcher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10417 AND `map` = 329;
+WHERE `id` = 10417 AND `map` = 329;
 
 -- Loot table for Mythic Venom Belcher (lootid 9102328)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102328;
@@ -82921,7 +82921,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 17914;
 -- Update Vicar Hieronymus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 17914 AND `map` = 329;
+WHERE `id` = 17914 AND `map` = 329;
 
 -- Loot table for Mythic Vicar Hieronymus (lootid 9102329)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102329;
@@ -82969,7 +82969,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10464;
 -- Update Wailing Banshee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10464 AND `map` = 329;
+WHERE `id` = 10464 AND `map` = 329;
 
 -- Loot table for Mythic Wailing Banshee (lootid 9102330)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102330;
@@ -83021,7 +83021,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10811;
 -- Update Archivist Galford spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10811 AND `map` = 329;
+WHERE `id` = 10811 AND `map` = 329;
 
 -- Loot table for Mythic Archivist Galford (lootid 9102331)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102331;
@@ -83073,7 +83073,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10813;
 -- Update Balnazzar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10813 AND `map` = 329;
+WHERE `id` = 10813 AND `map` = 329;
 
 -- Loot table for Mythic Balnazzar (lootid 9102332)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102332;
@@ -83125,7 +83125,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10436;
 -- Update Baroness Anastari spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10436 AND `map` = 329;
+WHERE `id` = 10436 AND `map` = 329;
 
 -- Loot table for Mythic Baroness Anastari (lootid 9102333)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102333;
@@ -83177,7 +83177,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11121;
 -- Update Black Guard Swordsmith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11121 AND `map` = 329;
+WHERE `id` = 11121 AND `map` = 329;
 
 -- Loot table for Mythic Black Guard Swordsmith (lootid 9102334)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102334;
@@ -83229,7 +83229,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10997;
 -- Update Cannon Master Willey spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10997 AND `map` = 329;
+WHERE `id` = 10997 AND `map` = 329;
 
 -- Loot table for Mythic Cannon Master Willey (lootid 9102335)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102335;
@@ -83281,7 +83281,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11120;
 -- Update Crimson Hammersmith spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11120 AND `map` = 329;
+WHERE `id` = 11120 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Hammersmith (lootid 9102336)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102336;
@@ -83333,7 +83333,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11058;
 -- Update Fras Siabi spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11058 AND `map` = 329;
+WHERE `id` = 11058 AND `map` = 329;
 
 -- Loot table for Mythic Fras Siabi (lootid 9102337)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102337;
@@ -83385,7 +83385,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16101;
 -- Update Jarien spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16101 AND `map` = 329;
+WHERE `id` = 16101 AND `map` = 329;
 
 -- Loot table for Mythic Jarien (lootid 9102338)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102338;
@@ -83437,7 +83437,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10435;
 -- Update Magistrate Barthilas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10435 AND `map` = 329;
+WHERE `id` = 10435 AND `map` = 329;
 
 -- Loot table for Mythic Magistrate Barthilas (lootid 9102339)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102339;
@@ -83489,7 +83489,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10438;
 -- Update Maleki the Pallid spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10438 AND `map` = 329;
+WHERE `id` = 10438 AND `map` = 329;
 
 -- Loot table for Mythic Maleki the Pallid (lootid 9102340)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102340;
@@ -83541,7 +83541,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11032;
 -- Update Malor the Zealous spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11032 AND `map` = 329;
+WHERE `id` = 11032 AND `map` = 329;
 
 -- Loot table for Mythic Malor the Zealous (lootid 9102341)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102341;
@@ -83593,7 +83593,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10437;
 -- Update Nerub'enkan spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10437 AND `map` = 329;
+WHERE `id` = 10437 AND `map` = 329;
 
 -- Loot table for Mythic Nerub'enkan (lootid 9102342)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102342;
@@ -83645,7 +83645,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11143;
 -- Update Postmaster Malown spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11143 AND `map` = 329;
+WHERE `id` = 11143 AND `map` = 329;
 
 -- Loot table for Mythic Postmaster Malown (lootid 9102343)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102343;
@@ -83697,7 +83697,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10439;
 -- Update Ramstein the Gorger spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10439 AND `map` = 329;
+WHERE `id` = 10439 AND `map` = 329;
 
 -- Loot table for Mythic Ramstein the Gorger (lootid 9102344)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102344;
@@ -83749,7 +83749,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16102;
 -- Update Sothos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16102 AND `map` = 329;
+WHERE `id` = 16102 AND `map` = 329;
 
 -- Loot table for Mythic Sothos (lootid 9102345)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102345;
@@ -83801,7 +83801,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11082;
 -- Update Stratholme Courier spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11082 AND `map` = 329;
+WHERE `id` = 11082 AND `map` = 329;
 
 -- Loot table for Mythic Stratholme Courier (lootid 9102346)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102346;
@@ -83853,7 +83853,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10516;
 -- Update The Unforgiven spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10516 AND `map` = 329;
+WHERE `id` = 10516 AND `map` = 329;
 
 -- Loot table for Mythic The Unforgiven (lootid 9102347)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102347;
@@ -83905,7 +83905,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10808;
 -- Update Timmy the Cruel spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10808 AND `map` = 329;
+WHERE `id` = 10808 AND `map` = 329;
 
 -- Loot table for Mythic Timmy the Cruel (lootid 9102348)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102348;
@@ -83957,7 +83957,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16387;
 -- Update Atiesh spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16387 AND `map` = 329;
+WHERE `id` = 16387 AND `map` = 329;
 
 -- Loot table for Mythic Atiesh (lootid 9102349)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102349;
@@ -84004,7 +84004,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14684;
 -- Update Balzaphon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14684 AND `map` = 329;
+WHERE `id` = 14684 AND `map` = 329;
 
 -- Loot table for Mythic Balzaphon (lootid 9102350)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102350;
@@ -84056,7 +84056,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10440;
 -- Update Baron Rivendare spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10440 AND `map` = 329;
+WHERE `id` = 10440 AND `map` = 329;
 
 -- Loot table for Mythic Baron Rivendare (lootid 9102351)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102351;
@@ -84108,7 +84108,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10558;
 -- Update Hearthsinger Forresten spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10558 AND `map` = 329;
+WHERE `id` = 10558 AND `map` = 329;
 
 -- Loot table for Mythic Hearthsinger Forresten (lootid 9102352)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102352;
@@ -84160,7 +84160,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10393;
 -- Update Skul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10393 AND `map` = 329;
+WHERE `id` = 10393 AND `map` = 329;
 
 -- Loot table for Mythic Skul (lootid 9102353)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102353;
@@ -84212,7 +84212,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10809;
 -- Update Stonespine spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10809 AND `map` = 329;
+WHERE `id` = 10809 AND `map` = 329;
 
 -- Loot table for Mythic Stonespine (lootid 9102354)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102354;
@@ -84264,7 +84264,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10697;
 -- Update Bile Slime spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10697 AND `map` = 329;
+WHERE `id` = 10697 AND `map` = 329;
 
 -- Loot table for Mythic Bile Slime (lootid 9102355)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102355;
@@ -84312,7 +84312,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10383;
 -- Update Broken Cadaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10383 AND `map` = 329;
+WHERE `id` = 10383 AND `map` = 329;
 
 -- Loot table for Mythic Broken Cadaver (lootid 9102356)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102356;
@@ -84360,7 +84360,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11054;
 -- Update Crimson Rifleman spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11054 AND `map` = 329;
+WHERE `id` = 11054 AND `map` = 329;
 
 -- Loot table for Mythic Crimson Rifleman (lootid 9102357)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102357;
@@ -84408,7 +84408,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 15607;
 -- Update Elder Farwhisper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 15607 AND `map` = 329;
+WHERE `id` = 15607 AND `map` = 329;
 
 -- Loot table for Mythic Elder Farwhisper (lootid 9102358)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102358;
@@ -84456,7 +84456,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10411;
 -- Update Eye of Naxxramas spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10411 AND `map` = 329;
+WHERE `id` = 10411 AND `map` = 329;
 
 -- Loot table for Mythic Eye of Naxxramas (lootid 9102359)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102359;
@@ -84508,7 +84508,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11197;
 -- Update Mindless Skeleton spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11197 AND `map` = 329;
+WHERE `id` = 11197 AND `map` = 329;
 
 -- Loot table for Mythic Mindless Skeleton (lootid 9102360)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102360;
@@ -84556,7 +84556,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11030;
 -- Update Mindless Undead spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11030 AND `map` = 329;
+WHERE `id` = 11030 AND `map` = 329;
 
 -- Loot table for Mythic Mindless Undead (lootid 9102361)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102361;
@@ -84604,7 +84604,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10461;
 -- Update Plagued Insect spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10461 AND `map` = 329;
+WHERE `id` = 10461 AND `map` = 329;
 
 -- Loot table for Mythic Plagued Insect (lootid 9102362)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102362;
@@ -84652,7 +84652,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10536;
 -- Update Plagued Maggot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10536 AND `map` = 329;
+WHERE `id` = 10536 AND `map` = 329;
 
 -- Loot table for Mythic Plagued Maggot (lootid 9102363)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102363;
@@ -84700,7 +84700,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10441;
 -- Update Plagued Rat spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10441 AND `map` = 329;
+WHERE `id` = 10441 AND `map` = 329;
 
 -- Loot table for Mythic Plagued Rat (lootid 9102364)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102364;
@@ -84748,7 +84748,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11122;
 -- Update Restless Soul spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11122 AND `map` = 329;
+WHERE `id` = 11122 AND `map` = 329;
 
 -- Loot table for Mythic Restless Soul (lootid 9102365)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102365;
@@ -84796,7 +84796,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10391;
 -- Update Skeletal Berserker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10391 AND `map` = 329;
+WHERE `id` = 10391 AND `map` = 329;
 
 -- Loot table for Mythic Skeletal Berserker (lootid 9102366)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102366;
@@ -84848,7 +84848,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10390;
 -- Update Skeletal Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10390 AND `map` = 329;
+WHERE `id` = 10390 AND `map` = 329;
 
 -- Loot table for Mythic Skeletal Guardian (lootid 9102367)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102367;
@@ -84900,7 +84900,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 8477;
 -- Update Skeletal Servant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 8477 AND `map` = 329;
+WHERE `id` = 8477 AND `map` = 329;
 
 -- Loot table for Mythic Skeletal Servant (lootid 9102368)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102368;
@@ -84948,7 +84948,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10388;
 -- Update Spiteful Phantom spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10388 AND `map` = 329;
+WHERE `id` = 10388 AND `map` = 329;
 
 -- Loot table for Mythic Spiteful Phantom (lootid 9102369)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102369;
@@ -84996,7 +84996,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10955;
 -- Update Summoned Water Elemental spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10955 AND `map` = 329;
+WHERE `id` = 10955 AND `map` = 329;
 
 -- Loot table for Mythic Summoned Water Elemental (lootid 9102370)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102370;
@@ -85044,7 +85044,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10399;
 -- Update Thuzadin Acolyte spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10399 AND `map` = 329;
+WHERE `id` = 10399 AND `map` = 329;
 
 -- Loot table for Mythic Thuzadin Acolyte (lootid 9102371)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102371;
@@ -85096,7 +85096,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10876;
 -- Update Undead Scarab spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10876 AND `map` = 329;
+WHERE `id` = 10876 AND `map` = 329;
 
 -- Loot table for Mythic Undead Scarab (lootid 9102372)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102372;
@@ -85144,7 +85144,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10387;
 -- Update Vengeful Phantom spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10387 AND `map` = 329;
+WHERE `id` = 10387 AND `map` = 329;
 
 -- Loot table for Mythic Vengeful Phantom (lootid 9102373)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102373;
@@ -85196,7 +85196,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 10389;
 -- Update Wrath Phantom spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 10389 AND `map` = 329;
+WHERE `id` = 10389 AND `map` = 329;
 
 -- Loot table for Mythic Wrath Phantom (lootid 9102374)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102374;
@@ -85244,7 +85244,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16031;
 -- Update Ysida Harmon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16031 AND `map` = 329;
+WHERE `id` = 16031 AND `map` = 329;
 
 -- Loot table for Mythic Ysida Harmon (lootid 9102375)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102375;
@@ -85294,7 +85294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11859;
 -- Update Doomguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11859 AND `map` = 429;
+WHERE `id` = 11859 AND `map` = 429;
 
 -- Loot table for Heroic Doomguard (lootid 9102400)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102400;
@@ -85342,7 +85342,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14502;
 -- Update Xorothian Dreadsteed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14502 AND `map` = 429;
+WHERE `id` = 14502 AND `map` = 429;
 
 -- Loot table for Heroic Xorothian Dreadsteed (lootid 9102401)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102401;
@@ -85394,7 +85394,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11450;
 -- Update Gordok Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11450 AND `map` = 429;
+WHERE `id` = 11450 AND `map` = 429;
 
 -- Loot table for Heroic Gordok Reaver (lootid 9102402)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102402;
@@ -85446,7 +85446,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14308;
 -- Update Ferra spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14308 AND `map` = 429;
+WHERE `id` = 14308 AND `map` = 429;
 
 -- Loot table for Heroic Ferra (lootid 9102403)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102403;
@@ -85498,7 +85498,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14483;
 -- Update Dread Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14483 AND `map` = 429;
+WHERE `id` = 14483 AND `map` = 429;
 
 -- Loot table for Heroic Dread Guard (lootid 9102404)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102404;
@@ -85546,7 +85546,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16098;
 -- Update Empyrean spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16098 AND `map` = 429;
+WHERE `id` = 16098 AND `map` = 429;
 
 -- Loot table for Heroic Empyrean (lootid 9102405)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102405;
@@ -85594,7 +85594,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11446;
 -- Update Gordok Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11446 AND `map` = 429;
+WHERE `id` = 11446 AND `map` = 429;
 
 -- Loot table for Heroic Gordok Spirit (lootid 9102406)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102406;
@@ -85642,7 +85642,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14381;
 -- Update Lorekeeper Javon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14381 AND `map` = 429;
+WHERE `id` = 14381 AND `map` = 429;
 
 -- Loot table for Heroic Lorekeeper Javon (lootid 9102407)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102407;
@@ -85690,7 +85690,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14368;
 -- Update Lorekeeper Lydros spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14368 AND `map` = 429;
+WHERE `id` = 14368 AND `map` = 429;
 
 -- Loot table for Heroic Lorekeeper Lydros (lootid 9102408)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102408;
@@ -85738,7 +85738,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14382;
 -- Update Lorekeeper Mykos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14382 AND `map` = 429;
+WHERE `id` = 14382 AND `map` = 429;
 
 -- Loot table for Heroic Lorekeeper Mykos (lootid 9102409)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102409;
@@ -85786,7 +85786,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14353;
 -- Update Mizzle the Crafty spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14353 AND `map` = 429;
+WHERE `id` = 14353 AND `map` = 429;
 
 -- Loot table for Heroic Mizzle the Crafty (lootid 9102410)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102410;
@@ -85834,7 +85834,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14389;
 -- Update Netherwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14389 AND `map` = 429;
+WHERE `id` = 14389 AND `map` = 429;
 
 -- Loot table for Heroic Netherwalker (lootid 9102411)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102411;
@@ -85882,7 +85882,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14690;
 -- Update Revanchion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14690 AND `map` = 429;
+WHERE `id` = 14690 AND `map` = 429;
 
 -- Loot table for Heroic Revanchion (lootid 9102412)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102412;
@@ -85934,7 +85934,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14358;
 -- Update Shen'dralar Ancient spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14358 AND `map` = 429;
+WHERE `id` = 14358 AND `map` = 429;
 
 -- Loot table for Heroic Shen'dralar Ancient (lootid 9102413)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102413;
@@ -85982,7 +85982,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11480;
 -- Update Arcane Aberration spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11480 AND `map` = 429;
+WHERE `id` = 11480 AND `map` = 429;
 
 -- Loot table for Heroic Arcane Aberration (lootid 9102414)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102414;
@@ -86034,7 +86034,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14399;
 -- Update Arcane Torrent spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14399 AND `map` = 429;
+WHERE `id` = 14399 AND `map` = 429;
 
 -- Loot table for Heroic Arcane Torrent (lootid 9102415)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102415;
@@ -86086,7 +86086,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11445;
 -- Update Gordok Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11445 AND `map` = 429;
+WHERE `id` = 11445 AND `map` = 429;
 
 -- Loot table for Heroic Gordok Captain (lootid 9102416)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102416;
@@ -86138,7 +86138,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11448;
 -- Update Gordok Warlock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11448 AND `map` = 429;
+WHERE `id` = 11448 AND `map` = 429;
 
 -- Loot table for Heroic Gordok Warlock (lootid 9102417)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102417;
@@ -86190,7 +86190,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11484;
 -- Update Residual Monstrosity spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11484 AND `map` = 429;
+WHERE `id` = 11484 AND `map` = 429;
 
 -- Loot table for Heroic Residual Monstrosity (lootid 9102418)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102418;
@@ -86242,7 +86242,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14369;
 -- Update Shen'dralar Zealot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14369 AND `map` = 429;
+WHERE `id` = 14369 AND `map` = 429;
 
 -- Loot table for Heroic Shen'dralar Zealot (lootid 9102419)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102419;
@@ -86290,7 +86290,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14398;
 -- Update Eldreth Darter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14398 AND `map` = 429;
+WHERE `id` = 14398 AND `map` = 429;
 
 -- Loot table for Heroic Eldreth Darter (lootid 9102420)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102420;
@@ -86342,7 +86342,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11475;
 -- Update Eldreth Phantasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11475 AND `map` = 429;
+WHERE `id` = 11475 AND `map` = 429;
 
 -- Loot table for Heroic Eldreth Phantasm (lootid 9102421)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102421;
@@ -86394,7 +86394,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11469;
 -- Update Eldreth Seether spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11469 AND `map` = 429;
+WHERE `id` = 11469 AND `map` = 429;
 
 -- Loot table for Heroic Eldreth Seether (lootid 9102422)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102422;
@@ -86446,7 +86446,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11470;
 -- Update Eldreth Sorcerer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11470 AND `map` = 429;
+WHERE `id` = 11470 AND `map` = 429;
 
 -- Loot table for Heroic Eldreth Sorcerer (lootid 9102423)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102423;
@@ -86498,7 +86498,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11473;
 -- Update Eldreth Spectre spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11473 AND `map` = 429;
+WHERE `id` = 11473 AND `map` = 429;
 
 -- Loot table for Heroic Eldreth Spectre (lootid 9102424)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102424;
@@ -86550,7 +86550,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14351;
 -- Update Gordok Bushwacker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14351 AND `map` = 429;
+WHERE `id` = 14351 AND `map` = 429;
 
 -- Loot table for Heroic Gordok Bushwacker (lootid 9102425)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102425;
@@ -86602,7 +86602,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11477;
 -- Update Rotting Highborne spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11477 AND `map` = 429;
+WHERE `id` = 11477 AND `map` = 429;
 
 -- Loot table for Heroic Rotting Highborne (lootid 9102426)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102426;
@@ -86654,7 +86654,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11459;
 -- Update Ironbark Protector spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11459 AND `map` = 429;
+WHERE `id` = 11459 AND `map` = 429;
 
 -- Loot table for Heroic Ironbark Protector (lootid 9102427)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102427;
@@ -86706,7 +86706,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11483;
 -- Update Mana Remnant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11483 AND `map` = 429;
+WHERE `id` = 11483 AND `map` = 429;
 
 -- Loot table for Heroic Mana Remnant (lootid 9102428)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102428;
@@ -86758,7 +86758,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14303;
 -- Update Petrified Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14303 AND `map` = 429;
+WHERE `id` = 14303 AND `map` = 429;
 
 -- Loot table for Heroic Petrified Guardian (lootid 9102429)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102429;
@@ -86810,7 +86810,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11458;
 -- Update Petrified Treant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11458 AND `map` = 429;
+WHERE `id` = 11458 AND `map` = 429;
 
 -- Loot table for Heroic Petrified Treant (lootid 9102430)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102430;
@@ -86862,7 +86862,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13036;
 -- Update Gordok Mastiff spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13036 AND `map` = 429;
+WHERE `id` = 13036 AND `map` = 429;
 
 -- Loot table for Heroic Gordok Mastiff (lootid 9102431)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102431;
@@ -86914,7 +86914,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14383;
 -- Update Lorekeeper Kildrath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14383 AND `map` = 429;
+WHERE `id` = 14383 AND `map` = 429;
 
 -- Loot table for Heroic Lorekeeper Kildrath (lootid 9102432)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102432;
@@ -86962,7 +86962,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11491;
 -- Update Old Ironbark spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11491 AND `map` = 429;
+WHERE `id` = 11491 AND `map` = 429;
 
 -- Loot table for Heroic Old Ironbark (lootid 9102433)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102433;
@@ -87010,7 +87010,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13285;
 -- Update Death Lash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13285 AND `map` = 429;
+WHERE `id` = 13285 AND `map` = 429;
 
 -- Loot table for Heroic Death Lash (lootid 9102434)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102434;
@@ -87062,7 +87062,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11471;
 -- Update Eldreth Apparition spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11471 AND `map` = 429;
+WHERE `id` = 11471 AND `map` = 429;
 
 -- Loot table for Heroic Eldreth Apparition (lootid 9102435)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102435;
@@ -87114,7 +87114,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11472;
 -- Update Eldreth Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11472 AND `map` = 429;
+WHERE `id` = 11472 AND `map` = 429;
 
 -- Loot table for Heroic Eldreth Spirit (lootid 9102436)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102436;
@@ -87166,7 +87166,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11441;
 -- Update Gordok Brute spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11441 AND `map` = 429;
+WHERE `id` = 11441 AND `map` = 429;
 
 -- Loot table for Heroic Gordok Brute (lootid 9102437)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102437;
@@ -87218,7 +87218,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11444;
 -- Update Gordok Mage-Lord spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11444 AND `map` = 429;
+WHERE `id` = 11444 AND `map` = 429;
 
 -- Loot table for Heroic Gordok Mage-Lord (lootid 9102438)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102438;
@@ -87270,7 +87270,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11461;
 -- Update Warpwood Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11461 AND `map` = 429;
+WHERE `id` = 11461 AND `map` = 429;
 
 -- Loot table for Heroic Warpwood Guardian (lootid 9102439)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102439;
@@ -87322,7 +87322,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11465;
 -- Update Warpwood Stomper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11465 AND `map` = 429;
+WHERE `id` = 11465 AND `map` = 429;
 
 -- Loot table for Heroic Warpwood Stomper (lootid 9102440)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102440;
@@ -87374,7 +87374,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14364;
 -- Update Shen'dralar Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14364 AND `map` = 429;
+WHERE `id` = 14364 AND `map` = 429;
 
 -- Loot table for Heroic Shen'dralar Spirit (lootid 9102441)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102441;
@@ -87422,7 +87422,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11457;
 -- Update Wildspawn Hellcaller spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11457 AND `map` = 429;
+WHERE `id` = 11457 AND `map` = 429;
 
 -- Loot table for Heroic Wildspawn Hellcaller (lootid 9102442)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102442;
@@ -87474,7 +87474,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11452;
 -- Update Wildspawn Rogue spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11452 AND `map` = 429;
+WHERE `id` = 11452 AND `map` = 429;
 
 -- Loot table for Heroic Wildspawn Rogue (lootid 9102443)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102443;
@@ -87526,7 +87526,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11453;
 -- Update Wildspawn Trickster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11453 AND `map` = 429;
+WHERE `id` = 11453 AND `map` = 429;
 
 -- Loot table for Heroic Wildspawn Trickster (lootid 9102444)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102444;
@@ -87578,7 +87578,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13197;
 -- Update Fel Lash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13197 AND `map` = 429;
+WHERE `id` = 13197 AND `map` = 429;
 
 -- Loot table for Heroic Fel Lash (lootid 9102445)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102445;
@@ -87630,7 +87630,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13021;
 -- Update Warpwood Crusher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13021 AND `map` = 429;
+WHERE `id` = 13021 AND `map` = 429;
 
 -- Loot table for Heroic Warpwood Crusher (lootid 9102446)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102446;
@@ -87682,7 +87682,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11456;
 -- Update Wildspawn Shadowstalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11456 AND `map` = 429;
+WHERE `id` = 11456 AND `map` = 429;
 
 -- Loot table for Heroic Wildspawn Shadowstalker (lootid 9102447)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102447;
@@ -87734,7 +87734,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11460;
 -- Update Alzzin's Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11460 AND `map` = 429;
+WHERE `id` = 11460 AND `map` = 429;
 
 -- Loot table for Heroic Alzzin's Minion (lootid 9102448)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102448;
@@ -87782,7 +87782,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13276;
 -- Update Wildspawn Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13276 AND `map` = 429;
+WHERE `id` = 13276 AND `map` = 429;
 
 -- Loot table for Heroic Wildspawn Imp (lootid 9102449)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102449;
@@ -87834,7 +87834,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11464;
 -- Update Warpwood Tangler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11464 AND `map` = 429;
+WHERE `id` = 11464 AND `map` = 429;
 
 -- Loot table for Heroic Warpwood Tangler (lootid 9102450)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102450;
@@ -87886,7 +87886,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11454;
 -- Update Wildspawn Betrayer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11454 AND `map` = 429;
+WHERE `id` = 11454 AND `map` = 429;
 
 -- Loot table for Heroic Wildspawn Betrayer (lootid 9102451)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102451;
@@ -87938,7 +87938,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11455;
 -- Update Wildspawn Felsworn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11455 AND `map` = 429;
+WHERE `id` = 11455 AND `map` = 429;
 
 -- Loot table for Heroic Wildspawn Felsworn (lootid 9102452)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102452;
@@ -87990,7 +87990,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11451;
 -- Update Wildspawn Satyr spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11451 AND `map` = 429;
+WHERE `id` = 11451 AND `map` = 429;
 
 -- Loot table for Heroic Wildspawn Satyr (lootid 9102453)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102453;
@@ -88042,7 +88042,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11466;
 -- Update Highborne Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11466 AND `map` = 429;
+WHERE `id` = 11466 AND `map` = 429;
 
 -- Loot table for Heroic Highborne Summoner (lootid 9102454)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102454;
@@ -88090,7 +88090,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13196;
 -- Update Phase Lasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13196 AND `map` = 429;
+WHERE `id` = 13196 AND `map` = 429;
 
 -- Loot table for Heroic Phase Lasher (lootid 9102455)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102455;
@@ -88142,7 +88142,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11462;
 -- Update Warpwood Treant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11462 AND `map` = 429;
+WHERE `id` = 11462 AND `map` = 429;
 
 -- Loot table for Heroic Warpwood Treant (lootid 9102456)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102456;
@@ -88194,7 +88194,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13022;
 -- Update Whip Lasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13022 AND `map` = 429;
+WHERE `id` = 13022 AND `map` = 429;
 
 -- Loot table for Heroic Whip Lasher (lootid 9102457)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102457;
@@ -88246,7 +88246,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14371;
 -- Update Shen'dralar Provisioner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14371 AND `map` = 429;
+WHERE `id` = 14371 AND `map` = 429;
 
 -- Loot table for Heroic Shen'dralar Provisioner (lootid 9102458)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102458;
@@ -88294,7 +88294,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16097;
 -- Update Isalien spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16097 AND `map` = 429;
+WHERE `id` = 16097 AND `map` = 429;
 
 -- Loot table for Heroic Isalien (lootid 9102459)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102459;
@@ -88346,7 +88346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14506;
 -- Update Lord Hel'nurath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14506 AND `map` = 429;
+WHERE `id` = 14506 AND `map` = 429;
 
 -- Loot table for Heroic Lord Hel'nurath (lootid 9102460)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102460;
@@ -88398,7 +88398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11501;
 -- Update King Gordok spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11501 AND `map` = 429;
+WHERE `id` = 11501 AND `map` = 429;
 
 -- Loot table for Heroic King Gordok (lootid 9102461)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102461;
@@ -88450,7 +88450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14325;
 -- Update Captain Kromcrush spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14325 AND `map` = 429;
+WHERE `id` = 14325 AND `map` = 429;
 
 -- Loot table for Heroic Captain Kromcrush (lootid 9102462)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102462;
@@ -88502,7 +88502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11496;
 -- Update Immol'thar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11496 AND `map` = 429;
+WHERE `id` = 11496 AND `map` = 429;
 
 -- Loot table for Heroic Immol'thar (lootid 9102463)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102463;
@@ -88554,7 +88554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11486;
 -- Update Prince Tortheldrin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11486 AND `map` = 429;
+WHERE `id` = 11486 AND `map` = 429;
 
 -- Loot table for Heroic Prince Tortheldrin (lootid 9102464)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102464;
@@ -88606,7 +88606,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14324;
 -- Update Cho'Rush the Observer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14324 AND `map` = 429;
+WHERE `id` = 14324 AND `map` = 429;
 
 -- Loot table for Heroic Cho'Rush the Observer (lootid 9102465)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102465;
@@ -88658,7 +88658,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11488;
 -- Update Illyanna Ravenoak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11488 AND `map` = 429;
+WHERE `id` = 11488 AND `map` = 429;
 
 -- Loot table for Heroic Illyanna Ravenoak (lootid 9102466)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102466;
@@ -88710,7 +88710,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11487;
 -- Update Magister Kalendris spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11487 AND `map` = 429;
+WHERE `id` = 11487 AND `map` = 429;
 
 -- Loot table for Heroic Magister Kalendris (lootid 9102467)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102467;
@@ -88762,7 +88762,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11489;
 -- Update Tendris Warpwood spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11489 AND `map` = 429;
+WHERE `id` = 11489 AND `map` = 429;
 
 -- Loot table for Heroic Tendris Warpwood (lootid 9102468)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102468;
@@ -88814,7 +88814,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11467;
 -- Update Tsu'zee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11467 AND `map` = 429;
+WHERE `id` = 11467 AND `map` = 429;
 
 -- Loot table for Heroic Tsu'zee (lootid 9102469)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102469;
@@ -88866,7 +88866,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14321;
 -- Update Guard Fengus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14321 AND `map` = 429;
+WHERE `id` = 14321 AND `map` = 429;
 
 -- Loot table for Heroic Guard Fengus (lootid 9102470)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102470;
@@ -88918,7 +88918,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14326;
 -- Update Guard Mol'dar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14326 AND `map` = 429;
+WHERE `id` = 14326 AND `map` = 429;
 
 -- Loot table for Heroic Guard Mol'dar (lootid 9102471)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102471;
@@ -88970,7 +88970,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14323;
 -- Update Guard Slip'kik spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14323 AND `map` = 429;
+WHERE `id` = 14323 AND `map` = 429;
 
 -- Loot table for Heroic Guard Slip'kik (lootid 9102472)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102472;
@@ -89022,7 +89022,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14322;
 -- Update Stomper Kreeg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14322 AND `map` = 429;
+WHERE `id` = 14322 AND `map` = 429;
 
 -- Loot table for Heroic Stomper Kreeg (lootid 9102473)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102473;
@@ -89074,7 +89074,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11492;
 -- Update Alzzin the Wildshaper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11492 AND `map` = 429;
+WHERE `id` = 11492 AND `map` = 429;
 
 -- Loot table for Heroic Alzzin the Wildshaper (lootid 9102474)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102474;
@@ -89126,7 +89126,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13280;
 -- Update Hydrospawn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13280 AND `map` = 429;
+WHERE `id` = 13280 AND `map` = 429;
 
 -- Loot table for Heroic Hydrospawn (lootid 9102475)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102475;
@@ -89178,7 +89178,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14327;
 -- Update Lethtendris spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14327 AND `map` = 429;
+WHERE `id` = 14327 AND `map` = 429;
 
 -- Loot table for Heroic Lethtendris (lootid 9102476)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102476;
@@ -89230,7 +89230,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14354;
 -- Update Pusillin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14354 AND `map` = 429;
+WHERE `id` = 14354 AND `map` = 429;
 
 -- Loot table for Heroic Pusillin (lootid 9102477)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102477;
@@ -89282,7 +89282,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11490;
 -- Update Zevrim Thornhoof spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11490 AND `map` = 429;
+WHERE `id` = 11490 AND `map` = 429;
 
 -- Loot table for Heroic Zevrim Thornhoof (lootid 9102478)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102478;
@@ -89334,7 +89334,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14349;
 -- Update Pimgib spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14349 AND `map` = 429;
+WHERE `id` = 14349 AND `map` = 429;
 
 -- Loot table for Heroic Pimgib (lootid 9102479)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102479;
@@ -89386,7 +89386,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14500;
 -- Update J'eevee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14500 AND `map` = 429;
+WHERE `id` = 14500 AND `map` = 429;
 
 -- Loot table for Heroic J'eevee (lootid 9102480)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102480;
@@ -89434,7 +89434,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14396;
 -- Update Eye of Immol'thar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14396 AND `map` = 429;
+WHERE `id` = 14396 AND `map` = 429;
 
 -- Loot table for Heroic Eye of Immol'thar (lootid 9102481)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102481;
@@ -89482,7 +89482,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14566;
 -- Update Ancient Equine Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14566 AND `map` = 429;
+WHERE `id` = 14566 AND `map` = 429;
 
 -- Loot table for Heroic Ancient Equine Spirit (lootid 9102482)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102482;
@@ -89530,7 +89530,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14370;
 -- Update Cadaverous Worm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14370 AND `map` = 429;
+WHERE `id` = 14370 AND `map` = 429;
 
 -- Loot table for Heroic Cadaverous Worm (lootid 9102483)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102483;
@@ -89578,7 +89578,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14504;
 -- Update Dreadsteed Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14504 AND `map` = 429;
+WHERE `id` = 14504 AND `map` = 429;
 
 -- Loot table for Heroic Dreadsteed Spirit (lootid 9102484)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102484;
@@ -89626,7 +89626,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16032;
 -- Update Falrin Treeshaper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16032 AND `map` = 429;
+WHERE `id` = 16032 AND `map` = 429;
 
 -- Loot table for Heroic Falrin Treeshaper (lootid 9102485)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102485;
@@ -89674,7 +89674,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14122;
 -- Update Massive Geyser spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14122 AND `map` = 429;
+WHERE `id` = 14122 AND `map` = 429;
 
 -- Loot table for Heroic Massive Geyser (lootid 9102486)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102486;
@@ -89722,7 +89722,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16093;
 -- Update Spectral Stalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16093 AND `map` = 429;
+WHERE `id` = 16093 AND `map` = 429;
 
 -- Loot table for Heroic Spectral Stalker (lootid 9102487)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102487;
@@ -89770,7 +89770,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14386;
 -- Update Wandering Eye of Kilrogg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14386 AND `map` = 429;
+WHERE `id` = 14386 AND `map` = 429;
 
 -- Loot table for Heroic Wandering Eye of Kilrogg (lootid 9102488)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102488;
@@ -89818,7 +89818,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14400;
 -- Update Arcane Feedback spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14400 AND `map` = 429;
+WHERE `id` = 14400 AND `map` = 429;
 
 -- Loot table for Heroic Arcane Feedback (lootid 9102489)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102489;
@@ -89870,7 +89870,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14385;
 -- Update Doomguard Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14385 AND `map` = 429;
+WHERE `id` = 14385 AND `map` = 429;
 
 -- Loot table for Heroic Doomguard Minion (lootid 9102490)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102490;
@@ -89922,7 +89922,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14397;
 -- Update Mana Burst spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14397 AND `map` = 429;
+WHERE `id` = 14397 AND `map` = 429;
 
 -- Loot table for Heroic Mana Burst (lootid 9102491)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102491;
@@ -89970,7 +89970,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14482;
 -- Update Xorothian Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14482 AND `map` = 429;
+WHERE `id` = 14482 AND `map` = 429;
 
 -- Loot table for Heroic Xorothian Imp (lootid 9102492)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102492;
@@ -90018,7 +90018,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13160;
 -- Update Carrion Swarmer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13160 AND `map` = 429;
+WHERE `id` = 13160 AND `map` = 429;
 
 -- Loot table for Heroic Carrion Swarmer (lootid 9102493)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102493;
@@ -90070,7 +90070,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11476;
 -- Update Skeletal Highborne spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11476 AND `map` = 429;
+WHERE `id` = 11476 AND `map` = 429;
 
 -- Loot table for Heroic Skeletal Highborne (lootid 9102494)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102494;
@@ -90122,7 +90122,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14350;
 -- Update Hydroling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14350 AND `map` = 429;
+WHERE `id` = 14350 AND `map` = 429;
 
 -- Loot table for Heroic Hydroling (lootid 9102495)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102495;
@@ -90170,7 +90170,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14338;
 -- Update Knot Thimblejack spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14338 AND `map` = 429;
+WHERE `id` = 14338 AND `map` = 429;
 
 -- Loot table for Heroic Knot Thimblejack (lootid 9102496)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102496;
@@ -90218,7 +90218,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11859;
 -- Update Doomguard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11859 AND `map` = 429;
+WHERE `id` = 11859 AND `map` = 429;
 
 -- Loot table for Mythic Doomguard (lootid 9102497)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102497;
@@ -90266,7 +90266,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14502;
 -- Update Xorothian Dreadsteed spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14502 AND `map` = 429;
+WHERE `id` = 14502 AND `map` = 429;
 
 -- Loot table for Mythic Xorothian Dreadsteed (lootid 9102498)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102498;
@@ -90318,7 +90318,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11450;
 -- Update Gordok Reaver spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11450 AND `map` = 429;
+WHERE `id` = 11450 AND `map` = 429;
 
 -- Loot table for Mythic Gordok Reaver (lootid 9102499)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102499;
@@ -90370,7 +90370,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14308;
 -- Update Ferra spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14308 AND `map` = 429;
+WHERE `id` = 14308 AND `map` = 429;
 
 -- Loot table for Mythic Ferra (lootid 9102500)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102500;
@@ -90422,7 +90422,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14483;
 -- Update Dread Guard spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14483 AND `map` = 429;
+WHERE `id` = 14483 AND `map` = 429;
 
 -- Loot table for Mythic Dread Guard (lootid 9102501)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102501;
@@ -90470,7 +90470,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16098;
 -- Update Empyrean spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16098 AND `map` = 429;
+WHERE `id` = 16098 AND `map` = 429;
 
 -- Loot table for Mythic Empyrean (lootid 9102502)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102502;
@@ -90518,7 +90518,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11446;
 -- Update Gordok Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11446 AND `map` = 429;
+WHERE `id` = 11446 AND `map` = 429;
 
 -- Loot table for Mythic Gordok Spirit (lootid 9102503)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102503;
@@ -90566,7 +90566,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14381;
 -- Update Lorekeeper Javon spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14381 AND `map` = 429;
+WHERE `id` = 14381 AND `map` = 429;
 
 -- Loot table for Mythic Lorekeeper Javon (lootid 9102504)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102504;
@@ -90614,7 +90614,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14368;
 -- Update Lorekeeper Lydros spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14368 AND `map` = 429;
+WHERE `id` = 14368 AND `map` = 429;
 
 -- Loot table for Mythic Lorekeeper Lydros (lootid 9102505)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102505;
@@ -90662,7 +90662,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14382;
 -- Update Lorekeeper Mykos spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14382 AND `map` = 429;
+WHERE `id` = 14382 AND `map` = 429;
 
 -- Loot table for Mythic Lorekeeper Mykos (lootid 9102506)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102506;
@@ -90710,7 +90710,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14353;
 -- Update Mizzle the Crafty spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14353 AND `map` = 429;
+WHERE `id` = 14353 AND `map` = 429;
 
 -- Loot table for Mythic Mizzle the Crafty (lootid 9102507)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102507;
@@ -90758,7 +90758,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14389;
 -- Update Netherwalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14389 AND `map` = 429;
+WHERE `id` = 14389 AND `map` = 429;
 
 -- Loot table for Mythic Netherwalker (lootid 9102508)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102508;
@@ -90806,7 +90806,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14690;
 -- Update Revanchion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14690 AND `map` = 429;
+WHERE `id` = 14690 AND `map` = 429;
 
 -- Loot table for Mythic Revanchion (lootid 9102509)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102509;
@@ -90858,7 +90858,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14358;
 -- Update Shen'dralar Ancient spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14358 AND `map` = 429;
+WHERE `id` = 14358 AND `map` = 429;
 
 -- Loot table for Mythic Shen'dralar Ancient (lootid 9102510)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102510;
@@ -90906,7 +90906,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11480;
 -- Update Arcane Aberration spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11480 AND `map` = 429;
+WHERE `id` = 11480 AND `map` = 429;
 
 -- Loot table for Mythic Arcane Aberration (lootid 9102511)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102511;
@@ -90958,7 +90958,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14399;
 -- Update Arcane Torrent spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14399 AND `map` = 429;
+WHERE `id` = 14399 AND `map` = 429;
 
 -- Loot table for Mythic Arcane Torrent (lootid 9102512)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102512;
@@ -91010,7 +91010,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11445;
 -- Update Gordok Captain spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11445 AND `map` = 429;
+WHERE `id` = 11445 AND `map` = 429;
 
 -- Loot table for Mythic Gordok Captain (lootid 9102513)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102513;
@@ -91062,7 +91062,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11448;
 -- Update Gordok Warlock spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11448 AND `map` = 429;
+WHERE `id` = 11448 AND `map` = 429;
 
 -- Loot table for Mythic Gordok Warlock (lootid 9102514)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102514;
@@ -91114,7 +91114,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11484;
 -- Update Residual Monstrosity spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11484 AND `map` = 429;
+WHERE `id` = 11484 AND `map` = 429;
 
 -- Loot table for Mythic Residual Monstrosity (lootid 9102515)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102515;
@@ -91166,7 +91166,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14369;
 -- Update Shen'dralar Zealot spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14369 AND `map` = 429;
+WHERE `id` = 14369 AND `map` = 429;
 
 -- Loot table for Mythic Shen'dralar Zealot (lootid 9102516)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102516;
@@ -91214,7 +91214,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14398;
 -- Update Eldreth Darter spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14398 AND `map` = 429;
+WHERE `id` = 14398 AND `map` = 429;
 
 -- Loot table for Mythic Eldreth Darter (lootid 9102517)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102517;
@@ -91266,7 +91266,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11475;
 -- Update Eldreth Phantasm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11475 AND `map` = 429;
+WHERE `id` = 11475 AND `map` = 429;
 
 -- Loot table for Mythic Eldreth Phantasm (lootid 9102518)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102518;
@@ -91318,7 +91318,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11469;
 -- Update Eldreth Seether spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11469 AND `map` = 429;
+WHERE `id` = 11469 AND `map` = 429;
 
 -- Loot table for Mythic Eldreth Seether (lootid 9102519)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102519;
@@ -91370,7 +91370,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11470;
 -- Update Eldreth Sorcerer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11470 AND `map` = 429;
+WHERE `id` = 11470 AND `map` = 429;
 
 -- Loot table for Mythic Eldreth Sorcerer (lootid 9102520)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102520;
@@ -91422,7 +91422,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11473;
 -- Update Eldreth Spectre spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11473 AND `map` = 429;
+WHERE `id` = 11473 AND `map` = 429;
 
 -- Loot table for Mythic Eldreth Spectre (lootid 9102521)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102521;
@@ -91474,7 +91474,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14351;
 -- Update Gordok Bushwacker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14351 AND `map` = 429;
+WHERE `id` = 14351 AND `map` = 429;
 
 -- Loot table for Mythic Gordok Bushwacker (lootid 9102522)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102522;
@@ -91526,7 +91526,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11477;
 -- Update Rotting Highborne spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11477 AND `map` = 429;
+WHERE `id` = 11477 AND `map` = 429;
 
 -- Loot table for Mythic Rotting Highborne (lootid 9102523)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102523;
@@ -91578,7 +91578,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11459;
 -- Update Ironbark Protector spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11459 AND `map` = 429;
+WHERE `id` = 11459 AND `map` = 429;
 
 -- Loot table for Mythic Ironbark Protector (lootid 9102524)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102524;
@@ -91630,7 +91630,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11483;
 -- Update Mana Remnant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11483 AND `map` = 429;
+WHERE `id` = 11483 AND `map` = 429;
 
 -- Loot table for Mythic Mana Remnant (lootid 9102525)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102525;
@@ -91682,7 +91682,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14303;
 -- Update Petrified Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14303 AND `map` = 429;
+WHERE `id` = 14303 AND `map` = 429;
 
 -- Loot table for Mythic Petrified Guardian (lootid 9102526)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102526;
@@ -91734,7 +91734,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11458;
 -- Update Petrified Treant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11458 AND `map` = 429;
+WHERE `id` = 11458 AND `map` = 429;
 
 -- Loot table for Mythic Petrified Treant (lootid 9102527)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102527;
@@ -91786,7 +91786,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13036;
 -- Update Gordok Mastiff spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13036 AND `map` = 429;
+WHERE `id` = 13036 AND `map` = 429;
 
 -- Loot table for Mythic Gordok Mastiff (lootid 9102528)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102528;
@@ -91838,7 +91838,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14383;
 -- Update Lorekeeper Kildrath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14383 AND `map` = 429;
+WHERE `id` = 14383 AND `map` = 429;
 
 -- Loot table for Mythic Lorekeeper Kildrath (lootid 9102529)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102529;
@@ -91886,7 +91886,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11491;
 -- Update Old Ironbark spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11491 AND `map` = 429;
+WHERE `id` = 11491 AND `map` = 429;
 
 -- Loot table for Mythic Old Ironbark (lootid 9102530)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102530;
@@ -91934,7 +91934,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13285;
 -- Update Death Lash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13285 AND `map` = 429;
+WHERE `id` = 13285 AND `map` = 429;
 
 -- Loot table for Mythic Death Lash (lootid 9102531)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102531;
@@ -91986,7 +91986,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11471;
 -- Update Eldreth Apparition spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11471 AND `map` = 429;
+WHERE `id` = 11471 AND `map` = 429;
 
 -- Loot table for Mythic Eldreth Apparition (lootid 9102532)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102532;
@@ -92038,7 +92038,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11472;
 -- Update Eldreth Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11472 AND `map` = 429;
+WHERE `id` = 11472 AND `map` = 429;
 
 -- Loot table for Mythic Eldreth Spirit (lootid 9102533)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102533;
@@ -92090,7 +92090,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11441;
 -- Update Gordok Brute spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11441 AND `map` = 429;
+WHERE `id` = 11441 AND `map` = 429;
 
 -- Loot table for Mythic Gordok Brute (lootid 9102534)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102534;
@@ -92142,7 +92142,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11444;
 -- Update Gordok Mage-Lord spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11444 AND `map` = 429;
+WHERE `id` = 11444 AND `map` = 429;
 
 -- Loot table for Mythic Gordok Mage-Lord (lootid 9102535)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102535;
@@ -92194,7 +92194,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11461;
 -- Update Warpwood Guardian spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11461 AND `map` = 429;
+WHERE `id` = 11461 AND `map` = 429;
 
 -- Loot table for Mythic Warpwood Guardian (lootid 9102536)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102536;
@@ -92246,7 +92246,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11465;
 -- Update Warpwood Stomper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11465 AND `map` = 429;
+WHERE `id` = 11465 AND `map` = 429;
 
 -- Loot table for Mythic Warpwood Stomper (lootid 9102537)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102537;
@@ -92298,7 +92298,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14364;
 -- Update Shen'dralar Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14364 AND `map` = 429;
+WHERE `id` = 14364 AND `map` = 429;
 
 -- Loot table for Mythic Shen'dralar Spirit (lootid 9102538)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102538;
@@ -92346,7 +92346,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11457;
 -- Update Wildspawn Hellcaller spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11457 AND `map` = 429;
+WHERE `id` = 11457 AND `map` = 429;
 
 -- Loot table for Mythic Wildspawn Hellcaller (lootid 9102539)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102539;
@@ -92398,7 +92398,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11452;
 -- Update Wildspawn Rogue spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11452 AND `map` = 429;
+WHERE `id` = 11452 AND `map` = 429;
 
 -- Loot table for Mythic Wildspawn Rogue (lootid 9102540)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102540;
@@ -92450,7 +92450,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11453;
 -- Update Wildspawn Trickster spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11453 AND `map` = 429;
+WHERE `id` = 11453 AND `map` = 429;
 
 -- Loot table for Mythic Wildspawn Trickster (lootid 9102541)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102541;
@@ -92502,7 +92502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13197;
 -- Update Fel Lash spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13197 AND `map` = 429;
+WHERE `id` = 13197 AND `map` = 429;
 
 -- Loot table for Mythic Fel Lash (lootid 9102542)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102542;
@@ -92554,7 +92554,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13021;
 -- Update Warpwood Crusher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13021 AND `map` = 429;
+WHERE `id` = 13021 AND `map` = 429;
 
 -- Loot table for Mythic Warpwood Crusher (lootid 9102543)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102543;
@@ -92606,7 +92606,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11456;
 -- Update Wildspawn Shadowstalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11456 AND `map` = 429;
+WHERE `id` = 11456 AND `map` = 429;
 
 -- Loot table for Mythic Wildspawn Shadowstalker (lootid 9102544)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102544;
@@ -92658,7 +92658,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11460;
 -- Update Alzzin's Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11460 AND `map` = 429;
+WHERE `id` = 11460 AND `map` = 429;
 
 -- Loot table for Mythic Alzzin's Minion (lootid 9102545)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102545;
@@ -92706,7 +92706,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13276;
 -- Update Wildspawn Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13276 AND `map` = 429;
+WHERE `id` = 13276 AND `map` = 429;
 
 -- Loot table for Mythic Wildspawn Imp (lootid 9102546)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102546;
@@ -92758,7 +92758,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11464;
 -- Update Warpwood Tangler spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11464 AND `map` = 429;
+WHERE `id` = 11464 AND `map` = 429;
 
 -- Loot table for Mythic Warpwood Tangler (lootid 9102547)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102547;
@@ -92810,7 +92810,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11454;
 -- Update Wildspawn Betrayer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11454 AND `map` = 429;
+WHERE `id` = 11454 AND `map` = 429;
 
 -- Loot table for Mythic Wildspawn Betrayer (lootid 9102548)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102548;
@@ -92862,7 +92862,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11455;
 -- Update Wildspawn Felsworn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11455 AND `map` = 429;
+WHERE `id` = 11455 AND `map` = 429;
 
 -- Loot table for Mythic Wildspawn Felsworn (lootid 9102549)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102549;
@@ -92914,7 +92914,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11451;
 -- Update Wildspawn Satyr spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11451 AND `map` = 429;
+WHERE `id` = 11451 AND `map` = 429;
 
 -- Loot table for Mythic Wildspawn Satyr (lootid 9102550)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102550;
@@ -92966,7 +92966,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11466;
 -- Update Highborne Summoner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11466 AND `map` = 429;
+WHERE `id` = 11466 AND `map` = 429;
 
 -- Loot table for Mythic Highborne Summoner (lootid 9102551)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102551;
@@ -93014,7 +93014,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13196;
 -- Update Phase Lasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13196 AND `map` = 429;
+WHERE `id` = 13196 AND `map` = 429;
 
 -- Loot table for Mythic Phase Lasher (lootid 9102552)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102552;
@@ -93066,7 +93066,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11462;
 -- Update Warpwood Treant spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11462 AND `map` = 429;
+WHERE `id` = 11462 AND `map` = 429;
 
 -- Loot table for Mythic Warpwood Treant (lootid 9102553)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102553;
@@ -93118,7 +93118,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13022;
 -- Update Whip Lasher spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13022 AND `map` = 429;
+WHERE `id` = 13022 AND `map` = 429;
 
 -- Loot table for Mythic Whip Lasher (lootid 9102554)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102554;
@@ -93170,7 +93170,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14371;
 -- Update Shen'dralar Provisioner spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14371 AND `map` = 429;
+WHERE `id` = 14371 AND `map` = 429;
 
 -- Loot table for Mythic Shen'dralar Provisioner (lootid 9102555)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102555;
@@ -93218,7 +93218,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16097;
 -- Update Isalien spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16097 AND `map` = 429;
+WHERE `id` = 16097 AND `map` = 429;
 
 -- Loot table for Mythic Isalien (lootid 9102556)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102556;
@@ -93270,7 +93270,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14506;
 -- Update Lord Hel'nurath spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14506 AND `map` = 429;
+WHERE `id` = 14506 AND `map` = 429;
 
 -- Loot table for Mythic Lord Hel'nurath (lootid 9102557)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102557;
@@ -93322,7 +93322,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11501;
 -- Update King Gordok spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11501 AND `map` = 429;
+WHERE `id` = 11501 AND `map` = 429;
 
 -- Loot table for Mythic King Gordok (lootid 9102558)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102558;
@@ -93374,7 +93374,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14325;
 -- Update Captain Kromcrush spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14325 AND `map` = 429;
+WHERE `id` = 14325 AND `map` = 429;
 
 -- Loot table for Mythic Captain Kromcrush (lootid 9102559)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102559;
@@ -93426,7 +93426,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11496;
 -- Update Immol'thar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11496 AND `map` = 429;
+WHERE `id` = 11496 AND `map` = 429;
 
 -- Loot table for Mythic Immol'thar (lootid 9102560)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102560;
@@ -93478,7 +93478,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11486;
 -- Update Prince Tortheldrin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11486 AND `map` = 429;
+WHERE `id` = 11486 AND `map` = 429;
 
 -- Loot table for Mythic Prince Tortheldrin (lootid 9102561)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102561;
@@ -93530,7 +93530,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14324;
 -- Update Cho'Rush the Observer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14324 AND `map` = 429;
+WHERE `id` = 14324 AND `map` = 429;
 
 -- Loot table for Mythic Cho'Rush the Observer (lootid 9102562)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102562;
@@ -93582,7 +93582,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11488;
 -- Update Illyanna Ravenoak spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11488 AND `map` = 429;
+WHERE `id` = 11488 AND `map` = 429;
 
 -- Loot table for Mythic Illyanna Ravenoak (lootid 9102563)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102563;
@@ -93634,7 +93634,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11487;
 -- Update Magister Kalendris spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11487 AND `map` = 429;
+WHERE `id` = 11487 AND `map` = 429;
 
 -- Loot table for Mythic Magister Kalendris (lootid 9102564)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102564;
@@ -93686,7 +93686,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11489;
 -- Update Tendris Warpwood spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11489 AND `map` = 429;
+WHERE `id` = 11489 AND `map` = 429;
 
 -- Loot table for Mythic Tendris Warpwood (lootid 9102565)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102565;
@@ -93738,7 +93738,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11467;
 -- Update Tsu'zee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11467 AND `map` = 429;
+WHERE `id` = 11467 AND `map` = 429;
 
 -- Loot table for Mythic Tsu'zee (lootid 9102566)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102566;
@@ -93790,7 +93790,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14321;
 -- Update Guard Fengus spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14321 AND `map` = 429;
+WHERE `id` = 14321 AND `map` = 429;
 
 -- Loot table for Mythic Guard Fengus (lootid 9102567)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102567;
@@ -93842,7 +93842,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14326;
 -- Update Guard Mol'dar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14326 AND `map` = 429;
+WHERE `id` = 14326 AND `map` = 429;
 
 -- Loot table for Mythic Guard Mol'dar (lootid 9102568)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102568;
@@ -93894,7 +93894,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14323;
 -- Update Guard Slip'kik spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14323 AND `map` = 429;
+WHERE `id` = 14323 AND `map` = 429;
 
 -- Loot table for Mythic Guard Slip'kik (lootid 9102569)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102569;
@@ -93946,7 +93946,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14322;
 -- Update Stomper Kreeg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14322 AND `map` = 429;
+WHERE `id` = 14322 AND `map` = 429;
 
 -- Loot table for Mythic Stomper Kreeg (lootid 9102570)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102570;
@@ -93998,7 +93998,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11492;
 -- Update Alzzin the Wildshaper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11492 AND `map` = 429;
+WHERE `id` = 11492 AND `map` = 429;
 
 -- Loot table for Mythic Alzzin the Wildshaper (lootid 9102571)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102571;
@@ -94050,7 +94050,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13280;
 -- Update Hydrospawn spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13280 AND `map` = 429;
+WHERE `id` = 13280 AND `map` = 429;
 
 -- Loot table for Mythic Hydrospawn (lootid 9102572)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102572;
@@ -94102,7 +94102,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14327;
 -- Update Lethtendris spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14327 AND `map` = 429;
+WHERE `id` = 14327 AND `map` = 429;
 
 -- Loot table for Mythic Lethtendris (lootid 9102573)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102573;
@@ -94154,7 +94154,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14354;
 -- Update Pusillin spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14354 AND `map` = 429;
+WHERE `id` = 14354 AND `map` = 429;
 
 -- Loot table for Mythic Pusillin (lootid 9102574)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102574;
@@ -94206,7 +94206,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11490;
 -- Update Zevrim Thornhoof spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11490 AND `map` = 429;
+WHERE `id` = 11490 AND `map` = 429;
 
 -- Loot table for Mythic Zevrim Thornhoof (lootid 9102575)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102575;
@@ -94258,7 +94258,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14349;
 -- Update Pimgib spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14349 AND `map` = 429;
+WHERE `id` = 14349 AND `map` = 429;
 
 -- Loot table for Mythic Pimgib (lootid 9102576)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102576;
@@ -94310,7 +94310,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14500;
 -- Update J'eevee spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14500 AND `map` = 429;
+WHERE `id` = 14500 AND `map` = 429;
 
 -- Loot table for Mythic J'eevee (lootid 9102577)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102577;
@@ -94358,7 +94358,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14396;
 -- Update Eye of Immol'thar spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14396 AND `map` = 429;
+WHERE `id` = 14396 AND `map` = 429;
 
 -- Loot table for Mythic Eye of Immol'thar (lootid 9102578)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102578;
@@ -94406,7 +94406,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14566;
 -- Update Ancient Equine Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14566 AND `map` = 429;
+WHERE `id` = 14566 AND `map` = 429;
 
 -- Loot table for Mythic Ancient Equine Spirit (lootid 9102579)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102579;
@@ -94454,7 +94454,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14370;
 -- Update Cadaverous Worm spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14370 AND `map` = 429;
+WHERE `id` = 14370 AND `map` = 429;
 
 -- Loot table for Mythic Cadaverous Worm (lootid 9102580)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102580;
@@ -94502,7 +94502,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14504;
 -- Update Dreadsteed Spirit spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14504 AND `map` = 429;
+WHERE `id` = 14504 AND `map` = 429;
 
 -- Loot table for Mythic Dreadsteed Spirit (lootid 9102581)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102581;
@@ -94550,7 +94550,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16032;
 -- Update Falrin Treeshaper spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16032 AND `map` = 429;
+WHERE `id` = 16032 AND `map` = 429;
 
 -- Loot table for Mythic Falrin Treeshaper (lootid 9102582)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102582;
@@ -94598,7 +94598,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14122;
 -- Update Massive Geyser spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14122 AND `map` = 429;
+WHERE `id` = 14122 AND `map` = 429;
 
 -- Loot table for Mythic Massive Geyser (lootid 9102583)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102583;
@@ -94646,7 +94646,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 16093;
 -- Update Spectral Stalker spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 16093 AND `map` = 429;
+WHERE `id` = 16093 AND `map` = 429;
 
 -- Loot table for Mythic Spectral Stalker (lootid 9102584)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102584;
@@ -94694,7 +94694,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14386;
 -- Update Wandering Eye of Kilrogg spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14386 AND `map` = 429;
+WHERE `id` = 14386 AND `map` = 429;
 
 -- Loot table for Mythic Wandering Eye of Kilrogg (lootid 9102585)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102585;
@@ -94742,7 +94742,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14400;
 -- Update Arcane Feedback spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14400 AND `map` = 429;
+WHERE `id` = 14400 AND `map` = 429;
 
 -- Loot table for Mythic Arcane Feedback (lootid 9102586)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102586;
@@ -94794,7 +94794,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14385;
 -- Update Doomguard Minion spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14385 AND `map` = 429;
+WHERE `id` = 14385 AND `map` = 429;
 
 -- Loot table for Mythic Doomguard Minion (lootid 9102587)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102587;
@@ -94846,7 +94846,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14397;
 -- Update Mana Burst spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14397 AND `map` = 429;
+WHERE `id` = 14397 AND `map` = 429;
 
 -- Loot table for Mythic Mana Burst (lootid 9102588)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102588;
@@ -94894,7 +94894,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14482;
 -- Update Xorothian Imp spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14482 AND `map` = 429;
+WHERE `id` = 14482 AND `map` = 429;
 
 -- Loot table for Mythic Xorothian Imp (lootid 9102589)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102589;
@@ -94942,7 +94942,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 13160;
 -- Update Carrion Swarmer spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 13160 AND `map` = 429;
+WHERE `id` = 13160 AND `map` = 429;
 
 -- Loot table for Mythic Carrion Swarmer (lootid 9102590)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102590;
@@ -94994,7 +94994,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 11476;
 -- Update Skeletal Highborne spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 11476 AND `map` = 429;
+WHERE `id` = 11476 AND `map` = 429;
 
 -- Loot table for Mythic Skeletal Highborne (lootid 9102591)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102591;
@@ -95046,7 +95046,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14350;
 -- Update Hydroling spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14350 AND `map` = 429;
+WHERE `id` = 14350 AND `map` = 429;
 
 -- Loot table for Mythic Hydroling (lootid 9102592)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102592;
@@ -95094,7 +95094,7 @@ FROM `creature_template_model` WHERE `CreatureID` = 14338;
 -- Update Knot Thimblejack spawn masks for the dungeon map
 UPDATE `creature`
 SET `spawnMask` = 7
-WHERE `id1` = 14338 AND `map` = 429;
+WHERE `id` = 14338 AND `map` = 429;
 
 -- Loot table for Mythic Knot Thimblejack (lootid 9102593)
 DELETE FROM `creature_loot_template` WHERE `Entry` = 9102593;

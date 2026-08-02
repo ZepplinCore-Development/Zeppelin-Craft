@@ -1,9 +1,9 @@
 -- A weird bug was causing Thrall to be frozen, after deleting and reinserting the creature entry it seems to work again.
-DELETE FROM `creature` WHERE `id1` = 4949;
+DELETE FROM `creature` WHERE `id` = 4949;
 DELETE FROM `creature_addon` WHERE `guid` = 4770;
 INSERT INTO `creature` SET
     `guid` = 3110629,
-    `id1` = 4949,
+    `id` = 4949,
     `map` = 1,
     `equipment_id` = 1,
     `position_x` = 1919.8,

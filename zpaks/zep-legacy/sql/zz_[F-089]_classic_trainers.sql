@@ -8,8 +8,8 @@
 -- ========================================
 -- FARII - Exodar (stock spawn restore)
 -- ========================================
-DELETE FROM `creature` WHERE `id1` = 19778;
-INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `curhealth`, `curmana`)
+DELETE FROM `creature` WHERE `id` = 19778;
+INSERT INTO `creature` (`id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `curhealth`, `curmana`)
 VALUES (19778, 530, -3781.55, -11541.8, -134.744, 1.93941, 120, 811, 852);
 
 -- ========================================
@@ -52,8 +52,8 @@ DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 72;
 INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (72, 113);
 
 -- Spawn Faris in Stormwind Dwarven District
-DELETE FROM `creature` WHERE `id1` = 72;
-INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
+DELETE FROM `creature` WHERE `id` = 72;
+INSERT INTO `creature` (`id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
 (72, 0, -8714.3, 620.1, 100.9, 0.06, 300);
 
 -- ========================================
@@ -111,8 +111,8 @@ INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Exte
 (76, 0, 28470, 0, 0, 0); -- Thick Amber
 
 -- Spawn Nessera next to Faris in Stormwind Dwarven District
-DELETE FROM `creature` WHERE `id1` = 76;
-INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
+DELETE FROM `creature` WHERE `id` = 76;
+INSERT INTO `creature` (`id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
 (76, 0, -8714.3, 624.7, 101, 0.06, 300);
 
 -- ========================================

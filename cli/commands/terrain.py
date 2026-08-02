@@ -536,7 +536,7 @@ def terrain_check(ctx, spawn_type, map_id, limit, entry, zone_name, maps_dir, mm
     all_spawns = []
     tables = []
     if spawn_type in ('creature', 'both'):
-        tables.append(('creature', 'guid', 'id1', 'map', 'position_x', 'position_y', 'position_z'))
+        tables.append(('creature', 'guid', 'id', 'map', 'position_x', 'position_y', 'position_z'))
     if spawn_type in ('gameobject', 'both'):
         tables.append(('gameobject', 'guid', 'id', 'map', 'position_x', 'position_y', 'position_z'))
 
@@ -737,7 +737,7 @@ def terrain_fix(ctx, spawn_type, map_id, offset, entry, zone_name, maps_dir, mma
     all_spawns = []
     tables = []
     if spawn_type in ('creature', 'both'):
-        tables.append(('creature', 'guid', 'id1', 'map', 'position_x', 'position_y', 'position_z'))
+        tables.append(('creature', 'guid', 'id', 'map', 'position_x', 'position_y', 'position_z'))
     if spawn_type in ('gameobject', 'both'):
         tables.append(('gameobject', 'guid', 'id', 'map', 'position_x', 'position_y', 'position_z'))
 

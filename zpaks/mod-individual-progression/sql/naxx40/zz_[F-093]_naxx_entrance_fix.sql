@@ -1,9 +1,9 @@
 -- Ziggurat Protector Remove Spawns Near Teleport
-    DELETE FROM `creature` WHERE (`id1` = 12262);
+    DELETE FROM `creature` WHERE (`id` = 12262);
 
     INSERT INTO `creature` SET
         `guid` = 53118,
-        `id1` = 12262,
+        `id` = 12262,
         `position_x` = 3227.72,
         `position_y` = -3096.21,
         `position_z` = 161.423,
@@ -15,7 +15,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 91941,
-        `id1` = 12262,
+        `id` = 12262,
         `position_x` = 2794.86,
         `position_y` = -3761.12,
         `position_z` = 125.507,
@@ -27,7 +27,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 91947,
-        `id1` = 12262,
+        `id` = 12262,
         `position_x` = 2862.1,
         `position_y` = -3232.82,
         `position_z` = 134.27,
@@ -39,7 +39,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 92258,
-        `id1` = 12262,
+        `id` = 12262,
         `position_x` = 3175.24,
         `position_y` = -3315.21,
         `position_z` = 165.244,
@@ -51,7 +51,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 92266,
-        `id1` = 12262,
+        `id` = 12262,
         `position_x` = 3178.88,
         `position_y` = -3468.25,
         `position_z` = 167.479,
@@ -62,11 +62,11 @@
         `Comment` = NULL;
 
 -- Necromancer Remove Spawns Near Teleport
-    DELETE FROM `creature` WHERE (`id1` = 8553);
+    DELETE FROM `creature` WHERE (`id` = 8553);
 
     INSERT INTO `creature` SET
         `guid` = 91940,
-        `id1` = 8553,
+        `id` = 8553,
         `equipment_id` = 1,
         `position_x` = 2814.52,
         `position_y` = -3757.79,
@@ -80,7 +80,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 91946,
-        `id1` = 8553,
+        `id` = 8553,
         `equipment_id` = 1,
         `position_x` = 2855.31,
         `position_y` = -3232.34,
@@ -94,7 +94,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 92264,
-        `id1` = 8553,
+        `id` = 8553,
         `equipment_id` = 1,
         `position_x` = 3185.53,
         `position_y` = -3456.8,
@@ -108,7 +108,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 92269,
-        `id1` = 8553,
+        `id` = 8553,
         `equipment_id` = 1,
         `position_x` = 3075.49,
         `position_y` = -3368.79,
@@ -121,7 +121,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 92271,
-        `id1` = 8553,
+        `id` = 8553,
         `equipment_id` = 1,
         `position_x` = 3083.83,
         `position_y` = -3368.92,
@@ -135,7 +135,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 92274,
-        `id1` = 8553,
+        `id` = 8553,
         `equipment_id` = 1,
         `position_x` = 3259.74,
         `position_y` = -3390.09,
@@ -149,7 +149,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 92279,
-        `id1` = 8553,
+        `id` = 8553,
         `equipment_id` = 1,
         `position_x` = 3258.43,
         `position_y` = -3373.41,

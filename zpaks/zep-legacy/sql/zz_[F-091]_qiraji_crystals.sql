@@ -249,10 +249,10 @@ SET @BLUE_CRYSTAL = 21218,
         `Probability` = 1,
         `VerifiedBuild` = 12340;
 
-    DELETE FROM `creature` WHERE (`id1` = @ANACHRONOS);
+    DELETE FROM `creature` WHERE (`id` = @ANACHRONOS);
     INSERT INTO `creature` SET
         `guid` = 5300718,
-        `id1` = @ANACHRONOS,
+        `id` = @ANACHRONOS,
         `map` = 531,
         `position_x` = -8500.73,
         `position_y` = 1941.3,

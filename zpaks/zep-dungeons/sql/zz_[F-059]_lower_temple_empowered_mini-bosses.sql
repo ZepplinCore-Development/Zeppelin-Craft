@@ -37,13 +37,13 @@
             `probability` = 1.0;
 
     -- Remove the original Deep Lurker Spawns
-        DELETE FROM `creature` WHERE (`id1` = 8384) AND (`guid` IN (33609, 33610, 34469, 34475));
+        DELETE FROM `creature` WHERE (`id` = 8384) AND (`guid` IN (33609, 33610, 34469, 34475));
 
     -- Add the new Empowered Deep Lurker Spawns
-        DELETE FROM `creature` WHERE (`id1` = 9102595);
+        DELETE FROM `creature` WHERE (`id` = 9102595);
         INSERT INTO `creature` SET
             `guid` = 3110555,
-            `id1` = 9102595,
+            `id` = 9102595,
             `map` = 109,
             `position_x` = -439.079,
             `position_y` = 142.352,
@@ -54,7 +54,7 @@
 
         INSERT INTO `creature` SET
             `guid` = 3110556,
-            `id1` = 9102595,
+            `id` = 9102595,
             `map` = 109,
             `position_x` = -492.514,
             `position_y` = 48.5624,
@@ -121,13 +121,13 @@
             `probability` = 0.3333333333333333;
 
     -- Remove the original Murk Worm Spawns
-        DELETE FROM `creature` WHERE (`id1` = 5226) AND (`guid` IN (33598, 34173, 34476, 33619, 33620));
+        DELETE FROM `creature` WHERE (`id` = 5226) AND (`guid` IN (33598, 34173, 34476, 33619, 33620));
 
     -- Add the new Empowered Murk Worm Spawns
-        DELETE FROM `creature` WHERE (`id1` = 9102594);
+        DELETE FROM `creature` WHERE (`id` = 9102594);
         INSERT INTO `creature` SET
             `guid` = 3110553,
-            `id1` = 9102594,
+            `id` = 9102594,
             `map` = 109,
             `position_x` = -492.734,
             `position_y` = 142.199,
@@ -138,7 +138,7 @@
 
         INSERT INTO `creature` SET
             `guid` = 3110554,
-            `id1` = 9102594,
+            `id` = 9102594,
             `map` = 109,
             `position_x` = -440.856,
             `position_y` = 48.5799,
@@ -191,13 +191,13 @@
             `probability` = 1.0;
 
     -- Remove the original Saturated Ooze Spawns
-        DELETE FROM `creature` WHERE (`id1` = 5228) AND (`guid` IN (33628, 33629, 34472));
+        DELETE FROM `creature` WHERE (`id` = 5228) AND (`guid` IN (33628, 33629, 34472));
 
     -- Add the new Empowered Ooze Spawns
-    DELETE FROM `creature` WHERE (`id1` = 9102596);
+    DELETE FROM `creature` WHERE (`id` = 9102596);
     INSERT INTO `creature` SET
         `guid` = 3110557,
-        `id1` = 9102596,
+        `id` = 9102596,
         `map` = 109,
         `position_x` = -521.588,
         `position_y` = 94.8218,
@@ -208,7 +208,7 @@
 
     INSERT INTO `creature` SET
         `guid` = 3110558,
-        `id1` = 9102596,
+        `id` = 9102596,
         `map` = 109,
         `position_x` = -413.433,
         `position_y` = 95.8003,

@@ -105,9 +105,9 @@ SET @ABOM := 10564;
             `probability` = 1.0;
 
     -- DEATHGUARD GEORGE Creature
-    DELETE FROM `creature` WHERE `id1` = @GEORGE;
+    DELETE FROM `creature` WHERE `id` = @GEORGE;
     INSERT INTO `creature` SET
-        `id1` = @GEORGE,
+        `id` = @GEORGE,
         `position_x` = 1394.91,
         `position_y` = 273.723,
         `position_z` = 61.5899,
@@ -149,10 +149,10 @@ SET @ABOM := 10564;
             `probability` = 1.0;
 
     -- Failed Abominations Creature 
-        DELETE FROM `creature` WHERE `id1` = @ABOM;
+        DELETE FROM `creature` WHERE `id` = @ABOM;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1584.77,
             `position_y` = 90.939,
             `position_z` = 60.8592,
@@ -164,7 +164,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1584.3,
             `position_y` = 128.86,
             `position_z` = 61.6605,
@@ -176,7 +176,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1635.79,
             `position_y` = 125.086,
             `position_z` = 60.2829,
@@ -188,7 +188,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1725.56,
             `position_y` = 102.697,
             `position_z` = 62.23,
@@ -200,7 +200,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1753.24,
             `position_y` = 120.584,
             `position_z` = 60.25,
@@ -212,7 +212,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1620.35,
             `position_y` = 89.1532,
             `position_z` = 62.3827,
@@ -224,7 +224,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1694.29,
             `position_y` = 153.519,
             `position_z` = 61.0871,
@@ -236,7 +236,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1667.2,
             `position_y` = 118.361,
             `position_z` = 60.7033,
@@ -248,7 +248,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
-            `id1` = @ABOM,
+            `id` = @ABOM,
             `position_x` = 1796.18,
             `position_y` = 105.216,
             `position_z` = 61.5189,

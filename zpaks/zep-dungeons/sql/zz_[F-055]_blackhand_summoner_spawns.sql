@@ -1,9 +1,9 @@
 -- Remove the trash in Room 1 of UBRS to make room for players to spawn in RDF
-DELETE FROM `creature` WHERE (`id1` = 9817 OR `id1` = 9818);
+DELETE FROM `creature` WHERE (`id` = 9817 OR `id` = 9818);
 DELETE FROM `creature_addon` WHERE `guid` = 137933;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 122.052,
@@ -13,7 +13,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 154.429,
@@ -23,7 +23,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 156.027,
@@ -34,7 +34,7 @@ INSERT INTO `creature` SET
     `MovementType` = 2;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 159.043,
@@ -44,7 +44,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 163.503,
@@ -54,7 +54,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 169.916,
@@ -64,7 +64,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 177.831,
@@ -74,7 +74,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 190.633,
@@ -84,7 +84,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 215.519,
@@ -94,7 +94,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 221.518,
@@ -104,7 +104,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 225.861,
@@ -114,7 +114,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 232.84,
@@ -124,7 +124,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 234.324,
@@ -134,7 +134,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 85.6391,
@@ -144,7 +144,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9817,
+    `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 93.9204,
@@ -154,7 +154,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 128.321,
@@ -164,7 +164,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 151.103,
@@ -174,7 +174,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 156.815,
@@ -184,7 +184,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 162.63,
@@ -194,7 +194,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 170.606,
@@ -204,7 +204,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 179.995,
@@ -214,7 +214,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 188.856,
@@ -224,7 +224,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 212.137,
@@ -234,7 +234,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 217.2,
@@ -244,7 +244,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 223.704,
@@ -254,7 +254,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 224.405,
@@ -264,7 +264,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 87.1749,
@@ -274,7 +274,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
-    `id1` = 9818,
+    `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
     `position_x` = 90.1016,

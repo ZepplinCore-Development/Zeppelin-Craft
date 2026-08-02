@@ -13,7 +13,7 @@ SET @BROLL_GUID := 3110700;
 DELETE FROM `creature` WHERE `guid` = @BROLL_GUID;
 INSERT INTO `creature` SET
     `guid`           = @BROLL_GUID,
-    `id1`            = @BROLL,
+    `id`            = @BROLL,
     `map`            = 571,        -- Icecrown
     `zoneId`         = 0,
     `areaId`         = 0,
