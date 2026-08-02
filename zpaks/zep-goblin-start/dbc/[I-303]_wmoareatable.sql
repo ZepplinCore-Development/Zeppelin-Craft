@@ -88,6 +88,10 @@ INSERT INTO `wmoareatable` SET
   `name_flags` = 16712190;
 
 -- nameset 1 — the set the MODF placement actually uses (nameSet=1)
+-- zone_music: Cata used 538 (Zone-LostIslesDark), but its li_*_uniwalk.mp3
+-- files exist in NO 4.3.4 archive (cut content — soundentries 16451 remains,
+-- files gone). Substituted 919 (MUS_KajamiteCavern, area 4778's own music,
+-- stock naxx files; row repaired in [I-306]_soundentries.sql).
 INSERT INTO `wmoareatable` SET
   `id` = 92411,
   `wmo_id` = 5752,
@@ -96,7 +100,7 @@ INSERT INTO `wmoareatable` SET
   `sound_provider_pref` = 75,
   `sound_provider_pref_underwater` = 0,
   `ambience_id` = 380,
-  `zone_music` = 0,
+  `zone_music` = 919,
   `intro_sound` = 0,
   `flags` = 0,
   `area_table_id` = 4778,
