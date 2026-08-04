@@ -1,0 +1,144 @@
+From 0597732ee5a00685482c0b4d669d6ffb727ab3b3 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 4 Aug 2026 12:42:41 +0000
+Subject: [PATCH] fix: Serve vehicle action bar on uncontrolled CAN_CAST seats
+ (I-311)
+
+- Vehicle::AddPassenger: send the vehicle spell bar (VehicleSpellInitialize)
+  to player passengers of CAN_CAST seats without CAN_CONTROL - retail serves
+  these (Stormcrest Eagle pattern); stock AC only sends the bar through the
+  CAN_CONTROL charm path, so auto-piloted cast vehicles had empty bars
+- Vehicle::RemovePassenger: mirror SendRemoveControlBar on exit
+- HandlePetCastSpellOpcode: authorize casts from the rider's own vehicle
+  base when their seat has CAN_CAST
+
+Closes I-311
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019RL6TAghunf5VUF8xXxEKd
+---
+ src/server/game/Entities/Vehicle/Vehicle.cpp | 38 ++++++++++++++++++++
+ src/server/game/Handlers/MiscHandler.cpp     |  9 +++++
+ src/server/game/Handlers/PetHandler.cpp      | 12 +++++--
+ 3 files changed, 57 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/game/Entities/Vehicle/Vehicle.cpp b/src/server/game/Entities/Vehicle/Vehicle.cpp
+index ca4b21f6d..07ee29484 100644
+--- a/src/server/game/Entities/Vehicle/Vehicle.cpp
++++ b/src/server/game/Entities/Vehicle/Vehicle.cpp
+@@ -28,6 +28,28 @@
+ #include "Util.h"
+ #include <algorithm>
+ 
++// Zeppelin (I-311): deferred vehicle-bar send for riders of uncontrolled CAN_CAST
++// seats — see the comment at the AddPassenger call site. Runs on the passenger's
++// event processor, so it is cancelled automatically if the player is destroyed.
++class VehicleBarInitEvent : public BasicEvent
++{
++public:
++    VehicleBarInitEvent(Player* player, ObjectGuid vehicleGuid)
++        : _player(player), _vehicleGuid(vehicleGuid) { }
++
++    bool Execute(uint64 /*time*/, uint32 /*diff*/) override
++    {
++        if (Unit* base = _player->GetVehicleBase())
++            if (base->GetGUID() == _vehicleGuid)
++                _player->VehicleSpellInitialize();
++        return true;
++    }
++
++private:
++    Player* _player;
++    ObjectGuid _vehicleGuid;
++};
++
+ Vehicle::Vehicle(Unit* unit, VehicleEntry const* vehInfo, uint32 creatureEntry) :
+     _me(unit), _vehicleInfo(vehInfo), _usableSeatNum(0), _creatureEntry(creatureEntry), _status(STATUS_NONE),
+     _accessoriesInstalled(false)
+@@ -428,6 +450,18 @@ bool Vehicle::AddPassenger(Unit* unit, int8 seatId)
+             return false;
+         }
+     }
++    // Zeppelin (I-311): retail serves the vehicle action bar on cast-capable seats even
++    // without CAN_CONTROL (client shows it via Lua_UnitHasVehicleUI, e.g. Stormcrest
++    // Eagle seat 2112) — but the charm above is the only path that sends it, so riders
++    // of uncontrolled seats got an empty bar. The send must be DEFERRED: the client
++    // only learns it is in the vehicle from the control-vehicle aura in the end-of-tick
++    // update batch, and a PET_SPELLS sent synchronously here arrives first and is
++    // discarded. The matching cast authorization lives in HandlePetCastSpellOpcode;
++    // HandleRequestPetInfo re-serves the bar on client-side UI reloads.
++    else if (_me->IsCreature() && unit->IsPlayer()
++             && seat->second.SeatInfo->m_flags & VEHICLE_SEAT_FLAG_CAN_CAST)
++        unit->m_Events.AddEvent(new VehicleBarInitEvent(unit->ToPlayer(), _me->GetGUID()),
++                                unit->m_Events.CalculateTime(1500));
+ 
+     if (_me->IsInWorld())
+     {
+@@ -506,6 +540,10 @@ void Vehicle::RemovePassenger(Unit* unit)
+ 
+     if (_me->IsCreature() && unit->IsPlayer() && seat->second.SeatInfo->m_flags & VEHICLE_SEAT_FLAG_CAN_CONTROL)
+         _me->RemoveCharmedBy(unit);
++    // Zeppelin (I-311): mirror of the uncontrolled-cast-seat bar in AddPassenger
++    else if (_me->IsCreature() && unit->IsPlayer()
++             && seat->second.SeatInfo->m_flags & VEHICLE_SEAT_FLAG_CAN_CAST)
++        unit->ToPlayer()->SendRemoveControlBar();
+ 
+     if (_me->IsInWorld())
+     {
+diff --git a/src/server/game/Handlers/MiscHandler.cpp b/src/server/game/Handlers/MiscHandler.cpp
+index 7ec78c19c..23f149132 100644
+--- a/src/server/game/Handlers/MiscHandler.cpp
++++ b/src/server/game/Handlers/MiscHandler.cpp
+@@ -1583,6 +1583,15 @@ void WorldSession::HandleRequestPetInfo(WorldPackets::Pet::RequestPetInfo& /*pac
+         else
+             _player->CharmSpellInitialize();
+     }
++    // Zeppelin (I-311): rider of an uncontrolled CAN_CAST vehicle seat — no pet and
++    // no charm carry the bar, so re-serve it here (client-side UI reloads and the
++    // post-boarding resync both land in this opcode).
++    else if (_player->GetVehicleCreatureBase())
++    {
++        if (VehicleSeatEntry const* seatInfo = _player->GetVehicle()->GetSeatForPassenger(_player))
++            if (seatInfo->m_flags & VEHICLE_SEAT_FLAG_CAN_CAST)
++                _player->VehicleSpellInitialize();
++    }
+ }
+ 
+ void WorldSession::HandleSetTaxiBenchmarkOpcode(WorldPacket& recv_data)
+diff --git a/src/server/game/Handlers/PetHandler.cpp b/src/server/game/Handlers/PetHandler.cpp
+index 6433450a4..56934626c 100644
+--- a/src/server/game/Handlers/PetHandler.cpp
++++ b/src/server/game/Handlers/PetHandler.cpp
+@@ -32,6 +32,7 @@
+ #include "SpellInfo.h"
+ #include "SpellMgr.h"
+ #include "Util.h"
++#include "Vehicle.h"
+ #include "World.h"
+ #include "WorldPacket.h"
+ #include "WorldSession.h"
+@@ -1001,12 +1002,19 @@ void WorldSession::HandlePetCastSpellOpcode(WorldPacket& recvPacket)
+     LOG_DEBUG("network", "WORLD: CMSG_PET_CAST_SPELL, guid: {}, castCount: {}, spellId {}, castFlags {}", guid.ToString(), castCount, spellId, castFlags);
+ 
+     // This opcode is also sent from charmed and possessed units (players and creatures)
+-    if (!_player->GetGuardianPet() && !_player->GetCharm())
++    if (!_player->GetGuardianPet() && !_player->GetCharm() && !_player->GetVehicleBase())
+         return;
+ 
+     Unit* caster = ObjectAccessor::GetUnit(*_player, guid);
+ 
+-    if (!caster || (caster != _player->GetGuardianPet() && caster != _player->GetCharm()))
++    // Zeppelin (I-311): the bar is also served on uncontrolled CAN_CAST vehicle seats
++    // (Vehicle::AddPassenger) — accept casts from the rider's own vehicle base there.
++    bool uncontrolledVehicleCast = false;
++    if (caster && caster == _player->GetVehicleCreatureBase())
++        if (VehicleSeatEntry const* seatInfo = _player->GetVehicle()->GetSeatForPassenger(_player))
++            uncontrolledVehicleCast = (seatInfo->m_flags & VEHICLE_SEAT_FLAG_CAN_CAST) != 0;
++
++    if (!caster || (caster != _player->GetGuardianPet() && caster != _player->GetCharm() && !uncontrolledVehicleCast))
+     {
+         LOG_ERROR("network.opcode", "HandlePetCastSpellOpcode: Pet {} isn't pet of player {} .", guid.ToString(), GetPlayer()->GetName());
+         return;
+-- 
+2.34.1
+
