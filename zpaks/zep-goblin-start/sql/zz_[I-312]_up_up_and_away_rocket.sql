@@ -84,12 +84,30 @@ DELETE FROM smart_scripts WHERE source_type = 9 AND entryorguid = 3650500;
 INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
   (36505, 0, 0, 1, 54, 0, 100, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - On Just Summoned - React Passive'),
   (36505, 0, 1, 0, 61, 0, 100, 0, 0, 0, 0, 0, 103, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - Linked - Root On The Launcher Until Boarded'),
-  (36505, 0, 2, 0, 27, 0, 100, 1, 0, 0, 0, 0, 80, 3650500, 0, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - On Passenger Boarded (once) - Run Launch Actionlist'),
+  (36505, 0, 2, 0, 27, 0, 100, 1, 0, 0, 0, 0, 80, 3650500, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - On Passenger Boarded (once) - Run Launch Actionlist'),
   (36505, 0, 10, 11, 40, 0, 100, 1, 9, 3650500, 0, 0, 33, 50046, 0, 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - On Landing Node Reached (once) - Credit Rider With 50046'),
   (36505, 0, 11, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 500, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - Linked - Despawn (ejects the rider at the Landing Site)'),
   (36505, 0, 12, 13, 58, 0, 100, 1, 0, 3650500, 0, 0, 33, 50046, 0, 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - On Flight Path Ended (once, backstop) - Credit Rider With 50046'),
   (36505, 0, 13, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 500, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - Linked - Despawn (ejects the rider at the Landing Site)'),
   (36505, 0, 20, 0, 28, 0, 100, 0, 0, 0, 0, 0, 41, 100, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Sling Rocket - On Passenger Removed - Despawn (no orphaned rockets if the rider bails)');
+
+-- ---- ROUND 2: why round 1 shipped and still did nothing ----
+-- The PASSENGER_BOARDED row was REJECTED AT LOAD and the rocket therefore never
+-- had anything to launch it:
+--   SmartAIMgr: Entry 36505 SourceType 0 Event 2 Action 80 uses param value of
+--   type Boolean with value 2, valid values are 0 or 1, skipped.
+-- That line goes to **SAI.log, not Errors.log** — grepping Errors.log for the
+-- entry shows a clean load, which is exactly how this got shipped.
+-- Cause: the header comment on SMART_ACTION_CALL_TIMED_ACTIONLIST
+-- (SmartScriptMgr.h:636) says "ID, stop after combat?(0/1), timer update type"
+-- but the STRUCT (SmartScriptMgr.h:1163) is
+--     { uint32 id; uint32 timerType; SAIBool allowOverride; }
+-- i.e. param2 = timerType (0-OOC, 1-IC, 2-ALWAYS), param3 = allowOverride BOOL.
+-- The struct is authoritative — `IsSAIBoolValid(e.action.timedActionList.allowOverride)`
+-- (SmartScriptMgr.cpp:1996) is what rejected the row. The AUTO-ported Gallywix row
+-- (36513: `80, 3651300, 2, 0`) had it right; round 1 "corrected" it from the comment.
+-- Now param2 = 2 (ALWAYS, so the launch timer ticks regardless of combat state)
+-- and param3 = 0.
 
 -- Timed actionlist 3650500: timers are sequential delays, each measured from the
 -- previous entry firing.
