@@ -115,6 +115,12 @@ TABLES = {
     "gameobjectdisplayinfo":      dict(order=0, kind="A", pk="id", dest="dbc"),
     "itemdisplayinfo":            dict(order=0, kind="A", pk="id", dest="dbc"),
     "spell":                      dict(order=0, kind="A", pk="id", dest="dbc"),
+    "spellvisual":                dict(order=0, kind="A", pk="id", dest="dbc"),
+    "spellvisualkit":             dict(order=0, kind="A", pk="id", dest="dbc"),
+    # Attach ids are referenced by nothing, so spellvisuals.py allocates them from
+    # a custom block and owns the block wholesale — Kind B (block DELETE + rows)
+    # so a shrinking scope can't strand orphans the way per-id DELETEs would.
+    "spellvisualkitmodelattach":  dict(order=0, kind="B", dest="dbc"),
     "vehicle":                    dict(order=0, kind="A", pk="id", dest="dbc"),
     "vehicleseat":                dict(order=0, kind="A", pk="id", dest="dbc"),
 }
