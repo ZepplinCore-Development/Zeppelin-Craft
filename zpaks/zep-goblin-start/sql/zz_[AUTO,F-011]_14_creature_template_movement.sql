@@ -72,6 +72,13 @@ INSERT INTO creature_template_movement SET
   `Swim` = 1,
   `Flight` = 0;
 
+DELETE FROM creature_template_movement WHERE CreatureId = 34840;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 34840,
+  `Ground` = 1,
+  `Swim` = 0,
+  `Flight` = 0;
+
 DELETE FROM creature_template_movement WHERE CreatureId = 35075;
 INSERT INTO creature_template_movement SET
   `CreatureId` = 35075,
@@ -82,6 +89,13 @@ INSERT INTO creature_template_movement SET
 DELETE FROM creature_template_movement WHERE CreatureId = 36127;
 INSERT INTO creature_template_movement SET
   `CreatureId` = 36127,
+  `Ground` = 0,
+  `Swim` = 0,
+  `Flight` = 1;
+
+DELETE FROM creature_template_movement WHERE CreatureId = 36143;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 36143,
   `Ground` = 0,
   `Swim` = 0,
   `Flight` = 1;
@@ -99,6 +113,27 @@ INSERT INTO creature_template_movement SET
   `Ground` = 0,
   `Swim` = 0,
   `Flight` = 1;
+
+DELETE FROM creature_template_movement WHERE CreatureId = 36178;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 36178,
+  `Ground` = 0,
+  `Swim` = 0,
+  `Flight` = 1;
+
+DELETE FROM creature_template_movement WHERE CreatureId = 36505;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 36505,
+  `Ground` = 0,
+  `Swim` = 0,
+  `Flight` = 1;
+
+DELETE FROM creature_template_movement WHERE CreatureId = 36585;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 36585,
+  `Ground` = 1,
+  `Swim` = 0,
+  `Flight` = 0;
 
 DELETE FROM creature_template_movement WHERE CreatureId = 36681;
 INSERT INTO creature_template_movement SET
@@ -177,6 +212,20 @@ INSERT INTO creature_template_movement SET
   `Swim` = 0,
   `Flight` = 1;
 
+DELETE FROM creature_template_movement WHERE CreatureId = 38195;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 38195,
+  `Ground` = 1,
+  `Swim` = 0,
+  `Flight` = 0;
+
+DELETE FROM creature_template_movement WHERE CreatureId = 38227;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 38227,
+  `Ground` = 1,
+  `Swim` = 0,
+  `Flight` = 0;
+
 DELETE FROM creature_template_movement WHERE CreatureId = 38412;
 INSERT INTO creature_template_movement SET
   `CreatureId` = 38412,
@@ -208,6 +257,13 @@ INSERT INTO creature_template_movement SET
 DELETE FROM creature_template_movement WHERE CreatureId = 39039;
 INSERT INTO creature_template_movement SET
   `CreatureId` = 39039,
+  `Ground` = 0,
+  `Swim` = 0,
+  `Flight` = 1;
+
+DELETE FROM creature_template_movement WHERE CreatureId = 39074;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 39074,
   `Ground` = 0,
   `Swim` = 0,
   `Flight` = 1;
@@ -250,6 +306,13 @@ INSERT INTO creature_template_movement SET
 DELETE FROM creature_template_movement WHERE CreatureId = 44588;
 INSERT INTO creature_template_movement SET
   `CreatureId` = 44588,
+  `Ground` = 0,
+  `Swim` = 1,
+  `Flight` = 1;
+
+DELETE FROM creature_template_movement WHERE CreatureId = 44589;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 44589,
   `Ground` = 0,
   `Swim` = 1,
   `Flight` = 1;

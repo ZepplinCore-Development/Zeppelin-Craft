@@ -414,6 +414,15 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 29827;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 29827,
+  `BoundingRadius` = 0.6112,
+  `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 29889;
 INSERT INTO creature_model_info SET
   `DisplayID` = 29889,
@@ -963,6 +972,15 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 30177;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30177,
+  `BoundingRadius` = 0.9167,
+  `CombatReach` = 3.0469,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 30184;
 INSERT INTO creature_model_info SET
   `DisplayID` = 30184,
@@ -1038,6 +1056,15 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 30262;
 INSERT INTO creature_model_info SET
   `DisplayID` = 30262,
+  `BoundingRadius` = 0.6112,
+  `CombatReach` = 2.031,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 30296;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 30296,
   `BoundingRadius` = 0.6112,
   `CombatReach` = 2.031,
   `Gender` = 2,
@@ -1683,6 +1710,15 @@ INSERT INTO creature_model_info SET
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 35525;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 35525,
+  `BoundingRadius` = 0.616,
+  `CombatReach` = 1.5283,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 35965;
 INSERT INTO creature_model_info SET
   `DisplayID` = 35965,
@@ -1904,6 +1940,15 @@ INSERT INTO creature_model_info SET
   `DisplayID` = 36762,
   `BoundingRadius` = 0.5133,
   `CombatReach` = 1.2736,
+  `Gender` = 2,
+  `DisplayID_Other_Gender` = 0,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 36769;
+INSERT INTO creature_model_info SET
+  `DisplayID` = 36769,
+  `BoundingRadius` = 0.6112,
+  `CombatReach` = 2.031,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;

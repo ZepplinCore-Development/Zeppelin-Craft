@@ -9,17 +9,22 @@
 
 -- F-011 waypoints (one file per table; rows carry final state)
 
+DELETE FROM waypoints WHERE entry = 36608;
 DELETE FROM waypoints WHERE entry = 37598;
 DELETE FROM waypoints WHERE entry = 38111;
 DELETE FROM waypoints WHERE entry = 38224;
 DELETE FROM waypoints WHERE entry = 39582;
 DELETE FROM waypoints WHERE entry = 75116;
+DELETE FROM waypoints WHERE entry = 366080;
+DELETE FROM waypoints WHERE entry = 3651300;
 DELETE FROM waypoints WHERE entry = 3904200;
 DELETE FROM waypoints WHERE entry = 3904201;
 DELETE FROM waypoints WHERE entry = 7511600;
 DELETE FROM waypoints WHERE entry = 7511601;
 
 INSERT INTO waypoints (`entry`, `pointid`, `position_x`, `position_y`, `position_z`, `orientation`, `delay`, `point_comment`) VALUES
+  (36608, 1, 15.8577, -9539.44, -0.9749, NULL, 0, 'Doc Zapnozzle WP'),
+  (36608, 2, 6.7867, -9529.18, -0.95, NULL, 0, 'Doc Zapnozzle WP'),
   (37598, 1, -8957.4233, -11456.43, 102.411, NULL, 0, 'F-011 escort path'),
   (37598, 2, -8957.4433, -11453.3, 104.663, NULL, 0, 'F-011 escort path'),
   (37598, 3, -8956.6633, -11435.93, 104.681, NULL, 0, 'F-011 escort path'),
@@ -51,6 +56,11 @@ INSERT INTO waypoints (`entry`, `pointid`, `position_x`, `position_y`, `position
   (39582, 1, 1745.9667, -10378.87, 22.56, NULL, 0, 'F-011 escort path'),
   (75116, 1, 374.3657, -10565.46, 25.72, NULL, 0, 'F-011 escort path'),
   (75116, 2, 382.4757, -10485.74, 7.7717, NULL, 0, 'F-011 escort path'),
+  (366080, 1, 22.3937, -9604.26, -1.0184, NULL, 0, 'Doc Zapnozzle WP'),
+  (366080, 2, 25.4437, -9617.47, -1.0184, NULL, 0, 'Doc Zapnozzle WP'),
+  (3651300, 1, 327.0587, -10050.91, 119.845, NULL, 0, 'F-011 escort path'),
+  (3651300, 2, 331.6557, -10057.34, 121.856, NULL, 0, 'F-011 escort path'),
+  (3651300, 3, 336.8567, -10056.07, 122.43, NULL, 0, 'F-011 escort path'),
   (3904200, 1, 1178.2167, -9934.49, 11.2611, NULL, 0, 'F-011 escort path'),
   (3904201, 1, 1323.0467, -10048.89, 15.15, NULL, 0, 'F-011 escort path'),
   (7511600, 1, 382.1607, -10562.52, 23.46, NULL, 0, 'F-011 escort path'),

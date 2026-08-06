@@ -1,0 +1,7 @@
+{
+  "_comment": "Hand-authored TARGET_DEST_DB destinations for spells no held source carries (retail kept spell_target_position server-side; neither Neltharion nor TDB434 has these rows). FINAL live coords (map 1) — the map648->map1 offset is NOT applied to these. Overlaid onto TDB rows by _spellscope.dest_positions(); spells.py emits them into zz_[AUTO,F-011]_61_spell_target_position.sql. I-311: 68488/68489 Warchief's Revenge Rope Ladder A/B (GOs 196396/196397) jump the clicker onto the adjacent boat; coords are in-game .gps readings from the intended landing spots (2026-08-04).",
+  "rows": [
+    {"ID": 68488, "EffectIndex": 0, "MapID": 1, "PositionX": 433.57016, "PositionY": -8978.483, "PositionZ": 3.4, "Orientation": 5.7011766},
+    {"ID": 68489, "EffectIndex": 0, "MapID": 1, "PositionX": 470.65256, "PositionY": -9019.84, "PositionZ": -1.8, "Orientation": 5.2359697}
+  ]
+}

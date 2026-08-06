@@ -864,6 +864,25 @@ INSERT INTO creaturedisplayinfo SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
+DELETE FROM creaturedisplayinfo WHERE id = 29827;
+INSERT INTO creaturedisplayinfo SET
+  `id` = 29827,
+  `model_id` = 1731,
+  `sound_id` = 0,
+  `extended_display_info_id` = 0,
+  `creature_model_scale` = 1,
+  `creature_model_alpha` = 255,
+  `texture_variation_1` = '',
+  `texture_variation_2` = '',
+  `texture_variation_3` = '',
+  `portrait_texture_name` = 'inv_misc_coin_02',
+  `blood_level` = 1,
+  `blood_id` = 0,
+  `npc_sound_id` = 0,
+  `praticle_color_id` = 0,
+  `creature_geoset_data` = 0,
+  `obj_effect_package_id` = 0;
+
 DELETE FROM creaturedisplayinfo WHERE id = 29889;
 INSERT INTO creaturedisplayinfo SET
   `id` = 29889,
@@ -2023,6 +2042,25 @@ INSERT INTO creaturedisplayinfo SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
+DELETE FROM creaturedisplayinfo WHERE id = 30177;
+INSERT INTO creaturedisplayinfo SET
+  `id` = 30177,
+  `model_id` = 2718,
+  `sound_id` = 0,
+  `extended_display_info_id` = 0,
+  `creature_model_scale` = 1.5,
+  `creature_model_alpha` = 255,
+  `texture_variation_1` = 'RocketMount',
+  `texture_variation_2` = '',
+  `texture_variation_3` = '',
+  `portrait_texture_name` = '',
+  `blood_level` = 1,
+  `blood_id` = 0,
+  `npc_sound_id` = 0,
+  `praticle_color_id` = 0,
+  `creature_geoset_data` = 0,
+  `obj_effect_package_id` = 101;
+
 DELETE FROM creaturedisplayinfo WHERE id = 30184;
 INSERT INTO creaturedisplayinfo SET
   `id` = 30184,
@@ -2193,6 +2231,25 @@ INSERT INTO creaturedisplayinfo SET
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
+
+DELETE FROM creaturedisplayinfo WHERE id = 30296;
+INSERT INTO creaturedisplayinfo SET
+  `id` = 30296,
+  `model_id` = 1731,
+  `sound_id` = 3062,
+  `extended_display_info_id` = 0,
+  `creature_model_scale` = 1,
+  `creature_model_alpha` = 255,
+  `texture_variation_1` = '',
+  `texture_variation_2` = '',
+  `texture_variation_3` = '',
+  `portrait_texture_name` = 'spell_nature_cyclone',
+  `blood_level` = 1,
+  `blood_id` = 0,
+  `npc_sound_id` = 0,
+  `praticle_color_id` = 0,
+  `creature_geoset_data` = 0,
+  `obj_effect_package_id` = 442;
 
 DELETE FROM creaturedisplayinfo WHERE id = 30303;
 INSERT INTO creaturedisplayinfo SET
@@ -3543,6 +3600,25 @@ INSERT INTO creaturedisplayinfo SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 509;
 
+DELETE FROM creaturedisplayinfo WHERE id = 35525;
+INSERT INTO creaturedisplayinfo SET
+  `id` = 35525,
+  `model_id` = 831,
+  `sound_id` = 3173,
+  `extended_display_info_id` = 19671,
+  `creature_model_scale` = 1.2,
+  `creature_model_alpha` = 255,
+  `texture_variation_1` = '',
+  `texture_variation_2` = '',
+  `texture_variation_3` = '',
+  `portrait_texture_name` = '',
+  `blood_level` = 1,
+  `blood_id` = 0,
+  `npc_sound_id` = 0,
+  `praticle_color_id` = 0,
+  `creature_geoset_data` = 0,
+  `obj_effect_package_id` = 0;
+
 DELETE FROM creaturedisplayinfo WHERE id = 35965;
 INSERT INTO creaturedisplayinfo SET
   `id` = 35965,
@@ -4011,6 +4087,25 @@ INSERT INTO creaturedisplayinfo SET
   `texture_variation_2` = '',
   `texture_variation_3` = '',
   `portrait_texture_name` = '',
+  `blood_level` = -1,
+  `blood_id` = 0,
+  `npc_sound_id` = 0,
+  `praticle_color_id` = 0,
+  `creature_geoset_data` = 0,
+  `obj_effect_package_id` = 0;
+
+DELETE FROM creaturedisplayinfo WHERE id = 36769;
+INSERT INTO creaturedisplayinfo SET
+  `id` = 36769,
+  `model_id` = 2790,
+  `sound_id` = 0,
+  `extended_display_info_id` = 0,
+  `creature_model_scale` = 1,
+  `creature_model_alpha` = 255,
+  `texture_variation_1` = '',
+  `texture_variation_2` = '',
+  `texture_variation_3` = '',
+  `portrait_texture_name` = 'inv_crate_07',
   `blood_level` = -1,
   `blood_id` = 0,
   `npc_sound_id` = 0,

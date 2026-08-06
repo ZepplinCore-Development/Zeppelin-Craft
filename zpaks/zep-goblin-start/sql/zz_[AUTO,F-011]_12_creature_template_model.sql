@@ -799,6 +799,15 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 35486;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 35486,
+  `Idx` = 0,
+  `CreatureDisplayID` = 29827,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 35609;
 INSERT INTO creature_template_model SET
   `CreatureID` = 35609,
@@ -978,6 +987,23 @@ INSERT INTO creature_template_model SET
   `CreatureID` = 35812,
   `Idx` = 3,
   `CreatureDisplayID` = 30187,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 35813;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 35813,
+  `Idx` = 0,
+  `CreatureDisplayID` = 29924,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+INSERT INTO creature_template_model SET
+  `CreatureID` = 35813,
+  `Idx` = 1,
+  `CreatureDisplayID` = 29926,
   `DisplayScale` = 1,
   `Probability` = 1,
   `VerifiedBuild` = 0;
@@ -1327,6 +1353,39 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 36100;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36100,
+  `Idx` = 0,
+  `CreatureDisplayID` = 29951,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36100,
+  `Idx` = 1,
+  `CreatureDisplayID` = 29952,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36100,
+  `Idx` = 2,
+  `CreatureDisplayID` = 29953,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36100,
+  `Idx` = 3,
+  `CreatureDisplayID` = 29954,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 36103;
 INSERT INTO creature_template_model SET
   `CreatureID` = 36103,
@@ -1438,6 +1497,15 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 36143;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36143,
+  `Idx` = 0,
+  `CreatureDisplayID` = 22719,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 36145;
 INSERT INTO creature_template_model SET
   `CreatureID` = 36145,
@@ -1527,6 +1595,15 @@ INSERT INTO creature_template_model SET
   `CreatureID` = 36176,
   `Idx` = 3,
   `CreatureDisplayID` = 30034,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 36178;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36178,
+  `Idx` = 0,
+  `CreatureDisplayID` = 30296,
   `DisplayScale` = 1,
   `Probability` = 1,
   `VerifiedBuild` = 0;
@@ -2005,6 +2082,24 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 36505;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36505,
+  `Idx` = 0,
+  `CreatureDisplayID` = 30177,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 36513;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36513,
+  `Idx` = 0,
+  `CreatureDisplayID` = 35525,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 36518;
 INSERT INTO creature_template_model SET
   `CreatureID` = 36518,
@@ -2077,6 +2172,15 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 36585;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36585,
+  `Idx` = 0,
+  `CreatureDisplayID` = 599,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 36591;
 INSERT INTO creature_template_model SET
   `CreatureID` = 36591,
@@ -2115,6 +2219,15 @@ INSERT INTO creature_template_model SET
   `CreatureID` = 36600,
   `Idx` = 0,
   `CreatureDisplayID` = 30219,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 36608;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 36608,
+  `Idx` = 0,
+  `CreatureDisplayID` = 30227,
   `DisplayScale` = 1,
   `Probability` = 1,
   `VerifiedBuild` = 0;
@@ -2311,6 +2424,15 @@ INSERT INTO creature_template_model SET
   `CreatureID` = 37602,
   `Idx` = 0,
   `CreatureDisplayID` = 30703,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 37676;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 37676,
+  `Idx` = 0,
+  `CreatureDisplayID` = 31988,
   `DisplayScale` = 1,
   `Probability` = 1,
   `VerifiedBuild` = 0;
@@ -2552,6 +2674,15 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 38227;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 38227,
+  `Idx` = 0,
+  `CreatureDisplayID` = 11686,
+  `DisplayScale` = 3,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 38318;
 INSERT INTO creature_template_model SET
   `CreatureID` = 38318,
@@ -2719,6 +2850,15 @@ INSERT INTO creature_template_model SET
   `CreatureID` = 38448,
   `Idx` = 0,
   `CreatureDisplayID` = 31674,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 38455;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 38455,
+  `Idx` = 0,
+  `CreatureDisplayID` = 30051,
   `DisplayScale` = 1,
   `Probability` = 1,
   `VerifiedBuild` = 0;
@@ -3405,6 +3545,15 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 39074;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 39074,
+  `Idx` = 0,
+  `CreatureDisplayID` = 26556,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 39141;
 INSERT INTO creature_template_model SET
   `CreatureID` = 39141,
@@ -3477,11 +3626,56 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 39198;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 39198,
+  `Idx` = 0,
+  `CreatureDisplayID` = 30051,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 39199;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 39199,
+  `Idx` = 0,
+  `CreatureDisplayID` = 29977,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 39200;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 39200,
+  `Idx` = 0,
+  `CreatureDisplayID` = 30053,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 39201;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 39201,
+  `Idx` = 0,
+  `CreatureDisplayID` = 32385,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 39276;
 INSERT INTO creature_template_model SET
   `CreatureID` = 39276,
   `Idx` = 0,
   `CreatureDisplayID` = 11686,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 39329;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 39329,
+  `Idx` = 0,
+  `CreatureDisplayID` = 36769,
   `DisplayScale` = 1,
   `Probability` = 1,
   `VerifiedBuild` = 0;
@@ -3685,6 +3879,15 @@ INSERT INTO creature_template_model SET
 DELETE FROM creature_template_model WHERE CreatureID = 39592;
 INSERT INTO creature_template_model SET
   `CreatureID` = 39592,
+  `Idx` = 0,
+  `CreatureDisplayID` = 31484,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 39598;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 39598,
   `Idx` = 0,
   `CreatureDisplayID` = 31484,
   `DisplayScale` = 1,
@@ -3982,6 +4185,15 @@ INSERT INTO creature_template_model SET
   `Probability` = 1,
   `VerifiedBuild` = 0;
 
+DELETE FROM creature_template_model WHERE CreatureID = 40722;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 40722,
+  `Idx` = 0,
+  `CreatureDisplayID` = 32087,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
 DELETE FROM creature_template_model WHERE CreatureID = 41266;
 INSERT INTO creature_template_model SET
   `CreatureID` = 41266,
@@ -4041,6 +4253,15 @@ INSERT INTO creature_template_model SET
   `CreatureID` = 44588,
   `Idx` = 0,
   `CreatureDisplayID` = 31084,
+  `DisplayScale` = 1,
+  `Probability` = 1,
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template_model WHERE CreatureID = 44589;
+INSERT INTO creature_template_model SET
+  `CreatureID` = 44589,
+  `Idx` = 0,
+  `CreatureDisplayID` = 31086,
   `DisplayScale` = 1,
   `Probability` = 1,
   `VerifiedBuild` = 0;

@@ -8226,3 +8226,4 @@ INSERT INTO itemdisplayinfo SET
   `foot_texture` = 'mail_common_a_01green_Boot_FO',
   `item_visual` = 0,
   `particle_colour_id` = 0;
+

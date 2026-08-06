@@ -18,11 +18,23 @@ chases) + UNIT_FLAG_PACIFIED (never retaliates).
 
 Two single combined files for both zones -> emitted only on the "" pass.
 """
+import os
+import importlib.util
+
 NAME = "immunities_movement"
 TABLES = ["creature_template", "creature_immunities", "creature_template_movement"]
 TIER = "overlay"
 
 ZONES = ("4720", "4737")   # Lost Isles + Kezan (one combined file)
+
+
+def _sibling(modname):
+    """Load a sibling gen module (domains are file-loaded, not a package)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), modname + ".py")
+    spec = importlib.util.spec_from_file_location("goblin_gen_" + modname, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def _i(v, d=0):
@@ -40,6 +52,12 @@ def emit(ctx):
         "SELECT DISTINCT CAST(TRIM(id) AS SIGNED) AS id FROM creature "
         "WHERE TRIM(zone) IN ('%s','%s')"
         " AND CAST(TRIM(id) AS SIGNED) < 1000000" % ZONES)}  # no dev/leet NPCs (I-233)
+
+    # summon-only creatures (I-310 blind spot, hit again as I-311): never in the
+    # source `creature` table, so the zone-spawn scope misses them — the
+    # Warchief's Revenge cyclone (36178, InhabitType 4) shipped with no Flight
+    # row and sat on the ground instead of flying its circuit.
+    gob |= set(_sibling("_summons").summoned_entries(ctx))
 
     imm, move, dummies = {}, [], []
     for r in ctx.q("SELECT entry, mechanic_immune_mask, InhabitType, ScriptName, "

@@ -47,10 +47,12 @@ templates (plus their timed-actionlist closure), `npc_spellclick_spells` on
 owned creatures, `quest_template.RequiredSpellCast*` on ported quests, and the
 spell ids GO templates cast out of their own data fields (I-275: the Life
 Savings boarding mortar, a type-22 SPELLCASTER, was a dead click because its
-Data0 spell reached no reference site) — i.e. the sites where a missing spell
-silently breaks a quest. Creature ability spells (`creature_template_spell`)
-are NOT walked yet; `uncovered()` counts them so the remaining gap is visible
-rather than assumed absent.
+Data0 spell reached no reference site), and vehicle action bars — source
+`creature_template.spell1-8` on creatures with a VehicleId (I-311: the
+Warchief's Revenge cyclone shipped with an empty bar because 68445 reached no
+reference site) — i.e. the sites where a missing spell silently breaks a
+quest. Non-vehicle creature ability spells are NOT walked yet; `uncovered()`
+counts them so the remaining gap is visible rather than assumed absent.
 
 The `missing_spells` fixture survives as an explicit ADDITIONS list (things no
 reference site can reach, e.g. hand-authored substitutes), unioned in by
@@ -113,8 +115,27 @@ TOTAL_SPELL_TARGETS = 111
 
 # SpellEffect.dbc (4.3.4) field indices — same layout spells.py reads.
 E_EFFECT, E_AURA, E_RADIUS = 1, 3, 15
+E_RADIUS_MAX = 16          # 4.3.4 only: EffectRadiusMaxIndex (see radius_index())
 E_TRIGGER, E_TARGET_A, E_TARGET_B = 21, 22, 23
 E_SPELLID, E_INDEX = 24, 25
+
+
+def radius_index(e):
+    """The single 3.3.5a `effect_radius_index` for one 4.3.4 SpellEffect row (I-287).
+
+    4.3.4 split the radius into `EffectRadiusIndex` (min) + `EffectRadiusMaxIndex`,
+    and Cata routinely leaves the MIN index 0 and carries the real value in the MAX
+    one — 4517 area-target effects in the 4.3.4 SpellEffect.dbc are shaped that way.
+    3.3.5a has one index, so reading only field 15 shipped radius 0.
+
+    A radius of 0 is NOT a harmless default for an area target: `CalcRadius` returns
+    0.0f with no SpellRadius row, and `Spell::SelectImplicitAreaTargets` then searches
+    a 0-yard sphere and finds nothing. The spell casts, consumes the item, and does
+    nothing — no error anywhere (I-287: quest 14031 "Capturing the Unknown", where
+    the KTC Snapflash 68280 is `TARGET_SRC_CASTER` + `TARGET_UNIT_SRC_AREA_ENTRY`
+    with RadiusIndex 0 / RadiusMaxIndex 9).
+    """
+    return e[E_RADIUS] or e[E_RADIUS_MAX]
 
 # --- GO templates that cast a spell out of their own data fields (I-275) ---
 # gameobjects.py copies Cata Data0-23 through verbatim, so the reference ships;
@@ -207,17 +228,64 @@ def sai_scope(ctx):
     return cre, go
 
 
-def _sai_rows(ctx):
+# --- pre-sweep scope: collector-independent stand-in for sai_scope() ---------
+# `sai_scope()` reads the COLLECTED creature/GO templates, which makes it unusable
+# by the domains that run BEFORE creature_template is populated — and those are
+# exactly the domains that need to know which creatures a ported spell SUMMONS, so
+# the summon-only templates can join the sweep in the first place (I-285).
+# The zone spawn sweep is the one scope available that early: it is what
+# creatures.py itself starts from, so it is a superset of the SAI scope for every
+# entry that carries a summoning script. Being wider than sai_scope() is safe here
+# — an extra reference only means an extra template offered to the sweep, and the
+# sweep drops entries the source does not have.
+ZONE_IDS = ("4720", "4737")
+
+
+def presweep_scope(ctx):
+    """(creature_entries, gameobject_entries) from the SOURCE zone spawn sweep.
+
+    Zone-independent (both zones, always) so the value does not change between
+    the two passes, and collector-independent so it is valid before any domain
+    has collected a template.
+    """
+    cached = getattr(ctx.col, "_spellscope_presweep_scope", None)
+    if cached is not None:
+        return cached
+    zones = ",".join("'%s'" % z for z in ZONE_IDS)
+
+    def sweep(spawn_table, tmpl_table):
+        spawned = {_num(r["id"]) for r in ctx.q(
+            "SELECT DISTINCT TRIM(id) AS id FROM %s WHERE TRIM(zone) IN (%s)"
+            % (spawn_table, zones))}
+        # e < 1000000: Neltharion dev/test NPCs use leet/placeholder entries (I-233).
+        known = {_num(r["entry"]) for r in ctx.q(
+            "SELECT entry FROM %s WHERE entry < 1000000" % tmpl_table)}
+        return sorted(spawned & known)
+
+    val = (sweep("creature", "creature_template"),
+           sweep("gameobject", "gameobject_template"))
+    ctx.col._spellscope_presweep_scope = val
+    return val
+
+
+def _sai_rows(ctx, scope=None):
     """All in-scope source smart_scripts rows, incl. the timed-actionlist closure.
 
     Bulk-fetched (one query per source_type) and cached on the collector, since
-    both spells.py and smartai.py need the same set on the same pass.
+    both spells.py and smartai.py need the same set on the same pass. `scope`
+    overrides sai_scope() for the pre-sweep walk (cached separately, since it
+    does not move with the collected scope).
     """
+    if scope is not None:
+        cached = getattr(ctx.col, "_spellscope_presweep_sai", None)
+        if cached is None:
+            cached = ctx.col._spellscope_presweep_sai = _build_sai_rows(ctx, scope)
+        return cached
     return _memo(ctx, "sai_rows", _build_sai_rows)
 
 
-def _build_sai_rows(ctx):
-    cre, go = sai_scope(ctx)
+def _build_sai_rows(ctx, scope=None):
+    cre, go = scope if scope is not None else sai_scope(ctx)
     rows = []
 
     def fetch(source_type, entries):
@@ -278,11 +346,13 @@ def _build_escort_paths(ctx):
     return out
 
 
-def _spell_refs(ctx):
+def _spell_refs(ctx, scope=None):
     """Spell ids the port references, before closure/validation, with provenance.
 
     Returns {spell_id: set(reason strings)} so a reject can be reported against
-    the thing that will break.
+    the thing that will break. `scope` overrides sai_scope() for the pre-sweep
+    walk; in that mode step 4 reads GO data fields from the SOURCE templates,
+    since the collector holds none yet.
     """
     refs = {}
 
@@ -292,7 +362,7 @@ def _spell_refs(ctx):
 
     # 1. SmartAI cast/aura actions (only on rows the port would actually keep —
     #    a row dropped for an untranslatable event/action needs no spell).
-    for r in _sai_rows(ctx):
+    for r in _sai_rows(ctx, scope):
         et, at = _num(r["event_type"]), _num(r["action_type"])
         if et > MAX_EVENT or at > MAX_ACTION:
             continue
@@ -301,12 +371,29 @@ def _spell_refs(ctx):
                  "SAI %s:%s action %d" % (_num(r["source_type"]), _num(r["entryorguid"]), at))
 
     # 2. spellclick spells on owned creatures
-    cre, _go = sai_scope(ctx)
+    cre, _go = scope if scope is not None else sai_scope(ctx)
     if cre:
         ids = ",".join(str(e) for e in cre)
         for r in ctx.q("SELECT npc_entry, spell_id FROM npc_spellclick_spells "
                        "WHERE npc_entry IN (%s)" % ids):
             note(_num(r["spell_id"]), "spellclick on %d" % _num(r["npc_entry"]))
+
+    # 2b. vehicle action bars (I-311) — source creature_template.spell1-8 on owned
+    #     creatures with a VehicleId. vehicles.py filters the bar to spells 3.3.5a
+    #     will have, so a bar spell missing from this walk was silently dropped and
+    #     the rider sat in a vehicle with an empty action bar (quest 14243's Cyclone
+    #     of the Elements lost 68445 Lightning Strike). Non-vehicle ability spells
+    #     stay unwalked — `uncovered()` still counts those.
+    if cre:
+        ids = ",".join(str(e) for e in cre)
+        cols = ", ".join("spell%d" % n for n in range(1, 9))
+        for r in ctx.q("SELECT entry, VehicleId, " + cols +
+                       " FROM creature_template WHERE entry IN (%s)" % ids):
+            if not _num(r["VehicleId"]):
+                continue
+            for n in range(1, 9):
+                note(_num(r["spell%d" % n]),
+                     "vehicle bar on %d" % _num(r["entry"]))
 
     # 3. quest RequiredSpellCast objectives (I-247) — the cast that grants credit
     qids = sorted(set(ctx.fixture("item_scope").get("quests", []))
@@ -324,10 +411,32 @@ def _spell_refs(ctx):
     #    port will actually emit — gameobjects.py rewrites `type` for some entries
     #    (TYPE_OVERRIDE) and zeroes gossip ids, and a spell reference derived from
     #    a template we do not ship would be a phantom requirement.
-    for e in sorted(int(x) for x in ctx.col.pks("gameobject_template", owned=True)):
-        row = ctx.col.get("gameobject_template", e) or {}
+    if scope is None:
+        go_rows = ((e, ctx.col.get("gameobject_template", e) or {})
+                   for e in sorted(int(x) for x in ctx.col.pks("gameobject_template", owned=True)))
+    else:
+        _cre, go_scope = scope
+        go_rows = (((_num(r["entry"])), r) for r in (ctx.q(
+            "SELECT * FROM gameobject_template WHERE entry IN (%s)"
+            % ",".join(str(int(e)) for e in go_scope)) if go_scope else []))
+    for e, row in go_rows:
         for f in GO_SPELL_FIELDS.get(_num(row.get("type", 0)), ()):
             note(_num(row.get(f, 0)), "GO %d %s (type %d)" % (e, f, _num(row.get("type", 0))))
+
+    # 4b. permanent auras a creature is spawned with (I-292).
+    #     `creature_addon.py` drops any aura whose spell 3.3.5a lacks, and nothing
+    #     told this walk those spells were needed — so an NPC's defining aura was
+    #     silently thrown away. Cost: quest 14031's four camera markers each carry a
+    #     MOD_INVISIBILITY aura (68231 / 70686 / 70687 / 70688) whose matching
+    #     "See Invis Target Bunny" detect spells DID port (the actionlists reference
+    #     them). Half the pair shipped, so the markers were visible to everybody,
+    #     quest or not.
+    if cre:
+        ids = ",".join(str(e) for e in cre)
+        for r in ctx.q("SELECT entry, auras FROM creature_template_addon "
+                       "WHERE entry IN (%s)" % ids):
+            for tok in str(r["auras"] or "").split():
+                note(_num(tok), "creature_template_addon aura on %d" % _num(r["entry"]))
 
     # 5. explicit additions the reference walk cannot reach
     for sid in ctx.fixture("missing_spells"):
@@ -388,6 +497,17 @@ def dest_positions(ctx):
         out.setdefault(_num(r["ID"]), {})[_num(r["EffectIndex"])] = dict(
             MapID=m, PositionX=x, PositionY=y,
             PositionZ=float(r["PositionZ"]), Orientation=float(r["Orientation"]))
+
+    # hand-authored destinations (I-311): rows NO held source carries — retail kept
+    # spell_target_position server-side, so a TARGET_DEST_DB spell whose row never
+    # shipped in TDB434 was unportable (the Rope Ladder A/B jumps 68488/68489 were
+    # rejected and their type-22 GOs were dead clicks). Fixture rows are FINAL live
+    # coords (map 1) — no 648 translation — and win over TDB rows on collision.
+    for r in ctx.fixture("spell_target_position")["rows"]:
+        out.setdefault(_num(r["ID"]), {})[_num(r["EffectIndex"])] = dict(
+            MapID=_num(r["MapID"]), PositionX=float(r["PositionX"]),
+            PositionY=float(r["PositionY"]), PositionZ=float(r["PositionZ"]),
+            Orientation=float(r["Orientation"]))
     ctx.col._spellscope_dest = out
     return out
 
@@ -469,7 +589,25 @@ def required(ctx):
 
 
 def _build_required(ctx):
-    refs = _spell_refs(ctx)
+    return _close(ctx, _spell_refs(ctx))
+
+
+def presweep_required(ctx):
+    """`required()` computed over presweep_scope() instead of the collected scope.
+
+    For the domains that must know the port's summon closure BEFORE any template
+    is collected (I-285). Same walk, wider scope, so it is a superset of
+    `required()` — never a substitute for it in spells.py / smartai.py, which must
+    stay keyed to what the port actually owns.
+    """
+    cached = getattr(ctx.col, "_spellscope_presweep_required", None)
+    if cached is None:
+        cached = ctx.col._spellscope_presweep_required = _close(
+            ctx, _spell_refs(ctx, presweep_scope(ctx)))
+    return cached
+
+
+def _close(ctx, refs):
     stock = stock_spell_ids(ctx) | foreign_spell_ids(ctx)
     _have, eff = whitemane_spells(ctx)
     # transitive closure over effect_trigger_spell
@@ -512,8 +650,9 @@ def _problems(ctx, sid, stock_radius, dests):
             why.append("TargetA %d >= %d" % (e[E_TARGET_A], TOTAL_SPELL_TARGETS))
         if e[E_TARGET_B] >= TOTAL_SPELL_TARGETS:
             why.append("TargetB %d >= %d" % (e[E_TARGET_B], TOTAL_SPELL_TARGETS))
-        if e[E_RADIUS] and e[E_RADIUS] not in stock_radius:
-            why.append("radiusIndex %d absent from stock spellradius" % e[E_RADIUS])
+        ri = radius_index(e)
+        if ri and ri not in stock_radius:
+            why.append("radiusIndex %d absent from stock spellradius" % ri)
         if why:
             bad[idx] = why
         else:
