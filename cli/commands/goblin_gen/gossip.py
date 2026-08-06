@@ -61,7 +61,14 @@ MENU_CLOSURE_SKIP = {
     1221,   # stock innkeeper "What can I do at an inn?" — AC answers this natively
     10371,  # Dual Talent Specialization info; AC drives it from OptionType 18
     23620,  # "Back." page of the dual-spec menu above
-    12045,  # French profession-vendor lists reached from 12002 (donor scaffolding)
+    # I-317: 12045/12046 are the Train-a-Tron's primary/secondary profession
+    # sub-menus reached from 12002 — NOT vendor scaffolding, as this entry
+    # previously claimed. Their rows are per-profession OptionType-5 entries, but
+    # AC 3.3.5a has no `gossip_menu_option_trainer`, so every one of them would
+    # open the same creature_default_trainer list (6623, all professions). They
+    # stay skipped on purpose; zz_[I-317]_train_a_tron_professions.sql replaces
+    # the two dead parent options with one working OptionType-5 entry on 510082.
+    12045,
     12046,
 }
 
