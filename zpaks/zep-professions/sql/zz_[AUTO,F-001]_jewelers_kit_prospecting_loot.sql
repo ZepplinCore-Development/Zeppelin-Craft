@@ -6,6 +6,10 @@
 -- Reference loot tables that duplicate prospecting loot
 -- Provides a bonus 'second roll' when prospecting with a Jeweler's Kit
 -- Tiers: Journeyman (10%), Artisan (20%), Master (30%), Grand Master (40%)
+--
+-- Aura conditions are attached to PLAIN ITEM rows only -- AzerothCore
+-- never evaluates conditions on rows with Reference <> 0, so a mirrored
+-- reference row gets a sub-mirror and the gate lives one level down.
 -- =====================================================
 
 -- Cleanup existing entries
@@ -50,7 +54,13 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Tin Ore (Entry: 2771)
 -- Tin Ore - Journeyman Jeweler's Kit Bonus (Ref 97004)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97004, 90000000, 13000, 10.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97004, 90000000, 97999, 10.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 13000)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97999, 1529, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97999, 3864, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97999, 7909, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97004, 1206, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -60,7 +70,13 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 
 -- Tin Ore - Artisan Jeweler's Kit Bonus (Ref 97005)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97005, 90000000, 13000, 10.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97005, 90000000, 97998, 10.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 13000)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97998, 1529, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97998, 3864, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97998, 7909, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97005, 1206, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -70,7 +86,13 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 
 -- Tin Ore - Master Jeweler's Kit Bonus (Ref 97006)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97006, 90000000, 13000, 10.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97006, 90000000, 97997, 10.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 13000)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97997, 1529, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97997, 3864, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97997, 7909, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97006, 1206, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -80,7 +102,13 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 
 -- Tin Ore - Grand Master Jeweler's Kit Bonus (Ref 97007)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97007, 90000000, 13000, 10.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97007, 90000000, 97996, 10.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 13000)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97996, 1529, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97996, 3864, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97996, 7909, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97007, 1206, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -364,41 +392,185 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Adamantite Ore (Entry: 23425)
 -- Adamantite Ore - Journeyman Jeweler's Kit Bonus (Ref 97024)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97024, 90000000, 13001, 100.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97024, 90000000, 97995, 100.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 13001)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97024, 90000001, 13002, 24.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97995, 21929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97024, 90000002, 13001, 15.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97995, 23077, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97995, 23079, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97995, 23107, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97995, 23112, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97995, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97024, 90000001, 97994, 24.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 13002)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97994, 23436, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97994, 23437, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97994, 23438, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97994, 23439, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97994, 23440, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97994, 23441, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97024, 90000002, 97993, 15.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 13001)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97993, 21929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97993, 23077, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97993, 23079, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97993, 23107, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97993, 23112, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97993, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97024, 24243, 0, 100.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Adamantite Ore - Artisan Jeweler's Kit Bonus (Ref 97025)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97025, 90000000, 13001, 100.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97025, 90000000, 97992, 100.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 13001)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97025, 90000001, 13002, 24.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97992, 21929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97025, 90000002, 13001, 15.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97992, 23077, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97992, 23079, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97992, 23107, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97992, 23112, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97992, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97025, 90000001, 97991, 24.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 13002)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97991, 23436, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97991, 23437, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97991, 23438, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97991, 23439, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97991, 23440, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97991, 23441, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97025, 90000002, 97990, 15.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 13001)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97990, 21929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97990, 23077, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97990, 23079, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97990, 23107, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97990, 23112, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97990, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97025, 24243, 0, 100.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Adamantite Ore - Master Jeweler's Kit Bonus (Ref 97026)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97026, 90000000, 13001, 100.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97026, 90000000, 97989, 100.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 13001)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97026, 90000001, 13002, 24.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97989, 21929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97026, 90000002, 13001, 15.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97989, 23077, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97989, 23079, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97989, 23107, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97989, 23112, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97989, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97026, 90000001, 97988, 24.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 13002)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97988, 23436, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97988, 23437, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97988, 23438, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97988, 23439, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97988, 23440, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97988, 23441, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97026, 90000002, 97987, 15.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 13001)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97987, 21929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97987, 23077, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97987, 23079, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97987, 23107, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97987, 23112, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97987, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97026, 24243, 0, 100.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 
 -- Adamantite Ore - Grand Master Jeweler's Kit Bonus (Ref 97027)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97027, 90000000, 13001, 100.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97027, 90000000, 97986, 100.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 13001)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97027, 90000001, 13002, 24.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97986, 21929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97027, 90000002, 13001, 15.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97986, 23077, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97986, 23079, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97986, 23107, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97986, 23112, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97986, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97027, 90000001, 97985, 24.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 13002)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97985, 23436, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97985, 23437, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97985, 23438, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97985, 23439, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97985, 23440, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97985, 23441, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97027, 90000002, 97984, 15.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 13001)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97984, 21929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97984, 23077, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97984, 23079, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97984, 23107, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97984, 23112, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97984, 23117, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97027, 24243, 0, 100.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 
@@ -406,59 +578,347 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Cobalt Ore (Entry: 36909)
 -- Cobalt Ore - Journeyman Jeweler's Kit Bonus (Ref 97028)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97028, 90000000, 1001, 100.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97028, 90000000, 97983, 100.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 1001)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36917, 0, 16.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36918, 0, 1.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36920, 0, 16.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36921, 0, 1.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36923, 0, 16.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36924, 0, 1.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36926, 0, 16.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36927, 0, 1.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36929, 0, 15.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36930, 0, 1.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36932, 0, 15.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97983, 36933, 0, 1.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Cobalt Ore - Artisan Jeweler's Kit Bonus (Ref 97029)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97029, 90000000, 1001, 100.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97029, 90000000, 97982, 100.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 1001)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36917, 0, 16.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36918, 0, 1.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36920, 0, 16.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36921, 0, 1.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36923, 0, 16.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36924, 0, 1.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36926, 0, 16.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36927, 0, 1.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36929, 0, 15.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36930, 0, 1.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36932, 0, 15.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97982, 36933, 0, 1.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Cobalt Ore - Master Jeweler's Kit Bonus (Ref 97030)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97030, 90000000, 1001, 100.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97030, 90000000, 97981, 100.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 1001)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36917, 0, 16.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36918, 0, 1.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36920, 0, 16.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36921, 0, 1.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36923, 0, 16.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36924, 0, 1.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36926, 0, 16.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36927, 0, 1.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36929, 0, 15.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36930, 0, 1.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36932, 0, 15.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97981, 36933, 0, 1.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 
 -- Cobalt Ore - Grand Master Jeweler's Kit Bonus (Ref 97031)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97031, 90000000, 1001, 100.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97031, 90000000, 97980, 100.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 1001)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36917, 0, 16.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36918, 0, 1.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36920, 0, 16.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36921, 0, 1.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36923, 0, 16.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36924, 0, 1.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36926, 0, 16.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36927, 0, 1.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36929, 0, 15.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36930, 0, 1.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36932, 0, 15.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97980, 36933, 0, 1.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 
 
 -- Titanium Ore (Entry: 36910)
 -- Titanium Ore - Journeyman Jeweler's Kit Bonus (Ref 97032)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97032, 90000000, 13005, 20.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97032, 90000000, 97979, 20.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 13005)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97032, 90000001, 1002, 100.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97979, 36919, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97032, 90000002, 1003, 75.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97979, 36922, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97979, 36925, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97979, 36928, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97979, 36931, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97979, 36934, 0, 0.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97032, 90000001, 97978, 100.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 1002)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36917, 0, 12.5, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36918, 0, 5.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36920, 0, 12.5, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36921, 0, 4.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36923, 0, 12.5, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36924, 0, 4.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36926, 0, 12.5, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36927, 0, 4.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36929, 0, 12.5, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36930, 0, 4.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36932, 0, 12.5, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97978, 36933, 0, 4.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97032, 90000002, 97977, 75.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 1003)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97977, 36917, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97977, 36920, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97977, 36923, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97977, 36926, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97977, 36929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97977, 36932, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97032, 46849, 0, 75.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Titanium Ore - Artisan Jeweler's Kit Bonus (Ref 97033)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97033, 90000000, 13005, 20.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97033, 90000000, 97976, 20.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 13005)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97033, 90000001, 1002, 100.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97976, 36919, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97033, 90000002, 1003, 75.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97976, 36922, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97976, 36925, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97976, 36928, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97976, 36931, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97976, 36934, 0, 0.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97033, 90000001, 97975, 100.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 1002)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36917, 0, 12.5, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36918, 0, 5.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36920, 0, 12.5, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36921, 0, 4.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36923, 0, 12.5, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36924, 0, 4.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36926, 0, 12.5, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36927, 0, 4.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36929, 0, 12.5, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36930, 0, 4.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36932, 0, 12.5, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97975, 36933, 0, 4.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97033, 90000002, 97974, 75.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 1003)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97974, 36917, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97974, 36920, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97974, 36923, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97974, 36926, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97974, 36929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97974, 36932, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97033, 46849, 0, 75.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Titanium Ore - Master Jeweler's Kit Bonus (Ref 97034)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97034, 90000000, 13005, 20.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97034, 90000000, 97973, 20.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 13005)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97034, 90000001, 1002, 100.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97973, 36919, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97034, 90000002, 1003, 75.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97973, 36922, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97973, 36925, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97973, 36928, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97973, 36931, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97973, 36934, 0, 0.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97034, 90000001, 97972, 100.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 1002)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36917, 0, 12.5, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36918, 0, 5.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36920, 0, 12.5, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36921, 0, 4.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36923, 0, 12.5, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36924, 0, 4.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36926, 0, 12.5, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36927, 0, 4.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36929, 0, 12.5, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36930, 0, 4.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36932, 0, 12.5, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97972, 36933, 0, 4.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97034, 90000002, 97971, 75.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 1003)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97971, 36917, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97971, 36920, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97971, 36923, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97971, 36926, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97971, 36929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97971, 36932, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97034, 46849, 0, 75.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
 
 -- Titanium Ore - Grand Master Jeweler's Kit Bonus (Ref 97035)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97035, 90000000, 13005, 20.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97035, 90000000, 97970, 20.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 13005)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97035, 90000001, 1002, 100.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97970, 36919, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97035, 90000002, 1003, 75.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97970, 36922, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97970, 36925, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97970, 36928, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97970, 36931, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97970, 36934, 0, 0.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97035, 90000001, 97969, 100.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 1002)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36917, 0, 12.5, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36918, 0, 5.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36920, 0, 12.5, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36921, 0, 4.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36923, 0, 12.5, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36924, 0, 4.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36926, 0, 12.5, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36927, 0, 4.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36929, 0, 12.5, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36930, 0, 4.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36932, 0, 12.5, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97969, 36933, 0, 4.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97035, 90000002, 97968, 75.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 1003)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97968, 36917, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97968, 36920, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97968, 36923, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97968, 36926, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97968, 36929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97968, 36932, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (97035, 46849, 0, 75.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
 
@@ -466,27 +926,171 @@ INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, Qu
 -- Saronite Ore (Entry: 36912)
 -- Saronite Ore - Journeyman Jeweler's Kit Bonus (Ref 97036)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97036, 90000000, 1003, 85.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97036, 90000000, 97967, 85.0, 0, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 1003)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97036, 90000001, 1004, 100.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit');
+    (97967, 36917, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97967, 36920, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97967, 36923, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97967, 36926, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97967, 36929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97967, 36932, 0, 0.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97036, 90000001, 97966, 100.0, 1, 0, 1, 1, 'Bonus from Journeyman Jeweler''s Kit (ref 1004)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36917, 0, 15.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36918, 0, 3.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36920, 0, 15.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36921, 0, 3.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36923, 0, 14.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36924, 0, 2.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36926, 0, 14.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36927, 0, 2.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36929, 0, 14.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36930, 0, 2.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36932, 0, 14.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97966, 36933, 0, 2.0, 1, 0, 1, 2, 'Bonus from Journeyman Jeweler''s Kit');
 
 -- Saronite Ore - Artisan Jeweler's Kit Bonus (Ref 97037)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97037, 90000000, 1003, 85.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97037, 90000000, 97965, 85.0, 0, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 1003)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97037, 90000001, 1004, 100.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit');
+    (97965, 36917, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97965, 36920, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97965, 36923, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97965, 36926, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97965, 36929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97965, 36932, 0, 0.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97037, 90000001, 97964, 100.0, 1, 0, 1, 1, 'Bonus from Artisan Jeweler''s Kit (ref 1004)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36917, 0, 15.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36918, 0, 3.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36920, 0, 15.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36921, 0, 3.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36923, 0, 14.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36924, 0, 2.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36926, 0, 14.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36927, 0, 2.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36929, 0, 14.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36930, 0, 2.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36932, 0, 14.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97964, 36933, 0, 2.0, 1, 0, 1, 2, 'Bonus from Artisan Jeweler''s Kit');
 
 -- Saronite Ore - Master Jeweler's Kit Bonus (Ref 97038)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97038, 90000000, 1003, 85.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97038, 90000000, 97963, 85.0, 0, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 1003)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97038, 90000001, 1004, 100.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit');
+    (97963, 36917, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97963, 36920, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97963, 36923, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97963, 36926, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97963, 36929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97963, 36932, 0, 0.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97038, 90000001, 97962, 100.0, 1, 0, 1, 1, 'Bonus from Master Jeweler''s Kit (ref 1004)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36917, 0, 15.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36918, 0, 3.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36920, 0, 15.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36921, 0, 3.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36923, 0, 14.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36924, 0, 2.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36926, 0, 14.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36927, 0, 2.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36929, 0, 14.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36930, 0, 2.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36932, 0, 14.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97962, 36933, 0, 2.0, 1, 0, 1, 2, 'Bonus from Master Jeweler''s Kit');
 
 -- Saronite Ore - Grand Master Jeweler's Kit Bonus (Ref 97039)
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97039, 90000000, 1003, 85.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97039, 90000000, 97961, 85.0, 0, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 1003)');
 INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (97039, 90000001, 1004, 100.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit');
+    (97961, 36917, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97961, 36920, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97961, 36923, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97961, 36926, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97961, 36929, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97961, 36932, 0, 0.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97039, 90000001, 97960, 100.0, 1, 0, 1, 1, 'Bonus from Grand Master Jeweler''s Kit (ref 1004)');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36917, 0, 15.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36918, 0, 3.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36920, 0, 15.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36921, 0, 3.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36923, 0, 14.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36924, 0, 2.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36926, 0, 14.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36927, 0, 2.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36929, 0, 14.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36930, 0, 2.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36932, 0, 14.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, GroupId, QuestRequired, MinCount, MaxCount, Comment) VALUES
+    (97960, 36933, 0, 2.0, 1, 0, 1, 2, 'Bonus from Grand Master Jeweler''s Kit');
 
 
 -- =====================================================
@@ -587,6 +1191,9 @@ INSERT INTO prospecting_loot_template (Entry, Item, Reference, Chance, QuestRequ
 -- CONDITIONS (Check for active Jeweler's Kit auras)
 -- Mutually exclusive: a tier bonus rolls only if that tier
 -- is active AND no higher tier is active (no stacking).
+--
+-- SourceGroup is the template that actually holds the item row --
+-- a sub-mirror when the source drop sat behind a reference.
 -- =====================================================
 
 -- Copper Ore - Journeyman Jeweler's Kit conditions (Ref 97000)
@@ -660,13 +1267,29 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Tin Ore - Journeyman Jeweler's Kit conditions (Ref 97004)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97004, 90000000, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Tin Ore');
+    (10, 97999, 1529, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97004, 90000000, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Tin Ore');
+    (10, 97999, 1529, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97004, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Tin Ore');
+    (10, 97999, 1529, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97004, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Tin Ore');
+    (10, 97999, 1529, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97999, 3864, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97999, 3864, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97999, 3864, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97999, 3864, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97999, 7909, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97999, 7909, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97999, 7909, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97999, 7909, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97004, 1206, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -694,11 +1317,23 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Tin Ore - Artisan Jeweler's Kit conditions (Ref 97005)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97005, 90000000, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Tin Ore');
+    (10, 97998, 1529, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97005, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Tin Ore');
+    (10, 97998, 1529, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97005, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Tin Ore');
+    (10, 97998, 1529, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97998, 3864, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97998, 3864, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97998, 3864, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97998, 7909, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97998, 7909, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97998, 7909, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97005, 1206, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -720,9 +1355,17 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Tin Ore - Master Jeweler's Kit conditions (Ref 97006)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97006, 90000000, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Tin Ore');
+    (10, 97997, 1529, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97006, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Tin Ore');
+    (10, 97997, 1529, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97997, 3864, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97997, 3864, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97997, 7909, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97997, 7909, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97006, 1206, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -738,7 +1381,11 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Tin Ore - Grand Master Jeweler's Kit conditions (Ref 97007)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97007, 90000000, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Tin Ore');
+    (10, 97996, 1529, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97996, 3864, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Tin Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97996, 7909, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97007, 1206, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Tin Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -1365,29 +2012,149 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Adamantite Ore - Journeyman Jeweler's Kit conditions (Ref 97024)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000000, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+    (10, 97995, 21929, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000000, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+    (10, 97995, 21929, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+    (10, 97995, 21929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+    (10, 97995, 21929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000001, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+    (10, 97995, 23077, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000001, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+    (10, 97995, 23077, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000001, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+    (10, 97995, 23077, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+    (10, 97995, 23077, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000002, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+    (10, 97995, 23079, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000002, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+    (10, 97995, 23079, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000002, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+    (10, 97995, 23079, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97024, 90000002, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+    (10, 97995, 23079, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23107, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23107, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23107, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23107, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23112, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23112, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23112, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23112, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23117, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23117, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23117, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97995, 23117, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23436, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23436, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23436, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23436, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23437, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23437, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23437, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23437, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23438, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23438, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23438, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23438, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23439, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23439, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23439, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23439, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23440, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23440, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23440, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23440, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23441, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23441, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23441, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97994, 23441, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 21929, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 21929, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 21929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 21929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23077, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23077, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23077, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23077, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23079, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23079, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23079, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23079, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23107, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23107, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23107, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23107, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23112, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23112, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23112, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23112, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23117, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23117, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23117, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97993, 23117, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97024, 24243, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -1399,23 +2166,113 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Adamantite Ore - Artisan Jeweler's Kit conditions (Ref 97025)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000000, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+    (10, 97992, 21929, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+    (10, 97992, 21929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+    (10, 97992, 21929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000001, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+    (10, 97992, 23077, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000001, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+    (10, 97992, 23077, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+    (10, 97992, 23077, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000002, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+    (10, 97992, 23079, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000002, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+    (10, 97992, 23079, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97025, 90000002, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+    (10, 97992, 23079, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23107, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23107, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23107, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23112, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23112, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23112, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23117, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23117, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97992, 23117, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23436, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23436, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23436, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23437, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23437, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23437, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23438, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23438, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23438, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23439, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23439, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23439, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23440, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23440, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23440, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23441, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23441, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97991, 23441, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 21929, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 21929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 21929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23077, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23077, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23077, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23079, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23079, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23079, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23107, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23107, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23107, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23112, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23112, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23112, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23117, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23117, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97990, 23117, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97025, 24243, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -1425,17 +2282,77 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Adamantite Ore - Master Jeweler's Kit conditions (Ref 97026)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97026, 90000000, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+    (10, 97989, 21929, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97026, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+    (10, 97989, 21929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97026, 90000001, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+    (10, 97989, 23077, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97026, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+    (10, 97989, 23077, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97026, 90000002, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+    (10, 97989, 23079, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97026, 90000002, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+    (10, 97989, 23079, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97989, 23107, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97989, 23107, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97989, 23112, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97989, 23112, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97989, 23117, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97989, 23117, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23436, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23436, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23437, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23437, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23438, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23438, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23439, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23439, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23440, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23440, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23441, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97988, 23441, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 21929, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 21929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23077, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23077, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23079, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23079, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23107, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23107, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23112, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23112, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23117, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97987, 23117, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97026, 24243, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -1443,69 +2360,487 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Adamantite Ore - Grand Master Jeweler's Kit conditions (Ref 97027)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97027, 90000000, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+    (10, 97986, 21929, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97027, 90000001, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+    (10, 97986, 23077, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97027, 90000002, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+    (10, 97986, 23079, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97986, 23107, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97986, 23112, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97986, 23117, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97985, 23436, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97985, 23437, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97985, 23438, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97985, 23439, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97985, 23440, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97985, 23441, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97984, 21929, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97984, 23077, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97984, 23079, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97984, 23107, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97984, 23112, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97984, 23117, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97027, 24243, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Adamantite Ore');
 
 
 -- Cobalt Ore - Journeyman Jeweler's Kit conditions (Ref 97028)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97028, 90000000, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+    (10, 97983, 36917, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97028, 90000000, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+    (10, 97983, 36917, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97028, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+    (10, 97983, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97028, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+    (10, 97983, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36918, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36918, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36918, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36920, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36920, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36921, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36921, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36921, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36923, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36923, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36924, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36924, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36924, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36926, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36926, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36927, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36927, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36927, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36929, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36929, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36930, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36930, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36930, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36932, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36932, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36933, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36933, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36933, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97983, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Cobalt Ore');
 
 -- Cobalt Ore - Artisan Jeweler's Kit conditions (Ref 97029)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97029, 90000000, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+    (10, 97982, 36917, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97029, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+    (10, 97982, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97029, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+    (10, 97982, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36918, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36918, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36920, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36921, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36921, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36923, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36924, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36924, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36926, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36927, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36927, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36929, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36930, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36930, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36932, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36933, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36933, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97982, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Cobalt Ore');
 
 -- Cobalt Ore - Master Jeweler's Kit conditions (Ref 97030)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97030, 90000000, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+    (10, 97981, 36917, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97030, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+    (10, 97981, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36918, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36920, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36921, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36923, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36924, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36926, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36927, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36929, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36930, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36932, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36933, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97981, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Cobalt Ore');
 
 -- Cobalt Ore - Grand Master Jeweler's Kit conditions (Ref 97031)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97031, 90000000, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+    (10, 97980, 36917, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36918, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36920, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36921, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36923, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36924, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36926, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36927, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36929, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36930, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36932, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97980, 36933, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Cobalt Ore');
 
 
 -- Titanium Ore - Journeyman Jeweler's Kit conditions (Ref 97032)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000000, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+    (10, 97979, 36919, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000000, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+    (10, 97979, 36919, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+    (10, 97979, 36919, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+    (10, 97979, 36919, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000001, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+    (10, 97979, 36922, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000001, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+    (10, 97979, 36922, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000001, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+    (10, 97979, 36922, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+    (10, 97979, 36922, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000002, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+    (10, 97979, 36925, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000002, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+    (10, 97979, 36925, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000002, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+    (10, 97979, 36925, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97032, 90000002, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+    (10, 97979, 36925, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36928, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36928, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36928, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36928, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36931, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36931, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36931, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36931, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36934, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36934, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36934, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97979, 36934, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36917, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36917, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36918, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36918, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36918, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36920, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36920, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36921, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36921, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36921, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36923, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36923, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36924, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36924, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36924, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36926, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36926, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36927, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36927, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36927, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36929, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36929, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36930, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36930, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36930, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36932, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36932, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36933, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36933, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36933, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97978, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36917, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36917, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36920, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36920, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36923, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36923, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36926, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36926, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36929, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36929, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36932, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36932, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97977, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97032, 46849, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -1517,23 +2852,149 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Titanium Ore - Artisan Jeweler's Kit conditions (Ref 97033)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000000, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+    (10, 97976, 36919, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+    (10, 97976, 36919, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+    (10, 97976, 36919, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000001, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+    (10, 97976, 36922, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000001, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+    (10, 97976, 36922, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+    (10, 97976, 36922, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000002, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+    (10, 97976, 36925, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000002, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+    (10, 97976, 36925, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97033, 90000002, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+    (10, 97976, 36925, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36928, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36928, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36928, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36931, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36931, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36931, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36934, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36934, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97976, 36934, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36917, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36918, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36918, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36920, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36921, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36921, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36923, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36924, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36924, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36926, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36927, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36927, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36929, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36930, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36930, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36932, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36933, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36933, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97975, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36917, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36920, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36923, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36926, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36929, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36932, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97974, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97033, 46849, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -1543,17 +3004,101 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Titanium Ore - Master Jeweler's Kit conditions (Ref 97034)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97034, 90000000, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+    (10, 97973, 36919, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97034, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+    (10, 97973, 36919, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97034, 90000001, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+    (10, 97973, 36922, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97034, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+    (10, 97973, 36922, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97034, 90000002, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+    (10, 97973, 36925, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97034, 90000002, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+    (10, 97973, 36925, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97973, 36928, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97973, 36928, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97973, 36931, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97973, 36931, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97973, 36934, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97973, 36934, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36917, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36918, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36920, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36921, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36923, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36924, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36926, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36927, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36929, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36930, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36932, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36933, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97972, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36917, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36920, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36923, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36926, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36929, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36932, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97971, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97034, 46849, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
@@ -1561,62 +3106,424 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 
 -- Titanium Ore - Grand Master Jeweler's Kit conditions (Ref 97035)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97035, 90000000, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+    (10, 97970, 36919, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97035, 90000001, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+    (10, 97970, 36922, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97035, 90000002, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+    (10, 97970, 36925, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97970, 36928, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97970, 36931, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97970, 36934, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36917, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36918, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36920, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36921, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36923, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36924, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36926, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36927, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36929, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36930, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36932, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97969, 36933, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97968, 36917, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97968, 36920, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97968, 36923, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97968, 36926, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97968, 36929, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97968, 36932, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
     (10, 97035, 46849, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Titanium Ore');
 
 
 -- Saronite Ore - Journeyman Jeweler's Kit conditions (Ref 97036)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97036, 90000000, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+    (10, 97967, 36917, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97036, 90000000, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+    (10, 97967, 36917, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97036, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+    (10, 97967, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97036, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+    (10, 97967, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97036, 90000001, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+    (10, 97967, 36920, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97036, 90000001, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+    (10, 97967, 36920, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97036, 90000001, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+    (10, 97967, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97036, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+    (10, 97967, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36923, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36923, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36926, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36926, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36929, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36929, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36932, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36932, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97967, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36917, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36917, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36918, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36918, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36918, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36920, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36920, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36921, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36921, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36921, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36923, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36923, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36924, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36924, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36924, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36926, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36926, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36927, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36927, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36927, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36929, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36929, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36930, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36930, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36930, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36932, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36932, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36933, 0, 0, 1, 0, 91244, 0, 0, 0, 'Journeyman Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36933, 0, 0, 1, 0, 91245, 0, 0, 1, 'Block Journeyman if Artisan active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36933, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Journeyman if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97966, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Journeyman if Grand Master active - Saronite Ore');
 
 -- Saronite Ore - Artisan Jeweler's Kit conditions (Ref 97037)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97037, 90000000, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+    (10, 97965, 36917, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97037, 90000000, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+    (10, 97965, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97037, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+    (10, 97965, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97037, 90000001, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+    (10, 97965, 36920, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97037, 90000001, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+    (10, 97965, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97037, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+    (10, 97965, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36923, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36926, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36929, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36932, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97965, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36917, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36917, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36918, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36918, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36920, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36920, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36921, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36921, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36923, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36923, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36924, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36924, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36926, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36926, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36927, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36927, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36929, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36929, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36930, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36930, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36932, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36932, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36933, 0, 0, 1, 0, 91245, 0, 0, 0, 'Artisan Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36933, 0, 0, 1, 0, 91246, 0, 0, 1, 'Block Artisan if Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97964, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Artisan if Grand Master active - Saronite Ore');
 
 -- Saronite Ore - Master Jeweler's Kit conditions (Ref 97038)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97038, 90000000, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+    (10, 97963, 36917, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97038, 90000000, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+    (10, 97963, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97038, 90000001, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+    (10, 97963, 36920, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97038, 90000001, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+    (10, 97963, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97963, 36923, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97963, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97963, 36926, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97963, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97963, 36929, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97963, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97963, 36932, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97963, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36917, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36917, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36918, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36918, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36920, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36920, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36921, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36921, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36923, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36923, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36924, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36924, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36926, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36926, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36927, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36927, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36929, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36929, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36930, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36930, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36932, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36932, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36933, 0, 0, 1, 0, 91246, 0, 0, 0, 'Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97962, 36933, 0, 0, 1, 0, 91247, 0, 0, 1, 'Block Master if Grand Master active - Saronite Ore');
 
 -- Saronite Ore - Grand Master Jeweler's Kit conditions (Ref 97039)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97039, 90000000, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+    (10, 97961, 36917, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
-    (10, 97039, 90000001, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+    (10, 97961, 36920, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97961, 36923, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97961, 36926, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97961, 36929, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97961, 36932, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36917, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36918, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36920, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36921, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36923, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36924, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36926, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36927, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36929, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36930, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36932, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES
+    (10, 97960, 36933, 0, 0, 1, 0, 91247, 0, 0, 0, 'Grand Master Jeweler''s Kit - Saronite Ore');
 
 
 -- Done!
