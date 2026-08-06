@@ -15,7 +15,6 @@ TIER = "base"
 SCRIPTS = [
     (68211, "spell_zep_q14236_weed_whacker"),
     (68280, "spell_zep_q14031_ktc_snapflash"),
-    (71170, "spell_zep_q24671_cluster_cluck"),
     (72891, "spell_zep_q24942_zombies_booster"),
 ]
 
@@ -27,7 +26,16 @@ SCRIPTS = [
 #   fixed-credit script credited the caster on ANY effect hit, so the bananas
 #   paid out on any target. Credit now belongs to the fed monkey's own SmartAI,
 #   which also roots/explodes/despawns it. See zz_[I-281]_monkey_business_feed.sql.
-RETIRED = [67917]
+#
+#   71170 Remote Control Fireworks (q24671 Cluster Cluck) — I-318. Same defect,
+#   same shape as I-281: the fixed-credit script paid the caster on ANY effect
+#   hit, so clicking the item with no clucker targeted (the spell self-casts)
+#   banked a free credit, and a real capture paid TWICE — once from the script,
+#   once from the clucker's own imported SmartAI. Credit belongs solely to the
+#   Wild Clucker (38111) SPELLHIT 71170 -> actionlist 3811100 -> action 33,
+#   which also clears the spellclick flag, straps on the jetpack visual and
+#   flies the bird off. See zz_[I-318]_cluster_cluck_credit.sql.
+RETIRED = [67917, 71170]
 
 
 def emit(ctx):
