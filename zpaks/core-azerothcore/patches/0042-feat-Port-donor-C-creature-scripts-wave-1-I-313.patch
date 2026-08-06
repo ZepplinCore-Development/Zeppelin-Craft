@@ -1,0 +1,614 @@
+From 6264fb1c0a25b92796f973a60c530b010f235d58 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 6 Aug 2026 09:44:40 +0000
+Subject: [PATCH] feat: Port donor C++ creature scripts, wave 1 (I-313)
+
+The F-011 port collector is SQL->SQL and never reads the donor's C++, so any
+Neltharion entry whose behaviour lived in a CreatureScript arrived inert -
+empty AIName, empty ScriptName, no smart_scripts - with nothing logged.
+
+Re-implements the first wave in Custom/zeppelin_goblin_creatures.cpp:
+- npc_zep_bc_eliminator (38526, q24901)
+- npc_zep_super_booster_rocket_boots (38802, q24942)
+- npc_zep_wild_mine_cart (39329, q25184)
+- npc_zep_wild_cart_companion (39198/39199/39200/39201, q25184)
+
+Three donor APIs had no AC equivalent and were reworked, not transliterated:
+- MoveSmoothPath does not exist; MoveSplinePath runs an EscortMovementGenerator
+  that fires no MovementInform at all. Every donor point test is the last index
+  of its array, so the AIs poll movespline->Finalized() and run a leg state
+  machine instead.
+- Spells 151143/151154/151156/151235 are donor-invented stubs in no client DBC;
+  they were only an event bus, so the cart seats its passengers directly.
+- Extends ScriptedAI, not VehicleAI: AC's VehicleAI arms a 5s auto-dismiss on
+  last-passenger-leaves that races each set-piece's despawn timing.
+
+Donor map-648 coordinates transformed X-533.3333 / Y-12800; verified to 0.01yd
+against the shipped heightmap.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .../scripts/Custom/custom_script_loader.cpp   |   2 +
+ .../Custom/zeppelin_goblin_creatures.cpp      | 552 ++++++++++++++++++
+ 2 files changed, 554 insertions(+)
+ create mode 100644 src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
+
+diff --git a/src/server/scripts/Custom/custom_script_loader.cpp b/src/server/scripts/Custom/custom_script_loader.cpp
+index d5e7698a3..b7b61e254 100644
+--- a/src/server/scripts/Custom/custom_script_loader.cpp
++++ b/src/server/scripts/Custom/custom_script_loader.cpp
+@@ -18,6 +18,7 @@
+ // This is where scripts' loading functions should be declared:
+ // void MyExampleScript()
+ void AddSC_zeppelin_goblin_start();
++void AddSC_zeppelin_goblin_creatures();
+ 
+ // The name of this function should match:
+ // void Add${NameOfDirectory}Scripts()
+@@ -25,4 +26,5 @@ void AddCustomScripts()
+ {
+     // MyExampleScript()
+     AddSC_zeppelin_goblin_start();
++    AddSC_zeppelin_goblin_creatures();
+ }
+diff --git a/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp b/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
+new file mode 100644
+index 000000000..5fb0d2fba
+--- /dev/null
++++ b/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
+@@ -0,0 +1,552 @@
++/*
++ * Zeppelin custom content — F-011 Goblin Starting Zone (Lost Isles / Kezan).
++ *
++ * Creature scripts re-implemented from Project Neltharion (4.3.4, SkyFire/ArkCORE
++ * lineage). The F-011 port collector carries TABLES ONLY, so every donor entry
++ * whose behaviour lived in a CreatureScript arrived with an empty ScriptName, no
++ * AIName and no smart_scripts — inert, with no error logged anywhere. I-312
++ * documents the pattern; this file closes it for the entries that can be closed.
++ *
++ * ScriptName wiring lives in the zep-goblin-start zpak:
++ *   sql/zz_[I-313]_donor_script_ports.sql
++ *
++ * ---------------------------------------------------------------------------
++ * THREE PORTING RULES THAT APPLY TO EVERY SCRIPT BELOW
++ * ---------------------------------------------------------------------------
++ * 1. COORDINATES ARE TRANSFORMED. Donor paths are Cata map 648; OA re-hosts the
++ *    terrain on Kalimdor map 1 with X-533.3333 / Y-12800.0, Z and O unchanged.
++ *    Verified here to 0.01yd: every donor Oomlot Warrior summon position lands
++ *    exactly on the shipped heightmap ground after transform (57.46 vs 57.47,
++ *    51.84 vs 51.85, ...). Raw donor coordinates are kept in comments.
++ *
++ * 2. NO MovementInform FOR SPLINE PATHS. The donor drives its set-pieces off
++ *    MoveSmoothPath + MovementInform(SPLINE_MOTION_TYPE, pointIndex). AC has no
++ *    MoveSmoothPath; the nearest equivalent, MotionMaster::MoveSplinePath, runs
++ *    an EscortMovementGenerator that reports NOTHING — no per-point callback and
++ *    no completion id (EscortMovementGenerator.cpp: DoFinalize sends no inform).
++ *    Fortunately every point the donor tests is the LAST index of its array
++ *    (cart path 1 size 5 -> tests 4; cart path 2 size 12 -> tests 11; hot rod
++ *    path 1 size 25 -> tests 24; path 2 size 27 -> tests 26), so polling
++ *    me->movespline->Finalized() reproduces all of them exactly. Each AI below
++ *    therefore carries a small "leg" state machine instead of MovementInform.
++ *
++ * 3. THE 1511xx SPELLS DO NOT EXIST — AND ARE NOT NEEDED. 151143/151154/151156/
++ *    151235 are donor-invented server-side stubs (they are the ONLY rows in the
++ *    donor's own spell_dbc table and appear in no 4.3.4 client DBC — same bogus
++ *    band as I-274/I-277). The donor used them purely as an event bus: the player
++ *    casts a "ping", nearby actors react. In C++ that indirection is pointless,
++ *    so the ported scripts call EnterVehicle / DespawnOrUnsummon directly and the
++ *    dependency disappears rather than needing custom spells.
++ *
++ * Derivation note: these AIs extend ScriptedAI, not VehicleAI, even for vehicles.
++ * AC's VehicleAI arms a 5s auto-dismiss once the last passenger leaves
++ * (VEHICLE_DISMISS_TIME, CombatAI.h:97) which races the explicit despawn timing
++ * each set-piece needs. Everything VehicleAI would provide (passive react state,
++ * no melee) is set explicitly instead.
++ */
++
++#include "CreatureScript.h"
++#include "MotionMaster.h"
++#include "MoveSpline.h"
++#include "ObjectAccessor.h"
++#include "Player.h"
++#include "ScriptedCreature.h"
++#include "SpellInfo.h"
++#include "Vehicle.h"
++
++#include <cmath>
++#include <unordered_map>
++
++enum ZepGoblinShared
++{
++    SPELL_ROOT_SELF             = 42716, // "Rooted" — stock, present in our DBC
++    SPELL_EJECT_ALL_PASSENGERS  = 50630
++};
++
++// Donor map-648 -> OA map-1. Kept as a helper so the raw donor numbers stay
++// readable in the tables below and the transform is stated exactly once.
++static constexpr float ZEP_DX = -533.3333f;
++static constexpr float ZEP_DY = -12800.0f;
++
++static inline G3D::Vector3 ZepPt(float x, float y, float z)
++{
++    return G3D::Vector3(x + ZEP_DX, y + ZEP_DY, z);
++}
++
++/* ===========================================================================
++ * q24901 "Town-In-A-Box: Under Attack" — B.C. Eliminator (38526)
++ *
++ * Donor: npc_bc_eliminator (lost_isles.cpp:1366). A parked, rooted turret the
++ * player mans; while manned it spawns a stream of Oomlot Warriors from six fixed
++ * points on the slope below, and it cannot be killed. Boarding ends when the
++ * quest completes or is abandoned.
++ *
++ * Closure is complete for this one: 75116 Oomlot Warrior, 42716 and 50630 all
++ * exist in our DB/DBC, and 38526 already has its 5 spawns.
++ * =========================================================================== */
++enum ZepEliminator
++{
++    QUEST_TOWN_IN_A_BOX_UNDER_ATTACK = 24901,
++    NPC_OOMLOT_WARRIOR               = 75116
++};
++
++// Donor WarriorsSumPosition[] (map 648) -> map 1. Each lands dead on the ground.
++static Position const EliminatorWarriorSpawns[6] =
++{
++    { 379.415f, -10620.030f, 57.46f, 1.2f }, // donor 912.748 2179.97 57.46
++    { 370.608f, -10610.080f, 51.84f, 1.2f }, // donor 903.941 2189.92 51.84
++    { 363.760f, -10603.330f, 50.12f, 1.2f }, // donor 897.093 2196.67 50.12
++    { 374.559f, -10597.700f, 43.60f, 1.2f }, // donor 907.892 2202.30 43.60
++    { 381.044f, -10582.220f, 33.41f, 1.2f }, // donor 914.377 2217.78 33.41
++    { 371.142f, -10585.450f, 37.13f, 1.2f }  // donor 904.475 2214.55 37.13
++};
++
++struct npc_zep_bc_eliminator : public ScriptedAI
++{
++    npc_zep_bc_eliminator(Creature* creature) : ScriptedAI(creature), _summons(me) { }
++
++    void InitializeAI() override
++    {
++        me->SetReactState(REACT_PASSIVE);
++        me->setActive(true);
++        DoCast(me, SPELL_ROOT_SELF, true);
++    }
++
++    void PassengerBoarded(Unit* passenger, int8 /*seatId*/, bool apply) override
++    {
++        Player* player = passenger->ToPlayer();
++        if (!player)
++            return;
++
++        if (apply)
++        {
++            _playerGUID = player->GetGUID();
++            _spawnTimer = 1000;
++            DoCast(me, SPELL_ROOT_SELF, true);
++        }
++        else
++        {
++            _summons.DespawnAll();
++            _playerGUID.Clear();
++        }
++    }
++
++    // Donor zeroed any lethal hit; the turret is scenery and must never die.
++    void DamageTaken(Unit* /*attacker*/, uint32& damage, DamageEffectType, SpellSchoolMask) override
++    {
++        if (damage >= me->GetHealth())
++            damage = 0;
++    }
++
++    void UpdateAI(uint32 diff) override
++    {
++        if (!_playerGUID)
++            return;
++
++        Player* player = ObjectAccessor::GetPlayer(*me, _playerGUID);
++        if (!player)
++        {
++            _summons.DespawnAll();
++            _playerGUID.Clear();
++            return;
++        }
++
++        QuestStatus status = player->GetQuestStatus(QUEST_TOWN_IN_A_BOX_UNDER_ATTACK);
++        if (status == QUEST_STATUS_NONE || status == QUEST_STATUS_COMPLETE)
++        {
++            _summons.DespawnAll();
++            _playerGUID.Clear();
++            player->ExitVehicle();
++            DoCast(me, SPELL_EJECT_ALL_PASSENGERS, true);
++            return;
++        }
++
++        if (_spawnTimer <= diff)
++        {
++            _spawnTimer = urand(500, 2000);
++            if (Creature* warrior = me->SummonCreature(NPC_OOMLOT_WARRIOR,
++                    EliminatorWarriorSpawns[urand(0, 5)], TEMPSUMMON_TIMED_DESPAWN, 90000))
++            {
++                warrior->setActive(true);
++                _summons.Summon(warrior);
++            }
++        }
++        else
++            _spawnTimer -= diff;
++    }
++
++private:
++    ObjectGuid _playerGUID;
++    uint32 _spawnTimer = 1000;
++    SummonList _summons;
++};
++
++/* ===========================================================================
++ * q24942 "Zombies vs. Super Booster Rocket Boots" — the boots (38802)
++ *
++ * Donor: npc_super_booster_rocket_boots (lost_isles.cpp:1466). A summoned vehicle
++ * the player rides; it drops them when they get more than 20yd away from it, or
++ * once the quest is complete and they have reached Crosscheck (38738).
++ *
++ * SPELL_ZOMBIE_BURNING_AURA (72885) is absent from our DBC. It is only ever
++ * REMOVED here, never applied, and RemoveAura on an unknown id is a no-op, so
++ * the reference is harmless and kept for fidelity — if the aura is retro-ported
++ * later this script already cleans it up.
++ * =========================================================================== */
++enum ZepRocketBoots
++{
++    QUEST_ZOMBIES_VS_BOOTS    = 24942,
++    NPC_CROSSCHECK            = 38738,
++    SPELL_ZOMBIE_BURNING_AURA = 72885
++};
++
++struct npc_zep_super_booster_rocket_boots : public ScriptedAI
++{
++    npc_zep_super_booster_rocket_boots(Creature* creature) : ScriptedAI(creature) { }
++
++    void IsSummonedBy(WorldObject* summoner) override
++    {
++        me->SetReactState(REACT_PASSIVE);
++        if (Player* player = summoner->ToPlayer())
++            _playerGUID = player->GetGUID();
++    }
++
++    void PassengerBoarded(Unit* passenger, int8 /*seatId*/, bool apply) override
++    {
++        if (!apply)
++            if (Player* player = passenger->ToPlayer())
++                player->RemoveAurasDueToSpell(SPELL_ZOMBIE_BURNING_AURA);
++    }
++
++    void UpdateAI(uint32 /*diff*/) override
++    {
++        if (!_playerGUID)
++            return;
++
++        Player* player = ObjectAccessor::GetPlayer(*me, _playerGUID);
++        if (!player)
++            return;
++
++        bool done = me->GetDistance(player) >= 20.0f;
++
++        if (!done && player->GetQuestStatus(QUEST_ZOMBIES_VS_BOOTS) == QUEST_STATUS_COMPLETE)
++            done = me->FindNearestCreature(NPC_CROSSCHECK, 7.0f) != nullptr;
++
++        if (done)
++        {
++            _playerGUID.Clear();
++            player->RemoveAurasDueToSpell(SPELL_ZOMBIE_BURNING_AURA);
++            player->ExitVehicle();
++            me->DespawnOrUnsummon(100ms);
++        }
++    }
++
++private:
++    ObjectGuid _playerGUID;
++};
++
++/* ===========================================================================
++ * q25184 "Wild Mine Cart Ride" — the cart (39329) and its three passengers
++ *
++ * Donor: npc_wild_mine_cart_ride_vehicle (lost_isles.cpp:2418) plus
++ * npc_summoned_izzy_gobber_ace (:2133) and npc_assistant_greedy_kajacola (:1992).
++ *
++ * Shape: the player boards the cart with Greely (seat 1), Ace (2), Izzy (3) and
++ * Gobber (4). Leg 1 rolls to the broken track, the cart JUMPS the gap, leg 2 is
++ * the runaway descent, and it detonates at the bottom, ejecting everyone.
++ *
++ * The donor seated the passengers by having the player cast 151154 ("player to
++ * his actors") which each companion answered by calling EnterVehicle on itself.
++ * That spell does not exist (rule 3 above), so the CART seats them directly when
++ * the player boards — same result, no phantom spell, and no dependence on four
++ * separate AIs all hearing the same ping.
++ * =========================================================================== */
++enum ZepWildCart
++{
++    QUEST_WILD_MINE_CART_RIDE = 25184,
++
++    NPC_CART_GREELY = 39199,
++    NPC_CART_ACE    = 39198,
++    NPC_CART_IZZY   = 39200,
++    NPC_CART_GOBBER = 39201,
++
++    // Credits handed out as each companion is freed (donor IsSummonedBy).
++    NPC_CREDIT_ACE    = 38441,
++    NPC_CREDIT_IZZY   = 38647,
++    NPC_CREDIT_GOBBER = 38746,
++
++    // "Free Their Minds: Summon <X> Controller" — the player-side auras that keep
++    // each companion alive. Present in our DBC; stripped when the actor leaves.
++    SPELL_CONTROLLER_ACE    = 73633,
++    SPELL_CONTROLLER_IZZY   = 73635,
++    SPELL_CONTROLLER_GOBBER = 73637,
++    SPELL_CONTROLLER_GREELY = 73616,
++
++    SPELL_KAJACOLA_ZERO = 73599
++};
++
++// Donor WildCartRidePath[5] -> map 1. Leg 1: the approach to the broken track.
++static G3D::Vector3 const WildCartLeg1[] =
++{
++    ZepPt(2072.210f, 1846.002f, 138.143f),
++    ZepPt(2080.459f, 1849.126f, 137.606f),
++    ZepPt(2105.403f, 1855.833f, 129.191f),
++    ZepPt(2126.280f, 1861.491f, 126.503f),
++    ZepPt(2147.560f, 1868.554f, 127.346f)
++};
++
++// Donor WildCartRidePath2[12] -> map 1. Leg 2: the runaway descent.
++static G3D::Vector3 const WildCartLeg2[] =
++{
++    ZepPt(2181.068f, 1879.653f, 105.940f),
++    ZepPt(2199.793f, 1885.604f,  84.518f),
++    ZepPt(2216.008f, 1889.728f,  69.419f),
++    ZepPt(2236.289f, 1895.935f,  59.542f),
++    ZepPt(2253.223f, 1901.180f,  52.231f),
++    ZepPt(2273.656f, 1905.713f,  40.891f),
++    ZepPt(2292.110f, 1911.351f,  34.743f),
++    ZepPt(2316.186f, 1919.141f,  30.829f),
++    ZepPt(2332.839f, 1925.787f,  28.113f),
++    ZepPt(2343.340f, 1928.780f,  26.394f),
++    ZepPt(2354.215f, 1929.784f,  25.113f),
++    ZepPt(2368.307f, 1933.982f,  21.221f)
++};
++
++// Donor MoveJump target between the two legs (2170.37 1876.81 117.25).
++static Position const WildCartJump = { 1637.037f, -10923.190f, 117.25f, 0.0f };
++
++struct npc_zep_wild_mine_cart : public ScriptedAI
++{
++    npc_zep_wild_mine_cart(Creature* creature) : ScriptedAI(creature) { }
++
++    enum Leg : uint8 { LEG_IDLE, LEG_ONE, LEG_JUMP, LEG_TWO, LEG_DONE };
++
++    void IsSummonedBy(WorldObject* summoner) override
++    {
++        me->SetReactState(REACT_PASSIVE);
++        if (Player* player = summoner->ToPlayer())
++            _playerGUID = player->GetGUID();
++    }
++
++    void PassengerBoarded(Unit* passenger, int8 /*seatId*/, bool apply) override
++    {
++        Player* player = passenger->ToPlayer();
++        if (!player)
++            return;
++
++        if (apply)
++        {
++            _playerGUID = player->GetGUID();
++            SeatCompanions(player);
++            _startTimer = 2000;         // donor EVENT_WILD_MINE_CART_1
++        }
++        else if (_leg == LEG_DONE)
++        {
++            // Donor cast 151156 here to tear down the companion summons; done
++            // directly instead (rule 3).
++            DespawnCompanions(player);
++        }
++    }
++
++    // Replaces the donor's 151154 ping. Each companion is a summon owned by the
++    // rider, so ownership is what distinguishes this player's actors from another
++    // player's in the same spot.
++    void SeatCompanions(Player* player)
++    {
++        struct { uint32 entry; int8 seat; } const actors[] =
++        {
++            { NPC_CART_GREELY, 1 }, { NPC_CART_ACE, 2 },
++            { NPC_CART_IZZY,   3 }, { NPC_CART_GOBBER, 4 }
++        };
++
++        for (auto const& actor : actors)
++            if (Creature* c = me->FindNearestCreature(actor.entry, 40.0f))
++                if (c->GetOwnerGUID() == player->GetGUID())
++                    c->EnterVehicle(me, actor.seat);
++    }
++
++    void DespawnCompanions(Player* player)
++    {
++        for (uint32 spell : { SPELL_CONTROLLER_ACE, SPELL_CONTROLLER_IZZY,
++                              SPELL_CONTROLLER_GOBBER, SPELL_CONTROLLER_GREELY })
++            player->RemoveAurasDueToSpell(spell);
++
++        for (uint32 entry : { NPC_CART_GREELY, NPC_CART_ACE, NPC_CART_IZZY, NPC_CART_GOBBER })
++            if (Creature* c = me->FindNearestCreature(entry, 60.0f))
++                if (c->GetOwnerGUID() == player->GetGUID())
++                    c->DespawnOrUnsummon(100ms);
++    }
++
++    void UpdateAI(uint32 diff) override
++    {
++        if (_startTimer)
++        {
++            if (_startTimer <= diff)
++            {
++                _startTimer = 0;
++                _leg = LEG_ONE;
++                me->GetMotionMaster()->MoveSplinePath(&_leg1);
++            }
++            else
++                _startTimer -= diff;
++            return;
++        }
++
++        if (_endTimer)
++        {
++            if (_endTimer <= diff)
++            {
++                _endTimer = 0;
++                DoCast(me, SPELL_EJECT_ALL_PASSENGERS, true);
++                me->DespawnOrUnsummon(1s);
++            }
++            else
++                _endTimer -= diff;
++            return;
++        }
++
++        // Leg completion: AC's spline path generator reports nothing, so poll.
++        if (_leg == LEG_IDLE || _leg == LEG_DONE || !me->movespline->Finalized())
++            return;
++
++        switch (_leg)
++        {
++            case LEG_ONE:   // donor MovementInform point 4 (last of path 1)
++                _leg = LEG_JUMP;
++                me->GetMotionMaster()->MoveJump(WildCartJump, 21.0f, 15.0f);
++                _jumpTimer = 1500;   // donor EVENT_WILD_MINE_CART_2 delay
++                break;
++            case LEG_JUMP:
++                if (_jumpTimer > diff)
++                {
++                    _jumpTimer -= diff;
++                    return;
++                }
++                _jumpTimer = 0;
++                _leg = LEG_TWO;
++                me->SetSpeed(MOVE_RUN, 4.0f, true);
++                me->GetMotionMaster()->MoveSplinePath(&_leg2);
++                break;
++            case LEG_TWO:   // donor MovementInform point 11 (last of path 2)
++                _leg = LEG_DONE;
++                _endTimer = 500;    // donor EVENT_WILD_MINE_CART_3 delay
++                break;
++            default:
++                break;
++        }
++    }
++
++private:
++    ObjectGuid _playerGUID;
++    Leg _leg = LEG_IDLE;
++    uint32 _startTimer = 0;
++    uint32 _jumpTimer = 0;
++    uint32 _endTimer = 0;
++
++    // Non-const: MotionMaster::MoveSplinePath takes a mutable PointsArray*.
++    Movement::PointsArray _leg1{ std::begin(WildCartLeg1), std::end(WildCartLeg1) };
++    Movement::PointsArray _leg2{ std::begin(WildCartLeg2), std::end(WildCartLeg2) };
++};
++
++/* ---------------------------------------------------------------------------
++ * The three freed prisoners (39198 Ace / 39200 Izzy / 39201 Gobber) and
++ * Assistant Greely (39199). One AI serves all four — the donor used two nearly
++ * identical classes that differed only in which credit and which controller aura
++ * they touched, so the per-entry data is a lookup here instead of a copy.
++ *
++ * Behaviour: on summon, greet the player, hand out the freed-prisoner credit and
++ * strip the "invisible until freed" detection aura; then follow at a fixed angle
++ * until the player dies, finishes the quest, or walks 120yd away. Greely has no
++ * credit — she is the escort, not a prisoner.
++ * --------------------------------------------------------------------------- */
++struct ZepCompanionData
++{
++    uint32 credit;          // 0 = no credit (Greely)
++    uint32 controllerAura;  // player-side aura removed on teardown
++    uint32 detectionAura;   // "see the captive" aura removed once freed
++    float  followAngle;     // donor MoveFollow angle, as a multiple of pi
++};
++
++static ZepCompanionData const* GetCompanionData(uint32 entry)
++{
++    static std::unordered_map<uint32, ZepCompanionData> const data =
++    {
++        { NPC_CART_ACE,    { NPC_CREDIT_ACE,    SPELL_CONTROLLER_ACE,    49416, 0.4f } },
++        { NPC_CART_IZZY,   { NPC_CREDIT_IZZY,   SPELL_CONTROLLER_IZZY,   49417, 0.9f } },
++        { NPC_CART_GOBBER, { NPC_CREDIT_GOBBER, SPELL_CONTROLLER_GOBBER, 60922, 1.4f } },
++        { NPC_CART_GREELY, { 0,                 SPELL_CONTROLLER_GREELY, 0,     3.0f } }
++    };
++
++    auto itr = data.find(entry);
++    return itr != data.end() ? &itr->second : nullptr;
++}
++
++struct npc_zep_wild_cart_companion : public ScriptedAI
++{
++    npc_zep_wild_cart_companion(Creature* creature) : ScriptedAI(creature)
++    {
++        _data = GetCompanionData(creature->GetEntry());
++    }
++
++    void IsSummonedBy(WorldObject* summoner) override
++    {
++        me->SetReactState(REACT_PASSIVE);
++        DoCast(me, SPELL_KAJACOLA_ZERO, true);
++
++        Player* player = summoner->ToPlayer();
++        if (!player || !_data)
++            return;
++
++        _playerGUID = player->GetGUID();
++        Talk(0, player, 1s);
++
++        if (_data->credit)
++            player->KilledMonsterCredit(_data->credit);
++        if (_data->detectionAura)
++            player->RemoveAurasDueToSpell(_data->detectionAura);
++    }
++
++    void UpdateAI(uint32 diff) override
++    {
++        if (!_data || !_playerGUID)
++            return;
++
++        if (_checkTimer > diff)
++        {
++            _checkTimer -= diff;
++            return;
++        }
++        _checkTimer = 1000;
++
++        Player* player = ObjectAccessor::GetPlayer(*me, _playerGUID);
++        if (!player)
++            return;
++
++        QuestStatus status = player->GetQuestStatus(QUEST_WILD_MINE_CART_RIDE);
++        if (!player->IsAlive() || me->GetDistance(player) >= 120.0f ||
++            status == QUEST_STATUS_REWARDED || status == QUEST_STATUS_COMPLETE)
++        {
++            player->RemoveAurasDueToSpell(_data->controllerAura);
++            me->DespawnOrUnsummon();
++            return;
++        }
++
++        // Never re-issue MoveFollow while riding the cart — it would fight the
++        // vehicle seat. (The donor only guarded on combat and could stutter.)
++        if (!me->IsInCombat() && !me->GetVehicle())
++            me->GetMotionMaster()->MoveFollow(player, 0.8f, _data->followAngle * float(M_PI));
++    }
++
++private:
++    ObjectGuid _playerGUID;
++    uint32 _checkTimer = 1000;
++    ZepCompanionData const* _data = nullptr;
++};
++
++void AddSC_zeppelin_goblin_creatures()
++{
++    RegisterCreatureAI(npc_zep_bc_eliminator);
++    RegisterCreatureAI(npc_zep_super_booster_rocket_boots);
++    RegisterCreatureAI(npc_zep_wild_mine_cart);
++    RegisterCreatureAI(npc_zep_wild_cart_companion);
++}
+-- 
+2.34.1
+

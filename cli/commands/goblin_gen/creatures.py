@@ -142,6 +142,39 @@ def _valid_faction_ids():
         return set()
 
 
+# ---------------------------------------------------------------------------
+# I-313 — donor C++ CreatureScript ports.
+#
+# The collector is SQL->SQL and never reads the donor's C++, so a donor entry
+# whose behaviour lived in a CreatureScript used to arrive with ScriptName ''
+# and no SmartAI: inert, and silent about it. That silence is what turned every
+# such entry into a separate tester report (I-248, I-285, I-308..I-312).
+#
+# Two halves to the fix:
+#   * SCRIPT_NAME_PORTS re-attaches the entries we have re-implemented in
+#     Zeppelin-Core/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp, so a
+#     regen cannot silently blank them again.
+#   * everything else with a donor ScriptName is WARNed at the end of emit(), so
+#     the remaining work is a printed to-do list instead of a discovery queue.
+#
+# Blanking is still correct for un-ported entries: the donor name is a SkyFire
+# 4.3.4 class that does not exist here. AC would fall through cleanly
+# (CreatureAISelector.cpp:85 -> AIName factory) but log a load error per row.
+SCRIPT_NAME_PORTS = {
+    38526: "npc_zep_bc_eliminator",              # q24901 Town-In-A-Box: Under Attack
+    38802: "npc_zep_super_booster_rocket_boots",  # q24942 Zombies vs. Boots
+    39329: "npc_zep_wild_mine_cart",             # q25184 Wild Mine Cart Ride
+    39198: "npc_zep_wild_cart_companion",        # Ace
+    39199: "npc_zep_wild_cart_companion",        # Assistant Greely
+    39200: "npc_zep_wild_cart_companion",        # Izzy
+    39201: "npc_zep_wild_cart_companion",        # Gobber
+}
+
+# Donor ScriptNames with NO code in the dump — nothing to port, ever. Excluded
+# from the WARN so the to-do list stays honest.
+SCRIPT_NAME_DANGLING = {"npc_citoyen_gob", "npc_captive", "gob_red_but", "gob_canon_gobelin"}
+
+
 def emit(ctx):
     sfx = ctx.sfx
     zone = ZONE[sfx]
@@ -314,7 +347,10 @@ def emit(ctx):
             "ArmorModifier": float(_or(t["Armor_mod"], 1)), "ExperienceModifier": 1.0,
             "RacialLeader": int(t["RacialLeader"] or 0), "movementId": 0,
             "RegenHealth": int(_or(t["RegenHealth"], 1)), "CreatureImmunitiesId": 0,
-            "flags_extra": 0, "ScriptName": "", "VerifiedBuild": 0,
+            # ScriptName: blank unless we have re-implemented the donor script for
+            # this entry (I-313). Never carry the donor's own name through — it is a
+            # SkyFire class that does not exist in AC.
+            "flags_extra": 0, "ScriptName": SCRIPT_NAME_PORTS.get(e, ""), "VerifiedBuild": 0,
         }
         ctx.col.put("creature_template", e, cols, tier="base", zone=sfx, owner="creatures")
 
@@ -555,10 +591,31 @@ def emit(ctx):
         ctx.col.put("creaturedisplayinfo", did, dict(zip(DI_COLS, vals)),
                     tier="base", zone=sfx, owner="creatures")
 
-    return ("creatures=%d spawns=%d dbc_disp=%d dbc_mdl=%d model_info=%d "
-            "model_variants=%d tdb_match=%d wander_fill=%d addons=%d wp_paths=%d "
-            "tex_shipped=%d tex_missing=%d" %
-            (len(entries_sorted), len(spawns) + len(manual_spawn_rows), len(dbc_disp_needed),
-             len(dbc_mdl_needed), len(model_info_needed),
-             sum(len(p) - 1 for p in models_plan.values()), len(tdb_match),
-             len(wander_fill), n_addon, n_wp, tex_ship["shipped"], tex_ship["missing"]))
+    # ---- I-313 audit: donor C++ scripts we have NOT re-implemented ----
+    # Printed every run so an inert ported NPC is a known to-do, not a bug report.
+    unported = []
+    for e in entries_sorted:
+        t = tmpl.get(e)
+        if not t:
+            continue
+        donor = str(t["ScriptName"] or "").strip()
+        if not donor or e in SCRIPT_NAME_PORTS or donor in SCRIPT_NAME_DANGLING:
+            continue
+        unported.append((e, str(t["name"] or "").strip(), donor))
+
+    out = ("creatures=%d spawns=%d dbc_disp=%d dbc_mdl=%d model_info=%d "
+           "model_variants=%d tdb_match=%d wander_fill=%d addons=%d wp_paths=%d "
+           "tex_shipped=%d tex_missing=%d scriptname_ports=%d" %
+           (len(entries_sorted), len(spawns) + len(manual_spawn_rows), len(dbc_disp_needed),
+            len(dbc_mdl_needed), len(model_info_needed),
+            sum(len(p) - 1 for p in models_plan.values()), len(tdb_match),
+            len(wander_fill), n_addon, n_wp, tex_ship["shipped"], tex_ship["missing"],
+            sum(1 for e in entries_sorted if e in SCRIPT_NAME_PORTS)))
+
+    if unported:
+        out += ("\n    WARN %d creature(s) had a donor C++ script that is NOT ported — "
+                "they load inert and silent (I-313):" % len(unported))
+        for e, name, donor in unported:
+            out += "\n      %6d %-32s %s" % (e, name[:32], donor)
+
+    return out
