@@ -187,11 +187,34 @@ def _tracking_key(filename: str, database: str = 'world') -> str:
     return filename
 
 
+class TrackingUnavailable(RuntimeError):
+    """A tracker lookup could not be answered (DB error, not 'no such row').
+
+    Kept distinct from a None result because the two mean opposite things: None
+    is "this file was never applied", while this is "we do not know". Treating
+    the second as the first is what makes an unreadable tracker look like a
+    whole repo of brand-new SQL — see _query_stored_hash.
+    """
+
+
 def _query_stored_hash(name: str, database: str, state_filter: str = "") -> Optional[str]:
-    """Run a SELECT hash query against a specific database's updates table."""
+    """Return the tracked hash for `name`, or None if there is no such row.
+
+    Raises TrackingUnavailable if the query itself failed. This distinction
+    matters: run_mysql_query reports every failure the same way (connection
+    refused, lock wait timeout, too many connections, server restarting), and
+    folding those into None told is_file_applied "never applied". For zpak SQL
+    that is merely a wasted re-run — it is idempotent by convention. For AC's
+    data/sql/updates/db_world/ chain it is destructive: those migrations are
+    one-shot and order-dependent, so replaying historical ones re-applies
+    months-old data changes over current data. Fail closed instead.
+    """
     query = f"SELECT hash FROM `updates` WHERE name = '{name}'{state_filter}"
     success, result = run_mysql_query(query, database=database)
-    if success and result:
+    if not success:
+        raise TrackingUnavailable(
+            f"could not read the `updates` tracker in {database}: {result}")
+    if result:
         lines = result.strip().split('\n')
         if len(lines) > 1:
             return lines[1].strip().upper()
@@ -254,15 +277,20 @@ def get_stored_hash(filename: str, custom_only: bool = False,
     — it returns the first hash found, preferring the CLI's world DB entry
     over the native one.
     """
+    # Display-only, so a tracker outage degrades to "unknown" rather than
+    # aborting a status view. Apply decisions must NOT swallow it.
     state_filter = " AND state = 'CUSTOM'" if custom_only else ""
-    h = _query_stored_hash(filename, database=DB_NAME, state_filter=state_filter)
-    if h:
-        return h
-    if native_name:
-        if database == 'characters':
-            return _query_stored_hash(native_name, database=CHARS_DB_NAME)
-        if database == 'auth':
-            return _query_stored_hash(native_name, database=AUTH_DB_NAME)
+    try:
+        h = _query_stored_hash(filename, database=DB_NAME, state_filter=state_filter)
+        if h:
+            return h
+        if native_name:
+            if database == 'characters':
+                return _query_stored_hash(native_name, database=CHARS_DB_NAME)
+            if database == 'auth':
+                return _query_stored_hash(native_name, database=AUTH_DB_NAME)
+    except TrackingUnavailable:
+        return None
     return None
 
 
@@ -586,11 +614,22 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         current_hash = calculate_file_hash(sql_file)
         tracking_name = _tracking_key(sql_file.name, database)
         custom_only = database in ('auth', 'characters')
-        applied = is_file_applied(
-            tracking_name, current_hash,
-            database=database, native_name=sql_file.name,
-            custom_only=custom_only,
-        )
+        try:
+            applied = is_file_applied(
+                tracking_name, current_hash,
+                database=database, native_name=sql_file.name,
+                custom_only=custom_only,
+            )
+        except TrackingUnavailable as e:
+            # Abort rather than guess. An unreadable tracker makes every file
+            # look new, which for AC's one-shot updates/ chain means replaying
+            # historical migrations over current data.
+            click.echo(click.style(
+                f"\n✗ Tracking lookup failed on {sql_file.name}: {e}", fg='red'))
+            click.echo("  Refusing to continue — a tracker outage would make already-applied")
+            click.echo("  files look new and replay AC's historical migrations. Nothing was")
+            click.echo("  executed. Re-run once the database is reachable.")
+            return 0, 1
         pending.append((sql_file, zpak, source, current_hash, database, not applied))
 
     # Ordering cascade (I-244): within a zpak's own SQL, files apply in sorted
@@ -732,11 +771,18 @@ def _execute_reset(craft_root: Path) -> bool:
         current_hash = calculate_file_hash(sql_file)
         tracking_name = _tracking_key(sql_file.name, database)
         custom_only = database in ('auth', 'characters')
-        applied = is_file_applied(
-            tracking_name, current_hash,
-            database=database, native_name=sql_file.name,
-            custom_only=custom_only,
-        )
+        try:
+            applied = is_file_applied(
+                tracking_name, current_hash,
+                database=database, native_name=sql_file.name,
+                custom_only=custom_only,
+            )
+        except TrackingUnavailable as e:
+            click.echo(click.style(
+                f"    ✗ Tracking lookup failed on {sql_file.name}: {e}", fg='red'))
+            click.echo("      Aborting the rebuild's update phase — cannot tell applied "
+                       "from unapplied.")
+            return False
         if not applied:
             updates_to_apply.append((sql_file, zpak, source, current_hash))
         else:
