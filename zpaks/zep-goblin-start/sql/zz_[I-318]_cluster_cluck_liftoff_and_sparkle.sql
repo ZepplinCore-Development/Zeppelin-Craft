@@ -1,8 +1,11 @@
--- I-318 : Cluster Cluck (q24671) - captured cluckers do not lift off, and the
--- interact sparkle sticks to the player forever.
+-- I-318 : Cluster Cluck (q24671) - the Wild Clucker behaviour set.
 --
--- Both were invisible until the visual chain was ported (same issue): the sparkle
--- is `particles\lootfx.mdx`, carried by SpellVisual 15092, which rendered nothing
+-- Covers, in order: the interact sparkle (removed with the whole spellclick path),
+-- the capture sequence (lift off before flying to the coop), and ambient wander
+-- (the birds never moved at all before being captured).
+--
+-- The sparkle was invisible until the visual chain was ported (same issue): it is
+-- `particles\lootfx.mdx`, carried by SpellVisual 15092, which rendered nothing
 -- before spellvisuals.py started emitting it.
 
 -- ---------------------------------------------------------------------------
@@ -92,3 +95,40 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3811100, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 96840, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Rocket Trail'),
   (3811100, 9, 7, 0, 0, 0, 100, 0, 0, 0, 0, 0, 69, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 8, 0, 'Wild Clucker - Captured - Rocket 8y straight up (I-318)'),
   (3811100, 9, 8, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - After the climb, fly the escort path to the coop');
+
+-- ---------------------------------------------------------------------------
+-- 3. The cluckers never wandered - a one-shot MoveIdle was killing it.
+-- ---------------------------------------------------------------------------
+-- Imported SAI row (38111, source_type 0, id 0) is verbatim donor:
+--
+--     event 1 UPDATE_OOC, event_flags 1, action 89 RANDOM_MOVE, action_param1 0
+--     comment: " Random move"
+--
+-- The comment states the intent, but AC reads a zero distance as the OPPOSITE:
+--
+--     if (e.action.moveRandom.distance) MoveRandom(distance); else MoveIdle();
+--
+-- so the row calls `MoveIdle()`. `event_flags 1` is SMART_EVENT_FLAG_NOT_REPEATABLE,
+-- so it fires exactly once on the first out-of-combat update after spawn and
+-- replaces the RandomMovementGenerator with an idle one - permanently. Every bird
+-- stood perfectly still, which is why strapping a rocket to one looked so odd.
+--
+-- This is a donor/AC semantic divergence, not a lost value: the source row really
+-- does carry 0. It is a one-off - of the 14 rows in the world with
+-- action_type 89 / action_param1 0, the other 13 are stock AC content whose
+-- comments show they genuinely mean "stop moving" (Karu, Zulian Crocolisk, Brann,
+-- the Swine, ...), so there is nothing here to generalise into the generator.
+-- Deleting the row lets the spawn-level movement config do its job. No other row
+-- links to id 0, so removing it does not disturb the escort chain.
+DELETE FROM smart_scripts WHERE source_type = 0 AND entryorguid = 38111 AND id = 0;
+
+-- The donor has all 65 spawns at MovementType 0; the generator's TDB 4.3.4 wander
+-- overlay granted MovementType 1 / wander_distance 10 to only 52 of them, and that
+-- overlay is non-deterministic (its `tdb_q` has no ORDER BY), so the split moves
+-- between regens. Normalising the whole entry is therefore both the fix for the 13
+-- stragglers and self-healing against a future gen run redrawing the line.
+UPDATE creature SET MovementType = 1, wander_distance = 10 WHERE id = 38111;
+
+-- Capture still stops the wander before lift-off: actionlist 3811100 id 2 is
+-- RANDOM_MOVE 0, i.e. the very MoveIdle described above - which is exactly what it
+-- is for in that context.
