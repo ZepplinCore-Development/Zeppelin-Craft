@@ -40,6 +40,64 @@ _COND_COLS = ("SourceTypeOrReferenceId", "SourceGroup", "SourceEntry", "SourceId
               "NegativeCondition", "ErrorType", "ErrorTextId", "ScriptName", "Comment")
 
 
+NPC_CLICK_CAST_CASTER_CLICKER = 0x01
+NPC_CLICK_CAST_TARGET_CLICKER = 0x02
+
+
+def _fix_clicker_selfcast(ctx, clicks):
+    """Stop a click from stamping the creature's own ambient aura onto the player.
+
+    I-318. `cast_flags` is copied verbatim from the donor, and the donor sets
+    NPC_CLICK_CAST_CASTER_CLICKER (0x1) on clicks whose spell is the very aura the
+    creature already carries from `creature_template_addon`. AC then resolves
+    caster=clicker, and since these spells apply their aura to
+    TARGET_UNIT_CASTER (1), the aura lands on the PLAYER instead of the creature:
+
+        Unit* caster = (castFlags & NPC_CLICK_CAST_CASTER_CLICKER) ? clicker : this;
+
+    Both known cases are permanent (duration index 21) "Loot FX" sparkles — the
+    interactable shimmer — so a player who clicked one wore it forever, saved
+    across logout in `character_aura`. Found on Cluster Cluck's Wild Clucker
+    (38111 / 66727); the same shape sits on Irresistible Pool Pony
+    (38412, 44578-44580 / 83142), which only became visible once spellvisuals.py
+    started emitting the visuals these auras carry.
+
+    The test is deliberately narrow and target-agnostic: the creature ALREADY has
+    this exact aura at spawn, so the click's cast is redundant no matter who it
+    targets, and dropping the caster bit cannot lose behaviour. Clicks whose spell
+    the creature does not carry are untouched — that leaves the phase clicks
+    (37945/38430 -> 70766 Dream State, aura 261) and stock 24418 Flying Machine
+    Controls exactly as the donor has them. Rows that explicitly aim at the player
+    (TARGET_CLICKER) are also left alone: there the author meant the clicker.
+    """
+    addon = getattr(ctx.col, "_spellclick_addon_auras", None)
+    if addon is None:
+        addon = ctx.col._spellclick_addon_auras = {}
+        for r in ctx.q("SELECT entry, auras FROM creature_template_addon"):
+            try:
+                entry = int(str(r["entry"]).strip())
+            except (TypeError, ValueError):
+                continue
+            ids = set()
+            for tok in str(r["auras"] or "").split():
+                try:
+                    ids.add(int(tok))
+                except ValueError:
+                    pass
+            if ids:
+                addon[entry] = ids
+
+    out, fixed = [], []
+    for npc, spell, cf, ut in clicks:
+        if (cf & NPC_CLICK_CAST_CASTER_CLICKER
+                and not cf & NPC_CLICK_CAST_TARGET_CLICKER
+                and spell in addon.get(npc, ())):
+            cf &= ~NPC_CLICK_CAST_CASTER_CLICKER
+            fixed.append((npc, spell))
+        out.append((npc, spell, cf, ut))
+    return out, fixed
+
+
 def emit(ctx):
     sfx = ctx.sfx
     zone = ZONE[sfx]
@@ -73,6 +131,7 @@ def emit(ctx):
             continue
         clicks.append((npc, spell, int(r["cast_flags"] or 0), int(r["user_type"] or 0)))
     clicks.sort()
+    clicks, selfcast_fixed = _fix_clicker_selfcast(ctx, clicks)
     npcs = sorted({c[0] for c in clicks})
 
     conds = []
@@ -99,4 +158,9 @@ def emit(ctx):
             else:
                 row[col] = int(v or 0)
         ctx.col.add("conditions", row)
-    return "spellclick npcs=%d conditions=%d skipped=%d" % (len(clicks), len(conds), skipped)
+    out = "spellclick npcs=%d conditions=%d skipped=%d" % (len(clicks), len(conds), skipped)
+    if selfcast_fixed:
+        out += "; caster-clicker bit cleared on %d self-cast ambient aura click(s) (I-318): %s" % (
+            len(selfcast_fixed),
+            ", ".join("%d/%d" % (n, s) for n, s in selfcast_fixed))
+    return out
