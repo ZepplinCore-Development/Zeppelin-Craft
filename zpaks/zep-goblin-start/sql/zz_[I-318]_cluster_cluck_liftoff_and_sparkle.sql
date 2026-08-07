@@ -6,33 +6,57 @@
 -- before spellvisuals.py started emitting it.
 
 -- ---------------------------------------------------------------------------
--- 1. The interact sparkle was landing on the PLAYER, permanently.
+-- 1. Cluster Cluck is item-only: no click interaction, no sparkle at all.
 -- ---------------------------------------------------------------------------
--- `npc_spellclick_spells.cast_flags` is copied verbatim from the donor, which sets
--- NPC_CLICK_CAST_CASTER_CLICKER (0x1) on clicks whose spell is the very aura the
--- creature already carries from creature_template_addon. AC then resolves
+-- The quest hands out an item ("Take these remote control fireworks and attach
+-- them to the cluckers"), and the birds are ordinary selectable creatures, so the
+-- spellclick path is redundant with the item path: both ended in the same place,
+-- creature 38111 SPELLHIT 71170 -> actionlist 3811100. Dropping it removes the
+-- whole sparkle apparatus rather than repairing it.
 --
---     Unit* caster = (castFlags & NPC_CLICK_CAST_CASTER_CLICKER) ? clicker : this;
+-- What the sparkle was and why it had to go:
+--   * On the BIRDS it comes from `creature_template_addon` aura 66727 (plus 8
+--     per-guid rows), permanent and identical for every observer. It cannot be
+--     gated on quest state - a creature's ambient aura has no per-player variant -
+--     so it kept shimmering long after turn-in. Retail hides them by phasing the
+--     zone forward instead; all 65 spawns here sit in phaseMask 2048.
+--   * On the PLAYER it was a real bug: `cast_flags` carried
+--     NPC_CLICK_CAST_CASTER_CLICKER (0x1) from the donor, so AC resolved
+--         Unit* caster = (castFlags & NPC_CLICK_CAST_CASTER_CLICKER) ? clicker : this;
+--     and 66727 applies its aura to TARGET_UNIT_CASTER (1) - the permanent shimmer
+--     landed on the clicking player and was SAVED to `character_aura`
+--     (remainTime -1), surviving relogs. Existing victims need `.unaura 66727`;
+--     SQL cannot reach an aura already on a character.
 --
--- and because these "Loot FX" spells apply their aura to TARGET_UNIT_CASTER (1),
--- the aura lands on the clicking player rather than the bird. Duration index 21 =
--- permanent, and it IS saved to `character_aura` (remainTime -1), so it survives a
--- relog: every player who ever clicked a clucker wears the interactable shimmer
--- for good. Clearing the bit makes the creature both caster and target, which is
--- where the aura already is - the cast becomes the no-op it was always meant to be.
+-- npcflag 16777216 (SPELLCLICK) is cleared too, so the client stops offering an
+-- interact cursor for a click that no longer exists. Selectability is unaffected -
+-- unit_flags 32768 is UNIT_FLAG_SWIMMING, not NOT_SELECTABLE (0x02000000) - so the
+-- bird can still be targeted for the item.
 --
--- Same defect, same shape, on Irresistible Pool Pony (38412 + 44578-44580 / 83142).
--- It is unreported only because its visual (17188) had not been emitted yet; it is
--- fixed here rather than left as a landmine for the next PATCH-Z. Generator-side
--- rule lives in `goblin_gen/spellclick.py::_fix_clicker_selfcast` - this file makes
--- it live without a regen.
+-- Leaves creature 38111's two ON_SPELLCLICK SAI rows (ids 1 and 8) in place. With
+-- no npcflag and no spellclick row, HandleSpellClick never runs and they are inert;
+-- forking the whole 9-row block to delete two dead rows would freeze the escort
+-- rows (which reference GO guid 106846) against future regens for no gain.
+DELETE FROM npc_spellclick_spells WHERE npc_entry = 38111;
+DELETE FROM conditions WHERE SourceTypeOrReferenceId = 18 AND SourceGroup = 38111;
+UPDATE creature_template SET npcflag = 0 WHERE entry = 38111;
+UPDATE creature_template_addon SET auras = '' WHERE entry = 38111;
+UPDATE creature_addon SET auras = ''
+ WHERE guid IN (11001802, 11001811, 11001812, 11001826,
+                11001827, 11001845, 11001846, 11001854);
+
+-- Irresistible Pool Pony (38412 + 44578-44580 / 83142) has the identical
+-- caster-clicker defect but genuinely needs its click, so it is repaired rather
+-- than removed. Unreported only because its visual (17188) had not been emitted
+-- yet - fixed here rather than left as a landmine for the next PATCH-Z. The
+-- generator-side rule lives in `goblin_gen/spellclick.py::_fix_clicker_selfcast`;
+-- this makes it live without a regen.
 --
 -- Deliberately NOT touched: clicks whose spell the creature does not already carry
 -- (37945/38430 -> 70766 Dream State, aura 261 phase) and stock 24418 Flying Machine
 -- Controls. There the clicker really is meant to be the caster.
 UPDATE npc_spellclick_spells SET cast_flags = 0
- WHERE (npc_entry = 38111 AND spell_id = 66727)
-    OR (npc_entry IN (38412, 44578, 44579, 44580) AND spell_id = 83142);
+ WHERE npc_entry IN (38412, 44578, 44579, 44580) AND spell_id = 83142;
 
 -- ---------------------------------------------------------------------------
 -- 2. Captured cluckers walked off instead of rocketing up.
