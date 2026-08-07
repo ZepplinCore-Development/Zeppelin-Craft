@@ -97,6 +97,93 @@ EFFECT_OVERRIDE = {
     # credits per click — finishing 14474 in 3 pods instead of 6. Store the
     # 3.3.5a encoding of "1": BasePoints 0 with the forced DieSides 1.
     66137: {"effect_base_points_1": 0},
+
+    # 71091 "It's A Town-In-A-Box: Town-In-A-Box Plunger - Effect 2" (I-315).
+    # Effect 0 is 140 FORCE_CAST -> 68750 "Quest Phase 05", whose only effect is
+    # aura 261 SPELL_AURA_PHASE with MiscValue 2048 and DurationIndex 21 (-1,
+    # permanent). Dropped, because phasing here is F-194's job, not a spell's:
+    # phase_definitions zone 4720 entry 5 is phaseMask 2048 gated on condition 28
+    # QUEST_COMPLETE of 14245, so PhaseMgr flips the player into the finished
+    # town the moment the plunger's kill credit lands — 3s BEFORE this aura would
+    # even be cast. Keeping it would be strictly harmful: AC's HandlePhase does a
+    # raw `player->SetPhaseMask(GetPhaseByAuras(), false)`
+    # (SpellAuraEffects.cpp:1946) with no PhaseMgr involvement, so a permanent
+    # 2048 aura outlives the quest and re-forces that mask, out of sync with
+    # every later quest's phase, on any subsequent aura apply/remove.
+    # Effect 1 is the periodic that lands the 70988 parachute — kept, amplitude
+    # 5500 -> 4000 so the chute deploys at 68935's 3000ms tick + 4000 = 7.0s,
+    # comfortably before the 8.82s unassisted touchdown (EffectKnockBack,
+    # SpellEffects.cpp:5052: speedz = damage * 0.1, damage = BasePoints 850 +
+    # forced DieSides 1 = 851 -> 85.1 yd/s -> apex 4.41s, flight 2x that).
+    #
+    # CAUTION — this retiming did NOT fix anything on its own, and the theory
+    # behind it was wrong. The chute was dying to a mid-air interrupt, not to a
+    # thin margin; moving it earlier gave the player MORE unprotected height and
+    # turned survivable damage into a death. The real fix is on 70988 below.
+    # 4000 is kept only because, with the strip gone, an earlier deploy slows
+    # more of the descent. Do not retime this again to chase a landing bug.
+    #
+    # Must stay ABOVE half of 71091's own duration (index 32 = 6000ms) or the
+    # aura ticks twice and re-casts the chute; 4000 gives exactly one tick.
+    71091: {"effect_1": 0, "effect_trigger_spell_1": 0, "effect_implicit_target_a_1": 0,
+            "effect_amplitude_2": 4000},
+
+    # 70988 "Parachute" — the chute the above lands (I-315). Two changes, both to
+    # stop a MID-AIR strip; neither is a retiming (retiming was the wrong theory
+    # and made it worse — see below).
+    #
+    # `aura_interrupt_flags` 0x02020000 -> 0x00020000: drop
+    # AURA_INTERRUPT_FLAG_LANDING (0x02000000), keep MOUNT. The client sends a
+    # spurious MSG_MOVE_FALL_LAND about a second after slow-fall engages while
+    # still airborne, and `WorldSession::ProcessMovementInfo` strips every
+    # LANDING aura on that opcode (MovementHandler.cpp:628, comment: "interrupt
+    # parachutes upon falling or landing in water"). The chute died ~1s after
+    # deploy, the player free-fell the rest unprotected, and
+    # AuraEffect::HandleFeatherFall's removal branch re-baselines m_lastFallZ to
+    # the strip altitude — so the damage roll at the REAL landing saw the whole
+    # remaining drop.
+    #
+    # PROOF the strip is deploy-relative, not landing-relative: moving the
+    # deploy 1.5s EARLIER (amplitude 5500 -> 4000) made it strictly WORSE —
+    # survivable damage became a death. Landing-relative removal would have made
+    # an earlier chute safer; deploy-relative (+1s) removal leaves more unspent
+    # height every time you deploy sooner. Do not "fix" this by retiming again.
+    #
+    # With LANDING gone the aura survives to touchdown, and Player::HandleFall's
+    # !HasFeatherFallAura() gate (Player.cpp:14079) then zeroes the damage
+    # outright. Nothing else can reach it: interrupt flags are the only removal
+    # path here, dispel/steal do not apply, and the source duration is infinite.
+    #
+    # `duration_index` 21 -> 575: 21 is -1 (permanent), which was survivable only
+    # because LANDING used to clean it up. Without that it would be a forever
+    # aura, so it has to be bounded by duration instead — expiry is now the ONLY
+    # thing that ends the chute, which makes this a real tuning parameter.
+    #
+    # Deliberately timed to expire JUST ABOVE THE GROUND, not to outlast the
+    # descent. That is safe because of two things acting together:
+    #   - AuraEffect::HandleFeatherFall's removal branch calls SetFallInformation,
+    #     re-baselining m_lastFallZ to the altitude at expiry — so the fall that
+    #     gets billed is only the drop remaining AFTER the chute ends, never the
+    #     whole plunge.
+    #   - Player.cpp:14066 MIN_FALL_DMG_DIST = 13.48f is a hard cutoff, not a
+    #     taper: under 13.48 yards the entire damage block is skipped (:14078).
+    # So expiring a short way up costs literally nothing, and clears the aura
+    # before the player is standing around with a parachute on.
+    #
+    # Sized from measurement, not theory — the client's slow-fall rate is in no
+    # data we hold. Tester at 25000ms reported a 7s tail, putting the slowed
+    # descent from the 7.0s deploy at ~18s. Remaining height there is ~123yd
+    # (apex 187.7yd at 4.41s, less 64.7yd fallen by 7.0s), so slow-fall is
+    # ~6.8 yd/s and the 13.48yd threshold is crossed ~2.0s before touchdown.
+    # Safe band is therefore ~16000-18000ms; index 575 = 17000ms sits mid-band,
+    # expiring ~1s up (~6.8yd, about half the threshold).
+    #
+    # The old danger is gone but the band is narrow, so if the knockback
+    # (68935 BasePoints 850) or the deploy time (71091 amplitude) ever changes,
+    # RE-MEASURE the tail and re-derive — do not scale this number. Erring long
+    # costs a cosmetic tail; erring short only costs a small damage chip now
+    # (~12% at 3s early), no longer a death.
+    70988: {"aura_interrupt_flags": 0x00020000, "duration_index": 575},
 }
 
 # columns that are `int unsigned` and hold high-bit masks -> convert signed read to unsigned
@@ -214,6 +301,26 @@ def emit(ctx):
         eq = equipped.get(row[F['equipped']])
         if eq:
             c["equipped_item_class"] = eq[1]; c["equipped_item_inventorytype_mask"] = eq[2]; c["equipped_item_subclass_mask"] = eq[3]
+        # SpellInterrupts: AuraInterruptFlags@1-2, ChannelInterruptFlags@3-4,
+        # InterruptFlags@5. 4.3.4 widened the aura/channel masks to TWO dwords;
+        # 3.3.5a has one, so only the low dword ports and the Cata-only high
+        # dword (@2/@4) is dropped. Verified against stock 3.3.5a on the 15,055
+        # spells present in both builds: @1 matches aura_interrupt_flags on
+        # 95.8%, @3 matches channel on 99.9%, @5 matches interrupt on 99.6% —
+        # the remainder are real Blizzard changes between the two builds.
+        #
+        # I-315: this table was loaded and then never read, so every ported
+        # spell shipped with all three masks at the column default 0 — i.e. an
+        # aura that should break on movement/landing/mount never broke at all.
+        # Found via 70988 "Parachute" (SpellInterrupts 16090 = 0x02020000,
+        # LANDING|MOUNT, both bits identical in 3.3.5a): DurationIndex 21 makes
+        # it permanent and LANDING is the ONLY thing that ends it, so the
+        # town-in-a-box plunger would have left the player in feather fall for
+        # the rest of the session. 57 of the 282 currently ported spells carry
+        # an interrupts row; 35 gain aura, 12 channel, 22 interrupt flags.
+        it = interrupts.get(row[F['interrupts']])
+        if it:
+            c["aura_interrupt_flags"] = it[1]; c["channel_interrupt_flags"] = it[3]; c["interrupt_flags"] = it[5]
         tr = targetres.get(row[F['targetres']])
         if tr:
             c["max_affected_targets"] = tr[2]; c["maximum_target_level"] = tr[3]; c["target_creature_type"] = tr[4]; c["targets"] = tr[5]
@@ -239,7 +346,11 @@ def emit(ctx):
                 # created nothing); CREATE_ITEM item ids are Cata ids -> remap.
                 c["effect_item_type_%d" % n] = iremap.get(e[10], e[10]) if e[10] else 0
                 c["effect_mechanic_%d" % n] = e[11]; c["effect_misc_value_a_%d" % n] = e[12]; c["effect_misc_value_b_%d" % n] = e[13]
-                c["effect_radius_index_%d" % n] = e[15]; c["effect_trigger_spell_%d" % n] = e[21]
+                # 4.3.4 splits the radius into min+max index and often leaves the MIN
+                # one 0; 3.3.5a has a single index, and 0 = no SpellRadius row = a
+                # 0-yard area search that silently hits nothing (I-287).
+                c["effect_radius_index_%d" % n] = scope.radius_index(e)
+                c["effect_trigger_spell_%d" % n] = e[21]
                 c["effect_implicit_target_a_%d" % n] = e[22]; c["effect_implicit_target_b_%d" % n] = e[23]
                 c["effect_real_points_per_level_%d" % n] = struct.unpack("<f", struct.pack("<I", e[17] & 0xFFFFFFFF))[0]
                 c["effect_spell_class_mask_a_%d" % n] = e[18]; c["effect_spell_class_mask_b_%d" % n] = e[19]; c["effect_spell_class_mask_c_%d" % n] = e[20]

@@ -117,12 +117,52 @@ DATA_OVERRIDE = {
     # Net: click -> Data3 -> ONE burst, and the pod is gone with it. Data3 is now
     # just the delay between the click and that burst; 500ms keeps it snappy.
     195188: {"Data10": 66137, "Data3": 500, "Data4": 1},
-    # Still open (I-277), deliberately NOT fixed here: 201938 Town-In-A-Box
-    # Plunger (Data10 151144) and 205061 Big Red Button (Data10 151157) have the
-    # same dead-spell defect. TDB 4.3.4 models both as type 22 SPELLCASTER with
-    # Data0 68938 / 73892 rather than type 10, so they need a TYPE_OVERRIDE plus
-    # a field move, and their quests (14245, 25207) are untested. Left alone
-    # rather than reworked on inference.
+
+    # 201938 Town-In-A-Box Plunger — quest 14245 "It's a Town-In-A-Box" (I-315).
+    # Same 1511xx dead-spell band as the pod above, and the same silent failure:
+    # the click reached GameObject::Use, set spellId = 151144, and the tail
+    # logged `WORLD: unknown spell id 151144 at use action for gameobject`
+    # (Server.log) — the ONE place AC reports a type-10 goober's dead spell, and
+    # only at runtime, only after a player tries it.
+    #
+    # Data10 (goober.spellId) 151144 -> 68938 "It's A Town-In-A-Box:
+    # Town-In-A-Box Plunger - Cover", the whole quest in one spell:
+    #   effect 0  140 FORCE_CAST      -> 68935 (the launch cinematic, below)
+    #   effect 1   90 KILL_CREDIT     MiscValue 38024, target 25
+    # 38024 is exactly quest 14245's RequiredNpcOrGo1, and AC's effect 90 is
+    # EffectKillCreditPersonal -> KilledMonsterCredit(MiscValue)
+    # (SpellEffects.cpp:5753). Target 25 TARGET_UNIT_TARGET_ANY resolves to the
+    # explicit target, and the goober tail casts `spellCaster->CastSpell(user,
+    # spellId)` with spellCaster = user, so caster and target are both the
+    # clicking player. Confirmed against the 4.3.4 CLIENT Spell.dbc by name, per
+    # I-277 — Neltharion's own spell_dbc is a nameless server stub and cannot
+    # answer this. TDB 4.3.4 agrees on the spell (68938) but models the GO as a
+    # type 22 SPELLCASTER; no TYPE_OVERRIDE is needed, because a type-22 casts
+    # GO->user and a type-10 casts user->user and target 25 lands on the player
+    # either way. Keeping type 10 is the smaller delta and matches the source.
+    #
+    # Data3 (goober.autoCloseTime) 0 -> 3000ms. Same AC-only gate as the pod
+    # (GameObject.cpp:1716): at 0 the plunger reaches neither GO_STATE_ACTIVE nor
+    # GO_ACTIVATED, so the handle never visibly depresses. This is the OTHER half
+    # of "hitting the plunger does nothing" — even with a live spell the click
+    # would have stayed silent on screen. Data4 customAnim stays 0 (unlike the
+    # pod): this goober is NOT consumable, so there is no despawn burst to
+    # suppress and we want the real press animation. At 3000ms it presses, then
+    # GO_JUST_DEACTIVATED resets it to READY (GameObject.cpp:754) — re-clickable,
+    # but not farmable, because the goober's own quest gate breaks out before
+    # spellId is assigned once 14245 is no longer QUEST_STATUS_INCOMPLETE.
+    #
+    # NOT overridden: the town itself. 68935's chain force-casts 68750 "Quest
+    # Phase 05" (aura 261 SPELL_AURA_PHASE, MiscValue 2048) — suppressed in
+    # spells.EFFECT_OVERRIDE, see there. F-194's phase_definitions already owns
+    # that flip (zone 4720 entry 5, phaseMask 2048, condition 28 QUEST_COMPLETE
+    # on 14245), so the town appears the instant the credit lands.
+    201938: {"Data10": 68938, "Data3": 3000},
+
+    # Still open (I-277), deliberately NOT fixed here: 205061 Big Red Button
+    # (Data10 151157) has the same dead-spell defect. TDB 4.3.4 offers Data0
+    # 73892, but its quest (25207) is untested and the spell is unverified
+    # against the client DBC. Left alone rather than reworked on inference.
 }
 
 # map648 (Cata Lost Isles/Kezan) -> map1 (Kalimdor) coordinate offset.
