@@ -1,0 +1,23 @@
+{
+  "_comment": [
+    "I-316: donor smart_scripts rows whose castFlags (action_param2) are wrong in the",
+    "Neltharion 4.3.4 source itself. This is NOT an opcode-divergence remap — the",
+    "SmartCastFlags enum is byte-identical between the two cores (0x20 =",
+    "SMARTCAST_AURA_NOT_PRESENT in both). These rows simply ship a flag value that",
+    "contradicts what the source author wrote in the row comment, so a verbatim import",
+    "reproduces the donor's bug. Keyed by source_type:entryorguid:id; 'flags' is the",
+    "FINAL castFlags value written into the emitted row.",
+    "Only add a row here after checking the donor enum really does agree with AC's —",
+    "if the enums differ, the fix belongs in _spellscope as a remap, not here."
+  ],
+  "rows": [
+    {
+      "source_type": 0, "entryorguid": 34692, "id": 0, "flags": 34,
+      "why": "Sister Goldskimmer (Kezan) — OOC_LOS re-cast of Power Word: Fortitude (74973) at any player within 8yd every 2s. Source comment says 'on Player Missing Buff' but castFlags was 2 (TRIGGERED) with no gate, so it re-buffs forever. 34 = TRIGGERED|AURA_NOT_PRESENT."
+    },
+    {
+      "source_type": 0, "entryorguid": 38516, "id": 0, "flags": 34,
+      "why": "Sister Goldskimmer (Lost Isles) — identical donor row to 34692, same defect."
+    }
+  ]
+}

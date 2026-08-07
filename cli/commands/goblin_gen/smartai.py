@@ -18,6 +18,13 @@ through as-is; gossip menu ids (event 62) and item ids (actions 56/57) WERE
 renumbered by the port, so those params are remapped via gossip.py's menu remap
 + the item_remap fixture (I-245: "The New You" vendor gossip).
 
+Repairs castFlags (SMART_ACTION_CAST param2) for the rows listed in the
+smartai_castflags fixture — donor rows whose flags are wrong in the Neltharion
+source itself, which a verbatim import would otherwise reproduce (I-316: Sister
+Goldskimmer re-casting Power Word: Fortitude at every passer-by every 2s because
+SMARTCAST_AURA_NOT_PRESENT was never set). Un-fixtured rows with that same shape
+are reported as WARN rather than silently shipped.
+
 Also translates Cata-native "cast spell N on creature RequiredNpcOrGoN" quest
 objectives (quest_template.RequiredSpellCastN — a mechanic 3.3.5a AC dropped)
 into "on spellhit -> CALL_KILLEDMONSTER" rows, since without them those
@@ -111,6 +118,11 @@ def emit(ctx):
     # gossip.py (base tier, same gen run via contributor closure) stashes its
     # source->510xxx menu renumbering here for event 62 params.
     menu_remap = getattr(ctx.col, "gossip_menu_remap", {})
+    # I-316: castFlags repairs for donor rows that are wrong in the SOURCE (the
+    # SmartCastFlags enum is identical in both cores, so this is a data defect we
+    # would otherwise import faithfully). Keyed (source_type, entryorguid, id).
+    cf_fix = {(int(f["source_type"]), int(f["entryorguid"]), int(f["id"])): int(f["flags"])
+              for f in ctx.fixture("smartai_castflags")["rows"]}
 
     rows_by_key = {}
     skipped = 0
@@ -118,6 +130,8 @@ def emit(ctx):
     spell_drops = {}      # spellId -> [(source_type, entryorguid, row id)] (I-274)
     opcode_drops = []     # rows refused for a divergent source opcode (I-274)
     remapped = {}         # source action id -> count rewritten to AC's number
+    cf_applied = []       # (source_type, entryorguid, id, from, to) castFlags repairs
+    cf_suspect = []       # ungated repeating buff-casts at players, not in the fixture
 
     def fetch(source_type, entry):
         return ctx.q("SELECT * FROM smart_scripts WHERE source_type=%s AND entryorguid=%s ORDER BY id",
@@ -135,6 +149,39 @@ def emit(ctx):
             it = int(float(_val(r["action_param1"])))
             if it in iremap:
                 r["action_param1"] = iremap[it]
+
+    # I-316: SMART_ACTION_CAST param2 is castFlags. 0x20 = SMARTCAST_AURA_NOT_PRESENT
+    # ("only cast if the target does not already have this spell's aura") and means the
+    # same thing in both cores. A repeating out-of-combat cast aimed at players with
+    # that bit clear re-buffs every cooldown tick forever — Sister Goldskimmer
+    # (34692/38516) machine-gunned Power Word: Fortitude at passers-by every 2s, and the
+    # donor's own row comment ("on Player Missing Buff") shows the gate was intended.
+    # 11 CAST and 134 INVOKER_CAST both read the same `e.action.cast` union member
+    # (SmartScript.cpp:821), so param2 is castFlags for both. 134 is what source
+    # action 85 becomes after ACTION_REMAP, hence the post-remap type is passed in.
+    CAST_ACTIONS = {11, 134}
+    OOC_LOS, UPDATE_OOC = 10, 1        # SMART_EVENT_OOC_LOS / SMART_EVENT_UPDATE_OOC
+    PLAYERISH_TARGETS = {7, 17, 18, 21}   # invoker, player range/distance, closest player
+    SMARTCAST_AURA_NOT_PRESENT = 0x20
+
+    def repair_cast_flags(r, source_type, entry, et, at):
+        if at not in CAST_ACTIONS:
+            return
+        rid = int(float(_val(r["id"])))
+        flags = int(float(_val(r["action_param2"])))
+        want = cf_fix.get((source_type, entry, rid))
+        if want is not None:
+            if want != flags:
+                r["action_param2"] = want
+                cf_applied.append((source_type, entry, rid, flags, want))
+            return
+        # Not fixtured — surface anything with the same shape so the next instance of
+        # this donor defect fails loud instead of shipping as a buff-spam bug report.
+        if (et in (OOC_LOS, UPDATE_OOC)
+                and int(float(_val(r["target_type"]))) in PLAYERISH_TARGETS
+                and not (flags & SMARTCAST_AURA_NOT_PRESENT)):
+            cf_suspect.append((source_type, entry, rid,
+                               int(float(_val(r["action_param1"]))), flags))
 
     def collect(source_type, entry):
         nonlocal skipped, spell_skipped
@@ -168,6 +215,7 @@ def emit(ctx):
             if at in ACTION_REMAP:
                 r["action_type"] = ACTION_REMAP[at]
                 remapped[at] = remapped.get(at, 0) + 1
+            repair_cast_flags(r, source_type, entry, et, ACTION_REMAP.get(at, at))
             out.append(r)
         if out:
             rows_by_key[(source_type, entry)] = out
@@ -304,6 +352,17 @@ def emit(ctx):
         drop_lines.append("  opcode remap (source -> AC): "
                           + ", ".join("%d->%d x%d" % (a, ACTION_REMAP[a], n)
                                       for a, n in sorted(remapped.items())))
+    for (st, e, rid, was, now) in cf_applied:
+        drop_lines.append("  castFlags repair (I-316): %s %d row %d %d -> %d"
+                          % ("GO" if st == 1 else "creature" if st == 0 else "actionlist",
+                             e, rid, was, now))
+    for (st, e, rid, sp, flags) in cf_suspect:
+        drop_lines.append("    WARN %s %d row %d re-casts spell %d at players every "
+                          "cooldown with castFlags=%d (no SMARTCAST_AURA_NOT_PRESENT) — "
+                          "buff spam if that spell leaves a lasting aura; add to the "
+                          "smartai_castflags fixture if so"
+                          % ("GO" if st == 1 else "creature" if st == 0 else "actionlist",
+                             e, rid, sp, flags))
     for (st, e, rid, why) in opcode_drops:
         drop_lines.append("    WARN %s %d row %d refused: divergent opcode — %s"
                           % ("GO" if st == 1 else "creature" if st == 0 else "actionlist",
@@ -341,10 +400,10 @@ def emit(ctx):
 
     return ("scope cre=%d go=%d (excluded cre=%d go=%d) -> blocks=%d rows=%d "
             "[cre=%d go=%d tal=%d] skipped(type)=%d skipped(spell)=%d "
-            "spellcast: covered=%d added=%d%s%s" % (
+            "castflags: fixed=%d suspect=%d spellcast: covered=%d added=%d%s%s" % (
                 len(cre_scope), len(go_scope), len(excl_cre), len(excl_go),
                 len(rows_by_key), sum(len(v) for v in rows_by_key.values()),
                 len(cre), len(go), len(tal), skipped, spell_skipped,
-                sc_covered, sc_added,
+                len(cf_applied), len(cf_suspect), sc_covered, sc_added,
                 "".join("\n" + line for line in drop_lines),
                 "".join("\n  WARN " + w for w in sc_warns)))

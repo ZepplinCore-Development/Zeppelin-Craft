@@ -18,6 +18,7 @@ reproducible and the curation is not lost).
 | `vendor_scope[.|_K].json` | Vendor NPCs in scope |
 | `vendor_new_items.json` | New vendor items to create |
 | `smartai_scope.json` | Creatures / GOs whose SmartAI is ported |
+| `smartai_castflags.json` | `smart_scripts` rows whose `action_param2` (castFlags) is wrong **in the donor source** — repaired at emit so a verbatim import stops reproducing the donor's bug (I-316) |
 | `missing_items.json` | Item ids referenced but absent from the Neltharion source — recover from Whitemane Item-sparse |
 | `missing_spells.json` | Spell ids to recover |
 | `npc_equip_missing.json` | NPCs needing equipment recovery |
