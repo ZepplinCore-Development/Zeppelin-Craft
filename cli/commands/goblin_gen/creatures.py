@@ -388,7 +388,12 @@ def emit(ctx):
         "SELECT c.guid, c.id, c.position_x x, c.position_y y, c.MovementType mt, "
         "c.spawndist wd, a.mount, a.bytes1, a.bytes2, a.emote, a.auras, "
         "a.visibilityDistanceType vdt, a.waypointPathId wp "
-        "FROM creature c LEFT JOIN creature_addon a ON a.guid = c.guid WHERE c.map = 648")
+        "FROM creature c LEFT JOIN creature_addon a ON a.guid = c.guid WHERE c.map = 648 "
+        # ORDER BY is load-bearing, not cosmetic: the nearest-neighbour matcher below
+        # breaks ties on FIRST-row-wins over a greedy `consumed` set, so an unordered
+        # read made two identical gen runs emit different wander_distance/MovementType
+        # (found in I-315: four 35882 + one 39069 flipped 10->0 between back-to-back runs).
+        "ORDER BY CAST(c.guid AS UNSIGNED)")
 
     # Neltharion's OWN per-guid addon rows — authored pose/emote/mount/aura data
     # (e.g. the KTC pool-party aftermath corpses: bytes1=7 dead + emote 65 in the
@@ -406,6 +411,27 @@ def emit(ctx):
 
     def _static(s):
         return int(s["MovementType"] or 0) == 0 and float(s["spawndist"] or 0) == 0
+
+    # Corpses and posed decor must never take the TDB movement overlay: a random-wander
+    # motion master drags the body across the ground while it keeps the dead/kneeling
+    # pose (the sliding Goblin Survivor 38409 corpse). Neltharion stages these two ways —
+    # per-spawn (dynamicflags 0x20 DEAD, per-guid addon pose) or template-level on a
+    # dedicated corpse entry (35929 Poison Spitter vs the live 35896, 361760 Alliance
+    # Sailor vs the live 36176), which carry stand state 7 + Permanent Feign Death.
+    FEIGN_DEATH = "29266"
+
+    def _posed(s):
+        if int(s["dynamicflags"] or 0) & 0x20:          # UNIT_DYNFLAG_DEAD
+            return True
+        for a in (nel_addons.get(int(s["guid"])),
+                  ctx.col.get("creature_template_addon", int(s["id"]))):
+            if not a:
+                continue
+            if int(a.get("bytes1") or 0) & 0xFF:        # stand state: dead/kneel/sit/sleep
+                return True
+            if FEIGN_DEATH in str(a.get("auras") or "").split():
+                return True
+        return False
 
     by_entry = {}
     for i, s in enumerate(spawns):
@@ -434,7 +460,7 @@ def emit(ctx):
             continue
         best, best_d = None, 25.0
         for i in by_entry.get(int(tr["id"]), []):
-            if i in tdb_match or not _static(spawns[i]):
+            if i in tdb_match or not _static(spawns[i]) or _posed(spawns[i]):
                 continue
             d = max(abs(float(spawns[i]["position_x"]) - float(tr["x"])),
                     abs(float(spawns[i]["position_y"]) - float(tr["y"])))
@@ -457,7 +483,7 @@ def emit(ctx):
         have = sum(1 for i in idxs
                    if i in tdb_match and int(tdb_match[i]["mt"] or 0) == 1)
         need = int(round(frac * len(idxs))) - have
-        unmatched = [i for i in idxs if i not in tdb_match]
+        unmatched = [i for i in idxs if i not in tdb_match and not _posed(spawns[i])]
         if need <= 0 or not unmatched:
             continue
         need = min(need, len(unmatched))
@@ -485,7 +511,7 @@ def emit(ctx):
         wd = float(s["spawndist"] or 0)
         tm = tdb_match.get(i)
         wp_path = 0
-        if mt == 0 and wd == 0:
+        if mt == 0 and wd == 0 and not _posed(s):
             if tm is not None:
                 tmt, twd = int(tm["mt"] or 0), float(tm["wd"] or 0)
                 if tmt == 2 and tm["wp"]:
