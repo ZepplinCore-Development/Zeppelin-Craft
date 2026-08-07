@@ -151,3 +151,67 @@ VALUES
   (6623, 45378, 47500, 773, 200, 0, 0, 0, 35, 0),   -- Artisan Scribe
   (6623, 45379,100000, 773, 275, 0, 0, 0, 50, 0),   -- Master Scribe
   (6623, 45380,350000, 773, 350, 0, 0, 0, 65, 0);   -- Grand Master Scribe
+
+-- ---------- F-001 custom profession tool recipes ----------
+-- The Train-a-Tron advertises "every trade, no limits" and carries the full
+-- Apprentice->Grand Master ladder for all 11 primaries (above), but shipped none
+-- of the F-001 custom tool recipes -- so it taught Grand Master Blacksmithing
+-- without the smithing hammers that speed Blacksmithing up. F-001 predates this
+-- NPC and hardcoded only the stock trainer ids (58/59/616/617/618, plus the
+-- I-225 combined trainers 6500/6501), so 6623 was never in its list.
+--
+-- Scope: every trainer-taught spell owned by [F-001]_spell.sql -- skill lines
+-- 164/202/755, all of which 6623 already teaches. Costs and skill ranks mirror
+-- the canonical rows on the stock trainers exactly (verified identical across
+-- all existing trainers before copying).
+--
+-- NOT included: 91144-91157 enchanting shard recipes (those are F-006, not
+-- F-001) and 91119 Silencing Shot (a hunter class spell that merely sits in the
+-- same 91xxx band).
+--
+-- Owned here rather than in [F-001]_smithing_hammers.sql because this file owns
+-- trainer 6623's trainer_spell rows; splitting ownership would have the two
+-- files fight over the same trainer.
+DELETE FROM trainer_spell WHERE TrainerId = 6623 AND SpellId IN (
+  91121, 91123, 91125, 91127, 91129, 91131,       -- Smithing Hammers   (164)
+  91252, 91253, 91254, 91255,                     -- Rivets             (164)
+  91218, 91219, 91220, 91221,                     -- Tinkering Tools    (202)
+  91263, 91264, 91265, 91266,                     -- Drills             (202)
+  91256, 91257, 91258, 91259,                     -- Fasteners          (755)
+  91267, 91268, 91269, 91270                      -- Jeweler's Kits     (755)
+);
+
+INSERT INTO trainer_spell
+  (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`)
+VALUES
+  -- Blacksmithing (164) -- smithing hammers + rivets
+  (6623, 91121,    500, 164,  75, 0, 0, 0, 0, 0),   -- Bronze Smithing Hammer
+  (6623, 91252,    500, 164,  75, 0, 0, 0, 0, 0),   -- Bronze Rivets
+  (6623, 91123,    500, 164, 150, 0, 0, 0, 0, 0),   -- Iron Smithing Hammer
+  (6623, 91125,    500, 164, 225, 0, 0, 0, 0, 0),   -- Mithril Smithing Hammer
+  (6623, 91253,   5000, 164, 225, 0, 0, 0, 0, 0),   -- Truesilver Rivets
+  (6623, 91127,    500, 164, 300, 0, 0, 0, 0, 0),   -- Thorium Smithing Hammer
+  (6623, 91254,  50000, 164, 300, 0, 0, 0, 0, 0),   -- Adamantite Rivets
+  (6623, 91129,    500, 164, 375, 0, 0, 0, 0, 0),   -- Felsteel Smithing Hammer
+  (6623, 91255, 100000, 164, 375, 0, 0, 0, 0, 0),   -- Saronite Rivets
+  (6623, 91131,    500, 164, 450, 0, 0, 0, 0, 0),   -- Titanium Smithing Hammer
+
+  -- Engineering (202) -- tinkering tools + drills
+  (6623, 91218,    500, 202,  75, 0, 0, 0, 0, 0),   -- Journeyman Tinkering Tools
+  (6623, 91263,    500, 202,  75, 0, 0, 0, 0, 0),   -- Bronze Drill
+  (6623, 91219,   5000, 202, 225, 0, 0, 0, 0, 0),   -- Artisan Tinkering Tools
+  (6623, 91264,   5000, 202, 225, 0, 0, 0, 0, 0),   -- Gold Drill
+  (6623, 91220,  50000, 202, 300, 0, 0, 0, 0, 0),   -- Master Tinkering Tools
+  (6623, 91265,  50000, 202, 300, 0, 0, 0, 0, 0),   -- Fel Iron Drill
+  (6623, 91221, 100000, 202, 375, 0, 0, 0, 0, 0),   -- Grand Master Tinkering Tools
+  (6623, 91266, 100000, 202, 375, 0, 0, 0, 0, 0),   -- Saronite Drill
+
+  -- Jewelcrafting (755) -- fasteners + jeweler's kits
+  (6623, 91256,    500, 755,  75, 0, 0, 0, 0, 0),   -- Bronze Fasteners
+  (6623, 91267,   1000, 755,  75, 0, 0, 0, 0, 0),   -- Journeyman Jewelers Kit
+  (6623, 91257,   5000, 755, 225, 0, 0, 0, 0, 0),   -- Truesilver Fasteners
+  (6623, 91268,  10000, 755, 225, 0, 0, 0, 0, 0),   -- Artisan Jewelers Kit
+  (6623, 91258,  50000, 755, 300, 0, 0, 0, 0, 0),   -- Adamantite Fasteners
+  (6623, 91269, 100000, 755, 300, 0, 0, 0, 0, 0),   -- Master Jewelers Kit
+  (6623, 91259, 100000, 755, 375, 0, 0, 0, 0, 0),   -- Saronite Fasteners
+  (6623, 91270, 200000, 755, 375, 0, 0, 0, 0, 0);   -- Grand Master Jewelers Kit
