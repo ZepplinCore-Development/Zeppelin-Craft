@@ -84,17 +84,10 @@ UPDATE npc_spellclick_spells SET cast_flags = 0
 --
 -- The escort path itself (`waypoints` entry 38111 -> the coop, then ESCORT_REACHED
 -- rows 3-7 on creature 38111 activate GO 106846 and despawn) is unchanged.
-DELETE FROM smart_scripts WHERE source_type = 9 AND entryorguid = 3811100;
-INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
-  (3811100, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Clear NPC flags (no second click)'),
-  (3811100, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38117, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Quest credit to the invoker'),
-  (3811100, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Stop wandering (MoveIdle)'),
-  (3811100, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 2, 35, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Set faction 35'),
-  (3811100, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 57403, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Flight BEFORE moving (I-318)'),
-  (3811100, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 74177, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast the jetpack visual'),
-  (3811100, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 96840, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Rocket Trail'),
-  (3811100, 9, 7, 0, 0, 0, 100, 0, 0, 0, 0, 0, 69, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 8, 0, 'Wild Clucker - Captured - Rocket 8y straight up (I-318)'),
-  (3811100, 9, 8, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - After the climb, fly the escort path to the coop');
+-- The authoritative definition of actionlist 3811100 is the single DELETE +
+-- INSERT at the end of section 5 - it carries the final state including the
+-- SET_FLY and emote-state beats added later. One representation per id: this
+-- section describes the design, section 5 is where the rows live.
 
 -- ---------------------------------------------------------------------------
 -- 3. The cluckers never wandered - a one-shot MoveIdle was killing it.
@@ -210,10 +203,50 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3811100, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38117, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Quest credit to the invoker'),
   (3811100, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Stop wandering (MoveIdle)'),
   (3811100, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 2, 35, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Set faction 35'),
-  (3811100, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 60, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - SET_FLY + disable gravity, so CanFly() is true (I-318)'),
+  (3811100, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 60, 1, 100, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - SET_FLY + disable gravity + restore run rate 1.0 for the flight (I-318)'),
   (3811100, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 57403, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Flight'),
   (3811100, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 74177, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast the jetpack visual'),
   (3811100, 9, 7, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 96840, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Rocket Trail'),
   (3811100, 9, 8, 0, 0, 0, 100, 0, 0, 0, 0, 0, 17, 437, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Emote state 437 STATE_SWIM_IDLE (anim 41) for the flight (I-318)'),
   (3811100, 9, 9, 0, 0, 0, 100, 0, 0, 0, 0, 0, 69, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 8, 0, 'Wild Clucker - Captured - Rocket 8y straight up (I-318)'),
   (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - After the climb, fly the escort path to the coop');
+
+-- ---------------------------------------------------------------------------
+-- 6. Run anim on the ground, at the pace the anim was actually authored for.
+-- ---------------------------------------------------------------------------
+-- The animation the client plays for a wander is decided by the spline's walk
+-- flag, and `RandomMovementGenerator` reads it from the movement template:
+--
+--     case CreatureRandomMovementType::CanRun:    walk = creature->IsWalking(); break;
+--     case CreatureRandomMovementType::AlwaysRun: walk = false;                 break;
+--
+-- `Random` was NULL, which ObjectMgr defaults to Walk (0). Random = 2 (AlwaysRun)
+-- gives the Run animation.
+--
+-- The speeds then have to match the model or the legs and the ground disagree.
+-- BUSHCHICKEN.M2 stores the pace each locomotion sequence was authored for in its
+-- sequence header (float at record offset 8):
+--
+--     Walk (4)  1000 ms   authored 2.5000 yd/s
+--     Run  (5)   500 ms   authored 4.1667 yd/s
+--
+-- and AC's `baseMoveSpeed` is 2.5 for MOVE_WALK, 7.0 for MOVE_RUN, so the
+-- creature_template multipliers were both wrong against the model:
+--
+--     speed_walk 0.5 -> 1.25 yd/s = 0.50x the Walk anim  (this is the reported
+--                                    "walk anim is super slow" - the cycle is
+--                                    scaled to the ratio, so it crawls)
+--     speed_run  1.0 -> 7.00 yd/s = 1.68x the Run anim
+--
+-- 4.1667 / 7.0 = 0.595238 makes the Run spline travel at exactly the pace the Run
+-- animation was drawn for. speed_walk goes to 1.0 for the same reason - unused now
+-- that the wander always runs, but it was demonstrably half its anim's pace and
+-- would slide the moment anything walked them.
+UPDATE creature_template_movement SET Random = 2 WHERE CreatureId = 38111;
+UPDATE creature_template SET speed_walk = 1, speed_run = 0.595238 WHERE entry = 38111;
+
+-- The escort flight also runs (WP_START param1 = 1), so lowering speed_run would
+-- have slowed the trip to the coop as a side effect. SMART_ACTION_SET_FLY's second
+-- param exists exactly for this - `SetSpeed(MOVE_RUN, speed / 100.0f, true)` - so
+-- actionlist entry 4 now passes 100, restoring rate 1.0 (7.0 yd/s) for the flight
+-- only. Ground pace and flight pace are decoupled.
