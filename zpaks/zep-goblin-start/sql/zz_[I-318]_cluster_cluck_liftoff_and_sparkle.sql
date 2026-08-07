@@ -163,3 +163,57 @@ UPDATE creature SET MovementType = 1, wander_distance = 10 WHERE id = 38111;
 -- rocket takes it up the same branch that would have stripped the flag now
 -- maintains it.
 UPDATE creature_template_movement SET Ground = 1, Flight = 2 WHERE CreatureId = 38111;
+
+-- ---------------------------------------------------------------------------
+-- 5. Walk on the ground; fly (and hold SwimIdle) only once rocketed.
+-- ---------------------------------------------------------------------------
+-- Section 4's Ground=1/Flight=2 stopped short: `Creature::CanFly()` is
+--
+--     bool CanFly() const override { return GetMovementTemplate().IsFlightAllowed() || IsFlying(); }
+--
+-- so ANY non-zero Flight makes CanFly() true even while the bird is stood on the
+-- ground. `UpdateAllowedPositionZ` then never clamps the wander destination to the
+-- terrain, and the random movement generator picks points in the air - the birds
+-- swam around the sky. (The client falls back to the swim anims for a flying model
+-- with no flight sequences, which is what that looked like: BUSHCHICKEN.M2 has
+-- Stand / Walk / Run / Jump / Fall / Swim and no Fly* at all.)
+--
+-- Flight must therefore be 0 for a grounded wander. But Flight 0 alone breaks the
+-- capture, twice over:
+--   * `SetCanFly()` only sets MOVEMENTFLAG_CAN_FLY, while `IsFlying()` tests
+--     MOVEMENTFLAG_FLYING | DISABLE_GRAVITY - so capture spell 57403 (aura 201)
+--     leaves CanFly() false and the climb would be re-clamped to the ground; and
+--   * `UpdateMovementFlags` strips CAN_FLY and DISABLE_GRAVITY on every update when
+--     `IsFlightAllowed()` is false.
+--
+-- Hence all three of:
+--   * Flight 0 / Ground 1 (Run)          - walks while idle, wander clamps to terrain
+--   * flags_extra |= 0x200               - CREATURE_FLAG_EXTRA_NO_MOVE_FLAGS_UPDATE,
+--                                          so UpdateMovementFlags returns early and
+--                                          stops undoing the capture state
+--   * SMART_ACTION_SET_FLY (60) at capture - SmartAI::SetFly -> SetCanFly(true) AND
+--                                          setFly.disableGravity -> SetDisableGravity(true),
+--                                          which is what actually makes IsFlying()
+--                                          (and so CanFly()) true for the climb.
+UPDATE creature_template_movement SET Ground = 1, Flight = 0 WHERE CreatureId = 38111;
+UPDATE creature_template SET flags_extra = flags_extra | 0x200 WHERE entry = 38111;
+
+-- Actionlist rebuilt with the two new beats. SET_FLY (60) params are
+-- fly / speed / disableGravity per the struct (the header comment is "0/1" only).
+-- SET_EMOTE_STATE (17) writes UNIT_NPC_EMOTESTATE; emote 437 STATE_SWIM_IDLE is the
+-- one that maps to AnimationData 41 SwimIdle, with EmoteSpecProc 2 (a looping state),
+-- so the airborne bird holds that pose instead of falling back to Stand. It is never
+-- cleared because the bird despawns at the coop.
+DELETE FROM smart_scripts WHERE source_type = 9 AND entryorguid = 3811100;
+INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
+  (3811100, 9, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Clear NPC flags (no second click)'),
+  (3811100, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38117, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Quest credit to the invoker'),
+  (3811100, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Stop wandering (MoveIdle)'),
+  (3811100, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 2, 35, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Set faction 35'),
+  (3811100, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 60, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - SET_FLY + disable gravity, so CanFly() is true (I-318)'),
+  (3811100, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 57403, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Flight'),
+  (3811100, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 74177, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast the jetpack visual'),
+  (3811100, 9, 7, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 96840, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Rocket Trail'),
+  (3811100, 9, 8, 0, 0, 0, 100, 0, 0, 0, 0, 0, 17, 437, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Emote state 437 STATE_SWIM_IDLE (anim 41) for the flight (I-318)'),
+  (3811100, 9, 9, 0, 0, 0, 100, 0, 0, 0, 0, 0, 69, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 8, 0, 'Wild Clucker - Captured - Rocket 8y straight up (I-318)'),
+  (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - After the climb, fly the escort path to the coop');
