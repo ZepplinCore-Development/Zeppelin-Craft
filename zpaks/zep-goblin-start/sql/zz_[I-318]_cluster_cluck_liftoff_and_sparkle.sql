@@ -132,3 +132,34 @@ UPDATE creature SET MovementType = 1, wander_distance = 10 WHERE id = 38111;
 -- Capture still stops the wander before lift-off: actionlist 3811100 id 2 is
 -- RANDOM_MOVE 0, i.e. the very MoveIdle described above - which is exactly what it
 -- is for in that context.
+
+-- ---------------------------------------------------------------------------
+-- 4. ...but they wandered through the AIR, because the bird had no ground mode.
+-- ---------------------------------------------------------------------------
+-- The donor's `creature_template.InhabitType` for 38111 is 4 (air only), and
+-- immunities_movement.py maps those bits straight to Ground/Swim/Flight, giving
+-- Ground = 0 (CreatureGroundMovementType::None) and Flight = 1 (DisableGravity).
+-- A creature with Ground = None has no ground movement at all, so the moment
+-- section 3 turned wandering on, 65 chickens drifted around in the air.
+--
+-- It never showed before because the MoveIdle row froze them on the spot, which
+-- is presumably why the donor never noticed either.
+--
+-- BUSHCHICKEN.M2 settles what it should be: 18 animations, none of them flight —
+-- Stand / Walk / Run / Jump / Fall / Swim / AttackUnarmed. A flying clucker has no
+-- anim to play and glides in its Stand pose. It is a ground bird that gets a rocket
+-- strapped to it, not a flyer.
+--
+-- Flight must NOT go to 0. `Creature::UpdateMovementFlags` strips the flag when the
+-- template forbids flight:
+--
+--     if (GetMovementTemplate().IsFlightAllowed() && isInAir && !IsFalling()) { ... }
+--     else { if (m_movementInfo.HasMovementFlag(MOVEMENTFLAG_CAN_FLY)) SetCanFly(false); ... }
+--
+-- and `IsFlightAllowed()` is `Flight != None`, so Flight = 0 would undo the
+-- SetCanFly(true) that capture spell 57403 (SPELL_AURA_FLY) applies, breaking the
+-- lift-off. Flight = 2 (CanFly) instead: while the bird is on the ground `isInAir`
+-- is false, so the else branch keeps it walking with no fly flags, and once the
+-- rocket takes it up the same branch that would have stripped the flag now
+-- maintains it.
+UPDATE creature_template_movement SET Ground = 1, Flight = 2 WHERE CreatureId = 38111;
