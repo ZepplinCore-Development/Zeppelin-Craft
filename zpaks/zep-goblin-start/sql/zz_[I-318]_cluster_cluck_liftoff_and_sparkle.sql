@@ -246,8 +246,22 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 -- which gives ratio 1.0: native cycle rate AND the stride the animation actually
 -- depicts. Ships in PATCH-Z; the DBC/MPQ half and the SQL half must land together.
 --
--- 0.36 yd/s is a genuine chicken potter, which is what the animator drew. Combined
--- with wander_distance 4 (section 3) the birds mill about their spawn.
+-- WITH THE FIELD HONEST, SPEED BECOMES A FREE KNOB. Playback rate is
+-- (speed / authored), so the cycle lasts 1000ms * authored / speed and the ground
+-- covered per cycle is
+--
+--     speed * cycle = speed * (1000ms * authored / speed) = 1000ms * authored
+--                   = 0.3611 yards, INVARIANT at every speed
+--
+-- The feet therefore cannot slide again whatever value is chosen - lowering the
+-- speed slows the legs and the body together and the two stay locked. That is only
+-- true because the authored figure now matches the art; while it was the false 2.5,
+-- every change to speed desynced them, which is what made sections 7-9 unwinnable.
+--
+-- Native rate (0.3611 yd/s) read as too brisk in game, so the cadence is halved:
+-- speed_walk 0.072222 -> 0.1806 yd/s, 0.50x rate, a 2000ms cycle, same 0.3611 yd
+-- stride. Purely taste now; scale it freely (0.048148 = a third, 0.036111 = a
+-- quarter) without touching the model.
 --
 -- Which anim plays is `creature_template_movement.Random`, read by
 -- `RandomMovementGenerator` to set the spline's walk flag:
@@ -272,12 +286,12 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 -- ---------------------------------------------------------------------------
 --   npcflag      0          section 1 - no spellclick affordance
 --   flags_extra  |0x200     section 5 - NO_MOVE_FLAGS_UPDATE, keeps capture flight
---   speed_walk   0.144444   section 6 - 0.3611 yd/s, ratio 1.0 vs the repaired M2
+--   speed_walk   0.072222   section 6 - 0.1806 yd/s, half cadence, stride locked
 --   speed_run    1          section 6 - donor value, overridden per-flight by SET_FLY
 UPDATE creature_template SET
   npcflag = 0,
   flags_extra = flags_extra | 0x200,
-  speed_walk = 0.144444,
+  speed_walk = 0.072222,
   speed_run = 1
 WHERE entry = 38111;
 
