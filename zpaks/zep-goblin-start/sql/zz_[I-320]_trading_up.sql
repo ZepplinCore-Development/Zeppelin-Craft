@@ -315,7 +315,24 @@ WHERE entry = 38195;
 --
 -- The decoy needs no despawn backstop: spell 56576 has duration index 9 (30s), so the
 -- TempSummon expires on its own if nothing at all happens.
-DELETE FROM smart_scripts WHERE source_type = 0 AND entryorguid IN (38195, 38187);
+-- Marker 75113 carries DONOR SAI of its own, which surfaced the moment NOISE_KEEP put
+-- it back in the sweep (2026-08-08 gen run). It is the donor's real trap mechanism and
+-- it cannot work here:
+--   (75113, ev 11 RESPAWN      -> act 50 SUMMON_GO 201972)
+--   (75113, ev 8 SPELLHIT 98914 -> act 9 ACTIVATE_GOBJECT, target 20 CLOSEST_GO 201972)
+--   (75113, linked              -> act 41 FORCE_DESPAWN 1000)
+-- i.e. each marker summons retail's Raptor Trap 201972 on respawn, and springs it when
+-- hit by 98914. **GO 201972 does not exist in our gameobject_template** — the GO sweep is
+-- spawn-driven and 201972 is only ever SAI-summoned, so it was never ported. Left alone,
+-- all 24 markers would log "Gameobject template 201972 not found in database!" at every
+-- grid load and the trap would never appear.
+--
+-- We do it with the static GO 310000 + its own SmartAI instead (below), which is built
+-- and tested. Strip the donor rows. This DELETE must stay even after a clean gen run —
+-- the AUTO file will re-emit them every time. The eventual source fix is a
+-- `smartai_exclude` fixture entry for 75113; not done here because that fixture is
+-- currently mid-edit in another session.
+DELETE FROM smart_scripts WHERE source_type = 0 AND entryorguid IN (38195, 38187, 75113);
 DELETE FROM smart_scripts WHERE source_type = 1 AND entryorguid = 310000;
 DELETE FROM smart_scripts WHERE source_type = 9 AND entryorguid IN (3819500, 3819501, 3818700, 3818701, 31000000);
 INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
