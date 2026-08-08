@@ -105,8 +105,12 @@ SET @ABOM := 10564;
             `probability` = 1.0;
 
     -- DEATHGUARD GEORGE Creature
-    DELETE FROM `creature` WHERE `id` = @GEORGE;
+-- Explicit guids: creature.guid is auto_increment and the counter now sits inside
+-- 12000000-12999999, the block zz_[AUTO,F-011]_40_creature.sql wipes on every apply.
+-- Guid-less INSERTs here were silently deleted the next time that file ran.
+    DELETE FROM `creature` WHERE `id` = @GEORGE OR `guid` = 3110750;
     INSERT INTO `creature` SET
+        `guid` = 3110750,
         `id` = @GEORGE,
         `position_x` = 1394.91,
         `position_y` = 273.723,
@@ -149,9 +153,10 @@ SET @ABOM := 10564;
             `probability` = 1.0;
 
     -- Failed Abominations Creature 
-        DELETE FROM `creature` WHERE `id` = @ABOM;
+        DELETE FROM `creature` WHERE `id` = @ABOM OR `guid` BETWEEN 3110751 AND 3110759;
 
         INSERT INTO `creature` SET
+            `guid` = 3110751,
             `id` = @ABOM,
             `position_x` = 1584.77,
             `position_y` = 90.939,
@@ -164,6 +169,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
+            `guid` = 3110752,
             `id` = @ABOM,
             `position_x` = 1584.3,
             `position_y` = 128.86,
@@ -176,6 +182,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
+            `guid` = 3110753,
             `id` = @ABOM,
             `position_x` = 1635.79,
             `position_y` = 125.086,
@@ -188,6 +195,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
+            `guid` = 3110754,
             `id` = @ABOM,
             `position_x` = 1725.56,
             `position_y` = 102.697,
@@ -200,6 +208,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
+            `guid` = 3110755,
             `id` = @ABOM,
             `position_x` = 1753.24,
             `position_y` = 120.584,
@@ -212,6 +221,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
+            `guid` = 3110756,
             `id` = @ABOM,
             `position_x` = 1620.35,
             `position_y` = 89.1532,
@@ -224,6 +234,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
+            `guid` = 3110757,
             `id` = @ABOM,
             `position_x` = 1694.29,
             `position_y` = 153.519,
@@ -236,6 +247,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
+            `guid` = 3110758,
             `id` = @ABOM,
             `position_x` = 1667.2,
             `position_y` = 118.361,
@@ -248,6 +260,7 @@ SET @ABOM := 10564;
             `VerifiedBuild` = NULL;
 
         INSERT INTO `creature` SET
+            `guid` = 3110759,
             `id` = @ABOM,
             `position_x` = 1796.18,
             `position_y` = 105.216,

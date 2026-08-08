@@ -1,8 +1,12 @@
 -- Remove the trash in Room 1 of UBRS to make room for players to spawn in RDF
-DELETE FROM `creature` WHERE (`id` = 9817 OR `id` = 9818);
+-- Explicit guids: creature.guid is auto_increment and the counter now sits inside
+-- 12000000-12999999, the block zz_[AUTO,F-011]_40_creature.sql wipes on every apply.
+-- Guid-less INSERTs here were silently deleted the next time that file ran.
+DELETE FROM `creature` WHERE (`id` = 9817 OR `id` = 9818) OR (`guid` BETWEEN 3110800 AND 3110827);
 DELETE FROM `creature_addon` WHERE `guid` = 137933;
 
 INSERT INTO `creature` SET
+    `guid` = 3110800,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -13,6 +17,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110801,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -23,6 +28,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110802,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -34,6 +40,7 @@ INSERT INTO `creature` SET
     `MovementType` = 2;
 
 INSERT INTO `creature` SET
+    `guid` = 3110803,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -44,6 +51,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110804,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -54,6 +62,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110805,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -64,6 +73,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110806,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -74,6 +84,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110807,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -84,6 +95,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110808,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -94,6 +106,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110809,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -104,6 +117,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110810,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -114,6 +128,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110811,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -124,6 +139,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110812,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -134,6 +150,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110813,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -144,6 +161,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110814,
     `id` = 9817,
     `map` = 229,
     `equipment_id` = 1,
@@ -154,6 +172,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110815,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -164,6 +183,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110816,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -174,6 +194,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110817,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -184,6 +205,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110818,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -194,6 +216,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110819,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -204,6 +227,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110820,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -214,6 +238,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110821,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -224,6 +249,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110822,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -234,6 +260,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110823,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -244,6 +271,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110824,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -254,6 +282,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110825,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -264,6 +293,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110826,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,
@@ -274,6 +304,7 @@ INSERT INTO `creature` SET
     `spawntimesecs` = 7200;
 
 INSERT INTO `creature` SET
+    `guid` = 3110827,
     `id` = 9818,
     `map` = 229,
     `equipment_id` = 1,

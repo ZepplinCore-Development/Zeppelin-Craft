@@ -24,9 +24,13 @@
         `probability` = 1.0;
 
 -- Dreegz Knutz - Creature
-    DELETE FROM `creature` WHERE (`id1` = 9000004);
+-- Explicit guids: creature.guid is auto_increment and the counter now sits inside
+-- 12000000-12999999, the block zz_[AUTO,F-011]_40_creature.sql wipes on every apply.
+-- Guid-less INSERTs here were silently deleted the next time that file ran.
+    DELETE FROM `creature` WHERE (`id` = 9000004) OR (`guid` = 3110740);
     INSERT INTO `creature` SET
-        `id1` = 9000004,
+        `guid` = 3110740,
+        `id` = 9000004,
         `map` = 409,
         `position_x` = 1066.5,
         `position_y` = -496.157,

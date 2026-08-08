@@ -8,9 +8,12 @@
 -- ========================================
 -- FARII - Exodar (stock spawn restore)
 -- ========================================
-DELETE FROM `creature` WHERE `id` = 19778;
-INSERT INTO `creature` (`id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `curhealth`, `curmana`)
-VALUES (19778, 530, -3781.55, -11541.8, -134.744, 1.93941, 120, 811, 852);
+-- Explicit guid: creature.guid is auto_increment and the counter now sits inside
+-- 12000000-12999999, which zz_[AUTO,F-011]_40_creature.sql wipes on every apply.
+-- A guid-less INSERT here is silently deleted the next time that file runs.
+DELETE FROM `creature` WHERE `id` = 19778 OR `guid` = 3110710;
+INSERT INTO `creature` (`guid`, `id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `curhealth`, `curmana`)
+VALUES (3110710, 19778, 530, -3781.55, -11541.8, -134.744, 1.93941, 120, 811, 852);
 
 -- ========================================
 -- FARIS - Stormwind Jewelcrafting Trainer
@@ -52,9 +55,9 @@ DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 72;
 INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (72, 113);
 
 -- Spawn Faris in Stormwind Dwarven District
-DELETE FROM `creature` WHERE `id` = 72;
-INSERT INTO `creature` (`id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
-(72, 0, -8714.3, 620.1, 100.9, 0.06, 300);
+DELETE FROM `creature` WHERE `id` = 72 OR `guid` = 3110711;
+INSERT INTO `creature` (`guid`, `id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
+(3110711, 72, 0, -8714.3, 620.1, 100.9, 0.06, 300);
 
 -- ========================================
 -- NESSERA - Stormwind Jewelcrafting Supplies
@@ -111,9 +114,9 @@ INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Exte
 (76, 0, 28470, 0, 0, 0); -- Thick Amber
 
 -- Spawn Nessera next to Faris in Stormwind Dwarven District
-DELETE FROM `creature` WHERE `id` = 76;
-INSERT INTO `creature` (`id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
-(76, 0, -8714.3, 624.7, 101, 0.06, 300);
+DELETE FROM `creature` WHERE `id` = 76 OR `guid` = 3110712;
+INSERT INTO `creature` (`guid`, `id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
+(3110712, 76, 0, -8714.3, 624.7, 101, 0.06, 300);
 
 -- ========================================
 -- STORMWIND GUARD GOSSIP - Jewelcrafting

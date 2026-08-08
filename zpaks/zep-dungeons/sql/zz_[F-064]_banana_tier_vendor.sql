@@ -26,11 +26,14 @@ INSERT INTO `creature_template_model` SET
     `probability` = 1.0;
 
 -- Banana Spawns
-DELETE FROM `creature` WHERE (`id` = 9000010);
-INSERT INTO `creature` (`id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`) VALUES
-(9000010,531,0,0,1,1,0,-8203.28,2002.19,132.381,2.63284,300,0.0,0,10080,8814,0,0,0,0,'',NULL), -- Ahn'Qiraj Temple
-(9000010,469,0,0,1,1,0,-7622.12,-1095.21,407.206,2.15634,300,0.0,0,10080,8814,0,0,0,0,'',NULL), -- Blackwing Lair
-(9000010,409,0,0,1,1,0,1062.93,-491.835,-108.7,0.639821,300,0.0,0,10080,8814,0,0,0,0,'',NULL); -- Molten Core
+-- Explicit guids: creature.guid is auto_increment and the counter now sits inside
+-- 12000000-12999999, the block zz_[AUTO,F-011]_40_creature.sql wipes on every apply.
+-- Guid-less INSERTs here were silently deleted the next time that file ran.
+DELETE FROM `creature` WHERE (`id` = 9000010) OR (`guid` BETWEEN 3110720 AND 3110722);
+INSERT INTO `creature` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`) VALUES
+(3110720,9000010,531,0,0,1,1,0,-8203.28,2002.19,132.381,2.63284,300,0.0,0,10080,8814,0,0,0,0,'',NULL), -- Ahn'Qiraj Temple
+(3110721,9000010,469,0,0,1,1,0,-7622.12,-1095.21,407.206,2.15634,300,0.0,0,10080,8814,0,0,0,0,'',NULL), -- Blackwing Lair
+(3110722,9000010,409,0,0,1,1,0,1062.93,-491.835,-108.7,0.639821,300,0.0,0,10080,8814,0,0,0,0,'',NULL); -- Molten Core
 
 -- Banana Vendor Items
 DELETE FROM `npc_vendor` WHERE (`entry` = 9000010);

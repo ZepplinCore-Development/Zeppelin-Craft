@@ -75,9 +75,11 @@ INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`,
 (70, 0, 24289, 1, 1); -- Fendrig Redbeard model
 
 -- Spawn the new mining trainer in Darnassus
-DELETE FROM `creature` WHERE `id` = 70;
-INSERT INTO `creature` (`id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
-(70, 1, 9923.672, 2311.778, 1330.7888, 2.5290294, 300);
+-- Explicit guid (see zz_[F-089]_classic_trainers.sql): guid-less inserts land in
+-- the 12000000-12999999 block that zz_[AUTO,F-011]_40_creature.sql wipes.
+DELETE FROM `creature` WHERE `id` = 70 OR `guid` = 3110713;
+INSERT INTO `creature` (`guid`, `id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
+(3110713, 70, 1, 9923.672, 2311.778, 1330.7888, 2.5290294, 300);
 
 -- Assign mining trainer template to Borin Irondelve (80 = standard Mining Trainer, 0-250 skill)
 -- Matches other Classic city mining trainers (Kurdram Stonehammer, Geofram Bouldertoe, etc.)
