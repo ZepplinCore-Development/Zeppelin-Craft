@@ -207,13 +207,14 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3811100, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38117, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Quest credit to the invoker'),
   (3811100, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Stop wandering (MoveIdle)'),
   (3811100, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 2, 35, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Set faction 35'),
-  (3811100, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 60, 1, 100, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - SET_FLY + disable gravity + restore run rate 1.0 for the flight (I-318)'),
+  (3811100, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 60, 1, 100, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - SET_FLY + disable gravity; MOVE_RUN rate 1.0 for the climb (I-318)'),
   (3811100, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 57403, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Flight'),
   (3811100, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 74177, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast the jetpack visual'),
   (3811100, 9, 7, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 96840, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Rocket Trail'),
   (3811100, 9, 8, 0, 0, 0, 100, 0, 0, 0, 0, 0, 17, 437, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Emote state 437 STATE_SWIM_IDLE (anim 41) for the flight (I-318)'),
   (3811100, 9, 9, 0, 0, 0, 100, 0, 0, 0, 0, 0, 69, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 8, 0, 'Wild Clucker - Captured - Rocket 8y straight up (I-318)'),
-  (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - After the climb, fly the escort path to the coop');
+  (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 60, 1, 300, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Ramp MOVE_RUN to 3.0 (21 yd/s) for the cross-country leg (I-318)'),
+  (3811100, 9, 11, 0, 0, 0, 100, 0, 0, 0, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Fly the escort path to the coop');
 
 -- ---------------------------------------------------------------------------
 -- 6. The shipped M2 lied about its Walk speed. That was the whole problem.
@@ -277,9 +278,9 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 -- `GetCreatureMovementOverride(m_spawnId)` first) and `.reload creature_template`
 -- does not refresh it.
 --
--- speed_run stays at the donor 1.0 - unused while the wander walks, and the escort
--- flight pins its own rate anyway: actionlist entry 4 passes 100 to
--- SMART_ACTION_SET_FLY, i.e. `SetSpeed(MOVE_RUN, 100 / 100.0f, true)`.
+-- speed_run stays at the donor 1.0 - unused while the wander walks (Random 0 means
+-- ground movement takes MOVE_WALK), so MOVE_RUN belongs entirely to the capture
+-- flight and the actionlist sets it explicitly at both stages. See section 8.
 
 -- ---------------------------------------------------------------------------
 -- Final state - one consolidated UPDATE per row id (see the SQL standard).
@@ -326,3 +327,34 @@ WHERE CreatureId = 38111;
 DELETE FROM creature_template_model WHERE CreatureID = 38111;
 INSERT INTO creature_template_model (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES
   (38111, 0, 30971, 1, 1, 0);
+
+-- ---------------------------------------------------------------------------
+-- 8. The flight to the coop is a cross-country leg, and needs its own speed.
+-- ---------------------------------------------------------------------------
+-- The climb reads as a quick rocket and the trip to the coop as a crawl, even
+-- though both run at the same speed. The difference is distance, not speed: the
+-- climb is 8 yards, while the escort path is FIXED near the coop (`waypoints` entry
+-- 38111 starts at 394, -10467) and the 65 spawns are spread from x 313-496 /
+-- y -10432 to -10541 - so a bird captured at the far edge has to cover well over a
+-- hundred yards to reach point 1. At 7 yd/s that is a quarter of a minute of
+-- gliding.
+--
+-- Which speed governs it is worth pinning down, because it is not the obvious one:
+--
+--     UnitMoveType MovementInfo::GetSpeedType(uint32 moveFlags)
+--     { if (moveFlags & MOVEMENTFLAG_FLYING) return MOVE_FLIGHT; ... return MOVE_RUN; }
+--
+-- keys on MOVEMENTFLAG_FLYING, which nothing here sets - SET_FLY gives CAN_FLY and
+-- DISABLE_GRAVITY, and neither is that flag. So both the climb and the escort take
+-- **MOVE_RUN**, and `speed_flight` (0.5) is never consulted despite the bird being
+-- airborne.
+--
+-- So the ramp goes on MOVE_RUN, after the climb, leaving the ascent at the pace it
+-- already had: a second SMART_ACTION_SET_FLY between MOVE_TO_POS and ESCORT_START,
+-- passing 300 -> `SetSpeed(MOVE_RUN, 300 / 100.0f, true)` = rate 3.0 = 21 yd/s,
+-- three times player run speed. Well inside the spline clamp, which is
+--
+--     min(velocity, catmullrom || flying ? 50.0 : max(28.0, GetSpeed(MOVE_RUN) * 4.0))
+--
+-- i.e. max(28.0, 84.0) = 84 once the rate is 3.0. To push it further, change that
+-- one param: 400 = 28 yd/s, 500 = 35 yd/s.
