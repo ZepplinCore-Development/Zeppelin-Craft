@@ -250,9 +250,58 @@ end)
 
 -- The client's own SetLootMethod() refuses with "You aren't in a party." whenever
 -- it cannot see a party, and a solo LFG group never presents one -- the opcode is
--- dropped before it leaves the client. So solo we go through the server command
--- (.lootmethod, mod-solo-lfg), which has no such restriction. With a visible party
--- the native API is preferred: it keeps the client's own loot state in sync.
+-- dropped before it leaves the client. So solo we issue the server command over
+-- AzerothCore's built-in addon command channel (AddonChannelCommandHandler,
+-- Chat.cpp:991). WorldSession::HandleMessagechatOpcode routes LANG_ADDON traffic
+-- there (ChatHandler.cpp:302) *before* any target or party validation, so it is
+-- immune to the restriction that blocks the API. Nothing is ever spoken aloud.
+--
+-- Body after the prefix is <opcode><4-char counter><command>, no leading dot:
+--   'i' issue command   -> server answers 'a' ack, then 'o' ok or 'f' failed,
+--                          plus 'm' for each message line, echoing our counter.
+local ZEP_ADDON_PREFIX = "AzerothCore"
+local zepSeq = 0
+local zepPending = {}
+
+local function zepSendCommand(mode)
+    zepSeq = zepSeq % 9999 + 1
+    local counter = string.format("%04d", zepSeq)
+    zepPending[counter] = mode
+    -- WHISPER carries a target field the server reads but never validates before
+    -- the addon-command hand-off. GUILD is deliberately avoided: Warden claims
+    -- CHAT_MSG_GUILD + LANG_ADDON for its Lua check responses.
+    SendAddonMessage(ZEP_ADDON_PREFIX, "i" .. counter .. "lootmethod " .. mode.token,
+        "WHISPER", UnitName("player"))
+end
+
+local zepListener = CreateFrame("Frame")
+zepListener:RegisterEvent("CHAT_MSG_ADDON")
+zepListener:SetScript("OnEvent", function(_, _, prefix, message)
+    if prefix ~= ZEP_ADDON_PREFIX or not message then
+        return
+    end
+
+    local opcode = string.sub(message, 1, 1)
+    local counter = string.sub(message, 2, 5)
+    local mode = zepPending[counter]
+    if not mode then
+        return
+    end
+
+    if opcode == "m" then
+        -- The server's own wording. It never reaches normal chat on this path,
+        -- so surface it locally rather than leaving the player without feedback.
+        DEFAULT_CHAT_FRAME:AddMessage("|cff4CFF00Zeppelin|r: " .. string.sub(message, 6))
+    elseif opcode == "o" then
+        zepPending[counter] = nil
+        zepSelected = mode
+    elseif opcode == "f" then
+        -- Refused: stop claiming a mode we do not actually have.
+        zepPending[counter] = nil
+        zepSelected = nil
+    end
+end)
+
 local function zepApply(mode)
     if GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0 then
         if mode.method == "master" then
@@ -261,7 +310,7 @@ local function zepApply(mode)
             SetLootMethod(mode.method)
         end
     else
-        SendChatMessage(".lootmethod " .. mode.token, "SAY")
+        zepSendCommand(mode)
     end
 end
 
