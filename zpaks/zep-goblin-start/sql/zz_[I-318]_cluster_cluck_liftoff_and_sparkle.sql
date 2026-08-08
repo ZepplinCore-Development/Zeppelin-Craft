@@ -42,7 +42,6 @@
 -- rows (which reference GO guid 106846) against future regens for no gain.
 DELETE FROM npc_spellclick_spells WHERE npc_entry = 38111;
 DELETE FROM conditions WHERE SourceTypeOrReferenceId = 18 AND SourceGroup = 38111;
-UPDATE creature_template SET npcflag = 0 WHERE entry = 38111;
 UPDATE creature_template_addon SET auras = '' WHERE entry = 38111;
 UPDATE creature_addon SET auras = ''
  WHERE guid IN (11001802, 11001811, 11001812, 11001826,
@@ -155,7 +154,9 @@ UPDATE creature SET MovementType = 1, wander_distance = 10 WHERE id = 38111;
 -- is false, so the else branch keeps it walking with no fly flags, and once the
 -- rocket takes it up the same branch that would have stripped the flag now
 -- maintains it.
-UPDATE creature_template_movement SET Ground = 1, Flight = 2 WHERE CreatureId = 38111;
+--
+-- (Superseded by section 5 - Flight = 2 turned out to be wrong for a different
+-- reason. The single authoritative UPDATE is in "Final state" at the end.)
 
 -- ---------------------------------------------------------------------------
 -- 5. Walk on the ground; fly (and hold SwimIdle) only once rocketed.
@@ -188,8 +189,6 @@ UPDATE creature_template_movement SET Ground = 1, Flight = 2 WHERE CreatureId = 
 --                                          setFly.disableGravity -> SetDisableGravity(true),
 --                                          which is what actually makes IsFlying()
 --                                          (and so CanFly()) true for the climb.
-UPDATE creature_template_movement SET Ground = 1, Flight = 0 WHERE CreatureId = 38111;
-UPDATE creature_template SET flags_extra = flags_extra | 0x200 WHERE entry = 38111;
 
 -- Actionlist rebuilt with the two new beats. SET_FLY (60) params are
 -- fly / speed / disableGravity per the struct (the header comment is "0/1" only).
@@ -212,41 +211,70 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - After the climb, fly the escort path to the coop');
 
 -- ---------------------------------------------------------------------------
--- 6. Run anim on the ground, at the pace the anim was actually authored for.
+-- 6. Speed and animation: matched to the model, and why Run did not take.
 -- ---------------------------------------------------------------------------
--- The animation the client plays for a wander is decided by the spline's walk
--- flag, and `RandomMovementGenerator` reads it from the movement template:
+-- Which anim a wander plays is the spline's walk flag, which
+-- `RandomMovementGenerator` reads from the movement template:
 --
 --     case CreatureRandomMovementType::CanRun:    walk = creature->IsWalking(); break;
 --     case CreatureRandomMovementType::AlwaysRun: walk = false;                 break;
 --
--- `Random` was NULL, which ObjectMgr defaults to Walk (0). Random = 2 (AlwaysRun)
--- gives the Run animation.
+-- Random = 2 (AlwaysRun) was set and did NOT change the animation in game, while
+-- the speed change made in the same pass DID take. That split is the diagnosis:
 --
--- The speeds then have to match the model or the legs and the ground disagree.
--- BUSHCHICKEN.M2 stores the pace each locomotion sequence was authored for in its
--- sequence header (float at record offset 8):
+--     CreatureMovementData const& Creature::GetMovementTemplate() const
+--     {
+--         if (CreatureMovementData const* o = sObjectMgr->GetCreatureMovementOverride(m_spawnId))
+--             return *o;                       // <- per-SPAWN cache wins
+--         return GetCreatureTemplate()->Movement;
+--     }
+--
+-- `LoadCreatureMovementOverrides()` builds that per-spawn cache with a LEFT JOIN
+-- onto creature_template_movement, so every spawn holds its own copy.
+-- `.reload creature_template <entry>` refreshes creature_template (hence the new
+-- speed) but NOT that cache, so Ground/Flight/Random stayed at their startup
+-- values. The command that refreshes it is **`.reload creature_movement_override`**.
+-- So Random = 2 was never actually tested.
+--
+-- Speeds, from the model. BUSHCHICKEN.M2 stores the pace each locomotion sequence
+-- was authored for as a float at sequence-record offset 8:
 --
 --     Walk (4)  1000 ms   authored 2.5000 yd/s
 --     Run  (5)   500 ms   authored 4.1667 yd/s
 --
--- and AC's `baseMoveSpeed` is 2.5 for MOVE_WALK, 7.0 for MOVE_RUN, so the
--- creature_template multipliers were both wrong against the model:
+-- with AC `baseMoveSpeed` 2.5 (MOVE_WALK) and 7.0 (MOVE_RUN). Matching those
+-- exactly (speed_walk 1.0 = 2.5 yd/s) still read as too fast in game, so the
+-- authored figure is treated as an upper bound, not a target: speed_walk 0.25
+-- gives 0.625 yd/s, a quarter of the authored pace and of what was last tested.
 --
---     speed_walk 0.5 -> 1.25 yd/s = 0.50x the Walk anim  (this is the reported
---                                    "walk anim is super slow" - the cycle is
---                                    scaled to the ratio, so it crawls)
---     speed_run  1.0 -> 7.00 yd/s = 1.68x the Run anim
+-- Random goes back to 0 (Walk) so the result is deterministic rather than
+-- depending on whether the override cache has been reloaded - the walk anim is
+-- what has actually been on screen for every judgement so far. To try Run
+-- instead: set Random = 2 and speed_run = 0.595238 (4.1667/7.0) and run
+-- `.reload creature_movement_override`.
 --
--- 4.1667 / 7.0 = 0.595238 makes the Run spline travel at exactly the pace the Run
--- animation was drawn for. speed_walk goes to 1.0 for the same reason - unused now
--- that the wander always runs, but it was demonstrably half its anim's pace and
--- would slide the moment anything walked them.
-UPDATE creature_template_movement SET Random = 2 WHERE CreatureId = 38111;
-UPDATE creature_template SET speed_walk = 1, speed_run = 0.595238 WHERE entry = 38111;
+-- speed_run stays at the donor 1.0. It is unused while the wander walks, and the
+-- escort flight does not depend on it either: actionlist entry 4 passes 100 to
+-- SMART_ACTION_SET_FLY, i.e. `SetSpeed(MOVE_RUN, 100 / 100.0f, true)`, pinning the
+-- flight to rate 1.0 regardless of the template value.
 
--- The escort flight also runs (WP_START param1 = 1), so lowering speed_run would
--- have slowed the trip to the coop as a side effect. SMART_ACTION_SET_FLY's second
--- param exists exactly for this - `SetSpeed(MOVE_RUN, speed / 100.0f, true)` - so
--- actionlist entry 4 now passes 100, restoring rate 1.0 (7.0 yd/s) for the flight
--- only. Ground pace and flight pace are decoupled.
+-- ---------------------------------------------------------------------------
+-- Final state - one consolidated UPDATE per row id (see the SQL standard).
+-- ---------------------------------------------------------------------------
+--   npcflag      0        section 1 - no spellclick affordance
+--   flags_extra  |0x200   section 5 - NO_MOVE_FLAGS_UPDATE, keeps capture flight
+--   speed_walk   0.25     section 6 - 0.625 yd/s
+--   speed_run    1        section 6 - donor value, overridden per-flight by SET_FLY
+UPDATE creature_template SET
+  npcflag = 0,
+  flags_extra = flags_extra | 0x200,
+  speed_walk = 0.25,
+  speed_run = 1
+WHERE entry = 38111;
+
+--   Ground 1 (Run)  Flight 0 (None)  Random 0 (Walk)   sections 4-6
+UPDATE creature_template_movement SET
+  Ground = 1,
+  Flight = 0,
+  Random = 0
+WHERE CreatureId = 38111;
