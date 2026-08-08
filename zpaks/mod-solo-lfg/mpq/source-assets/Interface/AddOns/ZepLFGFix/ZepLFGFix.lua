@@ -101,3 +101,154 @@ function GetTexCoordsForRole(role)
     end
     return orig_GetTexCoordsForRole(role)
 end
+
+-------------------------------------------------------------------------------
+-- Fix 3: Loot method selection inside Dungeon Finder groups (F-204)
+-------------------------------------------------------------------------------
+-- Stock 3.3.5 locks the loot method for LFG groups in three separate places:
+--   a) UnitPopup_ShowMenu clears UnitPopupButtons["LOOT_METHOD"].nested when
+--      HasLFGRestrictions() is true, so the submenu arrow disappears.
+--   b) UnitPopup_HideButtons hides LOOT_METHOD outright when inParty == 0,
+--      which is always true when soloing RDF -- Group::BuildUpdate sends
+--      GetMembersCount() - 1 members, so a 1-man group reports no party at all.
+--   c) UnitPopup_OnUpdate disables the button when HasLFGRestrictions().
+--
+-- Those gates are shared with vote-kick, dungeon difficulty and instance reset
+-- handling, so faking HasLFGRestrictions() would unlock far more than loot.
+-- Instead we register a parallel set of menu entries under our own keys. Stock's
+-- if/elseif chains fall through on unrecognised values, leaving
+-- UnitPopupShown[level][index] at its default 1 and `enable` at 1, so ours are
+-- never hidden or disabled. UnitPopup_OnClick has no LFG gate at all and
+-- SetLootMethod() is not protected, so the click path itself needs nothing.
+--
+-- Server side: GroupHandler.cpp only accepts this for an LFG group when
+-- Group.AllowLootMethodChangeInLFG = 1 (F-204 core patch), and answers with a
+-- chat confirmation, since a solo group can never be told its own loot method.
+
+local ZEP_LOOT_MODES = {
+    { key = "ZEPLM_FREE_FOR_ALL",      method = "freeforall",      text = LOOT_FREE_FOR_ALL },
+    { key = "ZEPLM_ROUND_ROBIN",       method = "roundrobin",      text = LOOT_ROUND_ROBIN },
+    { key = "ZEPLM_MASTER_LOOTER",     method = "master",          text = LOOT_MASTER_LOOTER },
+    { key = "ZEPLM_GROUP_LOOT",        method = "group",           text = LOOT_GROUP_LOOT },
+    { key = "ZEPLM_NEED_BEFORE_GREED", method = "needbeforegreed", text = LOOT_NEED_BEFORE_GREED },
+}
+
+local ZEP_LOOT_ROOT = "ZEPLM_LOOT_METHOD"
+local zepModeByKey = {}
+local zepSelected = nil
+
+-- `dist = 0` is mandatory: UnitPopup_OnUpdate reads UnitPopupButtons[value].dist
+-- unconditionally and would error on a button without it.
+UnitPopupButtons[ZEP_LOOT_ROOT] = { text = LOOT_METHOD, dist = 0, nested = 1 }
+
+local zepSubMenu = {}
+for _, mode in ipairs(ZEP_LOOT_MODES) do
+    UnitPopupButtons[mode.key] = { text = mode.text, dist = 0 }
+    zepModeByKey[mode.key] = mode
+    table.insert(zepSubMenu, mode.key)
+end
+table.insert(zepSubMenu, "CANCEL")
+UnitPopupMenus[ZEP_LOOT_ROOT] = zepSubMenu
+
+-- Sit directly under the stock Loot Method entry in the self-portrait menu.
+local function zepInsertRoot(menu)
+    if not menu then
+        return
+    end
+    for _, value in ipairs(menu) do
+        if value == ZEP_LOOT_ROOT then
+            return
+        end
+    end
+    for index, value in ipairs(menu) do
+        if value == "LOOT_METHOD" then
+            table.insert(menu, index + 1, ZEP_LOOT_ROOT)
+            return
+        end
+    end
+    table.insert(menu, 1, ZEP_LOOT_ROOT)
+end
+zepInsertRoot(UnitPopupMenus["SELF"])
+
+-- Only take over where the stock entry cannot work. Stock needs a visible party
+-- AND leadership AND no LFG restrictions; the server only needs us to be the
+-- group leader, which a solo LFG group's single member always is.
+local function zepShouldOffer()
+    local inInstance, instanceType = IsInInstance()
+    if not inInstance or instanceType ~= "party" then
+        return false
+    end
+
+    local partyMembers = GetNumPartyMembers()
+    local raidMembers = GetNumRaidMembers()
+    if partyMembers == 0 and raidMembers == 0 then
+        -- Soloing a 5-man: the client sees no party, so there is no leader flag
+        -- to test. Server-side we are the leader of our own 1-man LFG group.
+        return true
+    end
+
+    if not IsPartyLeader() then
+        return false
+    end
+
+    -- Grouped and leading: stock already handles a normal party correctly, so
+    -- only step in when its own gate has locked us out.
+    return HasLFGRestrictions() and true or false
+end
+
+hooksecurefunc("UnitPopup_HideButtons", function()
+    local dropdownMenu = UIDROPDOWNMENU_INIT_MENU
+    local level = UIDROPDOWNMENU_MENU_LEVEL
+    local menu = UnitPopupMenus[UIDROPDOWNMENU_MENU_VALUE] or UnitPopupMenus[dropdownMenu.which]
+    if not menu then
+        return
+    end
+
+    local offer = zepShouldOffer()
+    if not offer then
+        -- Leaving RDF invalidates the remembered pick; the next group starts on
+        -- whatever the server defaults to (stock Need Before Greed).
+        zepSelected = nil
+    end
+
+    -- ShowMenu only rewrites UnitPopupButtons["LOOT_METHOD"].text after this
+    -- hook returns, so our own label is safe to set here.
+    -- GetLootMethod() is only trustworthy with a visible party: Group::BuildUpdate
+    -- omits the loot method for a 1-man group, so solo we show what we last asked
+    -- for and fall back to the generic label before the first pick.
+    local label = LOOT_METHOD
+    if zepSelected then
+        label = zepSelected.text
+    elseif GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0 then
+        local current = UnitLootMethod[GetLootMethod()]
+        label = current and current.text or LOOT_METHOD
+    end
+    UnitPopupButtons[ZEP_LOOT_ROOT].text = label
+
+    for index, value in ipairs(menu) do
+        if value == ZEP_LOOT_ROOT then
+            UnitPopupShown[level][index] = offer and 1 or 0
+        elseif value == "LOOT_METHOD" and offer then
+            -- Stock's entry survives HideButtons in a grouped LFG run but
+            -- ShowMenu strips its .nested, leaving a dead duplicate label.
+            UnitPopupShown[level][index] = 0
+        end
+    end
+end)
+
+hooksecurefunc("UnitPopup_OnClick", function(self)
+    local mode = zepModeByKey[self.value]
+    if not mode then
+        return
+    end
+
+    if mode.method == "master" then
+        SetLootMethod(mode.method, UnitName("player"))
+    else
+        SetLootMethod(mode.method)
+    end
+
+    zepSelected = mode
+    UnitPopupButtons[ZEP_LOOT_ROOT].text = mode.text
+    CloseDropDownMenus()
+end)

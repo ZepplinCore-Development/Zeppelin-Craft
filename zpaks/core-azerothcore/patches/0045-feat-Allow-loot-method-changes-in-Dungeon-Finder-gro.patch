@@ -1,0 +1,110 @@
+From c0e7a93009442ca820a1e2de891c491ea5decbb5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 8 Aug 2026 12:18:25 +0000
+Subject: [PATCH] feat: Allow loot method changes in Dungeon Finder groups
+ (F-204)
+
+Stock (Xinef) rejected every CMSG_LOOT_METHOD for a restricted LFG group,
+pinning RDF runs to the Need Before Greed set by Group::ConvertToLFG. With
+SoloLFG that means a 60s roll window on every uncommon+ drop for a group of
+one player.
+
+- Split the leader check from the LFG check in HandleLootMethodOpcode and
+  gate the latter behind Group.AllowLootMethodChangeInLFG (default 1).
+- Confirm the new method in chat for LFG groups: Group::BuildUpdate omits the
+  loot method field when GetMembersCount() - 1 is zero, so a solo group can
+  never be told its own loot method.
+
+Client side ships in the ZepLFGFix addon (mod-solo-lfg zpak, PATCH-A).
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .../apps/worldserver/worldserver.conf.dist    | 20 ++++++++++++++
+ src/server/game/Handlers/GroupHandler.cpp     | 26 +++++++++++++++++--
+ 2 files changed, 44 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/apps/worldserver/worldserver.conf.dist b/src/server/apps/worldserver/worldserver.conf.dist
+index 503c5d4a9..a27a59dee 100644
+--- a/src/server/apps/worldserver/worldserver.conf.dist
++++ b/src/server/apps/worldserver/worldserver.conf.dist
+@@ -4863,6 +4863,26 @@ Block.CritMult = 1.5
+ #
+ ###################################################################################################
+ 
++###################################################################################################
++# F-204 DUNGEON FINDER LOOT METHOD
++#
++#    Group.AllowLootMethodChangeInLFG
++#        Description: Let the leader of a Dungeon Finder (LFG) group change the loot
++#                     method. Stock refuses every CMSG_LOOT_METHOD for a restricted
++#                     LFG group, which pins RDF runs to Need Before Greed and forces
++#                     a 60s roll window on every uncommon+ drop -- even when the
++#                     group is a single player (SoloLFG).
++#                     The client side of this lives in the ZepLFGFix addon shipped by
++#                     the mod-solo-lfg zpak (PATCH-A); stock FrameXML hides the
++#                     Loot Method submenu whenever HasLFGRestrictions() is true.
++#        Default:     1  - (Allowed)
++#                     0  - (Stock: locked to Need Before Greed)
++
++Group.AllowLootMethodChangeInLFG = 1
++
++#
++###################################################################################################
++
+ ###################################################################################################
+ #                                                                                                 #
+ # GAME SETTINGS END                                                                               #
+diff --git a/src/server/game/Handlers/GroupHandler.cpp b/src/server/game/Handlers/GroupHandler.cpp
+index 3f0884ebe..d2769e8f1 100644
+--- a/src/server/game/Handlers/GroupHandler.cpp
++++ b/src/server/game/Handlers/GroupHandler.cpp
+@@ -16,6 +16,7 @@
+  */
+ 
+ #include "Chat.h"
++#include "Config.h"
+ #include "DatabaseEnv.h"
+ #include "Group.h"
+ #include "GroupMgr.h"
+@@ -518,8 +519,15 @@ void WorldSession::HandleLootMethodOpcode(WorldPacket& recvData)
+         return;
+ 
+     /** error handling **/
+-    // Xinef: Check if group is LFG
+-    if (!group->IsLeader(GetPlayer()->GetGUID()) || group->isLFGGroup(true))
++    if (!group->IsLeader(GetPlayer()->GetGUID()))
++        return;
++
++    // F-204: stock (Xinef) refused every loot method change for a restricted LFG
++    // group, which locks Dungeon Finder runs to Need Before Greed. That forces a
++    // 60s roll window on every uncommon+ drop even when the group is a single
++    // player, so let the leader pick a method instead.
++    bool const isRestrictedLfg = group->isLFGGroup(true);
++    if (isRestrictedLfg && !sConfigMgr->GetOption<bool>("Group.AllowLootMethodChangeInLFG", true))
+         return;
+ 
+     if (lootMethod > NEED_BEFORE_GREED)
+@@ -537,6 +545,20 @@ void WorldSession::HandleLootMethodOpcode(WorldPacket& recvData)
+     group->SetMasterLooterGuid(lootMaster);
+     group->SetLootThreshold((ItemQualities)lootThreshold);
+     group->SendUpdate();
++
++    // Group::BuildUpdate omits the loot method field whenever GetMembersCount() - 1
++    // is zero, so a solo LFG group can never see the change reflected in its client.
++    // Confirm it in chat so the selection is verifiable in game.
++    if (isRestrictedLfg)
++    {
++        static char const* const lootMethodNames[NEED_BEFORE_GREED + 1] =
++        {
++            "Free For All", "Round Robin", "Master Looter", "Group Loot", "Need Before Greed"
++        };
++
++        ChatHandler(this).PSendSysMessage("Dungeon Finder loot method set to |cff4CFF00{}|r.",
++            lootMethodNames[lootMethod]);
++    }
+ }
+ 
+ void WorldSession::HandleLootRoll(WorldPacket& recvData)
+-- 
+2.34.1
+
