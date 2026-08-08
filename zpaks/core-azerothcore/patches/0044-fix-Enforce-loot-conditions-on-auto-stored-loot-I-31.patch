@@ -1,0 +1,58 @@
+From 5c27e16f6912b5f1d08fd9f332d534c4b3fc27cc Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 8 Aug 2026 11:45:45 +0000
+Subject: [PATCH] fix: Enforce loot conditions on auto-stored loot (I-314)
+
+LootItemInSlot never evaluates a row's conditions - a player who fails the
+gate just has no entry in PlayerNonQuestNonFFAConditionalItems, and the row
+is returned anyway. Only the loot-window packet builder filtered on that
+list, so every auto-store path (group disenchant roll, auto-skinning, spell
+loot) handed out conditional rows regardless of the gate. With F-001 tool
+bonus rolls that meant all ten Runed Rod tiers paid out on one disenchant.
+
+- Player::AutoStoreLoot: skip rows the player is not allowed (also fixes a
+  missing nullptr check on LootItemInSlot)
+- Group::CountRollVote: same check on the bags-full mail fallback
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Entities/Player/Player.cpp | 8 ++++++++
+ src/server/game/Groups/Group.cpp           | 3 +++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+index e6f9a1e94..855da9641 100644
+--- a/src/server/game/Entities/Player/Player.cpp
++++ b/src/server/game/Entities/Player/Player.cpp
+@@ -13704,6 +13704,14 @@ void Player::AutoStoreLoot(uint8 bag, uint8 slot, uint32 loot_id, LootStore cons
+     {
+         LootItem* lootItem = loot.LootItemInSlot(i, this);
+ 
++        // LootItemInSlot does not enforce loot conditions: a player who fails the gate
++        // simply has no entry in PlayerNonQuestNonFFAConditionalItems and the row is
++        // handed back anyway. The loot window filters those rows when building the
++        // packet, so the check only ever ran there - auto-stored loot (group disenchant
++        // roll, auto-skinning, spell loot) got every conditional row regardless (I-314).
++        if (!lootItem || !lootItem->AllowedForPlayer(this, loot.sourceWorldObjectGUID))
++            continue;
++
+         ItemPosCountVec dest;
+         InventoryResult msg = CanStoreNewItem(bag, slot, dest, lootItem->itemid, lootItem->count);
+         if (msg != EQUIP_ERR_OK && slot != NULL_SLOT)
+diff --git a/src/server/game/Groups/Group.cpp b/src/server/game/Groups/Group.cpp
+index 6f45ac4ab..30c9eb39f 100644
+--- a/src/server/game/Groups/Group.cpp
++++ b/src/server/game/Groups/Group.cpp
+@@ -1651,6 +1651,9 @@ void Group::CountTheRoll(Rolls::iterator rollI)
+                             for(uint32 i = 0; i < max_slot; i++)
+                             {
+                                 LootItem* lootItem = loot.LootItemInSlot(i, player);
++                                if (!lootItem || !lootItem->AllowedForPlayer(player, loot.sourceWorldObjectGUID))
++                                    continue;
++
+                                 player->SendEquipError(msg, nullptr, nullptr, lootItem->itemid);
+                                 player->SendItemRetrievalMail(lootItem->itemid, lootItem->count);
+                             }
+-- 
+2.34.1
+
