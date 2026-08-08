@@ -55,7 +55,43 @@ STOCK_GO = {1617, 1618, 1619, 1731}
 # WotLK model (9135) has no TransportAnimation -> StaticTransport::Create fails
 # at grid load and they never spawn. Emit as type 5 (GENERIC static prop) so
 # they render as scenery.
-TYPE_OVERRIDE = {196837: 5, 196838: 5}
+#
+# 310000 (I-320): the Raptor Rise traps of quest 24741 become an ANIMATED trap —
+# type 8 SPELL_FOCUS has no state animation at all. See TEMPLATE_OVERRIDE below.
+TYPE_OVERRIDE = {196837: 5, 196838: 5, 310000: 1}
+
+# I-320: per-entry corrections to the scalar template columns (displayId / name /
+# AIName), for source rows that are wrong AT SOURCE rather than mis-ported.
+# Applied LAST in _template_cols — after the AIName/ScriptName defaults — so an
+# entry here can set AIName, which those defaults would otherwise blank.
+#
+# 310000 "TEMP Raptor Trap" — quest 24741 "Trading Up".
+# Neltharion hand-made this entry (310000 is outside the retail GO id space) as a
+# placeholder for retail's 201972 and shipped it with displayId 0, i.e. invisible:
+# the quest tells you the traps are already laid and there is nothing on the ground
+# to find. The donor DB carries the same broken row, so this is not a port defect.
+#
+# Rebuilt on Blizzard's own precedent for exactly this mechanic — "Mammoth Trap"
+# 188022 (Borean Tundra): type 1 BUTTON, size 3, Data0 1 (startOpen), Data1 0
+# (no autoClose), AIName SmartGameObjectAI, spawned at state 0. GO_STATE_ACTIVE (0)
+# renders the jaws OPEN (armed) and GO_STATE_READY (1) renders them SHUT, so
+# SMART_ACTION_GO_SET_GO_STATE (118) drives the snap and the re-open.
+#
+# displayId 7529 is `World\Goober\G_BearTrap.mdx`, stock 3.3.5a, so no DBC row ships.
+# It is the PLAIN trap: one texture (SPELLS\TRAP.BLP), 7 bones, and the four sequences
+# this needs — Spawn / Stand / Closed / Open. It is also the display both the Mammoth
+# and Caribou traps use, so it is the precedented choice as well as the right-looking
+# one.
+#
+# NOT 8068 `G_BearTrap_Hunter.mdx` (== `Spells\BearTrap.m2`, same mesh byte-for-byte):
+# that is the Freezing Trap variant and drags in RIBBONBLUR1BEA_BLUE + SNOWFLAKE2/3 +
+# DUST1_A emitters. Frost on a tropical island — rejected.
+#
+# The entry stays 310000 because the 24 spawn rows are keyed to it.
+TEMPLATE_OVERRIDE = {
+    310000: {"displayId": 7529, "name": "Raptor Trap",
+             "AIName": "SmartGameObjectAI"},
+}
 
 # I-277: per-entry corrections to the raw Cata Data0-23 block, applied last so
 # they beat both the verbatim copy and the type-based zeroing below.
@@ -117,6 +153,15 @@ DATA_OVERRIDE = {
     # Net: click -> Data3 -> ONE burst, and the pod is gone with it. Data3 is now
     # just the delay between the click and that burst; 500ms keeps it snappy.
     195188: {"Data10": 66137, "Data3": 500, "Data4": 1},
+
+    # 310000 Raptor Trap (I-320). Re-typed to 1 BUTTON in TYPE_OVERRIDE above, so
+    # the Cata spell-focus payload has to go: Data0 1644 was the SpellFocus type and
+    # Data1 5 its radius, and on a BUTTON those slots are startOpen / autoCloseTime.
+    # startOpen 1 = the trap is laid ARMED (jaws apart); autoCloseTime 0 so it never
+    # springs itself — SmartAI owns every state change.
+    # Nothing reads the old focus values: spell 56576 has spell_focus_object 0 and
+    # anchors on creature 75113 through its type-13 condition, not on this GO.
+    310000: {"Data0": 1, "Data1": 0},
 
     # 201938 Town-In-A-Box Plunger — quest 14245 "It's a Town-In-A-Box" (I-315).
     # Same 1511xx dead-spell band as the pod above, and the same silent failure:
@@ -213,6 +258,9 @@ def _template_cols(e, t):
     # gossip zeroing above.
     col.update(DATA_OVERRIDE.get(e, {}))
     col.update({"AIName": "", "ScriptName": "", "VerifiedBuild": 0})
+    # I-320 scalar corrections last of all — an entry may need to set AIName, which
+    # the defaults on the line above would otherwise blank.
+    col.update(TEMPLATE_OVERRIDE.get(e, {}))
     return col
 
 

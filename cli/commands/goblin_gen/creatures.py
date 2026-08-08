@@ -55,6 +55,15 @@ DX, DY = -533.3333, -12800.0                 # map648 -> map1 offset
 ZONE = {"": "4720", "_K": "4737"}            # Lost Isles / Kezan
 GUID_BASE = {"": 11000000, "_K": 12000000}   # per-zone spawn guid block
 NOISE = ("bunny", "invisible stalker", "generateur", "elm general", "wondi", "purpose bunny")
+# Entries exempt from the NOISE name filter (I-320). Some Neltharion "Wondi's Bunny"
+# 75xxx markers are not decor — a ported spell's SourceType-13 target condition names
+# them, so dropping the entry drops ALL its spawns and the spell's nearby-entry search
+# can never resolve. I-246 reached these through manual_spawns (which re-places them by
+# hand); an entry whose SOURCE spawns are already correct only needs the exemption, and
+# then the normal spawn-driven path emits all of them with sequential AUTO guids.
+#   75113 "Wondi's Bunny - Trading Up - Spell Item Target" — the 24 Raptor Rise trap
+#         markers for quest 24741; condition 13/1/56576 -> 31/0/3/75113.
+NOISE_KEEP = {75113}
 STOCK_COLLIDE = {4075, 6827, 13321, 31688}   # exist in AC world -> reuse stock, spawn only
 # Cata FactionTemplate IDs absent from WotLK -> remap by hostility (validated per-creature).
 FACTION_REMAP = {2159: 35, 2160: 35, 2227: 35, 2231: 35, 2238: 35, 2200: 14, 2228: 14}
@@ -203,7 +212,8 @@ def emit(ctx):
     # (1234567 Gnomey, 1337016 XP Rates) — never real Cata content (I-233).
     real = [e for e in ents
             if e in tmpl and e < 1000000
-            and not any(k in (tmpl[e]["name"] or "").lower() for k in NOISE)]
+            and (e in NOISE_KEEP
+                 or not any(k in (tmpl[e]["name"] or "").lower() for k in NOISE))]
     real_set = set(real)
     # Summon-only creatures (no spawn row anywhere -> invisible to the zone sweep)
     # referenced by ported spells' SUMMON effects (I-242 Hot Rod 34840). Emitted

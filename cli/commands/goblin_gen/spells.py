@@ -128,6 +128,37 @@ EFFECT_OVERRIDE = {
     71091: {"effect_1": 0, "effect_trigger_spell_1": 0, "effect_implicit_target_a_1": 0,
             "effect_amplitude_2": 4000},
 
+    # 56576 "Wild Clucker Eggs" — the item spell of quest 24741 "Trading Up" (I-320).
+    # Two corrections, both of which the donor makes in C++ and the port therefore
+    # never saw (the collector carries tables, not SpellMgr overrides).
+    #
+    # MiscValueB 61 -> 64 (SpellMgr.cpp:7219, `case 56576`). SummonProperties 61 is
+    # Category 1 ALLY / Type 2 GUARDIAN, so `Spell::EffectSummonType`
+    # (SpellEffects.cpp:2439) routes it to SummonGuardian() and the decoy egg hatches
+    # as a PLAYER-OWNED GUARDIAN — player faction, player level, aggressive. Creature
+    # 38195 also carries BaseAttackTime 0, so it swings every tick: using the eggs
+    # killed the nearby Spiny Raptors instead of luring one. 64 is Category 0 WILD /
+    # Type 0 NONE, i.e. an inert TempSummon that keeps the creature's own faction 35.
+    #
+    # BasePoints 1 -> 0. Same trap as 66137 above: 64 is on AC's multi-summon list
+    # (SpellEffects.cpp:2402) so `numSummons = damage`, and the forced DieSides 1
+    # makes CalcValue return 2 — two eggs per click, two decoys, two raptor kills.
+    # BasePoints 0 with DieSides 1 is the 3.3.5a encoding of "one".
+    56576: {"effect_misc_value_b_1": 64, "effect_base_points_1": 0},
+
+    # 66726 "Trading Up: Summon Spiny Raptor Egg" (I-320) — SPELL_EFFECT_SUMMON_OBJECT_WILD
+    # of GO 201974 "Raptor Egg", the lootable chest the decoy leaves behind. Cast by
+    # the egg NPC on itself once a raptor reaches the trap.
+    #
+    # TargetA 46 TARGET_DEST_NEARBY_ENTRY -> 1 TARGET_UNIT_CASTER, exactly as the donor
+    # patches it (SpellMgr.cpp:7222). 46 needs its own SourceType-13 entry condition to
+    # resolve a destination and there is none for this spell; with TARGET_UNIT_CASTER
+    # there is no dst at all, so EffectSummonObjectWild falls through to
+    # `m_caster->GetClosePoint()` (SpellEffects.cpp:3832) and the chest lands beside the
+    # egg — which is standing on the trap. The GO is created unowned ("Wild object not
+    # have owner"), so it survives the egg despawning 500 ms later and stays lootable.
+    66726: {"effect_implicit_target_a_1": 1},
+
     # 70988 "Parachute" — the chute the above lands (I-315). Two changes, both to
     # stop a MID-AIR strip; neither is a retiming (retiming was the wrong theory
     # and made it worse — see below).
