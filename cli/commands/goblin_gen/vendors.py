@@ -15,9 +15,10 @@ append_items/migrate_vendors behaviour.
 
 The new items' metadata is recovered from the extracted Whitemane 4.3.4 (build
 15595) client DBs: Item.db2 (class/subclass/material/inv/sheath) + Item-sparse.db2
-(name/quality/prices/stats/...). The original script pulled the same columns from
-wago ItemSparse 4.4.2 CSVs; the two builds agree on every field these rows use
-except embedded weapon damage, which build 15595 does not store (see below).
+(name/quality/prices/stats/...). Build 15595 does NOT store the fields the 4.3.4
+client derives at runtime from ItemDamage*.dbc -- weapon damage, attack speed,
+ranged range, durability -- so those come from the wago ItemSparse 4.4.2 CSV
+(ctx.wago), the same source items.py reads, keyed on the Cata id (I-324).
 """
 import os
 import struct
@@ -50,6 +51,23 @@ _SP_MATERIAL = 109
 _SP_SHEATHE = 110
 _SP_BAGFAMILY = 116
 _SP_DURATION = 127
+
+
+def _wi(r, k, d=0):
+    """int from a wago CSV row (blank/absent -> d)."""
+    try:
+        return int(float(r.get(k, d) or d))
+    except Exception:
+        return d
+
+
+def _wf(r, k, d=0.0):
+    """float from a wago CSV row (blank/absent -> d)."""
+    try:
+        return float(r.get(k, d) or d)
+    except Exception:
+        return d
+
 
 # ---- Item.db2 (build 15595) field indices ----
 _IT_CLASS = 1
@@ -114,6 +132,17 @@ def emit(ctx):
     # ---- item_template for the new vendor goods (recovered from Whitemane DB2) ----
     sparse, gs = _read_wdb2(ctx.whitemane_dbc("Item-sparse.db2"))
     itemdb, _ = _read_wdb2(ctx.whitemane_dbc("Item.db2"))
+    # Fields build 15595 doesn't store (weapon damage/speed/range/durability) come from
+    # the wago 4.4.2 ItemSparse export instead -- same source items.py uses.
+    wanted = set(new_items)
+    wago = {}
+    for r in ctx.wago("itemsparse_442"):
+        try:
+            i = int(r["ID"])
+        except Exception:
+            continue
+        if i in wanted:
+            wago[i] = r
     irows = []
     for cata in new_items:
         s = sparse.get(cata)
@@ -150,11 +179,23 @@ def emit(ctx):
                 st, sv = 0, 0
             col["stat_type%d" % n] = st
             col["stat_value%d" % n] = sv
-        # Weapon damage (MinDamage/MaxDamage) is not stored in build-15595 Item-sparse
-        # (it was embedded only in later Cata builds / the wago 4.4.2 export). Left 0.
-        col["dmg_min1"] = 0.0
-        col["dmg_max1"] = 0.0
+        # Weapon damage / speed / ranged range are NOT stored in build-15595 Item-sparse
+        # (the 4.3.4 client derives them from ItemDamage*.dbc). They ARE carried by the
+        # wago 4.4.2 ItemSparse export, which items.py already reads -- so take them from
+        # there, keyed on the same Cata id. Leaving them 0 ships 0-DPS weapons (I-324).
+        w = wago.get(cata, {})
+        col["dmg_min1"] = _wf(w, "MinDamage_0")
+        col["dmg_max1"] = _wf(w, "MaxDamage_0")
         col["dmg_type1"] = s[_SP_DAMAGETYPE]
+        col["delay"] = _wi(w, "ItemDelay")
+        col["RangedModRange"] = _wf(w, "ItemRange")
+        # NB MaxDurability: the 30 vendor armour rows originally shipped at 0, so copies
+        # already in players' bags had item_instance.durability = 0 -- raising the max
+        # alone reads as 0/60 (broken, no stats). That repair was landed with the
+        # zz_[I-324] world SQL on 2026-08-08, so emitting the real value is safe now.
+        # If this ever re-runs against an older characters DB, re-run the repair
+        # documented in zz_[I-324]_vendor_armour_durability.sql.
+        col["MaxDurability"] = _wi(w, "MaxDurability")
         col["bonding"] = s[_SP_BONDING]
         col["description"] = gs(s[_SP_DESC]).strip()
         col["Material"] = s[_SP_MATERIAL] or (m[_IT_MATERIAL] if m else 0)

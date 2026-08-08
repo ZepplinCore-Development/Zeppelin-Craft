@@ -105,7 +105,11 @@ def emit(ctx):
         cols["armor"] = 0
         for i, res in enumerate(["holy_res", "fire_res", "nature_res", "frost_res", "shadow_res", "arcane_res"]):
             cols[res] = _gi(s, "Resistances_%d" % (i + 1))
-        cols["delay"] = _gi(s, "ItemDelay"); cols["ammo_type"] = 0; cols["RangedModRange"] = 0
+        cols["delay"] = _gi(s, "ItemDelay"); cols["ammo_type"] = 0
+        # ItemRange is the Cata name for RangedModRange (ranged attack range, % of base).
+        # Stock 3.3.5a ships 100 on every real bow/gun/crossbow/thrown; 0 breaks the
+        # client's ranged range check, so never leave it at 0 for a ranged weapon.
+        cols["RangedModRange"] = _gf(s, "ItemRange")
         for n in range(1, 6):
             for suf, val in [("spellid", 0), ("spelltrigger", 0), ("spellcharges", 0), ("spellppmRate", 0),
                              ("spellcooldown", -1), ("spellcategory", 0), ("spellcategorycooldown", -1)]:
