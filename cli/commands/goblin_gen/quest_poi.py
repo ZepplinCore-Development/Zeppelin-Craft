@@ -16,6 +16,13 @@ TIER = "base"
 
 DX, DY = -533.33, -12800.0
 
+# The 3.3.5a client's quest-POI renderer has a fixed 12-point-per-POI buffer; a
+# quest_poi group (QuestID+Idx1) with more than 12 quest_poi_points rows overflows
+# it and crashes the client (ERROR #132 ACCESS_VIOLATION) the moment the POI is
+# drawn on the world map. No stock 3.3.5 group exceeds 12. Cata source polygons
+# routinely do (quest 24816 shipped 20), so every ported group is capped here.
+MAX_POI_POINTS = 12
+
 
 def _gi(v, d=0):
     try:
@@ -29,6 +36,23 @@ def _gf(v):
         return float(str(v).strip())
     except (TypeError, ValueError):
         return 0.0
+
+
+def _tri_area(a, b, c):
+    return abs((b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1])) / 2.0
+
+
+def _cap_ring(pts, limit=MAX_POI_POINTS):
+    """Visvalingam-Whyatt decimation of a closed POI polygon down to `limit`
+    vertices: repeatedly drop the vertex whose removal changes the enclosed area
+    least. Preserves shape far better than even-spaced sampling (quest 24816's
+    20-point ribbon keeps 99.7% of its area at 12 points)."""
+    ring = list(pts)
+    while len(ring) > limit:
+        n = len(ring)
+        i = min(range(n), key=lambda k: _tri_area(ring[(k - 1) % n], ring[k], ring[(k + 1) % n]))
+        ring.pop(i)
+    return ring
 
 
 def emit(ctx):
@@ -66,6 +90,21 @@ def emit(ctx):
             x, y = x + DX, y + DY
         pt_rows.append((_gi(r["questId"]), _gi(r["id"]), _gi(r["idx"]), round(x), round(y)))
 
+    # Cap each (QuestID, Idx1) group at MAX_POI_POINTS and renumber Idx2 contiguously.
+    groups = {}
+    for (qid, pid, idx, x, y) in pt_rows:
+        groups.setdefault((qid, pid), []).append((idx, x, y))
+    capped = 0
+    pt_rows = []
+    for (qid, pid), pts in groups.items():
+        pts.sort()
+        ring = [(x, y) for (_idx, x, y) in pts]
+        if len(ring) > MAX_POI_POINTS:
+            ring = _cap_ring(ring)
+            capped += 1
+        for i, (x, y) in enumerate(ring):
+            pt_rows.append((qid, pid, i, x, y))
+
     qlist = ",".join(str(q) for q in qids)
     ctx.col.delete("quest_poi", "QuestID IN (%s)" % qlist)
     ctx.col.delete("quest_poi_points", "QuestID IN (%s)" % qlist)
@@ -80,5 +119,5 @@ def emit(ctx):
             "QuestID": qid, "Idx1": pid, "Idx2": idx, "X": x, "Y": y,
             "VerifiedBuild": 0,
         })
-    return ("quest_poi headers=%d points=%d quests=%d"
-            % (len(poi_rows), len(pt_rows), len(qids)))
+    return ("quest_poi headers=%d points=%d quests=%d capped=%d"
+            % (len(poi_rows), len(pt_rows), len(qids), capped))
