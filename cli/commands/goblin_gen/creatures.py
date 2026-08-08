@@ -54,6 +54,15 @@ def _sibling_const(modname, attr):
 DX, DY = -533.3333, -12800.0                 # map648 -> map1 offset
 ZONE = {"": "4720", "_K": "4737"}            # Lost Isles / Kezan
 GUID_BASE = {"": 11000000, "_K": 12000000}   # per-zone spawn guid block
+# Rows this generator owns are stamped in `creature`.`Comment`, and the wipe keys on
+# that stamp rather than on the guid block alone. Zone/area/bbox cannot be the
+# discriminator: the rows that MUST survive a gen run (hand [I-xxx] spawns, I-285
+# mining spots, I-286 orbs) sit in the same zone by definition. Ownership is the axis.
+GEN_TAG = "[gen F-011 %s]"
+# The generator allocates guids from base..base+949999 (generated, then the
+# manual_spawns fixture at +900000). base+950000..+999999 is reserved for hand
+# [I-xxx] spawn files and is never wiped here.
+GEN_SPAN = 949999
 NOISE = ("bunny", "invisible stalker", "generateur", "elm general", "wondi", "purpose bunny")
 # Entries exempt from the NOISE name filter (I-320). Some Neltharion "Wondi's Bunny"
 # 75xxx markers are not decor — a ported spell's SourceType-13 target condition names
@@ -187,6 +196,7 @@ SCRIPT_NAME_DANGLING = {"npc_citoyen_gob", "npc_captive", "gob_red_but", "gob_ca
 def emit(ctx):
     sfx = ctx.sfx
     zone = ZONE[sfx]
+    zone_name = "Kezan" if sfx else "Lost Isles"
     guid_base = GUID_BASE[sfx]
 
     # STOCK display/model sets (pristine original_dbc, never the live/edited dbc) so
@@ -501,11 +511,19 @@ def emit(ctx):
             if j * need // len(unmatched) != (j + 1) * need // len(unmatched):
                 wander_fill[i] = wd_fill
 
-    # Fixed per-zone 1,000,000-guid block DELETE (stable, count-independent), so stale
-    # spawns beyond the current count are always cleared. (equipment_id patched by equipment.py)
-    ctx.col.delete("creature", "guid BETWEEN %d AND %d" % (guid_base, guid_base + 999999))
-    ctx.col.delete("creature_addon", "guid BETWEEN %d AND %d" % (guid_base, guid_base + 999999))
-    ctx.col.delete("waypoint_data", "id BETWEEN %d AND %d" % (guid_base * 10, (guid_base + 999999) * 10 + 9))
+    # Ownership-scoped wipe (stable, count-independent), so stale spawns beyond the
+    # current count are always cleared without touching rows this generator did not
+    # write. `creature` keys on the Comment stamp; the guid clause is the migration
+    # path for rows written before the stamp existed and stops at GEN_SPAN so the
+    # hand [I-xxx] band survives. (equipment_id patched by equipment.py)
+    gen_tag = GEN_TAG % zone_name
+    ctx.col.delete("creature", "Comment LIKE '%s%%' OR guid BETWEEN %d AND %d"
+                   % (gen_tag, guid_base, guid_base + GEN_SPAN))
+    # creature_addon / waypoint_data have no Comment column and key on the spawn guid
+    # intrinsically (waypoint id = guid * 10 + point), so they stay guid-scoped —
+    # bounded by GEN_SPAN, which is exactly what this generator allocates.
+    ctx.col.delete("creature_addon", "guid BETWEEN %d AND %d" % (guid_base, guid_base + GEN_SPAN))
+    ctx.col.delete("waypoint_data", "id BETWEEN %d AND %d" % (guid_base * 10, (guid_base + GEN_SPAN) * 10 + 9))
     g = guid_base
     present_spells = None   # lazy: only loaded if a matched TDB addon carries auras
     n_addon = n_wp = 0
@@ -592,7 +610,7 @@ def emit(ctx):
             # pool-party aftermath: dynamicflags 0x20 DEAD + NOT_SELECTABLE|IMMUNE_TO_PC
             "npcflag": int(s["npcflag"] or 0), "unit_flags": int(s["unit_flags"] or 0),
             "dynamicflags": int(s["dynamicflags"] or 0), "ScriptName": "", "VerifiedBuild": 0,
-            "CreateObject": 1, "Comment": "F-011 %s" % ("Kezan" if sfx else "Lost Isles"),
+            "CreateObject": 1, "Comment": GEN_TAG % zone_name,
         }, sort_key=g)
 
     # hand-placed spawns (manual_spawns fixture, I-246): FINAL map-1 coords, explicit
@@ -612,7 +630,11 @@ def emit(ctx):
             "curhealth": 1, "curmana": 0, "MovementType": int(m.get("MovementType", 0)),
             "npcflag": 0, "unit_flags": 0, "dynamicflags": 0, "ScriptName": "",
             "VerifiedBuild": 0, "CreateObject": 1,
-            "Comment": str(m.get("comment", "F-011 manual spawn")),
+            # fixture prose keeps its detail but must carry the ownership stamp, or
+            # the wipe above would leave these five rows behind and the re-insert
+            # would collide on the primary key.
+            "Comment": "%s %s" % (GEN_TAG % zone_name,
+                                  str(m.get("comment", "manual spawn"))),
         }, sort_key=mg)
 
     # ---- DBC additions (client PATCH-Z) ----

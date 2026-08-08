@@ -216,6 +216,13 @@ DX, DY = -533.3333, -12800.0
 # Per-zone source zone id + emitted guid block base.
 _ZONE = {"": "4720", "_K": "4737"}
 _GUID = {"": 6000000, "_K": 6500000}
+# Ownership stamp written into `gameobject`.`Comment`; the wipe keys on it rather than
+# on the guid block alone, so hand [I-xxx] GO files in the same zone survive a gen run.
+# See creatures.py for why zone/area/bbox cannot serve as the discriminator.
+_GEN_TAG = "[gen F-011 %s]"
+# The generator allocates base..base+449999; base+450000..+499999 is the hand band
+# (F-199 / F-202 / I-286 nodes at 6950000+) and is never wiped here.
+_GEN_SPAN = 449999
 
 
 def _esc(v):
@@ -267,6 +274,7 @@ def _template_cols(e, t):
 def emit(ctx):
     sfx = ctx.sfx
     zone = _ZONE[sfx]
+    zone_name = "Kezan" if sfx else "Lost Isles"
     guid_base = _GUID[sfx]
     disp_paths = {int(k): v for k, v in ctx.fixture("go_disp_paths" + sfx).items()}
     remap = {int(k): v for k, v in ctx.fixture("item_remap").items()}
@@ -284,13 +292,15 @@ def emit(ctx):
 
     # ---- 02 gameobject spawns (scope-curated: keeps dev props like the I-233
     # Gnomey crate/aura column out even though their templates exist in source).
-    # Fixed 500,000-guid block DELETE per zone (count-independent) so stale
-    # spawns beyond the current count are always cleared; kajamite's chunk guids
-    # live inside the Kezan block and re-insert from the same collected file. ----
+    # Ownership-scoped DELETE per zone (count-independent) so stale spawns beyond the
+    # current count are always cleared; kajamite's chunk guids live inside the Kezan
+    # block and re-insert from the same collected file. The guid clause is the
+    # migration path for rows written before the stamp existed. ----
     spawns = ctx.q("SELECT * FROM gameobject WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
     scope_set = set(scope["ents"]) | STOCK_GO
     spawns = [s for s in spawns if int(s["id"]) in gt and int(s["id"]) in scope_set]
-    ctx.col.delete("gameobject", "guid BETWEEN %d AND %d" % (guid_base, guid_base + 499999))
+    ctx.col.delete("gameobject", "Comment LIKE '%s%%' OR guid BETWEEN %d AND %d"
+                   % (_GEN_TAG % zone_name, guid_base, guid_base + _GEN_SPAN))
     g = guid_base
     for s in spawns:
         g += 1
@@ -307,7 +317,7 @@ def emit(ctx):
             "spawntimesecs": _gi(s, "spawntimesecs", 300),
             "animprogress": _gi(s, "animprogress", 255), "state": _gi(s, "state"),
             "ScriptName": "", "VerifiedBuild": 0,
-            "Comment": "F-011 %s" % ("Kezan" if sfx else "Lost Isles"),
+            "Comment": _GEN_TAG % zone_name,
         }, sort_key=g)
 
     # ---- 03 gameobject_loot_template (chest GOs, remap custom items) ----
