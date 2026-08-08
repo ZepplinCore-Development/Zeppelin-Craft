@@ -43,9 +43,14 @@
 DELETE FROM npc_spellclick_spells WHERE npc_entry = 38111;
 DELETE FROM conditions WHERE SourceTypeOrReferenceId = 18 AND SourceGroup = 38111;
 UPDATE creature_template_addon SET auras = '' WHERE entry = 38111;
+-- Scoped by ENTRY, never by guid list. The generator reassigns spawn guids between
+-- runs: a regen on 2026-08-08 moved the eight aura-carrying addon rows from
+-- 11001802/11/12/26/27/45/46/54 to 11001825/34/35/49/50/68/69/77, and the hardcoded
+-- list this replaces then cleared eight rows that no longer existed while the
+-- sparkle came back on eight birds. `creature_addon` is emitted with REPLACE, so the
+-- rows return on every regen and this has to keep finding them.
 UPDATE creature_addon SET auras = ''
- WHERE guid IN (11001802, 11001811, 11001812, 11001826,
-                11001827, 11001845, 11001846, 11001854);
+ WHERE guid IN (SELECT guid FROM creature WHERE id = 38111);
 
 -- Irresistible Pool Pony (38412 + 44578-44580 / 83142) has the identical
 -- caster-clicker defect but genuinely needs its click, so it is repaired rather
@@ -207,14 +212,13 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3811100, 9, 1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 33, 38117, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Quest credit to the invoker'),
   (3811100, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Stop wandering (MoveIdle)'),
   (3811100, 9, 3, 0, 0, 0, 100, 0, 0, 0, 0, 0, 2, 35, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Set faction 35'),
-  (3811100, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 60, 1, 100, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - SET_FLY + disable gravity; MOVE_RUN rate 1.0 for the climb (I-318)'),
+  (3811100, 9, 4, 0, 0, 0, 100, 0, 0, 0, 0, 0, 60, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - SET_FLY + disable gravity (no forced speed - see section 8)'),
   (3811100, 9, 5, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 57403, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Flight'),
   (3811100, 9, 6, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 74177, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast the jetpack visual'),
   (3811100, 9, 7, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 96840, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Rocket Trail'),
   (3811100, 9, 8, 0, 0, 0, 100, 0, 0, 0, 0, 0, 17, 437, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Emote state 437 STATE_SWIM_IDLE (anim 41) for the flight (I-318)'),
   (3811100, 9, 9, 0, 0, 0, 100, 0, 0, 0, 0, 0, 69, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 8, 0, 'Wild Clucker - Captured - Rocket 8y straight up (I-318)'),
-  (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 60, 1, 300, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Ramp MOVE_RUN to 3.0 (21 yd/s) for the cross-country leg (I-318)'),
-  (3811100, 9, 11, 0, 0, 0, 100, 0, 0, 0, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Fly the escort path to the coop');
+  (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Fly the escort path to the coop');
 
 -- ---------------------------------------------------------------------------
 -- 6. The shipped M2 lied about its Walk speed. That was the whole problem.
@@ -289,13 +293,13 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 --   KillCredit1  0          section 9 - killing a bird must not count as a capture
 --   flags_extra  |0x200     section 5 - NO_MOVE_FLAGS_UPDATE, keeps capture flight
 --   speed_walk   0.072222   section 6 - 0.1806 yd/s, half cadence, stride locked
---   speed_run    1          section 6 - starting value; the actionlist sets MOVE_RUN
+--   speed_run    3          section 8 - MOVE_RUN 21 yd/s, the capture flight
 UPDATE creature_template SET
   npcflag = 0,
   KillCredit1 = 0,
   flags_extra = flags_extra | 0x200,
   speed_walk = 0.072222,
-  speed_run = 1
+  speed_run = 3
 WHERE entry = 38111;
 
 --   Ground 1 (Run)  Flight 0 (None)  Random 0 (Walk)   sections 4-6
@@ -331,35 +335,46 @@ INSERT INTO creature_template_model (`CreatureID`, `Idx`, `CreatureDisplayID`, `
   (38111, 0, 30971, 1, 1, 0);
 
 -- ---------------------------------------------------------------------------
--- 8. The flight to the coop is a cross-country leg, and needs its own speed.
+-- 8. The flight speed must come from the TEMPLATE, not a forced SetSpeed.
 -- ---------------------------------------------------------------------------
--- The climb reads as a quick rocket and the trip to the coop as a crawl, even
--- though both run at the same speed. The difference is distance, not speed: the
--- climb is 8 yards, while the escort path is FIXED near the coop (`waypoints` entry
--- 38111 starts at 394, -10467) and the 65 spawns are spread from x 313-496 /
--- y -10432 to -10541 - so a bird captured at the far edge has to cover well over a
--- hundred yards to reach point 1. At 7 yd/s that is a quarter of a minute of
--- gliding.
+-- The climb reads as a quick rocket and the trip to the coop as a crawl. The
+-- distance explains part of it - the climb is 8 yards, while the escort path is
+-- FIXED near the coop (`waypoints` entry 38111 starts at 394, -10467) and the 65
+-- spawns spread from x 313-496 / y -10432 to -10541, so a bird captured at the far
+-- edge covers well over a hundred yards to reach point 1.
 --
--- Which speed governs it is worth pinning down, because it is not the obvious one:
+-- Which speed governs it is not the obvious one:
 --
 --     UnitMoveType MovementInfo::GetSpeedType(uint32 moveFlags)
 --     { if (moveFlags & MOVEMENTFLAG_FLYING) return MOVE_FLIGHT; ... return MOVE_RUN; }
 --
--- keys on MOVEMENTFLAG_FLYING, which nothing here sets - SET_FLY gives CAN_FLY and
--- DISABLE_GRAVITY, and neither is that flag. So both the climb and the escort take
--- **MOVE_RUN**, and `speed_flight` (0.5) is never consulted despite the bird being
--- airborne.
+-- keys on MOVEMENTFLAG_FLYING (0x02000000), which the header itself notes is
+-- "only used for players. creatures use disable_gravity". SET_FLY gives CAN_FLY
+-- (0x01000000) and DISABLE_GRAVITY (0x400), so the test never matches and both legs
+-- take **MOVE_RUN**. `speed_flight` (0.5) is never consulted despite the bird being
+-- airborne - tuning it would do nothing.
 --
--- So the ramp goes on MOVE_RUN, after the climb, leaving the ascent at the pace it
--- already had: a second SMART_ACTION_SET_FLY between MOVE_TO_POS and ESCORT_START,
--- passing 300 -> `SetSpeed(MOVE_RUN, 300 / 100.0f, true)` = rate 3.0 = 21 yd/s,
--- three times player run speed. Well inside the spline clamp, which is
+-- A first attempt ramped MOVE_RUN with SET_FLY's speed param
+-- (`SetSpeed(MOVE_RUN, speed / 100.0f, true)`) between the climb and ESCORT_START.
+-- It did not take. A forced SetSpeed only holds until something calls
+-- `Unit::UpdateSpeed(MOVE_RUN)`, which recomputes from scratch and ends with
 --
+--     speed *= ToCreature()->GetCreatureTemplate()->speed_run;
+--
+-- and the capture chain applies auras (57403 carries 201/37/206) that do exactly
+-- that. So the value has to live in the template where the recomputation lands:
+-- speed_run 1 -> 3 gives MOVE_RUN 21 yd/s, three times player run speed, for both
+-- the climb and the flight. The SET_FLY rows now pass 0 as the speed param, which
+-- skips the forced call entirely.
+--
+-- Spline clamp is not in the way:
 --     min(velocity, catmullrom || flying ? 50.0 : max(28.0, GetSpeed(MOVE_RUN) * 4.0))
+-- = max(28.0, 84.0) = 84 at this rate.
 --
--- i.e. max(28.0, 84.0) = 84 once the rate is 3.0. To push it further, change that
--- one param: 400 = 28 yd/s, 500 = 35 yd/s.
+-- Side effect accepted: MOVE_RUN is also what a fleeing critter uses, so an attacked
+-- clucker bolts at 21 yd/s. They are passive level 1 critters that no longer give
+-- kill credit (section 9), so nothing hangs on it. The ground wander is unaffected -
+-- Random 0 means it takes MOVE_WALK.
 
 -- ---------------------------------------------------------------------------
 -- 9. Killing a clucker must not count as capturing it.
