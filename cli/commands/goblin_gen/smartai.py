@@ -132,6 +132,7 @@ def emit(ctx):
     remapped = {}         # source action id -> count rewritten to AC's number
     cf_applied = []       # (source_type, entryorguid, id, from, to) castFlags repairs
     cf_suspect = []       # ungated repeating buff-casts at players, not in the fixture
+    escort_fixed = []     # (donor run, AC forcedMovement) escort remaps (I-318)
 
     def fetch(source_type, entry):
         return ctx.q("SELECT * FROM smart_scripts WHERE source_type=%s AND entryorguid=%s ORDER BY id",
@@ -183,6 +184,35 @@ def emit(ctx):
             cf_suspect.append((source_type, entry, rid,
                                int(float(_val(r["action_param1"]))), flags))
 
+    # I-318: SMART_ACTION_ESCORT_START (53) keeps its opcode NUMBER across the two
+    # cores but its first parameter changes MEANING, which ACTION_REMAP cannot express.
+    #
+    #   donor 4.3.4  struct { uint32 run; uint32 pathID; ... } wpStart;   -> 1 = RUN
+    #   AC 3.3.5a    struct { uint32 forcedMovement; ... } wpStart;
+    #                enum { FORCED_MOVEMENT_NONE=0, _WALK=1, _RUN=2 }     -> 1 = WALK
+    #
+    # So a verbatim import inverts every escort: the donor's 486 "run" rows become
+    # forced WALK, and forced walk uses MOVE_WALK speed. Found on the Cluster Cluck
+    # cluckers (24671), whose rocket-propelled flight to the coop crawled at
+    # speed_walk while two separate attempts to raise MOVE_RUN did nothing, because
+    # the escort was never using MOVE_RUN at all. The donor only ever emits 0 or 1.
+    #
+    # Both values are legitimate in AC, so this is invisible to any validator — it is
+    # only detectable by reading both cores' structs. See the SAI-divergence note:
+    # opcode NUMBERS were audited in I-274, parameter SEMANTICS were not.
+    ESCORT_START = 53
+    DONOR_RUN_TO_FORCED_MOVEMENT = {0: 1, 1: 2}     # walk -> WALK, run -> RUN
+
+    def repair_escort_forced_movement(r, at):
+        if at != ESCORT_START:
+            return
+        donor = int(float(_val(r["action_param1"])))
+        want = DONOR_RUN_TO_FORCED_MOVEMENT.get(donor)
+        if want is None or want == donor:
+            return
+        r["action_param1"] = want
+        escort_fixed.append((donor, want))
+
     def collect(source_type, entry):
         nonlocal skipped, spell_skipped
         out = []
@@ -216,6 +246,7 @@ def emit(ctx):
                 r["action_type"] = ACTION_REMAP[at]
                 remapped[at] = remapped.get(at, 0) + 1
             repair_cast_flags(r, source_type, entry, et, ACTION_REMAP.get(at, at))
+            repair_escort_forced_movement(r, ACTION_REMAP.get(at, at))
             out.append(r)
         if out:
             rows_by_key[(source_type, entry)] = out
@@ -400,10 +431,12 @@ def emit(ctx):
 
     return ("scope cre=%d go=%d (excluded cre=%d go=%d) -> blocks=%d rows=%d "
             "[cre=%d go=%d tal=%d] skipped(type)=%d skipped(spell)=%d "
-            "castflags: fixed=%d suspect=%d spellcast: covered=%d added=%d%s%s" % (
+            "castflags: fixed=%d suspect=%d spellcast: covered=%d added=%d "
+            "escort forcedMovement remapped=%d%s%s" % (
                 len(cre_scope), len(go_scope), len(excl_cre), len(excl_go),
                 len(rows_by_key), sum(len(v) for v in rows_by_key.values()),
                 len(cre), len(go), len(tal), skipped, spell_skipped,
                 len(cf_applied), len(cf_suspect), sc_covered, sc_added,
+                len(escort_fixed),
                 "".join("\n" + line for line in drop_lines),
                 "".join("\n  WARN " + w for w in sc_warns)))

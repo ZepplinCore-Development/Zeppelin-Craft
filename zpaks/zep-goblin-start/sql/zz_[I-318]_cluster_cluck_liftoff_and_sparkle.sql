@@ -218,7 +218,7 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3811100, 9, 7, 0, 0, 0, 100, 0, 0, 0, 0, 0, 11, 96840, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Cast Rocket Trail'),
   (3811100, 9, 8, 0, 0, 0, 100, 0, 0, 0, 0, 0, 17, 437, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Emote state 437 STATE_SWIM_IDLE (anim 41) for the flight (I-318)'),
   (3811100, 9, 9, 0, 0, 0, 100, 0, 0, 0, 0, 0, 69, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 8, 0, 'Wild Clucker - Captured - Rocket 8y straight up (I-318)'),
-  (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Fly the escort path to the coop');
+  (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 2, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - Fly the escort path to the coop (param1 2 = FORCED_MOVEMENT_RUN, I-318)');
 
 -- ---------------------------------------------------------------------------
 -- 6. The shipped M2 lied about its Walk speed. That was the whole problem.
@@ -375,6 +375,26 @@ INSERT INTO creature_template_model (`CreatureID`, `Idx`, `CreatureDisplayID`, `
 -- clucker bolts at 21 yd/s. They are passive level 1 critters that no longer give
 -- kill credit (section 9), so nothing hangs on it. The ground wander is unaffected -
 -- Random 0 means it takes MOVE_WALK.
+--
+-- ...and NONE of that was why the flight was slow. The escort was never using
+-- MOVE_RUN at all. ESCORT_START's first parameter is documented in the header as
+--
+--     SMART_ACTION_ESCORT_START = 53,   // run/walk, pathID, ...
+--
+-- which reads like a boolean, but the struct field is `forcedMovement` and the enum
+-- is `FORCED_MOVEMENT_NONE = 0, FORCED_MOVEMENT_WALK = 1, FORCED_MOVEMENT_RUN = 2`.
+-- The imported 1 therefore forced the escort to **WALK**, at speed_walk - which
+-- section 6 had deliberately lowered to 0.1806 yd/s to match the walk animation. A
+-- rocket-propelled chicken crossing a hundred yards at a fifth of a yard per second.
+-- It also explains why two separate attempts to raise MOVE_RUN changed nothing.
+--
+-- param1 -> 2 (FORCED_MOVEMENT_RUN). Both legs now take MOVE_RUN and the flight
+-- matches the climb by construction.
+--
+-- SYSTEMIC: the donor core declares that same field as `uint32 run` (Neltharion
+-- 4.3.4 SmartScriptMgr.h), i.e. 1 = RUN. Every ported escort row therefore carries a
+-- value whose MEANING inverts on import - 318 F-011 rows currently pass 1 and walk
+-- where the source meant run. Remapped at the generator; see smartai.py.
 
 -- ---------------------------------------------------------------------------
 -- 9. Killing a clucker must not count as capturing it.
