@@ -286,11 +286,13 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 -- Final state - one consolidated UPDATE per row id (see the SQL standard).
 -- ---------------------------------------------------------------------------
 --   npcflag      0          section 1 - no spellclick affordance
+--   KillCredit1  0          section 9 - killing a bird must not count as a capture
 --   flags_extra  |0x200     section 5 - NO_MOVE_FLAGS_UPDATE, keeps capture flight
 --   speed_walk   0.072222   section 6 - 0.1806 yd/s, half cadence, stride locked
---   speed_run    1          section 6 - donor value, overridden per-flight by SET_FLY
+--   speed_run    1          section 6 - starting value; the actionlist sets MOVE_RUN
 UPDATE creature_template SET
   npcflag = 0,
+  KillCredit1 = 0,
   flags_extra = flags_extra | 0x200,
   speed_walk = 0.072222,
   speed_run = 1
@@ -358,3 +360,20 @@ INSERT INTO creature_template_model (`CreatureID`, `Idx`, `CreatureDisplayID`, `
 --
 -- i.e. max(28.0, 84.0) = 84 once the rate is 3.0. To push it further, change that
 -- one param: 400 = 28 yd/s, 500 = 35 yd/s.
+
+-- ---------------------------------------------------------------------------
+-- 9. Killing a clucker must not count as capturing it.
+-- ---------------------------------------------------------------------------
+-- The donor sets `creature_template.KillCredit1 = 38117` on 38111, and the port
+-- carried it verbatim. That is a SECOND, independent credit path: AC's
+-- `Player::KilledMonster` follows KillCredit1/2 on death, so simply killing a bird
+-- ticked the objective. The birds are level 1 critters, so that is the easiest way
+-- to finish the quest and it bypasses the fireworks entirely.
+--
+-- The capture credit does not come from this field - it comes from the actionlist
+-- (3811100 id 1, CALL_KILLEDMONSTER 38117 on the action invoker), so clearing
+-- KillCredit1 costs nothing and closes the shortcut. Checked for other death paths
+-- first: creature 38111 has no JUST_DIED (event 6) SAI row, so this was the only one.
+--
+-- Folded into the consolidated creature_template UPDATE above rather than appended
+-- as its own statement - one UPDATE per row id.
