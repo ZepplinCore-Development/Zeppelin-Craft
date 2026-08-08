@@ -125,12 +125,14 @@ end
 -- Group.AllowLootMethodChangeInLFG = 1 (F-204 core patch), and answers with a
 -- chat confirmation, since a solo group can never be told its own loot method.
 
+-- `method` is the SetLootMethod() token, `token` the .lootmethod command argument.
+-- Both paths exist because the client API is unusable solo -- see zepApply below.
 local ZEP_LOOT_MODES = {
-    { key = "ZEPLM_FREE_FOR_ALL",      method = "freeforall",      text = LOOT_FREE_FOR_ALL },
-    { key = "ZEPLM_ROUND_ROBIN",       method = "roundrobin",      text = LOOT_ROUND_ROBIN },
-    { key = "ZEPLM_MASTER_LOOTER",     method = "master",          text = LOOT_MASTER_LOOTER },
-    { key = "ZEPLM_GROUP_LOOT",        method = "group",           text = LOOT_GROUP_LOOT },
-    { key = "ZEPLM_NEED_BEFORE_GREED", method = "needbeforegreed", text = LOOT_NEED_BEFORE_GREED },
+    { key = "ZEPLM_FREE_FOR_ALL",      method = "freeforall",      token = "ffa",        text = LOOT_FREE_FOR_ALL },
+    { key = "ZEPLM_ROUND_ROBIN",       method = "roundrobin",      token = "roundrobin", text = LOOT_ROUND_ROBIN },
+    { key = "ZEPLM_MASTER_LOOTER",     method = "master",          token = "master",     text = LOOT_MASTER_LOOTER },
+    { key = "ZEPLM_GROUP_LOOT",        method = "group",           token = "group",      text = LOOT_GROUP_LOOT },
+    { key = "ZEPLM_NEED_BEFORE_GREED", method = "needbeforegreed", token = "nbg",        text = LOOT_NEED_BEFORE_GREED },
 }
 
 local ZEP_LOOT_ROOT = "ZEPLM_LOOT_METHOD"
@@ -216,14 +218,24 @@ hooksecurefunc("UnitPopup_HideButtons", function()
     -- GetLootMethod() is only trustworthy with a visible party: Group::BuildUpdate
     -- omits the loot method for a 1-man group, so solo we show what we last asked
     -- for and fall back to the generic label before the first pick.
-    local label = LOOT_METHOD
-    if zepSelected then
-        label = zepSelected.text
-    elseif GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0 then
-        local current = UnitLootMethod[GetLootMethod()]
-        label = current and current.text or LOOT_METHOD
+    local active = zepSelected
+    if not active and (GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0) then
+        local current = GetLootMethod()
+        for _, mode in ipairs(ZEP_LOOT_MODES) do
+            if mode.method == current then
+                active = mode
+            end
+        end
     end
-    UnitPopupButtons[ZEP_LOOT_ROOT].text = label
+    UnitPopupButtons[ZEP_LOOT_ROOT].text = active and active.text or LOOT_METHOD
+
+    -- Mark the live mode inside our own submenu. Stock's checkmark is driven by
+    -- GetLootMethod(), which is stale forever in a solo group, so colouring our
+    -- entry is the only indicator that can be trusted here.
+    for _, mode in ipairs(ZEP_LOOT_MODES) do
+        UnitPopupButtons[mode.key].text =
+            (mode == active) and ("|cff4CFF00" .. mode.text .. "|r") or mode.text
+    end
 
     for index, value in ipairs(menu) do
         if value == ZEP_LOOT_ROOT then
@@ -236,18 +248,30 @@ hooksecurefunc("UnitPopup_HideButtons", function()
     end
 end)
 
+-- The client's own SetLootMethod() refuses with "You aren't in a party." whenever
+-- it cannot see a party, and a solo LFG group never presents one -- the opcode is
+-- dropped before it leaves the client. So solo we go through the server command
+-- (.lootmethod, mod-solo-lfg), which has no such restriction. With a visible party
+-- the native API is preferred: it keeps the client's own loot state in sync.
+local function zepApply(mode)
+    if GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0 then
+        if mode.method == "master" then
+            SetLootMethod(mode.method, UnitName("player"))
+        else
+            SetLootMethod(mode.method)
+        end
+    else
+        SendChatMessage(".lootmethod " .. mode.token, "SAY")
+    end
+end
+
 hooksecurefunc("UnitPopup_OnClick", function(self)
     local mode = zepModeByKey[self.value]
     if not mode then
         return
     end
 
-    if mode.method == "master" then
-        SetLootMethod(mode.method, UnitName("player"))
-    else
-        SetLootMethod(mode.method)
-    end
-
+    zepApply(mode)
     zepSelected = mode
     UnitPopupButtons[ZEP_LOOT_ROOT].text = mode.text
     CloseDropDownMenus()

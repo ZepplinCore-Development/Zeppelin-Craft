@@ -1,0 +1,129 @@
+From c5818336c3ab0d199c111e9f0f885b27f842e844 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 8 Aug 2026 13:26:26 +0000
+Subject: [PATCH] feat: .lootmethod player command for LFG groups (F-204)
+
+The 3.3.5 client's SetLootMethod() refuses to send CMSG_LOOT_METHOD when it
+cannot see a party, and Group::BuildUpdate presents no party for a 1-member
+group, so a solo Dungeon Finder run can never reach the opcode handler. Add a
+SEC_PLAYER .lootmethod command as the server-side entry point.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/Lfg_Solo.cpp | 88 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 88 insertions(+)
+
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index 8f58fa7..a693ce7 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -9,9 +9,12 @@
+ #include "Player.h"
+ #include "Configuration/Config.h"
+ #include "World.h"
++#include "Group.h"
+ #include "LFGMgr.h"
++#include "LootMgr.h"
+ #include "Chat.h"
+ #include "Opcodes.h"
++#include "Util.h"
+ 
+ class lfg_solo_announce : public PlayerScript
+ {
+@@ -55,8 +58,93 @@ public:
+     }
+ };
+ 
++// F-204: the 3.3.5 client's SetLootMethod() API refuses to send CMSG_LOOT_METHOD
++// unless it believes it is in a party ("You aren't in a party."). Group::BuildUpdate
++// only sends GetMembersCount() - 1 member records, so a solo Dungeon Finder group
++// reports no party at all and the client blocks the call before it reaches us.
++// This command is the server-side entry point that works with no visible party.
++struct LootMethodOption
++{
++    char const* token;
++    LootMethod method;
++    char const* name;
++};
++
++static LootMethodOption const LootMethodOptions[] =
++{
++    { "ffa",        FREE_FOR_ALL,      "Free For All" },
++    { "roundrobin", ROUND_ROBIN,       "Round Robin" },
++    { "master",     MASTER_LOOT,       "Master Looter" },
++    { "group",      GROUP_LOOT,        "Group Loot" },
++    { "nbg",        NEED_BEFORE_GREED, "Need Before Greed" }
++};
++
++class lfg_solo_loot_commandscript : public CommandScript
++{
++public:
++    lfg_solo_loot_commandscript() : CommandScript("lfg_solo_loot_commandscript") { }
++
++    ChatCommandTable GetCommands() const override
++    {
++        static ChatCommandTable lootMethodCommandTable =
++        {
++            { "lootmethod", HandleLootMethodCommand, SEC_PLAYER, Console::No }
++        };
++
++        return lootMethodCommandTable;
++    }
++
++    static bool HandleLootMethodCommand(ChatHandler* handler, Optional<std::string> args)
++    {
++        Player* player = handler->GetSession() ? handler->GetSession()->GetPlayer() : nullptr;
++        if (!player)
++            return false;
++
++        Group* group = player->GetGroup();
++        if (!group)
++        {
++            handler->SendSysMessage("You are not in a group.");
++            handler->SetSentErrorMessage(true);
++            return false;
++        }
++
++        if (!group->IsLeader(player->GetGUID()))
++        {
++            handler->SendSysMessage("Only the group leader can change the loot method.");
++            handler->SetSentErrorMessage(true);
++            return false;
++        }
++
++        if (group->isLFGGroup(true) && !sConfigMgr->GetOption<bool>("Group.AllowLootMethodChangeInLFG", true))
++        {
++            handler->SendSysMessage("Changing the loot method is disabled for Dungeon Finder groups.");
++            handler->SetSentErrorMessage(true);
++            return false;
++        }
++
++        std::string const mode = args ? *args : "";
++        for (auto const& option : LootMethodOptions)
++        {
++            if (!StringEqualI(mode, option.token))
++                continue;
++
++            group->SetLootMethod(option.method);
++            group->SetMasterLooterGuid(option.method == MASTER_LOOT ? player->GetGUID() : ObjectGuid::Empty);
++            group->SendUpdate();
++
++            handler->PSendSysMessage("Loot method set to |cff4CFF00{}|r.", option.name);
++            return true;
++        }
++
++        handler->SendSysMessage("Usage: .lootmethod ffa | roundrobin | master | group | nbg");
++        handler->SetSentErrorMessage(true);
++        return false;
++    }
++};
++
+ void AddLfgSoloScripts()
+ {
+     new lfg_solo_announce();
+     new lfg_solo();
++    new lfg_solo_loot_commandscript();
+ }
+-- 
+2.34.1
+
