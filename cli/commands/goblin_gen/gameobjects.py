@@ -221,7 +221,8 @@ _GUID = {"": 6000000, "_K": 6500000}
 # See creatures.py for why zone/area/bbox cannot serve as the discriminator.
 _GEN_TAG = "[gen F-011 %s]"
 # The generator allocates base..base+449999; base+450000..+499999 is the hand band
-# (F-199 / F-202 / I-286 nodes at 6950000+) and is never wiped here.
+# (F-199 / F-202 / I-286 nodes at 6950000+). That split is a guid ALLOCATION
+# convention only — the wipe keys on the ownership stamp, not on the band.
 _GEN_SPAN = 449999
 
 
@@ -299,8 +300,7 @@ def emit(ctx):
     spawns = ctx.q("SELECT * FROM gameobject WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
     scope_set = set(scope["ents"]) | STOCK_GO
     spawns = [s for s in spawns if int(s["id"]) in gt and int(s["id"]) in scope_set]
-    ctx.col.delete("gameobject", "Comment LIKE '%s%%' OR guid BETWEEN %d AND %d"
-                   % (_GEN_TAG % zone_name, guid_base, guid_base + _GEN_SPAN))
+    ctx.col.delete("gameobject", "Comment LIKE '%s%%'" % (_GEN_TAG % zone_name))
     g = guid_base
     for s in spawns:
         g += 1

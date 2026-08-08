@@ -61,8 +61,27 @@ GUID_BASE = {"": 11000000, "_K": 12000000}   # per-zone spawn guid block
 GEN_TAG = "[gen F-011 %s]"
 # The generator allocates guids from base..base+949999 (generated, then the
 # manual_spawns fixture at +900000). base+950000..+999999 is reserved for hand
-# [I-xxx] spawn files and is never wiped here.
+# [I-xxx] spawn files. Guid is the LINKAGE mechanism (creature_addon.guid is a FK,
+# waypoint_data.id is guid*10+point) — it is never the ownership test.
 GEN_SPAN = 949999
+
+# creature_addon / waypoint_data are stock AC tables with no Comment column, so the
+# generator adds one. Ownership can't be derived from the parent spawn at wipe time:
+# a stale child whose parent is no longer generated has no parent row left to join to,
+# and would leak forever. The child has to carry its own stamp.
+# MySQL 8 has no ADD COLUMN IF NOT EXISTS (that is MariaDB), hence the guarded form.
+# Both core loaders name their columns explicitly (ObjectMgr.cpp:1267 for the addon,
+# WorldDatabase.cpp:55 for the waypoint), so an extra trailing column is inert.
+def _comment_col_ddl(table):
+    return "\n".join([
+        "-- ownership stamp column (idempotent; MySQL 8 has no ADD COLUMN IF NOT EXISTS)",
+        "SET @_has := (SELECT COUNT(*) FROM information_schema.COLUMNS",
+        "              WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '%s'" % table,
+        "                AND COLUMN_NAME = 'Comment');",
+        "SET @_sql := IF(@_has = 0,",
+        "  'ALTER TABLE `%s` ADD COLUMN `Comment` VARCHAR(255) NULL DEFAULT NULL', 'DO 0');" % table,
+        "PREPARE _stmt FROM @_sql; EXECUTE _stmt; DEALLOCATE PREPARE _stmt;\n",
+    ])
 NOISE = ("bunny", "invisible stalker", "generateur", "elm general", "wondi", "purpose bunny")
 # Entries exempt from the NOISE name filter (I-320). Some Neltharion "Wondi's Bunny"
 # 75xxx markers are not decor — a ported spell's SourceType-13 target condition names
@@ -511,19 +530,17 @@ def emit(ctx):
             if j * need // len(unmatched) != (j + 1) * need // len(unmatched):
                 wander_fill[i] = wd_fill
 
-    # Ownership-scoped wipe (stable, count-independent), so stale spawns beyond the
+    # Ownership-scoped wipe (stable, count-independent), so stale rows beyond the
     # current count are always cleared without touching rows this generator did not
-    # write. `creature` keys on the Comment stamp; the guid clause is the migration
-    # path for rows written before the stamp existed and stops at GEN_SPAN so the
-    # hand [I-xxx] band survives. (equipment_id patched by equipment.py)
+    # write. Every table keys on the same stamp — no guid predicate anywhere, so a
+    # foreign row inside the guid block is no longer collateral.
+    # (equipment_id patched by equipment.py)
     gen_tag = GEN_TAG % zone_name
-    ctx.col.delete("creature", "Comment LIKE '%s%%' OR guid BETWEEN %d AND %d"
-                   % (gen_tag, guid_base, guid_base + GEN_SPAN))
-    # creature_addon / waypoint_data have no Comment column and key on the spawn guid
-    # intrinsically (waypoint id = guid * 10 + point), so they stay guid-scoped —
-    # bounded by GEN_SPAN, which is exactly what this generator allocates.
-    ctx.col.delete("creature_addon", "guid BETWEEN %d AND %d" % (guid_base, guid_base + GEN_SPAN))
-    ctx.col.delete("waypoint_data", "id BETWEEN %d AND %d" % (guid_base * 10, (guid_base + GEN_SPAN) * 10 + 9))
+    ctx.col.ddl("creature_addon", _comment_col_ddl("creature_addon"))
+    ctx.col.ddl("waypoint_data", _comment_col_ddl("waypoint_data"))
+    ctx.col.delete("creature", "Comment LIKE '%s%%'" % gen_tag)
+    ctx.col.delete("creature_addon", "Comment LIKE '%s%%'" % gen_tag)
+    ctx.col.delete("waypoint_data", "Comment LIKE '%s%%'" % gen_tag)
     g = guid_base
     present_spells = None   # lazy: only loaded if a matched TDB addon carries auras
     n_addon = n_wp = 0
@@ -557,6 +574,7 @@ def emit(ctx):
                                 "position_y": float(p["position_y"]) + DY,
                                 "position_z": float(p["position_z"]),
                                 "orientation": None if p["orientation"] is None else float(p["orientation"]),
+                                "Comment": gen_tag,
                                 "delay": int(p["delay"] or 0),
                                 "move_type": int(p["move_type"] or 0),
                                 "action": 0, "action_chance": 100, "wpguid": 0,
@@ -596,7 +614,7 @@ def emit(ctx):
                     "guid": g, "path_id": wp_path, "mount": mount, "bytes1": b1,
                     "bytes2": int(src["bytes2"] or 0), "emote": em,
                     "visibilityDistanceType": int(tm["vdt"] or 0) if src is tm else 0,
-                    "auras": " ".join(auras),
+                    "auras": " ".join(auras), "Comment": gen_tag,
                 }, sort_key=g)
         st = int(s["spawntimesecs"] or 120)
         pmask = int(s["phaseMask"] or 1) or 1

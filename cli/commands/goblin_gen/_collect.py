@@ -84,10 +84,17 @@ TABLES = {
     "quest_request_items":        dict(order=33, kind="A", pk="ID", dest="sql"),
     "quest_poi":                  dict(order=34, kind="B", dest="sql"),
     "quest_poi_points":           dict(order=35, kind="B", dest="sql"),
-    "creature":                   dict(order=40, kind="B", dest="sql"),
-    "gameobject":                 dict(order=41, kind="B", dest="sql"),
-    "creature_addon":             dict(order=42, kind="B", dest="sql"),
-    "waypoint_data":              dict(order=43, kind="B", dest="sql"),
+    # Spawn tables: the wipe is ownership-scoped (Comment stamp), which clears STALE
+    # rows but deliberately spares rows this generator did not write. A hand [I-xxx]
+    # override that re-points one of our own guids (e.g. zz_[I-276] rewriting the
+    # creature_addon of 11001639) therefore survives the DELETE and would collide on
+    # the primary key, so these four write with REPLACE: ownership decides what gets
+    # cleaned up, the primary key decides what gets overwritten. The override file
+    # re-applies after us in the I-244 cascade and wins again, as before.
+    "creature":                   dict(order=40, kind="B", dest="sql", replace=True),
+    "gameobject":                 dict(order=41, kind="B", dest="sql", replace=True),
+    "creature_addon":             dict(order=42, kind="B", dest="sql", replace=True),
+    "waypoint_data":              dict(order=43, kind="B", dest="sql", replace=True),
     # SmartAI escort paths (SmartWaypointMgr) — a DIFFERENT table from waypoint_data,
     # which only feeds creature MovementType=2 (I-274).
     "waypoints":                  dict(order=44, kind="B", dest="sql"),
@@ -114,7 +121,9 @@ TABLES = {
     "creaturedisplayinfoextra":   dict(order=0, kind="A", pk="id", dest="dbc"),
     "gameobjectdisplayinfo":      dict(order=0, kind="A", pk="id", dest="dbc"),
     "itemdisplayinfo":            dict(order=0, kind="A", pk="id", dest="dbc"),
+    "screeneffect":               dict(order=0, kind="A", pk="id", dest="dbc"),
     "spell":                      dict(order=0, kind="A", pk="id", dest="dbc"),
+    "summonproperties":           dict(order=0, kind="A", pk="id", dest="dbc"),
     "spellvisual":                dict(order=0, kind="A", pk="id", dest="dbc"),
     "spellvisualkit":             dict(order=0, kind="A", pk="id", dest="dbc"),
     # Attach ids are referenced by nothing, so spellvisuals.py allocates them from
@@ -297,10 +306,11 @@ class Collector:
             if not groups or groups[-1][0] != cols:
                 groups.append((cols, []))
             groups[-1][1].append(r)
+        verb = "REPLACE" if TABLES[table].get("replace") else "INSERT"
         for cols, grp in groups:
             collist = ", ".join("`%s`" % c for c in cols)
             values = ",\n  ".join("(%s)" % ", ".join(_esc(r[c]) for c in cols) for r in grp)
-            out.append("INSERT INTO %s (%s) VALUES\n  %s;\n" % (table, collist, values))
+            out.append("%s INTO %s (%s) VALUES\n  %s;\n" % (verb, table, collist, values))
         return "\n".join(out) + "\n"
 
     def _dest(self, table, cfg):
