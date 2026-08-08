@@ -216,28 +216,38 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - After the climb, fly the escort path to the coop');
 
 -- ---------------------------------------------------------------------------
--- 6. Speed IS the animation-rate knob. Distance is a separate one.
+-- 6. The shipped M2 lied about its Walk speed. That was the whole problem.
 -- ---------------------------------------------------------------------------
--- Established in game across three passes: the client scales locomotion playback
--- by (actual speed / the pace the sequence was authored for). It does not play the
--- cycle at a fixed rate and let the feet slide.
+-- The client scales locomotion playback by (actual speed / the pace the SEQUENCE
+-- SAYS it was authored for), and the shipped model was carrying a false figure:
 --
---     speed_walk 0.5  -> 1.25  yd/s = 0.50x authored -> anim at half rate
---     speed_walk 1.0  -> 2.50  yd/s = 1.00x authored -> anim at NATIVE rate
---     speed_walk 0.25 -> 0.625 yd/s = 0.25x authored -> anim at quarter rate
+--     BushChicken.M2, anim 4 Walk, moveSpeed at sequence-record offset 8
+--       4.3.4 original      0.3611 yd/s
+--       our shipped v264    2.5000 yd/s   <- exactly baseMoveSpeed[MOVE_WALK]
 --
--- BUSHCHICKEN.M2 stores that authored pace as a float at sequence-record offset 8:
--- Walk (4) 2.5000 yd/s, Run (5) 4.1667 yd/s; AC's `baseMoveSpeed` is 2.5 for
--- MOVE_WALK and 7.0 for MOVE_RUN.
+-- Only Walk; Run agrees at 4.1667 in both. Someone or something "normalised" the
+-- field to AC's default walk speed. 2.5 / 0.3611 = 6.9, so at the speed that field
+-- demanded the bird covered nearly SEVEN times the ground its legs were drawn for:
+-- "anim playing super slow but movement is too fast", and a model viewer showing
+-- the cycle far quicker than the game.
 --
--- So speed_walk = 1.0 is not a tuning choice, it is the only value that plays the
--- walk cycle at its native rate. Anything slower visibly slows the legs, which is
--- what quartering the speed did. To make the birds cover less ground WITHOUT
--- touching the animation, use wander_distance (section 3) - that is the knob for
--- range, and it is now 4.
+-- Every earlier attempt to tune this was chasing the lie. speed_walk 1.0 gave
+-- ratio 1.0 against the false 2.5 - native cycle rate, seven times too much ground.
+-- Dropping to 0.25 fixed the ground and visibly slowed the legs (ratio 0.25),
+-- because the ratio is what drives playback.
 --
--- The Walk sequence's own motion is deliberately unhurried (2.5 yd/s is a slow
--- amble), so native rate plus a short roam is the pottering chicken.
+-- Fixed at the source: the Walk moveSpeed in
+-- `mpq/{source,parsed}-assets/.../bushchicken.m2` is patched back to the 4.3.4
+-- value, bytes copied verbatim from the original rather than retyped (backups
+-- alongside as *.pre-I318.bak). With the field honest, the matching server speed is
+--
+--     0.3611111 / 2.5 (baseMoveSpeed[MOVE_WALK]) = 0.144444
+--
+-- which gives ratio 1.0: native cycle rate AND the stride the animation actually
+-- depicts. Ships in PATCH-Z; the DBC/MPQ half and the SQL half must land together.
+--
+-- 0.36 yd/s is a genuine chicken potter, which is what the animator drew. Combined
+-- with wander_distance 4 (section 3) the birds mill about their spawn.
 --
 -- Which anim plays is `creature_template_movement.Random`, read by
 -- `RandomMovementGenerator` to set the spline's walk flag:
@@ -245,22 +255,13 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 --     case CreatureRandomMovementType::CanRun:    walk = creature->IsWalking(); break;
 --     case CreatureRandomMovementType::AlwaysRun: walk = false;                 break;
 --
--- Random stays 0 (Walk). Random = 2 was set once and appeared to do nothing, which
--- turned out to be a reload trap rather than a wrong value:
---
---     CreatureMovementData const& Creature::GetMovementTemplate() const
---     {
---         if (CreatureMovementData const* o = sObjectMgr->GetCreatureMovementOverride(m_spawnId))
---             return *o;                   // <- per-SPAWN cache wins
---         return GetCreatureTemplate()->Movement;
---     }
---
--- `LoadCreatureMovementOverrides()` builds that per-spawn cache with a LEFT JOIN
--- onto creature_template_movement, so every spawn holds its own copy.
--- `.reload creature_template <entry>` refreshes creature_template (which is why a
--- speed change in the same pass DID take) but not that cache. The command for it is
--- **`.reload creature_movement_override`**. To try Run: Random = 2 and
--- speed_run = 0.595238 (4.1667/7.0), then that reload.
+-- Random stays 0 (Walk) - the Walk sequence is the one that was mis-declared and is
+-- now correct. Run was always honest, so Random = 2 with speed_run = 0.595238
+-- (4.1667/7.0) remains a valid alternative; it needs
+-- `.reload creature_movement_override`, because a per-spawn cache shadows the
+-- template (`Creature::GetMovementTemplate` checks
+-- `GetCreatureMovementOverride(m_spawnId)` first) and `.reload creature_template`
+-- does not refresh it.
 --
 -- speed_run stays at the donor 1.0 - unused while the wander walks, and the escort
 -- flight pins its own rate anyway: actionlist entry 4 passes 100 to
@@ -269,14 +270,14 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 -- ---------------------------------------------------------------------------
 -- Final state - one consolidated UPDATE per row id (see the SQL standard).
 -- ---------------------------------------------------------------------------
---   npcflag      0        section 1 - no spellclick affordance
---   flags_extra  |0x200   section 5 - NO_MOVE_FLAGS_UPDATE, keeps capture flight
---   speed_walk   1        section 6 - 2.5 yd/s = the Walk anim's native rate
---   speed_run    1        section 6 - donor value, overridden per-flight by SET_FLY
+--   npcflag      0          section 1 - no spellclick affordance
+--   flags_extra  |0x200     section 5 - NO_MOVE_FLAGS_UPDATE, keeps capture flight
+--   speed_walk   0.144444   section 6 - 0.3611 yd/s, ratio 1.0 vs the repaired M2
+--   speed_run    1          section 6 - donor value, overridden per-flight by SET_FLY
 UPDATE creature_template SET
   npcflag = 0,
   flags_extra = flags_extra | 0x200,
-  speed_walk = 1,
+  speed_walk = 0.144444,
   speed_run = 1
 WHERE entry = 38111;
 
