@@ -184,6 +184,14 @@ INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`Quest
   (7915, 23380, 0, 100, 0, 1, 0, 1, 1, 'Walking Bomb - Broken Power Core'),
   (7915, 23333, 0, 25,  0, 1, 0, 1, 1, 'Walking Bomb - Shattered Power Core');
 
+-- 38224 Mechachicken (lvl 8, tier 100030) - I-323.
+-- Trash borrowed from KTC Oil Bot 39376, the loot-bearing mechanical sibling in the
+-- same zone and level band (Kezan, lvl 9-10); both items are grey and Kezan-native.
+DELETE FROM `creature_loot_template` WHERE `Entry` = 38224;
+INSERT INTO `creature_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`QuestRequired`,`LootMode`,`GroupId`,`MinCount`,`MaxCount`,`Comment`) VALUES
+  (38224, 84416, 0, 100, 0, 1, 0, 1, 1, 'Mechachicken - Defective Gear'),
+  (38224, 84415, 0, 20,  0, 1, 0, 1, 1, 'Mechachicken - Flimsy Sprocket');
+
 -- =====================================================================
 -- HERBALISM (plant trash)
 -- =====================================================================

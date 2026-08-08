@@ -9,12 +9,13 @@
 
 -- F-011 gameobject_loot_template (one file per table; rows carry final state)
 
-DELETE FROM gameobject_loot_template WHERE Entry IN (195201,202351,202552,202553,202554,202607,202608);
+DELETE FROM gameobject_loot_template WHERE Entry IN (195201,201974,202351,202552,202553,202554,202607,202608);
 DELETE FROM gameobject_loot_template WHERE Entry=195492;
 DELETE FROM gameobject_loot_template WHERE Entry IN (195515,195516,195518,201603,201798,202865);
 
 INSERT INTO gameobject_loot_template (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`) VALUES
   (195201, 84300, 0, 100, 1, 1, 0, 1, 1),
+  (201974, 84312, 0, 100, 1, 1, 0, 1, 1),
   (202351, 84321, 0, 99.999, 1, 1, 0, 1, 1),
   (202552, 84331, 0, 7.3, 1, 1, 0, 1, 1),
   (202552, 84332, 0, 100, 1, 1, 0, 1, 1),

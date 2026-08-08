@@ -12116,7 +12116,7 @@ INSERT INTO creature_template SET
   `RegenHealth` = 1,
   `CreatureImmunitiesId` = 91101,
   `flags_extra` = 0,
-  `ScriptName` = '',
+  `ScriptName` = 'npc_zep_bc_eliminator',
   `VerifiedBuild` = 0;
 
 DELETE FROM creature_template WHERE entry = 38531;
@@ -12868,7 +12868,7 @@ INSERT INTO creature_template SET
   `RegenHealth` = 1,
   `CreatureImmunitiesId` = 0,
   `flags_extra` = 0,
-  `ScriptName` = '',
+  `ScriptName` = 'npc_zep_super_booster_rocket_boots',
   `VerifiedBuild` = 0;
 
 DELETE FROM creature_template WHERE entry = 38807;
@@ -14924,7 +14924,7 @@ INSERT INTO creature_template SET
   `RegenHealth` = 1,
   `CreatureImmunitiesId` = 0,
   `flags_extra` = 0,
-  `ScriptName` = '',
+  `ScriptName` = 'npc_zep_wild_cart_companion',
   `VerifiedBuild` = 0;
 
 DELETE FROM creature_template WHERE entry = 39199;
@@ -14982,7 +14982,7 @@ INSERT INTO creature_template SET
   `RegenHealth` = 1,
   `CreatureImmunitiesId` = 0,
   `flags_extra` = 0,
-  `ScriptName` = '',
+  `ScriptName` = 'npc_zep_wild_cart_companion',
   `VerifiedBuild` = 0;
 
 DELETE FROM creature_template WHERE entry = 39200;
@@ -15040,7 +15040,7 @@ INSERT INTO creature_template SET
   `RegenHealth` = 1,
   `CreatureImmunitiesId` = 0,
   `flags_extra` = 0,
-  `ScriptName` = '',
+  `ScriptName` = 'npc_zep_wild_cart_companion',
   `VerifiedBuild` = 0;
 
 DELETE FROM creature_template WHERE entry = 39201;
@@ -15098,7 +15098,7 @@ INSERT INTO creature_template SET
   `RegenHealth` = 1,
   `CreatureImmunitiesId` = 0,
   `flags_extra` = 0,
-  `ScriptName` = '',
+  `ScriptName` = 'npc_zep_wild_cart_companion',
   `VerifiedBuild` = 0;
 
 DELETE FROM creature_template WHERE entry = 39276;
@@ -15184,7 +15184,7 @@ INSERT INTO creature_template SET
   `RegenHealth` = 1,
   `CreatureImmunitiesId` = 91101,
   `flags_extra` = 0,
-  `ScriptName` = '',
+  `ScriptName` = 'npc_zep_wild_mine_cart',
   `VerifiedBuild` = 0;
 
 DELETE FROM creature_template WHERE entry = 39335;
@@ -18873,6 +18873,64 @@ INSERT INTO creature_template SET
   `family` = 0,
   `type` = 7,
   `type_flags` = 0,
+  `lootid` = 0,
+  `pickpocketloot` = 0,
+  `skinloot` = 0,
+  `PetSpellDataId` = 0,
+  `VehicleId` = 0,
+  `mingold` = 0,
+  `maxgold` = 0,
+  `AIName` = 'SmartAI',
+  `MovementType` = 0,
+  `HoverHeight` = 1,
+  `HealthModifier` = 1,
+  `ManaModifier` = 1,
+  `ArmorModifier` = 1,
+  `ExperienceModifier` = 1,
+  `RacialLeader` = 0,
+  `movementId` = 0,
+  `RegenHealth` = 1,
+  `CreatureImmunitiesId` = 0,
+  `flags_extra` = 0,
+  `ScriptName` = '',
+  `VerifiedBuild` = 0;
+
+DELETE FROM creature_template WHERE entry = 75113;
+INSERT INTO creature_template SET
+  `entry` = 75113,
+  `difficulty_entry_1` = 0,
+  `difficulty_entry_2` = 0,
+  `difficulty_entry_3` = 0,
+  `KillCredit1` = 0,
+  `KillCredit2` = 0,
+  `name` = 'Wondi''s Bunny - Trading Up - Spell Item Target',
+  `subname` = 'The Lost Isles',
+  `IconName` = NULL,
+  `gossip_menu_id` = 0,
+  `minlevel` = 85,
+  `maxlevel` = 85,
+  `exp` = 2,
+  `faction` = 35,
+  `npcflag` = 0,
+  `speed_walk` = 1,
+  `speed_run` = 1.1429,
+  `speed_swim` = 1,
+  `speed_flight` = 1.1429,
+  `detection_range` = 18,
+  `rank` = 0,
+  `dmgschool` = 0,
+  `DamageModifier` = 100.5,
+  `BaseAttackTime` = 0,
+  `RangeAttackTime` = 0,
+  `BaseVariance` = 1,
+  `RangeVariance` = 1,
+  `unit_class` = 1,
+  `unit_flags` = 0,
+  `unit_flags2` = 0,
+  `dynamicflags` = 0,
+  `family` = 0,
+  `type` = 7,
+  `type_flags` = 4172,
   `lootid` = 0,
   `pickpocketloot` = 0,
   `skinloot` = 0,

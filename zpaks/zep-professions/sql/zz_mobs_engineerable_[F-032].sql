@@ -224,3 +224,10 @@
     
     -- Scrapped Fel Reaver
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20243);
+
+-- LEVEL 1 - 15 CATACLYSM (F-011 goblin start)
+
+    -- Mechachicken (I-323) - Kezan, level 8, already type 9. lootid 0 -> vendor
+    -- trash in zz_[F-032]_no_loot_vendor_trash.sql so the corpse survives long
+    -- enough to be gathered.
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100030, `lootid` = 38224 WHERE (`entry` = 38224);
