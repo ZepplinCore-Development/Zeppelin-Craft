@@ -1,7 +1,7 @@
 From f59f08475aae2e349d8d1c0807546ff76bacd5d1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 22 Apr 2026 06:23:57 +0000
-Subject: [PATCH 1/5] fix: Increment unlootedCount for AoE-merged loot items
+Subject: [PATCH 1/6] fix: Increment unlootedCount for AoE-merged loot items
  (I-137)
 
 Items merged from nearby corpses into the main creature's loot were not
@@ -37,7 +37,7 @@ index b72b515..d99111f 100644
 From e441fe1495bcd8f4a9ed6c2f8f2e2e017188562a Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 22 Apr 2026 06:24:02 +0000
-Subject: [PATCH 2/5] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
+Subject: [PATCH 2/6] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
  (I-143)
 
 MySQL 8.4 defaults connection collation to utf8mb4_0900_ai_ci, which
@@ -66,7 +66,7 @@ index eb99b3a..f237d5f 100644
 From 063f71b8c277dd613b36dd577fe955806a3bbf6d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 12 Jun 2026 11:32:02 +0000
-Subject: [PATCH 3/5] fix: Group-safe partial merge + solo-group auto-greed
+Subject: [PATCH 3/6] fix: Group-safe partial merge + solo-group auto-greed
  (I-137)
 
 - Merge only plain items (not FFA/conditional/quest-flagged) - merged
@@ -450,7 +450,7 @@ index 2243a58..540481d 100644
 From c49a740b3f3febfe8a603438e55fee5a54403b95 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 06:51:26 +0000
-Subject: [PATCH 4/5] fix: Loot FFA/conditional items to bags instead of
+Subject: [PATCH 4/6] fix: Loot FFA/conditional items to bags instead of
  leaving them (I-137)
 
 Bring conditional and FFA loot across instead of leaving it on the
@@ -651,7 +651,7 @@ index d75115e..3023b46 100644
 From b557e4b82c24fd342fa29836d8076d284efe91a1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 14 Jun 2026 10:39:42 +0000
-Subject: [PATCH 5/5] fix: Bring FFA/conditional loot into the merged window
+Subject: [PATCH 5/6] fix: Bring FFA/conditional loot into the merged window
  (I-137)
 
 Instead of routing FFA/conditional items to bags, inject them into the
@@ -784,6 +784,231 @@ index 3023b46..e807dbc 100644
      player->SendLoot(targetGuid, LOOT_CORPSE);
  
      return false;
+-- 
+2.34.1
+
+
+From 66010d0e809217d7d9d27d8f790571b2fa579f12 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 8 Aug 2026 13:25:41 +0000
+Subject: [PATCH 6/6] fix: Screen AoE-merged corpses through the group loot
+ method (I-325)
+
+BoP dungeon loot bypassed the roll window in solo RDF. A solo RDF run is a
+1-member NEED_BEFORE_GREED group, and AutoGreedSolo short-circuited
+reservedForRoll() for any 1-member group, so every over-threshold item on a
+merged corpse went straight into the loot window. The module also never read
+Bonding at all.
+
+- Add applyLootRules(): dispatch each nearby corpse through the group's own
+  GroupLoot/NeedBeforeGreed/MasterLoot before reading its loot, exactly as
+  Player::SendLoot does. Rolled items are reserved in place (the Roll holds the
+  corpse's Loot* + item slot) and flagged is_blocked, which every merge path
+  already skips - so routing to the roll and excluding from the merge are the
+  same act. Stamps loot_type = LOOT_CORPSE to stop a later click starting a
+  second round of rolls.
+- Delete reservedForRoll(): screening is now stock, covering GROUP_LOOT, NBG,
+  MASTER_LOOT (is_blocked = !is_underthreshold, set at kill time by FillLoot)
+  and the no-op round-robin/FFA cases.
+- Remove AOELoot.AutoGreedSolo entirely (CanPacketSend hook, its declaration,
+  SERVERHOOK_CAN_PACKET_SEND, config key). Left in place it would have instantly
+  greeded the newly-routed rolls. Over-threshold drops now show their roll
+  window when soloing.
+
+Closes I-325
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01JXtCzpbM7q8wbd56rUnZLZ
+---
+ conf/mod_aoe_loot.conf.dist |  10 ----
+ src/aoe_loot.cpp            | 102 +++++++++++++-----------------------
+ src/aoe_loot.h              |   4 +-
+ 3 files changed, 37 insertions(+), 79 deletions(-)
+
+diff --git a/conf/mod_aoe_loot.conf.dist b/conf/mod_aoe_loot.conf.dist
+index 90f9922..88a2094 100644
+--- a/conf/mod_aoe_loot.conf.dist
++++ b/conf/mod_aoe_loot.conf.dist
+@@ -52,13 +52,3 @@ AOELoot.Range = 55.0
+ 
+ AOELoot.Group = 1
+ 
+-#
+-#    AOELoot.AutoGreedSolo
+-#        Description: When the player is the only member of their group, automatically
+-#                     greed group loot rolls so items go straight to their bags, and
+-#                     allow area loot to merge roll-eligible (over threshold) items.
+-#        Default:     1 - (Enabled)
+-#                     0 - (Disabled)
+-#
+-
+-AOELoot.AutoGreedSolo = 1
+diff --git a/src/aoe_loot.cpp b/src/aoe_loot.cpp
+index e807dbc..6252eb9 100644
+--- a/src/aoe_loot.cpp
++++ b/src/aoe_loot.cpp
+@@ -114,28 +114,43 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+ 
+     Group* group = player->GetGroup();
+     LootMethod lootMethod = group ? group->GetLootMethod() : FREE_FOR_ALL;
+-    bool soloGroup = group && group->GetMembersCount() == 1;
+-    bool autoGreedSolo = soloGroup && sConfigMgr->GetOption<bool>("AOELoot.AutoGreedSolo", true);
+ 
+     // Corpses are assigned to members (round-robin) in every method except
+     // free-for-all; never merge loot that belongs to someone else
+     bool respectAssignment = group && lootMethod != FREE_FOR_ALL;
+ 
+-    // Methods where over-threshold items are reserved for the group (rolls /
+-    // master loot) and must not be grabbed out from under other members
+-    bool thresholdMethod = group && (lootMethod == GROUP_LOOT || lootMethod == NEED_BEFORE_GREED || lootMethod == MASTER_LOOT);
+-    ItemQualities lootThreshold = group ? group->GetLootThreshold() : ITEM_QUALITY_POOR;
+-
+-    // True when a non-FFA item is reserved for a group roll / master looter: it
+-    // meets the loot threshold under a roll method. A sole-member group has no one
+-    // to roll against, so nothing is reserved there.
+-    auto reservedForRoll = [&](uint32 itemId) -> bool
++    // Screen a corpse through the group's own loot method before merging it, exactly
++    // as Player::SendLoot does when that corpse is opened by hand (I-325).
++    //
++    // Items the loot rules reserve are rolled / reserved IN PLACE: the Roll holds this
++    // corpse's Loot* plus the item slot, so a rolled item must stay where it is. Stock
++    // flags it is_blocked, which every merge path below already skips - so routing to
++    // the roll and excluding it from the merge are the same act. Items the rules leave
++    // alone are marked is_underthreshold and merge normally.
++    auto applyLootRules = [&](Loot* loot, Creature* creature)
+     {
+-        if (!thresholdMethod || autoGreedSolo)
+-            return false;
++        if (!group || loot->loot_type != LOOT_NONE)
++            return;
++
++        switch (lootMethod)
++        {
++            case GROUP_LOOT:
++                group->GroupLoot(loot, creature);
++                break;
++            case NEED_BEFORE_GREED:
++                group->NeedBeforeGreed(loot, creature);
++                break;
++            case MASTER_LOOT:
++                group->MasterLoot(loot, creature);
++                break;
++            default: // free-for-all / round robin reserve nothing
++                break;
++        }
+ 
+-        ItemTemplate const* proto = sObjectMgr->GetItemTemplate(itemId);
+-        return proto && proto->Quality >= uint32(lootThreshold);
++        // Stamp the corpse as opened. SendLoot only dispatches the loot method while
++        // loot_type is LOOT_NONE, so this stops a later click on the same corpse from
++        // starting a second round of rolls for items that are already rolling.
++        loot->loot_type = LOOT_CORPSE;
+     };
+ 
+     if (respectAssignment && mainLoot->roundRobinPlayer && mainLoot->roundRobinPlayer != player->GetGUID())
+@@ -174,9 +189,9 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+             if (item.is_looted)
+                 continue;
+ 
+-            // Over-threshold conditional items stay for the group roll (FFA items
+-            // are never rolled, so they are always taken)
+-            if (!item.freeforall && reservedForRoll(item.itemid))
++            // Items the loot rules reserved (roll started / master loot) stay on this
++            // corpse; FFA items are never rolled, so they are always taken
++            if (!item.freeforall && (item.is_blocked || item.rollWinnerGUID))
+                 continue;
+ 
+             if (!item.AllowedForPlayer(player, loot->sourceWorldObjectGUID))
+@@ -220,6 +235,9 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+ 
+         ++processedCorpses;
+ 
++        // Route roll-eligible items into the group's loot rolls before merging anything
++        applyLootRules(loot, creature);
++
+         // Quest items the player is eligible for go straight to their bags with the
+         // same bookkeeping as looting them off the corpse; the per-player quest
+         // lists stay on the source corpse for other members
+@@ -271,10 +289,6 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+                 !item.AllowedForPlayer(player, loot->sourceWorldObjectGUID))
+                 continue;
+ 
+-            // Over-threshold items in a group are reserved for the roll / master looter
+-            if (reservedForRoll(item.itemid))
+-                continue;
+-
+             mainLoot->items.push_back(item);
+             LootItem& added = mainLoot->items.back();
+             // Scope the merged copy to this looter: rollWinnerGUID shows it as OWNER
+@@ -313,50 +327,6 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
+     return false;
+ }
+ 
+-bool AOELootServer::CanPacketSend(WorldSession* session, WorldPacket const& packet)
+-{
+-    // Auto-greed group loot rolls when the player is the only member of their group
+-    if (packet.GetOpcode() != SMSG_LOOT_START_ROLL)
+-        return true;
+-
+-    if (!session)
+-        return true;
+-
+-    Player* player = session->GetPlayer();
+-    if (!player)
+-        return true;
+-
+-    if (!sConfigMgr->GetOption<bool>("AOELoot.Enable", true) || !sConfigMgr->GetOption<bool>("AOELoot.AutoGreedSolo", true))
+-        return true;
+-
+-    Group* group = player->GetGroup();
+-    if (!group || group->GetMembersCount() > 1)
+-        return true;
+-
+-    WorldPacket packetCopy(packet);
+-    ObjectGuid rollGuid;
+-    packetCopy >> rollGuid;
+-
+-    // The roll is registered after this packet is sent - cast the greed vote on the
+-    // next update tick
+-    ObjectGuid playerGuid = player->GetGUID();
+-    ObjectGuid groupGuid = group->GetGUID();
+-    player->m_Events.AddEventAtOffset([playerGuid, groupGuid, rollGuid]()
+-    {
+-        Player* rollPlayer = ObjectAccessor::FindPlayer(playerGuid);
+-        if (!rollPlayer)
+-            return;
+-
+-        Group* rollGroup = rollPlayer->GetGroup();
+-        if (!rollGroup || rollGroup->GetGUID() != groupGuid || rollGroup->GetMembersCount() > 1)
+-            return;
+-
+-        rollGroup->CountRollVote(playerGuid, rollGuid, ROLL_GREED);
+-    }, 1ms);
+-
+-    return true;
+-}
+-
+ ChatCommandTable AoeLootCommandScript::GetCommands() const
+ {
+     static ChatCommandTable aoeLootSubCommandTable =
+diff --git a/src/aoe_loot.h b/src/aoe_loot.h
+index 540481d..2243a58 100644
+--- a/src/aoe_loot.h
++++ b/src/aoe_loot.h
+@@ -61,12 +61,10 @@ public:
+ class AOELootServer : public ServerScript
+ {
+ public:
+-    AOELootServer() : ServerScript("AOELootServer", { SERVERHOOK_CAN_PACKET_RECEIVE, SERVERHOOK_CAN_PACKET_SEND }) {}
++    AOELootServer() : ServerScript("AOELootServer", { SERVERHOOK_CAN_PACKET_RECEIVE }) {}
+ 
+     bool CanPacketReceive(WorldSession* session, WorldPacket const& packet) override;
+ 
+-    bool CanPacketSend(WorldSession* session, WorldPacket const& packet) override;
+-
+ private:
+     // Helper function - Check if loot is valid
+     bool IsLootValid(Loot* loot) const;
 -- 
 2.34.1
 

@@ -52,13 +52,3 @@ AOELoot.Range = 55.0
 
 AOELoot.Group = 1
 
-#
-#    AOELoot.AutoGreedSolo
-#        Description: When the player is the only member of their group, automatically
-#                     greed group loot rolls so items go straight to their bags, and
-#                     allow area loot to merge roll-eligible (over threshold) items.
-#        Default:     1 - (Enabled)
-#                     0 - (Disabled)
-#
-
-AOELoot.AutoGreedSolo = 1
