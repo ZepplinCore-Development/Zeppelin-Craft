@@ -301,3 +301,28 @@ UPDATE creature_template_movement SET
   Flight = 0,
   Random = 0
 WHERE CreatureId = 38111;
+
+-- ---------------------------------------------------------------------------
+-- 7. One clucker size, the large one.
+-- ---------------------------------------------------------------------------
+-- The size variation was faithful, not a port defect: 4.3.4 CreatureDisplayInfo
+-- carries three displays on model 3262 differing ONLY in creature_model_scale -
+--
+--     30969  1.00      30970  1.25      30971  1.50
+--
+-- every other field (model, sound, extended info, texture variations, blood,
+-- geoset, effect package) is identical across the three, and the emitted
+-- creature_template_model gave each an equal Probability, so a flock came out in
+-- three sizes. Blizzard varies them on purpose; we want them uniform.
+--
+-- Collapsed to a single model row on the largest. Safe to drop the other two:
+-- `ObjectMgr::LoadCreatureTemplateModels` selects `ORDER BY Idx ASC` and never
+-- reads Idx back, so Idx is only an ordering key - it need not start at 0 or be
+-- contiguous - and the `creature` table has no modelid column, so no spawn pins a
+-- display of its own.
+--
+-- DisplayScale stays 1: that is the server-side multiplier applied ON TOP of the
+-- DBC scale, so the 1.5 comes through untouched.
+DELETE FROM creature_template_model WHERE CreatureID = 38111;
+INSERT INTO creature_template_model (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES
+  (38111, 0, 30971, 1, 1, 0);
