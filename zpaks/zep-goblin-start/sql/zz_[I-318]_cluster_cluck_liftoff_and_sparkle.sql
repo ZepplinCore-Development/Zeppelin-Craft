@@ -119,7 +119,12 @@ DELETE FROM smart_scripts WHERE source_type = 0 AND entryorguid = 38111 AND id =
 -- overlay is non-deterministic (its `tdb_q` has no ORDER BY), so the split moves
 -- between regens. Normalising the whole entry is therefore both the fix for the 13
 -- stragglers and self-healing against a future gen run redrawing the line.
-UPDATE creature SET MovementType = 1, wander_distance = 10 WHERE id = 38111;
+--
+-- wander_distance is the "how far do they roam" knob, and it is the RIGHT one for
+-- that question - speed is not, because speed drives the animation rate (see
+-- section 6). 4 yards keeps the birds pottering around their spawn instead of
+-- striding across Kezan, at an unchanged, native-rate walk.
+UPDATE creature SET MovementType = 1, wander_distance = 4 WHERE id = 38111;
 
 -- Capture still stops the wander before lift-off: actionlist 3811100 id 2 is
 -- RANDOM_MOVE 0, i.e. the very MoveIdle described above - which is exactly what it
@@ -211,64 +216,67 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
   (3811100, 9, 10, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 53, 1, 38111, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Wild Clucker - Captured - After the climb, fly the escort path to the coop');
 
 -- ---------------------------------------------------------------------------
--- 6. Speed and animation: matched to the model, and why Run did not take.
+-- 6. Speed IS the animation-rate knob. Distance is a separate one.
 -- ---------------------------------------------------------------------------
--- Which anim a wander plays is the spline's walk flag, which
--- `RandomMovementGenerator` reads from the movement template:
+-- Established in game across three passes: the client scales locomotion playback
+-- by (actual speed / the pace the sequence was authored for). It does not play the
+-- cycle at a fixed rate and let the feet slide.
+--
+--     speed_walk 0.5  -> 1.25  yd/s = 0.50x authored -> anim at half rate
+--     speed_walk 1.0  -> 2.50  yd/s = 1.00x authored -> anim at NATIVE rate
+--     speed_walk 0.25 -> 0.625 yd/s = 0.25x authored -> anim at quarter rate
+--
+-- BUSHCHICKEN.M2 stores that authored pace as a float at sequence-record offset 8:
+-- Walk (4) 2.5000 yd/s, Run (5) 4.1667 yd/s; AC's `baseMoveSpeed` is 2.5 for
+-- MOVE_WALK and 7.0 for MOVE_RUN.
+--
+-- So speed_walk = 1.0 is not a tuning choice, it is the only value that plays the
+-- walk cycle at its native rate. Anything slower visibly slows the legs, which is
+-- what quartering the speed did. To make the birds cover less ground WITHOUT
+-- touching the animation, use wander_distance (section 3) - that is the knob for
+-- range, and it is now 4.
+--
+-- The Walk sequence's own motion is deliberately unhurried (2.5 yd/s is a slow
+-- amble), so native rate plus a short roam is the pottering chicken.
+--
+-- Which anim plays is `creature_template_movement.Random`, read by
+-- `RandomMovementGenerator` to set the spline's walk flag:
 --
 --     case CreatureRandomMovementType::CanRun:    walk = creature->IsWalking(); break;
 --     case CreatureRandomMovementType::AlwaysRun: walk = false;                 break;
 --
--- Random = 2 (AlwaysRun) was set and did NOT change the animation in game, while
--- the speed change made in the same pass DID take. That split is the diagnosis:
+-- Random stays 0 (Walk). Random = 2 was set once and appeared to do nothing, which
+-- turned out to be a reload trap rather than a wrong value:
 --
 --     CreatureMovementData const& Creature::GetMovementTemplate() const
 --     {
 --         if (CreatureMovementData const* o = sObjectMgr->GetCreatureMovementOverride(m_spawnId))
---             return *o;                       // <- per-SPAWN cache wins
+--             return *o;                   // <- per-SPAWN cache wins
 --         return GetCreatureTemplate()->Movement;
 --     }
 --
 -- `LoadCreatureMovementOverrides()` builds that per-spawn cache with a LEFT JOIN
 -- onto creature_template_movement, so every spawn holds its own copy.
--- `.reload creature_template <entry>` refreshes creature_template (hence the new
--- speed) but NOT that cache, so Ground/Flight/Random stayed at their startup
--- values. The command that refreshes it is **`.reload creature_movement_override`**.
--- So Random = 2 was never actually tested.
+-- `.reload creature_template <entry>` refreshes creature_template (which is why a
+-- speed change in the same pass DID take) but not that cache. The command for it is
+-- **`.reload creature_movement_override`**. To try Run: Random = 2 and
+-- speed_run = 0.595238 (4.1667/7.0), then that reload.
 --
--- Speeds, from the model. BUSHCHICKEN.M2 stores the pace each locomotion sequence
--- was authored for as a float at sequence-record offset 8:
---
---     Walk (4)  1000 ms   authored 2.5000 yd/s
---     Run  (5)   500 ms   authored 4.1667 yd/s
---
--- with AC `baseMoveSpeed` 2.5 (MOVE_WALK) and 7.0 (MOVE_RUN). Matching those
--- exactly (speed_walk 1.0 = 2.5 yd/s) still read as too fast in game, so the
--- authored figure is treated as an upper bound, not a target: speed_walk 0.25
--- gives 0.625 yd/s, a quarter of the authored pace and of what was last tested.
---
--- Random goes back to 0 (Walk) so the result is deterministic rather than
--- depending on whether the override cache has been reloaded - the walk anim is
--- what has actually been on screen for every judgement so far. To try Run
--- instead: set Random = 2 and speed_run = 0.595238 (4.1667/7.0) and run
--- `.reload creature_movement_override`.
---
--- speed_run stays at the donor 1.0. It is unused while the wander walks, and the
--- escort flight does not depend on it either: actionlist entry 4 passes 100 to
--- SMART_ACTION_SET_FLY, i.e. `SetSpeed(MOVE_RUN, 100 / 100.0f, true)`, pinning the
--- flight to rate 1.0 regardless of the template value.
+-- speed_run stays at the donor 1.0 - unused while the wander walks, and the escort
+-- flight pins its own rate anyway: actionlist entry 4 passes 100 to
+-- SMART_ACTION_SET_FLY, i.e. `SetSpeed(MOVE_RUN, 100 / 100.0f, true)`.
 
 -- ---------------------------------------------------------------------------
 -- Final state - one consolidated UPDATE per row id (see the SQL standard).
 -- ---------------------------------------------------------------------------
 --   npcflag      0        section 1 - no spellclick affordance
 --   flags_extra  |0x200   section 5 - NO_MOVE_FLAGS_UPDATE, keeps capture flight
---   speed_walk   0.25     section 6 - 0.625 yd/s
+--   speed_walk   1        section 6 - 2.5 yd/s = the Walk anim's native rate
 --   speed_run    1        section 6 - donor value, overridden per-flight by SET_FLY
 UPDATE creature_template SET
   npcflag = 0,
   flags_extra = flags_extra | 0x200,
-  speed_walk = 0.25,
+  speed_walk = 1,
   speed_run = 1
 WHERE entry = 38111;
 
