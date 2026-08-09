@@ -285,7 +285,23 @@ end
 
 local zepListener = CreateFrame("Frame")
 zepListener:RegisterEvent("CHAT_MSG_ADDON")
-zepListener:SetScript("OnEvent", function(_, _, prefix, message)
+-- A fresh Dungeon Finder group always starts on the server's default (stock Need
+-- Before Greed) -- Group::SetLootMethod is in-memory only and nothing carries a
+-- choice across groups. So drop any remembered mode on group formation and on every
+-- world entry, or the menu keeps ticking a mode the current group does not have.
+--
+-- Deliberately NOT PARTY_MEMBERS_CHANGED: our own command calls Group::SendUpdate,
+-- which fires that event, and clearing there would wipe the confirmation we just got.
+zepListener:RegisterEvent("PLAYER_ENTERING_WORLD")
+zepListener:RegisterEvent("LFG_PROPOSAL_SUCCEEDED")
+zepListener:SetScript("OnEvent", function(_, event, prefix, message)
+    if event == "PLAYER_ENTERING_WORLD" or event == "LFG_PROPOSAL_SUCCEEDED" then
+        zepSelected = nil
+        zepConfirmed = nil
+        zepPending = {}
+        return
+    end
+
     if prefix ~= ZEP_ADDON_PREFIX or not message then
         return
     end

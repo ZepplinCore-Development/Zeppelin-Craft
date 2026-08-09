@@ -1,0 +1,54 @@
+From 455c721e71983a3d56f3d51bd19079e2c421b5c9 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 9 Aug 2026 13:08:31 +0000
+Subject: [PATCH] diag: Log Dungeon Finder loot method transitions (F-204)
+
+FFA was confirmed by the server yet boss corpses still opened roll windows in the
+same run. Both roll paths (Player.cpp SendLoot, mod-aoe-loot) switch on
+Group::GetLootMethod() and no-op on FREE_FOR_ALL, so the group cannot have been on
+FFA at loot time. Nothing in the core writes m_lootMethod except Create,
+LoadGroupFromDB, ConvertToLFG and SetLootMethod.
+
+Log the two that can move it at runtime, under category lfg.loot, so a mid-run
+revert is traced from the worldserver log instead of guessed at.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Groups/Group.cpp | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/src/server/game/Groups/Group.cpp b/src/server/game/Groups/Group.cpp
+index 30c9eb39f..2ba69bf18 100644
+--- a/src/server/game/Groups/Group.cpp
++++ b/src/server/game/Groups/Group.cpp
+@@ -296,6 +296,12 @@ void Group::ConvertToLFG(bool restricted /*= true*/)
+     m_groupType = GroupType(m_groupType | GROUPTYPE_LFG);
+     if (restricted)
+     {
++        // F-204 diagnostic: this is the only place that forces a Dungeon Finder group
++        // back to Need Before Greed. Logged so a mid-run revert of a player's chosen
++        // loot method can be traced rather than guessed at.
++        LOG_INFO("lfg.loot", "Group {}: ConvertToLFG(restricted) forcing loot method {} -> NEED_BEFORE_GREED",
++            GetGUID().ToString(), uint32(m_lootMethod));
++
+         m_groupType  = GroupType(m_groupType | GROUPTYPE_LFG_RESTRICTED);
+         m_lootMethod = NEED_BEFORE_GREED;
+     }
+@@ -2307,6 +2313,14 @@ void Group::ResetMaxEnchantingLevel()
+ 
+ void Group::SetLootMethod(LootMethod method)
+ {
++    // F-204 diagnostic: pairs with the ConvertToLFG log above so the full transition
++    // history of a group's loot method is visible in one place.
++    if (isLFGGroup(true))
++    {
++        LOG_INFO("lfg.loot", "Group {}: SetLootMethod {} -> {}",
++            GetGUID().ToString(), uint32(m_lootMethod), uint32(method));
++    }
++
+     m_lootMethod = method;
+ }
+ 
+-- 
+2.34.1
+
