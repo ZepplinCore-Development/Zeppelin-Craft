@@ -294,6 +294,10 @@ DELETE FROM `npc_vendor` WHERE (`item` = 58556);
 INSERT INTO `npc_vendor`
 SET `entry` = 16611,
     `item` = 58556;
+-- Velanni - Scroll of Teleport Silvermoon City
+INSERT INTO `npc_vendor`
+SET `entry` = 16612,
+    `item` = 58556;
 
 
 -- Scroll of Teleport Exodar
@@ -332,6 +336,10 @@ DELETE FROM `npc_vendor` WHERE (`item` = 58557);
 -- Bildine - Scroll of Teleport Exodar
 INSERT INTO `npc_vendor`
 SET `entry` = 16757,
+    `item` = 58557;
+-- Musal - Scroll of Teleport Exodar
+INSERT INTO `npc_vendor`
+SET `entry` = 16706,
     `item` = 58557;
 
 
