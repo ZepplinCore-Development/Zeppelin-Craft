@@ -135,6 +135,12 @@ local ZEP_LOOT_MODES = {
     { key = "ZEPLM_NEED_BEFORE_GREED", method = "needbeforegreed", token = "nbg",        text = LOOT_NEED_BEFORE_GREED },
 }
 
+-- Inline texture escapes: a tick on the live mode and an empty box on the rest,
+-- so the submenu reads as a radio list and every label stays aligned. Both are
+-- stock 3.3.5 textures.
+local ZEP_ACTIVE_MARK = "|TInterface\\Buttons\\UI-CheckBox-Check:14:14:0:0|t "
+local ZEP_INACTIVE_PAD = "|TInterface\\Buttons\\UI-CheckBox-Up:14:14:0:0|t "
+
 local ZEP_LOOT_ROOT = "ZEPLM_LOOT_METHOD"
 local zepModeByKey = {}
 local zepSelected = nil   -- what we asked for (optimistic, drives our own menu label)
@@ -212,14 +218,16 @@ hooksecurefunc("UnitPopup_HideButtons", function()
         -- Leaving RDF invalidates the remembered pick; the next group starts on
         -- whatever the server defaults to (stock Need Before Greed).
         zepSelected = nil
+        zepConfirmed = nil
     end
 
     -- ShowMenu only rewrites UnitPopupButtons["LOOT_METHOD"].text after this
     -- hook returns, so our own label is safe to set here.
     -- GetLootMethod() is only trustworthy with a visible party: Group::BuildUpdate
-    -- omits the loot method for a 1-man group, so solo we show what we last asked
-    -- for and fall back to the generic label before the first pick.
-    local active = zepSelected
+    -- omits the loot method for a 1-man group, so solo we show what the server
+    -- acknowledged, falling back to what we asked for while a reply is in flight
+    -- and to the generic label before the first pick.
+    local active = zepConfirmed or zepSelected
     if not active and (GetNumPartyMembers() > 0 or GetNumRaidMembers() > 0) then
         local current = GetLootMethod()
         for _, mode in ipairs(ZEP_LOOT_MODES) do
@@ -230,12 +238,25 @@ hooksecurefunc("UnitPopup_HideButtons", function()
     end
     UnitPopupButtons[ZEP_LOOT_ROOT].text = active and active.text or LOOT_METHOD
 
-    -- Mark the live mode inside our own submenu. Stock's checkmark is driven by
-    -- GetLootMethod(), which is stale forever in a solo group, so colouring our
-    -- entry is the only indicator that can be trusted here.
+    -- Mark the live mode inside our own submenu.
+    --
+    -- Stock 3.3.5 has no checkmark to reuse: UnitPopup_ShowMenu only ever sets
+    -- info.checked for RAID_TARGET_* values, and everything else is forced
+    -- notCheckable, which hides the button's Check texture and shifts its text.
+    -- Reaching info.checked would mean overriding UIDropDownMenu_AddButton for
+    -- every dropdown in the game, or un-hiding Check and fighting both the
+    -- dropdown layout and ElvUI's skin of it (Skins/Blizzard/Misc.lua).
+    --
+    -- An inline texture escape inside the button's own text needs neither: it is
+    -- part of the FontString, so no layout changes and nothing a skin can strip.
+    -- The colour is kept as a secondary cue but is not relied upon -- skins do
+    -- recolour dropdown text.
     for _, mode in ipairs(ZEP_LOOT_MODES) do
-        UnitPopupButtons[mode.key].text =
-            (mode == active) and ("|cff4CFF00" .. mode.text .. "|r") or mode.text
+        if mode == active then
+            UnitPopupButtons[mode.key].text = ZEP_ACTIVE_MARK .. "|cff4CFF00" .. mode.text .. "|r"
+        else
+            UnitPopupButtons[mode.key].text = ZEP_INACTIVE_PAD .. mode.text
+        end
     end
 
     for index, value in ipairs(menu) do
@@ -330,34 +351,9 @@ hooksecurefunc("UnitPopup_OnClick", function(self)
     CloseDropDownMenus()
 end)
 
--------------------------------------------------------------------------------
--- Fix 4: report the real loot method to the rest of the UI (F-204)
--------------------------------------------------------------------------------
--- Every loot-method indicator in the client -- stock frames, our own menu, and
--- third-party addons like ElvUI -- reads GetLootMethod(). For a 1-member group
--- that value is permanently wrong: Group::BuildUpdate only writes the loot
--- method when GetMembersCount() - 1 is non-zero, so the server never gets a
--- chance to correct whatever the client happened to be holding (typically
--- "group" from the last real party). The result is an indicator welded to Group
--- Loot no matter what the group is actually using.
---
--- We cannot make the server send it, but GetLootMethod is a plain Lua global, so
--- we can answer for it in exactly the case the server cannot: no visible party,
--- and a mode the server has positively acknowledged. Everything else defers to
--- the real function, so grouped play and the master-looter indices are untouched.
-local zep_orig_GetLootMethod = GetLootMethod
-
-function GetLootMethod()
-    local method, partyIndex, raidIndex = zep_orig_GetLootMethod()
-
-    if zepConfirmed and GetNumPartyMembers() == 0 and GetNumRaidMembers() == 0 then
-        -- partyIndex 0 is how the client marks "you are the master looter"
-        -- (UnitPopup's LOOT_PROMOTE check for the SELF menu).
-        if zepConfirmed.method == "master" then
-            return zepConfirmed.method, 0, nil
-        end
-        return zepConfirmed.method, nil, nil
-    end
-
-    return method, partyIndex, raidIndex
-end
+-- Overriding the global GetLootMethod() was tried here and removed: across all of
+-- FrameXML and ElvUI its only consumers are the master-looter icon
+-- (PlayerFrame.lua:79, PartyMemberFrame.lua:125, oUF masterlooterindicator), and
+-- every one of them additionally requires a visible party, which a solo group
+-- never has. Nothing in the client displays the loot method by name outside the
+-- menu below, so the override changed nothing and only risked taint.
