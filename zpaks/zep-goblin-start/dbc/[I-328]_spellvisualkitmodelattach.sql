@@ -25,11 +25,34 @@
 --     The asset and the DBC row were fine all along (verified present in PATCH-O and in
 --     the built SpellVisualEffectName.dbc) — it was hidden in the mesh.
 --
--- All four models now hang off **attachment 18** instead: bone 12, parent -1, i.e. a
--- static model-space marker that no animation drives, sitting at the identical position
--- (-0.077, 0, 2.849) on BOTH meshes. Attachments 17/21/22 all belong to animated head
--- and pectoral-fin chains, so anything mounted on them swims away with the fin stroke.
--- Offsets below are model-space targets minus that marker, measured against the HD mesh:
+-- ROUND 4. Round 3 mounted all four models on **attachment 18** to get them off the
+-- animated fin chains. That over-corrected: attachment 18 is bone 12, and bone 12 has
+-- `parent = -1` with a single animation block — a static model-space marker that nothing
+-- drives at all. The parts held still in world space while the shark swam through them.
+--
+-- The bone table sorts the ten attachments into three groups:
+--
+--   bones 0-11    14 translation + 14 rotation blocks   the actual rig
+--   bones 12/13/14 (att 18/19/20)  parent -1            static markers - do not track
+--   bones 16/17/22/26/27/28/29     children of the rig  track, via their parent
+--
+-- What we want is a mount that rides the body without riding a flapping fin, and the HD
+-- author left exactly one: **attachment 0**, bone 16, pivot (0.518, 0.002, 1.447) — on
+-- the back, and a direct child of bone 0, the animated root (14/14 blocks). It inherits
+-- the whole-body swim motion but not the spine undulation of the 2->7->10->11 chain or
+-- the fin stroke of 6/8, which is right for parts bolted to a hull.
+--
+-- Rest positions are UNCHANGED from round 3 (confirmed good in game) — only the parent
+-- and the offsets that reach the same point from the new pivot:
+--
+--   rocket L  (-0.300,  0.500, 1.300)      periscope (0.450, 0, 1.920)
+--   rocket R  (-0.300, -0.500, 1.300)      smoke     (0.450, 0, 2.280)
+--
+-- Caveat: attachment 0 exists on the HD mesh only — the stock hammerhead has 15-22 and
+-- 34, no 0. That is fine while `patch-hd-everything` ships the model, and it is the same
+-- dependency the offsets themselves already carry.
+--
+-- Measurements behind the rest positions, against the HD mesh:
 --
 --   back surface, midline      x 0.4 -> z 1.60,  x 0.2 -> z 1.86  (dorsal fin from x -0.4)
 --   back surface, |y| 0.3-0.5  z 1.276 flat from x -0.2 to 0.8    (the shoulder)
@@ -41,10 +64,10 @@
 -- the 1.276 shoulder surface. AUTO-owned rows -> UPDATE, one per id.
 UPDATE spellvisualkitmodelattach SET
   `spell_vis_effect_name_id` = 90102,
-  `attachment_id` = 18,
-  `offset_x` = -0.223,
-  `offset_y` = 0.5,
-  `offset_z` = -1.549,
+  `attachment_id` = 0,
+  `offset_x` = -0.818,
+  `offset_y` = 0.498,
+  `offset_z` = -0.147,
   `yaw` = 0,
   `pitch` = 0,
   `roll` = 0
@@ -52,10 +75,10 @@ WHERE id = 90008;
 
 UPDATE spellvisualkitmodelattach SET
   `spell_vis_effect_name_id` = 90102,
-  `attachment_id` = 18,
-  `offset_x` = -0.223,
-  `offset_y` = -0.5,
-  `offset_z` = -1.549,
+  `attachment_id` = 0,
+  `offset_x` = -0.818,
+  `offset_y` = -0.502,
+  `offset_z` = -0.147,
   `yaw` = 0,
   `pitch` = 0,
   `roll` = 0
@@ -64,10 +87,10 @@ WHERE id = 90009;
 -- Smoke flare: was aimed at the periscope's mouth on the stock mesh and has been venting
 -- out of the tail on ours. Re-aimed at the new pipe top (0.45, 0, 2.28).
 UPDATE spellvisualkitmodelattach SET
-  `attachment_id` = 18,
-  `offset_x` = 0.527,
-  `offset_y` = 0,
-  `offset_z` = -0.569
+  `attachment_id` = 0,
+  `offset_x` = -0.068,
+  `offset_y` = -0.002,
+  `offset_z` = 0.833
 WHERE id = 90007;
 
 -- The periscope: behind the head, ahead of the dorsal fin, on the midline. Origin
@@ -83,10 +106,10 @@ INSERT INTO spellvisualkitmodelattach SET
   `id` = 91001,
   `parent_spell_vis_kit_id` = 14016,
   `spell_vis_effect_name_id` = 90103,
-  `attachment_id` = 18,
-  `offset_x` = 0.527,
-  `offset_y` = 0,
-  `offset_z` = -0.929,
+  `attachment_id` = 0,
+  `offset_x` = -0.068,
+  `offset_y` = -0.002,
+  `offset_z` = 0.473,
   `yaw` = -1.5708,
   `pitch` = 0,
   `roll` = -0.0873;
