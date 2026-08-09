@@ -1,4 +1,4 @@
-From c5818336c3ab0d199c111e9f0f885b27f842e844 Mon Sep 17 00:00:00 2001
+From 531c5d133c7f3d6fda529327511da262c4d26ba3 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sat, 8 Aug 2026 13:26:26 +0000
 Subject: [PATCH] feat: .lootmethod player command for LFG groups (F-204)
@@ -10,14 +10,14 @@ SEC_PLAYER .lootmethod command as the server-side entry point.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/Lfg_Solo.cpp | 88 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
+ src/Lfg_Solo.cpp | 92 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
 
 diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
-index 8f58fa7..a693ce7 100644
+index 8f58fa7..a6312b3 100644
 --- a/src/Lfg_Solo.cpp
 +++ b/src/Lfg_Solo.cpp
-@@ -9,9 +9,12 @@
+@@ -9,9 +9,16 @@
  #include "Player.h"
  #include "Configuration/Config.h"
  #include "World.h"
@@ -27,10 +27,14 @@ index 8f58fa7..a693ce7 100644
  #include "Chat.h"
  #include "Opcodes.h"
 +#include "Util.h"
++
++// ChatCommandTable / Console live in Acore::ChatCommands (ChatCommand.h:46);
++// Chat.h alone does not pull them into the global namespace.
++using namespace Acore::ChatCommands;
  
  class lfg_solo_announce : public PlayerScript
  {
-@@ -55,8 +58,93 @@ public:
+@@ -55,8 +62,93 @@ public:
      }
  };
  
@@ -72,7 +76,7 @@ index 8f58fa7..a693ce7 100644
 +
 +    static bool HandleLootMethodCommand(ChatHandler* handler, Optional<std::string> args)
 +    {
-+        Player* player = handler->GetSession() ? handler->GetSession()->GetPlayer() : nullptr;
++        Player* player = handler->GetPlayer();
 +        if (!player)
 +            return false;
 +
