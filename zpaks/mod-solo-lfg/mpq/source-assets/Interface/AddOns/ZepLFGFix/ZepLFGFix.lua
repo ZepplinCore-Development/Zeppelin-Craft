@@ -137,7 +137,8 @@ local ZEP_LOOT_MODES = {
 
 local ZEP_LOOT_ROOT = "ZEPLM_LOOT_METHOD"
 local zepModeByKey = {}
-local zepSelected = nil
+local zepSelected = nil   -- what we asked for (optimistic, drives our own menu label)
+local zepConfirmed = nil  -- what the server acknowledged with an 'o' reply
 
 -- `dist = 0` is mandatory: UnitPopup_OnUpdate reads UnitPopupButtons[value].dist
 -- unconditionally and would error on a button without it.
@@ -295,10 +296,12 @@ zepListener:SetScript("OnEvent", function(_, _, prefix, message)
     elseif opcode == "o" then
         zepPending[counter] = nil
         zepSelected = mode
+        zepConfirmed = mode
     elseif opcode == "f" then
         -- Refused: stop claiming a mode we do not actually have.
         zepPending[counter] = nil
         zepSelected = nil
+        zepConfirmed = nil
     end
 end)
 
@@ -322,6 +325,39 @@ hooksecurefunc("UnitPopup_OnClick", function(self)
 
     zepApply(mode)
     zepSelected = mode
+    zepConfirmed = nil  -- re-earned by the server's 'o' reply
     UnitPopupButtons[ZEP_LOOT_ROOT].text = mode.text
     CloseDropDownMenus()
 end)
+
+-------------------------------------------------------------------------------
+-- Fix 4: report the real loot method to the rest of the UI (F-204)
+-------------------------------------------------------------------------------
+-- Every loot-method indicator in the client -- stock frames, our own menu, and
+-- third-party addons like ElvUI -- reads GetLootMethod(). For a 1-member group
+-- that value is permanently wrong: Group::BuildUpdate only writes the loot
+-- method when GetMembersCount() - 1 is non-zero, so the server never gets a
+-- chance to correct whatever the client happened to be holding (typically
+-- "group" from the last real party). The result is an indicator welded to Group
+-- Loot no matter what the group is actually using.
+--
+-- We cannot make the server send it, but GetLootMethod is a plain Lua global, so
+-- we can answer for it in exactly the case the server cannot: no visible party,
+-- and a mode the server has positively acknowledged. Everything else defers to
+-- the real function, so grouped play and the master-looter indices are untouched.
+local zep_orig_GetLootMethod = GetLootMethod
+
+function GetLootMethod()
+    local method, partyIndex, raidIndex = zep_orig_GetLootMethod()
+
+    if zepConfirmed and GetNumPartyMembers() == 0 and GetNumRaidMembers() == 0 then
+        -- partyIndex 0 is how the client marks "you are the master looter"
+        -- (UnitPopup's LOOT_PROMOTE check for the SELF menu).
+        if zepConfirmed.method == "master" then
+            return zepConfirmed.method, 0, nil
+        end
+        return zepConfirmed.method, nil, nil
+    end
+
+    return method, partyIndex, raidIndex
+end
