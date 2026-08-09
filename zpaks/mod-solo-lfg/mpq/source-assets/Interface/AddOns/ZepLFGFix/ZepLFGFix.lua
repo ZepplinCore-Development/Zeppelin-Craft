@@ -144,14 +144,14 @@ local zepConfirmed = nil  -- what the server acknowledged with an 'o' reply
 -- unconditionally and would error on a button without it.
 UnitPopupButtons[ZEP_LOOT_ROOT] = { text = LOOT_METHOD, dist = 0, nested = 1 }
 
--- `checkable` clears info.notCheckable in UnitPopup_ShowMenu, which is what makes
--- the button's own Check texture reachable at all: UIDropDownMenu_AddButton only
--- reaches Check:Show() inside `if not info.notCheckable` (UIDropDownMenu.lua:479,
--- 509). Without it the check slot is inert -- and under ElvUI it still renders an
--- empty box, which is why drawing our own marker produced two boxes per row.
+-- Text must stay EXACTLY the stock loot strings. UnitPopup_ShowMenu's level-2
+-- branch ticks a submenu row by comparing `info.text == selectedLootMethod`
+-- (UnitPopup.lua:299), so a colour code or texture escape in the label silently
+-- breaks the native checkmark. No `checkable` needed either: the level-2 branch
+-- never sets info.notCheckable, so the check slot is already live there.
 local zepSubMenu = {}
 for _, mode in ipairs(ZEP_LOOT_MODES) do
-    UnitPopupButtons[mode.key] = { text = mode.text, dist = 0, checkable = 1 }
+    UnitPopupButtons[mode.key] = { text = mode.text, dist = 0 }
     zepModeByKey[mode.key] = mode
     table.insert(zepSubMenu, mode.key)
 end
@@ -237,28 +237,11 @@ hooksecurefunc("UnitPopup_HideButtons", function()
     end
     UnitPopupButtons[ZEP_LOOT_ROOT].text = active and active.text or LOOT_METHOD
 
-    -- Tick the live mode using the button's real check texture rather than a
-    -- marker of our own.
-    --
-    -- UnitPopup_ShowMenu hard-sets info.checked = nil for everything that is not
-    -- a RAID_TARGET_* value, so we cannot pass it through UnitPopupButtons. The
-    -- one remaining hook is inside UIDropDownMenu_AddButton itself
-    -- (UIDropDownMenu.lua:461-478), which re-checks a button when the dropdown's
-    -- selection matches -- and that block runs after ShowMenu has cleared it.
-    --
-    -- Match on selectedValue, not selectedName: our root button's text is also the
-    -- active mode's name, so a name match would tick the parent row as well.
-    -- selectedName/selectedID are cleared because the lookup is an if/elseif chain
-    -- and either would shadow selectedValue. UnitPopup never uses these fields.
-    if offer then
-        local frame = UIDROPDOWNMENU_OPEN_MENU or UIDROPDOWNMENU_INIT_MENU
-        if frame then
-            frame.selectedName = nil
-            frame.selectedID = nil
-            frame.selectedValue = active and active.key or nil
-        end
-    end
-
+    -- Nothing marks the live mode here: UnitPopup_ShowMenu's level-2 branch already
+    -- ticks it natively via `info.text == dropdownMenu.selectedLootMethod`
+    -- (UnitPopup.lua:299), and selectedLootMethod comes from GetLootMethod()
+    -- (UnitPopup.lua:223), which Fix 4 below makes truthful when solo. Labels are
+    -- reset to the bare stock strings so that comparison keeps matching.
     for _, mode in ipairs(ZEP_LOOT_MODES) do
         UnitPopupButtons[mode.key].text = mode.text
     end
@@ -355,9 +338,41 @@ hooksecurefunc("UnitPopup_OnClick", function(self)
     CloseDropDownMenus()
 end)
 
--- Overriding the global GetLootMethod() was tried here and removed: across all of
--- FrameXML and ElvUI its only consumers are the master-looter icon
--- (PlayerFrame.lua:79, PartyMemberFrame.lua:125, oUF masterlooterindicator), and
--- every one of them additionally requires a visible party, which a solo group
--- never has. Nothing in the client displays the loot method by name outside the
--- menu below, so the override changed nothing and only risked taint.
+-------------------------------------------------------------------------------
+-- Fix 4: make the native checkmark truthful when solo (F-204)
+-------------------------------------------------------------------------------
+-- UnitPopup_ShowMenu ticks the live loot mode itself, in its level-2 branch:
+--
+--   UnitPopup.lua:223   dropdownMenu.selectedLootMethod = UnitLootMethod[GetLootMethod()].text
+--   UnitPopup.lua:299   if ( info.text == dropdownMenu.selectedLootMethod ) then info.checked = 1
+--
+-- So the checkmark is entirely a function of GetLootMethod(). For a 1-member group
+-- that value is permanently wrong -- Group::BuildUpdate only writes the loot method
+-- when GetMembersCount() - 1 is non-zero, so the server never corrects whatever the
+-- client held from its last real party (typically "group"). The tick therefore welds
+-- itself to Group Loot no matter what the group is actually using.
+--
+-- GetLootMethod is a plain Lua global, so we answer for it in exactly the case the
+-- server cannot: no visible party, and a mode the server positively acknowledged.
+-- Everything else defers to the real function, which keeps grouped play, the
+-- master-looter icon (PlayerFrame.lua:79, PartyMemberFrame.lua:125, oUF
+-- masterlooterindicator) and the master-looter indices untouched.
+--
+-- NOTE: the level-2 comparison is on the label string, so any colour code or
+-- texture escape added to a submenu label breaks the tick. Keep labels bare.
+local zep_orig_GetLootMethod = GetLootMethod
+
+function GetLootMethod()
+    local method, partyIndex, raidIndex = zep_orig_GetLootMethod()
+
+    if zepConfirmed and GetNumPartyMembers() == 0 and GetNumRaidMembers() == 0 then
+        -- partyIndex 0 is how the client marks "you are the master looter"
+        -- (UnitPopup's LOOT_PROMOTE check for the SELF menu).
+        if zepConfirmed.method == "master" then
+            return zepConfirmed.method, 0, nil
+        end
+        return zepConfirmed.method, nil, nil
+    end
+
+    return method, partyIndex, raidIndex
+end
