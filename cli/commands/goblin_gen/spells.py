@@ -98,6 +98,16 @@ EFFECT_OVERRIDE = {
     # 3.3.5a encoding of "1": BasePoints 0 with the forced DieSides 1.
     66137: {"effect_base_points_1": 0},
 
+    # 71648 "Mechashark X-Steam" (quest 24817, I-328). Effect 0 is a
+    # SUMMON_CATEGORY_VEHICLE summon, and AC reads the CONTROL_VEHICLE spell to
+    # cast out of the effect VALUE (SpellEffects.cpp:2559 CalcValue). The value is
+    # a spell id, not a magnitude, so the forced DieSides 1 turns 71661 into 71662
+    # — the GO's own controller spell, which has no CONTROL_VEHICLE aura. AC then
+    # silently falls back to VEHICLE_SPELL_RIDE_HARDCODED 46598 and the pilot
+    # boards without 71661's WATER_BREATHING / +150% swim speed, i.e. drowns.
+    # Same class of bug as 66137: a count/id effect value poisoned by the +1.
+    71648: {"effect_die_sides_1": 0},
+
     # 71091 "It's A Town-In-A-Box: Town-In-A-Box Plunger - Effect 2" (I-315).
     # Effect 0 is 140 FORCE_CAST -> 68750 "Quest Phase 05", whose only effect is
     # aura 261 SPELL_AURA_PHASE with MiscValue 2048 and DurationIndex 21 (-1,

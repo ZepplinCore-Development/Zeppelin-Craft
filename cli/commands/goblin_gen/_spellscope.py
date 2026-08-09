@@ -151,6 +151,29 @@ GO_SPELL_FIELDS = {
     22: ("Data0",),             # spellcaster.spellId
 }
 
+
+def _go_field(row, field):
+    """`row[field]` across BOTH row shapes this walk is fed (I-328).
+
+    The post-sweep branch reads collector rows, which carry AC 3.3.5a's CamelCase
+    `Data10`; the pre-sweep branch reads the Neltharion donor directly, whose columns
+    are lowercase `data0..data23`. SQL column references are case-insensitive so the
+    SELECT works either way, but the connector's dict keys are the real column names —
+    a CamelCase `.get()` on a donor row returned None for every field here, silently
+    emptying the GO data-field walk out of `presweep_required()` (its only consumer
+    being `_summons.py`). Cost: the Mechashark X-Steam 38318, reachable only through
+    GO 202108 Data10 -> 71662 -> 71648, never entered the port's summon closure, so
+    `quest_npcs.py`'s reduced objective-proxy template won ownership of it and the
+    creature lost VehicleId 628 -> `IsVehicle()` false -> the ride spell was never cast.
+    """
+    if field in row:
+        return row[field]
+    low = field.lower()
+    for k in row:
+        if k.lower() == low:
+            return row[k]
+    return 0
+
 # TARGET_DEST_DB — the implicit target that reads its destination from the world
 # DB table `spell_target_position` (SpellMgr.cpp:1561). A spell using it without
 # a destination row lands the caster nowhere, so the scope treats a missing
@@ -420,8 +443,9 @@ def _spell_refs(ctx, scope=None):
             "SELECT * FROM gameobject_template WHERE entry IN (%s)"
             % ",".join(str(int(e)) for e in go_scope)) if go_scope else []))
     for e, row in go_rows:
-        for f in GO_SPELL_FIELDS.get(_num(row.get("type", 0)), ()):
-            note(_num(row.get(f, 0)), "GO %d %s (type %d)" % (e, f, _num(row.get("type", 0))))
+        gtype = _num(_go_field(row, "type"))
+        for f in GO_SPELL_FIELDS.get(gtype, ()):
+            note(_num(_go_field(row, f)), "GO %d %s (type %d)" % (e, f, gtype))
 
     # 4b. permanent auras a creature is spawned with (I-292).
     #     `creature_addon.py` drops any aura whose spell 3.3.5a lacks, and nothing
