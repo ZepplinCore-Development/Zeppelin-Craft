@@ -135,12 +135,6 @@ local ZEP_LOOT_MODES = {
     { key = "ZEPLM_NEED_BEFORE_GREED", method = "needbeforegreed", token = "nbg",        text = LOOT_NEED_BEFORE_GREED },
 }
 
--- Inline texture escapes: a tick on the live mode and an empty box on the rest,
--- so the submenu reads as a radio list and every label stays aligned. Both are
--- stock 3.3.5 textures.
-local ZEP_ACTIVE_MARK = "|TInterface\\Buttons\\UI-CheckBox-Check:14:14:0:0|t "
-local ZEP_INACTIVE_PAD = "|TInterface\\Buttons\\UI-CheckBox-Up:14:14:0:0|t "
-
 local ZEP_LOOT_ROOT = "ZEPLM_LOOT_METHOD"
 local zepModeByKey = {}
 local zepSelected = nil   -- what we asked for (optimistic, drives our own menu label)
@@ -150,9 +144,14 @@ local zepConfirmed = nil  -- what the server acknowledged with an 'o' reply
 -- unconditionally and would error on a button without it.
 UnitPopupButtons[ZEP_LOOT_ROOT] = { text = LOOT_METHOD, dist = 0, nested = 1 }
 
+-- `checkable` clears info.notCheckable in UnitPopup_ShowMenu, which is what makes
+-- the button's own Check texture reachable at all: UIDropDownMenu_AddButton only
+-- reaches Check:Show() inside `if not info.notCheckable` (UIDropDownMenu.lua:479,
+-- 509). Without it the check slot is inert -- and under ElvUI it still renders an
+-- empty box, which is why drawing our own marker produced two boxes per row.
 local zepSubMenu = {}
 for _, mode in ipairs(ZEP_LOOT_MODES) do
-    UnitPopupButtons[mode.key] = { text = mode.text, dist = 0 }
+    UnitPopupButtons[mode.key] = { text = mode.text, dist = 0, checkable = 1 }
     zepModeByKey[mode.key] = mode
     table.insert(zepSubMenu, mode.key)
 end
@@ -238,25 +237,30 @@ hooksecurefunc("UnitPopup_HideButtons", function()
     end
     UnitPopupButtons[ZEP_LOOT_ROOT].text = active and active.text or LOOT_METHOD
 
-    -- Mark the live mode inside our own submenu.
+    -- Tick the live mode using the button's real check texture rather than a
+    -- marker of our own.
     --
-    -- Stock 3.3.5 has no checkmark to reuse: UnitPopup_ShowMenu only ever sets
-    -- info.checked for RAID_TARGET_* values, and everything else is forced
-    -- notCheckable, which hides the button's Check texture and shifts its text.
-    -- Reaching info.checked would mean overriding UIDropDownMenu_AddButton for
-    -- every dropdown in the game, or un-hiding Check and fighting both the
-    -- dropdown layout and ElvUI's skin of it (Skins/Blizzard/Misc.lua).
+    -- UnitPopup_ShowMenu hard-sets info.checked = nil for everything that is not
+    -- a RAID_TARGET_* value, so we cannot pass it through UnitPopupButtons. The
+    -- one remaining hook is inside UIDropDownMenu_AddButton itself
+    -- (UIDropDownMenu.lua:461-478), which re-checks a button when the dropdown's
+    -- selection matches -- and that block runs after ShowMenu has cleared it.
     --
-    -- An inline texture escape inside the button's own text needs neither: it is
-    -- part of the FontString, so no layout changes and nothing a skin can strip.
-    -- The colour is kept as a secondary cue but is not relied upon -- skins do
-    -- recolour dropdown text.
-    for _, mode in ipairs(ZEP_LOOT_MODES) do
-        if mode == active then
-            UnitPopupButtons[mode.key].text = ZEP_ACTIVE_MARK .. "|cff4CFF00" .. mode.text .. "|r"
-        else
-            UnitPopupButtons[mode.key].text = ZEP_INACTIVE_PAD .. mode.text
+    -- Match on selectedValue, not selectedName: our root button's text is also the
+    -- active mode's name, so a name match would tick the parent row as well.
+    -- selectedName/selectedID are cleared because the lookup is an if/elseif chain
+    -- and either would shadow selectedValue. UnitPopup never uses these fields.
+    if offer then
+        local frame = UIDROPDOWNMENU_OPEN_MENU or UIDROPDOWNMENU_INIT_MENU
+        if frame then
+            frame.selectedName = nil
+            frame.selectedID = nil
+            frame.selectedValue = active and active.key or nil
         end
+    end
+
+    for _, mode in ipairs(ZEP_LOOT_MODES) do
+        UnitPopupButtons[mode.key].text = mode.text
     end
 
     for index, value in ipairs(menu) do
