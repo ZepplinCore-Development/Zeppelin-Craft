@@ -42,11 +42,24 @@
 -- the whole-body swim motion but not the spine undulation of the 2->7->10->11 chain or
 -- the fin stroke of 6/8, which is right for parts bolted to a hull.
 --
--- Rest positions are UNCHANGED from round 3 (confirmed good in game) — only the parent
--- and the offsets that reach the same point from the new pivot:
+-- Attachment 0 confirmed tracking in game.
 --
---   rocket L  (-0.300,  0.500, 1.300)      periscope (0.450, 0, 1.920)
---   rocket R  (-0.300, -0.500, 1.300)      smoke     (0.450, 0, 2.280)
+-- ROUND 5, from the same test: periscope moved back behind the dorsal fin, rockets moved
+-- back and pitched nose-down 20 degrees (they read as pointing skyward). Rest positions:
+--
+--   rocket L  (-0.800,  0.500, 1.600) pitch 0.349   periscope (-1.350, 0, 1.790)
+--   rocket R  (-0.800, -0.500, 1.600) pitch 0.349   smoke     (-1.350, 0, 2.130)
+--   eye L     ( 1.630,  1.000, 1.110) pitch 1.5708  eye R     ( 1.630, -1.000, 1.110)
+--
+-- The dorsal fin occupies x -1.05..-0.20 (midline top z > 2.1, peaking 2.415 at x -1.0);
+-- behind it the back drops to 1.546 at x -1.30 and 1.342 at x -1.45, so the periscope
+-- base sits at x -1.35 on a 1.45 surface. Pitching a 1.96-long rocket nose-down about an
+-- origin near its own tail drops the nose 0.42 and lifts the tail 0.12, so z goes up 0.30
+-- to keep the nose out of the mesh: it now runs from (0.35, ±0.5, 1.18) at the tip to
+-- (-1.13, ±0.5, 1.72) at the tail, tucked against the shoulder and alongside the fin.
+--
+-- Pitch sign: positive pitch rotates +Z toward +X (that is what the donor's 1.5708 does to
+-- the upright light discs), so on a +X-aligned rocket it rotates the nose toward -Z, down.
 --
 -- Caveat: attachment 0 exists on the HD mesh only — the stock hammerhead has 15-22 and
 -- 34, no 0. That is fine while `patch-hd-everything` ships the model, and it is the same
@@ -65,22 +78,22 @@
 UPDATE spellvisualkitmodelattach SET
   `spell_vis_effect_name_id` = 90102,
   `attachment_id` = 0,
-  `offset_x` = -0.818,
+  `offset_x` = -1.318,
   `offset_y` = 0.498,
-  `offset_z` = -0.147,
+  `offset_z` = 0.153,
   `yaw` = 0,
-  `pitch` = 0,
+  `pitch` = 0.349,
   `roll` = 0
 WHERE id = 90008;
 
 UPDATE spellvisualkitmodelattach SET
   `spell_vis_effect_name_id` = 90102,
   `attachment_id` = 0,
-  `offset_x` = -0.818,
+  `offset_x` = -1.318,
   `offset_y` = -0.502,
-  `offset_z` = -0.147,
+  `offset_z` = 0.153,
   `yaw` = 0,
-  `pitch` = 0,
+  `pitch` = 0.349,
   `roll` = 0
 WHERE id = 90009;
 
@@ -88,9 +101,9 @@ WHERE id = 90009;
 -- out of the tail on ours. Re-aimed at the new pipe top (0.45, 0, 2.28).
 UPDATE spellvisualkitmodelattach SET
   `attachment_id` = 0,
-  `offset_x` = -0.068,
+  `offset_x` = -1.868,
   `offset_y` = -0.002,
-  `offset_z` = 0.833
+  `offset_z` = 0.683
 WHERE id = 90007;
 
 -- The periscope: behind the head, ahead of the dorsal fin, on the midline. Origin
@@ -107,9 +120,29 @@ INSERT INTO spellvisualkitmodelattach SET
   `parent_spell_vis_kit_id` = 14016,
   `spell_vis_effect_name_id` = 90103,
   `attachment_id` = 0,
-  `offset_x` = -0.068,
+  `offset_x` = -1.868,
   `offset_y` = -0.002,
-  `offset_z` = 0.473,
+  `offset_z` = 0.343,
   `yaw` = -1.5708,
   `pitch` = 0,
   `roll` = -0.0873;
+
+-- The eye lights, the last two of kit 14016's six attachments (4.3.4 rows 3715/3716).
+-- Blocked until now on the mesh: `ul_light_effect_green.mdx` is Cata-only. Retroported
+-- 272 -> 264 and shipped in this zpak — recipe, hashes and preconditions in
+-- `asset_recipes.json`, converter in `cli/lib/m2_retroport.py`.
+--
+-- These go on attachment 17, NOT attachment 0: 17 is bone 26 on the animated head chain,
+-- and eyes should turn with the head. Only hull-mounted parts want the root.
+--
+-- The donor's offsets (y ±1.33 / -1.65) are for the stock hammerhead's wider lobes; ours
+-- tip out at ±0.930 (head verts x > 1.0, outer face x 1.42..1.83, z 0.98..1.22). Placed
+-- at y ±1.00, just proud of the tips so the disc is not buried in the lobe. Donor pitch
+-- 1.5708 kept: the mesh is a flat 1.6-wide glow disc lying in XY, and 90 degrees stands
+-- it upright facing forward.
+DELETE FROM spellvisualkitmodelattach WHERE id IN (91002, 91003);
+INSERT INTO spellvisualkitmodelattach
+  (`id`, `parent_spell_vis_kit_id`, `spell_vis_effect_name_id`, `attachment_id`,
+   `offset_x`, `offset_y`, `offset_z`, `yaw`, `pitch`, `roll`) VALUES
+  (91002, 14016, 90104, 17, -0.103,  1.0, 0.334, 0, 1.5708, 0),
+  (91003, 14016, 90104, 17, -0.103, -1.0, 0.334, 0, 1.5708, 0);

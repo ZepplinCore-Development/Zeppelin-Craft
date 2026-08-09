@@ -54,3 +54,20 @@ INSERT INTO spellvisualeffectname SET
   `scale` = 0.1,
   `min_allowed_scale` = 0.1,
   `max_allowed_scale` = 10.0;
+
+-- The eye lights (4.3.4 effectname 6281), now that the mesh ships. Values are the donor
+-- row verbatim — scale 0.5, area_effect_size 0, min/max 0.1/10. The .mdx path is the
+-- stock Cata one because that is where the retroported model is shipped to in this
+-- zpak's source-assets; see asset_recipes.json for the conversion and its hashes.
+--
+-- The donor names this "Ulduar Light Effect Yellow" while the file is the green variant;
+-- kept the file, dropped the misleading half of the name.
+DELETE FROM spellvisualeffectname WHERE id = 90104;
+INSERT INTO spellvisualeffectname SET
+  `id` = 90104,
+  `name` = 'UL Light Effect Green (I-328 Mechashark eye lights)',
+  `file_name` = 'world\\expansion02\\doodads\\ulduar\\ul_light_effect_green.mdx',
+  `area_effect_size` = 0.0,
+  `scale` = 0.5,
+  `min_allowed_scale` = 0.1,
+  `max_allowed_scale` = 10.0;

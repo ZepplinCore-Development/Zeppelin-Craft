@@ -1,0 +1,57 @@
+{
+  "_comment": [
+    "Provenance + edit recipes for the binary client assets this zpak ships.",
+    "*.m2/*.skin/*.blp are gitignored, so without this file the shipped bytes exist",
+    "only on one machine and a fresh clone rebuilds the patch without them (I-322).",
+    "",
+    "This is F-203's Tier 2 + Tier 3 shape, written by hand because F-203 is still",
+    "planned: nothing in the build pipeline reads this file yet. Regenerate with the",
+    "command in each entry. When F-203's preprocessor lands, these entries port",
+    "straight across and `zep build asset-mods --verify` takes over the hash gates.",
+    "",
+    "base.sha256   = apply the edits to exactly these bytes (fails loud if upstream moves)",
+    "result.sha256 = the bytes we shipped (catches drift and unrecorded hand edits)"
+  ],
+
+  "World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green.m2": {
+    "note": "I-328 — the Mechashark X-Steam's eye lights. SpellVisualKit 14016 attaches this to the shark's head lobes; the mesh is Cata-only, so the 3.3.5a client has no such model and the two attachments had to be dropped until it was retroported.",
+    "base": {
+      "kind": "client",
+      "client": "4.3.4 15595",
+      "source": "Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green.m2",
+      "sha256": "a82ff76c91abcddbe985d85f1087424ec2132be4f0b23d1a28896d1af362a748"
+    },
+    "edits": [
+      {
+        "op": "m2.version.retroport",
+        "from": 272,
+        "to": 264,
+        "tool": "cli/lib/m2_retroport.py",
+        "rationale": "Header is already the WotLK 304-byte layout (name block at 304), global flag 0x08 use_texture_combiner_combos is clear, and there are no particle or ribbon emitters — the three places 264 and 272 actually diverge. So the version word is the only edit. The converter asserts all three preconditions and refuses otherwise. Global flags 128 are passed through: stock WotLK Ulduar doodads already ship that value."
+      }
+    ],
+    "result": {
+      "sha256": "b99aefe22b8f63c72f4decf5b312aa4a741f09c4009266b649d19f09098702e7"
+    },
+    "command": "cd cli && python3 -m lib.m2_retroport '/workspace/project/Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green.m2' '../zpaks/zep-goblin-start/mpq/source-assets/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green.m2'"
+  },
+
+  "World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green00.skin": {
+    "note": "I-328 — companion skin for the above. Copied verbatim: the WotLK and Cata .skin layouts agree (the shadow-batch change landed in MoP), and this one parses clean under WotLK assumptions — 1 submesh, 121 verts, 648 indices, 1 texture unit.",
+    "base": {
+      "kind": "client",
+      "client": "4.3.4 15595",
+      "source": "Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green00.skin",
+      "sha256": "eb2eac58c288f68d2574435b01c90276f30aa7b589ce2b539e1d9916dd6abae6"
+    },
+    "edits": [],
+    "result": {
+      "sha256": "eb2eac58c288f68d2574435b01c90276f30aa7b589ce2b539e1d9916dd6abae6"
+    },
+    "command": "cp '/workspace/project/Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green00.skin' 'zpaks/zep-goblin-start/mpq/source-assets/World/Expansion02/Doodads/Ulduar/'"
+  },
+
+  "_not_shipped": {
+    "World/Expansion02/Doodads/Ulduar/UL_Light_Effect.blp": "The texture the model references. Deliberately NOT shipped — it is stock 3.3.5a (present in the Asset Library alongside version-264 Ulduar doodads), so the client already has it."
+  }
+}
