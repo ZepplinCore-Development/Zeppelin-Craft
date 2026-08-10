@@ -27,28 +27,41 @@
         "from": 272,
         "to": 264,
         "tool": "cli/lib/m2_retroport.py",
-        "rationale": "Header is already the WotLK 304-byte layout (name block at 304), global flag 0x08 use_texture_combiner_combos is clear, and there are no particle or ribbon emitters — the three places 264 and 272 actually diverge. So the version word is the only edit. The converter asserts all three preconditions and refuses otherwise. Global flags 128 are passed through: stock WotLK Ulduar doodads already ship that value."
+        "rationale": "Header is already the WotLK 304-byte layout (name block at 304), global flag 0x08 use_texture_combiner_combos is clear, and there are no particle or ribbon emitters — three of the places 264 and 272 diverge. The converter asserts all three preconditions and refuses otherwise. Global flags 128 are passed through: stock WotLK Ulduar doodads already ship that value."
+      },
+      {
+        "op": "m2.texunitlookup.ensure",
+        "entries": [0],
+        "tool": "cli/lib/m2_retroport.py",
+        "rationale": "Cata deprecated texture_unit_lookup_table and leaves it empty; the WotLK client still resolves a batch's texture coordinate set through it unconditionally, so an empty array is a null dereference — the version-only conversion crashed the client with ERROR #132 ACCESS_VIOLATION at movzx esi,[edi+esi*2], edi = 0. Survey of 1006 stock 3.3.5a models: not one pairs an empty lookup with a render batch (the 176 with an empty lookup have no batches at all). One entry, value 0, appended at EOF so no existing offset moves."
       }
     ],
     "result": {
-      "sha256": "b99aefe22b8f63c72f4decf5b312aa4a741f09c4009266b649d19f09098702e7"
+      "sha256": "d9b10cb30c70721f9b405b20679ca81817872a435be339d6ac6961c5a62846b1"
     },
-    "command": "cd cli && python3 -m lib.m2_retroport '/workspace/project/Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green.m2' '../zpaks/zep-goblin-start/mpq/source-assets/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green.m2'"
+    "command": "cd cli && python3 -m lib.m2_retroport '/workspace/project/Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green.m2' '../zpaks/zep-goblin-start/mpq/source-assets/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green.m2' '/workspace/project/Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green00.skin' '../zpaks/zep-goblin-start/mpq/source-assets/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green00.skin'  # converts BOTH files"
   },
 
   "World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green00.skin": {
-    "note": "I-328 — companion skin for the above. Copied verbatim: the WotLK and Cata .skin layouts agree (the shadow-batch change landed in MoP), and this one parses clean under WotLK assumptions — 1 submesh, 121 verts, 648 indices, 1 texture unit.",
+    "note": "I-328 — companion skin for the above. The WotLK and Cata .skin LAYOUTS agree (the shadow-batch change landed in MoP) and this one parses clean under WotLK assumptions — 1 submesh, 121 verts, 648 indices, 1 batch — but one field VALUE does not survive the trip, see the edit below.",
     "base": {
       "kind": "client",
       "client": "4.3.4 15595",
       "source": "Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green00.skin",
       "sha256": "eb2eac58c288f68d2574435b01c90276f30aa7b589ce2b539e1d9916dd6abae6"
     },
-    "edits": [],
+    "edits": [
+      {
+        "op": "skin.batch.shader_id.set",
+        "value": 0,
+        "tool": "cli/lib/m2_retroport.py",
+        "rationale": "M2Batch.shader_id means different things in the two builds; this model carried Cata's 16. Across the same 1006-model stock survey, 2676 of 2677 WotLK batches use 0 and the last uses 2 — the build effectively has one value. Set 0 rather than invent a Cata->WotLK shader mapping."
+      }
+    ],
     "result": {
-      "sha256": "eb2eac58c288f68d2574435b01c90276f30aa7b589ce2b539e1d9916dd6abae6"
+      "sha256": "6a219fd6eb1344529962e133d8198fd67792409bb0a3cff1fbef7390a9041054"
     },
-    "command": "cp '/workspace/project/Zeppelin-Tools/whitemane-15595/extracted/World/Expansion02/Doodads/Ulduar/UL_Light_Effect_Green00.skin' 'zpaks/zep-goblin-start/mpq/source-assets/World/Expansion02/Doodads/Ulduar/'"
+    "command": "converted by the same m2_retroport invocation as the .m2 above (4-argument form)"
   },
 
   "_not_shipped": {
