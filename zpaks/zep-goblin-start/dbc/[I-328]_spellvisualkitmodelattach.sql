@@ -115,9 +115,9 @@ WHERE id = 90009;
 -- x -1.743, only 0.39 from the pipe. Rest position unchanged.
 UPDATE spellvisualkitmodelattach SET
   `attachment_id` = 16,
-  `offset_x` = 0.393,
+  `offset_x` = -0.586,
   `offset_y` = 0.029,
-  `offset_z` = 0.904
+  `offset_z` = 0.416
 WHERE id = 90007;
 
 -- The periscope: behind the head, ahead of the dorsal fin, on the midline. Origin
@@ -134,12 +134,27 @@ INSERT INTO spellvisualkitmodelattach SET
   `parent_spell_vis_kit_id` = 14016,
   `spell_vis_effect_name_id` = 90103,
   `attachment_id` = 16,
-  `offset_x` = 0.393,
+  `offset_x` = -0.586,
   `offset_y` = 0.029,
-  `offset_z` = 0.564,
-  `yaw` = -1.5708,
+  `offset_z` = 0.075,
+  `yaw` = 0,
   `pitch` = 0,
   `roll` = -0.0873;
+
+-- ROUND 8. The periscope was lying on its side, out the flank.
+--
+-- The donor's -1.5708 in the field our schema calls `yaw` is what laid it there: whatever
+-- axis that column drives on this client, empirically it tips the pipe's long axis out to
+-- the side rather than spinning it about itself. Zeroed, which is exactly the requested
+-- 90 degrees clockwise viewed from aft, and stands it upright. The small -0.0873 roll is
+-- kept — that is the donor's lean, not the problem. Do not trust the yaw/pitch/roll column
+-- NAMES here; pitch was verified separately (it pitched the rockets nose-down as
+-- predicted), but this one did not behave as the name implies.
+--
+-- Moved back half a rocket length (1.957 / 2 = 0.979) and down a quarter (0.489), to
+-- rest (-2.329, 0, 1.301). The midline back there runs z 1.32 at x -2.20 and 1.39 at
+-- -2.05, so the pipe now sits down into the tail rather than proud of it. The smoke flare
+-- follows to the new mouth at z 1.642 (pipe half-height 0.341 at effectname scale 0.1).
 
 -- The eye lights, the last two of kit 14016's six attachments (4.3.4 rows 3715/3716).
 -- Blocked until now on the mesh: `ul_light_effect_green.mdx` is Cata-only. Retroported
@@ -158,8 +173,8 @@ DELETE FROM spellvisualkitmodelattach WHERE id IN (91002, 91003);
 INSERT INTO spellvisualkitmodelattach
   (`id`, `parent_spell_vis_kit_id`, `spell_vis_effect_name_id`, `attachment_id`,
    `offset_x`, `offset_y`, `offset_z`, `yaw`, `pitch`, `roll`) VALUES
-  (91002, 14016, 90104, 17, -0.103,  0.78, 0.334, 0, 1.5708, 0),
-  (91003, 14016, 90104, 17, -0.103, -0.78, 0.334, 0, 1.5708, 0);
+  (91002, 14016, 90104, 17, -0.103,  0.45, 0.334, 0, 1.5708, 0),
+  (91003, 14016, 90104, 17, -0.103, -0.45, 0.334, 0, 1.5708, 0);
 
 -- Eye lights sat about a yard outboard of the eyes. Not the centre — the DISC. Display
 -- 21763 renders at `creature_model_scale` 2.0, so a model unit is two yards on screen,
@@ -170,6 +185,14 @@ INSERT INTO spellvisualkitmodelattach
 -- ~80% too big. Centre pulled 1.00 -> 0.78 here, and the effectname scaled by the same
 -- head ratio, 0.5 * (0.930/1.650) = 0.28, in [I-328]_spellvisualeffectname.sql. Outer
 -- edge now lands 0.16 yards past the eye instead of 0.96.
+--
+-- ROUND 8: still outboard at 0.78, reported as 75% over-extended. Two independent
+-- reports now converge on where the eyes actually are, and it is NOT the lobe tips:
+--   round 7 — centre 1.00 read as "~1 yard out" = 0.5 model at scale 2.0  -> eye ~0.50
+--   round 8 — centre 0.78 read as "75% over"    = 0.78 / 1.75             -> eye ~0.45
+-- So the eyes sit about halfway out the hammer lobes (tips are at 0.930), and every
+-- estimate anchored on the tips was wrong. Centre moved to ±0.45; the disc at scale 0.28
+-- spans y 0.22..0.68, entirely on the lobe.
 --
 -- Untouched: "Freakin' Laser Beam" (spell 71659, visual 15153) renders through kits
 -- 14540/10116/8650, which carry only a `chest_effect` — that is the stock chest
