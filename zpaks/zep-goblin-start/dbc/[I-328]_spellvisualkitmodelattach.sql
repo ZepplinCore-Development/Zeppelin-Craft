@@ -115,9 +115,10 @@ WHERE id = 90009;
 -- x -1.743, only 0.39 from the pipe. Rest position unchanged.
 UPDATE spellvisualkitmodelattach SET
   `attachment_id` = 16,
-  `offset_x` = -0.586,
-  `offset_y` = 0.029,
-  `offset_z` = 0.416
+  `offset_x` = -0.097,
+  `offset_y` = -0.661,
+  `offset_z` = 0.029,
+  `roll` = 1.5708
 WHERE id = 90007;
 
 -- The periscope: behind the head, ahead of the dorsal fin, on the midline. Origin
@@ -134,12 +135,39 @@ INSERT INTO spellvisualkitmodelattach SET
   `parent_spell_vis_kit_id` = 14016,
   `spell_vis_effect_name_id` = 90103,
   `attachment_id` = 16,
-  `offset_x` = -0.586,
-  `offset_y` = 0.029,
-  `offset_z` = 0.075,
+  `offset_x` = -0.097,
+  `offset_y` = -0.32,
+  `offset_z` = 0.029,
   `yaw` = 0,
   `pitch` = 0,
-  `roll` = -0.0873;
+  `roll` = 1.5708;
+
+-- ROUND 9. "Bone rest matrices are identity, so attachment positions are model space" —
+-- asserted in round 4 and WRONG. A bone's rest pose is the first key of its rotation
+-- track, and it is only identity when that key is. Parsed them:
+--
+--   bone 26 (att 17, mouth)  quat (0, 0, 0, 1)                  identity
+--   bone 16 (att 0,  back)   quat (-0.028, -0.238, 0.042, .970)  Y -27.4 deg
+--   bone 29 (att 16, rear)   quat (-0.706, 0.030, -0.030, .706)  X -90.0 deg
+--
+-- Bone 29's -90 degrees about X is why the periscope lies out the flank: it takes the
+-- pipe's vertical +Z and puts it along Y. Round 8 zeroing `yaw` could never fix that —
+-- wrong axis, as reported. Cancelled with `roll` = +1.5708 (roll is the X field; `pitch`
+-- was already pinned to Y by the rocket and disc tests).
+--
+-- The same rotation also transforms the OFFSET, which is expressed in the bone's local
+-- frame: local (x,y,z) renders at world (x, z, -y). Round 8's local (-0.586, 0.029, 0.075)
+-- therefore landed at (-2.329, 0.046, 1.197), not the (-2.329, 0, 1.301) intended — the x
+-- was right (an X-rotation leaves x alone), which is why "too far along the tail" was the
+-- accurate part of the report. Offsets below are pre-rotated: local = (Wx, -Wz, Wy).
+--
+-- Position: last round's shift halved as asked — back 0.489 and down 0.244 instead of
+-- 0.979/0.489 — for a rest of (-1.840, 0, 1.546), with the smoke at the mouth, z 1.887.
+--
+-- Footnote on the rockets: bone 16's Y -27.4 deg is why they read as "pointing skywards"
+-- in round 5. It tilts a +X-aligned model nose-up by that much; the pitch 0.349 added then
+-- brings the net to about 7 degrees up. Left alone — confirmed good in game, and correcting
+-- it now would move something already signed off.
 
 -- ROUND 8. The periscope was lying on its side, out the flank.
 --
@@ -173,8 +201,8 @@ DELETE FROM spellvisualkitmodelattach WHERE id IN (91002, 91003);
 INSERT INTO spellvisualkitmodelattach
   (`id`, `parent_spell_vis_kit_id`, `spell_vis_effect_name_id`, `attachment_id`,
    `offset_x`, `offset_y`, `offset_z`, `yaw`, `pitch`, `roll`) VALUES
-  (91002, 14016, 90104, 17, -0.103,  0.45, 0.334, 0, 1.5708, 0),
-  (91003, 14016, 90104, 17, -0.103, -0.45, 0.334, 0, 1.5708, 0);
+  (91002, 14016, 90104, 17, -0.103,  0.45, -0.124, 0, 1.5708, 0),
+  (91003, 14016, 90104, 17, -0.103, -0.45, -0.124, 0, 1.5708, 0);
 
 -- Eye lights sat about a yard outboard of the eyes. Not the centre — the DISC. Display
 -- 21763 renders at `creature_model_scale` 2.0, so a model unit is two yards on screen,
@@ -185,6 +213,11 @@ INSERT INTO spellvisualkitmodelattach
 -- ~80% too big. Centre pulled 1.00 -> 0.78 here, and the effectname scaled by the same
 -- head ratio, 0.5 * (0.930/1.650) = 0.28, in [I-328]_spellvisualeffectname.sql. Outer
 -- edge now lands 0.16 yards past the eye instead of 0.96.
+--
+-- ROUND 9: horizontal confirmed good; dropped one eye diameter vertically. The disc is
+-- 1.635 model units wide at scale 1, so 0.458 at our 0.28 — rest z 1.110 -> 0.652. Bone 26
+-- is the one attachment bone with an identity rest rotation, so this offset needs no
+-- pre-rotation, unlike the periscope's.
 --
 -- ROUND 8: still outboard at 0.78, reported as 75% over-extended. Two independent
 -- reports now converge on where the eyes actually are, and it is NOT the lobe tips:
