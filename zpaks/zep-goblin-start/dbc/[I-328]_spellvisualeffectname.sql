@@ -55,8 +55,11 @@ INSERT INTO spellvisualeffectname SET
   `min_allowed_scale` = 0.1,
   `max_allowed_scale` = 10.0;
 
--- The eye lights (4.3.4 effectname 6281), now that the mesh ships. Values are the donor
--- row verbatim — scale 0.5, area_effect_size 0, min/max 0.1/10. The .mdx path is the
+-- The eye lights (4.3.4 effectname 6281), now that the mesh ships. Donor values except
+-- `scale`: 0.5 sizes the glow for the stock hammerhead, whose head lobes reach y 1.650.
+-- Ours reach 0.930, and with display 21763 rendering at creature_model_scale 2.0 the
+-- donor disc overhung the eye by 0.96 yards on screen. Scaled by the head-width ratio,
+-- 0.5 * (0.930/1.650) = 0.28. area_effect_size 0, min/max 0.1/10 as the donor has them. The .mdx path is the
 -- stock Cata one because that is where the retroported model is shipped to in this
 -- zpak's source-assets; see asset_recipes.json for the conversion and its hashes.
 --
@@ -68,6 +71,6 @@ INSERT INTO spellvisualeffectname SET
   `name` = 'UL Light Effect Green (I-328 Mechashark eye lights)',
   `file_name` = 'world\\expansion02\\doodads\\ulduar\\ul_light_effect_green.mdx',
   `area_effect_size` = 0.0,
-  `scale` = 0.5,
+  `scale` = 0.28,
   `min_allowed_scale` = 0.1,
   `max_allowed_scale` = 10.0;

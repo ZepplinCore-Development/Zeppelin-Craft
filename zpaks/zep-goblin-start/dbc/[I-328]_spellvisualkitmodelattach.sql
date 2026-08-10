@@ -97,13 +97,27 @@ UPDATE spellvisualkitmodelattach SET
   `roll` = 0
 WHERE id = 90009;
 
--- Smoke flare: was aimed at the periscope's mouth on the stock mesh and has been venting
--- out of the tail on ours. Re-aimed at the new pipe top (0.45, 0, 2.28).
+-- ROUND 7. Attachment ids are not free-form slots, they are AttachmentType enum values
+-- with fixed semantics, and reading them that way explains the last two reports:
+--
+--   0  Shield/MountMain  ( 0.518,  0.002, 1.447)  bone 16 <- root 0
+--   15 ChestBloodFront   ( 1.548, -0.012, 0.547)  bone 22 <- 4
+--   16 ChestBloodBack    (-1.743, -0.029, 1.226)  bone 29 <- 10, the REAR SPINE
+--   17 Breath (mouth)    ( 1.733,  0.000, 0.776)  bone 26 <- 9, the head chain
+--   18 PlayerName        (-0.077,  0.000, 2.849)  parent -1, static  (round 4's mistake)
+--   19 Base / 20 Head    also parent -1, static
+--   21/22 Shoulders      the pectoral fins
+--
+-- The periscope was still on attachment 0, whose bone hangs off the ROOT — fine for the
+-- rockets at x -0.80, wrong for a part at x -1.35 that should follow the rear body. It
+-- sat 1.87 behind its own pivot and lagged the segment it visually belongs to. Moved to
+-- attachment 16, whose bone 29 is parented into the 0->2->7->10 spine chain and pivots at
+-- x -1.743, only 0.39 from the pipe. Rest position unchanged.
 UPDATE spellvisualkitmodelattach SET
-  `attachment_id` = 0,
-  `offset_x` = -1.868,
-  `offset_y` = -0.002,
-  `offset_z` = 0.683
+  `attachment_id` = 16,
+  `offset_x` = 0.393,
+  `offset_y` = 0.029,
+  `offset_z` = 0.904
 WHERE id = 90007;
 
 -- The periscope: behind the head, ahead of the dorsal fin, on the midline. Origin
@@ -119,10 +133,10 @@ INSERT INTO spellvisualkitmodelattach SET
   `id` = 91001,
   `parent_spell_vis_kit_id` = 14016,
   `spell_vis_effect_name_id` = 90103,
-  `attachment_id` = 0,
-  `offset_x` = -1.868,
-  `offset_y` = -0.002,
-  `offset_z` = 0.343,
+  `attachment_id` = 16,
+  `offset_x` = 0.393,
+  `offset_y` = 0.029,
+  `offset_z` = 0.564,
   `yaw` = -1.5708,
   `pitch` = 0,
   `roll` = -0.0873;
@@ -144,5 +158,20 @@ DELETE FROM spellvisualkitmodelattach WHERE id IN (91002, 91003);
 INSERT INTO spellvisualkitmodelattach
   (`id`, `parent_spell_vis_kit_id`, `spell_vis_effect_name_id`, `attachment_id`,
    `offset_x`, `offset_y`, `offset_z`, `yaw`, `pitch`, `roll`) VALUES
-  (91002, 14016, 90104, 17, -0.103,  1.0, 0.334, 0, 1.5708, 0),
-  (91003, 14016, 90104, 17, -0.103, -1.0, 0.334, 0, 1.5708, 0);
+  (91002, 14016, 90104, 17, -0.103,  0.78, 0.334, 0, 1.5708, 0),
+  (91003, 14016, 90104, 17, -0.103, -0.78, 0.334, 0, 1.5708, 0);
+
+-- Eye lights sat about a yard outboard of the eyes. Not the centre — the DISC. Display
+-- 21763 renders at `creature_model_scale` 2.0, so a model unit is two yards on screen,
+-- and the donor's effectname scale 0.5 makes a glow 0.82 model units wide whose outer
+-- edge reached y 1.409 against a lobe tip at 0.930: a 0.96-yard overhang, which is the
+-- report to the decimal. The donor sized that disc for the stock hammerhead, whose lobes
+-- reach 1.650 — our HD head is 56% of that width, so the same disc is proportionally
+-- ~80% too big. Centre pulled 1.00 -> 0.78 here, and the effectname scaled by the same
+-- head ratio, 0.5 * (0.930/1.650) = 0.28, in [I-328]_spellvisualeffectname.sql. Outer
+-- edge now lands 0.16 yards past the eye instead of 0.96.
+--
+-- Untouched: "Freakin' Laser Beam" (spell 71659, visual 15153) renders through kits
+-- 14540/10116/8650, which carry only a `chest_effect` — that is the stock chest
+-- attachment, no SpellVisualKitModelAttach row of ours, and a separate knob if the beam
+-- origin itself is wrong.
