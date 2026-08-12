@@ -117,7 +117,7 @@ UPDATE spellvisualkitmodelattach SET
   `attachment_id` = 16,
   `offset_x` = -0.108,
   `offset_y` = 0.655,
-  `offset_z` = 0.071,
+  `offset_z` = 0.021,
   `roll` = 1.5708
 WHERE id = 90007;
 
@@ -137,7 +137,7 @@ INSERT INTO spellvisualkitmodelattach SET
   `attachment_id` = 16,
   `offset_x` = -0.108,
   `offset_y` = 0.314,
-  `offset_z` = 0.071,
+  `offset_z` = 0.021,
   `yaw` = 0,
   `pitch` = -1.5708,
   `roll` = 1.5708;
@@ -145,7 +145,8 @@ INSERT INTO spellvisualkitmodelattach SET
 -- ROUND 14/15. Lateral 0.1, and the direction wanted is -Y, not the shark's +Y left that
 -- round 14 assumed. Lateral is `offset_z` under the corrected bone-29 mapping and inverts:
 -- local_z = -(Wy - pivot_y) = -(-0.1 + 0.029) = +0.071, giving world y -0.100.
--- Rest is now (-1.851, -0.1, 1.540).
+-- Slight overshoot at -0.1, so +0.05 back: local_z = -(-0.05 + 0.029) = +0.021,
+-- world y -0.050. Rest is now (-1.851, -0.05, 1.540).
 
 -- ROUND 13. Orientation signed off. Aft 0.5 and down 0.25 in model units, to rest
 -- (-1.851, 0, 1.540): the pipe spans 1.199..1.881 and the midline back at x -1.85 runs
