@@ -116,7 +116,7 @@ WHERE id = 90009;
 UPDATE spellvisualkitmodelattach SET
   `attachment_id` = 16,
   `offset_x` = 0.392,
-  `offset_y` = -0.905,
+  `offset_y` = -1.155,
   `offset_z` = 0.029,
   `roll` = 1.5708
 WHERE id = 90007;
@@ -136,11 +136,18 @@ INSERT INTO spellvisualkitmodelattach SET
   `spell_vis_effect_name_id` = 90103,
   `attachment_id` = 16,
   `offset_x` = 0.392,
-  `offset_y` = -0.564,
+  `offset_y` = -0.814,
   `offset_z` = 0.029,
   `yaw` = 0,
   `pitch` = -1.5708,
   `roll` = 1.5708;
+
+-- ROUND 11. Orientation confirmed correct — outlet aft, standing upright. Raised 0.25 to
+-- rest z 2.040, so the pipe spans 1.699..2.381 against a back surface of 1.546 at x -1.35
+-- and a dorsal fin peaking at 2.415: the mouth now sits just under the top of the fin.
+-- That does lift the base 0.15 clear of the hull rather than tucking it in, which is the
+-- trade for the extra height — say if the gap shows and it wants a smaller lift, or the
+-- pipe scaled up instead so the top rises while the base stays buried.
 
 -- ROUND 10. Upright now, but the elbow's outlet pointed out the shark's left instead of
 -- aft, and the pipe wanted to come forward and up.
@@ -219,8 +226,8 @@ DELETE FROM spellvisualkitmodelattach WHERE id IN (91002, 91003);
 INSERT INTO spellvisualkitmodelattach
   (`id`, `parent_spell_vis_kit_id`, `spell_vis_effect_name_id`, `attachment_id`,
    `offset_x`, `offset_y`, `offset_z`, `yaw`, `pitch`, `roll`) VALUES
-  (91002, 14016, 90104, 17, -0.103,  0.45, 0.105, 0, 1.5708, 0),
-  (91003, 14016, 90104, 17, -0.103, -0.45, 0.105, 0, 1.5708, 0);
+  (91002, 14016, 90104, 17, -0.053,  0.45, 0.105, 0, 1.5708, 0),
+  (91003, 14016, 90104, 17, -0.053, -0.45, 0.105, 0, 1.5708, 0);
 
 -- Eye lights sat about a yard outboard of the eyes. Not the centre — the DISC. Display
 -- 21763 renders at `creature_model_scale` 2.0, so a model unit is two yards on screen,
@@ -231,6 +238,10 @@ INSERT INTO spellvisualkitmodelattach
 -- ~80% too big. Centre pulled 1.00 -> 0.78 here, and the effectname scaled by the same
 -- head ratio, 0.5 * (0.930/1.650) = 0.28, in [I-328]_spellvisualeffectname.sql. Outer
 -- edge now lands 0.16 yards past the eye instead of 0.96.
+--
+-- ROUND 11: forward 0.1 YARDS. Display 21763 renders at creature_model_scale 2.0, so a
+-- yard on screen is half a model unit: 0.1 yd = 0.05, x 1.630 -> 1.680. Getting that
+-- conversion backwards would have moved them 0.2 yards, twice what was asked.
 --
 -- ROUND 10: one eye diameter was too far down, so half of it — rest z 1.110 -> 0.881.
 --
