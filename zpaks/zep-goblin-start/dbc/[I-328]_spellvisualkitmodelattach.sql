@@ -117,7 +117,7 @@ UPDATE spellvisualkitmodelattach SET
   `attachment_id` = 16,
   `offset_x` = -0.108,
   `offset_y` = 0.655,
-  `offset_z` = -0.129,
+  `offset_z` = 0.071,
   `roll` = 1.5708
 WHERE id = 90007;
 
@@ -137,16 +137,15 @@ INSERT INTO spellvisualkitmodelattach SET
   `attachment_id` = 16,
   `offset_x` = -0.108,
   `offset_y` = 0.314,
-  `offset_z` = -0.129,
+  `offset_z` = 0.071,
   `yaw` = 0,
   `pitch` = -1.5708,
   `roll` = 1.5708;
 
--- ROUND 14. Left 0.1, taking "left" as the SHARK's left (+Y) — the frame used throughout
--- this issue, back to "the outlet is facing the shark's left" in round 10. Lateral is
--- `offset_z` under the corrected bone-29 mapping, and it runs negative for +Y:
--- local_z = -(Wy - pivot_y) = -(0.1 + 0.029) = -0.129. Rest is now (-1.851, 0.1, 1.540).
--- If it went the wrong way, this is the field, and the sign is the fix.
+-- ROUND 14/15. Lateral 0.1, and the direction wanted is -Y, not the shark's +Y left that
+-- round 14 assumed. Lateral is `offset_z` under the corrected bone-29 mapping and inverts:
+-- local_z = -(Wy - pivot_y) = -(-0.1 + 0.029) = +0.071, giving world y -0.100.
+-- Rest is now (-1.851, -0.1, 1.540).
 
 -- ROUND 13. Orientation signed off. Aft 0.5 and down 0.25 in model units, to rest
 -- (-1.851, 0, 1.540): the pipe spans 1.199..1.881 and the midline back at x -1.85 runs
