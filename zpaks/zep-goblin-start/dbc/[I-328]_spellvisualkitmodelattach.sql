@@ -117,7 +117,7 @@ UPDATE spellvisualkitmodelattach SET
   `attachment_id` = 16,
   `offset_x` = -0.108,
   `offset_y` = 0.655,
-  `offset_z` = -0.029,
+  `offset_z` = -0.129,
   `roll` = 1.5708
 WHERE id = 90007;
 
@@ -137,10 +137,16 @@ INSERT INTO spellvisualkitmodelattach SET
   `attachment_id` = 16,
   `offset_x` = -0.108,
   `offset_y` = 0.314,
-  `offset_z` = -0.029,
+  `offset_z` = -0.129,
   `yaw` = 0,
   `pitch` = -1.5708,
   `roll` = 1.5708;
+
+-- ROUND 14. Left 0.1, taking "left" as the SHARK's left (+Y) — the frame used throughout
+-- this issue, back to "the outlet is facing the shark's left" in round 10. Lateral is
+-- `offset_z` under the corrected bone-29 mapping, and it runs negative for +Y:
+-- local_z = -(Wy - pivot_y) = -(0.1 + 0.029) = -0.129. Rest is now (-1.851, 0.1, 1.540).
+-- If it went the wrong way, this is the field, and the sign is the fix.
 
 -- ROUND 13. Orientation signed off. Aft 0.5 and down 0.25 in model units, to rest
 -- (-1.851, 0, 1.540): the pipe spans 1.199..1.881 and the midline back at x -1.85 runs
@@ -250,8 +256,8 @@ DELETE FROM spellvisualkitmodelattach WHERE id IN (91002, 91003);
 INSERT INTO spellvisualkitmodelattach
   (`id`, `parent_spell_vis_kit_id`, `spell_vis_effect_name_id`, `attachment_id`,
    `offset_x`, `offset_y`, `offset_z`, `yaw`, `pitch`, `roll`) VALUES
-  (91002, 14016, 90104, 17, -0.003,  0.45, 0.105,  1.5708, 1.5708, 0),
-  (91003, 14016, 90104, 17, -0.003, -0.45, 0.105, -1.5708, 1.5708, 0);
+  (91002, 14016, 90104, 17, 0.017,  0.43, 0.105,  1.3963, 1.5708, 0),
+  (91003, 14016, 90104, 17, 0.017, -0.43, 0.105, -1.3963, 1.5708, 0);
 
 -- Eye lights sat about a yard outboard of the eyes. Not the centre — the DISC. Display
 -- 21763 renders at `creature_model_scale` 2.0, so a model unit is two yards on screen,
@@ -262,6 +268,12 @@ INSERT INTO spellvisualkitmodelattach
 -- ~80% too big. Centre pulled 1.00 -> 0.78 here, and the effectname scaled by the same
 -- head ratio, 0.5 * (0.930/1.650) = 0.28, in [I-328]_spellvisualeffectname.sql. Outer
 -- edge now lands 0.16 yards past the eye instead of 0.96.
+--
+-- ROUND 14: 10 degrees back off the outboard turn — clockwise on the left, anticlockwise
+-- on the right, which for a mirrored pair is both yaws moving 0.1745 toward zero:
+-- +1.5708 -> +1.3963 and -1.5708 -> -1.3963. So they now toe forward 10 degrees rather
+-- than facing straight out. Plus axially forward 0.02 (x 1.730 -> 1.750) and radially in
+-- 0.02 (|y| 0.450 -> 0.430).
 --
 -- ROUND 13: position signed off; turned 90 degrees about Z so the discs face outboard
 -- instead of forward. `yaw` is the Z field (pitch was pinned to Y and roll to X by the
