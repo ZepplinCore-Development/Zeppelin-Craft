@@ -116,8 +116,8 @@ WHERE id = 90009;
 UPDATE spellvisualkitmodelattach SET
   `attachment_id` = 16,
   `offset_x` = 0.392,
-  `offset_y` = -1.155,
-  `offset_z` = 0.029,
+  `offset_y` = 0.905,
+  `offset_z` = -0.029,
   `roll` = 1.5708
 WHERE id = 90007;
 
@@ -136,11 +136,30 @@ INSERT INTO spellvisualkitmodelattach SET
   `spell_vis_effect_name_id` = 90103,
   `attachment_id` = 16,
   `offset_x` = 0.392,
-  `offset_y` = -0.814,
-  `offset_z` = 0.029,
+  `offset_y` = 0.564,
+  `offset_z` = -0.029,
   `yaw` = 0,
   `pitch` = -1.5708,
   `roll` = 1.5708;
+
+-- ROUND 12. Every "move it up" drove the pipe DOWN, three rounds running, because the
+-- local -> world mapping for bone 29 was sign-inverted. Derived from the rest quaternion
+-- (-0.706, 0.030, -0.030, 0.706) it read as X -90 degrees, giving world = (x, z, -y).
+-- In game it behaves as X +90: **world = (x, -z, y)**, so `offset_y` IS the vertical and
+-- driving it more negative sank the pipe:
+--
+--   round  9  local_y -0.320 -> world z 0.906
+--   round 10  local_y -0.564 -> world z 0.662
+--   round 11  local_y -0.814 -> world z 0.412
+--
+-- which is "resolved down not up" exactly, and explains why the pipe had been sitting low
+-- on the flank rather than on the back the whole time. The offsets below use the corrected
+-- mapping, so local_y is simply height above the pivot: rest z 1.790, spanning 1.449..2.131
+-- against a back surface of 1.546 — base 0.10 into the hull, mouth just clear of it.
+--
+-- The rotations are NOT touched: pitch/roll were tuned against what is on screen and the
+-- orientation is confirmed correct, whatever the quaternion says the frame is. Where the
+-- decode and the game disagree, the game wins.
 
 -- ROUND 11. Orientation confirmed correct — outlet aft, standing upright. Raised 0.25 to
 -- rest z 2.040, so the pipe spans 1.699..2.381 against a back surface of 1.546 at x -1.35
@@ -226,8 +245,8 @@ DELETE FROM spellvisualkitmodelattach WHERE id IN (91002, 91003);
 INSERT INTO spellvisualkitmodelattach
   (`id`, `parent_spell_vis_kit_id`, `spell_vis_effect_name_id`, `attachment_id`,
    `offset_x`, `offset_y`, `offset_z`, `yaw`, `pitch`, `roll`) VALUES
-  (91002, 14016, 90104, 17, -0.053,  0.45, 0.105, 0, 1.5708, 0),
-  (91003, 14016, 90104, 17, -0.053, -0.45, 0.105, 0, 1.5708, 0);
+  (91002, 14016, 90104, 17, -0.003,  0.45, 0.105, 0, 1.5708, 0),
+  (91003, 14016, 90104, 17, -0.003, -0.45, 0.105, 0, 1.5708, 0);
 
 -- Eye lights sat about a yard outboard of the eyes. Not the centre — the DISC. Display
 -- 21763 renders at `creature_model_scale` 2.0, so a model unit is two yards on screen,
@@ -238,6 +257,9 @@ INSERT INTO spellvisualkitmodelattach
 -- ~80% too big. Centre pulled 1.00 -> 0.78 here, and the effectname scaled by the same
 -- head ratio, 0.5 * (0.930/1.650) = 0.28, in [I-328]_spellvisualeffectname.sql. Outer
 -- edge now lands 0.16 yards past the eye instead of 0.96.
+--
+-- ROUND 12: forward another 0.05 MODEL units (asked in model units this time, so no
+-- conversion) -> x 1.730, which puts them within 0.003 of attachment 17's own pivot.
 --
 -- ROUND 11: forward 0.1 YARDS. Display 21763 renders at creature_model_scale 2.0, so a
 -- yard on screen is half a model unit: 0.1 yd = 0.05, x 1.630 -> 1.680. Getting that
