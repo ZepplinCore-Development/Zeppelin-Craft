@@ -95,16 +95,25 @@
         "level": 8,
         "mask_1": 8,
         "mask_2": 0,
+        "mask_3": 0,
+        "_mask_3_note": "Stoneclaw also carries spell_class_mask_3 = 131072, but that is the shared Earth-totem CATEGORY bit (Earthbind, Stoneskin, Strength of Earth, Tremor, Earth Elemental and Primal Strike all have it). mask_1 = 8 alone identifies Stoneclaw Totem.",
         "rank1_id": 5730,
         "effects": [
           "mana_cost_reduction"
         ]
       },
       "Searing Totem": {
+        "_note": "rank1_id 3599 is the SUMMON spell (effect 28) — it carries the cast cost but deals no damage. The totem's damage is a separate spell ('Attack', 3606) flagged mask_1 = 1073741824 (the fire-totem damage bit stock Call of Flame targets). Damage-side effects must use effect_masks, not mask_1.",
         "level": 10,
         "mask_1": 16,
         "mask_2": 0,
+        "mask_3": 0,
         "rank1_id": 3599,
+        "effect_masks": {
+          "spell_power_damage": {
+            "mask_1": 1073741824
+          }
+        },
         "effects": [
           "spell_power_damage",
           "mana_cost_reduction"
@@ -157,10 +166,17 @@
         ]
       },
       "Magma Totem": {
+        "_note": "rank1_id 8190 is the SUMMON spell (effect 28, mask_1 = 4096) — it deals no damage. The totem's periodic damage is a separate spell (8187) flagged mask_1 = 1073741828 (bit 30 = generic fire-totem damage, bit 2 = Magma-specific). Bit 2 alone (mask_1 = 4) targets Magma Totem's damage and nothing else that deals damage, so damage-side effects use that via effect_masks.",
         "level": 26,
         "mask_1": 4096,
         "mask_2": 0,
+        "mask_3": 0,
         "rank1_id": 8190,
+        "effect_masks": {
+          "spell_power_damage": {
+            "mask_1": 4
+          }
+        },
         "effects": [
           "spell_power_damage"
         ]
@@ -298,18 +314,29 @@
           "ability_damage_bonus"
         ]
       },
-      "_claw_rake_mask": {
-        "_note": "Claw+Rake combined mask_1 = 4096 (used by stock Idol of Ferocity 27851)"
+      "Claw": {
+        "_note": "Claw is NOT covered by Rake's mask_1 = 4096. Every player Claw rank (1082, 3029, 5201, 9849, 9850, 27000, 48569, 48570) carries mask_3 = 262144 and mask_1 = 0. Stock Idol of Ferocity (27851) targets both: a_1 = 4096 AND a_3 = 262144. Target 'Rake + Claw' to get both words ORed.",
+        "level": 20,
+        "mask_1": 0,
+        "mask_2": 0,
+        "mask_3": 262144,
+        "rank1_id": 1082,
+        "effects": [
+          "ability_damage_bonus"
+        ]
       }
     },
     "paladin": {
       "Devotion Aura": {
+        "_note": "Devotion Aura is FREE at every rank (power_cost = 0 AND power_cost_percentage = 0 — auras lost their mana cost in 3.0.2), so mana_cost_reduction on it is a guaranteed no-op. Its armor value is effect 1 (aura 22 MOD_RESISTANCE, misc 1), which SPELLMOD_EFFECT1 does reach — that is how stock Improved Devotion Aura (20138) works.",
         "level": 1,
         "mask_1": 64,
         "mask_2": 0,
+        "mask_3": 0,
         "rank1_id": 465,
+        "_mask_3_note": "Devotion Aura also carries spell_class_mask_3 = 32, but that bit is the shared 'is a Paladin Aura' CATEGORY bit — Retribution, Concentration, Crusader and the three resistance auras all have it. Targeting it would apply this mod to every aura's effect 1. mask_1 = 64 alone identifies Devotion Aura, which is what stock Improved Devotion Aura (20138) uses.",
         "effects": [
-          "mana_cost_reduction"
+          "armor_aura_bonus"
         ]
       },
       "Holy Light": {
@@ -377,13 +404,13 @@
         ]
       },
       "Retribution Aura": {
+        "_note": "Free like Devotion Aura (no mana cost since 3.0.2) — mana_cost_reduction removed, it would be a no-op. Its effect 1 is a damage shield rather than an armor value, so armor_aura_bonus does not apply either. No valid archetype today; add one deliberately before targeting it.",
         "level": 16,
         "mask_1": 8,
         "mask_2": 0,
+        "mask_3": 0,
         "rank1_id": 7294,
-        "effects": [
-          "mana_cost_reduction"
-        ]
+        "effects": []
       },
       "Hand of Freedom": {
         "level": 18,
@@ -667,7 +694,7 @@
         "class": "paladin",
         "req_level": 30,
         "ilvl": 35,
-        "effect": "mana_cost_reduction",
+        "effect": "armor_aura_bonus",
         "target": "Devotion Aura",
         "name_hint": "Libram of Steadfast Devotion",
         "dungeon": "SM Graveyard",
@@ -714,7 +741,7 @@
         "req_level": 40,
         "ilvl": 46,
         "effect": "ability_damage_bonus",
-        "target": "Rake + Claw (mask 4096)",
+        "target": "Rake + Claw",
         "name_hint": "Idol of the Feral Hunt",
         "dungeon": "SM Armory",
         "item_id": 59057,
@@ -969,7 +996,7 @@
         "req_level": 56,
         "ilvl": 61,
         "effect": "ability_damage_bonus",
-        "target": "Rake + Claw (mask 4096)",
+        "target": "Rake + Claw",
         "name_hint": "Idol of the Beast Lord",
         "dungeon": "Upper Blackrock Spire",
         "item_id": 59080,
@@ -1067,7 +1094,7 @@
         "class": "paladin",
         "req_level": 58,
         "ilvl": 63,
-        "effect": "spell_power_damage",
+        "effect": "spell_power_heal",
         "target": "Holy Light",
         "name_hint": "Libram of the Shielded Avenger",
         "dungeon": "Scholomance",

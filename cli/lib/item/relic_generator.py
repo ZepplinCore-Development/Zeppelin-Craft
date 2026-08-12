@@ -77,6 +77,13 @@ EFFECT_TPL = {
     "mana_cost_reduction":  {"aura": 107, "misc": 14,   "school_mask": 1},
     "ability_damage_bonus": {"aura": 107, "misc": 3,    "school_mask": 1},
     "cooldown_reduction":   {"aura": 107, "misc": 11,   "school_mask": 1},
+    # SPELLMOD_EFFECT1 (misc 3) flat-adds to the target's effect-1 value. For an
+    # aura whose effect 1 IS the armor amount (Devotion Aura: aura 22
+    # MOD_RESISTANCE, misc 1), that is a flat armor bonus. Same mechanism stock
+    # Improved Devotion Aura (20138) uses, as a pct rather than a flat add.
+    # Unit::ApplyEffectModifiers (Unit.cpp) routes SPELLMOD_EFFECT1 into
+    # SpellEffectInfo::CalcValue, so it reaches aura amounts, not just damage.
+    "armor_aura_bonus":     {"aura": 107, "misc": 3,    "school_mask": 1},
 }
 
 EFFECT_DESC_TPL = {
@@ -85,6 +92,20 @@ EFFECT_DESC_TPL = {
     "mana_cost_reduction":  "Reduces the mana cost of your {target} by $s1.",
     "ability_damage_bonus": "Increases the damage dealt by your {target} by $s1.",
     "cooldown_reduction":   "Reduces the cooldown of your {target} by $/60000;s1 minutes.",
+    "armor_aura_bonus":     "Increases the armor bonus of your {target} by $s1.",
+}
+
+# Effects that require the target spell to cost mana / have a cooldown / deal
+# damage. Consumed by validate.py to reject archetype-target pairings that
+# cannot fire (e.g. a mana-cost mod on a free spell, or a spell-power mod on a
+# totem's SUMMON spell rather than the damage spell the totem actually casts).
+EFFECT_REQUIRES = {
+    "mana_cost_reduction":  "cost",
+    "cooldown_reduction":   "cooldown",
+    "spell_power_damage":   "damage",
+    "spell_power_heal":     "heal",
+    "ability_damage_bonus": "damage",
+    "armor_aura_bonus":     "aura_value",
 }
 
 
@@ -105,39 +126,82 @@ def scale_value(effect: str, ilvl: int) -> int:
         return round(ilvl * 0.4)
     if effect == "cooldown_reduction":
         return -(round(ilvl * 1500))  # ms
+    if effect == "armor_aura_bonus":
+        # Devotion Aura rank 4 (level 30) grants 390 armor; ilvl 35 * 1.5 = 53,
+        # i.e. ~13% — in line with a single point of Improved Devotion Aura
+        # (+16%) and still sane at heroic/mythic ilvl (66 -> 99, 76 -> 114
+        # against rank 7's 1205 armor).
+        return round(ilvl * 1.5)
     raise ValueError(f"unknown effect: {effect}")
 
 
 # -- Target mask resolution ----------------------------------------------------
 
-def resolve_target_mask(target_str: str, cls: str, class_spells: dict) -> tuple[int, int, str]:
-    """Returns (mask_a_1, mask_a_2, display_target).
+def _spell_mask(sp: dict, effect: Optional[str]) -> tuple[int, int, int]:
+    """The three mask words for one ladder entry, honouring any per-effect
+    override.
+
+    A ladder entry's mask_1/2/3 describe the spell the PLAYER casts. For summon
+    spells (totems) that is not the spell that carries the effect being modified
+    — Magma Totem's summon deals no damage, the totem's own spell does — so an
+    entry may declare `effect_masks: {"<effect>": {"mask_1": N}}` to redirect
+    that archetype at the spell that actually carries it.
+    """
+    override = (sp.get("effect_masks") or {}).get(effect or "", {})
+    return (
+        override.get("mask_1", sp.get("mask_1", 0)),
+        override.get("mask_2", sp.get("mask_2", 0)),
+        override.get("mask_3", sp.get("mask_3", 0)),
+    )
+
+
+def resolve_target_mask(
+    target_str: str,
+    cls: str,
+    class_spells: dict,
+    effect: Optional[str] = None,
+) -> tuple[int, int, int, str]:
+    """Returns (mask_a_1, mask_a_2, mask_a_3, display_target).
+
+    The three returned words are effect 1's flag96 and are matched against the
+    target spell's spell_class_mask_1/2/3 respectively. Note the DBC column
+    naming: the LETTER selects which effect on this spell is modifying
+    (a = effect 1), the NUMBER selects which of the target's mask words to test.
+    So effect 1's second word is `effect_spell_class_mask_a_2`, NOT `..._b_1`.
 
     Handles three forms:
       - "Earth Shock + Flame Shock + Frost Shock (mask 2416967680)"  -> explicit mask
-      - "Maul + Swipe (Bear)"                                          -> OR of component masks
+      - "Rake + Claw"                                                  -> OR of component masks
       - "Holy Light"                                                    -> single-spell lookup
+
+    The explicit "(mask N)" form only sets word 1; a target whose flag lives in
+    word 2 or 3 must be expressed as a named ladder entry so all three words
+    resolve. Prefer named entries.
     """
     m = re.search(r"\(mask (\d+)", target_str)
     if m:
         explicit_mask = int(m.group(1))
         display = re.sub(r"\s*\(mask[^)]*\).*", "", target_str).strip()
-        return explicit_mask, 0, display
+        return explicit_mask, 0, 0, display
 
     if " + " in target_str:
         parts = [p.strip() for p in target_str.split(" + ")]
-        m1, m2 = 0, 0
+        m1, m2, m3 = 0, 0, 0
         for p in parts:
             sp = class_spells[cls].get(p)
-            if sp:
-                m1 |= sp["mask_1"]
-                m2 |= sp["mask_2"]
-        return m1, m2, target_str.replace(" + ", " and ")
+            if not sp:
+                raise ValueError(f"Spell '{p}' (from '{target_str}') not in {cls} class_spells")
+            w1, w2, w3 = _spell_mask(sp, effect)
+            m1 |= w1
+            m2 |= w2
+            m3 |= w3
+        return m1, m2, m3, target_str.replace(" + ", " and ")
 
     sp = class_spells[cls].get(target_str)
     if not sp:
         raise ValueError(f"Spell '{target_str}' not in {cls} class_spells")
-    return sp["mask_1"], sp["mask_2"], target_str
+    w1, w2, w3 = _spell_mask(sp, effect)
+    return w1, w2, w3, target_str
 
 
 # -- Per-(class, role) defaults for F-013 Phase 6 ------------------------------
@@ -227,7 +291,7 @@ def build_relic_for_cell(
 
     class_spells = relic_effects_data["class_spells"]
     class_set_dbc = relic_effects_data["_class_set_dbc"]
-    mask1, mask2, display_target = resolve_target_mask(target, cls, class_spells)
+    mask1, mask2, mask3, display_target = resolve_target_mask(target, cls, class_spells, effect)
     tpl = EFFECT_TPL[effect]
     displayed = scale_value(effect, ilvl)
     base_points = displayed - 1
@@ -254,6 +318,7 @@ INSERT INTO `spell` SET
     `effect_misc_value_a_1` = {tpl['misc']},
     `effect_spell_class_mask_a_1` = {mask1},
     `effect_spell_class_mask_a_2` = {mask2},
+    `effect_spell_class_mask_a_3` = {mask3},
     `spell_icon_id` = 13,
     `spell_name_enus` = '{sql_escape(item_name)}',
     `spell_name_flags` = 16712190,
@@ -311,7 +376,7 @@ def gen_spell(entry: dict, class_set_dbc: dict, class_spells: dict) -> str:
     sid = entry["spell_id"]
     ilvl = entry["ilvl"]
     name = entry["name_hint"]
-    mask1, mask2, display_target = resolve_target_mask(entry["target"], cls, class_spells)
+    mask1, mask2, mask3, display_target = resolve_target_mask(entry["target"], cls, class_spells, eff)
     tpl = EFFECT_TPL[eff]
     displayed = scale_value(eff, ilvl)
     base_points = displayed - 1
@@ -336,6 +401,7 @@ INSERT INTO `spell` SET
     `effect_misc_value_a_1` = {tpl['misc']},
     `effect_spell_class_mask_a_1` = {mask1},
     `effect_spell_class_mask_a_2` = {mask2},
+    `effect_spell_class_mask_a_3` = {mask3},
     `spell_icon_id` = 13,
     `spell_name_enus` = '{sql_escape(name)}',
     `spell_name_flags` = 16712190,
@@ -550,6 +616,26 @@ def build() -> tuple[int, int]:
 
 
 if __name__ == "__main__":
+    import sys
+
+    # Validate before writing: an effect/target pairing that cannot fire (mana
+    # cost mod on a free spell, spell power on a totem's summon rather than its
+    # damage, a mask that misses a word) produces no server error at runtime,
+    # so the only place to catch it is here. --no-validate skips the DBC round
+    # trip; the check self-skips anyway when the DBC is unreachable.
+    if "--no-validate" not in sys.argv:
+        from .relic_validate import validate
+
+        problems = validate()
+        if problems and not problems[0].startswith("SKIPPED:"):
+            print(f"Refusing to generate — {len(problems)} problem(s) in relic_effects.json:\n")
+            for p in problems:
+                print(f"  - {p}")
+            print("\nFix the plan, or pass --no-validate to generate anyway.")
+            raise SystemExit(1)
+        if problems:
+            print(problems[0])
+
     n_spells, n_items = build()
     print(f"DBC: {DBC_OUT}  ({n_spells} new spells + 1 anchor)")
     print(f"SQL: {ITEM_OUT} ({n_items} new items + 1 anchor update)")
