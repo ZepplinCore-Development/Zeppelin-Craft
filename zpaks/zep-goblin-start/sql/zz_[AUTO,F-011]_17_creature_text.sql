@@ -9,7 +9,7 @@
 
 -- F-011 creature_text (one file per table; rows carry final state)
 
-DELETE FROM creature_text WHERE CreatureID IN (23837,34668,34673,34689,34692,34693,34695,34696,34697,34830,34835,34872,34874,34876,34877,34878,35053,35054,35120,35175,35186,35200,35201,35222,35239,35294,35304,35486,35650,35758,35769,35786,35813,35838,35875,35893,35917,36100,36112,36129,36143,36145,36161,36178,36403,36425,36470,36471,36513,36519,36600,37106,37179,37500,37602,37804,38120,38122,38124,38195,38381,38387,38409,38432,38441,38455,38517,38643,38647,38696,38738,38745,38746,38855,38928,39065,39066,39193,39194,39198,39199,39200,39201,39363,39426,39456,39582,48305,48494,48496,366150);
+DELETE FROM creature_text WHERE CreatureID IN (23837,34668,34673,34689,34692,34693,34695,34696,34697,34830,34835,34872,34874,34876,34877,34878,35053,35054,35120,35175,35186,35200,35201,35222,35239,35294,35304,35486,35650,35758,35769,35786,35813,35838,35875,35893,35917,36100,36112,36129,36143,36145,36161,36178,36403,36425,36470,36471,36513,36519,36600,37106,37179,37500,37602,37804,38120,38122,38124,38195,38318,38381,38387,38409,38432,38441,38455,38517,38643,38647,38696,38738,38745,38746,38855,38928,39065,39066,39193,39194,39198,39199,39200,39201,39363,39426,39456,39582,48305,48494,48496,366150);
 
 INSERT INTO creature_text (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
   (23837, 0, 0, 'Scrying upon many insignificant situations within Icecrown, you stumble upon something interesting...', 42, 0, 100, 0, 0, 0, 0, 0, 'Eye of Lich King Ambient'),
@@ -289,6 +289,7 @@ INSERT INTO creature_text (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Langu
   (38124, 7, 0, 'It''s time for a little sabotage!', 12, 0, 100, 11, 0, 0, 0, 0, ''),
   (38124, 8, 0, 'Deliver the footbomb uniform to the Slave Pits. Hurry, $n!', 12, 0, 100, 25, 0, 0, 0, 0, ''),
   (38195, 0, 0, 'No raptors around. Go and Find another trap!', 41, 0, 100, 0, 0, 0, 0, 0, ''),
+  (38318, 0, 0, 'Use the Mechashark''s REPAIR!', 41, 0, 100, 0, 0, 0, 0, 0, ''),
   (38381, 0, 0, 'We can discuss the cut after you come back with the hides. I''m thinking ninety-ten.', 12, 0, 100, 6, 0, 0, 0, 0, ''),
   (38387, 0, 0, '$n, hop into one of those B.C. Eliminators and wipe out the pygmies!', 14, 0, 100, 25, 0, 0, 0, 0, ''),
   (38387, 1, 0, 'You''re going to have to take the fight to them, $n. Look for Izzy just outside their village.', 12, 0, 100, 273, 0, 0, 0, 0, ''),

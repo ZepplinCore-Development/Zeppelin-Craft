@@ -2,13 +2,57 @@
  {
   "entry": 6491,
   "guid": 11900001,
-  "x": 1836.0,
-  "y": -10872.0,
-  "z": 21.5915,
+  "x": 1889.7,
+  "y": -10895.0,
+  "z": 13.109236,
   "o": 3.93,
   "phaseMask": 65535,
   "spawntimesecs": 30,
-  "comment": "I-252 Spirit Healer at graveyard 4720 (Lost Isles - Gobber's Inn hub). Hand-placed graveyard (zz_[F-011]_lost_isles_graveyard.sql) has no Cata counterpart, so the source dump never spawned a healer here; ghosts released with no healer at the res point. Ground Z via terrain height."
+  "comment": "I-252 Spirit Healer at graveyard 4952 (Lost Isles - KTC Oil Platform). 2026-08-04 graveyard rework: moved from the retired Gobber's Inn graveyard 4720 to the new KTC res point (zz_[F-011]_lost_isles_graveyard.sql). Ground Z via terrain height."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900006,
+  "x": 104.9,
+  "y": -9679.7,
+  "z": 3.191364,
+  "o": 3.93,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4721 (Lost Isles - Shipwreck Shore), added in the 2026-08-04 four-graveyard rework. Hand-placed graveyard has no Cata counterpart so no source healer exists. Guid 11900006 because zz_[I-310] hand-claimed 11900003 inside the fixture range. Ground Z via terrain height."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900004,
+  "x": -11.8,
+  "y": -10089.5,
+  "z": 106.087793,
+  "o": 3.93,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4779 (Lost Isles - Horde Base Camp), added in the 2026-08-04 four-graveyard rework. Hand-placed graveyard has no Cata counterpart so no source healer exists. Ground Z via terrain height."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900005,
+  "x": 477.8,
+  "y": -9486.3,
+  "z": 3.456713,
+  "o": 3.93,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4783 (Lost Isles - Alliance Beachhead), added in the 2026-08-04 four-graveyard rework. Hand-placed graveyard has no Cata counterpart so no source healer exists. Ground Z via terrain height."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900007,
+  "x": 91.6,
+  "y": -10836.1,
+  "z": 13.726416,
+  "o": 3.93,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4876 (Lost Isles - Ruins of Vashj'elan), added 2026-08-13. Deaths in area 4876 previously resolved to the Horde Base Camp stone 754yd away and 93yd up a cliff. Hand-placed graveyard has no Cata counterpart so no source healer exists. Guid 11900007 = next free in the fixture block (01/02/04/05/06 taken, 03 hand-claimed by zz_[I-310]). Ground Z via terrain height."
  },
  {
   "entry": 36608,
