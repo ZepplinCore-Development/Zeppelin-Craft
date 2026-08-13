@@ -73,7 +73,9 @@ INSERT INTO gameobject_loot_template (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 -- Client-side sparkle for players on the quest. GO_DYNFLAG_LO_SPARKLE is driven by
 -- ObjectMgr's GO quest-item list, not by the loot table, so this row is required
--- separately — no generator emits this table (I-320).
+-- separately. The questitems gen domain (I-332) now emits this table, but only for
+-- entries the gen actually collects — 201977 is still absent from go_scope.json (see
+-- the follow-up below), so this row stays hand-owned until that scope fix lands.
 DELETE FROM gameobject_questitem WHERE GameObjectEntry = 201977;
 INSERT INTO gameobject_questitem (`GameObjectEntry`, `Idx`, `ItemId`, `VerifiedBuild`) VALUES
   (201977, 0, 84313, 0);

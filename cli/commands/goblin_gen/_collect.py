@@ -75,6 +75,10 @@ TABLES = {
     "creature_equip_template":    dict(order=16, kind="B", dest="sql"),
     "creature_text":              dict(order=17, kind="B", dest="sql"),
     "creature_template_spell":    dict(order=18, kind="B", dest="sql"),
+    # Client-visible quest-item advertisement (I-332): creature tooltip line and
+    # GO_DYNFLAG_LO_SPARKLE. Ordered right after each owning template so the entry
+    # already exists when the file applies.
+    "gameobject_questitem":       dict(order=22, kind="B", dest="sql"),
     "npc_text":                   dict(order=25, kind="B", dest="sql"),
     "gossip_menu":                dict(order=26, kind="B", dest="sql"),
     "gossip_menu_option":         dict(order=27, kind="B", dest="sql"),
@@ -100,6 +104,7 @@ TABLES = {
     "waypoints":                  dict(order=44, kind="B", dest="sql"),
     "creature_queststarter":      dict(order=45, kind="B", dest="sql"),
     "creature_questender":        dict(order=46, kind="B", dest="sql"),
+    "creature_questitem":         dict(order=47, kind="B", dest="sql"),
     "creature_loot_template":     dict(order=50, kind="B", dest="sql"),
     "skinning_loot_template":     dict(order=51, kind="B", dest="sql"),
     "pickpocketing_loot_template": dict(order=52, kind="B", dest="sql"),

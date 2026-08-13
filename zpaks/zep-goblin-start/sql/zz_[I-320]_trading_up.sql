@@ -268,11 +268,10 @@ INSERT INTO gameobject_loot_template (`Entry`, `Item`, `Reference`, `Chance`, `Q
   (201974, 84312, 0, 100, 1, 1, 0, 1, 1);
 
 -- Client-side sparkle for players on the quest (GO_DYNFLAG_LO_SPARKLE is driven by
--- ObjectMgr's GO quest-item list, not by the loot table). No generator emits this
--- table, so it stays hand-owned here even after the gen picks up 201974.
-DELETE FROM gameobject_questitem WHERE GameObjectEntry = 201974;
-INSERT INTO gameobject_questitem (`GameObjectEntry`, `Idx`, `ItemId`, `VerifiedBuild`) VALUES
-  (201974, 0, 84312, 0);
+-- ObjectMgr's GO quest-item list, not by the loot table) is no longer hand-owned:
+-- the questitems gen domain (I-332) emits 201974 -> 84312 into
+-- zz_[AUTO,F-011]_22_gameobject_questitem.sql from the donor's questItem1 column.
+-- Row retired here to keep single-file ownership.
 
 -- =========================================================================
 -- 5. The decoy egg 38195 — SmartAI port of npc_wild_clucker_egg_trading_up
