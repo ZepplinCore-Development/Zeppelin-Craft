@@ -204,6 +204,37 @@ DATA_OVERRIDE = {
     # on 14245), so the town appears the instant the credit lands.
     201938: {"Data10": 68938, "Data3": 3000},
 
+    # 202133 Naga Banner — quest 24858 "Bilgewater Cartel Represent" (I-331).
+    #
+    # Data3 (goober.autoCloseTime) 0 -> 1000ms. Third instance of the AC-only
+    # gate documented on the pod and the plunger above (GameObject.cpp:1716,
+    # `if (info->GetAutoCloseTime())`), and the only one where the gate also
+    # defeats Data5. At 0 the banner never enters GO_ACTIVATED, so the
+    # GO_ACTIVATED -> GO_JUST_DEACTIVATED transition in Update()
+    # (GameObject.cpp:754) never runs and the consumable despawn keyed on
+    # IsDespawnAtAction() == goober.consumable (GameObject.cpp:846) is
+    # unreachable. The naga banner therefore stays standing after it is
+    # replaced, which is the reported symptom.
+    #
+    # Everything else in Use() runs before that gate and already worked, which
+    # is why the quest looked healthy: KillCreditGO fires at GameObject.cpp:1702
+    # and the tail casts Data10 71855 FORCE_CAST -> 71857, which plants
+    # Bilgewater banner 202134 (effect 50 TRANS_DOOR, MiscValue 202134).
+    #
+    # The same gate is why one banner could pay the whole quest: GO_FLAG_IN_USE
+    # is set inside the same `if`, so without it the early-out at
+    # GameObject.cpp:1656 never triggers and KillCreditGO has no per-guid dedup
+    # (PlayerQuest.cpp:2117, addCastCount = 1 per call) — ten clicks on one
+    # banner closed a ten-banner objective. In-use flag + despawn both land with
+    # this one field.
+    #
+    # Data4 customAnim stays 0, unlike the pod: a banner has no burst to double
+    # up, and the 'Detonating' lock-43 cast bar already covers the click. 1000ms
+    # is just the beat between the cast completing and the banner vanishing;
+    # spell 71855 is instant (cast_time_index 1), so the pre-cast commit noted
+    # in the pod entry cannot eat this object. Spawns respawn at 120s.
+    202133: {"Data3": 1000},
+
     # Still open (I-277), deliberately NOT fixed here: 205061 Big Red Button
     # (Data10 151157) has the same dead-spell defect. TDB 4.3.4 offers Data0
     # 73892, but its quest (25207) is untested and the spell is unverified

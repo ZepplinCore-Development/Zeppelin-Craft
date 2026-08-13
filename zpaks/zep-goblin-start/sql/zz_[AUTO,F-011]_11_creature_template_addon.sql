@@ -1967,6 +1967,17 @@ INSERT INTO creature_template_addon SET
   `visibilityDistanceType` = 2,
   `auras` = '71409';
 
+DELETE FROM creature_template_addon WHERE entry = 38318;
+INSERT INTO creature_template_addon SET
+  `entry` = 38318,
+  `path_id` = 0,
+  `mount` = 0,
+  `bytes1` = 0,
+  `bytes2` = 0,
+  `emote` = 0,
+  `visibilityDistanceType` = 2,
+  `auras` = '';
+
 DELETE FROM creature_template_addon WHERE entry = 38359;
 INSERT INTO creature_template_addon SET
   `entry` = 38359,

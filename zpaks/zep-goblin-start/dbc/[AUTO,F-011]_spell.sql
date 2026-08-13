@@ -6130,7 +6130,7 @@ INSERT INTO spell SET
   `effect_apply_aura_name_1` = 0,
   `effect_amplitude_1` = 0,
   `effect_base_points_1` = 71661,
-  `effect_die_sides_1` = 1,
+  `effect_die_sides_1` = 0,
   `effect_item_type_1` = 0,
   `effect_mechanic_1` = 0,
   `effect_misc_value_a_1` = 38318,

@@ -3709,7 +3709,7 @@ INSERT INTO gameobject_template SET
   `Data0` = 43,
   `Data1` = 24858,
   `Data2` = 0,
-  `Data3` = 0,
+  `Data3` = 1000,
   `Data4` = 0,
   `Data5` = 1,
   `Data6` = 0,
