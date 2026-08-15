@@ -1,0 +1,10 @@
+{
+  "INTERFACE/GLUES/MODELS/UI_GOBLIN/UI_GOBLIN.M2": {
+    "note": "F-151 goblin character-select scene camera. PATCH-G ships the same UI_Goblin as PATCH-L, and PATCH-L wins on load order, so this entry only keeps the two patches consistent — the recipe that matters is the identical one in patch-modern-login.",
+    "base_sha256": "1d08b989e2c1656bf43448fd539e0711cb0ebac59179be5d1f2b9520e3d08b8f",
+    "result_sha256": "00a59ee4cb10af6a292b12e7016346ec15895c644b70b5f0812408bd966faa15",
+    "ops": [
+      { "op": "m2.camera.fov", "index": 0, "value": 0.75 }
+    ]
+  }
+}

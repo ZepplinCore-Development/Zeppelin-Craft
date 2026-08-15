@@ -199,6 +199,12 @@ def get_zpak_preprocessors(zpak: Dict[str, Any]) -> List[str]:
     if generator and generator not in preprocessors:
         preprocessors.append(generator)
 
+    # A model_transforms.json in the zpak root IS the declaration — the recipe
+    # is worthless if a zpak can carry one and silently not replay it (F-203).
+    if 'model-transforms' not in preprocessors:
+        if (Path(zpak['path']) / 'model_transforms.json').exists():
+            preprocessors.append('model-transforms')
+
     return preprocessors
 
 
@@ -306,18 +312,35 @@ def _print_step_header(step_name: str, zpak_name: str):
 
 
 def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
-    """Apply vertex transforms to M2 models in parsed-assets.
+    """Apply edit recipes to M2 models in parsed-assets.
 
     Reads model_transforms.json from the zpak root.  Each key is a path
-    relative to parsed-assets (UPPERCASE) and the value specifies dx, dy, dz
-    and scale to apply.  Source-assets are never modified.
+    relative to parsed-assets (UPPERCASE); the value may specify:
 
-    To avoid cumulative drift, each target file is always re-copied from
-    source-assets before the transform is applied.
+      dx / dy / dz / scale   vertex transform (m2_vertex_shifter)
+      ops                    list of named edit ops (m2_ops), e.g.
+                             {"op": "m2.camera.fov", "index": 0, "value": 0.75}
+      base_sha256            sha256 the source-assets file must have — build
+                             fails loudly if an upstream pack changed underneath
+      result_sha256          sha256 the edited file must end up with — catches
+                             drift and unrecorded hand edits
+
+    Source-assets are never modified.  To avoid cumulative drift, each target
+    is always re-copied from source-assets before the recipe is replayed, so
+    the committed recipe — not an untracked binary — is what ships (F-203).
     """
+    import hashlib
     import json as _json
     import shutil
     from lib.m2_vertex_shifter import transform_vertices
+    from lib.m2_ops import apply_ops
+
+    def _sha256(path: Path) -> str:
+        h = hashlib.sha256()
+        with open(path, 'rb') as fh:
+            for chunk in iter(lambda: fh.read(1 << 20), b''):
+                h.update(chunk)
+        return h.hexdigest()
 
     zpak_path = Path(zpak['path'])
     transforms_file = zpak_path / 'model_transforms.json'
@@ -351,14 +374,46 @@ def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
             print(f"  \033[33mSKIP\033[0m  {rel_path}  (not found in source or parsed)")
             continue
 
+        # The base hash pins the donor bytes.  If an upstream pack is re-imported
+        # and the model changes, the recipe may no longer mean what it meant —
+        # stop rather than ship a silently wrong edit.
+        base_sha = cfg.get('base_sha256')
+        if base_sha:
+            actual = _sha256(m2_parsed)
+            if actual != base_sha:
+                print(f"  \033[31mERR\033[0m   {rel_path}  (base_sha256 mismatch)")
+                print(f"          expected {base_sha}")
+                print(f"          actual   {actual}")
+                return False
+
         dx = cfg.get('dx', 0.0)
         dy = cfg.get('dy', 0.0)
         dz = cfg.get('dz', 0.0)
         scale = cfg.get('scale', 1.0)
+        ops = cfg.get('ops', [])
 
         try:
-            n = transform_vertices(m2_parsed, dx, dy, dz, scale=scale, backup=False)
-            print(f"  \033[32mOK\033[0m    {rel_path}  ({n} verts, scale={scale}, dz={dz:+.3f}, dx={dx:+.3f})")
+            changes = []
+            if dx or dy or dz or scale != 1.0:
+                n = transform_vertices(m2_parsed, dx, dy, dz, scale=scale, backup=False)
+                changes.append(f"{n} verts, scale={scale}, dz={dz:+.3f}, dx={dx:+.3f}")
+            if ops:
+                changes.extend(apply_ops(m2_parsed, ops))
+
+            if not changes:
+                print(f"  \033[33mSKIP\033[0m  {rel_path}  (recipe specifies no edits)")
+                continue
+
+            result_sha = cfg.get('result_sha256')
+            if result_sha:
+                actual = _sha256(m2_parsed)
+                if actual != result_sha:
+                    print(f"  \033[31mERR\033[0m   {rel_path}  (result_sha256 mismatch)")
+                    print(f"          expected {result_sha}")
+                    print(f"          actual   {actual}")
+                    return False
+
+            print(f"  \033[32mOK\033[0m    {rel_path}  ({'; '.join(changes)})")
             ok += 1
         except Exception as e:
             print(f"  \033[31mERR\033[0m   {rel_path}  ({e})")
