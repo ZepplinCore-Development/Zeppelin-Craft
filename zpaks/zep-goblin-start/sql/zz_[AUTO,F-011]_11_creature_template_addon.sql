@@ -2066,6 +2066,17 @@ INSERT INTO creature_template_addon SET
   `visibilityDistanceType` = 2,
   `auras` = '';
 
+DELETE FROM creature_template_addon WHERE entry = 38450;
+INSERT INTO creature_template_addon SET
+  `entry` = 38450,
+  `path_id` = 0,
+  `mount` = 0,
+  `bytes1` = 0,
+  `bytes2` = 1,
+  `emote` = 0,
+  `visibilityDistanceType` = 2,
+  `auras` = '71910';
+
 DELETE FROM creature_template_addon WHERE entry = 38455;
 INSERT INTO creature_template_addon SET
   `entry` = 38455,

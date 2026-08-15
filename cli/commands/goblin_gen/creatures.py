@@ -211,6 +211,19 @@ SCRIPT_NAME_PORTS = {
 # from the WARN so the to-do list stays honest.
 SCRIPT_NAME_DANGLING = {"npc_citoyen_gob", "npc_captive", "gob_red_but", "gob_canon_gobelin"}
 
+# Donor C++ scripts re-implemented as SmartAI rather than as AC C++. The rows live
+# in a zz_[I-xxx] override; all this side has to do is set AIName, because the
+# donor template carries an empty AIName (its behaviour was the ScriptName) and a
+# blank AIName means the override's smart_scripts rows never run. Also excluded
+# from the I-313 WARN below — they ARE ported, just not as C++.
+#
+# {entry: (AIName, issue that owns the SmartAI rows)}
+AI_NAME_PORTS = {
+    # I-336, quest 24868 "Surrender or Else!" — npc_ace_surrender_escort re-authored
+    # as SmartAI + a hand `waypoints` path in zz_[I-336]_surrender_or_else.sql.
+    38455: ("SmartAI", "I-336"),
+}
+
 
 def emit(ctx):
     sfx = ctx.sfx
@@ -380,7 +393,8 @@ def emit(ctx):
             "lootid": 0, "pickpocketloot": 0, "skinloot": 0,
             "PetSpellDataId": int(t["PetSpellDataId"] or 0), "VehicleId": int(t["VehicleId"] or 0),
             "mingold": 0, "maxgold": 0,   # F-073 compliance: no sub-1g money drops. Source Cata values are all well under 1g, and F-073's sweep lives in zep-legacy (prio 900) which the I-244 cascade can't reach from this zpak — so zero at the source instead of relying on apply order.
-            "AIName": (t["AIName"] or "").strip(),   # carry source AI (mostly 'SmartAI') — blank = SmartAI never runs, scripts dead
+            # carry source AI (mostly 'SmartAI') — blank = SmartAI never runs, scripts dead
+            "AIName": AI_NAME_PORTS[e][0] if e in AI_NAME_PORTS else (t["AIName"] or "").strip(),
             "MovementType": mtype, "HoverHeight": float(_or(t["HoverHeight"], 1)),
             "HealthModifier": float(_or(t["Health_mod"], 1)), "ManaModifier": float(_or(t["Mana_mod"], 1)),
             "ArmorModifier": float(_or(t["Armor_mod"], 1)), "ExperienceModifier": 1.0,
@@ -675,7 +689,8 @@ def emit(ctx):
         if not t:
             continue
         donor = str(t["ScriptName"] or "").strip()
-        if not donor or e in SCRIPT_NAME_PORTS or donor in SCRIPT_NAME_DANGLING:
+        if (not donor or e in SCRIPT_NAME_PORTS or e in AI_NAME_PORTS
+                or donor in SCRIPT_NAME_DANGLING):
             continue
         unported.append((e, str(t["name"] or "").strip(), donor))
 
