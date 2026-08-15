@@ -2676,7 +2676,7 @@ INSERT INTO creaturedisplayinfoextra SET
 DELETE FROM creaturedisplayinfoextra WHERE id = 20864;
 INSERT INTO creaturedisplayinfoextra SET
   `id` = 20864,
-  `race` = 22,
+  `race` = 12,
   `gender` = 0,
   `skin_color` = 0,
   `face_type` = 0,
