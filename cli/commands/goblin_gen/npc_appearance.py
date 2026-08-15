@@ -24,6 +24,7 @@ intentionally NOT part of this pure generator output.
 """
 import os
 import struct
+import importlib.util
 
 NAME = "npc_appearance"
 TABLES = ["creaturedisplayinfo", "creaturedisplayinfoextra"]
@@ -32,6 +33,15 @@ TIER = "overlay"
 # Our live 3.3.5a client DBC tree (holds the worgoblin race-9 CharSections). The
 # standalone script read this file directly; keep that (env-overridable).
 LIVE_DBC = os.getenv("GOBLIN_LIVE_DBC", "/workspace/project/data/dbc")
+
+def _races():
+    """Load the sibling race-mapping helper (domains are loaded standalone, not as a package)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_races.py")
+    spec = importlib.util.spec_from_file_location("goblin_gen__races", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
 
 EXTRA_COLS = ["id", "race", "gender", "skin_color", "face_type", "hair_style",
               "hair_color", "facial_hair", "helm_id", "shoulders_id", "shirt_id",
@@ -97,16 +107,17 @@ def emit(ctx):
                 updates.append((d, ext))
                 need_extra.add(ext)
 
-    # ---- overlay: correct extended_display_info_id on the shipped displays ----
-    for d, ext in updates:
-        ctx.col.put("creaturedisplayinfo", d, {"extended_display_info_id": ext},
-                    tier="overlay")
-
     # ---- creaturedisplayinfoextra: bake data rows + pre-baked texture BLPs ----
     # The client renders these NPCs from the shipped Cata pre-baked texture
     # (Textures\BakedNpcTextures\CreatureDisplayExtra-<id>.blp) — an extra row
     # without its BLP renders solid green (I-249). Ship it with the row.
+    #
+    # Runs BEFORE the ext-id overlay: a bake whose race our ChrRaces does not
+    # carry crashes the client outright (I-334), so the display must be left
+    # un-extended rather than pointed at a row we refuse to ship.
+    races = _races()
     warn = 0
+    badrace = []
     bakes = {"present": 0, "shipped": 0, "missing": 0}
     for eid in sorted(need_extra):
         if eid not in extra:
@@ -114,6 +125,12 @@ def emit(ctx):
             continue
         ints, tex = extra[eid]
         ints = list(ints)
+        # Cata race id -> our ChrRaces id (Worgen 22 -> 12). A race the live
+        # ChrRaces has no row for is a hard #132 in the client, never shipped.
+        ints[1], ok = races.map_race(ints[1])
+        if not ok:
+            badrace.append((eid, extra[eid][0][1]))
+            continue
         # equipment fields 8-18 kept intact (npc_armor ships the referenced
         # ItemDisplayInfo rows). Clamp only goblin grooming.
         if ints[1] == 9:
@@ -124,5 +141,17 @@ def emit(ctx):
         bakes[ctx.ship_asset(
             "Textures/BakedNpcTextures/CreatureDisplayExtra-%d.blp" % eid)] += 1
 
-    return ("displays_extfix=%d extra=%d warn=%d bakes_shipped=%d bakes_missing=%d" %
-            (len(updates), len(need_extra), warn, bakes["shipped"], bakes["missing"]))
+    # ---- overlay: correct extended_display_info_id on the shipped displays ----
+    dropped = {eid for eid, _raw in badrace}
+    for d, ext in updates:
+        if ext in dropped:
+            continue
+        ctx.col.put("creaturedisplayinfo", d, {"extended_display_info_id": ext},
+                    tier="overlay")
+
+    note = ""
+    if badrace:
+        note = " badrace=%s" % ",".join("%d(race %d)" % t for t in sorted(badrace))
+    return ("displays_extfix=%d extra=%d warn=%d bakes_shipped=%d bakes_missing=%d%s" %
+            (len(updates) - len(dropped), len(need_extra), warn,
+             bakes["shipped"], bakes["missing"], note))
