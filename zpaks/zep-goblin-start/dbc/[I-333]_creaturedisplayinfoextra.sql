@@ -38,9 +38,29 @@ UPDATE creaturedisplayinfoextra SET texture = 'CreatureDisplayExtra-15586.blp' W
 UPDATE creaturedisplayinfoextra SET texture = 'CreatureDisplayExtra-15587.blp' WHERE id = 20698;
 UPDATE creaturedisplayinfoextra SET texture = 'CreatureDisplayExtra-15588.blp' WHERE id = 20699;
 
--- Naga Hatchling (38412/44578/44588/44589), displays 31084/31086 -- no item components at all,
--- so drop the bake entirely and let the client runtime-composite from CharSections, which
--- resolves to the HD base skin plus the pack's blank overlay sections. 22 stock rows already
--- ship with an empty bake name.
-UPDATE creaturedisplayinfoextra SET texture = '' WHERE id = 20708;
-UPDATE creaturedisplayinfoextra SET texture = '' WHERE id = 20709;
+-- Naga Hatchling (38412/44578/44588/44591), displays 31084/31086 -- male, model 2353.
+--
+-- DO NOT blank these. An earlier revision of this file set `texture = ''` on both, reasoning
+-- that with no item components the client would runtime-composite from CharSections, and that
+-- 22 stock rows already ship an empty bake name. That inference is wrong and it hard-crashed
+-- the client: ERROR #132 ACCESS_VIOLATION at 0x0082C7C9 reading 0x00000010, on approach to the
+-- Vashj'elan Spawning Pool. Bisected to these two displays by phasing the pool's spawns out
+-- group by group (I-334).
+--
+-- An empty bake name makes the client build the composite itself, which means creating the
+-- character-customization component. That component's model pointer (+0x38) is only filled on
+-- the character branch of 0x00705B20, which is gated on `CreatureModelData.flags & 4`.
+-- Model 2353 has flags = 0, so the mesh is loaded through the plain branch at 0x004F20C0 and
+-- the component's own pointer stays NULL -- while its constructor (0x004EFBE0) has already set
+-- the customization-dirty bit. The next frame's geoset pass (0x004ED900) then calls
+-- CM2Model::SetGeosetRange (0x0082C7C0) with a null `this`.
+--
+-- The rule: `texture` may only be blank when the display's model carries flags & 4. The four
+-- stock rows that ship an empty bake all satisfy that; these two did not, and were the ONLY
+-- two rows in the whole DBC that violated it.
+--
+-- Both bakes ship in PATCH-Z from this zpak, so restoring the name is sufficient. If the
+-- hatchling faces read wrong on the HD mesh, the fix is an HD donor bake as done for
+-- 20692-20699 above -- never a blank name on a flags-0 model.
+UPDATE creaturedisplayinfoextra SET texture = 'CreatureDisplayExtra-20708.blp' WHERE id = 20708;
+UPDATE creaturedisplayinfoextra SET texture = 'CreatureDisplayExtra-20709.blp' WHERE id = 20709;
