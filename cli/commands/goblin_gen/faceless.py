@@ -19,9 +19,20 @@ TABLES = ["creaturemodeldata", "creaturedisplayinfo", "creature_model_info",
           "creature_template_model"]
 TIER = "overlay"
 
-TEXVAR = "FacelessoneAquatic1Green"
+# I-336: the M2 has FOUR textures and TWO of them are monster-skin slots —
+# tex[0] is type 12 (-> texture_variation_2) and tex[2] is type 11
+# (-> texture_variation_1); the other two are hardcoded stock paths
+# (ITEM\OBJECTCOMPONENTS\SHOULDER\ORBREFLECT02.BLP and SPELLS\CLOUDS8X8.BLP, both
+# present in 3.3.5a). Shipping only variation 1 left the type-12 slot resolving to
+# nothing, which the client draws as untextured white over most of the body.
+# Both names, the scale and the alpha are the 4.3.4 CreatureDisplayInfo row 31674
+# verbatim — same rule I-246 established for fallback_models.py.
+TEXVAR = "FacelessoneAquatic1Green"     # 4.3.4 row 31674 TextureVariation[0]
+TEXVAR2 = "FacelessOneAquatic2Green"    # ...TextureVariation[1]  (I-336)
+MODEL_SCALE = 2.0                       # ...CreatureModelScale (was hardcoded 1.0)
 DISPLAY, MODELID, CREATURE = 31674, 3327, 38448
 MODEL_PATH = "CREATURE\\FACELESSONEAQUATIC\\FACELESSONEAQUATIC.M2"
+COLLISION_W, COLLISION_H = 1.0, 2.5     # creaturemodeldata, retroport-tuned
 
 MD_COLS = ["id", "flags", "model_path", "size_class", "model_scale", "blood_id",
            "footprint_texture_id", "footprint_texture_length", "footprint_texture_width",
@@ -42,17 +53,23 @@ def emit(ctx):
         return "skipped (zone-independent; emitted on Lost Isles pass)"
 
     # ---- DBC: model + display (owned rows) ----
-    md = [MODELID, 0, MODEL_PATH, 1, 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0, 2.5, 0,
+    md = [MODELID, 0, MODEL_PATH, 1, 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          COLLISION_W, COLLISION_H, 0,
           -1, -1, -1, 1, 1, 2, 1.0, 1.0, 0, 0, 0]
     ctx.col.put("creaturemodeldata", MODELID, dict(zip(MD_COLS, md)),
                 tier="base", owner="faceless")
-    di = [DISPLAY, MODELID, 0, 0, 1.0, 255, TEXVAR, "", "", "", 0, 0, 0, 0, 0, 0]
+    di = [DISPLAY, MODELID, 0, 0, MODEL_SCALE, 255, TEXVAR, TEXVAR2, "", "",
+          0, 0, 0, 0, 0, 0]
     ctx.col.put("creaturedisplayinfo", DISPLAY, dict(zip(DI_COLS, di)),
                 tier="base", owner="faceless")
 
     # ---- server: model_info (owned) + repoint off ghoul fallback 646 (overlay) ----
+    # Server-side hitbox tracks the display scale, same as creatures._try_ship:
+    # bounding = collision_width * scale, reach = collision_height * scale.
     ctx.col.put("creature_model_info", DISPLAY, {
-        "DisplayID": DISPLAY, "BoundingRadius": 1.0, "CombatReach": 3.0,
+        "DisplayID": DISPLAY,
+        "BoundingRadius": round(COLLISION_W * MODEL_SCALE, 4),
+        "CombatReach": round(COLLISION_H * MODEL_SCALE, 4),
         "Gender": 2, "DisplayID_Other_Gender": 0, "VerifiedBuild": 0,
     }, tier="base", owner="faceless")
     ctx.col.put("creature_template_model", CREATURE,

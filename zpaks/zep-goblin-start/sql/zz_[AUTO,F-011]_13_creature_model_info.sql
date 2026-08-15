@@ -1425,8 +1425,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 31674;
 INSERT INTO creature_model_info SET
   `DisplayID` = 31674,
-  `BoundingRadius` = 1,
-  `CombatReach` = 3,
+  `BoundingRadius` = 2,
+  `CombatReach` = 5,
   `Gender` = 2,
   `DisplayID_Other_Gender` = 0,
   `VerifiedBuild` = 0;

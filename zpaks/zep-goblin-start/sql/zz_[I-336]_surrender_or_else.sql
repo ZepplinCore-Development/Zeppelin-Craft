@@ -40,7 +40,7 @@
 -- 38455's AIName is set at source too (`creatures.AI_NAME_PORTS`) — a blank AIName
 -- means SmartAI never runs and every row in this file is dead.
 --
--- Divergences from the donor, both deliberate:
+-- Divergences from the donor, all deliberate:
 --   * No self-root. 38455 is MovementType 0 / REACT_PASSIVE / IMMUNE_TO_PC|NPC, so he
 --     stands still on his own. The donor's root exists to stop npc_escortAI drifting;
 --     re-creating it here would mean a `remove root` step that, if it ever failed,
@@ -48,6 +48,14 @@
 --   * No "is a Faceless already up within 80 yards" guard before the summon. SmartAI
 --     has no conditional of that shape, and the cost of dropping it is a second
 --     Faceless if two players reach the ruins together — both killable, both credit.
+--   * He WALKS, not runs (donor: `Start(false, true, …)` → run). On tester report,
+--     2026-08-15: at run he is 6.72 yd/s against a player's 7.0, which leaves no
+--     headroom to stop and fight, and the middle third of the path is at sea level
+--     where the player swims at 4.72. Walking is 2.5 yd/s. One parameter — action
+--     param1 on the ESCORT_START row — if that turns out too slow.
+--   * He fights: faction 1770 + REACT_DEFENSIVE + an invincibility floor. See the
+--     faction block below for why the donor's Ace could never have interacted with
+--     anything.
 --
 -- ---------------------------------------------------------------------------
 -- 1. The escort path (SmartWaypointMgr / `waypoints`, path id = the entry).
@@ -115,6 +123,28 @@ INSERT INTO waypoints (`entry`, `pointid`, `position_x`, `position_y`, `position
 -- branch); 24868 is not a failable quest and the donor only despawns its summons.
 -- Ace despawning himself on abandon is SmartAI's own behaviour; row 4 catches the
 -- SMART_EVENT_DEATH it fires on the way out so the hatchlings go with him.
+-- Faction: a DELIBERATE divergence from the donor, on tester report (2026-08-15,
+-- "didn't interact with any naga mobs along the way").
+--
+-- The donor gives 38455 faction 35 "Friendly" — template 35 is faction 31 with
+-- friend_group 1, enemy_group 0 and an empty enemies[] list, i.e. friendly to
+-- everything and hostile to nothing. Retail Ace is an invulnerable prop who walks
+-- through the Vashj'elan camp untouched; `npc_escortAI::Start` clearing
+-- IMMUNE_TO_NPC is a no-op for him. So the escort really was silent by design, and
+-- no amount of unit-flag work would have changed it.
+--
+-- 1770 is the DBC's purpose-built answer: faction 959 "Actor Good", friend_group 1
+-- (friendly to players), enemies_1 = 960 "Actor Evil" — and the Vashj'elan Warrior
+-- and Siren (38359 / 38360) both run template 1771, which IS faction 960 with
+-- enemies_1 = 959. Mutual hostility, no new DBC rows, and 91 creatures in the world
+-- DB already use 1770 for exactly this "scripted friendly actor" role.
+--
+-- AUTO-owned row -> one consolidated UPDATE. AIName is handled at source
+-- (creatures.AI_NAME_PORTS); this is the only column this file owns.
+UPDATE creature_template SET
+  `faction` = 1770
+WHERE entry = 38455;
+
 DELETE FROM smart_scripts WHERE source_type = 0 AND entryorguid = 38455;
 DELETE FROM smart_scripts WHERE source_type = 9 AND entryorguid IN (3845500, 3845501);
 DELETE FROM smart_scripts WHERE source_type = 0 AND entryorguid = 38457;
@@ -138,7 +168,7 @@ INSERT INTO smart_scripts
   -- t=500   they form up behind Ace (SEMI_CIRCLE_BEHIND = 90/135/180/225 degrees)
   -- t=2000  face Megs, say line 0
   -- t=5000  say line 1
-  -- t=7000  run the path            <- donor: talk at 2s and 5s, Start() at 7s
+  -- t=7000  arm him for the walk down  <- donor: talk at 2s and 5s, Start() at 7s
   (3845500, 9, 0, 0, 0, 0, 100, 0,    0,    0, 0, 0, 0, 0,   8,     0,  0,   0, 0, 0, 0,  1,     0,  0, 0, 0,        0,         0,      0,     0, 'Ace intro - React Passive (I-336)'),
   (3845500, 9, 1, 0, 0, 0, 100, 0,    0,    0, 0, 0, 0, 0,  12, 38457,  8,   0, 0, 0, 0,  8,     0,  0, 0, 0, 151.2403, -10772.99, 51.280, 3.100, 'Ace intro - Summon Naga Hatchling 1 (I-336)'),
   (3845500, 9, 2, 0, 0, 0, 100, 0,    0,    0, 0, 0, 0, 0,  12, 38457,  8,   0, 0, 0, 0,  8,     0,  0, 0, 0, 151.4029, -10775.85, 50.361, 2.700, 'Ace intro - Summon Naga Hatchling 2 (I-336)'),
@@ -148,11 +178,18 @@ INSERT INTO smart_scripts
   (3845500, 9, 6, 0, 0, 0, 100, 0, 1500, 1500, 0, 0, 0, 0,  66,     0,  0,   0, 0, 0, 0, 19, 38432, 15, 0, 0,        0,         0,      0,     0, 'Ace intro - Face Megs Dreadshredder (I-336)'),
   (3845500, 9, 7, 0, 0, 0, 100, 0,    0,    0, 0, 0, 0, 0,   1,     0,  0,   0, 0, 0, 0,  7,     0,  0, 0, 0,        0,         0,      0,     0, 'Ace intro - Say Line 0 (I-336)'),
   (3845500, 9, 8, 0, 0, 0, 100, 0, 3000, 3000, 0, 0, 0, 0,   1,     1,  0,   0, 0, 0, 0,  7,     0,  0, 0, 0,        0,         0,      0,     0, 'Ace intro - Say Line 1 (I-336)'),
-  -- ESCORT_START params: 2 = RUN (ForcedMovement, not a bool), path 38455, no repeat,
-  -- quest 0 (see header), no despawn timer, reactState 0 = PASSIVE (applied always).
-  -- Target 7 stores the player in SMART_ESCORT_TARGETS, which is what arms the
-  -- "player walked off" despawn.
-  (3845500, 9, 9, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 0, 0,  53,     2, 38455, 0, 0, 0, 0,  7,    0,  0, 0, 0,        0,         0,      0,     0, 'Ace intro - Start Escort Running (I-336)'),
+  -- He cannot die on the way down: 30% of max HP is a floor, so a bad pull can
+  -- never leave the player with an accepted quest and no escort.
+  (3845500, 9,  9, 0, 0, 0, 100, 0, 2000, 2000, 0, 0, 0, 0,  42,     0, 30,    0, 0, 0, 0,  1,    0,  0, 0, 0,        0,         0,      0,     0, 'Ace intro - Invincibility Floor 30 pct (I-336)'),
+  -- `npc_escortAI::Start` clears UNIT_FLAG_IMMUNE_TO_NPC (ScriptedEscortAI.cpp:480)
+  -- before it moves; without this the naga cannot touch him. IMMUNE_TO_PC (256)
+  -- stays, so players still cannot.
+  (3845500, 9, 10, 0, 0, 0, 100, 0,    0,    0, 0, 0, 0, 0,  19,   512,     0, 0, 0, 0, 0,  1,    0,  0, 0, 0,        0,         0,      0,     0, 'Ace intro - Drop Immune To NPC (I-336)'),
+  -- ESCORT_START params: 1 = WALK (ForcedMovement, not a bool), path 38455, no
+  -- repeat, quest 0 (see header), no despawn timer, reactState 1 = DEFENSIVE
+  -- (applied always). Target 7 stores the player in SMART_ESCORT_TARGETS, which is
+  -- what arms the "player walked off" despawn.
+  (3845500, 9, 11, 0, 0, 0, 100, 0,    0,    0, 0, 0, 0, 0,  53,     1, 38455, 0, 0, 0, 1,  7,    0,  0, 0, 0,        0,         0,      0,     0, 'Ace intro - Start Escort Walking (I-336)'),
 
   -- ---- 3845501: the showdown at the Ruins of Vashj''elan. ----
   -- Waypoint 35 is the last point, so ESCORT_REACHED fires and EndPath() clears the
@@ -162,15 +199,20 @@ INSERT INTO smart_scripts
   -- t=23500  "this does not look good, I'm out of here"
   -- t=25500  Ace runs for the beach     <- donor: talk 6 at +23s, leg 3 at +25s
   -- t=45500  he and the hatchlings are gone
-  (3845501, 9, 0, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 11, 45849,     0,     0, 0, 0, 0,  1,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Camera Shake (I-336)'),
-  (3845501, 9, 1, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0,  1,     4,     0,     0, 0, 0, 0,  7,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Say Line 4 (I-336)'),
-  (3845501, 9, 2, 0, 0, 0, 100, 0,   500,   500, 0, 0, 0, 0, 12, 38448,     8,     0, 0, 0, 0,  8,     0,  0, 0, 0, -394.0633, -10866.01, 7.181, 0.189, 'Ace showdown - Summon Faceless of the Deep (I-336)'),
-  (3845501, 9, 3, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 12, 38450,     2, 12000, 0, 0, 0,  8,     0,  0, 0, 0, -394.0633, -10866.01, 7.181, 0.189, 'Ace showdown - Summon Faceless Void Zone (I-336)'),
-  (3845501, 9, 4, 0, 0, 0, 100, 0, 23000, 23000, 0, 0, 0, 0,  1,     6,     0,     0, 0, 0, 0,  7,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Say Line 6 (I-336)'),
-  (3845501, 9, 5, 0, 0, 0, 100, 0,  2000,  2000, 0, 0, 0, 0, 59,     1,     0,     0, 0, 0, 0,  1,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Set Run (I-336)'),
-  (3845501, 9, 6, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 69,     1,     0,     0, 0, 0, 0,  8,     0,  0, 0, 0, -317.8133, -10855.00, 0.260, 0.000, 'Ace showdown - Flee To The Beach (I-336)'),
-  (3845501, 9, 7, 0, 0, 0, 100, 0, 20000, 20000, 0, 0, 0, 0, 41,     0,     0,     0, 0, 0, 0, 11, 38457, 80, 1, 0,         0,         0,     0,     0, 'Ace showdown - Despawn Naga Hatchlings (I-336)'),
-  (3845501, 9, 8, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 41,     0,     0,     0, 0, 0, 0,  1,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Despawn Self (I-336)'),
+  -- Back to prop mode first: he arrived hostile-to-naga and defensive, and the
+  -- Faceless is faction 14 (hostile to everything). Without this he brawls with a
+  -- boss he is supposed to run away from.
+  (3845501, 9,  0, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 18,   512,     0,     0, 0, 0, 0,  1,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Restore Immune To NPC (I-336)'),
+  (3845501, 9,  1, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0,  8,     0,     0,     0, 0, 0, 0,  1,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - React Passive (I-336)'),
+  (3845501, 9,  2, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 11, 45849,     0,     0, 0, 0, 0,  1,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Camera Shake (I-336)'),
+  (3845501, 9,  3, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0,  1,     4,     0,     0, 0, 0, 0,  7,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Say Line 4 (I-336)'),
+  (3845501, 9,  4, 0, 0, 0, 100, 0,   500,   500, 0, 0, 0, 0, 12, 38448,     8,     0, 0, 0, 0,  8,     0,  0, 0, 0, -394.0633, -10866.01, 7.181, 0.189, 'Ace showdown - Summon Faceless of the Deep (I-336)'),
+  (3845501, 9,  5, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 12, 38450,     2, 12000, 0, 0, 0,  8,     0,  0, 0, 0, -394.0633, -10866.01, 7.181, 0.189, 'Ace showdown - Summon Faceless Void Zone (I-336)'),
+  (3845501, 9,  6, 0, 0, 0, 100, 0, 23000, 23000, 0, 0, 0, 0,  1,     6,     0,     0, 0, 0, 0,  7,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Say Line 6 (I-336)'),
+  (3845501, 9,  7, 0, 0, 0, 100, 0,  2000,  2000, 0, 0, 0, 0, 59,     1,     0,     0, 0, 0, 0,  1,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Set Run (I-336)'),
+  (3845501, 9,  8, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 69,     1,     0,     0, 0, 0, 0,  8,     0,  0, 0, 0, -317.8133, -10855.00, 0.260, 0.000, 'Ace showdown - Flee To The Beach (I-336)'),
+  (3845501, 9,  9, 0, 0, 0, 100, 0, 20000, 20000, 0, 0, 0, 0, 41,     0,     0,     0, 0, 0, 0, 11, 38457, 80, 1, 0,         0,         0,     0,     0, 'Ace showdown - Despawn Naga Hatchlings (I-336)'),
+  (3845501, 9, 10, 0, 0, 0, 100, 0,     0,     0, 0, 0, 0, 0, 41,     0,     0,     0, 0, 0, 0,  1,     0,  0, 0, 0,         0,         0,     0,     0, 'Ace showdown - Despawn Self (I-336)'),
 
   -- ---- 38457: the hatchlings. ----
   -- The follow itself is issued by Ace (FOLLOW_GROUP above) so all four get distinct
