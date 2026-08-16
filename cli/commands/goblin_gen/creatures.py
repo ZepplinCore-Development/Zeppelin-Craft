@@ -93,8 +93,17 @@ NOISE = ("bunny", "invisible stalker", "generateur", "elm general", "wondi", "pu
 #         markers for quest 24741; condition 13/1/56576 -> 31/0/3/75113.
 NOISE_KEEP = {75113}
 STOCK_COLLIDE = {4075, 6827, 13321, 31688}   # exist in AC world -> reuse stock, spawn only
-# Cata FactionTemplate IDs absent from WotLK -> remap by hostility (validated per-creature).
-FACTION_REMAP = {2159: 35, 2160: 35, 2227: 35, 2231: 35, 2238: 35, 2200: 14, 2228: 14}
+# Cata FactionTemplate IDs absent from WotLK -> remap by hostility.
+# EMPTY since I-337: the eight goblin-zone templates (2159/2160/2200/2204/2227/2228/
+# 2231/2238) and the three Faction rows they need (1133/1152/1157) are now shipped by
+# dbc/[I-337]_faction*.sql, so _valid_faction_ids() accepts the donor values and the
+# real faction graph survives the port. Remapping them by "hostility" cost the zone its
+# faction RELATIONS: 2228 -> 14 made the Oomlot hostile to the player and to nothing
+# else (retail 2228 lists 1133 as an enemy) and unpacifiable by spell 66987's forced
+# reaction on faction 1157; 2231 -> 35 left the Town-In-A-Box defenders unable to fight
+# anything at all. Only add an entry here for a Cata faction we deliberately choose NOT
+# to ship a FactionTemplate row for.
+FACTION_REMAP = {}
 FACTION_FALLBACK = 35
 # fallback stock displays for creatures whose model is unavailable, by creature type
 TYPE_FALLBACK = {1: 646, 2: 1126, 3: 1133, 4: 802, 6: 2400, 7: 1133, 0: 646, 8: 646, 10: 646}

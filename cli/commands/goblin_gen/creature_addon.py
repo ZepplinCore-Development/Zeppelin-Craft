@@ -68,7 +68,7 @@ def emit(ctx):
     # Full scan (non-indexed columns force the clustered/insertion-order scan);
     # filter by the goblin set in Python to preserve the source dump row order.
     emit_rows, dropped = [], 0
-    for r in ctx.q("SELECT entry,mount,bytes1,bytes2,emote,distance_visibility,auras "
+    for r in ctx.q("SELECT entry,mount,bytes1,bytes2,emote,auras "
                    "FROM creature_template_addon"):
         entry = _i(r["entry"])
         if entry not in gob:
@@ -77,13 +77,21 @@ def emit(ctx):
         valid = [str(s) for s in (_i(x) for x in auras) if s in present]
         dropped += len(auras) - len(valid)
         emit_rows.append((entry, _i(r["mount"]), _i(r["bytes1"]), _i(r["bytes2"]),
-                          _i(r["emote"]), _i(r["distance_visibility"]), " ".join(valid)))
+                          _i(r["emote"]), " ".join(valid)))
 
-    for e, mt, b1, b2, em, vis, au in emit_rows:
+    # visibilityDistanceType is ALWAYS 0 (Normal, 100yd) — I-337.
+    # It used to carry the donor's `distance_visibility` verbatim, which is NOT the same
+    # field: that column is a table-wide constant in the source (2 on 25078 of 25080 rows,
+    # 0 on the other two), while AC reads this column as the VisibilityDistanceType enum
+    # where 2 == Small == **50 yards** (ObjectDefines.h). The copy therefore halved
+    # visibility for all 299 emitted goblin-zone creatures, and nothing in the source
+    # actually asked for it. If a specific creature needs a wider range, set it in a
+    # zz_[I-xxx] override, not here.
+    for e, mt, b1, b2, em, au in emit_rows:
         ctx.col.put("creature_template_addon", e, {
             "entry": e, "path_id": 0, "mount": mt, "bytes1": b1, "bytes2": b2,
-            "emote": em, "visibilityDistanceType": vis, "auras": au,
+            "emote": em, "visibilityDistanceType": 0, "auras": au,
         }, tier="base", owner="creature_addon")
-    naura = sum(1 for e in emit_rows if e[6])
+    naura = sum(1 for e in emit_rows if e[5])
     return ("creature_template_addon=%d entries (%d with valid auras), %d Cata aura-spells dropped"
             % (len(emit_rows), naura, dropped))
