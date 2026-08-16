@@ -1,0 +1,48 @@
+From a9b4d9845962a1e30450502e3d2bd45a5e34b6a9 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 16 Aug 2026 13:30:39 +0000
+Subject: [PATCH] fix: SMART_EVENT_RESPAWN fired twice on spawn (I-338)
+
+Upstream #25482 set TriggerJustRespawned in the Creature constructor so that
+non-compat spawns get JustRespawned. SmartAI::InitializeAI already fired
+SMART_EVENT_RESPAWN for a live creature, so every DB-spawned SmartAI creature ran
+its respawn actions twice: once from InitializeAI during AddToWorld, once from
+Creature::Update on the first tick.
+
+Idempotent actions hide it; anything that spawns state does not. Goblin Captive
+38643 casts 72243 (summon Oomlot Shaman 38644) on respawn, so quest 24925 'Free
+the Captives' shipped two shamans stacked on each other per captive. Stock content
+is affected too (Scarlet Miner mine cars, Artruis, Jormuttar).
+
+Fire the event from InitializeAI only for temp summons, which skip the
+JustRespawned path per #25533; everything else now gets it exactly once.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/AI/SmartScripts/SmartAI.cpp | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/game/AI/SmartScripts/SmartAI.cpp b/src/server/game/AI/SmartScripts/SmartAI.cpp
+index 7c6c24e02..244b30f93 100644
+--- a/src/server/game/AI/SmartScripts/SmartAI.cpp
++++ b/src/server/game/AI/SmartScripts/SmartAI.cpp
+@@ -1047,7 +1047,15 @@ void SmartAI::InitializeAI()
+     {
+         mJustReset = true;
+         JustReachedHome();
+-        GetScript()->ProcessEventsFor(SMART_EVENT_RESPAWN);
++
++        // Every freshly created creature now has TriggerJustRespawned set (#25482), so
++        // Creature::Update delivers JustRespawned - and with it SMART_EVENT_RESPAWN - on its
++        // first tick. Firing the event here as well would run every respawn action twice, which
++        // is invisible for idempotent actions (flags, morphs, auras) but duplicates anything
++        // that spawns state: a summon on respawn produces two creatures stacked on each other.
++        // Temp summons skip the JustRespawned path (#25533), so they still need the event here.
++        if (me->IsSummon())
++            GetScript()->ProcessEventsFor(SMART_EVENT_RESPAWN);
+     }
+ }
+ 
+-- 
+2.34.1
+
