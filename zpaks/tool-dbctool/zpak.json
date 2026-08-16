@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "tool-dbctool",
+  "version": "0.1.0",
+  "description": "Foereaper/DBCTool - forge-tracked source + Zeppelin meta/import patches (F-206)",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "dbctool",
+    "source": "https://github.com/Foereaper/DBCTool.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/DBCTool",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 370,
+  "feature_id": "F-206"
+}
