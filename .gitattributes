@@ -11,6 +11,11 @@
 *.md text eol=lf
 *.txt text eol=lf
 
+# Forge patches must survive checkout byte-for-byte. With core.autocrlf=true and
+# `* text=auto` a fresh checkout rewrote every line CRLF, so `git am` in
+# `zep forge apply-patch` failed against the LF sources it was diffed from.
+*.patch -text
+
 # Force binary for certain file types
 *.exe binary
 *.ico binary
