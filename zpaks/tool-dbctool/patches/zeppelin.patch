@@ -1,4 +1,4 @@
-From f97b77a9066ac0478854662f9f75df668e4175ea Mon Sep 17 00:00:00 2001
+From b0d039fed366ce221b9b3b4c8053f67c53863094 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sun, 1 Feb 2026 10:03:44 +0000
 Subject: [PATCH 1/8] feat: Add tableName mappings for lowercase MySQL tables
@@ -6587,7 +6587,7 @@ index ebaf309..a47342c 100644
 2.34.1
 
 
-From aa5908b45c84847fa4fce7947fd726459e361a3a Mon Sep 17 00:00:00 2001
+From 2cf386951090d41b36b6270b0289ca7f5dd66d0f Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 1 Feb 2026 13:25:53 +0000
 Subject: [PATCH 2/8] feat: Add spelleditor_meta for talent and chrclasses
@@ -6732,7 +6732,7 @@ index 0000000..fb74958
 2.34.1
 
 
-From 8619ecb940136276d21af0ebb946d1b3e118622b Mon Sep 17 00:00:00 2001
+From ffc96a11a0aac2817a4ae1bbb5dad1a93415dcee Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 7 Feb 2026 12:37:04 +0000
 Subject: [PATCH 3/8] fix: Correct groundeffectdoodad internal_id type from
@@ -6787,7 +6787,7 @@ index 0000000..36e5c46
 2.34.1
 
 
-From aed297499ada0e0433aa31aa9dbaa239577d5d71 Mon Sep 17 00:00:00 2001
+From cc255b7d15ac0e8b4348b86c106f0529eab4c029 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 7 Feb 2026 12:37:13 +0000
 Subject: [PATCH 4/8] chore: Add generated meta files and snake_case
@@ -26953,7 +26953,7 @@ index 0000000..a89f3f6
 2.34.1
 
 
-From aeeee912a9902ffd80a05befc627aa0f42c6005f Mon Sep 17 00:00:00 2001
+From 4c21e08926a7df79a3083f7503fa664df22c7865 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Wed, 11 Feb 2026 09:45:26 +0000
 Subject: [PATCH 5/8] fix: Add sortOrder to WMOAreaTable meta matching stock
@@ -27000,7 +27000,7 @@ index 46835ac..cbb1aa6 100644
 2.34.1
 
 
-From 0b6e9de0f9613c6324aa32095312837e735776c0 Mon Sep 17 00:00:00 2001
+From eb3eb80745dca67173a9a8cf4cc0bf5dd6a11ad4 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 12 Feb 2026 13:47:36 +0000
 Subject: [PATCH 6/8] fix: Correct sortOrder for DungeonMap and DungeonMapChunk
@@ -27059,7 +27059,7 @@ index 251f89d..b3c8fcf 100644
 2.34.1
 
 
-From 41e4e3e88e6e067f8bd67190b615948440e92373 Mon Sep 17 00:00:00 2001
+From 46e5b1496c02a6c6c4f217dfa4dfd5aa8d3885ec Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 16 Aug 2026 03:13:04 +0000
 Subject: [PATCH 7/8] fix: Restore WorldStateUI extended_ui string field
@@ -27133,7 +27133,7 @@ index 13bcb97..42c9c9d 100644
 2.34.1
 
 
-From 9c5a7390facc9ddccd376cdf0dd5e5ab710c21d6 Mon Sep 17 00:00:00 2001
+From 49eaafad6a4ab50114a473f9c1d0d0bc5bd39832 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 16 Aug 2026 03:13:21 +0000
 Subject: [PATCH 8/8] feat: Zeppelin DBCTool customizations - column defaults,
@@ -30773,10 +30773,10 @@ index 0000000..f1a6219
 +uint nightMusic
 \ No newline at end of file
 diff --git a/src/db_import.go b/src/db_import.go
-index 6ac42fc..5d3ab5a 100644
+index 522bc27..bfc391e 100644
 --- a/src/db_import.go
 +++ b/src/db_import.go
-@@ -176,20 +176,20 @@ func createTable(db *sql.DB, tableName string, meta *MetaFile) error {
+@@ -180,20 +180,20 @@ func createTable(db *sql.DB, tableName string, meta *MetaFile) error {
  
              switch field.Type {
              case "int32":
