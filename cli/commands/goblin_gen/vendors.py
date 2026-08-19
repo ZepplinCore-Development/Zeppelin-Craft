@@ -20,8 +20,14 @@ client derives at runtime from ItemDamage*.dbc -- weapon damage, attack speed,
 ranged range, durability -- so those come from the wago ItemSparse 4.4.2 CSV
 (ctx.wago), the same source items.py reads, keyed on the Cata id (I-324).
 """
+import importlib.util
 import os
 import struct
+
+_spec = importlib.util.spec_from_file_location(
+    "goblin_gen__itemdb", os.path.join(os.path.dirname(__file__), "_itemdb.py"))
+_idb = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_idb)
 
 NAME = "vendors"
 TABLES = ["item_template", "npc_vendor"]
@@ -202,7 +208,10 @@ def emit(ctx):
         col["sheath"] = s[_SP_SHEATHE] or (m[_IT_SHEATHE] if m else 0)
         col["BagFamily"] = s[_SP_BAGFAMILY]
         col["startquest"] = s[_SP_STARTQUEST]
-        col["RequiredDisenchantSkill"] = -1
+        # Cata carries no disenchant data; tier off stock 3.3.5a rules so ported
+        # weapons/armour are disenchantable (see _itemdb.disenchant_tier).
+        col["DisenchantID"], col["RequiredDisenchantSkill"] = _idb.disenchant_tier(
+            col["Quality"], col["class"], col["InventoryType"], col["ItemLevel"])
         col["duration"] = s[_SP_DURATION]
         irows.append((newid, cata, col))
     irows.sort()

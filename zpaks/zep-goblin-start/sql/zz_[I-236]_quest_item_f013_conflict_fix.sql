@@ -66,6 +66,10 @@ INSERT INTO item_template SET
   `Material` = 8,
   `sheath` = 0,
   `MaxDurability` = 30,
+  -- rare (quality 3) ilvl 12 -> stock disenchant tier 41 / enchanting 25, matching
+  -- what the items emitter now derives for the [AUTO,F-011] rows
+  `DisenchantID` = 41,
+  `RequiredDisenchantSkill` = 25,
   `VerifiedBuild` = 0;
 
 -- repoint the generated quest refs (override the raw 60203/62335 emitted by migrate_quests.py)

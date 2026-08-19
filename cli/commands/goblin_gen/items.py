@@ -6,8 +6,14 @@ ItemSparse carries the runtime-computed fields the 4.3.4 client doesn't store
 (MinDamage_0/MaxDamage_0, MaxDurability). Icons resolved via cli/lib/icon_resolver.
 Single non-SFX file (Lost Isles missing-items set); emits on the "" pass only.
 """
+import importlib.util
 import os
 import sys
+
+_spec = importlib.util.spec_from_file_location(
+    "goblin_gen__itemdb", os.path.join(os.path.dirname(__file__), "_itemdb.py"))
+_idb = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_idb)
 
 NAME = "items"
 TABLES = ["item_template"]
@@ -125,9 +131,14 @@ def emit(ctx):
         for n in range(1, 4):
             cols["socketColor_%d" % n] = _gi(s, "SocketType_%d" % (n - 1)); cols["socketContent_%d" % n] = 0
         cols["socketBonus"] = _gi(s, "Socket_match_enchantment_ID"); cols["GemProperties"] = _gi(s, "Gem_properties")
-        cols["RequiredDisenchantSkill"] = -1; cols["ArmorDamageModifier"] = 0
+        cols["ArmorDamageModifier"] = 0
         cols["duration"] = _gi(s, "DurationInInventory"); cols["ItemLimitCategory"] = _gi(s, "LimitCategory")
-        cols["HolidayId"] = 0; cols["ScriptName"] = ""; cols["DisenchantID"] = 0; cols["FoodType"] = 0
+        cols["HolidayId"] = 0; cols["ScriptName"] = ""; cols["FoodType"] = 0
+        # Cata dropped the disenchant columns (4.x computes DE output client-side),
+        # so tier them off stock 3.3.5a rules -- otherwise every ported green ships
+        # DisenchantID = 0 / RequiredDisenchantSkill = -1 and cannot be disenchanted.
+        cols["DisenchantID"], cols["RequiredDisenchantSkill"] = _idb.disenchant_tier(
+            cols["Quality"], cols["class"], cols["InventoryType"], cols["ItemLevel"])
         cols["minMoneyLoot"] = 0; cols["maxMoneyLoot"] = 0; cols["flagsCustom"] = 0; cols["VerifiedBuild"] = 0
         rows_out.append((newid, cata, cols))
 
