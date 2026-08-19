@@ -43,6 +43,11 @@ NAME = "questitems"
 # contributor closure — this domain reads the collector, it has no scope of its own.
 TABLES = ["creature_questitem", "gameobject_questitem",
           "creature_template", "gameobject_template"]
+# Collector tables this domain READS but does not write -- the contributor
+# closure must pull their producers into any partial `gen` run or the read
+# comes back empty and this file ships under-populated (see I-267).
+# reads the ported item rows to decide which quest items to advertise
+READS = ['item_template']
 TIER = "overlay"
 
 CUSTOM_FLOOR = 56900      # first custom-reservation id; stock WotLK ids are below

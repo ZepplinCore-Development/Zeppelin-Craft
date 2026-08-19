@@ -32,6 +32,11 @@ import importlib.util
 
 NAME = "vehicles"
 TABLES = ["vehicle", "vehicleseat", "creature_template_spell"]
+# Collector tables this domain READS but does not write -- the contributor
+# closure must pull their producers into any partial `gen` run or the read
+# comes back empty and this file ships under-populated (see I-267).
+# scoped off the collected creature templates
+READS = ['creature_template']
 TIER = "overlay"
 
 

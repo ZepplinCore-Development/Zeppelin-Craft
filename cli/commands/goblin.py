@@ -795,9 +795,26 @@ def _domain_tier(name):
     return getattr(_GEN_DOMAIN_MODS[name], "TIER", "base")
 
 
+def _domain_reads(name):
+    """Collector tables a domain READS but does not itself write.
+
+    A domain that derives its output from another domain's collected rows (npc_armor
+    reading creaturedisplayinfoextra, vehicles reading creature_template, ...) must
+    declare those tables in a module-level READS list. They are NOT in TABLES -- the
+    domain contributes no rows to them -- so without this the contributor closure
+    below never pulls the producer in, the read returns an empty set, and the partial
+    run writes a silently UNDER-POPULATED file over the committed one (I-267: a
+    `gen items vendors` run dropped 50 of the 310 rows in the itemdisplayinfo DBC file
+    because npc_appearance never ran to fill creaturedisplayinfoextra).
+    """
+    return set(getattr(_GEN_DOMAIN_MODS[name], "READS", []) or [])
+
+
 def _contributor_closure(requested):
     """Expand `requested` to every domain that contributes to any table those
-    domains touch, so a partial `gen <domain>` still emits complete per-table files."""
+    domains touch -- both tables they write (TABLES) and tables they read another
+    domain's rows out of (READS) -- so a partial `gen <domain>` still emits complete
+    per-table files."""
     t2d = {}
     for name in _GEN_DOMAIN_MODS:
         for t in _domain_tables(name):
@@ -807,7 +824,7 @@ def _contributor_closure(requested):
     while changed:
         changed = False
         for name in list(closure):
-            for t in _domain_tables(name):
+            for t in _domain_tables(name) | _domain_reads(name):
                 for d in t2d.get(t, ()):
                     if d not in closure:
                         closure.add(d); changed = True

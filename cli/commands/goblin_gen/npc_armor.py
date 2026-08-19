@@ -20,6 +20,11 @@ pre-baked BakedNpcTextures BLPs npc_appearance ships).
 """
 NAME = "npc_armor"
 TABLES = ["itemdisplayinfo"]
+# Collector tables this domain READS but does not write -- the contributor
+# closure must pull their producers into any partial `gen` run or the read
+# comes back empty and this file ships under-populated (see I-267).
+# equipment ids come from npc_appearance/fallback646's collected extras (I-249 dynamic set)
+READS = ['creaturedisplayinfoextra']
 TIER = "overlay"   # reads npc_appearance's collected extras (runs after it by name)
 
 EQUIP_FIELDS = ["helm_id", "shoulders_id", "shirt_id", "chest_id", "belt_id",
@@ -38,8 +43,21 @@ def emit(ctx):
     if ctx.sfx != "_K":
         return "deferred (emits on the final pass, after both zones' extras are collected)"
 
+    # Belt-and-braces on top of the READS declaration: npc_appearance always collects
+    # extras for the goblin zones, so an empty table means its producer did not run and
+    # `wanted` would collapse to the static fixture alone -- writing a file that drops
+    # the whole dynamic I-249 half over the committed one (I-267).
+    extras = list(ctx.col.pks("creaturedisplayinfoextra"))
+    if not extras:
+        raise RuntimeError(
+            "creaturedisplayinfoextra is empty — npc_armor derives its equipment ids from "
+            "npc_appearance's collected extras and would emit only the static "
+            "npc_equip_missing fixture, silently dropping every dynamically-discovered "
+            "row from the itemdisplayinfo DBC file. Run npc_appearance in the same "
+            "invocation (the contributor closure does this via READS).")
+
     wanted = set(ctx.fixture("npc_equip_missing"))
-    for eid in ctx.col.pks("creaturedisplayinfoextra"):
+    for eid in extras:
         row = ctx.col.get("creaturedisplayinfoextra", eid) or {}
         for f in EQUIP_FIELDS:
             v = int(row.get(f) or 0)

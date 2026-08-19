@@ -38,6 +38,11 @@ import struct
 NAME = "fallback646"
 TABLES = ["creaturedisplayinfo", "creaturedisplayinfoextra", "creature_model_info",
           "creature_template_model"]
+# Collector tables this domain READS but does not write -- the contributor
+# closure must pull their producers into any partial `gen` run or the read
+# comes back empty and this file ships under-populated (see I-267).
+# resolves model rows collected by creatures/faceless/fallback_models
+READS = ['creaturemodeldata']
 TIER = "overlay"
 
 # Creatures that fell back to ghoul display 646 (world DB CreatureDisplayID=646,
@@ -146,7 +151,17 @@ def emit(ctx):
     for D, row in new_cdi.items():
         ctx.col.put("creaturedisplayinfo", D, dict(zip(DI_COLS, row)),
                     tier="base", owner="fallback646")
+    # A bake row is keyed by the Cata extra id, and two DIFFERENT displays can point
+    # at the SAME extra — one curated here, one shipped by npc_appearance off a
+    # creatures-owned display. Both build it from the same Whitemane row, so the
+    # first writer wins and the second must not claim ownership of it (I-285: the
+    # summon-only creatures joining the sweep pulled 19671 into npc_appearance's
+    # scope, where it had previously only been reachable from here).
+    shared_extra = 0
     for ext, (ints, bakename) in new_extra.items():
+        if ctx.col.get("creaturedisplayinfoextra", ext) is not None:
+            shared_extra += 1
+            continue
         ctx.col.put("creaturedisplayinfoextra", ext,
                     dict(zip(EXTRA_COLS, ints + [bakename])),
                     tier="base", owner="fallback646")
@@ -161,5 +176,5 @@ def emit(ctx):
         ctx.col.put("creature_template_model", e,
                     {"CreatureDisplayID": D}, tier="overlay")
 
-    return "repoint=%d new_displays=%d new_extras=%d pending=%d" % (
-        len(repoint), len(new_cdi), len(new_extra), len(pending))
+    return "repoint=%d new_displays=%d new_extras=%d (%d already shipped elsewhere) pending=%d" % (
+        len(repoint), len(new_cdi), len(new_extra), shared_extra, len(pending))

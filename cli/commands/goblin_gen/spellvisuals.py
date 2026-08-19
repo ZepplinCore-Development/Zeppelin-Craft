@@ -70,6 +70,11 @@ import struct
 
 NAME = "spellvisuals"
 TABLES = ["spellvisual", "spellvisualkit", "spellvisualkitmodelattach"]
+# Collector tables this domain READS but does not write -- the contributor
+# closure must pull their producers into any partial `gen` run or the read
+# comes back empty and this file ships under-populated (see I-267).
+# reads the collected spell rows to find the visuals they reference
+READS = ['spell']
 TIER = "base"
 
 # ---- field layouts ---------------------------------------------------------
