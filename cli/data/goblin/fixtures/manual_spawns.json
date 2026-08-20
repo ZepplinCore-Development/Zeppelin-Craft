@@ -55,6 +55,116 @@
   "comment": "I-252 Spirit Healer at graveyard 4876 (Lost Isles - Ruins of Vashj'elan), added 2026-08-13. Deaths in area 4876 previously resolved to the Horde Base Camp stone 754yd away and 93yd up a cliff. Hand-placed graveyard has no Cata counterpart so no source healer exists. Guid 11900007 = next free in the fixture block (01/02/04/05/06 taken, 03 hand-claimed by zz_[I-310]). Ground Z via terrain height."
  },
  {
+  "entry": 6491,
+  "guid": 11900008,
+  "x": 334.149366,
+  "y": -10015.799561,
+  "z": 114.493218,
+  "o": 5.4978,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4781 (Lost Isles - Wild Overlook), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1491). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, ground Z from the heightmap, position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900009,
+  "x": 433.76045,
+  "y": -8993.019043,
+  "z": 13.9184,
+  "o": 5.4978,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4784 (Lost Isles - Vengeance Wake), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1496). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, deck Z from the navmesh (heightmap there is the -33 seabed under the ship WMO), position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900010,
+  "x": 323.571241,
+  "y": -10470.097168,
+  "z": 12.887636,
+  "o": 3.927,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4870 (Lost Isles - Landing Site / Town-In-A-Box), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1702). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, ground Z from the heightmap, position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900011,
+  "x": 177.631971,
+  "y": -10968.603125,
+  "z": 104.207806,
+  "o": 4.7124,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4886 (Lost Isles - Oomlot Village), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1716). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, ground Z from the heightmap, position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900012,
+  "x": 943.204908,
+  "y": -10741.364502,
+  "z": 223.544111,
+  "o": 0.7854,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4899 (Lost Isles - Lost Peak), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1704). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, ground Z from the heightmap, position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900013,
+  "x": 856.059034,
+  "y": -11469.580835,
+  "z": 133.026763,
+  "o": 1.5708,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4909 (Lost Isles - Lost Caldera), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1705). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, ground Z from the heightmap, position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900014,
+  "x": 635.446729,
+  "y": -11703.190039,
+  "z": 119.779,
+  "o": 4.7124,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4911 (Lost Isles - Volcanoth's Lair), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1773). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, cave floor Z from the navmesh (heightmap there is the ~470 mountain above the cave), position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900015,
+  "x": 1207.628492,
+  "y": -10103.828711,
+  "z": 85.133378,
+  "o": 4.7124,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4912 (Lost Isles - Warchief's Lookout), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1708). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, ground Z from the heightmap, position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900016,
+  "x": 1239.493116,
+  "y": -10792.03125,
+  "z": 220.745686,
+  "o": 2.3562,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4923 (Lost Isles - Sky Falls), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1711). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, ground Z from the heightmap, position confirmed ON_MESH against our mmaps."
+ },
+ {
+  "entry": 6491,
+  "guid": 11900017,
+  "x": 1526.324659,
+  "y": -10479.839209,
+  "z": 71.530056,
+  "o": 4.7124,
+  "phaseMask": 65535,
+  "spawntimesecs": 30,
+  "comment": "I-252 Spirit Healer at graveyard 4958 (Lost Isles - Verdant Highlands), added 2026-08-20 in the retail-list completion pass (Cata WorldSafeLocs 1712). Hand-placed graveyard has no Cata counterpart spawn so no source healer exists. ~5yd off the res point facing it, ground Z from the heightmap, position confirmed ON_MESH against our mmaps."
+ },
+ {
   "entry": 36608,
   "guid": 11900002,
   "x": 1.8019743,
