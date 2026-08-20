@@ -43,7 +43,13 @@ def _esc(v):
     if isinstance(v, Raw):
         return v.s
     if isinstance(v, str):
-        return "'" + v.replace("\\", "\\\\").replace("'", "''") + "'"
+        # CR/LF go out as MySQL escape sequences, not raw bytes: donor DBC strings
+        # carry real \r\n (multi-line aura tooltips), and a raw newline inside the
+        # literal would break the one-column-per-line file shape and be at the mercy
+        # of git's CRLF normalisation on checkout. MySQL decodes \r / \n back to the
+        # real characters, which is what stock 3.3.5a stores (0D 0A).
+        return "'" + (v.replace("\\", "\\\\").replace("'", "''")
+                       .replace("\r", "\\r").replace("\n", "\\n")) + "'"
     if isinstance(v, float):
         return ("%.4f" % v).rstrip("0").rstrip(".") or "0"
     return str(v)

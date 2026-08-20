@@ -237,7 +237,7 @@ UMASK = {"attributes", "attributes_ex_1", "attributes_ex_2", "attributes_ex_3", 
 
 # Spell.dbc field indices (4.3.4 layout)
 F = dict(cast=12, dur=13, power=14, rng=15, speed=16, vis=17, icon=19, active=20,
-         name=21, desc=23, school=25, categories=35, classopt=36, cooldowns=37,
+         name=21, desc=23, tip=24, school=25, categories=35, classopt=36, cooldowns=37,
          equipped=39, interrupts=40, levels=41, targetres=45, auraopt=32)
 
 
@@ -317,6 +317,16 @@ def emit(ctx):
         row, b = spell[sid]
         name = ss(struct.unpack_from("<I", ds, b + F['name'] * 4)[0])
         desc = ss(struct.unpack_from("<I", ds, b + F['desc'] * 4)[0])
+        tip = ss(struct.unpack_from("<I", ds, b + F['tip'] * 4)[0])
+        # @24 AuraDescription -> spell_tooltip_enus. This is the BUFF-BAR tooltip,
+        # a separate string from the spellbook Description at @23, and it was never
+        # read: every ported spell shipped spell_tooltip_enus NULL, so hovering the
+        # aura icon showed the name and duration and nothing else. 60 of the ported
+        # spells carry one in the donor (I-316, found on 74973 Power Word: Fortitude
+        # -- desc @23 "Increases an ally's Stamina for $d." genuinely has no $s1 in
+        # 4.3.4 either, so the stamina number only ever lived in @24 "Stamina
+        # increased by $s1."). Left unset when the donor has none, so the column
+        # keeps its NULL default rather than storing an empty string.
         c = {"id": sid,
              "attributes": row[1], "attributes_ex_1": row[2], "attributes_ex_2": row[3],
              "attributes_ex_3": row[4], "attributes_ex_4": row[5], "attributes_ex_5": row[6],
@@ -330,6 +340,8 @@ def emit(ctx):
              "spell_name_enus": name, "spell_desc_enus": desc,
              "spell_level": 0, "base_level": 0, "max_level": 0,
              "proc_chance": 101, "equipped_item_class": -1, "damage_class": 1}
+        if tip:
+            c["spell_tooltip_enus"] = tip
         cat = categories.get(row[F['categories']])
         if cat:
             c["category"] = cat[1]; c["damage_class"] = cat[2]; c["dispel"] = cat[3]; c["mechanic"] = cat[4]; c["prevention_type"] = cat[5]
