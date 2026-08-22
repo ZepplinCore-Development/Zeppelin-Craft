@@ -16,6 +16,13 @@ SCRIPTS = [
     (68211, "spell_zep_q14236_weed_whacker"),
     (68280, "spell_zep_q14031_ktc_snapflash"),
     (72891, "spell_zep_q24942_zombies_booster"),
+    # I-340. 72887 is the CONTROL_VEHICLE spell for the boots and carries a DUMMY
+    # effect on the RIDER; that rider aura is the only thing co-terminous with the
+    # ride, because a CAN_CONTROL seat charms the vehicle and charming sets
+    # `IsAIEnabled = false`, which kills every CreatureAI hook (PassengerBoarded,
+    # UpdateAI) for the whole ride. The script lights the boots' burning aura 72885
+    # on apply and strips it on remove.
+    (72887, "spell_zep_q24942_boots_ride"),
 ]
 
 # Spells that USED to be wired here. They stay in the emitted DELETE so a stale

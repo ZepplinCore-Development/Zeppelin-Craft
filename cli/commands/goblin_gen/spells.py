@@ -108,6 +108,15 @@ EFFECT_OVERRIDE = {
     # Same class of bug as 66137: a count/id effect value poisoned by the +1.
     71648: {"effect_die_sides_1": 0},
 
+    # 72889 "Zombies vs. Super Booster Rocket Boots: Summon Spell" (quest 24942,
+    # I-340). Identical to 71648: a SUMMON_CATEGORY_VEHICLE summon (creature
+    # 38802, SummonProperties 827) whose effect VALUE is the CONTROL_VEHICLE
+    # spell id 72887. The forced DieSides 1 would make it 72888 ("Achievement
+    # Check", not even ported), AC would fall back to VEHICLE_SPELL_RIDE_HARDCODED
+    # 46598, and the player would board a seat with no burning aura and no
+    # controlled exit.
+    72889: {"effect_die_sides_1": 0},
+
     # 71091 "It's A Town-In-A-Box: Town-In-A-Box Plunger - Effect 2" (I-315).
     # Effect 0 is 140 FORCE_CAST -> 68750 "Quest Phase 05", whose only effect is
     # aura 261 SPELL_AURA_PHASE with MiscValue 2048 and DurationIndex 21 (-1,

@@ -1,0 +1,240 @@
+From 769c1126266920950d3e06985372fd272d23be0c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 22 Aug 2026 12:07:32 +0000
+Subject: [PATCH] fix: Restore the Super Booster Rocket Boots ride (I-340)
+
+Quest 24942 "Zombies vs. Super Booster Rocket Boots": item 84320 played no
+animation, summoned nothing and banked exactly one kill credit per click.
+
+The port had wired 72891 to the generic spell_zep_fixed_credit<38807> template,
+which credits the caster on ANY effect hit without looking at what was hit. The
+spell self-casts, so every click paid a free credit. It was standing in for the
+whole mechanic, because none of the four spells behind it had been ported.
+
+- spell_zep_q24942_zombies_booster is now the real donor handler
+  (SpellEffects.cpp:4446): quest active + not already riding -> cast 72889. It
+  grants no credit; Goblin Zombie 38753 carries KillCredit1 = 38807, so the fire
+  nova killing it pays the objective once per zombie.
+- spell_zep_fixed_credit<Entry> deleted. After I-281, I-318 and this it had no
+  users left and every use it ever had was a bug.
+- New AuraScript spell_zep_q24942_boots_ride on 72887 lights the burning aura
+  72885 on the rider. It cannot live on the boots' CreatureAI: a CAN_CONTROL
+  seat charms the vehicle (Vehicle.cpp:432) and CreatureAI::OnCharmed sets
+  IsAIEnabled = false (CreatureAI.cpp:54), which gates out both PassengerBoarded
+  (Vehicle.cpp:496) and UpdateAI for the whole ride. 72887's DUMMY effect on the
+  rider is co-terminous with the ride and AC removes it itself on exit, so apply
+  and remove are guaranteed there. Retail did the same job with 72897 "AICast on
+  Enter Seat" (effect 160, TARGET_UNIT_MASTER), which 3.3.5a has no equivalent
+  for.
+
+Closes I-340
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01YGRhqBv1boBttY8FxeQfhX
+---
+ .../Custom/zeppelin_goblin_creatures.cpp      |  28 +++-
+ .../scripts/Custom/zeppelin_goblin_start.cpp  | 120 ++++++++++++++++--
+ 2 files changed, 129 insertions(+), 19 deletions(-)
+
+diff --git a/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp b/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
+index 5fb0d2fba..53434cb94 100644
+--- a/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
++++ b/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
+@@ -188,10 +188,23 @@ private:
+  * the player rides; it drops them when they get more than 20yd away from it, or
+  * once the quest is complete and they have reached Crosscheck (38738).
+  *
+- * SPELL_ZOMBIE_BURNING_AURA (72885) is absent from our DBC. It is only ever
+- * REMOVED here, never applied, and RemoveAura on an unknown id is a no-op, so
+- * the reference is harmless and kept for fidelity — if the aura is retro-ported
+- * later this script already cleans it up.
++ * NOTHING IN THIS AI RUNS WHILE THE PLAYER IS RIDING (I-340). Seat 7562 is
++ * VEHICLE_SEAT_FLAG_CAN_CONTROL, so Vehicle::AddPassenger charms the boots to
++ * the player, and Unit::SetCharmedBy -> CreatureAI::OnCharmed sets
++ * `me->IsAIEnabled = false` (CreatureAI.cpp:54). Both PassengerBoarded
++ * (Vehicle.cpp:496) and Creature::Update's UpdateAI call are gated on that flag,
++ * so for the whole ride this AI is switched off. Do NOT put ride behaviour here.
++ *
++ * The burning aura (72885) therefore lives on the 72887 rider aura instead — see
++ * spell_zep_q24942_boots_ride in zeppelin_goblin_start.cpp. The RemoveAura below
++ * is kept only as a safety net for a hypothetical non-controlling seat; on this
++ * vehicle it never runs.
++ *
++ * What DOES still work: once the player dismounts the charm ends,
++ * Creature::Update re-enables the AI (Creature.cpp:781) and UpdateAI resumes, so
++ * the 20yd despawn below cleans the boots up. The donor's auto-dismount at
++ * Crosscheck once the quest is complete is lost — it needed UpdateAI during the
++ * ride — and the player just right-clicks off instead.
+  * =========================================================================== */
+ enum ZepRocketBoots
+ {
+@@ -213,9 +226,12 @@ struct npc_zep_super_booster_rocket_boots : public ScriptedAI
+ 
+     void PassengerBoarded(Unit* passenger, int8 /*seatId*/, bool apply) override
+     {
++        Player* player = passenger->ToPlayer();
++        if (!player)
++            return;
++
+         if (!apply)
+-            if (Player* player = passenger->ToPlayer())
+-                player->RemoveAurasDueToSpell(SPELL_ZOMBIE_BURNING_AURA);
++            player->RemoveAurasDueToSpell(SPELL_ZOMBIE_BURNING_AURA);
+     }
+ 
+     void UpdateAI(uint32 /*diff*/) override
+diff --git a/src/server/scripts/Custom/zeppelin_goblin_start.cpp b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+index d8f41db47..83f51040e 100644
+--- a/src/server/scripts/Custom/zeppelin_goblin_start.cpp
++++ b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+@@ -21,30 +21,118 @@
+ 
+ enum ZepGoblinCredits
+ {
+-    // fixed kill-credit NPCs (invisible quest triggers)
+-    NPC_ZOMBIES_BOOSTER_CREDIT   = 38807, // q24942
+-
+     SPELL_WEED_WHACKER            = 68211, // DUMMY
+     SPELL_WEED_WHACKER_AURA       = 68212, // whirlwind state, periodic 68213 mow pulse
+     SPELL_KTC_SNAPFLASH           = 68280, // DUMMY (photograph target -> credit that entry)
+-    SPELL_SUPER_BOOSTER_ROCKET_BOOTS = 72891 // SCRIPT_EFFECT
++
++    // q24942 "Zombies vs. Super Booster Rocket Boots" (I-340)
++    QUEST_ZOMBIES_VS_BOOTS        = 24942,
++    SPELL_SUPER_BOOSTER_ROCKET_BOOTS = 72891, // SCRIPT_EFFECT, item 84320 on-use
++    SPELL_BOOTS_SUMMON            = 72889, // SUMMON 38802 (SummonProperties 827, vehicle)
++    SPELL_BOOTS_CONTROL_VEHICLE   = 72887, // CONTROL_VEHICLE on the boots + DUMMY on the rider
++    SPELL_BOOTS_BURNING_AURA      = 72885  // 500ms periodic -> 72886, the 8yd fire nova
+ };
+ 
+-// Generic: on effect hit, give the caster a fixed kill-credit.
+-template <uint32 CreditEntry>
+-class spell_zep_fixed_credit : public SpellScript
++// I-340 Super Booster Rocket Boots (q24942): the item's SCRIPT_EFFECT summons
++// the boots vehicle (38802) and boards the player, who then burns Goblin Zombies
++// (38753) by running over them. Beat for beat from the donor's
++// Spell::EffectScriptEffect case 72891 (SpellEffects.cpp:4446): gated on the
++// quest being active and on the player not already wearing a pair.
++//
++// It does NOT grant credit. Credit is the zombie's: 38753 carries
++// KillCredit1 = 38807, so the fire damage killing it pays the objective once per
++// zombie. The port previously wired this spell to a generic fixed-credit script,
++// which banked exactly one credit per click and never touched a zombie.
++//
++// The donor gated the re-use check on `HasAura(72887)` and we deliberately do
++// NOT copy that. 72887 applies CONTROL_VEHICLE to the boots (effect 0, target 25)
++// and a permanent DUMMY to the player (effect 1, target 1), so the player's half
++// is a separate permanent Aura object that nothing in AC removes when the ride
++// ends — `Unit::ExitVehicle` only strips CONTROL_VEHICLE from the vehicle base.
++// Gating on it would let one ride lock the boots out for good. `GetVehicle()` is
++// the same question asked of real state. (The boots AI strips the stale dummy on
++// unboard as well, so it does not sit on the buff bar either.)
++class spell_zep_q24942_zombies_booster : public SpellScript
+ {
+-    PrepareSpellScript(spell_zep_fixed_credit);
++    PrepareSpellScript(spell_zep_q24942_zombies_booster);
+ 
+-    void HandleCredit(SpellEffIndex /*effIndex*/)
++    bool Validate(SpellInfo const* /*spellInfo*/) override
++    {
++        return ValidateSpellInfo({ SPELL_BOOTS_SUMMON, SPELL_BOOTS_CONTROL_VEHICLE });
++    }
++
++    void HandleScript(SpellEffIndex /*effIndex*/)
++    {
++        Player* player = GetCaster() ? GetCaster()->ToPlayer() : nullptr;
++        if (!player)
++            return;
++
++        if (player->GetQuestStatus(QUEST_ZOMBIES_VS_BOOTS) != QUEST_STATUS_INCOMPLETE)
++            return;
++
++        if (player->GetVehicle())
++            return;
++
++        player->CastSpell(player, SPELL_BOOTS_SUMMON, true);
++    }
++
++    void Register() override
++    {
++        OnEffectHitTarget += SpellEffectFn(spell_zep_q24942_zombies_booster::HandleScript, EFFECT_0, SPELL_EFFECT_SCRIPT_EFFECT);
++    }
++};
++
++// I-340 the ride itself. 72887 is cast by the player on the summoned boots and
++// carries TWO effects with different targets, so AC builds two separate Aura
++// objects: effect 0 CONTROL_VEHICLE on the BOOTS (target 25, the explicit
++// target), effect 1 DUMMY on the RIDER (target 1, the caster). This script rides
++// the rider's half and is what actually lights the boots.
++//
++// Retail did the same thing from the seat: 72897 "Zombies vs. Super Booster
++// Rocket Boots: AICast on Enter Seat" (effect 160, TARGET_UNIT_MASTER 27)
++// triggers 72885 onto the controller when the seat is entered. 3.3.5a has no
++// enter-seat cast, and the obvious substitute — the boots' own
++// CreatureAI::PassengerBoarded — CANNOT WORK on this vehicle:
++//
++//     Vehicle::AddPassenger charms the vehicle to the player for a
++//     VEHICLE_SEAT_FLAG_CAN_CONTROL seat (Vehicle.cpp:432), and
++//     Unit::SetCharmedBy -> CreatureAI::OnCharmed ends with
++//     `me->IsAIEnabled = false` (CreatureAI.cpp:54). The PassengerBoarded call
++//     40 lines later is gated on IsAIEnabled (Vehicle.cpp:496), so it never
++//     fires — and Creature::Update skips UpdateAI for the same reason. EVERY
++//     CreatureAI hook on a DRIVEN vehicle is dead for the whole ride.
++//
++// The 72887 aura, by contrast, is exactly co-terminous with the ride: AC removes
++// the rider's half itself when the ride ends
++// (AuraEffect::HandleAuraControlVehicle's remove branch does
++// `caster->RemoveAurasDueToSpell(GetId())`), whether the player right-clicks
++// off, the boots despawn, or they log out. So apply and remove are both
++// guaranteed here and nowhere else.
++class spell_zep_q24942_boots_ride : public AuraScript
++{
++    PrepareAuraScript(spell_zep_q24942_boots_ride);
++
++    bool Validate(SpellInfo const* /*spellInfo*/) override
++    {
++        return ValidateSpellInfo({ SPELL_BOOTS_BURNING_AURA });
++    }
++
++    void HandleApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
++    {
++        Unit* rider = GetTarget();
++        if (rider->IsPlayer())
++            rider->CastSpell(rider, SPELL_BOOTS_BURNING_AURA, true);
++    }
++
++    void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
+     {
+-        if (Player* player = GetCaster() ? GetCaster()->ToPlayer() : nullptr)
+-            player->KilledMonsterCredit(CreditEntry);
++        GetTarget()->RemoveAurasDueToSpell(SPELL_BOOTS_BURNING_AURA);
+     }
+ 
+     void Register() override
+     {
+-        OnEffectHitTarget += SpellEffectFn(spell_zep_fixed_credit::HandleCredit, EFFECT_0, SPELL_EFFECT_ANY);
++        AfterEffectApply  += AuraEffectApplyFn(spell_zep_q24942_boots_ride::HandleApply, EFFECT_1, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
++        AfterEffectRemove += AuraEffectRemoveFn(spell_zep_q24942_boots_ride::HandleRemove, EFFECT_1, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+     }
+ };
+ 
+@@ -262,8 +350,14 @@ void AddSC_zeppelin_goblin_start()
+     // a real capture paid twice. Credit belongs to the Wild Clucker's own
+     // SmartAI (38111 SPELLHIT 71170 -> actionlist 3811100), which also clears
+     // the spellclick flag and flies the bird off.
++    // The generic `spell_zep_fixed_credit<Entry>` template those two used is GONE
++    // (I-340). It credited the caster on ANY effect hit without looking at what
++    // was hit, so every spell it was ever wired to either paid for nothing or
++    // paid twice — I-281, I-318, and finally q24942, whose whole mechanic it was
++    // standing in for. Quest credit belongs to the thing that was actually hit.
+     RegisterSpellScript(spell_zep_q14236_weed_whacker);
+-    RegisterSpellScriptWithArgs(spell_zep_fixed_credit<NPC_ZOMBIES_BOOSTER_CREDIT>, "spell_zep_q24942_zombies_booster");
++    RegisterSpellScript(spell_zep_q24942_zombies_booster);
++    RegisterSpellScript(spell_zep_q24942_boots_ride);
+     RegisterSpellScript(spell_zep_q14031_ktc_snapflash);
+     RegisterSpellScript(spell_zep_q28414_footbomb_goal);
+     RegisterSpellScript(spell_zep_item_kajacola);
+-- 
+2.34.1
+
