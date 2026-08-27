@@ -1,0 +1,56 @@
+From 7889eeea7af1ca14ae164df3fafc2ab9b402b582 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 27 Aug 2026 09:23:19 +0000
+Subject: [PATCH] fix(Core/Spells): don't clobber an escorting summon's
+ movement (I-345)
+
+Spell::SummonGuardian applied MoveFollow to MOTION_SLOT_ACTIVE after
+Map::SummonCreature had already run InitSummon -> AI()->IsSummonedBy(),
+so an AI that started an escort in that hook lost its movement slot to a
+FollowMovementGenerator.
+
+npc_escortAI::UpdateAI only launches its waypoint spline while
+movespline->Finalized(), but zeroes m_uiWPWaitTimer either way, so when
+the follow spline was still running the escort was stranded in
+STATE_ESCORT_ESCORTING with no ESCORT_MOTION_TYPE generator - it trailed
+the summoner forever and MovementInform could never revive it.
+
+Visible as Khadgar's Servant (19685) refusing to walk the City of Light
+(quest 10211) tour whenever the player was moving on quest accept.
+
+Skip the follow when AI()->IsEscorted() reports an active escort, which
+covers both npc_escortAI and SmartAI.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Spells/SpellEffects.cpp | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/game/Spells/SpellEffects.cpp b/src/server/game/Spells/SpellEffects.cpp
+index 7d6b722aa..bb33820de 100644
+--- a/src/server/game/Spells/SpellEffects.cpp
++++ b/src/server/game/Spells/SpellEffects.cpp
+@@ -23,6 +23,7 @@
+ #include "Chat.h"
+ #include "Common.h"
+ #include "Creature.h"
++#include "CreatureAI.h"
+ #include "DynamicObject.h"
+ #include "Formulas.h"
+ #include "GameObject.h"
+@@ -6140,7 +6141,11 @@ void Spell::SummonGuardian(uint32 i, uint32 entry, SummonPropertiesEntry const*
+         //    ((Minion*)summon)->SetFollowAngle(m_caster->GetAngle(summon));
+ 
+         // xinef: move this here, some auras are added in initstatsforlevel!
+-        if (!summon->IsInCombat() && !summon->IsTrigger())
++        // Map::SummonCreature() has already run InitSummon() -> AI()->IsSummonedBy(), so an AI that
++        // started an escort in that hook already owns MOTION_SLOT_ACTIVE. Overwriting it with a follow
++        // strands the escort: it keeps STATE_ESCORT_ESCORTING but never gets an ESCORT_MOTION_TYPE
++        // generator back, so it trails the summoner forever instead of walking its path.
++        if (!summon->IsInCombat() && !summon->IsTrigger() && !(summon->IsAIEnabled && summon->AI()->IsEscorted()))
+         {
+             //  summon->AI()->EnterEvadeMode();
+             summon->GetMotionMaster()->Clear(false);
+-- 
+2.34.1
+
