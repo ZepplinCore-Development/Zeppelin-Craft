@@ -1087,7 +1087,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19680.blp';
+  `texture` = 'CreatureDisplayExtra-01937_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19681;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1111,7 +1111,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19681.blp';
+  `texture` = 'CreatureDisplayExtra-09212_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19682;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1135,7 +1135,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19682.blp';
+  `texture` = 'CreatureDisplayExtra-05936_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19771;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1231,7 +1231,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19809.blp';
+  `texture` = 'CreatureDisplayExtra-09558_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19824;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1255,7 +1255,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19824.blp';
+  `texture` = 'CreatureDisplayExtra-12203_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19835;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1279,7 +1279,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19835.blp';
+  `texture` = 'CreatureDisplayExtra-00122_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19836;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1303,7 +1303,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19836.blp';
+  `texture` = 'CreatureDisplayExtra-19579_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19837;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1327,7 +1327,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19837.blp';
+  `texture` = 'CreatureDisplayExtra-01934_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19838;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1351,7 +1351,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19838.blp';
+  `texture` = 'CreatureDisplayExtra-17555_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19841;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1375,7 +1375,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19841.blp';
+  `texture` = 'CreatureDisplayExtra-09253_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19842;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1399,7 +1399,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19842.blp';
+  `texture` = 'CreatureDisplayExtra-08250_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19843;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1423,7 +1423,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19843.blp';
+  `texture` = 'CreatureDisplayExtra-00096_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19844;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1447,7 +1447,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19844.blp';
+  `texture` = 'CreatureDisplayExtra-00091_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19845;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1471,7 +1471,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19845.blp';
+  `texture` = 'CreatureDisplayExtra-09486_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19859;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1519,7 +1519,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19860.blp';
+  `texture` = 'CreatureDisplayExtra-03246_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19861;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1543,7 +1543,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19861.blp';
+  `texture` = 'CreatureDisplayExtra-00180_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19862;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1567,7 +1567,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19862.blp';
+  `texture` = 'CreatureDisplayExtra-00155_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19863;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1591,7 +1591,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19863.blp';
+  `texture` = 'CreatureDisplayExtra-00869_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19873;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1615,7 +1615,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19873.blp';
+  `texture` = 'CreatureDisplayExtra-02832_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19874;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1639,7 +1639,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19874.blp';
+  `texture` = 'CreatureDisplayExtra-03246_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19875;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1663,7 +1663,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19875.blp';
+  `texture` = 'CreatureDisplayExtra-00155_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19876;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1687,7 +1687,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19876.blp';
+  `texture` = 'CreatureDisplayExtra-00869_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19877;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1711,7 +1711,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19877.blp';
+  `texture` = 'CreatureDisplayExtra-00180_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19878;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1735,7 +1735,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19878.blp';
+  `texture` = 'CreatureDisplayExtra-09063_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19879;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1759,7 +1759,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19879.blp';
+  `texture` = 'CreatureDisplayExtra-11743_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19880;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1783,7 +1783,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19880.blp';
+  `texture` = 'CreatureDisplayExtra-02652_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19881;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1807,7 +1807,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19881.blp';
+  `texture` = 'CreatureDisplayExtra-06807_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19886;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1831,7 +1831,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19886.blp';
+  `texture` = 'CreatureDisplayExtra-03060_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19888;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1855,7 +1855,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 7690,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19888.blp';
+  `texture` = 'CreatureDisplayExtra-01605_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19889;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1879,7 +1879,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 7690,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19889.blp';
+  `texture` = 'CreatureDisplayExtra-15540_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19890;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1903,7 +1903,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 7690,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19890.blp';
+  `texture` = 'CreatureDisplayExtra-02917_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19891;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1927,7 +1927,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 7690,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19891.blp';
+  `texture` = 'CreatureDisplayExtra-17094_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19892;
 INSERT INTO creaturedisplayinfoextra SET
@@ -1951,7 +1951,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 7690,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19892.blp';
+  `texture` = 'CreatureDisplayExtra-11397_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19906;
 INSERT INTO creaturedisplayinfoextra SET
@@ -2143,7 +2143,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-19958.blp';
+  `texture` = 'CreatureDisplayExtra-08646_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 19961;
 INSERT INTO creaturedisplayinfoextra SET
@@ -2671,7 +2671,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 24013,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-20863.blp';
+  `texture` = 'CreatureDisplayExtra-17522_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 20864;
 INSERT INTO creaturedisplayinfoextra SET
@@ -2719,7 +2719,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 23042,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-20865.blp';
+  `texture` = 'CreatureDisplayExtra-19569_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 20892;
 INSERT INTO creaturedisplayinfoextra SET
@@ -2767,7 +2767,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-22530.blp';
+  `texture` = 'CreatureDisplayExtra-18655_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 22531;
 INSERT INTO creaturedisplayinfoextra SET
@@ -2791,7 +2791,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-22531.blp';
+  `texture` = 'CreatureDisplayExtra-09087_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 22532;
 INSERT INTO creaturedisplayinfoextra SET
@@ -2815,7 +2815,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-22532.blp';
+  `texture` = 'CreatureDisplayExtra-09524_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 22533;
 INSERT INTO creaturedisplayinfoextra SET
@@ -2839,7 +2839,7 @@ INSERT INTO creaturedisplayinfoextra SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-22533.blp';
+  `texture` = 'CreatureDisplayExtra-16684_HD.blp';
 
 DELETE FROM creaturedisplayinfoextra WHERE id = 22822;
 INSERT INTO creaturedisplayinfoextra SET

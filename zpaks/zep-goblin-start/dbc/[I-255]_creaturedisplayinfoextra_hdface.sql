@@ -7,6 +7,13 @@
 -- Loads after [AUTO,F-011]_creaturedisplayinfoextra.sql (I > A in filename sort) and overrides
 -- the `texture` field only. Donor '_HD' files already ship in PATCH-Q -- no new art.
 -- Requires: dbc db rebuild -t creaturedisplayinfoextra + PATCH-Z rebuild to reach the client.
+--
+-- NOTE (2026-08-27): the generator now does this repoint itself -- npc_appearance.py
+-- HD-repoints every race 1-8 extra at a matched, shipped `_HD` donor, so newly shipped
+-- NPCs no longer need an override file. This file is kept only to PIN the hand-picked
+-- donors below, which were verified in-game; the generator's own pick differs on some
+-- rows (better facial_hair tie-break, same exact race/sex/skin/face face match).
+-- Delete this file if you ever want the generator's picks to take over.
 
 -- Pirate Party Crasher / Hired Looter / Southsea Mercenary variants
 UPDATE creaturedisplayinfoextra SET texture = 'CreatureDisplayExtra-09212_HD.blp' WHERE id = 19681;

@@ -3,6 +3,13 @@
 -- repointed here to stock '_HD.blp' bakes so faces match the HD Everything (PATCH-Q) player models.
 -- Loads after [F-011]_*creaturedisplayinfoextra.sql (I > F in filename sort) and overrides the `texture` field only.
 -- Requires: dbc db rebuild -t creaturedisplayinfoextra + PATCH-Z rebuild to reach the client.
+--
+-- NOTE (2026-08-27): the generator now does this repoint itself -- npc_appearance.py
+-- HD-repoints every race 1-8 extra at a matched, shipped `_HD` donor, so newly shipped
+-- NPCs no longer need an override file. This file is kept only to PIN the hand-picked
+-- donors below, which were verified in-game; the generator's own pick differs on some
+-- rows (better facial_hair tie-break, same exact race/sex/skin/face face match).
+-- Delete this file if you ever want the generator's picks to take over.
 
 UPDATE creaturedisplayinfoextra SET texture = 'CreatureDisplayExtra-00996_HD.blp' WHERE id = 19680;
 UPDATE creaturedisplayinfoextra SET texture = 'CreatureDisplayExtra-02563_HD.blp' WHERE id = 19809;
