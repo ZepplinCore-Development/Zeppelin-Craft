@@ -178,6 +178,30 @@ EFFECT_OVERRIDE = {
     # have owner"), so it survives the egg despawning 500 ms later and stays lootable.
     66726: {"effect_implicit_target_a_1": 1},
 
+    # 73532 "Let's Ride: Quest Accept" (I-349) — Kilag Gorefang's ride summon for quest
+    # 25100, the retail twin substituted for Neltharion's custom 151152 (see
+    # smartai.DONOR_CUSTOM_SPELL_SUBSTITUTES).
+    #
+    # TargetA 46 TARGET_DEST_NEARBY_ENTRY (condition 13/1/73532 -> creature 39147, the
+    # pet Bastia standing beside Kilag) + TargetB 86 -> 48 TARGET_DEST_CASTER_BACK.
+    # 46 is a NEARBY/CHECK_ENTRY search sized by the spell's RANGE, and this spell's
+    # range index is 1 "Self Only" = 0 yards. `WorldObjectSpellNearbyTargetCheck`
+    # (Spell.cpp:9092) tests `dist < _range` against a distance clamped at >= 0, so a
+    # 0-yard range can never match anything and the summon silently produces no dest —
+    # the same shape as 66726 above. 48 needs no search and no condition, and is what
+    # the sibling that already works uses: 68973 "To The Cliffs: Quest Accept" is the
+    # identical summon (Bastia 36585, SummonProperties 827, ride spell in BasePoints)
+    # for quest 14240. The ported 13/1/73532 condition row stays and is simply inert.
+    # DieSides 1 -> 0 for the same reason as 71648 / 72889 above: this is a
+    # SUMMON_CATEGORY_VEHICLE summon, so the effect VALUE is the CONTROL_VEHICLE spell
+    # id AC casts on the summon (SpellEffects.cpp:2559). The forced +1 turns 73531 into
+    # 73532 — this spell itself, which has no CONTROL_VEHICLE aura — and AC falls back
+    # to VEHICLE_SPELL_RIDE_HARDCODED 46598. Harmless here (73531 and 46598 are the same
+    # aura pair, which is why the sibling 68973 still works with the drift) but wrong,
+    # and it would mask any future difference between the two.
+    73532: {"effect_implicit_target_a_1": 48, "effect_implicit_target_b_1": 0,
+            "effect_die_sides_1": 0},
+
     # 70988 "Parachute" — the chute the above lands (I-315). Two changes, both to
     # stop a MID-AIR strip; neither is a retiming (retiming was the wrong theory
     # and made it worse — see below).

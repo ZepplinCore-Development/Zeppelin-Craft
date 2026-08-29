@@ -261,6 +261,13 @@ INSERT INTO creature_template_movement SET
   `Swim` = 0,
   `Flight` = 0;
 
+DELETE FROM creature_template_movement WHERE CreatureId = 38918;
+INSERT INTO creature_template_movement SET
+  `CreatureId` = 38918,
+  `Ground` = 0,
+  `Swim` = 0,
+  `Flight` = 1;
+
 DELETE FROM creature_template_movement WHERE CreatureId = 38979;
 INSERT INTO creature_template_movement SET
   `CreatureId` = 38979,

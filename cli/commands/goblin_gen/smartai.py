@@ -138,6 +138,45 @@ def emit(ctx):
         return ctx.q("SELECT * FROM smart_scripts WHERE source_type=%s AND entryorguid=%s ORDER BY id",
                      (source_type, entry))
 
+    # I-349: a donor spell id that exists in NEITHER client. Neltharion fabricates spells
+    # in its own `spell_dbc` (the 151xxx block) and ships the effects in a custom client
+    # patch we do not have, so there is nothing for spells.py to port and the
+    # `valid_spells` gate below correctly refuses the row. Refusing it silently is the
+    # problem: where the row is the tail of a link the head keeps a link id that now
+    # resolves to nothing, and AC neither validates that at load nor logs it at fire time,
+    # so the chain just stops (quest 25100 "Let's Ride": Kilag Gorefang talked and cast
+    # Sanctuary, then never summoned the mount).
+    #
+    # Retail usually has a real spell doing the same job — Neltharion re-invented it to
+    # feed its own C++ script. Substituting BEFORE the gate lets the row ship against the
+    # spell 3.3.5a can actually represent.
+    #
+    # Both sides must be checked before adding an id: the donor's meaning (grep the C++
+    # that consumes it — the summon target names the twin) and the substitute's effects
+    # (`zep dbc info query`). The substitute also belongs in the `missing_spells` fixture
+    # or nothing puts it in `valid_spells`, and its summon never enters the sweep.
+    #
+    # {donor custom id: retail equivalent}
+    DONOR_CUSTOM_SPELL_SUBSTITUTES = {
+        # 151152 = Kilag Gorefang's ride summon for quest 25100 (npc_bastia_second_trip_
+        # vehicle, lost_isles.cpp:1871). Retail twin 73532 "Let's Ride: Quest Accept"
+        # summons Bastia 39152 through vehicle SummonProperties 827 and seats the caster
+        # with 73531 "Riding Bastia" — the same shape as 68973, the quest-14240 ride that
+        # already ships and works.
+        151152: 73532,
+    }
+
+    spell_substitutes = []
+
+    def substitute_donor_custom(r, at):
+        """Rewrite a donor-only spell id to its retail twin BEFORE the valid_spells gate."""
+        if at not in SPELL_ACTION_TYPES:
+            return
+        sp = int(float(_val(r["action_param1"])))
+        if sp in DONOR_CUSTOM_SPELL_SUBSTITUTES:
+            r["action_param1"] = DONOR_CUSTOM_SPELL_SUBSTITUTES[sp]
+            spell_substitutes.append((sp, DONOR_CUSTOM_SPELL_SUBSTITUTES[sp]))
+
     def remap_refs(r, et, at):
         # I-245: gossip menus + items were renumbered by the port; SmartAI params
         # referencing them must follow ("The New You" vendors: event 62 on the
@@ -220,6 +259,7 @@ def emit(ctx):
             et = int(float(_val(r["event_type"]))); at = int(float(_val(r["action_type"])))
             if et > MAX_EVENT or at > MAX_ACTION:
                 skipped += 1; continue
+            substitute_donor_custom(r, at)
             if at in SPELL_ACTION_TYPES and int(float(_val(r["action_param1"]))) not in valid_spells:
                 # I-230: unported spell -> NULL SpellInfo crash on fire. This
                 # emit-time filter is the ONLY guard now; the hand-authored
@@ -429,14 +469,30 @@ def emit(ctx):
                               "chain cannot start"
                               % ("GO" if st == 1 else "creature", e, rid))
 
+    # I-349: the other half of the same defect. `orphan_links` above finds a link row
+    # whose HEAD was dropped; this finds a surviving head whose TAIL was dropped, i.e.
+    # a `link` pointing at an id that is no longer in the block. AC validates neither —
+    # SmartScriptMgr only refuses a link to SELF, and at fire time a link that resolves
+    # to nothing is simply not executed — so the chain silently runs short. Reported for
+    # every cause, not just spell drops.
+    for (st, e), rws in sorted(rows_by_key.items()):
+        ids = {int(float(_val(r["id"]))) for r in rws}
+        for r in rws:
+            link = int(float(_val(r["link"])))
+            if link and link not in ids:
+                drop_lines.append(
+                    "    WARN %s %d row %d links to %d which does not exist — chain "
+                    "stops here" % ("GO" if st == 1 else "creature" if st == 0
+                                    else "actionlist", e, int(float(_val(r["id"]))), link))
+
     return ("scope cre=%d go=%d (excluded cre=%d go=%d) -> blocks=%d rows=%d "
             "[cre=%d go=%d tal=%d] skipped(type)=%d skipped(spell)=%d "
             "castflags: fixed=%d suspect=%d spellcast: covered=%d added=%d "
-            "escort forcedMovement remapped=%d%s%s" % (
+            "escort forcedMovement remapped=%d donor-custom spells substituted=%d%s%s" % (
                 len(cre_scope), len(go_scope), len(excl_cre), len(excl_go),
                 len(rows_by_key), sum(len(v) for v in rows_by_key.values()),
                 len(cre), len(go), len(tal), skipped, spell_skipped,
                 len(cf_applied), len(cf_suspect), sc_covered, sc_added,
-                len(escort_fixed),
+                len(escort_fixed), len(spell_substitutes),
                 "".join("\n" + line for line in drop_lines),
                 "".join("\n  WARN " + w for w in sc_warns)))

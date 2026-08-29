@@ -231,6 +231,18 @@ AI_NAME_PORTS = {
     # I-336, quest 24868 "Surrender or Else!" — npc_ace_surrender_escort re-authored
     # as SmartAI + a hand `waypoints` path in zz_[I-336]_surrender_or_else.sql.
     38455: ("SmartAI", "I-336"),
+    # I-349, the two Bastia rides — npc_bastia_trip_vehicle (quest 14240 "To the Cliffs")
+    # and npc_bastia_second_trip_vehicle (quest 25100 "Let's Ride") re-authored as SmartAI
+    # + two hand `waypoints` paths in zz_[I-349]_bastia_rides.sql. Both donor scripts are
+    # the same ferry: passive + rooted on summon, MoveSmoothPath a hardcoded array once
+    # the player boards, MoveJump one gap, eject and despawn. The paths are transcribed
+    # from the donor arrays and land on each quest's own turn-in NPC.
+    36585: ("SmartAI", "I-349"),   # Bastia — the cliffs trip
+    39152: ("SmartAI", "I-349"),   # Bastia — the Sky Falls trip
+    # I-310 round 5, quest 14242 "Precious Cargo" — npc_gyro_precious_cargo_vehicle
+    # (lost_isles.cpp:721), the same ferry pattern flown rather than run, ending in a
+    # scripted crash beside the Vengeance Wake. Rows in zz_[I-310]_precious_cargo_autoflight.sql.
+    36143: ("SmartAI", "I-310"),   # Gyrochoppa — the Precious Cargo run
 }
 
 

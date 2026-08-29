@@ -1184,7 +1184,7 @@ INSERT INTO creature_template_addon SET
   `bytes2` = 1,
   `emote` = 0,
   `visibilityDistanceType` = 0,
-  `auras` = '81717';
+  `auras` = '';
 
 DELETE FROM creature_template_addon WHERE entry = 36404;
 INSERT INTO creature_template_addon SET
@@ -1723,7 +1723,7 @@ INSERT INTO creature_template_addon SET
   `bytes2` = 1,
   `emote` = 0,
   `visibilityDistanceType` = 0,
-  `auras` = '90940';
+  `auras` = '';
 
 DELETE FROM creature_template_addon WHERE entry = 37490;
 INSERT INTO creature_template_addon SET
@@ -2440,6 +2440,17 @@ INSERT INTO creature_template_addon SET
   `visibilityDistanceType` = 0,
   `auras` = '';
 
+DELETE FROM creature_template_addon WHERE entry = 38918;
+INSERT INTO creature_template_addon SET
+  `entry` = 38918,
+  `path_id` = 0,
+  `mount` = 0,
+  `bytes1` = 50331648,
+  `bytes2` = 1,
+  `emote` = 0,
+  `visibilityDistanceType` = 0,
+  `auras` = '';
+
 DELETE FROM creature_template_addon WHERE entry = 38928;
 INSERT INTO creature_template_addon SET
   `entry` = 38928,
@@ -2656,6 +2667,17 @@ INSERT INTO creature_template_addon SET
   `mount` = 0,
   `bytes1` = 0,
   `bytes2` = 1,
+  `emote` = 0,
+  `visibilityDistanceType` = 0,
+  `auras` = '';
+
+DELETE FROM creature_template_addon WHERE entry = 39152;
+INSERT INTO creature_template_addon SET
+  `entry` = 39152,
+  `path_id` = 0,
+  `mount` = 0,
+  `bytes1` = 0,
+  `bytes2` = 0,
   `emote` = 0,
   `visibilityDistanceType` = 0,
   `auras` = '';

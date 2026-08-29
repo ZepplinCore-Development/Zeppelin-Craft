@@ -9,7 +9,7 @@
 
 -- F-011 creature_text (one file per table; rows carry final state)
 
-DELETE FROM creature_text WHERE CreatureID IN (23837,34668,34673,34689,34692,34693,34695,34696,34697,34830,34835,34872,34874,34876,34877,34878,35053,35054,35120,35175,35186,35200,35201,35222,35239,35294,35304,35486,35650,35758,35769,35786,35813,35838,35875,35893,35917,36100,36112,36129,36143,36145,36161,36178,36403,36425,36470,36471,36513,36519,36600,37106,37179,37500,37602,37804,38120,38122,38124,38195,38318,38381,38387,38409,38432,38441,38455,38517,38643,38647,38696,38738,38745,38746,38855,38928,39065,39066,39193,39194,39198,39199,39200,39201,39363,39426,39456,39582,48305,48494,48496,366150);
+DELETE FROM creature_text WHERE CreatureID IN (23837,34668,34673,34689,34692,34693,34695,34696,34697,34830,34835,34872,34874,34876,34877,34878,35053,35054,35120,35175,35186,35200,35201,35222,35239,35294,35304,35486,35650,35758,35769,35786,35813,35838,35875,35893,35917,36100,36112,36129,36143,36145,36161,36178,36403,36425,36470,36471,36513,36519,36600,37106,37179,37500,37602,37804,38120,38122,38124,38195,38318,38381,38387,38409,38432,38441,38455,38517,38643,38647,38696,38738,38745,38746,38855,38869,38928,39065,39066,39193,39194,39198,39199,39200,39201,39363,39426,39456,39582,48305,48494,48496,366150);
 
 INSERT INTO creature_text (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Language`, `Probability`, `Emote`, `Duration`, `Sound`, `BroadcastTextId`, `TextRange`, `comment`) VALUES
   (23837, 0, 0, 'Scrying upon many insignificant situations within Icecrown, you stumble upon something interesting...', 42, 0, 100, 0, 0, 0, 0, 0, 'Eye of Lich King Ambient'),
@@ -427,6 +427,14 @@ INSERT INTO creature_text (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Langu
   (38745, 0, 46, 'A system of digital binary rotation, with only two digits, the 6 and 11.', 14, 0, 100, 0, 0, 0, 0, 0, 'Citoyenne de Kezan'),
   (38746, 0, 0, 'To aid you, doctor!', 14, 0, 100, 0, 0, 0, 0, 0, 'Gobeur'),
   (38855, 0, 0, 'Stay out of the way of Volcanoth''s breath!', 42, 0, 100, 0, 0, 0, 0, 0, 'Volcanoth'),
+  (38869, 0, 0, 'Hang on, $N! We have to get you out of here, NOW!', 14, 0, 100, 0, 0, 0, 0, 0, 'Sassy Hardwrench'),
+  (38869, 1, 0, 'OH MY GOSH! BEHIND YOU!!!', 14, 0, 100, 0, 0, 0, 0, 0, 'Sassy Hardwrench'),
+  (38869, 2, 0, 'WE''RE ON FIRE!', 14, 0, 100, 0, 0, 0, 0, 0, 'Sassy Hardwrench'),
+  (38869, 3, 0, 'YEEEEEEEEEE HAAAAAAAAAA!!!', 14, 0, 100, 0, 0, 0, 0, 0, 'Sassy Hardwrench'),
+  (38869, 4, 0, 'We''re coming up on the Town-In-A-Box now...', 14, 0, 100, 0, 0, 0, 0, 0, 'Sassy Hardwrench'),
+  (38869, 5, 0, 'Get in the back seat. We''re getting out of here. I know where our old friends, the orcs, are!', 14, 0, 100, 0, 0, 0, 0, 0, 'Sassy Hardwrench'),
+  (38869, 6, 0, 'First Kezan and now here. We are toast if we don''t find a way off of this island soon!', 14, 0, 100, 0, 0, 0, 0, 0, 'Sassy Hardwrench'),
+  (38869, 7, 0, 'Oh no! Where is everyone? I dropped them off here!!', 14, 0, 100, 0, 0, 0, 0, 0, 'Sassy Hardwrench'),
   (38928, 0, 0, '$N, come on! Get over here!!!', 14, 0, 100, 0, 0, 0, 0, 0, ''),
   (39065, 0, 0, 'Deliver justice for our dead, $N.', 12, 0, 100, 5, 0, 0, 0, 0, '50094'),
   (39065, 1, 0, 'You honor us with your actions on behalf of our dead, $N.', 12, 0, 100, 0, 0, 0, 0, 0, '50096'),
