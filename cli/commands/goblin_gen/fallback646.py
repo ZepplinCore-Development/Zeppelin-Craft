@@ -20,6 +20,15 @@ extras / model_info, repoints creature_template_model as overlays. The creatures
 domain treats GHOUL_FALLBACK as needmodel (placeholder 646) so ownership of these
 curated displays stays here.
 
+Model variety (I-249 follow-up): because the primary resolves to the 646 placeholder
+in the creatures domain, that domain also skips its modelid2-4 variant loop for every
+GHOUL_FALLBACK entry -- so the whole set has to be resolved HERE. Idx 0 stays an
+overlay on the creatures-domain base row; Idx 1..n have no base row and are owned by
+this domain (an overlay without a base renders as an UPDATE against a row that does
+not exist). Without this, repointing the primary silently leaves the creature
+single-model forever: Goblin Survivor 34748 shipped 1 of its 4 donor displays while
+36179, which is not a fallback creature, shipped all four of the same set.
+
 The set of ghoul-fallback creatures (GHOUL_FALLBACK) is a runtime-derived curation
 snapshot: the standalone script queried the live world DB for creatures still on
 CreatureDisplayID 646 in [34000,52000]. That live state has since been repointed by
@@ -115,25 +124,36 @@ def emit(ctx):
         ints[3:8] = [skin, face, hs, hc, fh]
         return ints
 
-    # --- each creature -> its source display (Cata modelid1) ---
-    cre_disp = {}
+    # --- each creature -> its source displays (Cata modelid1-4) ---
+    # `scale` mirrors what creatures.py puts on its own base rows, so the Idx 1..n
+    # rows this domain owns carry the same DisplayScale as the Idx 0 row it overlays.
+    cre_disp, cre_scale = {}, {}
     for e in GHOUL_FALLBACK:
-        rows = ctx.q("SELECT modelid1 FROM creature_template WHERE TRIM(entry)=%s", (str(e),))
-        cre_disp[e] = int(str(rows[0]["modelid1"]).strip() or 0) if rows else 0
+        rows = ctx.q("SELECT modelid1, modelid2, modelid3, modelid4, scale "
+                     "FROM creature_template WHERE TRIM(entry)=%s", (str(e),))
+        ds = []
+        if rows:
+            for k in ("modelid1", "modelid2", "modelid3", "modelid4"):
+                v = int(str(rows[0][k] or "0").strip() or 0)
+                if v and v not in ds:
+                    ds.append(v)
+            sc = rows[0]["scale"]
+            cre_scale[e] = float(sc) if sc not in (None, "", 0) else 1.0
+        cre_disp[e] = ds
 
     new_cdi, new_extra, new_minfo, repoint, pending = {}, {}, {}, {}, []
-    for e, D in cre_disp.items():
+
+    def _resolve(D):
+        """Wire one Cata display up (side effects on new_cdi/new_extra/new_minfo).
+        Returns None when the display is usable, else the reason it is not."""
         wm = WDISP.get(D)
         if not wm:
-            pending.append((e, D, "no whitemane display"))
-            continue
+            return "no whitemane display"
         model, ext, scale, texvar = wm
         if D in OURDISP:
-            repoint[e] = D                                  # display already there
-            continue
+            return None                                     # display already there
         if model not in OURMODELS:
-            pending.append((e, D, "model %d missing (retroport)" % model))
-            continue
+            return "model %d missing (retroport)" % model
         is_char = model in (831, 832)
         gender = 0
         if is_char and ext in WEXTRA:
@@ -145,7 +165,21 @@ def emit(ctx):
         else:
             new_cdi[D] = [D, model, 0, 0, scale, 255, texvar, "", "", "", 0, 0, 0, 0, 0, 0]
         new_minfo[D] = gender
-        repoint[e] = D
+        return None
+
+    for e, ds in cre_disp.items():
+        if not ds:
+            pending.append((e, 0, "no source modelid"))
+            continue
+        why = _resolve(ds[0])
+        if why:
+            pending.append((e, ds[0], why))
+            continue          # primary unresolved -> stays on 646, and so no variants
+        plan = [ds[0]]
+        for D in ds[1:]:
+            if _resolve(D) is None:
+                plan.append(D)   # unresolvable variants are dropped, never 646'd
+        repoint[e] = plan
 
     # ---- DBC: displays + extras (owned rows) ----
     for D, row in new_cdi.items():
@@ -172,9 +206,19 @@ def emit(ctx):
             "DisplayID": d, "BoundingRadius": 0.5, "CombatReach": 1.5,
             "Gender": g, "DisplayID_Other_Gender": 0, "VerifiedBuild": 0,
         }, tier="base", owner="fallback646")
-    for e, D in repoint.items():
+    variants = 0
+    for e, plan in repoint.items():
         ctx.col.put("creature_template_model", e,
-                    {"CreatureDisplayID": D}, tier="overlay")
+                    {"CreatureDisplayID": plan[0]}, tier="overlay")
+        for idx, D in enumerate(plan[1:], start=1):
+            ctx.col.put("creature_template_model", (e, idx), {
+                "CreatureID": e, "Idx": idx, "CreatureDisplayID": D,
+                "DisplayScale": cre_scale.get(e, 1.0), "Probability": 1,
+                "VerifiedBuild": 0,
+            }, tier="base", owner="fallback646")
+            variants += 1
 
-    return "repoint=%d new_displays=%d new_extras=%d (%d already shipped elsewhere) pending=%d" % (
-        len(repoint), len(new_cdi), len(new_extra), shared_extra, len(pending))
+    return ("repoint=%d variants=%d new_displays=%d new_extras=%d "
+            "(%d already shipped elsewhere) pending=%d" % (
+                len(repoint), variants, len(new_cdi), len(new_extra),
+                shared_extra, len(pending)))
