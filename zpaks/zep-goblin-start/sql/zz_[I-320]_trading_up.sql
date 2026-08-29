@@ -40,6 +40,7 @@
 --     -> raptor walks in: SNAP, jaws shut, eggs gone
 --     -> raptor dies in the trap
 --     -> jaws open again, revealing the big Spiny Raptor Egg (GO 201974)
+--     -> the spent trap despawns, leaving the egg behind (re-arms 120s later)
 -- Every model and display id involved is stock 3.3.5a; nothing new ships in PATCH-Z.
 
 -- =========================================================================
@@ -286,12 +287,14 @@ WHERE entry = 38195;
 --
 --   use eggs on a trap  -> decoy summons GO 310001 in the middle of the trap (bait)
 --                       -> 500ms later the nearest raptor in 40yd is lured in
---   raptor makes contact-> trap SNAPS SHUT (GO state 1)
+--   raptor makes contact-> trap SNAPS SHUT (GO state 0)
 --                       -> decoy despawns, taking its owned bait GO with it
 --                       -> the trap takes over the rest via SET_DATA
 --   +900ms              -> raptor dies in the closed trap
---   +1300ms             -> trap re-OPENS (GO state 0) and the lootable Raptor Egg
+--   +1300ms             -> trap re-OPENS (GO state 1) and the lootable Raptor Egg
 --                          appears on it
+--   +1500ms             -> the spent trap despawns, leaving the egg behind, and
+--                          respawns armed 120s later (donor parity: it is consumed)
 --
 -- Deviations from the donor, deliberate:
 --  * The donor casts SPELL_LOOK_LIKE_AN_EGG (71355) on itself. That spell is a bare
@@ -421,4 +424,31 @@ INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_ty
 
   (31000000, 9, 0, 0, 0, 0, 100, 0, 900, 900, 0, 0, 0, 0, 51, 0, 0, 0, 0, 0, 0, 19, 38187, 6, 0, 0, 0, 0, 0, 0, 'Raptor Trap - 900ms After The Snap - Kill The Trapped Raptor'),
   (31000000, 9, 1, 0, 0, 0, 100, 0, 400, 400, 0, 0, 0, 0, 118, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Raptor Trap - 400ms Later - Open The Jaws Again (state 1)'),
-  (31000000, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 50, 201974, 300, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Raptor Trap - Reveal The Spiny Raptor Egg (unowned: the summoner is a GO)');
+  (31000000, 9, 2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 50, 201974, 300, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Raptor Trap - Reveal The Spiny Raptor Egg (unowned: the summoner is a GO)'),
+  -- A SPRUNG TRAP IS CONSUMED. Without this the whole quest collapses onto a single
+  -- trap: 84311 is the quest StartItem with spellcharges 0 (infinite uses) and spell
+  -- 56576 carries category 0 / recovery_time 0 / category_recovery_time 0, so nothing
+  -- else in the chain gates a re-use. A player could stand on one trap and take all 5
+  -- Spiny Raptor Eggs in ~25 seconds without moving, and each re-spring would stack
+  -- another un-looted 201974 on the same point for the 300s the egg lives.
+  --
+  -- The donor consumes it too, by a route we cannot copy: its trap is SUMMONED by
+  -- marker 75113 (act 50), so `FORCE_DESPAWN 1000, param2 0` on the MARKER takes the
+  -- trap with it under the SUMMON_GO ownership rule, and the marker's own 300s
+  -- spawntimesecs brings both back. Ours is a static spawn, so it despawns itself.
+  --
+  -- 1500ms after the reveal, not with it: the jaws-open beat is what shows the player
+  -- the egg, and letting it play first reads better than the donor, where the trap
+  -- vanishes ~1s after the snap and the egg appears out of nothing.
+  --
+  -- The egg is safe. SummonGameObject's ownership test (Object.cpp:2433) takes the
+  -- Player / Creature branch only; a GO summoner falls through to
+  -- SetSpawnedByDefault(false), so 201974 is unowned and outlives its summoner on its
+  -- own 300s timer.
+  --
+  -- param2 = 120s explicit rather than 0. Zero would inherit gameobject.spawntimesecs,
+  -- which is an AUTO-owned column — the lockout would then change silently under a
+  -- regen. GameObject::DespawnOrUnsummon respawns at GO_STATE_READY (GameObject.cpp:952),
+  -- which is ARMED under this model's polarity, so it returns correct with no help;
+  -- the ev 11 RESPAWN re-arm above is belt-and-braces.
+  (31000000, 9, 3, 0, 0, 0, 100, 0, 1500, 1500, 0, 0, 0, 0, 41, 0, 120, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Raptor Trap - Consumed 1.5s After The Reveal (respawns armed in 120s)');
