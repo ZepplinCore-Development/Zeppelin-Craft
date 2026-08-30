@@ -21,19 +21,61 @@
 DELETE FROM npc_spellclick_spells WHERE npc_entry = 34840 AND spell_id = 66302;
 DELETE FROM conditions WHERE SourceTypeOrReferenceId = 18 AND SourceGroup = 34840 AND SourceEntry = 66302;
 
--- ---- exiting: strip the trigger + dismiss the car ----
+-- ---- exiting: strip the trigger, send the homies home, dismiss the car ----
 -- 34840 ships with empty AIName (F-011 "AIName dropped" pattern) and so runs
 -- VehicleAI, whose only job here is despawn-on-exit. Converting to SmartAI for
--- the aura cleanup means replicating that dismissal (row 1). PASSENGER_REMOVED
--- is the proven-reliable possessed-vehicle event (I-251). Homie removals also
--- fire it during despawn: the aura strip is a no-op on them and the re-despawn
--- is harmless. 34840 template is AUTO-owned -> one consolidated UPDATE.
+-- the aura cleanup means replicating that dismissal (row 2). PASSENGER_REMOVED
+-- is the proven-reliable possessed-vehicle event (I-251). 34840 template is
+-- AUTO-owned -> one consolidated UPDATE.
+--
+-- I-242: the event cooldown is 0/0, NOT 1000/1000. RecalcTimer only leaves the
+-- event active when the timer is zero (SmartScript.cpp:5036-5041), so a 1s
+-- cooldown swallowed every removal after the first -- and Vehicle::Uninstall
+-- pulls the driver and all three homies inside one tick. Row 1 must see each.
+--
+-- I-242 also puts event_flags 512 (SMART_EVENT_FLAG_WHILE_CHARMED) on row 0 and
+-- on the ping rows. A player-driven vehicle is a CHARMED creature and
+-- SmartScript::ProcessEvent (SmartScript.cpp:4187) drops every event without
+-- that flag, silently. Round 5's "the SAI spellhit hop is silent on a possessed
+-- vehicle" was this gate, not the hop.
+--
+-- Row 1 (I-242) clears the exiting rider. Unit::_ExitVehicle knocks a creature
+-- passenger clear of the car and then simply leaves it there: nothing in the
+-- core walks it back, and an idle out-of-combat creature never evades. The
+-- riders are TempSummons so this is UnSummon; the respawn seconds only matter
+-- if a DB spawn ever rides, which is exactly the round-6 defect this replaced.
+-- Safe from inside the RemovePassenger hook: the core floors the despawn delay
+-- at one world tick (SmartScript.cpp:1364-1372). Player invokers are ignored,
+-- FORCE_DESPAWN only touches Creature/GameObject targets, so the driver's own
+-- exit falls through to row 2 untouched.
+--
+-- Rows 3-5 (I-242) are the pickup pings. The roadside homie cannot reach the
+-- driver on its own -- SMART_TARGET_ACTION_INVOKER resolves to this vehicle and
+-- only CALL_KILLEDMONSTER unwraps the charmer -- so it casts the homie's marker
+-- spell at the car and the car re-casts it on SMART_TARGET_OWNER_OR_SUMMONER,
+-- which is GetCharmerOrOwnerGUID() = the driver, exactly and only. That marker
+-- then gates the homie's spell_area detect row (zz_[I-242]_hotrod_homies_flavor).
+--
+-- Rows 6-8 take the detect aura off the driver in the same breath, which is what
+-- the donor does (player->RemoveAura(49416)). The negative aura_spell gate alone
+-- is NOT enough: it stops the autocast and makes the row un-fitting, but the aura
+-- the player is ALREADY holding is only reaped by Player::UpdateArea/ZoneDependentAuras,
+-- which run on area change, quest-status change and login -- so without this the
+-- roadside homie stayed visible until the driver crossed into the next Kezan
+-- subzone. Landing an aura does not re-evaluate spell_area by itself.
 UPDATE creature_template SET AIName = 'SmartAI' WHERE entry = 34840;
 
 DELETE FROM smart_scripts WHERE entryorguid = 34840 AND source_type = 0;
 INSERT INTO smart_scripts (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
-  (34840, 0, 0, 1, 28, 0, 100, 0, 1000, 1000, 0, 0, 28, 66392, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hot Rod - On Passenger Removed - Strip run-over trigger (66392 eff2) from exiting passenger'),
-  (34840, 0, 1, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 3000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hot Rod - Linked - Dismiss (replicates VehicleAI despawn-on-exit)');
+  (34840, 0, 0, 1, 28, 0, 100, 512, 0, 0, 0, 0, 28, 66392, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hot Rod - On Passenger Removed - Strip run-over trigger (66392 eff2) from exiting passenger'),
+  (34840, 0, 1, 2, 61, 0, 100, 0, 0, 0, 0, 0, 41, 1, 5, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'I-242 Hot Rod - Linked - Dismiss the exiting rider (TempSummon -> UnSummon); no-op on the player driver'),
+  (34840, 0, 2, 0, 61, 0, 100, 0, 0, 0, 0, 0, 41, 3000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'I-257 Hot Rod - Linked - Dismiss (replicates VehicleAI despawn-on-exit)'),
+  (34840, 0, 3, 6, 8, 0, 100, 512, 900901, 0, 0, 0, 11, 900901, 2, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 'I-242 Hot Rod - On Izzy pickup ping - Put the Izzy marker on the driver (charmer)'),
+  (34840, 0, 4, 7, 8, 0, 100, 512, 900902, 0, 0, 0, 11, 900902, 2, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 'I-242 Hot Rod - On Gobber pickup ping - Put the Gobber marker on the driver (charmer)'),
+  (34840, 0, 5, 8, 8, 0, 100, 512, 900903, 0, 0, 0, 11, 900903, 2, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 'I-242 Hot Rod - On Ace pickup ping - Put the Ace marker on the driver (charmer)'),
+  (34840, 0, 6, 0, 61, 0, 100, 0, 0, 0, 0, 0, 28, 49417, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 'I-242 Hot Rod - Linked - Take Izzy''s detect off the driver NOW (the marker only stops it coming back)'),
+  (34840, 0, 7, 0, 61, 0, 100, 0, 0, 0, 0, 0, 28, 60922, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 'I-242 Hot Rod - Linked - Take Gobber''s detect off the driver NOW (the marker only stops it coming back)'),
+  (34840, 0, 8, 0, 61, 0, 100, 0, 0, 0, 0, 0, 28, 49416, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 'I-242 Hot Rod - Linked - Take Ace''s detect off the driver NOW (the marker only stops it coming back)');
 
 -- ---- the robbery: looter reacts to being run over ----
 -- AUTO owns 35234 row 0 (Torch Toss); I-257 owns rows 10+. Invoker of the
