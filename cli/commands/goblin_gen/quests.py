@@ -8,6 +8,7 @@ Emits (per zone, ctx.sfx):
     quests_02_addon      quest_template_addon (chains, prereqs, provided items)
     quests_03_text       quest_offer_reward + quest_request_items turn-in text
     quests_04_relations  creature_queststarter / creature_questender
+                         gameobject_queststarter / gameobject_questender
 
 It does NOT emit _05_conditions (that file is standalone hand-authored). Item refs are
 remapped via the item_remap fixture; scope comes from item_scope / item_scope_K. A
@@ -19,7 +20,12 @@ import csv as _csv
 
 NAME = "quests"
 TABLES = ["quest_template", "quest_template_addon", "quest_offer_reward",
-          "quest_request_items", "creature_queststarter", "creature_questender"]
+          "quest_request_items", "creature_queststarter", "creature_questender",
+          "gameobject_queststarter", "gameobject_questender"]
+# Relations are filtered through the templates creatures.py / gameobjects.py
+# collect, so a partial `gen quests` must pull both in or the filter matches
+# nothing and the relation files are written EMPTY over the committed ones.
+READS = ["creature_template", "gameobject_template"]
 TIER = "base"
 
 RESV_CSV = "/workspace/project/Zeppelin-Craft/Scripts/Item Scripts/Item Reservations.csv"
@@ -51,7 +57,24 @@ def emit(ctx):
     remap = {int(k): v for k, v in ctx.fixture("item_remap").items()}
     scope = ctx.fixture("item_scope" + sfx)
     QIDS = set(scope["quests"])
+    # Relation-eligible creatures. scope["creatures"] is the SPAWN-driven sweep, so
+    # on its own it silently drops every quest giver that is not a `creature` row:
+    #   * summon-only NPCs (I-285) — 39199 Assistant Greely exists solely as the
+    #     effect-28 target of 73648, and taking her out of the filter cost the whole
+    #     Gallywix Labor Mine chain its giver (q25122/25123/25124/25125, I-357);
+    #   * hand-placed spawns from the manual_spawns fixture (I-246);
+    #   * spawned NPCs the fixture's 195-entry creature list simply does not name —
+    #     36608 Doc Zapnozzle is spawned (guid 11900002) and creatures.py emits his
+    #     template, yet he is in neither item_scope fixture, so q14239 "Don't Go Into
+    #     the Light!" was left with no giver at either end.
+    # The authoritative set is therefore what creatures.py actually COLLECTED this
+    # run, which already covers all three cases; scope["creatures"] stays unioned in
+    # as a floor. Filtering on our own collected templates is also tighter than the
+    # raw donor id: a donor entry that collides with an unrelated stock 3.3.5a
+    # creature is not in the set, so it can never wire a stock NPC to a ported quest.
     LI_CRE = set(scope["creatures"])
+    LI_CRE |= {e for e in ctx.col.pks("creature_template", owner="creatures")
+               if isinstance(e, int)}
 
     def rm(v):
         try:
@@ -193,6 +216,29 @@ def emit(ctx):
         for i, q2 in sorted(set(enders)):
             ctx.col.add("creature_questender", {"id": i, "quest": q2})
 
-    print("quest_template: %d, addon: %d, starters: %d, enders: %d" % (len(qids), len(qids), len(set(starters)), len(set(enders))))
-    return "quests=%d addon=%d starters=%d enders=%d conflicts=%d" % (
-        len(qids), len(qids), len(set(starters)), len(set(enders)), len(CONFLICTS))
+    # ---- gameobject_queststarter / questender ----
+    # Never emitted at all before I-357, so any quest a GO hands out or takes back
+    # arrived giver-less: GO 202613 "Platform Control Panel" lost the q25204 turn-in
+    # AND the q25207 pickup, stranding the oil-rig pair. Same shape as the creature
+    # pass; the scope is the GO templates gameobjects.py collected.
+    LI_GO = {e for e in ctx.col.pks("gameobject_template", owner="gameobjects")
+             if isinstance(e, int)}
+    go_starters = [(int(r["id"]), int(r["quest"])) for r in ctx.q("SELECT id, quest FROM gameobject_questrelation")
+                   if r["id"] is not None and r["quest"] is not None and int(r["id"]) in LI_GO and int(r["quest"]) in QIDS]
+    go_enders = [(int(r["id"]), int(r["quest"])) for r in ctx.q("SELECT id, quest FROM gameobject_involvedrelation")
+                 if r["id"] is not None and r["quest"] is not None and int(r["id"]) in LI_GO and int(r["quest"]) in QIDS]
+    if go_starters:
+        ctx.col.delete("gameobject_queststarter", "quest IN (%s)" % ",".join(str(q) for q in sorted(QIDS)))
+        for i, q2 in sorted(set(go_starters)):
+            ctx.col.add("gameobject_queststarter", {"id": i, "quest": q2})
+    if go_enders:
+        ctx.col.delete("gameobject_questender", "quest IN (%s)" % ",".join(str(q) for q in sorted(QIDS)))
+        for i, q2 in sorted(set(go_enders)):
+            ctx.col.add("gameobject_questender", {"id": i, "quest": q2})
+
+    print("quest_template: %d, addon: %d, starters: %d (+%d go), enders: %d (+%d go)"
+          % (len(qids), len(qids), len(set(starters)), len(set(go_starters)),
+             len(set(enders)), len(set(go_enders))))
+    return "quests=%d addon=%d starters=%d/%dgo enders=%d/%dgo conflicts=%d" % (
+        len(qids), len(qids), len(set(starters)), len(set(go_starters)),
+        len(set(enders)), len(set(go_enders)), len(CONFLICTS))

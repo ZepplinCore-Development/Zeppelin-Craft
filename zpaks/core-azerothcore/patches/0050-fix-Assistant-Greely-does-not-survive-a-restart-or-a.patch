@@ -1,0 +1,187 @@
+From d9f8408754bb21237b4c9dc7d3f3df7cf1510827 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 30 Aug 2026 12:58:25 +0000
+Subject: [PATCH] fix: Assistant Greely does not survive a restart or a death
+ (I-357)
+
+The Gallywix Labor Mine chain (q25122 Morale Boost / q25123 Throw It On the
+Ground! / q25124 Brute Brutality / q25125 Light at the End of the Tunnel) has
+exactly one quest giver: the follower Greely, 39199. She is a summon, cast once
+by 38124's SmartAI on the q25110 turn-in (SMART_EVENT_QUEST_REWARDED ->
+SMART_ACTION_INVOKER_CAST 73648) and never again.
+
+A summon does not survive a logout or a worldserver restart, and
+npc_zep_wild_cart_companion also despawns her on player death and at 120 yd.
+Those three branches are faithful - the donor's npc_assistant_greedy_kajacolaAI
+has the same ones - but nothing re-casts 73648, so any of them permanently cost
+the character all four quests. Rebooting the worldserver to load a fix for this
+content was itself enough to trigger it.
+
+The donor's apparent heartbeat is a decoy: aura 73607 -> periodic 73631 "Dummy
+To Assistant Greely" is a greet ping, handled by the donor's SpellHit as an IDEA
+visual plus Talk, not a resummon - and spell_script_names has no row for
+73607/73631/73648, so on our side it does nothing at all.
+
+- New player_zep_greely_persistence PlayerScript re-casts 73648 on
+  OnPlayerLogin (restart, relog), OnPlayerUpdateArea (the 120 yd walk-away and
+  the corpse run back) and OnPlayerResurrect (a rez taken in place, where no
+  area change ever fires).
+- Gated on the same window the companion AI itself considers live: in world,
+  alive, area 4924 Gallywix Labor Mine, q25110 REWARDED, q25184 neither
+  REWARDED nor COMPLETE.
+- Re-casts the spell rather than spawning her directly, so SummonProperties
+  2989, ownership and the AI's IsSummonedBy all run exactly as on the real
+  turn-in.
+- "Is she already out?" is answered from the grid, checking GetOwnerGUID against
+  the player. FindNearestCreature would hand back another player's Greely in a
+  busy mine. It is deliberately NOT HasAura(73616): 73648 does apply that marker
+  (effect 2 is FORCE_CAST_2, TriggerSpell 73616, TARGET_UNIT_CASTER), but it is
+  a permanent player aura and so is saved across the very restart that killed
+  the summon - after this exact failure the player holds 73616 with no Greely.
+- Constructor opts in to PLAYERHOOK_ON_LOGIN, PLAYERHOOK_ON_UPDATE_AREA and
+  PLAYERHOOK_ON_PLAYER_RESURRECT; an empty hook list enables every player hook
+  in the core.
+
+Verified in game: Greely returns to a character that had already lost her.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .../scripts/Custom/zeppelin_goblin_start.cpp  | 96 ++++++++++++++++++-
+ 1 file changed, 95 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/scripts/Custom/zeppelin_goblin_start.cpp b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+index 83f51040e..3968ac574 100644
+--- a/src/server/scripts/Custom/zeppelin_goblin_start.cpp
++++ b/src/server/scripts/Custom/zeppelin_goblin_start.cpp
+@@ -8,6 +8,7 @@
+  * Registered spell_script_names live in the zep-goblin-start zpak SQL.
+  */
+ 
++#include "Creature.h"
+ #include "ObjectAccessor.h"
+ #include "ObjectMgr.h"
+ #include "Player.h"
+@@ -18,6 +19,7 @@
+ 
+ #include <algorithm>
+ #include <cmath>
++#include <list>
+ 
+ enum ZepGoblinCredits
+ {
+@@ -30,7 +32,14 @@ enum ZepGoblinCredits
+     SPELL_SUPER_BOOSTER_ROCKET_BOOTS = 72891, // SCRIPT_EFFECT, item 84320 on-use
+     SPELL_BOOTS_SUMMON            = 72889, // SUMMON 38802 (SummonProperties 827, vehicle)
+     SPELL_BOOTS_CONTROL_VEHICLE   = 72887, // CONTROL_VEHICLE on the boots + DUMMY on the rider
+-    SPELL_BOOTS_BURNING_AURA      = 72885  // 500ms periodic -> 72886, the 8yd fire nova
++    SPELL_BOOTS_BURNING_AURA      = 72885, // 500ms periodic -> 72886, the 8yd fire nova
++
++    // Gallywix Labor Mine chain (I-357)
++    QUEST_KAJACOLA_IDEAS          = 25110, // turn-in fires the one and only summon
++    QUEST_WILD_MINE_CART_RIDE     = 25184, // end of the window; the companion AI despawns on it
++    NPC_ASSISTANT_GREELY_FOLLOWER = 39199,
++    SPELL_RESUMMON_GREELY         = 73648, // SUMMON 39199, SummonProperties 2989, permanent
++    AREA_GALLYWIX_LABOR_MINE      = 4924
+ };
+ 
+ // I-340 Super Booster Rocket Boots (q24942): the item's SCRIPT_EFFECT summons
+@@ -339,6 +348,90 @@ class spell_zep_mook_disguise_carrier : public AuraScript
+     }
+ };
+ 
++/* ---------------------------------------------------------------------------
++ * I-357 — Assistant Greely persistence.
++ *
++ * The Gallywix Labor Mine chain (q25122 Morale Boost / q25123 Throw It On the
++ * Ground! / q25124 Brute Brutality / q25125 Light at the End of the Tunnel) has
++ * exactly one quest giver: the FOLLOWER Greely, 39199. She is a summon, cast
++ * once by 38124's SmartAI on the q25110 turn-in (SMART_EVENT_QUEST_REWARDED ->
++ * SMART_ACTION_INVOKER_CAST 73648) and never again.
++ *
++ * A summon does not survive a logout or a worldserver restart, and
++ * npc_zep_wild_cart_companion despawns her on player death or at 120 yd —
++ * faithfully, the donor's npc_assistant_greedy_kajacolaAI has the same three
++ * branches. Nothing brings her back: the donor's 1 s heartbeat (aura 73607 ->
++ * periodic 73631 "Dummy To Assistant Greely") is a GREET ping handled by the
++ * donor's SpellHit (IDEA visual + Talk), not a resummon, and we ship no script
++ * for it. Any of those four events therefore stranded the character with four
++ * unobtainable quests and no way to recover.
++ *
++ * Restore her whenever the player is standing in the mine inside the window the
++ * companion AI itself considers live: q25110 rewarded, q25184 not yet finished,
++ * and no Greely of ours already out. Re-casting 73648 (rather than spawning her
++ * directly) keeps the donor plumbing intact — SummonProperties 2989, ownership,
++ * and the AI's IsSummonedBy all run exactly as they do on the real turn-in.
++ * --------------------------------------------------------------------------- */
++class player_zep_greely_persistence : public PlayerScript
++{
++public:
++    // Opt in to just the three hooks we use — an empty list enables ALL of them,
++    // which would put this script on every player hook in the core for nothing.
++    player_zep_greely_persistence() : PlayerScript("player_zep_greely_persistence",
++        { PLAYERHOOK_ON_LOGIN, PLAYERHOOK_ON_UPDATE_AREA, PLAYERHOOK_ON_PLAYER_RESURRECT }) { }
++
++    void OnPlayerLogin(Player* player) override
++    {
++        // Covers the relog and the worldserver restart: the summon is simply gone.
++        TryRestore(player, player->GetAreaId());
++    }
++
++    void OnPlayerUpdateArea(Player* player, uint32 /*oldArea*/, uint32 newArea) override
++    {
++        // Covers the 120 yd walk-away and the corpse run back in.
++        TryRestore(player, newArea);
++    }
++
++    void OnPlayerResurrect(Player* player, float /*restorePercent*/, bool& /*applySickness*/) override
++    {
++        // Covers a rez taken in place, where no area change ever fires.
++        TryRestore(player, player->GetAreaId());
++    }
++
++private:
++    static void TryRestore(Player* player, uint32 areaId)
++    {
++        if (!player || !player->IsInWorld() || areaId != AREA_GALLYWIX_LABOR_MINE || !player->IsAlive())
++            return;
++
++        if (player->GetQuestStatus(QUEST_KAJACOLA_IDEAS) != QUEST_STATUS_REWARDED)
++            return;
++
++        QuestStatus cart = player->GetQuestStatus(QUEST_WILD_MINE_CART_RIDE);
++        if (cart == QUEST_STATUS_REWARDED || cart == QUEST_STATUS_COMPLETE)
++            return;
++
++        // Deliberately NOT gated on HasAura(73616) "Summon Assistant Greely Controller".
++        // 73648 does apply that marker to the player: its effect 2 is FORCE_CAST_2 with
++        // TriggerSpell 73616 and TARGET_UNIT_CASTER, so EffectForceCast has the caster
++        // cast it on itself. But it is a PERMANENT player aura, so it is saved and
++        // restored across the very logout or restart that killed the summon — after
++        // exactly the failure this script exists for, the player holds 73616 with no
++        // Greely and the aura reports her present. Real state is the creature, not the
++        // marker. (Same trap as the stale 72887 boots dummy noted above.)
++        //
++        // Ownership matters: the nearest 39199 in a busy mine is very likely to be
++        // someone else's, and FindNearestCreature would happily hand it back.
++        std::list<Creature*> greelys;
++        player->GetCreatureListWithEntryInGrid(greelys, NPC_ASSISTANT_GREELY_FOLLOWER, 150.0f);
++        for (Creature* greely : greelys)
++            if (greely->GetOwnerGUID() == player->GetGUID())
++                return;
++
++        player->CastSpell(player, SPELL_RESUMMON_GREELY, true);
++    }
++};
++
+ void AddSC_zeppelin_goblin_start()
+ {
+     // q14019 Monkey Business has no C++ script: the credit is granted by the fed
+@@ -362,4 +455,5 @@ void AddSC_zeppelin_goblin_start()
+     RegisterSpellScript(spell_zep_q28414_footbomb_goal);
+     RegisterSpellScript(spell_zep_item_kajacola);
+     RegisterSpellScript(spell_zep_mook_disguise_carrier);
++    new player_zep_greely_persistence();
+ }
+-- 
+2.34.1
+

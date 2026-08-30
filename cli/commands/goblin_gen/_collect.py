@@ -111,6 +111,10 @@ TABLES = {
     "creature_queststarter":      dict(order=45, kind="B", dest="sql"),
     "creature_questender":        dict(order=46, kind="B", dest="sql"),
     "creature_questitem":         dict(order=47, kind="B", dest="sql"),
+    # GO-side quest relations (I-357). Absent from this registry until then, so
+    # quests.py had nowhere to write them and every GO quest giver arrived inert.
+    "gameobject_queststarter":    dict(order=48, kind="B", dest="sql"),
+    "gameobject_questender":      dict(order=49, kind="B", dest="sql"),
     "creature_loot_template":     dict(order=50, kind="B", dest="sql"),
     "skinning_loot_template":     dict(order=51, kind="B", dest="sql"),
     "pickpocketing_loot_template": dict(order=52, kind="B", dest="sql"),
