@@ -1,0 +1,10 @@
+{
+  "WORLD/WMO/KALIMDOR/LOSTISLES/GOBLIN/LOSTISLES_GOBLINMINE.WMO": {
+    "note": "I-353 Gallywix Labor Mine — the cave's interior group (waterfall_entrance) is 275 x 203 x 87 yd but fogs out at ~28 yd. All three groups carry MOGP fogIds = [0,0,0,0], and the 3.3.5 client takes that literally: it renders MFOG entry 0 and ignores that entry's 2.8 yd radius (flags=0x0, i.e. NOT infinite). Proven by fog colour in game — MFOG[0] is RGB(0,107,91) teal, which is what the screenshot shows; MFOG[1] is RGB(29,58,75) blue-grey and never appears. So entry 0's 27.78 yd end is the wall. Raised to 444.44, the WotLK authoring default and the value stock AZ_Deadmines uses; start_scalar 0.25 left alone, so the ramp moves 6.94 -> 111.11 yd. Entry 1 (the infinite-radius one, 166.67 yd) is referenced by no group and is left at stock. Donor: Asset Library world/wmo/kalimdor/lostisles/goblin/lostisles_goblinmine.wmo (already shader-downgraded 13 -> 6 for 3.3.5; do NOT re-donate from the Whitemane 4.3.4 extract, which is pre-downgrade).",
+    "base_sha256": "cd39b1e6feee5abe5acd8bbc333b9a939b948330d229d5849bbb5e2b01039802",
+    "result_sha256": "c69c69380e79d114be9d1ac7bf6d4df3dc6579e81d5aa39e7b617930ba999211",
+    "ops": [
+      { "op": "wmo.fog.end", "index": 0, "value": 444.44445 }
+    ]
+  }
+}

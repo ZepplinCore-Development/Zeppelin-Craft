@@ -1,5 +1,5 @@
 """
-M2 edit ops — declarative, replayable edits to WoW 3.3.5a M2 model files (F-203).
+Model edit ops — declarative, replayable edits to WoW 3.3.5a M2 and WMO files (F-203).
 
 Binary client assets are gitignored in every zpak, so a hand-edited .m2 is
 uncommittable: it lives as an untracked binary on one machine and a fresh
@@ -99,8 +99,124 @@ def _op_camera_fov(data: bytearray, cfg: Dict[str, Any]) -> str:
     return f"camera[{index}].fov {before:.5f} -> {value:.5f}"
 
 
+# ---------------------------------------------------------------------------
+# WMO ops
+#
+# A WMO is a flat chunk stream: 4-byte reversed magic, uint32 size, payload.
+# Interior fog lives in MFOG on the *root* file; each 48-byte entry is
+#
+#   uint32 flags        (bit 0 = infinite radius — the group-wide fog)
+#   C3Vector pos        (12B)
+#   float smaller_radius, larger_radius
+#   SMOFogDef fog[2]    land at +24, underwater at +36
+#                       each: float end, float start_scalar, CImVector color
+#
+# `end` is in yards and `start_scalar` is a fraction of it, so the fog ramps
+# from end*start_scalar to end.  Group headers select entries via MOGP.fogIds,
+# but an entry flagged infinite-radius applies to the whole model.
+# ---------------------------------------------------------------------------
+
+WMO_VERSION = 17
+MFOG_STRIDE = 48
+MFOG_FOG_OFFSET = {'land': 24, 'water': 36}
+
+# A cave you are meant to see across runs 200-670 yd in stock 3.3.5; the
+# WotLK authoring default is 444.44 (16000/36).  Anything outside this band is
+# almost certainly a units mistake rather than an intentional edit.
+FOG_END_MIN = 1.0
+FOG_END_MAX = 10000.0
+
+
+def _wmo_chunks(data: bytes):
+    """Yield (magic, payload_offset, size) for each top-level WMO chunk."""
+    off = 0
+    while off + 8 <= len(data):
+        magic = bytes(data[off:off + 4])[::-1]
+        size = struct.unpack_from('<I', data, off + 4)[0]
+        yield magic, off + 8, size
+        off += 8 + size
+
+
+def find_mfog(data: bytes) -> tuple:
+    """Locate the fog block of a root WMO.
+
+    Returns (n_entries, ofs_abs).
+    """
+    version = None
+    mfog = None
+    for magic, ofs, size in _wmo_chunks(data):
+        if magic == b'MVER':
+            version = struct.unpack_from('<I', data, ofs)[0]
+        elif magic == b'MFOG':
+            mfog = (ofs, size)
+
+    if version is None:
+        raise M2OpError("no MVER chunk — not a WMO")
+    if version != WMO_VERSION:
+        raise M2OpError(f"WMO version {version} — ops are laid out for v{WMO_VERSION}")
+    if mfog is None:
+        raise M2OpError("no MFOG chunk — fog ops need the root WMO, not a group file")
+
+    ofs, size = mfog
+    return size // MFOG_STRIDE, ofs
+
+
+def _mfog_field(data: bytearray, cfg: Dict[str, Any], field_offset: int) -> int:
+    """Resolve one float inside an MFOG entry to an absolute byte offset."""
+    index = int(cfg.get('index', 0))
+    which = cfg.get('fog', 'land')
+    if which not in MFOG_FOG_OFFSET:
+        raise M2OpError(f"fog {which!r} — expected one of {sorted(MFOG_FOG_OFFSET)}")
+
+    n, ofs_abs = find_mfog(data)
+    if index >= n:
+        raise M2OpError(f"fog index {index} but model has {n} MFOG entr{'y' if n == 1 else 'ies'}")
+
+    return ofs_abs + index * MFOG_STRIDE + MFOG_FOG_OFFSET[which] + field_offset
+
+
+def _op_wmo_fog_end(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Set the distance, in yards, at which interior fog is fully opaque.
+
+    Cataclysm-authored interiors carry fog ends the 3.3.5 renderer draws as a
+    wall well short of the far side of the room — see I-353 / Gallywix Labor
+    Mine, a 275 yd cave shipped with a 27.78 yd fog end.
+
+    Pick the index off `MOGP.fogIds[0]`, not off the infinite-radius flag: the
+    3.3.5 client takes fogIds literally and applies that entry across the whole
+    group even when its own radius is a couple of yards.  The entry actually in
+    use is the one whose fog colour you see on screen.
+    """
+    if 'value' not in cfg:
+        raise M2OpError("wmo.fog.end requires 'value' (yards)")
+    value = float(cfg['value'])
+    if not (FOG_END_MIN <= value <= FOG_END_MAX):
+        raise M2OpError(f"fog end {value} out of range [{FOG_END_MIN}, {FOG_END_MAX}] — yards expected")
+
+    at = _mfog_field(data, cfg, 0)
+    before = struct.unpack_from('<f', data, at)[0]
+    struct.pack_into('<f', data, at, value)
+    return f"fog[{cfg.get('index', 0)}].{cfg.get('fog', 'land')}.end {before:.2f} -> {value:.2f} yd"
+
+
+def _op_wmo_fog_start_scalar(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Set where the fog ramp begins, as a fraction of the fog end."""
+    if 'value' not in cfg:
+        raise M2OpError("wmo.fog.start_scalar requires 'value' (0-1 fraction of end)")
+    value = float(cfg['value'])
+    if not (0.0 <= value <= 1.0):
+        raise M2OpError(f"start_scalar {value} out of range [0, 1]")
+
+    at = _mfog_field(data, cfg, 4)
+    before = struct.unpack_from('<f', data, at)[0]
+    struct.pack_into('<f', data, at, value)
+    return f"fog[{cfg.get('index', 0)}].{cfg.get('fog', 'land')}.start_scalar {before:.3f} -> {value:.3f}"
+
+
 OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
     'm2.camera.fov': _op_camera_fov,
+    'wmo.fog.end': _op_wmo_fog_end,
+    'wmo.fog.start_scalar': _op_wmo_fog_start_scalar,
 }
 
 
