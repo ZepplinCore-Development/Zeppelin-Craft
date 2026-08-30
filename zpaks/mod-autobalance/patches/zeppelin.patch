@@ -1,0 +1,763 @@
+From b807173e04db1dd1ffb48ae944cd27b10cd48cdd Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sun, 30 Aug 2026 12:47:10 +0000
+Subject: [PATCH] feat: Per-stat inflection points and boss classification
+ overrides (F-207)
+
+Per-stat inflection points
+--------------------------
+Upstream applies a single inflection point to health, mana, armor, damage and
+CC duration alike, so it cannot express "damage falls off faster than health at
+low player counts". The flat StatModifier* settings that can do this are applied
+across the whole curve, so they also weaken a full group.
+
+Adds AutoBalance.InflectionPoint<Type>.PerStat, one per instance type, in the
+format "[Health] [Mana] [Armor] [Damage] [CCDuration]" where -1 or an omitted
+value leaves that stat on the standard inflection point. Values use the same
+units as the base InflectionPoint* setting, and CurveFloor, CurveCeiling and
+BossModifier still apply, so an overridden stat still converges to full strength
+at max players.
+
+getStatDefaultMultiplier() returns the caller's already-computed multiplier
+unchanged when a stat has no override, so the default path is untouched.
+
+Boss classification overrides
+-----------------------------
+The core derives CREATURE_FLAG_EXTRA_DUNGEON_BOSS solely from instance_encounters
+rows whose encounter id exists in DungeonEncounter.dbc, and strips the flag if it
+is set in the database. Bosses Blizzard never gave a DungeonEncounter row are
+therefore scaled as trash.
+
+Adds AutoBalance.ForceBossID and AutoBalance.ForceTrashID. ForceTrashID wins and
+short-circuits summon inheritance, so demoting a creature demotes its summons.
+isBossOrBossSummon() now delegates to a shared isBossCreature() for both the
+creature and its summoner, so the two paths cannot disagree.
+
+.ab creaturestat reports "| Boss (forced)" / "| Trash (forced)".
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01T9RuhfdrkcyeTvSZeUYnmX
+---
+ conf/AutoBalance.conf.dist      |  64 +++++++++++
+ src/ABAllCreatureScript.cpp     |  36 +++++--
+ src/ABCommandScript.cpp         |   4 +-
+ src/ABConfig.cpp                |  15 +++
+ src/ABConfig.h                  |  19 ++++
+ src/ABInflectionPointSettings.h |  53 +++++++++
+ src/ABUtils.cpp                 | 185 +++++++++++++++++++++++++++++++-
+ src/ABUtils.h                   |  10 +-
+ src/ABWorldScript.cpp           |  31 ++++++
+ 9 files changed, 401 insertions(+), 16 deletions(-)
+
+diff --git a/conf/AutoBalance.conf.dist b/conf/AutoBalance.conf.dist
+index dae1e96..5a0330d 100644
+--- a/conf/AutoBalance.conf.dist
++++ b/conf/AutoBalance.conf.dist
+@@ -243,6 +243,44 @@ AutoBalance.InflectionPointRaid40M.CurveFloor=
+ AutoBalance.InflectionPointRaid40M.CurveCeiling=
+ AutoBalance.InflectionPointRaid40M.BossModifier=
+ 
++#
++#     AutoBalance.InflectionPoint*.PerStat
++#        Optional per-stat inflection point overrides. Lets a single stat ride its own
++#        curve instead of sharing one curve with every other stat.
++#
++#        Each value is in the same units as that instance type's own InflectionPoint
++#        setting - a fraction of the map's max player count. A value of -1, or a value
++#        omitted from the end of the string, leaves that stat on the standard
++#        inflection point.
++#
++#        The instance type's CurveFloor, CurveCeiling and BossModifier still apply on
++#        top, so an overridden stat STILL converges to full strength at max players.
++#        A per-instance AutoBalance.InflectionPoint.PerInstance override takes priority.
++#
++#        Use this when a difficulty inflates one stat more than another. TBC heroics,
++#        for example, give trash 2.2-3.5x the normal-mode DamageModifier but only ~1.35x
++#        the HealthModifier; a single shared curve cannot undo that asymmetry, and the
++#        flat StatModifier*.Damage settings that can will also weaken a full group.
++#
++#        Format: "[Health] [Mana] [Armor] [Damage] [CCDuration]"
++#
++#        Example: AutoBalance.InflectionPointHeroic.PerStat="-1 -1 -1 0.6"
++#                 (heroic 5-man damage rides an inflection point of maxPlayers * 0.6
++#                  while health, mana and armor stay on the standard 0.5)
++#
++#        Default: Empty string, which disables the feature.
++AutoBalance.InflectionPoint.PerStat=""
++AutoBalance.InflectionPointHeroic.PerStat=""
++AutoBalance.InflectionPointRaid.PerStat=""
++AutoBalance.InflectionPointRaidHeroic.PerStat=""
++AutoBalance.InflectionPointRaid10M.PerStat=""
++AutoBalance.InflectionPointRaid10MHeroic.PerStat=""
++AutoBalance.InflectionPointRaid15M.PerStat=""
++AutoBalance.InflectionPointRaid20M.PerStat=""
++AutoBalance.InflectionPointRaid25M.PerStat=""
++AutoBalance.InflectionPointRaid25MHeroic.PerStat=""
++AutoBalance.InflectionPointRaid40M.PerStat=""
++
+ #
+ #     AutoBalance.InflectionPoint.PerInstance
+ #        Sets Inflection Point settings for specific `InstanceID`s.
+@@ -704,6 +742,32 @@ AutoBalance.ForcedID2=""
+ #
+ AutoBalance.DisabledID=""
+ 
++#
++#     AutoBalance.ForceBossID
++#        Comma-delimited list of creature entries that AutoBalance should always scale as
++#        a boss, and AutoBalance.ForceTrashID the reverse. ForceTrashID wins if an entry
++#        appears in both.
++#
++#        AutoBalance classes a creature as a boss when the core has set its DUNGEON_BOSS
++#        flag. The core derives that flag *only* from `instance_encounters` rows whose
++#        encounter id also exists in DungeonEncounter.dbc, and the flag is stripped if you
++#        try to set it in the database. Bosses Blizzard never gave a DungeonEncounter row
++#        are therefore scaled as trash, e.g. The Mechanar's two Gatewatchers.
++#
++#        Summons inherit boss status from a forced boss, so forcing a summoner also covers
++#        the creatures it spawns.
++#
++#        Use the NORMAL difficulty entry - Creature::InitEntry() keeps the normal entry
++#        even in heroic, so one id covers both difficulties.
++#
++#        Format: "[CreatureID], [CreatureID], ..."
++#
++#        Example: AutoBalance.ForceBossID="19218, 19710, 17307, 21697, 21698"
++#
++#        Default: Empty string, which disables the feature.
++AutoBalance.ForceBossID=""
++AutoBalance.ForceTrashID=""
++
+ ##########################
+ #
+ # Level Scaling
+diff --git a/src/ABAllCreatureScript.cpp b/src/ABAllCreatureScript.cpp
+index f0c4782..200c2b3 100644
+--- a/src/ABAllCreatureScript.cpp
++++ b/src/ABAllCreatureScript.cpp
+@@ -646,7 +646,8 @@ void AutoBalance_AllCreatureScript::ModifyCreatureAttributes(Creature* creature)
+     CreatureBaseStats const* newCreatureBaseStats = sObjectMgr->GetCreatureBaseStats(creatureABInfo->selectedLevel, creatureTemplate->unit_class);
+ 
+     // Inflection Point
+-    AutoBalanceInflectionPointSettings inflectionPointSettings = getInflectionPointSettings(instanceMap, isBossOrBossSummon(creature));
++    bool isBossForScaling = isBossOrBossSummon(creature);
++    AutoBalanceInflectionPointSettings inflectionPointSettings = getInflectionPointSettings(instanceMap, isBossForScaling);
+ 
+     // Generate the default multiplier
+     float defaultMultiplier = getDefaultMultiplier(instanceMap, inflectionPointSettings);
+@@ -654,6 +655,19 @@ void AutoBalance_AllCreatureScript::ModifyCreatureAttributes(Creature* creature)
+     if (!sABScriptMgr->OnAfterDefaultMultiplier(creature, defaultMultiplier))
+         return;
+ 
++    //
++    // Per-stat default multipliers (F-207)
++    //
++    // Each stat may ride its own inflection point. When a stat has no per-stat override
++    // configured, these are all just `defaultMultiplier` and behaviour is unchanged.
++    //
++
++    float defaultMultiplier_health     = getStatDefaultMultiplier(instanceMap, isBossForScaling, AB_STAT_HEALTH,     defaultMultiplier);
++    float defaultMultiplier_mana       = getStatDefaultMultiplier(instanceMap, isBossForScaling, AB_STAT_MANA,       defaultMultiplier);
++    float defaultMultiplier_armor      = getStatDefaultMultiplier(instanceMap, isBossForScaling, AB_STAT_ARMOR,      defaultMultiplier);
++    float defaultMultiplier_damage     = getStatDefaultMultiplier(instanceMap, isBossForScaling, AB_STAT_DAMAGE,     defaultMultiplier);
++    float defaultMultiplier_ccDuration = getStatDefaultMultiplier(instanceMap, isBossForScaling, AB_STAT_CCDURATION, defaultMultiplier);
++
+     // Stat Modifiers
+     AutoBalanceStatModifiers statModifiers = getStatModifiers(map, creature);
+     float statMod_global = statModifiers.global;
+@@ -676,14 +690,14 @@ void AutoBalance_AllCreatureScript::ModifyCreatureAttributes(Creature* creature)
+         creatureABInfo->selectedLevel
+     );
+ 
+-    float healthMultiplier = defaultMultiplier * statMod_global * statMod_health;
++    float healthMultiplier = defaultMultiplier_health * statMod_global * statMod_health;
+     float scaledHealthMultiplier;
+ 
+     LOG_DEBUG("module.AutoBalance_StatGeneration", "AutoBalance_AllCreatureScript::ModifyCreatureAttributes: Creature {} ({}) | HealthMultiplier: ({}) = defaultMultiplier ({}) * statMod_global ({}) * statMod_health ({})",
+         creature->GetName(),
+         creatureABInfo->selectedLevel,
+         healthMultiplier,
+-        defaultMultiplier,
++        defaultMultiplier_health,
+         statMod_global,
+         statMod_health
+     );
+@@ -803,14 +817,14 @@ void AutoBalance_AllCreatureScript::ModifyCreatureAttributes(Creature* creature)
+         creatureABInfo->selectedLevel
+     );
+ 
+-    float manaMultiplier = defaultMultiplier * statMod_global * statMod_mana;
++    float manaMultiplier = defaultMultiplier_mana * statMod_global * statMod_mana;
+     float scaledManaMultiplier;
+ 
+     LOG_DEBUG("module.AutoBalance_StatGeneration", "AutoBalance_AllCreatureScript::ModifyCreatureAttributes: Creature {} ({}) | ManaMultiplier: ({}) = defaultMultiplier ({}) * statMod_global ({}) * statMod_mana ({})",
+         creature->GetName(),
+         creatureABInfo->selectedLevel,
+         manaMultiplier,
+-        defaultMultiplier,
++        defaultMultiplier_mana,
+         statMod_global,
+         statMod_mana
+     );
+@@ -941,14 +955,14 @@ void AutoBalance_AllCreatureScript::ModifyCreatureAttributes(Creature* creature)
+         creatureABInfo->selectedLevel
+     );
+ 
+-    float armorMultiplier = defaultMultiplier * statMod_global * statMod_armor;
++    float armorMultiplier = defaultMultiplier_armor * statMod_global * statMod_armor;
+     float scaledArmorMultiplier;
+ 
+     LOG_DEBUG("module.AutoBalance_StatGeneration", "AutoBalance_AllCreatureScript::ModifyCreatureAttributes: Creature {} ({}) | armorMultiplier: ({}) = defaultMultiplier ({}) * statMod_global ({}) * statMod_armor ({})",
+         creature->GetName(),
+         creatureABInfo->selectedLevel,
+         armorMultiplier,
+-        defaultMultiplier,
++        defaultMultiplier_armor,
+         statMod_global,
+         statMod_armor
+     );
+@@ -1044,14 +1058,14 @@ void AutoBalance_AllCreatureScript::ModifyCreatureAttributes(Creature* creature)
+         creatureABInfo->selectedLevel
+     );
+ 
+-    float damageMultiplier = defaultMultiplier * statMod_global * statMod_damage;
++    float damageMultiplier = defaultMultiplier_damage * statMod_global * statMod_damage;
+     float scaledDamageMultiplier;
+ 
+     LOG_DEBUG("module.AutoBalance_StatGeneration", "AutoBalance_AllCreatureScript::ModifyCreatureAttributes: Creature {} ({}) | DamageMultiplier: ({}) = defaultMultiplier ({}) * statMod_global ({}) * statMod_damage ({})",
+         creature->GetName(),
+         creatureABInfo->selectedLevel,
+         damageMultiplier,
+-        defaultMultiplier,
++        defaultMultiplier_damage,
+         statMod_global,
+         statMod_damage
+     );
+@@ -1148,7 +1162,7 @@ void AutoBalance_AllCreatureScript::ModifyCreatureAttributes(Creature* creature)
+     if (statMod_ccDuration != -1.0f)
+     {
+         // calculate CC Duration from the default multiplier and the config settings
+-        ccDurationMultiplier = defaultMultiplier * statMod_ccDuration;
++        ccDurationMultiplier = defaultMultiplier_ccDuration * statMod_ccDuration;
+ 
+         // Min/Max checking
+         if (ccDurationMultiplier < MinCCDurationModifier)
+@@ -1176,7 +1190,7 @@ void AutoBalance_AllCreatureScript::ModifyCreatureAttributes(Creature* creature)
+         creature->GetName(),
+         creatureABInfo->selectedLevel,
+         ccDurationMultiplier,
+-        defaultMultiplier,
++        defaultMultiplier_ccDuration,
+         statMod_ccDuration
+     );
+ 
+diff --git a/src/ABCommandScript.cpp b/src/ABCommandScript.cpp
+index 14b9356..9ebb81e 100644
+--- a/src/ABCommandScript.cpp
++++ b/src/ABCommandScript.cpp
+@@ -151,7 +151,9 @@ bool AutoBalance_CommandScript::HandleABCreatureStatsCommand(ChatHandler* handle
+         target->GetName(),
+         targetABInfo->UnmodifiedLevel,
+         isCreatureRelevant(target) && targetABInfo->UnmodifiedLevel != target->GetLevel() ? "->" + std::to_string(targetABInfo->selectedLevel) : "",
+-        isBossOrBossSummon(target) ? " | Boss" : "",
++        isBossOrBossSummon(target)
++            ? (isForcedBossCreature(target->GetEntry()) ? " | Boss (forced)" : " | Boss")
++            : (isForcedTrashCreature(target->GetEntry()) ? " | Trash (forced)" : ""),
+         targetABInfo->isActive ? ABGetLocaleText(locale, "active_for_map_stats").c_str() : ABGetLocaleText(locale, "ignored_for_map_stats").c_str());
+     handler->PSendSysMessage(ABGetLocaleText(locale, "creature_difficulty_level").c_str(), targetABInfo->instancePlayerCount);
+ 
+diff --git a/src/ABConfig.cpp b/src/ABConfig.cpp
+index 760ac95..f66e40b 100644
+--- a/src/ABConfig.cpp
++++ b/src/ABConfig.cpp
+@@ -7,6 +7,8 @@
+ 
+ std::map <int, int> forcedCreatureIds;
+ std::list<uint32> disabledDungeonIds;
++std::set<uint32> forceBossCreatureIds;
++std::set<uint32> forceTrashCreatureIds;
+ 
+ uint32 minPlayersNormal;
+ uint32 minPlayersHeroic;
+@@ -186,6 +188,19 @@ float         InflectionPointRaid40MCurveFloor;
+ float         InflectionPointRaid40MCurveCeiling;
+ float         InflectionPointRaid40MBoss;
+ 
++// Per-stat inflection point overrides (F-207)
++AutoBalancePerStatInflection InflectionPointPerStat;
++AutoBalancePerStatInflection InflectionPointHeroicPerStat;
++AutoBalancePerStatInflection InflectionPointRaidPerStat;
++AutoBalancePerStatInflection InflectionPointRaidHeroicPerStat;
++AutoBalancePerStatInflection InflectionPointRaid10MPerStat;
++AutoBalancePerStatInflection InflectionPointRaid10MHeroicPerStat;
++AutoBalancePerStatInflection InflectionPointRaid15MPerStat;
++AutoBalancePerStatInflection InflectionPointRaid20MPerStat;
++AutoBalancePerStatInflection InflectionPointRaid25MPerStat;
++AutoBalancePerStatInflection InflectionPointRaid25MHeroicPerStat;
++AutoBalancePerStatInflection InflectionPointRaid40MPerStat;
++
+ //
+ // StatModifier*
+ //
+diff --git a/src/ABConfig.h b/src/ABConfig.h
+index bf01645..0040ea9 100644
+--- a/src/ABConfig.h
++++ b/src/ABConfig.h
+@@ -14,6 +14,7 @@
+ 
+ #include <list>
+ #include <map>
++#include <set>
+ 
+ extern std::map<uint32, AutoBalanceInflectionPointSettings>          dungeonOverrides;
+ extern std::map<uint32, AutoBalanceInflectionPointSettings>          bossOverrides;
+@@ -26,6 +27,11 @@ extern std::map<uint32, uint32>                                      levelScalin
+ extern std::map <int, int>                                           forcedCreatureIds;
+ extern std::list<uint32>                                             disabledDungeonIds;
+ 
++// Creature entries forced to scale as a boss / as trash, regardless of their
++// DUNGEON_BOSS flag (F-207)
++extern std::set<uint32>                                              forceBossCreatureIds;
++extern std::set<uint32>                                              forceTrashCreatureIds;
++
+ extern uint32                                                        minPlayersNormal;
+ extern uint32                                                        minPlayersHeroic;
+ extern uint32                                                        minPlayersRaid;
+@@ -156,6 +162,19 @@ extern float                                                         InflectionP
+ extern float                                                         InflectionPointRaid40MCurveCeiling;
+ extern float                                                         InflectionPointRaid40MBoss;
+ 
++// Per-stat inflection point overrides (F-207)
++extern AutoBalancePerStatInflection                                  InflectionPointPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointHeroicPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaidPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaidHeroicPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaid10MPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaid10MHeroicPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaid15MPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaid20MPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaid25MPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaid25MHeroicPerStat;
++extern AutoBalancePerStatInflection                                  InflectionPointRaid40MPerStat;
++
+ //
+ // StatModifier*
+ //
+diff --git a/src/ABInflectionPointSettings.h b/src/ABInflectionPointSettings.h
+index d749ed0..df61be2 100644
+--- a/src/ABInflectionPointSettings.h
++++ b/src/ABInflectionPointSettings.h
+@@ -6,6 +6,7 @@
+ #define __AB_INFLECTION_POINT_SETTINGS_H
+ 
+ #include "DataMap.h"
++#include "Define.h"
+ 
+ class AutoBalanceInflectionPointSettings : public DataMap::Base
+ {
+@@ -19,4 +20,56 @@ public:
+     float curveCeiling = 1.0;
+ };
+ 
++//
++// Which stat a multiplier is being generated for.
++// `AB_STAT_NONE` means "no per-stat override, use the instance type's standard inflection point".
++//
++enum AutoBalanceStatType : uint8
++{
++    AB_STAT_HEALTH = 0,
++    AB_STAT_MANA,
++    AB_STAT_ARMOR,
++    AB_STAT_DAMAGE,
++    AB_STAT_CCDURATION,
++    AB_STAT_COUNT,
++    AB_STAT_NONE = AB_STAT_COUNT
++};
++
++//
++// Optional per-stat inflection point overrides for one instance type.
++//
++// Each value is in the same units as the instance type's own `AutoBalance.InflectionPoint*`
++// setting - a fraction of the map's max player count. A value of -1 means "not overridden",
++// in which case the stat rides the standard inflection point.
++//
++// The instance type's CurveFloor, CurveCeiling and BossModifier still apply on top, so an
++// overridden stat still converges to full strength at max players.
++//
++class AutoBalancePerStatInflection
++{
++public:
++    AutoBalancePerStatInflection() {}
++
++    float values[AB_STAT_COUNT] = { -1.0f, -1.0f, -1.0f, -1.0f, -1.0f };
++
++    bool has(AutoBalanceStatType stat) const
++    {
++        return stat < AB_STAT_COUNT && values[stat] != -1.0f;
++    }
++
++    float get(AutoBalanceStatType stat) const
++    {
++        return values[stat];
++    }
++
++    bool any() const
++    {
++        for (uint8 i = 0; i < AB_STAT_COUNT; ++i)
++            if (values[i] != -1.0f)
++                return true;
++
++        return false;
++    }
++};
++
+ #endif
+diff --git a/src/ABUtils.cpp b/src/ABUtils.cpp
+index 77b80ef..71cc9bb 100644
+--- a/src/ABUtils.cpp
++++ b/src/ABUtils.cpp
+@@ -728,6 +728,17 @@ World_Multipliers getWorldMultiplier(Map* map, BaseValueType baseValueType)
+     float worldMultiplier   = 1.0f;
+     float defaultMultiplier = getDefaultMultiplier(map, inflectionPointSettings);
+ 
++    //
++    // Honour a per-stat inflection point override for whichever stat this is (F-207)
++    //
++
++    defaultMultiplier = getStatDefaultMultiplier(
++        instanceMap,
++        false,
++        baseValueType == BaseValueType::AUTOBALANCE_HEALTH ? AB_STAT_HEALTH : AB_STAT_DAMAGE,
++        defaultMultiplier
++    );
++
+     LOG_DEBUG("module.AutoBalance",
+         "AutoBalance::getWorldMultiplier: Map {} ({}) {} | defaultMultiplier ({}) = getDefaultMultiplier(map, inflectionPointSettings)",
+         map->GetMapName(),
+@@ -924,7 +935,64 @@ World_Multipliers getWorldMultiplier(Map* map, BaseValueType baseValueType)
+     return worldMultipliers;
+ }
+ 
+-AutoBalanceInflectionPointSettings getInflectionPointSettings (InstanceMap* instanceMap, bool isBoss)
++AutoBalancePerStatInflection const* getPerStatInflection(InstanceMap* instanceMap)
++{
++    uint32 maxNumberOfPlayers = instanceMap->GetMaxPlayers();
++
++    //
++    // Mirrors the instance type selection in getInflectionPointSettings()
++    //
++
++    if (instanceMap->IsHeroic())
++    {
++        if (maxNumberOfPlayers <= 5)
++            return &InflectionPointHeroicPerStat;
++        else if (maxNumberOfPlayers <= 10)
++            return &InflectionPointRaid10MHeroicPerStat;
++        else if (maxNumberOfPlayers <= 25)
++            return &InflectionPointRaid25MHeroicPerStat;
++        else
++            return &InflectionPointRaidHeroicPerStat;
++    }
++    else
++    {
++        if (maxNumberOfPlayers <= 5)
++            return &InflectionPointPerStat;
++        else if (maxNumberOfPlayers <= 10)
++            return &InflectionPointRaid10MPerStat;
++        else if (maxNumberOfPlayers <= 15)
++            return &InflectionPointRaid15MPerStat;
++        else if (maxNumberOfPlayers <= 20)
++            return &InflectionPointRaid20MPerStat;
++        else if (maxNumberOfPlayers <= 25)
++            return &InflectionPointRaid25MPerStat;
++        else if (maxNumberOfPlayers <= 40)
++            return &InflectionPointRaid40MPerStat;
++        else
++            return &InflectionPointRaidPerStat;
++    }
++}
++
++//
++// Returns the default multiplier for a single stat.
++//
++// If that stat has no per-stat inflection point override configured, `fallbackMultiplier`
++// (the standard multiplier, already calculated by the caller) is returned unchanged, so
++// the default behaviour and the cost of the default behaviour are both untouched.
++//
++float getStatDefaultMultiplier(InstanceMap* instanceMap, bool isBoss, AutoBalanceStatType statType, float fallbackMultiplier)
++{
++    AutoBalancePerStatInflection const* perStat = getPerStatInflection(instanceMap);
++
++    if (!perStat || !perStat->has(statType))
++        return fallbackMultiplier;
++
++    AutoBalanceInflectionPointSettings statSettings = getInflectionPointSettings(instanceMap, isBoss, statType);
++
++    return getDefaultMultiplier(instanceMap, statSettings);
++}
++
++AutoBalanceInflectionPointSettings getInflectionPointSettings (InstanceMap* instanceMap, bool isBoss, AutoBalanceStatType statType)
+ {
+     uint32 maxNumberOfPlayers = instanceMap->GetMaxPlayers();
+     uint32 mapId              = instanceMap->GetEntry()->MapID;
+@@ -1010,6 +1078,25 @@ AutoBalanceInflectionPointSettings getInflectionPointSettings (InstanceMap* inst
+         }
+     }
+ 
++    //
++    // Per-stat override, if this stat has one configured (F-207)
++    //
++    // Replaces the instance type's inflection point for this stat only. CurveFloor,
++    // CurveCeiling and the BossModifier below still apply, so the stat still converges
++    // to full strength at max players.
++    //
++
++    if (statType != AB_STAT_NONE)
++    {
++        AutoBalancePerStatInflection const* perStat = getPerStatInflection(instanceMap);
++
++        if (perStat && perStat->has(statType))
++        {
++            inflectionValue  = (float)maxNumberOfPlayers; // Starting over
++            inflectionValue *= perStat->get(statType);
++        }
++    }
++
+     //
+     // Per map ID overrides alter the above settings, if set
+     //
+@@ -1607,6 +1694,42 @@ bool isDungeonInDisabledDungeonIds(uint32 dungeonId)
+     return (std::find(disabledDungeonIds.begin(), disabledDungeonIds.end(), dungeonId) != disabledDungeonIds.end());
+ }
+ 
++bool isForcedBossCreature(uint32 creatureEntry)
++{
++    return forceBossCreatureIds.find(creatureEntry) != forceBossCreatureIds.end();
++}
++
++bool isForcedTrashCreature(uint32 creatureEntry)
++{
++    return forceTrashCreatureIds.find(creatureEntry) != forceTrashCreatureIds.end();
++}
++
++//
++// Is this creature a boss in its own right?
++//
++// `AutoBalance.ForceTrashID` and `AutoBalance.ForceBossID` override the DUNGEON_BOSS flag,
++// which the core derives solely from `instance_encounters` and cannot be set in the
++// database. Some real bosses have no DungeonEncounter.dbc row and so are never flagged.
++//
++// Note that Creature::InitEntry() keeps the normal-difficulty entry (`SetEntry(Entry);
++// // normal entry always`), so listing the normal entry also covers the heroic clone.
++//
++bool isBossCreature(Creature* creature)
++{
++    if (!creature)
++        return false;
++
++    uint32 creatureEntry = creature->GetEntry();
++
++    if (isForcedTrashCreature(creatureEntry))
++        return false;
++
++    if (isForcedBossCreature(creatureEntry))
++        return true;
++
++    return creature->IsDungeonBoss() || creature->isWorldBoss();
++}
++
+ bool isBossOrBossSummon(Creature* creature, bool log)
+ {
+     // no creature? not a boss
+@@ -1616,8 +1739,23 @@ bool isBossOrBossSummon(Creature* creature, bool log)
+         return false;
+     }
+ 
++    // forced to trash? never a boss, and never inherits boss status from a summoner
++    if (isForcedTrashCreature(creature->GetEntry()))
++    {
++        if (log)
++        {
++            LOG_DEBUG("module.AutoBalance", "AutoBalance::isBossOrBossSummon: {} ({}{}) is forced to trash by AutoBalance.ForceTrashID.",
++                        creature->GetName(),
++                        creature->GetEntry(),
++                        creature->GetInstanceId() ? "-" + std::to_string(creature->GetInstanceId()) : ""
++            );
++        }
++
++        return false;
++    }
++
+     // if this creature is a boss, return true
+-    if (creature->IsDungeonBoss() || creature->isWorldBoss())
++    if (isBossCreature(creature))
+     {
+         if (log)
+         {
+@@ -1644,7 +1782,7 @@ bool isBossOrBossSummon(Creature* creature, bool log)
+ 
+         if (summoner)
+         {
+-            if (summoner->IsDungeonBoss() || summoner->isWorldBoss())
++            if (isBossCreature(summoner))
+             {
+                 if (log)
+                 {
+@@ -1887,6 +2025,28 @@ void LoadForcedCreatureIdsFromString(std::string creatureIds, int forcedPlayerCo
+     }
+ }
+ 
++// Used for reading a plain comma-delimited list of creature entries from the configuration
++// file, e.g. AutoBalance.ForceBossID / AutoBalance.ForceTrashID (F-207)
++//
++std::set<uint32> LoadCreatureIdSet(std::string creatureIdString)
++{
++    std::string       delimitedValue;
++    std::stringstream creatureIdStream;
++    std::set<uint32>  creatureIdSet;
++
++    creatureIdStream.str(creatureIdString);
++
++    while (std::getline(creatureIdStream, delimitedValue, ',')) // Process each creature ID in the string, delimited by the comma - ","
++    {
++        int creatureId = atoi(delimitedValue.c_str());
++
++        if (creatureId > 0)
++            creatureIdSet.insert((uint32)creatureId);
++    }
++
++    return creatureIdSet;
++}
++
+ // Used for reading the string from the configuration file for selectively disabling dungeons
+ //
+ std::list<uint32> LoadDisabledDungeons(std::string dungeonIdString)
+@@ -2031,6 +2191,25 @@ std::map<uint32, AutoBalanceInflectionPointSettings> LoadInflectionPointOverride
+     return overrideMap;
+ }
+ 
++AutoBalancePerStatInflection LoadPerStatInflection(std::string perStatString)
++{
++    //
++    // Format: "[Health] [Mana] [Armor] [Damage] [CCDuration]"
++    // A value of -1, or a value omitted from the end of the string, leaves that stat on
++    // the instance type's standard inflection point.
++    //
++
++    AutoBalancePerStatInflection perStat;
++
++    std::stringstream perStatStream(perStatString);
++    std::string       delimitedValue;
++
++    for (uint8 i = 0; i < AB_STAT_COUNT && perStatStream >> delimitedValue; ++i)
++        perStat.values[i] = (float)atof(delimitedValue.c_str());
++
++    return perStat;
++}
++
+ void LoadMapSettings(Map* map)
+ {
+     //
+diff --git a/src/ABUtils.h b/src/ABUtils.h
+index 7e9124b..e5618e7 100644
+--- a/src/ABUtils.h
++++ b/src/ABUtils.h
+@@ -17,6 +17,7 @@
+ 
+ #include <list>
+ #include <map>
++#include <set>
+ #include <string>
+ 
+ void AddCreatureToMapCreatureList(Creature* creature, bool addToCreatureList = true, bool forceRecalculation = false);
+@@ -28,7 +29,9 @@ float getBaseExpansionValueForLevel(const float baseValues[3], uint8 targetLevel
+ float getDefaultMultiplier(Map* map, AutoBalanceInflectionPointSettings inflectionPointSettings);
+ int GetForcedNumPlayers(int creatureId);
+ World_Multipliers getWorldMultiplier(Map* map, BaseValueType baseValueType);
+-AutoBalanceInflectionPointSettings getInflectionPointSettings(InstanceMap* instanceMap, bool isBoss = false);
++AutoBalanceInflectionPointSettings getInflectionPointSettings(InstanceMap* instanceMap, bool isBoss = false, AutoBalanceStatType statType = AB_STAT_NONE);
++AutoBalancePerStatInflection const* getPerStatInflection(InstanceMap* instanceMap);
++float getStatDefaultMultiplier(InstanceMap* instanceMap, bool isBoss, AutoBalanceStatType statType, float fallbackMultiplier);
+ void getStatModifiersDebug(Map* map, Creature* creature, std::string message);
+ AutoBalanceStatModifiers getStatModifiers(Map* map, Creature* creature = nullptr);
+ 
+@@ -41,15 +44,20 @@ bool hasStatModifierCreatureOverride(uint32 creatureId);
+ bool hasStatModifierOverride(uint32 dungeonId);
+ 
+ bool isBossOrBossSummon(Creature* creature, bool log = false);
++bool isBossCreature(Creature* creature);
++bool isForcedBossCreature(uint32 creatureEntry);
++bool isForcedTrashCreature(uint32 creatureEntry);
+ bool isCreatureRelevant(Creature* creature);
+ bool isDungeonInDisabledDungeonIds(uint32 dungeonId);
+ bool isDungeonInMinPlayerMap(uint32 dungeonId, bool isHeroic);
+ 
+ void LoadForcedCreatureIdsFromString(std::string creatureIds, int forcedPlayerCount);
+ std::list<uint32> LoadDisabledDungeons(std::string dungeonIdString);
++std::set<uint32> LoadCreatureIdSet(std::string creatureIdString);
+ std::map <uint32, uint32> LoadDistanceCheckOverrides(std::string dungeonIdString);
+ std::map <uint8 , AutoBalanceLevelScalingDynamicLevelSettings> LoadDynamicLevelOverrides(std::string dungeonIdString);
+ std::map <uint32, AutoBalanceInflectionPointSettings> LoadInflectionPointOverrides(std::string dungeonIdString);
++AutoBalancePerStatInflection LoadPerStatInflection(std::string perStatString);
+ void LoadMapSettings(Map* map);
+ std::map <uint32, uint8> LoadMinPlayersPerDungeonId(std::string minPlayersString);
+ std::map <uint32, AutoBalanceStatModifiers> LoadStatModifierOverrides(std::string dungeonIdString);
+diff --git a/src/ABWorldScript.cpp b/src/ABWorldScript.cpp
+index b7ae787..5b5588e 100644
+--- a/src/ABWorldScript.cpp
++++ b/src/ABWorldScript.cpp
+@@ -18,6 +18,8 @@ void AutoBalance_WorldScript::SetInitialWorldSettings()
+ {
+     forcedCreatureIds.clear();
+     disabledDungeonIds.clear();
++    forceBossCreatureIds.clear();
++    forceTrashCreatureIds.clear();
+     dungeonOverrides.clear();
+     bossOverrides.clear();
+     statModifierOverrides.clear();
+@@ -39,6 +41,13 @@ void AutoBalance_WorldScript::SetInitialWorldSettings()
+ 
+     disabledDungeonIds = LoadDisabledDungeons(sConfigMgr->GetOption<std::string>("AutoBalance.Disable.PerInstance", ""));
+ 
++    //
++    // Creature entries forced to scale as a boss / as trash (F-207)
++    //
++
++    forceBossCreatureIds  = LoadCreatureIdSet(sConfigMgr->GetOption<std::string>("AutoBalance.ForceBossID", "", false));
++    forceTrashCreatureIds = LoadCreatureIdSet(sConfigMgr->GetOption<std::string>("AutoBalance.ForceTrashID", "", false));
++
+     //
+     // Min Players
+     //
+@@ -200,6 +209,28 @@ void AutoBalance_WorldScript::SetInitialWorldSettings()
+     InflectionPointRaid40MCurveCeiling       = sConfigMgr->GetOption<float>("AutoBalance.InflectionPointRaid40M.CurveCeiling", InflectionPointRaidCurveCeiling, false);
+     InflectionPointRaid40MBoss               = sConfigMgr->GetOption<float>("AutoBalance.InflectionPointRaid40M.BossModifier", InflectionPointRaidBoss, false);
+ 
++    //
++    // Per-stat inflection point overrides (F-207)
++    // Format: "[Health] [Mana] [Armor] [Damage] [CCDuration]", -1 or omitted = not overridden
++    //
++
++    std::string perStatNormal     = sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPoint.PerStat", "", false);
++    std::string perStatHeroic     = sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointHeroic.PerStat", "", false);
++    std::string perStatRaid       = sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaid.PerStat", "", false);
++    std::string perStatRaidHeroic = sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaidHeroic.PerStat", "", false);
++
++    InflectionPointPerStat                   = LoadPerStatInflection(perStatNormal);
++    InflectionPointHeroicPerStat             = LoadPerStatInflection(perStatHeroic);
++    InflectionPointRaidPerStat               = LoadPerStatInflection(perStatRaid);
++    InflectionPointRaidHeroicPerStat         = LoadPerStatInflection(perStatRaidHeroic);
++    InflectionPointRaid10MPerStat            = LoadPerStatInflection(sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaid10M.PerStat", perStatRaid, false));
++    InflectionPointRaid10MHeroicPerStat      = LoadPerStatInflection(sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaid10MHeroic.PerStat", perStatRaidHeroic, false));
++    InflectionPointRaid15MPerStat            = LoadPerStatInflection(sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaid15M.PerStat", perStatRaid, false));
++    InflectionPointRaid20MPerStat            = LoadPerStatInflection(sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaid20M.PerStat", perStatRaid, false));
++    InflectionPointRaid25MPerStat            = LoadPerStatInflection(sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaid25M.PerStat", perStatRaid, false));
++    InflectionPointRaid25MHeroicPerStat      = LoadPerStatInflection(sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaid25MHeroic.PerStat", perStatRaidHeroic, false));
++    InflectionPointRaid40MPerStat            = LoadPerStatInflection(sConfigMgr->GetOption<std::string>("AutoBalance.InflectionPointRaid40M.PerStat", perStatRaid, false));
++
+     //
+     // StatModifier*
+     // warn the console if deprecated values are detected
+-- 
+2.34.1
+
