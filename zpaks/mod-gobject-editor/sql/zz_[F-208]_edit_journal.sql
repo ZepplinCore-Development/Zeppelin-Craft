@@ -12,8 +12,10 @@
 -- held before the edit, which is the relational form of F-203's base hash, so an
 -- emitted UPDATE can assert what it expected to find.
 --
--- WARNING: a full world rebuild drops and recreates this table. Drain pending
--- edits (`zep world edits list --pending`) before rebuilding.
+-- WARNING: a full world rebuild drops and recreates this table, so an edit made in
+-- game but never emitted is destroyed silently. `zep world sql reset` and
+-- `zep world sql rebuild` refuse to run while unemitted edits exist (--force does
+-- NOT bypass that; discarding takes an explicit --discard-journal).
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS `zep_edit_journal` (
