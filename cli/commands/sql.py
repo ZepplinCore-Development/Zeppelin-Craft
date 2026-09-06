@@ -304,6 +304,18 @@ def update_tracking(filename: str, file_hash: str, zpak: str, execution_ms: int)
     run_mysql_query(query)
 
 
+def clear_tracking(filename: str):
+    """Forget a file's applied-hash so the next run treats it as due.
+
+    Used when a file FAILS. Without this a failed cascade is silently
+    unresumable: the trigger file already succeeded and was re-tracked, the
+    failed file's stored hash still matches its content, so the next
+    `sql changed` finds nothing due and every file after the failure point is
+    never applied — while the tool reports a clean tree.
+    """
+    run_mysql_query(f"DELETE FROM `updates` WHERE name = '{filename}'")
+
+
 def _resolve_db_name(database: str) -> str:
     """Map database type to actual database name."""
     if database == 'characters':
@@ -340,13 +352,36 @@ def execute_sql_file(sql_file: Path, dry_run: bool = False,
     try:
         start_time = time.time()
         cmd = get_mysql_command(db_name, cnf_path)
-        with open(sql_file, 'r') as f:
-            result = subprocess.run(cmd, stdin=f, capture_output=True, text=True)
+
+        # Run the whole file as ONE transaction rather than letting autocommit
+        # commit every statement separately. Our SQL is deliberately written one
+        # statement per row in INSERT SET / UPDATE SET form for readability, so a
+        # generated file can be tens of thousands of statements — and under
+        # autocommit that is tens of thousands of fsyncs.
+        # zz_[AUTO,F-001]_skinning_knife_loot.sql (28,808 statements): 49.3s -> 2.8s.
+        # This buys the speed of batching with no change to how the SQL is written.
+        #
+        # Read as BYTES and hand the payload to the client, so nothing is decoded
+        # and re-encoded on the way through — a text round-trip risks corrupting
+        # any file that is not clean UTF-8.
+        #
+        # DDL implicitly commits, so AzerothCore's migrations behave exactly as
+        # before; the wrapper is simply a no-op around them. If a statement fails,
+        # the trailing COMMIT is never reached and the file rolls back whole,
+        # which is stricter than the previous partial-apply behaviour.
+        # The lone ';' before COMMIT matters: not every file terminates its last
+        # statement (zz_[F-052]_princess_huhuran.sql ends mid-UPDATE), and mysql
+        # only forgives that at EOF. Appending COMMIT directly would glue it onto
+        # the unterminated statement and raise a syntax error. A standalone ';' is
+        # accepted whether or not the file already ended in one, and after a
+        # trailing comment line.
+        payload = b"SET autocommit=0;\n" + sql_file.read_bytes() + b"\n;\nCOMMIT;\n"
+        result = subprocess.run(cmd, input=payload, capture_output=True)
         execution_ms = int((time.time() - start_time) * 1000)
 
         if result.returncode != 0:
-            error = result.stderr.strip() if result.stderr else "Unknown error"
-            return False, f"Error: {error}", execution_ms
+            stderr = result.stderr.decode('utf-8', errors='replace').strip()
+            return False, f"Error: {stderr or 'Unknown error'}", execution_ms
 
         return True, "OK", execution_ms
     except FileNotFoundError:
@@ -516,7 +551,15 @@ def collect_sql_files_from_paths(paths: List[Tuple[Path, str]]) -> List[Tuple[Pa
 
 
 def get_enabled_zpaks_by_priority(craft_root: Path) -> List[Tuple[str, Dict]]:
-    """Get all enabled zpaks sorted by priority (lowest first)."""
+    """Get all enabled zpaks sorted by priority (lowest first).
+
+    Every zpak must carry a unique priority — apply order is the correctness
+    contract for the downstream cascade, so it can never be left to chance.
+    The secondary sort on name is a safety net only: it keeps the order
+    reproducible if a duplicate ever slips in, instead of falling back to
+    filesystem iteration order, which varies by machine. `zep zpak validate`
+    rejects duplicates outright.
+    """
     zpaks = []
     zpaks_dir = craft_root / 'zpaks'
 
@@ -531,8 +574,24 @@ def get_enabled_zpaks_by_priority(craft_root: Path) -> List[Tuple[str, Dict]]:
             priority = manifest.get('priority', 100)
             zpaks.append((zpak_dir.name, manifest, priority))
 
-    zpaks.sort(key=lambda x: x[2])
+    zpaks.sort(key=lambda x: (x[2], x[0]))
     return [(name, manifest) for name, manifest, _ in zpaks]
+
+
+def find_duplicate_priorities(craft_root: Path) -> Dict[int, List[str]]:
+    """Map each duplicated priority to the zpaks claiming it (enabled or not)."""
+    by_priority: Dict[int, List[str]] = {}
+    zpaks_dir = craft_root / 'zpaks'
+
+    if zpaks_dir.exists():
+        for zpak_dir in sorted(zpaks_dir.iterdir()):
+            if not zpak_dir.is_dir():
+                continue
+            manifest = load_zpak_manifest(zpak_dir)
+            if manifest:
+                by_priority.setdefault(manifest.get('priority', 100), []).append(zpak_dir.name)
+
+    return {p: names for p, names in by_priority.items() if len(names) > 1}
 
 
 def collect_all_sql_files(craft_root: Path, zpak_name: Optional[str] = None,
@@ -590,6 +649,9 @@ def _create_world_database() -> Tuple[bool, str]:
 # Core Execution Logic
 # =============================================================================
 
+CASCADE_SOURCES = {'contents', 'zpak', 'chars_contents', 'chars_zpak', 'auth_zpak'}
+
+
 def _execute_changed_files(craft_root: Path, dry_run: bool = False,
                            continue_on_error: bool = False) -> Tuple[int, int]:
     """Execute new/modified SQL files. Returns (success_count, error_count)."""
@@ -632,27 +694,41 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
             return 0, 1
         pending.append((sql_file, zpak, source, current_hash, database, not applied))
 
-    # Ordering cascade (I-244): within a zpak's own SQL, files apply in sorted
-    # filename order and later files may override earlier ones' rows (e.g.
-    # zz_[I-xxx] overrides on zz_[AUTO,*] output). Re-applying an earlier file
-    # without re-running the later ones silently reverts those overrides. So
-    # once one file in a (zpak, source, database) group is due, every file
-    # sorting after it in that group re-applies too. Zpak SQL is idempotent by
-    # convention; AC's sequential 'updates'/'base' migrations are exempt.
-    CASCADE_SOURCES = {'contents', 'zpak', 'chars_contents', 'chars_zpak', 'auth_zpak'}
-    cascading = set()
+    # Universal downstream cascade (F-205).
+    #
+    # Apply order across ALL zpaks is the layering contract: a file may override
+    # rows written by any earlier file, in its own zpak or another one. Re-applying
+    # an earlier file without re-running everything after it silently reverts those
+    # overrides — which is how the F-032 gathering columns and the entire goblin
+    # zone's F-001 skinning-knife loot went missing without a single error.
+    #
+    # So: once ANY file is due, every cascadeable file after it in global apply
+    # order re-applies. That makes an incremental apply produce the same result as
+    # a full rebuild, with no dependency tracking to declare or keep current.
+    #
+    # Cost is bounded — the worst case (a change in the lowest-priority zpak) is
+    # the entire cascadeable set, measured at well under five minutes.
+    #
+    # A due file TRIGGERS the cascade regardless of source, so a new AzerothCore
+    # migration re-asserts the zpak layers stacked on top of it. Only zpak-owned
+    # sources are TARGETS: AC's sequential base/updates migrations must never be
+    # replayed, and are therefore never re-run by the cascade itself.
+    #
+    # This requires every cascadeable file to be idempotent. The one file that was
+    # not — F-067's by-value stack tiers, where 100 was both an input and an
+    # output — is now generated by-entry (`zep world item stack-sizes`).
+    cascade_from = next((i for i, p in enumerate(pending) if p[5]), None)
+
     files_to_execute = []
     skipped = 0
-    for sql_file, zpak, source, current_hash, database, due in pending:
-        group = (zpak, source, database)
+    for idx, (sql_file, zpak, source, current_hash, database, due) in enumerate(pending):
         cascaded = False
-        if source in CASCADE_SOURCES:
-            if due:
-                cascading.add(group)
-            elif group in cascading:
-                due, cascaded = True, True
+        if (not due and cascade_from is not None and idx > cascade_from
+                and source in CASCADE_SOURCES):
+            due, cascaded = True, True
         if due:
-            files_to_execute.append((sql_file, zpak, source, current_hash, database, cascaded))
+            files_to_execute.append(
+                (sql_file, zpak, source, current_hash, database, cascaded))
         else:
             skipped += 1
 
@@ -666,7 +742,9 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
     error_count = 0
     current_folder = None
 
-    for sql_file, zpak, source, file_hash, database, cascaded in files_to_execute:
+    unfinished = []          # (file, source, database) queued but not successfully applied
+
+    for position, (sql_file, zpak, source, file_hash, database, cascaded) in enumerate(files_to_execute):
         # Get folder path relative to craft_root or its parent
         try:
             rel_folder = sql_file.parent.relative_to(craft_root)
@@ -687,7 +765,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         if success:
             icon = click.style("✓", fg='green')
             time_str = f" ({exec_ms}ms)" if exec_ms > 0 else ""
-            cascade_tag = " (cascade)" if cascaded else ""
+            cascade_tag = click.style(" (cascade)", fg='bright_black') if cascaded else ""
             click.echo(f"    {icon} {sql_file.name}{time_str}{cascade_tag}")
             success_count += 1
             if not dry_run:
@@ -697,11 +775,50 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
             icon = click.style("✗", fg='red')
             click.echo(f"    {icon} {sql_file.name}: {message}")
             error_count += 1
-            if not continue_on_error and not dry_run:
-                click.echo(f"\nStopped due to error. Use -k to continue on errors.")
+            unfinished.append((sql_file, source, database))
+            if not continue_on_error:
+                # Everything queued after this point never ran.
+                unfinished.extend((f, s, db) for f, _z, s, _h, db, _c in files_to_execute[position + 1:])
                 break
 
+    if unfinished and not dry_run:
+        _record_outstanding(unfinished)
+
     return success_count, error_count
+
+
+def _record_outstanding(unfinished: List[Tuple[Path, str, str]]) -> None:
+    """Untrack files a failed run left unapplied, so they show as outstanding.
+
+    A failed cascade must not be recoverable only by inference. Re-deriving it
+    from "the first due file re-cascades everything" breaks the moment anything
+    perturbs that derivation — the failing file gets force-applied, or deleted,
+    or someone runs a narrower command — and the tail is silently skipped again
+    while the tool reports a clean tree. Recording the outstanding set as fact in
+    the tracking table means `zep world sql changed` lists exactly what is
+    unapplied, whatever happens next.
+
+    Only zpak-owned files are untracked. AzerothCore's base/updates migrations
+    are one-shot and order-dependent: untracking one would replay months-old data
+    changes over current data. Those stay tracked — and they do not need this,
+    because a file that never ran still has its old hash recorded and so remains
+    due on its own.
+    """
+    cleared = 0
+    for sql_file, source, database in unfinished:
+        if source in CASCADE_SOURCES:
+            clear_tracking(_tracking_key(sql_file.name, database))
+            cleared += 1
+
+    skipped = len(unfinished) - cleared
+    click.echo()
+    click.echo(click.style(
+        f"⚠ {len(unfinished)} file(s) left unapplied by this run.", fg='yellow'))
+    click.echo(f"  {cleared} marked outstanding — they now show in 'zep world sql changed -n'.")
+    if skipped:
+        click.echo(f"  {skipped} AzerothCore migration(s) left tracked (one-shot; they remain "
+                   f"due on their own hash if they never ran).")
+    click.echo("  Fix the failure, then re-run 'zep world sql changed' to finish the cascade.")
 
 
 def _execute_reset(craft_root: Path) -> bool:
@@ -831,6 +948,74 @@ def _execute_reset(craft_root: Path) -> bool:
 # CLI Commands
 # =============================================================================
 
+def check_pending_journal_edits() -> int:
+    """Count in-game editor edits that have not yet been written to a zpak SQL file.
+
+    F-208: `zep_edit_journal` is a normal world-database table, so a reset or
+    rebuild drops it and `zz_[F-208]_edit_journal.sql` recreates it empty. Any
+    edit made in game but not yet emitted is gone, and it is gone silently —
+    the rebuild reports nothing but success. Check before dropping.
+
+    Returns 0 when the table does not exist (a fresh or stock database).
+    """
+    ok, out = run_mysql_query(
+        "SELECT COUNT(*) FROM information_schema.tables "
+        f"WHERE table_schema = '{DB_NAME}' AND table_name = 'zep_edit_journal'")
+    if not ok or not out.strip().splitlines()[-1].strip().isdigit():
+        return 0
+    if int(out.strip().splitlines()[-1].strip()) == 0:
+        return 0
+
+    ok, out = run_mysql_query(
+        "SELECT COUNT(*) FROM `zep_edit_journal` WHERE `emitted_at` IS NULL")
+    if not ok:
+        return 0
+    tail = out.strip().splitlines()[-1].strip()
+    return int(tail) if tail.isdigit() else 0
+
+
+def guard_journal_before_drop(force: bool, discard_journal: bool) -> bool:
+    """Refuse to drop the world database while unemitted editor edits exist.
+
+    Returns True when it is safe to continue.
+    """
+    pending = check_pending_journal_edits()
+    if not pending:
+        return True
+
+    click.echo(click.style(
+        f"\n  STOP: {pending} in-game editor edit(s) have not been written to a SQL file.",
+        fg='red', bold=True))
+    click.echo("  Dropping the database destroys them — `zep_edit_journal` is a world table")
+    click.echo("  and the rebuild recreates it empty, with no error.\n")
+
+    ok, out = run_mysql_query(
+        "SELECT `task_id`, COUNT(*) FROM `zep_edit_journal` "
+        "WHERE `emitted_at` IS NULL GROUP BY `task_id` ORDER BY `task_id`")
+    if ok:
+        for line in out.strip().splitlines()[1:]:
+            parts = line.split('\t')
+            if len(parts) >= 2:
+                task = parts[0] or '(no task)'
+                click.echo(f"    {task:<10} {parts[1]} edit(s)")
+
+    click.echo("\n  Emit them first:")
+    click.echo("    zep world edits list --pending")
+    click.echo("    zep world edits emit --task <F/I-xxx> --zpak <zpak>")
+    click.echo("\n  Or discard them deliberately:")
+    click.echo("    zep world edits drain --purge")
+    click.echo("    ...or re-run this command with --discard-journal\n")
+
+    if not discard_journal:
+        return False
+
+    click.echo(click.style("  --discard-journal given.", fg='yellow'))
+    if not force and not click.confirm(
+            f"  Permanently discard {pending} unemitted edit(s)?", default=False):
+        return False
+    return True
+
+
 @click.group()
 def sql():
     """SQL operations"""
@@ -922,8 +1107,10 @@ def sql_modify(ctx, sql_query: Optional[str], sql_file: Optional[str], database:
 
 @sql.command('reset')
 @click.option('--force', '-f', is_flag=True, help='Skip confirmation prompt')
+@click.option('--discard-journal', is_flag=True,
+              help='Proceed even though unemitted in-game editor edits exist (F-208)')
 @click.pass_context
-def sql_reset(ctx, force: bool):
+def sql_reset(ctx, force: bool, discard_journal: bool):
     """Reset acore_world to stock AzerothCore.
 
     Drops the database and reloads AC base + updates.
@@ -939,6 +1126,10 @@ def sql_reset(ctx, force: bool):
     click.echo("All custom SQL changes will be lost.")
     click.echo("Characters and auth databases are NOT affected.\n")
 
+    if not guard_journal_before_drop(force, discard_journal):
+        click.echo("Cancelled.")
+        return
+
     if not force and not click.confirm("Are you sure you want to continue?"):
         click.echo("Cancelled.")
         return
@@ -948,8 +1139,10 @@ def sql_reset(ctx, force: bool):
 
 @sql.command('rebuild')
 @click.option('--force', '-f', is_flag=True, help='Skip confirmation prompt')
+@click.option('--discard-journal', is_flag=True,
+              help='Proceed even though unemitted in-game editor edits exist (F-208)')
 @click.pass_context
-def sql_rebuild(ctx, force: bool):
+def sql_rebuild(ctx, force: bool, discard_journal: bool):
     """Full rebuild: reset to stock AC + apply all zpak SQL.
 
     Drops and recreates acore_world, loads AC base + updates,
@@ -964,6 +1157,10 @@ def sql_rebuild(ctx, force: bool):
     click.echo(click.style("\nWARNING: This will rebuild the entire acore_world database!", fg='red', bold=True))
     click.echo("All data will be reset and zpak customizations re-applied.")
     click.echo("Characters and auth databases are NOT affected.\n")
+
+    if not guard_journal_before_drop(force, discard_journal):
+        click.echo("Cancelled.")
+        return
 
     if not force and not click.confirm("Are you sure you want to continue?"):
         click.echo("Cancelled.")
@@ -997,6 +1194,12 @@ def sql_changed(ctx, dry_run: bool, continue_on_error: bool):
 
     Checks each file against AC's updates table and only executes
     files that are new or have a different hash.
+
+    Once any file is due, every zpak-owned file after it in global apply
+    order re-applies too, tagged '(cascade)'. That keeps an incremental
+    apply identical to a full rebuild, because a later file may override
+    rows written by an earlier one in any zpak. AzerothCore's sequential
+    migrations trigger the cascade but are never replayed by it.
 
     Examples:
         zep sql changed      # Apply changed files
