@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "mod-gobject-editor",
+  "feature_id": "F-208",
+  "version": "0.1.0",
+  "description": "In-game spawn transform editor - AzerothCore module + addon; edits are journalled to zep_edit_journal and emitted as tagged SQL by `zep world edits`",
+  "author": "Grimoire (upstream), Zeppelin Team (fork)",
+  "type": "acore-extension",
+  "client_patch": "PATCH-A",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ],
+    "sql": [
+      "sql/*.sql"
+    ],
+    "assets": [
+      "mpq/source-assets/**"
+    ]
+  },
+  "acore": {
+    "module": "mod-gobject-editor",
+    "source": "https://github.com/norrathreborn/GObject-Editor-Tool.git",
+    "branch": "main",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 570
+}

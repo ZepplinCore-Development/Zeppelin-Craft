@@ -1,0 +1,616 @@
+From 58c3c2c77812a60c84d201eebd4e4a5b6f150f8f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 6 Sep 2026 05:30:40 +0000
+Subject: [PATCH] feat: Edit journal, task attribution and rotation
+ reconciliation (F-208)
+
+Fork of Grimoire's GObject Editor Tool for the Zeppelin server.
+
+- Move src/ and conf/ to the repo root so AzerothCore's modules/* glob finds them
+- Record every save in zep_edit_journal (one row per changed column, carrying the
+  pre-edit value) so edits can be drained into a tagged zpak SQL file; the
+  worldserver container has no mount for the content repo and cannot write it
+- Require an F-xxx / I-xxx task id before any mutating action (TASK opcode)
+- Report a rotation quaternion that disagrees with the orientation column, and
+  add FIX_ROT to repair it explicitly rather than baking the mismatch in (I-359)
+- Scope the PlayerScript to the two hooks it actually uses
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01HFVDBFTZe7A38ajdcJeuN7
+---
+ GObjectEditorUI/README.zeppelin.txt           |  15 +
+ README.md                                     |  28 ++
+ .../mod_gobject_editor.conf.dist              |  21 ++
+ .../src => src}/GObjectEditor.cpp             | 344 +++++++++++++++++-
+ 4 files changed, 402 insertions(+), 6 deletions(-)
+ create mode 100644 GObjectEditorUI/README.zeppelin.txt
+ rename {mod-gobject-editor/conf => conf}/mod_gobject_editor.conf.dist (51%)
+ rename {mod-gobject-editor/src => src}/GObjectEditor.cpp (84%)
+
+diff --git a/GObjectEditorUI/README.zeppelin.txt b/GObjectEditorUI/README.zeppelin.txt
+new file mode 100644
+index 0000000..760d50a
+--- /dev/null
++++ b/GObjectEditorUI/README.zeppelin.txt
+@@ -0,0 +1,15 @@
++NOT THE SHIPPED ADDON.
++
++This directory is the UNMODIFIED UPSTREAM copy of the client addon, kept so that
++`zep forge status` still shows upstream addon changes and so they can be diffed in.
++
++The addon we actually ship is the Zeppelin fork at:
++
++    Zeppelin-Craft/zpaks/mod-gobject-editor/mpq/source-assets/Interface/AddOns/GObjectEditorUI/
++
++That is what the MPQ build pipeline packs into PATCH-A. Edit it there — editing the
++copy in this directory changes nothing that reaches a client.
++
++When upstream changes the addon, diff this directory against the zpak copy and port
++the change across by hand; the fork adds the task-id field, the Fix Rotation button
++and the TASK / WARN:ROTATION_MISMATCH / FIX_ROT message handling (F-208).
+diff --git a/README.md b/README.md
+index af8e23e..0a5ae07 100644
+--- a/README.md
++++ b/README.md
+@@ -4,6 +4,34 @@
+ 
+ # 🛠️ GObject Editor Tool
+ 
++> ### ⚙️ Zeppelin fork
++>
++> **This is a modified copy** of Grimoire's GObject Editor Tool, maintained for the Zeppelin
++> WOTLK server as feature **F-208**. Changes from upstream:
++>
++> * **Edit journal** — saves are recorded in `zep_edit_journal` (acore_world) as well as being
++>   applied live, and `zep world edits emit` drains them into a tagged, idempotent zpak SQL file.
++>   The upstream raw `UPDATE` left edits untracked, unattributed and vulnerable to the next
++>   content regeneration.
++> * **Task attribution** — a session must carry an `F-xxx` / `I-xxx` id (`TASK:` opcode) before
++>   any mutating action is accepted.
++> * **Rotation reconciliation** (`FIX_ROT`) — a `(0,0,0,1)` rotation is the *identity*
++>   quaternion and a valid unit quaternion, so AzerothCore uses it verbatim and never reads
++>   `orientation`; the object renders at 0 rad while the row claims another facing. The fork
++>   reports the mismatch on select and offers an explicit repair instead of silently baking the
++>   disagreement in on the next save.
++> * **Hook scoping** — the `PlayerScript` registers only the two hooks it uses rather than all of
++>   them.
++> * **Layout** — `src/` and `conf/` moved to the repository root so AzerothCore's `modules/*`
++>   glob finds them.
++>
++> **The shipped client addon is not in this repository.** `GObjectEditorUI/` here is the
++> unmodified upstream copy, kept for diffing; the fork that reaches the client lives in
++> `Zeppelin-Craft/zpaks/mod-gobject-editor/mpq/source-assets/` and ships in PATCH-A.
++>
++> Upstream: <https://github.com/norrathreborn/GObject-Editor-Tool>. Still GPLv3.
++
++
+ **GObject Editor Tool** is an AzerothCore world-editing toolkit built for faster in-game building, object placement, NPC placement, and scene editing.
+ 
+ It combines a **server-side AzerothCore module** with an **in-game WoW addon UI**, giving builders a cleaner way to manage **GObjects and NPCs** without relying only on typed commands.
+diff --git a/mod-gobject-editor/conf/mod_gobject_editor.conf.dist b/conf/mod_gobject_editor.conf.dist
+similarity index 51%
+rename from mod-gobject-editor/conf/mod_gobject_editor.conf.dist
+rename to conf/mod_gobject_editor.conf.dist
+index 5997035..46b6226 100644
+--- a/mod-gobject-editor/conf/mod_gobject_editor.conf.dist
++++ b/conf/mod_gobject_editor.conf.dist
+@@ -26,3 +26,24 @@ GObjectEditor.MaxNudgeDistance = 5.0
+ 
+ # Log GE addon messages and module actions to worldserver log.
+ GObjectEditor.Debug = 0
++
++###################################################################################################
++# ZEPPELIN FORK — EDIT JOURNAL (F-208)
++#
++# Saves are recorded as rows in `zep_edit_journal` (acore_world) and drained into a
++# tagged, idempotent zpak SQL file with:
++#
++#     zep world edits emit --task I-359 --zpak zep-goblin-start
++#
++# The worldserver container has no mount for the content repo, so it cannot write the
++# .sql file itself — the journal is the hand-off.
++###################################################################################################
++
++# Record every edit in `zep_edit_journal`. With this off the module behaves like
++# upstream: live database writes only, nothing attributable, nothing emittable.
++GObjectEditor.Journal.Enable = 1
++
++# Refuse any mutating action until the session has a task id (F-xxx / I-xxx) set.
++# An untagged edit cannot be emitted into a zz_[F/I-xxx]_*.sql file, so it is
++# refused at the door rather than discovered at drain time.
++GObjectEditor.Journal.RequireTask = 1
+diff --git a/mod-gobject-editor/src/GObjectEditor.cpp b/src/GObjectEditor.cpp
+similarity index 84%
+rename from mod-gobject-editor/src/GObjectEditor.cpp
+rename to src/GObjectEditor.cpp
+index 7524822..fb3c3fa 100644
+--- a/mod-gobject-editor/src/GObjectEditor.cpp
++++ b/src/GObjectEditor.cpp
+@@ -321,6 +321,212 @@ static void ApplyAxisRotation(ObjectTransform& transform, std::string const& axi
+         ApplyQuaternionDelta(transform, 0.0f, 1.0f, 0.0f, deltaDegrees);
+ }
+ 
++// ---------------------------------------------------------------------------
++// Zeppelin fork (F-208): edit journal, task attribution, rotation reconciliation.
++//
++// Upstream saves by issuing a raw UPDATE against the live world database. That
++// makes an edit untracked, unattributed and destroyed by the next content
++// regeneration. The worldserver container has no mount for the content repo
++// (docker-compose.yml: only env/dist/etc, env/dist/logs and read-only client
++// data), so the module cannot write a .sql file itself. It writes a journal row
++// instead; `zep world edits emit` drains the journal into a tagged, idempotent
++// SQL file in the right zpak.
++// ---------------------------------------------------------------------------
++
++static bool IsJournalEnabled()
++{
++    return sConfigMgr->GetOption<bool>("GObjectEditor.Journal.Enable", true);
++}
++
++static bool RequireTaskForEdits()
++{
++    return sConfigMgr->GetOption<bool>("GObjectEditor.Journal.RequireTask", true)
++        && sConfigMgr->GetOption<bool>("GObjectEditor.Journal.Enable", true);
++}
++
++static bool JournalRequiresTask()
++{
++    return sConfigMgr->GetOption<bool>("GObjectEditor.Journal.RequireTask", true);
++}
++
++// Task id (F-xxx / I-xxx) currently attached to each editing session.
++std::unordered_map<uint64, std::string> TaskIdByPlayer;
++
++// Accepts F-123, I-045, F-164D — the project's feature / issue id format,
++// including the single-letter sub-feature suffix.
++static bool IsValidTaskId(std::string const& id)
++{
++    if (id.size() < 5 || id.size() > 7)
++        return false;
++
++    if ((id[0] != 'F' && id[0] != 'I') || id[1] != '-')
++        return false;
++
++    size_t digits = 0;
++    size_t i = 2;
++    for (; i < id.size() && id[i] >= '0' && id[i] <= '9'; ++i)
++        ++digits;
++
++    if (digits != 3)
++        return false;
++
++    if (i == id.size())
++        return true;
++
++    return (i + 1 == id.size()) && id[i] >= 'A' && id[i] <= 'Z';
++}
++
++static std::string GetTaskId(Player* player)
++{
++    if (!player)
++        return "";
++
++    auto itr = TaskIdByPlayer.find(player->GetGUID().GetRawValue());
++    return itr == TaskIdByPlayer.end() ? "" : itr->second;
++}
++
++static std::string SqlEscaped(std::string value)
++{
++    WorldDatabase.EscapeString(value);
++    return value;
++}
++
++// One journal row per changed column. `oldValue` is what we believe the row held
++// before the edit — the relational form of F-203's base hash, so the emitted SQL
++// can assert what it expected to find.
++static void JournalWrite(Player* player, std::string const& op, std::string const& table,
++                         uint32 pkValue, std::string const& column,
++                         std::string const& oldValue, std::string const& newValue)
++{
++    if (!IsJournalEnabled() || !player)
++        return;
++
++    std::string const task = GetTaskId(player);
++
++    WorldDatabase.Execute(
++        "INSERT INTO `zep_edit_journal` "
++        "(`task_id`, `op`, `table_name`, `pk_name`, `pk_value`, `column_name`, "
++        "`old_value`, `new_value`, `account_id`, `character_name`) "
++        "VALUES ('{}', '{}', '{}', 'guid', {}, '{}', '{}', '{}', {}, '{}')",
++        SqlEscaped(task), SqlEscaped(op), SqlEscaped(table), pkValue, SqlEscaped(column),
++        SqlEscaped(oldValue), SqlEscaped(newValue),
++        player->GetSession() ? player->GetSession()->GetAccountId() : 0,
++        SqlEscaped(player->GetName()));
++
++    if (IsDebugEnabled())
++        LOG_INFO("module", "mod-gobject-editor journal [{}] {} {}.{} guid {}: {} -> {}",
++                 task, op, table, column, pkValue, oldValue, newValue);
++}
++
++static bool FloatDiffers(float a, float b)
++{
++    return std::fabs(a - b) > 0.00005f;
++}
++
++// Journals only the columns that actually moved, so the emitted UPDATE is a
++// minimal, reviewable diff from the row we started with.
++static void JournalGameObjectDiff(Player* player, uint32 guid,
++                                  ObjectTransform const& before, ObjectTransform const& after)
++{
++    struct Field { char const* column; float before; float after; };
++    Field const fields[] = {
++        { "position_x", before.x,  after.x  },
++        { "position_y", before.y,  after.y  },
++        { "position_z", before.z,  after.z  },
++        { "orientation", before.o, after.o  },
++        { "rotation0",  before.r0, after.r0 },
++        { "rotation1",  before.r1, after.r1 },
++        { "rotation2",  before.r2, after.r2 },
++        { "rotation3",  before.r3, after.r3 },
++    };
++
++    for (Field const& f : fields)
++        if (FloatDiffers(f.before, f.after))
++            JournalWrite(player, "update", "gameobject", guid, f.column,
++                         FloatToString(f.before), FloatToString(f.after));
++}
++
++static void JournalCreatureDiff(Player* player, uint32 guid,
++                                CreatureTransform const& before, CreatureTransform const& after)
++{
++    struct Field { char const* column; float before; float after; };
++    Field const fields[] = {
++        { "position_x", before.x, after.x },
++        { "position_y", before.y, after.y },
++        { "position_z", before.z, after.z },
++        { "orientation", before.o, after.o },
++    };
++
++    for (Field const& f : fields)
++        if (FloatDiffers(f.before, f.after))
++            JournalWrite(player, "update", "creature", guid, f.column,
++                         FloatToString(f.before), FloatToString(f.after));
++}
++
++// A newly placed spawn is recorded as a single marker row; the emitter snapshots
++// the whole live row and writes a DELETE + INSERT for it.
++static void JournalSpawnInsert(Player* player, std::string const& table, uint32 guid, uint32 entry)
++{
++    JournalWrite(player, "insert", table, guid, "*", "", std::to_string(entry));
++}
++
++static void JournalSpawnDelete(Player* player, std::string const& table, uint32 guid, uint32 entry)
++{
++    JournalWrite(player, "delete", table, guid, "*", std::to_string(entry), "");
++}
++
++// I-359: a `(0,0,0,1)` rotation is the IDENTITY quaternion and a valid unit
++// quaternion, so ObjectMgr::LoadGameObjects uses it verbatim and never consults
++// `orientation` (its fallback only fires for a NON-unit quaternion). The object
++// therefore renders at 0 rad while the row claims some other facing. Upstream's
++// NormalizeQuaternion only rescues a zero-length quaternion, so it would load the
++// identity as-is and the first save would bake the disagreement in permanently.
++//
++// Deliberately non-destructive: the mismatch is reported, never silently
++// corrected, because the quaternion is what the player can actually see. FIX_ROT
++// applies the repair explicitly.
++static bool TransformRotationMismatch(ObjectTransform const& t, float& renderedYaw)
++{
++    float const length = std::sqrt(t.r0 * t.r0 + t.r1 * t.r1 + t.r2 * t.r2 + t.r3 * t.r3);
++    if (length <= 0.000001f)
++        return false;   // degenerate; NormalizeQuaternion derives it from `o` anyway
++
++    if (std::fabs(t.r0) > 0.0001f || std::fabs(t.r1) > 0.0001f)
++        return false;   // genuinely tilted on X/Y — `orientation` cannot describe it
++
++    renderedYaw = NormalizeAngle(2.0f * std::atan2(t.r2 / length, t.r3 / length));
++
++    float delta = std::fabs(NormalizeAngle(renderedYaw) - NormalizeAngle(t.o));
++    if (delta > static_cast<float>(M_PI))
++        delta = static_cast<float>(M_PI * 2.0) - delta;
++
++    return delta > 0.01f;   // ~0.57 degrees
++}
++
++static void ReportRotationMismatch(Player* player, ObjectTransform const& t)
++{
++    float renderedYaw = 0.0f;
++    if (!TransformRotationMismatch(t, renderedYaw))
++        return;
++
++    SendAddonPayload(player, "WARN:ROTATION_MISMATCH:" + FloatToString(renderedYaw) + ":" + FloatToString(t.o));
++}
++
++// Every mutating action is attributable. Without a task id an edit cannot be
++// emitted into a `zz_[F/I-xxx]_*.sql` file, so refuse it at the door rather than
++// discovering it at drain time.
++static bool RequireTask(Player* player, char const* failOpcode)
++{
++    if (!JournalRequiresTask() || !IsJournalEnabled())
++        return true;
++
++    if (!GetTaskId(player).empty())
++        return true;
++
++    SendAddonPayload(player, std::string(failOpcode) + ":NO_TASK_ID_SET");
++    return false;
++}
++
+ static std::string GetGameObjectName(uint32 entry)
+ {
+     if (GameObjectTemplate const* info = sObjectMgr->GetGameObjectTemplate(entry))
+@@ -1010,6 +1216,9 @@ static void HandleNudgeCreature(Player* player, std::vector<std::string> const&
+         return;
+     }
+ 
++    if (!RequireTask(player, "NUDGE_CREATURE_FAIL"))
++        return;
++
+     if (parts.size() < 4)
+     {
+         SendAddonPayload(player, "NUDGE_CREATURE_FAIL:BAD_ARGS");
+@@ -1119,6 +1328,9 @@ static void HandleRotateCreature(Player* player, std::vector<std::string> const&
+         return;
+     }
+ 
++    if (!RequireTask(player, "ROTATE_CREATURE_FAIL"))
++        return;
++
+     if (parts.size() < 4)
+     {
+         SendAddonPayload(player, "ROTATE_CREATURE_FAIL:BAD_ARGS");
+@@ -1230,8 +1442,16 @@ static void HandleSaveCreature(Player* player, std::vector<std::string> const& p
+     if (!LoadEditableCreature(player, guid, creature, data, "SAVE_CREATURE_FAIL"))
+         return;
+ 
++    if (!RequireTask(player, "SAVE_CREATURE_FAIL"))
++        return;
++
+     CreatureEditState& editState = GetCreatureEditState(player, guid, data);
+-    editState.saved = MakeCreatureTransform(data);
++    CreatureTransform const nowAt = MakeCreatureTransform(data);
++    // Creature nudges write straight through to the DB for the realtime feel, so
++    // the journal records intent at Save time: original-at-selection -> current.
++    JournalCreatureDiff(player, guid, editState.hasOriginal ? editState.original : nowAt, nowAt);
++
++    editState.saved = nowAt;
+     editState.hasSaved = true;
+     SendCreatureUndoRestoreStatus(player, guid, editState);
+     SendAddonPayload(player, "CREATURE_SAVED:" + std::to_string(guid));
+@@ -1322,10 +1542,20 @@ static void ClearEditorSession(Player* player)
+ 
+ static void HandleHello(Player* player)
+ {
+-    if (HasAccess(player))
+-        SendAddonPayload(player, GE_ACCESS_VERIFIED);
+-    else
++    if (!HasAccess(player))
++    {
+         SendAddonPayload(player, GE_ACCESS_DENIED);
++        return;
++    }
++
++    SendAddonPayload(player, GE_ACCESS_VERIFIED);
++
++    // Tell the addon whether a task id is mandatory and what it currently is, so
++    // the UI can put the field in front of the builder before the first edit.
++    SendAddonPayload(player, std::string("TASK:REQUIRED:") + (RequireTaskForEdits() ? "1" : "0"));
++
++    std::string const task = GetTaskId(player);
++    SendAddonPayload(player, task.empty() ? "TASK:CLEARED" : ("TASK:SET:" + task));
+ }
+ 
+ static void HandleScan(Player* player, std::vector<std::string> const& parts)
+@@ -1589,6 +1819,9 @@ static void HandlePlaceTemplate(Player* player, std::vector<std::string> const&
+         return;
+     }
+ 
++    if (!RequireTask(player, "PLACE_FAIL"))
++        return;
++
+     if (parts.size() < 2)
+     {
+         SendAddonPayload(player, "PLACE_FAIL:MISSING_ENTRY");
+@@ -1627,6 +1860,7 @@ static void HandlePlaceTemplate(Player* player, std::vector<std::string> const&
+     SendAddonPayload(player, BuildSelectedPayload("SELECTED", SelectedByPlayer[playerGuid]));
+     SendAddonPayload(player, "RESTORE:UNAVAILABLE");
+     SendUndoStatus(player, SelectedByPlayer[playerGuid]);
++    JournalSpawnInsert(player, "gameobject", candidate.guid, candidate.entry);
+     SendAddonPayload(player, "PLACE_OK:" + std::to_string(candidate.guid) + ":" + std::to_string(candidate.entry) + ":" + EscapePayloadString(candidate.name));
+ }
+ 
+@@ -1640,6 +1874,9 @@ static void HandlePlaceCreatureTemplate(Player* player, std::vector<std::string>
+         return;
+     }
+ 
++    if (!RequireTask(player, "PLACE_FAIL"))
++        return;
++
+     if (parts.size() < 2)
+     {
+         SendAddonPayload(player, "PLACE_CREATURE_FAIL:MISSING_ENTRY");
+@@ -1669,6 +1906,7 @@ static void HandlePlaceCreatureTemplate(Player* player, std::vector<std::string>
+     if (!SpawnPlacedCreature(player, uint32(entryValue), guid, name))
+         return;
+ 
++    JournalSpawnInsert(player, "creature", guid, uint32(entryValue));
+     SendAddonPayload(player, "PLACE_CREATURE_OK:" + std::to_string(guid) + ":" + std::to_string(uint32(entryValue)) + ":" + EscapePayloadString(name));
+ }
+ 
+@@ -1680,6 +1918,9 @@ static void HandleDeleteCreatureSelected(Player* player, std::vector<std::string
+         return;
+     }
+ 
++    if (!RequireTask(player, "DELETE_CREATURE_FAIL"))
++        return;
++
+     if (parts.size() < 2)
+     {
+         SendAddonPayload(player, "DELETE_CREATURE_FAIL:MISSING_GUID");
+@@ -1814,6 +2055,9 @@ static void HandleDeleteSelected(Player* player, std::vector<std::string> const&
+         return;
+     }
+ 
++    if (!RequireTask(player, "DELETE_FAIL"))
++        return;
++
+     if (parts.size() < 2)
+     {
+         SendAddonPayload(player, "DELETE_FAIL:MISSING_GUID");
+@@ -1854,12 +2098,15 @@ static void HandleDeleteSelected(Player* player, std::vector<std::string> const&
+         return;
+     }
+ 
++    uint32 const selectedEntry = selectedItr->second.entry;
+     DespawnSelectionPreview(player, selectedItr->second);
+ 
+     std::string deletedName;
+     if (!DeleteGameObjectByDbGuid(player, guid, deletedName))
+         return;
+ 
++    JournalSpawnDelete(player, "gameobject", guid, selectedEntry);
++
+     SelectedByPlayer.erase(playerGuid);
+     LastScanGuidsByPlayer[playerGuid].erase(guid);
+ 
+@@ -1905,6 +2152,7 @@ static void HandleSelect(Player* player, std::vector<std::string> const& parts)
+ 
+     SelectedByPlayer[playerGuid] = ToSelectedObject(candidate);
+     SendAddonPayload(player, BuildSelectedPayload("SELECTED", SelectedByPlayer[playerGuid]));
++    ReportRotationMismatch(player, SelectedByPlayer[playerGuid].current);
+     SendAddonPayload(player, "RESTORE:UNAVAILABLE");
+     SendUndoStatus(player, SelectedByPlayer[playerGuid]);
+     SpawnSelectionPreview(player, SelectedByPlayer[playerGuid]);
+@@ -2141,6 +2389,11 @@ static void HandleSave(Player* player)
+     if (!RequireSelection(player, selected))
+         return;
+ 
++    if (!RequireTask(player, "SAVE_FAIL"))
++        return;
++
++    JournalGameObjectDiff(player, selected->guid, selected->lastSaved, selected->current);
++
+     selected->restorePosition = selected->lastSaved;
+     selected->hasRestore = true;
+ 
+@@ -2178,6 +2431,11 @@ static void HandleRestoreSavedPosition(Player* player)
+         return;
+     }
+ 
++    if (!RequireTask(player, "RESTORE_FAIL"))
++        return;
++
++    JournalGameObjectDiff(player, selected->guid, selected->lastSaved, selected->restorePosition);
++
+     selected->current = selected->restorePosition;
+ 
+     WorldDatabase.Execute(
+@@ -2213,6 +2471,73 @@ static void HandleRefreshPreview(Player* player)
+     SpawnSelectionPreview(player, *selected);
+ }
+ 
++// TASK:<F-xxx|I-xxx> — attaches every subsequent edit in this session to a
++// feature/issue id. TASK:CLEAR drops it. Nothing that writes may run without one.
++static void HandleSetTask(Player* player, std::vector<std::string> const& parts)
++{
++    if (!HasAccess(player))
++    {
++        SendAddonPayload(player, GE_ACCESS_DENIED);
++        return;
++    }
++
++    uint64 const playerGuid = player->GetGUID().GetRawValue();
++
++    if (parts.size() < 2 || Trim(parts[1]).empty() || Trim(parts[1]) == "CLEAR")
++    {
++        TaskIdByPlayer.erase(playerGuid);
++        SendAddonPayload(player, "TASK:CLEARED");
++        return;
++    }
++
++    std::string const task = Trim(parts[1]);
++    if (!IsValidTaskId(task))
++    {
++        SendAddonPayload(player, "TASK_FAIL:INVALID_FORMAT_EXPECTED_F_OR_I_NNN");
++        return;
++    }
++
++    TaskIdByPlayer[playerGuid] = task;
++    SendAddonPayload(player, "TASK:SET:" + task);
++}
++
++// Explicit repair for the I-359 defect: rebuild the rotation quaternion from the
++// row's own `orientation`, so a spawn that renders at 0 rad because it shipped an
++// identity quaternion snaps to the facing the data always claimed.
++static void HandleFixRotation(Player* player)
++{
++    if (!HasAccess(player))
++    {
++        SendAddonPayload(player, GE_ACCESS_DENIED);
++        return;
++    }
++
++    SelectedObject* selected = nullptr;
++    if (!RequireSelection(player, selected))
++        return;
++
++    float renderedYaw = 0.0f;
++    if (!TransformRotationMismatch(selected->current, renderedYaw))
++    {
++        SendAddonPayload(player, "FIX_ROT_FAIL:ROTATION_ALREADY_MATCHES_ORIENTATION");
++        return;
++    }
++
++    SnapshotUndo(*selected);
++
++    float const half = selected->current.o * 0.5f;
++    selected->current.r0 = 0.0f;
++    selected->current.r1 = 0.0f;
++    selected->current.r2 = std::sin(half);
++    selected->current.r3 = std::cos(half);
++    selected->dirty = true;
++
++    SendAddonPayload(player, BuildSelectedPayload("UPDATED", *selected));
++    SendUndoStatus(player, *selected);
++    SendAddonPayload(player, "FIX_ROT_OK:" + FloatToString(renderedYaw) + ":" + FloatToString(selected->current.o));
++    SpawnSelectionPreview(player, *selected);
++}
++
+ static void DispatchPayload(Player* player, std::string const& payload)
+ {
+     if (payload == GE_ACCESS_REQUEST)
+@@ -2227,7 +2552,11 @@ static void DispatchPayload(Player* player, std::string const& payload)
+ 
+     try
+     {
+-        if (parts[0] == "SCAN")
++        if (parts[0] == "TASK")
++            HandleSetTask(player, parts);
++        else if (parts[0] == "FIX_ROT")
++            HandleFixRotation(player);
++        else if (parts[0] == "SCAN")
+             HandleScan(player, parts);
+         else if (parts[0] == "SEARCH_TEMPLATE")
+             HandleSearchTemplate(player, parts);
+@@ -2287,7 +2616,9 @@ static void DispatchPayload(Player* player, std::string const& payload)
+ class gobject_editor_player_script : public PlayerScript
+ {
+ public:
+-    gobject_editor_player_script() : PlayerScript("gobject_editor_player_script") { }
++    gobject_editor_player_script()
++        : PlayerScript("gobject_editor_player_script",
++                       { PLAYERHOOK_ON_BEFORE_SEND_CHAT_MESSAGE, PLAYERHOOK_ON_LOGOUT }) { }
+ 
+     void OnPlayerBeforeSendChatMessage(Player* player, uint32& /*type*/, uint32& lang, std::string& msg) override
+     {
+@@ -2309,6 +2640,7 @@ public:
+         if (!player)
+             return;
+ 
++        TaskIdByPlayer.erase(player->GetGUID().GetRawValue());
+         ClearEditorSession(player);
+     }
+ };
+-- 
+2.34.1
+

@@ -515,6 +515,19 @@ def zpak_validate(ctx, name):
             click.echo(f"{click.style('FAIL', fg='red')} {pkg_name}: {error_msg}")
             errors += 1
 
+    # Priority uniqueness is a whole-tree property, so it is checked once rather
+    # than per-manifest. Apply order is the correctness contract for the
+    # downstream cascade — two zpaks sharing a number means their relative order
+    # is undefined, and which one wins a shared row becomes luck.
+    from commands.sql import find_duplicate_priorities
+    dupes = find_duplicate_priorities(craft_root)
+    if dupes:
+        click.echo()
+        for priority, names in sorted(dupes.items()):
+            click.echo(f"{click.style('FAIL', fg='red')} priority {priority} claimed by "
+                       f"{len(names)} zpaks: {', '.join(names)}")
+            errors += 1
+
     click.echo(f"\nValidated {len(packages_to_check)} package(s), {errors} error(s)")
 
     if errors > 0:
@@ -1117,6 +1130,7 @@ from commands.generate import generate
 from commands.terrain import terrain
 from commands.item import item
 from commands.mythics import mythics
+from commands.edits import edits
 cli.add_command(world)
 world.add_command(sql)
 world.add_command(account)
@@ -1129,6 +1143,7 @@ world.add_command(generate)
 world.add_command(terrain)
 world.add_command(item)
 world.add_command(mythics)
+world.add_command(edits)
 
 # -- dbc: DBC database + outfit ---------------------------------------------
 from commands.dbc import dbc

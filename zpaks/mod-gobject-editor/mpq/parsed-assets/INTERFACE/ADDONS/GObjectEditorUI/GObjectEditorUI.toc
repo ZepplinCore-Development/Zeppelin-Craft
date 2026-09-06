@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: GObjectEditorUI
+## Notes: GM-only AzerothCore gameobject / npc editor UI. Zeppelin fork (F-208) - task-attributed edits journalled to zep_edit_journal.
+## Author: Grimoire
+## Version: 0.3.3-zep1
+## SavedVariables: GObjectEditorUISaved
+
+GObjectEditorUI.lua
