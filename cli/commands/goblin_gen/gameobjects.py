@@ -26,11 +26,12 @@ The source script also copies GO M2 models into the zpak MPQ folder; that asset
 step is out of scope here (this module only emits SQL/DBC).
 """
 import importlib.util
+import math
 import os
 
 NAME = "gameobjects"
-TABLES = ["gameobject_template", "gameobjectdisplayinfo", "gameobject",
-          "gameobject_loot_template"]
+TABLES = ["gameobject_template", "gameobject_template_addon", "gameobjectdisplayinfo",
+          "gameobject", "gameobject_loot_template"]
 TIER = "base"
 
 
@@ -274,6 +275,32 @@ def _gi(r, k, d=0):
         return d
 
 
+def _addon_cols(e, t):
+    """gameobject_template_addon row for one entry, or None when there is nothing to say.
+
+    I-346: AC keeps GO `faction` and `flags` in this table, not in gameobject_template,
+    and this emitter never wrote it — so every ported GO shipped flags 0 no matter what
+    the donor said. 29 of our 304 shipped templates have non-zero donor flags/faction;
+    the one that surfaced was 202472 Land Mine (quest 25058), which retail marks
+    un-clickable and which was therefore handing out quest credit on a right-click.
+
+    GO_FLAG_NOT_SELECTABLE (16) is translated to GO_FLAG_INTERACT_COND (4). AC's
+    `GameObject::Use()` opens with a xinef guard that hard-returns on NOT_SELECTABLE,
+    which kills the spell/SAI activation path too, so shipping 16 verbatim breaks exactly
+    the GOs it is meant to protect. Flag 4 keeps the client-side refusal without the
+    server-side kill. This is the same call kajamite.py already makes by hand for the two
+    Kaja'mite deposits (I-256 round 3); only 2 of our GOs carry donor flag 16, and that is
+    the other one.
+    """
+    faction = _gi(t, "faction")
+    flags = _gi(t, "flags")
+    if flags & 16:
+        flags = (flags & ~16) | 4
+    if not faction and not flags:
+        return None
+    return {"entry": e, "faction": faction, "flags": flags}
+
+
 def _template_cols(e, t):
     """Build the ordered gameobject_template column dict for one GO entry."""
     typ = TYPE_OVERRIDE.get(e, _gi(t, "type"))
@@ -321,6 +348,10 @@ def emit(ctx):
             continue
         ctx.col.put("gameobject_template", e, _template_cols(e, gt[e]),
                     tier="base", zone=sfx, owner="gameobjects")
+        addon = _addon_cols(e, gt[e])
+        if addon:
+            ctx.col.put("gameobject_template_addon", e, addon,
+                        tier="base", zone=sfx, owner="gameobjects")
 
     # ---- 02 gameobject spawns (scope-curated: keeps dev props like the I-233
     # Gnomey crate/aura column out even though their templates exist in source).
@@ -329,6 +360,55 @@ def emit(ctx):
     # block and re-insert from the same collected file. The guid clause is the
     # migration path for rows written before the stamp existed. ----
     spawns = ctx.q("SELECT * FROM gameobject WHERE TRIM(zone)=%s ORDER BY CAST(guid AS UNSIGNED)", (zone,))
+
+    # ---- rotation overlay (I-359) -------------------------------------------
+    # Neltharion ships `rotation0..3` = 0,0,0,1 for 9420 of its gameobject rows.
+    # That is the IDENTITY quaternion and a perfectly valid UNIT quaternion, so
+    # ObjectMgr::LoadGameObjects (ObjectMgr.cpp:3064) does NOT rebuild it from
+    # `orientation` — its fallback only fires for a NON-unit quaternion. The object
+    # renders at 0 rad while the row claims some other facing, and nothing logs.
+    # Copying the donor verbatim put 710 of our 1289 shipped GO spawns on screen
+    # facing the wrong way (I-359: the Release the Valves valves, one of them
+    # buried in the machine it is bolted to).
+    #
+    # tdb434 has correct quaternions for the same spawns, so prefer those, matched
+    # on entry + position through the standard F-011 transform. Deriving from
+    # `orientation` is the fallback for spawns tdb434 does not carry: correct for a
+    # yaw-only prop, but it would FLATTEN the genuinely tilted ones (tdb434 map 648
+    # has 46 rows with a real X/Y tilt — bonfires, cauldrons, 203422 at rot0 0.958,
+    # 207759 at rot1 -0.9998), which is why the sniff wins where it exists.
+    #
+    # Writing 0,0,0,0 instead and letting the core's non-unit fallback do the work
+    # would also render correctly, but logs an sql.sql error per row per startup.
+    tdb_rot = {}
+    for r in ctx.tdb_q("SELECT id, position_x, position_y, rotation0, rotation1, "
+                       "rotation2, rotation3 FROM gameobject WHERE map = 648"):
+        tdb_rot.setdefault(int(r["id"]), []).append(r)
+
+    def _rotation(src):
+        """(rot0, rot1, rot2, rot3) for one donor spawn."""
+        r0, r1 = float(src["rotation0"] or 0), float(src["rotation1"] or 0)
+        r2, r3 = float(src["rotation2"] or 0), float(src["rotation3"] or 0)
+        o = float(src["orientation"] or 0)
+
+        # A donor quaternion that is not the identity is real data: keep it.
+        if (r0, r1, r2, r3) != (0.0, 0.0, 0.0, 1.0):
+            return r0, r1, r2, r3
+        # Identity + no facing is genuinely "unrotated".
+        if abs(o) < 1e-6:
+            return r0, r1, r2, r3
+
+        best, bestd = None, 1.0
+        for c in tdb_rot.get(int(src["id"]), ()):
+            d = math.hypot(float(c["position_x"]) - float(src["position_x"]),
+                           float(c["position_y"]) - float(src["position_y"]))
+            if d < bestd:
+                best, bestd = c, d
+        if best is not None:
+            return (float(best["rotation0"] or 0), float(best["rotation1"] or 0),
+                    float(best["rotation2"] or 0), float(best["rotation3"] or 0))
+        return 0.0, 0.0, math.sin(o / 2.0), math.cos(o / 2.0)
+
     scope_set = set(scope["ents"]) | STOCK_GO
     spawns = [s for s in spawns if int(s["id"]) in gt and int(s["id"]) in scope_set]
     ctx.col.delete("gameobject", "Comment LIKE '%s%%'" % (_GEN_TAG % zone_name))
@@ -338,13 +418,14 @@ def emit(ctx):
         x = float(s["position_x"]) + DX
         y = float(s["position_y"]) + DY
         pmask = _gi(s, "phaseMask", 1) or 1   # F-194 preserve Cata phaseMask
+        rot = _rotation(s)                    # I-359
         ctx.col.add("gameobject", {
             "guid": g, "id": int(s["id"]), "map": 1, "zoneId": 0, "areaId": 0,
             "spawnMask": 1, "phaseMask": pmask,
             "position_x": x, "position_y": y, "position_z": float(s["position_z"]),
             "orientation": float(s["orientation"]),
-            "rotation0": float(s["rotation0"] or 0), "rotation1": float(s["rotation1"] or 0),
-            "rotation2": float(s["rotation2"] or 0), "rotation3": float(s["rotation3"] or 0),
+            "rotation0": rot[0], "rotation1": rot[1],
+            "rotation2": rot[2], "rotation3": rot[3],
             "spawntimesecs": _gi(s, "spawntimesecs", 300),
             "animprogress": _gi(s, "animprogress", 255), "state": _gi(s, "state"),
             "ScriptName": "", "VerifiedBuild": 0,

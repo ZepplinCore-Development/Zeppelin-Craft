@@ -51,7 +51,17 @@ def _esc(v):
         return "'" + (v.replace("\\", "\\\\").replace("'", "''")
                        .replace("\r", "\\r").replace("\n", "\\n")) + "'"
     if isinstance(v, float):
-        return ("%.4f" % v).rstrip("0").rstrip(".") or "0"
+        # 6dp, not 4. A QUATERNION component rounded to 4 decimals can land far
+        # enough off the unit sphere to fail AzerothCore's own check --
+        # `fabs(x*x+y*y+z*z+w*w - 1.0f) >= 1e-5f` (ObjectMgr.cpp:3064) -- which makes
+        # the core discard the rotation, rebuild it from `orientation` (flattening
+        # any genuine X/Y tilt) and log an sql.sql error for that row on EVERY
+        # startup. Measured at 4dp: 298 of 1289 gen gameobject spawns were non-unit,
+        # e.g. donor 0.716347/0.697745 emitted as 0.7163/0.6977 -> sum 0.99987.
+        # 6dp keeps the error near 2e-6, comfortably inside the tolerance.
+        # Costs nothing elsewhere: the rstrip below removes trailing zeros, so a
+        # coordinate like -8704.9633 is written identically either way.
+        return ("%.6f" % v).rstrip("0").rstrip(".") or "0"
     return str(v)
 
 
