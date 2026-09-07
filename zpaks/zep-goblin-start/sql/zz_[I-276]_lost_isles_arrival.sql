@@ -389,10 +389,17 @@ VALUES
 -- Doc talking to nobody ("Gizmo, what are you doing just sitting there?"). Both
 -- are now on Justin's in-game .gps marks, facing the landing spot.
 --
--- Gizmo's spawn is AUTO-generated (zz_[AUTO,F-011]_40_creature.sql), so this is
--- a guid-keyed override rather than a fixture edit -- guid 11001639 is the beach
--- spawn specifically, he has five others elsewhere in the zone. Doc moved via
--- the manual_spawns fixture, since that row is ours.
+-- Gizmo's spawn is AUTO-generated (zz_[AUTO,F-011]_40_creature.sql). This used to
+-- name guid 11001639 directly, which ROTTED: generator guids are reassigned on every
+-- regen (feedback_never_key_overrides_on_spawn_guid), and by 2026-09-07 that guid had
+-- drifted 23 rows to a **Frog (36591)**. The override was cheerfully teleporting a frog
+-- onto the arrival mark -- and, further down, giving it Gizmo's sitting pose and quest
+-- invisibility -- while the real Gizmo (then guid 11001662) sat 2.7y off his mark,
+-- standing and visible to everyone.
+--
+-- Now scoped by ENTRY plus a location box. Gizmo has six spawns; the other five are at
+-- x 338..1859, so an x ceiling of 70 isolates the beach one without naming a guid. The
+-- box contains both his pre-move and post-move positions, so this stays idempotent.
 --
 -- z = FloorZ from .gps (0.18746543). GroundZ there reads -16.38: that is the
 -- heightmap seabed under the vmap shore, and placing off it would bury him.
@@ -401,7 +408,9 @@ UPDATE `creature` SET
   `position_y` = -9527.91,
   `position_z` = 0.1875,
   `orientation` = 2.8671033
-WHERE `guid` = 11001639;
+WHERE `id` = 36600
+  AND `position_x` BETWEEN -60 AND 70
+  AND `position_y` BETWEEN -9620 AND -9440;
 
 
 -- ---- 7. Scene visibility: invisible to everyone but the arriving player ---
@@ -423,10 +432,46 @@ WHERE `guid` = 11001639;
 -- you doing just sitting there?"). visibilityDistanceType 2 carried from the
 -- template. A guid-keyed creature_addon fully overrides the template addon for
 -- that spawn (I-249), so his five other spawns are untouched.
-DELETE FROM `creature_addon` WHERE `guid` IN (11001639, 11900002);
+-- Same entry+box scoping as the move above; 11900002 is Doc, a hand-allocated
+-- fixture guid, which is stable and stays named.
+DELETE ca FROM `creature_addon` ca
+  JOIN `creature` c ON c.guid = ca.guid
+WHERE c.`id` = 36600
+  AND c.`position_x` BETWEEN -60 AND 70
+  AND c.`position_y` BETWEEN -9620 AND -9440;
+DELETE FROM `creature_addon` WHERE `guid` = 11900002;
+
+INSERT INTO `creature_addon` (`guid`, `path_id`, `mount`, `bytes1`, `bytes2`, `emote`, `visibilityDistanceType`, `auras`)
+SELECT c.`guid`, 0, 0, 1, 0, 0, 2, '49414 49416'
+FROM `creature` c
+WHERE c.`id` = 36600
+  AND c.`position_x` BETWEEN -60 AND 70
+  AND c.`position_y` BETWEEN -9620 AND -9440;
+
 INSERT INTO `creature_addon` (`guid`, `path_id`, `mount`, `bytes1`, `bytes2`, `emote`, `visibilityDistanceType`, `auras`) VALUES
-  (11001639, 0, 0, 1, 0, 0, 2, '49414 49416'),
   (11900002, 0, 0, 0, 0, 0, 0, '49414 49416');
+
+-- ---- Transitional repair for the damage the guid-keyed form did ----
+-- Strip the arrival treatment from any AUTO-band spawn that is not Gizmo but carries
+-- his exact arrival aura pair. Signature-scoped, not guid-scoped; Doc sits at 11900002,
+-- outside this band. Self-limiting: a no-op once nothing matches.
+DELETE ca FROM `creature_addon` ca
+  JOIN `creature` c ON c.guid = ca.guid
+WHERE ca.`guid` BETWEEN 11000000 AND 11899999
+  AND c.`id` <> 36600
+  AND ca.`auras` = '49414 49416';
+
+-- ...and put the displaced Frog back on the generator's own mark. Matches only a Frog
+-- standing inside the arrival box, which is precisely the damage signature, so this is
+-- a no-op after one apply. Retire once a regen has run.
+UPDATE `creature` SET
+  `position_x` = 213.4937,
+  `position_y` = -9745.56,
+  `position_z` = 14.723,
+  `orientation` = 3.0516
+WHERE `id` = 36591
+  AND `position_x` BETWEEN -60 AND 70
+  AND `position_y` BETWEEN -9620 AND -9440;
 
 -- `spell_area` auto-applies the detection aura to any player standing in area
 -- 4721 Shipwreck Shore who has finished Life Savings and not yet finished Goblin

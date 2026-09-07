@@ -47,13 +47,11 @@ UPDATE creaturedisplayinfo SET texture_variation_1='body', texture_variation_2='
 -- No third texture exists in the stock set (there is no GoblinShredderMountSkin1_03),
 -- so the slot can only be filled from an HD-authored triple. Two ship:
 -- ShredderMountRed1-3 (already on 26612, the standard shredder) and
--- ShredderMountGreen1-3, which ships but no display in the DBC uses. Green is chosen
--- so the footbomb uniform does not render identical to the shredder mount that also
--- appears in the zone; swap to Red if it should match. We hold no Cata DBC for 31484,
--- so the donor's intended colour is unknown either way — what IS certain is that a
--- blank slot 3 is wrong.
+-- ShredderMountGreen1-3, which ships but no display in the DBC uses. Red chosen by
+-- Justin 2026-09-07. We hold no Cata DBC for 31484, so the donor's intended colour is
+-- unknown either way — what IS certain is that a blank slot 3 is wrong.
 UPDATE creaturedisplayinfo SET
-  texture_variation_1 = 'ShredderMountGreen1',
-  texture_variation_2 = 'ShredderMountGreen2',
-  texture_variation_3 = 'ShredderMountGreen3'
+  texture_variation_1 = 'ShredderMountRed1',
+  texture_variation_2 = 'ShredderMountRed2',
+  texture_variation_3 = 'ShredderMountRed3'
 WHERE id = 31484;  -- 39592 Ultimate Footbomb Uniform
