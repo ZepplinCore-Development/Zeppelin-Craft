@@ -16,6 +16,27 @@
 -- Dedicated corpse entries exist alongside their live twins and differ only in this
 -- data: 35929 Poison Spitter (corpse) vs 35896 (live), 361760 Alliance Sailor (corpse)
 -- vs 36176 (live).
+-- ---------------------------------------------------------------------------
+-- 0. Restore idle poses that a per-guid `creature_addon` silently cancelled.
+--
+-- `Creature::GetCreatureAddon()` (Creature.cpp:2730) returns the guid-keyed row
+-- INSTEAD of the template row — the two are never merged. The gen's tdb434 overlay
+-- emits a per-guid addon for pose/movement sampling and leaves `emote` at 0, so any
+-- entry whose idle pose lives on `creature_template_addon.emote` loses it outright
+-- for those spawns. Same shape as the aura clobber the gen already fixes by unioning
+-- template auras into every per-guid row — `emote` was never included in that union.
+--
+-- Must run BEFORE the wander grant below, so the grant can see the restored pose and
+-- skip it.
+-- ---------------------------------------------------------------------------
+UPDATE creature_addon ca
+  JOIN creature cr ON cr.guid = ca.guid
+  JOIN creature_template_addon cta ON cta.entry = cr.id
+SET ca.emote = cta.emote
+WHERE cr.guid BETWEEN 11000000 AND 11999999
+  AND ca.emote = 0
+  AND cta.emote <> 0;
+
 UPDATE creature cr
   JOIN creature_template ct ON ct.entry = cr.id
   LEFT JOIN creature_addon ca ON ca.guid = cr.guid
@@ -29,7 +50,14 @@ WHERE cr.guid BETWEEN 11000000 AND 11003689
   AND (IFNULL(ca.bytes1, 0) & 0xFF) = 0
   AND (IFNULL(cta.bytes1, 0) & 0xFF) = 0
   AND CONCAT(' ', IFNULL(ca.auras, ''), ' ') NOT LIKE '% 29266 %'
-  AND CONCAT(' ', IFNULL(cta.auras, ''), ' ') NOT LIKE '% 29266 %';
+  AND CONCAT(' ', IFNULL(cta.auras, ''), ' ') NOT LIKE '% 29266 %'
+  -- Posed by EMOTE STATE, not by stand state. `creature_addon.emote` is written
+  -- straight to UNIT_NPC_EMOTESTATE (Creature.cpp:2789), so a non-zero value is a
+  -- persistent looping animation — EMOTE_STATE_USE_STANDING (69, working),
+  -- EMOTE_STATE_READY_RIFLE (214), EMOTE_STATE_READY1H (333) and friends. Those
+  -- NPCs stand at a job; walking them around plays the work animation on the move.
+  -- The guid row wins outright when present, so test it exclusively, not merged.
+  AND (CASE WHEN ca.guid IS NOT NULL THEN ca.emote ELSE IFNULL(cta.emote, 0) END) = 0;
 
 -- Repair pass: park every posed/corpse spawn that already carries movement. Clears rows
 -- this file granted before the exclusion above existed, and backstops the AUTO files —
@@ -51,3 +79,25 @@ WHERE (cr.guid BETWEEN 11000000 AND 11999999 OR cr.guid BETWEEN 12000000 AND 129
     OR (IFNULL(cta.bytes1, 0) & 0xFF) <> 0
     OR CONCAT(' ', IFNULL(ca.auras, ''), ' ') LIKE '% 29266 %'
     OR CONCAT(' ', IFNULL(cta.auras, ''), ' ') LIKE '% 29266 %');
+
+
+-- ---------------------------------------------------------------------------
+-- 3. Repair pass for emote-posed spawns granted before exclusion 1 existed.
+--
+-- Scoped to this file's own grant signature (MovementType 1 + wander_distance 5) so
+-- it can only ever undo what this file did. Spawns carrying wander_distance 10 came
+-- from the gen's tdb434 overlay — authored provenance, deliberately left alone.
+--
+-- Measured 2026-09-06 before the fix: 305 spawns across 20 entries were wandering
+-- with a live emote state, including Orc Survivor 39064 (emote 69) and Orc Scout
+-- 39068 (emote 214) in the Lost Isles camps, which is what surfaced this. Both are
+-- MovementType 0 for 100% of their spawns in BOTH donors — the wander was ours.
+-- ---------------------------------------------------------------------------
+UPDATE creature cr
+  LEFT JOIN creature_addon ca ON ca.guid = cr.guid
+  LEFT JOIN creature_template_addon cta ON cta.entry = cr.id
+SET cr.MovementType = 0, cr.wander_distance = 0
+WHERE cr.guid BETWEEN 11000000 AND 11999999
+  AND cr.MovementType = 1
+  AND cr.wander_distance = 5
+  AND (CASE WHEN ca.guid IS NOT NULL THEN ca.emote ELSE IFNULL(cta.emote, 0) END) <> 0;
