@@ -137,6 +137,13 @@ def _norm(p):
     return p.replace("\\", "/").lower().replace(".mdx", ".m2").lstrip("/")
 
 
+def _base(p):
+    """Model file name without directory or extension ('Creature\\Shark\\HammerHead.mdx'
+    -> 'hammerhead'). Cata reorganised model folders (Infernal2\\ -> Infernal\\) without
+    changing the mesh, so identity across the two clients is the file name, not the path."""
+    return os.path.basename(_norm(p)).replace(".m2", "")
+
+
 def _or(v, default):
     """Emulate the source script's sqlite text columns for the `value or default` idiom.
 
@@ -231,6 +238,12 @@ AI_NAME_PORTS = {
     # I-336, quest 24868 "Surrender or Else!" — npc_ace_surrender_escort re-authored
     # as SmartAI + a hand `waypoints` path in zz_[I-336]_surrender_or_else.sql.
     38455: ("SmartAI", "I-336"),
+    # I-343, quest 25023 "Old Friends" — npc_sassy_quest_giver_volcanoth and
+    # npc_flying_bomber_old_friends re-authored as SmartAI + two hand `waypoints`
+    # paths in zz_[I-343]_old_friends_escape.sql. 38869 is the talking passenger;
+    # her barks are driven from the bomber's rows, so she needs no AI of her own.
+    38928: ("SmartAI", "I-343"),   # Sassy Hardwrench — summons the bomber on quest accept
+    38918: ("SmartAI", "I-343"),   # Flying Bomber — the flight itself
     # I-349, the two Bastia rides — npc_bastia_trip_vehicle (quest 14240 "To the Cliffs")
     # and npc_bastia_second_trip_vehicle (quest 25100 "Let's Ride") re-authored as SmartAI
     # + two hand `waypoints` paths in zz_[I-349]_bastia_rides.sql. Both donor scripts are
@@ -243,6 +256,10 @@ AI_NAME_PORTS = {
     # (lost_isles.cpp:721), the same ferry pattern flown rather than run, ending in a
     # scripted crash beside the Vengeance Wake. Rows in zz_[I-310]_precious_cargo_autoflight.sql.
     36143: ("SmartAI", "I-310"),   # Gyrochoppa — the Precious Cargo run
+    # 38869 carries no donor ScriptName: its lines were fired from the bomber's C++
+    # (`sassy->AI()->TalkWithDelay(...)`). The donor's own smart_scripts twin replaces
+    # that with SMART_ACTION_SET_DATA onto 38869, which needs SmartAI to receive it.
+    38869: ("SmartAI", "I-343"),   # Sassy Hardwrench (2) — the passenger's barks
 }
 
 
@@ -256,6 +273,14 @@ def emit(ctx):
     # ship-vs-stock classification is deterministic and independent of apply state.
     present_disp = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM creaturedisplayinfo")}
     present_mdl = {int(r["id"]) for r in ctx.stock_dbc_query("SELECT id FROM creaturemodeldata")}
+    # Stock 3.3.5a scale + model basename per display, for the I-352 size correction
+    # below. PRISTINE stock, never the live dbc: an HD pack legitimately rescales a
+    # stock display to compensate for its own bigger mesh (F-049 sets 8410 Pterrordax
+    # 0.75 -> 0.25), and dividing by that would triple the HD model.
+    stock_disp = {int(r["id"]): (float(r["creature_model_scale"] or 0), _base(r["model_path"] or ""))
+                  for r in ctx.stock_dbc_query(
+                      "SELECT d.id, d.creature_model_scale, m.model_path FROM creaturedisplayinfo d "
+                      "LEFT JOIN creaturemodeldata m ON m.id = d.model_id")}
     valid_factions = _valid_faction_ids()
     disp = _read_typed(ctx, "CreatureDisplayInfo.dbc", 16, {6, 7, 8, 9}, {4})
     mdl = _read_typed(ctx, "CreatureModelData.dbc", 28, {2},
@@ -429,12 +454,35 @@ def emit(ctx):
         ctx.col.put("creature_template", e, cols, tier="base", zone=sfx, owner="creatures")
 
     # ---- creature_template_model (Idx 0..n, equal-weight variants) ----
+    def _size_fix(d):
+        """I-352 — DisplayScale correction for a display we resolved to a STOCK 3.3.5a row.
+
+        Rendered size is CreatureDisplayInfo.CreatureModelScale x CreatureModelData.ModelScale
+        x the server's object scale (creature_template_model.DisplayScale). A display id that
+        exists in both clients can carry a DIFFERENT CreatureModelScale in each: Blizzard grew
+        26216 (hammerhead, Ravenous Jaws in WotLK) from 1.5 to 7.5 for Cata, so The Hammer 36682
+        — whose donor template asks for plain scale 1.0 — shipped at a fifth of retail size.
+        A display we ship ourselves already carries the Cata value in its own row, so this
+        applies to stock rows only; the model must be the same mesh in both clients or the id
+        means two different creatures and the ratio is meaningless (3.3.5a 29807 = babyraptor,
+        Cata 29807 = raptorpet)."""
+        st = stock_disp.get(d)
+        di = disp.get(d)
+        if not st or not st[0] or not di:
+            return 1.0
+        mrow = mdl.get(di[1])
+        if not mrow or _base(mrow[2]) != st[1]:
+            return 1.0
+        corr = (di[4] or 0.0) / st[0]
+        return round(corr, 4) if abs(corr - 1.0) > 0.01 else 1.0
+
     for e in entries_sorted:
         t = tmpl[e]
         for idx, d in enumerate(models_plan[e]):
             ctx.col.put("creature_template_model", (e, idx), {
                 "CreatureID": e, "Idx": idx, "CreatureDisplayID": d,
-                "DisplayScale": float(_or(t["scale"], 1)), "Probability": 1, "VerifiedBuild": 0,
+                "DisplayScale": round(float(_or(t["scale"], 1)) * _size_fix(d), 4),
+                "Probability": 1, "VerifiedBuild": 0,
             }, tier="base", zone=sfx, owner="creatures")
 
     # ---- server creature_model_info (custom displays) ----
@@ -636,28 +684,59 @@ def emit(ctx):
                     continue
                 if aid in present_spells:
                     auras.append(str(aid))
-            if wp_path or b1 or em or mount or auras:
+            b2 = int(src["bytes2"] or 0)
+            if wp_path or b1 or b2 or em or mount or auras:
                 # AC applies a guid-keyed creature_addon INSTEAD of the entry's
-                # creature_template_addon, so this row would strip the template
-                # auras (e.g. homie quest-invisibility) — union them back in.
-                tpl = ctx.col.get("creature_template_addon", int(s["id"]))
-                for a in str((tpl or {}).get("auras") or "").split():
+                # creature_template_addon — Creature::GetCreatureAddon returns one or
+                # the other and NEVER merges them (Creature.cpp:2730). So every field
+                # this row leaves at 0 silently CANCELS the entry's template value
+                # rather than deferring to it. Inherit each field the source spawn
+                # does not itself set.
+                #
+                # The auras half of this was fixed for I-242 (homie quest-invisibility
+                # stripped off per-guid rows). The pose fields were missed and cost
+                # 181 emote states (I-238: camp orcs walking around playing a work
+                # animation) and 133 stand states (128 Poison Spitter corpses and a
+                # Dead Orc Scout standing upright instead of lying dead).
+                tpl = ctx.col.get("creature_template_addon", int(s["id"])) or {}
+                for a in str(tpl.get("auras") or "").split():
                     if a not in auras:
                         auras.append(a)
+                b1 = b1 or int(tpl.get("bytes1") or 0)     # stand state / vis flags
+                b2 = b2 or int(tpl.get("bytes2") or 0)     # sheath state
+                em = em or int(tpl.get("emote") or 0)      # UNIT_NPC_EMOTESTATE pose
+                if not mount:
+                    tmount = int(tpl.get("mount") or 0)
+                    # same guard as the sampled mount above: never inherit a Cata-only
+                    # display we do not ship
+                    if tmount and (tmount in present_disp or tmount in dbc_disp_needed):
+                        mount = tmount
                 n_addon += 1
                 ctx.col.add("creature_addon", {
                     "guid": g, "path_id": wp_path, "mount": mount, "bytes1": b1,
-                    "bytes2": int(src["bytes2"] or 0), "emote": em,
+                    "bytes2": b2, "emote": em,
                     "visibilityDistanceType": int(tm["vdt"] or 0) if src is tm else 0,
                     "auras": " ".join(auras), "Comment": gen_tag,
                 }, sort_key=g)
         st = int(s["spawntimesecs"] or 120)
         pmask = int(s["phaseMask"] or 1) or 1
+        # AC reads creature.curhealth ONLY when the template has RegenHealth = 0
+        # (Creature::LoadFromDB); every other spawn comes up at GetMaxHealth() and the
+        # column is dead weight. So carry the donor's staged value for the RegenHealth = 0
+        # entries — a hardcoded 1 there is a real 1-HP spawn, which is how Volcanoth 38855
+        # ended up one-shottable (I-342). Neltharion stages both ends with it: 0 for the
+        # posed body in the aftermath phase, a small number for a wounded NPC (Injured
+        # Employee 48305 = 10). The donor value is a Cata-absolute HP figure and lands
+        # under our max for a should-be-full spawn (Volcanoth 3960 of 4800), so where
+        # full health matters a zz_[I-xxx] override sets basehp * HealthModifier exactly;
+        # AC clamps anything over max in SetHealth.
+        regen = int(_or((tmpl.get(int(s["id"])) or {}).get("RegenHealth"), 1))
         ctx.col.add("creature", {
             "guid": g, "id": int(s["id"]), "map": 1, "zoneId": 0, "areaId": 0, "spawnMask": 1,
             "phaseMask": pmask, "equipment_id": 0, "position_x": x, "position_y": y,
             "position_z": z, "orientation": o, "spawntimesecs": st, "wander_distance": wd,
-            "currentwaypoint": 0, "curhealth": 1, "curmana": 0, "MovementType": mt,
+            "currentwaypoint": 0, "curhealth": 1 if regen else int(s["curhealth"] or 0),
+            "curmana": 0, "MovementType": mt,
             # per-spawn flag overrides (AC ChooseCreatureFlags: nonzero replaces the
             # template value) — Neltharion stages corpses/decor with these, e.g. the
             # pool-party aftermath: dynamicflags 0x20 DEAD + NOT_SELECTABLE|IMMUNE_TO_PC

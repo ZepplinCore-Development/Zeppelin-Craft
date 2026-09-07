@@ -32,10 +32,23 @@
 UPDATE creature_addon ca
   JOIN creature cr ON cr.guid = ca.guid
   JOIN creature_template_addon cta ON cta.entry = cr.id
-SET ca.emote = cta.emote
+SET ca.emote  = IF(ca.emote  = 0, cta.emote,  ca.emote),
+    ca.bytes1 = IF(ca.bytes1 = 0, cta.bytes1, ca.bytes1),
+    ca.bytes2 = IF(ca.bytes2 = 0, cta.bytes2, ca.bytes2)
 WHERE cr.guid BETWEEN 11000000 AND 11999999
-  AND ca.emote = 0
-  AND cta.emote <> 0;
+  AND ((ca.emote  = 0 AND cta.emote  <> 0)
+    OR (ca.bytes1 = 0 AND cta.bytes1 <> 0)
+    OR (ca.bytes2 = 0 AND cta.bytes2 <> 0));
+
+-- `bytes1` costs the most here: 133 spawns were standing upright with the entry's
+-- stand state cancelled — 128 Poison Spitter (35929, a dedicated CORPSE entry, stand
+-- state 7 DEAD), Dead Orc Scout 35837, and 4 Geargrinder Gizmo 36600 that should be
+-- sitting (state 1). They were not sliding, because the wander grant below already
+-- consults `cta.bytes1`; they were simply on their feet.
+--
+-- `mount` is deliberately NOT restored here: inheriting a mount display we do not ship
+-- crashes the client (feedback_creature_display_crash_cascade). The generator applies
+-- the shipped-display guard; SQL cannot.
 
 UPDATE creature cr
   JOIN creature_template ct ON ct.entry = cr.id
