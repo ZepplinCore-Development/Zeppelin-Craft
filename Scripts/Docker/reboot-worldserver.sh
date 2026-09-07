@@ -78,11 +78,19 @@ race_name() {
         6) echo "Tauren" ;;
         7) echo "Gnome" ;;
         8) echo "Troll" ;;
+        9) echo "Goblin" ;;
         10) echo "Blood Elf" ;;
         11) echo "Draenei" ;;
+        12) echo "Worgen" ;;
         *) echo "Unknown($1)" ;;
     esac
 }
+# Goblin is 9 and Worgen is 12, per this server's ChrRaces.dbc — NOT retail's
+# Worgen id of 22. mod-worgoblin remaps it, and a bake against 22 does not exist
+# here (reference_bake_race_must_exist_in_chrraces). Both were missing, so every
+# goblin — the most played race on the server — printed as "Unknown(9)".
+# Ids 13-21 in ChrRaces (Naga, Broken, Skeleton, Vrykul, Tuskarr, Forest Troll,
+# Taunka, Northrend Skeleton, Ice Troll) are NPC-only and not playable.
 
 echo -e "${CYAN}=== Worldserver Reboot ===${NC}"
 echo ""
