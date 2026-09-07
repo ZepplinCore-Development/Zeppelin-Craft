@@ -231,7 +231,7 @@ def edits_emit(ctx, task: str, zpak_name: str, filename: Optional[str], slug: st
         return
 
     targets = _collapse(entries)
-    body, emitted_ids, skipped = _build_sql(task, targets)
+    body, emitted_ids, skipped, drifted = _build_sql(task, targets)
     if not body:
         click.echo("Nothing emittable (all edits were on columns outside the allow-list).")
         return
@@ -255,6 +255,15 @@ def edits_emit(ctx, task: str, zpak_name: str, filename: Optional[str], slug: st
     ]
     sql_text = "\n".join(header) + body
 
+    if drifted:
+        click.echo(click.style(
+            "\n  WARNING: the live row no longer matches the journal for:", fg='yellow'))
+        for d in drifted:
+            click.echo(f"    {d}")
+        click.echo("  Emitting the LIVE value — it is what the server actually holds.")
+        click.echo("  If that is not what you intended, a regen or another editor may have")
+        click.echo("  overwritten the work: check `zep world edits diff` before applying.\n")
+
     if dry_run:
         click.echo(sql_text)
         click.echo(f"\n-- would write {out_path} ({len(emitted_ids)} journal row(s))")
@@ -277,7 +286,7 @@ def edits_emit(ctx, task: str, zpak_name: str, filename: Optional[str], slug: st
     click.echo(f"\nApply with: zep world sql changed")
 
 
-def _build_sql(task: str, targets) -> Tuple[str, List[int], int]:
+def _build_sql(task: str, targets) -> Tuple[str, List[int], int, List[str]]:
     """Render collapsed targets as idempotent SQL.
 
     Rows we merely adjust get ONE consolidated UPDATE, so the diff from the
@@ -287,6 +296,7 @@ def _build_sql(task: str, targets) -> Tuple[str, List[int], int]:
     chunks: List[str] = []
     emitted_ids: List[int] = []
     skipped = 0
+    drifted: List[str] = []
 
     for (table, guid), target in targets.items():
         if table not in EMITTABLE:
@@ -322,6 +332,51 @@ def _build_sql(task: str, targets) -> Tuple[str, List[int], int]:
             skipped += len(target['ids'])
             continue
 
+        # Emit the LIVE value, not the journal's copy. The module journals through
+        # a 4-decimal formatter, and that rounding is enough to push a rotation
+        # quaternion outside AzerothCore's unit test
+        # (`fabs(x*x+y*y+z*z+w*w - 1.0f) >= 1e-5f`, ObjectMgr.cpp:3064) — the row
+        # would still render correctly, because the core falls back to deriving the
+        # rotation from `orientation`, but it would log an sql.sql error for that
+        # row on EVERY startup. The live row holds what the editor actually wrote,
+        # at full precision, so prefer it whenever it still agrees with the journal.
+        # The journal says WHICH rows and columns were touched; the LIVE row is the
+        # authority on the values. Two independent reasons to prefer live:
+        #
+        # 1. precision — the module journals through a 4-decimal formatter, and that
+        #    rounding alone can push a rotation quaternion outside AzerothCore's unit
+        #    test (`fabs(x*x+y*y+z*z+w*w - 1.0f) >= 1e-5f`, ObjectMgr.cpp:3064). The
+        #    row would still render right (the core falls back to deriving rotation
+        #    from `orientation`) but would log an sql.sql error on EVERY startup.
+        #
+        # 2. completeness — the editor's baseline is ObjectMgr's startup cache, which
+        #    its own saves do not refresh, so a second editing session starts from
+        #    stale values and a column returned to its startup value is never
+        #    journalled at all. The journal can therefore be a column short of the
+        #    truth. (I-359 valve #1: orientation went 4.7997 -> 4.8870 -> 4.7997, and
+        #    only the first leg was recorded.)
+        #
+        # Disagreement is still reported, because it can equally mean a regen or
+        # another editor overwrote the work.
+        live = _live_row(table, guid)
+        rescued = []
+        for c, ov, nv in allowed:
+            actual = live.get(c) if live else None
+            if actual is None:
+                rescued.append((c, ov, nv))
+                continue
+            if not _same_value(actual, nv):
+                drifted.append(f"{table}#{guid}.{c}: journal {nv}, live {actual} (emitting live)")
+            rescued.append((c, ov, actual))
+
+        # Re-run the no-op filter against the LIVE values. Substituting live can turn
+        # a journalled change back into a no-op — exactly what happens when a column
+        # was moved and then moved back across two editing sessions.
+        allowed = [(c, ov, nv) for c, ov, nv in rescued if not _same_value(ov, nv)]
+        if not allowed:
+            skipped += len(target['ids'])
+            continue
+
         # The comma must precede the comment: `--` runs to end of line, so a
         # trailing comma inside it would be swallowed and break the statement.
         lines = []
@@ -332,7 +387,7 @@ def _build_sql(task: str, targets) -> Tuple[str, List[int], int]:
         chunks.append(f"UPDATE `{table}` SET\n{sets}\nWHERE `guid` = {guid};\n")
         emitted_ids.extend(target['ids'])
 
-    return "\n".join(chunks), emitted_ids, skipped
+    return "\n".join(chunks), emitted_ids, skipped, drifted
 
 
 @edits.command('drain')
