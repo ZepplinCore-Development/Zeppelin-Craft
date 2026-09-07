@@ -213,8 +213,144 @@ def _op_wmo_fog_start_scalar(data: bytearray, cfg: Dict[str, Any]) -> str:
     return f"fog[{cfg.get('index', 0)}].{cfg.get('fog', 'land')}.start_scalar {before:.3f} -> {value:.3f}"
 
 
+def _op_bounds_sphere_radius(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Set the M2 bounding-sphere radius (header +0xB8).
+
+    WHY: the 3.3.5 client frustum-culls a doodad by this sphere. Cata-era models ship it
+    UNDERSIZED - measured median stored/true ratio 0.74 across the Whitemane World/Azeroth
+    set and 0.65 across our retroported Lost Isles doodads, against 1.36 for stock 3.3.5
+    models (which are deliberately generous). An undersized sphere culls a model while its
+    geometry still fills the screen, and it bites hardest CLOSE UP on LARGE models, because
+    that is when the sphere centre most easily leaves the frustum while the mesh does not.
+
+    `value` may be a number, or "auto" to recompute from the model's own vertices (the max
+    distance from the origin), which is what the field is meant to hold. The bounding BOX
+    (+0xA0..+0xB8) is already correct on these models and is left alone.
+
+    Check the I-322 precedent before trusting a bounding-radius theory: a radius correlation
+    there was confidently reported and WRONG (the real cause was anim[0].length = 0). That
+    was an oversized radius and a model that would not go away - the opposite sign and the
+    opposite symptom - but verify in-client on ONE model before sweeping the set.
+    """
+    _require_wotlk(data, 0)
+    n_verts, ofs_verts = struct.unpack_from('<II', data, 0x3C)
+    old = struct.unpack_from('<f', data, 0xB8)[0]
+
+    value = cfg.get('value', 'auto')
+    auto = isinstance(value, str) and value.lower() == 'auto'
+    if auto:
+        if n_verts == 0 or ofs_verts + n_verts * 48 > len(data):
+            raise M2OpError("m2.bounds.sphere_radius auto: vertex block out of range "
+                            f"(n={n_verts}, ofs={ofs_verts}, size={len(data)})")
+        best = 0.0
+        for i in range(n_verts):
+            x, y, z = struct.unpack_from('<3f', data, ofs_verts + i * 48)
+            best = max(best, (x * x + y * y + z * z) ** 0.5)
+        new = best
+    else:
+        new = float(value)
+
+    if new <= 0.0:
+        raise M2OpError(f"m2.bounds.sphere_radius: refusing a non-positive radius ({new})")
+    struct.pack_into('<f', data, 0xB8, new)
+    src = f" (auto, from {n_verts} vertices)" if auto else ""
+    return f"m2.bounds.sphere_radius: {old:.3f} -> {new:.3f}{src}"
+
+
+
+# ---------------------------------------------------------------------------
+# Bone / global-flag ops (I-364)
+#
+# An HD replacement mesh converted down from a modern build can arrive with two
+# defects that a WotLK client only trips over when it plays a COMBAT animation,
+# which is why they survive casual testing and then hang the client mid-attack
+# (the failure mode recorded in I-191):
+#
+#   * a modern bit left in `globalFlags` that 3.3.5a does not know; the project's
+#     own m2_head_rebase.py already masks these to & 0x1F.
+#   * a lost `keyBoneId`, so the client cannot resolve a key bone it expects.
+#
+# Both are pure in-place field writes — no size change, so .skin offsets are safe.
+
+OFS_GLOBAL_FLAGS = 0x10
+OFS_N_BONES = 0x2C
+OFS_OFS_BONES = 0x30
+BONE_STRIDE = 88
+BONE_KEYBONE_OFFSET = 0     # int32 keyBoneId
+BONE_PARENT_OFFSET = 8      # int16 parent
+BONE_PIVOT_OFFSET = 76      # 3 x float
+
+
+def _op_global_flags_mask(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """AND `globalFlags` with a mask, dropping bits a WotLK client cannot read."""
+    if 'mask' not in cfg:
+        raise M2OpError("m2.global_flags.mask requires 'mask'")
+    mask = int(cfg['mask'])
+    base = read_m2_header(data)['base_offset']
+    _require_wotlk(data, base)
+
+    at = base + OFS_GLOBAL_FLAGS
+    before = struct.unpack_from('<I', data, at)[0]
+    after = before & mask
+    struct.pack_into('<I', data, at, after)
+    return f"globalFlags {before:#x} -> {after:#x} (mask {mask:#x})"
+
+
+def _op_bone_keybone(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Set one bone's `keyBoneId`.
+
+    Guarded by `expect_parent_keybone` and `expect_pivot` where given: a bone
+    index is only meaningful for the exact mesh the recipe was written against,
+    so assert the shape before writing rather than silently tagging the wrong
+    bone if an upstream pack changes.
+    """
+    if 'index' not in cfg or 'value' not in cfg:
+        raise M2OpError("m2.bone.keybone requires 'index' and 'value'")
+    index, value = int(cfg['index']), int(cfg['value'])
+
+    base = read_m2_header(data)['base_offset']
+    _require_wotlk(data, base)
+    n = struct.unpack_from('<I', data, base + OFS_N_BONES)[0]
+    ofs = base + struct.unpack_from('<I', data, base + OFS_OFS_BONES)[0]
+    if index >= n:
+        raise M2OpError(f"bone index {index} but model has {n} bone(s)")
+    if ofs + n * BONE_STRIDE > len(data):
+        raise M2OpError(f"bone block runs past EOF ({len(data)})")
+
+    at = ofs + index * BONE_STRIDE
+
+    expect_pivot = cfg.get('expect_pivot')
+    if expect_pivot is not None:
+        piv = struct.unpack_from('<3f', data, at + BONE_PIVOT_OFFSET)
+        tol = float(cfg.get('pivot_tolerance', 0.05))
+        if any(abs(a - float(b)) > tol for a, b in zip(piv, expect_pivot)):
+            raise M2OpError(
+                f"bone {index} pivot {tuple(round(v, 3) for v in piv)} does not match "
+                f"expected {tuple(expect_pivot)} within {tol} — wrong bone, refusing"
+            )
+
+    expect_pk = cfg.get('expect_parent_keybone')
+    if expect_pk is not None:
+        parent = struct.unpack_from('<h', data, at + BONE_PARENT_OFFSET)[0]
+        if parent < 0 or parent >= n:
+            raise M2OpError(f"bone {index} has no parent, expected one with keyBoneId {expect_pk}")
+        pk = struct.unpack_from('<i', data, ofs + parent * BONE_STRIDE + BONE_KEYBONE_OFFSET)[0]
+        if pk != int(expect_pk):
+            raise M2OpError(
+                f"bone {index} parent {parent} has keyBoneId {pk}, expected {expect_pk} "
+                f"— wrong bone, refusing"
+            )
+
+    before = struct.unpack_from('<i', data, at + BONE_KEYBONE_OFFSET)[0]
+    struct.pack_into('<i', data, at + BONE_KEYBONE_OFFSET, value)
+    return f"bone[{index}].keyBoneId {before} -> {value}"
+
+
 OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
     'm2.camera.fov': _op_camera_fov,
+    'm2.bounds.sphere_radius': _op_bounds_sphere_radius,
+    'm2.global_flags.mask': _op_global_flags_mask,
+    'm2.bone.keybone': _op_bone_keybone,
     'wmo.fog.end': _op_wmo_fog_end,
     'wmo.fog.start_scalar': _op_wmo_fog_start_scalar,
 }

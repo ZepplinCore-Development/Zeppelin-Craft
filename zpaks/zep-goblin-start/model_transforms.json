@@ -1,0 +1,46 @@
+{
+  "CREATURE/GOBLINSHREDDERMOUNT/GOBLINSHREDDERMOUNT.M2": {
+    "note": "I-364: the HD shredder mesh hangs the 3.3.5a client when a combat animation plays. Confirmed with `.morph 31484` and attacking on foot -- no vehicle involved. Against the stock 3.3.5 mesh (Asset Library) it differs in exactly two WotLK-relevant ways: globalFlags 0x90 vs 0x10 (bit 0x80 is a post-WotLK flag; m2_head_rebase.py masks these to & 0x1F) and NO bone tagged keyBoneId 6 (Head) vs stock's bone 6. HD bone 5 is unambiguously the head: its pivot is 0.060 from stock's head pivot and its parent carries keyBoneId 4, exactly like stock's head parent. Shared by 9 creatures across displays 26559/26612/31484, including stock Wintergrasp shredders, so it is repaired in place rather than swapped out.",
+    "base_sha256": "d249676558010f5b4804b655afca2eff1e74a8a6c333a51f2379efa0a9b79a76",
+    "result_sha256": "68d80df2a542442e6206ccaf0568660cae02e6c105af6fa0bfa04dc3bc060da8",
+    "ops": [
+      {
+        "op": "m2.global_flags.mask",
+        "mask": 31
+      },
+      {
+        "op": "m2.bone.keybone",
+        "index": 5,
+        "value": 6,
+        "expect_parent_keybone": 4,
+        "expect_pivot": [
+          0.043,
+          0.0,
+          2.254
+        ]
+      }
+    ]
+  },
+  "CREATURE/ZEPSHREDDERMOUNT/ZEPSHREDDERMOUNT.M2": {
+    "note": "Same mesh byte-for-byte, shipped again under the I-248 self-contained path for display 26559 (Bilgewater Buccaneer). Needs the identical repair.",
+    "base_sha256": "d249676558010f5b4804b655afca2eff1e74a8a6c333a51f2379efa0a9b79a76",
+    "result_sha256": "68d80df2a542442e6206ccaf0568660cae02e6c105af6fa0bfa04dc3bc060da8",
+    "ops": [
+      {
+        "op": "m2.global_flags.mask",
+        "mask": 31
+      },
+      {
+        "op": "m2.bone.keybone",
+        "index": 5,
+        "value": 6,
+        "expect_parent_keybone": 4,
+        "expect_pivot": [
+          0.043,
+          0.0,
+          2.254
+        ]
+      }
+    ]
+  }
+}
