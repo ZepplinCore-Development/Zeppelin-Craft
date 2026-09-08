@@ -346,11 +346,66 @@ def _op_bone_keybone(data: bytearray, cfg: Dict[str, Any]) -> str:
     return f"bone[{index}].keyBoneId {before} -> {value}"
 
 
+
+OFS_N_SEQUENCES = 0x1C
+OFS_OFS_SEQUENCES = 0x20
+SEQUENCE_STRIDE = 64
+SEQ_ANIM_ID_OFFSET = 0      # uint16
+SEQ_SUB_ID_OFFSET = 2       # uint16
+SEQ_FLAGS_OFFSET = 12       # uint32
+SEQ_ALIAS_NEXT_OFFSET = 62  # uint16
+
+SEQ_FLAG_PRIMARY = 0x20     # sequence carries its own bone data
+SEQ_FLAG_ALIAS = 0x40       # data lives in the sequence named by aliasNext
+
+
+def _op_sequence_flags(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Set one animation sequence's flags.
+
+    An alias (0x40) with no primary (0x20) anywhere it resolves to leaves the
+    client with no sequence that claims to own the data.  I-364: the HD shredder's
+    two Attack1H sequences are flagged 0x40 pointing at sequence 54, which is
+    flagged 0x0 and whose aliasNext is ITSELF — so resolution never terminates and
+    the client hangs the moment an attack plays.  Both attacks in fact carry their
+    own data (940 and 835 keyframes), so the repair is to stop lying about it.
+
+    `expect_anim_id` guards the write: sequence indices only mean anything for the
+    exact mesh the recipe was written against.
+    """
+    if 'index' not in cfg or 'value' not in cfg:
+        raise M2OpError("m2.sequence.flags requires 'index' and 'value'")
+    index, value = int(cfg['index']), int(cfg['value'])
+
+    base = read_m2_header(data)['base_offset']
+    _require_wotlk(data, base)
+    n = struct.unpack_from('<I', data, base + OFS_N_SEQUENCES)[0]
+    ofs = base + struct.unpack_from('<I', data, base + OFS_OFS_SEQUENCES)[0]
+    if index >= n:
+        raise M2OpError(f"sequence index {index} but model has {n} sequence(s)")
+    if ofs + n * SEQUENCE_STRIDE > len(data):
+        raise M2OpError(f"sequence block runs past EOF ({len(data)})")
+
+    at = ofs + index * SEQUENCE_STRIDE
+    anim_id = struct.unpack_from('<H', data, at + SEQ_ANIM_ID_OFFSET)[0]
+
+    expect = cfg.get('expect_anim_id')
+    if expect is not None and anim_id != int(expect):
+        raise M2OpError(
+            f"sequence {index} has animID {anim_id}, expected {expect} — wrong "
+            f"sequence, refusing"
+        )
+
+    before = struct.unpack_from('<I', data, at + SEQ_FLAGS_OFFSET)[0]
+    struct.pack_into('<I', data, at + SEQ_FLAGS_OFFSET, value)
+    return f"sequence[{index}] (animID {anim_id}).flags {before:#x} -> {value:#x}"
+
+
 OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
     'm2.camera.fov': _op_camera_fov,
     'm2.bounds.sphere_radius': _op_bounds_sphere_radius,
     'm2.global_flags.mask': _op_global_flags_mask,
     'm2.bone.keybone': _op_bone_keybone,
+    'm2.sequence.flags': _op_sequence_flags,
     'wmo.fog.end': _op_wmo_fog_end,
     'wmo.fog.start_scalar': _op_wmo_fog_start_scalar,
 }

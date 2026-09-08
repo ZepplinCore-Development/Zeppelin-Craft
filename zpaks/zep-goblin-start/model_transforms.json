@@ -1,9 +1,27 @@
 {
   "CREATURE/GOBLINSHREDDERMOUNT/GOBLINSHREDDERMOUNT.M2": {
-    "note": "I-364: MultiConverter leaves globalFlags at the retail value 0x90; stock 3.3.5 uses 0x10. Bit 0x80 is post-WotLK, and m2_head_rebase.py masks these to & 0x1F on every retroport. Applied so the shipped mesh matches the stock flag word exactly. The key-bone op that was here before is gone -- the retroported retail mesh already has bone 6 tagged keyBoneId 6, like stock.",
-    "base_sha256": "2f788aa1be46fb8ed6aa015bf03b9fd7bf442d16e5baf692c98b5725810c1650",
-    "result_sha256": "e3786f0a552761fe09ca169f0c77f5d1f946d451bf6b2c23bc14811f18c32a0c",
+    "note": "I-364: the client HANGS whenever this mesh plays a combat animation. Confirmed with `.morph 31484` and attacking on foot, so no vehicle is involved. Cause: sequences 5 and 6 (Attack1H) are flagged 0x40 ALIAS with no 0x20 PRIMARY bit, pointing at sequence 54 -- which is flagged 0x0 (neither primary nor alias) and whose aliasNext is ITSELF. Alias resolution therefore never reaches a sequence that claims to own the data. Both attacks in fact carry their own data (52 bones/940 keyframes and 51/835), and so does 54 (54/612), so the repair is simply to stop lying about it: mark them primary, exactly as stock 3.3.5 does (0x21). Keeps the Nexus HD mesh -- Blizzard never updated this model's geometry (1484 verts in stock, Cata AND current retail; the HD pack is 6613), so a retail retroport cannot provide the HD look. globalFlags 0x90 -> 0x10 matches stock's flag word.",
+    "base_sha256": "d249676558010f5b4804b655afca2eff1e74a8a6c333a51f2379efa0a9b79a76",
+    "result_sha256": "5dc3d7d1c45c3c822e87d57e792640a02dd8974a0d783c9cd2d3c0537fef6cb5",
     "ops": [
+      {
+        "op": "m2.sequence.flags",
+        "index": 5,
+        "value": 33,
+        "expect_anim_id": 16
+      },
+      {
+        "op": "m2.sequence.flags",
+        "index": 6,
+        "value": 33,
+        "expect_anim_id": 16
+      },
+      {
+        "op": "m2.sequence.flags",
+        "index": 54,
+        "value": 32,
+        "expect_anim_id": 123
+      },
       {
         "op": "m2.global_flags.mask",
         "mask": 31
@@ -11,10 +29,28 @@
     ]
   },
   "CREATURE/ZEPSHREDDERMOUNT/ZEPSHREDDERMOUNT.M2": {
-    "note": "Same retroported mesh under the I-248 self-contained path (display 26559).",
-    "base_sha256": "2f788aa1be46fb8ed6aa015bf03b9fd7bf442d16e5baf692c98b5725810c1650",
-    "result_sha256": "e3786f0a552761fe09ca169f0c77f5d1f946d451bf6b2c23bc14811f18c32a0c",
+    "note": "Same HD mesh byte-for-byte under the I-248 self-contained path (display 26559, Bilgewater Buccaneer). Identical repair.",
+    "base_sha256": "d249676558010f5b4804b655afca2eff1e74a8a6c333a51f2379efa0a9b79a76",
+    "result_sha256": "5dc3d7d1c45c3c822e87d57e792640a02dd8974a0d783c9cd2d3c0537fef6cb5",
     "ops": [
+      {
+        "op": "m2.sequence.flags",
+        "index": 5,
+        "value": 33,
+        "expect_anim_id": 16
+      },
+      {
+        "op": "m2.sequence.flags",
+        "index": 6,
+        "value": 33,
+        "expect_anim_id": 16
+      },
+      {
+        "op": "m2.sequence.flags",
+        "index": 54,
+        "value": 32,
+        "expect_anim_id": 123
+      },
       {
         "op": "m2.global_flags.mask",
         "mask": 31
