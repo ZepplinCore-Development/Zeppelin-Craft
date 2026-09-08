@@ -1,45 +1,23 @@
 {
   "CREATURE/GOBLINSHREDDERMOUNT/GOBLINSHREDDERMOUNT.M2": {
-    "note": "I-364: the HD shredder mesh hangs the 3.3.5a client when a combat animation plays. Confirmed with `.morph 31484` and attacking on foot -- no vehicle involved. Against the stock 3.3.5 mesh (Asset Library) it differs in exactly two WotLK-relevant ways: globalFlags 0x90 vs 0x10 (bit 0x80 is a post-WotLK flag; m2_head_rebase.py masks these to & 0x1F) and NO bone tagged keyBoneId 6 (Head) vs stock's bone 6. HD bone 5 is unambiguously the head: its pivot is 0.060 from stock's head pivot and its parent carries keyBoneId 4, exactly like stock's head parent. Shared by 9 creatures across displays 26559/26612/31484, including stock Wintergrasp shredders, so it is repaired in place rather than swapped out.",
-    "base_sha256": "d249676558010f5b4804b655afca2eff1e74a8a6c333a51f2379efa0a9b79a76",
-    "result_sha256": "68d80df2a542442e6206ccaf0568660cae02e6c105af6fa0bfa04dc3bc060da8",
+    "note": "I-364: MultiConverter leaves globalFlags at the retail value 0x90; stock 3.3.5 uses 0x10. Bit 0x80 is post-WotLK, and m2_head_rebase.py masks these to & 0x1F on every retroport. Applied so the shipped mesh matches the stock flag word exactly. The key-bone op that was here before is gone -- the retroported retail mesh already has bone 6 tagged keyBoneId 6, like stock.",
+    "base_sha256": "2f788aa1be46fb8ed6aa015bf03b9fd7bf442d16e5baf692c98b5725810c1650",
+    "result_sha256": "e3786f0a552761fe09ca169f0c77f5d1f946d451bf6b2c23bc14811f18c32a0c",
     "ops": [
       {
         "op": "m2.global_flags.mask",
         "mask": 31
-      },
-      {
-        "op": "m2.bone.keybone",
-        "index": 5,
-        "value": 6,
-        "expect_parent_keybone": 4,
-        "expect_pivot": [
-          0.043,
-          0.0,
-          2.254
-        ]
       }
     ]
   },
   "CREATURE/ZEPSHREDDERMOUNT/ZEPSHREDDERMOUNT.M2": {
-    "note": "Same mesh byte-for-byte, shipped again under the I-248 self-contained path for display 26559 (Bilgewater Buccaneer). Needs the identical repair.",
-    "base_sha256": "d249676558010f5b4804b655afca2eff1e74a8a6c333a51f2379efa0a9b79a76",
-    "result_sha256": "68d80df2a542442e6206ccaf0568660cae02e6c105af6fa0bfa04dc3bc060da8",
+    "note": "Same retroported mesh under the I-248 self-contained path (display 26559).",
+    "base_sha256": "2f788aa1be46fb8ed6aa015bf03b9fd7bf442d16e5baf692c98b5725810c1650",
+    "result_sha256": "e3786f0a552761fe09ca169f0c77f5d1f946d451bf6b2c23bc14811f18c32a0c",
     "ops": [
       {
         "op": "m2.global_flags.mask",
         "mask": 31
-      },
-      {
-        "op": "m2.bone.keybone",
-        "index": 5,
-        "value": 6,
-        "expect_parent_keybone": 4,
-        "expect_pivot": [
-          0.043,
-          0.0,
-          2.254
-        ]
       }
     ]
   }
