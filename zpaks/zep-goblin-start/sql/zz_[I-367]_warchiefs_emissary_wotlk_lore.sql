@@ -37,3 +37,22 @@ WHERE `ID` = 25266;
 
 -- 25267 does not exist; a dangling NextQuestID is reported by ObjectMgr at load.
 UPDATE `quest_template_addon` SET `NextQuestID` = 0 WHERE `ID` = 25266;
+
+
+-- ---------------------------------------------------------------------------
+-- Thrall's finale dialogue — same lore divergence, two quests earlier.
+--
+-- His ported line 2 read "I will send a representative from amongst your people to
+-- the new warchief, Garrosh Hellscream in Orgrimmar", which contradicts its own
+-- speaker here: Thrall IS the Warchief on this server. Rewritten to send a
+-- delegation to join the Horde and hand them to Overlord Runthak, so the finale
+-- sets up the redirected Warchief's Emissary above.
+--
+-- Deliberately an UPDATE in this file rather than an edit to the INSERT in
+-- zz_[I-366]_thrall_39594.sql: that file is a faithful port of Neltharion's
+-- creature_text and should stay comparable to the donor. This file owns every
+-- divergence. It sorts after I-366, so the UPDATE lands on the inserted row.
+-- ---------------------------------------------------------------------------
+UPDATE `creature_text` SET
+  `Text` = 'I will send a delegation from amongst your people to Orgrimmar to join the Horde. Overlord Runthak will have their first duties waiting for them.'
+WHERE `CreatureID` = 39594 AND `GroupID` = 2 AND `ID` = 0;
