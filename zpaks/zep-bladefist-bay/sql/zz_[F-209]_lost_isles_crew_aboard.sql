@@ -17,7 +17,7 @@
 -- exactly where retail's own teleport put the player, which is the independent
 -- confirmation that the main deck is where this says it is.
 --
--- Deck assignment: the command group - Gallywix, Thrall and the orc delegation,
+-- Deck assignment: the command group - Gallywix and the orc delegation,
 -- plus Gallywix's Warrior-Matic - stand on the upper deck. The other 30 are
 -- spread over the main deck, no two closer than 2.7 yards, each facing the
 -- middle of the crowd.
@@ -29,7 +29,7 @@
 -- its own flags minus UNIT_NPC_FLAG_QUESTGIVER. Gossip, trainer and vendor
 -- flags are kept - that is the point of bringing them.
 --
--- Guids 11961001-11961037, hand-assigned; the F-011 generator never emits
+-- Guids 11961001-11961037 (11961005 unused), hand-assigned; the F-011 generator never emits
 -- 119xxxxx (reference_creature_guid_autoincrement_trap).
 -- =============================================================================
 
@@ -45,7 +45,9 @@ INSERT INTO `creature`
     (11961002, 39147, 1, 0, 0, 1, 1, 0, 1485.94, -4979.177, 17.964, 4.8014, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),  -- Bastia (copy of guid 11002984)
     (11961003, 39066, 1, 0, 0, 1, 1, 1, 1495.244, -5002.892, 17.864, 2.2964, 300, 0, 0, 1, 0, 0, 1, 0, 0, 12340),  -- Kilag Gorefang (copy of guid 11002932)
     (11961004, 39067, 1, 0, 0, 1, 1, 1, 1495.959, -4989.121, 18.36, 3.6421, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),  -- Scout Brax (copy of guid 11002936)
-    (11961005, 38935, 1, 0, 0, 1, 1, 0, 1483.324, -5005.256, 17.265, 1.2383, 300, 0, 0, 1, 0, 0, 1, 0, 0, 12340),  -- Thrall (copy of guid 11002845)
+--  Thrall is deliberately NOT copied here. He stands in the Valley of Wisdom in
+--  Orgrimmar and there should only be one of him; guid 11961005 is left unused.
+--  (was: 38935 Thrall, upper deck)
     (11961006, 39615, 1, 0, 0, 1, 1, 0, 1480.557, -4985.73, 17.965, 5.4, 300, 0, 0, 1, 0, 0, 0, 134250496, 0, 12340),  -- Trade Prince Gallywix (copy of guid 11003230)
     (11961007, 38518, 1, 0, 0, 1, 1, 0, 1478.136, -4999.284, 17.603, 0.5349, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),  -- Warrior-Matic NX-01 (copy of guid 11002160)
     (11961008, 38441, 1, 0, 0, 1, 1, 0, 1500.697, -5003.223, 12.255, 3.5865, 300, 0, 0, 1, 0, 0, 1, 0, 0, 12340),  -- Ace (copy of guid 11002126)
