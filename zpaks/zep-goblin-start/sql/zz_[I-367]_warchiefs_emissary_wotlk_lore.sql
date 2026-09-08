@@ -56,3 +56,27 @@ UPDATE `quest_template_addon` SET `NextQuestID` = 0 WHERE `ID` = 25266;
 UPDATE `creature_text` SET
   `Text` = 'I will send a delegation from amongst your people to Orgrimmar to join the Horde. Overlord Runthak will have their first duties waiting for them.'
 WHERE `CreatureID` = 39594 AND `GroupID` = 2 AND `ID` = 0;
+
+-- Line 3 named Azshara as the Cartel's new home. That is Cataclysm geography —
+-- Bilgewater Harbour does not exist in 3.3.5a and Azshara is still the old
+-- contested zone — and it also points the goblins somewhere other than where the
+-- chain now sends them. Orgrimmar, to match the Runthak ending.
+UPDATE `creature_text` SET
+  `Text` = 'You will have a new home in Orgrimmar and the Bilgewater Cartel will be part of the Horde!'
+WHERE `CreatureID` = 39594 AND `GroupID` = 3 AND `ID` = 0;
+
+-- Swept the rest of the goblin content for the same Cataclysm references. Quest text
+-- is clean after the rewrite above. In creature_text only Gallywix 36403 still
+-- promised Azshara, in two lines of his shipboard chatter — same correction.
+--
+-- Deliberately NOT touched: creature_text for 35361, 35368 (Thrall) and 35501, which
+-- name "Overlord Garrosh Hellscream" alongside Thrall as Warchief. That is CORRECT
+-- WotLK lore — Garrosh is an overlord serving under Thrall at this point — so those
+-- lines are consistent with this server and must stay.
+UPDATE `creature_text` SET
+  `Text` = 'Never fear, Trade Prince Gallywix is here. We''ll be on our way to our new home in Orgrimmar before you know it! Despite the bumbling interference of $N'
+WHERE `CreatureID` = 36403 AND `GroupID` = 0 AND `ID` = 1;
+
+UPDATE `creature_text` SET
+  `Text` = 'I can''t help but think that if it weren''t for the meddling of $N back on Kezan, we''d all be safe and sound in Orgrimmar by now.'
+WHERE `CreatureID` = 36403 AND `GroupID` = 0 AND `ID` = 2;
