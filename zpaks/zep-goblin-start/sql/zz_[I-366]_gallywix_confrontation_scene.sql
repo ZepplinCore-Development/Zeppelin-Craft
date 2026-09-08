@@ -21,9 +21,10 @@
 -- (b) The summon position is in RAW DONOR COORDINATES. Every other position in the
 --     port goes through the F-011 transform X-533.3333 / Y-12800, and SAI
 --     `target_x/y/z` did not. (2288.4, 2424.4) resolves to (1755.07, -10375.60) —
---     which is 3.5y from Gallywix's own waypoint destination (1746, -10378.9), so
---     the transformed value is self-evidently the intended spot: Thrall appears
---     beside him. Untransformed, he was summoned ~13,000 yards away.
+--     9.7y from Gallywix's own waypoint destination (1746, -10378.9), and 4.6y from
+--     where tdb434's sniff records 39594 standing. Two independent sources put the
+--     transformed value on the scene mark, so it is self-evidently the intended
+--     spot: Thrall appears beside him. Untransformed, he was ~13,000 yards away.
 --
 --     SYSTEMIC: 59 smart_scripts rows in the F-011 range still carry positive
 --     target_y, i.e. donor-space coordinates. This fixes the one the scene needs;
