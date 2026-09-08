@@ -114,3 +114,31 @@ WHERE cr.guid BETWEEN 11000000 AND 11999999
   AND cr.MovementType = 1
   AND cr.wander_distance = 5
   AND (CASE WHEN ca.guid IS NOT NULL THEN ca.emote ELSE IFNULL(cta.emote, 0) END) <> 0;
+
+
+-- ---------------------------------------------------------------------------
+-- 4. Never grant wander to a creature whose script MOVES it (I-366).
+--
+-- Trade Prince Gallywix 39582 was granted MovementType 1 / wander 5 by this file and
+-- spent his Final Confrontation RP scene strolling around, because he is npcflag 0,
+-- has no emote and no stand state, so none of the exclusions above saw him. He is
+-- MovementType 0 in BOTH donors.
+--
+-- The missing test is authored movement: an entry whose SmartAI runs
+-- SMART_ACTION_ESCORT_START (53) or SMART_ACTION_MOVE_TO_POS (69) is driven by its
+-- script, and a random-wander motion master fights that. Checked on BOTH script
+-- sources -- source_type 0 (the creature's own SAI) and source_type 9 (its timed
+-- actionlists, whose entryorguid is entry*100 + n, which is where Gallywix's
+-- ESCORT_START actually lives and why an entry-only check missed him).
+--
+-- Scoped to this file's own grant signature so it can only undo what this file did.
+-- ---------------------------------------------------------------------------
+UPDATE creature cr
+SET cr.MovementType = 0, cr.wander_distance = 0
+WHERE cr.guid BETWEEN 11000000 AND 11999999
+  AND cr.MovementType = 1
+  AND cr.wander_distance = 5
+  AND (cr.id IN (SELECT DISTINCT entryorguid FROM smart_scripts
+                 WHERE source_type = 0 AND action_type IN (53, 69))
+    OR cr.id IN (SELECT DISTINCT FLOOR(entryorguid / 100) FROM smart_scripts
+                 WHERE source_type = 9 AND action_type IN (53, 69)));
