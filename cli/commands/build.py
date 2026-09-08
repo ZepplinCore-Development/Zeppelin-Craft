@@ -437,6 +437,58 @@ def _build_all_mode_menu(patches: dict) -> Optional[dict]:
 # build register
 # =============================================================================
 
+@build.command('adt-place')
+@click.option('--recipe', '-r', 'recipe_path', required=True,
+              type=click.Path(exists=True, dir_okay=False),
+              help='adt_placements.json to apply')
+@click.option('--dry-run', '-n', is_flag=True, help='Report what would change, write nothing')
+@click.option('--force', is_flag=True,
+              help='Apply even if the tile no longer matches base_sha256')
+@click.pass_context
+def build_adt_place(ctx, recipe_path, dry_run, force):
+    """Apply WMO/doodad placements to ADT tiles from a tracked recipe (F-209).
+
+    ADT binaries are gitignored, so a Noggit edit leaves nothing reviewable.
+    This replays placements from JSON and records the resulting sha256, the
+    same provenance model as model_transforms.json (F-203).
+    """
+    from lib.adt_placement import apply_recipe, load_recipe, sha256
+
+    craft_root = Path(__file__).resolve().parents[2]
+    recipe_file = Path(recipe_path)
+    recipe = load_recipe(recipe_file)
+    target = craft_root / 'zpaks' / recipe['target_zpak'] / 'mpq' / 'parsed-assets'
+
+    changed = False
+    for rel, entry in recipe['placements'].items():
+        adt = target / rel
+        if not adt.exists():
+            raise click.ClickException(f'tile not found: {adt}')
+        try:
+            out, stats = apply_recipe(adt, entry, strict=not force)
+        except ValueError as exc:
+            raise click.ClickException(str(exc))
+
+        if stats.get('skipped'):
+            click.echo(f'  {rel}: {stats["skipped"]}')
+            continue
+
+        click.echo(f'  {rel}: +{stats["wmos_added"]} WMO, +{stats["doodads_added"]} doodad, '
+                   f'{stats["chunks_touched"]} MCNK updated, {stats["size_delta"]:+d} bytes')
+        if dry_run:
+            click.echo(f'    [DRY RUN] would become {stats["result_sha256"][:16]}')
+            continue
+        adt.write_bytes(out)
+        if entry.get('result_sha256') != stats['result_sha256']:
+            entry['result_sha256'] = stats['result_sha256']
+            changed = True
+
+    if changed and not dry_run:
+        import json as _json
+        recipe_file.write_text(_json.dumps(recipe, indent=2) + '\n')
+        click.echo('  recorded result_sha256 in the recipe')
+
+
 @build.command('patch-register')
 @click.option('--show', '-s', is_flag=True, help='Show current patch versions')
 @click.option('--update', '-u', is_flag=True,
@@ -509,7 +561,7 @@ def _run_regenerate(craft_root: Path, nginx_path: Path, dry_run: bool):
         click.echo(f"  {prefix}Synced {len(synced)} patch(es) from zpak manifests:")
         for key in synced:
             entry = result['register']['patches'][key]
-            mpq_path = nginx_path / ('mandatory' if entry.get('is_mandatory') else 'optional') / key
+            mpq_path = get_patch_output_path(nginx_path, key, result['register'])
             status = "ready" if mpq_path.exists() else "missing"
             click.echo(f"    {key:<16} {entry.get('name', '?'):<24} {status}")
 
@@ -761,3 +813,116 @@ def build_tooltip_data(ctx, spell_ids, family, out_path, database):
                 click.echo(click.style(f"Wrote desc/tt templates -> {desc_path}", fg='green'))
         else:
             click.echo("\n" + result["lua"])
+
+
+# =============================================================================
+# build cinematic
+# =============================================================================
+
+@build.group('cinematic')
+def build_cinematic():
+    """Pre-rendered cinematic (.avi) conversion and validation."""
+
+
+def _echo_checks(checks) -> bool:
+    """Print a validation table. Returns True if no fatal check failed."""
+    fatal_failures = 0
+    for c in checks:
+        if c.ok:
+            mark, colour = 'OK  ', 'green'
+        elif c.fatal:
+            mark, colour = 'FAIL', 'red'
+            fatal_failures += 1
+        else:
+            mark, colour = 'WARN', 'yellow'
+        line = f'  [{mark}] {c.field:<28} expected {c.expected!s:<18} got {c.actual!s}'
+        click.echo(click.style(line, fg=colour))
+        if c.note and not c.ok:
+            click.echo(f'         {c.note}')
+    return fatal_failures == 0
+
+
+@build_cinematic.command('check')
+@click.argument('files', nargs=-1, required=True,
+                type=click.Path(exists=True, dir_okay=False, path_type=Path))
+@click.option('--any-resolution', is_flag=True,
+              help='Skip the 1024x576 / 800x448 check (for post-I-279 testing)')
+def cinematic_check(files, any_resolution):
+    """Validate .avi files against the format the client will actually play."""
+    from lib.cinematic import read_avi_info, validate
+
+    all_ok = True
+    for path in files:
+        click.echo(click.style(f'\n{path.name}', bold=True))
+        try:
+            info = read_avi_info(path)
+        except ValueError as exc:
+            click.echo(click.style(f'  [FAIL] {exc}', fg='red'))
+            all_ok = False
+            continue
+
+        avih = info.get('avih', {})
+        click.echo(f"  {avih.get('width')}x{avih.get('height')} @ {avih.get('fps')} fps, "
+                   f"{avih.get('total_frames')} frames, "
+                   f"{info['file_size'] / 1048576:.1f} MB")
+        if not _echo_checks(validate(info, strict_resolution=not any_resolution)):
+            all_ok = False
+
+    if all_ok:
+        click.echo(click.style('\nAll files match the playable format.', fg='green'))
+    else:
+        click.echo(click.style(
+            '\nAt least one FAIL above — the client will ignore that file silently.',
+            fg='red'))
+    return all_ok
+
+
+@build_cinematic.command('convert')
+@click.argument('source', type=click.Path(exists=True, dir_okay=False, path_type=Path))
+@click.option('--name', '-n', required=True,
+              help='Base name, matching Movie.dbc movie_path (e.g. "Goblin")')
+@click.option('--out', '-o', 'out_dir', default=None, type=click.Path(path_type=Path),
+              help='Output dir (default: the zep-cinematics zpak source-assets)')
+@click.option('--width', '-w', 'widths', multiple=True, type=int,
+              help='Width variant(s) to emit; repeatable. Default: 1024 and 800')
+@click.option('--fps', type=float, default=None, help='Force output frame rate')
+@click.option('--bitrate', '-b', default=None, help='Video bitrate (e.g. 3M)')
+@click.pass_context
+def cinematic_convert(ctx, source, name, out_dir, widths, fps, bitrate):
+    """Convert any video (MP4, MKV, ...) into client-playable .avi variants."""
+    from lib.cinematic import (
+        convert_all, find_ffmpeg, read_avi_info, validate,
+    )
+
+    if not find_ffmpeg():
+        raise click.ClickException(
+            'ffmpeg not found. Install it, or `pip install imageio-ffmpeg`.')
+
+    if out_dir is None:
+        out_dir = (ctx.obj['craft_root'] / 'zpaks' / 'zep-cinematics' /
+                   'mpq' / 'source-assets' / 'Interface' / 'Cinematics')
+
+    click.echo(f'Converting {source.name} -> {name}_<width>.avi in {out_dir}')
+
+    try:
+        results = convert_all(source, out_dir, name,
+                              widths=list(widths) or None,
+                              fps=fps, bitrate=bitrate)
+    except (RuntimeError, ValueError) as exc:
+        raise click.ClickException(str(exc))
+
+    all_ok = True
+    for width, path in results:
+        click.echo(click.style(
+            f'\n{path.name}  ({path.stat().st_size / 1048576:.1f} MB)', bold=True))
+        if not _echo_checks(validate(read_avi_info(path))):
+            all_ok = False
+
+    if all_ok:
+        click.echo(click.style('\nDone. Next steps:', fg='green'))
+        click.echo('  zep build patch-mpq -p X --parse-build')
+        click.echo('  in-game:  .debug play movie <id>   '
+                   '(14 = stock Wrathgate control)')
+    else:
+        click.echo(click.style('\nConversion produced a non-conforming file.',
+                               fg='red'))

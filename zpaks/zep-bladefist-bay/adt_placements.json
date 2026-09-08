@@ -1,0 +1,210 @@
+{
+  "_comment": "F-209 Bladefist Bay. Placements taken verbatim from Cataclysm Kalimdor_41_29_obj0.adt (whitemane-15595); world z re-sampled from our 3.3.5a heightmap for anything standing on land. Applied by `zep build adt-place`, which refuses to run if base_sha256 has moved.",
+  "target_zpak": "patch-open-azeroth",
+  "placements": {
+    "WORLD/MAPS/KALIMDOR/KALIMDOR_41_29.ADT": {
+      "base_sha256": "babce64758a2c57b72eb53fbbfbeafb2dc0e23ad9ad4fe2e0c23390675fc4425",
+      "result_sha256": "d52e68b55026f3f05823dcee129b635b081ca4b1eef6cb9bb7967f9c51dabe2d",
+      "wmo": [
+        {
+          "model": "WORLD\\WMO\\OUTLAND\\ORCBUILDINGS\\ND_ORC_DOCKS.WMO",
+          "adt_pos": [
+            22044.30664,
+            7.789,
+            15631.58594
+          ],
+          "rot": [
+            0.0,
+            6.0,
+            0.0
+          ],
+          "extents": [
+            21969.84961,
+            -59.92679,
+            15589.02832,
+            22093.20898,
+            28.30387,
+            15673.9375
+          ],
+          "uid": 7900001,
+          "note": "over water on pilings - Cata z kept, deck meets our beach at ~9.5"
+        },
+        {
+          "model": "world\\wmo\\azeroth\\buildings\\horde_goblin\\goblinshipfinal_big.wmo",
+          "adt_pos": [
+            22077.23438,
+            10.4877,
+            15574.30664
+          ],
+          "rot": [
+            0.0,
+            98.49994,
+            0.0
+          ],
+          "extents": [
+            22023.32031,
+            -4.63322,
+            15553.42969,
+            22124.64062,
+            36.5533,
+            15600.33496
+          ],
+          "uid": 7900002,
+          "note": "afloat - Cata z kept; keel -4.63, our seabed -8.64"
+        },
+        {
+          "model": "WORLD\\WMO\\KALIMDOR\\OGRIMMAR\\ORCTOWERORGRIMMAR.WMO",
+          "adt_pos": [
+            21979.43555,
+            6.5,
+            15691.01367
+          ],
+          "rot": [
+            0.0,
+            168.0,
+            0.0
+          ],
+          "extents": [
+            21944.34375,
+            5.97791,
+            15656.55762,
+            22014.08984,
+            89.44678,
+            15726.22852
+          ],
+          "uid": 7900003,
+          "note": "Cata z 11.282 dropped to 6.5: our shore slopes 5.9-10.4 across its footprint"
+        }
+      ],
+      "doodad": [
+        {
+          "model": "WORLD\\GENERIC\\ORC\\PASSIVE DOODADS\\BARRICADE\\ORC_BARRICADE_01.M2",
+          "adt_pos": [
+            21998.61522,
+            2.4869,
+            15656.41602
+          ],
+          "rot": [
+            9.70575,
+            121.5,
+            -1.20591
+          ],
+          "scale": 1024,
+          "uid": 7900009,
+          "radius": 6.0
+        },
+        {
+          "model": "WORLD\\GENERIC\\ORC\\PASSIVE DOODADS\\BARRICADE\\ORC_BARRICADE_01.M2",
+          "adt_pos": [
+            22002.26562,
+            3.99467,
+            15682.38672
+          ],
+          "rot": [
+            3.10155,
+            67.0,
+            -1.48162
+          ],
+          "scale": 1024,
+          "uid": 7900010,
+          "radius": 6.0
+        },
+        {
+          "model": "WORLD\\GENERIC\\ORC\\PASSIVE DOODADS\\BARRICADE\\ORC_BARRICADE_01.M2",
+          "adt_pos": [
+            22003.40622,
+            3.70146,
+            15674.44532
+          ],
+          "rot": [
+            6.76397,
+            93.5,
+            -1.34119
+          ],
+          "scale": 1024,
+          "uid": 7900011,
+          "radius": 6.0
+        }
+      ],
+      "_note": "Applied to parsed-assets, which is what `zep build patch-mpq -p O --build` packs and which already carries earlier Noggit edits for this tile (source-assets is 76 bytes behind and is NOT updated here). A --parse-build would revert both this and that earlier work.",
+      "move_doodad": [
+        {
+          "uid": 142096,
+          "was": "DUROTARTREE04 at (1452.26,-4949.49,-4.62), underwater",
+          "adt_pos": [
+            22028.38672,
+            3.11664,
+            15705.58592
+          ],
+          "rot": [
+            5.32162,
+            63.79111,
+            -3.94133
+          ],
+          "scale": 1301,
+          "radius": 10.0
+        },
+        {
+          "uid": 142094,
+          "was": "DUROTARPALM03 at (1451.74,-4941.85,-4.82), underwater",
+          "adt_pos": [
+            22022.44532,
+            3.51875,
+            15706.12602
+          ],
+          "rot": [
+            3.4205,
+            261.12201,
+            11.3465
+          ],
+          "scale": 1130,
+          "radius": 10.0
+        },
+        {
+          "uid": 142107,
+          "was": "BADLANDSPALMTREE01 at (1444.48,-4946.73,-2.75), underwater",
+          "adt_pos": [
+            22028.17582,
+            3.80399,
+            15712.73532
+          ],
+          "rot": [
+            4.08238,
+            353.99402,
+            -0.72333
+          ],
+          "scale": 1345,
+          "radius": 10.0
+        },
+        {
+          "uid": 142100,
+          "was": "STRANGLETHORNFERN05 at (1447.25,-4945.12,-2.48), underwater",
+          "adt_pos": [
+            22026.23442,
+            3.73222,
+            15710.18652
+          ],
+          "rot": [
+            7.04746,
+            173.909,
+            13.7151
+          ],
+          "scale": 858,
+          "radius": 4.0
+        }
+      ],
+      "_doodad_note": "Cata's BIRD01 and its four beach trees are deliberately not added: OA already has all five. The bird matches; the trees were sunk under the new dock, so they are moved onto Cata's beach positions instead."
+    }
+  },
+  "assets": {
+    "_comment": "WMO binaries are gitignored, so their identity is recorded here. Source is the Cataclysm client extraction (Zeppelin-Tools/whitemane-15595), NOT the Asset Library: the Asset Library's copies of all four group files are truncated by exactly 32 bytes and their MOGP chunk runs past the end of file.",
+    "source": "Zeppelin-Tools/whitemane-15595/extracted/World/wmo/Azeroth/Buildings/Horde_Goblin",
+    "files": {
+      "goblinshipfinal_big.wmo": "430d3bbe6f9e231785e7f5a0f3e2553584e59d536593cf9f96d9e26b8dcaf0de",
+      "goblinshipfinal_big_000.wmo": "ed6994ba9d845462d8fbe9937de7e98cab272cf67bc8498a8ce4aac8e446f8ba",
+      "goblinshipfinal_big_001.wmo": "aac3ba23545afd9824a4c06258f01c9611f197eb2aae28b865783b88f0420ea1",
+      "goblinshipfinal_big_002.wmo": "eb67f8605e58fb8d1711f4b5017018f76981de4427425cee4452f56415bef9e4",
+      "goblinshipfinal_big_003.wmo": "1d2e76d4c0e8138d59c56e986b6fd4243b1a99c1f2883fe3c0ffb3827507b5b0"
+    }
+  }
+}

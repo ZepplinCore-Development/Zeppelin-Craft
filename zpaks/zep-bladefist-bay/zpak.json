@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-bladefist-bay",
+  "version": "0.1.0",
+  "description": "F-209 Bladefist Bay - permanent goblin ship, orc docks and relocated Lost Isles crew in Durotar",
+  "author": "Zeppelin Team",
+  "type": "hybrid",
+  "contents": {
+    "sql": [
+      "sql/*.sql"
+    ]
+  },
+  "client_patch": "PATCH-T",
+  "enabled": true,
+  "priority": 580
+}

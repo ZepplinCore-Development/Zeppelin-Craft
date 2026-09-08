@@ -25,9 +25,12 @@
 --                             stretch of beach is useless
 -- =============================================================================
 
-UPDATE `spell_target_position` SET
-  `PositionX` = 1345.0, `PositionY` = -4945.0, `PositionZ` = 6.5531, `Orientation` = 1.1786
-WHERE `ID` = 74029 AND `EffectIndex` = 2;
+-- The TELEPORT (EffectIndex 2) used to be set here, to a beach at
+-- (1345, -4945), because the donor coordinate landed underwater. F-209 builds
+-- the Bladefist Bay dock the donor coordinate was always standing on and
+-- restores it, so that UPDATE now lives in
+-- zz_[F-209]_arrival_lands_on_the_dock.sql and is deliberately not repeated
+-- here - one owner per row.
 
 UPDATE `spell_target_position` SET
   `PositionX` = 1629.8, `PositionY` = -4373.6, `PositionZ` = 31.6, `Orientation` = 3.7
