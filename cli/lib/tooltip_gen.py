@@ -40,6 +40,8 @@ SPEED_AURAS = {31, 32, 58, 129, 130, 206, 207, 208, 209, 210, 211}
 # which is local player state (UnitDamage), so they are self-computable. They live
 # on the spell-tooltip surface only (instant abilities), never as auras -> no ALE.
 WEAPON_EFFECTS = {17, 31, 58, 121}
+# ENERGIZE (effect 30) misc_value = Powers enum
+POWER_NAMES = {0: "mana", 1: "rage", 3: "energy", 6: "runic power"}
 WEAPON_EFFECT_NAMES = {
     17: "WEAPON_NOSCHOOL", 31: "WEAPON_PERCENT", 58: "WEAPON_DAMAGE", 121: "NORMALIZED",
 }
@@ -327,6 +329,22 @@ def classify(spell_id: int, spells: Dict[int, Dict],
             consumable["eff"] = int(tok.group(1)) if tok else max(effects, key=lambda e: e["base"])["i"]
             if consumable["ps"]:
                 consumable["dur"] = int(row.get("_dur") or 0)  # seconds, for the total restore
+            else:
+                # instant potions can restore several things at once (rejuvenation = ENERGIZE +
+                # HEAL): emit every restore effect, in the order the stock desc names them.
+                order = [int(t) for t in re.findall(r"\$[sSmM](\d)", row.get("spell_desc_enus") or "")]
+                parts = []
+                for e in effects:
+                    if e["type"] == 10:
+                        kind = "health"
+                    elif e["type"] == 30:
+                        kind = POWER_NAMES.get(_i(row, f"effect_misc_value_a_{e['i']}"), "mana")
+                    else:
+                        continue
+                    parts.append({"eff": e["i"], "kind": kind})
+                parts.sort(key=lambda p: order.index(p["eff"]) if p["eff"] in order else 9 + p["eff"])
+                if len(parts) > 1:
+                    consumable["parts"] = parts
     # a movement-speed spell (mount/form) is renderable so the addon gets its effect data to
     # show Ground/Flight/Swim lines, even now that the F-005 speed desc vars are retired.
     has_speed = any(e["aura"] in SPEED_AURAS for e in effects)
@@ -431,9 +449,13 @@ def emit_lua(records: List[Dict]) -> str:
         cons_lua = ""
         if r.get("consumable"):
             cn = r["consumable"]
-            cons_lua = ', cons={kind="%s",eff=%d,ps=%s%s}' % (
+            parts_lua = ""
+            if cn.get("parts"):
+                parts_lua = ",parts={%s}" % ",".join(
+                    '{e=%d,k="%s"}' % (p["eff"], p["kind"]) for p in cn["parts"])
+            cons_lua = ', cons={kind="%s",eff=%d,ps=%s%s%s}' % (
                 cn["kind"], cn["eff"], "true" if cn["ps"] else "false",
-                (",dur=%d" % cn["dur"]) if cn.get("dur") else "")
+                (",dur=%d" % cn["dur"]) if cn.get("dur") else "", parts_lua)
         lines.append(
             "  [%d] = {cd=%s, reasons=%s, dv=%d, dc=%d, bl=%d, ml=%d, sl=%d, eff=%s, sp=%s, "
             "weapon=%s, stat=%s, cost=%s, mods=%s%s},  -- %s"

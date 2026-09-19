@@ -243,8 +243,17 @@ local function renderTooltip(tooltip, spellId, isAura)
     -- gated on no active custom desc-var (dv==0) so it doesn't double up with a var-183/186
     -- desc that still shows the value; activates per-spell as those vars are retired.
     if rec.cons and (rec.dv or 0) == 0 then
-        local v = ZepCompute.effectValues(rec, ctx)[rec.cons.eff]
-        if v then
+        local vals = ZepCompute.effectValues(rec, ctx)
+        local v = vals[rec.cons.eff]
+        if rec.cons.parts then
+            -- multi-restore potion (rejuvenation: mana + health), in the stock desc's order
+            local segs = {}
+            for _, p in ipairs(rec.cons.parts) do
+                local pv = vals[p.e]
+                if pv then segs[#segs + 1] = fmt(pv) .. " " .. p.k end
+            end
+            if #segs > 0 then addLine("Restores " .. table.concat(segs, " and ")) end
+        elseif v then
             local kind = rec.cons.kind == "mana" and "mana" or "health"
             if rec.cons.ps and rec.cons.dur and rec.cons.dur > 0 then
                 -- food/drink: effect value is per-5s; per-second = /5, total = per-sec * duration
