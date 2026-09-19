@@ -1,0 +1,90 @@
+{
+  "task": "F-211",
+  "name": "orgrimmar_grunt",
+  "kind": "uniform",
+  "race": 2,
+  "outfit": {
+    "items": {
+      "shoulders": 118366,
+      "chest": 118367,
+      "gloves": 118368,
+      "belt": 118369,
+      "legs": 118370,
+      "boots": 118371,
+      "tabard": 118372
+    }
+  },
+  "variants": {
+    "genders": {
+      "0": 4,
+      "1": 4
+    },
+    "skin_colors": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      8
+    ],
+    "alternate": [
+      "tabard"
+    ]
+  },
+  "base_display": {
+    "0": 4602,
+    "1": 4260
+  },
+  "display_ids": [
+    900301,
+    900302,
+    900303,
+    900304,
+    900305,
+    900306,
+    900307,
+    900308,
+    900309,
+    900310
+  ],
+  "weapons": {
+    "orgrimmar_axe": {
+      "item": 118400,
+      "entry": 84800,
+      "name": "Monster - Axe, 2H Orgrimmar Axe",
+      "template_from": 5289,
+      "icon": "INV_Axe_04",
+      "sound_group": 9
+    }
+  },
+  "creatures": [
+    {
+      "entry": 3296,
+      "variants": [
+        0,
+        1,
+        4,
+        5
+      ],
+      "equip": {
+        "id": 1,
+        "main": "orgrimmar_axe"
+      }
+    },
+    {
+      "entry": 31416,
+      "variants": [
+        2,
+        3,
+        6,
+        7
+      ],
+      "equip": {
+        "id": 1,
+        "main": "orgrimmar_axe"
+      }
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+ "generator": "zep wardrobe build (F-198)",
+ "source": "wago.tools CASC by FDID (https://wago.tools/api/casc/<fdid>?version=<build>)",
+ "downport": "cli/lib/wardrobe/downport_harness.cpp + m2.classic_env_batches",
+ "assets": [
+  {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_leather_hordeuprez_b_03.m2",
+   "fdid": 1060797,
+   "build": "12.1.0.69875",
+   "kind": "downport+0x8000 env batch -> classic 2-batch",
+   "sha256": "653e035942ce1382faf2d2e190d5c8ac0c30862baa3416c3c08bb1112245c490"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_leather_hordeuprez_b_0300.skin",
+   "fdid": 1060894,
+   "build": "12.1.0.69875",
+   "kind": "downport+0x8000 env batch -> classic 2-batch",
+   "sha256": "1c58e68075a711b9b46f2b403919a29f221eaf48d4b8e94ff1a03f384c93760d"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_hordeuprez_b_03.m2",
+   "fdid": 1028407,
+   "build": "12.1.0.69875",
+   "kind": "downport+0x8000 env batch -> classic 2-batch",
+   "sha256": "6a53d83b278bda532fb1b05170aa6c2d830560cc8757285f672db03d4122f251"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_hordeuprez_b_0300.skin",
+   "fdid": 1028888,
+   "build": "12.1.0.69875",
+   "kind": "downport+0x8000 env batch -> classic 2-batch",
+   "sha256": "ac349b8ec2a9d65f10f7569d84dc7220e9bfae25d77068c39821d98dd5f263fa"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/shoulder_leather_hordeuprez_b_03.blp",
+   "fdid": 1031465,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "30537ed2fa69207d70425b5bf60b8624a21f456c73dce90e7acdc8696d5ae282"
+  },
+  {
+   "path": "Item/ObjectComponents/Weapon/axe_2h_war_b_02_hd.m2",
+   "fdid": 1053188,
+   "build": "12.1.0.69875",
+   "kind": "downport+0x8000 env batch -> classic 2-batch",
+   "sha256": "64bcaddf2c939fa3ee06005ec4c643cdd93054c653cf4a6aaff52f60fc55785a"
+  },
+  {
+   "path": "Item/ObjectComponents/Weapon/axe_2h_war_b_02_hd00.skin",
+   "fdid": 1053433,
+   "build": "12.1.0.69875",
+   "kind": "downport+0x8000 env batch -> classic 2-batch",
+   "sha256": "17e187525c47b7072568e5fdcc52b5fe39cda2b8150bc3907ca8834b7334a3f2"
+  },
+  {
+   "path": "Item/ObjectComponents/Weapon/axe_2h_war_b_02_hd_silver.blp",
+   "fdid": 1053191,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "09a3227728b225ae4a96b9eba5b5f8d92f74adc92e04d080b5149b5a60d9c7a7"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/leather_hordeuprez_b_03_glove_al_u.blp",
+   "fdid": 1028530,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "cbf30aee07a90d286e8bc5d1d3edd045641de73f0408c2558148e4c96c62971d"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/leather_hordeuprez_b_03_sleeve_au_f.blp",
+   "fdid": 1028533,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "bf1e765c1640da659771c053980bbf537434865340d34138619a3ea73d256acc"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/leather_hordeuprez_b_03_sleeve_au_m.blp",
+   "fdid": 1028534,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2899f4d0c5b4467ac6982a02e5a75dd6adbd49a600f6afc4902aaf7932fdc028"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/leather_hordeuprez_b_03_boot_fo_u.blp",
+   "fdid": 1028535,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4dabed3380db63be7ffe2d990a2d3def9a5fc8add44c42d0ef5a9c9bfecb3ebe"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/leather_hordeuprez_b_03_glove_ha_u.blp",
+   "fdid": 1028536,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "1796b68d849a6ce8c7947bca702a70991da517484639f0c79fb02723b771994f"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_hordeuprez_b_03_boot_ll_u.blp",
+   "fdid": 1028540,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9e3670211a4134eb24625b8b9bab237b52e2d5a1b232bdf2cb107b83792ff1b1"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_hordeuprez_b_03_pant_ll_u.blp",
+   "fdid": 1028541,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "03e19d90ab19bda84868377e0ce724879ee300f648ed73984c5af2b896e7d46a"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_hordeuprez_b_03_belt_lu_u.blp",
+   "fdid": 1028542,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "94491624651e924d43a315b840b2d0ff1e3c3f93f47d8a4dbf1b12acdb1a71fc"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_hordeuprez_b_03_pant_lu_u.blp",
+   "fdid": 1028543,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "69cf931dd91bf75d9c6da5f19842227e233ae4e5615bd4b006d14c63f522b780"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_hordeuprez_b_03_belt_tl_u.blp",
+   "fdid": 1028544,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "430783078cb7fb906bd459d7bd6a1037812d8b205ec724036094f0f8790ab491"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_hordeuprez_b_03_chest_tl_f.blp",
+   "fdid": 1028545,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "8a5383876928649b3e3121ef7953c78a20bec26a6fe865fa3fc6c3e997eae150"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_hordeuprez_b_03_chest_tl_m.blp",
+   "fdid": 1028546,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "bff9dfb8d4a8b8c4063186acca354f80c3930754de4a46cbd91d6286d6b25058"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_43orgrimmaruprez_chest_tl_f.blp",
+   "fdid": 1043219,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "1b4c9f879d102789b5e8bab71711f1b66830f8f1ae65a67a75ff74eef2f65557"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_43orgrimmaruprez_chest_tl_m.blp",
+   "fdid": 1028529,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "599239454561f2e1e5468c38dfb78e392b4c528f596a8c1d0d83139605a78f08"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/leather_hordeuprez_b_03_chest_tu_f.blp",
+   "fdid": 1028547,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "74552a6b9189b473b8efe97a743ea2f40667d8562548ebd2be97e095bd70e432"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/leather_hordeuprez_b_03_chest_tu_m.blp",
+   "fdid": 1028548,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a428a7892a1f66670c5a2d6783970cf56d6428dc29782c27d86dcf72befa2e84"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_43orgrimmaruprez_chest_tu_f.blp",
+   "fdid": 1060430,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4e192aeacd2407acd9d1b2bf533a045cbdd2bd520008213ea062246f60a1a13d"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_43orgrimmaruprez_chest_tu_m.blp",
+   "fdid": 1028524,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "328c06ab8dd240126522e545662b54c1c5e4e6c06bcb2c48957f236971ca7e54"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900301_HD.blp",
+   "kind": "bake",
+   "display": 900301,
+   "sha256": "7508f1ec745cc7e61a171a4a3ec91e9fc03b4f8b0de06f40dfd95c8d57bfb660"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900302_HD.blp",
+   "kind": "bake",
+   "display": 900302,
+   "sha256": "d9f53b2475246d74cc4b4815e1c22ee0e0768d6bd33425f55f3d988071d58b35"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900303_HD.blp",
+   "kind": "bake",
+   "display": 900303,
+   "sha256": "802a15ae9eccb37d39e0fcb812ce3311d1a407eb737ec48c5193e07ce93bcd35"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900304_HD.blp",
+   "kind": "bake",
+   "display": 900304,
+   "sha256": "0bb1d144cb18740f5d3fec73133d0ec562f7daf312539033806f2c491695c702"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900305_HD.blp",
+   "kind": "bake",
+   "display": 900305,
+   "sha256": "0492d9ea8064c2764ccc9c4fbfa6158343263c9b001c185fde5dbf3cde5a0410"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900306_HD.blp",
+   "kind": "bake",
+   "display": 900306,
+   "sha256": "0c9b2c928330e2f17d64f30e647c3d474fb68fdf411348e651a7a2c290d283f9"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900307_HD.blp",
+   "kind": "bake",
+   "display": 900307,
+   "sha256": "0cee0c322421750a14f6e512ef4c8cb8750604e4e1d56e62a856a7f2475c3ba3"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900308_HD.blp",
+   "kind": "bake",
+   "display": 900308,
+   "sha256": "1dd7216d9b2d5ef742b47ec9ccf14179a7b29f4339bcb0345984b77f6345b247"
+  }
+ ]
+}
