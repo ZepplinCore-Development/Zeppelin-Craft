@@ -33,7 +33,7 @@ DELETE FROM `creature_questender` WHERE `quest` = 90114;
 
 -- =====================================================
 -- JOURNEYMAN MINING PICK QUESTS (75+ Mining)
--- 20 Copper Ore + 20 Tin Ore
+-- 20 Copper Ore + 20 Tin Ore + Basic Mining Pick (trade-in)
 -- Reward: Journeyman Mining Pick (57700)
 -- =====================================================
 
@@ -54,11 +54,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 2771, -- Tin Ore
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 2901, -- Basic Mining Pick (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 72, -- Stormwind
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Mining Pick',
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
-    `QuestDescription` = 'Mining with basic tools? You''re missing extra ore from every vein you tap. I have proper picks available - bring me 20 Copper Ore and 20 Tin Ore to replenish my stock, and they''re yours. You''ll extract more ore per vein with the right equipment.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
+    `QuestDescription` = 'Mining with basic tools? You''re missing extra ore from every vein you tap. I have proper picks available - bring me 20 Copper Ore and 20 Tin Ore to replenish my stock, and they''re yours. You''ll extract more ore per vein with the right equipment.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore$B- 1 Basic Mining Pick',
     `QuestCompletionLog` = 'Return the ore to Gelman Stonehand in Stormwind',
     `RewardItem1` = 57700,
     `RewardAmount1` = 1,
@@ -101,11 +103,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 2771, -- Tin Ore
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 2901, -- Basic Mining Pick (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 47, -- Ironforge
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Mining Pick',
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
-    `QuestDescription` = 'Bah! Still usin'' basic tools, are ye? No wonder yer only gettin'' a trickle from each vein! I''ve got proper picks here - fetch me 20 Copper Ore and 20 Tin Ore fer me forge, and I''ll trade ye fer one. Ye''ll pull twice the ore from each vein, I guarantee it.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
+    `QuestDescription` = 'Bah! Still usin'' basic tools, are ye? No wonder yer only gettin'' a trickle from each vein! I''ve got proper picks here - fetch me 20 Copper Ore and 20 Tin Ore fer me forge, and I''ll trade ye fer one. Ye''ll pull twice the ore from each vein, I guarantee it.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore$B- 1 Basic Mining Pick',
     `QuestCompletionLog` = 'Return the ore to Geofram Bouldertoe in Ironforge',
     `RewardItem1` = 57700,
     `RewardAmount1` = 1,
@@ -148,11 +152,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 2771, -- Tin Ore
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 2901, -- Basic Mining Pick (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 69, -- Darnassus
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Mining Pick',
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
-    `QuestDescription` = 'I see you work the stone without proper tools. The earth gives more freely when approached with respect and precision. I have picks available. If you bring me 20 Copper Ore and 20 Tin Ore for my work, I will trade one to you. You will find each vein yields more generously.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
+    `QuestDescription` = 'I see you work the stone without proper tools. The earth gives more freely when approached with respect and precision. I have picks available. If you bring me 20 Copper Ore and 20 Tin Ore for my work, I will trade one to you. You will find each vein yields more generously.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore$B- 1 Basic Mining Pick',
     `QuestCompletionLog` = 'Return the ore to Borin Irondelve in Darnassus',
     `RewardItem1` = 57700,
     `RewardAmount1` = 1,
@@ -195,11 +201,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 2771, -- Tin Ore
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 2901, -- Basic Mining Pick (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 930, -- Exodar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Mining Pick',
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
-    `QuestDescription` = 'I observe you mine without refined instruments. Your technique is sound, but proper tools would increase your yield significantly. I have picks available - if you bring me 20 Copper Ore and 20 Tin Ore to replenish my supplies, I will trade one to you. The Light will guide your hands to greater harvests.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
+    `QuestDescription` = 'I observe you mine without refined instruments. Your technique is sound, but proper tools would increase your yield significantly. I have picks available - if you bring me 20 Copper Ore and 20 Tin Ore to replenish my supplies, I will trade one to you. The Light will guide your hands to greater harvests.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore$B- 1 Basic Mining Pick',
     `QuestCompletionLog` = 'Return the ore to Muaat in the Exodar',
     `RewardItem1` = 57700,
     `RewardAmount1` = 1,
@@ -242,11 +250,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 2771, -- Tin Ore
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 2901, -- Basic Mining Pick (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 76, -- Orgrimmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Mining Pick',
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
-    `QuestDescription` = 'Basic tools? Wasteful. Get little ore from veins. Need better pick. I have picks. 20 Copper Ore, 20 Tin Ore. Bring. Trade for pick. Get more ore from each vein. Simple.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
+    `QuestDescription` = 'Basic tools? Wasteful. Get little ore from veins. Need better pick. I have picks. 20 Copper Ore, 20 Tin Ore. Bring. Trade for pick. Get more ore from each vein. Simple.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore$B- 1 Basic Mining Pick',
     `QuestCompletionLog` = 'Return the ore to Makaru in Orgrimmar',
     `RewardItem1` = 57700,
     `RewardAmount1` = 1,
@@ -289,11 +299,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 2771, -- Tin Ore
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 2901, -- Basic Mining Pick (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 81, -- Thunder Bluff
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Mining Pick',
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
-    `QuestDescription` = '$GBrother:Sister;, I see you work the earth without proper tools. The Earth Mother teaches that respect for the stone brings greater bounty. I have picks here - bring me 20 Copper Ore and 20 Tin Ore for my needs, and I will trade one to you. You will find each vein yields more generously.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
+    `QuestDescription` = '$GBrother:Sister;, I see you work the earth without proper tools. The Earth Mother teaches that respect for the stone brings greater bounty. I have picks here - bring me 20 Copper Ore and 20 Tin Ore for my needs, and I will trade one to you. You will find each vein yields more generously.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore$B- 1 Basic Mining Pick',
     `QuestCompletionLog` = 'Return the ore to Brek Stonehoof in Thunder Bluff',
     `RewardItem1` = 57700,
     `RewardAmount1` = 1,
@@ -336,11 +348,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 2771, -- Tin Ore
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 2901, -- Basic Mining Pick (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 68, -- Undercity
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Mining Pick',
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
-    `QuestDescription` = 'Mining with basic tools? How... inefficient. You''re wasting valuable ore with each vein you tap. I have proper picks available - bring me 20 Copper Ore and 20 Tin Ore to replenish my stock, and I''ll part with one. Your yields will become considerably less... pitiful.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
+    `QuestDescription` = 'Mining with basic tools? How... inefficient. You''re wasting valuable ore with each vein you tap. I have proper picks available - bring me 20 Copper Ore and 20 Tin Ore to replenish my stock, and I''ll part with one. Your yields will become considerably less... pitiful.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore$B- 1 Basic Mining Pick',
     `QuestCompletionLog` = 'Return the ore to Brom Killian in Undercity',
     `RewardItem1` = 57700,
     `RewardAmount1` = 1,
@@ -383,11 +397,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 2771, -- Tin Ore
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 2901, -- Basic Mining Pick (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 911, -- Silvermoon City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Mining Pick',
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
-    `QuestDescription` = 'Mining with such... primitive methods? How do you expect to maximize your yield without proper tools? I have picks available. Bring me 20 Copper Ore and 20 Tin Ore - quality specimens, mind you - and I''ll trade one to you. Your yield per vein will improve dramatically.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
+    `QuestDescription` = 'Mining with such... primitive methods? How do you expect to maximize your yield without proper tools? I have picks available. Bring me 20 Copper Ore and 20 Tin Ore - quality specimens, mind you - and I''ll trade one to you. Your yield per vein will improve dramatically.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore$B- 1 Basic Mining Pick',
     `QuestCompletionLog` = 'Return the ore to Belil in Silvermoon City',
     `RewardItem1` = 57700,
     `RewardAmount1` = 1,
