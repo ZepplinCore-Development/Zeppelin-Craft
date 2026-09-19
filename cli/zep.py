@@ -1151,6 +1151,10 @@ from commands.outfit import outfit
 cli.add_command(dbc)
 dbc.add_command(outfit)
 
+# -- wardrobe: NPC outfitter (F-198) -----------------------------------------
+from commands.wardrobe import wardrobe
+cli.add_command(wardrobe)
+
 # -- forge: module sync ------------------------------------------------------
 from commands.forge import forge
 cli.add_command(forge)

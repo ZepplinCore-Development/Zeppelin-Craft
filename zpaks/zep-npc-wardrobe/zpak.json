@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-npc-wardrobe",
+  "version": "0.1.0",
+  "description": "F-198 NPC wardrobe: authored character-model NPC bakes (CreatureDisplayExtra BLPs + display rows) and the modern item assets they wear (item models, texture components, ItemDisplayInfo)",
+  "author": "Zeppelin Team",
+  "type": "hybrid",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ],
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ],
+    "mpq": [
+      "mpq/**/*"
+    ]
+  },
+  "client_patch": "PATCH-Z",
+  "enabled": true,
+  "priority": 100,
+  "features": [
+    "F-198"
+  ]
+}
