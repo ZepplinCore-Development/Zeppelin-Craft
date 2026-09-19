@@ -136,8 +136,16 @@ class DungeonQuest:
     difficulty: str
 
 
+# Quest-CSV dungeon wings that share one teleport orb (teleports CSV name)
+ORB_ALIASES = {
+    "Sunken Temple Upper": "Sunken Temple",
+    "Sunken Temple Lower": "Sunken Temple",
+}
+
+
 def get_dungeon_orb(dungeon_name: str, teleports_csv: Path = TELEPORTS_CSV) -> Optional[int]:
     """Look up teleport orb ID for a dungeon from the teleports CSV."""
+    dungeon_name = ORB_ALIASES.get(dungeon_name, dungeon_name)
     with open(teleports_csv, mode='r', newline='', encoding='utf-8') as f:
         reader = csv.reader(f)
         next(reader)
@@ -189,6 +197,7 @@ def generate_sql(quests: List[DungeonQuest], teleports_csv: Path = TELEPORTS_CSV
 
         teleport_orb_id = get_dungeon_orb(q.dungeon, teleports_csv)
         if teleport_orb_id is None:
+            print(f"WARNING: no teleport orb for '{q.dungeon}' (quest {q.quest_id}) - StartItem = 0")
             teleport_orb_id = 0
 
         # Calculate money reward
