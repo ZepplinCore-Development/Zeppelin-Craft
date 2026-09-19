@@ -87,6 +87,10 @@ DELETE FROM `npc_vendor` WHERE (`item` = 58551);
 INSERT INTO `npc_vendor`
 SET `entry` = 3562,
     `item` = 58551;
+-- Cyroen - Scroll of Teleport Darnassus
+INSERT INTO `npc_vendor`
+SET `entry` = 4220,
+    `item` = 58551;
 
 
 -- Scroll of Teleport Undercity
@@ -212,6 +216,18 @@ SET `entry` = 1307,
 INSERT INTO `npc_vendor`
 SET `entry` = 1275,
     `item` = 58554;
+-- Owen Vaughn - Scroll of Teleport Stormwind
+INSERT INTO `npc_vendor`
+SET `entry` = 1308,
+    `item` = 58554;
+-- Keldric Boucher - Scroll of Teleport Stormwind
+INSERT INTO `npc_vendor`
+SET `entry` = 1257,
+    `item` = 58554;
+-- Brother Cassius - Scroll of Teleport Stormwind
+INSERT INTO `npc_vendor`
+SET `entry` = 1351,
+    `item` = 58554;
 
 
 -- Scroll of Teleport Orgrimmar
@@ -254,6 +270,14 @@ SET `entry` = 3323,
 -- Hagrus - Scroll of Teleport Orgrimmar
 INSERT INTO `npc_vendor`
 SET `entry` = 3335,
+    `item` = 58555;
+-- Magenius - Scroll of Teleport Orgrimmar
+INSERT INTO `npc_vendor`
+SET `entry` = 3351,
+    `item` = 58555;
+-- First Sergeant Hola'mahi - Scroll of Teleport Orgrimmar
+INSERT INTO `npc_vendor`
+SET `entry` = 112795,
     `item` = 58555;
 
 
@@ -418,6 +442,10 @@ DELETE FROM `npc_vendor` WHERE (`item` = 58559);
 -- Hagatha Moorehead - Scroll of Teleport Dalaran
 INSERT INTO `npc_vendor`
 SET `entry` = 29636,
+    `item` = 58559;
+-- Darahir - Scroll of Teleport Dalaran
+INSERT INTO `npc_vendor`
+SET `entry` = 29537,
     `item` = 58559;
 
 
