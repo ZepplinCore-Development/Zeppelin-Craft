@@ -4218,6 +4218,7 @@ P.actionbar = {
 		alpha = 1,
 		inheritGlobalFade = false,
 		showGrid = true,
+		pagingAll = "",
 		paging = {
 			DRUID = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",
 			WARRIOR = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;",
@@ -4241,6 +4242,7 @@ P.actionbar = {
 		alpha = 1,
 		inheritGlobalFade = false,
 		showGrid = true,
+		pagingAll = "",
 		paging = {},
 		visibility = "[vehicleui] hide;show"
 	},
@@ -4259,6 +4261,7 @@ P.actionbar = {
 		alpha = 1,
 		inheritGlobalFade = false,
 		showGrid = true,
+		pagingAll = "",
 		paging = {},
 		visibility = "[vehicleui] hide;show"
 	},
@@ -4277,6 +4280,7 @@ P.actionbar = {
 		alpha = 1,
 		inheritGlobalFade = false,
 		showGrid = true,
+		pagingAll = "",
 		paging = {},
 		visibility = "[vehicleui] hide;show"
 	},
@@ -4295,6 +4299,7 @@ P.actionbar = {
 		alpha = 1,
 		inheritGlobalFade = false,
 		showGrid = true,
+		pagingAll = "",
 		paging = {},
 		visibility = "[vehicleui] hide;show"
 	},
@@ -4313,6 +4318,7 @@ P.actionbar = {
 		alpha = 1,
 		inheritGlobalFade = false,
 		showGrid = true,
+		pagingAll = "",
 		paging = {},
 		visibility = "[vehicleui] hide;show"
 	},

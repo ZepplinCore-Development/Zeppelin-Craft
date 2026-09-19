@@ -501,6 +501,13 @@ end
 function AB:GetPage(bar, defaultPage, condition)
 	local page = self.db[bar].paging[E.myclass]
 	if not condition then condition = "" end
+
+	--Zeppelin: class-agnostic paging (modifier swaps etc.) goes before the class stance/form paging
+	local pageAll = self.db[bar].pagingAll
+	if pageAll and pageAll ~= "" then
+		condition = condition.." "..gsub(pageAll, "[\n\r]", "")
+	end
+
 	if not page then
 		page = ""
 	elseif match(page, "[\n\r]") then

@@ -950,6 +950,24 @@ local function BuildABConfig()
 					min = 0, max = 1, step = 0.01,
 					disabled = function() return not E.db.actionbar["bar"..i].enabled end
 				},
+				pagingAll = {
+					order = 18.5,
+					type = "input",
+					name = L["Action Paging (All Classes)"],
+					desc = L["Paging used by every class, checked before the class paging below. Copies with the profile to characters of any class.\n Example: '[mod:shift] 2; [mod:alt] 3;'"],
+					width = "full",
+					multiline = true,
+					get = function(info) return E.db.actionbar["bar"..i].pagingAll end,
+					set = function(info, value)
+						if value and value:match("[\n\r]") then
+							value = value:gsub("[\n\r]","")
+						end
+
+						E.db.actionbar["bar"..i].pagingAll = value
+						AB:UpdateButtonSettings()
+					end,
+					disabled = function() return not E.db.actionbar["bar"..i].enabled end
+				},
 				paging = {
 					order = 19,
 					type = "input",
