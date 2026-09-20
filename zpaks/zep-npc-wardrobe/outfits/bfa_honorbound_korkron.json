@@ -1,0 +1,28 @@
+{
+  "task": "F-211",
+  "name": "bfa_honorbound_korkron",
+  "kind": "uniform",
+  "race": 2,
+  "_comment": "BfA Warfronts Horde plate (Honorbound Centurion), appearance modifier 3 = the maroon plate_warfrontshorde_d_01 look with collection armour, matching buckle and helm. Too heavy for the city grunts, so it dresses the Kor'kron Elites (14304), who already wore a plate helm.",
+  "outfit": {
+    "items": {
+      "helm": {"item": 163456, "mod": 3},
+      "shoulders": {"item": 163453, "mod": 3},
+      "chest": {"item": 163459, "mod": 3},
+      "gloves": {"item": 163458, "mod": 3},
+      "belt": {"item": 163461, "mod": 3},
+      "legs": {"item": 163455, "mod": 3},
+      "boots": {"item": 163460, "mod": 3},
+      "wrists": {"item": 163307}
+    }
+  },
+  "variants": {
+    "genders": {"0": 2, "1": 2},
+    "skin_colors": [0, 1, 2, 3, 4, 5, 7, 8]
+  },
+  "base_display": {"0": 14360, "1": 14362},
+  "display_ids": [900321, 900322, 900323, 900324],
+  "creatures": [
+    {"entry": 14304, "variants": [0, 1, 2, 3]}
+  ]
+}

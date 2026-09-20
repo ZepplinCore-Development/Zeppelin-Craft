@@ -59,10 +59,10 @@
       "displays": [
         900311,
         900312,
-        900321,
-        900322
+        900331,
+        900332
       ],
-      "_comment": "mixed-set test: 2 Mag'har heritage (no helm) + 2 BfA Honorbound plate. Orgrimmar-set displays 900301/900302/900305/900306 stay built but unassigned.",
+      "_comment": "shoulder-fit test: heritage with Warsong pauldrons (900311 M, 900312 F) vs heritage with Orgrimmar spaulders (900331 M, 900332 F). BfA plate displays 900321/900322 stay built but unassigned (too heavy for grunts).",
       "equip": {
         "id": 1,
         "main": "orgrimmar_axe"
