@@ -460,6 +460,12 @@ OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
     'wmo.group.drop_chunk': _op_wmo_group_drop_chunk,
 }
 
+# BLP texture ops live in their own module (codec-heavy) but share the op
+# namespace so model_transforms.json can carry them like any other edit.
+from lib.blp_ops import OPS as _BLP_OPS  # noqa: E402
+
+OPS.update(_BLP_OPS)
+
 
 def apply_ops(m2_path: Path, ops: List[Dict[str, Any]]) -> List[str]:
     """Replay ops onto an M2 in place.

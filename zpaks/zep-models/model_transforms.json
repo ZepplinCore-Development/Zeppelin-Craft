@@ -1,0 +1,28 @@
+{
+  "WORLD/EXPANSION03/DOODADS/LOSTISLES/TREES/LOSTISLES_BAMBOO_04.M2": {
+    "note": "I-355 single-model TEST of the undersized-bounding-sphere theory. This model stores boundingSphereRadius 17.22 while its real vertex radius is 28.32 (the bounding BOX is exact: stored z 27.06 == true z 27.06). The 3.3.5 client frustum-culls doodads by this sphere, so an undersized one culls the model while its mesh still fills the screen - worst CLOSE UP on LARGE models, which matches 'the larger bamboos are popping'. Survey: median stored/true ratio is 0.65 for our retroported Lost Isles doodads and 0.74 for Cata's own World/Azeroth set, vs 1.36 for stock 3.3.5 models. Shipped on PATCH-Z (priority 500) so it overrides patch-open-azeroth's copy WITHOUT a --parse-build on PATCH-O, which would clobber the Noggit ADT edits held in its parsed-assets. DELIBERATELY ONE MODEL: LostIsles_Bamboo_07 stands beside it untouched as the control. If 04 stops popping and 07 still does, the theory is confirmed and a sweep is justified; if both still pop, revert this and look elsewhere (cf. I-322, where a bounding-radius correlation was confidently reported and wrong).",
+    "base_sha256": "2736779ebe742b6a47a776db1f18a677a127b415de2c8f821d09c4fe2aa0f39f",
+    "ops": [
+      {
+        "op": "m2.bounds.sphere_radius",
+        "value": "auto"
+      }
+    ]
+  },
+  "WORLD/NODXT/DETAIL/DUROTARDETAILDOODAD_256.BLP": {
+    "note": "I-372 single-atlas TEST. Orgrimmar/Durotar ground clutter (GroundEffectTexture 1972 -> GroundEffectDoodad 215/213 = DurBus01/DurBus03, whose M2s are byte-identical to stock) renders as black cards with patches of leaf art. The models, skins, DBCs, WMO and ADTs are all correct; the fault is this shared atlas. PATCH-Q (Nexus 850 HD pack) re-ships it upscaled 256->512 with the alpha channel intact but the RGB under the fully transparent texels left PURE BLACK - 54.9% of the sheet, against 0.0% in stock 3.3.5, which bleeds the art outward so an alpha miss looks like dirt. Alpha-test plus bilinear/mip filtering pulls that black into the kept texels. After the bleed: raw-RGB black goes 54.9%->12.7% at mip 0 and 44.9%->0.1%/0.0% at every lower mip (the levels ground clutter actually samples); the mip-0 residual is dilation from the genuinely dark interior of the art, not background. Visible art is untouched - mean |dRGB| 0.7, median 0.0 over the 82178 alpha-test-kept texels - and the DXT5 alpha halves are copied through byte-for-byte. DELIBERATELY ONE ATLAS: 52 other NoDXT/Detail atlases have the same defect and are left alone as the control. If Orgrimmar/Durotar clutter stops being black and the Barrens or Mulgore still is, the theory is confirmed and the sweep is justified. Shipped from zep-models on PATCH-Z (priority 500) so it overrides PATCH-Q WITHOUT repacking the 9 GB HD pack, and so it survives the HD pack's documented re-import.",
+    "base": {
+      "kind": "zpak",
+      "source": "zpaks/patch-hd-everything/mpq/source-assets/World/NoDXT/Detail/DUROTARDETAILDOODAD_256.blp",
+      "note": "Nexus 850 (Maribeth, Odyssey Mods) - see patch-hd-everything/zpak.json 'source'"
+    },
+    "base_sha256": "78f8664bf44479c606ea0e6b951a7b59d4eb720141dc4ff412e9f02c86c493a2",
+    "ops": [
+      {
+        "op": "blp.alpha_bleed",
+        "threshold": 128
+      }
+    ],
+    "result_sha256": "7b74c8b47ac29f6a1afbc831a2892091af5eef74440dd4270168a39b2885057a"
+  }
+}
