@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-equip-extension",
+  "version": "0.1.0",
+  "description": "WarcraftXL equip extension (Morfium-G): M2 models + collection geoset filtering on every equip slot, driven by ItemDisplayInfo.dbc - forge-tracked source + Zeppelin SEH patch (F-195/F-211)",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "wxl-equip-extension",
+    "source": "https://github.com/Morfium-G/wxl-equip-extension.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core-main/scripts/wxl-equip-extension",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 410,
+  "feature_id": "F-195"
+}
