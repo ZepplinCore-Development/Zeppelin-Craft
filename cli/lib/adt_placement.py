@@ -386,6 +386,27 @@ class AdtFile:
             n += 1
         return n
 
+    # -- ground effect doodads --------------------------------------------
+    def set_no_effect_doodad(self, chunk_index: int, mask_hex: str) -> str:
+        """Write one MCNK's `noEffectDoodad` mask (header 0x50, 8 bytes).
+
+        It is an 8x8 bit grid over the chunk's cells; a set bit suppresses the
+        ground-effect clutter (grass, pebbles) the texture layers would scatter
+        there. Byte index steps -x from the chunk's header position, bit index
+        steps -y. Blizzard sets it under their buildings, so the donor tile's
+        own mask is the right value to port with a building.
+        """
+        mask = bytes.fromhex(mask_hex)
+        if len(mask) != 8:
+            raise ValueError(f"noEffectDoodad mask must be 8 bytes, got {len(mask)}")
+        chunks = self.mcnks()
+        if not 0 <= chunk_index < len(chunks):
+            raise ValueError(f"chunk index {chunk_index} out of range")
+        payload = chunks[chunk_index]
+        before = bytes(payload[0x50:0x58])
+        payload[0x50:0x58] = mask
+        return f"chunk {chunk_index} noEffectDoodad {before.hex()} -> {mask_hex}"
+
     # -- serialise ---------------------------------------------------------
     def to_bytes(self) -> bytes:
         # First pass: chunk offsets with final sizes.
@@ -484,6 +505,11 @@ def apply_recipe(adt_path: Path, entry: Dict, *, strict: bool = True) -> Tuple[b
         raised += r['vertices_raised']
         stats.setdefault('doodads_carried', []).extend(r['doodads_carried'])
     stats['terrain_vertices_raised'] = raised
+
+    masks = []
+    for gd in entry.get('no_effect_doodads', []):
+        masks.append(adt.set_no_effect_doodad(gd['chunk_index'], gd['mask']))
+    stats['ground_effect_masks'] = masks
     out = adt.to_bytes()
     stats.update({'wmos_added': len(wmo_boxes), 'doodads_added': len(doodad_points),
                   'base_sha256': base, 'result_sha256': sha256(out),

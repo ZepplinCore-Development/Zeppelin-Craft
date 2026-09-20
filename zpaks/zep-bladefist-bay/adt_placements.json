@@ -4,7 +4,7 @@
   "placements": {
     "WORLD/MAPS/KALIMDOR/KALIMDOR_41_29.ADT": {
       "base_sha256": "babce64758a2c57b72eb53fbbfbeafb2dc0e23ad9ad4fe2e0c23390675fc4425",
-      "result_sha256": "eea56e0f70183bad257ab7960ed748e539cec7efc3f46d7894cfb8e3fac0edb1",
+      "result_sha256": "1b3d82cc6f460be4924b6b92f20339a60465a650ad8038c109ddf0b84644e8f5",
       "wmo": [
         {
           "model": "WORLD\\WMO\\OUTLAND\\ORCBUILDINGS\\ND_ORC_DOCKS.WMO",
@@ -96,22 +96,6 @@
         {
           "model": "WORLD\\GENERIC\\ORC\\PASSIVE DOODADS\\BARRICADE\\ORC_BARRICADE_01.M2",
           "adt_pos": [
-            22002.26562,
-            3.99467,
-            15682.38672
-          ],
-          "rot": [
-            3.10155,
-            67.0,
-            -1.48162
-          ],
-          "scale": 1024,
-          "uid": 7900010,
-          "radius": 6.0
-        },
-        {
-          "model": "WORLD\\GENERIC\\ORC\\PASSIVE DOODADS\\BARRICADE\\ORC_BARRICADE_01.M2",
-          "adt_pos": [
             22003.40622,
             3.70146,
             15674.44532
@@ -193,7 +177,7 @@
           "radius": 4.0
         }
       ],
-      "_doodad_note": "Cata's BIRD01 and its four beach trees are deliberately not added: OA already has all five. The bird matches; the trees were sunk under the new dock, so they are moved onto Cata's beach positions instead.",
+      "_doodad_note": "Cata's BIRD01 and its four beach trees are deliberately not added: OA already has all five. The bird matches; the trees were sunk under the new dock, so they are moved onto Cata's beach positions instead. I-370 2026-09-20: the third Cata barricade (uid 7900010, was at 1384.3,-4935.6) is REMOVED - it read as floating in game. To restore it, re-add the entry with adt_pos [21998.61522, 2.4869+, 15656.41602]-style values from git history.",
       "terrain_raise": [
         {
           "center": [
@@ -204,6 +188,18 @@
           "inner_radius": 18.0,
           "outer_radius": 28.0,
           "note": "I-370: raise our heightmap to meet the tower base. Cata built the tower on flat ground at its own origin z; ours slopes 5.9-10.4 across the footprint, and with the tower lifted to 8.5 (so its floor clears the ground) the downhill base floated up to 2.4. Ground is raised to 8.35 within 18 yd (the base reaches r 17.1) and smoothstep-blended back to stock by 28 yd; never lowered. Floor stays >= 0.35 above ground. MCNR recomputed (within 1.9 deg of Blizzard's own normals around the tower). Doodads in the area ride up with the ground: the barricade uid 7900010 gains ~1.28 over its 'doodad' entry above."
+        }
+      ],
+      "no_effect_doodads": [
+        {
+          "chunk_index": 99,
+          "mask": "0000001e3e3f3f1f",
+          "note": "I-370: ground-effect clutter (grass/pebbles) grew up through the tower floor. Blizzard suppresses it under the tower; these are the donor tile's own noEffectDoodad bytes (whitemane-15595 Kalimdor_41_29.adt, same chunk grid, x/y identical). These two chunks are the ONLY ones whose mask differs from ours across all 256. Chunk 99 covers the tower body: cells x 1387.5..1366.7, y -4904.2..-4920.8."
+        },
+        {
+          "chunk_index": 115,
+          "mask": "1c00000000000000",
+          "note": "I-370: the sliver of the same footprint that spills into the next chunk west."
         }
       ]
     }
