@@ -1,7 +1,7 @@
 From e415e814c3b2f4a8434771c27b37dfc151a32ef1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 00:41:29 +0000
-Subject: [PATCH 1/6] fix: F-195 - shim call-guarding SEH for the llvm-mingw
+Subject: [PATCH 1/7] fix: F-195 - shim call-guarding SEH for the llvm-mingw
  i686 build
 
 clang cannot codegen a 32-bit SEH funclet around a call, so the five guards that
@@ -128,7 +128,7 @@ index ae95e77..0cd7059 100644
 From 51ff8156c6a91b936981a59b66da0ebda60bd68c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:07:29 +0000
-Subject: [PATCH 2/6] fix: F-211 - probe memory before the pointer walks the
+Subject: [PATCH 2/7] fix: F-211 - probe memory before the pointer walks the
  mingw build cannot guard
 
 The five call-wrapping SEH guards run unguarded on llvm-mingw (clang cannot emit a
@@ -281,7 +281,7 @@ index 0cd7059..270bd90 100644
 From 6c17b0ba3da6964cc21dc7df5873577825e3a3c8 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:28:54 +0000
-Subject: [PATCH 3/6] fix: F-211 - probe in the guarded readers too (the read
+Subject: [PATCH 3/7] fix: F-211 - probe in the guarded readers too (the read
  guard is inert on mingw)
 
 #132 on logout inside GuardedReadPtr: clang compiles __try around a plain memory
@@ -336,7 +336,7 @@ index 270bd90..3e0d3d1 100644
 From 68bc21c82675ae90bfef84fc35942448da83398e Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:48:12 +0000
-Subject: [PATCH 4/6] fix: F-211 - drop attachments stamped with a stale scene
+Subject: [PATCH 4/7] fix: F-211 - drop attachments stamped with a stale scene
  node (equipment bleed)
 
 The dead-CMO purge only fires if a frame runs between WoW freeing a
@@ -394,7 +394,7 @@ index 3e0d3d1..1bd499b 100644
 From fecc90db2cccf5b938e42baaf3bead08bc943910 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 06:34:13 +0000
-Subject: [PATCH 5/6] fix: F-211 - skip attachments the archives do not have
+Subject: [PATCH 5/7] fix: F-211 - skip attachments the archives do not have
 
 Crash on boot: #132 at 0x004B51A0 (Wow.exe, null object) after the module built
 Item\ObjectComponents\Chest\Helm_Leather_A_01Green - a HEAD display arrived with a
@@ -550,7 +550,7 @@ index 1bd499b..d48ee99 100644
 From abae86ded51ecf55264dd1b23d225a4ea0954750 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 06:41:48 +0000
-Subject: [PATCH 6/6] fix: F-211 - open the existence probe the way the module
+Subject: [PATCH 6/7] fix: F-211 - open the existence probe the way the module
  reads files, and cache it
 
 The archive probe added with ClientModelExists opened with flags 0 rather than the
@@ -631,6 +631,75 @@ index d48ee99..3f178f4 100644
      }
  
      // ─── Guarded reads: MemReadable probe + (MSVC only) a real SEH guard ─────────
+-- 
+2.34.1
+
+
+From 18adaaa06c7a0a13f181419348fdbaf57e2dace4 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 20 Sep 2026 10:52:43 +0000
+Subject: [PATCH 7/7] fix: F-211 - settings writer defeated its own kill switch
+
+WriteDefault appended a raw '[ns] ... key=default' block per key, so a namespace
+with two settings ended up with two [EquipExtension] sections. GetPrivateProfileInt
+searches only the FIRST, so 'Enabled' always read as absent: every boot appended
+another default block and the value the user had edited was ignored - setting
+Enabled=0 did nothing and the module stayed on.
+
+Defaults are now written through WritePrivateProfileString, which puts the key in
+the existing section; the description is emitted once as a comment above a section
+the first time it is created.
+---
+ src/Settings.cpp | 31 ++++++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/src/Settings.cpp b/src/Settings.cpp
+index 141c79a..6758163 100644
+--- a/src/Settings.cpp
++++ b/src/Settings.cpp
+@@ -30,18 +30,35 @@ namespace wxl::scripts::equipextension::settings
+         // detect "key absent" instead of "key present and false".
+         constexpr int kAbsentSentinel = 2;
+ 
+-        // Appends "[ns]\n; description\nkey=default\n" to the ini. Does not deduplicate
+-        // section headers across calls -- fine while each namespace registers one key today;
+-        // revisit if a namespace grows a second setting before this moves to core.
++        // Writes key=default into the ini THROUGH the profile API, which places it in the
++        // existing [ns] section instead of appending a second one.
++        //
++        // The old version appended a raw "[ns]\n; description\nkey=default" block per key. A
++        // namespace with two settings then had two [ns] sections, and GetPrivateProfileInt only
++        // searches the FIRST: the second key always read as absent, so every boot appended
++        // another block and the value the user edited was ignored. That silently defeated the
++        // [EquipExtension] Enabled kill switch (Zeppelin 2026-09-20). The description is written
++        // once, as a comment line above the section, only when the section is new.
+         void WriteDefault(const char* ns, const char* key, const char* description, bool defaultValue) noexcept
+         {
+             CreateDirectoryA("WTF", nullptr);
+             CreateDirectoryA(kConfigDir, nullptr);
++
++            char probe[8] = {};
++            const bool sectionExists =
++                GetPrivateProfileSectionA(ns, probe, sizeof(probe), kConfigPath) > 0;
++            if (!sectionExists && description && *description)
++            {
+ #pragma warning(suppress: 4996)
+-            FILE* f = std::fopen(kConfigPath, "a");
+-            if (!f) return;
+-            std::fprintf(f, "\n[%s]\n; %s\n%s=%d\n", ns, description, key, defaultValue ? 1 : 0);
+-            std::fclose(f);
++                FILE* f = std::fopen(kConfigPath, "a");
++                if (f)
++                {
++                    std::fprintf(f, "\n; [%s] %s\n", ns, description);
++                    std::fclose(f);
++                }
++            }
++            const char* value = defaultValue ? "1" : "0";
++            WritePrivateProfileStringA(ns, key, value, kConfigPath);
+         }
+     }
+ 
 -- 
 2.34.1
 
