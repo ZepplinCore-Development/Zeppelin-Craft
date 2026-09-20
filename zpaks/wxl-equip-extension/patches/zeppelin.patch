@@ -1,7 +1,7 @@
 From e415e814c3b2f4a8434771c27b37dfc151a32ef1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 00:41:29 +0000
-Subject: [PATCH 1/7] fix: F-195 - shim call-guarding SEH for the llvm-mingw
+Subject: [PATCH 1/8] fix: F-195 - shim call-guarding SEH for the llvm-mingw
  i686 build
 
 clang cannot codegen a 32-bit SEH funclet around a call, so the five guards that
@@ -128,7 +128,7 @@ index ae95e77..0cd7059 100644
 From 51ff8156c6a91b936981a59b66da0ebda60bd68c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:07:29 +0000
-Subject: [PATCH 2/7] fix: F-211 - probe memory before the pointer walks the
+Subject: [PATCH 2/8] fix: F-211 - probe memory before the pointer walks the
  mingw build cannot guard
 
 The five call-wrapping SEH guards run unguarded on llvm-mingw (clang cannot emit a
@@ -281,7 +281,7 @@ index 0cd7059..270bd90 100644
 From 6c17b0ba3da6964cc21dc7df5873577825e3a3c8 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:28:54 +0000
-Subject: [PATCH 3/7] fix: F-211 - probe in the guarded readers too (the read
+Subject: [PATCH 3/8] fix: F-211 - probe in the guarded readers too (the read
  guard is inert on mingw)
 
 #132 on logout inside GuardedReadPtr: clang compiles __try around a plain memory
@@ -336,7 +336,7 @@ index 270bd90..3e0d3d1 100644
 From 68bc21c82675ae90bfef84fc35942448da83398e Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:48:12 +0000
-Subject: [PATCH 4/7] fix: F-211 - drop attachments stamped with a stale scene
+Subject: [PATCH 4/8] fix: F-211 - drop attachments stamped with a stale scene
  node (equipment bleed)
 
 The dead-CMO purge only fires if a frame runs between WoW freeing a
@@ -394,7 +394,7 @@ index 3e0d3d1..1bd499b 100644
 From fecc90db2cccf5b938e42baaf3bead08bc943910 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 06:34:13 +0000
-Subject: [PATCH 5/7] fix: F-211 - skip attachments the archives do not have
+Subject: [PATCH 5/8] fix: F-211 - skip attachments the archives do not have
 
 Crash on boot: #132 at 0x004B51A0 (Wow.exe, null object) after the module built
 Item\ObjectComponents\Chest\Helm_Leather_A_01Green - a HEAD display arrived with a
@@ -550,7 +550,7 @@ index 1bd499b..d48ee99 100644
 From abae86ded51ecf55264dd1b23d225a4ea0954750 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 06:41:48 +0000
-Subject: [PATCH 6/7] fix: F-211 - open the existence probe the way the module
+Subject: [PATCH 6/8] fix: F-211 - open the existence probe the way the module
  reads files, and cache it
 
 The archive probe added with ClientModelExists opened with flags 0 rather than the
@@ -638,7 +638,7 @@ index d48ee99..3f178f4 100644
 From 18adaaa06c7a0a13f181419348fdbaf57e2dace4 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 10:52:43 +0000
-Subject: [PATCH 7/7] fix: F-211 - settings writer defeated its own kill switch
+Subject: [PATCH 7/8] fix: F-211 - settings writer defeated its own kill switch
 
 WriteDefault appended a raw '[ns] ... key=default' block per key, so a namespace
 with two settings ended up with two [EquipExtension] sections. GetPrivateProfileInt
@@ -700,6 +700,91 @@ index 141c79a..6758163 100644
          }
      }
  
+-- 
+2.34.1
+
+
+From 37feb58e10ef32a8416df0064b5012db693b8a37 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 20 Sep 2026 11:07:14 +0000
+Subject: [PATCH 8/8] perf: F-211 - memoise the memory probe per page per frame
+
+The MemReadable probe added to the guarded readers runs several times per attached
+NPC inside the per-frame loops, and a VirtualQuery each time cost Thrall's throne
+room 120 -> 20 fps. Answers are now cached per page in a 64-entry direct-mapped
+table, valid for the current frame only: a page cannot be unmapped and remapped
+between two reads within one frame, and the epoch bumps on every per-frame tick so
+anything freed since the last frame is re-queried.
+---
+ src/EquipExtension.cpp | 42 +++++++++++++++++++++++++++++++-----------
+ 1 file changed, 31 insertions(+), 11 deletions(-)
+
+diff --git a/src/EquipExtension.cpp b/src/EquipExtension.cpp
+index 3f178f4..bedf2e9 100644
+--- a/src/EquipExtension.cpp
++++ b/src/EquipExtension.cpp
+@@ -177,23 +177,42 @@ namespace wxl::scripts::equipextension
+     // UNGUARDED in the llvm-mingw build (core/SehCompat.hpp). A stale model pointer that passes
+     // the non-null / >64 KB checks is then a hard client crash instead of a swallowed fault
+     // (#132 at 0x...5996, the bone-remap CRC walk, 2026-09-20). Probe the whole range first.
++    // A VirtualQuery per read is far too slow here: these helpers run in the per-frame loops,
++    // several times per attached NPC, and Thrall's throne room dropped from 120 to 20 fps
++    // (Zeppelin 2026-09-20). Answers are memoised per page for the current frame - a page cannot
++    // be unmapped and re-mapped between two reads inside one frame, and the cache is dropped at
++    // every per-frame tick, so a page freed since the last frame is re-queried.
++    static uint32_t g_probeEpoch = 0;
++
++    static bool PageReadable(uintptr_t page) noexcept
++    {
++        struct Entry { uintptr_t page; uint32_t epoch; bool ok; };
++        static Entry cache[64] = {};
++        Entry& slot = cache[(page >> 12) & 63];
++        if (slot.page == page && slot.epoch == g_probeEpoch) return slot.ok;
++
++        MEMORY_BASIC_INFORMATION mbi{};
++        bool ok = false;
++        if (VirtualQuery(reinterpret_cast<LPCVOID>(page), &mbi, sizeof(mbi)) == sizeof(mbi))
++        {
++            constexpr DWORD kReadable = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY |
++                                        PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
++            ok = mbi.State == MEM_COMMIT && (mbi.Protect & kReadable) &&
++                 !(mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS));
++        }
++        slot = { page, g_probeEpoch, ok };
++        return ok;
++    }
++
+     static bool MemReadable(const void* p, size_t bytes) noexcept
+     {
+         if (!p || bytes == 0) return false;
+-        auto addr = reinterpret_cast<uintptr_t>(p);
++        const uintptr_t addr = reinterpret_cast<uintptr_t>(p);
+         if (addr < 0x10000) return false;
+         const uintptr_t end = addr + bytes;
+         if (end < addr) return false;
+-        constexpr DWORD kReadable = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY |
+-                                    PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
+-        while (addr < end)
+-        {
+-            MEMORY_BASIC_INFORMATION mbi{};
+-            if (VirtualQuery(reinterpret_cast<LPCVOID>(addr), &mbi, sizeof(mbi)) != sizeof(mbi)) return false;
+-            if (mbi.State != MEM_COMMIT) return false;
+-            if (!(mbi.Protect & kReadable) || (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS))) return false;
+-            addr = reinterpret_cast<uintptr_t>(mbi.BaseAddress) + mbi.RegionSize;
+-        }
++        for (uintptr_t page = addr & ~uintptr_t(0xFFF); page < end; page += 0x1000)
++            if (!PageReadable(page)) return false;
+         return true;
+     }
+ 
+@@ -1178,6 +1197,7 @@ namespace wxl::scripts::equipextension
+     void EquipExtension::OnM2PerFrameUpdate(const ev::M2PerFrameUpdateArgs& a)
+     {
+         void* renderCtx = a.renderCtx;
++        ++g_probeEpoch;               // drop the page-probe memo; see PageReadable
+         if (g_attached.empty()) return;
+ 
+         // Purge dead CMOs: cmo->sceneNode is zeroed when WoW frees the character model object.
 -- 
 2.34.1
 
