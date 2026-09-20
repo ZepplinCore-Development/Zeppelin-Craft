@@ -16,6 +16,6 @@
       "patches/*.patch"
     ]
   },
-  "enabled": false,
-  "priority": 100
+  "enabled": true,
+  "priority": 120
 }
