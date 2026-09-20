@@ -391,28 +391,28 @@ index 3e0d3d1..1bd499b 100644
 2.34.1
 
 
-From c83244a4b11b71b1b338056a586e633c1eb7f72d Mon Sep 17 00:00:00 2001
+From fecc90db2cccf5b938e42baaf3bead08bc943910 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 06:34:13 +0000
-Subject: [PATCH 5/5] fix: F-211 - skip attachments the archives do not have;
- default the module off
+Subject: [PATCH 5/5] fix: F-211 - skip attachments the archives do not have
 
 Crash on boot: #132 at 0x004B51A0 (Wow.exe, null object) after the module built
 Item\ObjectComponents\Chest\Helm_Leather_A_01Green - a HEAD display arrived with a
 model-slot index that maps to Chest in kSlotCfg on the character-select screen, so
 the path named a file no archive holds and the client crashed on the null result.
 
-- ClientModelExists(): open the path through the client's archive IO (accepting the
-  .mdx spelling the DBC uses as well as .m2) and skip the attach when it is missing.
-  A wrong slot mapping or junk model data in a stock row is then a skipped model.
-- [EquipExtension] Enabled now defaults to 0: a client opts in by editing
-  WTF\WXL\WarcraftXL.ini, so shipping the module cannot affect anyone who has not.
+ClientModelExists() opens the built path through the client's archive IO (accepting
+the .mdx spelling the DBC uses as well as .m2) and skips the attach when it is
+missing, so a wrong slot mapping or junk model data in a stock row is a skipped
+model rather than a crash.
+
+[EquipExtension] Enabled (default 1) stays as the client-side kill switch.
 ---
- src/EquipExtension.cpp | 95 +++++++++++++++++++++++++++++++-----------
- 1 file changed, 71 insertions(+), 24 deletions(-)
+ src/EquipExtension.cpp | 93 +++++++++++++++++++++++++++++++-----------
+ 1 file changed, 70 insertions(+), 23 deletions(-)
 
 diff --git a/src/EquipExtension.cpp b/src/EquipExtension.cpp
-index 1bd499b..9d5fe18 100644
+index 1bd499b..d48ee99 100644
 --- a/src/EquipExtension.cpp
 +++ b/src/EquipExtension.cpp
 @@ -20,6 +20,7 @@
@@ -423,17 +423,15 @@ index 1bd499b..9d5fe18 100644
  #include "game/m2/M2.hpp"
  #include "offsets/game/DB2.hpp"
  #include "offsets/game/M2.hpp"
-@@ -153,8 +154,8 @@ namespace wxl::scripts::equipextension
+@@ -153,7 +154,7 @@ namespace wxl::scripts::equipextension
      static settings::BoolSetting g_enabledSetting(
          "EquipExtension", "Enabled",
          "Attach item M2 models (collections, belt buckles, extra slots) from ItemDisplayInfo. "
 -        "Set to 0 to disable the module without a rebuild.",
--        true);
-+        "Default 0 while the module stabilises: set to 1 to opt this client in.",
-+        false);
++        "Set to 0 to disable the module on this client without a rebuild.",
+         true);
  
      // Append a line to WarcraftXL_equip.log in the game directory.
-     static void EquipLog(const char* fmt, ...) noexcept
 @@ -195,6 +196,38 @@ namespace wxl::scripts::equipextension
          return true;
      }
