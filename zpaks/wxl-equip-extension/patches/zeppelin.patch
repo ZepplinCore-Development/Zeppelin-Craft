@@ -1,7 +1,7 @@
 From e415e814c3b2f4a8434771c27b37dfc151a32ef1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 00:41:29 +0000
-Subject: [PATCH 1/5] fix: F-195 - shim call-guarding SEH for the llvm-mingw
+Subject: [PATCH 1/6] fix: F-195 - shim call-guarding SEH for the llvm-mingw
  i686 build
 
 clang cannot codegen a 32-bit SEH funclet around a call, so the five guards that
@@ -128,7 +128,7 @@ index ae95e77..0cd7059 100644
 From 51ff8156c6a91b936981a59b66da0ebda60bd68c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:07:29 +0000
-Subject: [PATCH 2/5] fix: F-211 - probe memory before the pointer walks the
+Subject: [PATCH 2/6] fix: F-211 - probe memory before the pointer walks the
  mingw build cannot guard
 
 The five call-wrapping SEH guards run unguarded on llvm-mingw (clang cannot emit a
@@ -281,7 +281,7 @@ index 0cd7059..270bd90 100644
 From 6c17b0ba3da6964cc21dc7df5873577825e3a3c8 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:28:54 +0000
-Subject: [PATCH 3/5] fix: F-211 - probe in the guarded readers too (the read
+Subject: [PATCH 3/6] fix: F-211 - probe in the guarded readers too (the read
  guard is inert on mingw)
 
 #132 on logout inside GuardedReadPtr: clang compiles __try around a plain memory
@@ -336,7 +336,7 @@ index 270bd90..3e0d3d1 100644
 From 68bc21c82675ae90bfef84fc35942448da83398e Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:48:12 +0000
-Subject: [PATCH 4/5] fix: F-211 - drop attachments stamped with a stale scene
+Subject: [PATCH 4/6] fix: F-211 - drop attachments stamped with a stale scene
  node (equipment bleed)
 
 The dead-CMO purge only fires if a frame runs between WoW freeing a
@@ -394,7 +394,7 @@ index 3e0d3d1..1bd499b 100644
 From fecc90db2cccf5b938e42baaf3bead08bc943910 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 06:34:13 +0000
-Subject: [PATCH 5/5] fix: F-211 - skip attachments the archives do not have
+Subject: [PATCH 5/6] fix: F-211 - skip attachments the archives do not have
 
 Crash on boot: #132 at 0x004B51A0 (Wow.exe, null object) after the module built
 Item\ObjectComponents\Chest\Helm_Leather_A_01Green - a HEAD display arrived with a
@@ -543,6 +543,94 @@ index 1bd499b..d48ee99 100644
          }
          else
          {
+-- 
+2.34.1
+
+
+From abae86ded51ecf55264dd1b23d225a4ea0954750 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 20 Sep 2026 06:41:48 +0000
+Subject: [PATCH 6/6] fix: F-211 - open the existence probe the way the module
+ reads files, and cache it
+
+The archive probe added with ClientModelExists opened with flags 0 rather than the
+kOpenWholeFile mode VirtualPath::ReadGameFile uses, and ran on every equip dispatch.
+Unrelated world doodads then rendered with wrong textures and Orgrimmar lost
+~half its frame rate - archive churn in the client's streaming path.
+
+Probe now opens exactly as the module's own reader does and memoises the answer per
+path (it cannot change while the client runs), so a crowded zone costs one lookup
+per distinct model path instead of one per dispatch.
+---
+ src/EquipExtension.cpp | 39 +++++++++++++++++++++++++++------------
+ 1 file changed, 27 insertions(+), 12 deletions(-)
+
+diff --git a/src/EquipExtension.cpp b/src/EquipExtension.cpp
+index d48ee99..3f178f4 100644
+--- a/src/EquipExtension.cpp
++++ b/src/EquipExtension.cpp
+@@ -32,6 +32,7 @@
+ #include <cstdio>
+ #include <cstdint>
+ #include <cstring>
++#include <string>
+ #include <unordered_map>
+ #include <vector>
+ 
+@@ -205,27 +206,41 @@ namespace wxl::scripts::equipextension
+     static bool ClientFileExists(const char* path) noexcept
+     {
+         if (!path || !*path) return false;
++        namespace iooff = wxl::offsets::engine::io;
++        // kOpenWholeFile is the mode VirtualPath::ReadGameFile uses. Opening with flags 0 is a
++        // different mode and perturbed the client's streaming path: unrelated world doodads
++        // rendered with wrong textures (Zeppelin 2026-09-20).
+         void* h = nullptr;
+-        game::io::FileOpen(path, 0, &h);
+-        if (!h) return false;
++        if (!game::io::FileOpen(path, iooff::kOpenWholeFile, &h) || !h) return false;
+         game::io::FileClose(h);
+         return true;
+     }
+ 
+-    // Accepts the .mdx spelling the DBC uses as well as the .m2 the archives hold.
++    // Accepts the .mdx spelling the DBC uses as well as the .m2 the archives hold. Results are
++    // cached: the answer for a path cannot change while the client runs, and this must not add
++    // archive traffic on a path the engine walks per equip.
+     static bool ClientModelExists(const char* path) noexcept
+     {
+-        if (ClientFileExists(path)) return true;
+-        char alt[264] = {};
+-        size_t n = 0;
+-        while (path[n] && n < sizeof(alt) - 1) { alt[n] = path[n]; ++n; }
+-        if (n > 4 && (alt[n-3] == 'd' || alt[n-3] == 'D'))   // ".mdx" -> ".m2"
++        if (!path || !*path) return false;
++        static std::unordered_map<std::string, bool> cache;
++        auto it = cache.find(path);
++        if (it != cache.end()) return it->second;
++
++        bool ok = ClientFileExists(path);
++        if (!ok)
+         {
+-            alt[n-3] = '2'; alt[n-2] = '\0';
+-            alt[n-4] = alt[n-4] == 'M' ? 'M' : 'm';
+-            return ClientFileExists(alt);
++            char alt[264] = {};
++            size_t n = 0;
++            while (path[n] && n < sizeof(alt) - 1) { alt[n] = path[n]; ++n; }
++            if (n > 4 && alt[n-4] == '.' && (alt[n-2] == 'd' || alt[n-2] == 'D'))
++            {
++                alt[n-2] = '2';          // ".mdx" -> ".m2"
++                alt[n-1] = '\0';
++                ok = ClientFileExists(alt);
++            }
+         }
+-        return false;
++        if (cache.size() < 4096) cache.emplace(path, ok);
++        return ok;
+     }
+ 
+     // ─── Guarded reads: MemReadable probe + (MSVC only) a real SEH guard ─────────
 -- 
 2.34.1
 
