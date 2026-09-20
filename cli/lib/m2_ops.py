@@ -118,6 +118,7 @@ def _op_camera_fov(data: bytearray, cfg: Dict[str, Any]) -> str:
 
 WMO_VERSION = 17
 MFOG_STRIDE = 48
+MOGP_HEADER_SIZE = 68
 MFOG_FOG_OFFSET = {'land': 24, 'water': 36}
 
 # A cave you are meant to see across runs 200-670 yd in stock 3.3.5; the
@@ -211,6 +212,54 @@ def _op_wmo_fog_start_scalar(data: bytearray, cfg: Dict[str, Any]) -> str:
     before = struct.unpack_from('<f', data, at)[0]
     struct.pack_into('<f', data, at, value)
     return f"fog[{cfg.get('index', 0)}].{cfg.get('fog', 'land')}.start_scalar {before:.3f} -> {value:.3f}"
+
+
+def _op_wmo_group_drop_chunk(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Remove one sub-chunk from a WMO group file's MOGP and fix the MOGP size.
+
+    The 3.3.5 client never reads WMO chunk magics — Wow.exe carries no constant
+    for MOGP, MOPY, MODR, MOBN or any other — it walks the optional sub-chunks
+    after MOBA by position, in the order the group flags imply.  Cataclysm
+    inserted MOBS straight after MOBA, so on a raw 4.x group the client reads
+    MOBS as MODR, MODR as MOBN, MOBN as MOBR and so on.  The BSP it builds is
+    garbage, so it cannot tell the camera is inside an interior group and the
+    tower's inner walls vanish (I-370).  Stock 3.3.5 has no MOBS in 8288 groups;
+    Open Azeroth's converted Cata WMOs are byte-identical to the 4.3.4 files
+    with only MOBS removed.
+    """
+    name = cfg.get('chunk')
+    if not name or len(name) != 4:
+        raise M2OpError("wmo.group.drop_chunk requires 'chunk' (4-letter magic, e.g. MOBS)")
+    want = name.encode('ascii')
+
+    version = None
+    mogp = None
+    for magic, ofs, size in _wmo_chunks(data):
+        if magic == b'MVER':
+            version = struct.unpack_from('<I', data, ofs)[0]
+        elif magic == b'MOGP':
+            mogp = (ofs, size)
+    if version != WMO_VERSION:
+        raise M2OpError(f"WMO version {version} — ops are laid out for v{WMO_VERSION}")
+    if mogp is None:
+        raise M2OpError("no MOGP chunk — drop_chunk needs a WMO group file, not the root")
+
+    mogp_ofs, mogp_size = mogp
+    if mogp_ofs + mogp_size != len(data):
+        raise M2OpError("MOGP does not end at EOF — truncated or padded group file")
+
+    off = mogp_ofs + MOGP_HEADER_SIZE
+    end = mogp_ofs + mogp_size
+    while off + 8 <= end:
+        magic = bytes(data[off:off + 4])[::-1]
+        size = struct.unpack_from('<I', data, off + 4)[0]
+        if magic == want:
+            del data[off:off + 8 + size]
+            struct.pack_into('<I', data, mogp_ofs - 4, mogp_size - 8 - size)
+            return f"MOGP.{name} removed ({8 + size} bytes)"
+        off += 8 + size
+
+    raise M2OpError(f"no {name} sub-chunk in MOGP")
 
 
 def _op_bounds_sphere_radius(data: bytearray, cfg: Dict[str, Any]) -> str:
@@ -408,6 +457,7 @@ OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
     'm2.sequence.flags': _op_sequence_flags,
     'wmo.fog.end': _op_wmo_fog_end,
     'wmo.fog.start_scalar': _op_wmo_fog_start_scalar,
+    'wmo.group.drop_chunk': _op_wmo_group_drop_chunk,
 }
 
 
@@ -437,7 +487,8 @@ def apply_ops(m2_path: Path, ops: List[Dict[str, Any]]) -> List[str]:
             raise M2OpError(f"unknown op {name!r} (known: {', '.join(sorted(OPS))})")
         applied.append(func(data, cfg))
 
-    if len(data) != size_before:
+    # .skin files hold offsets into the .m2; a WMO group file has nothing pointing into it.
+    if len(data) != size_before and bytes(data[:4]) == b'MD20':
         raise M2OpError("ops changed the file size — offsets in .skin files would break")
 
     m2_path.write_bytes(bytes(data))

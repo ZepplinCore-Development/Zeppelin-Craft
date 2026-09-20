@@ -24,9 +24,14 @@
 -- The quest POI is left on Runthak, unchanged from I-367.
 -- =============================================================================
 
+-- I-370 (2026-09-19): the dock and ship WMOs were lowered 7 yards (5, then 2) in
+-- adt_placements.json (uids 7900001/7900002). Everything standing on them follows
+-- through this one knob; keep it equal to that recipe's drop. 0 = Blizzard's height.
+SET @bay_drop := -7.0;
+
 UPDATE `spell_target_position` SET
   `PositionX` = 1468.8,
   `PositionY` = -5012.29,
-  `PositionZ` = 11.7693,
+  `PositionZ` = 11.7693 + @bay_drop,
   `Orientation` = 3.23862
 WHERE `ID` = 74029 AND `EffectIndex` = 2;

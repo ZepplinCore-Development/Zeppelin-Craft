@@ -4,13 +4,13 @@
   "placements": {
     "WORLD/MAPS/KALIMDOR/KALIMDOR_41_29.ADT": {
       "base_sha256": "babce64758a2c57b72eb53fbbfbeafb2dc0e23ad9ad4fe2e0c23390675fc4425",
-      "result_sha256": "d52e68b55026f3f05823dcee129b635b081ca4b1eef6cb9bb7967f9c51dabe2d",
+      "result_sha256": "eea56e0f70183bad257ab7960ed748e539cec7efc3f46d7894cfb8e3fac0edb1",
       "wmo": [
         {
           "model": "WORLD\\WMO\\OUTLAND\\ORCBUILDINGS\\ND_ORC_DOCKS.WMO",
           "adt_pos": [
             22044.30664,
-            7.789,
+            0.789,
             15631.58594
           ],
           "rot": [
@@ -20,20 +20,20 @@
           ],
           "extents": [
             21969.84961,
-            -59.92679,
+            -66.92679,
             15589.02832,
             22093.20898,
-            28.30387,
+            21.30387,
             15673.9375
           ],
           "uid": 7900001,
-          "note": "over water on pilings - Cata z kept, deck meets our beach at ~9.5"
+          "note": "over water on pilings - Cata z kept, deck meets our beach at ~9.5 | I-370 2026-09-19: lowered 7.0 in total (5 as a test, then 2 more) to 0.789; dock and ship move together - their decks meet flush. SQL follows via @bay_drop"
         },
         {
           "model": "world\\wmo\\azeroth\\buildings\\horde_goblin\\goblinshipfinal_big.wmo",
           "adt_pos": [
             22077.23438,
-            10.4877,
+            3.4877,
             15574.30664
           ],
           "rot": [
@@ -43,20 +43,20 @@
           ],
           "extents": [
             22023.32031,
-            -4.63322,
+            -11.63322,
             15553.42969,
             22124.64062,
-            36.5533,
+            29.5533,
             15600.33496
           ],
           "uid": 7900002,
-          "note": "afloat - Cata z kept; keel -4.63, our seabed -8.64"
+          "note": "afloat - Cata z kept; keel -4.63, our seabed -8.64 | I-370 2026-09-19: lowered 7.0 in total (5 as a test, then 2 more) to 3.4877; dock and ship move together - their decks meet flush. SQL follows via @bay_drop"
         },
         {
           "model": "WORLD\\WMO\\KALIMDOR\\OGRIMMAR\\ORCTOWERORGRIMMAR.WMO",
           "adt_pos": [
             21979.43555,
-            6.5,
+            8.5,
             15691.01367
           ],
           "rot": [
@@ -66,14 +66,14 @@
           ],
           "extents": [
             21944.34375,
-            5.97791,
+            7.97791,
             15656.55762,
             22014.08984,
-            89.44678,
+            91.44678,
             15726.22852
           ],
           "uid": 7900003,
-          "note": "Cata z 11.282 dropped to 6.5: our shore slopes 5.9-10.4 across its footprint"
+          "note": "Cata z 11.282 -> 6.5 (F-209) -> 8.5 (I-370): at 6.5 our terrain stood up to 1.64 above the tower floor, so client and server both resolved the interior as OUTDOORS (terrain beats a lower WMO floor) and the walls vanished from inside. +2.0 clears the whole floor by >= 0.36; the downhill base now floats up to 2.4 over the ground."
         }
       ],
       "doodad": [
@@ -193,18 +193,36 @@
           "radius": 4.0
         }
       ],
-      "_doodad_note": "Cata's BIRD01 and its four beach trees are deliberately not added: OA already has all five. The bird matches; the trees were sunk under the new dock, so they are moved onto Cata's beach positions instead."
+      "_doodad_note": "Cata's BIRD01 and its four beach trees are deliberately not added: OA already has all five. The bird matches; the trees were sunk under the new dock, so they are moved onto Cata's beach positions instead.",
+      "terrain_raise": [
+        {
+          "center": [
+            1375.65,
+            -4912.77
+          ],
+          "z": 8.35,
+          "inner_radius": 18.0,
+          "outer_radius": 28.0,
+          "note": "I-370: raise our heightmap to meet the tower base. Cata built the tower on flat ground at its own origin z; ours slopes 5.9-10.4 across the footprint, and with the tower lifted to 8.5 (so its floor clears the ground) the downhill base floated up to 2.4. Ground is raised to 8.35 within 18 yd (the base reaches r 17.1) and smoothstep-blended back to stock by 28 yd; never lowered. Floor stays >= 0.35 above ground. MCNR recomputed (within 1.9 deg of Blizzard's own normals around the tower). Doodads in the area ride up with the ground: the barricade uid 7900010 gains ~1.28 over its 'doodad' entry above."
+        }
+      ]
     }
   },
   "assets": {
-    "_comment": "WMO binaries are gitignored, so their identity is recorded here. Source is the Cataclysm client extraction (Zeppelin-Tools/whitemane-15595), NOT the Asset Library: the Asset Library's copies of all four group files are truncated by exactly 32 bytes and their MOGP chunk runs past the end of file.",
-    "source": "Zeppelin-Tools/whitemane-15595/extracted/World/wmo/Azeroth/Buildings/Horde_Goblin",
+    "_comment": "WMO binaries are gitignored, so their identity is recorded here. ALL THREE placed WMOs are Cataclysm files (FDIDs 311822 docks, 357411 tower, goblin ship) and must ship in this zpak - none is stock 3.3.5 (stock Outland orc buildings are FDID ~115978). Source is the Cataclysm client extraction (Zeppelin-Tools/whitemane-15595), NOT the Asset Library: its goblinshipfinal_big and nd_orc_docks group files are truncated by exactly 32 bytes (MOGP runs past EOF) and its orctowerorgrimmar groups are a different build.",
+    "source": "Zeppelin-Tools/whitemane-15595/extracted/World/wmo",
     "files": {
-      "goblinshipfinal_big.wmo": "430d3bbe6f9e231785e7f5a0f3e2553584e59d536593cf9f96d9e26b8dcaf0de",
-      "goblinshipfinal_big_000.wmo": "ed6994ba9d845462d8fbe9937de7e98cab272cf67bc8498a8ce4aac8e446f8ba",
-      "goblinshipfinal_big_001.wmo": "aac3ba23545afd9824a4c06258f01c9611f197eb2aae28b865783b88f0420ea1",
-      "goblinshipfinal_big_002.wmo": "eb67f8605e58fb8d1711f4b5017018f76981de4427425cee4452f56415bef9e4",
-      "goblinshipfinal_big_003.wmo": "1d2e76d4c0e8138d59c56e986b6fd4243b1a99c1f2883fe3c0ffb3827507b5b0"
+      "Azeroth/Buildings/Horde_Goblin/goblinshipfinal_big.wmo": "430d3bbe6f9e231785e7f5a0f3e2553584e59d536593cf9f96d9e26b8dcaf0de",
+      "Azeroth/Buildings/Horde_Goblin/goblinshipfinal_big_000.wmo": "ed6994ba9d845462d8fbe9937de7e98cab272cf67bc8498a8ce4aac8e446f8ba",
+      "Azeroth/Buildings/Horde_Goblin/goblinshipfinal_big_001.wmo": "aac3ba23545afd9824a4c06258f01c9611f197eb2aae28b865783b88f0420ea1",
+      "Azeroth/Buildings/Horde_Goblin/goblinshipfinal_big_002.wmo": "eb67f8605e58fb8d1711f4b5017018f76981de4427425cee4452f56415bef9e4",
+      "Azeroth/Buildings/Horde_Goblin/goblinshipfinal_big_003.wmo": "1d2e76d4c0e8138d59c56e986b6fd4243b1a99c1f2883fe3c0ffb3827507b5b0",
+      "Outland/OrcBuildings/ND_Orc_Docks.wmo": "56ed1b71493f2394af231556aaf4e86f18f4eb5803db180bbb982116d2267d1f",
+      "Outland/OrcBuildings/ND_Orc_Docks_000.wmo": "277077bba9dc08d9542c16acfc84eb4c688deca309b7dc3d98825d207e5e8f24",
+      "Kalimdor/Ogrimmar/OrcTowerOrgrimmar.wmo": "9b02377ba2955fdf66c26c7f39d98783771574ebea331573c9ffec9769654a12",
+      "Kalimdor/Ogrimmar/OrcTowerOrgrimmar_000.wmo": "b944528ff52b6608d999e51f5b0ce453f82d39516831968ba14f98f1c2544d8d",
+      "Kalimdor/Ogrimmar/OrcTowerOrgrimmar_001.wmo": "86fe49e3441cda26260d7e53f84d4aff8c2c0582bb0ce95e1f6740e38c4d1b23",
+      "Kalimdor/Ogrimmar/OrcTowerOrgrimmar_002.wmo": "b66acb1c320ecdc2bc01d42bca4f5112f5b8c287b27dd82e4b3aeae98ab07a38"
     }
   }
 }

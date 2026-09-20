@@ -158,6 +158,11 @@ INSERT INTO `creature_template_model`
 -- -----------------------------------------------------------------------------
 -- Spawns — Blizzard's x/y/orientation; z re-sampled on land, donor z on the dock
 -- -----------------------------------------------------------------------------
+-- I-370 (2026-09-19): the dock and ship WMOs were lowered 7 yards (5, then 2) in
+-- adt_placements.json (uids 7900001/7900002). Everything standing on them follows
+-- through this one knob; keep it equal to that recipe's drop. 0 = Blizzard's height.
+SET @bay_drop := -7.0;
+
 DELETE FROM `creature` WHERE `guid` BETWEEN 11960001 AND 11960010;
 DELETE FROM `creature_addon` WHERE `guid` BETWEEN 11960001 AND 11960010;
 
@@ -166,16 +171,21 @@ INSERT INTO `creature`
      `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`,
      `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`,
      `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `VerifiedBuild`) VALUES
-    -- On the dock, at the head of the gangplank. Donor z kept: the dock is now there.
-    (11960001, 39609, 1, 0, 0, 1, 1, 0, 1463.83, -5010.76, 11.916, 6.0388, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
-    (11960002, 39610, 1, 0, 0, 1, 1, 0, 1464.80, -5014.64, 11.901, 0.4363, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
+    -- On the dock, at the head of the gangplank. Donor z + @bay_drop: the dock is now there.
+    (11960001, 39609, 1, 0, 0, 1, 1, 0, 1463.83, -5010.76, 11.916 + @bay_drop, 6.0388, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
+    (11960002, 39610, 1, 0, 0, 1, 1, 0, 1464.80, -5014.64, 11.901 + @bay_drop, 0.4363, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
     -- Fishermen along the dock rail.
-    (11960003, 40893, 1, 0, 0, 1, 1, 0, 1428.22, -5021.05, 12.841, 4.7822, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
-    (11960004, 40893, 1, 0, 0, 1, 1, 0, 1424.85, -5021.31, 12.914, 4.8346, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
-    (11960005, 40893, 1, 0, 0, 1, 1, 0, 1411.69, -5022.63, 13.170, 4.8695, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
+    (11960003, 40893, 1, 0, 0, 1, 1, 0, 1428.22, -5021.05, 12.841 + @bay_drop, 4.7822, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
+    (11960004, 40893, 1, 0, 0, 1, 1, 0, 1424.85, -5021.31, 12.914 + @bay_drop, 4.8346, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
+    (11960005, 40893, 1, 0, 0, 1, 1, 0, 1411.69, -5022.63, 13.170 + @bay_drop, 4.8695, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
     -- Shore camp behind the barricades. Donor z 11.42/11.81; ours re-sampled.
     (11960006, 40891, 1, 0, 0, 1, 1, 0, 1415.03, -4914.41,  5.045, 0.7330, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
     (11960007, 40891, 1, 0, 0, 1, 1, 0, 1388.80, -4909.51,  8.615, 2.8798, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
     (11960008, 40891, 1, 0, 0, 1, 1, 0, 1407.70, -4897.56,  9.676, 3.1590, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
-    (11960009, 40892, 1, 0, 0, 1, 1, 0, 1397.99, -4910.35,  7.952, 2.9671, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
-    (11960010, 41621, 1, 0, 0, 1, 1, 0, 1373.84, -4917.97,  7.829, 1.2741, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340);
+    -- Overseer re-sampled after the I-370 terrain raise around the tower (was 7.952).
+    (11960009, 40892, 1, 0, 0, 1, 1, 0, 1397.99, -4910.35,  8.126, 2.9671, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340),
+    -- Thorak stands in the middle of the tower on its own floor (I-370): Blizzard's
+    -- spot put him inside the tower wall. z is the WMO floor at the tower origin with
+    -- the tower at z 8.5 (6.91 + the 2.0 lift), 0.66 above our terrain there (8.25).
+    -- He faces the main door (local +x, world -12 deg).
+    (11960010, 41621, 1, 0, 0, 1, 1, 0, 1375.65, -4912.77,  8.910, 6.0737, 300, 0, 0, 1, 0, 0, 0, 0, 0, 12340);

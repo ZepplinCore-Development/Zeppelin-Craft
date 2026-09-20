@@ -271,6 +271,121 @@ class AdtFile:
             if val > ofs_refs:
                 struct.pack_into('<I', payload, hdr_off, val + delta)
 
+    # -- terrain -----------------------------------------------------------
+    # MCVT is 145 floats relative to the MCNK header z: 9 outer then 8 inner
+    # vertices per row, rows stepping -x, columns stepping -y from the MCNK
+    # header position (the cell's max corner). MCNR is 145 x int8[3] =
+    # (nx, ny, nz) * 127 in that same frame. Its size field says 435 and
+    # does not count the 13 padding bytes after it, so both are located
+    # through the header offsets (0x14 / 0x18), which count from the MCNK magic.
+    def _terrain_vertices(self):
+        """Yield (payload, mcvt_off, mcnr_off, i, world_x, world_y, abs_z) per vertex."""
+        step = CHUNK_SIZE / 8.0
+        for payload in self.mcnks():
+            px, py, pz = struct.unpack_from('<3f', payload, 0x68)
+            # header offsets point at the sub-chunk's magic, counted from the MCNK
+            # magic; the payload starts 8 bytes later and the data 8 bytes after that
+            mcvt = struct.unpack_from('<I', payload, 0x14)[0]
+            mcnr = struct.unpack_from('<I', payload, 0x18)[0]
+            for i in range(145):
+                row, col = divmod(i, 17)
+                if col < 9:
+                    fx, fy = row, col
+                else:
+                    fx, fy = row + 0.5, col - 9 + 0.5
+                h = struct.unpack_from('<f', payload, mcvt + i * 4)[0]
+                yield payload, mcvt, mcnr, i, px - fx * step, py - fy * step, pz + h
+
+    def height_at(self, x: float, y: float) -> Optional[float]:
+        """Ground height at world (x, y), bilinear on the outer vertex grid."""
+        step = CHUNK_SIZE / 8.0
+        for payload in self.mcnks():
+            px, py, pz = struct.unpack_from('<3f', payload, 0x68)
+            fx, fy = (px - x) / step, (py - y) / step
+            if 0 <= fx <= 8 and 0 <= fy <= 8:
+                mcvt = struct.unpack_from('<I', payload, 0x14)[0]
+                r, c = min(int(fx), 7), min(int(fy), 7)
+                tx, ty = fx - r, fy - c
+
+                def hh(rr, cc):
+                    return struct.unpack_from('<f', payload, mcvt + (rr * 17 + cc) * 4)[0]
+                return pz + (hh(r, c) * (1 - tx) * (1 - ty) + hh(r + 1, c) * tx * (1 - ty)
+                             + hh(r, c + 1) * (1 - tx) * ty + hh(r + 1, c + 1) * tx * ty)
+        return None
+
+    def raise_terrain(self, center, z: float, inner: float, outer: float) -> Dict:
+        """Raise ground to `z` within `inner` yards of `center` (world x, y),
+        blending back to the original height by `outer`. Never lowers.
+        Doodads (MDDF) standing in the area ride up by the ground's rise
+        under them, so nothing is buried."""
+        cx, cy = center
+        mddf = self.first('MDDF')
+        carry = []
+        for k in range(len(mddf) // 36 if mddf is not None else 0):
+            wx, wy, wz = world_from_adt(struct.unpack_from('<3f', mddf, k * 36 + 8))
+            if math.hypot(wx - cx, wy - cy) < outer:
+                carry.append((k, wx, wy, self.height_at(wx, wy)))
+        raised, top = 0, 0.0
+        for payload, mcvt, _, i, x, y, h in list(self._terrain_vertices()):
+            d = math.hypot(x - cx, y - cy)
+            if d >= outer or h >= z:
+                continue
+            w = 1.0 if d <= inner else _smoothstep((outer - d) / (outer - inner))
+            new = h + (z - h) * w
+            if new - h < 1e-4:
+                continue
+            pz = struct.unpack_from('<f', payload, 0x70)[0]
+            struct.pack_into('<f', payload, mcvt + i * 4, new - pz)
+            raised += 1
+            top = max(top, new - h)
+        carried = []
+        for k, wx, wy, before in carry:
+            rise = self.height_at(wx, wy) - before
+            if rise > 1e-4:
+                off = k * 36 + 8 + 4          # adt_pos.y is world z
+                struct.pack_into('<f', mddf, off, struct.unpack_from('<f', mddf, off)[0] + rise)
+                carried.append((struct.unpack_from('<I', mddf, k * 36 + 4)[0], round(rise, 3)))
+        return {'vertices_raised': raised, 'max_raise': round(top, 3), 'doodads_carried': carried}
+
+    def recompute_normals(self, center, radius: float) -> int:
+        """Rewrite MCNR for every vertex within `radius` of `center` from the
+        current heights, by central differences across chunk borders."""
+        step = CHUNK_SIZE / 8.0
+        grid = {}
+        verts = list(self._terrain_vertices())
+        for _, _, _, _, x, y, h in verts:
+            grid[(round(x / step * 2), round(y / step * 2))] = h
+        cx, cy = center
+
+        def at(kx, ky):
+            return grid.get((kx, ky))
+
+        n = 0
+        for payload, _, mcnr, i, x, y, h in verts:
+            if math.hypot(x - cx, y - cy) > radius:
+                continue
+            kx, ky = round(x / step * 2), round(y / step * 2)
+
+            def slope(k0, k1, dk):
+                hi, lo = at(k0 + dk[0], k1 + dk[1]), at(k0 - dk[0], k1 - dk[1])
+                if hi is not None and lo is not None:
+                    return (hi - lo) / (2 * step)
+                if hi is not None:
+                    return (hi - h) / step
+                if lo is not None:
+                    return (h - lo) / step
+                return 0.0
+
+            # neighbours one full vertex step away (2 half-steps) on the same lattice
+            dhdx = slope(kx, ky, (2, 0))
+            dhdy = slope(kx, ky, (0, 2))
+            vec = (-dhdx, -dhdy, 1.0)
+            ln = math.sqrt(sum(c * c for c in vec))
+            struct.pack_into('<3b', payload, mcnr + i * 3,
+                             *(max(-127, min(127, round(c / ln * 127))) for c in vec))
+            n += 1
+        return n
+
     # -- serialise ---------------------------------------------------------
     def to_bytes(self) -> bytes:
         # First pass: chunk offsets with final sizes.
@@ -310,6 +425,11 @@ class AdtFile:
             out += struct.pack('<I', len(payload))
             out += payload
         return bytes(out)
+
+
+def _smoothstep(t: float) -> float:
+    t = max(0.0, min(1.0, t))
+    return t * t * (3 - 2 * t)
 
 
 def sha256(data: bytes) -> str:
@@ -356,6 +476,14 @@ def apply_recipe(adt_path: Path, entry: Dict, *, strict: bool = True) -> Tuple[b
 
     stats = adt.add_refs(wmo_boxes, doodad_points)
     stats['doodads_moved'] = moved
+
+    raised = 0
+    for tr in entry.get('terrain_raise', []):
+        r = adt.raise_terrain(tr['center'], tr['z'], tr['inner_radius'], tr['outer_radius'])
+        adt.recompute_normals(tr['center'], tr['outer_radius'] + CHUNK_SIZE / 4)
+        raised += r['vertices_raised']
+        stats.setdefault('doodads_carried', []).extend(r['doodads_carried'])
+    stats['terrain_vertices_raised'] = raised
     out = adt.to_bytes()
     stats.update({'wmos_added': len(wmo_boxes), 'doodads_added': len(doodad_points),
                   'base_sha256': base, 'result_sha256': sha256(out),

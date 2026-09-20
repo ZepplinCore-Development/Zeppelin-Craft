@@ -1,0 +1,90 @@
+{
+  "WORLD/WMO/AZEROTH/BUILDINGS/HORDE_GOBLIN/GOBLINSHIPFINAL_BIG_000.WMO": {
+    "note": "I-370: the 3.3.5 client walks MOGP sub-chunks by position, never by magic (Wow.exe has no constant for any WMO chunk). Cataclysm's MOBS sits straight after MOBA, so a raw 4.x group is read with MOBS as MODR, MODR as MOBN, MOBN as MOBR... and the BSP is garbage: the client cannot tell the camera is inside an interior group (tower walls vanish from inside). Stock 3.3.5 has MOBS in 0 of 8288 groups; OA's and the Asset Library's converted copies are these exact Cata files minus MOBS (they leave the stale MOGP size; we correct it).",
+    "base_sha256": "ed6994ba9d845462d8fbe9937de7e98cab272cf67bc8498a8ce4aac8e446f8ba",
+    "result_sha256": "a32bd839ed2edee4cdb5d7453c05673897dc6553ef62276a22ba50e8a41b7715",
+    "ops": [
+      {
+        "op": "wmo.group.drop_chunk",
+        "chunk": "MOBS"
+      }
+    ]
+  },
+  "WORLD/WMO/AZEROTH/BUILDINGS/HORDE_GOBLIN/GOBLINSHIPFINAL_BIG_001.WMO": {
+    "note": "I-370: drop MOBS - see the first entry.",
+    "base_sha256": "aac3ba23545afd9824a4c06258f01c9611f197eb2aae28b865783b88f0420ea1",
+    "result_sha256": "f036810efec5ee9b039efa661a622460d53b76ed94886ad26d4bccbce33e2f26",
+    "ops": [
+      {
+        "op": "wmo.group.drop_chunk",
+        "chunk": "MOBS"
+      }
+    ]
+  },
+  "WORLD/WMO/AZEROTH/BUILDINGS/HORDE_GOBLIN/GOBLINSHIPFINAL_BIG_002.WMO": {
+    "note": "I-370: drop MOBS - see the first entry.",
+    "base_sha256": "eb67f8605e58fb8d1711f4b5017018f76981de4427425cee4452f56415bef9e4",
+    "result_sha256": "e6204cf0a88b7df4d58e64c9ba84be1d27cea95dc9d4f017449afbff6aa3ae8a",
+    "ops": [
+      {
+        "op": "wmo.group.drop_chunk",
+        "chunk": "MOBS"
+      }
+    ]
+  },
+  "WORLD/WMO/AZEROTH/BUILDINGS/HORDE_GOBLIN/GOBLINSHIPFINAL_BIG_003.WMO": {
+    "note": "I-370: drop MOBS - see the first entry.",
+    "base_sha256": "1d2e76d4c0e8138d59c56e986b6fd4243b1a99c1f2883fe3c0ffb3827507b5b0",
+    "result_sha256": "c4a99a649c6610adaa7a2502d0d30745667d4723393c001a14f4a70f680445e6",
+    "ops": [
+      {
+        "op": "wmo.group.drop_chunk",
+        "chunk": "MOBS"
+      }
+    ]
+  },
+  "WORLD/WMO/KALIMDOR/OGRIMMAR/ORCTOWERORGRIMMAR_000.WMO": {
+    "note": "I-370: drop MOBS - see the first entry.",
+    "base_sha256": "b944528ff52b6608d999e51f5b0ce453f82d39516831968ba14f98f1c2544d8d",
+    "result_sha256": "470168f0b974f909e17177a2f015148dd1050f4a24a158c9056de6de34d27960",
+    "ops": [
+      {
+        "op": "wmo.group.drop_chunk",
+        "chunk": "MOBS"
+      }
+    ]
+  },
+  "WORLD/WMO/KALIMDOR/OGRIMMAR/ORCTOWERORGRIMMAR_001.WMO": {
+    "note": "I-370: drop MOBS - see the first entry.",
+    "base_sha256": "86fe49e3441cda26260d7e53f84d4aff8c2c0582bb0ce95e1f6740e38c4d1b23",
+    "result_sha256": "9d4ad93fbf80313edf525019c0ad091d0383a16d7a23c5f79e351efd6a00e0ef",
+    "ops": [
+      {
+        "op": "wmo.group.drop_chunk",
+        "chunk": "MOBS"
+      }
+    ]
+  },
+  "WORLD/WMO/KALIMDOR/OGRIMMAR/ORCTOWERORGRIMMAR_002.WMO": {
+    "note": "I-370: drop MOBS - see the first entry.",
+    "base_sha256": "b66acb1c320ecdc2bc01d42bca4f5112f5b8c287b27dd82e4b3aeae98ab07a38",
+    "result_sha256": "3320cdcaed6b95f0fa9857754c1604130167e58406264dddd33b3d58b79d81b2",
+    "ops": [
+      {
+        "op": "wmo.group.drop_chunk",
+        "chunk": "MOBS"
+      }
+    ]
+  },
+  "WORLD/WMO/OUTLAND/ORCBUILDINGS/ND_ORC_DOCKS_000.WMO": {
+    "note": "I-370: drop MOBS - see the first entry.",
+    "base_sha256": "277077bba9dc08d9542c16acfc84eb4c688deca309b7dc3d98825d207e5e8f24",
+    "result_sha256": "bc97ce45c28d733cd0429277fc5d202aba1140e3a48774b6a43cbfc252490543",
+    "ops": [
+      {
+        "op": "wmo.group.drop_chunk",
+        "chunk": "MOBS"
+      }
+    ]
+  }
+}
