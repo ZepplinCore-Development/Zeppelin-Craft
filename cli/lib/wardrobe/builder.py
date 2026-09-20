@@ -44,6 +44,9 @@ OBJ_FOLDER = {'shoulders': 'Shoulder', 'helm': 'Head', 'weapon': 'Weapon', 'belt
 # WXL equip extension (Morfium-G, F-195): a collection M2 is shared by several slots and filtered
 # by geoset. Geoset groups a slot may show, matched against the collection's own geosets.
 COLLECTION_GROUPS = {'chest': (22, 27), 'gloves': (4, 23), 'boots': (5, 20), 'legs': (13,), 'shirt': (), 'tabard': ()}
+# HelmetGeosetVisData rows that hide the hair a closed helm would clip through: the most common
+# stock pairing (919 stock helms). 245/245 hides nothing; override per item with "helmet_geoset".
+HELMET_GEOSET_VIS = (248, 306)
 ICON2_COLLECTION = '19::64'   # attach 19 Ground_Base, flag 0x40 retail Race_Gender file naming
 ICON2_NO_SUFFIX = '::6'       # flags 0x2|0x4: file name takes neither race nor gender suffix
 ITEM_TEMPLATE_COLS = ['class', 'subclass', 'SoundOverrideSubclass', 'Quality', 'Flags', 'BuyCount', 'BuyPrice',
@@ -125,7 +128,8 @@ class WardrobeBuilder:
             reg[str(retail_display)] = max([ITEM_DISPLAY_BASE - 1] + list(reg.values())) + 1
         return reg[str(retail_display)]
 
-    def import_item(self, item_id: int, mod: Optional[int], races: List[int]) -> ImportedItem:
+    def import_item(self, item_id: int, mod: Optional[int], races: List[int],
+                    helmet_geoset=None) -> ImportedItem:
         key = (int(item_id), -1 if mod is None else int(mod))
         if key in self.items:
             return self.items[key]
@@ -160,6 +164,9 @@ class WardrobeBuilder:
             self._import_models(it, row, races, imp)
         if it.slot == 'cape':
             raise ValueError(f'{it.name}: capes are not supported yet')
+        if it.slot == 'helm':
+            hg = helmet_geoset or HELMET_GEOSET_VIS
+            row['helmet_geoset_male'], row['helmet_geoset_female'] = int(hg[0]), int(hg[1])
         imp.idi = row
         self.items[key] = imp
         return imp
@@ -209,7 +216,7 @@ class WardrobeBuilder:
             if not base:
                 raise ValueError(f'{it.name}: no helm model for races {races}')
             row['left_model'] = base + '.mdx'
-            imp.notes.append('helm: helmet geoset visibility left at 0 (hair shows) - check clipping')
+            imp.notes.append(f'helm: hides hair via HelmetGeosetVisData {HELMET_GEOSET_VIS} (M/F)')
 
     def _ship_model_texture(self, fdid: int, folder: str) -> str:
         name = self.retail.paths([fdid])[fdid].split('/')[-1]
@@ -350,7 +357,7 @@ class WardrobeBuilder:
             items = {}
             for slot, spec in outfit['items'].items():
                 spec = spec if isinstance(spec, dict) else {'item': spec}
-                imp = self.import_item(spec['item'], spec.get('mod'), [race])
+                imp = self.import_item(spec['item'], spec.get('mod'), [race], spec.get('helmet_geoset'))
                 if imp.retail.slot != slot:
                     raise ValueError(f'{name}: item {spec["item"]} ({imp.retail.name}) is a {imp.retail.slot}, listed as {slot}')
                 items[slot] = imp
