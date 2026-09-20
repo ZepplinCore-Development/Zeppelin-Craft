@@ -1,7 +1,7 @@
 From e415e814c3b2f4a8434771c27b37dfc151a32ef1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 00:41:29 +0000
-Subject: [PATCH 01/11] fix: F-195 - shim call-guarding SEH for the llvm-mingw
+Subject: [PATCH 01/12] fix: F-195 - shim call-guarding SEH for the llvm-mingw
  i686 build
 
 clang cannot codegen a 32-bit SEH funclet around a call, so the five guards that
@@ -128,7 +128,7 @@ index ae95e77..0cd7059 100644
 From 51ff8156c6a91b936981a59b66da0ebda60bd68c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:07:29 +0000
-Subject: [PATCH 02/11] fix: F-211 - probe memory before the pointer walks the
+Subject: [PATCH 02/12] fix: F-211 - probe memory before the pointer walks the
  mingw build cannot guard
 
 The five call-wrapping SEH guards run unguarded on llvm-mingw (clang cannot emit a
@@ -281,7 +281,7 @@ index 0cd7059..270bd90 100644
 From 6c17b0ba3da6964cc21dc7df5873577825e3a3c8 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:28:54 +0000
-Subject: [PATCH 03/11] fix: F-211 - probe in the guarded readers too (the read
+Subject: [PATCH 03/12] fix: F-211 - probe in the guarded readers too (the read
  guard is inert on mingw)
 
 #132 on logout inside GuardedReadPtr: clang compiles __try around a plain memory
@@ -336,7 +336,7 @@ index 270bd90..3e0d3d1 100644
 From 68bc21c82675ae90bfef84fc35942448da83398e Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 02:48:12 +0000
-Subject: [PATCH 04/11] fix: F-211 - drop attachments stamped with a stale
+Subject: [PATCH 04/12] fix: F-211 - drop attachments stamped with a stale
  scene node (equipment bleed)
 
 The dead-CMO purge only fires if a frame runs between WoW freeing a
@@ -394,7 +394,7 @@ index 3e0d3d1..1bd499b 100644
 From fecc90db2cccf5b938e42baaf3bead08bc943910 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 06:34:13 +0000
-Subject: [PATCH 05/11] fix: F-211 - skip attachments the archives do not have
+Subject: [PATCH 05/12] fix: F-211 - skip attachments the archives do not have
 
 Crash on boot: #132 at 0x004B51A0 (Wow.exe, null object) after the module built
 Item\ObjectComponents\Chest\Helm_Leather_A_01Green - a HEAD display arrived with a
@@ -550,7 +550,7 @@ index 1bd499b..d48ee99 100644
 From abae86ded51ecf55264dd1b23d225a4ea0954750 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 06:41:48 +0000
-Subject: [PATCH 06/11] fix: F-211 - open the existence probe the way the
+Subject: [PATCH 06/12] fix: F-211 - open the existence probe the way the
  module reads files, and cache it
 
 The archive probe added with ClientModelExists opened with flags 0 rather than the
@@ -638,7 +638,7 @@ index d48ee99..3f178f4 100644
 From 18adaaa06c7a0a13f181419348fdbaf57e2dace4 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 10:52:43 +0000
-Subject: [PATCH 07/11] fix: F-211 - settings writer defeated its own kill
+Subject: [PATCH 07/12] fix: F-211 - settings writer defeated its own kill
  switch
 
 WriteDefault appended a raw '[ns] ... key=default' block per key, so a namespace
@@ -708,7 +708,7 @@ index 141c79a..6758163 100644
 From 37feb58e10ef32a8416df0064b5012db693b8a37 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 11:07:14 +0000
-Subject: [PATCH 08/11] perf: F-211 - memoise the memory probe per page per
+Subject: [PATCH 08/12] perf: F-211 - memoise the memory probe per page per
  frame
 
 The MemReadable probe added to the guarded readers runs several times per attached
@@ -794,7 +794,7 @@ index 3f178f4..bedf2e9 100644
 From 5cf067cc5a6716508b9e0fcb18219d5556eeb9b4 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 12:17:03 +0000
-Subject: [PATCH 09/11] perf: F-211 - stop scanning the attachment map for
+Subject: [PATCH 09/12] perf: F-211 - stop scanning the attachment map for
  every model instance
 
 OnM2PerFrameUpdate fires once per model instance per frame, and did two whole-map
@@ -958,7 +958,7 @@ index bedf2e9..f46d6b5 100644
 From 0c71830ab2fb7a2a1fd3dc4d4e8c44d444e03ff6 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 12:30:19 +0000
-Subject: [PATCH 10/11] fix: F-211 - do not skip the attached model's own
+Subject: [PATCH 10/12] fix: F-211 - do not skip the attached model's own
  per-frame tick
 
 The indexed fast path bailed when the render context was not a tracked character,
@@ -998,7 +998,7 @@ index f46d6b5..0abd067 100644
 From 5de34d30d02146f3c05ef42569cfe3e7b6de813a Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 20 Sep 2026 12:36:42 +0000
-Subject: [PATCH 11/11] fix: F-211 - leave HEAD and SHOULDER to the stock
+Subject: [PATCH 11/12] fix: F-211 - leave HEAD and SHOULDER to the stock
  client
 
 The stock 3.3.5 client already attaches head and shoulder models from
@@ -1045,6 +1045,84 @@ index 0abd067..db16029 100644
  
          void* cmo = a.charModelObj;
  
+-- 
+2.34.1
+
+
+From aafe791a56f13b6861b091613adb5eafed38d5ab Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 20 Sep 2026 12:58:21 +0000
+Subject: [PATCH 12/12] fix: F-211 - validate an attachment against the slot's
+ live item data
+
+Gear still bled onto other NPCs after the scene-node stamp: WoW recycles the
+CharModelObject address AND its scene node together, so the stamp matches and the
+new character inherits the previous one's attachments - a Fruit Vendor wearing a
+grunt's Warfronts plate.
+
+Each entry now remembers the client's per-slot item-data pointer and the display id
+it held at attach time. The throttled purge re-reads it and drops the entry when it
+no longer matches: the slot either changed gear or belongs to a different character
+now. This is the only identity the module is handed - the dispatch event carries no
+GUID, and our core predates upstream's Unit -> CharacterComponent offset.
+---
+ src/EquipExtension.cpp | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/src/EquipExtension.cpp b/src/EquipExtension.cpp
+index db16029..fe8d582 100644
+--- a/src/EquipExtension.cpp
++++ b/src/EquipExtension.cpp
+@@ -72,6 +72,13 @@ namespace wxl::scripts::equipextension
+         uint32_t    equipSlot = static_cast<uint32_t>(-1); // internal model slot (0-10)
+         uint32_t    attachId  = static_cast<uint32_t>(-1); // WoW attachment point id
+         void*       subObj    = nullptr; // cmo->sceneNode stamped at last rebuild
++        // The client's own per-slot item data for this attachment, and the display id it held
++        // when we attached. Re-reading it is the only identity we have: WoW recycles both the
++        // CharModelObject address and its scene node, so a new character can inherit the
++        // previous one's attachments - a Fruit Vendor wearing a grunt's plate (Zeppelin
++        // 2026-09-20). When the slot no longer holds that item, the attachment is not ours.
++        const void* itemDataPtr = nullptr;
++        uint32_t    itemDisplayId = 0;
+         void*       renderCtx = nullptr; // live render context; null = evicted/dead
+         char        keyBuf[264] = {};        // real M2 path (used for matching/dedup)
+         char        mangledKeyBuf[264] = {}; // virtual _wxl_ path for GetRenderCtx (collection only)
+@@ -1146,6 +1153,8 @@ namespace wxl::scripts::equipextension
+ 
+                 AttachEntry e1 = {};
+                 e1.equipSlot = a.modelSlot;
++                e1.itemDataPtr = a.itemDataPtr;
++                e1.itemDisplayId = displayId;
+                 e1.attachId  = attachA;
+                 e1.subObj    = subObj;
+                 std::memcpy(e1.keyBuf, m1Path,   sizeof(e1.keyBuf));
+@@ -1186,6 +1195,8 @@ namespace wxl::scripts::equipextension
+ 
+                 AttachEntry e2 = {};
+                 e2.equipSlot = a.modelSlot;
++                e2.itemDataPtr = a.itemDataPtr;
++                e2.itemDisplayId = displayId;
+                 e2.attachId  = attachB;
+                 e2.subObj    = subObj;
+                 std::memcpy(e2.keyBuf, m2Path,   sizeof(e2.keyBuf));
+@@ -1257,7 +1268,16 @@ namespace wxl::scripts::equipextension
+             auto& vec = it->second;
+             const size_t before = vec.size();
+             vec.erase(std::remove_if(vec.begin(), vec.end(),
+-                                     [sub](const AttachEntry& e) { return e.subObj && e.subObj != sub; }),
++                                     [sub](const AttachEntry& e)
++                                     {
++                                         if (e.subObj && e.subObj != sub) return true;
++                                         // Slot no longer holds the item we attached for: either
++                                         // the character changed gear or this address now belongs
++                                         // to a different character that never asked for it.
++                                         if (e.itemDataPtr && GuardedReadU32(e.itemDataPtr) != e.itemDisplayId)
++                                             return true;
++                                         return false;
++                                     }),
+                       vec.end());
+             if (vec.size() != before)
+                 EquipLog("  purge: dropped %zu entry(ies) stamped with a stale scene node (cmo=0x%p sub=0x%p)",
 -- 
 2.34.1
 
