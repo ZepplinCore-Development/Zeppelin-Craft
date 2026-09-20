@@ -16,8 +16,8 @@
   },
   "variants": {
     "genders": {
-      "0": 4,
-      "1": 4
+      "0": 2,
+      "1": 2
     },
     "skin_colors": [
       0,
@@ -40,14 +40,8 @@
   "display_ids": [
     900301,
     900302,
-    900303,
-    900304,
     900305,
-    900306,
-    900307,
-    900308,
-    900309,
-    900310
+    900306
   ],
   "weapons": {
     "orgrimmar_axe": {
@@ -62,25 +56,13 @@
   "creatures": [
     {
       "entry": 3296,
-      "variants": [
-        0,
-        1,
-        4,
-        5
+      "displays": [
+        900301,
+        900306,
+        900311,
+        900313
       ],
-      "equip": {
-        "id": 1,
-        "main": "orgrimmar_axe"
-      }
-    },
-    {
-      "entry": 31416,
-      "variants": [
-        2,
-        3,
-        6,
-        7
-      ],
+      "_comment": "2 Orgrimmar set (M with tabard, F without) + 2 Mag'har heritage (M, F) from maghar_heritage_grunt; 3296 is the phase-1 Orgrimmar grunt, 31416 is phaseMask 192 and invisible to players",
       "equip": {
         "id": 1,
         "main": "orgrimmar_axe"

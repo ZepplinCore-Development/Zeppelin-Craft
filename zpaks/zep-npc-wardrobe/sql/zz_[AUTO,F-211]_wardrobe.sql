@@ -29,6 +29,42 @@ INSERT INTO item_template SET
   dmg_max1 = 5,
   VerifiedBuild = 0;
 
+DELETE FROM creature_model_info WHERE DisplayID = 900311;
+INSERT INTO creature_model_info SET
+  DisplayID = 900311,
+  BoundingRadius = 0.372,
+  CombatReach = 1.5,
+  Gender = 0,
+  DisplayID_Other_Gender = 0,
+  VerifiedBuild = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 900312;
+INSERT INTO creature_model_info SET
+  DisplayID = 900312,
+  BoundingRadius = 0.372,
+  CombatReach = 1.5,
+  Gender = 0,
+  DisplayID_Other_Gender = 0,
+  VerifiedBuild = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 900313;
+INSERT INTO creature_model_info SET
+  DisplayID = 900313,
+  BoundingRadius = 0.236,
+  CombatReach = 1.5,
+  Gender = 1,
+  DisplayID_Other_Gender = 0,
+  VerifiedBuild = 0;
+
+DELETE FROM creature_model_info WHERE DisplayID = 900314;
+INSERT INTO creature_model_info SET
+  DisplayID = 900314,
+  BoundingRadius = 0.236,
+  CombatReach = 1.5,
+  Gender = 1,
+  DisplayID_Other_Gender = 0,
+  VerifiedBuild = 0;
+
 DELETE FROM creature_model_info WHERE DisplayID = 900301;
 INSERT INTO creature_model_info SET
   DisplayID = 900301,
@@ -41,24 +77,6 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900302;
 INSERT INTO creature_model_info SET
   DisplayID = 900302,
-  BoundingRadius = 0.372,
-  CombatReach = 1.5,
-  Gender = 0,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900303;
-INSERT INTO creature_model_info SET
-  DisplayID = 900303,
-  BoundingRadius = 0.372,
-  CombatReach = 1.5,
-  Gender = 0,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900304;
-INSERT INTO creature_model_info SET
-  DisplayID = 900304,
   BoundingRadius = 0.372,
   CombatReach = 1.5,
   Gender = 0,
@@ -83,36 +101,18 @@ INSERT INTO creature_model_info SET
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
 
-DELETE FROM creature_model_info WHERE DisplayID = 900307;
-INSERT INTO creature_model_info SET
-  DisplayID = 900307,
-  BoundingRadius = 0.236,
-  CombatReach = 1.5,
-  Gender = 1,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900308;
-INSERT INTO creature_model_info SET
-  DisplayID = 900308,
-  BoundingRadius = 0.236,
-  CombatReach = 1.5,
-  Gender = 1,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
+-- creature 31416: whole model list owned by manifest maghar_heritage_grunt (stock rows replaced)
+DELETE FROM creature_template_model WHERE CreatureID = 31416;
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (31416, 0, 900311, 1, 1, 0);
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (31416, 1, 900312, 1, 1, 0);
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (31416, 2, 900313, 1, 1, 0);
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (31416, 3, 900314, 1, 1, 0);
+UPDATE creature_equip_template SET ItemID1 = 84800 WHERE CreatureID = 31416 AND ID = 1;
 
 -- creature 3296: whole model list owned by manifest orgrimmar_grunt (stock rows replaced)
 DELETE FROM creature_template_model WHERE CreatureID = 3296;
 INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 0, 900301, 1, 1, 0);
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 1, 900302, 1, 1, 0);
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 2, 900305, 1, 1, 0);
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 3, 900306, 1, 1, 0);
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 1, 900306, 1, 1, 0);
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 2, 900311, 1, 1, 0);
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 3, 900313, 1, 1, 0);
 UPDATE creature_equip_template SET ItemID1 = 84800 WHERE CreatureID = 3296 AND ID = 1;
-
--- creature 31416: whole model list owned by manifest orgrimmar_grunt (stock rows replaced)
-DELETE FROM creature_template_model WHERE CreatureID = 31416;
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (31416, 0, 900303, 1, 1, 0);
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (31416, 1, 900304, 1, 1, 0);
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (31416, 2, 900307, 1, 1, 0);
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (31416, 3, 900308, 1, 1, 0);
-UPDATE creature_equip_template SET ItemID1 = 84800 WHERE CreatureID = 31416 AND ID = 1;

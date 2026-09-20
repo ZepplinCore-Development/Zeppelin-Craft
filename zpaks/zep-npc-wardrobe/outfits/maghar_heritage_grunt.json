@@ -1,0 +1,27 @@
+{
+  "task": "F-211",
+  "name": "maghar_heritage_grunt",
+  "kind": "uniform",
+  "race": 2,
+  "outfit": {
+    "items": {
+      "helm": 160992,
+      "shoulders": 160993,
+      "chest": 160994,
+      "belt": 161000,
+      "legs": 161001,
+      "boots": 161002,
+      "wrists": 161003,
+      "gloves": 160999
+    }
+  },
+  "variants": {
+    "genders": {"0": 2, "1": 2},
+    "skin_colors": [0, 1, 2, 3, 4, 5, 7, 8]
+  },
+  "base_display": {"0": 4602, "1": 4260},
+  "display_ids": [900311, 900312, 900313, 900314, 900315, 900316, 900317, 900318, 900319, 900320],
+  "creatures": [
+    {"entry": 31416, "equip": {"id": 1, "main": 84800}}
+  ]
+}

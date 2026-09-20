@@ -98,6 +98,22 @@ class RetailData:
                         self._paths[int(a)] = b
         return {int(f): self._paths.get(int(f)) for f in fdids}
 
+    def fdid_for_path(self, path: str) -> Optional[int]:
+        """Reverse listfile lookup (retail path -> FileDataID)."""
+        want = path.replace('\\', '/').lower()
+        if not hasattr(self, '_rev'):
+            self._rev = {}
+        if want not in self._rev:
+            with open(self.listfile_path, encoding='utf-8', errors='replace') as f:
+                for line in f:
+                    a, _, b = line.rstrip('\n').partition(';')
+                    if b.lower() == want and a.isdigit():
+                        self._rev[want] = int(a)
+                        break
+                else:
+                    self._rev[want] = None
+        return self._rev[want]
+
     def fetch(self, fdid: int) -> Path:
         """Download one CASC file by FDID (cached)."""
         p = self.dir / 'casc' / str(fdid)

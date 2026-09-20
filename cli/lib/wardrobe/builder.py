@@ -22,6 +22,7 @@ from . import m2 as m2lib
 from .blp import write_blp_dxt
 from .compositor import FileResolver, compose
 from .retail import RetailData, RetailItem
+from ..m2_vertex_shifter import transform_vertices
 
 MAX_VARIANTS = 10
 MAX_MODELS_PER_CREATURE = 4   # AC schema: CHECK creature_template_model_chk_1 (Idx <= 3)
@@ -39,7 +40,12 @@ IDI_COLS = ['left_model', 'right_model', 'left_model_texture', 'right_model_text
             'helmet_geoset_male', 'helmet_geoset_female'] + list(IDI_REGION_COLS.values()) + ['item_visual', 'particle_colour_id']
 # ChrRaces.client_prefix for helm file suffixes (<name>_<Prefix><M|F>.m2)
 RACE_PREFIX = {1: 'Hu', 2: 'Or', 3: 'Dw', 4: 'Ni', 5: 'Sc', 6: 'Ta', 7: 'Gn', 8: 'Tr', 10: 'Be', 11: 'Dr'}
-OBJ_FOLDER = {'shoulders': 'Shoulder', 'helm': 'Head', 'weapon': 'Weapon'}
+OBJ_FOLDER = {'shoulders': 'Shoulder', 'helm': 'Head', 'weapon': 'Weapon', 'belt': 'Waist'}
+# WXL equip extension (Morfium-G, F-195): a collection M2 is shared by several slots and filtered
+# by geoset. Geoset groups a slot may show, matched against the collection's own geosets.
+COLLECTION_GROUPS = {'chest': (22, 27), 'gloves': (4, 23), 'boots': (5, 20), 'legs': (13,), 'shirt': (), 'tabard': ()}
+ICON2_COLLECTION = '19::64'   # attach 19 Ground_Base, flag 0x40 retail Race_Gender file naming
+ICON2_NO_SUFFIX = '::6'       # flags 0x2|0x4: file name takes neither race nor gender suffix
 ITEM_TEMPLATE_COLS = ['class', 'subclass', 'SoundOverrideSubclass', 'Quality', 'Flags', 'BuyCount', 'BuyPrice',
                       'SellPrice', 'InventoryType', 'AllowableClass', 'AllowableRace', 'ItemLevel', 'RequiredLevel',
                       'maxcount', 'stackable', 'Material', 'sheath', 'delay', 'bonding', 'dmg_min1', 'dmg_max1']
@@ -84,10 +90,16 @@ class WardrobeBuilder:
         self.ids = json.loads(self.ids_path.read_text()) if self.ids_path.exists() else {'item_displays': {}}
         self.prov_path = self.zpak / 'asset_provenance.json'
         self.produced: Dict[str, Dict] = {}
+        self._case: Dict[str, str] = {}
         self.items: Dict[Tuple[int, int], ImportedItem] = {}
+        self.char_model: Dict[int, str] = {}   # gender -> our character model path, per manifest
+        self._helm_shift_cache: Dict[int, Tuple[float, float, float]] = {}
 
     # -- files ----------------------------------------------------------------------
     def _write(self, client_path: str, data: bytes, prov: Dict) -> None:
+        # MPQ paths are case-insensitive: reuse a path already produced with different casing
+        # (a model's inlined hardcoded texture often names the same file as its ItemDisplayInfo row)
+        client_path = self._case.setdefault(client_path.lower(), client_path)
         dst = self.assets / client_path
         dst.parent.mkdir(parents=True, exist_ok=True)
         if not dst.exists() or dst.read_bytes() != data:
@@ -144,11 +156,8 @@ class WardrobeBuilder:
                 raise ValueError(f'{it.name}: region {region} has several texture bases {bases}')
             row[IDI_REGION_COLS[region]] = bases.pop()
         # 3D parts
-        if it.slot in ('shoulders', 'weapon', 'helm'):
+        if it.models:
             self._import_models(it, row, races, imp)
-        elif it.models:
-            folders = sorted({(m.path or '?').split('/')[2] for m in it.models})
-            imp.notes.append(f'3D part(s) not supported in 3.3.5, texture only: {", ".join(folders)}')
         if it.slot == 'cape':
             raise ValueError(f'{it.name}: capes are not supported yet')
         imp.idi = row
@@ -156,38 +165,112 @@ class WardrobeBuilder:
         return imp
 
     def _import_models(self, it: RetailItem, row: Dict, races: List[int], imp: ImportedItem) -> None:
+        folders = {(m.path or '?/?/?').split('/')[2].lower() for m in it.models if m.path}
+        if 'collections' in folders:
+            self._import_collection(it, row, races, imp)
+            return
+        if it.slot not in OBJ_FOLDER:
+            imp.notes.append(f'3D part(s) not supported in 3.3.5, texture only: {", ".join(sorted(folders))}')
+            return
         folder = OBJ_FOLDER[it.slot]
         tex = it.model_textures[0] if it.model_textures else None
         if tex:
-            tname = self.retail.paths([tex])[tex].split('/')[-1]
-            self._write(f'Item/ObjectComponents/{folder}/{tname}', self.retail.fetch(tex).read_bytes(),
-                        dict(fdid=tex, build=self.retail.build, kind='copy'))
-            row['left_model_texture'] = tname.rsplit('.', 1)[0]
+            row['left_model_texture'] = self._ship_model_texture(tex, folder)
         if it.slot == 'shoulders':
             sides = {m.position: m for m in it.models}
             for pos, col in ((0, 'left_model'), (1, 'right_model')):
                 if pos in sides:
                     name = self._convert(sides[pos], folder, sides[pos].path.split('/')[-1])
                     row[col] = name.rsplit('.', 1)[0] + '.mdx'
-            if tex:
-                row['right_model_texture'] = row['left_model_texture']
-        elif it.slot == 'weapon':
+            # the right pad usually has its own texture (ModelMaterialResourcesID_1)
+            right_tex = it.model_textures2[0] if it.model_textures2 else tex
+            if right_tex:
+                row['right_model_texture'] = self._ship_model_texture(right_tex, folder)
+        elif it.slot in ('weapon', 'belt'):
             m = it.models[0]
             name = self._convert(m, folder, m.path.split('/')[-1])
             row['left_model'] = name.rsplit('.', 1)[0] + '.mdx'
+            if it.slot == 'belt':
+                # 3D belt buckle: needs the WXL equip extension (stock 3.3.5 has no waist model
+                # slot). Default attach is 53 BeltBuckle; the file carries no race/gender suffix.
+                row['icon_2'] = ICON2_NO_SUFFIX
+                imp.notes.append('3D belt buckle: needs the WXL equip extension')
         elif it.slot == 'helm':
             base = None
             for m in it.models:
                 if m.race in races and m.race in RACE_PREFIX and m.gender in (0, 1):
                     stem = m.path.split('/')[-1].rsplit('.', 1)[0]
                     base = stem.rsplit('_', 2)[0]
-                    self._convert(m, folder, f'{base}_{RACE_PREFIX[m.race]}{"MF"[m.gender]}.m2')
+                    shift = self._helm_shift(m.gender)
+                    self._convert(m, folder, f'{base}_{RACE_PREFIX[m.race]}{"MF"[m.gender]}.m2', shift=shift)
+                    if shift:
+                        imp.notes.append(f'helm {"MF"[m.gender]}: mesh shifted {tuple(round(v, 3) for v in shift)} '
+                                         f'(our helmet attachment sits higher/further forward than retail\'s)')
             if not base:
                 raise ValueError(f'{it.name}: no helm model for races {races}')
             row['left_model'] = base + '.mdx'
             imp.notes.append('helm: helmet geoset visibility left at 0 (hair shows) - check clipping')
 
-    def _convert(self, m, folder: str, out_name: str) -> str:
+    def _ship_model_texture(self, fdid: int, folder: str) -> str:
+        name = self.retail.paths([fdid])[fdid].split('/')[-1]
+        self._write(f'Item/ObjectComponents/{folder}/{name}', self.retail.fetch(fdid).read_bytes(),
+                    dict(fdid=fdid, build=self.retail.build, kind='copy'))
+        return name.rsplit('.', 1)[0]
+
+    def _helm_shift(self, gender: int):
+        """Retail authors a helm against retail's helmet attachment; ours sits elsewhere.
+
+        Shift the mesh by (retail attachment - ours) so it lands on the head the same way.
+        """
+        if gender in self._helm_shift_cache:
+            return self._helm_shift_cache[gender]
+        shift = None
+        path = self.char_model.get(gender)
+        if path:
+            ours_file = self._client_file(path.rsplit('.', 1)[0] + '.m2')
+            fd = self.retail.fdid_for_path(path.replace('\\', '/').lower().rsplit('.', 1)[0] + '.m2')
+            if ours_file and fd:
+                ours = m2lib.attachment_pos(Path(ours_file), 11)
+                theirs = m2lib.attachment_pos(self.retail.fetch(fd), 11)
+                if ours and theirs:
+                    delta = tuple(theirs[i] - ours[i] for i in range(3))
+                    shift = delta if max(abs(v) for v in delta) > 0.005 else None
+        self._helm_shift_cache[gender] = shift
+        return shift
+
+    def _import_collection(self, it: RetailItem, row: Dict, races: List[int], imp: ImportedItem) -> None:
+        """Ship a retail collection M2 (per race/sex) and filter it to this slot's geosets."""
+        groups = COLLECTION_GROUPS.get(it.slot)
+        if not groups:
+            imp.notes.append(f'collection mesh not mapped for slot {it.slot}, texture only')
+            return
+        base, geosets = None, set()
+        for m in it.models:
+            if m.race not in races or m.gender not in (0, 1) or not m.path or '/collections/' not in m.path:
+                continue
+            name = m.path.split('/')[-1]
+            stem = name.rsplit('.', 1)[0]
+            base = stem.rsplit('_', 2)[0]          # collections_..._or_m -> collections_...
+            self._convert(m, 'Collections', name)
+            skin = self.assets / f'Item/ObjectComponents/Collections/{stem}00.skin'
+            geosets |= {g for g in m2lib.skin_geosets(skin) if g // 100 in groups}
+        if not base:
+            imp.notes.append(f'no collection model for races {races}, texture only')
+            return
+        if not geosets:
+            imp.notes.append(f'collection has no geoset in groups {groups} for {it.slot}, texture only')
+            return
+        row['left_model'] = f'{base}.mdx:' + ','.join(str(g) for g in sorted(geosets))
+        row['icon_2'] = ICON2_COLLECTION
+        tex = it.model_textures[0] if it.model_textures else None
+        if tex:
+            tname = self.retail.paths([tex])[tex].split('/')[-1]
+            self._write(f'Item/ObjectComponents/Collections/{tname}', self.retail.fetch(tex).read_bytes(),
+                        dict(fdid=tex, build=self.retail.build, kind='copy'))
+            row['left_model_texture'] = tname.rsplit('.', 1)[0]
+        imp.notes.append(f'collection mesh geosets {sorted(geosets)}: needs the WXL equip extension')
+
+    def _convert(self, m, folder: str, out_name: str, shift=None) -> str:
         src = self.retail.fetch(m.fdid)
         skins, txids = m2lib.modern_refs(src)
         fmap = {}
@@ -211,6 +294,9 @@ class WardrobeBuilder:
         shutil.copyfile(self.retail.fetch(skins[0]), skin_tmp)
         how = m2lib.classic_env_batches(m2_tmp, skin_tmp)
         kind = f'downport+{how}'
+        if shift:
+            transform_vertices(m2_tmp, *shift, backup=False)
+            kind += f'+shift{tuple(round(v, 3) for v in shift)}'
         self._write(f'Item/ObjectComponents/{folder}/{stem}.m2', m2_tmp.read_bytes(),
                     dict(fdid=m.fdid, build=self.retail.build, kind=kind))
         self._write(f'Item/ObjectComponents/{folder}/{stem}00.skin', skin_tmp.read_bytes(),
@@ -250,12 +336,17 @@ class WardrobeBuilder:
     def build(self, manifests: List[Path]) -> Dict[str, Dict[str, str]]:
         """Build all manifests; returns {task: {relative file: content}} of SQL to write."""
         out = defaultdict(lambda: defaultdict(list))
-        claimed = {}
+        claimed, deferred = {}, []
         for mp in sorted(manifests):
             m = json.loads(mp.read_text())
             task, name, kind, race = m['task'], m['name'], m['kind'], int(m['race'])
             self.echo(f'\n== {name} ({kind}, {task})')
             outfit = m['outfit']
+            self.char_model = {}
+            for g, disp in m['base_display'].items():
+                mid = self.dbc(f'SELECT model_id FROM creaturedisplayinfo WHERE id = {int(disp)}')[0]['model_id']
+                self.char_model[int(g)] = self.dbc(f'SELECT model_path FROM creaturemodeldata WHERE id = {int(mid)}')[0]['model_path']
+            self._helm_shift_cache = {}
             items = {}
             for slot, spec in outfit['items'].items():
                 spec = spec if isinstance(spec, dict) else {'item': spec}
@@ -277,9 +368,11 @@ class WardrobeBuilder:
                 worn = {s: i for s, i in items.items() if s not in v.get('omit', [])}
                 self._emit_variant(out[task], did, race, v, worn, base[v['gender']], name)
             self._emit_weapons(out[task], m)
-            self._emit_creatures(out[task], m, ids[:len(variants)])
+            deferred.append((task, m, ids[:len(variants)]))
             for s, i in items.items():
                 out[task]['idi'].append(i)
+        for task, m, ids in deferred:
+            self._emit_creatures(out[task], m, ids, claimed)
         return self._render(out)
 
     def _variants(self, m: Dict, race: int) -> List[Dict]:
@@ -384,14 +477,21 @@ class WardrobeBuilder:
                 f'{w["name"]} (creature virtual items take their display from the client Item.dbc)'))
             self.echo(f'   weapon     {w["item"]} {imp.retail.name} -> item {w["entry"]}, ItemDisplayInfo {imp.display_id}')
 
-    def _emit_creatures(self, out, m, displays) -> None:
+    def _emit_creatures(self, out, m, displays, claimed) -> None:
         for c in m.get('creatures', []):
             e = int(c['entry'])
-            picks = c.get('variants', list(range(len(displays))))
-            if len(picks) > MAX_MODELS_PER_CREATURE:
-                raise ValueError(f'creature {e}: {len(picks)} variants, but a creature takes at most '
-                                 f'{MAX_MODELS_PER_CREATURE} models - split the uniform across entries with "variants"')
-            chosen = [displays[i] for i in picks]
+            if 'displays' in c:
+                # explicit display ids, so one creature can mix outfits from several manifests
+                chosen = [int(d) for d in c['displays']]
+                unknown = [d for d in chosen if d not in claimed]
+                if unknown:
+                    raise ValueError(f'creature {e}: display(s) {unknown} are not built by any manifest')
+            else:
+                picks = c.get('variants', list(range(len(displays))))
+                chosen = [displays[i] for i in picks]
+            if len(chosen) > MAX_MODELS_PER_CREATURE:
+                raise ValueError(f'creature {e}: {len(chosen)} displays, but a creature takes at most '
+                                 f'{MAX_MODELS_PER_CREATURE} models (AC CHECK Idx <= 3)')
             sql = [f'-- creature {e}: whole model list owned by manifest {m["name"]} (stock rows replaced)',
                    f'DELETE FROM creature_template_model WHERE CreatureID = {e};']
             for i, d in enumerate(chosen):
