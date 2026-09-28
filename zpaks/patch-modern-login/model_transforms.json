@@ -6,5 +6,13 @@
     "ops": [
       { "op": "m2.camera.fov", "index": 0, "value": 0.75 }
     ]
+  },
+  "INTERFACE/GLUES/MODELS/UI_HUMAN/UI_HUMAN.M2": {
+    "note": "F-151 human character-select scene reads far too zoomed out. The scene ships fov 1.2 rad (68.75 deg) — the widest camera of any race scene we carry; every other race sits between 0.75 and 0.97. Camera-to-target distance is 5.26, so 1.2 rad frames 7.19 world units across the spot the character stands on, against 3.90 for goblin and worgen at 0.75 (dist 4.95) and 4.85 for blood elf, the next widest. 0.71 reproduces the goblin/worgen framing exactly at this scene's camera distance: 2*atan(3.898/(2*5.2597)) = 0.70975. Narrowing only ever adds geometry coverage, so there is no void-wedge risk in this direction (contrast UI_GOBLIN above, which was too wide). Retune here if it wants to sit looser — 0.85 is roughly half way back to stock.",
+    "base_sha256": "bc4137d0e6102de7529e95f05e999216f88870330d5829c17ad55cbab5ca515d",
+    "result_sha256": "f398a026d071738d01d0bd42d0b0d673de5e6f0da03212c2bc1d97ef0cee1edd",
+    "ops": [
+      { "op": "m2.camera.fov", "index": 0, "value": 0.71 }
+    ]
   }
 }
