@@ -7,12 +7,12 @@
       { "op": "m2.camera.fov", "index": 0, "value": 0.75 }
     ]
   },
-  "INTERFACE/GLUES/MODELS/UI_HUMAN/UI_HUMAN.M2": {
-    "note": "F-151 human character-select scene reads far too zoomed out. The scene ships fov 1.2 rad (68.75 deg) — the widest camera of any race scene we carry; every other race sits between 0.75 and 0.97. Camera-to-target distance is 5.26, so 1.2 rad frames 7.19 world units across the spot the character stands on, against 3.90 for goblin and worgen at 0.75 (dist 4.95) and 4.85 for blood elf, the next widest. 0.71 reproduces the goblin/worgen framing exactly at this scene's camera distance: 2*atan(3.898/(2*5.2597)) = 0.70975. Narrowing only ever adds geometry coverage, so there is no void-wedge risk in this direction (contrast UI_GOBLIN above, which was too wide). Retune here if it wants to sit looser — 0.85 is roughly half way back to stock.",
-    "base_sha256": "bc4137d0e6102de7529e95f05e999216f88870330d5829c17ad55cbab5ca515d",
-    "result_sha256": "f398a026d071738d01d0bd42d0b0d673de5e6f0da03212c2bc1d97ef0cee1edd",
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE.M2": {
+    "note": "F-151 human character-select/create scene reads too zoomed out. THIS is the human scene, NOT UI_HUMAN: GlueParent.lua SetBackgroundModel() special-cases the name and redirects HUMAN -> UI_ALLIANCE\\UI_Alliance.m2 (and ORC -> UI_HORDE), so UI_HUMAN.M2 is shipped but never loaded by any code path. Editing UI_HUMAN is inert — that mistake cost a client round trip (2026-09-30). Camera sits 4.36 from the origin where the character stands; 0.87 rad framed 4.06 world units across it, 0.70 frames 3.19 (-21%, character ~27% larger). Pure framing dial, no geometric risk in this direction — narrowing only ever adds coverage. Ladder at this camera distance: 0.80 = 3.69, 0.75 = 3.44, 0.70 = 3.19, 0.65 = 2.94, 0.60 = 2.70 (the value the pack's unused UI_Alliance2.m2 carries).",
+    "base_sha256": "972c9ecff6876da3a7480cd20338ab42a88fd0ccfbfc9063af87d32a2e6bd759",
+    "result_sha256": "a2fba52fadbd08eecd1bafdd4da395d632ab878e6b06c457bb6bffcaf65ddf53",
     "ops": [
-      { "op": "m2.camera.fov", "index": 0, "value": 0.71 }
+      { "op": "m2.camera.fov", "index": 0, "value": 0.70 }
     ]
   }
 }
