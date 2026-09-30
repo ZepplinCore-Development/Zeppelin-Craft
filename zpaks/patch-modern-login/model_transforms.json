@@ -12,14 +12,19 @@
     ]
   },
   "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE.M2": {
-    "note": "F-151 human character-select/create scene reads too zoomed out. THIS is the human scene, NOT UI_HUMAN: GlueParent.lua SetBackgroundModel() special-cases the name and redirects HUMAN -> UI_ALLIANCE\\UI_Alliance.m2 (and ORC -> UI_HORDE), so UI_HUMAN.M2 is shipped but never loaded by any code path. Editing UI_HUMAN is inert — that mistake cost a client round trip (2026-09-30). Camera sits 4.36 from the origin where the character stands; 0.87 rad framed 4.06 world units across it, 0.60 frames 2.70 (-33%, character ~50% larger); 0.70/3.19 was tried first and was still too far out. Pure framing dial, no geometric risk in this direction — narrowing only ever adds coverage. Ladder at this camera distance: 0.80 = 3.69, 0.75 = 3.44, 0.70 = 3.19, 0.65 = 2.94, 0.60 = 2.70 (the value the pack's unused UI_Alliance2.m2 carries).",
+    "note": "F-151 human character-select/create scene. THIS is the human scene, NOT UI_HUMAN: GlueParent.lua SetBackgroundModel() special-cases the race name and redirects HUMAN -> UI_ALLIANCE\\UI_Alliance.m2 (and ORC -> UI_HORDE), so UI_HUMAN.M2 is shipped but never loaded by any code path. Editing UI_HUMAN is inert - that mistake cost a client round trip (2026-09-30). Camera sits at (-4.365, 3.849, 0.575) aiming at (2.291, -1.063, 1.073), 8.287 away; the position and target tracks are 2-key all-zero, so these base vectors are the live values. fov: shipped 0.87 framed 5.13 world units wide at the subject; 0.70 was still too far out in play, 0.60 frames 3.84 and is right. pan: at 0.60 the frame is 2.88 tall at 16:9 and the subject's feet sat on the bottom edge, so the aim drops 0.2884 = 10% of frame height (a 1.99 deg downward tilt), which moves the scene up in frame and opens margin under the feet. The camera itself does not move, so distance and perspective are unchanged. To retune: dz = -(share) * 2 * 8.287 * tan(fov/2) / (16/9).",
     "base_sha256": "972c9ecff6876da3a7480cd20338ab42a88fd0ccfbfc9063af87d32a2e6bd759",
-    "result_sha256": "16a3ad5fceb14da357d7e50c0f1eba7e97e2a02aca5962ee983c0e4bcdcfce66",
+    "result_sha256": "81df2b3481b7515579e547ed4d94207cc04a0efc9310527f7a8c52dcab09d28e",
     "ops": [
       {
         "op": "m2.camera.fov",
         "index": 0,
         "value": 0.6
+      },
+      {
+        "op": "m2.camera.pan",
+        "index": 0,
+        "dz": -0.2884
       }
     ]
   }

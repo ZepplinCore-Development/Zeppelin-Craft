@@ -37,6 +37,22 @@ OFS_OFS_CAMERAS = 276
 CAMERA_STRIDE = 100
 CAMERA_FOV_OFFSET = 4  # after uint32 type
 
+# Offsets within the v264 camera struct.  Each M2Track is 20 bytes:
+#   uint32 type; float fov; float far_clip; float near_clip;   -> 16
+#   M2Track positions;                                         -> 36
+#   C3Vector position_base;                                    -> 48
+#   M2Track target_position;                                   -> 68
+#   C3Vector target_base;                                      -> 80
+#   M2Track roll;                                              -> 100
+CAMERA_POSITION_TRACK_OFFSET = 16
+CAMERA_POSITION_BASE_OFFSET = 36
+CAMERA_TARGET_TRACK_OFFSET = 48
+CAMERA_TARGET_BASE_OFFSET = 68
+
+# Aim shifts are small: a glue-scene camera sits ~8 units from its subject, so
+# a whole frame height is ~3 units.  Anything past this is a units mistake.
+PAN_ABS_MAX = 5.0
+
 # Sanity bound: glue-scene cameras sit around 0.7-1.2 rad.  A value outside
 # this is almost certainly a units mistake (degrees for radians) rather than
 # an intentional edit.
@@ -97,6 +113,84 @@ def _op_camera_fov(data: bytearray, cfg: Dict[str, Any]) -> str:
     before = struct.unpack_from('<f', data, at)[0]
     struct.pack_into('<f', data, at, value)
     return f"camera[{index}].fov {before:.5f} -> {value:.5f}"
+
+
+
+def _track_is_zero(data: bytes, base: int, track_at: int) -> bool:
+    """True if a camera position/target track carries no non-zero key.
+
+    The track animates the camera *relative to* its base vector, so the base
+    is only the effective position/aim when every key is zero.  Glue scenes
+    ship 2-key all-zero tracks (a 33s loop that never moves), which is why
+    editing the base works at all — but check, never assume.
+    """
+    interp, _gs = struct.unpack_from('<HH', data, track_at)
+    _nts, _ots, nvs, ovs = struct.unpack_from('<IIII', data, track_at + 4)
+    stride = 36 if interp > 1 else 12  # M2SplineKey<C3Vector> vs plain C3Vector
+    for k in range(nvs):
+        n2, o2 = struct.unpack_from('<II', data, base + ovs + 8 * k)
+        for j in range(n2):
+            v = struct.unpack_from('<3f', data, base + o2 + stride * j)
+            if any(abs(c) > 1e-6 for c in v):
+                return False
+    return True
+
+
+def _op_camera_pan(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Tilt a camera by offsetting its aim point, leaving the camera put.
+
+    `dz` is in world units on the target.  **Negative dz aims lower, which
+    moves the scene UP in frame and opens margin below the subject** — that is
+    a "pan down".  `dx`/`dy` swing it horizontally.  The camera position is
+    untouched, so distance and perspective do not change; only the framing
+    does.
+
+    To convert a share-of-frame into units: the frame is
+    `2 * dist * tan(fov/2)` wide at the subject and that over the aspect ratio
+    tall, so 10% of the frame height at 16:9 is
+    `0.10 * (2 * dist * tan(fov/2)) / (16/9)`.
+    """
+    dx = float(cfg.get('dx', 0.0))
+    dy = float(cfg.get('dy', 0.0))
+    dz = float(cfg.get('dz', 0.0))
+    if not any((dx, dy, dz)):
+        raise M2OpError("m2.camera.pan requires a non-zero dx, dy or dz")
+    for name, v in (('dx', dx), ('dy', dy), ('dz', dz)):
+        if abs(v) > PAN_ABS_MAX:
+            raise M2OpError(
+                f"pan {name}={v} exceeds +/-{PAN_ABS_MAX} world units — units mistake?"
+            )
+
+    index = int(cfg.get('index', 0))
+    n, ofs_abs = find_cameras(data)
+    if index >= n:
+        raise M2OpError(f"camera index {index} but model has {n} camera(s)")
+    cam = ofs_abs + index * CAMERA_STRIDE
+    base = read_m2_header(data)['base_offset']
+
+    # The base vector is only the effective aim if the track adds nothing.
+    for label, track_off in (('position', CAMERA_POSITION_TRACK_OFFSET),
+                             ('target', CAMERA_TARGET_TRACK_OFFSET)):
+        if not _track_is_zero(data, base, cam + track_off):
+            raise M2OpError(
+                f"camera[{index}] {label} track carries non-zero keys — the base "
+                f"vector is not the effective value, so panning it would not move "
+                f"the camera as intended"
+            )
+
+    at = cam + CAMERA_TARGET_BASE_OFFSET
+    before = struct.unpack_from('<3f', data, at)
+    after = (before[0] + dx, before[1] + dy, before[2] + dz)
+    struct.pack_into('<3f', data, at, *after)
+
+    pos = struct.unpack_from('<3f', data, cam + CAMERA_POSITION_BASE_OFFSET)
+    import math as _math
+    d_before = _math.dist(pos, before)
+    d_after = _math.dist(pos, after)
+    return (f"camera[{index}].target "
+            f"({before[0]:.4f}, {before[1]:.4f}, {before[2]:.4f}) -> "
+            f"({after[0]:.4f}, {after[1]:.4f}, {after[2]:.4f})  "
+            f"dist {d_before:.3f} -> {d_after:.3f}")
 
 
 # ---------------------------------------------------------------------------
@@ -451,6 +545,7 @@ def _op_sequence_flags(data: bytearray, cfg: Dict[str, Any]) -> str:
 
 OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
     'm2.camera.fov': _op_camera_fov,
+    'm2.camera.pan': _op_camera_pan,
     'm2.bounds.sphere_radius': _op_bounds_sphere_radius,
     'm2.global_flags.mask': _op_global_flags_mask,
     'm2.bone.keybone': _op_bone_keybone,
