@@ -29,10 +29,17 @@
     ]
   },
   "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE.M2": {
-    "note": "F-151 character CREATE keeps the original UI_ALLIANCE framing. Both screens run through GlueParent.lua SetBackgroundModel(), and character create calls it for the whole Alliance faction (CharacterCreate.lua: faction == \"Alliance\" -> SetBackgroundModel(CharacterCreate, \"HUMAN\")), so the character-select camera edit landed on the creation screen too. This is a byte-identical copy of the scene under its own path, left at the donor's camera (fov 0.87, aim z 1.0725); GlueParent points character create here and character select at UI_ALLIANCE. Published via copy_from so it is derived at build time from the upstream pack, not an untracked duplicate binary in source-assets. The skins come along beside it because the client derives <model path minus extension>NN.skin - keep their filenames, change only the folder.",
+    "note": "F-151 character CREATE scene. Both screens run through GlueParent.lua SetBackgroundModel(), and character create calls it for the whole Alliance faction (CharacterCreate.lua: faction == \"Alliance\" -> SetBackgroundModel(CharacterCreate, \"HUMAN\")), so the character-select camera edit landed on the creation screen too. GlueParent now points character create at this copy and character select at UI_ALLIANCE. Published via copy_from so it is derived at build time from the upstream pack, not an untracked duplicate binary in source-assets; the skins come along beside it because the client derives <model path minus extension>NN.skin - keep their filenames, change only the folder. Camera: restoring the donor's 0.87 was still too zoomed in for this screen, so it widens to 1.00 (frame 9.05 across the subject vs 7.70 at 0.87, +18%). 1.00 is the practical ceiling: rasterising the 19408 triangles of UI_Alliance00.skin through camera[0] shows the scene fills the frame completely through 0.95, and at 1.00 the only gap is a sliver in the BOTTOM-LEFT corner (0.8% of the border ring) which this screen's race/class panel covers. 1.05 opens it to 2.4% and 1.20 tears the frame apart. Do not widen past 1.00 without re-running the coverage sweep.",
     "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE.M2",
     "base_sha256": "972c9ecff6876da3a7480cd20338ab42a88fd0ccfbfc9063af87d32a2e6bd759",
-    "result_sha256": "972c9ecff6876da3a7480cd20338ab42a88fd0ccfbfc9063af87d32a2e6bd759"
+    "result_sha256": "920387615f0357e9b754f5f45334bd2f24ae3a94e2971bfd696ef0946a8cc78b",
+    "ops": [
+      {
+        "op": "m2.camera.fov",
+        "index": 0,
+        "value": 1.0
+      }
+    ]
   },
   "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE00.SKIN": {
     "note": "F-151 skin 00 for the character-create copy of the Alliance scene.",
