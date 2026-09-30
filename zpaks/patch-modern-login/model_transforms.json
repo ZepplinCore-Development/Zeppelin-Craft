@@ -27,5 +27,35 @@
         "dz": -0.2884
       }
     ]
+  },
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE.M2": {
+    "note": "F-151 character CREATE keeps the original UI_ALLIANCE framing. Both screens run through GlueParent.lua SetBackgroundModel(), and character create calls it for the whole Alliance faction (CharacterCreate.lua: faction == \"Alliance\" -> SetBackgroundModel(CharacterCreate, \"HUMAN\")), so the character-select camera edit landed on the creation screen too. This is a byte-identical copy of the scene under its own path, left at the donor's camera (fov 0.87, aim z 1.0725); GlueParent points character create here and character select at UI_ALLIANCE. Published via copy_from so it is derived at build time from the upstream pack, not an untracked duplicate binary in source-assets. The skins come along beside it because the client derives <model path minus extension>NN.skin - keep their filenames, change only the folder.",
+    "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE.M2",
+    "base_sha256": "972c9ecff6876da3a7480cd20338ab42a88fd0ccfbfc9063af87d32a2e6bd759",
+    "result_sha256": "972c9ecff6876da3a7480cd20338ab42a88fd0ccfbfc9063af87d32a2e6bd759"
+  },
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE00.SKIN": {
+    "note": "F-151 skin 00 for the character-create copy of the Alliance scene.",
+    "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE00.SKIN",
+    "base_sha256": "fe1451f495bedceefe436d4206f413f1ba57eeb2726a08c6dd1e3d32bdefc9a8",
+    "result_sha256": "fe1451f495bedceefe436d4206f413f1ba57eeb2726a08c6dd1e3d32bdefc9a8"
+  },
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE01.SKIN": {
+    "note": "F-151 skin 01 for the character-create copy of the Alliance scene.",
+    "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE01.SKIN",
+    "base_sha256": "edaeb1a3fb0a5dd5d6b3a3bcc0d97ec887914608af76e58850b95e83c0aa0805",
+    "result_sha256": "edaeb1a3fb0a5dd5d6b3a3bcc0d97ec887914608af76e58850b95e83c0aa0805"
+  },
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE02.SKIN": {
+    "note": "F-151 skin 02 for the character-create copy of the Alliance scene.",
+    "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE02.SKIN",
+    "base_sha256": "f1d52e76d715c2b01b0ea663e1fed790d999b5ebf0158657efce48b1556ba6f9",
+    "result_sha256": "f1d52e76d715c2b01b0ea663e1fed790d999b5ebf0158657efce48b1556ba6f9"
+  },
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE03.SKIN": {
+    "note": "F-151 skin 03 for the character-create copy of the Alliance scene.",
+    "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE03.SKIN",
+    "base_sha256": "7a58f8000e4910de8f1aee484286af8f4132ccc6fefa8322d038190293c9a665",
+    "result_sha256": "7a58f8000e4910de8f1aee484286af8f4132ccc6fefa8322d038190293c9a665"
   }
 }

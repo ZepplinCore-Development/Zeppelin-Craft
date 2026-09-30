@@ -407,7 +407,15 @@ function SetBackgroundModel(model, name)
 	if (nameupper == "ORC") then
 		path = "Interface\\Glues\\Models\\UI_HORDE\\UI_HORDE.m2";
 	elseif (nameupper == "HUMAN") then
-		path = "Interface\\Glues\\Models\\UI_ALLIANCE\\UI_Alliance.m2";
+		-- F-151: character select uses the tightened camera baked into
+		-- UI_ALLIANCE; character create keeps the original framing, which
+		-- lives in a byte-identical copy of the same scene. Note character
+		-- create calls this for the whole Alliance faction, not just humans.
+		if ( model == CharacterCreate ) then
+			path = "Interface\\Glues\\Models\\UI_ALLIANCE_CREATE\\UI_Alliance.m2";
+		else
+			path = "Interface\\Glues\\Models\\UI_ALLIANCE\\UI_Alliance.m2";
+		end
 	end
 	if ( model == CharacterCreate ) then
 		SetCharCustomizeBackground(path);

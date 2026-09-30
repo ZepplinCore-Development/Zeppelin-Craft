@@ -320,6 +320,11 @@ def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
       dx / dy / dz / scale   vertex transform (m2_vertex_shifter)
       ops                    list of named edit ops (m2_ops), e.g.
                              {"op": "m2.camera.fov", "index": 0, "value": 0.75}
+      copy_from              publish this path as a copy of another source
+                             asset, then apply the recipe to the copy — lets one
+                             scene ship twice under different paths with
+                             different edits, without an untracked duplicate
+                             binary in source-assets (F-151)
       base_sha256            sha256 the source-assets file must have — build
                              fails loudly if an upstream pack changed underneath
       result_sha256          sha256 the edited file must end up with — catches
@@ -364,14 +369,19 @@ def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
     for rel_path, cfg in transforms.items():
         m2_parsed = parsed_dir / rel_path.upper()
 
+        # `copy_from` publishes this path as a copy of a different source
+        # asset.  Without it the donor is the path itself.
+        donor_rel = cfg.get('copy_from', rel_path)
+
         # Always re-copy from source-assets to ensure a clean baseline
         # (staging may have skipped the file if it already existed)
-        m2_source = _find_source_file(source_dir, rel_path)
+        m2_source = _find_source_file(source_dir, donor_rel)
         if m2_source and m2_source.exists():
             m2_parsed.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(m2_source, m2_parsed)
         elif not m2_parsed.exists():
-            print(f"  \033[33mSKIP\033[0m  {rel_path}  (not found in source or parsed)")
+            where = f" (copy_from {donor_rel})" if donor_rel != rel_path else ""
+            print(f"  \033[33mSKIP\033[0m  {rel_path}  (not found in source or parsed){where}")
             continue
 
         # The base hash pins the donor bytes.  If an upstream pack is re-imported
@@ -394,6 +404,8 @@ def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
 
         try:
             changes = []
+            if donor_rel != rel_path:
+                changes.append(f"copied from {donor_rel}")
             if dx or dy or dz or scale != 1.0:
                 n = transform_vertices(m2_parsed, dx, dy, dz, scale=scale, backup=False)
                 changes.append(f"{n} verts, scale={scale}, dz={dz:+.3f}, dx={dx:+.3f}")
