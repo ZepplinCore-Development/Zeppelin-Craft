@@ -3,7 +3,7 @@
   "name": "bfa_honorbound_korkron",
   "kind": "uniform",
   "race": 2,
-  "_comment": "BfA Warfronts Horde plate (Honorbound Centurion), appearance modifier 3 = the maroon plate_warfrontshorde_d_01 look with collection armour, matching buckle and helm. Too heavy for the city grunts, so it dresses the Kor'kron Elites (14304), who already wore a plate helm. Belt swapped to the Orgrimmar Belt (118369) 2026-10-01 - preferred over the set's Greatbelt; texture only, no 3D buckle.",
+  "_comment": "BfA Warfronts Horde plate (Honorbound Centurion), appearance modifier 3 = the maroon plate_warfrontshorde_d_01 look with collection armour, matching buckle and helm. Dresses the Kor'kron Elites (14304). Keeps the set's own Greatbelt - the Orgrimmar belt swap was reverted 2026-10-01; that belt is for the heritage grunts only.",
   "outfit": {
     "items": {
       "helm": {
@@ -22,7 +22,10 @@
         "item": 163458,
         "mod": 3
       },
-      "belt": 118369,
+      "belt": {
+        "item": 163461,
+        "mod": 3
+      },
       "legs": {
         "item": 163455,
         "mod": 3
