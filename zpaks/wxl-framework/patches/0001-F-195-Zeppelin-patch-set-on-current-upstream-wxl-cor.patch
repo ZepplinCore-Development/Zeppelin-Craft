@@ -1,4 +1,4 @@
-From 825ff12caece67355f1fb1c63e8d1e78b72415ac Mon Sep 17 00:00:00 2001
+From 5c0af7e416e078e0a2a673d1cbeebcc866277548 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 12 Jul 2026 14:48:11 +0000
 Subject: [PATCH] F-195: Zeppelin patch set on current upstream wxl-core
@@ -11,15 +11,14 @@ restructure, MpqStore. Rebased onto upstream (adt runtime moved to module).
 F-195
 ---
  .gitignore                    |  4 +-
- CMakeLists.txt                | 19 ++++++++-
+ CMakeLists.txt                | 29 +++++++++++--
  deps/mingw-compat/d3d9on12.h  | 49 ++++++++++++++++++++++
- src/core/Main.cpp             | 29 ++++++++++---
- src/gpu/Proxy.cpp             | 23 +++++++++-
- src/host/mpq/MpqStore.cpp     | 20 ++++++++-
+ src/core/Main.cpp             | 39 +++++++++++++----
+ src/gpu/Proxy.cpp             | 18 +++++++-
  src/offsets/engine/Script.hpp | 55 ++++++++++++++++++++++++
  src/runtime/PhasingHooks.cpp  | 79 ++++++++++++++++++++++++++++++++++-
  src/runtime/RenderHooks.cpp   | 53 ++++++++++++++---------
- 9 files changed, 299 insertions(+), 32 deletions(-)
+ 8 files changed, 292 insertions(+), 34 deletions(-)
  create mode 100644 deps/mingw-compat/d3d9on12.h
  create mode 100644 src/offsets/engine/Script.hpp
 
@@ -37,12 +36,12 @@ index b2262d0..db586dc 100644
 +# Zeppelin: modern-* modules tracked as their own forge repos
 +scripts/
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 260810b..069ae14 100644
+index 58683e2..a525882 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -82,6 +82,14 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-     add_subdirectory(deps/minhook)
-     target_link_libraries(WarcraftXL PRIVATE minhook d3d9 d3dcompiler)
+@@ -91,6 +91,14 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+     # every call site resolves or guards availability before touching those paths.
+     target_link_options(WarcraftXL PRIVATE "/DELAYLOAD:d3d12.dll" "/DELAYLOAD:d3dcompiler_47.dll")
      target_compile_definitions(WarcraftXL PRIVATE ${WXL_DEFS})
 +    if(NOT MSVC)
 +        # F-194/195 mingw: wxl-modern-render (compiled into the DLL) uses d3d9on12.h + the DComposition
@@ -55,17 +54,32 @@ index 260810b..069ae14 100644
  
      source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${WXL_CORE_SRC} ${WXL_RUNTIME_SCRIPT})
  
-@@ -120,7 +128,16 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+@@ -133,14 +141,29 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+     add_library(d3d9 SHARED ${WXL_GPU_SRC} ${WXL_COMMON_SRC})
      set_target_properties(d3d9 PROPERTIES OUTPUT_NAME "d3d9" PREFIX "")
      target_include_directories(d3d9 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
-     target_link_libraries(d3d9 PRIVATE d3d12 dxgi dcomp d3dcompiler)
--    target_link_options(d3d9 PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/src/gpu/Proxy.def")
+-    target_link_libraries(d3d9 PRIVATE d3d12 dxgi dcomp d3dcompiler delayimp)
++    target_link_libraries(d3d9 PRIVATE d3d12 dxgi dcomp d3dcompiler)
+     # The proxy must load on every machine Wow.exe runs on -- it shadows a static import of the exe, so
+     # a hard dependency of the proxy is a hard dependency of the game (loader failure 0xc0000142 on
+     # machines without D3D12). All On12/D3D12 machinery is delay-loaded; EnsureDevice() checks that
+     # d3d12.dll is actually present before the first delay-loaded call, else the proxy runs as a pure
+     # native pass-through.
+-    target_link_options(d3d9 PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/src/gpu/Proxy.def"
+-        "/DELAYLOAD:d3d12.dll" "/DELAYLOAD:dxgi.dll" "/DELAYLOAD:dcomp.dll" "/DELAYLOAD:d3dcompiler_47.dll")
 +    if(MSVC)
-+        target_link_options(d3d9 PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/src/gpu/Proxy.def")
++        target_link_libraries(d3d9 PRIVATE delayimp)
++        target_link_options(d3d9 PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/src/gpu/Proxy.def"
++            "/DELAYLOAD:d3d12.dll" "/DELAYLOAD:dxgi.dll" "/DELAYLOAD:dcomp.dll" "/DELAYLOAD:d3dcompiler_47.dll")
 +    else()
 +        # mingw/GCC: a .def listed as a source defines the DLL exports; deps/mingw-compat supplies
 +        # d3d9on12.h (F-195 — the SDK interop header mingw-w64 does not ship). _WIN32_WINNT=0x0A00
 +        # unlocks the DComposition 2/Desktop APIs (MSVC's SDK defaults it high; mingw does not).
++        #
++        # No delay-load here: mingw has no delayimp/`/DELAYLOAD` equivalent, so d3d12/dxgi/dcomp are
++        # static imports in this build. Matches what Zeppelin has shipped since F-195, but it does mean
++        # the upstream 0xc0000142 protection above does NOT apply to the mingw d3d9.dll -- a client
++        # without D3D12 would fail to load it. Revisit if we ever ship to pre-D3D12 machines.
 +        target_sources(d3d9 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/gpu/Proxy.def")
 +        target_include_directories(d3d9 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/deps/mingw-compat")
 +        target_compile_definitions(d3d9 PRIVATE _WIN32_WINNT=0x0A00)
@@ -129,7 +143,7 @@ index 0000000..cbea985
 +
 +#endif /* _D3D9ON12_H_ */
 diff --git a/src/core/Main.cpp b/src/core/Main.cpp
-index 5b687a7..3c025b9 100644
+index d4e37cf..85cd959 100644
 --- a/src/core/Main.cpp
 +++ b/src/core/Main.cpp
 @@ -15,6 +15,7 @@
@@ -140,7 +154,7 @@ index 5b687a7..3c025b9 100644
  
  #include "core/Hook.hpp"
  #include "core/Logger.hpp"
-@@ -36,13 +37,26 @@ namespace
+@@ -37,15 +38,32 @@ namespace
  {
      constexpr int kDeviceWaitTicks = 600; // ~60 s at 100 ms
  
@@ -161,14 +175,22 @@ index 5b687a7..3c025b9 100644
       */
      DWORD WINAPI MainThread(LPVOID)
      {
+-        // Time-sensitive hooks must be live before the client builds its message-handler tables.
+-        wxl::runtime::modules::RunEarly();
 -        wxl::runtime::storage::Install();
 +        const bool assets = AssetsEnabled();
 +        if (assets)
++        {
++            // Time-sensitive hooks must be live before the client builds its message-handler tables.
++            // Gated with the rest of the asset pipeline: RunEarly() installs the asset modules'
++            // early hooks, which are exactly what "wxl-noassets" is meant to switch off.
++            wxl::runtime::modules::RunEarly();
 +            wxl::runtime::storage::Install(); // archive file-open redirect to the host (intrusive)
++        }
  
          // Wait for the graphics device (and the window) before installing detours that publish the
          // events the runtime scripts subscribed to at load time. The detours are enabled in one batch
-@@ -51,13 +65,15 @@ namespace
+@@ -54,16 +72,20 @@ namespace
              Sleep(100);
  
          wxl::runtime::render::Install(); // device/render events: OnEndScene, OnFrame, OnM2BatchDraw, ...
@@ -180,14 +202,19 @@ index 5b687a7..3c025b9 100644
 -        wxl::runtime::phasing::Install(); // terrain-phase per-tile loader redirect
 +        if (assets)
 +            wxl::runtime::phasing::Install(); // terrain-phase per-tile loader redirect
++        // Not asset-gated: the Lua hook surface is a general scripting facility, not part of the
++        // modern-asset pipeline that "wxl-noassets" disables.
+         wxl::runtime::lua::InstallHooks();
          wxl::core::hook::EnableAll();
+         wxl::runtime::lua::Activate();
+         wxl::runtime::lua::Install(true);
  
 -        WLOG_INFO("wxl-core ready");
 +        WLOG_INFO("wxl-core ready (asset pipeline %s)", assets ? "ON (wxl-assets marker)" : "off");
          return 0;
      }
  }
-@@ -84,7 +100,10 @@ BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID)
+@@ -91,7 +113,10 @@ BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID)
          // Arm the archive-mount guard now, on the loader thread, before the client builds its archive
          // set: the deferred main thread below is raced past by the client's startup, so a guard armed
          // there would miss the mount. Drops the host-owned loose directories so the client stays lean.
@@ -197,10 +224,10 @@ index 5b687a7..3c025b9 100644
 +        if (AssetsEnabled())
 +            wxl::runtime::storage::InstallArchiveGuard();
  
-         // Module boot installers: memory patches that must land before the client's own startup
-         // code runs (boot-sized allocations), e.g. the wxl-modern-blp mip-scratch widening.
+         // Same timing requirement: the client creates its disk-queue worker thread during this same
+         // early boot window, before the deferred main thread below gets scheduled.
 diff --git a/src/gpu/Proxy.cpp b/src/gpu/Proxy.cpp
-index 780820a..dfdc978 100644
+index ad2b0f8..d3a19f1 100644
 --- a/src/gpu/Proxy.cpp
 +++ b/src/gpu/Proxy.cpp
 @@ -18,6 +18,7 @@
@@ -219,7 +246,7 @@ index 780820a..dfdc978 100644
  
      /**
       * @brief Loads the real d3d9 from the system directory, falling back to a local d3d9_real.dll.
-@@ -66,6 +68,23 @@ namespace
+@@ -66,6 +68,18 @@ namespace
          g_realCreate9On12Ex = reinterpret_cast<Create9On12ExFn>(GetProcAddress(r, "Direct3DCreate9On12Ex"));
          Log("d3d9proxy: system d3d9 loaded (9=%p Ex=%p On12=%p On12Ex=%p)",
              g_realCreate9, g_realCreate9Ex, g_realCreate9On12, g_realCreate9On12Ex);
@@ -232,84 +259,30 @@ index 780820a..dfdc978 100644
 +        if (fopen_s(&marker, "wxl-on12", "rb") == 0 && marker) { g_on12Enabled = true; fclose(marker); }
 +        Log("d3d9proxy: On12 %s", g_on12Enabled ? "ENABLED (wxl-on12 marker)" : "disabled (native passthrough)");
 +
-+        // F-195 (Zeppelin deployment): this proxy is the framework load vector. The client loads
-+        // d3d9.dll from its own folder ahead of system32, so bootstrapping WarcraftXL here — on the
-+        // first Direct3DCreate9, safely outside loader lock — means no Wow.exe import-table edit is
-+        // needed. WarcraftXL imports this proxy's Wxl* exports; by now the proxy is fully resolved.
-+        if (HMODULE wxl = LoadLibraryA("WarcraftXL.dll"))
-+            Log("d3d9proxy: WarcraftXL.dll loaded (%p)", wxl);
-+        else
-+            Log("d3d9proxy: WarcraftXL.dll not found (framework disabled)");
++        // F-195's WarcraftXL.dll bootstrap used to live here. Upstream now does the same job in
++        // EnsureRuntimeLoaded() below (idempotent, called from the first Direct3DCreate9* — same
++        // "outside loader lock" property we relied on), so the Zeppelin copy is dropped as redundant.
      }
- }
  
-@@ -77,7 +96,7 @@ namespace
- extern "C" IDirect3D9* WINAPI Direct3DCreate9(UINT sdkVersion)
+     /**
+@@ -94,7 +108,7 @@ extern "C" IDirect3D9* WINAPI Direct3DCreate9(UINT sdkVersion)
  {
      EnsureReal();
+     EnsureRuntimeLoaded();
 -    if (g_realCreate9On12)
 +    if (g_on12Enabled && g_realCreate9On12)
      {
          D3D9ON12_ARGS args = wxl::gpu::MakeOn12Args();
          IDirect3D9* d3d = g_realCreate9On12(sdkVersion, &args, 1);
-@@ -97,7 +116,7 @@ extern "C" IDirect3D9* WINAPI Direct3DCreate9(UINT sdkVersion)
- extern "C" HRESULT WINAPI Direct3DCreate9Ex(UINT sdkVersion, IDirect3D9Ex** out)
+@@ -115,7 +129,7 @@ extern "C" HRESULT WINAPI Direct3DCreate9Ex(UINT sdkVersion, IDirect3D9Ex** out)
  {
      EnsureReal();
+     EnsureRuntimeLoaded();
 -    if (g_realCreate9On12Ex)
 +    if (g_on12Enabled && g_realCreate9On12Ex)
      {
          D3D9ON12_ARGS args = wxl::gpu::MakeOn12Args();
          HRESULT hr = g_realCreate9On12Ex(sdkVersion, &args, 1, out);
-diff --git a/src/host/mpq/MpqStore.cpp b/src/host/mpq/MpqStore.cpp
-index ee7ac8f..4db00ba 100644
---- a/src/host/mpq/MpqStore.cpp
-+++ b/src/host/mpq/MpqStore.cpp
-@@ -93,6 +93,7 @@ namespace wxl::host::mpq
-         // override folders (Data\Patch*.MPQ that are DIRECTORIES, highest priority).
-         m_locale.clear();
-         std::vector<std::string> looseDirs;
-+        std::vector<std::string> customPatches;   // Data\PATCH-<letter>.MPQ files (Zeppelin launcher overrides)
-         {
-             WIN32_FIND_DATAA fd{};
-             HANDLE h = FindFirstFileA((data + "\\*").c_str(), &fd);
-@@ -100,12 +101,20 @@ namespace wxl::host::mpq
-             {
-                 do
-                 {
--                    if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) continue;
-                     std::string d = fd.cFileName;
-                     if (d == "." || d == "..") continue;
-+                    std::string dl = ToLower(d);
-+                    if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-+                    {
-+                        // Zeppelin custom patch FILE: Data\PATCH-<letter>.MPQ (letter, not the stock
-+                        // numbered patch-2/patch-3). These are launcher-shipped content overrides.
-+                        if (dl.rfind("patch-", 0) == 0 && dl.size() > 7 &&
-+                            dl.substr(dl.size() - 4) == ".mpq" && dl[6] >= 'a' && dl[6] <= 'z')
-+                            customPatches.push_back(d);
-+                        continue;
-+                    }
-                     if (m_locale.empty() && FileExistsOnDisk(data + "\\" + d + "\\locale-" + d + ".MPQ"))
-                         m_locale = d;
--                    std::string dl = ToLower(d);
-                     if (dl.rfind("patch", 0) == 0 && dl.size() > 4 && dl.substr(dl.size() - 4) == ".mpq")
-                         looseDirs.push_back(d);
-                 } while (FindNextFileA(h, &fd));
-@@ -138,6 +147,13 @@ namespace wxl::host::mpq
-             "Data\\common.MPQ",
-         };
- 
-+        // Zeppelin custom patches (Data\PATCH-*.MPQ) override the stock set -> search them first.
-+        std::sort(customPatches.begin(), customPatches.end(), [](const std::string& a, const std::string& b) {
-+            return ToLower(a) > ToLower(b);
-+        });
-+        for (auto it = customPatches.rbegin(); it != customPatches.rend(); ++it)
-+            candidates.insert(candidates.begin(), "Data\\" + *it);
-+
-         // Resolve by exact name only (never enumerate); skip the internal (listfile) and (attributes).
-         const DWORD openFlags = MPQ_OPEN_READ_ONLY | MPQ_OPEN_NO_LISTFILE | MPQ_OPEN_NO_ATTRIBUTES;
- 
 diff --git a/src/offsets/engine/Script.hpp b/src/offsets/engine/Script.hpp
 new file mode 100644
 index 0000000..ae66ac2
@@ -372,20 +345,21 @@ index 0000000..ae66ac2
 +    constexpr uintptr_t kTextHi = 0x00D415BC; // Wow.exe .text upper bound (the value we widen)
 +}
 diff --git a/src/runtime/PhasingHooks.cpp b/src/runtime/PhasingHooks.cpp
-index 20cdb74..975f6f5 100644
+index 7d80702..5a2cfea 100644
 --- a/src/runtime/PhasingHooks.cpp
 +++ b/src/runtime/PhasingHooks.cpp
-@@ -18,7 +18,9 @@
+@@ -18,8 +18,10 @@
  
  #include "core/Hook.hpp"
  #include "core/Logger.hpp"
 +#include "game/Binding.hpp"
  #include "game/world/Loading.hpp"
+ #include "offsets/engine/Io.hpp"
 +#include "offsets/engine/Script.hpp"
  #include "offsets/game/World.hpp"
- #include "runtime/storage/ShmClient.hpp"
  
-@@ -147,11 +149,86 @@ namespace wxl::game::world
+ #include <cstdint>
+@@ -150,11 +152,86 @@ namespace wxl::game::world
  
  namespace wxl::runtime::phasing
  {
@@ -474,10 +448,10 @@ index 20cdb74..975f6f5 100644
      }
  }
 diff --git a/src/runtime/RenderHooks.cpp b/src/runtime/RenderHooks.cpp
-index aacf6d3..6887ab1 100644
+index 601be04..8f18f56 100644
 --- a/src/runtime/RenderHooks.cpp
 +++ b/src/runtime/RenderHooks.cpp
-@@ -774,6 +774,25 @@ namespace
+@@ -811,6 +811,25 @@ namespace
       * @param stateBlock  native render state block.
       * @return the native ribbon-draw result.
       */
@@ -503,7 +477,7 @@ index aacf6d3..6887ab1 100644
      int __fastcall hkRibbonDraw(void* self, void* edx, void* stateBlock)
      {
          g_ribbonModern = false;
-@@ -782,37 +801,31 @@ namespace
+@@ -819,37 +838,31 @@ namespace
          bool      bridged       = false;
          uint32_t  savedLayers   = 0;
          uint32_t* layerCountPtr = nullptr;

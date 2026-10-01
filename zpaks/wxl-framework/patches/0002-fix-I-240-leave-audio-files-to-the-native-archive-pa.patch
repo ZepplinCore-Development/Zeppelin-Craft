@@ -1,4 +1,4 @@
-From 84a2da7fef0e0bdbcec7ae52e7a0935e60b0775d Mon Sep 17 00:00:00 2001
+From 218fe9f01580963d8a4f8238255bc87c615b81ab Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Mon, 13 Jul 2026 11:24:09 +0000
 Subject: [PATCH] fix: I-240 - leave audio files to the native archive path
@@ -7,26 +7,14 @@ World sound loads use the client's async read path, which synthetic host handles
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/runtime/storage/StorageHook.cpp | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ src/runtime/storage/StorageHook.cpp | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/src/runtime/storage/StorageHook.cpp b/src/runtime/storage/StorageHook.cpp
-index 5952df1..241b624 100644
+index 1400748..34551a5 100644
 --- a/src/runtime/storage/StorageHook.cpp
 +++ b/src/runtime/storage/StorageHook.cpp
-@@ -136,6 +136,11 @@ namespace
-     {
-         if (EndsWithCI(name, ".pub") || EndsWithCI(name, ".url")) return false;
-         if (EndsWithCI(name, ".tex") || EndsWithCI(name, "_lod.adt")) return false;
-+        // Audio stays native (I-240): world sound loads read through the client's async path, which a
-+        // synthetic handle does not complete (glue music reads synchronously and survives, world SFX/music
-+        // never finish loading -> total in-world silence). No transform targets audio and no host-only
-+        // source ships it, so the native archives serve it correctly.
-+        if (EndsWithCI(name, ".wav") || EndsWithCI(name, ".mp3") || EndsWithCI(name, ".ogg")) return false;
-         return true;
-     }
- 
-@@ -429,6 +434,16 @@ namespace
+@@ -702,6 +702,16 @@ namespace
          if (IsOurs(handle))
          {
              auto* f = reinterpret_cast<HostFile*>(handle);
