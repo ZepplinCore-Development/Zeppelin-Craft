@@ -731,6 +731,217 @@
           "patched": "6A 03 56 E8 18 CC A7 FF 83 C4 08 85 C0 74 4D 6A 03 56 E8 19 CD A7 FF D9 7D FE 0F B7 45 FE 0D 00 0C 00 00 89 45 EC 83 C4 08 D9 6D EC DF 7D E8 8B 7D E8 83 EF 01 83 3D 94 AF BE 00 00 D9 6D FE 75 05 E8 FA 44 79 FF 3B 3D 94 AF BE 00 73 2D 57 E8 1C 3A 79 FF 83 C4 04 89 45 F4 EB 1F 6A 03 56 E8 FC CB A7 FF 83 C4 08 85 C0 74 10 6A 00 6A 03 56 E8 6B CD A7 FF 83 C4 0C 89 45 F4 E9 DA 5C 79 FF"
         }
       ]
+    },
+    {
+      "name": "follow-npc",
+      "description": "Allow /follow (FollowUnit) on NPCs. In the follow-target validator, the stock code calls 0x729BD0 (target-is-player check) and on failure raises UI error 0x13B and returns false (0x72B52C jne -> jmp). The call still runs; its result is ignored and execution always continues at 0x72B546 (the remaining distance/state checks are untouched). Equivalent to the community 'Autoriser /follow sur les NPC' patch, whose code-cave form (pattern 'C3 00x18' at file 0x5DD7B2) collides with mythic-item-tags' cave at 0x5DD7C0, so it is reimplemented as this 1-byte branch flip.",
+      "source": "Community patch 'Autoriser /follow sur les NPC' (binary_pattern_replace 56 8B CF E8 A6 E6 FF FF -> jmp cave: push esi; mov ecx,edi; call 0x729BD0; jmp 0x72B546). Reduced to jne->jmp at VA 0x72B52C.",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x32A92C",
+          "original": "75",
+          "patched": "EB"
+        }
+      ]
+    },
+    {
+      "name": "mpq-wildcard-names",
+      "description": "Allow extended MPQ names: the client's patch-archive search masks 'patch-?.MPQ' and 'patch-%s-?.MPQ' (VA 0x9E2710/0x9E2700) get '?' -> '*', so patch archives may have multi-character suffixes (patch-ZZ.MPQ, patch-enUS-Foo.MPQ).",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x5E0F16",
+          "original": "3F",
+          "patched": "2A"
+        },
+        {
+          "offset": "0x5E0F09",
+          "original": "3F",
+          "patched": "2A"
+        }
+      ]
+    },
+    {
+      "name": "force-reaction-reload",
+      "description": "Keep forced faction reactions across /reload. The UI-reload init sequence (0x528C30) calls 0x5D24C0, which wipes the table filled by the SMSG_SET_FORCED_REACTIONS (0x2A5) handler 0x5D15D0; the server does not resend it, so forced reactions were lost until relog. The call at VA 0x528D1E is NOPed.",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher) (author Robinsch)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x12811E",
+          "original": "E8 9D 97 0A 00",
+          "patched": "90 90 90 90 90"
+        }
+      ]
+    },
+    {
+      "name": "farclip-unlock",
+      "description": "CVar farclip max raised to 10000. ClampFarclip (VA 0x780770) clamps to 1583.33 (normal) or 791.67 (fallback for old-world maps / <=1GB RAM); both float caps at VA 0xA3E710/0xA3E70C set to 10000.0.",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher) (author 12th Gen exe)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x63CF10",
+          "original": "AB EA C5 44",
+          "patched": "00 40 1C 46"
+        },
+        {
+          "offset": "0x63CF0C",
+          "original": "AB EA 45 44",
+          "patched": "00 40 1C 46"
+        }
+      ]
+    },
+    {
+      "name": "horizon-farclip-unlock",
+      "description": "CVar horizonFarclipScale max raised from 6 to 12: the clamp at VA 0x78D7DD loads its max from 0x9E8CF8 (6.0); repointed to 0xA1047C (12.0, an existing stock constant).",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher) (author St0ny)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x38CBDF",
+          "original": "F8 8C 9E 00",
+          "patched": "7C 04 A1 00"
+        }
+      ]
+    },
+    {
+      "name": "environment-detail-unlock",
+      "description": "CVar environmentDetail upper clamp (1.5 @0xA41B18) removed: at VA 0x78DC8D 'fstp st(1)' (keep clamp) -> 'fstp st(0)' (keep input). environmentDetail multiplies GameObject view distances (see gameobject-distance-scale).",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher) (author St0ny)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x38D08E",
+          "original": "D9",
+          "patched": "D8"
+        }
+      ]
+    },
+    {
+      "name": "gameobject-distance-scale",
+      "description": "GameObject view-distance recompute (VA 0x78F570, called with environmentDetail) multiplies Cat 1-3 by the factor but stored Cat 0 and Cat 4 unscaled. Each of those blocks starts with a redundant copy of the size-threshold table (default 0xADF350 -> runtime 0xADF378; byte-identical, only other reader 0x7BDD36 is read-only); those 24 bytes become 'fld [ebp+8]; fmul [BaseDist]; fst [RuntimeDist]; 9x nop', leaving the FPU stack as before. environmentDetail now scales all five categories evenly.",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher) (author St0ny)",
+      "enabled": true,
+      "requires": [
+        "environment-detail-unlock"
+      ],
+      "edits": [
+        {
+          "offset": "0x38E973",
+          "original": "D9 05 50 F3 AD 00 D9 1D 78 F3 AD 00 D9 05 64 F3 AD 00 D9 15 A0 F3 AD 00",
+          "patched": "D9 45 08 D8 0D 64 F3 AD 00 D9 15 A0 F3 AD 00 90 90 90 90 90 90 90 90 90"
+        },
+        {
+          "offset": "0x38EA64",
+          "original": "D9 05 60 F3 AD 00 D9 1D 88 F3 AD 00 D9 05 74 F3 AD 00 D9 15 B0 F3 AD 00",
+          "patched": "D9 45 08 D8 0D 74 F3 AD 00 D9 15 B0 F3 AD 00 90 90 90 90 90 90 90 90 90"
+        }
+      ]
+    },
+    {
+      "name": "gameobject-cat0-distance",
+      "description": "GameObject Cat 0 (small clutter: candles, books, sacks) base view distance 30 -> 50 yd. Five consistent table values in .data: base 50 (0xADF364), runtime 50 (0xADF3A0), dist^2 2500 (0xADF3B4), fade start 45 = 50 - fade band 5 (0xADF3C8), fade^2 2025 (0xADF3DC).",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher) (author St0ny)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x6DD364",
+          "original": "00 00 F0 41",
+          "patched": "00 00 48 42"
+        },
+        {
+          "offset": "0x6DD3A0",
+          "original": "00 00 F0 41",
+          "patched": "00 00 48 42"
+        },
+        {
+          "offset": "0x6DD3B4",
+          "original": "00 00 61 44",
+          "patched": "00 40 1C 45"
+        },
+        {
+          "offset": "0x6DD3C8",
+          "original": "00 00 C8 41",
+          "patched": "00 00 34 42"
+        },
+        {
+          "offset": "0x6DD3DC",
+          "original": "00 40 1C 44",
+          "patched": "00 20 FD 44"
+        }
+      ]
+    },
+    {
+      "name": "quest-tracker-autosort",
+      "description": "CVar trackerSorting default '0' -> '1' (push 0x9E14A0 -> 0x9E1464 at VA 0x51E0C4). Only affects players without the CVar saved in Config.wtf.",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x11D4C5",
+          "original": "A0 14 9E 00",
+          "patched": "64 14 9E 00"
+        }
+      ]
+    },
+    {
+      "name": "advanced-worldmap-default",
+      "description": "CVar advancedWorldMap default '0' -> '1' (push 0x9E14A0 -> 0x9E1464 at VA 0x51E061). Only affects players without the CVar saved in Config.wtf.",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x11D462",
+          "original": "A0 14 9E 00",
+          "patched": "64 14 9E 00"
+        }
+      ]
+    },
+    {
+      "name": "sound-settings",
+      "description": "Sound init (0x4C82E0): the channel count passed to the sound-engine init is forced to 126 ('mov [ebp-8],126' over the Sound_NumChannels read at VA 0x4C83C2, so that CVar no longer limits it). CVar defaults: Sound_OutputQuality '1' -> '2', Sound_NumChannels '32' -> '64', Sound_EnableReverb '0' -> '1', Sound_EnableHardware '0' -> '1'. The strings '64' and '2' are written into zero padding at the end of .rdata (VA 0xAB5780/0xAB5784, past VirtualSize but inside raw data - same tail-of-section mapping mythic-item-tags relies on in .text). Defaults only apply without a saved Config.wtf value.",
+      "source": "St0ny's AIO WoW EXE Patcher (github.com/Raz0r1337/St0nys-AIO-WoW-EXE-Patcher) (author St0ny)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0xC77C2",
+          "original": "85 C0 74 06 8B 40 30 89 45 F8",
+          "patched": "C7 45 F8 7E 00 00 00 90 90 90"
+        },
+        {
+          "offset": "0x6B3F80",
+          "original": "00 00 00",
+          "patched": "36 34 00"
+        },
+        {
+          "offset": "0x6B3F84",
+          "original": "00 00",
+          "patched": "32 00"
+        },
+        {
+          "offset": "0xD0604",
+          "original": "68 64 14 9E 00",
+          "patched": "68 84 57 AB 00"
+        },
+        {
+          "offset": "0xD0624",
+          "original": "68 DC 21 9E 00",
+          "patched": "68 80 57 AB 00"
+        },
+        {
+          "offset": "0xD064A",
+          "original": "68 A0 14 9E 00",
+          "patched": "68 64 14 9E 00"
+        },
+        {
+          "offset": "0xD077F",
+          "original": "68 A0 14 9E 00",
+          "patched": "68 64 14 9E 00"
+        }
+      ]
     }
   ]
 }
