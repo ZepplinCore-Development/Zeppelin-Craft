@@ -1,0 +1,51 @@
+From ae0788c70ac1d6cede0d91176706d60ee5773bb4 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 1 Oct 2026 01:49:08 +0000
+Subject: [PATCH] feat: Per-slot heirloom armour bits in ScalingStatValues
+ (F-215)
+
+- getArmorMod: an item's chest-material bit plus one high slot bit
+  (0x01000000 head .. 0x20000000 wrists) returns chest * n/16
+- Mirrors the client WarcraftXL module wxl-heirloom-slots (hook on
+  Wow.exe 0x0061A6B0); integer math must stay identical
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01H4Ch7VpPResUX1y2oEkQEq
+---
+ src/server/shared/DataStores/DBCStructure.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/src/server/shared/DataStores/DBCStructure.h b/src/server/shared/DataStores/DBCStructure.h
+index 3ebac7eb9..650194234 100644
+--- a/src/server/shared/DataStores/DBCStructure.h
++++ b/src/server/shared/DataStores/DBCStructure.h
+@@ -1503,8 +1503,26 @@ struct ScalingStatValuesEntry
+         return 0;
+     }
+ 
++    // Zeppelin F-215: heirloom armour for slots 3.3.5a has no curve for. The item keeps its chest
++    // material bit (0x100000 cloth .. 0x800000 plate) and adds one slot bit in the unused high byte;
++    // armour = chest curve * sixteenths / 16 (Cataclysm's per-slot ratios). MUST match the client's
++    // WarcraftXL module wxl-heirloom-slots (hook on Wow.exe 0x0061A6B0), integer math, truncating.
++    [[nodiscard]] static uint32 getHeirloomSlotSixteenths(uint32 mask)
++    {
++        if (mask & 0x01000000) return 13;                   // head
++        if (mask & 0x02000000) return 14;                   // legs
++        if (mask & 0x04000000) return 11;                   // feet
++        if (mask & 0x08000000) return 9;                    // waist
++        if (mask & 0x10000000) return 10;                   // hands
++        if (mask & 0x20000000) return 7;                    // wrists
++        return 0;
++    }
++
+     [[nodiscard]] uint32 getArmorMod(uint32 mask) const
+     {
++        if (uint32 sixteenths = getHeirloomSlotSixteenths(mask))
++            return getArmorMod(mask & ~0x3F000000u) * sixteenths / 16;
++
+         if (mask & 0x00F801E0)
+         {
+             if (mask & 0x00000020) return armorMod[0];      // Cloth shoulder
+-- 
+2.34.1
+
