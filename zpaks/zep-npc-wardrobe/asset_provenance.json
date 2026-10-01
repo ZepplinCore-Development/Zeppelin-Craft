@@ -669,6 +669,18 @@
    "kind": "bake",
    "display": 900332,
    "sha256": "c424c3b3eab511a0114589da0891e0ab78af961c98bbab150d068a007d3eacef"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900341_HD.blp",
+   "kind": "bake",
+   "display": 900341,
+   "sha256": "bbe564d9f2e456bf909e576ce04d8b107f1fa31ca38a5bd95d71b2d3af0b334f"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900342_HD.blp",
+   "kind": "bake",
+   "display": 900342,
+   "sha256": "26333fd5967c8916e5922e97bcf5b4841dc6896b122942548b173cc44e37b59b"
   }
  ]
 }

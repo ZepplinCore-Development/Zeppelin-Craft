@@ -59,10 +59,10 @@
       "displays": [
         900311,
         900312,
-        900331,
-        900332
+        900341,
+        900342
       ],
-      "_comment": "shoulder-fit test: heritage with Warsong pauldrons (900311 M, 900312 F) vs heritage with Orgrimmar spaulders (900331 M, 900332 F). BfA plate displays 900321/900322 stay built but unassigned (too heavy for grunts).",
+      "_comment": "belt-fit test: heritage with the Warsong belt + 3D buckle (900311 M, 900312 F) vs heritage with the Orgrimmar belt, texture only (900341 M, 900342 F). Org-shoulder variants 900331/900332 stay built but unassigned.",
       "equip": {
         "id": 1,
         "main": "orgrimmar_axe"

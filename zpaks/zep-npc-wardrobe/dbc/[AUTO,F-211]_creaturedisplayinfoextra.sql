@@ -150,6 +150,56 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `can_equip` = 0,
   `texture` = 'CreatureDisplayExtra-900312_HD.blp';
 
+-- maghar_heritage_orgbelt_grunt: male from stock extra 8550
+DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900341;
+INSERT INTO `creaturedisplayinfoextra` SET
+  `id` = 900341,
+  `race` = 2,
+  `gender` = 0,
+  `skin_color` = 5,
+  `face_type` = 3,
+  `hair_style` = 6,
+  `hair_color` = 5,
+  `facial_hair` = 9,
+  `helm_id` = 0,
+  `shoulders_id` = 210009,
+  `shirt_id` = 0,
+  `chest_id` = 210010,
+  `belt_id` = 210003,
+  `legs_id` = 210012,
+  `boots_id` = 210013,
+  `wrists_id` = 210014,
+  `gloves_id` = 210015,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-900341_HD.blp';
+
+-- maghar_heritage_orgbelt_grunt: female from stock extra 9255
+DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900342;
+INSERT INTO `creaturedisplayinfoextra` SET
+  `id` = 900342,
+  `race` = 2,
+  `gender` = 1,
+  `skin_color` = 3,
+  `face_type` = 2,
+  `hair_style` = 1,
+  `hair_color` = 7,
+  `facial_hair` = 6,
+  `helm_id` = 0,
+  `shoulders_id` = 210009,
+  `shirt_id` = 0,
+  `chest_id` = 210010,
+  `belt_id` = 210003,
+  `legs_id` = 210012,
+  `boots_id` = 210013,
+  `wrists_id` = 210014,
+  `gloves_id` = 210015,
+  `tabard_id` = 0,
+  `cape_id` = 0,
+  `can_equip` = 0,
+  `texture` = 'CreatureDisplayExtra-900342_HD.blp';
+
 -- maghar_heritage_orgshoulders_grunt: male from stock extra 8550
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900331;
 INSERT INTO `creaturedisplayinfoextra` SET

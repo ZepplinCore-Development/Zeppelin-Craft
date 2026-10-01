@@ -435,6 +435,35 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
+-- Orgrimmar Belt (retail item 118369, display 137554)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210003;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210003,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = 'leather_hordeuprez_b_03_belt_tl',
+  `upper_leg_texture` = 'leather_hordeuprez_b_03_belt_lu',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
 -- Orgrimmar Spaulders (retail item 118366, display 137553)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210000;
 INSERT INTO `itemdisplayinfo` SET
@@ -546,35 +575,6 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Orgrimmar Belt (retail item 118369, display 137554)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210003;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210003,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = 'leather_hordeuprez_b_03_belt_tl',
-  `upper_leg_texture` = 'leather_hordeuprez_b_03_belt_lu',
   `lower_leg_texture` = '',
   `foot_texture` = '',
   `item_visual` = 0,
