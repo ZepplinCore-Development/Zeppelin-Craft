@@ -9,7 +9,7 @@ import os
 import subprocess
 import tempfile
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import click
 from dotenv import load_dotenv
@@ -504,3 +504,553 @@ def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
     else:
         click.echo(f"  mail id {mail_id}")
     click.echo(f"  note: {char_name} must relog (or zone-change) to see the new mail")
+
+
+# ---------------------------------------------------------------------------
+# test-setup (F-213)
+# ---------------------------------------------------------------------------
+
+CLASSES = {
+    'warrior': 1, 'paladin': 2, 'hunter': 3, 'rogue': 4, 'priest': 5,
+    'deathknight': 6, 'dk': 6, 'shaman': 7, 'mage': 8, 'warlock': 9, 'druid': 11,
+}
+CLASS_NAMES = {1: 'Warrior', 2: 'Paladin', 3: 'Hunter', 4: 'Rogue', 5: 'Priest',
+               6: 'Death Knight', 7: 'Shaman', 8: 'Mage', 9: 'Warlock', 11: 'Druid'}
+
+AT_LOGIN_RESET_SPELLS = 0x02
+TEST_CHAR_GUID_OFFSET = 100    # ahead of the worldserver's in-memory char guid counter
+QUEST_STATUS_INCOMPLETE = 3
+
+# Tables Player::DeleteFromDB clears, keyed by the column holding the char guid,
+# plus the per-guid state it leaves to other paths. --replace only.
+REPLACE_WIPE = [
+    ('character_account_data', 'guid'), ('character_achievement', 'guid'),
+    ('character_achievement_progress', 'guid'), ('character_action', 'guid'),
+    ('character_aura', 'guid'), ('character_declinedname', 'guid'),
+    ('character_equipmentsets', 'guid'), ('character_gifts', 'guid'),
+    ('character_glyphs', 'guid'), ('character_homebind', 'guid'),
+    ('character_instance', 'guid'), ('character_inventory', 'guid'),
+    ('character_pet', 'owner'), ('character_queststatus', 'guid'),
+    ('character_queststatus_daily', 'guid'), ('character_queststatus_monthly', 'guid'),
+    ('character_queststatus_rewarded', 'guid'), ('character_queststatus_seasonal', 'guid'),
+    ('character_queststatus_weekly', 'guid'), ('character_reputation', 'guid'),
+    ('character_skills', 'guid'), ('character_social', 'guid'), ('character_social', 'friend'),
+    ('character_spell', 'guid'), ('character_spell_cooldown', 'guid'),
+    ('character_talent', 'guid'), ('item_instance', 'owner_guid'),
+    ('mail_items', 'receiver'), ('mail', 'receiver'), ('characters', 'guid'),
+]
+
+
+def _wipe_statements(guid: int) -> List[str]:
+    """DELETEs for every row a character owns. Pet child tables are keyed by the
+    pet id, so they are cleared through character_pet before it goes (as
+    Pet::DeleteFromDB does)."""
+    pets = f"SELECT id FROM character_pet WHERE owner = {guid}"
+    stmts = [f"DELETE FROM {t} WHERE guid IN ({pets});"
+             for t in ('pet_aura', 'pet_spell', 'pet_spell_cooldown')]
+    stmts.append(f"DELETE FROM character_pet_declinedname WHERE id IN ({pets});")
+    stmts += [f"DELETE FROM {table} WHERE {col} = {guid};" for table, col in REPLACE_WIPE]
+    return stmts
+
+
+def _rows(output: str) -> List[dict]:
+    """Parse mysql -e tab output into a list of dicts."""
+    lines = [l for l in output.split('\n') if l != '']
+    if not lines:
+        return []
+    head = lines[0].split('\t')
+    return [dict(zip(head, l.split('\t'))) for l in lines[1:]]
+
+
+def _q(runner, sql: str) -> List[dict]:
+    ok, out = runner(sql)
+    if not ok:
+        raise click.ClickException(f"Query failed: {out}\n  {sql[:200]}")
+    return _rows(out)
+
+
+def _run_auth_query(sql: str) -> Tuple[bool, str]:
+    from commands.sql import run_mysql_query_as_root
+    return run_mysql_query_as_root(sql, 'acore_auth')
+
+
+def _parse_class(value: str) -> int:
+    lower = value.lower().replace(' ', '').replace('_', '').replace('-', '')
+    if lower in CLASSES:
+        return CLASSES[lower]
+    try:
+        cid = int(value)
+    except ValueError:
+        raise click.ClickException(f"Unknown class '{value}'. Valid: {', '.join(sorted(CLASSES))}")
+    if cid not in CLASS_NAMES:
+        raise click.ClickException(f"Unknown class ID: {cid}")
+    return cid
+
+
+def _quest_prereqs(targets: List[int], race: int, cls: int) -> Tuple[List[int], List[int], List[int]]:
+    """Every quest that must be rewarded before the targets are available.
+
+    Walks backwards through PrevQuestID (abs), NextQuestID pointing at the quest,
+    and quest-available conditions (SourceType 19, lowest ElseGroup, types
+    8 rewarded / 28 complete / 9 taken). Returns (needed, skipped_race_class,
+    negative_prev_warnings).
+    """
+    race_bit = 1 << (race - 1)
+    class_bit = 1 << (cls - 1)
+    info = {}
+
+    def load(ids):
+        ids = [i for i in ids if i not in info]
+        if not ids:
+            return
+        idl = ','.join(map(str, ids))
+        for r in _q(_run_world_query,
+                    "SELECT q.ID, q.AllowableRaces, IFNULL(a.AllowableClasses,0) AllowableClasses, "
+                    "IFNULL(a.PrevQuestID,0) PrevQuestID FROM quest_template q "
+                    f"LEFT JOIN quest_template_addon a ON a.ID = q.ID WHERE q.ID IN ({idl})"):
+            info[int(r['ID'])] = r
+        for i in ids:
+            info.setdefault(i, None)
+
+    def preds(qid):
+        out, neg = set(), set()
+        r = info.get(qid)
+        if r and int(r['PrevQuestID']):
+            p = int(r['PrevQuestID'])
+            (neg if p < 0 else out).add(abs(p))
+        for n in _q(_run_world_query,
+                    f"SELECT ID FROM quest_template_addon WHERE NextQuestID = {qid}"):
+            out.add(int(n['ID']))
+        conds = _q(_run_world_query,
+                   "SELECT ElseGroup, ConditionValue1 FROM conditions "
+                   f"WHERE SourceTypeOrReferenceId = 19 AND SourceEntry = {qid} "
+                   "AND ConditionTypeOrReference IN (8, 9, 28) AND NegativeCondition = 0")
+        if conds:
+            first = min(int(c['ElseGroup']) for c in conds)
+            out |= {int(c['ConditionValue1']) for c in conds if int(c['ElseGroup']) == first}
+        return out, neg
+
+    needed, skipped, negative = set(), set(), set()
+    stack = list(targets)
+    load(stack)
+    seen = set(stack)
+    while stack:
+        qid = stack.pop()
+        p, n = preds(qid)
+        negative |= n
+        new = [x for x in (p | n) if x not in seen]
+        load(new)
+        for x in new:
+            seen.add(x)
+            r = info.get(x)
+            if r is None:
+                continue
+            races, classes = int(r['AllowableRaces']), int(r['AllowableClasses'])
+            if (races and not races & race_bit) or (classes and not classes & class_bit):
+                skipped.add(x)
+                continue
+            needed.add(x)
+            stack.append(x)
+    return sorted(needed), sorted(skipped), sorted(negative)
+
+
+# Stock 3.3.5a heirlooms per class: shoulders, chest, weapons, trinket.
+# Ids are item_template entries (Quality 7). Items a class/level can't equip
+# yet (e.g. dual wield) are mailed by the core on login, not lost.
+TRINKET_MELEE = 42991   # Swift Hand of Justice
+TRINKET_CASTER = 42992  # Discerning Eye of the Beast
+HEIRLOOMS = {
+    1:  [42949, 48685, 42943, TRINKET_MELEE],                # warrior: plate, 2H axe
+    2:  [42949, 48685, 44092, TRINKET_MELEE],                # paladin: plate, 2H sword
+    3:  [42950, 48677, 42943, 42946, TRINKET_MELEE],         # hunter: mail, 2H axe, bow
+    4:  [42952, 48689, 42944, 44091, 44093, TRINKET_MELEE],  # rogue: leather, 2 daggers, gun
+    5:  [42985, 48691, 42947, TRINKET_CASTER],               # priest: cloth, staff
+    6:  [42949, 48685, 42943, TRINKET_MELEE],                # death knight
+    7:  [42951, 48683, 42948, TRINKET_CASTER],               # shaman: mail, caster mace
+    8:  [42985, 48691, 42947, TRINKET_CASTER],               # mage
+    9:  [42985, 48691, 42947, TRINKET_CASTER],               # warlock
+    11: [42984, 48687, 42947, TRINKET_CASTER],               # druid: leather, staff
+}
+# InventoryType -> equipment slot (first free of the list)
+INV_SLOTS = {1: [0], 2: [1], 3: [2], 4: [3], 5: [4], 20: [4], 6: [5], 7: [6], 8: [7],
+             9: [8], 10: [9], 11: [10, 11], 12: [12, 13], 16: [14], 19: [18],
+             13: [15, 16], 21: [15], 17: [15], 22: [16], 23: [16], 14: [16],
+             15: [17], 25: [17], 26: [17], 28: [17]}
+# Headroom over MAX(item_instance.guid) for items the worldserver creates in
+# memory before the next restart (F-178). Kept small: guids are uint32 and
+# every allocation raises MAX (the `mail` default of 50M would exhaust the
+# range in ~60 runs from today's ~1.1e9).
+ITEM_GUID_OFFSET = 1_000_000
+SPELL_EFFECT_LEARN_SPELL = 36
+
+
+def _dbc_rows(sql: str) -> List[dict]:
+    from commands.dbc import get_dbc_config
+    from lib.dbc_utils import run_sql
+    config = get_dbc_config(click.get_current_context())
+    ok, out = run_sql(sql, config, config.live)
+    if not ok:
+        raise click.ClickException(f"DBC query failed: {out}")
+    return _rows(out)
+
+
+def _resolve_learn(spell_ids) -> Dict[int, List[int]]:
+    """Map each spell to what it actually teaches: a LEARN_SPELL (36) effect's
+    trigger spell(s), else the spell itself (the trainer/quest-reward rule)."""
+    ids = sorted(set(spell_ids))
+    if not ids:
+        return {}
+    out = {i: [i] for i in ids}
+    for r in _dbc_rows(
+            "SELECT id, effect_1, effect_2, effect_3, effect_trigger_spell_1, "
+            "effect_trigger_spell_2, effect_trigger_spell_3 FROM spell "
+            f"WHERE id IN ({','.join(map(str, ids))})"):
+        learned = [int(r[f'effect_trigger_spell_{n}']) for n in (1, 2, 3)
+                   if int(r[f'effect_{n}']) == SPELL_EFFECT_LEARN_SPELL
+                   and int(r[f'effect_trigger_spell_{n}'])]
+        if learned:
+            out[int(r['id'])] = learned
+    return out
+
+
+def _class_spells(race: int, cls: int, level: int) -> List[int]:
+    """Everything this race/class's class trainers teach up to `level`."""
+    rows = _q(_run_world_query,
+              "SELECT DISTINCT ts.SpellId FROM trainer_spell ts JOIN trainer t ON t.Id = ts.TrainerId "
+              f"WHERE t.Type = 0 AND t.Requirement = {cls} AND ts.ReqLevel <= {level} "
+              "AND ts.ReqSkillLine = 0")
+    spells = [int(r['SpellId']) for r in rows]
+    if not spells:
+        return []
+    # Race-restricted class spells (faction variants): SkillLineAbility masks.
+    race_bit = 1 << (race - 1)
+    allowed, restricted = set(), set()
+    for r in _dbc_rows(
+            "SELECT spell_id, required_races, excluded_races FROM skilllineability "
+            f"WHERE spell_id IN ({','.join(map(str, spells))})"):
+        sid, req, exc = int(r['spell_id']), int(r['required_races']), int(r['excluded_races'])
+        if (req and not req & race_bit) or (exc & race_bit):
+            restricted.add(sid)
+        else:
+            allowed.add(sid)
+    keep = [s for s in spells if s in allowed or s not in restricted]
+    learned = set()
+    for teach in _resolve_learn(keep).values():
+        learned.update(teach)
+    return sorted(learned)
+
+
+def _quest_reward_spells(quests: List[int]) -> List[int]:
+    if not quests:
+        return []
+    rows = _q(_run_world_query,
+              f"SELECT RewardSpell FROM quest_template WHERE ID IN ({','.join(map(str, quests))}) "
+              "AND RewardSpell > 0")
+    learned = set()
+    for teach in _resolve_learn(int(r['RewardSpell']) for r in rows).values():
+        learned.update(teach)
+    return sorted(learned)
+
+
+@char.command('test-setup')
+@click.argument('name')
+@click.option('--race', '-r', required=True, help='Race name or ID')
+@click.option('--class', '-c', 'cls', required=True, help='Class name or ID')
+@click.option('--gender', '-g', default='female', show_default=True, help='male/m/0 or female/f/1')
+@click.option('--level', '-l', type=int, default=1, show_default=True)
+@click.option('--account', '-a', default='1', show_default=True,
+              help='Account USERNAME (the GM test account is named "1")')
+@click.option('--before', 'before', type=int, multiple=True,
+              help='Quest to make available: its prerequisites are rewarded (repeatable)')
+@click.option('--done', 'done', type=int, multiple=True,
+              help='Quest rewarded, with all its prerequisites (repeatable)')
+@click.option('--take', 'take', type=int, multiple=True,
+              help='Quest in the log as incomplete, prerequisites rewarded (repeatable)')
+@click.option('--pos', help='Login/hearth spot "X Y [Z [O]]" (Z omitted = heightmap)')
+@click.option('--map', 'map_id', type=int, default=1, show_default=True, help='Map for --pos')
+@click.option('--near-creature', type=int, help='Use this creature spawn guid\'s position')
+@click.option('--money', type=int, default=10, show_default=True, help='Gold')
+@click.option('--heirlooms/--no-heirlooms', default=True, show_default=True,
+              help='Equip the class heirloom set (shoulders, chest, weapons, trinket)')
+@click.option('--equip', 'equip', type=int, multiple=True,
+              help='Extra item entry to equip (repeatable); overrides a heirloom in the same slot')
+@click.option('--spells/--no-spells', default=True, show_default=True,
+              help='Learn every class-trainer spell up to --level')
+@click.option('--replace', is_flag=True, help='Rebuild an existing offline character of this name')
+@click.option('--dry-run', is_flag=True, help='Print the SQL without executing')
+def char_test_setup(name, race, cls, gender, level, account, before, done, take, pos,
+                    map_id, near_creature, money, heirlooms, equip, spells, replace, dry_run):
+    """Build a ready-to-test character directly in the database (F-213).
+
+    The character logs in at the chosen spot with its starting abilities
+    (the core relearns default skills/spells on load, plus spells from its
+    rewarded quests) and the quest state needed to test a piece of content.
+
+    Examples:
+        zep world char test-setup Orbtest -r goblin -c warlock -l 10 \\
+            --done 25110 --pos "1252 -10795 219.8 5.5"
+        zep world char test-setup Hunttest -r goblin -c hunter -l 10 --before 24671
+        zep world char test-setup Orbtest -r goblin -c warlock --replace --dry-run
+    """
+    name = name.strip().capitalize()
+    if not name.isalpha() or not 2 <= len(name) <= 12:
+        raise click.ClickException("Name must be 2-12 letters")
+    race_id, class_id, gender_id = _parse_race(race), _parse_class(cls), _parse_gender(gender)
+    if not 1 <= level <= 80:
+        raise click.ClickException("--level must be 1-80")
+
+    # Account by USERNAME
+    acc = _q(_run_auth_query,
+             f"SELECT id, username FROM account WHERE username = '{_sql_escape(account)}'")
+    if not acc:
+        raise click.ClickException(f"Account '{account}' not found")
+    account_id = int(acc[0]['id'])
+
+    pci = _q(_run_world_query,
+             f"SELECT map, zone, position_x, position_y, position_z, orientation "
+             f"FROM playercreateinfo WHERE race = {race_id} AND class = {class_id}")
+    if not pci:
+        raise click.ClickException(
+            f"{RACE_NAMES[race_id].title()} {CLASS_NAMES[class_id]} has no playercreateinfo row")
+
+    # Position
+    if near_creature:
+        c = _q(_run_world_query,
+               "SELECT map, position_x, position_y, position_z, orientation "
+               f"FROM creature WHERE guid = {near_creature}")
+        if not c:
+            raise click.ClickException(f"Creature spawn {near_creature} not found")
+        c = c[0]
+        map_id, x, y, z, o = int(c['map']), float(c['position_x']), float(c['position_y']), \
+            float(c['position_z']), float(c['orientation'])
+        zone = 0
+    elif pos:
+        parts = [float(p) for p in pos.replace(',', ' ').split()]
+        if len(parts) < 2:
+            raise click.ClickException('--pos needs at least "X Y"')
+        x, y = parts[0], parts[1]
+        o = parts[3] if len(parts) > 3 else 0.0
+        z = parts[2] if len(parts) > 2 else None
+        zone = 0
+    else:
+        p = pci[0]
+        map_id, x, y, z, o = int(p['map']), float(p['position_x']), float(p['position_y']), \
+            float(p['position_z']), float(p['orientation'])
+        zone = int(p['zone'])
+    if not zone or z is None:
+        from lib.terrain_reader import MapHeightReader
+        reader = MapHeightReader(Path(__file__).resolve().parents[3] / 'data' / 'maps')
+        if z is None:
+            ground = reader.get_height(map_id, x, y)
+            if ground < -50000:
+                raise click.ClickException(f"No heightmap at map {map_id} ({x}, {y}); give Z")
+            z = round(ground + 0.5, 2)
+        if not zone:
+            zone = max(reader.get_area(map_id, x, y), 0)   # core corrects it on login
+
+    # Existing character
+    existing = _q(_run_query,
+                  f"SELECT guid, account, online FROM characters WHERE name = '{_sql_escape(name)}'")
+    if existing:
+        e = existing[0]
+        if not replace:
+            raise click.ClickException(f"{name} already exists (guid {e['guid']}); use --replace")
+        if int(e['account']) != account_id:
+            raise click.ClickException(f"{name} belongs to account id {e['account']}, not '{account}'")
+        if int(e['online']):
+            raise click.ClickException(f"{name} is online — log out first")
+        guid = int(e['guid'])
+    else:
+        guid = _alloc_id('characters', 'guid', TEST_CHAR_GUID_OFFSET)
+
+    # Structural template row: same race+gender first (valid appearance)
+    tmpl = _q(_run_query,
+              "SELECT guid, race, gender FROM characters WHERE deleteDate IS NULL "
+              f"ORDER BY (race = {race_id} AND gender = {gender_id}) DESC, guid LIMIT 1")
+    if not tmpl:
+        raise click.ClickException("No existing character to use as a row template")
+    tmpl_guid = int(tmpl[0]['guid'])
+    same_look = int(tmpl[0]['race']) == race_id and int(tmpl[0]['gender']) == gender_id
+
+    zeroed = "REGEXP_REPLACE(`{c}`, '[0-9]+', '0')"
+    overrides = {
+        'guid': str(guid), 'account': str(account_id), 'name': f"'{name}'",
+        'race': str(race_id), 'class': str(class_id), 'gender': str(gender_id),
+        'level': str(level), 'xp': '0', 'money': str(money * 10000),
+        'bankSlots': '0', 'restState': '0', 'playerFlags': '0',
+        'position_x': str(x), 'position_y': str(y), 'position_z': str(z), 'orientation': str(o),
+        'map': str(map_id), 'zone': str(zone), 'instance_id': '0', 'instance_mode_mask': '0',
+        'online': '0', 'cinematic': '1', 'totaltime': '0', 'leveltime': '0',
+        'logout_time': 'UNIX_TIMESTAMP()', 'is_logout_resting': '0', 'rest_bonus': '0',
+        'resettalents_cost': '0', 'resettalents_time': '0',
+        'trans_x': '0', 'trans_y': '0', 'trans_z': '0', 'trans_o': '0', 'transguid': '0',
+        'extra_flags': '0', 'stable_slots': '0', 'at_login': '0' if spells else str(AT_LOGIN_RESET_SPELLS),
+        'death_expire_time': '0', 'taxi_path': "''", 'arenaPoints': '0',
+        'totalHonorPoints': '0', 'todayHonorPoints': '0', 'yesterdayHonorPoints': '0',
+        'totalKills': '0', 'todayKills': '0', 'yesterdayKills': '0', 'chosenTitle': '0',
+        'knownCurrencies': '0', 'watchedFaction': '4294967295', 'drunk': '0',
+        'health': '999999', 'power1': '999999', 'power2': '0', 'power3': '0',
+        'power4': '100', 'power5': '0', 'power6': '0', 'power7': '0', 'latency': '0',
+        'talentGroupsCount': '1', 'activeTalentGroup': '0', 'ammoId': '0',
+        'actionBars': '0', 'grantableLevels': '0', 'order': 'NULL',
+        'creation_date': 'NOW()', 'deleteInfos_Account': 'NULL', 'deleteInfos_Name': 'NULL',
+        'deleteDate': 'NULL', 'innTriggerId': '0', 'extraBonusTalentCount': '0',
+    }
+    for c in ('taximask', 'exploredZones', 'equipmentCache', 'knownTitles'):
+        overrides[c] = zeroed.format(c=c)
+    if not same_look:
+        for c in ('skin', 'face', 'hairStyle', 'hairColor', 'facialStyle'):
+            overrides[c] = '0'
+
+    cols = [r['Field'] for r in _q(_run_query, "SHOW COLUMNS FROM characters")]
+    passthrough = [c for c in cols if c not in overrides]
+    select = ', '.join(overrides.get(c, f'`{c}`') for c in cols)
+
+    # Quest state
+    targets = sorted(set(before) | set(done) | set(take))
+    needed, skipped, negative = _quest_prereqs(targets, race_id, class_id) if targets else ([], [], [])
+    rewarded = sorted(set(needed) | set(done))
+    taken = sorted(set(take) - set(rewarded))
+
+    stmts = ['START TRANSACTION;']
+    if existing:
+        stmts += _wipe_statements(guid)
+    stmts.append(f"INSERT INTO characters ({', '.join(f'`{c}`' for c in cols)}) "
+                 f"SELECT {select} FROM characters WHERE guid = {tmpl_guid};")
+    stmts.append("INSERT INTO character_homebind (guid, mapId, zoneId, posX, posY, posZ) "
+                 f"VALUES ({guid}, {map_id}, {zone}, {x}, {y}, {z});")
+    if rewarded:
+        stmts.append("INSERT INTO character_queststatus_rewarded (guid, quest, active) VALUES "
+                     + ', '.join(f"({guid}, {q}, 1)" for q in rewarded) + ';')
+    for q in taken:
+        stmts.append("INSERT INTO character_queststatus (guid, quest, status) "
+                     f"VALUES ({guid}, {q}, {QUEST_STATUS_INCOMPLETE});")
+
+    # Spells. Default skills/spells are relearned by the core on every load;
+    # trainer + quest-reward spells are written here (at_login RESET_SPELLS
+    # would remove them, so it is only used with --no-spells).
+    learned: List[int] = []
+    if spells:
+        learned = sorted(set(_class_spells(race_id, class_id, level)) |
+                         set(_quest_reward_spells(rewarded)))
+        if learned:
+            stmts.append("INSERT INTO character_spell (guid, spell, specMask) VALUES "
+                         + ', '.join(f"({guid}, {sp}, 255)" for sp in learned) + ';')
+
+    # Heirlooms, equipped (bag 0, equipment slots)
+    equipped: List[Tuple[int, str, int]] = []   # (entry, name, slot)
+    ids = list(equip) + (HEIRLOOMS.get(class_id, []) if heirlooms else [])
+    if ids:
+        items = {int(r['entry']): r for r in _q(_run_world_query,
+                 "SELECT entry, name, InventoryType, MaxDurability FROM item_template "
+                 f"WHERE entry IN ({','.join(map(str, ids))})")}
+        used = set()
+        item_guid = _alloc_id('item_instance', 'guid', ITEM_GUID_OFFSET)
+        for entry in ids:
+            it = items.get(entry)
+            if not it:
+                click.echo(f"  warning: item {entry} not in item_template, skipped")
+                continue
+            slot = next((sl for sl in INV_SLOTS.get(int(it['InventoryType']), []) if sl not in used), None)
+            if slot is None:
+                click.echo(f"  warning: no free slot for {it['name']} ({entry}), skipped")
+                continue
+            used.add(slot)
+            stmts.append(
+                "INSERT INTO item_instance (guid, itemEntry, owner_guid, creatorGuid, giftCreatorGuid, "
+                "count, duration, charges, flags, enchantments, randomPropertyId, durability, playedTime, text) "
+                f"VALUES ({item_guid}, {entry}, {guid}, 0, 0, 1, 0, '0 0 0 0 0 ', 1, "
+                f"'{ENCHANTMENTS_BLANK}', 0, {int(it['MaxDurability'])}, 0, NULL);")
+            stmts.append(f"INSERT INTO character_inventory (guid, bag, slot, item) "
+                         f"VALUES ({guid}, 0, {slot}, {item_guid});")
+            equipped.append((entry, it['name'], slot))
+            item_guid += 1
+    stmts.append('COMMIT;')
+    sql_block = '\n'.join(stmts)
+
+    click.echo(f"  {name}: level {level} {RACE_NAMES[race_id].title()} "
+               f"{GENDER_NAMES[gender_id]} {CLASS_NAMES[class_id]} on account '{account}' "
+               f"(id {account_id}), guid {guid}{' (replacing)' if existing else ''}")
+    click.echo(f"  at map {map_id} ({x}, {y}, {z}) o={o} zone/area {zone}; hearth bound there")
+    click.echo(f"  row template: guid {tmpl_guid}"
+               f"{'' if same_look else ' (different race/gender - appearance reset to 0)'}")
+    if targets:
+        click.echo(f"  quests rewarded: {len(rewarded)}; in log: {taken or '-'}; "
+                   f"available: {sorted(set(before) - set(rewarded) - set(taken)) or '-'}")
+    if spells:
+        click.echo(f"  spells: {len(learned)} class-trainer (level <= {level}) + quest-reward spells")
+    if equipped:
+        click.echo(f"  equipped: {', '.join(n for _, n, _ in equipped)}")
+    if skipped:
+        click.echo(f"  skipped (race/class can't take): {skipped}")
+    if negative:
+        click.echo(f"  warning: reached via a negative PrevQuestID (must be ACTIVE, marked rewarded): {negative}")
+    if passthrough and dry_run:
+        click.echo(f"  columns copied from template: {', '.join(passthrough)}")
+
+    if dry_run:
+        click.echo(sql_block)
+        return
+
+    ok, out = _run_query(sql_block)
+    if not ok:
+        raise click.ClickException(f"Insert failed: {out}")
+    ok, out = _run_auth_query(
+        "UPDATE realmcharacters SET numchars = "
+        f"(SELECT COUNT(*) FROM acore_characters.characters WHERE account = {account_id} "
+        f"AND deleteDate IS NULL) WHERE acctid = {account_id};")
+    if not ok:
+        click.echo(f"  warning: realmcharacters not updated: {out}")
+    click.echo(f"  done — log in as '{account}'.")
+
+
+@char.command('delete')
+@click.argument('name')
+@click.option('--account', '-a', default='1', show_default=True,
+              help='Account USERNAME the character must be on (guard against deleting a real character)')
+@click.option('--dry-run', is_flag=True, help='Print the SQL without executing')
+def char_delete(name, account, dry_run):
+    """Delete an offline test character and everything it owns (F-213).
+
+    Clears the same tables as Player::DeleteFromDB (characters, per-guid
+    character_* tables, items by owner, mail by receiver, pets by owner).
+    Refuses unless the character is on --account (default the GM test
+    account '1').
+
+    Examples:
+        zep world char delete Orbtest
+        zep world char delete Orbtest --dry-run
+    """
+    acc = _q(_run_auth_query,
+             f"SELECT id FROM account WHERE username = '{_sql_escape(account)}'")
+    if not acc:
+        raise click.ClickException(f"Account '{account}' not found")
+    account_id = int(acc[0]['id'])
+    rows = _q(_run_query,
+              f"SELECT guid, account, online, name FROM characters WHERE name = '{_sql_escape(name)}'")
+    if not rows:
+        raise click.ClickException(f"Character '{name}' not found")
+    c = rows[0]
+    guid = int(c['guid'])
+    if int(c['account']) != account_id:
+        raise click.ClickException(f"{c['name']} is on account id {c['account']}, not '{account}' - refusing")
+    if int(c['online']):
+        raise click.ClickException(f"{c['name']} is online — log out first")
+
+    stmts = ['START TRANSACTION;']
+    stmts += _wipe_statements(guid)
+    stmts.append('COMMIT;')
+    sql_block = '\n'.join(stmts)
+    if dry_run:
+        click.echo(sql_block)
+        return
+    ok, out = _run_query(sql_block)
+    if not ok:
+        raise click.ClickException(f"Delete failed: {out}")
+    ok, out = _run_auth_query(
+        "UPDATE realmcharacters SET numchars = "
+        f"(SELECT COUNT(*) FROM acore_characters.characters WHERE account = {account_id} "
+        f"AND deleteDate IS NULL) WHERE acctid = {account_id};")
+    if not ok:
+        click.echo(f"  warning: realmcharacters not updated: {out}")
+    click.echo(f"  {c['name']} (guid {guid}) deleted from account '{account}'")
