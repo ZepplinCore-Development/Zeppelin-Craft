@@ -7,28 +7,28 @@
    "path": "Item/ObjectComponents/Collections/collections_armor_orcclan_d_01_or_f.m2",
    "fdid": 1623637,
    "build": "12.1.0.69875",
-   "kind": "downport+5 x 0x8000 batch -> classic pairs",
+   "kind": "downport+5 batch(es) classicised, 5 env pair(s), overlay mat 1",
    "sha256": "05b698c549f429b161c9e3cea44368f9284a0b1b0e6d15dcf0b805a3cb67b22d"
   },
   {
    "path": "Item/ObjectComponents/Collections/collections_armor_orcclan_d_01_or_f00.skin",
    "fdid": 1623823,
    "build": "12.1.0.69875",
-   "kind": "downport+5 x 0x8000 batch -> classic pairs",
+   "kind": "downport+5 batch(es) classicised, 5 env pair(s), overlay mat 1",
    "sha256": "ad9056c8efc62da7f1b62218475b4b970c055d672a76875671256b811b25f63c"
   },
   {
    "path": "Item/ObjectComponents/Collections/collections_armor_orcclan_d_01_or_m.m2",
    "fdid": 1623638,
    "build": "12.1.0.69875",
-   "kind": "downport+5 x 0x8000 batch -> classic pairs",
+   "kind": "downport+5 batch(es) classicised, 5 env pair(s), overlay mat 1",
    "sha256": "09b1e5baa21cc0d796006aa05b31848c82d689e46380c407db1b2b050a54e816"
   },
   {
    "path": "Item/ObjectComponents/Collections/collections_armor_orcclan_d_01_or_m00.skin",
    "fdid": 1623858,
    "build": "12.1.0.69875",
-   "kind": "downport+5 x 0x8000 batch -> classic pairs",
+   "kind": "downport+5 batch(es) classicised, 5 env pair(s), overlay mat 1",
    "sha256": "29a7f8c9b8342c12b72153dcd7db47ac3be81aff2385ab2eb8ebfacd1f5fa489"
   },
   {
@@ -42,28 +42,28 @@
    "path": "Item/ObjectComponents/Collections/collections_plate_warfrontshorde_d_01_or_f.m2",
    "fdid": 1781569,
    "build": "12.1.0.69875",
-   "kind": "downport+5 x 0x8000 batch -> classic pairs",
+   "kind": "downport+5 batch(es) classicised, 5 env pair(s), overlay mat 1",
    "sha256": "4f7c2498de04f307afa306dea847554b31c0238d344baa9eded217f110788321"
   },
   {
    "path": "Item/ObjectComponents/Collections/collections_plate_warfrontshorde_d_01_or_f00.skin",
    "fdid": 1781594,
    "build": "12.1.0.69875",
-   "kind": "downport+5 x 0x8000 batch -> classic pairs",
+   "kind": "downport+5 batch(es) classicised, 5 env pair(s), overlay mat 1",
    "sha256": "5dabec0e5af1942ff662c095ae85235185969a7ef4d8964330dd7244d5925b96"
   },
   {
    "path": "Item/ObjectComponents/Collections/collections_plate_warfrontshorde_d_01_or_m.m2",
    "fdid": 1781570,
    "build": "12.1.0.69875",
-   "kind": "downport+5 x 0x8000 batch -> classic pairs",
+   "kind": "downport+5 batch(es) classicised, 5 env pair(s), overlay mat 1",
    "sha256": "ba165352d591afa75c189a97eee008c9524450070f486134b8664243338fa1c0"
   },
   {
    "path": "Item/ObjectComponents/Collections/collections_plate_warfrontshorde_d_01_or_m00.skin",
    "fdid": 1781602,
    "build": "12.1.0.69875",
-   "kind": "downport+5 x 0x8000 batch -> classic pairs",
+   "kind": "downport+5 batch(es) classicised, 5 env pair(s), overlay mat 1",
    "sha256": "64d121f9a39face9ba643e8001d1c7aa3821a3018e6576b2adadf1039aa345b0"
   },
   {
@@ -77,29 +77,29 @@
    "path": "Item/ObjectComponents/Head/helm_plate_warfrontshorde_d_01_OrF.m2",
    "fdid": 1781490,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs+shift(-0.079, 0.0, -0.178)",
+   "kind": "downport+3 batch(es) classicised, 1 env pair(s), overlay mat 1+shift(-0.079, 0.0, -0.178)",
    "sha256": "158aa9960bab92a9fc42a2fd0cff3ee7fea8484ff411e4766877779cb9423f8b"
   },
   {
    "path": "Item/ObjectComponents/Head/helm_plate_warfrontshorde_d_01_OrF00.skin",
    "fdid": 1781519,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs+shift(-0.079, 0.0, -0.178)",
-   "sha256": "edf19047f3d9a2a37b4de6a9407b0f73cbfc9f1a02f7656c501791893b37b62e"
+   "kind": "downport+3 batch(es) classicised, 1 env pair(s), overlay mat 1+shift(-0.079, 0.0, -0.178)",
+   "sha256": "c874aaca4166d00bb1ab5ced391198e1234ca5581124a2a9bac1233598819054"
   },
   {
    "path": "Item/ObjectComponents/Head/helm_plate_warfrontshorde_d_01_OrM.m2",
    "fdid": 1781491,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs+shift(-0.144, 0.0, -0.206)",
+   "kind": "downport+3 batch(es) classicised, 1 env pair(s), overlay mat 3+shift(-0.144, 0.0, -0.206)",
    "sha256": "85fd956d2ecd32dc83764800478d3dfd966f043290ae491aacc364358ffc3e2e"
   },
   {
    "path": "Item/ObjectComponents/Head/helm_plate_warfrontshorde_d_01_OrM00.skin",
    "fdid": 1781514,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs+shift(-0.144, 0.0, -0.206)",
-   "sha256": "c002b523cf4e51a4b842afe4cb5e743a5b51e76b8f16a3c7f5a34045c92df3cc"
+   "kind": "downport+3 batch(es) classicised, 1 env pair(s), overlay mat 3+shift(-0.144, 0.0, -0.206)",
+   "sha256": "12a24692e191e870be8b6e10d8508c0b0e878a17fd0c296ea3bf2938d39328d2"
   },
   {
    "path": "Item/ObjectComponents/Head/helm_plate_warfrontshorde_d_01maroon.blp",
@@ -119,14 +119,14 @@
    "path": "Item/ObjectComponents/Shoulder/lshoulder_leather_hordeuprez_b_03.m2",
    "fdid": 1060797,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "653e035942ce1382faf2d2e190d5c8ac0c30862baa3416c3c08bb1112245c490"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/lshoulder_leather_hordeuprez_b_0300.skin",
    "fdid": 1060894,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "1c58e68075a711b9b46f2b403919a29f221eaf48d4b8e94ff1a03f384c93760d"
   },
   {
@@ -140,42 +140,42 @@
    "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_hordeuprez_b_03.m2",
    "fdid": 1028407,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "6a53d83b278bda532fb1b05170aa6c2d830560cc8757285f672db03d4122f251"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_hordeuprez_b_0300.skin",
    "fdid": 1028888,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "ac349b8ec2a9d65f10f7569d84dc7220e9bfae25d77068c39821d98dd5f263fa"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_armor_orcclan_d_01_l.m2",
    "fdid": 1623641,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "46f2eb5bbd270ec25f0df77bef50559017e790e75228e3d63049eb45a9e51c97"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_armor_orcclan_d_01_l00.skin",
    "fdid": 1623851,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "0253e9a49aad0feeb22b758971e6164842c30b22ecb5186fd89fd0b2315235da"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_armor_orcclan_d_01_r.m2",
    "fdid": 1623642,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "40c0a48284f5c7c5d3c6fe9f221d207db7ccb529f259a0ab7c0e4722f9e8d996"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_armor_orcclan_d_01_r00.skin",
    "fdid": 1623841,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "0dca5c208d600b71d7f3c2a7e2386efd70e42b7aa7489bbbe8fedfbca3b000c5"
   },
   {
@@ -189,28 +189,28 @@
    "path": "Item/ObjectComponents/Shoulder/shoulder_plate_warfrontshorde_d_01_l.m2",
    "fdid": 1805816,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "5571a75af113eb1c4bfa5c22bd2d7bbd776134367fdf4f1963b50fcdaec2f5e8"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_plate_warfrontshorde_d_01_l00.skin",
    "fdid": 1805819,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "a89c21faf56080397ab0be45b69100f808c3a8d6245b06c93d1d8f9c2738ee01"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_plate_warfrontshorde_d_01_r.m2",
    "fdid": 1805817,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "410b58f04a0e3bacbcbe8ddc5f5b5253166e72bd854c938fa5af1dc05c6943c7"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_plate_warfrontshorde_d_01_r00.skin",
    "fdid": 1805818,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "b250d2ba5f7b438e82a31b1e36ba2ad545324d22ad3bbdfa9876d1ae47cc5846"
   },
   {
@@ -224,14 +224,14 @@
    "path": "Item/ObjectComponents/Waist/buckle_armor_orcclan_d_01.m2",
    "fdid": 1623643,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "3712c0f522888c24859cd946c1817e959f5add5234da6c42f84bacee15073a68"
   },
   {
    "path": "Item/ObjectComponents/Waist/buckle_armor_orcclan_d_0100.skin",
    "fdid": 1623808,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "f603e1ea654817afc570245f7df091899fae7befa83a334b231365e3872b4426"
   },
   {
@@ -245,15 +245,15 @@
    "path": "Item/ObjectComponents/Waist/buckle_plate_warfrontshorde_d_01.m2",
    "fdid": 1781686,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+2 batch(es) classicised, 1 env pair(s), overlay mat 2",
    "sha256": "a1235dae8c4226863c070d1fc5182e7a9c5a47c3fde494d82a830db0b88a503d"
   },
   {
    "path": "Item/ObjectComponents/Waist/buckle_plate_warfrontshorde_d_0100.skin",
    "fdid": 1781687,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
-   "sha256": "065d97d4725a980885dd13aeb54b2d1c1863fc06ba2cbd94584c758bdd1760d9"
+   "kind": "downport+2 batch(es) classicised, 1 env pair(s), overlay mat 2",
+   "sha256": "2b8032c5df9bda58df478fc54c5189f49d47c567028b0303df6491dec693ab52"
   },
   {
    "path": "Item/ObjectComponents/Waist/buckle_plate_warfrontshorde_d_01maroon.blp",
@@ -266,14 +266,14 @@
    "path": "Item/ObjectComponents/Weapon/axe_2h_war_b_02_hd.m2",
    "fdid": 1053188,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "64bcaddf2c939fa3ee06005ec4c643cdd93054c653cf4a6aaff52f60fc55785a"
   },
   {
    "path": "Item/ObjectComponents/Weapon/axe_2h_war_b_02_hd00.skin",
    "fdid": 1053433,
    "build": "12.1.0.69875",
-   "kind": "downport+1 x 0x8000 batch -> classic pairs",
+   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "17e187525c47b7072568e5fdcc52b5fe39cda2b8150bc3907ca8834b7334a3f2"
   },
   {

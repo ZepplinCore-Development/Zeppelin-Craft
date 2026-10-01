@@ -83,51 +83,51 @@ def _append(buf: bytearray, payload: bytes) -> int:
 def classic_env_batches(m2_path: Path, skin_path: Path) -> str:
     """Rewrite a downported item's modern batches into the classic 3.3.5 encoding.
 
-    Modern env-mapped item/collection skins carry one batch per geoset with
-    shader_id 0x8000, flags 0x90 and texCount 2, and the model's texture-unit lookup
-    is too short for the batch's second texture (the read runs past EOF). No working
-    3.3.5 item model does either (0/6165 HD-pack item models). Each such batch becomes
-    the pair 410 HD-pack models with the same textures (type 2 + type 0 env) use:
-        texunit lookup [0, -1]
-        A: shader 0, flags 0x10, mat 0, layer 0, texCount 2
-        B: shader 0, flags 0x10, mat 1, layer 1, texCount 1
-    (a third material, as helms carry, stays unused - 178 working HD-pack helms do the same)
-    Batches that are already classic are left alone; anything else aborts.
+    Modern env-mapped skins carry batches with shader_id 0x8000 and a texture-unit lookup too
+    short for the batch's second texture. 3.3.5 wants, per two-texture batch, the pair that
+    working HD-pack items use: the diffuse pass, then a second pass through the model's
+    env-overlay material (flags 0x10, blend 2).
+
+    The overlay material is looked up in the model rather than assumed to be index 1: on a helm
+    material 1 is a mod2x shadow layer, and reusing it painted the whole helm dark; on a buckle
+    it drew the diffuse twice (Zeppelin 2026-10-01). Models with no such material get no second
+    pass. Every batch also drops the modern shader id and batch flag 0x80.
     """
     m = bytearray(Path(m2_path).read_bytes())
     s = bytearray(Path(skin_path).read_bytes())
     if m[:4] != b'MD20' or struct.unpack_from('<I', m, 4)[0] != 264 or s[:4] != b'SKIN':
         raise ValueError(f'{m2_path}: expects a shipped v264 MD20 + SKIN')
-    n_mat = struct.unpack_from('<I', m, 0x70)[0]
-    n_tul = struct.unpack_from('<I', m, 0x88)[0]
+    n_mat, o_mat = struct.unpack_from('<II', m, 0x70)
+    materials = [struct.unpack_from('<HH', m, o_mat + 4 * i) for i in range(n_mat)]
+    env_mat = next((i for i, (flags, blend) in enumerate(materials) if flags & 0x10 and blend == 2), None)
     nb, ob = struct.unpack_from('<II', s, 0x24)
     batches = [list(struct.unpack_from(BATCH, s, ob + 24 * i)) for i in range(nb)]
-    modern = [b for b in batches if b[2] & 0x8000]
-    if not modern:
-        bad = [b for b in batches if b[10] + b[8] > n_tul]
-        if bad:
-            raise ValueError(f'{skin_path}: classic batches read past the texunit lookup ({n_tul})')
+    if not any((b[2] & 0x8000) or b[0] & 0x80 or b[8] > 1 for b in batches):
         return 'classic already'
-    if n_mat < 2 or any(b[2] != 0x8000 or b[8] != 2 or b[10] != 0 for b in modern):
-        raise ValueError(f'{skin_path}: unhandled modern batch layout {modern} (materials={n_mat})')
-    out = bytearray()
+
+    out, pairs = bytearray(), 0
     for b in batches:
-        if not (b[2] & 0x8000):
-            out += struct.pack(BATCH, *b)
-            continue
         a = b[:]
-        a[0], a[2] = 0x10, 0
-        second = a[:]
-        second[6], second[7], second[8], second[9], second[10] = 1, 1, 1, 0, 0
-        out += struct.pack(BATCH, *a) + struct.pack(BATCH, *second)
+        a[0] = (a[0] & ~0x80) | 0x10      # drop the modern batch flag
+        a[2] = 0                          # shader id: let the client pick from texCount/materials
+        out += struct.pack(BATCH, *a)
+        if a[8] == 2 and env_mat is not None:        # diffuse+env batch -> add the overlay pass
+            second = a[:]
+            second[6], second[7], second[8], second[9], second[10] = env_mat, 1, 1, 0, 0
+            out += struct.pack(BATCH, *second)
+            pairs += 1
     off = _append(s, bytes(out))
     struct.pack_into('<II', s, 0x24, len(out) // 24, off)
-    if n_tul < 2:
-        off = _append(m, struct.pack('<hh', 0, -1))
-        struct.pack_into('<II', m, 0x88, 2, off)
+
+    need = max((b[10] + b[8] for b in batches), default=1)
+    n_tul = struct.unpack_from('<I', m, 0x88)[0]
+    if n_tul < need:
+        lut = struct.pack('<h', 0) + struct.pack('<h', -1) * (need - 1)
+        off = _append(m, lut)
+        struct.pack_into('<II', m, 0x88, need, off)
     Path(m2_path).write_bytes(m)
     Path(skin_path).write_bytes(s)
-    return f'{len(modern)} x 0x8000 batch -> classic pairs'
+    return f'{len(batches)} batch(es) classicised, {pairs} env pair(s), overlay mat {env_mat}'
 
 
 def skin_geosets(skin_path: Path) -> List[int]:
