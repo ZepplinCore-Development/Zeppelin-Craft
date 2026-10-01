@@ -22,8 +22,12 @@ import argparse
 import hashlib
 import json
 import shutil
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "cli"))
+from lib.patch_register import VERSION_MAX, format_version, next_version  # noqa: E402  (shared version rules)
 
 BUILD_OUTPUT = Path("/workspace/project/Zeppelin-Tools/WarcraftXL/build-output")
 NGINX_WOW = Path("/workspace/project/nginx/wow")
@@ -78,6 +82,11 @@ def stage(names: list) -> dict:
 BUNDLE_KEY = "WarcraftXL"
 
 
+def version_hash(digest_hex: str) -> int:
+    """Folds a full hex digest into a 5-hex-digit version, 1..VERSION_MAX."""
+    return int(digest_hex, 16) % VERSION_MAX + 1
+
+
 def build_bundle(meta: dict) -> dict:
     now = datetime.now(timezone.utc).isoformat()
     files = [{"name": n, "checksum": meta[n][0], "size_mb": meta[n][1]} for n in meta]
@@ -88,11 +97,11 @@ def build_bundle(meta: dict) -> dict:
         "requires": [],
         "required_for": [],
         "build_source": "static",
-        # Version derived from the content hash (not a counter), so it is stateless — a lost register
-        # entry can't reset it. 4 hex digits = at most 65535, which fits the launcher's Version column
-        # (the field stays an int: deployed launchers parse it as one). activate() resolves the rare
-        # collision where changed content hashes to the previous short version.
-        "version": int(combined[:4], 16) or 1,
+        # Version = a 5-hex-digit hash of the bundle content: the WHOLE combined digest folded into
+        # 1..VERSION_MAX (not a slice of it). Stateless — a lost register entry can't reset it — and it
+        # shares the 5-hex-digit cap every patch version has; the launcher shows it in hex. The field
+        # stays an int: deployed launchers parse it as one.
+        "version": version_hash(combined),
         "size_mb": round(sum(f["size_mb"] for f in files), 2),
         "checksum": combined,
         "last_modified": now,
@@ -109,15 +118,16 @@ def activate(bundle: dict):
             del patches[legacy]
             print(f"  removed legacy per-file entry {legacy}")
     prev = patches.get(BUNDLE_KEY)
-    if prev and prev.get("checksum") != bundle["checksum"] and prev.get("version") == bundle["version"]:
-        # The launcher re-downloads only when the version differs; a short hash can collide.
-        bundle["version"] = bundle["version"] % 0xFFFF + 1
-        print(f"  {BUNDLE_KEY}: short-version collision, bumped to v{bundle['version']}")
-    patches[BUNDLE_KEY] = bundle   # version is content-derived, so just write the current state
-    if prev and prev.get("checksum") == bundle["checksum"]:
-        print(f"  {BUNDLE_KEY}: unchanged (v{bundle['version']})")
+    unchanged = bool(prev) and prev.get("checksum") == bundle["checksum"]
+    if not unchanged and prev and prev.get("version") == bundle["version"]:
+        # The launcher re-downloads only when the version differs; two contents can fold to one value.
+        bundle["version"] = next_version(bundle["version"])
+        print(f"  {BUNDLE_KEY}: version collision, bumped to v{format_version(bundle['version'])}")
+    patches[BUNDLE_KEY] = bundle
+    if unchanged:
+        print(f"  {BUNDLE_KEY}: unchanged (v{format_version(bundle['version'])})")
     else:
-        print(f"  {BUNDLE_KEY}: registered v{bundle['version']} ({len(bundle['files'])} members)")
+        print(f"  {BUNDLE_KEY}: registered v{format_version(bundle['version'])} ({len(bundle['files'])} members)")
     reg["last_updated"] = datetime.now(timezone.utc).isoformat()
     REGISTER.write_text(json.dumps(reg, indent=2))
     print(f"  wrote {REGISTER}")

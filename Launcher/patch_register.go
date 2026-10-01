@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -17,24 +18,21 @@ type WxlFile struct {
 }
 
 type PatchEntry struct {
-	Name               string    `json:"name"`
-	Description        string    `json:"description"`
-	IsMandatory        bool      `json:"is_mandatory"`
-	IsEnabledByDefault bool      `json:"is_enabled_by_default"`
-	AutoUpdate         bool      `json:"auto_update"`
-	Requires           []string  `json:"requires"`
-	RequiredFor        []string  `json:"required_for"`
-	BuildSource        string    `json:"build_source"`
-	Version            int       `json:"version"`
-	SizeMB             float64   `json:"size_mb"`
-	Checksum           string    `json:"checksum"`
-	LastModified       string    `json:"last_modified"`
-	Files              []WxlFile `json:"files,omitempty"` // non-empty => this entry is a multi-file bundle
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	Requires     []string  `json:"requires"`
+	RequiredFor  []string  `json:"required_for"`
+	BuildSource  string    `json:"build_source"`
+	Version      int       `json:"version"`
+	SizeMB       float64   `json:"size_mb"`
+	Checksum     string    `json:"checksum"`
+	LastModified string    `json:"last_modified"`
+	Files        []WxlFile `json:"files,omitempty"` // non-empty => this entry is a multi-file bundle
 }
 
 type ServerMetadata struct {
 	BuildNumber         int    `json:"build_number"`
-	LastBuildTimestamp   string `json:"last_build_timestamp"`
+	LastBuildTimestamp  string `json:"last_build_timestamp"`
 	DBCVersion          int    `json:"dbc_version"`
 	PatchBuilderVersion string `json:"patch_builder_version"`
 }
@@ -95,20 +93,22 @@ func (c *PatchRegisterClient) BundleFiles(filename string) ([]WxlFile, bool) {
 	return entry.Files, true
 }
 
+// hexVersion is the display form of a version: the register and the local version store keep it as a
+// decimal string (what update detection compares), the Version column shows it as uppercase hex, which
+// the patch builder caps at 5 digits.
+func hexVersion(version string) string {
+	if n, err := strconv.Atoi(version); err == nil && n >= 0 {
+		return fmt.Sprintf("%X", n)
+	}
+	return version
+}
+
 func (c *PatchRegisterClient) GetAllFiles() map[string]string {
 	result := make(map[string]string)
 	for filename, entry := range c.Register.Patches {
 		result[filename] = fmt.Sprintf("%d", entry.Version)
 	}
 	return result
-}
-
-func (c *PatchRegisterClient) IsMandatory(filename string) bool {
-	entry, ok := c.Register.Patches[filename]
-	if !ok {
-		return false
-	}
-	return entry.IsMandatory
 }
 
 func (c *PatchRegisterClient) GetPatchInfo(filename string) (PatchEntry, bool) {

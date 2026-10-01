@@ -191,7 +191,7 @@ def ship(activate):
     Wraps Scripts/deploy_warcraftxl.py. Staging copies build-output/ into nginx/wow/WXL/ (extensions
     also into MPQ/, for launchers built before v1.1) and prints the register entry it WOULD write.
     WXL/ is what the live register points at, so staging a new build changes what a fresh download
-    gets even before --activate. --activate writes it (content-derived version bump), which makes the
+    gets even before --activate. --activate writes it (5-hex-digit content-hash version), which makes the
     live launcher distribute the framework — a deliberate rollout step.
     """
     _run_ship(activate=activate)

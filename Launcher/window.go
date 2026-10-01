@@ -39,15 +39,15 @@ type MainUI struct {
 	engine *LauncherEngine
 
 	// Hero overlays
-	serverNameText  *canvas.Text
-	buildText       *canvas.Text
-	connectionText  *canvas.Text
-	patchCountText  *canvas.Text
+	serverNameText *canvas.Text
+	buildText      *canvas.Text
+	connectionText *canvas.Text
+	patchCountText *canvas.Text
 
 	// Patch list
-	tableData      *PatchTableData
-	patchList      *widget.List
-	listContainer  *fyne.Container
+	tableData     *PatchTableData
+	patchList     *widget.List
+	listContainer *fyne.Container
 
 	// Description
 	descLabel *widget.Label
@@ -315,11 +315,11 @@ func (ui *MainUI) populateTable() {
 		// Version text
 		var versionText string
 		if localVersion != "" && localVersion == serverVersion {
-			versionText = "v" + serverVersion
+			versionText = "v" + hexVersion(serverVersion)
 		} else if localVersion != "" {
-			versionText = fmt.Sprintf("v%s -> v%s", localVersion, serverVersion)
+			versionText = fmt.Sprintf("v%s -> v%s", hexVersion(localVersion), hexVersion(serverVersion))
 		} else {
-			versionText = "v" + serverVersion
+			versionText = "v" + hexVersion(serverVersion)
 		}
 
 		// Size text

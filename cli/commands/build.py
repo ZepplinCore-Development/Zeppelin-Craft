@@ -25,6 +25,7 @@ from lib.patch_builder import (
 from lib.patch_register import (
     DEFAULT_NGINX_PATH,
     format_register_summary,
+    format_version,
     get_patch_output_path,
     load_register,
     regenerate_register,
@@ -177,7 +178,8 @@ def build_patch(ctx, patch_letter: Optional[str],
             for pname in built_patches:
                 new_ver = register.get('patches', {}).get(pname, {}).get('version', '?')
                 old_ver = old_versions.get(pname, 0)
-                click.echo(f"\n{pname} register updated (v{old_ver} -> v{new_ver})")
+                click.echo(f"\n{pname} register updated "
+                           f"(v{format_version(old_ver)} -> v{format_version(new_ver)})")
         else:
             click.echo(click.style("\nWarning: Failed to save patch register", fg='yellow'))
 

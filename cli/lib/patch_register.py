@@ -76,6 +76,23 @@ def save_register(register: Dict[str, Any], nginx_path: Path = None) -> bool:
         return False
 
 
+# Patch versions are stored as plain ints (every deployed launcher unmarshals `version` as an int and
+# compares it as a decimal string), but are DISPLAYED in hex and capped at 5 hex digits, so they fit
+# the launcher's Version column. A counter past 0xFFFFF wraps to 1; it only has to differ from the
+# version a player holds.
+VERSION_MAX = 0xFFFFF
+
+
+def next_version(version: int) -> int:
+    """The version after `version`, wrapping inside 1..VERSION_MAX."""
+    return version % VERSION_MAX + 1
+
+
+def format_version(version) -> str:
+    """Display form of a patch version: uppercase hex, e.g. 838 -> '346'."""
+    return f"{version:X}" if isinstance(version, int) else str(version)
+
+
 def update_patch_entry(register: Dict[str, Any], patch_name: str,
                        mpq_path: Path,
                        zpak_name: Optional[str] = None,
@@ -103,7 +120,7 @@ def update_patch_entry(register: Dict[str, Any], patch_name: str,
         entry['description'] = description
 
     # Increment version
-    entry['version'] = entry.get('version', 0) + 1
+    entry['version'] = next_version(entry.get('version', 0))
 
     # Update file metadata
     if mpq_path.exists():
@@ -188,8 +205,8 @@ def format_register_summary(register: Dict[str, Any], nginx_path: Path = None) -
     lines.append("")
 
     # Header
-    lines.append(f"  {'Patch':<10} {'Name':<24} {'Mandatory':<11} {'Size':<10} {'Source':<16} {'Status'}")
-    lines.append(f"  {'─' * 10} {'─' * 24} {'─' * 11} {'─' * 10} {'─' * 16} {'─' * 12}")
+    lines.append(f"  {'Patch':<10} {'Name':<24} {'Version':<8} {'Size':<10} {'Source':<16} {'Status'}")
+    lines.append(f"  {'─' * 10} {'─' * 24} {'─' * 8} {'─' * 10} {'─' * 16} {'─' * 12}")
 
     # Sort: numeric first, then alpha
     sorted_names = sorted(patches.keys(),
@@ -203,7 +220,6 @@ def format_register_summary(register: Dict[str, Any], nginx_path: Path = None) -
         exists = mpq_path.exists()
 
         name = entry.get('name', '—')
-        mandatory = "yes" if entry.get('is_mandatory') else "no"
         source = entry.get('build_source', '—')
 
         size = entry.get('size_mb', 0)
@@ -214,13 +230,12 @@ def format_register_summary(register: Dict[str, Any], nginx_path: Path = None) -
         else:
             status = "missing"
 
-        lines.append(f"  {'PATCH-' + letter:<10} {name:<24} {mandatory:<11} {size_str:<10} {source:<16} {status}")
+        version_str = 'v' + format_version(entry.get('version', 0))
+        lines.append(f"  {'PATCH-' + letter:<10} {name:<24} {version_str:<8} {size_str:<10} {source:<16} {status}")
 
     # Summary
-    mandatory_count = sum(1 for e in patches.values() if e.get('is_mandatory'))
-    optional_count = len(patches) - mandatory_count
     lines.append("")
-    lines.append(f"  {len(patches)} patches ({mandatory_count} mandatory, {optional_count} optional)")
+    lines.append(f"  {len(patches)} patches")
 
     return '\n'.join(lines)
 
@@ -309,9 +324,6 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
         entry = {
             'name': combined_name,
             'description': combined_desc,
-            'is_mandatory': launcher.get('mandatory', False),
-            'is_enabled_by_default': launcher.get('enabled_by_default', False),
-            'auto_update': launcher.get('auto_update', False),
             'requires': launcher.get('requires', []),
             'required_for': [],  # computed below
             'build_source': build_source,
@@ -322,7 +334,7 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
         }
 
         # Update file metadata from MPQ on disk if it exists
-        mpq_path = _resolve_mpq_path(nginx_path, patch_key, entry.get('is_mandatory', False))
+        mpq_path = _resolve_mpq_path(nginx_path, patch_key)
         if mpq_path.exists():
             current_size = round(mpq_path.stat().st_size / (1024 * 1024), 1)
             entry['size_mb'] = current_size
@@ -360,9 +372,7 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
     deleted_files = []
 
     for orphan_key in orphan_keys:
-        orphan_entry = old_patches[orphan_key]
-        is_mandatory = orphan_entry.get('is_mandatory', False)
-        mpq_path = _resolve_mpq_path(nginx_path, orphan_key, is_mandatory)
+        mpq_path = _resolve_mpq_path(nginx_path, orphan_key)
 
         if mpq_path.exists():
             if dry_run:
@@ -391,9 +401,9 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
 def update_exe_entry(register: Dict[str, Any], exe_path: Path) -> Dict[str, Any]:
     """Update the Wow.exe entry in the patch register.
 
-    Exe entries use the key 'Wow.exe' and are always mandatory.
-    They are managed by the exe patcher, not zpak manifests, so
-    regenerate_register() preserves them automatically.
+    Exe entries use the key 'Wow.exe'. They are managed by the exe
+    patcher, not zpak manifests, so regenerate_register() preserves
+    them automatically.
 
     Args:
         register: The full register dict (modified in place).
@@ -407,13 +417,10 @@ def update_exe_entry(register: Dict[str, Any], exe_path: Path) -> Dict[str, Any]
 
     entry['name'] = 'Patched WoW Client'
     entry['description'] = 'Zeppelin-patched WoW.exe with custom binary modifications'
-    entry['is_mandatory'] = True
-    entry['is_enabled_by_default'] = True
-    entry['auto_update'] = True
     entry['requires'] = []
     entry['required_for'] = []
     entry['build_source'] = 'exe_patcher'
-    entry['version'] = entry.get('version', 0) + 1
+    entry['version'] = next_version(entry.get('version', 0))
 
     if exe_path.exists():
         entry['size_mb'] = round(exe_path.stat().st_size / (1024 * 1024), 1)
@@ -422,12 +429,12 @@ def update_exe_entry(register: Dict[str, Any], exe_path: Path) -> Dict[str, Any]
     entry['last_modified'] = _utc_timestamp()
 
     patches['Wow.exe'] = entry
-    logger.info(f"Updated Wow.exe register entry: v{entry['version']}, "
+    logger.info(f"Updated Wow.exe register entry: v{format_version(entry['version'])}, "
                 f"{entry['size_mb']} MB, checksum={entry['checksum'][:12]}...")
     return entry
 
 
-def _resolve_mpq_path(nginx_path: Path, patch_key: str, is_mandatory: bool) -> Path:
+def _resolve_mpq_path(nginx_path: Path, patch_key: str) -> Path:
     """Resolve the expected path for a patch MPQ file."""
     return nginx_path / 'MPQ' / patch_key
 
