@@ -1,0 +1,389 @@
+From 310f6723164e58f5f6ebd779bdd6ea2f774a8f37 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 1 Oct 2026 07:35:08 +0000
+Subject: [PATCH] fix: F-195 - i686 mingw SEH guards around calls
+
+clang cannot emit a 32-bit SEH funclet around a call (assembler
+'L__ehtable$<fn>' undefined). The guards that wrap a call use the core's
+WXL_SEH_TRY / WXL_SEH_EXCEPT (common/SehCompat.hpp): real __try on MSVC, a
+hand-built fs:[0] SEH frame on mingw, so the fault is still recovered.
+Guards around plain memory access are left as __try.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UyueuvSmK9GmAwFmmoVjp9
+---
+ src/load/AnimUnwrap.cpp      |  5 +++--
+ src/load/CompatLoader.cpp    |  5 +++--
+ src/load/NativeLoad.cpp      |  5 +++--
+ src/render/BonePalette.cpp   | 29 +++++++++++++++--------------
+ src/render/HitTestSort.cpp   |  9 +++++----
+ src/render/M2Draw.cpp        | 13 ++++++++-----
+ src/render/SetupMaterial.cpp |  5 +++--
+ src/render/ShadowSpace.cpp   |  5 +++--
+ 8 files changed, 43 insertions(+), 33 deletions(-)
+
+diff --git a/src/load/AnimUnwrap.cpp b/src/load/AnimUnwrap.cpp
+index 12caf2f..95e6410 100644
+--- a/src/load/AnimUnwrap.cpp
++++ b/src/load/AnimUnwrap.cpp
+@@ -37,6 +37,7 @@
+ 
+ #include <cstdint>
+ #include <cstring>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace
+ {
+@@ -68,8 +69,8 @@ namespace
+ 
+     void UnwrapGuarded(void* node, uint32_t* unwrappedTo)
+     {
+-        __try { UnwrapCore(node, unwrappedTo); }
+-        __except (EXCEPTION_EXECUTE_HANDLER) { *unwrappedTo = 0; }
++        WXL_SEH_TRY { UnwrapCore(node, unwrappedTo); }
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { *unwrappedTo = 0; }
+     }
+ 
+     void __cdecl hkAnimLoadComplete(void* node)
+diff --git a/src/load/CompatLoader.cpp b/src/load/CompatLoader.cpp
+index dd55913..9ca5924 100644
+--- a/src/load/CompatLoader.cpp
++++ b/src/load/CompatLoader.cpp
+@@ -27,6 +27,7 @@
+ #include <algorithm>
+ #include <cstddef>
+ #include <cstdint>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace
+ {
+@@ -106,7 +107,7 @@ namespace
+         uint32_t firstIndex = 0;
+         void* firstEffect = nullptr;
+         char path[128]{};
+-        __try
++        WXL_SEH_TRY
+         {
+             auto* bytes = static_cast<uint8_t*>(model);
+             auto* mdl = static_cast<m2::M2Model*>(model);
+@@ -132,7 +133,7 @@ namespace
+             for (; i + 1 < sizeof path && source[i]; ++i) path[i] = source[i];
+             path[i] = '\0';
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             path[0] = '\0';
+         }
+diff --git a/src/load/NativeLoad.cpp b/src/load/NativeLoad.cpp
+index fee48b7..4ff76c4 100644
+--- a/src/load/NativeLoad.cpp
++++ b/src/load/NativeLoad.cpp
+@@ -49,6 +49,7 @@
+ #include <cstdint>
+ #include <cstdio>
+ #include <cstring>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace off = wxl::offsets::game::m2;
+ namespace ev  = wxl::events;
+@@ -210,11 +211,11 @@ namespace
+     /// No unwindable locals here (C2712).
+     void NativeLoadGuarded(void* model, Outcome* out)
+     {
+-        __try
++        WXL_SEH_TRY
+         {
+             NativeLoadCore(model, *out);
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             out->ok   = 0;
+             out->fail = "access violation during native fill";
+diff --git a/src/render/BonePalette.cpp b/src/render/BonePalette.cpp
+index 94780ae..6c82cce 100644
+--- a/src/render/BonePalette.cpp
++++ b/src/render/BonePalette.cpp
+@@ -30,6 +30,7 @@
+ 
+ #include <algorithm>
+ #include <cstdint>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace
+ {
+@@ -87,7 +88,7 @@ namespace
+      */
+     void ForceShadowBufferBind(void* instance)
+     {
+-        __try
++        WXL_SEH_TRY
+         {
+             auto* inst = static_cast<m2::M2Instance*>(instance);
+             if (!inst || !inst->model) return;
+@@ -95,7 +96,7 @@ namespace
+             reinterpret_cast<ShadowIndexBufferRebuildFn>(kShadowIndexBufferRebuild)(model);
+             reinterpret_cast<ShadowVertexBufferRebuildFn>(kShadowVertexBufferRebuild)(model, 0);
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER) {}
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) {}
+     }
+ 
+     // --- crash fix: bad device vertex stream on the shadow draw -------------------------------------
+@@ -138,7 +139,7 @@ namespace
+      */
+     uint32_t* BadBaseVertexGuard(void* instance, BaseVertexDiag& outDiag)
+     {
+-        __try
++        WXL_SEH_TRY
+         {
+             void* devPtr = *reinterpret_cast<void* const*>(gxoff::kGxDevicePtr);
+             if (!devPtr) return nullptr;
+@@ -159,7 +160,7 @@ namespace
+ 
+             if (derivedBaseVertex == 0) return nullptr; // the one legitimate value for this draw type
+ 
+-            __try
++            WXL_SEH_TRY
+             {
+                 auto* inst = static_cast<m2::M2Instance*>(instance);
+                 if (inst && inst->model)
+@@ -177,14 +178,14 @@ namespace
+                     }
+                 }
+             }
+-            __except (EXCEPTION_EXECUTE_HANDLER) {}
++            WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) {}
+ 
+             outDiag.fault = (outDiag.ownCapacity && derivedBaseVertex >= outDiag.ownCapacity)
+                 ? BaseVertexFault::kNonzeroOutOfBounds
+                 : BaseVertexFault::kNonzeroInBounds;
+             return modeField;
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER) { return nullptr; }
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { return nullptr; }
+     }
+ 
+     /**
+@@ -204,13 +205,13 @@ namespace
+             {
+                 ++logged;
+                 const char* stem = "(unknown)";
+-                __try
++                WXL_SEH_TRY
+                 {
+                     auto* inst = static_cast<m2::M2Instance*>(instance);
+                     if (inst && inst->model)
+                         stem = wxl::game::m2::M2Model(reinterpret_cast<void*>(inst->model)).GetPathStem();
+                 }
+-                __except (EXCEPTION_EXECUTE_HANDLER) {}
++                WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) {}
+                 const char* faultName =
+                     diag.fault == BaseVertexFault::kZeroStride         ? "zero stride" :
+                     diag.fault == BaseVertexFault::kNonzeroOutOfBounds ? "out-of-bounds base vertex" :
+@@ -224,12 +225,12 @@ namespace
+             }
+ 
+             *modeField = 1;
+-            __try
++            WXL_SEH_TRY
+             {
+                 g_origRenderBatchShadowMap(instance, nullptr, batchMode, skinBatch, drawList,
+                                            runIndex, skinSection, previousSection);
+             }
+-            __except (EXCEPTION_EXECUTE_HANDLER)
++            WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+             {
+                 WLOG_WARN("m2shadow: native shadow draw faulted even after mitigation (run=%u) -- "
+                           "swallowed, this shadow batch is skipped", runIndex);
+@@ -294,7 +295,7 @@ namespace
+         uint32_t* runs          = nullptr;
+         uint32_t  originalCount = 0;
+         uint32_t  chunkSize     = 0;
+-        __try
++        WXL_SEH_TRY
+         {
+             if (drawList && skinSection)
+             {
+@@ -312,7 +313,7 @@ namespace
+                 }
+             }
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             runs = nullptr; // fail safe: single native call below, run list left untouched
+         }
+@@ -360,7 +361,7 @@ namespace
+         uint32_t* countField    = nullptr;
+         uint32_t  originalCount = 0;
+         uint32_t  chunkSize     = 0;
+-        __try
++        WXL_SEH_TRY
+         {
+             auto* c = static_cast<gxoff::DrawBatchContext*>(ctx);
+             if (c->element)
+@@ -380,7 +381,7 @@ namespace
+                     : originalCount;
+             }
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             countField = nullptr; // fail safe: single native call below, batch record left untouched
+         }
+diff --git a/src/render/HitTestSort.cpp b/src/render/HitTestSort.cpp
+index 29c93b7..1eb8314 100644
+--- a/src/render/HitTestSort.cpp
++++ b/src/render/HitTestSort.cpp
+@@ -22,6 +22,7 @@
+ 
+ #include <atomic>
+ #include <cstdint>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace
+ {
+@@ -42,12 +43,12 @@ namespace
+         void* scratch, void* /*edx*/, uint16_t* indexBegin, uint16_t* indexEnd, int vertexBase,
+         float* point, int mode, int candidate, float* bestDepth, int currentHit)
+     {
+-        __try
++        WXL_SEH_TRY
+         {
+             return g_origSceneTriangleHitTest(
+                 scratch, nullptr, indexBegin, indexEnd, vertexBase, point, mode, candidate, bestDepth, currentHit);
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             const uint32_t faults = g_sceneHitTestFaults.fetch_add(1, std::memory_order_relaxed) + 1;
+             if (faults == 1 || (faults & (faults - 1)) == 0)
+@@ -136,11 +137,11 @@ namespace
+                           faults, lhsEffect, lhsVs, lhsPs, rhsEffect, rhsVs, rhsPs);
+         }
+ 
+-        __try
++        WXL_SEH_TRY
+         {
+             return g_origSortOpaqueGeoBatches(lhs, rhs);
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             const uint32_t faults = g_opaqueSortFaults.fetch_add(1, std::memory_order_relaxed) + 1;
+             if (faults == 1 || (faults & (faults - 1)) == 0)
+diff --git a/src/render/M2Draw.cpp b/src/render/M2Draw.cpp
+index f4ce599..a7ffae8 100644
+--- a/src/render/M2Draw.cpp
++++ b/src/render/M2Draw.cpp
+@@ -33,6 +33,7 @@
+ 
+ #include <windows.h>
+ #include <d3d9.h>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace
+ {
+@@ -91,7 +92,7 @@ namespace
+     unsigned ExpandM2StartIndex(unsigned startIndex) noexcept
+     {
+         if (!g_curDrawCtx) return startIndex;
+-        __try
++        WXL_SEH_TRY
+         {
+             const auto* ctx = static_cast<const off::DrawBatchContext*>(g_curDrawCtx);
+             const auto* sec = static_cast<const wxl::structure::m2::M2SkinSection*>(ctx->section);
+@@ -110,7 +111,7 @@ namespace
+             }
+             return expanded;
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             return startIndex;
+         }
+@@ -216,7 +217,7 @@ namespace
+ 
+         if (emitter)
+         {
+-            __try
++            WXL_SEH_TRY
+             {
+                 layerCountPtr = &reinterpret_cast<m2off::RibbonEmitter*>(emitter)->layerCount;
+                 uint32_t layers = *layerCountPtr;
+@@ -237,13 +238,15 @@ namespace
+                     }
+                 }
+             }
+-            __except (EXCEPTION_EXECUTE_HANDLER) { bridged = false; g_ribbonModern = false; }
++            WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { bridged = false; g_ribbonModern = false; }
+         }
+ 
+         int r = g_origRibbonDraw(self, edx, stateBlock);
+ 
+         if (bridged && layerCountPtr)
+-            __try { *layerCountPtr = savedLayers; } __except (EXCEPTION_EXECUTE_HANDLER) {}
++        {
++            WXL_SEH_TRY { *layerCountPtr = savedLayers; } WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) {}
++        }
+         g_ribbonModern = false;
+         return r;
+     }
+diff --git a/src/render/SetupMaterial.cpp b/src/render/SetupMaterial.cpp
+index ec91340..3836cd8 100644
+--- a/src/render/SetupMaterial.cpp
++++ b/src/render/SetupMaterial.cpp
+@@ -24,6 +24,7 @@
+ #include <windows.h>
+ 
+ #include <cstdint>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace
+ {
+@@ -51,7 +52,7 @@ namespace
+ 
+         void*    model = nullptr;
+         uint16_t blend = 0;
+-        __try
++        WXL_SEH_TRY
+         {
+             auto* dc   = static_cast<m2::DrawContext*>(ctx);
+             void* inst = dc->instance;
+@@ -69,7 +70,7 @@ namespace
+                     combiner::ArmNextBind();
+             }
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER) { model = nullptr; }
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { model = nullptr; }
+ 
+         if (model)
+         {
+diff --git a/src/render/ShadowSpace.cpp b/src/render/ShadowSpace.cpp
+index b13d72d..6350b01 100644
+--- a/src/render/ShadowSpace.cpp
++++ b/src/render/ShadowSpace.cpp
+@@ -26,6 +26,7 @@
+ #include <atomic>
+ #include <cmath>
+ #include <cstdint>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace
+ {
+@@ -123,8 +124,8 @@ namespace wxl::runtime::m2shadow
+     {
+         g_statDraws.fetch_add(1, std::memory_order_relaxed);
+         if (!instance || !section) return;
+-        __try { ProbeShadowDraw(instance, section); }
+-        __except (EXCEPTION_EXECUTE_HANDLER) { g_statFaults.fetch_add(1, std::memory_order_relaxed); }
++        WXL_SEH_TRY { ProbeShadowDraw(instance, section); }
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { g_statFaults.fetch_add(1, std::memory_order_relaxed); }
+     }
+ 
+     bool Installed() { return g_armed; }
+-- 
+2.34.1
+

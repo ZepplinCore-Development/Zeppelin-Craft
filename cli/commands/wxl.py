@@ -167,8 +167,8 @@ _WXL_DEPLOY_PY = os.path.join(_CRAFT, "Scripts", "deploy_warcraftxl.py")
 def build(ship_after, activate):
     """Cross-compile the WarcraftXL client binaries (F-195).
 
-    Runs Zeppelin-Tools/WarcraftXL/build.sh (llvm-mingw cross-compile, no wine) to produce
-    WarcraftXL.dll, d3d9.dll, WarcraftXLHost.exe, wxl-patcher.exe in build-output/.
+    Runs Zeppelin-Tools/WarcraftXL/build.sh (llvm-mingw cross-compile, no wine) on WarcraftXL v1.1 to
+    produce WarcraftXL.dll, d3d9.dll, wxl-patcher.exe and Extensions/<Name>/<Name>.dll in build-output/.
     """
     if not os.path.isfile(_WXL_BUILD_SH):
         raise click.ClickException("build.sh not found: %s" % _WXL_BUILD_SH)
@@ -178,33 +178,31 @@ def build(ship_after, activate):
         raise click.ClickException("build.sh failed (exit %d)" % rc)
     click.echo("Build complete: %s" % _WXL_BUILD_OUT)
     if ship_after:
-        _run_ship(activate=activate, mandatory=False)
+        _run_ship(activate=activate)
 
 
 @wxl.command("ship")
 @click.option("--activate", is_flag=True,
               help="Register the bundle in patch_register.json — the launcher then pushes it to players. "
                    "Default: stage only (copy to WXL/, print the entry, no push).")
-@click.option("--mandatory", is_flag=True,
-              help="With --activate: mark the bundle mandatory + enabled-by-default (default: opt-in).")
-def ship(activate, mandatory):
+def ship(activate):
     """Stage the built WarcraftXL binaries to the launcher; --activate to push to players.
 
-    Wraps Scripts/deploy_warcraftxl.py. Staging copies build-output/ into nginx/wow/WXL/ and prints the
-    register entry it WOULD write. --activate writes it (content-derived version bump), which makes the
+    Wraps Scripts/deploy_warcraftxl.py. Staging copies build-output/ into nginx/wow/WXL/ (extensions
+    also into MPQ/, for launchers built before v1.1) and prints the register entry it WOULD write.
+    WXL/ is what the live register points at, so staging a new build changes what a fresh download
+    gets even before --activate. --activate writes it (content-derived version bump), which makes the
     live launcher distribute the framework — a deliberate rollout step.
     """
-    _run_ship(activate=activate, mandatory=mandatory)
+    _run_ship(activate=activate)
 
 
-def _run_ship(activate: bool, mandatory: bool):
+def _run_ship(activate: bool):
     if not os.path.isfile(_WXL_DEPLOY_PY):
         raise click.ClickException("deploy script not found: %s" % _WXL_DEPLOY_PY)
     cmd = ["python3", _WXL_DEPLOY_PY]
     if activate:
         cmd.append("--activate")
-    if mandatory:
-        cmd.append("--mandatory")
     rc = subprocess.call(cmd)
     if rc != 0:
         raise click.ClickException("deploy_warcraftxl.py failed (exit %d)" % rc)

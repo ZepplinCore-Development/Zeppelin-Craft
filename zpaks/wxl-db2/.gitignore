@@ -1,0 +1,23 @@
+# Large binary files (not tracked in git)
+*.mpq
+*.MPQ
+*.m2
+*.M2
+*.blp
+*.BLP
+*.skin
+*.anim
+*.bone
+*.wmo
+*.WMO
+*.adt
+*.ADT
+*.wdt
+*.WDT
+*.wdl
+*.WDL
+*.zmp
+*.dbc
+*.DBC
+*.tex
+*.trs

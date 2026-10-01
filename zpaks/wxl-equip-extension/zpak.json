@@ -14,7 +14,7 @@
     "module": "wxl-equip-extension",
     "source": "https://github.com/Morfium-G/wxl-equip-extension.git",
     "branch": "main",
-    "path": "Zeppelin-Tools/WarcraftXL/wxl-core-main/scripts/wxl-equip-extension",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core/extensions/wxl-equip-extension",
     "patch_mode": "single"
   },
   "enabled": true,

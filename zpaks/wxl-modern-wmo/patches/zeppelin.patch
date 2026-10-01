@@ -1,0 +1,89 @@
+From 00a0d2b1363ee8da48245d58108bbc3062615708 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 1 Oct 2026 07:35:07 +0000
+Subject: [PATCH] fix: F-195 - i686 mingw SEH guards around calls
+
+clang cannot emit a 32-bit SEH funclet around a call (assembler
+'L__ehtable$<fn>' undefined). The guards that wrap a call use the core's
+WXL_SEH_TRY / WXL_SEH_EXCEPT (common/SehCompat.hpp): real __try on MSVC, a
+hand-built fs:[0] SEH frame on mingw, so the fault is still recovered.
+Guards around plain memory access are left as __try.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UyueuvSmK9GmAwFmmoVjp9
+---
+ src/load/WmoAsync.cpp |  5 +++--
+ src/load/WmoLoad.cpp  | 13 +++++++------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/src/load/WmoAsync.cpp b/src/load/WmoAsync.cpp
+index 7f03f19..7a03531 100644
+--- a/src/load/WmoAsync.cpp
++++ b/src/load/WmoAsync.cpp
+@@ -57,6 +57,7 @@
+ #include <condition_variable>
+ #include <mutex>
+ #include <unordered_map>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace off = wxl::offsets::game::wmo;
+ namespace wld = wxl::offsets::game::world;
+@@ -117,8 +118,8 @@ namespace wxl::runtime::wmonative::detail
+         /// pulled out into this small, unwinding-free function instead.
+         bool ClassifyRootBufferGuarded(uint8_t* base, uint32_t size)
+         {
+-            __try { return ClassifyRootBuffer(base, size); }
+-            __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
++            WXL_SEH_TRY { return ClassifyRootBuffer(base, size); }
++            WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { return false; }
+         }
+ 
+         /// Runs `gate.finalizeFn(obj)` exactly once -- a no-op if it already ran, or was cancelled by a
+diff --git a/src/load/WmoLoad.cpp b/src/load/WmoLoad.cpp
+index 5cefe38..0ed2475 100644
+--- a/src/load/WmoLoad.cpp
++++ b/src/load/WmoLoad.cpp
+@@ -46,6 +46,7 @@
+ #include <cstring>
+ #include <mutex>
+ #include <unordered_map>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace off = wxl::offsets::game::wmo;
+ 
+@@ -214,8 +215,8 @@ namespace
+         bool modern = false;
+         if (base && size >= 12)
+         {
+-            __try { modern = ClassifyRootBuffer(base, size); }
+-            __except (EXCEPTION_EXECUTE_HANDLER) { modern = false; }
++            WXL_SEH_TRY { modern = ClassifyRootBuffer(base, size); }
++            WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { modern = false; }
+         }
+ 
+         if (!modern)
+@@ -511,8 +512,8 @@ namespace wxl::runtime::wmonative::detail
+         DropLayeredRoot(root);
+ 
+         bool ok = false;
+-        __try { ok = WalkRootModern(root); }
+-        __except (EXCEPTION_EXECUTE_HANDLER) { ok = false; }
++        WXL_SEH_TRY { ok = WalkRootModern(root); }
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { ok = false; }
+ 
+         if (!ok)
+         {
+@@ -536,8 +537,8 @@ namespace wxl::runtime::wmonative::detail
+         DropLayeredGroup(group);
+ 
+         bool ok = false;
+-        __try { ok = WalkGroupModern(group, static_cast<uint8_t*>(cursor)); }
+-        __except (EXCEPTION_EXECUTE_HANDLER) { ok = false; }
++        WXL_SEH_TRY { ok = WalkGroupModern(group, static_cast<uint8_t*>(cursor)); }
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { ok = false; }
+ 
+         if (ok) g_groupsModern.fetch_add(1, std::memory_order_relaxed);
+         else    g_groupsFailed.fetch_add(1, std::memory_order_relaxed);
+-- 
+2.34.1
+

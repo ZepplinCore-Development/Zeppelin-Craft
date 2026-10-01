@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-db2",
+  "version": "0.1.0",
+  "description": "WarcraftXL v1.1 extension wxl-db2 (F-195) - forge-tracked source + Zeppelin patches",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "wxl-db2",
+    "source": "https://github.com/WarcraftXL/wxl-db2.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core/extensions/wxl-db2",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 403,
+  "feature_id": "F-195"
+}

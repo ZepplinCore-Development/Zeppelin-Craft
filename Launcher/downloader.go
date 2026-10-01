@@ -30,13 +30,32 @@ type DownloadResult struct {
 var wxlBinaries = map[string]string{
 	"WarcraftXL.dll":     "",
 	"d3d9.dll":           "",
-	"WarcraftXLHost.exe": "Utils",
-	"wxl-assets":         "", // asset-pipeline enable marker, next to Wow.exe (routed via WXL/ like the binaries)
+	"WarcraftXLHost.exe": "Utils", // pre-1.1 asset host; v1.1 no longer ships it
+	"wxl-assets":         "",      // pre-1.1 asset-pipeline marker; v1.1 no longer ships it
+}
+
+// wxlExtensionsDir is where WarcraftXL v1.1 discovers extensions: a bundle member named
+// "Extensions/<Name>/<Name>.dll" is served from WXL/ at that path and installed at that same path next
+// to Wow.exe. The subfolders are part of the member name, so these carry no extra subdir.
+const wxlExtensionsDir = "Extensions"
+
+func isWxlExtension(filename string) bool {
+	return strings.HasPrefix(filepath.ToSlash(filename), wxlExtensionsDir+"/")
 }
 
 func wxlSubdir(filename string) (string, bool) {
+	if isWxlExtension(filename) {
+		return "", true
+	}
 	sub, ok := wxlBinaries[filename]
 	return sub, ok
+}
+
+// isStagedPath reports whether localPath lies inside the temp staging dir (an extension stages at a
+// nested path, so comparing the parent dir alone is not enough).
+func isStagedPath(localPath string) bool {
+	rel, err := filepath.Rel(getTempDownloadDir(), localPath)
+	return err == nil && rel != "." && !strings.HasPrefix(rel, "..")
 }
 
 // wxlFilePath is the installed path of a WarcraftXL binary next to Wow.exe (host under Utils/).
@@ -106,7 +125,7 @@ func downloadOne(
 	} else {
 		baseURL = MPQDownloadURL
 	}
-	fileURL := baseURL + filename
+	fileURL := baseURL + filepath.ToSlash(filename)
 
 	localPath := resolveDownloadPath(filename)
 
@@ -226,7 +245,7 @@ func installOrStage(filename, localPath string) string {
 	}
 
 	if _, ok := wxlSubdir(filename); ok {
-		if filepath.Dir(localPath) == getTempDownloadDir() {
+		if isStagedPath(localPath) {
 			return "pending" // WoW running; installed on the next check
 		}
 		return "updated"

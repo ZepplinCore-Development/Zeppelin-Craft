@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-modern-m2",
+  "version": "0.1.0",
+  "description": "WarcraftXL v1.1 extension wxl-modern-m2 (F-195) - forge-tracked source + Zeppelin patches",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "wxl-modern-m2",
+    "source": "https://github.com/WarcraftXL/wxl-modern-m2.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core/extensions/wxl-modern-m2",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 401,
+  "feature_id": "F-195"
+}

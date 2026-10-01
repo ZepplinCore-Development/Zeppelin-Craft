@@ -1,0 +1,194 @@
+From 3c65296fc2d6b51f9a529ac1298abe438b64482d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 1 Oct 2026 07:34:26 +0000
+Subject: [PATCH] fix: F-195 - llvm-mingw build of wxl-core v1.1
+
+- d3d9 proxy: lld takes Proxy.def as a source; /DEF: is MSVC-only
+- WarcraftXL.dll links dwmapi explicitly (ImGui Win32 backend's
+  #pragma comment(lib) is MSVC-only)
+- common/SehCompat.hpp: WXL_SEH_TRY/WXL_SEH_EXCEPT. clang cannot emit a
+  32-bit SEH funclet around a call; on mingw/i686 the macros build a real
+  fs:[0] registration frame + __builtin_setjmp resume (Wine's __TRY
+  technique), so the guard still recovers a fault. Verified under wine:
+  callee AV, return from inside the try, nesting, rethrow from the except
+  branch, RaiseException, 1M iterations with the chain intact, -O0/-O2.
+- Textures.cpp SafeTextureUpdate uses the macros (guards a call)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UyueuvSmK9GmAwFmmoVjp9
+---
+ CMakeLists.txt                    |  12 +++-
+ src/client/CGxDevice/Textures.cpp |   5 +-
+ src/common/SehCompat.hpp          | 103 ++++++++++++++++++++++++++++++
+ 3 files changed, 117 insertions(+), 3 deletions(-)
+ create mode 100644 src/common/SehCompat.hpp
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f389cf8..9918663 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -93,6 +93,11 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+ 
+     add_subdirectory(deps/minhook)
+     target_link_libraries(WarcraftXL PRIVATE minhook d3d9 shell32)
++    if(NOT MSVC)
++        # mingw (F-195): the ImGui Win32 backend pulls dwmapi through #pragma comment(lib), which only
++        # MSVC honours.
++        target_link_libraries(WarcraftXL PRIVATE dwmapi)
++    endif()
+     target_compile_definitions(WarcraftXL PRIVATE ${WXL_DEFS})
+ 
+     source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${WXL_CORE_SRC})
+@@ -129,7 +134,12 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+     target_include_directories(d3d9 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+     # The proxy shadows a static import of Wow.exe, so a hard dependency of the proxy is a hard
+     # dependency of the game. It resolves the system d3d9 at runtime and links nothing beyond the CRT.
+-    target_link_options(d3d9 PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/gpu/Proxy.def")
++    if(MSVC)
++        target_link_options(d3d9 PRIVATE "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/gpu/Proxy.def")
++    else()
++        # mingw (F-195): lld takes a .def listed as a source as the export definition.
++        target_sources(d3d9 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/gpu/Proxy.def")
++    endif()
+     target_compile_definitions(d3d9 PRIVATE ${WXL_DEFS})
+ 
+     # Deploy: copy the freshly linked proxy into the client folder after every build.
+diff --git a/src/client/CGxDevice/Textures.cpp b/src/client/CGxDevice/Textures.cpp
+index 0799de7..040999f 100644
+--- a/src/client/CGxDevice/Textures.cpp
++++ b/src/client/CGxDevice/Textures.cpp
+@@ -28,6 +28,7 @@
+ #include <atomic>
+ #include <cstdint>
+ #include <cstring>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
+ 
+ namespace
+ {
+@@ -44,12 +45,12 @@ namespace
+     // during world entry. Letting that AV escape kills the client from inside the texture completion callback.
+     bool SafeTextureUpdate(void* tex, int x, int y, int x2, int y2, int flag) noexcept
+     {
+-        __try
++        WXL_SEH_TRY
+         {
+             g_origTexUpdate(tex, x, y, x2, y2, flag);
+             return true;
+         }
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             return false;
+         }
+diff --git a/src/common/SehCompat.hpp b/src/common/SehCompat.hpp
+new file mode 100644
+index 0000000..bb40d7b
+--- /dev/null
++++ b/src/common/SehCompat.hpp
+@@ -0,0 +1,103 @@
++// SEH portability shim for the llvm-mingw (Linux cross-compile) build.
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++
++#pragma once
++
++/**
++ * F-195 (Linux/llvm-mingw i686): clang cannot codegen a 32-bit SEH funclet around a **call**.
++ *
++ *   __try around a pure memory access  -> compiles
++ *   __try around a call                -> "assembler label 'L__ehtable$<fn>' can not be undefined"
++ *
++ * The failure is independent of linkage, optimisation level and -fseh-exceptions/-fasync-exceptions;
++ * no flag fixes it. Guards around memory access need no shim -- keep those as plain __try/__except.
++ * Use these macros where the guarded statement makes a call:
++ *
++ *     WXL_SEH_TRY { return CallThatMayFault(); }
++ *     WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER) { return false; }
++ *
++ * On MSVC they are a real __try/__except. On mingw/i686 they are a hand-built SEH frame -- the same
++ * technique Wine uses for its own __TRY/__EXCEPT: a registration record is pushed onto the fs:[0]
++ * chain and __builtin_setjmp marks the resume point. On a fault the handler unwinds every frame above
++ * ours (RtlUnwind), unlinks our record and longjmps into the except branch. A scope object pops the
++ * record on every normal exit, including a `return` from inside the try body.
++ *
++ * Limits, all of which the MSVC form already imposes on the same code (C2712):
++ *   - The filter is always "execute handler"; the expression is not evaluated. Do not use these
++ *     macros where the handler inspects the exception (GetExceptionCode()).
++ *   - No C++ object needing destruction may live inside the try body: the longjmp skips destructors.
++ *   - A local written inside the try body and read in the except branch must be volatile.
++ */
++#if defined(_MSC_VER)
++#  define WXL_SEH_TRY           __try
++#  define WXL_SEH_EXCEPT(expr)  __except (expr)
++#elif defined(__i386__)
++#  include <windows.h>
++#  include <intrin.h>
++
++namespace wxl::seh
++{
++    struct Scope;
++
++    EXCEPTION_DISPOSITION NTAPI Handler(EXCEPTION_RECORD* record, void* establisher, CONTEXT*, void*);
++
++    /// One guarded region. The registration record MUST stay the first member: the dispatcher hands
++    /// the handler the record's address, which is how the handler finds the rest of the scope.
++    struct Scope
++    {
++        EXCEPTION_REGISTRATION_RECORD reg;
++        void* resume[5];        // __builtin_setjmp buffer
++        volatile int linked;    // 0 once the record is off the chain (normal exit or fault)
++
++        Scope() noexcept
++        {
++            reg.Next    = reinterpret_cast<EXCEPTION_REGISTRATION_RECORD*>(__readfsdword(0));
++            reg.Handler = &Handler;
++            linked      = 1;
++            __writefsdword(0, reinterpret_cast<DWORD>(&reg));
++        }
++
++        ~Scope()
++        {
++            if (linked)
++                __writefsdword(0, reinterpret_cast<DWORD>(reg.Next));
++        }
++
++        Scope(const Scope&) = delete;
++        Scope& operator=(const Scope&) = delete;
++    };
++
++    /// Catches every exception raised inside the scope ("execute handler"). Unwind passes are passed
++    /// through untouched -- they are another frame's handler unwinding past us.
++    inline EXCEPTION_DISPOSITION NTAPI Handler(EXCEPTION_RECORD* record, void* establisher, CONTEXT*, void*)
++    {
++        if (record->ExceptionFlags & (EXCEPTION_UNWINDING | EXCEPTION_EXIT_UNWIND))
++            return ExceptionContinueSearch;
++
++        Scope* volatile scope = static_cast<Scope*>(establisher);
++        RtlUnwind(establisher, nullptr, record, nullptr); // runs + removes every frame above ours
++        __writefsdword(0, reinterpret_cast<DWORD>(scope->reg.Next));
++        scope->linked = 0;
++        __builtin_longjmp(scope->resume, 1);
++    }
++}
++
++#  define WXL_SEH_TRY \
++       if (::wxl::seh::Scope wxl_seh_scope_; __builtin_setjmp(wxl_seh_scope_.resume) == 0)
++#  define WXL_SEH_EXCEPT(expr)  else
++#else
++#  error "SehCompat: no SEH implementation for this target"
++#endif
+-- 
+2.34.1
+

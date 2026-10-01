@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-modern-wmo",
+  "version": "0.1.0",
+  "description": "WarcraftXL v1.1 extension wxl-modern-wmo (F-195) - forge-tracked source + Zeppelin patches",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "wxl-modern-wmo",
+    "source": "https://github.com/WarcraftXL/wxl-modern-wmo.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core/extensions/wxl-modern-wmo",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 402,
+  "feature_id": "F-195"
+}

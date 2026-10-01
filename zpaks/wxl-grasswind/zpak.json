@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "wxl-grasswind",
+  "version": "0.1.0",
+  "description": "WarcraftXL v1.1 extension wxl-grasswind (F-195) - forge-tracked source + Zeppelin patches",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "wxl-grasswind",
+    "source": "https://github.com/WarcraftXL/wxl-grasswind.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core/extensions/wxl-grasswind",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 404,
+  "feature_id": "F-195"
+}

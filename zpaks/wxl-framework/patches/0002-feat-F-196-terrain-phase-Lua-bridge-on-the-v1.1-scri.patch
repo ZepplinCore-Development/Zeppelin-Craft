@@ -1,0 +1,131 @@
+From fb7b263b11cdd06d0ae9697d94ed5c9140285b8a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 1 Oct 2026 07:34:26 +0000
+Subject: [PATCH] feat: F-196 - terrain-phase Lua bridge on the v1.1 script
+ seams
+
+WarcraftXL_SetTerrainPhase(dir) / WarcraftXL_ClearTerrainPhase(), driven by
+the server over ALE + CSMH. Replaces the pre-1.1 FrameScript_Initialize
+post-hook and the blanket .text-bound widening:
+- registered from the FrameXML_CreateFrames seam, so the globals exist for
+  every context's whole life (rebuilt on each glue<->world swap)
+- the callback validator accepts exactly these two pointers and passes
+  everything else to the stock check
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UyueuvSmK9GmAwFmmoVjp9
+---
+ src/client/CWorldScene/PhasingLua.cpp | 101 ++++++++++++++++++++++++++
+ 1 file changed, 101 insertions(+)
+ create mode 100644 src/client/CWorldScene/PhasingLua.cpp
+
+diff --git a/src/client/CWorldScene/PhasingLua.cpp b/src/client/CWorldScene/PhasingLua.cpp
+new file mode 100644
+index 0000000..820e0a4
+--- /dev/null
++++ b/src/client/CWorldScene/PhasingLua.cpp
+@@ -0,0 +1,101 @@
++// Terrain-phase Lua bridge: lets server-driven addon code switch the terrain phase.
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++
++// Zeppelin (F-196): the server drives terrain swaps over an addon message (ALE server script -> CSMH ->
++// these globals), so the client needs two Lua globals:
++//   WarcraftXL_SetTerrainPhase("<mapDir>")  overlays the phase-variant map's tiles on the base map
++//   WarcraftXL_ClearTerrainPhase()          restores the base map
++//
++// Two seams make a DLL-resident script function usable (see game/Script.hpp):
++//   - FrameXML_CreateFrames is the last call before an interface loads, on both the glue and the world
++//     path; registering there puts the globals in force for that context's whole life. The client tears
++//     the context down and rebuilds it on every glue<->world swap, so a one-shot registration is lost.
++//   - The engine validates every script callback against its own .text before invoking it. These
++//     functions live in WarcraftXL.dll, so the validator is detoured to accept exactly these two
++//     pointers and pass everything else to the original check.
++
++#include "engine/hook/Hook.hpp"
++#include "engine/hook/Registry.hpp"
++
++#include "common/Log.hpp"
++#include "game/Loading.hpp"
++#include "game/Script.hpp"
++
++#include <cstdint>
++
++namespace
++{
++    namespace script = wxl::game::script;
++
++    script::InterfaceLoadFn    g_origInterfaceLoad    = nullptr;
++    script::ValidateCallbackFn g_origValidateCallback = nullptr;
++    void*                      g_loggedContext        = nullptr;
++
++    int __cdecl Lua_SetTerrainPhase(void* state)
++    {
++        const char* dir = script::ToString(state, 1);
++        if (dir && dir[0])
++            wxl::game::world::SetTerrainPhase(dir);
++        return 0;
++    }
++
++    int __cdecl Lua_ClearTerrainPhase(void*)
++    {
++        wxl::game::world::ClearTerrainPhase();
++        return 0;
++    }
++
++    bool IsBridgeFunction(uintptr_t function)
++    {
++        return function == reinterpret_cast<uintptr_t>(&Lua_SetTerrainPhase)
++            || function == reinterpret_cast<uintptr_t>(&Lua_ClearTerrainPhase);
++    }
++
++    void __cdecl hkValidateCallback(uintptr_t function)
++    {
++        if (IsBridgeFunction(function)) return;
++        g_origValidateCallback(function);
++    }
++
++    /// Registers the bridge into the active context before an interface loads. LoadAddOn reaches the
++    /// same entry once per addon; registering again just rebinds the same two globals. The context
++    /// pointer is not a reliable "already done" key -- a rebuilt context can reuse the old address --
++    /// so it only throttles the log line.
++    int __cdecl hkInterfaceLoad(const char* tocPath, const char* addOnName, void* md5Context, void* status)
++    {
++        if (void* context = script::Context())
++        {
++            script::Register("WarcraftXL_SetTerrainPhase", &Lua_SetTerrainPhase);
++            script::Register("WarcraftXL_ClearTerrainPhase", &Lua_ClearTerrainPhase);
++            if (context != g_loggedContext)
++            {
++                g_loggedContext = context;
++                WLOG_INFO("phasing: terrain Lua bridge registered into script context %p", context);
++            }
++        }
++        return g_origInterfaceLoad(tocPath, addOnName, md5Context, status);
++    }
++
++    bool InstallPhasingLua()
++    {
++        return wxl::hook::Install("PhasingLua.Validate", script::kValidateCallbackSeam,
++                                  &hkValidateCallback, &g_origValidateCallback)
++            && wxl::hook::Install("PhasingLua.InterfaceLoad", script::kInterfaceLoadSeam,
++                                  &hkInterfaceLoad, &g_origInterfaceLoad);
++    }
++}
++
++WXL_REGISTER_FEATURE("phasing-lua", true, InstallPhasingLua)
+-- 
+2.34.1
+

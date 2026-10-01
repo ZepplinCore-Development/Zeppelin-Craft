@@ -25,19 +25,37 @@ func isWowRunning() bool {
 	return false
 }
 
-func getPendingPatches(excludeDownloading string) []string {
-	tempDir := getTempDownloadDir()
+// stagedNames lists the files staged in the temp dir by member name: top-level files as-is, plus every
+// file under Extensions/ by its slash-separated relative path (the name it was registered under).
+func stagedNames(tempDir string) []string {
 	entries, err := os.ReadDir(tempDir)
 	if err != nil {
 		return nil
 	}
+	var names []string
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			names = append(names, entry.Name())
+		}
+	}
+	extRoot := filepath.Join(tempDir, wxlExtensionsDir)
+	filepath.WalkDir(extRoot, func(path string, d os.DirEntry, err error) error {
+		if err != nil || d.IsDir() {
+			return nil
+		}
+		if rel, rerr := filepath.Rel(tempDir, path); rerr == nil {
+			names = append(names, filepath.ToSlash(rel))
+		}
+		return nil
+	})
+	return names
+}
+
+func getPendingPatches(excludeDownloading string) []string {
+	tempDir := getTempDownloadDir()
 
 	var pending []string
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue
-		}
-		name := entry.Name()
+	for _, name := range stagedNames(tempDir) {
 		lower := strings.ToLower(name)
 		_, isWxl := wxlSubdir(name)
 		if strings.HasSuffix(lower, ".mpq") || strings.HasSuffix(lower, ".exe") || isWxl {
@@ -63,16 +81,7 @@ func installPendingPatches() InstallResult {
 
 	result := InstallResult{}
 
-	entries, err := os.ReadDir(tempDir)
-	if err != nil {
-		return result
-	}
-
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue
-		}
-		name := entry.Name()
+	for _, name := range stagedNames(tempDir) {
 		lower := strings.ToLower(name)
 		wxlSub, isWxl := wxlSubdir(name)
 		if !strings.HasSuffix(lower, ".mpq") && !strings.HasSuffix(lower, ".exe") && !isWxl {
@@ -82,20 +91,20 @@ func installPendingPatches() InstallResult {
 		tempFile := filepath.Join(tempDir, name)
 
 		var targetFile string
-		if isWxl { // F-195: WarcraftXL binary → app dir (host under Utils/)
+		if isWxl { // F-195: WarcraftXL binary → app dir (host under Utils/, extensions under Extensions/)
 			dir := getAppDirectory()
 			if wxlSub != "" {
 				dir = filepath.Join(dir, wxlSub)
-				os.MkdirAll(dir, 0755)
 			}
 			targetFile = filepath.Join(dir, name)
+			os.MkdirAll(filepath.Dir(targetFile), 0755)
 		} else if strings.HasSuffix(lower, ".mpq") {
 			targetFile = filepath.Join(dataDir, name)
 		} else {
 			targetFile = filepath.Join(getAppDirectory(), name)
 		}
 
-		if !validatePendingPatchFile(tempFile) {
+		if !validatePendingPatchFile(name, tempFile) {
 			logError(fmt.Sprintf("Pending patch validation failed: %s - removing", name))
 			result.FailedPatches = append(result.FailedPatches, name)
 			result.ValidationFailed = append(result.ValidationFailed, name)
@@ -117,11 +126,11 @@ func installPendingPatches() InstallResult {
 	return result
 }
 
-func validatePendingPatchFile(tempFile string) bool {
-	filename := filepath.Base(tempFile)
-
+func validatePendingPatchFile(filename, tempFile string) bool {
 	var expectedSize int64
-	if strings.HasSuffix(strings.ToLower(filename), ".exe") {
+	if _, isWxl := wxlSubdir(filename); isWxl {
+		expectedSize = getServerFileSize(WXLDownloadURL + filepath.ToSlash(filename))
+	} else if strings.HasSuffix(strings.ToLower(filename), ".exe") {
 		expectedSize = getServerFileSize(EXEDownloadURL + filename)
 	} else {
 		expectedSize = getServerFileSize(MPQDownloadURL + filename)

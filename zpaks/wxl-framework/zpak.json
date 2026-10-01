@@ -13,11 +13,11 @@
   "acore": {
     "module": "wxl-core",
     "source": "https://github.com/WarcraftXL/wxl-core.git",
-    "branch": "main",
-    "path": "Zeppelin-Tools/WarcraftXL/wxl-core-main",
+    "branch": "v1.1",
+    "path": "Zeppelin-Tools/WarcraftXL/wxl-core",
     "patch_mode": "granular"
   },
   "enabled": true,
-  "priority": 100,
+  "priority": 390,
   "feature_id": "F-195"
 }

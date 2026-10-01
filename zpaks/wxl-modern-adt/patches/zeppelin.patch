@@ -1,64 +1,46 @@
-From dfbb846cf2756c7398cf1e799ef7befdcb1a17c1 Mon Sep 17 00:00:00 2001
+From 77c382fa9918f99b26044b3591da585c16ea0c02 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Sun, 12 Jul 2026 14:48:11 +0000
-Subject: [PATCH] F-195: i686 SEH restructure for ApplyScale (clang funclet
- fix)
+Date: Thu, 1 Oct 2026 07:35:06 +0000
+Subject: [PATCH] fix: F-195 - i686 mingw SEH guards around calls
 
-Move the shader-constant upload call out of the __try onto validated pointers
-(ScaleConstants helper); clang cannot codegen a 32-bit SEH funclet whose body
-contains a call. F-195
+clang cannot emit a 32-bit SEH funclet around a call (assembler
+'L__ehtable$<fn>' undefined). The guards that wrap a call use the core's
+WXL_SEH_TRY / WXL_SEH_EXCEPT (common/SehCompat.hpp): real __try on MSVC, a
+hand-built fs:[0] SEH frame on mingw, so the fault is still recovered.
+Guards around plain memory access are left as __try.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UyueuvSmK9GmAwFmmoVjp9
 ---
- src/Adt.cpp | 28 ++++++++++++++++++++++------
- 1 file changed, 22 insertions(+), 6 deletions(-)
+ src/load/AdtSplitInternal.hpp | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/src/Adt.cpp b/src/Adt.cpp
-index 5a71b43..ded19a2 100644
---- a/src/Adt.cpp
-+++ b/src/Adt.cpp
-@@ -131,7 +131,12 @@ namespace wxl::scripts::modernadt
+diff --git a/src/load/AdtSplitInternal.hpp b/src/load/AdtSplitInternal.hpp
+index 12b4f65..002c77f 100644
+--- a/src/load/AdtSplitInternal.hpp
++++ b/src/load/AdtSplitInternal.hpp
+@@ -40,6 +40,7 @@
+ #include <string>
+ #include <unordered_map>
+ #include <vector>
++#include "common/SehCompat.hpp" // F-195: i686 mingw SEH around calls
  
-         // SEH-apply: divide c18+i.xy by 1<<exp[i] (a bigger texture covers more ground, so it tiles less),
-         // then re-upload c18..c(18+count-1) so the GPU sees it.
--        void ApplyScale(uint8_t count, const uint8_t exp[4])
-+        //
-+        // Zeppelin/F-195: clang cannot codegen a 32-bit SEH funclet when the __try body contains a function
-+        // CALL (emits an unresolvable $parent_frame_offset label). So the guarded block does only the raw
-+        // game-memory reads/writes and hands back validated pointers; the shader-constant upload call runs
-+        // OUTSIDE the __try on that already-validated data (the deref is the real fault source).
-+        bool ScaleConstants(uint8_t count, const uint8_t exp[4], void*& deviceOut, void*& setConstOut)
+ namespace wxl::runtime::adtsplit::detail
+ {
+@@ -155,11 +156,11 @@ namespace wxl::runtime::adtsplit::detail
+     template <class Fn, class Ret>
+     Ret SehGuarded(Fn fn, Ret fallback)
+     {
+-        __try
++        WXL_SEH_TRY
          {
-             __try
-             {
-@@ -146,13 +151,24 @@ namespace wxl::scripts::modernadt
-                 }
-                 void* device = *reinterpret_cast<void**>(gx::kGxDevicePtr);
-                 if (!device)
--                    return;
-+                    return false;
-                 void** vt = *reinterpret_cast<void***>(device);
--                auto setConst = reinterpret_cast<gx::Gx_SetShaderConstantFn>(vt[gx::kVtSetShaderConstant]);
--                setConst(device, nullptr, 0, off::kVsConstC18Reg,
--                         reinterpret_cast<const float*>(off::kVsConstC18), count);
-+                deviceOut   = device;
-+                setConstOut = vt[gx::kVtSetShaderConstant];
-+                return true;
-             }
--            __except (EXCEPTION_EXECUTE_HANDLER) {}
-+            __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
-+        }
-+
-+        void ApplyScale(uint8_t count, const uint8_t exp[4])
-+        {
-+            void* device = nullptr;
-+            void* setConstPtr = nullptr;
-+            if (!ScaleConstants(count, exp, device, setConstPtr))
-+                return;
-+            auto setConst = reinterpret_cast<gx::Gx_SetShaderConstantFn>(setConstPtr);
-+            setConst(device, nullptr, 0, off::kVsConstC18Reg,
-+                     reinterpret_cast<const float*>(off::kVsConstC18), count);
+             return fn();
          }
- 
-         void __cdecl BuildConstantsDetour(void* node, uint32_t a1, uint32_t a2)
+-        __except (EXCEPTION_EXECUTE_HANDLER)
++        WXL_SEH_EXCEPT(EXCEPTION_EXECUTE_HANDLER)
+         {
+             return fallback;
+         }
 -- 
 2.34.1
 

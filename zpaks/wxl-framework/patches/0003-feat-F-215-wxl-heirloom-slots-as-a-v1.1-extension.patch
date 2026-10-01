@@ -1,0 +1,184 @@
+From 070206cf88485d2840a2455689c8b3143a712922 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 1 Oct 2026 07:34:26 +0000
+Subject: [PATCH] feat: F-215 - wxl-heirloom-slots as a v1.1 extension
+
+Same armour-getter detour (0x0061A6B0, chest * n/16 per slot bit) as the
+pre-1.1 module, now a standalone Extensions/wxl-heirloom-slots DLL that
+attaches through WXL_Api::HookAttach in WXL_Load. Other extensions/ dirs
+are their own forge repos and stay ignored.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01UyueuvSmK9GmAwFmmoVjp9
+---
+ .gitignore                                   |   5 +-
+ extensions/wxl-heirloom-slots/src/Module.cpp | 106 +++++++++++++++++++
+ extensions/wxl-heirloom-slots/wxl.json       |  29 +++++
+ 3 files changed, 139 insertions(+), 1 deletion(-)
+ create mode 100644 extensions/wxl-heirloom-slots/src/Module.cpp
+ create mode 100644 extensions/wxl-heirloom-slots/wxl.json
+
+diff --git a/.gitignore b/.gitignore
+index 8ffdafb..b427948 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -69,4 +69,7 @@ Testing/
+ .cache/
+ 
+ # internal
+-tools/
+\ No newline at end of file
++tools/
++# Zeppelin: extensions are their own forge repos, except the ones Zeppelin owns outright
++extensions/*
++!extensions/wxl-heirloom-slots/
+diff --git a/extensions/wxl-heirloom-slots/src/Module.cpp b/extensions/wxl-heirloom-slots/src/Module.cpp
+new file mode 100644
+index 0000000..06682b7
+--- /dev/null
++++ b/extensions/wxl-heirloom-slots/src/Module.cpp
+@@ -0,0 +1,106 @@
++// wxl-heirloom-slots: per-slot heirloom armour for head/legs/feet/waist/hands/wrists (Zeppelin F-215).
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++//
++// 3.3.5a heirloom armour comes from ScalingStatValues.dbc, whose curves exist only for shoulder,
++// chest and cloak. The client hard-checks that table's layout (loader 0x0064BA50: 24 columns,
++// 96-byte rows, else FatalError), so new curves cannot be added as data. Instead an item keeps its
++// chest-material bit (0x100000 cloth .. 0x800000 plate) and adds ONE slot bit in the unused high
++// byte; the armour getter returns chest * n / 16 for that slot (Cataclysm's per-slot ratios).
++//
++// The stock callers pre-check `mask & 0xF801E0` before calling the getter; the chest bit satisfies
++// that, so only the getter needs the detour. Every other client read of ScalingStatValue masks the
++// high byte away (stat budget 0x4001F, DPS 0x7E00) or only tests for non-zero.
++//
++// MUST stay identical to the server: Zeppelin-Core ScalingStatValuesEntry::getArmorMod
++// (src/server/shared/DataStores/DBCStructure.h). Integer math, truncating.
++
++#include "wxl/PluginApi.h"
++
++#include <cstdint>
++#include <cstring>
++
++namespace
++{
++    const WXL_Api* g_api = nullptr;
++
++    // Wow.exe 12340: uint32 __cdecl GetScalingArmor(const ScalingStatValuesRec* rec, uint32 mask)
++    constexpr uintptr_t kGetScalingArmor = 0x0061A6B0;
++    // push ebp; mov ebp,esp; mov ecx,[ebp+8]; test ecx,ecx
++    constexpr uint8_t kExpectedPrologue[] = { 0x55, 0x8B, 0xEC, 0x8B, 0x4D, 0x08, 0x85, 0xC9 };
++
++    constexpr uint32_t kSlotMask = 0x3F000000;
++
++    /** Armour as sixteenths of the chest curve for the slot bit in `mask`, or 0 if none. */
++    uint32_t SlotSixteenths(uint32_t mask)
++    {
++        if (mask & 0x01000000) return 13;   // head
++        if (mask & 0x02000000) return 14;   // legs
++        if (mask & 0x04000000) return 11;   // feet
++        if (mask & 0x08000000) return 9;    // waist
++        if (mask & 0x10000000) return 10;   // hands
++        if (mask & 0x20000000) return 7;    // wrists
++        return 0;
++    }
++
++    using GetScalingArmorFn = uint32_t(__cdecl*)(const void* rec, uint32_t mask);
++    GetScalingArmorFn g_origGetScalingArmor = nullptr;
++
++    uint32_t __cdecl hkGetScalingArmor(const void* rec, uint32_t mask)
++    {
++        const uint32_t sixteenths = SlotSixteenths(mask);
++        if (!sixteenths)
++            return g_origGetScalingArmor(rec, mask);
++        // Stock lookup with the slot bit stripped = the chest curve for this item's material.
++        const uint32_t chest = g_origGetScalingArmor(rec, mask & ~kSlotMask);
++        return chest * sixteenths / 16;
++    }
++}
++
++const WXL_PluginInfo* __cdecl WXL_Query(void)
++{
++    static const WXL_PluginInfo info = {
++        sizeof(WXL_PluginInfo),
++        WXL_API_VERSION,
++        "wxl-heirloom-slots",
++        1,
++        WXL_CLIENT_BUILD,
++    };
++    return &info;
++}
++
++int __cdecl WXL_Load(const WXL_Api* api)
++{
++    if (!api || api->apiVersion != WXL_API_VERSION) return 0;
++    g_api = api;
++
++    if (std::memcmp(reinterpret_cast<const void*>(kGetScalingArmor), kExpectedPrologue,
++                    sizeof(kExpectedPrologue)) != 0)
++    {
++        api->Log(WXL_LOG_ERROR, "wxl-heirloom-slots",
++                 "armour getter at 0x%08X does not match build 12340, not hooked",
++                 static_cast<unsigned>(kGetScalingArmor));
++        return 1; // stay loaded and inert: heirloom armour falls back to the stock curves
++    }
++
++    // Attached here, enabled by the loader's batch enable right after every WXL_Load returns.
++    if (api->HookAttach("HeirloomSlotArmor", kGetScalingArmor,
++                        reinterpret_cast<void*>(&hkGetScalingArmor),
++                        reinterpret_cast<void**>(&g_origGetScalingArmor), WXL_HOOK_DEFAULT_PRIORITY))
++        api->Log(WXL_LOG_INFO, "wxl-heirloom-slots", "armour getter hooked (head/legs/feet/waist/hands/wrists)");
++    else
++        api->Log(WXL_LOG_ERROR, "wxl-heirloom-slots", "failed to hook the armour getter");
++    return 1;
++}
+diff --git a/extensions/wxl-heirloom-slots/wxl.json b/extensions/wxl-heirloom-slots/wxl.json
+new file mode 100644
+index 0000000..284307e
+--- /dev/null
++++ b/extensions/wxl-heirloom-slots/wxl.json
+@@ -0,0 +1,29 @@
++{
++  "manifest": 1,
++
++  "extension": {
++    "id": "wxl-heirloom-slots",
++    "version": "1.0.0",
++    "abi": "1.1",
++    "entry": "wxl-heirloom-slots.dll",
++    "assets": [],
++    "requires": {},
++    "conflicts": [],
++
++    "hooks": []
++  },
++
++  "deploy": {
++    "mode": "release",
++    "match": "*.dll"
++  },
++
++  "listing": {
++    "title": "Heirloom Slots",
++    "tagline": "Per-slot heirloom armour for head, legs, feet, waist, hands and wrists (Zeppelin F-215).",
++    "categories": ["gameplay"]
++  },
++
++  "license": "GPL-3.0-or-later",
++  "signature": null
++}
+-- 
+2.34.1
+
