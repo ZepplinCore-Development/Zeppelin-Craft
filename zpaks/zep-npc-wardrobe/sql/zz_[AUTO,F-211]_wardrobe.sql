@@ -83,24 +83,6 @@ INSERT INTO creature_model_info SET
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
 
-DELETE FROM creature_model_info WHERE DisplayID = 900341;
-INSERT INTO creature_model_info SET
-  DisplayID = 900341,
-  BoundingRadius = 0.372,
-  CombatReach = 1.5,
-  Gender = 0,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
-DELETE FROM creature_model_info WHERE DisplayID = 900342;
-INSERT INTO creature_model_info SET
-  DisplayID = 900342,
-  BoundingRadius = 0.236,
-  CombatReach = 1.5,
-  Gender = 1,
-  DisplayID_Other_Gender = 0,
-  VerifiedBuild = 0;
-
 DELETE FROM creature_model_info WHERE DisplayID = 900331;
 INSERT INTO creature_model_info SET
   DisplayID = 900331,
@@ -166,6 +148,6 @@ INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, Display
 DELETE FROM creature_template_model WHERE CreatureID = 3296;
 INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 0, 900311, 1, 1, 0);
 INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 1, 900312, 1, 1, 0);
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 2, 900341, 1, 1, 0);
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 3, 900342, 1, 1, 0);
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 2, 900331, 1, 1, 0);
+INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES (3296, 3, 900332, 1, 1, 0);
 UPDATE creature_equip_template SET ItemID1 = 84800 WHERE CreatureID = 3296 AND ID = 1;

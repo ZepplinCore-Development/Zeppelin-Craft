@@ -7,7 +7,7 @@
     "items": {
       "shoulders": 160993,
       "chest": 160994,
-      "belt": 161000,
+      "belt": 118369,
       "legs": 161001,
       "boots": 161002,
       "wrists": 161003,
@@ -38,5 +38,5 @@
     900311,
     900312
   ],
-  "_comment": "Mag'har heritage (Warsong, set 1680). Helm removed 2026-09-20 for the mixed-set test."
+  "_comment": "Mag'har heritage (Warsong, set 1680) with the Orgrimmar Belt (118369) - chosen over the Warsong belt 2026-10-01. Helm removed."
 }

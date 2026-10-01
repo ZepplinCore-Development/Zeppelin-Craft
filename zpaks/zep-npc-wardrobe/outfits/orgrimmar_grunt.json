@@ -59,10 +59,10 @@
       "displays": [
         900311,
         900312,
-        900341,
-        900342
+        900331,
+        900332
       ],
-      "_comment": "belt-fit test: heritage with the Warsong belt + 3D buckle (900311 M, 900312 F) vs heritage with the Orgrimmar belt, texture only (900341 M, 900342 F). Org-shoulder variants 900331/900332 stay built but unassigned.",
+      "_comment": "shoulder-fit test with the chosen Orgrimmar belt: Warsong pauldrons (900311 M, 900312 F) vs Orgrimmar spaulders (900331 M, 900332 F).",
       "equip": {
         "id": 1,
         "main": "orgrimmar_axe"

@@ -120,46 +120,6 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- maghar_heritage_orgbelt_grunt: model/sound of stock display 4602
-DELETE FROM `creaturedisplayinfo` WHERE `id` = 900341;
-INSERT INTO `creaturedisplayinfo` SET
-  `id` = 900341,
-  `model_id` = 51,
-  `sound_id` = 0,
-  `extended_display_info_id` = 900341,
-  `creature_model_scale` = 1.0,
-  `creature_model_alpha` = 255,
-  `texture_variation_1` = '',
-  `texture_variation_2` = '',
-  `texture_variation_3` = '',
-  `portrait_texture_name` = '',
-  `blood_level` = 0,
-  `blood_id` = 0,
-  `npc_sound_id` = 60,
-  `praticle_color_id` = 0,
-  `creature_geoset_data` = 0,
-  `obj_effect_package_id` = 0;
-
--- maghar_heritage_orgbelt_grunt: model/sound of stock display 4260
-DELETE FROM `creaturedisplayinfo` WHERE `id` = 900342;
-INSERT INTO `creaturedisplayinfo` SET
-  `id` = 900342,
-  `model_id` = 52,
-  `sound_id` = 0,
-  `extended_display_info_id` = 900342,
-  `creature_model_scale` = 1.0,
-  `creature_model_alpha` = 255,
-  `texture_variation_1` = '',
-  `texture_variation_2` = '',
-  `texture_variation_3` = '',
-  `portrait_texture_name` = '',
-  `blood_level` = 0,
-  `blood_id` = 0,
-  `npc_sound_id` = 58,
-  `praticle_color_id` = 0,
-  `creature_geoset_data` = 0,
-  `obj_effect_package_id` = 0;
-
 -- maghar_heritage_orgshoulders_grunt: model/sound of stock display 4602
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900331;
 INSERT INTO `creaturedisplayinfo` SET

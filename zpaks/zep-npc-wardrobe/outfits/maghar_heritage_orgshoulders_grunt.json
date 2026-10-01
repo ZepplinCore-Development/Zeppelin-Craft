@@ -7,7 +7,7 @@
     "items": {
       "shoulders": 118366,
       "chest": 160994,
-      "belt": 161000,
+      "belt": 118369,
       "legs": 161001,
       "boots": 161002,
       "wrists": 161003,
@@ -40,5 +40,5 @@
     900333,
     900334
   ],
-  "_comment": "Mag'har heritage (Warsong) with the Orgrimmar Spaulders (118366) in place of the Warsong Clan Pauldrons - shoulder-fit test against maghar_heritage_grunt."
+  "_comment": "As maghar_heritage_grunt but with the Orgrimmar Spaulders (118366) instead of the Warsong Clan Pauldrons - shoulder-fit test."
 }

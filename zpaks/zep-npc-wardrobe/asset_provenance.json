@@ -221,48 +221,6 @@
    "sha256": "75a952003c05d8418f8101f748bc82b9483c01edeb30701ebe5dec878756b0d2"
   },
   {
-   "path": "Item/ObjectComponents/Waist/buckle_armor_orcclan_d_01.m2",
-   "fdid": 1623643,
-   "build": "12.1.0.69875",
-   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
-   "sha256": "3712c0f522888c24859cd946c1817e959f5add5234da6c42f84bacee15073a68"
-  },
-  {
-   "path": "Item/ObjectComponents/Waist/buckle_armor_orcclan_d_0100.skin",
-   "fdid": 1623808,
-   "build": "12.1.0.69875",
-   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
-   "sha256": "f603e1ea654817afc570245f7df091899fae7befa83a334b231365e3872b4426"
-  },
-  {
-   "path": "Item/ObjectComponents/Waist/buckle_armor_orcclan_d_01original.blp",
-   "fdid": 1623663,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "51c1e3870f12f4735fa5e3eecb2d2ec521ec669e04f0725a00e4964d443bf4f4"
-  },
-  {
-   "path": "Item/ObjectComponents/Waist/buckle_plate_warfrontshorde_d_01.m2",
-   "fdid": 1781686,
-   "build": "12.1.0.69875",
-   "kind": "downport+2 batch(es) classicised, 1 env pair(s), overlay mat 2",
-   "sha256": "a1235dae8c4226863c070d1fc5182e7a9c5a47c3fde494d82a830db0b88a503d"
-  },
-  {
-   "path": "Item/ObjectComponents/Waist/buckle_plate_warfrontshorde_d_0100.skin",
-   "fdid": 1781687,
-   "build": "12.1.0.69875",
-   "kind": "downport+2 batch(es) classicised, 1 env pair(s), overlay mat 2",
-   "sha256": "2b8032c5df9bda58df478fc54c5189f49d47c567028b0303df6491dec693ab52"
-  },
-  {
-   "path": "Item/ObjectComponents/Waist/buckle_plate_warfrontshorde_d_01maroon.blp",
-   "fdid": 1780795,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "9b91ed2fdc1a2c409f1489a35e605b18056514efbf3fa9763c7abbe6e34261e3"
-  },
-  {
    "path": "Item/ObjectComponents/Weapon/axe_2h_war_b_02_hd.m2",
    "fdid": 1053188,
    "build": "12.1.0.69875",
@@ -431,13 +389,6 @@
    "sha256": "8ebb6cd744d8059c277c707ba375e968449e0ae901e0458ca3025217fe054658"
   },
   {
-   "path": "Item/TextureComponents/LegUpperTexture/armor_orcclan_d_01_belt_lu_u.blp",
-   "fdid": 1623827,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "61f1f6ec1f0a70e3e8b7164e7c0bf065ae59e3829f5b06cdf581f8ff36a804ea"
-  },
-  {
    "path": "Item/TextureComponents/LegUpperTexture/armor_orcclan_d_01_pant_lu_u.blp",
    "fdid": 1623839,
    "build": "12.1.0.69875",
@@ -459,25 +410,11 @@
    "sha256": "69cf931dd91bf75d9c6da5f19842227e233ae4e5615bd4b006d14c63f522b780"
   },
   {
-   "path": "Item/TextureComponents/LegUpperTexture/plate_warfrontshorde_d_01maroon_belt_lu_u.blp",
-   "fdid": 1780816,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "f8d3c81188794d5434a4f0c760652390c2f91a318cccfdc77d53e4aa701607f6"
-  },
-  {
    "path": "Item/TextureComponents/LegUpperTexture/plate_warfrontshorde_d_01maroon_pant_lu_u.blp",
    "fdid": 1780827,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "481e6045c252f6776a6facf95f4a88469dd50cfc9ffa6df52568a0de521286a9"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoLowerTexture/armor_orcclan_d_01_belt_tl_u.blp",
-   "fdid": 1623822,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "077638c6c641102d9081e951c8ad7bccdd443b74c84ec8158192e9242dbaf105"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/armor_orcclan_d_01_chest_tl_f.blp",
@@ -626,60 +563,48 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900311_HD.blp",
    "kind": "bake",
    "display": 900311,
-   "sha256": "54f5440050909da9695d857b94f56381d61670fca1f245fb4605ae09ccb5ff0b"
+   "sha256": "bbe564d9f2e456bf909e576ce04d8b107f1fa31ca38a5bd95d71b2d3af0b334f"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900312_HD.blp",
    "kind": "bake",
    "display": 900312,
-   "sha256": "c424c3b3eab511a0114589da0891e0ab78af961c98bbab150d068a007d3eacef"
+   "sha256": "26333fd5967c8916e5922e97bcf5b4841dc6896b122942548b173cc44e37b59b"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900321_HD.blp",
    "kind": "bake",
    "display": 900321,
-   "sha256": "e9daa463a8679c14310526b72af5f3aa3f51452fd772f2889704635c2e06115c"
+   "sha256": "d243240423aa1f5b43636ca6b2e972264f234fe3a0cfe13e6901e197cdbdea58"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900322_HD.blp",
    "kind": "bake",
    "display": 900322,
-   "sha256": "426180476f7ed6b1ec6d802df11f589f9378c7e765c4c1123d9f0dd8d0fc9848"
+   "sha256": "3b54169e29950113929f4149cb9d48300d02258ac6d3d51323108e4820130776"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900323_HD.blp",
    "kind": "bake",
    "display": 900323,
-   "sha256": "ad8d299dc5a82daf2e570ae499fe414dd6f99c929a7c921b0cb5992fda2237f2"
+   "sha256": "a18a28d344a8d6ac8680c081287472a243b35b03423c1c46a39da0c0f119b78a"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900324_HD.blp",
    "kind": "bake",
    "display": 900324,
-   "sha256": "13024f62a671e9c7674873824f0fcf07d122557739227c0ca2db690449ca8ae0"
+   "sha256": "02252c926403cd55b541338b12eb877e909dfb43b7c6e4477534599c0589b57d"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900331_HD.blp",
    "kind": "bake",
    "display": 900331,
-   "sha256": "54f5440050909da9695d857b94f56381d61670fca1f245fb4605ae09ccb5ff0b"
+   "sha256": "bbe564d9f2e456bf909e576ce04d8b107f1fa31ca38a5bd95d71b2d3af0b334f"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900332_HD.blp",
    "kind": "bake",
    "display": 900332,
-   "sha256": "c424c3b3eab511a0114589da0891e0ab78af961c98bbab150d068a007d3eacef"
-  },
-  {
-   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900341_HD.blp",
-   "kind": "bake",
-   "display": 900341,
-   "sha256": "bbe564d9f2e456bf909e576ce04d8b107f1fa31ca38a5bd95d71b2d3af0b334f"
-  },
-  {
-   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900342_HD.blp",
-   "kind": "bake",
-   "display": 900342,
    "sha256": "26333fd5967c8916e5922e97bcf5b4841dc6896b122942548b173cc44e37b59b"
   }
  ]
