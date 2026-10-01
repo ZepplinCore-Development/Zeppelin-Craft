@@ -88,9 +88,11 @@ def build_bundle(meta: dict) -> dict:
         "requires": [],
         "required_for": [],
         "build_source": "static",
-        # Version derived from the content hash (not a counter): changes iff any member changes, and is
-        # stateless — a lost register entry can't reset it, so the launcher always re-pulls on real change.
-        "version": int(combined[:6], 16) or 1,
+        # Version derived from the content hash (not a counter), so it is stateless — a lost register
+        # entry can't reset it. 4 hex digits = at most 65535, which fits the launcher's Version column
+        # (the field stays an int: deployed launchers parse it as one). activate() resolves the rare
+        # collision where changed content hashes to the previous short version.
+        "version": int(combined[:4], 16) or 1,
         "size_mb": round(sum(f["size_mb"] for f in files), 2),
         "checksum": combined,
         "last_modified": now,
@@ -107,6 +109,10 @@ def activate(bundle: dict):
             del patches[legacy]
             print(f"  removed legacy per-file entry {legacy}")
     prev = patches.get(BUNDLE_KEY)
+    if prev and prev.get("checksum") != bundle["checksum"] and prev.get("version") == bundle["version"]:
+        # The launcher re-downloads only when the version differs; a short hash can collide.
+        bundle["version"] = bundle["version"] % 0xFFFF + 1
+        print(f"  {BUNDLE_KEY}: short-version collision, bumped to v{bundle['version']}")
     patches[BUNDLE_KEY] = bundle   # version is content-derived, so just write the current state
     if prev and prev.get("checksum") == bundle["checksum"]:
         print(f"  {BUNDLE_KEY}: unchanged (v{bundle['version']})")
