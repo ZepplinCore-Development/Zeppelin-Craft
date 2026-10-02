@@ -31,6 +31,7 @@ import click
 from dotenv import load_dotenv
 
 from lib.manifest import is_feature_disabled
+from lib.sql_lint import unscoped_shared_deletes
 
 # Load .env from cli directory
 _cli_dir = Path(__file__).parent.parent
@@ -302,6 +303,67 @@ def update_tracking(filename: str, file_hash: str, zpak: str, execution_ms: int)
     VALUES ('{filename}', '{file_hash}', '{state}', NOW(), {execution_ms})
     """
     run_mysql_query(query)
+
+
+def _native_state(sql_file: Path) -> str:
+    """AC `updates.state` for a file: RELEASED for AC's own migrations, MODULE for
+    module SQL, CUSTOM for zpaks."""
+    path = str(sql_file).replace('\\', '/')
+    if '/data/sql/updates/' in path and '/modules/' not in path:
+        return 'RELEASED'
+    if '/modules/' in path:
+        return 'MODULE'
+    return 'CUSTOM'
+
+
+def record_native_tracking(sql_file: Path, file_hash: str, database: str, execution_ms: int) -> None:
+    """Also record an auth/characters apply in that database's own `updates` table.
+
+    The CLI's prefixed rows (chars__/auth__) live in acore_world.updates, which
+    `zep world sql rebuild` drops. Without a copy in the target database every
+    auth/characters/module file looked never-applied after a rebuild, and
+    one-shot migrations were queued again (an rbac DROP, IPP's progression
+    cleanup, an already-applied ALTER - I-376, 2026-10-02). is_file_applied()
+    already accepts a native row with the current hash.
+    """
+    if database not in ('characters', 'auth'):
+        return
+    target = CHARS_DB_NAME if database == 'characters' else AUTH_DB_NAME
+    run_mysql_query(
+        "REPLACE INTO `updates` (name, hash, state, timestamp, speed) VALUES "
+        f"('{sql_file.name}', '{file_hash}', '{_native_state(sql_file)}', NOW(), {execution_ms})",
+        database=target)
+
+
+def mirror_tracking_to_native() -> int:
+    """Copy every chars__/auth__ row from acore_world.updates into the target
+    database's own `updates` table (never overwriting a row already there).
+
+    Called before a rebuild drops acore_world and at the start of `sql changed`,
+    so tracking recorded before record_native_tracking existed survives too.
+    Returns the number of rows copied.
+    """
+    copied = 0
+    for prefix, target in (('chars__', CHARS_DB_NAME), ('auth__', AUTH_DB_NAME)):
+        like = prefix.replace('_', '\\_') + '%'
+        ok, out = run_mysql_query(
+            f"SELECT name, hash, state, speed FROM `updates` WHERE name LIKE '{like}'")
+        if not ok:
+            continue
+        rows = [line.split('\t') for line in out.splitlines()[1:] if line.strip()]
+        if not rows:
+            continue
+        values = ", ".join(
+            f"('{name[len(prefix):]}', '{h}', '{state}', NOW(), {speed or 0})"
+            for name, h, state, speed in rows)
+        before_ok, before = run_mysql_query("SELECT COUNT(*) FROM `updates`", database=target)
+        run_mysql_query(
+            f"INSERT IGNORE INTO `updates` (name, hash, state, timestamp, speed) VALUES {values}",
+            database=target)
+        after_ok, after = run_mysql_query("SELECT COUNT(*) FROM `updates`", database=target)
+        if before_ok and after_ok:
+            copied += int(after.splitlines()[-1]) - int(before.splitlines()[-1])
+    return copied
 
 
 def clear_tracking(filename: str):
@@ -736,6 +798,22 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         click.echo(f"No new or modified SQL files to execute ({skipped} unchanged)")
         return 0, 0
 
+    offenders = []
+    for sql_file, _zpak, _source, _hash, _db, _cascaded in files_to_execute:
+        try:
+            text = sql_file.read_text(encoding='utf-8', errors='replace')
+        except OSError:
+            continue
+        offenders += [(sql_file, stmt) for stmt in unscoped_shared_deletes(text)]
+    if offenders:
+        click.echo(click.style(
+            f"\nRefusing to run: {len(offenders)} unscoped DELETE(s) on shared tables. Each would "
+            "remove every row of that kind server-wide (stock AC, modules, other zpaks) on every "
+            "cascade. Scope them to the rows the file owns (e.g. AND SourceEntry = ...).", fg='red'))
+        for sql_file, stmt in offenders:
+            click.echo(f"  {sql_file.name}: {stmt[:160]}")
+        return 0, len(offenders)
+
     click.echo(f"\n{'[DRY RUN] ' if dry_run else ''}Executing {len(files_to_execute)} file(s) ({skipped} unchanged)...")
 
     success_count = 0
@@ -771,6 +849,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
             if not dry_run:
                 tracking_name = _tracking_key(sql_file.name, database)
                 update_tracking(tracking_name, file_hash, zpak, exec_ms)
+                record_native_tracking(sql_file, file_hash, database, exec_ms)
         else:
             icon = click.style("✗", fg='red')
             click.echo(f"    {icon} {sql_file.name}: {message}")
@@ -1166,6 +1245,11 @@ def sql_rebuild(ctx, force: bool, discard_journal: bool):
         click.echo("Cancelled.")
         return
 
+    # Keep auth/characters/module tracking out of the database about to be dropped.
+    copied = mirror_tracking_to_native()
+    if copied:
+        click.echo(f"Copied {copied} auth/characters tracking row(s) into their own databases")
+
     # Step 1: Reset to stock AC
     if not _execute_reset(craft_root):
         return
@@ -1211,6 +1295,9 @@ def sql_changed(ctx, dry_run: bool, continue_on_error: bool):
     if not dry_run and not ensure_tracking_table():
         click.echo("Error: updates table not found. Run 'zep sql reset' first.", err=True)
         sys.exit(1)
+
+    if not dry_run:
+        mirror_tracking_to_native()
 
     success_count, error_count = _execute_changed_files(craft_root, dry_run, continue_on_error)
 
