@@ -29,7 +29,9 @@
         `spelltrigger_2` = 6;
 
 -- Limit Mind Control Spell to only work on the Understudy...
-    DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 17;
+    -- Scoped to this spell only (I-376 found the unscoped form deleting every
+    -- type-17 condition server-wide, AC's 870 stock rows included).
+    DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 17 AND `SourceEntry` = 91051;
     INSERT INTO `conditions` SET
         `SourceTypeOrReferenceId` = 17,
         `SourceEntry` = 91051,
