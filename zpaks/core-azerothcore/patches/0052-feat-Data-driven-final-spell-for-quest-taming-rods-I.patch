@@ -1,0 +1,36 @@
+From fef8250e13aac4908babe4a0d66c425f5a6ff0d4 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 2 Oct 2026 08:20:11 +0000
+Subject: [PATCH] feat: Data-driven final spell for quest taming rods (I-376)
+
+- Quest-tame rods are mapped to their final tame spell by a hard-coded
+  switch; an unlisted rod now falls back to its own effect 2 TriggerSpell
+  (unused by the dummy aura), so custom rods need no core entry
+- No stock spell of the quest-tame shape carries an effect 2 trigger
+  spell (checked against the live DBC), so stock behaviour is unchanged
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01H4Ch7VpPResUX1y2oEkQEq
+---
+ src/server/game/Spells/Auras/SpellAuraEffects.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/server/game/Spells/Auras/SpellAuraEffects.cpp b/src/server/game/Spells/Auras/SpellAuraEffects.cpp
+index e3c289c42..ae2b1d6b6 100644
+--- a/src/server/game/Spells/Auras/SpellAuraEffects.cpp
++++ b/src/server/game/Spells/Auras/SpellAuraEffects.cpp
+@@ -5356,6 +5356,11 @@ void AuraEffect::HandleAuraDummy(AuraApplication const* aurApp, uint8 mode, bool
+                         break;
+                 }
+ 
++                // Zeppelin I-376: custom taming rods name their final tame spell in the rod's own
++                // effect 2 TriggerSpell (unused by the dummy aura), so new rods need no entry above.
++                if (!finalSpelId)
++                    finalSpelId = GetSpellInfo()->Effects[EFFECT_1].TriggerSpell;
++
+                 if (finalSpelId)
+                     caster->CastSpell(target, finalSpelId, true, nullptr, this);
+             }
+-- 
+2.34.1
+
