@@ -77,18 +77,18 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900312;
 INSERT INTO creature_model_info SET
   DisplayID = 900312,
-  BoundingRadius = 0.236,
+  BoundingRadius = 0.372,
   CombatReach = 1.5,
-  Gender = 1,
+  Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
 
 DELETE FROM creature_model_info WHERE DisplayID = 900331;
 INSERT INTO creature_model_info SET
   DisplayID = 900331,
-  BoundingRadius = 0.372,
+  BoundingRadius = 0.236,
   CombatReach = 1.5,
-  Gender = 0,
+  Gender = 1,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
 

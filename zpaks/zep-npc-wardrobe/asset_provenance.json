@@ -109,13 +109,6 @@
    "sha256": "42e18fcd15096d20947ddbb0b80e7ffe840c7253214ae3ba3597a017323c2faf"
   },
   {
-   "path": "Item/ObjectComponents/Shoulder/lshoulder_armor_orcclan_d_01original.blp",
-   "fdid": 1970119,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "24a71813b250b8ce4a4d04a2241da59e5c74da81726b9ab7d141f3fd5bcd4c3f"
-  },
-  {
    "path": "Item/ObjectComponents/Shoulder/lshoulder_leather_hordeuprez_b_03.m2",
    "fdid": 1060797,
    "build": "12.1.0.69875",
@@ -130,13 +123,6 @@
    "sha256": "1c58e68075a711b9b46f2b403919a29f221eaf48d4b8e94ff1a03f384c93760d"
   },
   {
-   "path": "Item/ObjectComponents/Shoulder/rshoulder_armor_orcclan_d_01original.blp",
-   "fdid": 1970122,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "a3dd76eebf58333c027e5c32df4fdeeb2a4a85c00114e2ed92ff1451bc74c721"
-  },
-  {
    "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_hordeuprez_b_03.m2",
    "fdid": 1028407,
    "build": "12.1.0.69875",
@@ -149,34 +135,6 @@
    "build": "12.1.0.69875",
    "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
    "sha256": "ac349b8ec2a9d65f10f7569d84dc7220e9bfae25d77068c39821d98dd5f263fa"
-  },
-  {
-   "path": "Item/ObjectComponents/Shoulder/shoulder_armor_orcclan_d_01_l.m2",
-   "fdid": 1623641,
-   "build": "12.1.0.69875",
-   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
-   "sha256": "46f2eb5bbd270ec25f0df77bef50559017e790e75228e3d63049eb45a9e51c97"
-  },
-  {
-   "path": "Item/ObjectComponents/Shoulder/shoulder_armor_orcclan_d_01_l00.skin",
-   "fdid": 1623851,
-   "build": "12.1.0.69875",
-   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
-   "sha256": "0253e9a49aad0feeb22b758971e6164842c30b22ecb5186fd89fd0b2315235da"
-  },
-  {
-   "path": "Item/ObjectComponents/Shoulder/shoulder_armor_orcclan_d_01_r.m2",
-   "fdid": 1623642,
-   "build": "12.1.0.69875",
-   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
-   "sha256": "40c0a48284f5c7c5d3c6fe9f221d207db7ccb529f259a0ab7c0e4722f9e8d996"
-  },
-  {
-   "path": "Item/ObjectComponents/Shoulder/shoulder_armor_orcclan_d_01_r00.skin",
-   "fdid": 1623841,
-   "build": "12.1.0.69875",
-   "kind": "downport+1 batch(es) classicised, 1 env pair(s), overlay mat 1",
-   "sha256": "0dca5c208d600b71d7f3c2a7e2386efd70e42b7aa7489bbbe8fedfbca3b000c5"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_leather_hordeuprez_b_03.blp",
@@ -591,13 +549,13 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900311_HD.blp",
    "kind": "bake",
    "display": 900311,
-   "sha256": "bbe564d9f2e456bf909e576ce04d8b107f1fa31ca38a5bd95d71b2d3af0b334f"
+   "sha256": "9fde9fc374261bb69b517db0429a22edb8b341919caeddd0b05c77460f31fe20"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900312_HD.blp",
    "kind": "bake",
    "display": 900312,
-   "sha256": "26333fd5967c8916e5922e97bcf5b4841dc6896b122942548b173cc44e37b59b"
+   "sha256": "cf814b7982d0622b723b58a2d03c0a9a5e922791a541cc7789045f4b3de129d2"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900321_HD.blp",
@@ -627,13 +585,13 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900331_HD.blp",
    "kind": "bake",
    "display": 900331,
-   "sha256": "bbe564d9f2e456bf909e576ce04d8b107f1fa31ca38a5bd95d71b2d3af0b334f"
+   "sha256": "69b0a4f40cbfcc13e36372e993793e97300ef3f637f2f0ee159f164a7e2c2508"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900332_HD.blp",
    "kind": "bake",
    "display": 900332,
-   "sha256": "26333fd5967c8916e5922e97bcf5b4841dc6896b122942548b173cc44e37b59b"
+   "sha256": "227445d19b976b488532173e4416becbc447bf8a8153723449108146d671fcb5"
   }
  ]
 }

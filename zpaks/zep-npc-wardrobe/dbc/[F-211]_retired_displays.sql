@@ -6,6 +6,10 @@
 -- spawn holding it as a blue cube (Orgrimmar Grunts on 900341, 2026-10-02) and a missing bake
 -- leaves it untextured. Alias the id to a current appearance instead: the spawns correct
 -- themselves on their next respawn or the next worldserver restart, and the row costs nothing.
+--
+-- Keep each alias on an extra of the SAME SEX as the retired id's model_id (51 male / 52 female):
+-- the variant order inside a manifest decides which id is which sex, so re-check these whenever
+-- a manifest's variant counts change.
 
 -- 900303: Orgrimmar-set male, trimmed variant. Aliases extra 900301.
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900303;
@@ -87,13 +91,13 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- 900313: heritage female with helm, trimmed when the helm was dropped. Aliases extra 900312.
+-- 900313: heritage female with helm, trimmed when the helm was dropped. Aliases extra 900331.
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900313;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900313,
   `model_id` = 52,
   `sound_id` = 0,
-  `extended_display_info_id` = 900312,
+  `extended_display_info_id` = 900331,
   `creature_model_scale` = 1,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
@@ -107,13 +111,13 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- 900314: heritage female with helm, trimmed when the helm was dropped. Aliases extra 900312.
+-- 900314: heritage female with helm, trimmed when the helm was dropped. Aliases extra 900332.
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900314;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900314,
   `model_id` = 52,
   `sound_id` = 0,
-  `extended_display_info_id` = 900312,
+  `extended_display_info_id` = 900332,
   `creature_model_scale` = 1,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
@@ -127,7 +131,7 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- 900341: heritage + Orgrimmar belt trial; the belt moved into the heritage set itself. Aliases extra 900311.
+-- 900341: heritage + Orgrimmar belt trial; that belt is now the heritage belt. Aliases extra 900311.
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900341;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900341,
@@ -147,13 +151,13 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- 900342: heritage + Orgrimmar belt trial; the belt moved into the heritage set itself. Aliases extra 900312.
+-- 900342: heritage + Orgrimmar belt trial; that belt is now the heritage belt. Aliases extra 900331.
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900342;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900342,
   `model_id` = 52,
   `sound_id` = 0,
-  `extended_display_info_id` = 900312,
+  `extended_display_info_id` = 900331,
   `creature_model_scale` = 1,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',

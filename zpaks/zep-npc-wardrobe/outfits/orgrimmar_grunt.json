@@ -62,7 +62,7 @@
         900331,
         900332
       ],
-      "_comment": "shoulder-fit test with the chosen Orgrimmar belt: Warsong pauldrons (900311 M, 900312 F) vs Orgrimmar spaulders (900331 M, 900332 F).",
+      "_comment": "Orgrimmar grunts: the settled heritage look (Orgrimmar spaulders + Orgrimmar belt), 2 male + 2 female.",
       "equip": {
         "id": 1,
         "main": "orgrimmar_axe"
