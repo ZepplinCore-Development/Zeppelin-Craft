@@ -411,8 +411,11 @@ function SetBackgroundModel(model, name)
 		-- UI_ALLIANCE; character create keeps the original framing, which
 		-- lives in a byte-identical copy of the same scene. Note character
 		-- create calls this for the whole Alliance faction, not just humans.
+		-- The copy MUST differ in filename, not just folder: published as
+		-- UI_ALLIANCE_CREATE\UI_Alliance.m2 the create screen kept rendering
+		-- the select scene, so the client resolves/caches by filename stem.
 		if ( model == CharacterCreate ) then
-			path = "Interface\\Glues\\Models\\UI_ALLIANCE_CREATE\\UI_Alliance.m2";
+			path = "Interface\\Glues\\Models\\UI_ALLIANCE\\UI_AllianceCreate.m2";
 		else
 			path = "Interface\\Glues\\Models\\UI_ALLIANCE\\UI_Alliance.m2";
 		end

@@ -28,39 +28,32 @@
       }
     ]
   },
-  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE.M2": {
-    "note": "F-151 character CREATE scene. Both screens run through GlueParent.lua SetBackgroundModel(), and character create calls it for the whole Alliance faction (CharacterCreate.lua: faction == \"Alliance\" -> SetBackgroundModel(CharacterCreate, \"HUMAN\")), so the character-select camera edit landed on the creation screen too. GlueParent now points character create at this copy and character select at UI_ALLIANCE. Published via copy_from so it is derived at build time from the upstream pack, not an untracked duplicate binary in source-assets; the skins come along beside it because the client derives <model path minus extension>NN.skin - keep their filenames, change only the folder. Camera: restoring the donor's 0.87 was still too zoomed in for this screen, so it widens to 1.00 (frame 9.05 across the subject vs 7.70 at 0.87, +18%). 1.00 is the practical ceiling: rasterising the 19408 triangles of UI_Alliance00.skin through camera[0] shows the scene fills the frame completely through 0.95, and at 1.00 the only gap is a sliver in the BOTTOM-LEFT corner (0.8% of the border ring) which this screen's race/class panel covers. 1.05 opens it to 2.4% and 1.20 tears the frame apart. Do not widen past 1.00 without re-running the coverage sweep.",
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCECREATE.M2": {
+    "note": "F-151 character CREATE scene - a copy of the Alliance scene left at the DONOR camera (fov 0.87, aim z 1.0725, no ops), so character create keeps the framing it always had while character select runs the tightened 0.60 + panned camera in UI_ALLIANCE.M2. Both screens go through GlueParent.lua SetBackgroundModel(), and character create calls it for the whole Alliance faction (CharacterCreate.lua: faction == \"Alliance\" -> SetBackgroundModel(CharacterCreate, \"HUMAN\")), so a single shared file cannot serve both. IT MUST DIFFER IN FILENAME, NOT JUST FOLDER: a first attempt published this as UI_ALLIANCE_CREATE/UI_ALLIANCE.M2 - same stem, different directory - and the create screen kept rendering the select scene, so the client resolves or caches these by filename stem and handed back the already-loaded UI_ALLIANCE.M2. Changing the stem removes that collision and keeps the file in the folder the pack already loads from, the same variant pattern as the pack's own UI_Alliance2.m2. Published via copy_from so it is derived at build time from the upstream pack rather than an untracked duplicate binary; the skins follow the stem because the client derives <model path minus extension>NN.skin.",
     "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE.M2",
     "base_sha256": "972c9ecff6876da3a7480cd20338ab42a88fd0ccfbfc9063af87d32a2e6bd759",
-    "result_sha256": "920387615f0357e9b754f5f45334bd2f24ae3a94e2971bfd696ef0946a8cc78b",
-    "ops": [
-      {
-        "op": "m2.camera.fov",
-        "index": 0,
-        "value": 1.0
-      }
-    ]
+    "result_sha256": "972c9ecff6876da3a7480cd20338ab42a88fd0ccfbfc9063af87d32a2e6bd759"
   },
-  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE00.SKIN": {
-    "note": "F-151 skin 00 for the character-create copy of the Alliance scene.",
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCECREATE00.SKIN": {
+    "note": "F-151 skin 00 for the character-create copy; must share the M2's stem.",
     "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE00.SKIN",
     "base_sha256": "fe1451f495bedceefe436d4206f413f1ba57eeb2726a08c6dd1e3d32bdefc9a8",
     "result_sha256": "fe1451f495bedceefe436d4206f413f1ba57eeb2726a08c6dd1e3d32bdefc9a8"
   },
-  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE01.SKIN": {
-    "note": "F-151 skin 01 for the character-create copy of the Alliance scene.",
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCECREATE01.SKIN": {
+    "note": "F-151 skin 01 for the character-create copy; must share the M2's stem.",
     "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE01.SKIN",
     "base_sha256": "edaeb1a3fb0a5dd5d6b3a3bcc0d97ec887914608af76e58850b95e83c0aa0805",
     "result_sha256": "edaeb1a3fb0a5dd5d6b3a3bcc0d97ec887914608af76e58850b95e83c0aa0805"
   },
-  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE02.SKIN": {
-    "note": "F-151 skin 02 for the character-create copy of the Alliance scene.",
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCECREATE02.SKIN": {
+    "note": "F-151 skin 02 for the character-create copy; must share the M2's stem.",
     "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE02.SKIN",
     "base_sha256": "f1d52e76d715c2b01b0ea663e1fed790d999b5ebf0158657efce48b1556ba6f9",
     "result_sha256": "f1d52e76d715c2b01b0ea663e1fed790d999b5ebf0158657efce48b1556ba6f9"
   },
-  "INTERFACE/GLUES/MODELS/UI_ALLIANCE_CREATE/UI_ALLIANCE03.SKIN": {
-    "note": "F-151 skin 03 for the character-create copy of the Alliance scene.",
+  "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCECREATE03.SKIN": {
+    "note": "F-151 skin 03 for the character-create copy; must share the M2's stem.",
     "copy_from": "INTERFACE/GLUES/MODELS/UI_ALLIANCE/UI_ALLIANCE03.SKIN",
     "base_sha256": "7a58f8000e4910de8f1aee484286af8f4132ccc6fefa8322d038190293c9a665",
     "result_sha256": "7a58f8000e4910de8f1aee484286af8f4132ccc6fefa8322d038190293c9a665"
