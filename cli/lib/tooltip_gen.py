@@ -11,9 +11,9 @@ classifies each spell for the addon-driven tooltip engine (F-190 Layer 2):
                           spot — behaviour lives in C++, not derivable from DBC)
 
 Phase 1 covers the DBC-derivable classification (spellmods + DUMMY detection). The
-SP/AP coefficients (``spell_bonus_data`` in acore_world) and the F-189
-``spell_stat_scaling`` table fold into ``casterDependent`` in a later phase; the
-hooks are marked with TODO below.
+SP/AP coefficients (``spell_bonus_data`` in acore_world) fold into
+``casterDependent``; caster-stat scaling comes from the spell's own effect
+MiscValue (F-188). The hooks are marked with TODO below.
 
 Pure logic — every function takes plain dict rows so it can be unit-tested without
 a live DB. See ``cli/commands/build.py`` (``build tooltip-data``) for the wiring.
@@ -255,15 +255,14 @@ def miscvalue_stat_scaling(row: Dict) -> List[Dict]:
 
 def classify(spell_id: int, spells: Dict[int, Dict],
              modifier_index: List[Modifier],
-             spell_bonus: Optional[Dict[int, Dict]] = None,
-             stat_scaling: Optional[Dict[int, List[Dict]]] = None) -> Optional[Dict]:
+             spell_bonus: Optional[Dict[int, Dict]] = None) -> Optional[Dict]:
     """Classify one spell. Returns None if the spell id is unknown.
 
     casterDependent (the Layer-3 ALE routing flag) is true when the displayed value
     depends on caster state via ANY of:
       - spellmod  : a 107/108 modifier (caster talents/glyphs/equip) targets it
       - sp_ap     : a spell_bonus_data row with a nonzero SP/AP coefficient (HoTs/DoTs/nukes/heals)
-      - stat_scaling : an F-189 spell_stat_scaling row (armor/stamina/etc. caster-stat scaling)
+      - stat_scaling : an F-188 stat-scaling effect (MiscValue stat, MiscValueB coeff)
     """
     row = spells.get(spell_id)
     if row is None:
@@ -274,14 +273,10 @@ def classify(spell_id: int, spells: Dict[int, Dict],
 
     bonus_row = (spell_bonus or {}).get(spell_id)
     sp_ap = _has_sp_ap(bonus_row)
-    stat_rows = (stat_scaling or {}).get(spell_id) or []
     weapon = weapon_effects(row)
 
-    # Stat scaling = legacy spell_stat_scaling table entries + native DBC MiscValue (F-188).
-    stat_entries = [{"eff": _i(r, "eff_index"), "stat": r.get("stat_id"),
-                     "coeff": float(r["coeff"]) if r.get("coeff") is not None else None}
-                    for r in stat_rows]
-    stat_entries += miscvalue_stat_scaling(row)
+    # Stat scaling is native on the spell effect (F-188); the DBC is the single source.
+    stat_entries = miscvalue_stat_scaling(row)
 
     reasons = []
     if mods:
@@ -408,7 +403,7 @@ def emit_lua(records: List[Dict]) -> str:
       eff      = {{i,t,a,b,d,p}} index,type,aura,base,die,ppl (per-level)
       sp       = {d,o,ap,apo} spell_bonus_data direct/dot/ap/apdot coefficients
       weapon   = {{t,e,b}} type,eff,base
-      stat     = {{e,s,c}} eff,stat_id,coeff (F-189)
+      stat     = {{e,s,c}} eff,stat_id,coeff (F-188 effect MiscValue)
       mods     = {{src,op,k,b,e,v}} src,SpellModOp,kind,base,eff,via(known|aura)
     Non-renderable caster-dependent spells get a lean {cd,reasons,nmods} record.
     """
@@ -590,19 +585,17 @@ def emit_desc(records: List[Dict]) -> str:
 # =============================================================================
 
 def _load_world_scaling():
-    """Load SP/AP coefficients + F-189 stat scaling from acore_world.
+    """Load SP/AP coefficients + class base mana from acore_world.
 
-    Returns (spell_bonus, stat_scaling, base_mana):
+    Returns (spell_bonus, base_mana):
       spell_bonus  : {entry: {direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus}}
-      stat_scaling : {spell_id: [{eff_index, stat_id, coeff}, ...]} — empty if the
-                     F-189 `spell_stat_scaling` table does not exist yet.
       base_mana    : {classId: {level: basemana}} — for %-mana cost (player_class_stats).
     """
     from commands import sql as sqlmod
     try:
         import mysql.connector
     except ImportError:
-        return {}, {}, {}
+        return {}, {}
 
     conn = mysql.connector.connect(
         host=sqlmod.DB_HOST, port=int(sqlmod.DB_PORT),
@@ -613,21 +606,13 @@ def _load_world_scaling():
                 "FROM spell_bonus_data")
     spell_bonus = {int(r["entry"]): r for r in cur.fetchall()}
 
-    stat_scaling = {}
-    try:
-        cur.execute("SELECT spell_id, eff_index, stat_id, coeff FROM spell_stat_scaling")
-        for r in cur.fetchall():
-            stat_scaling.setdefault(int(r["spell_id"]), []).append(r)
-    except mysql.connector.Error:
-        pass  # F-189 spell_stat_scaling not created yet — fold in once it lands.
-
     base_mana = {}
     cur.execute("SELECT Class, Level, BaseMana FROM player_class_stats")
     for r in cur.fetchall():
         base_mana.setdefault(int(r["Class"]), {})[int(r["Level"])] = int(r["BaseMana"])
     cur.close()
     conn.close()
-    return spell_bonus, stat_scaling, base_mana
+    return spell_bonus, base_mana
 
 
 def _load_use_item_spells():
@@ -703,19 +688,18 @@ class GeneratorContext:
     """Loaded generator inputs + the classify/emit operations over them. Built by ``load``;
     consumed by the CLI command (targeted report + emission) and the patch-mpq preprocessor."""
 
-    def __init__(self, spells, talent_rows, mod_index, spell_bonus, stat_scaling,
+    def __init__(self, spells, talent_rows, mod_index, spell_bonus,
                  base_mana, equip_map, bag_map):
         self.spells = spells
         self.talent_rows = talent_rows
         self.mod_index = mod_index
         self.spell_bonus = spell_bonus
-        self.stat_scaling = stat_scaling
         self.base_mana = base_mana
         self.equip_map = equip_map
         self.bag_map = bag_map
 
     def classify(self, sid: int) -> Optional[Dict]:
-        return classify(sid, self.spells, self.mod_index, self.spell_bonus, self.stat_scaling)
+        return classify(sid, self.spells, self.mod_index, self.spell_bonus)
 
     def emit(self, family: Optional[int] = None, spell_ids=None) -> Dict:
         """Classify the scope (one family, specific ids, or all spells) and render the Lua.
@@ -785,9 +769,8 @@ def load(config, db_name: str, echo=None) -> GeneratorContext:
     mod_index = build_modifier_index(spells)
     echo(f"Indexed {len(mod_index)} spellmod effects.")
 
-    spell_bonus, stat_scaling, base_mana = _load_world_scaling()
-    echo(f"Loaded {len(spell_bonus)} spell_bonus_data rows; "
-         f"{len(stat_scaling)} spell_stat_scaling spell(s).")
+    spell_bonus, base_mana = _load_world_scaling()
+    echo(f"Loaded {len(spell_bonus)} spell_bonus_data rows.")
 
     # I-218: a passive modifier granted by an ON-EQUIP item (relic/libram/idol/totem) is
     # classified via="known" by the PASSIVE heuristic but isn't IsSpellKnown-able (gear, not a
@@ -818,7 +801,7 @@ def load(config, db_name: str, echo=None) -> GeneratorContext:
             bag_map[buff] = {"item": item, "tier": abs(_i(row, "effect_base_points_1")), "grp": grp}
     echo(f"Mapped {len(equip_map)} equip + {len(bag_map)} bag (crop) modifier source(s).\n")
 
-    return GeneratorContext(spells, talent_rows, mod_index, spell_bonus, stat_scaling,
+    return GeneratorContext(spells, talent_rows, mod_index, spell_bonus,
                             base_mana, equip_map, bag_map)
 
 

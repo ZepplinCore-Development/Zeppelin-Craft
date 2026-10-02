@@ -43,7 +43,7 @@ local function cfg()
     return ZepTooltipsDB
 end
 
--- F-189 stat contract: stat_id (shared with the server's spell_stat_scaling table) ->
+-- Stat contract: stat_id (the server's ZepStatScalingStat, F-188 effect MiscValue) ->
 -- the local player's effective value. Adding a stat = one entry + the server getter.
 local StatReader = {
     ARMOR        = function() return (select(2, UnitArmor("player"))) or 0 end,

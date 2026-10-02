@@ -1,20 +1,12 @@
--- F-189 Generalized Stat Scaling for Spell Effects — data layer (LEGACY / mostly superseded)
--- A data-driven map "spell X scales effect N on stat S at coefficient C", for stats
--- AzerothCore's spell_bonus_data can't express (armor, block value, stamina, health…).
--- Read by the tooltip generator so the addon can fold the stat term into the displayed value.
+-- F-189 Generalized Stat Scaling for Spell Effects - RETIRED (superseded by F-188)
 --
--- SUPERSEDED by F-188: stat scaling is now native on the spell effect (any SCHOOL_DAMAGE
--- effect with effect_misc_value_b != 0 scales on MiscValue's stat at coeff = MiscValueB/100,
--- handled in Spell::EffectSchoolDMG). The generator reads the DBC MiscValue directly, so the
--- DBC is the single source of truth (server + addon). This table is kept only as a fallback
--- for any future addon-only need; rows here are NOT applied by the server.
-
-CREATE TABLE IF NOT EXISTS spell_stat_scaling (
-  spell_id   INT UNSIGNED   NOT NULL,
-  eff_index  TINYINT UNSIGNED NOT NULL,
-  stat_id    VARCHAR(32)    NOT NULL COMMENT 'matches the addon StatReader keys (BLOCK_VALUE, ARMOR, …)',
-  coeff      FLOAT          NOT NULL,
-  PRIMARY KEY (spell_id, eff_index, stat_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- (Rockslam 900119 stat-scaling cleanup moved to zz_[F-164R]_stat_scaling.sql)
+-- F-189 added `spell_stat_scaling(spell_id, eff_index, stat_id, coeff)` as an addon-only
+-- data source. F-188 made stat scaling native on the spell effect itself (SCHOOL_DAMAGE +
+-- MiscValue = ZepStatScalingStat, MiscValueB = coeff x100, handled in Spell::EffectSchoolDMG),
+-- and the tooltip generator reads that from the DBC. The table was never read by the server,
+-- held no rows, and its only remaining effect was an apply-order trap on a fresh rebuild
+-- (zz_[F-164R]_stat_scaling.sql, which deleted its one legacy row, sorts before this file).
+--
+-- This file stays as a tombstone so every database converges: the table is dropped on live
+-- DBs and never recreated by a rebuild. The F-164R cleanup file was deleted with it.
+DROP TABLE IF EXISTS `spell_stat_scaling`;
