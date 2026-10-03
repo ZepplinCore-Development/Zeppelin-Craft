@@ -1112,6 +1112,10 @@ cli.add_command(model)
 from commands.wxl import wxl
 cli.add_command(wxl)
 
+# -- client: offscreen test client (F-219) -----------------------------------
+from commands.client import client
+cli.add_command(client)
+
 # -- world: sql, account, char, creature, bag -------------------------------
 @click.group()
 @click.pass_context

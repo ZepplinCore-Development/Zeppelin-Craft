@@ -206,3 +206,6 @@ def _run_ship(activate: bool):
     rc = subprocess.call(cmd)
     if rc != 0:
         raise click.ClickException("deploy_warcraftxl.py failed (exit %d)" % rc)
+
+    from commands.client import refresh_if_present
+    refresh_if_present()   # F-219: staging rewrote nginx/wow/WXL; keep the test client on it

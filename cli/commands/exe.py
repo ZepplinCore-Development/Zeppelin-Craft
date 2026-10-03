@@ -250,6 +250,9 @@ def exe_patch(ctx, dry_run, only, exclude, output, include_all, deploy):
         save_register(register, NGINX_PATH)
         click.echo(click.style(f"  Updated patch register: Wow.exe v{entry['version']}", fg='green'))
 
+        from commands.client import refresh_if_present
+        refresh_if_present()   # F-219: keep the offscreen test client on the deployed exe
+
     elif deploy and dry_run:
         click.echo()
         click.echo("[DRY RUN] Would deploy patched exe to nginx/EXE/Wow.exe")

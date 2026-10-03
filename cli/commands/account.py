@@ -51,14 +51,10 @@ def account():
     pass
 
 
-@account.command('create')
-@click.argument('username')
-@click.argument('password')
-def account_create(username, password):
-    """Create a new game account.
+def create_account(username: str, password: str) -> str:
+    """Create an auth account (no GM access). Returns the new account id.
 
-    Examples:
-        zep account create myuser mypass
+    Raises click.ClickException if the username exists or the DB write fails.
     """
     # Check if username already exists
     check_query = f"SELECT id FROM account WHERE username = '{username}'"
@@ -88,8 +84,18 @@ def account_create(username, password):
     )
     if success and result:
         lines = result.strip().split('\n')
-        account_id = lines[1].strip() if len(lines) > 1 else '?'
-    else:
-        account_id = '?'
+        return lines[1].strip() if len(lines) > 1 else '?'
+    return '?'
 
+
+@account.command('create')
+@click.argument('username')
+@click.argument('password')
+def account_create(username, password):
+    """Create a new game account.
+
+    Examples:
+        zep account create myuser mypass
+    """
+    account_id = create_account(username, password)
     click.echo(click.style(f"Account created: {username.upper()} (id: {account_id})", fg='green'))

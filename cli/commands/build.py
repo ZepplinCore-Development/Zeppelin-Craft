@@ -183,6 +183,10 @@ def build_patch(ctx, patch_letter: Optional[str],
         else:
             click.echo(click.style("\nWarning: Failed to save patch register", fg='yellow'))
 
+        # F-219: patches are symlinked into the test client, so only a NEW letter needs this.
+        from commands.client import refresh_if_present
+        refresh_if_present()
+
         # Auto-regenerate to sync metadata from zpak manifests
         regen = regenerate_register(craft_root, nginx_path)
         orphans = regen.get('orphans', [])
