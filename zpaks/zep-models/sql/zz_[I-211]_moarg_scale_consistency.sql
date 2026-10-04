@@ -1,5 +1,5 @@
 -- I-211 Mo'arg Model Scale Consistency
--- Normalize open-world Mo'arg NPCs to a consistent 2x rendered size.
+-- Normalize open-world Mo'arg NPCs to a consistent 2x rendered size (Gan'arg Peon to 1.5x, at the end).
 -- Size = DisplayScale(server) x creature_model_scale(DBC) x model_scale(DBC).
 -- DisplayScale = 2.0 / creature_model_scale(display) -> every spawn renders 2x
 -- regardless of which model is rolled. World DB only; no PATCH-Z. Idempotent.
@@ -61,3 +61,10 @@ UPDATE `creature_template_model` SET `DisplayScale` = 0.6667 WHERE `CreatureID` 
 UPDATE `creature_template_model` SET `DisplayScale` = 0.5 WHERE `CreatureID` = 23354 AND `CreatureDisplayID` = 19899;  -- display 19899 cms 4.0 -> 0.5x = 2x
 -- Mo''arg Extractor (1) (30793)
 UPDATE `creature_template_model` SET `DisplayScale` = 1.0 WHERE `CreatureID` = 30793 AND `CreatureDisplayID` = 18368;  -- display 18368 cms 2.0 -> 1.0x = 2x
+
+-- Gan''arg Peon (19398) -- same forge-demon family, MoargMinion4 (model 2278) at
+-- cms 1.0 / 1.5 / 2.0. Gan''arg family norm is 1.5x (cf. Gan''arg Technician 21960),
+-- so here DisplayScale = 1.5 / creature_model_scale(display).
+UPDATE `creature_template_model` SET `DisplayScale` = 1.0 WHERE `CreatureID` = 19398 AND `CreatureDisplayID` = 18817;  -- display 18817 cms 1.5 -> 1.0x = 1.5x
+UPDATE `creature_template_model` SET `DisplayScale` = 0.75 WHERE `CreatureID` = 19398 AND `CreatureDisplayID` = 18818;  -- display 18818 cms 2.0 -> 0.75x = 1.5x
+UPDATE `creature_template_model` SET `DisplayScale` = 1.5 WHERE `CreatureID` = 19398 AND `CreatureDisplayID` = 18819;  -- display 18819 cms 1.0 -> 1.5x = 1.5x
