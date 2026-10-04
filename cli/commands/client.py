@@ -5,6 +5,7 @@ Runs the REAL patched client (nginx/wow exe + WarcraftXL + our PATCH MPQs over t
 log in, move around and screenshot it without a GPU, root or a user round trip.
 
     zep client setup              build/refresh everything (idempotent; re-run after an exe/WXL ship)
+    zep client --slot N CMD       run CMD against client slot N (0 or 1)
     zep client account [NAME]     create a test account (default non-GM ZEPTEST; --gm N for a GM one)
     zep client chars [-a NAME]    an account's characters in character-select order
     zep client start / stop       launch in the background (-a/--char preselect) / kill
@@ -15,9 +16,14 @@ log in, move around and screenshot it without a GPU, root or a user round trip.
     zep client drive OUTDIR       launch -> login -> charselect -> world, a screenshot per stage
                                   (-a ACCOUNT --char NAME --purpose "I-123 check")
 
-The client is single-instance and shared between sessions: start/drive take client.lock and
-refuse while another session's client is live (--force overrides); a lock with no live client
-is stale and taken over. Character choice = lastCharacterIndex written to Config.wtf before launch.
+Two client SLOTS (MAX_SLOTS - RAM: ~0.75 GB a client in the field, ~1.1 GB in a city, 12 GB
+container cap): slot 0 = ~/wowtest, :77, ~/.wine-wowtest; slot 1 = ~/wowtest-1, :78,
+~/.wine-wowtest-1 (`zep client --slot 1 setup` once; shares Interface/ and the accounts).
+Without --slot a command uses the slot this session holds, and start/drive take the first free one.
+Each slot has its own client.lock: start/drive refuse while another session's client is live there
+(--force overrides; a lock with no live client is stale and taken over), and refuse an account the
+server reports online - a second login kicks the first client. Character choice =
+lastCharacterIndex written to the slot's Config.wtf before launch.
     zep client measure PNG...     colour sanity numbers for captures
     zep client selftest           prove the capture path isn't garbling colour (I-380)
     zep client refresh            re-sync exe/WXL/patch links (setup minus the downloads)
@@ -56,16 +62,43 @@ import click
 from lib.env import NGINX_PATH as NGINX
 
 _HOME = Path.home()
-CLIENT_DIR = Path(os.getenv('WOWTEST_DIR', _HOME / 'wowtest'))
+# Slot 0 = the original single client. Slot N>0 = <dir>-N, display :77+N, <prefix>-N.
+# Two slots max: one client is ~0.75 GB (Wow.exe + Wine + Xvfb, measured 2026-10-04 in Hellfire)
+# and the container is capped at 12 GB shared with every session and its tools.
+MAX_SLOTS = 2
+BASE_DIR = Path(os.getenv('WOWTEST_DIR', _HOME / 'wowtest'))
+BASE_PREFIX = Path(os.getenv('WOWTEST_WINEPREFIX', _HOME / '.wine-wowtest'))
+BASE_DISPLAY = int(os.getenv('WOWTEST_DISPLAY', ':77').lstrip(':'))
+SLOT = 0
+CLIENT_DIR = BASE_DIR
 XROOT = Path(os.getenv('XROOT', _HOME / '.local/xvfb/usr'))
 WINE_DIR = Path(os.getenv('WINE_DIR', _HOME / '.local/wine'))
-WINEPREFIX = Path(os.getenv('WOWTEST_WINEPREFIX', _HOME / '.wine-wowtest'))
-DISPLAY = os.getenv('WOWTEST_DISPLAY', ':77')
+WINEPREFIX = BASE_PREFIX
+DISPLAY = f':{BASE_DISPLAY}'
 STOCK = Path(os.getenv('STOCK_DIR', '/workspace/project/Zeppelin-Tools/Asset Library/STOCK'))
 DEB_CACHE = Path(os.getenv('XDEB_CACHE', _HOME / '.cache/zep-client/debs'))
-ACCOUNT_FILE = CLIENT_DIR / 'account.txt'
-ACCOUNTS_DIR = CLIENT_DIR / 'accounts'
+# Accounts are shared by every slot (they live in slot 0's dir); locks and logs are per slot.
+ACCOUNT_FILE = BASE_DIR / 'account.txt'
+ACCOUNTS_DIR = BASE_DIR / 'accounts'
 LOCK_FILE = CLIENT_DIR / 'client.lock'
+
+
+def _slot_paths(n):
+    if n == 0:
+        return BASE_DIR, BASE_PREFIX, f':{BASE_DISPLAY}'
+    return (BASE_DIR.with_name(f'{BASE_DIR.name}-{n}'), BASE_PREFIX.with_name(f'{BASE_PREFIX.name}-{n}'),
+            f':{BASE_DISPLAY + n}')
+
+
+def _use_slot(n):
+    """Point every module-level path at slot n (the helpers read these globals at call time)."""
+    global SLOT, CLIENT_DIR, WINEPREFIX, DISPLAY, LOCK_FILE, LOG_DIR
+    if not 0 <= n < MAX_SLOTS:
+        raise click.ClickException(f'slot {n} out of range - {MAX_SLOTS} slots (0..{MAX_SLOTS - 1})')
+    SLOT = n
+    CLIENT_DIR, WINEPREFIX, DISPLAY = _slot_paths(n)
+    LOCK_FILE = CLIENT_DIR / 'client.lock'
+    LOG_DIR = CLIENT_DIR / 'Logs/wine'
 CLIENT_ZIP_ROOT = 'ChromieCraft_3.3.5a'
 
 # Screen larger than the 1280x800 client window on purpose: at 1280x800 Wine shrinks the window
@@ -325,8 +358,14 @@ def refresh_files():
 def refresh_if_present():
     """Build-hook entry point: refresh the test client if this machine has one. Never raises -
     a failed refresh must not fail the build that called it."""
-    if not (CLIENT_DIR / 'Wow.exe').exists():
-        return
+    for slot in range(MAX_SLOTS):
+        if (_slot_paths(slot)[0] / 'Wow.exe').exists():
+            _use_slot(slot)
+            _refresh_one()
+    _use_slot(0)
+
+
+def _refresh_one():
     try:
         n = refresh_files()
         msg = f'  Test client refreshed ({n} file(s) updated)' if n else '  Test client already current'
@@ -341,9 +380,15 @@ def refresh_if_present():
 # -- commands -------------------------------------------------------------------------------------
 
 @click.group()
-def client():
+@click.option('--slot', type=int, default=None, envvar='WOWTEST_SLOT',
+              help=f'client slot 0..{MAX_SLOTS - 1} (default: the slot this session holds, else '
+                   f'start/drive take the first free one, other commands slot 0)')
+@click.pass_context
+def client(ctx, slot):
     """Offscreen test client: run, drive and screenshot the real patched client (F-219)."""
-    pass
+    if slot is None:
+        slot = _default_slot(ctx.invoked_subcommand in ('start', 'drive'))
+    _use_slot(slot)
 
 
 @client.command('setup')
@@ -384,6 +429,15 @@ def client_setup(realm):
 
     # Our patches (symlinked) + exe/WXL (copied) = exactly what the launcher serves.
     refresh_files()
+    if SLOT:
+        # Loose test addons (ZepMapTest) are shared with slot 0; the Wine prefix is cloned so the
+        # slot starts with the same registry/fonts instead of a fresh wineboot.
+        iface = CLIENT_DIR / 'Interface'
+        if not iface.exists() and (BASE_DIR / 'Interface').exists():
+            iface.symlink_to(BASE_DIR / 'Interface')
+        if not WINEPREFIX.exists() and BASE_PREFIX.exists():
+            click.echo(f'   cloning {BASE_PREFIX} -> {WINEPREFIX}')
+            shutil.copytree(BASE_PREFIX, WINEPREFIX, symlinks=True)
     for f in (STOCK / 'files/enUS/base-enUS').glob('*.dll'):   # DivxDecoder etc.
         if not (CLIENT_DIR / f.name).exists():                  # never overwrite WXL's d3d9.dll
             shutil.copy2(f, CLIENT_DIR)
@@ -509,28 +563,52 @@ def _owner():
     return os.getenv('CLAUDE_CODE_SESSION_ID') or f'{os.getenv("USER", "user")}@pid{os.getppid()}'
 
 
-def _client_running():
-    """A live (non-zombie) Wow.exe process, found via /proc - never pkill (it matches the shell)."""
+def _client_running(prefix=None):
+    """A live (non-zombie) Wow.exe in this slot's Wine prefix, found via /proc - never pkill (it
+    matches the calling shell)."""
+    want = f'WINEPREFIX={prefix or WINEPREFIX}'.encode()
     for p in Path('/proc').iterdir():
         if not p.name.isdigit():
             continue
         try:
             if b'Wow.exe' in (p / 'cmdline').read_bytes() and \
-                    (p / 'stat').read_text().rsplit(')', 1)[1].split()[0] != 'Z':
+                    (p / 'stat').read_text().rsplit(')', 1)[1].split()[0] != 'Z' and \
+                    want in (p / 'environ').read_bytes().split(b'\0'):
                 return True
         except OSError:
             continue
     return False
 
 
-def _read_lock():
+def _read_lock(path=None):
     try:
-        return json.loads(LOCK_FILE.read_text())
+        return json.loads((path or LOCK_FILE).read_text())
     except (OSError, ValueError):
         return None
 
 
-def _take_lock(purpose, force):
+def _slot_state(n):
+    """(lock, running) for slot n without switching to it."""
+    d, prefix, _ = _slot_paths(n)
+    return _read_lock(d / 'client.lock'), _client_running(prefix)
+
+
+def _default_slot(launching):
+    """The slot this session holds; else, when launching, the first slot nobody is using."""
+    states = [_slot_state(n) for n in range(MAX_SLOTS)]
+    for n, (lock, running) in enumerate(states):
+        if lock and lock.get('owner') == _owner():
+            return n
+    if launching:
+        for n, (lock, running) in enumerate(states):
+            if n and not (_slot_paths(n)[0] / 'Wow.exe').exists():
+                continue   # slot never set up: zep client --slot N setup
+            if not running:
+                return n
+    return 0
+
+
+def _take_lock(purpose, force, account=None):
     """The client is shared and single-instance. Refuse to (re)launch over another session's live
     client; a lock whose client is gone is stale and simply taken over."""
     lock = _read_lock()
@@ -543,7 +621,18 @@ def _take_lock(purpose, force):
     if not lock and _client_running() and not force:
         raise click.ClickException('a client is running with no lock (started outside `zep client`?) - '
                                    'find out whose it is first; --force takes it over')
-    LOCK_FILE.write_text(json.dumps({'owner': _owner(), 'purpose': purpose,
+    # One login per account: a second login KICKS the first client (verified 2026-10-04). Trust
+    # the server's account.online, not just lock files - a lock may predate the account field.
+    account = (account or _creds()[0]).upper()
+    mine = lock and lock.get('owner') == _owner() and lock.get('account') == account and _client_running()
+    online = _sql(f"SELECT online FROM account WHERE username = '{account}'", 'acore_auth')
+    if online and online[0]['online'] != '0' and not mine and not force:
+        holders = [f"slot {n} ({o.get('owner')}: {o.get('purpose') or 'no purpose'})"
+                   for n in range(MAX_SLOTS) for o, r in [_slot_state(n)] if o and r and n != SLOT]
+        raise click.ClickException(f"{account} is already logged in ({', '.join(holders) or 'not by a test client - a player?'}) "
+                                   f"- logging in again would kick it. Use another account "
+                                   f"(zep client account ZEPTESTGM2 --gm 3) or --force")
+    LOCK_FILE.write_text(json.dumps({'owner': _owner(), 'purpose': purpose, 'account': account,
                                      'since': time.strftime('%Y-%m-%d %H:%M:%S')}))
 
 
@@ -629,11 +718,11 @@ def _stop():
 @click.option('--force', is_flag=True, help="take the client over from another session's live run")
 def client_start(timeout, opengl, no_wxl, wait, username, char, purpose, force):
     """Launch the client in the background on the virtual display."""
-    _take_lock(purpose, force)
+    _take_lock(purpose, force, username)
     _stop()
     picked = _select_char(username, char)
     log_path = _start(timeout, opengl, no_wxl, wait)
-    click.echo(f'client started on {DISPLAY}, {picked} preselected (log: {log_path})')
+    click.echo(f'slot {SLOT}: client started on {DISPLAY}, {picked} preselected (log: {log_path})')
 
 
 @client.command('stop')
@@ -649,6 +738,13 @@ def client_stop():
 @client.command('status')
 def client_status():
     """Show whether the display and the client window are up."""
+    for n in range(MAX_SLOTS):
+        lock, running = _slot_state(n)
+        set_up = (_slot_paths(n)[0] / 'Wow.exe').exists()
+        who = f"{lock.get('owner')}{' (this session)' if lock.get('owner') == _owner() else ''}, " \
+              f"{lock.get('account', '?')}: {lock.get('purpose') or 'no purpose'}" if lock else 'unlocked'
+        click.echo(f"slot {n}: {'not set up' if not set_up else ('RUNNING' if running else 'idle')} - {who}")
+    click.echo(f'-- slot {SLOT} --')
     up = _display_up()
     click.echo(f'display {DISPLAY}: {"up" if up else "down"}')
     geom = _window_geom() if up else None
@@ -731,13 +827,13 @@ def client_drive(outdir, login_wait, charselect_wait, world_wait, username, char
     Leaves the client running in-world; `zep client stop` when done, `zep client release` to hand
     it back. Refuses while another session's client is live. Waits are generous: llvmpipe is slow.
     """
-    _take_lock(purpose, force)
+    _take_lock(purpose, force, username)
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
     _stop()
     time.sleep(2)
     picked = _select_char(username, char)
-    click.echo(f'logging in {picked} on {(username or _creds()[0]).upper()}')
+    click.echo(f'slot {SLOT}: logging in {picked} on {(username or _creds()[0]).upper()}')
     _start(3600, False, False, wait=120)
     stages = [('01-login', login_wait, None),
               ('02-charselect', charselect_wait, lambda: _login(False, 0, username)),
