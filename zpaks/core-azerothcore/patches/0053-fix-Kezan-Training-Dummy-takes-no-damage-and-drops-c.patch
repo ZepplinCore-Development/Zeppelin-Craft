@@ -1,0 +1,117 @@
+From b7e8839fdd28859830dc68983da5f24a80dce65f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 4 Oct 2026 20:38:53 +0000
+Subject: [PATCH] fix: Kezan Training Dummy takes no damage and drops combat
+ (I-247)
+
+- npc_zep_training_dummy: the stock npc_training_dummy behaviour (damage
+  zeroed, per-attacker combat ended 5s after the last direct hit) on top of
+  SmartAI, so 48304's smart_scripts quest-credit rows keep running
+- Never chases, melees or evades; rooting/pacify stay data
+
+Closes I-247
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_0163Bc36HwqGJKSZN4vMnjM5
+---
+ .../Custom/zeppelin_goblin_creatures.cpp      | 73 +++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+
+diff --git a/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp b/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
+index 53434cb94..f891dbab6 100644
+--- a/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
++++ b/src/server/scripts/Custom/zeppelin_goblin_creatures.cpp
+@@ -51,6 +51,7 @@
+ #include "ObjectAccessor.h"
+ #include "Player.h"
+ #include "ScriptedCreature.h"
++#include "SmartAI.h"
+ #include "SpellInfo.h"
+ #include "Vehicle.h"
+ 
+@@ -559,10 +560,82 @@ private:
+     ZepCompanionData const* _data = nullptr;
+ };
+ 
++/*
++ * I-247 — Kezan Training Dummy (48304). Donor ScriptName npc_training_dummy.
++ * The stock AC npc_training_dummy is a NullCreatureAI, which would silence the
++ * dummy's smart_scripts quest-credit rows (on spellhit -> KILLEDMONSTER). This is
++ * the same behaviour on top of SmartAI: keep AIName = SmartAI, set this ScriptName.
++ *   - takes no damage (health never moves, SMART_EVENT_DAMAGED still fires first);
++ *     like the stock dummies it is ~1 HP (HealthModifier 0.000187), because the
++ *     client pre-subtracts spell damage and nothing resends an unchanged health;
++ *   - drops combat with each attacker 5s after their last direct hit (DoTs don't
++ *     refresh), exactly like the stock dummy;
++ *   - never chases, melees or evades (rooting/pacify stay data: Rooted=1, 0x20000).
++ */
++struct npc_zep_training_dummy : public SmartAI
++{
++    npc_zep_training_dummy(Creature* creature) : SmartAI(creature) { }
++
++    void JustEnteredCombat(Unit* who) override
++    {
++        SmartAI::JustEnteredCombat(who);
++        _combatTimer[who->GetGUID()] = 5s;
++    }
++
++    void DamageTaken(Unit* attacker, uint32& damage, DamageEffectType damageType, SpellSchoolMask schoolMask) override
++    {
++        SmartAI::DamageTaken(attacker, damage, damageType, schoolMask);
++        damage = 0;
++
++        if (!attacker || damageType == DOT)
++            return;
++
++        _combatTimer[attacker->GetGUID()] = 5s;
++
++        // Pet attacks engage the owner via propagation without firing
++        // JustEnteredCombat here, so track the owner's timer too.
++        if (Unit* owner = attacker->GetCharmerOrOwner())
++            if (me->GetCombatManager().IsInCombatWith(owner))
++                _combatTimer[owner->GetGUID()] = 5s;
++    }
++
++    // A rooted, pacified dummy has nowhere to go; evading would only strip its auras.
++    void EnterEvadeMode(EvadeReason /*why*/) override { }
++
++    void UpdateAI(uint32 diff) override
++    {
++        // Not SmartAI::UpdateAI — that would select a victim, melee and evade.
++        GetScript()->OnUpdate(diff);
++
++        for (auto itr = _combatTimer.begin(); itr != _combatTimer.end();)
++        {
++            itr->second -= Milliseconds(diff);
++            if (itr->second <= 0s)
++            {
++                auto const& pveRefs = me->GetCombatManager().GetPvECombatRefs();
++                auto it = pveRefs.find(itr->first);
++                if (it != pveRefs.end())
++                    it->second->EndCombat();
++
++                itr = _combatTimer.erase(itr);
++            }
++            else
++                ++itr;
++        }
++
++        if (IsEngaged() && !me->IsInCombat())
++            EngagementOver();
++    }
++
++private:
++    std::unordered_map<ObjectGuid, Milliseconds> _combatTimer;
++};
++
+ void AddSC_zeppelin_goblin_creatures()
+ {
+     RegisterCreatureAI(npc_zep_bc_eliminator);
+     RegisterCreatureAI(npc_zep_super_booster_rocket_boots);
+     RegisterCreatureAI(npc_zep_wild_mine_cart);
+     RegisterCreatureAI(npc_zep_wild_cart_companion);
++    RegisterCreatureAI(npc_zep_training_dummy);
+ }
+-- 
+2.34.1
+

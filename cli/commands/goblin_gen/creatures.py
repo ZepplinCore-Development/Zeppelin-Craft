@@ -221,6 +221,7 @@ SCRIPT_NAME_PORTS = {
     39199: "npc_zep_wild_cart_companion",        # Assistant Greely
     39200: "npc_zep_wild_cart_companion",        # Izzy
     39201: "npc_zep_wild_cart_companion",        # Gobber
+    48304: "npc_zep_training_dummy",             # I-247 Kezan Training Dummy (SmartAI subclass — AIName stays SmartAI)
 }
 
 # Donor ScriptNames with NO code in the dump — nothing to port, ever. Excluded

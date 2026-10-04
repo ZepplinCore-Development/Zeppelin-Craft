@@ -14,7 +14,10 @@ Training dummies (I-247): the source roots/pacifies these via the
 npc_training_dummy C++ script, which the port drops (the SAI quest-credit rows
 need AIName=SmartAI, and a ScriptName would silence them). The script's
 behaviour is ported as data instead: creature_template_movement Rooted=1 (never
-chases) + UNIT_FLAG_PACIFIED (never retaliates).
+chases) + UNIT_FLAG_PACIFIED (never retaliates). The rest of the script — no
+damage taken, combat dropped 5s after the last hit — needs C++: 48304 carries
+ScriptName npc_zep_training_dummy (creatures.py SCRIPT_NAME_PORTS), a SmartAI
+subclass, so the SAI credit rows still run.
 
 Two single combined files for both zones -> emitted only on the "" pass.
 """
@@ -98,7 +101,11 @@ def emit(ctx):
         ctx.col.put("creature_template_movement", e, {
             "CreatureId": e, "Ground": 1, "Swim": 0, "Flight": 0, "Rooted": 1,
         }, tier="base", owner="immunities_movement")
-        ctx.col.put("creature_template", e, {"unit_flags": uf | 0x20000}, tier="overlay")
+        # HealthModifier 0.000187 = the stock dummies' ~1 HP. The client pre-subtracts
+        # spell damage from the damage log and the zeroed server health never resends,
+        # so a 170 HP dummy's target frame drifts down; at 1 HP it can't (I-247).
+        ctx.col.put("creature_template", e, {"unit_flags": uf | 0x20000,
+                                             "HealthModifier": 0.000187}, tier="overlay")
 
-    return "immunities=%d masks / movement=%d entries / dummies=%d rooted+pacified" % (
+    return "immunities=%d masks / movement=%d entries / dummies=%d rooted+pacified+1hp" % (
         len(imm), len(move), len(dummies))
