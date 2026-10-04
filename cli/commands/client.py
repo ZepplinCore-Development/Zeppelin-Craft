@@ -5,12 +5,19 @@ Runs the REAL patched client (nginx/wow exe + WarcraftXL + our PATCH MPQs over t
 log in, move around and screenshot it without a GPU, root or a user round trip.
 
     zep client setup              build/refresh everything (idempotent; re-run after an exe/WXL ship)
-    zep client account            create the non-GM test account, store creds in the client dir
-    zep client start / stop       launch in the background / kill
-    zep client status             display, client process, window geometry
-    zep client login              type the stored credentials (--enter-world: first character)
+    zep client account [NAME]     create a test account (default non-GM ZEPTEST; --gm N for a GM one)
+    zep client chars [-a NAME]    an account's characters in character-select order
+    zep client start / stop       launch in the background (-a/--char preselect) / kill
+    zep client release            hand the client back (drop this session's lock)
+    zep client status             display, window, lock holder, accounts
+    zep client login              type the stored credentials (--enter-world: the preselected char)
     zep client shot OUT.png       screenshot cropped to the client window
     zep client drive OUTDIR       launch -> login -> charselect -> world, a screenshot per stage
+                                  (-a ACCOUNT --char NAME --purpose "I-123 check")
+
+The client is single-instance and shared between sessions: start/drive take client.lock and
+refuse while another session's client is live (--force overrides); a lock with no live client
+is stale and taken over. Character choice = lastCharacterIndex written to Config.wtf before launch.
     zep client measure PNG...     colour sanity numbers for captures
     zep client selftest           prove the capture path isn't garbling colour (I-380)
     zep client refresh            re-sync exe/WXL/patch links (setup minus the downloads)
@@ -34,6 +41,7 @@ import colorsys
 import ctypes
 import ctypes.util
 import gzip
+import json
 import os
 import secrets
 import shutil
@@ -56,6 +64,8 @@ DISPLAY = os.getenv('WOWTEST_DISPLAY', ':77')
 STOCK = Path(os.getenv('STOCK_DIR', '/workspace/project/Zeppelin-Tools/Asset Library/STOCK'))
 DEB_CACHE = Path(os.getenv('XDEB_CACHE', _HOME / '.cache/zep-client/debs'))
 ACCOUNT_FILE = CLIENT_DIR / 'account.txt'
+ACCOUNTS_DIR = CLIENT_DIR / 'accounts'
+LOCK_FILE = CLIENT_DIR / 'client.lock'
 CLIENT_ZIP_ROOT = 'ChromieCraft_3.3.5a'
 
 # Screen larger than the 1280x800 client window on purpose: at 1280x800 Wine shrinks the window
@@ -405,22 +415,162 @@ def client_refresh():
 
 @client.command('account')
 @click.argument('username', default='ZEPTEST')
-def client_account(username):
-    """Create the NON-GM test account and store its credentials in the client dir.
+@click.option('--gm', 'gmlevel', type=int, default=0, help='also grant this GM level (3 = like account "1")')
+def client_account(username, gmlevel):
+    """Create a test account and store its credentials in the client dir.
 
-    Non-GM on purpose: GMs see every phase, which masks wrong-phase bugs. The password is random
-    and lives only in account.txt (0600, untracked).
+    ZEPTEST (the default, account.txt) is non-GM on purpose: GMs in `.gm on` see every phase,
+    which masks wrong-phase bugs. Extra accounts - e.g. `ZEPTESTGM --gm 3` for .go/.gm/.tele
+    staging - go to accounts/<NAME>.txt. Passwords are random, 0600, untracked.
     """
     from commands.account import create_account
-    if ACCOUNT_FILE.exists():
-        raise click.ClickException(f'{ACCOUNT_FILE} already exists - the harness already has an account')
+    username = username.upper()
+    path = _account_file(username)
+    if path.exists():
+        raise click.ClickException(f'{path} already exists - the harness already has {username}')
     password = secrets.token_hex(6).upper()
     account_id = create_account(username, password)
-    CLIENT_DIR.mkdir(parents=True, exist_ok=True)
-    ACCOUNT_FILE.write_text(f'{username.upper()}\n{password}\n')
-    ACCOUNT_FILE.chmod(0o600)
-    click.echo(click.style(f'created {username.upper()} (id {account_id}); credentials in {ACCOUNT_FILE}',
-                           fg='green'))
+    if gmlevel:
+        _sql(f"DELETE FROM account_access WHERE id = {int(account_id)}; "
+             f"INSERT INTO account_access (id, gmlevel, RealmID, comment) "
+             f"VALUES ({int(account_id)}, {gmlevel}, -1, 'F-219 test client GM account')", 'acore_auth')
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(f'{username}\n{password}\n')
+    path.chmod(0o600)
+    gm = f', GM level {gmlevel}' if gmlevel else ''
+    click.echo(click.style(f'created {username} (id {account_id}{gm}); credentials in {path}', fg='green'))
+
+
+# -- accounts, characters, lock -------------------------------------------------------------------
+
+def _account_file(username=None):
+    """account.txt holds the default account (ZEPTEST); any other lives in accounts/<NAME>.txt."""
+    if not username:
+        return ACCOUNT_FILE
+    username = username.upper()
+    if ACCOUNT_FILE.exists() and ACCOUNT_FILE.read_text().split()[0] == username:
+        return ACCOUNT_FILE
+    return ACCOUNTS_DIR / f'{username}.txt'
+
+
+def _creds(username=None):
+    path = _account_file(username)
+    if not path.exists():
+        raise click.ClickException(f'no stored credentials for {username or "the default account"} '
+                                   f'- run: zep client account {username or ""}')
+    return path.read_text().split()[:2]
+
+
+def _sql(query, db):
+    """Rows as dicts from a tab-separated mysql result."""
+    from commands.sql import run_mysql_query_as_root
+    ok, out = run_mysql_query_as_root(query, db)
+    if not ok:
+        raise click.ClickException(f'database error: {out}')
+    lines = [l for l in (out or '').strip().split('\n') if l]
+    if len(lines) < 2:
+        return []
+    head = lines[0].split('\t')
+    return [dict(zip(head, l.split('\t'))) for l in lines[1:]]
+
+
+def _chars(username):
+    """The account's characters in character-select order (CHAR_SEL_ENUM: COALESCE(order, guid))."""
+    acc = _sql(f"SELECT id FROM account WHERE username = '{username.upper()}'", 'acore_auth')
+    if not acc:
+        raise click.ClickException(f'account {username} not found')
+    return _sql(f"SELECT guid, name, race, class, level, map, zone, online FROM characters "
+                f"WHERE account = {int(acc[0]['id'])} ORDER BY COALESCE(`order`, guid)", 'acore_characters')
+
+
+def _set_cfg(key, value):
+    cfg = CLIENT_DIR / 'WTF/Config.wtf'
+    lines = [l for l in cfg.read_text().splitlines() if not l.startswith(f'SET {key} ')]
+    cfg.write_text('\n'.join(lines + [f'SET {key} "{value}"']) + '\n')
+
+
+def _select_char(username, char):
+    """Preselect `char` (default: the first) at character select. The client reads
+    lastCharacterIndex from Config.wtf at launch; a killed client never writes it back."""
+    username = username or _creds()[0]
+    chars = _chars(username)
+    if not chars:
+        raise click.ClickException(f'{username} has no characters - zep world char test-setup NAME -a {username} ...')
+    names = [c['name'].lower() for c in chars]
+    if char and char.lower() not in names:
+        raise click.ClickException(f'{char} is not on {username}: {", ".join(c["name"] for c in chars)}')
+    index = names.index(char.lower()) if char else 0
+    _set_cfg('lastCharacterIndex', index)
+    _set_cfg('accountName', username.upper())
+    return chars[index]['name']
+
+
+def _owner():
+    return os.getenv('CLAUDE_CODE_SESSION_ID') or f'{os.getenv("USER", "user")}@pid{os.getppid()}'
+
+
+def _client_running():
+    """A live (non-zombie) Wow.exe process, found via /proc - never pkill (it matches the shell)."""
+    for p in Path('/proc').iterdir():
+        if not p.name.isdigit():
+            continue
+        try:
+            if b'Wow.exe' in (p / 'cmdline').read_bytes() and \
+                    (p / 'stat').read_text().rsplit(')', 1)[1].split()[0] != 'Z':
+                return True
+        except OSError:
+            continue
+    return False
+
+
+def _read_lock():
+    try:
+        return json.loads(LOCK_FILE.read_text())
+    except (OSError, ValueError):
+        return None
+
+
+def _take_lock(purpose, force):
+    """The client is shared and single-instance. Refuse to (re)launch over another session's live
+    client; a lock whose client is gone is stale and simply taken over."""
+    lock = _read_lock()
+    if lock and lock.get('owner') != _owner() and _client_running() and not force:
+        raise click.ClickException(
+            f"test client is in use by session {lock.get('owner')} since {lock.get('since')} "
+            f"({lock.get('purpose') or 'no purpose given'}).\n"
+            f"  Wait for it, or ask that session to release it (ListAgents -> SendMessage).\n"
+            f"  `zep client status` shows the holder; --force takes it over (kills their run).")
+    if not lock and _client_running() and not force:
+        raise click.ClickException('a client is running with no lock (started outside `zep client`?) - '
+                                   'find out whose it is first; --force takes it over')
+    LOCK_FILE.write_text(json.dumps({'owner': _owner(), 'purpose': purpose,
+                                     'since': time.strftime('%Y-%m-%d %H:%M:%S')}))
+
+
+def _release_lock(force=False):
+    lock = _read_lock()
+    if lock and (force or lock.get('owner') == _owner()):
+        LOCK_FILE.unlink(missing_ok=True)
+        return True
+    return False
+
+
+@client.command('chars')
+@click.option('--account', '-a', 'username', default=None, help='account USERNAME (default: ZEPTEST)')
+def client_chars(username):
+    """List an account's characters in character-select order (the index --char selects)."""
+    username = username or _creds()[0]
+    for i, c in enumerate(_chars(username)):
+        click.echo(f"{i}  {c['name']:<14} guid {c['guid']:<6} lvl {c['level']:<3} race {c['race']:<3} "
+                   f"class {c['class']:<3} map {c['map']:<4} zone {c['zone']:<5}"
+                   f"{'  ONLINE' if c['online'] == '1' else ''}")
+
+
+@client.command('release')
+@click.option('--force', is_flag=True, help="release another session's lock")
+def client_release(force):
+    """Hand the client back: drop this session's lock (stop leaves the lock alone)."""
+    click.echo('released' if _release_lock(force) else 'no lock held by this session')
 
 
 KEEP_LOGS = 20
@@ -473,10 +623,17 @@ def _stop():
 @click.option('--opengl', is_flag=True, help='client OpenGL mode instead of D3D9 (bypasses wined3d; implies --no-wxl)')
 @click.option('--no-wxl', is_flag=True, help='use Wine builtin d3d9, skipping the WarcraftXL proxy')
 @click.option('--wait', default=0, help='block until the client window exists (max N seconds)')
-def client_start(timeout, opengl, no_wxl, wait):
+@click.option('--account', '-a', 'username', default=None, help='account the login screen is set up for')
+@click.option('--char', default=None, help='character to preselect (default: the first; see `zep client chars`)')
+@click.option('--purpose', default='', help='shown to other sessions while you hold the client')
+@click.option('--force', is_flag=True, help="take the client over from another session's live run")
+def client_start(timeout, opengl, no_wxl, wait, username, char, purpose, force):
     """Launch the client in the background on the virtual display."""
+    _take_lock(purpose, force)
+    _stop()
+    picked = _select_char(username, char)
     log_path = _start(timeout, opengl, no_wxl, wait)
-    click.echo(f'client started on {DISPLAY} (log: {log_path})')
+    click.echo(f'client started on {DISPLAY}, {picked} preselected (log: {log_path})')
 
 
 @client.command('stop')
@@ -496,7 +653,18 @@ def client_status():
     click.echo(f'display {DISPLAY}: {"up" if up else "down"}')
     geom = _window_geom() if up else None
     click.echo(f'client window: {"%d,%d %dx%d" % geom if geom else "none"}')
-    click.echo(f'test account: {ACCOUNT_FILE.read_text().split()[0] if ACCOUNT_FILE.exists() else "none"}')
+    lock = _read_lock()
+    running = _client_running()
+    if lock:
+        mine = ' (this session)' if lock.get('owner') == _owner() else ''
+        state = '' if running else ' - STALE, no client running'
+        click.echo(f"held by: {lock.get('owner')}{mine} since {lock.get('since')} "
+                   f"({lock.get('purpose') or 'no purpose given'}){state}")
+    else:
+        click.echo(f'held by: nobody{" (but a client is running unlocked)" if running else ""}')
+    accounts = [ACCOUNT_FILE.read_text().split()[0]] if ACCOUNT_FILE.exists() else []
+    accounts += sorted(p.stem for p in ACCOUNTS_DIR.glob('*.txt'))
+    click.echo(f'test accounts: {", ".join(accounts) or "none"}')
     latest = CLIENT_DIR / 'wine.log'
     click.echo(f'latest wine log: {os.readlink(latest) if latest.is_symlink() else "none"}')
     crash = _latest_crash()
@@ -520,10 +688,8 @@ def client_shot(out, full):
     click.echo(out)
 
 
-def _login(enter_world, charselect_wait):
-    if not ACCOUNT_FILE.exists():
-        raise click.ClickException('no test account - run: zep client account')
-    user, password = ACCOUNT_FILE.read_text().split()[:2]
+def _login(enter_world, charselect_wait, username=None):
+    user, password = _creds(username)
     geom = _window_geom()
     if not geom:
         raise click.ClickException('client window not found - zep client start --wait 120')
@@ -541,11 +707,12 @@ def _login(enter_world, charselect_wait):
 
 
 @client.command('login')
-@click.option('--enter-world', is_flag=True, help='press Enter at character select (first character)')
+@click.option('--enter-world', is_flag=True, help='press Enter at character select (the --char given to start)')
 @click.option('--charselect-wait', default=40, show_default=True)
-def client_login(enter_world, charselect_wait):
+@click.option('--account', '-a', 'username', default=None, help='account USERNAME (default: ZEPTEST)')
+def client_login(enter_world, charselect_wait, username):
     """Type the stored test-account credentials into the login screen."""
-    _login(enter_world, charselect_wait)
+    _login(enter_world, charselect_wait, username)
     click.echo('login sent' + (' and entering world' if enter_world else ''))
 
 
@@ -554,19 +721,26 @@ def client_login(enter_world, charselect_wait):
 @click.option('--login-wait', default=60, show_default=True, help='seconds from launch to login screen')
 @click.option('--charselect-wait', default=40, show_default=True)
 @click.option('--world-wait', default=90, show_default=True)
-def client_drive(outdir, login_wait, charselect_wait, world_wait):
+@click.option('--account', '-a', 'username', default=None, help='account USERNAME (default: ZEPTEST)')
+@click.option('--char', default=None, help='character to log in (default: the first; see `zep client chars`)')
+@click.option('--purpose', default='', help='shown to other sessions while you hold the client')
+@click.option('--force', is_flag=True, help="take the client over from another session's live run")
+def client_drive(outdir, login_wait, charselect_wait, world_wait, username, char, purpose, force):
     """Launch -> login -> character select -> world, a screenshot per stage.
 
-    Leaves the client running in-world; `zep client stop` when done. Waits are generous because
-    llvmpipe is slow.
+    Leaves the client running in-world; `zep client stop` when done, `zep client release` to hand
+    it back. Refuses while another session's client is live. Waits are generous: llvmpipe is slow.
     """
+    _take_lock(purpose, force)
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
     _stop()
     time.sleep(2)
+    picked = _select_char(username, char)
+    click.echo(f'logging in {picked} on {(username or _creds()[0]).upper()}')
     _start(3600, False, False, wait=120)
     stages = [('01-login', login_wait, None),
-              ('02-charselect', charselect_wait, lambda: _login(False, 0)),
+              ('02-charselect', charselect_wait, lambda: _login(False, 0, username)),
               ('03-world', world_wait, lambda: _xtool('xdotool', 'key', 'Return')),
               ('04-world-settled', 30, None)]
     for name, wait, action in stages:
