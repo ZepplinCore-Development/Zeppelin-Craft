@@ -22,6 +22,8 @@ rebuilt patch is live with no copy at all; the patch-mpq hook only matters for a
 Layout (none of it tracked except this file):
     ~/.local/xvfb/usr     Xvfb, xdotool, xkbcomp unpacked from Ubuntu jammy .debs (no root)
     ~/wowtest             assembled client: Data/ symlinks, exe/WXL copies, WTF/, Logs/, account.txt
+                          Logs/wine/wine-<time>.log per run (+seh on; last 20 kept), wine.log -> newest;
+                          crash reports land in Errors/<time> Crash.txt
     ~/.wine-wowtest       Wine prefix
     ~/.local/wine         portable Wine 11 (from the retroport toolchain, Joplin "Retroport Toolchain")
 
@@ -75,7 +77,9 @@ def _xlib_env():
 
 def _wine_env(bypass_wxl=False):
     env = dict(os.environ, DISPLAY=DISPLAY, WINEPREFIX=str(WINEPREFIX), LIBGL_ALWAYS_SOFTWARE='1')
-    env.setdefault('WINEDEBUG', 'err+all')
+    # +seh logs every exception dispatch (code + address). A #132 often reports only the CRT SEH
+    # validator faulting while handling an EARLIER exception; that earlier one is only in this log.
+    env.setdefault('WINEDEBUG', 'err+all,+seh')
     # d3d9=n,b loads the WXL proxy shipped next to Wow.exe; builtin bypasses it.
     env['WINEDLLOVERRIDES'] = f"d3d9={'b' if bypass_wxl else 'n,b'};mscoree,mshtml="
     return env
@@ -419,15 +423,45 @@ def client_account(username):
                            fg='green'))
 
 
+KEEP_LOGS = 20
+LOG_DIR = CLIENT_DIR / 'Logs/wine'
+
+
+def _new_run_log():
+    """Per-run Wine log (Logs/wine/wine-<time>.log); wine.log -> newest. Keeps the last KEEP_LOGS so
+    a crash's log survives the next run. Crash reports go to Errors/ with the same timestamps."""
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    path = LOG_DIR / time.strftime('wine-%Y%m%d-%H%M%S.log')
+    latest = CLIENT_DIR / 'wine.log'
+    if latest.is_symlink() or latest.exists():
+        latest.unlink()
+    latest.symlink_to(path)
+    for old in sorted(LOG_DIR.glob('wine-*.log'))[:-KEEP_LOGS]:
+        old.unlink()
+    return path
+
+
+def _latest_crash():
+    crashes = sorted((CLIENT_DIR / 'Errors').glob('* Crash.txt'), key=lambda p: p.stat().st_mtime)
+    return crashes[-1] if crashes else None
+
+
 def _start(timeout, opengl, no_wxl, wait):
     _require_setup()
     _xvfb_up()
-    log = open(CLIENT_DIR / 'wine.log', 'w')
+    if opengl and not no_wxl:
+        # WXL's EnsureDeviceHooks reads the D3D9 device field of gx; in OpenGL mode that field is
+        # garbage (0x84F5) and WXL faults within seconds (#132 at WarcraftXL.dll RVA 0x47A5, I-381).
+        click.echo(click.style('  --opengl implies --no-wxl (WarcraftXL is D3D9-only)', fg='yellow'))
+        no_wxl = True
+    log_path = _new_run_log()
+    log = open(log_path, 'w')
     cmd = ['timeout', str(timeout), str(WINE_DIR / 'bin/wine'), 'Wow.exe'] + (['-opengl'] if opengl else [])
     subprocess.Popen(cmd, cwd=CLIENT_DIR, env=_wine_env(no_wxl), stdout=log, stderr=log,
                      start_new_session=True)
     if wait and not _wait_window(wait):
-        raise click.ClickException(f'no client window after {wait}s - see {CLIENT_DIR}/wine.log')
+        raise click.ClickException(f'no client window after {wait}s - see {log_path}')
+    return log_path
 
 
 def _stop():
@@ -436,13 +470,13 @@ def _stop():
 
 @client.command('start')
 @click.option('--timeout', default=3600, show_default=True, help='kill the client after N seconds')
-@click.option('--opengl', is_flag=True, help='client OpenGL mode instead of D3D9 (bypasses wined3d)')
+@click.option('--opengl', is_flag=True, help='client OpenGL mode instead of D3D9 (bypasses wined3d; implies --no-wxl)')
 @click.option('--no-wxl', is_flag=True, help='use Wine builtin d3d9, skipping the WarcraftXL proxy')
 @click.option('--wait', default=0, help='block until the client window exists (max N seconds)')
 def client_start(timeout, opengl, no_wxl, wait):
     """Launch the client in the background on the virtual display."""
-    _start(timeout, opengl, no_wxl, wait)
-    click.echo(f'client started on {DISPLAY} (log: {CLIENT_DIR}/wine.log)')
+    log_path = _start(timeout, opengl, no_wxl, wait)
+    click.echo(f'client started on {DISPLAY} (log: {log_path})')
 
 
 @client.command('stop')
@@ -463,6 +497,12 @@ def client_status():
     geom = _window_geom() if up else None
     click.echo(f'client window: {"%d,%d %dx%d" % geom if geom else "none"}')
     click.echo(f'test account: {ACCOUNT_FILE.read_text().split()[0] if ACCOUNT_FILE.exists() else "none"}')
+    latest = CLIENT_DIR / 'wine.log'
+    click.echo(f'latest wine log: {os.readlink(latest) if latest.is_symlink() else "none"}')
+    crash = _latest_crash()
+    if crash:
+        when = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(crash.stat().st_mtime))
+        click.echo(f'latest crash: {crash} ({when}) - client crashes go to the I-381 session')
 
 
 def _shot(out, full=False):
