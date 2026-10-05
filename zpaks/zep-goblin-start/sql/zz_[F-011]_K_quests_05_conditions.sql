@@ -2,9 +2,11 @@
 -- Ported verbatim from Project Neltharion 4.3.4 world DB. In Cata most goblin-start quests have
 -- PrevQuestID=0 and are staged by these type-19 conditions instead: prior-quest-rewarded (type 8),
 -- gender (type 20), item held (type 2). All AC-native condition types; no core change required.
--- 25 conditions gating 11 quests.
--- NOTE: 1 negative item-held row on quest 28607 (item 46856 'Keys to the Hot Rod', not shipped) omitted;
---       redundant here (a non-existent item is never held) and the 14125-not-rewarded gate still applies.
+-- 26 conditions gating 11 quests.
+-- 28607 'The Keys to the Hot Rod' keeps its negative item-held row, remapped Cata 46856 -> 84460 (I-384).
+-- It was first omitted as "never held", but 84460 IS the keys from 14071: without the row a player who
+-- still has the (unique) keys is offered 28607 and can never turn it in (reward 84460 can't be stored,
+-- SMSG_INVENTORY_CHANGE_FAILURE, the reward window re-opens forever).
 
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=19 AND `SourceEntry` IN (14109, 14110, 14113, 14115, 14125, 14153, 24520, 25473, 26711, 26712, 28607);
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
@@ -32,4 +34,5 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 (19, 0, 26711, 0, 0, 20, 0, 1, 0, 0, 0, 0, 0, '', ''),
 (19, 0, 26712, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, '', ''),
 (19, 0, 28607, 0, 0, 8, 0, 14071, 0, 0, 0, 0, 0, '', ''),
-(19, 0, 28607, 0, 0, 8, 0, 14125, 0, 0, 1, 0, 0, '', '');
+(19, 0, 28607, 0, 0, 8, 0, 14125, 0, 0, 1, 0, 0, '', ''),
+(19, 0, 28607, 0, 0, 2, 0, 84460, 1, 0, 1, 0, 0, '', 'I-384: not while holding Keys to the Hot Rod (Cata 46856 -> 84460, unique)');
