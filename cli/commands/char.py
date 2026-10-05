@@ -654,23 +654,122 @@ def _quest_prereqs(targets: List[int], race: int, cls: int) -> Tuple[List[int], 
     return sorted(needed), sorted(skipped), sorted(negative)
 
 
-# Stock 3.3.5a heirlooms per class: shoulders, chest, weapons, trinket.
-# Ids are item_template entries (Quality 7). Items a class/level can't equip
-# yet (e.g. dual wield) are mailed by the core on login, not lost.
+# Heirlooms per class, head to toe: the stock 3.3.5a shoulders/chest/weapons/
+# trinket/ring plus the F-214 per-slot pieces (head, legs, feet, waist, hands,
+# wrists - zpaks/zep-items/sql/zz_[F-214]_*_heirlooms.sql). Ids are
+# item_template entries (Quality 7). Items a class/level can't equip yet (e.g.
+# dual wield) are mailed by the core on login, not lost. The second trinket is
+# the faction's Inherited Insignia (_insignia), picked by race.
 TRINKET_MELEE = 42991   # Swift Hand of Justice
 TRINKET_CASTER = 42992  # Discerning Eye of the Beast
+RING = 50255            # Dread Pirate Ring (unique-equipped)
+INSIGNIA = (44097, 44098)   # Inherited Insignia of the Horde / of the Alliance
+SET_PLATE = [42949, 48685] + list(range(85012, 85018))           # Polished Valor
+SET_MAIL_AGI = [42950, 48677] + list(range(85006, 85012))        # Champion Herod
+SET_MAIL_INT = [42951, 48683] + list(range(85018, 85024))        # Mystical Elements
+SET_LEATHER_AGI = [42952, 48689] + list(range(85024, 85030))     # Stained Shadowcraft
+SET_LEATHER_INT = [42984, 48687] + list(range(85030, 85036))     # Preened Ironfeather
+SET_CLOTH = [42985, 48691] + list(range(85000, 85006))           # Tattered Dreadmist
 HEIRLOOMS = {
-    1:  [42949, 48685, 42943, TRINKET_MELEE],                # warrior: plate, 2H axe
-    2:  [42949, 48685, 44092, TRINKET_MELEE],                # paladin: plate, 2H sword
-    3:  [42950, 48677, 42943, 42946, TRINKET_MELEE],         # hunter: mail, 2H axe, bow
-    4:  [42952, 48689, 42944, 44091, 44093, TRINKET_MELEE],  # rogue: leather, 2 daggers, gun
-    5:  [42985, 48691, 42947, TRINKET_CASTER],               # priest: cloth, staff
-    6:  [42949, 48685, 42943, TRINKET_MELEE],                # death knight
-    7:  [42951, 48683, 42948, TRINKET_CASTER],               # shaman: mail, caster mace
-    8:  [42985, 48691, 42947, TRINKET_CASTER],               # mage
-    9:  [42985, 48691, 42947, TRINKET_CASTER],               # warlock
-    11: [42984, 48687, 42947, TRINKET_CASTER],               # druid: leather, staff
+    1:  SET_PLATE + [42943, TRINKET_MELEE, RING],                 # warrior: 2H axe
+    2:  SET_PLATE + [44092, TRINKET_MELEE, RING],                 # paladin: 2H sword
+    3:  SET_MAIL_AGI + [42943, 42946, TRINKET_MELEE, RING],       # hunter: 2H axe, bow/gun
+    4:  SET_LEATHER_AGI + [42944, 44091, 44093, TRINKET_MELEE, RING],  # rogue: 2 daggers, gun/bow
+    5:  SET_CLOTH + [42947, TRINKET_CASTER, RING],                # priest: staff
+    6:  SET_PLATE + [42943, TRINKET_MELEE, RING],                 # death knight: 2H axe
+    7:  SET_MAIL_INT + [42948, TRINKET_CASTER, RING],             # shaman: caster mace
+    8:  SET_CLOTH + [42947, TRINKET_CASTER, RING],                # mage: staff
+    9:  SET_CLOTH + [42947, TRINKET_CASTER, RING],                # warlock: staff
+    11: SET_LEATHER_INT + [42947, TRINKET_CASTER, RING],          # druid: staff
 }
+
+
+def _insignia(race: int) -> Optional[int]:
+    race_bit = 1 << (race - 1)
+    for r in _q(_run_world_query, "SELECT entry, AllowableRace FROM item_template "
+                f"WHERE entry IN ({', '.join(map(str, INSIGNIA))})"):
+        if int(r['AllowableRace']) & race_bit:
+            return int(r['entry'])
+    return None
+
+
+# Ranged heirlooms by the weapon skill the race/class starts with (playercreateinfo_skills).
+# Hunters: bows for orc/night elf/troll/blood elf, guns for dwarf/tauren/goblin/worgen - a
+# goblin given the bow had it mailed back on login ("problems with equipping").
+RANGED_HEIRLOOM_BY_SKILL = {45: 42946, 46: 44093}   # Bows -> Charmed Ancient Bone Bow, Guns -> Upgraded Dwarven Hand Cannon
+
+
+def _ranged_heirloom(race: int, cls: int) -> Optional[int]:
+    race_bit, class_bit = 1 << (race - 1), 1 << (cls - 1)
+    for r in _q(_run_world_query,
+                "SELECT skill FROM playercreateinfo_skills WHERE skill IN (45, 46) "
+                f"AND (raceMask = 0 OR raceMask & {race_bit}) AND (classMask = 0 OR classMask & {class_bit})"):
+        return RANGED_HEIRLOOM_BY_SKILL[int(r['skill'])]
+    return None
+
+
+# Ammo for an equipped bow/crossbow (arrows) or gun (bullets): the best common vendor ammo
+# the level allows, two full stacks, in the matching quiver/ammo pouch in the first bag slot,
+# and set as the character's equipped ammo (characters.ammoId).
+AMMO_FOR_WEAPON_SUBCLASS = {2: 2, 18: 2, 3: 3}      # bow, crossbow -> arrows; gun -> bullets
+CONTAINER_FOR_AMMO = {2: 2, 3: 3}                   # arrows -> quiver, bullets -> ammo pouch
+BAG_SLOT_FIRST = 19                                 # INVENTORY_SLOT_BAG_START
+_JUNK_NAME = "(name LIKE '%Deprecated%' OR name LIKE '%Depricated%' OR name LIKE 'Test %' " \
+             "OR name LIKE 'Monster%' OR name LIKE 'Crafted%' OR name IN ('Smooth Pebble', 'Flash Pellet'))"
+
+
+def _ammo_kit(weapon_subclass: int, level: int) -> Optional[Tuple[dict, dict]]:
+    ammo_sub = AMMO_FOR_WEAPON_SUBCLASS.get(weapon_subclass)
+    if ammo_sub is None:
+        return None
+    ammo = _q(_run_world_query,
+              "SELECT entry, name, stackable FROM item_template WHERE class = 6 AND subclass = "
+              f"{ammo_sub} AND Quality = 1 AND BuyPrice > 0 AND entry < 56900 AND RequiredLevel <= {level} "
+              f"AND NOT {_JUNK_NAME} ORDER BY RequiredLevel DESC, ItemLevel DESC LIMIT 1")
+    bag = _q(_run_world_query,
+             "SELECT entry, name, ContainerSlots, MaxDurability FROM item_template WHERE class = 11 AND subclass = "
+             f"{CONTAINER_FOR_AMMO[ammo_sub]} AND Quality = 1 AND BuyPrice > 0 AND entry < 56900 "
+             f"AND RequiredLevel <= {level} AND NOT {_JUNK_NAME} "
+             "ORDER BY RequiredLevel DESC, ContainerSlots DESC LIMIT 1")
+    return (ammo[0], bag[0]) if ammo and bag else None
+
+
+# Weapon item subclass -> (weapon skill, proficiency spell that grants it).
+WEAPON_SKILL = {0: (44, 196), 1: (172, 197), 2: (45, 264), 3: (46, 266), 4: (54, 198),
+                5: (160, 199), 6: (229, 200), 7: (43, 201), 8: (55, 202), 10: (136, 227),
+                13: (473, 15590), 15: (173, 1180), 16: (176, 2567), 18: (226, 5011), 19: (228, 5009)}
+SKILL_CATEGORY_WEAPON = 6   # SkillLine.category: weapon skills, Defense and Unarmed
+
+
+def _combat_skills(race: int, cls: int, weapon_subclasses) -> Tuple[Dict[int, int], List[str]]:
+    """Weapon/Defense skills to max for the level: the class's starting ones
+    (playercreateinfo_skills in SkillLine category 6) plus one per equipped weapon.
+    Returns {skill: proficiency spell or 0} and warnings. The core relearns starting
+    skills at value 1 on every load unless character_skills already has the row; a
+    row it can't place in SkillRaceClassInfo is deleted, so those are skipped here."""
+    race_bit, class_bit = 1 << (race - 1), 1 << (cls - 1)
+    skills: Dict[int, int] = {}
+    for r in _q(_run_world_query,
+                "SELECT skill FROM playercreateinfo_skills "
+                f"WHERE (raceMask = 0 OR raceMask & {race_bit}) AND (classMask = 0 OR classMask & {class_bit})"):
+        skills[int(r['skill'])] = 0
+    for sub in weapon_subclasses:
+        if sub in WEAPON_SKILL:
+            skill, spell = WEAPON_SKILL[sub]
+            skills.setdefault(skill, spell)
+    if not skills:
+        return {}, []
+    ids = ','.join(map(str, skills))
+    weapon = {int(r['id']) for r in _dbc_rows(
+        f"SELECT id FROM skillline WHERE id IN ({ids}) AND category = {SKILL_CATEGORY_WEAPON}")}
+    allowed = {int(r['skill_id']) for r in _dbc_rows(
+        f"SELECT skill_id FROM skillraceclassinfo WHERE skill_id IN ({ids}) "
+        f"AND race_mask & {race_bit} AND class_mask & {class_bit}")}
+    warnings = [f"weapon skill {s} not allowed for this race/class (SkillRaceClassInfo), skipped"
+                for s in sorted(skills) if s in weapon and s not in allowed]
+    return {s: sp for s, sp in skills.items() if s in weapon and s in allowed}, warnings
+
+
 # InventoryType -> equipment slot (first free of the list)
 INV_SLOTS = {1: [0], 2: [1], 3: [2], 4: [3], 5: [4], 20: [4], 6: [5], 7: [6], 8: [7],
              9: [8], 10: [9], 11: [10, 11], 12: [12, 13], 16: [14], 19: [18],
@@ -939,10 +1038,16 @@ def char_test_setup(name, race, cls, gender, level, account, before, done, take,
 
     # Heirlooms, equipped (bag 0, equipment slots)
     equipped: List[Tuple[int, str, int]] = []   # (entry, name, slot)
-    ids = list(equip) + (HEIRLOOMS.get(class_id, []) if heirlooms else [])
+    kit = list(HEIRLOOMS.get(class_id, [])) if heirlooms else []
+    ranged = _ranged_heirloom(race_id, class_id) if kit else None
+    if ranged:   # swap whichever ranged heirloom the kit lists for the one this race can use
+        kit = [ranged if e in RANGED_HEIRLOOM_BY_SKILL.values() else e for e in kit]
+    if kit and (insignia := _insignia(race_id)):
+        kit.append(insignia)
+    ids = list(equip) + kit
     if ids:
         items = {int(r['entry']): r for r in _q(_run_world_query,
-                 "SELECT entry, name, InventoryType, MaxDurability FROM item_template "
+                 "SELECT entry, name, class, subclass, InventoryType, MaxDurability FROM item_template "
                  f"WHERE entry IN ({','.join(map(str, ids))})")}
         used = set()
         item_guid = _alloc_id('item_instance', 'guid', ITEM_GUID_OFFSET)
@@ -965,6 +1070,47 @@ def char_test_setup(name, race, cls, gender, level, account, before, done, take,
                          f"VALUES ({guid}, 0, {slot}, {item_guid});")
             equipped.append((entry, it['name'], slot))
             item_guid += 1
+
+        # Ammo for the equipped ranged weapon (slot 17)
+        ranged_item = next((items[e] for e, _n, sl in equipped if sl == 17), None)
+        kit_ammo = _ammo_kit(int(ranged_item['subclass']), level) \
+            if ranged_item and int(ranged_item['class']) == 2 else None
+        if kit_ammo:
+            ammo, bag = kit_ammo
+            bag_guid = item_guid
+            stmts.append(
+                "INSERT INTO item_instance (guid, itemEntry, owner_guid, creatorGuid, giftCreatorGuid, "
+                "count, duration, charges, flags, enchantments, randomPropertyId, durability, playedTime, text) "
+                f"VALUES ({bag_guid}, {bag['entry']}, {guid}, 0, 0, 1, 0, '0 0 0 0 0 ', 0, "
+                f"'{ENCHANTMENTS_BLANK}', 0, {int(bag['MaxDurability'])}, 0, NULL);")
+            stmts.append(f"INSERT INTO character_inventory (guid, bag, slot, item) "
+                         f"VALUES ({guid}, 0, {BAG_SLOT_FIRST}, {bag_guid});")
+            item_guid += 1
+            for stack_slot in range(min(2, int(bag['ContainerSlots']))):
+                stmts.append(
+                    "INSERT INTO item_instance (guid, itemEntry, owner_guid, creatorGuid, giftCreatorGuid, "
+                    "count, duration, charges, flags, enchantments, randomPropertyId, durability, playedTime, text) "
+                    f"VALUES ({item_guid}, {ammo['entry']}, {guid}, 0, 0, {int(ammo['stackable'])}, 0, "
+                    f"'0 0 0 0 0 ', 0, '{ENCHANTMENTS_BLANK}', 0, 0, 0, NULL);")
+                stmts.append(f"INSERT INTO character_inventory (guid, bag, slot, item) "
+                             f"VALUES ({guid}, {bag_guid}, {stack_slot}, {item_guid});")
+                item_guid += 1
+            stmts.append(f"UPDATE characters SET ammoId = {ammo['entry']} WHERE guid = {guid};")
+            equipped.append((ammo['entry'], f"{bag['name']} with {2 * int(ammo['stackable'])} {ammo['name']}", BAG_SLOT_FIRST))
+
+    # Weapon skills + Defense at the level cap (level x 5), with the proficiency
+    # spell for any equipped weapon the class doesn't start with.
+    weapon_subs = [int(items[e]['subclass']) for e, _n, sl in equipped
+                   if sl in (15, 16, 17) and e in items and int(items[e]['class']) == 2] if ids else []
+    combat, skill_warnings = _combat_skills(race_id, class_id, weapon_subs)
+    skill_value = 5 * level
+    if combat:
+        stmts.append("INSERT INTO character_skills (guid, skill, value, max) VALUES "
+                     + ', '.join(f"({guid}, {sk}, {skill_value}, {skill_value})" for sk in sorted(combat)) + ';')
+        prof = sorted({sp for sp in combat.values() if sp} - set(learned))
+        if prof:
+            stmts.append("INSERT IGNORE INTO character_spell (guid, spell, specMask) VALUES "
+                         + ', '.join(f"({guid}, {sp}, 255)" for sp in prof) + ';')
     stmts.append('COMMIT;')
     sql_block = '\n'.join(stmts)
 
@@ -981,6 +1127,10 @@ def char_test_setup(name, race, cls, gender, level, account, before, done, take,
         click.echo(f"  spells: {len(learned)} class-trainer (level <= {level}) + quest-reward spells")
     if equipped:
         click.echo(f"  equipped: {', '.join(n for _, n, _ in equipped)}")
+    if combat:
+        click.echo(f"  combat skills at {skill_value}/{skill_value}: {', '.join(map(str, sorted(combat)))}")
+    for w in skill_warnings:
+        click.echo(f"  warning: {w}")
     if skipped:
         click.echo(f"  skipped (race/class can't take): {skipped}")
     if negative:
