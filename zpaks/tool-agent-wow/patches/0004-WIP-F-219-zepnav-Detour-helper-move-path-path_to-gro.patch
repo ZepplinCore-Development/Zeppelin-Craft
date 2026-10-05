@@ -1,0 +1,1576 @@
+From 4e544f6311a69644c84cf099a4cb5c908758dff5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 06:32:44 +0000
+Subject: [PATCH] WIP: F-219 - zepnav Detour helper, move path/path_to/ground,
+ cast, test scripts
+
+- zeppelin/nav/zepnav.cpp: Detour queries on AzerothCore mmaps, built against
+  Zeppelin-Core's vendored Detour (DT_POLYREF64); MmapTileHeader v19 mirrored; lazy tile
+  loading around each route; PathGenerator settings (extents 3/5/3 then 3/50/3,
+  GROUND|WATER|MAGMA, recast y,z,x); line protocol path/height
+- move: shared waypoint walker; move.path (waypoints only), move.path_to (walk, 25 s budget
+  per call, remaining/partial reported), move.ground; installer builds zepnav next to move
+- interact: cast RPC (CMSG_CAST_SPELL, SPELL_GO / CAST_FAILED / SPELL_FAILURE), use
+  spell_id for locked chests
+- zeppelin/tests: rpc.py helper + valley_of_trials.py end-to-end test
+- verified live: valley_of_trials PASS in 10.7 s (DB: 4641 rewarded, 788 in progress, 50 XP);
+  Den -> Razor Hill 1432 yd / 32 waypoints walked in 214 s, DB saved the exact target
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/install.sh                           |   8 +-
+ zeppelin/modules/move/api/move.pb.go          | 471 +++++++++++++++++-
+ zeppelin/modules/move/api/move_grpc.pb.go     | 114 +++++
+ zeppelin/modules/move/main.go                 | 278 ++++++++---
+ zeppelin/modules/move/module.yaml             |   3 +
+ zeppelin/modules/move/move.proto              |  38 ++
+ zeppelin/nav/zepnav.cpp                       | 238 +++++++++
+ .../tests/__pycache__/rpc.cpython-310.pyc     | Bin 0 -> 2971 bytes
+ zeppelin/tests/rpc.py                         |  74 +++
+ zeppelin/tests/valley_of_trials.py            |  32 ++
+ 10 files changed, 1177 insertions(+), 79 deletions(-)
+ create mode 100644 zeppelin/nav/zepnav.cpp
+ create mode 100644 zeppelin/tests/__pycache__/rpc.cpython-310.pyc
+ create mode 100644 zeppelin/tests/rpc.py
+ create mode 100644 zeppelin/tests/valley_of_trials.py
+
+diff --git a/zeppelin/install.sh b/zeppelin/install.sh
+index 7a405cb..47befcb 100755
+--- a/zeppelin/install.sh
++++ b/zeppelin/install.sh
+@@ -2,13 +2,16 @@
+ # Build Zeppelin's agent-wow modules (F-219) into a modules directory.
+ #   zeppelin/install.sh <module_dir> [module...]     (default: every zeppelin/modules/*)
+ # Each module dir gets: its binary (named after the module), module.yaml, module.pb.
+-# Needs protoc (~/.local/protoc) and the Go toolchain (GOTOOLCHAIN=auto fetches 1.27.1).
++# Needs protoc (~/.local/protoc), the Go toolchain (GOTOOLCHAIN=auto fetches 1.27.1) and g++.
++# The move module also gets zepnav (zeppelin/nav), compiled against Zeppelin-Core's vendored
++# Detour ($DETOUR_DIR) so it loads mmaps exactly as the worldserver does.
+ set -euo pipefail
+ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ DEST="${1:?usage: install.sh <module_dir> [module...]}"; shift
+ PROTOC="${PROTOC:-$HOME/.local/protoc/bin/protoc}"
+ INCLUDE="${PROTOC_INCLUDE:-$HOME/.local/protoc/include}"
+ export GOTOOLCHAIN="${GOTOOLCHAIN:-auto}"
++DETOUR_DIR="${DETOUR_DIR:-/workspace/project/Zeppelin-Core/deps/recastnavigation/Detour}"
+ cd "$ROOT"
+ mods=("$@"); [ ${#mods[@]} -eq 0 ] && mods=($(ls zeppelin/modules))
+ for m in "${mods[@]}"; do
+@@ -17,5 +20,8 @@ for m in "${mods[@]}"; do
+     go build -o "$out/$m" "./$src"
+     "$PROTOC" -I . -I "$INCLUDE" --include_imports --descriptor_set_out="$out/module.pb" "$src/$m.proto"
+     cp "$src/module.yaml" "$out/module.yaml"
++    if [ "$m" = move ]; then
++        g++ -O2 -std=c++17 -w -I"$DETOUR_DIR/Include" zeppelin/nav/zepnav.cpp "$DETOUR_DIR"/Source/*.cpp -o "$out/zepnav"
++    fi
+     echo "installed $m -> $out"
+ done
+diff --git a/zeppelin/modules/move/api/move.pb.go b/zeppelin/modules/move/api/move.pb.go
+index bf78170..5e9ff27 100644
+--- a/zeppelin/modules/move/api/move.pb.go
++++ b/zeppelin/modules/move/api/move.pb.go
+@@ -260,6 +260,390 @@ func (x *MoveToResult) GetDistance() float32 {
+ 	return 0
+ }
+ 
++type Point struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	X             float32                `protobuf:"fixed32,1,opt,name=x,proto3" json:"x,omitempty"`
++	Y             float32                `protobuf:"fixed32,2,opt,name=y,proto3" json:"y,omitempty"`
++	Z             float32                `protobuf:"fixed32,3,opt,name=z,proto3" json:"z,omitempty"`
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *Point) Reset() {
++	*x = Point{}
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[3]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *Point) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*Point) ProtoMessage() {}
++
++func (x *Point) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[3]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use Point.ProtoReflect.Descriptor instead.
++func (*Point) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_move_move_proto_rawDescGZIP(), []int{3}
++}
++
++func (x *Point) GetX() float32 {
++	if x != nil {
++		return x.X
++	}
++	return 0
++}
++
++func (x *Point) GetY() float32 {
++	if x != nil {
++		return x.Y
++	}
++	return 0
++}
++
++func (x *Point) GetZ() float32 {
++	if x != nil {
++		return x.Z
++	}
++	return 0
++}
++
++type PathRequest struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	X             float32                `protobuf:"fixed32,1,opt,name=x,proto3" json:"x,omitempty"`
++	Y             float32                `protobuf:"fixed32,2,opt,name=y,proto3" json:"y,omitempty"`
++	Z             float32                `protobuf:"fixed32,3,opt,name=z,proto3" json:"z,omitempty"`
++	Speed         float32                `protobuf:"fixed32,4,opt,name=speed,proto3" json:"speed,omitempty"`                      // path_to only; 0 = current run speed
++	BudgetMs      uint32                 `protobuf:"varint,5,opt,name=budget_ms,json=budgetMs,proto3" json:"budget_ms,omitempty"` // path_to only; walking time per call, 0 = 25 s (module calls cap at 30 s)
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *PathRequest) Reset() {
++	*x = PathRequest{}
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[4]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *PathRequest) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*PathRequest) ProtoMessage() {}
++
++func (x *PathRequest) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[4]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use PathRequest.ProtoReflect.Descriptor instead.
++func (*PathRequest) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_move_move_proto_rawDescGZIP(), []int{4}
++}
++
++func (x *PathRequest) GetX() float32 {
++	if x != nil {
++		return x.X
++	}
++	return 0
++}
++
++func (x *PathRequest) GetY() float32 {
++	if x != nil {
++		return x.Y
++	}
++	return 0
++}
++
++func (x *PathRequest) GetZ() float32 {
++	if x != nil {
++		return x.Z
++	}
++	return 0
++}
++
++func (x *PathRequest) GetSpeed() float32 {
++	if x != nil {
++		return x.Speed
++	}
++	return 0
++}
++
++func (x *PathRequest) GetBudgetMs() uint32 {
++	if x != nil {
++		return x.BudgetMs
++	}
++	return 0
++}
++
++type PathResult struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Points        []*Point               `protobuf:"bytes,1,rep,name=points,proto3" json:"points,omitempty"`    // waypoints from the current position (first = start)
++	Partial       bool                   `protobuf:"varint,2,opt,name=partial,proto3" json:"partial,omitempty"` // navmesh could not reach the target; points end at the closest reachable spot
++	Error         string                 `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *PathResult) Reset() {
++	*x = PathResult{}
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[5]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *PathResult) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*PathResult) ProtoMessage() {}
++
++func (x *PathResult) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[5]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use PathResult.ProtoReflect.Descriptor instead.
++func (*PathResult) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_move_move_proto_rawDescGZIP(), []int{5}
++}
++
++func (x *PathResult) GetPoints() []*Point {
++	if x != nil {
++		return x.Points
++	}
++	return nil
++}
++
++func (x *PathResult) GetPartial() bool {
++	if x != nil {
++		return x.Partial
++	}
++	return false
++}
++
++func (x *PathResult) GetError() string {
++	if x != nil {
++		return x.Error
++	}
++	return ""
++}
++
++type PathToResult struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Move          *MoveToResult          `protobuf:"bytes,1,opt,name=move,proto3" json:"move,omitempty"`
++	Partial       bool                   `protobuf:"varint,2,opt,name=partial,proto3" json:"partial,omitempty"`
++	Remaining     float32                `protobuf:"fixed32,3,opt,name=remaining,proto3" json:"remaining,omitempty"` // straight-line yards still to go when the budget ran out
++	Waypoints     uint32                 `protobuf:"varint,4,opt,name=waypoints,proto3" json:"waypoints,omitempty"`
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *PathToResult) Reset() {
++	*x = PathToResult{}
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[6]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *PathToResult) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*PathToResult) ProtoMessage() {}
++
++func (x *PathToResult) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[6]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use PathToResult.ProtoReflect.Descriptor instead.
++func (*PathToResult) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_move_move_proto_rawDescGZIP(), []int{6}
++}
++
++func (x *PathToResult) GetMove() *MoveToResult {
++	if x != nil {
++		return x.Move
++	}
++	return nil
++}
++
++func (x *PathToResult) GetPartial() bool {
++	if x != nil {
++		return x.Partial
++	}
++	return false
++}
++
++func (x *PathToResult) GetRemaining() float32 {
++	if x != nil {
++		return x.Remaining
++	}
++	return 0
++}
++
++func (x *PathToResult) GetWaypoints() uint32 {
++	if x != nil {
++		return x.Waypoints
++	}
++	return 0
++}
++
++type GroundRequest struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	X             float32                `protobuf:"fixed32,1,opt,name=x,proto3" json:"x,omitempty"`
++	Y             float32                `protobuf:"fixed32,2,opt,name=y,proto3" json:"y,omitempty"`
++	Z             float32                `protobuf:"fixed32,3,opt,name=z,proto3" json:"z,omitempty"` // a guess; the nearest navmesh poly within 50 yd vertically wins
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *GroundRequest) Reset() {
++	*x = GroundRequest{}
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[7]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *GroundRequest) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*GroundRequest) ProtoMessage() {}
++
++func (x *GroundRequest) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[7]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use GroundRequest.ProtoReflect.Descriptor instead.
++func (*GroundRequest) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_move_move_proto_rawDescGZIP(), []int{7}
++}
++
++func (x *GroundRequest) GetX() float32 {
++	if x != nil {
++		return x.X
++	}
++	return 0
++}
++
++func (x *GroundRequest) GetY() float32 {
++	if x != nil {
++		return x.Y
++	}
++	return 0
++}
++
++func (x *GroundRequest) GetZ() float32 {
++	if x != nil {
++		return x.Z
++	}
++	return 0
++}
++
++type GroundResult struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
++	Z             float32                `protobuf:"fixed32,2,opt,name=z,proto3" json:"z,omitempty"`
++	Error         string                 `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *GroundResult) Reset() {
++	*x = GroundResult{}
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[8]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *GroundResult) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*GroundResult) ProtoMessage() {}
++
++func (x *GroundResult) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[8]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use GroundResult.ProtoReflect.Descriptor instead.
++func (*GroundResult) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_move_move_proto_rawDescGZIP(), []int{8}
++}
++
++func (x *GroundResult) GetOk() bool {
++	if x != nil {
++		return x.Ok
++	}
++	return false
++}
++
++func (x *GroundResult) GetZ() float32 {
++	if x != nil {
++		return x.Z
++	}
++	return 0
++}
++
++func (x *GroundResult) GetError() string {
++	if x != nil {
++		return x.Error
++	}
++	return ""
++}
++
+ var File_zeppelin_modules_move_move_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+@@ -284,11 +668,42 @@ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+ 	"\bposition\x18\x01 \x01(\v2\x1a.zeppelin.move.v1.PositionR\bposition\x12\x18\n" +
+ 	"\aarrived\x18\x02 \x01(\bR\aarrived\x12\x16\n" +
+ 	"\x06reason\x18\x03 \x01(\tR\x06reason\x12\x1a\n" +
+-	"\bdistance\x18\x04 \x01(\x02R\bdistance2\xd5\x02\n" +
++	"\bdistance\x18\x04 \x01(\x02R\bdistance\"1\n" +
++	"\x05Point\x12\f\n" +
++	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
++	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
++	"\x01z\x18\x03 \x01(\x02R\x01z\"j\n" +
++	"\vPathRequest\x12\f\n" +
++	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
++	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
++	"\x01z\x18\x03 \x01(\x02R\x01z\x12\x14\n" +
++	"\x05speed\x18\x04 \x01(\x02R\x05speed\x12\x1b\n" +
++	"\tbudget_ms\x18\x05 \x01(\rR\bbudgetMs\"m\n" +
++	"\n" +
++	"PathResult\x12/\n" +
++	"\x06points\x18\x01 \x03(\v2\x17.zeppelin.move.v1.PointR\x06points\x12\x18\n" +
++	"\apartial\x18\x02 \x01(\bR\apartial\x12\x14\n" +
++	"\x05error\x18\x03 \x01(\tR\x05error\"\x98\x01\n" +
++	"\fPathToResult\x122\n" +
++	"\x04move\x18\x01 \x01(\v2\x1e.zeppelin.move.v1.MoveToResultR\x04move\x12\x18\n" +
++	"\apartial\x18\x02 \x01(\bR\apartial\x12\x1c\n" +
++	"\tremaining\x18\x03 \x01(\x02R\tremaining\x12\x1c\n" +
++	"\twaypoints\x18\x04 \x01(\rR\twaypoints\"9\n" +
++	"\rGroundRequest\x12\f\n" +
++	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
++	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
++	"\x01z\x18\x03 \x01(\x02R\x01z\"B\n" +
++	"\fGroundResult\x12\x0e\n" +
++	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\f\n" +
++	"\x01z\x18\x02 \x01(\x02R\x01z\x12\x14\n" +
++	"\x05error\x18\x03 \x01(\tR\x05error2\xae\x04\n" +
+ 	"\x04Move\x12A\n" +
+ 	"\vGetPosition\x12\x16.google.protobuf.Empty\x1a\x1a.zeppelin.move.v1.Position\x12I\n" +
+ 	"\x06MoveTo\x12\x1f.zeppelin.move.v1.MoveToRequest\x1a\x1e.zeppelin.move.v1.MoveToResult\x12:\n" +
+ 	"\x04Stop\x12\x16.google.protobuf.Empty\x1a\x1a.zeppelin.move.v1.Position\x12C\n" +
++	"\x04Path\x12\x1d.zeppelin.move.v1.PathRequest\x1a\x1c.zeppelin.move.v1.PathResult\x12G\n" +
++	"\x06PathTo\x12\x1d.zeppelin.move.v1.PathRequest\x1a\x1e.zeppelin.move.v1.PathToResult\x12I\n" +
++	"\x06Ground\x12\x1f.zeppelin.move.v1.GroundRequest\x1a\x1e.zeppelin.move.v1.GroundResult\x12C\n" +
+ 	"\bOnPacket\x12\x1f.agentwow.module.v1.WorldPacket\x1a\x16.google.protobuf.Empty\x12>\n" +
+ 	"\fBeforeLogout\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.EmptyBAZ?github.com/agent-wow/agent-wow/zeppelin/modules/move/api;movev1b\x06proto3"
+ 
+@@ -304,31 +719,45 @@ func file_zeppelin_modules_move_move_proto_rawDescGZIP() []byte {
+ 	return file_zeppelin_modules_move_move_proto_rawDescData
+ }
+ 
+-var file_zeppelin_modules_move_move_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
++var file_zeppelin_modules_move_move_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+ var file_zeppelin_modules_move_move_proto_goTypes = []any{
+ 	(*Position)(nil),       // 0: zeppelin.move.v1.Position
+ 	(*MoveToRequest)(nil),  // 1: zeppelin.move.v1.MoveToRequest
+ 	(*MoveToResult)(nil),   // 2: zeppelin.move.v1.MoveToResult
+-	(*emptypb.Empty)(nil),  // 3: google.protobuf.Empty
+-	(*v1.WorldPacket)(nil), // 4: agentwow.module.v1.WorldPacket
++	(*Point)(nil),          // 3: zeppelin.move.v1.Point
++	(*PathRequest)(nil),    // 4: zeppelin.move.v1.PathRequest
++	(*PathResult)(nil),     // 5: zeppelin.move.v1.PathResult
++	(*PathToResult)(nil),   // 6: zeppelin.move.v1.PathToResult
++	(*GroundRequest)(nil),  // 7: zeppelin.move.v1.GroundRequest
++	(*GroundResult)(nil),   // 8: zeppelin.move.v1.GroundResult
++	(*emptypb.Empty)(nil),  // 9: google.protobuf.Empty
++	(*v1.WorldPacket)(nil), // 10: agentwow.module.v1.WorldPacket
+ }
+ var file_zeppelin_modules_move_move_proto_depIdxs = []int32{
+-	0, // 0: zeppelin.move.v1.MoveToResult.position:type_name -> zeppelin.move.v1.Position
+-	3, // 1: zeppelin.move.v1.Move.GetPosition:input_type -> google.protobuf.Empty
+-	1, // 2: zeppelin.move.v1.Move.MoveTo:input_type -> zeppelin.move.v1.MoveToRequest
+-	3, // 3: zeppelin.move.v1.Move.Stop:input_type -> google.protobuf.Empty
+-	4, // 4: zeppelin.move.v1.Move.OnPacket:input_type -> agentwow.module.v1.WorldPacket
+-	3, // 5: zeppelin.move.v1.Move.BeforeLogout:input_type -> google.protobuf.Empty
+-	0, // 6: zeppelin.move.v1.Move.GetPosition:output_type -> zeppelin.move.v1.Position
+-	2, // 7: zeppelin.move.v1.Move.MoveTo:output_type -> zeppelin.move.v1.MoveToResult
+-	0, // 8: zeppelin.move.v1.Move.Stop:output_type -> zeppelin.move.v1.Position
+-	3, // 9: zeppelin.move.v1.Move.OnPacket:output_type -> google.protobuf.Empty
+-	3, // 10: zeppelin.move.v1.Move.BeforeLogout:output_type -> google.protobuf.Empty
+-	6, // [6:11] is the sub-list for method output_type
+-	1, // [1:6] is the sub-list for method input_type
+-	1, // [1:1] is the sub-list for extension type_name
+-	1, // [1:1] is the sub-list for extension extendee
+-	0, // [0:1] is the sub-list for field type_name
++	0,  // 0: zeppelin.move.v1.MoveToResult.position:type_name -> zeppelin.move.v1.Position
++	3,  // 1: zeppelin.move.v1.PathResult.points:type_name -> zeppelin.move.v1.Point
++	2,  // 2: zeppelin.move.v1.PathToResult.move:type_name -> zeppelin.move.v1.MoveToResult
++	9,  // 3: zeppelin.move.v1.Move.GetPosition:input_type -> google.protobuf.Empty
++	1,  // 4: zeppelin.move.v1.Move.MoveTo:input_type -> zeppelin.move.v1.MoveToRequest
++	9,  // 5: zeppelin.move.v1.Move.Stop:input_type -> google.protobuf.Empty
++	4,  // 6: zeppelin.move.v1.Move.Path:input_type -> zeppelin.move.v1.PathRequest
++	4,  // 7: zeppelin.move.v1.Move.PathTo:input_type -> zeppelin.move.v1.PathRequest
++	7,  // 8: zeppelin.move.v1.Move.Ground:input_type -> zeppelin.move.v1.GroundRequest
++	10, // 9: zeppelin.move.v1.Move.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	9,  // 10: zeppelin.move.v1.Move.BeforeLogout:input_type -> google.protobuf.Empty
++	0,  // 11: zeppelin.move.v1.Move.GetPosition:output_type -> zeppelin.move.v1.Position
++	2,  // 12: zeppelin.move.v1.Move.MoveTo:output_type -> zeppelin.move.v1.MoveToResult
++	0,  // 13: zeppelin.move.v1.Move.Stop:output_type -> zeppelin.move.v1.Position
++	5,  // 14: zeppelin.move.v1.Move.Path:output_type -> zeppelin.move.v1.PathResult
++	6,  // 15: zeppelin.move.v1.Move.PathTo:output_type -> zeppelin.move.v1.PathToResult
++	8,  // 16: zeppelin.move.v1.Move.Ground:output_type -> zeppelin.move.v1.GroundResult
++	9,  // 17: zeppelin.move.v1.Move.OnPacket:output_type -> google.protobuf.Empty
++	9,  // 18: zeppelin.move.v1.Move.BeforeLogout:output_type -> google.protobuf.Empty
++	11, // [11:19] is the sub-list for method output_type
++	3,  // [3:11] is the sub-list for method input_type
++	3,  // [3:3] is the sub-list for extension type_name
++	3,  // [3:3] is the sub-list for extension extendee
++	0,  // [0:3] is the sub-list for field type_name
+ }
+ 
+ func init() { file_zeppelin_modules_move_move_proto_init() }
+@@ -342,7 +771,7 @@ func file_zeppelin_modules_move_move_proto_init() {
+ 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
+ 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_zeppelin_modules_move_move_proto_rawDesc), len(file_zeppelin_modules_move_move_proto_rawDesc)),
+ 			NumEnums:      0,
+-			NumMessages:   3,
++			NumMessages:   9,
+ 			NumExtensions: 0,
+ 			NumServices:   1,
+ 		},
+diff --git a/zeppelin/modules/move/api/move_grpc.pb.go b/zeppelin/modules/move/api/move_grpc.pb.go
+index 9cb960c..6b39bbd 100644
+--- a/zeppelin/modules/move/api/move_grpc.pb.go
++++ b/zeppelin/modules/move/api/move_grpc.pb.go
+@@ -24,6 +24,9 @@ const (
+ 	Move_GetPosition_FullMethodName  = "/zeppelin.move.v1.Move/GetPosition"
+ 	Move_MoveTo_FullMethodName       = "/zeppelin.move.v1.Move/MoveTo"
+ 	Move_Stop_FullMethodName         = "/zeppelin.move.v1.Move/Stop"
++	Move_Path_FullMethodName         = "/zeppelin.move.v1.Move/Path"
++	Move_PathTo_FullMethodName       = "/zeppelin.move.v1.Move/PathTo"
++	Move_Ground_FullMethodName       = "/zeppelin.move.v1.Move/Ground"
+ 	Move_OnPacket_FullMethodName     = "/zeppelin.move.v1.Move/OnPacket"
+ 	Move_BeforeLogout_FullMethodName = "/zeppelin.move.v1.Move/BeforeLogout"
+ )
+@@ -35,6 +38,9 @@ type MoveClient interface {
+ 	GetPosition(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Position, error)
+ 	MoveTo(ctx context.Context, in *MoveToRequest, opts ...grpc.CallOption) (*MoveToResult, error)
+ 	Stop(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Position, error)
++	Path(ctx context.Context, in *PathRequest, opts ...grpc.CallOption) (*PathResult, error)
++	PathTo(ctx context.Context, in *PathRequest, opts ...grpc.CallOption) (*PathToResult, error)
++	Ground(ctx context.Context, in *GroundRequest, opts ...grpc.CallOption) (*GroundResult, error)
+ 	OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error)
+ 	BeforeLogout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
+ }
+@@ -77,6 +83,36 @@ func (c *moveClient) Stop(ctx context.Context, in *emptypb.Empty, opts ...grpc.C
+ 	return out, nil
+ }
+ 
++func (c *moveClient) Path(ctx context.Context, in *PathRequest, opts ...grpc.CallOption) (*PathResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(PathResult)
++	err := c.cc.Invoke(ctx, Move_Path_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *moveClient) PathTo(ctx context.Context, in *PathRequest, opts ...grpc.CallOption) (*PathToResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(PathToResult)
++	err := c.cc.Invoke(ctx, Move_PathTo_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *moveClient) Ground(ctx context.Context, in *GroundRequest, opts ...grpc.CallOption) (*GroundResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(GroundResult)
++	err := c.cc.Invoke(ctx, Move_Ground_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
+ func (c *moveClient) OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+ 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+ 	out := new(emptypb.Empty)
+@@ -104,6 +140,9 @@ type MoveServer interface {
+ 	GetPosition(context.Context, *emptypb.Empty) (*Position, error)
+ 	MoveTo(context.Context, *MoveToRequest) (*MoveToResult, error)
+ 	Stop(context.Context, *emptypb.Empty) (*Position, error)
++	Path(context.Context, *PathRequest) (*PathResult, error)
++	PathTo(context.Context, *PathRequest) (*PathToResult, error)
++	Ground(context.Context, *GroundRequest) (*GroundResult, error)
+ 	OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error)
+ 	BeforeLogout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
+ 	mustEmbedUnimplementedMoveServer()
+@@ -125,6 +164,15 @@ func (UnimplementedMoveServer) MoveTo(context.Context, *MoveToRequest) (*MoveToR
+ func (UnimplementedMoveServer) Stop(context.Context, *emptypb.Empty) (*Position, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method Stop not implemented")
+ }
++func (UnimplementedMoveServer) Path(context.Context, *PathRequest) (*PathResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method Path not implemented")
++}
++func (UnimplementedMoveServer) PathTo(context.Context, *PathRequest) (*PathToResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method PathTo not implemented")
++}
++func (UnimplementedMoveServer) Ground(context.Context, *GroundRequest) (*GroundResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method Ground not implemented")
++}
+ func (UnimplementedMoveServer) OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method OnPacket not implemented")
+ }
+@@ -206,6 +254,60 @@ func _Move_Stop_Handler(srv interface{}, ctx context.Context, dec func(interface
+ 	return interceptor(ctx, in, info, handler)
+ }
+ 
++func _Move_Path_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(PathRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(MoveServer).Path(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Move_Path_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(MoveServer).Path(ctx, req.(*PathRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Move_PathTo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(PathRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(MoveServer).PathTo(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Move_PathTo_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(MoveServer).PathTo(ctx, req.(*PathRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Move_Ground_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(GroundRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(MoveServer).Ground(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Move_Ground_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(MoveServer).Ground(ctx, req.(*GroundRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
+ func _Move_OnPacket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+ 	in := new(v1.WorldPacket)
+ 	if err := dec(in); err != nil {
+@@ -261,6 +363,18 @@ var Move_ServiceDesc = grpc.ServiceDesc{
+ 			MethodName: "Stop",
+ 			Handler:    _Move_Stop_Handler,
+ 		},
++		{
++			MethodName: "Path",
++			Handler:    _Move_Path_Handler,
++		},
++		{
++			MethodName: "PathTo",
++			Handler:    _Move_PathTo_Handler,
++		},
++		{
++			MethodName: "Ground",
++			Handler:    _Move_Ground_Handler,
++		},
+ 		{
+ 			MethodName: "OnPacket",
+ 			Handler:    _Move_OnPacket_Handler,
+diff --git a/zeppelin/modules/move/main.go b/zeppelin/modules/move/main.go
+index b9401a7..3c150d9 100644
+--- a/zeppelin/modules/move/main.go
++++ b/zeppelin/modules/move/main.go
+@@ -11,16 +11,21 @@
+ package main
+ 
+ import (
++	"bufio"
+ 	"bytes"
+ 	"context"
+ 	"encoding/binary"
+ 	"errors"
+ 	"fmt"
++	"io"
+ 	"math"
+ 	"net"
+ 	"os"
++	"os/exec"
+ 	"os/signal"
++	"path/filepath"
+ 	"strconv"
++	"strings"
+ 	"sync"
+ 	"syscall"
+ 	"time"
+@@ -41,7 +46,8 @@ const (
+ 	moveFlagForward  = 0x00000001
+ 	defaultRunSpeed  = 7.0
+ 	heartbeatEvery   = 500 * time.Millisecond
+-	maxMoveDistance  = 2000.0 // yards; anything longer is a caller bug, not a walk
++	maxMoveDistance  = 2000.0           // yards; anything longer is a caller bug, not a walk
++	maxBudget        = 25 * time.Second // agent-wow caps a module call at 30 s
+ 	moveFlagsUnknown = 0
+ )
+ 
+@@ -69,6 +75,7 @@ type service struct {
+ 	moving   bool
+ 	cancel   context.CancelFunc // cancels the running MoveTo
+ 	teleport chan struct{}      // closed and replaced on every teleport
++	nav      nav
+ }
+ 
+ func main() {
+@@ -302,7 +309,19 @@ func (s *service) Stop(ctx context.Context, _ *emptypb.Empty) (*movev1.Position,
+ 	return s.snapshot(), nil
+ }
+ 
++// MoveTo walks a straight line to the target.
+ func (s *service) MoveTo(ctx context.Context, req *movev1.MoveToRequest) (*movev1.MoveToResult, error) {
++	budget := time.Duration(req.GetTimeoutMs()) * time.Millisecond
++	return s.walk(ctx, []point{{float64(req.GetX()), float64(req.GetY()), float64(req.GetZ())}}, float64(req.GetSpeed()), budget)
++}
++
++type point struct{ x, y, z float64 }
++
++// walk follows waypoints from the current position: SET_FACING + START_FORWARD per leg, a
++// HEARTBEAT every 500 ms along it, STOP at the end (or when stopped, teleported or out of
++// budget). Z is linear within a leg, so navmesh waypoints give ground-following movement.
++// budget 0 = the whole route's walking time + 5 s, capped below the 30 s module call limit.
++func (s *service) walk(ctx context.Context, route []point, speed float64, budget time.Duration) (*movev1.MoveToResult, error) {
+ 	s.mu.Lock()
+ 	if !s.pos.Known {
+ 		s.mu.Unlock()
+@@ -312,8 +331,7 @@ func (s *service) MoveTo(ctx context.Context, req *movev1.MoveToRequest) (*movev
+ 		s.mu.Unlock()
+ 		return nil, status.Error(codes.FailedPrecondition, "already moving; call move.stop first")
+ 	}
+-	x0, y0, z0 := float64(s.pos.X), float64(s.pos.Y), float64(s.pos.Z)
+-	speed := float64(req.GetSpeed())
++	cur := point{float64(s.pos.X), float64(s.pos.Y), float64(s.pos.Z)}
+ 	if speed <= 0 {
+ 		speed = float64(s.pos.RunSpeed)
+ 	}
+@@ -328,75 +346,221 @@ func (s *service) MoveTo(ctx context.Context, req *movev1.MoveToRequest) (*movev
+ 		s.mu.Unlock()
+ 	}()
+ 
+-	x1, y1, z1 := float64(req.GetX()), float64(req.GetY()), float64(req.GetZ())
+-	dist := math.Sqrt((x1-x0)*(x1-x0) + (y1-y0)*(y1-y0) + (z1-z0)*(z1-z0))
+-	if dist > maxMoveDistance {
+-		return nil, status.Errorf(codes.InvalidArgument, "move of %.0f yd exceeds %.0f yd; use waypoints", dist, maxMoveDistance)
++	total, prev := 0.0, cur
++	for _, p := range route {
++		total += dist(prev, p)
++		prev = p
+ 	}
+-	o := float32(math.Mod(math.Atan2(y1-y0, x1-x0)+2*math.Pi, 2*math.Pi))
+-	total := time.Duration(dist / speed * float64(time.Second))
+-	timeout := total + 5*time.Second
+-	if req.GetTimeoutMs() > 0 {
+-		timeout = time.Duration(req.GetTimeoutMs()) * time.Millisecond
++	if total > maxMoveDistance {
++		return nil, status.Errorf(codes.InvalidArgument, "route of %.0f yd exceeds %.0f yd; use waypoints", total, maxMoveDistance)
+ 	}
+-	deadline := time.Now().Add(timeout)
+-
+-	at := func(frac float64) (float32, float32, float32) {
+-		return float32(x0 + (x1-x0)*frac), float32(y0 + (y1-y0)*frac), float32(z0 + (z1-z0)*frac)
++	if budget <= 0 {
++		budget = time.Duration(total/speed*float64(time.Second)) + 5*time.Second
+ 	}
+-	result := func(arrived bool, reason string, frac float64) *movev1.MoveToResult {
+-		return &movev1.MoveToResult{Position: s.snapshot(), Arrived: arrived, Reason: reason, Distance: float32(dist * frac)}
++	if budget > maxBudget {
++		budget = maxBudget
+ 	}
+-	if dist < 0.05 {
+-		return result(true, "already there", 1), nil
++	deadline := time.Now().Add(budget)
++	walked := 0.0
++	result := func(arrived bool, reason string) *movev1.MoveToResult {
++		return &movev1.MoveToResult{Position: s.snapshot(), Arrived: arrived, Reason: reason, Distance: float32(walked)}
+ 	}
+-
+-	if err := s.sendMove(moveCtx, opcode.MSGMoveSetFacing, 0, float32(x0), float32(y0), float32(z0), o); err != nil {
+-		return nil, err
+-	}
+-	if err := s.sendMove(moveCtx, opcode.MSGMoveStartForward, moveFlagForward, float32(x0), float32(y0), float32(z0), o); err != nil {
+-		return nil, err
++	if total < 0.05 {
++		return result(true, "already there"), nil
+ 	}
+-	start := time.Now()
+ 	ticker := time.NewTicker(heartbeatEvery)
+ 	defer ticker.Stop()
+-	frac := 0.0
+-	stopAt := func(reason string, arrived bool) (*movev1.MoveToResult, error) {
+-		x, y, z := at(frac)
+-		s.setPosition(s.snapshot().Map, [4]float32{x, y, z, o}, false)
+-		// a fresh context: the move's own may already be cancelled
+-		stopCtx, done := context.WithTimeout(context.Background(), 3*time.Second)
+-		defer done()
+-		if err := s.sendMove(stopCtx, opcode.MSGMoveStop, 0, x, y, z, o); err != nil {
+-			return nil, err
++	from := cur
++	for i, to := range route {
++		leg := dist(from, to)
++		if leg < 0.05 {
++			continue
+ 		}
+-		return result(arrived, reason, frac), nil
+-	}
+-	for {
+-		select {
+-		case <-moveCtx.Done():
+-			return stopAt("stopped", false)
+-		case <-teleported:
+-			// the server moved us; its position stands, no STOP from the old line
+-			return result(false, "teleported", frac), nil
+-		case now := <-ticker.C:
+-			frac = math.Min(1, float64(now.Sub(start))/float64(total))
+-			if frac >= 1 {
+-				return stopAt("arrived", true)
+-			}
+-			if now.After(deadline) {
+-				return stopAt("timeout", false)
+-			}
++		o := float32(math.Mod(math.Atan2(to.y-from.y, to.x-from.x)+2*math.Pi, 2*math.Pi))
++		at := func(f float64) (float32, float32, float32) {
++			return float32(from.x + (to.x-from.x)*f), float32(from.y + (to.y-from.y)*f), float32(from.z + (to.z-from.z)*f)
++		}
++		stopAt := func(frac float64, reason string, arrived bool) (*movev1.MoveToResult, error) {
+ 			x, y, z := at(frac)
++			walked += leg * frac
+ 			s.setPosition(s.snapshot().Map, [4]float32{x, y, z, o}, false)
+-			if err := s.sendMove(moveCtx, opcode.MSGMoveHeartbeat, moveFlagForward, x, y, z, o); err != nil {
+-				if errors.Is(moveCtx.Err(), context.Canceled) {
+-					return stopAt("stopped", false)
+-				}
++			stopCtx, done := context.WithTimeout(context.Background(), 3*time.Second)
++			defer done()
++			if err := s.sendMove(stopCtx, opcode.MSGMoveStop, 0, x, y, z, o); err != nil {
+ 				return nil, err
+ 			}
++			return result(arrived, reason), nil
++		}
++		fx, fy, fz := at(0)
++		if err := s.sendMove(moveCtx, opcode.MSGMoveSetFacing, 0, fx, fy, fz, o); err != nil {
++			return nil, err
++		}
++		if err := s.sendMove(moveCtx, opcode.MSGMoveStartForward, moveFlagForward, fx, fy, fz, o); err != nil {
++			return nil, err
++		}
++		legTime := time.Duration(leg / speed * float64(time.Second))
++		start := time.Now()
++		for done := false; !done; {
++			select {
++			case <-moveCtx.Done():
++				return stopAt(math.Min(1, float64(time.Since(start))/float64(legTime)), "stopped", false)
++			case <-teleported:
++				return result(false, "teleported"), nil
++			case now := <-ticker.C:
++				frac := math.Min(1, float64(now.Sub(start))/float64(legTime))
++				if now.After(deadline) && frac < 1 {
++					return stopAt(frac, "budget", false)
++				}
++				if frac >= 1 {
++					if i == len(route)-1 {
++						return stopAt(1, "arrived", true)
++					}
++					walked += leg
++					x, y, z := at(1)
++					s.setPosition(s.snapshot().Map, [4]float32{x, y, z, o}, false)
++					done = true
++					break
++				}
++				x, y, z := at(frac)
++				s.setPosition(s.snapshot().Map, [4]float32{x, y, z, o}, false)
++				if err := s.sendMove(moveCtx, opcode.MSGMoveHeartbeat, moveFlagForward, x, y, z, o); err != nil {
++					if errors.Is(moveCtx.Err(), context.Canceled) {
++						return stopAt(frac, "stopped", false)
++					}
++					return nil, err
++				}
++			}
+ 		}
++		from = to
++	}
++	return result(true, "arrived"), nil
++}
++
++func dist(a, b point) float64 {
++	dx, dy, dz := a.x-b.x, a.y-b.y, a.z-b.z
++	return math.Sqrt(dx*dx + dy*dy + dz*dz)
++}
++
++// -- navigation (zepnav helper) -------------------------------------------------------------------
++
++// nav runs the zepnav Detour helper (next to this binary, or $ZEPNAV) on demand and serialises
++// queries over its stdin/stdout line protocol.
++type nav struct {
++	mu  sync.Mutex
++	cmd *exec.Cmd
++	in  io.WriteCloser
++	out *bufio.Reader
++}
++
++func (n *nav) query(line string) (string, error) {
++	n.mu.Lock()
++	defer n.mu.Unlock()
++	if n.cmd == nil {
++		bin := os.Getenv("ZEPNAV")
++		if bin == "" {
++			self, _ := os.Executable()
++			bin = filepath.Join(filepath.Dir(self), "zepnav")
++		}
++		cmd := exec.Command(bin)
++		cmd.Stderr = os.Stderr
++		in, err := cmd.StdinPipe()
++		if err != nil {
++			return "", err
++		}
++		out, err := cmd.StdoutPipe()
++		if err != nil {
++			return "", err
++		}
++		if err := cmd.Start(); err != nil {
++			return "", fmt.Errorf("start zepnav %s: %w", bin, err)
++		}
++		n.cmd, n.in, n.out = cmd, in, bufio.NewReader(out)
++	}
++	if _, err := io.WriteString(n.in, line+"\n"); err != nil {
++		n.cmd = nil
++		return "", err
++	}
++	reply, err := n.out.ReadString('\n')
++	if err != nil {
++		n.cmd = nil
++		return "", err
++	}
++	return strings.TrimSpace(reply), nil
++}
++
++func (s *service) path(req *movev1.PathRequest) (*movev1.PathResult, error) {
++	p := s.snapshot()
++	if !p.GetKnown() {
++		return nil, status.Error(codes.FailedPrecondition, "position unknown (not in world yet)")
++	}
++	reply, err := s.nav.query(fmt.Sprintf("path %d %f %f %f %f %f %f", p.GetMap(), p.GetX(), p.GetY(), p.GetZ(), req.GetX(), req.GetY(), req.GetZ()))
++	if err != nil {
++		return nil, status.Error(codes.Unavailable, err.Error())
++	}
++	f := strings.Fields(reply)
++	if len(f) == 0 || f[0] == "err" {
++		return &movev1.PathResult{Error: strings.TrimPrefix(reply, "err ")}, nil
++	}
++	res := &movev1.PathResult{Partial: f[0] == "partial"}
++	for i := 2; i+2 < len(f); i += 3 {
++		x, _ := strconv.ParseFloat(f[i], 32)
++		y, _ := strconv.ParseFloat(f[i+1], 32)
++		z, _ := strconv.ParseFloat(f[i+2], 32)
++		res.Points = append(res.Points, &movev1.Point{X: float32(x), Y: float32(y), Z: float32(z)})
++	}
++	return res, nil
++}
++
++func (s *service) Path(_ context.Context, req *movev1.PathRequest) (*movev1.PathResult, error) {
++	return s.path(req)
++}
++
++// PathTo walks the navmesh path to the target for up to budget_ms, then reports what is left;
++// call it again until arrived (one call is capped at 30 s by agent-wow).
++func (s *service) PathTo(ctx context.Context, req *movev1.PathRequest) (*movev1.PathToResult, error) {
++	pr, err := s.path(req)
++	if err != nil {
++		return nil, err
++	}
++	if pr.GetError() != "" {
++		return nil, status.Errorf(codes.FailedPrecondition, "no path: %s", pr.GetError())
++	}
++	var route []point
++	for i, p := range pr.GetPoints() {
++		if i == 0 {
++			continue // the start (our own position, snapped to the mesh)
++		}
++		route = append(route, point{float64(p.GetX()), float64(p.GetY()), float64(p.GetZ())})
++	}
++	budget := time.Duration(req.GetBudgetMs()) * time.Millisecond
++	if budget <= 0 {
++		budget = maxBudget
++	}
++	mv, err := s.walk(ctx, route, float64(req.GetSpeed()), budget)
++	if err != nil {
++		return nil, err
++	}
++	pos := mv.GetPosition()
++	left := dist(point{float64(pos.GetX()), float64(pos.GetY()), float64(pos.GetZ())},
++		point{float64(req.GetX()), float64(req.GetY()), float64(req.GetZ())})
++	if mv.GetArrived() && pr.GetPartial() {
++		mv.Arrived, mv.Reason = false, "partial path: reached the closest navmesh point"
++	}
++	return &movev1.PathToResult{Move: mv, Partial: pr.GetPartial(), Remaining: float32(left), Waypoints: uint32(len(route))}, nil
++}
++
++func (s *service) Ground(_ context.Context, req *movev1.GroundRequest) (*movev1.GroundResult, error) {
++	p := s.snapshot()
++	reply, err := s.nav.query(fmt.Sprintf("height %d %f %f %f", p.GetMap(), req.GetX(), req.GetY(), req.GetZ()))
++	if err != nil {
++		return nil, status.Error(codes.Unavailable, err.Error())
++	}
++	f := strings.Fields(reply)
++	if len(f) == 2 && f[0] == "ok" {
++		z, _ := strconv.ParseFloat(f[1], 32)
++		return &movev1.GroundResult{Ok: true, Z: float32(z)}, nil
+ 	}
++	return &movev1.GroundResult{Error: strings.TrimPrefix(reply, "err ")}, nil
+ }
+ 
+ func (s *service) BeforeLogout(ctx context.Context, _ *emptypb.Empty) (*emptypb.Empty, error) {
+diff --git a/zeppelin/modules/move/module.yaml b/zeppelin/modules/move/module.yaml
+index 3a405ab..af8ac6e 100644
+--- a/zeppelin/modules/move/module.yaml
++++ b/zeppelin/modules/move/module.yaml
+@@ -9,6 +9,9 @@ rpc:
+   position: /zeppelin.move.v1.Move/GetPosition
+   to: /zeppelin.move.v1.Move/MoveTo
+   stop: /zeppelin.move.v1.Move/Stop
++  path: /zeppelin.move.v1.Move/Path
++  path_to: /zeppelin.move.v1.Move/PathTo
++  ground: /zeppelin.move.v1.Move/Ground
+ packets:
+   SMSG_LOGIN_VERIFY_WORLD: /zeppelin.move.v1.Move/OnPacket
+   SMSG_NEW_WORLD: /zeppelin.move.v1.Move/OnPacket
+diff --git a/zeppelin/modules/move/move.proto b/zeppelin/modules/move/move.proto
+index 925dacb..a62370d 100644
+--- a/zeppelin/modules/move/move.proto
++++ b/zeppelin/modules/move/move.proto
+@@ -31,10 +31,48 @@ message MoveToResult {
+   float distance = 4;    // yards walked
+ }
+ 
++message Point {
++  float x = 1;
++  float y = 2;
++  float z = 3;
++}
++
++message PathRequest {
++  float x = 1;
++  float y = 2;
++  float z = 3;
++  float speed = 4;       // path_to only; 0 = current run speed
++  uint32 budget_ms = 5;  // path_to only; walking time per call, 0 = 25 s (module calls cap at 30 s)
++}
++message PathResult {
++  repeated Point points = 1; // waypoints from the current position (first = start)
++  bool partial = 2;      // navmesh could not reach the target; points end at the closest reachable spot
++  string error = 3;
++}
++message PathToResult {
++  MoveToResult move = 1;
++  bool partial = 2;
++  float remaining = 3;   // straight-line yards still to go when the budget ran out
++  uint32 waypoints = 4;
++}
++message GroundRequest {
++  float x = 1;
++  float y = 2;
++  float z = 3;           // a guess; the nearest navmesh poly within 50 yd vertically wins
++}
++message GroundResult {
++  bool ok = 1;
++  float z = 2;
++  string error = 3;
++}
++
+ service Move {
+   rpc GetPosition(google.protobuf.Empty) returns (Position);
+   rpc MoveTo(MoveToRequest) returns (MoveToResult);
+   rpc Stop(google.protobuf.Empty) returns (Position);
++  rpc Path(PathRequest) returns (PathResult);
++  rpc PathTo(PathRequest) returns (PathToResult);
++  rpc Ground(GroundRequest) returns (GroundResult);
+   rpc OnPacket(agentwow.module.v1.WorldPacket) returns (google.protobuf.Empty);
+   rpc BeforeLogout(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }
+diff --git a/zeppelin/nav/zepnav.cpp b/zeppelin/nav/zepnav.cpp
+new file mode 100644
+index 0000000..d71e2ad
+--- /dev/null
++++ b/zeppelin/nav/zepnav.cpp
+@@ -0,0 +1,238 @@
++// zepnav - Detour path queries on AzerothCore mmaps for Zeppelin's agent-wow move module (F-219).
++//
++// Built against the Detour copy vendored in Zeppelin-Core (deps/recastnavigation, which defines
++// DT_POLYREF64 itself), so tiles load exactly as the worldserver loads them (MMapMgr::loadMap).
++// Query settings mirror the worldserver's PathGenerator: WoW (x,y,z) <-> recast (y,z,x), nearest
++// poly extents {3,5,3} then {3,50,3}, include NAV_GROUND|NAV_WATER|NAV_MAGMA.
++//
++// Line protocol on stdin/stdout (one reply line per request):
++//   path <map> <x1> <y1> <z1> <x2> <y2> <z2>  ->  ok|partial <n> <x y z>...   or   err <reason>
++//   height <map> <x> <y> <z>                  ->  ok <z>                       or   err <reason>
++//   quit
++// Data root: $ZEPNAV_DATA (default /workspace/project/data), reading <root>/mmaps/.
++#include "DetourNavMesh.h"
++#include "DetourNavMeshQuery.h"
++
++#include <cmath>
++#include <cstdint>
++#include <cstdio>
++#include <cstdlib>
++#include <iostream>
++#include <map>
++#include <memory>
++#include <set>
++#include <sstream>
++#include <string>
++#include <utility>
++#include <vector>
++
++namespace {
++
++constexpr uint32_t MMAP_MAGIC = 0x4d4d4150; // 'MMAP'
++constexpr uint32_t MMAP_VERSION = 19;
++constexpr float GRID_SIZE = 533.3333f;
++constexpr int MAX_POLYS = 4096;
++constexpr int MAX_POINTS = 1024;
++constexpr uint16_t NAV_GROUND = 0x01, NAV_MAGMA = 0x02, NAV_WATER = 0x08;
++
++#pragma pack(push, 1)
++struct MmapTileHeader // MapDefines.h: 16 + 1 + 3 + MmapTileRecastConfig(36) = 56 bytes
++{
++    uint32_t mmapMagic;
++    uint32_t dtVersion;
++    uint32_t mmapVersion;
++    uint32_t size;
++    char usesLiquids;
++    char padding[3];
++    unsigned char recastConfig[36];
++};
++#pragma pack(pop)
++static_assert(sizeof(MmapTileHeader) == 56, "MmapTileHeader layout");
++
++std::string g_root = "/workspace/project/data";
++
++struct MapMesh
++{
++    dtNavMesh* mesh = nullptr;
++    dtNavMeshQuery* query = nullptr;
++    std::set<std::pair<int, int>> tried; // filename indices already attempted
++};
++std::map<uint32_t, MapMesh> g_maps;
++
++MapMesh* openMap(uint32_t mapId, std::string& err)
++{
++    auto it = g_maps.find(mapId);
++    if (it != g_maps.end())
++        return &it->second;
++    char path[512];
++    std::snprintf(path, sizeof(path), "%s/mmaps/%03u.mmap", g_root.c_str(), mapId);
++    FILE* f = std::fopen(path, "rb");
++    if (!f) { err = std::string("no mmap file ") + path; return nullptr; }
++    dtNavMeshParams params;
++    size_t n = std::fread(&params, sizeof(params), 1, f);
++    std::fclose(f);
++    if (n != 1) { err = "short .mmap file"; return nullptr; }
++    MapMesh mm;
++    mm.mesh = dtAllocNavMesh();
++    if (dtStatusFailed(mm.mesh->init(&params))) { err = "dtNavMesh::init failed"; return nullptr; }
++    mm.query = dtAllocNavMeshQuery();
++    if (dtStatusFailed(mm.query->init(mm.mesh, 65535))) { err = "dtNavMeshQuery::init failed"; return nullptr; }
++    return &(g_maps[mapId] = mm);
++}
++
++// loadTile tries <map><a><b>.mmtile; Detour places the tile by its own header, so loading a
++// neighbour by a swapped guess is harmless.
++void loadTile(uint32_t mapId, MapMesh& mm, int a, int b)
++{
++    if (a < 0 || b < 0 || a > 63 || b > 63 || !mm.tried.insert({a, b}).second)
++        return;
++    char path[512];
++    std::snprintf(path, sizeof(path), "%s/mmaps/%03u%02d%02d.mmtile", g_root.c_str(), mapId, a, b);
++    FILE* f = std::fopen(path, "rb");
++    if (!f)
++        return;
++    MmapTileHeader h;
++    if (std::fread(&h, sizeof(h), 1, f) != 1 || h.mmapMagic != MMAP_MAGIC || h.mmapVersion != MMAP_VERSION ||
++        h.dtVersion != DT_NAVMESH_VERSION)
++    {
++        std::fclose(f);
++        std::cerr << "zepnav: bad header " << path << "\n";
++        return;
++    }
++    unsigned char* data = static_cast<unsigned char*>(dtAlloc(h.size, DT_ALLOC_PERM));
++    if (std::fread(data, h.size, 1, f) != 1)
++    {
++        std::fclose(f);
++        dtFree(data);
++        return;
++    }
++    std::fclose(f);
++    dtTileRef ref = 0;
++    if (dtStatusFailed(mm.mesh->addTile(data, h.size, DT_TILE_FREE_DATA, 0, &ref)))
++        dtFree(data);
++}
++
++int gridIndex(float c) { return int(32.0f - c / GRID_SIZE); }
++
++// ensureArea loads every tile touching the segment's bounding box (plus a one-tile margin),
++// under both filename orders.
++void ensureArea(uint32_t mapId, MapMesh& mm, float x1, float y1, float x2, float y2)
++{
++    int ax = gridIndex(x1), bx = gridIndex(x2), ay = gridIndex(y1), by = gridIndex(y2);
++    for (int gx = std::min(ax, bx) - 1; gx <= std::max(ax, bx) + 1; ++gx)
++        for (int gy = std::min(ay, by) - 1; gy <= std::max(ay, by) + 1; ++gy)
++        {
++            loadTile(mapId, mm, gx, gy);
++            loadTile(mapId, mm, gy, gx);
++        }
++}
++
++dtQueryFilter makeFilter()
++{
++    dtQueryFilter f;
++    f.setIncludeFlags(NAV_GROUND | NAV_WATER | NAV_MAGMA);
++    f.setExcludeFlags(0);
++    return f;
++}
++
++dtPolyRef nearestPoly(dtNavMeshQuery* q, dtQueryFilter const& f, float const* p, float* closest)
++{
++    float ext[3] = {3.0f, 5.0f, 3.0f};
++    dtPolyRef ref = 0;
++    if (dtStatusSucceed(q->findNearestPoly(p, ext, &f, &ref, closest)) && ref)
++        return ref;
++    ext[1] = 50.0f;
++    if (dtStatusSucceed(q->findNearestPoly(p, ext, &f, &ref, closest)) && ref)
++        return ref;
++    return 0;
++}
++
++std::string doPath(std::istringstream& in)
++{
++    uint32_t mapId;
++    float x1, y1, z1, x2, y2, z2;
++    if (!(in >> mapId >> x1 >> y1 >> z1 >> x2 >> y2 >> z2))
++        return "err usage: path <map> <x1> <y1> <z1> <x2> <y2> <z2>";
++    std::string err;
++    MapMesh* mm = openMap(mapId, err);
++    if (!mm)
++        return "err " + err;
++    ensureArea(mapId, *mm, x1, y1, x2, y2);
++    dtQueryFilter f = makeFilter();
++    float s[3] = {y1, z1, x1}, e[3] = {y2, z2, x2}, sc[3], ec[3];
++    dtPolyRef sp = nearestPoly(mm->query, f, s, sc), ep = nearestPoly(mm->query, f, e, ec);
++    if (!sp)
++        return "err start not on navmesh";
++    if (!ep)
++        return "err end not on navmesh";
++    std::vector<dtPolyRef> polys(MAX_POLYS);
++    int npolys = 0;
++    dtStatus st = mm->query->findPath(sp, ep, sc, ec, &f, polys.data(), &npolys, MAX_POLYS);
++    if (dtStatusFailed(st) || npolys == 0)
++        return "err findPath failed";
++    bool partial = dtStatusDetail(st, DT_PARTIAL_RESULT) || polys[npolys - 1] != ep;
++    float target[3] = {ec[0], ec[1], ec[2]};
++    if (partial) // aim at the closest point of the last reachable poly
++        mm->query->closestPointOnPoly(polys[npolys - 1], ec, target, nullptr);
++    std::vector<float> pts(MAX_POINTS * 3);
++    int npts = 0;
++    st = mm->query->findStraightPath(sc, target, polys.data(), npolys, pts.data(), nullptr, nullptr, &npts, MAX_POINTS);
++    if (dtStatusFailed(st) || npts == 0)
++        return "err findStraightPath failed";
++    std::ostringstream out;
++    out << (partial ? "partial " : "ok ") << npts;
++    out.setf(std::ios::fixed);
++    out.precision(3);
++    for (int i = 0; i < npts; ++i)
++        out << ' ' << pts[i * 3 + 2] << ' ' << pts[i * 3 + 0] << ' ' << pts[i * 3 + 1]; // back to WoW x y z
++    return out.str();
++}
++
++std::string doHeight(std::istringstream& in)
++{
++    uint32_t mapId;
++    float x, y, z;
++    if (!(in >> mapId >> x >> y >> z))
++        return "err usage: height <map> <x> <y> <z>";
++    std::string err;
++    MapMesh* mm = openMap(mapId, err);
++    if (!mm)
++        return "err " + err;
++    ensureArea(mapId, *mm, x, y, x, y);
++    dtQueryFilter f = makeFilter();
++    float p[3] = {y, z, x}, c[3];
++    if (!nearestPoly(mm->query, f, p, c))
++        return "err not on navmesh";
++    std::ostringstream out;
++    out.setf(std::ios::fixed);
++    out.precision(3);
++    out << "ok " << c[1];
++    return out.str();
++}
++
++} // namespace
++
++int main()
++{
++    if (char const* root = std::getenv("ZEPNAV_DATA"))
++        g_root = root;
++    std::ios::sync_with_stdio(false);
++    std::string line;
++    while (std::getline(std::cin, line))
++    {
++        std::istringstream in(line);
++        std::string cmd;
++        in >> cmd;
++        std::string reply;
++        if (cmd == "path")
++            reply = doPath(in);
++        else if (cmd == "height")
++            reply = doHeight(in);
++        else if (cmd == "quit")
++            break;
++        else
++            reply = "err unknown command";
++        std::cout << reply << '\n' << std::flush;
++    }
++    return 0;
++}
+diff --git a/zeppelin/tests/__pycache__/rpc.cpython-310.pyc b/zeppelin/tests/__pycache__/rpc.cpython-310.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..c927ef5a676dd883b23ac5e06f88ccdf7b732418
+GIT binary patch
+literal 2971
+zcmZWrTW{RP6`mPhmb+TXvMtF{6BLuQNWH1GE4gWt8bxf^jhv>2np#SOC<rzbhgwnE
+zCFvno^0M3_sQha5wLoe>dh|;l`v>|j=AmfOheCfL4^6+rm2ANoV(v3%&gDDjFqxii
+zFqF6M{bR3HXY4;TxmavW?x1D|XcXIGiYw9QTfFMUmZ*Ab%c^>N%Td;rtGHjg&y=m4
+zCrmk^cVunVm8)t`*j7U=sJd!A;agK`N;R?4RM*rcHH(#LwWzMBs~F9wIW>>HOG<38
+z)>855W)zR)M;pIgUw-)UJsI?)FwW(VWtNAj)WbLqwcJUx+zQh)>_@TmdpNLsm>kMH
+z%yO9pI!g0QUSC_jx%zXtsr_JI-fgu{ArxCLmUi<zz18Wg-h8*cf^YTKdn@n#tfSK)
+zpaT~R$K(!b)<hFB=z)<Az@;#a4Y0H3NBvN(w=CmzyRknAyIs@hb_a<X_G#Sgb{`G>
+z{$%Gl(=O;#%{O;Dhl$?LQa=bgsZRF7An%+Dw7i)l{jBpstWI$zX@}&?h}CvF(gMV$
+zh&wWy$827$1jO`tq4zx0-=JoHL6gIz?=qj|{8%WFvyzouS%0-p__1}u#v-@(oMShy
+zm4XZ!@e^xo(b}F@T4dCx;?L7#8@KBv?u?yJ0TUbFk;Pf;t+MRqA?J*~&rp?DItNUz
+z<&Bbk%~ZW~l(&S@GwX=|iI>jtlxjrmgv>s*eoBlN*3I@x%Qm&WEQukf5s@<PAk23Y
+z^r^4?K~^;HC2>wB-yEf3G3%#kKMMRjO5zS(JG~A<EpBRgGzgPnZk$l-L>J<gG_DS_
+zVLxv*jnxHZo6Z|Y4F_pv+%OIj6&iP_`~7I!)O7f02!)&4!?S_)$-@VxhV3K`V`KLd
+zUsXCcRxiw3t|n_}!iurC6E!jxC>XAdqr<d6dTD)KtIh;|zkdm%><SuBEb=*ig*W-@
+z-+E#Jy_R%}1s1yVLZ)_5@1bUEXiBba#bfv>48@dHT2Qo2>V9UILeDFw6c`JfaIY~{
+zQ{Gd-aVvWx=OrUEC<gV{*Ny%0-Hi=nuigFigKzlfh4?}imRy$l4ZN}mbvir!VYd5R
+z7$?<HoL7RwQZ|9xh-BZmD$L;z#vb^3|2x8x_r6A4QwVDEx4F$dZhxz9VEP>q3AdGq
+zZ(%@~C7c42;;B7`h{wR}3D=i_NqY(GmxLf^y_gy#2VuLXlVPl$TZTV2d}Mf`TcDy>
+z(6mIQR85SuY~7~y4jNM{x;@xBGradI=kA2wn>bc^+ALq-`X`wE7Zt_3b4o525YOj@
+zWTaZj@J|eKcFf>kE|l&Z@n5koJ|EX|gpvz#d8MbUB{r^?^<&6&!m}Tg9!8FGPef_&
+zbNyj%s~Q>jnSf`}Uj2l_+>Po60_=%U(_h<aX7XC;F0yKV>6uIZS=QC;5)<%CXpG*t
+ze8Sb01FnM$bg!Q8fbQJneR=~P3kr|Cizn4Qt*Hg*{#x-)>gT)NJdwjVkNVQrIywlI
+zydL_&t|Xw#D3jYm1xH!#M}sI2RjXYzD}$X~)yq&6&;uKq+8F^;*WtjA;wbK&2G}mV
+zL%+W-@y@2HANr#-0TdAt<cskQX*?BWxgQ6io`jV4>Q3Rvk-8xZAv5EpNfuGGplIMD
+z007+XgtfI|O1^kd7BhL0$bpY+L=t4{EyvgtRN&Bl+(Q}yM-`ST6t@~L0ac+*Qy?<#
+zVU+Jiv8fOI$K8sK5&4SYUHyI97K4LV5$E(0X!1wc%@)vjqRD6BEZ^hrBPz`B>s)*V
+z2$J`oL6F@EC>fj=LLNn!3VnaaVB$eaDC;Ttj@?7d9g9+A^T41}#b);`CJR*q1}T(y
+zM|^CTwyG~N_!-(ohFPPUp<QG`j2$4_DxK1qW2IZVa||J7>MB#sBQXY2tGiBFdkx-8
+zdsw0S?#mU>@PK%)tmihhI5EA1Y_ekkRWrr!?#hYx$;#03%VcLK3-d2wOu3_zfy{S9
+z8HYZidM*#5EZXjeGTEkVDw7?F9HB=yWD?6{sAU$Zuw6_8Fd=>k^7c*?D^0G8Z0=M?
+zjZ;C>)Fvdd0x1C$B=8j{FCLhnYI*|QGbp{Zd=CUs{&l<ehq=Gq|9A1^_9XH+7tlh+
+zG8XVq#S!4<Lt1br!WkQ{BM>Ek1_G;kjEX3xUOw?EUTo69PeGzeBn!f>;NtN&0hzZc
+zT5Vu2xcFZ{47`X>A7N4;LmweB5K@ki!I9SyQ*HbwjDE=37%OlFN-q=(#N@<h$o*sf
+zN8oAWY;?#Et2o?z_`${}4>oT}N+}a{&7Ln&evy7IE6r<)@1%ap4v;x~RWu9#d%wh)
+zN;1J+xPc27pwIhC{7?U$?(-@~A-2DRS)~Xp-KU*dQ|oqB5_G$oa;&kkQKoOxXl9b+
+z+h;jm&(qaKYA(}u{e#Crm{O3a^4!FBl&UI=RlZkgwPN4`)06}z+1>la<S+1j(tGwg
+Y8k>1wpFW#RWO;U@>D3xeW2QO%f73(7A^-pY
+
+literal 0
+HcmV?d00001
+
+diff --git a/zeppelin/tests/rpc.py b/zeppelin/tests/rpc.py
+new file mode 100644
+index 0000000..8f0adcd
+--- /dev/null
++++ b/zeppelin/tests/rpc.py
+@@ -0,0 +1,74 @@
++"""Tiny JSON-RPC client + step runner for Zeppelin agent-wow test scripts (F-219 Track A)."""
++import json
++import sys
++import time
++import urllib.request
++
++URL = "http://127.0.0.1:8086/rpc"
++_id = 0
++
++
++class StepFailed(Exception):
++    pass
++
++
++def call(method, **params):
++    global _id
++    _id += 1
++    body = json.dumps({"jsonrpc": "2.0", "id": _id, "method": method, "params": params}).encode()
++    req = urllib.request.Request(URL, body, {"Content-Type": "application/json"})
++    with urllib.request.urlopen(req, timeout=40) as r:
++        reply = json.load(r)
++    if "error" in reply:
++        raise StepFailed(f"{method}: {reply['error']}")
++    return reply.get("result", {})
++
++
++def step(name, ok, detail=""):
++    mark = "PASS" if ok else "FAIL"
++    print(f"[{mark}] {name}" + (f" - {detail}" if detail else ""), flush=True)
++    if not ok:
++        raise StepFailed(name)
++
++
++def ground(x, y, z_guess):
++    g = call("move.ground", x=x, y=y, z=z_guess)
++    return g["z"] if g.get("ok") else z_guess
++
++
++def go_to(x, y, z, name, within=3.0, max_calls=8):
++    """path_to until arrived (each call is budget-limited)."""
++    t0, walked, calls = time.time(), 0.0, 0
++    for _ in range(max_calls):
++        r = call("move.path_to", x=x, y=y, z=z)
++        mv = r["move"]
++        walked, calls = walked + mv.get("distance", 0), calls + 1
++        if mv.get("arrived") or r.get("remaining", 99) <= within:
++            step(f"walk to {name}", True, f"{walked:.1f} yd in {calls} call(s), {time.time() - t0:.1f} s")
++            return mv["position"]
++        if mv.get("reason") not in ("budget",):
++            step(f"walk to {name}", False, f"{mv.get('reason')} remaining {r.get('remaining')}")
++    step(f"walk to {name}", False, "too many calls")
++
++
++def near(entry, offset=2.0):
++    """A ground point `offset` yd from the nearest visible object of entry, on our side."""
++    objs = call("interact.find", entry=entry, limit=1).get("objects", [])
++    if not objs:
++        raise StepFailed(f"entry {entry} not visible")
++    o = objs[0]
++    me = call("move.position")
++    dx, dy = me["x"] - o["x"], me["y"] - o["y"]
++    d = max((dx * dx + dy * dy) ** 0.5, 0.01)
++    x, y = o["x"] + dx / d * offset, o["y"] + dy / d * offset
++    return x, y, ground(x, y, o["z"])
++
++
++def run(steps):
++    try:
++        steps()
++        print("RESULT: PASS")
++        return 0
++    except StepFailed as e:
++        print(f"RESULT: FAIL at {e}")
++        return 1
+diff --git a/zeppelin/tests/valley_of_trials.py b/zeppelin/tests/valley_of_trials.py
+new file mode 100644
+index 0000000..556e547
+--- /dev/null
++++ b/zeppelin/tests/valley_of_trials.py
+@@ -0,0 +1,32 @@
++"""Orc start: Kaltunk 4641 -> walk into the Den (navmesh) -> Gornek turn-in -> accept 788.
++
++Expects a fresh level 1 orc at the Valley of Trials start in a running `char play` session:
++  zep world char test-setup Zeppkt -r orc -c warrior -g male -l 1 -a ZEPPKT --map 1 --pos "-618.5 -4251.67" --replace
++"""
++import sys
++
++from rpc import call, go_to, near, run, step
++
++KALTUNK, GORNEK = 10176, 3143
++YOUR_PLACE, CUTTING_TEETH = 4641, 788
++
++
++def steps():
++    me = call("move.position")
++    step("in world", me.get("known", False), f"map {me.get('map', 0)} ({me.get('x'):.1f}, {me.get('y'):.1f})")
++    go_to(*near(KALTUNK), "Kaltunk")
++    r = call("interact.quest_accept", target={"entry": KALTUNK}, quest_id=YOUR_PLACE)
++    step("accept 4641 Your Place In The World", r.get("ok", False), r.get("detail", ""))
++    log = [e["questId"] for e in call("interact.quest_log").get("entries", [])]
++    step("4641 in quest log", YOUR_PLACE in log, str(log))
++    go_to(*near(GORNEK), "Gornek (inside the Den)")
++    r = call("interact.quest_complete", target={"entry": GORNEK}, quest_id=YOUR_PLACE)
++    step("turn in 4641 at Gornek", r.get("ok", False), r.get("detail", ""))
++    r = call("interact.quest_accept", target={"entry": GORNEK}, quest_id=CUTTING_TEETH)
++    step("accept 788 Cutting Teeth", r.get("ok", False), r.get("detail", ""))
++    ev = call("interact.events").get("events", [])
++    rewards = [e for e in ev if e.get("kind") == "quest_reward" and e.get("questId") == YOUR_PLACE]
++    step("quest_reward event for 4641", bool(rewards), f"{rewards[0].get('count')} XP" if rewards else "")
++
++
++sys.exit(run(steps))
+-- 
+2.34.1
+
