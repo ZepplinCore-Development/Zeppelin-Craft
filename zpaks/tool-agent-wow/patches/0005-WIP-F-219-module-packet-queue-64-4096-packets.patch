@@ -1,0 +1,34 @@
+From b16bf56fc1f30ca6e7db28072bf25f26d0cc8cb5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 09:20:08 +0000
+Subject: [PATCH] WIP: F-219 - module packet queue 64 -> 4096 packets
+
+First login at a crowded hub (Lost Isles, reported by the I-377 session) overflowed the
+interact module's 64-packet queue with the update/aura burst; overflow is fatal to the
+session. Memory remains bounded by the 8 MiB queueBytes cap.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ pkg/modules/runtime/manager_packets.go | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/pkg/modules/runtime/manager_packets.go b/pkg/modules/runtime/manager_packets.go
+index 91226b3..6afc617 100644
+--- a/pkg/modules/runtime/manager_packets.go
++++ b/pkg/modules/runtime/manager_packets.go
+@@ -13,7 +13,10 @@ import (
+ 
+ const packetTimeout = 5 * time.Second
+ 
+-const queueLimit = 64
++// queueLimit bounds packets waiting per module. 64 overflowed on first login at a crowded hub
++// (an SMSG_COMPRESSED_UPDATE_OBJECT + SMSG_AURA_UPDATE(_ALL) burst for every visible unit) and the
++// overflow is fatal to the session; memory stays bounded by queueBytes. Zeppelin F-219.
++const queueLimit = 4096
+ 
+ const queueBytes = 8 << 20
+ 
+-- 
+2.34.1
+
