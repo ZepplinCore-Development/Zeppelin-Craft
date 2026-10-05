@@ -543,7 +543,40 @@ def _set_cfg(key, value):
     cfg.write_text('\n'.join(lines + [f'SET {key} "{value}"']) + '\n')
 
 
-def _select_char(username, char):
+# Addons switched off for test logins (`--keep-addons` leaves them alone). The Details! damage
+# meter and its plugins open a window over the middle of the screen on every login and obscure
+# the evidence screenshots (I-378).
+TEST_DISABLED_ADDONS = ['Details', 'Details_3DModelsPaths', 'Details_ChartViewer', 'Details_DataStorage',
+                        'Details_DeathGraphs', 'Details_EncounterDetails', 'Details_SunderCount',
+                        'Details_TimeLine', 'Details_TinyThreat']
+
+
+def _cfg_value(key):
+    cfg = CLIENT_DIR / 'WTF/Config.wtf'
+    for line in cfg.read_text().splitlines() if cfg.exists() else []:
+        if line.startswith(f'SET {key} '):
+            return line.split(' ', 2)[2].strip().strip('"')
+    return None
+
+
+def _disable_test_addons(username, char):
+    """Mark TEST_DISABLED_ADDONS disabled in the account's and the character's AddOns.txt.
+
+    3.3.5 keeps addon on/off per character (WTF/Account/<ACC>/<realm>/<char>/AddOns.txt); the
+    account-level file covers character select. Other entries are kept as they are."""
+    acc_dir = CLIENT_DIR / 'WTF/Account' / username.upper()
+    files = [acc_dir / 'AddOns.txt']
+    realm = _cfg_value('realmName')
+    if realm:
+        files.append(acc_dir / realm / char / 'AddOns.txt')
+    for f in files:
+        f.parent.mkdir(parents=True, exist_ok=True)
+        lines = f.read_text().splitlines() if f.exists() else []
+        kept = [l for l in lines if l.split(':', 1)[0].strip() not in TEST_DISABLED_ADDONS]
+        f.write_text('\n'.join(kept + [f'{a}: disabled' for a in TEST_DISABLED_ADDONS]) + '\n')
+
+
+def _select_char(username, char, keep_addons=False):
     """Preselect `char` (default: the first) at character select. The client reads
     lastCharacterIndex from Config.wtf at launch; a killed client never writes it back."""
     username = username or _creds()[0]
@@ -556,6 +589,8 @@ def _select_char(username, char):
     index = names.index(char.lower()) if char else 0
     _set_cfg('lastCharacterIndex', index)
     _set_cfg('accountName', username.upper())
+    if not keep_addons:
+        _disable_test_addons(username, chars[index]['name'])
     return chars[index]['name']
 
 
@@ -716,11 +751,12 @@ def _stop():
 @click.option('--char', default=None, help='character to preselect (default: the first; see `zep client chars`)')
 @click.option('--purpose', default='', help='shown to other sessions while you hold the client')
 @click.option('--force', is_flag=True, help="take the client over from another session's live run")
-def client_start(timeout, opengl, no_wxl, wait, username, char, purpose, force):
+@click.option('--keep-addons', is_flag=True, help='leave TEST_DISABLED_ADDONS (Details! meter) enabled')
+def client_start(timeout, opengl, no_wxl, wait, username, char, purpose, force, keep_addons):
     """Launch the client in the background on the virtual display."""
     _take_lock(purpose, force, username)
     _stop()
-    picked = _select_char(username, char)
+    picked = _select_char(username, char, keep_addons)
     log_path = _start(timeout, opengl, no_wxl, wait)
     click.echo(f'slot {SLOT}: client started on {DISPLAY}, {picked} preselected (log: {log_path})')
 
@@ -821,7 +857,8 @@ def client_login(enter_world, charselect_wait, username):
 @click.option('--char', default=None, help='character to log in (default: the first; see `zep client chars`)')
 @click.option('--purpose', default='', help='shown to other sessions while you hold the client')
 @click.option('--force', is_flag=True, help="take the client over from another session's live run")
-def client_drive(outdir, login_wait, charselect_wait, world_wait, username, char, purpose, force):
+@click.option('--keep-addons', is_flag=True, help='leave TEST_DISABLED_ADDONS (Details! meter) enabled')
+def client_drive(outdir, login_wait, charselect_wait, world_wait, username, char, purpose, force, keep_addons):
     """Launch -> login -> character select -> world, a screenshot per stage.
 
     Leaves the client running in-world; `zep client stop` when done, `zep client release` to hand
@@ -832,7 +869,7 @@ def client_drive(outdir, login_wait, charselect_wait, world_wait, username, char
     out.mkdir(parents=True, exist_ok=True)
     _stop()
     time.sleep(2)
-    picked = _select_char(username, char)
+    picked = _select_char(username, char, keep_addons)
     click.echo(f'slot {SLOT}: logging in {picked} on {(username or _creds()[0]).upper()}')
     _start(3600, False, False, wait=120)
     stages = [('01-login', login_wait, None),
