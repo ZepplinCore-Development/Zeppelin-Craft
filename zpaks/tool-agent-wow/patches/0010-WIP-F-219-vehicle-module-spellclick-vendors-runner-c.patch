@@ -1,0 +1,2735 @@
+From ae7362db60d8c2ad112c649f780d761eb930cd74 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 21:04:02 +0000
+Subject: [PATCH] WIP: F-219 - vehicle module, spellclick, vendors, runner
+ condition/vehicle/lock logic (Kezan)
+
+- vehicle module: SMSG_CLIENT_CONTROL_UPDATE -> CMSG_SET_ACTIVE_MOVER + move.set_mover (movement
+  must carry the controlled vehicle's guid), SMSG_PET_SPELLS action bar, enter (spellclick),
+  exit (CMSG_REQUEST_VEHICLE_EXIT), cast (CMSG_CAST_SPELL as the vehicle)
+- move: set_mover; movement, teleport and speed acks use the mover guid
+- interact: spellclick (CMSG_SPELLCLICK), vendor_list/vendor_buy, unit run speed
+- runner: quest-availability conditions (source 19: rewarded/taken/none/class/race/gender/
+  item/complete, references, else-groups), spellclick credit, SAI spell-hit objectives fired
+  from the vehicle bar (summon the vehicle with the quest item, drive, cast), credit-only
+  entries via quest item use, vendor-sold quest items, chest opening spell from the Lock.dbc
+  lock type (21 Open From Vehicle -> 61437), leave vehicles before quest givers
+- Kezan pass 3: 14069 (spellclick trolls), 14071 Rolling with my Homies (Hot Rod: summon,
+  drive, Grab Passenger x3), 14070, 24567, 26712, 14109 (3 vendor buys), 28349, 25473 ...
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/interact/api/interact.pb.go  | 411 +++++++++++++++---
+ .../modules/interact/api/interact_grpc.pb.go  | 114 +++++
+ zeppelin/modules/interact/interact.proto      |  27 ++
+ zeppelin/modules/interact/main.go             | 114 ++++-
+ zeppelin/modules/interact/module.yaml         |   6 +
+ zeppelin/modules/move/api/move.pb.go          | 157 +++++--
+ zeppelin/modules/move/api/move_grpc.pb.go     |  38 ++
+ zeppelin/modules/move/main.go                 |  47 +-
+ zeppelin/modules/move/module.yaml             |   1 +
+ zeppelin/modules/move/move.proto              |  10 +
+ zeppelin/modules/vehicle/api/vehicle.pb.go    | 375 ++++++++++++++++
+ .../modules/vehicle/api/vehicle_grpc.pb.go    | 275 ++++++++++++
+ zeppelin/modules/vehicle/main.go              | 280 ++++++++++++
+ zeppelin/modules/vehicle/module.yaml          |  16 +
+ zeppelin/modules/vehicle/vehicle.proto        |  39 ++
+ zeppelin/tests/start_area.py                  | 205 ++++++++-
+ zeppelin/wow/objects.go                       |   4 +
+ zeppelin/wow/update.go                        |  25 +-
+ 18 files changed, 2034 insertions(+), 110 deletions(-)
+ create mode 100644 zeppelin/modules/vehicle/api/vehicle.pb.go
+ create mode 100644 zeppelin/modules/vehicle/api/vehicle_grpc.pb.go
+ create mode 100644 zeppelin/modules/vehicle/main.go
+ create mode 100644 zeppelin/modules/vehicle/module.yaml
+ create mode 100644 zeppelin/modules/vehicle/vehicle.proto
+
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index 3f8ac0d..f20e402 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -87,10 +87,11 @@ type WorldObject struct {
+ 	Distance      float32                `protobuf:"fixed32,7,opt,name=distance,proto3" json:"distance,omitempty"` // from the player, -1 when unknown
+ 	Health        uint32                 `protobuf:"varint,8,opt,name=health,proto3" json:"health,omitempty"`
+ 	NpcFlags      uint32                 `protobuf:"varint,9,opt,name=npc_flags,json=npcFlags,proto3" json:"npc_flags,omitempty"`
+-	DynFlags      uint32                 `protobuf:"varint,10,opt,name=dyn_flags,json=dynFlags,proto3" json:"dyn_flags,omitempty"` // unit: 0x1 lootable; GO: dynamic field
+-	GoState       uint32                 `protobuf:"varint,11,opt,name=go_state,json=goState,proto3" json:"go_state,omitempty"`    // GO: GAMEOBJECT_BYTES_1 byte 0
+-	GoType        uint32                 `protobuf:"varint,12,opt,name=go_type,json=goType,proto3" json:"go_type,omitempty"`       // GO: GAMEOBJECT_BYTES_1 byte 1
+-	Auras         []uint32               `protobuf:"varint,13,rep,packed,name=auras,proto3" json:"auras,omitempty"`                // visible aura spell ids (units)
++	DynFlags      uint32                 `protobuf:"varint,10,opt,name=dyn_flags,json=dynFlags,proto3" json:"dyn_flags,omitempty"`  // unit: 0x1 lootable; GO: dynamic field
++	GoState       uint32                 `protobuf:"varint,11,opt,name=go_state,json=goState,proto3" json:"go_state,omitempty"`     // GO: GAMEOBJECT_BYTES_1 byte 0
++	GoType        uint32                 `protobuf:"varint,12,opt,name=go_type,json=goType,proto3" json:"go_type,omitempty"`        // GO: GAMEOBJECT_BYTES_1 byte 1
++	Auras         []uint32               `protobuf:"varint,13,rep,packed,name=auras,proto3" json:"auras,omitempty"`                 // visible aura spell ids (units)
++	RunSpeed      float32                `protobuf:"fixed32,14,opt,name=run_speed,json=runSpeed,proto3" json:"run_speed,omitempty"` // units: from the create block
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -216,6 +217,13 @@ func (x *WorldObject) GetAuras() []uint32 {
+ 	return nil
+ }
+ 
++func (x *WorldObject) GetRunSpeed() float32 {
++	if x != nil {
++		return x.RunSpeed
++	}
++	return 0
++}
++
+ type FindRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Entry         uint32                 `protobuf:"varint,1,opt,name=entry,proto3" json:"entry,omitempty"`
+@@ -2081,6 +2089,262 @@ func (x *KnownSpells) GetSpells() []uint32 {
+ 	return nil
+ }
+ 
++type VendorItem struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Slot          uint32                 `protobuf:"varint,1,opt,name=slot,proto3" json:"slot,omitempty"` // vendor slot as the client numbers it (from 1)
++	ItemId        uint32                 `protobuf:"varint,2,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
++	Stock         int32                  `protobuf:"varint,3,opt,name=stock,proto3" json:"stock,omitempty"`                       // -1 unlimited
++	Price         uint32                 `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`                       // copper per buy
++	BuyCount      uint32                 `protobuf:"varint,5,opt,name=buy_count,json=buyCount,proto3" json:"buy_count,omitempty"` // stack size per buy
++	ExtendedCost  uint32                 `protobuf:"varint,6,opt,name=extended_cost,json=extendedCost,proto3" json:"extended_cost,omitempty"`
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *VendorItem) Reset() {
++	*x = VendorItem{}
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[30]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *VendorItem) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*VendorItem) ProtoMessage() {}
++
++func (x *VendorItem) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[30]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use VendorItem.ProtoReflect.Descriptor instead.
++func (*VendorItem) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{30}
++}
++
++func (x *VendorItem) GetSlot() uint32 {
++	if x != nil {
++		return x.Slot
++	}
++	return 0
++}
++
++func (x *VendorItem) GetItemId() uint32 {
++	if x != nil {
++		return x.ItemId
++	}
++	return 0
++}
++
++func (x *VendorItem) GetStock() int32 {
++	if x != nil {
++		return x.Stock
++	}
++	return 0
++}
++
++func (x *VendorItem) GetPrice() uint32 {
++	if x != nil {
++		return x.Price
++	}
++	return 0
++}
++
++func (x *VendorItem) GetBuyCount() uint32 {
++	if x != nil {
++		return x.BuyCount
++	}
++	return 0
++}
++
++func (x *VendorItem) GetExtendedCost() uint32 {
++	if x != nil {
++		return x.ExtendedCost
++	}
++	return 0
++}
++
++type VendorList struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Guid          uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`
++	Items         []*VendorItem          `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
++	Detail        string                 `protobuf:"bytes,3,opt,name=detail,proto3" json:"detail,omitempty"`
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *VendorList) Reset() {
++	*x = VendorList{}
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[31]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *VendorList) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*VendorList) ProtoMessage() {}
++
++func (x *VendorList) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[31]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use VendorList.ProtoReflect.Descriptor instead.
++func (*VendorList) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{31}
++}
++
++func (x *VendorList) GetGuid() uint64 {
++	if x != nil {
++		return x.Guid
++	}
++	return 0
++}
++
++func (x *VendorList) GetItems() []*VendorItem {
++	if x != nil {
++		return x.Items
++	}
++	return nil
++}
++
++func (x *VendorList) GetDetail() string {
++	if x != nil {
++		return x.Detail
++	}
++	return ""
++}
++
++type VendorBuyRequest struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Target        *Target                `protobuf:"bytes,1,opt,name=target,proto3" json:"target,omitempty"`
++	ItemId        uint32                 `protobuf:"varint,2,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
++	Count         uint32                 `protobuf:"varint,3,opt,name=count,proto3" json:"count,omitempty"` // number of buys; 0 = 1
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *VendorBuyRequest) Reset() {
++	*x = VendorBuyRequest{}
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[32]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *VendorBuyRequest) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*VendorBuyRequest) ProtoMessage() {}
++
++func (x *VendorBuyRequest) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[32]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use VendorBuyRequest.ProtoReflect.Descriptor instead.
++func (*VendorBuyRequest) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{32}
++}
++
++func (x *VendorBuyRequest) GetTarget() *Target {
++	if x != nil {
++		return x.Target
++	}
++	return nil
++}
++
++func (x *VendorBuyRequest) GetItemId() uint32 {
++	if x != nil {
++		return x.ItemId
++	}
++	return 0
++}
++
++func (x *VendorBuyRequest) GetCount() uint32 {
++	if x != nil {
++		return x.Count
++	}
++	return 0
++}
++
++type VendorBuyResult struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
++	Detail        string                 `protobuf:"bytes,2,opt,name=detail,proto3" json:"detail,omitempty"` // "bought", "failed reason N", "not sold here", "timeout"
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *VendorBuyResult) Reset() {
++	*x = VendorBuyResult{}
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[33]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *VendorBuyResult) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*VendorBuyResult) ProtoMessage() {}
++
++func (x *VendorBuyResult) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[33]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use VendorBuyResult.ProtoReflect.Descriptor instead.
++func (*VendorBuyResult) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{33}
++}
++
++func (x *VendorBuyResult) GetOk() bool {
++	if x != nil {
++		return x.Ok
++	}
++	return false
++}
++
++func (x *VendorBuyResult) GetDetail() string {
++	if x != nil {
++		return x.Detail
++	}
++	return ""
++}
++
+ var File_zeppelin_modules_interact_interact_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+@@ -2088,7 +2352,7 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"(zeppelin/modules/interact/interact.proto\x12\x14zeppelin.interact.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"2\n" +
+ 	"\x06Target\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+-	"\x05entry\x18\x02 \x01(\rR\x05entry\"\xad\x02\n" +
++	"\x05entry\x18\x02 \x01(\rR\x05entry\"\xca\x02\n" +
+ 	"\vWorldObject\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x12\x12\n" +
+@@ -2103,7 +2367,8 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	" \x01(\rR\bdynFlags\x12\x19\n" +
+ 	"\bgo_state\x18\v \x01(\rR\agoState\x12\x17\n" +
+ 	"\ago_type\x18\f \x01(\rR\x06goType\x12\x14\n" +
+-	"\x05auras\x18\r \x03(\rR\x05auras\"\x94\x01\n" +
++	"\x05auras\x18\r \x03(\rR\x05auras\x12\x1b\n" +
++	"\trun_speed\x18\x0e \x01(\x02R\brunSpeed\"\x94\x01\n" +
+ 	"\vFindRequest\x12\x14\n" +
+ 	"\x05entry\x18\x01 \x01(\rR\x05entry\x12\x12\n" +
+ 	"\x04type\x18\x02 \x01(\rR\x04type\x12\x16\n" +
+@@ -2250,7 +2515,27 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x05spent\x18\x03 \x01(\rR\x05spent\x12\x16\n" +
+ 	"\x06detail\x18\x04 \x01(\tR\x06detail\"%\n" +
+ 	"\vKnownSpells\x12\x16\n" +
+-	"\x06spells\x18\x01 \x03(\rR\x06spells2\xd8\v\n" +
++	"\x06spells\x18\x01 \x03(\rR\x06spells\"\xa7\x01\n" +
++	"\n" +
++	"VendorItem\x12\x12\n" +
++	"\x04slot\x18\x01 \x01(\rR\x04slot\x12\x17\n" +
++	"\aitem_id\x18\x02 \x01(\rR\x06itemId\x12\x14\n" +
++	"\x05stock\x18\x03 \x01(\x05R\x05stock\x12\x14\n" +
++	"\x05price\x18\x04 \x01(\rR\x05price\x12\x1b\n" +
++	"\tbuy_count\x18\x05 \x01(\rR\bbuyCount\x12#\n" +
++	"\rextended_cost\x18\x06 \x01(\rR\fextendedCost\"p\n" +
++	"\n" +
++	"VendorList\x12\x12\n" +
++	"\x04guid\x18\x01 \x01(\x04R\x04guid\x126\n" +
++	"\x05items\x18\x02 \x03(\v2 .zeppelin.interact.v1.VendorItemR\x05items\x12\x16\n" +
++	"\x06detail\x18\x03 \x01(\tR\x06detail\"w\n" +
++	"\x10VendorBuyRequest\x124\n" +
++	"\x06target\x18\x01 \x01(\v2\x1c.zeppelin.interact.v1.TargetR\x06target\x12\x17\n" +
++	"\aitem_id\x18\x02 \x01(\rR\x06itemId\x12\x14\n" +
++	"\x05count\x18\x03 \x01(\rR\x05count\"9\n" +
++	"\x0fVendorBuyResult\x12\x0e\n" +
++	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
++	"\x06detail\x18\x02 \x01(\tR\x06detail2\xd3\r\n" +
+ 	"\bInteract\x12K\n" +
+ 	"\x04Find\x12!.zeppelin.interact.v1.FindRequest\x1a .zeppelin.interact.v1.FindResult\x12G\n" +
+ 	"\vGossipHello\x12\x1c.zeppelin.interact.v1.Target\x1a\x1a.zeppelin.interact.v1.Menu\x12O\n" +
+@@ -2271,7 +2556,11 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\n" +
+ 	"TrainerBuy\x12'.zeppelin.interact.v1.TrainerBuyRequest\x1a&.zeppelin.interact.v1.TrainerBuyResult\x12U\n" +
+ 	"\x0fTrainerLearnAll\x12\x1c.zeppelin.interact.v1.Target\x1a$.zeppelin.interact.v1.LearnAllResult\x12F\n" +
+-	"\tGetSpells\x12\x16.google.protobuf.Empty\x1a!.zeppelin.interact.v1.KnownSpells\x12C\n" +
++	"\tGetSpells\x12\x16.google.protobuf.Empty\x1a!.zeppelin.interact.v1.KnownSpells\x12O\n" +
++	"\rGetVendorList\x12\x1c.zeppelin.interact.v1.Target\x1a .zeppelin.interact.v1.VendorList\x12Z\n" +
++	"\tVendorBuy\x12&.zeppelin.interact.v1.VendorBuyRequest\x1a%.zeppelin.interact.v1.VendorBuyResult\x12L\n" +
++	"\n" +
++	"SpellClick\x12\x1c.zeppelin.interact.v1.Target\x1a .zeppelin.interact.v1.CastResult\x12C\n" +
+ 	"\bOnPacket\x12\x1f.agentwow.module.v1.WorldPacket\x1a\x16.google.protobuf.EmptyBIZGgithub.com/agent-wow/agent-wow/zeppelin/modules/interact/api;interactv1b\x06proto3"
+ 
+ var (
+@@ -2286,7 +2575,7 @@ func file_zeppelin_modules_interact_interact_proto_rawDescGZIP() []byte {
+ 	return file_zeppelin_modules_interact_interact_proto_rawDescData
+ }
+ 
+-var file_zeppelin_modules_interact_interact_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
++var file_zeppelin_modules_interact_interact_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
+ var file_zeppelin_modules_interact_interact_proto_goTypes = []any{
+ 	(*Target)(nil),            // 0: zeppelin.interact.v1.Target
+ 	(*WorldObject)(nil),       // 1: zeppelin.interact.v1.WorldObject
+@@ -2318,8 +2607,12 @@ var file_zeppelin_modules_interact_interact_proto_goTypes = []any{
+ 	(*TrainerBuyResult)(nil),  // 27: zeppelin.interact.v1.TrainerBuyResult
+ 	(*LearnAllResult)(nil),    // 28: zeppelin.interact.v1.LearnAllResult
+ 	(*KnownSpells)(nil),       // 29: zeppelin.interact.v1.KnownSpells
+-	(*emptypb.Empty)(nil),     // 30: google.protobuf.Empty
+-	(*v1.WorldPacket)(nil),    // 31: agentwow.module.v1.WorldPacket
++	(*VendorItem)(nil),        // 30: zeppelin.interact.v1.VendorItem
++	(*VendorList)(nil),        // 31: zeppelin.interact.v1.VendorList
++	(*VendorBuyRequest)(nil),  // 32: zeppelin.interact.v1.VendorBuyRequest
++	(*VendorBuyResult)(nil),   // 33: zeppelin.interact.v1.VendorBuyResult
++	(*emptypb.Empty)(nil),     // 34: google.protobuf.Empty
++	(*v1.WorldPacket)(nil),    // 35: agentwow.module.v1.WorldPacket
+ }
+ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	1,  // 0: zeppelin.interact.v1.FindResult.objects:type_name -> zeppelin.interact.v1.WorldObject
+@@ -2337,49 +2630,57 @@ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	0,  // 12: zeppelin.interact.v1.UseItemRequest.target:type_name -> zeppelin.interact.v1.Target
+ 	24, // 13: zeppelin.interact.v1.TrainerList.spells:type_name -> zeppelin.interact.v1.TrainerSpell
+ 	0,  // 14: zeppelin.interact.v1.TrainerBuyRequest.target:type_name -> zeppelin.interact.v1.Target
+-	2,  // 15: zeppelin.interact.v1.Interact.Find:input_type -> zeppelin.interact.v1.FindRequest
+-	0,  // 16: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
+-	7,  // 17: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
+-	0,  // 18: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
+-	8,  // 19: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
+-	8,  // 20: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
+-	30, // 21: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
+-	14, // 22: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
+-	14, // 23: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
+-	18, // 24: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
+-	15, // 25: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
+-	30, // 26: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
+-	30, // 27: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
+-	23, // 28: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
+-	0,  // 29: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
+-	26, // 30: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
+-	0,  // 31: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
+-	30, // 32: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
+-	31, // 33: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
+-	3,  // 34: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
+-	6,  // 35: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 36: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 37: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
+-	9,  // 38: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
+-	9,  // 39: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
+-	11, // 40: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
+-	13, // 41: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
+-	13, // 42: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
+-	19, // 43: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
+-	16, // 44: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
+-	20, // 45: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
+-	22, // 46: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
+-	16, // 47: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
+-	25, // 48: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
+-	27, // 49: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
+-	28, // 50: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
+-	29, // 51: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
+-	30, // 52: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
+-	34, // [34:53] is the sub-list for method output_type
+-	15, // [15:34] is the sub-list for method input_type
+-	15, // [15:15] is the sub-list for extension type_name
+-	15, // [15:15] is the sub-list for extension extendee
+-	0,  // [0:15] is the sub-list for field type_name
++	30, // 15: zeppelin.interact.v1.VendorList.items:type_name -> zeppelin.interact.v1.VendorItem
++	0,  // 16: zeppelin.interact.v1.VendorBuyRequest.target:type_name -> zeppelin.interact.v1.Target
++	2,  // 17: zeppelin.interact.v1.Interact.Find:input_type -> zeppelin.interact.v1.FindRequest
++	0,  // 18: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
++	7,  // 19: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
++	0,  // 20: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
++	8,  // 21: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
++	8,  // 22: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
++	34, // 23: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
++	14, // 24: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
++	14, // 25: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
++	18, // 26: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
++	15, // 27: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
++	34, // 28: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
++	34, // 29: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
++	23, // 30: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
++	0,  // 31: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
++	26, // 32: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
++	0,  // 33: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
++	34, // 34: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
++	0,  // 35: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
++	32, // 36: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
++	0,  // 37: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
++	35, // 38: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	3,  // 39: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
++	6,  // 40: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
++	6,  // 41: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
++	6,  // 42: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
++	9,  // 43: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
++	9,  // 44: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
++	11, // 45: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
++	13, // 46: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
++	13, // 47: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
++	19, // 48: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
++	16, // 49: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
++	20, // 50: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
++	22, // 51: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
++	16, // 52: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
++	25, // 53: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
++	27, // 54: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
++	28, // 55: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
++	29, // 56: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
++	31, // 57: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
++	33, // 58: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
++	16, // 59: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
++	34, // 60: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
++	39, // [39:61] is the sub-list for method output_type
++	17, // [17:39] is the sub-list for method input_type
++	17, // [17:17] is the sub-list for extension type_name
++	17, // [17:17] is the sub-list for extension extendee
++	0,  // [0:17] is the sub-list for field type_name
+ }
+ 
+ func init() { file_zeppelin_modules_interact_interact_proto_init() }
+@@ -2393,7 +2694,7 @@ func file_zeppelin_modules_interact_interact_proto_init() {
+ 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
+ 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_zeppelin_modules_interact_interact_proto_rawDesc), len(file_zeppelin_modules_interact_interact_proto_rawDesc)),
+ 			NumEnums:      0,
+-			NumMessages:   30,
++			NumMessages:   34,
+ 			NumExtensions: 0,
+ 			NumServices:   1,
+ 		},
+diff --git a/zeppelin/modules/interact/api/interact_grpc.pb.go b/zeppelin/modules/interact/api/interact_grpc.pb.go
+index 5d8717d..e753cec 100644
+--- a/zeppelin/modules/interact/api/interact_grpc.pb.go
++++ b/zeppelin/modules/interact/api/interact_grpc.pb.go
+@@ -39,6 +39,9 @@ const (
+ 	Interact_TrainerBuy_FullMethodName      = "/zeppelin.interact.v1.Interact/TrainerBuy"
+ 	Interact_TrainerLearnAll_FullMethodName = "/zeppelin.interact.v1.Interact/TrainerLearnAll"
+ 	Interact_GetSpells_FullMethodName       = "/zeppelin.interact.v1.Interact/GetSpells"
++	Interact_GetVendorList_FullMethodName   = "/zeppelin.interact.v1.Interact/GetVendorList"
++	Interact_VendorBuy_FullMethodName       = "/zeppelin.interact.v1.Interact/VendorBuy"
++	Interact_SpellClick_FullMethodName      = "/zeppelin.interact.v1.Interact/SpellClick"
+ 	Interact_OnPacket_FullMethodName        = "/zeppelin.interact.v1.Interact/OnPacket"
+ )
+ 
+@@ -64,6 +67,9 @@ type InteractClient interface {
+ 	TrainerBuy(ctx context.Context, in *TrainerBuyRequest, opts ...grpc.CallOption) (*TrainerBuyResult, error)
+ 	TrainerLearnAll(ctx context.Context, in *Target, opts ...grpc.CallOption) (*LearnAllResult, error)
+ 	GetSpells(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*KnownSpells, error)
++	GetVendorList(ctx context.Context, in *Target, opts ...grpc.CallOption) (*VendorList, error)
++	VendorBuy(ctx context.Context, in *VendorBuyRequest, opts ...grpc.CallOption) (*VendorBuyResult, error)
++	SpellClick(ctx context.Context, in *Target, opts ...grpc.CallOption) (*CastResult, error)
+ 	OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error)
+ }
+ 
+@@ -255,6 +261,36 @@ func (c *interactClient) GetSpells(ctx context.Context, in *emptypb.Empty, opts
+ 	return out, nil
+ }
+ 
++func (c *interactClient) GetVendorList(ctx context.Context, in *Target, opts ...grpc.CallOption) (*VendorList, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(VendorList)
++	err := c.cc.Invoke(ctx, Interact_GetVendorList_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *interactClient) VendorBuy(ctx context.Context, in *VendorBuyRequest, opts ...grpc.CallOption) (*VendorBuyResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(VendorBuyResult)
++	err := c.cc.Invoke(ctx, Interact_VendorBuy_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *interactClient) SpellClick(ctx context.Context, in *Target, opts ...grpc.CallOption) (*CastResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(CastResult)
++	err := c.cc.Invoke(ctx, Interact_SpellClick_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
+ func (c *interactClient) OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+ 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+ 	out := new(emptypb.Empty)
+@@ -287,6 +323,9 @@ type InteractServer interface {
+ 	TrainerBuy(context.Context, *TrainerBuyRequest) (*TrainerBuyResult, error)
+ 	TrainerLearnAll(context.Context, *Target) (*LearnAllResult, error)
+ 	GetSpells(context.Context, *emptypb.Empty) (*KnownSpells, error)
++	GetVendorList(context.Context, *Target) (*VendorList, error)
++	VendorBuy(context.Context, *VendorBuyRequest) (*VendorBuyResult, error)
++	SpellClick(context.Context, *Target) (*CastResult, error)
+ 	OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error)
+ 	mustEmbedUnimplementedInteractServer()
+ }
+@@ -352,6 +391,15 @@ func (UnimplementedInteractServer) TrainerLearnAll(context.Context, *Target) (*L
+ func (UnimplementedInteractServer) GetSpells(context.Context, *emptypb.Empty) (*KnownSpells, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method GetSpells not implemented")
+ }
++func (UnimplementedInteractServer) GetVendorList(context.Context, *Target) (*VendorList, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method GetVendorList not implemented")
++}
++func (UnimplementedInteractServer) VendorBuy(context.Context, *VendorBuyRequest) (*VendorBuyResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method VendorBuy not implemented")
++}
++func (UnimplementedInteractServer) SpellClick(context.Context, *Target) (*CastResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method SpellClick not implemented")
++}
+ func (UnimplementedInteractServer) OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method OnPacket not implemented")
+ }
+@@ -700,6 +748,60 @@ func _Interact_GetSpells_Handler(srv interface{}, ctx context.Context, dec func(
+ 	return interceptor(ctx, in, info, handler)
+ }
+ 
++func _Interact_GetVendorList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(Target)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).GetVendorList(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_GetVendorList_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).GetVendorList(ctx, req.(*Target))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Interact_VendorBuy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(VendorBuyRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).VendorBuy(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_VendorBuy_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).VendorBuy(ctx, req.(*VendorBuyRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Interact_SpellClick_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(Target)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).SpellClick(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_SpellClick_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).SpellClick(ctx, req.(*Target))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
+ func _Interact_OnPacket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+ 	in := new(v1.WorldPacket)
+ 	if err := dec(in); err != nil {
+@@ -797,6 +899,18 @@ var Interact_ServiceDesc = grpc.ServiceDesc{
+ 			MethodName: "GetSpells",
+ 			Handler:    _Interact_GetSpells_Handler,
+ 		},
++		{
++			MethodName: "GetVendorList",
++			Handler:    _Interact_GetVendorList_Handler,
++		},
++		{
++			MethodName: "VendorBuy",
++			Handler:    _Interact_VendorBuy_Handler,
++		},
++		{
++			MethodName: "SpellClick",
++			Handler:    _Interact_SpellClick_Handler,
++		},
+ 		{
+ 			MethodName: "OnPacket",
+ 			Handler:    _Interact_OnPacket_Handler,
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index 2f86904..ea74e21 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -25,6 +25,7 @@ message WorldObject {
+   uint32 go_state = 11;  // GO: GAMEOBJECT_BYTES_1 byte 0
+   uint32 go_type = 12;   // GO: GAMEOBJECT_BYTES_1 byte 1
+   repeated uint32 auras = 13; // visible aura spell ids (units)
++  float run_speed = 14;  // units: from the create block
+ }
+ 
+ message FindRequest {
+@@ -190,6 +191,29 @@ message LearnAllResult {
+ }
+ message KnownSpells { repeated uint32 spells = 1; }
+ 
++message VendorItem {
++  uint32 slot = 1;       // vendor slot as the client numbers it (from 1)
++  uint32 item_id = 2;
++  int32 stock = 3;       // -1 unlimited
++  uint32 price = 4;      // copper per buy
++  uint32 buy_count = 5;  // stack size per buy
++  uint32 extended_cost = 6;
++}
++message VendorList {
++  uint64 guid = 1;
++  repeated VendorItem items = 2;
++  string detail = 3;
++}
++message VendorBuyRequest {
++  Target target = 1;
++  uint32 item_id = 2;
++  uint32 count = 3;      // number of buys; 0 = 1
++}
++message VendorBuyResult {
++  bool ok = 1;
++  string detail = 2;     // "bought", "failed reason N", "not sold here", "timeout"
++}
++
+ service Interact {
+   rpc Find(FindRequest) returns (FindResult);
+   rpc GossipHello(Target) returns (Menu);
+@@ -209,5 +233,8 @@ service Interact {
+   rpc TrainerBuy(TrainerBuyRequest) returns (TrainerBuyResult);
+   rpc TrainerLearnAll(Target) returns (LearnAllResult);
+   rpc GetSpells(google.protobuf.Empty) returns (KnownSpells);
++  rpc GetVendorList(Target) returns (VendorList);
++  rpc VendorBuy(VendorBuyRequest) returns (VendorBuyResult);
++  rpc SpellClick(Target) returns (CastResult);
+   rpc OnPacket(agentwow.module.v1.WorldPacket) returns (google.protobuf.Empty);
+ }
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index 65b1c1e..d4ab1b6 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -335,7 +335,7 @@ func (s *service) applyUpdate(payload []byte) {
+ // -- RPCs: objects --------------------------------------------------------------------------------
+ 
+ func toWorldObject(h wow.Hit) *interactv1.WorldObject {
+-	o := &interactv1.WorldObject{Guid: h.GUID, Entry: h.Entry(), Type: uint32(h.Type), X: h.X, Y: h.Y, Z: h.Z, Distance: h.Distance}
++	o := &interactv1.WorldObject{Guid: h.GUID, Entry: h.Entry(), Type: uint32(h.Type), X: h.X, Y: h.Y, Z: h.Z, Distance: h.Distance, RunSpeed: h.RunSpeed}
+ 	for _, a := range h.Auras {
+ 		o.Auras = append(o.Auras, a)
+ 	}
+@@ -1032,3 +1032,115 @@ func (s *service) TrainerLearnAll(ctx context.Context, t *interactv1.Target) (*i
+ 	out.Detail = fmt.Sprintf("learned %d, failed %d", len(out.Learned), len(out.Failed))
+ 	return out, nil
+ }
++
++// -- RPCs: vendors --------------------------------------------------------------------------------
++
++// GetVendorList sends CMSG_LIST_INVENTORY (guid) and decodes SMSG_LIST_INVENTORY
++// (WorldSession::SendListInventory: guid, u8 count, per item: u32 slot+1, u32 item,
++// u32 display, i32 stock, u32 price, u32 durability, u32 buy count, u32 extended cost).
++func (s *service) GetVendorList(ctx context.Context, t *interactv1.Target) (*interactv1.VendorList, error) {
++	guid, err := s.resolve(ctx, t)
++	if err != nil {
++		return nil, err
++	}
++	ch := s.listen(opcode.SMSGListInventory)
++	defer s.unlisten(ch)
++	var w wow.Writer
++	w.U64(guid)
++	if err := s.send(ctx, opcode.CMSGListInventory, &w); err != nil {
++		return nil, err
++	}
++	p, ok := await(ctx, ch, replyTimeout)
++	if !ok {
++		return &interactv1.VendorList{Guid: guid, Detail: "none"}, nil
++	}
++	r := wow.NewReader(p.payload)
++	out := &interactv1.VendorList{Guid: r.U64()}
++	n := int(r.U8())
++	if n == 0 {
++		out.Detail = fmt.Sprintf("empty (error %d)", r.U8())
++		return out, nil
++	}
++	for i := 0; i < n && r.Err() == nil; i++ {
++		it := &interactv1.VendorItem{Slot: r.U32(), ItemId: r.U32()}
++		r.U32() // display
++		it.Stock = int32(r.U32())
++		it.Price = r.U32()
++		r.U32() // durability
++		it.BuyCount, it.ExtendedCost = r.U32(), r.U32()
++		out.Items = append(out.Items, it)
++	}
++	return out, nil
++}
++
++// VendorBuy buys an item: CMSG_BUY_ITEM (vendor guid, item, vendor slot, count, u8) and waits
++// for SMSG_BUY_ITEM or SMSG_BUY_FAILED (guid, item, [param], u8 reason).
++func (s *service) VendorBuy(ctx context.Context, req *interactv1.VendorBuyRequest) (*interactv1.VendorBuyResult, error) {
++	list, err := s.GetVendorList(ctx, req.GetTarget())
++	if err != nil {
++		return nil, err
++	}
++	var slot uint32
++	for _, it := range list.GetItems() {
++		if it.GetItemId() == req.GetItemId() {
++			slot = it.GetSlot()
++		}
++	}
++	if slot == 0 {
++		return &interactv1.VendorBuyResult{Detail: "not sold here"}, nil
++	}
++	count := req.GetCount()
++	if count == 0 {
++		count = 1
++	}
++	ch := s.listen(opcode.SMSGBuyItem, opcode.SMSGBuyFailed)
++	defer s.unlisten(ch)
++	var w wow.Writer
++	w.U64(list.GetGuid())
++	w.U32(req.GetItemId())
++	w.U32(slot)
++	w.U32(count)
++	w.U8(0)
++	if err := s.send(ctx, opcode.CMSGBuyItem, &w); err != nil {
++		return nil, err
++	}
++	p, ok := await(ctx, ch, replyTimeout)
++	if !ok {
++		return &interactv1.VendorBuyResult{Detail: "timeout"}, nil
++	}
++	if p.op == opcode.SMSGBuyItem {
++		return &interactv1.VendorBuyResult{Ok: true, Detail: "bought"}, nil
++	}
++	b := p.payload
++	return &interactv1.VendorBuyResult{Detail: fmt.Sprintf("failed reason %d", b[len(b)-1])}, nil
++}
++
++// SpellClick sends CMSG_SPELLCLICK (guid) - npc_spellclick_spells: quest "click the NPC" credit,
++// boarding vehicles - and reports the first SPELL_GO / CAST_FAILED that follows.
++func (s *service) SpellClick(ctx context.Context, t *interactv1.Target) (*interactv1.CastResult, error) {
++	guid, err := s.resolve(ctx, t)
++	if err != nil {
++		return nil, err
++	}
++	ch := s.listen(opcode.SMSGSpellGo, opcode.SMSGCastFailed)
++	defer s.unlisten(ch)
++	var w wow.Writer
++	w.U64(guid)
++	if err := s.send(ctx, opcode.CMSGSpellclick, &w); err != nil {
++		return nil, err
++	}
++	p, ok := await(ctx, ch, 3*time.Second)
++	if !ok {
++		return &interactv1.CastResult{Detail: "no spell (not clickable for us, or out of range)"}, nil
++	}
++	r := wow.NewReader(p.payload)
++	if p.op == opcode.SMSGCastFailed {
++		r.U8()
++		spell := r.U32()
++		return &interactv1.CastResult{Detail: fmt.Sprintf("cast_failed spell %d result %d", spell, r.U8())}, nil
++	}
++	r.PackedGUID()
++	r.PackedGUID()
++	r.U8()
++	return &interactv1.CastResult{Ok: true, Detail: fmt.Sprintf("spell_go %d", r.U32())}, nil
++}
+diff --git a/zeppelin/modules/interact/module.yaml b/zeppelin/modules/interact/module.yaml
+index 0cd44cc..9b4baa5 100644
+--- a/zeppelin/modules/interact/module.yaml
++++ b/zeppelin/modules/interact/module.yaml
+@@ -25,6 +25,9 @@ rpc:
+   trainer_buy: /zeppelin.interact.v1.Interact/TrainerBuy
+   trainer_learn_all: /zeppelin.interact.v1.Interact/TrainerLearnAll
+   spells: /zeppelin.interact.v1.Interact/GetSpells
++  vendor_list: /zeppelin.interact.v1.Interact/GetVendorList
++  vendor_buy: /zeppelin.interact.v1.Interact/VendorBuy
++  spellclick: /zeppelin.interact.v1.Interact/SpellClick
+ packets:
+   SMSG_UPDATE_OBJECT: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_COMPRESSED_UPDATE_OBJECT: /zeppelin.interact.v1.Interact/OnPacket
+@@ -49,6 +52,9 @@ packets:
+   SMSG_ITEM_PUSH_RESULT: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_SPELL_GO: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_TRAINER_LIST: /zeppelin.interact.v1.Interact/OnPacket
++  SMSG_LIST_INVENTORY: /zeppelin.interact.v1.Interact/OnPacket
++  SMSG_BUY_ITEM: /zeppelin.interact.v1.Interact/OnPacket
++  SMSG_BUY_FAILED: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_TRAINER_BUY_SUCCEEDED: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_TRAINER_BUY_FAILED: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_INITIAL_SPELLS: /zeppelin.interact.v1.Interact/OnPacket
+diff --git a/zeppelin/modules/move/api/move.pb.go b/zeppelin/modules/move/api/move.pb.go
+index 4d556f9..e04e597 100644
+--- a/zeppelin/modules/move/api/move.pb.go
++++ b/zeppelin/modules/move/api/move.pb.go
+@@ -712,6 +712,90 @@ func (x *FaceRequest) GetUseO() bool {
+ 	return false
+ }
+ 
++type SetMoverRequest struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Guid          uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"` // the unit we now move (a vehicle), or our own guid / 0 to go back
++	X             float32                `protobuf:"fixed32,2,opt,name=x,proto3" json:"x,omitempty"`
++	Y             float32                `protobuf:"fixed32,3,opt,name=y,proto3" json:"y,omitempty"`
++	Z             float32                `protobuf:"fixed32,4,opt,name=z,proto3" json:"z,omitempty"`
++	O             float32                `protobuf:"fixed32,5,opt,name=o,proto3" json:"o,omitempty"`
++	RunSpeed      float32                `protobuf:"fixed32,6,opt,name=run_speed,json=runSpeed,proto3" json:"run_speed,omitempty"`
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *SetMoverRequest) Reset() {
++	*x = SetMoverRequest{}
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[10]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *SetMoverRequest) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*SetMoverRequest) ProtoMessage() {}
++
++func (x *SetMoverRequest) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_move_move_proto_msgTypes[10]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use SetMoverRequest.ProtoReflect.Descriptor instead.
++func (*SetMoverRequest) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_move_move_proto_rawDescGZIP(), []int{10}
++}
++
++func (x *SetMoverRequest) GetGuid() uint64 {
++	if x != nil {
++		return x.Guid
++	}
++	return 0
++}
++
++func (x *SetMoverRequest) GetX() float32 {
++	if x != nil {
++		return x.X
++	}
++	return 0
++}
++
++func (x *SetMoverRequest) GetY() float32 {
++	if x != nil {
++		return x.Y
++	}
++	return 0
++}
++
++func (x *SetMoverRequest) GetZ() float32 {
++	if x != nil {
++		return x.Z
++	}
++	return 0
++}
++
++func (x *SetMoverRequest) GetO() float32 {
++	if x != nil {
++		return x.O
++	}
++	return 0
++}
++
++func (x *SetMoverRequest) GetRunSpeed() float32 {
++	if x != nil {
++		return x.RunSpeed
++	}
++	return 0
++}
++
+ var File_zeppelin_modules_move_move_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+@@ -769,7 +853,14 @@ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+ 	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
+ 	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
+ 	"\x01o\x18\x03 \x01(\x02R\x01o\x12\x13\n" +
+-	"\x05use_o\x18\x04 \x01(\bR\x04useO2\xf1\x04\n" +
++	"\x05use_o\x18\x04 \x01(\bR\x04useO\"z\n" +
++	"\x0fSetMoverRequest\x12\x12\n" +
++	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\f\n" +
++	"\x01x\x18\x02 \x01(\x02R\x01x\x12\f\n" +
++	"\x01y\x18\x03 \x01(\x02R\x01y\x12\f\n" +
++	"\x01z\x18\x04 \x01(\x02R\x01z\x12\f\n" +
++	"\x01o\x18\x05 \x01(\x02R\x01o\x12\x1b\n" +
++	"\trun_speed\x18\x06 \x01(\x02R\brunSpeed2\xbc\x05\n" +
+ 	"\x04Move\x12A\n" +
+ 	"\vGetPosition\x12\x16.google.protobuf.Empty\x1a\x1a.zeppelin.move.v1.Position\x12I\n" +
+ 	"\x06MoveTo\x12\x1f.zeppelin.move.v1.MoveToRequest\x1a\x1e.zeppelin.move.v1.MoveToResult\x12:\n" +
+@@ -777,7 +868,8 @@ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+ 	"\x04Path\x12\x1d.zeppelin.move.v1.PathRequest\x1a\x1c.zeppelin.move.v1.PathResult\x12G\n" +
+ 	"\x06PathTo\x12\x1d.zeppelin.move.v1.PathRequest\x1a\x1e.zeppelin.move.v1.PathToResult\x12I\n" +
+ 	"\x06Ground\x12\x1f.zeppelin.move.v1.GroundRequest\x1a\x1e.zeppelin.move.v1.GroundResult\x12A\n" +
+-	"\x04Face\x12\x1d.zeppelin.move.v1.FaceRequest\x1a\x1a.zeppelin.move.v1.Position\x12C\n" +
++	"\x04Face\x12\x1d.zeppelin.move.v1.FaceRequest\x1a\x1a.zeppelin.move.v1.Position\x12I\n" +
++	"\bSetMover\x12!.zeppelin.move.v1.SetMoverRequest\x1a\x1a.zeppelin.move.v1.Position\x12C\n" +
+ 	"\bOnPacket\x12\x1f.agentwow.module.v1.WorldPacket\x1a\x16.google.protobuf.Empty\x12>\n" +
+ 	"\fBeforeLogout\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.EmptyBAZ?github.com/agent-wow/agent-wow/zeppelin/modules/move/api;movev1b\x06proto3"
+ 
+@@ -793,45 +885,48 @@ func file_zeppelin_modules_move_move_proto_rawDescGZIP() []byte {
+ 	return file_zeppelin_modules_move_move_proto_rawDescData
+ }
+ 
+-var file_zeppelin_modules_move_move_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
++var file_zeppelin_modules_move_move_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+ var file_zeppelin_modules_move_move_proto_goTypes = []any{
+-	(*Position)(nil),       // 0: zeppelin.move.v1.Position
+-	(*MoveToRequest)(nil),  // 1: zeppelin.move.v1.MoveToRequest
+-	(*MoveToResult)(nil),   // 2: zeppelin.move.v1.MoveToResult
+-	(*Point)(nil),          // 3: zeppelin.move.v1.Point
+-	(*PathRequest)(nil),    // 4: zeppelin.move.v1.PathRequest
+-	(*PathResult)(nil),     // 5: zeppelin.move.v1.PathResult
+-	(*PathToResult)(nil),   // 6: zeppelin.move.v1.PathToResult
+-	(*GroundRequest)(nil),  // 7: zeppelin.move.v1.GroundRequest
+-	(*GroundResult)(nil),   // 8: zeppelin.move.v1.GroundResult
+-	(*FaceRequest)(nil),    // 9: zeppelin.move.v1.FaceRequest
+-	(*emptypb.Empty)(nil),  // 10: google.protobuf.Empty
+-	(*v1.WorldPacket)(nil), // 11: agentwow.module.v1.WorldPacket
++	(*Position)(nil),        // 0: zeppelin.move.v1.Position
++	(*MoveToRequest)(nil),   // 1: zeppelin.move.v1.MoveToRequest
++	(*MoveToResult)(nil),    // 2: zeppelin.move.v1.MoveToResult
++	(*Point)(nil),           // 3: zeppelin.move.v1.Point
++	(*PathRequest)(nil),     // 4: zeppelin.move.v1.PathRequest
++	(*PathResult)(nil),      // 5: zeppelin.move.v1.PathResult
++	(*PathToResult)(nil),    // 6: zeppelin.move.v1.PathToResult
++	(*GroundRequest)(nil),   // 7: zeppelin.move.v1.GroundRequest
++	(*GroundResult)(nil),    // 8: zeppelin.move.v1.GroundResult
++	(*FaceRequest)(nil),     // 9: zeppelin.move.v1.FaceRequest
++	(*SetMoverRequest)(nil), // 10: zeppelin.move.v1.SetMoverRequest
++	(*emptypb.Empty)(nil),   // 11: google.protobuf.Empty
++	(*v1.WorldPacket)(nil),  // 12: agentwow.module.v1.WorldPacket
+ }
+ var file_zeppelin_modules_move_move_proto_depIdxs = []int32{
+ 	0,  // 0: zeppelin.move.v1.MoveToResult.position:type_name -> zeppelin.move.v1.Position
+ 	3,  // 1: zeppelin.move.v1.PathResult.points:type_name -> zeppelin.move.v1.Point
+ 	2,  // 2: zeppelin.move.v1.PathToResult.move:type_name -> zeppelin.move.v1.MoveToResult
+-	10, // 3: zeppelin.move.v1.Move.GetPosition:input_type -> google.protobuf.Empty
++	11, // 3: zeppelin.move.v1.Move.GetPosition:input_type -> google.protobuf.Empty
+ 	1,  // 4: zeppelin.move.v1.Move.MoveTo:input_type -> zeppelin.move.v1.MoveToRequest
+-	10, // 5: zeppelin.move.v1.Move.Stop:input_type -> google.protobuf.Empty
++	11, // 5: zeppelin.move.v1.Move.Stop:input_type -> google.protobuf.Empty
+ 	4,  // 6: zeppelin.move.v1.Move.Path:input_type -> zeppelin.move.v1.PathRequest
+ 	4,  // 7: zeppelin.move.v1.Move.PathTo:input_type -> zeppelin.move.v1.PathRequest
+ 	7,  // 8: zeppelin.move.v1.Move.Ground:input_type -> zeppelin.move.v1.GroundRequest
+ 	9,  // 9: zeppelin.move.v1.Move.Face:input_type -> zeppelin.move.v1.FaceRequest
+-	11, // 10: zeppelin.move.v1.Move.OnPacket:input_type -> agentwow.module.v1.WorldPacket
+-	10, // 11: zeppelin.move.v1.Move.BeforeLogout:input_type -> google.protobuf.Empty
+-	0,  // 12: zeppelin.move.v1.Move.GetPosition:output_type -> zeppelin.move.v1.Position
+-	2,  // 13: zeppelin.move.v1.Move.MoveTo:output_type -> zeppelin.move.v1.MoveToResult
+-	0,  // 14: zeppelin.move.v1.Move.Stop:output_type -> zeppelin.move.v1.Position
+-	5,  // 15: zeppelin.move.v1.Move.Path:output_type -> zeppelin.move.v1.PathResult
+-	6,  // 16: zeppelin.move.v1.Move.PathTo:output_type -> zeppelin.move.v1.PathToResult
+-	8,  // 17: zeppelin.move.v1.Move.Ground:output_type -> zeppelin.move.v1.GroundResult
+-	0,  // 18: zeppelin.move.v1.Move.Face:output_type -> zeppelin.move.v1.Position
+-	10, // 19: zeppelin.move.v1.Move.OnPacket:output_type -> google.protobuf.Empty
+-	10, // 20: zeppelin.move.v1.Move.BeforeLogout:output_type -> google.protobuf.Empty
+-	12, // [12:21] is the sub-list for method output_type
+-	3,  // [3:12] is the sub-list for method input_type
++	10, // 10: zeppelin.move.v1.Move.SetMover:input_type -> zeppelin.move.v1.SetMoverRequest
++	12, // 11: zeppelin.move.v1.Move.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	11, // 12: zeppelin.move.v1.Move.BeforeLogout:input_type -> google.protobuf.Empty
++	0,  // 13: zeppelin.move.v1.Move.GetPosition:output_type -> zeppelin.move.v1.Position
++	2,  // 14: zeppelin.move.v1.Move.MoveTo:output_type -> zeppelin.move.v1.MoveToResult
++	0,  // 15: zeppelin.move.v1.Move.Stop:output_type -> zeppelin.move.v1.Position
++	5,  // 16: zeppelin.move.v1.Move.Path:output_type -> zeppelin.move.v1.PathResult
++	6,  // 17: zeppelin.move.v1.Move.PathTo:output_type -> zeppelin.move.v1.PathToResult
++	8,  // 18: zeppelin.move.v1.Move.Ground:output_type -> zeppelin.move.v1.GroundResult
++	0,  // 19: zeppelin.move.v1.Move.Face:output_type -> zeppelin.move.v1.Position
++	0,  // 20: zeppelin.move.v1.Move.SetMover:output_type -> zeppelin.move.v1.Position
++	11, // 21: zeppelin.move.v1.Move.OnPacket:output_type -> google.protobuf.Empty
++	11, // 22: zeppelin.move.v1.Move.BeforeLogout:output_type -> google.protobuf.Empty
++	13, // [13:23] is the sub-list for method output_type
++	3,  // [3:13] is the sub-list for method input_type
+ 	3,  // [3:3] is the sub-list for extension type_name
+ 	3,  // [3:3] is the sub-list for extension extendee
+ 	0,  // [0:3] is the sub-list for field type_name
+@@ -848,7 +943,7 @@ func file_zeppelin_modules_move_move_proto_init() {
+ 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
+ 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_zeppelin_modules_move_move_proto_rawDesc), len(file_zeppelin_modules_move_move_proto_rawDesc)),
+ 			NumEnums:      0,
+-			NumMessages:   10,
++			NumMessages:   11,
+ 			NumExtensions: 0,
+ 			NumServices:   1,
+ 		},
+diff --git a/zeppelin/modules/move/api/move_grpc.pb.go b/zeppelin/modules/move/api/move_grpc.pb.go
+index 0a334d1..bbdcd3c 100644
+--- a/zeppelin/modules/move/api/move_grpc.pb.go
++++ b/zeppelin/modules/move/api/move_grpc.pb.go
+@@ -28,6 +28,7 @@ const (
+ 	Move_PathTo_FullMethodName       = "/zeppelin.move.v1.Move/PathTo"
+ 	Move_Ground_FullMethodName       = "/zeppelin.move.v1.Move/Ground"
+ 	Move_Face_FullMethodName         = "/zeppelin.move.v1.Move/Face"
++	Move_SetMover_FullMethodName     = "/zeppelin.move.v1.Move/SetMover"
+ 	Move_OnPacket_FullMethodName     = "/zeppelin.move.v1.Move/OnPacket"
+ 	Move_BeforeLogout_FullMethodName = "/zeppelin.move.v1.Move/BeforeLogout"
+ )
+@@ -43,6 +44,7 @@ type MoveClient interface {
+ 	PathTo(ctx context.Context, in *PathRequest, opts ...grpc.CallOption) (*PathToResult, error)
+ 	Ground(ctx context.Context, in *GroundRequest, opts ...grpc.CallOption) (*GroundResult, error)
+ 	Face(ctx context.Context, in *FaceRequest, opts ...grpc.CallOption) (*Position, error)
++	SetMover(ctx context.Context, in *SetMoverRequest, opts ...grpc.CallOption) (*Position, error)
+ 	OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error)
+ 	BeforeLogout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
+ }
+@@ -125,6 +127,16 @@ func (c *moveClient) Face(ctx context.Context, in *FaceRequest, opts ...grpc.Cal
+ 	return out, nil
+ }
+ 
++func (c *moveClient) SetMover(ctx context.Context, in *SetMoverRequest, opts ...grpc.CallOption) (*Position, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(Position)
++	err := c.cc.Invoke(ctx, Move_SetMover_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
+ func (c *moveClient) OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+ 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+ 	out := new(emptypb.Empty)
+@@ -156,6 +168,7 @@ type MoveServer interface {
+ 	PathTo(context.Context, *PathRequest) (*PathToResult, error)
+ 	Ground(context.Context, *GroundRequest) (*GroundResult, error)
+ 	Face(context.Context, *FaceRequest) (*Position, error)
++	SetMover(context.Context, *SetMoverRequest) (*Position, error)
+ 	OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error)
+ 	BeforeLogout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
+ 	mustEmbedUnimplementedMoveServer()
+@@ -189,6 +202,9 @@ func (UnimplementedMoveServer) Ground(context.Context, *GroundRequest) (*GroundR
+ func (UnimplementedMoveServer) Face(context.Context, *FaceRequest) (*Position, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method Face not implemented")
+ }
++func (UnimplementedMoveServer) SetMover(context.Context, *SetMoverRequest) (*Position, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method SetMover not implemented")
++}
+ func (UnimplementedMoveServer) OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method OnPacket not implemented")
+ }
+@@ -342,6 +358,24 @@ func _Move_Face_Handler(srv interface{}, ctx context.Context, dec func(interface
+ 	return interceptor(ctx, in, info, handler)
+ }
+ 
++func _Move_SetMover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(SetMoverRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(MoveServer).SetMover(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Move_SetMover_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(MoveServer).SetMover(ctx, req.(*SetMoverRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
+ func _Move_OnPacket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+ 	in := new(v1.WorldPacket)
+ 	if err := dec(in); err != nil {
+@@ -413,6 +447,10 @@ var Move_ServiceDesc = grpc.ServiceDesc{
+ 			MethodName: "Face",
+ 			Handler:    _Move_Face_Handler,
+ 		},
++		{
++			MethodName: "SetMover",
++			Handler:    _Move_SetMover_Handler,
++		},
+ 		{
+ 			MethodName: "OnPacket",
+ 			Handler:    _Move_OnPacket_Handler,
+diff --git a/zeppelin/modules/move/main.go b/zeppelin/modules/move/main.go
+index b7ea70c..48fed58 100644
+--- a/zeppelin/modules/move/main.go
++++ b/zeppelin/modules/move/main.go
+@@ -76,7 +76,9 @@ type service struct {
+ 	cancel   context.CancelFunc // cancels the running MoveTo
+ 	teleport chan struct{}      // closed and replaced on every teleport
+ 	nav      nav
+-	pending  []pendingAck // speed acks waiting for our position
++	pending  []pendingAck    // speed acks waiting for our position
++	mover    uint64          // the unit our movement packets move: us, or a vehicle we control
++	ownPos   movev1.Position // our own position while a vehicle is the mover
+ }
+ 
+ func main() {
+@@ -183,7 +185,7 @@ func (s *service) sendMove(ctx context.Context, op uint32, flags uint32, x, y, z
+ 		return err
+ 	}
+ 	var buf bytes.Buffer
+-	buf.Write(packGUID(s.guid))
++	buf.Write(packGUID(s.moverGUID()))
+ 	movementInfo(&buf, flags, t, x, y, z, o)
+ 	return s.send(ctx, op, buf.Bytes())
+ }
+@@ -209,7 +211,7 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 	case op == opcode.MSGMoveTeleportAck:
+ 		// packed guid, u32 counter, MovementInfo
+ 		guid, err := readPackedGUID(r)
+-		if err != nil || guid != s.guid {
++		if err != nil || guid != s.moverGUID() {
+ 			return &emptypb.Empty{}, nil
+ 		}
+ 		var counter, flags, t uint32
+@@ -226,7 +228,7 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		now, err := s.clock(ctx)
+ 		if err == nil {
+ 			var buf bytes.Buffer
+-			buf.Write(packGUID(s.guid))
++			buf.Write(packGUID(s.moverGUID()))
+ 			_ = binary.Write(&buf, le, counter)
+ 			_ = binary.Write(&buf, le, now)
+ 			_ = s.send(ctx, opcode.MSGMoveTeleportAck, buf.Bytes())
+@@ -238,7 +240,7 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		}
+ 		// packed guid, u32 counter, [u8 for run], f32 speed -> ack: guid, counter, MovementInfo, speed
+ 		guid, err := readPackedGUID(r)
+-		if err != nil || guid != s.guid {
++		if err != nil || guid != s.moverGUID() {
+ 			break
+ 		}
+ 		var counter uint32
+@@ -290,7 +292,7 @@ func (s *service) sendAck(ctx context.Context, a pendingAck) {
+ 		return
+ 	}
+ 	var buf bytes.Buffer
+-	buf.Write(packGUID(s.guid))
++	buf.Write(packGUID(s.moverGUID()))
+ 	_ = binary.Write(&buf, binary.LittleEndian, a.counter)
+ 	movementInfo(&buf, flags, now, x, y, z, o)
+ 	_ = binary.Write(&buf, binary.LittleEndian, a.speed)
+@@ -617,6 +619,39 @@ func (s *service) Face(ctx context.Context, req *movev1.FaceRequest) (*movev1.Po
+ 	return s.snapshot(), nil
+ }
+ 
++func (s *service) moverGUID() uint64 {
++	s.mu.Lock()
++	defer s.mu.Unlock()
++	if s.mover != 0 {
++		return s.mover
++	}
++	return s.guid
++}
++
++// SetMover switches what our movement packets move (SMSG_CLIENT_CONTROL_UPDATE handled by the
++// vehicle module): a vehicle - its position and run speed become ours - or back to ourselves.
++func (s *service) SetMover(_ context.Context, req *movev1.SetMoverRequest) (*movev1.Position, error) {
++	s.mu.Lock()
++	if g := req.GetGuid(); g != 0 && g != s.guid {
++		if s.mover == 0 {
++			s.ownPos = movev1.Position{Map: s.pos.Map, X: s.pos.X, Y: s.pos.Y, Z: s.pos.Z, O: s.pos.O, RunSpeed: s.pos.RunSpeed, Known: s.pos.Known}
++		}
++		s.mover = g
++		s.pos.X, s.pos.Y, s.pos.Z, s.pos.O = req.GetX(), req.GetY(), req.GetZ(), req.GetO()
++		if req.GetRunSpeed() > 0 {
++			s.pos.RunSpeed = req.GetRunSpeed()
++		}
++	} else if s.mover != 0 {
++		s.mover = 0
++		if req.GetX() != 0 || req.GetY() != 0 {
++			s.pos.X, s.pos.Y, s.pos.Z = req.GetX(), req.GetY(), req.GetZ()
++		}
++		s.pos.RunSpeed = s.ownPos.RunSpeed
++	}
++	s.mu.Unlock()
++	return s.snapshot(), nil
++}
++
+ func (s *service) BeforeLogout(ctx context.Context, _ *emptypb.Empty) (*emptypb.Empty, error) {
+ 	_, _ = s.Stop(ctx, &emptypb.Empty{})
+ 	return &emptypb.Empty{}, nil
+diff --git a/zeppelin/modules/move/module.yaml b/zeppelin/modules/move/module.yaml
+index a96f17d..270ccc5 100644
+--- a/zeppelin/modules/move/module.yaml
++++ b/zeppelin/modules/move/module.yaml
+@@ -13,6 +13,7 @@ rpc:
+   path_to: /zeppelin.move.v1.Move/PathTo
+   ground: /zeppelin.move.v1.Move/Ground
+   face: /zeppelin.move.v1.Move/Face
++  set_mover: /zeppelin.move.v1.Move/SetMover
+ packets:
+   SMSG_LOGIN_VERIFY_WORLD: /zeppelin.move.v1.Move/OnPacket
+   SMSG_NEW_WORLD: /zeppelin.move.v1.Move/OnPacket
+diff --git a/zeppelin/modules/move/move.proto b/zeppelin/modules/move/move.proto
+index 6ac5477..51a3d15 100644
+--- a/zeppelin/modules/move/move.proto
++++ b/zeppelin/modules/move/move.proto
+@@ -73,6 +73,15 @@ message FaceRequest {
+   bool use_o = 4;
+ }
+ 
++message SetMoverRequest {
++  uint64 guid = 1;       // the unit we now move (a vehicle), or our own guid / 0 to go back
++  float x = 2;
++  float y = 3;
++  float z = 4;
++  float o = 5;
++  float run_speed = 6;
++}
++
+ service Move {
+   rpc GetPosition(google.protobuf.Empty) returns (Position);
+   rpc MoveTo(MoveToRequest) returns (MoveToResult);
+@@ -81,6 +90,7 @@ service Move {
+   rpc PathTo(PathRequest) returns (PathToResult);
+   rpc Ground(GroundRequest) returns (GroundResult);
+   rpc Face(FaceRequest) returns (Position);
++  rpc SetMover(SetMoverRequest) returns (Position);
+   rpc OnPacket(agentwow.module.v1.WorldPacket) returns (google.protobuf.Empty);
+   rpc BeforeLogout(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }
+diff --git a/zeppelin/modules/vehicle/api/vehicle.pb.go b/zeppelin/modules/vehicle/api/vehicle.pb.go
+new file mode 100644
+index 0000000..f9eba39
+--- /dev/null
++++ b/zeppelin/modules/vehicle/api/vehicle.pb.go
+@@ -0,0 +1,375 @@
++// Code generated by protoc-gen-go. DO NOT EDIT.
++// versions:
++// 	protoc-gen-go v1.36.10
++// 	protoc        v7.36.2
++// source: zeppelin/modules/vehicle/vehicle.proto
++
++package vehiclev1
++
++import (
++	v1 "github.com/agent-wow/agent-wow/pkg/modules/v1"
++	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
++	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
++	emptypb "google.golang.org/protobuf/types/known/emptypb"
++	reflect "reflect"
++	sync "sync"
++	unsafe "unsafe"
++)
++
++const (
++	// Verify that this generated code is sufficiently up-to-date.
++	_ = protoimpl.EnforceVersion(20 - protoimpl.MinVersion)
++	// Verify that runtime/protoimpl is sufficiently up-to-date.
++	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
++)
++
++type VehicleState struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Controlling   bool                   `protobuf:"varint,1,opt,name=controlling,proto3" json:"controlling,omitempty"` // we move a vehicle (SMSG_CLIENT_CONTROL_UPDATE gave us control)
++	Vehicle       uint64                 `protobuf:"varint,2,opt,name=vehicle,proto3" json:"vehicle,omitempty"`
++	Entry         uint32                 `protobuf:"varint,3,opt,name=entry,proto3" json:"entry,omitempty"`
++	Spells        []uint32               `protobuf:"varint,4,rep,packed,name=spells,proto3" json:"spells,omitempty"` // the vehicle action bar (SMSG_PET_SPELLS), slot order
++	Passenger     bool                   `protobuf:"varint,5,opt,name=passenger,proto3" json:"passenger,omitempty"`  // in a vehicle without control (a ride)
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *VehicleState) Reset() {
++	*x = VehicleState{}
++	mi := &file_zeppelin_modules_vehicle_vehicle_proto_msgTypes[0]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *VehicleState) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*VehicleState) ProtoMessage() {}
++
++func (x *VehicleState) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_vehicle_vehicle_proto_msgTypes[0]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use VehicleState.ProtoReflect.Descriptor instead.
++func (*VehicleState) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_vehicle_vehicle_proto_rawDescGZIP(), []int{0}
++}
++
++func (x *VehicleState) GetControlling() bool {
++	if x != nil {
++		return x.Controlling
++	}
++	return false
++}
++
++func (x *VehicleState) GetVehicle() uint64 {
++	if x != nil {
++		return x.Vehicle
++	}
++	return 0
++}
++
++func (x *VehicleState) GetEntry() uint32 {
++	if x != nil {
++		return x.Entry
++	}
++	return 0
++}
++
++func (x *VehicleState) GetSpells() []uint32 {
++	if x != nil {
++		return x.Spells
++	}
++	return nil
++}
++
++func (x *VehicleState) GetPassenger() bool {
++	if x != nil {
++		return x.Passenger
++	}
++	return false
++}
++
++type EnterRequest struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Guid          uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`                            // vehicle to click (npc_spellclick_spells), or
++	Entry         uint32                 `protobuf:"varint,2,opt,name=entry,proto3" json:"entry,omitempty"`                          // nearest visible creature of this entry
++	TimeoutMs     uint32                 `protobuf:"varint,3,opt,name=timeout_ms,json=timeoutMs,proto3" json:"timeout_ms,omitempty"` // wait for control; 0 = 4 s
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *EnterRequest) Reset() {
++	*x = EnterRequest{}
++	mi := &file_zeppelin_modules_vehicle_vehicle_proto_msgTypes[1]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *EnterRequest) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*EnterRequest) ProtoMessage() {}
++
++func (x *EnterRequest) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_vehicle_vehicle_proto_msgTypes[1]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use EnterRequest.ProtoReflect.Descriptor instead.
++func (*EnterRequest) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_vehicle_vehicle_proto_rawDescGZIP(), []int{1}
++}
++
++func (x *EnterRequest) GetGuid() uint64 {
++	if x != nil {
++		return x.Guid
++	}
++	return 0
++}
++
++func (x *EnterRequest) GetEntry() uint32 {
++	if x != nil {
++		return x.Entry
++	}
++	return 0
++}
++
++func (x *EnterRequest) GetTimeoutMs() uint32 {
++	if x != nil {
++		return x.TimeoutMs
++	}
++	return 0
++}
++
++type CastRequest struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Slot          uint32                 `protobuf:"varint,1,opt,name=slot,proto3" json:"slot,omitempty"` // action bar slot 1..10 (when spell_id is 0)
++	SpellId       uint32                 `protobuf:"varint,2,opt,name=spell_id,json=spellId,proto3" json:"spell_id,omitempty"`
++	Target        uint64                 `protobuf:"varint,3,opt,name=target,proto3" json:"target,omitempty"` // optional unit target
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *CastRequest) Reset() {
++	*x = CastRequest{}
++	mi := &file_zeppelin_modules_vehicle_vehicle_proto_msgTypes[2]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *CastRequest) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*CastRequest) ProtoMessage() {}
++
++func (x *CastRequest) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_vehicle_vehicle_proto_msgTypes[2]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use CastRequest.ProtoReflect.Descriptor instead.
++func (*CastRequest) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_vehicle_vehicle_proto_rawDescGZIP(), []int{2}
++}
++
++func (x *CastRequest) GetSlot() uint32 {
++	if x != nil {
++		return x.Slot
++	}
++	return 0
++}
++
++func (x *CastRequest) GetSpellId() uint32 {
++	if x != nil {
++		return x.SpellId
++	}
++	return 0
++}
++
++func (x *CastRequest) GetTarget() uint64 {
++	if x != nil {
++		return x.Target
++	}
++	return 0
++}
++
++type Result struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
++	Detail        string                 `protobuf:"bytes,2,opt,name=detail,proto3" json:"detail,omitempty"`
++	State         *VehicleState          `protobuf:"bytes,3,opt,name=state,proto3" json:"state,omitempty"`
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *Result) Reset() {
++	*x = Result{}
++	mi := &file_zeppelin_modules_vehicle_vehicle_proto_msgTypes[3]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *Result) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*Result) ProtoMessage() {}
++
++func (x *Result) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_vehicle_vehicle_proto_msgTypes[3]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use Result.ProtoReflect.Descriptor instead.
++func (*Result) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_vehicle_vehicle_proto_rawDescGZIP(), []int{3}
++}
++
++func (x *Result) GetOk() bool {
++	if x != nil {
++		return x.Ok
++	}
++	return false
++}
++
++func (x *Result) GetDetail() string {
++	if x != nil {
++		return x.Detail
++	}
++	return ""
++}
++
++func (x *Result) GetState() *VehicleState {
++	if x != nil {
++		return x.State
++	}
++	return nil
++}
++
++var File_zeppelin_modules_vehicle_vehicle_proto protoreflect.FileDescriptor
++
++const file_zeppelin_modules_vehicle_vehicle_proto_rawDesc = "" +
++	"\n" +
++	"&zeppelin/modules/vehicle/vehicle.proto\x12\x13zeppelin.vehicle.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x96\x01\n" +
++	"\fVehicleState\x12 \n" +
++	"\vcontrolling\x18\x01 \x01(\bR\vcontrolling\x12\x18\n" +
++	"\avehicle\x18\x02 \x01(\x04R\avehicle\x12\x14\n" +
++	"\x05entry\x18\x03 \x01(\rR\x05entry\x12\x16\n" +
++	"\x06spells\x18\x04 \x03(\rR\x06spells\x12\x1c\n" +
++	"\tpassenger\x18\x05 \x01(\bR\tpassenger\"W\n" +
++	"\fEnterRequest\x12\x12\n" +
++	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
++	"\x05entry\x18\x02 \x01(\rR\x05entry\x12\x1d\n" +
++	"\n" +
++	"timeout_ms\x18\x03 \x01(\rR\ttimeoutMs\"T\n" +
++	"\vCastRequest\x12\x12\n" +
++	"\x04slot\x18\x01 \x01(\rR\x04slot\x12\x19\n" +
++	"\bspell_id\x18\x02 \x01(\rR\aspellId\x12\x16\n" +
++	"\x06target\x18\x03 \x01(\x04R\x06target\"i\n" +
++	"\x06Result\x12\x0e\n" +
++	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
++	"\x06detail\x18\x02 \x01(\tR\x06detail\x127\n" +
++	"\x05state\x18\x03 \x01(\v2!.zeppelin.vehicle.v1.VehicleStateR\x05state2\xe2\x02\n" +
++	"\aVehicle\x12E\n" +
++	"\bGetState\x12\x16.google.protobuf.Empty\x1a!.zeppelin.vehicle.v1.VehicleState\x12G\n" +
++	"\x05Enter\x12!.zeppelin.vehicle.v1.EnterRequest\x1a\x1b.zeppelin.vehicle.v1.Result\x12;\n" +
++	"\x04Exit\x12\x16.google.protobuf.Empty\x1a\x1b.zeppelin.vehicle.v1.Result\x12E\n" +
++	"\x04Cast\x12 .zeppelin.vehicle.v1.CastRequest\x1a\x1b.zeppelin.vehicle.v1.Result\x12C\n" +
++	"\bOnPacket\x12\x1f.agentwow.module.v1.WorldPacket\x1a\x16.google.protobuf.EmptyBGZEgithub.com/agent-wow/agent-wow/zeppelin/modules/vehicle/api;vehiclev1b\x06proto3"
++
++var (
++	file_zeppelin_modules_vehicle_vehicle_proto_rawDescOnce sync.Once
++	file_zeppelin_modules_vehicle_vehicle_proto_rawDescData []byte
++)
++
++func file_zeppelin_modules_vehicle_vehicle_proto_rawDescGZIP() []byte {
++	file_zeppelin_modules_vehicle_vehicle_proto_rawDescOnce.Do(func() {
++		file_zeppelin_modules_vehicle_vehicle_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_zeppelin_modules_vehicle_vehicle_proto_rawDesc), len(file_zeppelin_modules_vehicle_vehicle_proto_rawDesc)))
++	})
++	return file_zeppelin_modules_vehicle_vehicle_proto_rawDescData
++}
++
++var file_zeppelin_modules_vehicle_vehicle_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
++var file_zeppelin_modules_vehicle_vehicle_proto_goTypes = []any{
++	(*VehicleState)(nil),   // 0: zeppelin.vehicle.v1.VehicleState
++	(*EnterRequest)(nil),   // 1: zeppelin.vehicle.v1.EnterRequest
++	(*CastRequest)(nil),    // 2: zeppelin.vehicle.v1.CastRequest
++	(*Result)(nil),         // 3: zeppelin.vehicle.v1.Result
++	(*emptypb.Empty)(nil),  // 4: google.protobuf.Empty
++	(*v1.WorldPacket)(nil), // 5: agentwow.module.v1.WorldPacket
++}
++var file_zeppelin_modules_vehicle_vehicle_proto_depIdxs = []int32{
++	0, // 0: zeppelin.vehicle.v1.Result.state:type_name -> zeppelin.vehicle.v1.VehicleState
++	4, // 1: zeppelin.vehicle.v1.Vehicle.GetState:input_type -> google.protobuf.Empty
++	1, // 2: zeppelin.vehicle.v1.Vehicle.Enter:input_type -> zeppelin.vehicle.v1.EnterRequest
++	4, // 3: zeppelin.vehicle.v1.Vehicle.Exit:input_type -> google.protobuf.Empty
++	2, // 4: zeppelin.vehicle.v1.Vehicle.Cast:input_type -> zeppelin.vehicle.v1.CastRequest
++	5, // 5: zeppelin.vehicle.v1.Vehicle.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	0, // 6: zeppelin.vehicle.v1.Vehicle.GetState:output_type -> zeppelin.vehicle.v1.VehicleState
++	3, // 7: zeppelin.vehicle.v1.Vehicle.Enter:output_type -> zeppelin.vehicle.v1.Result
++	3, // 8: zeppelin.vehicle.v1.Vehicle.Exit:output_type -> zeppelin.vehicle.v1.Result
++	3, // 9: zeppelin.vehicle.v1.Vehicle.Cast:output_type -> zeppelin.vehicle.v1.Result
++	4, // 10: zeppelin.vehicle.v1.Vehicle.OnPacket:output_type -> google.protobuf.Empty
++	6, // [6:11] is the sub-list for method output_type
++	1, // [1:6] is the sub-list for method input_type
++	1, // [1:1] is the sub-list for extension type_name
++	1, // [1:1] is the sub-list for extension extendee
++	0, // [0:1] is the sub-list for field type_name
++}
++
++func init() { file_zeppelin_modules_vehicle_vehicle_proto_init() }
++func file_zeppelin_modules_vehicle_vehicle_proto_init() {
++	if File_zeppelin_modules_vehicle_vehicle_proto != nil {
++		return
++	}
++	type x struct{}
++	out := protoimpl.TypeBuilder{
++		File: protoimpl.DescBuilder{
++			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
++			RawDescriptor: unsafe.Slice(unsafe.StringData(file_zeppelin_modules_vehicle_vehicle_proto_rawDesc), len(file_zeppelin_modules_vehicle_vehicle_proto_rawDesc)),
++			NumEnums:      0,
++			NumMessages:   4,
++			NumExtensions: 0,
++			NumServices:   1,
++		},
++		GoTypes:           file_zeppelin_modules_vehicle_vehicle_proto_goTypes,
++		DependencyIndexes: file_zeppelin_modules_vehicle_vehicle_proto_depIdxs,
++		MessageInfos:      file_zeppelin_modules_vehicle_vehicle_proto_msgTypes,
++	}.Build()
++	File_zeppelin_modules_vehicle_vehicle_proto = out.File
++	file_zeppelin_modules_vehicle_vehicle_proto_goTypes = nil
++	file_zeppelin_modules_vehicle_vehicle_proto_depIdxs = nil
++}
+diff --git a/zeppelin/modules/vehicle/api/vehicle_grpc.pb.go b/zeppelin/modules/vehicle/api/vehicle_grpc.pb.go
+new file mode 100644
+index 0000000..d59480c
+--- /dev/null
++++ b/zeppelin/modules/vehicle/api/vehicle_grpc.pb.go
+@@ -0,0 +1,275 @@
++// Code generated by protoc-gen-go-grpc. DO NOT EDIT.
++// versions:
++// - protoc-gen-go-grpc v1.5.1
++// - protoc             v7.36.2
++// source: zeppelin/modules/vehicle/vehicle.proto
++
++package vehiclev1
++
++import (
++	context "context"
++	v1 "github.com/agent-wow/agent-wow/pkg/modules/v1"
++	grpc "google.golang.org/grpc"
++	codes "google.golang.org/grpc/codes"
++	status "google.golang.org/grpc/status"
++	emptypb "google.golang.org/protobuf/types/known/emptypb"
++)
++
++// This is a compile-time assertion to ensure that this generated file
++// is compatible with the grpc package it is being compiled against.
++// Requires gRPC-Go v1.64.0 or later.
++const _ = grpc.SupportPackageIsVersion9
++
++const (
++	Vehicle_GetState_FullMethodName = "/zeppelin.vehicle.v1.Vehicle/GetState"
++	Vehicle_Enter_FullMethodName    = "/zeppelin.vehicle.v1.Vehicle/Enter"
++	Vehicle_Exit_FullMethodName     = "/zeppelin.vehicle.v1.Vehicle/Exit"
++	Vehicle_Cast_FullMethodName     = "/zeppelin.vehicle.v1.Vehicle/Cast"
++	Vehicle_OnPacket_FullMethodName = "/zeppelin.vehicle.v1.Vehicle/OnPacket"
++)
++
++// VehicleClient is the client API for Vehicle service.
++//
++// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
++type VehicleClient interface {
++	GetState(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VehicleState, error)
++	Enter(ctx context.Context, in *EnterRequest, opts ...grpc.CallOption) (*Result, error)
++	Exit(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Result, error)
++	Cast(ctx context.Context, in *CastRequest, opts ...grpc.CallOption) (*Result, error)
++	OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error)
++}
++
++type vehicleClient struct {
++	cc grpc.ClientConnInterface
++}
++
++func NewVehicleClient(cc grpc.ClientConnInterface) VehicleClient {
++	return &vehicleClient{cc}
++}
++
++func (c *vehicleClient) GetState(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VehicleState, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(VehicleState)
++	err := c.cc.Invoke(ctx, Vehicle_GetState_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *vehicleClient) Enter(ctx context.Context, in *EnterRequest, opts ...grpc.CallOption) (*Result, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(Result)
++	err := c.cc.Invoke(ctx, Vehicle_Enter_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *vehicleClient) Exit(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Result, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(Result)
++	err := c.cc.Invoke(ctx, Vehicle_Exit_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *vehicleClient) Cast(ctx context.Context, in *CastRequest, opts ...grpc.CallOption) (*Result, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(Result)
++	err := c.cc.Invoke(ctx, Vehicle_Cast_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *vehicleClient) OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(emptypb.Empty)
++	err := c.cc.Invoke(ctx, Vehicle_OnPacket_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++// VehicleServer is the server API for Vehicle service.
++// All implementations must embed UnimplementedVehicleServer
++// for forward compatibility.
++type VehicleServer interface {
++	GetState(context.Context, *emptypb.Empty) (*VehicleState, error)
++	Enter(context.Context, *EnterRequest) (*Result, error)
++	Exit(context.Context, *emptypb.Empty) (*Result, error)
++	Cast(context.Context, *CastRequest) (*Result, error)
++	OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error)
++	mustEmbedUnimplementedVehicleServer()
++}
++
++// UnimplementedVehicleServer must be embedded to have
++// forward compatible implementations.
++//
++// NOTE: this should be embedded by value instead of pointer to avoid a nil
++// pointer dereference when methods are called.
++type UnimplementedVehicleServer struct{}
++
++func (UnimplementedVehicleServer) GetState(context.Context, *emptypb.Empty) (*VehicleState, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method GetState not implemented")
++}
++func (UnimplementedVehicleServer) Enter(context.Context, *EnterRequest) (*Result, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method Enter not implemented")
++}
++func (UnimplementedVehicleServer) Exit(context.Context, *emptypb.Empty) (*Result, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method Exit not implemented")
++}
++func (UnimplementedVehicleServer) Cast(context.Context, *CastRequest) (*Result, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method Cast not implemented")
++}
++func (UnimplementedVehicleServer) OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method OnPacket not implemented")
++}
++func (UnimplementedVehicleServer) mustEmbedUnimplementedVehicleServer() {}
++func (UnimplementedVehicleServer) testEmbeddedByValue()                 {}
++
++// UnsafeVehicleServer may be embedded to opt out of forward compatibility for this service.
++// Use of this interface is not recommended, as added methods to VehicleServer will
++// result in compilation errors.
++type UnsafeVehicleServer interface {
++	mustEmbedUnimplementedVehicleServer()
++}
++
++func RegisterVehicleServer(s grpc.ServiceRegistrar, srv VehicleServer) {
++	// If the following call pancis, it indicates UnimplementedVehicleServer was
++	// embedded by pointer and is nil.  This will cause panics if an
++	// unimplemented method is ever invoked, so we test this at initialization
++	// time to prevent it from happening at runtime later due to I/O.
++	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
++		t.testEmbeddedByValue()
++	}
++	s.RegisterService(&Vehicle_ServiceDesc, srv)
++}
++
++func _Vehicle_GetState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(emptypb.Empty)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(VehicleServer).GetState(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Vehicle_GetState_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(VehicleServer).GetState(ctx, req.(*emptypb.Empty))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Vehicle_Enter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(EnterRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(VehicleServer).Enter(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Vehicle_Enter_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(VehicleServer).Enter(ctx, req.(*EnterRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Vehicle_Exit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(emptypb.Empty)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(VehicleServer).Exit(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Vehicle_Exit_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(VehicleServer).Exit(ctx, req.(*emptypb.Empty))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Vehicle_Cast_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(CastRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(VehicleServer).Cast(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Vehicle_Cast_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(VehicleServer).Cast(ctx, req.(*CastRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Vehicle_OnPacket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(v1.WorldPacket)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(VehicleServer).OnPacket(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Vehicle_OnPacket_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(VehicleServer).OnPacket(ctx, req.(*v1.WorldPacket))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++// Vehicle_ServiceDesc is the grpc.ServiceDesc for Vehicle service.
++// It's only intended for direct use with grpc.RegisterService,
++// and not to be introspected or modified (even as a copy)
++var Vehicle_ServiceDesc = grpc.ServiceDesc{
++	ServiceName: "zeppelin.vehicle.v1.Vehicle",
++	HandlerType: (*VehicleServer)(nil),
++	Methods: []grpc.MethodDesc{
++		{
++			MethodName: "GetState",
++			Handler:    _Vehicle_GetState_Handler,
++		},
++		{
++			MethodName: "Enter",
++			Handler:    _Vehicle_Enter_Handler,
++		},
++		{
++			MethodName: "Exit",
++			Handler:    _Vehicle_Exit_Handler,
++		},
++		{
++			MethodName: "Cast",
++			Handler:    _Vehicle_Cast_Handler,
++		},
++		{
++			MethodName: "OnPacket",
++			Handler:    _Vehicle_OnPacket_Handler,
++		},
++	},
++	Streams:  []grpc.StreamDesc{},
++	Metadata: "zeppelin/modules/vehicle/vehicle.proto",
++}
+diff --git a/zeppelin/modules/vehicle/main.go b/zeppelin/modules/vehicle/main.go
+new file mode 100644
+index 0000000..e579b0a
+--- /dev/null
++++ b/zeppelin/modules/vehicle/main.go
+@@ -0,0 +1,280 @@
++// Command vehicle is a Zeppelin agent-wow gameplay module (F-219 Track A): boarding, driving and
++// leaving vehicles, and casting from the vehicle action bar.
++//
++// AzerothCore flow: the server grants control with SMSG_CLIENT_CONTROL_UPDATE (packed guid,
++// u8 allow) from Player::SetClientControl; the client answers CMSG_SET_ACTIVE_MOVER (u64 guid)
++// and from then on HandleMovementOpcodes only accepts movement carrying the VEHICLE's guid - so
++// this module tells the move module to switch its mover (move.set_mover). The action bar comes
++// in SMSG_PET_SPELLS (Player::VehicleSpellInitialize: guid, u16 family, u32 duration, u8 react,
++// u8 command, u16 disable, 10 x u32 spell|type<<24, ...). Vehicle spells are plain
++// CMSG_CAST_SPELL: HandleCastSpellOpcode casts with the controlled mover when it has the spell.
++// Leaving: CMSG_REQUEST_VEHICLE_EXIT (empty).
++package main
++
++import (
++	"context"
++	"fmt"
++	"net"
++	"os"
++	"os/signal"
++	"sync"
++	"syscall"
++	"time"
++
++	"github.com/agent-wow/agent-wow/pkg/modules/v1"
++	"github.com/agent-wow/agent-wow/pkg/opcode"
++	interactv1 "github.com/agent-wow/agent-wow/zeppelin/modules/interact/api"
++	movev1 "github.com/agent-wow/agent-wow/zeppelin/modules/move/api"
++	vehiclev1 "github.com/agent-wow/agent-wow/zeppelin/modules/vehicle/api"
++	"github.com/agent-wow/agent-wow/zeppelin/wow"
++	"google.golang.org/grpc"
++	"google.golang.org/grpc/codes"
++	"google.golang.org/grpc/credentials/insecure"
++	"google.golang.org/grpc/health"
++	"google.golang.org/grpc/health/grpc_health_v1"
++	"google.golang.org/grpc/status"
++	"google.golang.org/protobuf/proto"
++	"google.golang.org/protobuf/types/known/anypb"
++	"google.golang.org/protobuf/types/known/emptypb"
++)
++
++const targetFlagUnit = 0x00000002
++
++type service struct {
++	vehiclev1.UnimplementedVehicleServer
++	session modv1.SessionClient
++
++	mu        sync.Mutex
++	self      uint64
++	vehicle   uint64 // the unit we control (0 = ourselves)
++	spells    []uint32
++	changed   chan struct{} // closed and replaced on every control change
++	castCount uint8
++}
++
++func main() {
++	if err := run(); err != nil {
++		fmt.Fprintln(os.Stderr, err)
++		os.Exit(1)
++	}
++}
++
++func run() error {
++	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
++	defer cancel()
++	path := os.Getenv("AGENT_WOW_MODULE_SOCKET")
++	listener, err := net.Listen("unix", path)
++	if err != nil {
++		return err
++	}
++	defer listener.Close()
++	if err := os.Chmod(path, 0666); err != nil {
++		return err
++	}
++	conn, err := grpc.NewClient("unix://"+os.Getenv("AGENT_WOW_SESSION_SOCKET"),
++		grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithDisableRetry())
++	if err != nil {
++		return err
++	}
++	defer conn.Close()
++	s := &service{session: modv1.NewSessionClient(conn), changed: make(chan struct{})}
++	server := grpc.NewServer()
++	vehiclev1.RegisterVehicleServer(server, s)
++	healthy := health.NewServer()
++	grpc_health_v1.RegisterHealthServer(server, healthy)
++	healthy.SetServingStatus("", grpc_health_v1.HealthCheckResponse_SERVING)
++	go func() { <-ctx.Done(); server.Stop() }()
++	return server.Serve(listener)
++}
++
++func (s *service) invoke(ctx context.Context, module, method string, req, resp proto.Message) error {
++	a, err := anypb.New(req)
++	if err != nil {
++		return err
++	}
++	r, err := s.session.InvokeModule(ctx, &modv1.InvokeModuleRequest{Module: module, Method: method, Request: a})
++	if err != nil {
++		return err
++	}
++	return r.GetResult().UnmarshalTo(resp)
++}
++
++func (s *service) send(ctx context.Context, op uint32, w *wow.Writer) error {
++	var payload []byte
++	if w != nil {
++		payload = w.Bytes()
++	}
++	_, err := s.session.SendPacket(ctx, &modv1.SendPacketRequest{Opcode: op, Payload: payload})
++	return err
++}
++
++func (s *service) selfGUID(ctx context.Context) uint64 {
++	s.mu.Lock()
++	g := s.self
++	s.mu.Unlock()
++	if g != 0 {
++		return g
++	}
++	var st interactv1.SelfState
++	if err := s.invoke(ctx, "interact", "self", &emptypb.Empty{}, &st); err == nil {
++		s.mu.Lock()
++		s.self = st.GetGuid()
++		s.mu.Unlock()
++		return st.GetGuid()
++	}
++	return 0
++}
++
++func (s *service) unit(ctx context.Context, guid uint64) *interactv1.WorldObject {
++	var r interactv1.FindResult
++	if err := s.invoke(ctx, "interact", "find", &interactv1.FindRequest{Guid: guid}, &r); err != nil || len(r.GetObjects()) == 0 {
++		return nil
++	}
++	return r.GetObjects()[0]
++}
++
++// -- packets --------------------------------------------------------------------------------------
++
++func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.Empty, error) {
++	r := wow.NewReader(p.GetPayload())
++	switch p.GetOpcode() {
++	case opcode.SMSGClientControlUpdate:
++		target, allow := r.PackedGUID(), r.U8() == 1
++		if r.Err() != nil || !allow {
++			break
++		}
++		me := s.selfGUID(ctx)
++		// acknowledge the new mover, then point the move module at it
++		var w wow.Writer
++		w.U64(target)
++		_ = s.send(ctx, opcode.CMSGSetActiveMover, &w)
++		req := &movev1.SetMoverRequest{Guid: target}
++		if target == me {
++			req.Guid = 0
++		} else if u := s.unit(ctx, target); u != nil {
++			req.X, req.Y, req.Z, req.RunSpeed = u.GetX(), u.GetY(), u.GetZ(), u.GetRunSpeed()
++		}
++		var pos movev1.Position
++		_ = s.invoke(ctx, "move", "set_mover", req, &pos)
++		s.mu.Lock()
++		if target == me {
++			s.vehicle, s.spells = 0, nil
++		} else {
++			s.vehicle = target
++		}
++		close(s.changed)
++		s.changed = make(chan struct{})
++		s.mu.Unlock()
++	case opcode.SMSGPetSpells:
++		g := r.U64()
++		r.U16() // family
++		r.U32() // duration
++		r.U8()  // react
++		r.U8()  // command
++		r.U16() // disable actions
++		var spells []uint32
++		for i := 0; i < 10 && r.Err() == nil; i++ {
++			spells = append(spells, r.U32()&0x00FFFFFF)
++		}
++		if r.Err() == nil {
++			s.mu.Lock()
++			if g == s.vehicle || s.vehicle == 0 {
++				s.spells = spells
++			}
++			s.mu.Unlock()
++		}
++	}
++	return &emptypb.Empty{}, nil
++}
++
++// -- RPCs -----------------------------------------------------------------------------------------
++
++func (s *service) state(ctx context.Context) *vehiclev1.VehicleState {
++	s.mu.Lock()
++	st := &vehiclev1.VehicleState{Controlling: s.vehicle != 0, Vehicle: s.vehicle, Spells: append([]uint32(nil), s.spells...)}
++	s.mu.Unlock()
++	if st.Vehicle != 0 {
++		if u := s.unit(ctx, st.Vehicle); u != nil {
++			st.Entry = u.GetEntry()
++		}
++	}
++	return st
++}
++
++func (s *service) GetState(ctx context.Context, _ *emptypb.Empty) (*vehiclev1.VehicleState, error) {
++	return s.state(ctx), nil
++}
++
++// Enter clicks a vehicle (spellclick -> ride spell) and waits for the server to hand us control.
++// A ride without control (passenger seat) reports ok with controlling=false.
++func (s *service) Enter(ctx context.Context, req *vehiclev1.EnterRequest) (*vehiclev1.Result, error) {
++	s.mu.Lock()
++	changed := s.changed
++	s.mu.Unlock()
++	var click interactv1.CastResult
++	if err := s.invoke(ctx, "interact", "spellclick", &interactv1.Target{Guid: req.GetGuid(), Entry: req.GetEntry()}, &click); err != nil {
++		return nil, err
++	}
++	wait := 4 * time.Second
++	if req.GetTimeoutMs() > 0 {
++		wait = time.Duration(req.GetTimeoutMs()) * time.Millisecond
++	}
++	select {
++	case <-changed:
++		time.Sleep(300 * time.Millisecond) // SMSG_PET_SPELLS follows the control update
++		st := s.state(ctx)
++		return &vehiclev1.Result{Ok: st.GetControlling(), Detail: "controlling " + click.GetDetail(), State: st}, nil
++	case <-time.After(wait):
++		st := s.state(ctx)
++		return &vehiclev1.Result{Ok: click.GetOk(), Detail: "no control granted (passenger?) - " + click.GetDetail(), State: st}, nil
++	case <-ctx.Done():
++		return nil, ctx.Err()
++	}
++}
++
++func (s *service) Exit(ctx context.Context, _ *emptypb.Empty) (*vehiclev1.Result, error) {
++	s.mu.Lock()
++	changed := s.changed
++	s.mu.Unlock()
++	if err := s.send(ctx, opcode.CMSGRequestVehicleExit, nil); err != nil {
++		return nil, err
++	}
++	select {
++	case <-changed:
++	case <-time.After(3 * time.Second):
++	}
++	st := s.state(ctx)
++	return &vehiclev1.Result{Ok: !st.GetControlling(), Detail: "exit requested", State: st}, nil
++}
++
++// Cast fires a vehicle action-bar spell (by slot or id) with CMSG_CAST_SPELL; the server casts
++// it as the controlled vehicle.
++func (s *service) Cast(ctx context.Context, req *vehiclev1.CastRequest) (*vehiclev1.Result, error) {
++	st := s.state(ctx)
++	spell := req.GetSpellId()
++	if spell == 0 {
++		i := int(req.GetSlot()) - 1
++		if i < 0 || i >= len(st.GetSpells()) || st.GetSpells()[i] == 0 {
++			return nil, status.Errorf(codes.InvalidArgument, "no spell in vehicle slot %d (bar %v)", req.GetSlot(), st.GetSpells())
++		}
++		spell = st.GetSpells()[i]
++	}
++	s.mu.Lock()
++	s.castCount++
++	c := s.castCount
++	s.mu.Unlock()
++	var w wow.Writer
++	w.U8(c)
++	w.U32(spell)
++	w.U8(0)
++	if t := req.GetTarget(); t != 0 {
++		w.U32(targetFlagUnit)
++		w.PackedGUID(t)
++	} else {
++		w.U32(0)
++	}
++	if err := s.send(ctx, opcode.CMSGCastSpell, &w); err != nil {
++		return nil, err
++	}
++	return &vehiclev1.Result{Ok: true, Detail: fmt.Sprintf("cast %d sent", spell), State: st}, nil
++}
+diff --git a/zeppelin/modules/vehicle/module.yaml b/zeppelin/modules/vehicle/module.yaml
+new file mode 100644
+index 0000000..bf35778
+--- /dev/null
++++ b/zeppelin/modules/vehicle/module.yaml
+@@ -0,0 +1,16 @@
++api_version: 1
++enabled: true
++description: "Zeppelin F-219: board/drive/leave vehicles, cast from the vehicle bar"
++requires: [move, interact]
++process:
++  command: [vehicle]
++grpc:
++  descriptor_set: module.pb
++rpc:
++  state: /zeppelin.vehicle.v1.Vehicle/GetState
++  enter: /zeppelin.vehicle.v1.Vehicle/Enter
++  exit: /zeppelin.vehicle.v1.Vehicle/Exit
++  cast: /zeppelin.vehicle.v1.Vehicle/Cast
++packets:
++  SMSG_CLIENT_CONTROL_UPDATE: /zeppelin.vehicle.v1.Vehicle/OnPacket
++  SMSG_PET_SPELLS: /zeppelin.vehicle.v1.Vehicle/OnPacket
+diff --git a/zeppelin/modules/vehicle/vehicle.proto b/zeppelin/modules/vehicle/vehicle.proto
+new file mode 100644
+index 0000000..51f3de8
+--- /dev/null
++++ b/zeppelin/modules/vehicle/vehicle.proto
+@@ -0,0 +1,39 @@
++syntax = "proto3";
++package zeppelin.vehicle.v1;
++option go_package = "github.com/agent-wow/agent-wow/zeppelin/modules/vehicle/api;vehiclev1";
++
++import "api/module/v1/session.proto";
++import "google/protobuf/empty.proto";
++
++message VehicleState {
++  bool controlling = 1;  // we move a vehicle (SMSG_CLIENT_CONTROL_UPDATE gave us control)
++  uint64 vehicle = 2;
++  uint32 entry = 3;
++  repeated uint32 spells = 4; // the vehicle action bar (SMSG_PET_SPELLS), slot order
++  bool passenger = 5;    // in a vehicle without control (a ride)
++}
++
++message EnterRequest {
++  uint64 guid = 1;       // vehicle to click (npc_spellclick_spells), or
++  uint32 entry = 2;      // nearest visible creature of this entry
++  uint32 timeout_ms = 3; // wait for control; 0 = 4 s
++}
++
++message CastRequest {
++  uint32 slot = 1;       // action bar slot 1..10 (when spell_id is 0)
++  uint32 spell_id = 2;
++  uint64 target = 3;     // optional unit target
++}
++message Result {
++  bool ok = 1;
++  string detail = 2;
++  VehicleState state = 3;
++}
++
++service Vehicle {
++  rpc GetState(google.protobuf.Empty) returns (VehicleState);
++  rpc Enter(EnterRequest) returns (Result);
++  rpc Exit(google.protobuf.Empty) returns (Result);
++  rpc Cast(CastRequest) returns (Result);
++  rpc OnPacket(agentwow.module.v1.WorldPacket) returns (google.protobuf.Empty);
++}
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index fae4c33..38fd1c0 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -46,6 +46,17 @@ def sql(query, db="world"):
+     return [dict(zip(head, l.split("\t"))) for l in lines[1:]]
+ 
+ 
++def dbc(query):
++    """Rows from the DBC database (zep dbc info query)."""
++    out = subprocess.run(["python3", "-m", "cli.zep", "dbc", "info", "query", query], cwd=CRAFT,
++                         capture_output=True, text=True, check=True).stdout
++    lines = [l for l in out.splitlines() if l.strip() and not l.startswith("Running query")]
++    if not lines:
++        return []
++    head = lines[0].split("\t")
++    return [dict(zip(head, l.split("\t"))) for l in lines[1:]]
++
++
+ def ids(rows, key):
+     return sorted({int(r[key]) for r in rows})
+ 
+@@ -110,22 +121,84 @@ class World:
+         self.spell_target_aura = {int(r["SourceEntry"]): int(r["ConditionValue1"]) for r in sql(
+             "SELECT SourceEntry,ConditionValue1 FROM conditions WHERE SourceTypeOrReferenceId=17 "
+             f"AND ConditionTypeOrReference=1 AND NegativeCondition=0 AND SourceEntry IN ({spells})")}
++        # creatures a click credits / boards (npc_spellclick_spells): Defiant Troll 66306, Hot Rod 66392
++        self.spellclick = {int(r["npc_entry"]): int(r["spell_id"]) for r in sql(
++            f"SELECT npc_entry,spell_id FROM npc_spellclick_spells WHERE npc_entry IN ({ce})")}
++        # objectives credited by being HIT by a spell (SAI event 8 SPELLHIT): Hot Rod homies <- 61178
++        targets = {int(q[f"RequiredNpcOrGo{i}"]) for q in self.quests.values() for i in range(1, 5)} - {0}
++        targets = {t for t in targets if t > 0}
++        self.spellhit = {}
++        for r in sql("SELECT entryorguid e,event_param1 sp FROM smart_scripts WHERE source_type=0 AND event_type=8 "
++                     f"AND event_param1>0 AND entryorguid IN ({inlist(targets)})"):
++            self.spellhit.setdefault(int(r["e"]), int(r["sp"]))
++        # vehicles: spawned here, or summoned by a quest item's spell (effect 28 SUMMON, misc = entry)
++        item_spells = [sp for sp in self.item_spell.values() if sp]
++        self.summon_item = {}  # vehicle entry -> (item, spell)
++        if item_spells:
++            for r in dbc(f"SELECT id,effect_1,effect_misc_value_a_1,effect_2,effect_misc_value_a_2 FROM spell WHERE id IN ({inlist(item_spells)})"):
++                for k in ("1", "2"):
++                    if int(r[f"effect_{k}"]) == 28:
++                        item = next(i for i, sp in self.item_spell.items() if sp == int(r["id"]))
++                        self.summon_item[int(r[f"effect_misc_value_a_{k}"])] = (item, int(r["id"]))
++        cand = set(self.cspawn) | set(self.summon_item)
++        vehicles = ids(sql(f"SELECT entry FROM creature_template WHERE VehicleId>0 AND entry IN ({inlist(cand)})"), "entry")
++        self.vehicle_spell = {}  # spell -> vehicle entry whose bar casts it
++        for r in sql(f"SELECT CreatureID c,Spell sp FROM creature_template_spell WHERE CreatureID IN ({inlist(vehicles)})"):
++            self.vehicle_spell.setdefault(int(r["sp"]), int(r["c"]))
+         self.creature_loot = {}  # item -> creature entries (spawned here) that drop it
+         for r in sql(f"SELECT Entry,Item FROM creature_loot_template WHERE Item IN ({il})"):
+             for c in ids(sql(f"SELECT entry FROM creature_template WHERE lootid={int(r['Entry'])}"), "entry"):
+                 if c in self.cspawn:
+                     self.creature_loot.setdefault(int(r["Item"]), set()).add(c)
++        self.vendor_items = {}  # item -> vendor entries spawned here (npc_vendor)
++        for r in sql(f"SELECT entry,item FROM npc_vendor WHERE item IN ({il}) AND entry IN ({ce})"):
++            self.vendor_items.setdefault(int(r["item"]), set()).add(int(r["entry"]))
+         self.go_loot = {}  # item -> (go entry, go type)
+-        for r in sql(f"SELECT t.entry,t.type,l.Item FROM gameobject_loot_template l JOIN gameobject_template t ON t.Data1=l.Entry "
++        self.go_lock = {}  # chest entry -> Lock.dbc id (Data0)
++        for r in sql(f"SELECT t.entry,t.type,t.Data0,l.Item FROM gameobject_loot_template l JOIN gameobject_template t ON t.Data1=l.Entry "
+                      f"WHERE l.Item IN ({il}) AND t.type IN (3,25)"):
+             if int(r["entry"]) in self.gspawn:
+                 self.go_loot.setdefault(int(r["Item"]), set()).add((int(r["entry"]), int(r["type"])))
++                if int(r["type"]) == 3:
++                    self.go_lock[int(r["entry"])] = int(r["Data0"])
++        # chest lock -> the OPEN_LOCK (effect 33) spell for its lock type (Lock.dbc type 2 = lock type
++        # index): 13 Open Kneeling -> 22810 (Cactus Apple), 21 Open From Vehicle -> 61437 (Replacement Parts)
++        self.lock_spell, self.lock_needs_vehicle = {}, set()
++        locks = set(self.go_lock.values()) - {0}
++        if locks:
++            types = {}
++            for r in dbc(f"SELECT id,type_1,index_1,type_2,index_2,type_3,index_3 FROM `lock` WHERE id IN ({inlist(locks)})"):
++                for k in ("1", "2", "3"):
++                    if int(r[f"type_{k}"]) == 2:
++                        types[int(r["id"])] = int(r[f"index_{k}"])
++                        break
++            spells = {}
++            for lt in set(types.values()):
++                rows = dbc(f"SELECT id,targets FROM spell WHERE effect_1=33 AND effect_misc_value_a_1={lt} AND (targets & 16384) ORDER BY id")
++                if rows:
++                    spells[lt] = int(rows[-1 if lt == 13 else 0]["id"])
++            for lock, lt in types.items():
++                if lt in spells:
++                    self.lock_spell[lock] = spells[lt]
++                if lt == 21:  # LOCKTYPE "Open From Vehicle"
++                    self.lock_needs_vehicle.add(lock)
+         bases = inlist(a["spell_id"] for abl in CLASS_ABILITIES.values() for a in abl)
+         self.ranks = {}  # first rank -> [rank ids ascending]
+         for r in sql(f"SELECT first_spell_id f,spell_id s FROM spell_ranks WHERE first_spell_id IN ({bases}) ORDER BY first_spell_id,`rank`"):
+             self.ranks.setdefault(int(r["f"]), []).append(int(r["s"]))
+-        c = sql(f"SELECT guid,race,class,level FROM characters WHERE name='{char}'", "characters")[0]
+-        self.guid, self.race, self.cls = int(c["guid"]), int(c["race"]), int(c["class"])
++        # quest availability conditions (source type 19): Kezan stages its quests this way
++        # (PrevQuestID is 0 by design there) - see memory reference_goblin_quest_staging_conditions
++        cond_cols = "SourceTypeOrReferenceId src,SourceEntry entry,ElseGroup eg,ConditionTypeOrReference t,ConditionValue1 v1,ConditionValue2 v2,NegativeCondition neg"
++        self.cond19 = {}
++        for r in sql(f"SELECT {cond_cols} FROM conditions WHERE SourceTypeOrReferenceId=19 AND SourceEntry IN ({qs})"):
++            self.cond19.setdefault(int(r["entry"]), []).append(r)
++        refs = {int(r["t"]) for rows in self.cond19.values() for r in rows if int(r["t"]) < 0}
++        self.cond_refs = {}
++        for ref in refs:
++            self.cond_refs[ref] = sql(f"SELECT {cond_cols} FROM conditions WHERE SourceTypeOrReferenceId={ref}")
++        c = sql(f"SELECT guid,race,class,level,gender FROM characters WHERE name='{char}'", "characters")[0]
++        self.guid, self.race, self.cls, self.gender = int(c["guid"]), int(c["race"]), int(c["class"]), int(c["gender"])
++        self.inventory = {}  # refreshed by the runner; used by CONDITION_ITEM
+         self.rewarded = set(ids(sql(f"SELECT quest FROM character_queststatus_rewarded WHERE guid={self.guid}", "characters"), "quest"))
+         # class trainers spawned in the area (trainer.Type 0 = class, Requirement = class id)
+         self.trainers = ids(sql(
+@@ -137,12 +210,46 @@ class World:
+         pts = (self.cspawn if kind == "c" else self.gspawn).get(entry, [])
+         return min(pts, key=lambda p: math.dist(p[:2], (me["x"], me["y"])), default=None)
+ 
++    def cond_true(self, r, in_log, depth=0, static_only=False):
++        """One `conditions` row (ConditionMgr semantics for the types start areas use)."""
++        t, v1, v2 = int(r["t"]), int(r["v1"]), int(r["v2"])
++        if static_only and t not in (15, 16, 20) and t >= 0:
++            return True  # progress-dependent: could become true during the run
++        if t < 0:  # reference template: its rows grouped by ElseGroup, any group all-true
++            ok = depth < 4 and self.groups_true(self.cond_refs.get(t, []), in_log, depth + 1, static_only)
++        elif t == 2:   # ITEM: count
++            ok = self.inventory.get(v1, 0) >= max(v2, 1)
++        elif t == 8:   # QUESTREWARDED
++            ok = v1 in self.rewarded
++        elif t == 9:   # QUESTTAKEN
++            ok = v1 in in_log
++        elif t == 14:  # QUEST_NONE
++            ok = v1 not in in_log and v1 not in self.rewarded
++        elif t == 15:  # CLASS (mask)
++            ok = bool(v1 & (1 << (self.cls - 1)))
++        elif t == 16:  # RACE (mask)
++            ok = bool(v1 & (1 << (self.race - 1)))
++        elif t == 20:  # GENDER
++            ok = v1 == self.gender
++        elif t == 28:  # QUEST_COMPLETE
++            ok = in_log.get(v1, {}).get("state") == 1
++        else:          # not modelled: let the server decide
++            ok = True
++        return ok != bool(int(r["neg"]))
++
++    def groups_true(self, rows, in_log, depth=0, static_only=False):
++        groups = {}
++        for r in rows:
++            groups.setdefault(int(r["eg"]), []).append(r)
++        return any(all(self.cond_true(r, in_log, depth, static_only) for r in g) for g in groups.values()) if groups else True
++
+     def for_char(self, qid):
+         """Race/class allow this quest and its ender is in the area (ignores level/prereqs)."""
+         q = self.quests[qid]
+         races, classes = int(q["AllowableRaces"]), int(q["AllowableClasses"])
+         return (qid in self.enders and (not races or races & (1 << (self.race - 1)))
+-                and (not classes or classes & (1 << (self.cls - 1))))
++                and (not classes or classes & (1 << (self.cls - 1)))
++                and (qid not in self.cond19 or self.groups_true(self.cond19[qid], {}, static_only=True)))
+ 
+     def eligible(self, qid, level, in_log):
+         q = self.quests[qid]
+@@ -169,6 +276,8 @@ class World:
+         eg = int(q["ExclusiveGroup"])
+         if eg > 0 and eg in self.excl_done:
+             return False
++        if qid in self.cond19 and not self.groups_true(self.cond19[qid], in_log):
++            return False
+         return True
+ 
+ 
+@@ -284,10 +393,12 @@ class Runner:
+     def inventory(self):
+         inv = {}
+         for it in call("interact.inventory").get("items", []):
+-            inv[it["entry"]] = inv.get(it["entry"], 0) + it.get("count", 1)
++            if it.get("entry"):  # an item whose template we have not seen yet has no entry
++                inv[it["entry"]] = inv.get(it["entry"], 0) + it.get("count", 1)
+         return inv
+ 
+     def accept(self, qid):
++        self.leave_vehicle()
+         kind, entry = self.w.starters[qid][0]
+         if not self.go_near(kind, entry):
+             self.blocked.add(qid)
+@@ -300,6 +411,7 @@ class Runner:
+             self.refused.add(qid)  # the server is the authority on what is offered
+ 
+     def turn_in(self, qid):
++        self.leave_vehicle()
+         kind, entry = self.w.enders[qid][0]
+         self.go_near(kind, entry)
+         r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
+@@ -317,6 +429,34 @@ class Runner:
+         if eg > 0:
+             self.w.excl_done.add(eg)
+ 
++    def ensure_vehicle(self, ventry):
++        """Be in control of a vehicle of this entry: board a visible one, or summon it first."""
++        st = call("vehicle.state")
++        if st.get("controlling") and st.get("entry") == ventry:
++            return True
++        if st.get("controlling"):
++            call("vehicle.exit")
++        objs = call("interact.find", entry=ventry, limit=1).get("objects", [])
++        if (not objs or objs[0]["distance"] > 30) and ventry in self.w.summon_item:
++            item, spell = self.w.summon_item[ventry]
++            r = call("interact.use_item", entry=item, spell_id=spell)
++            print(f"  summon vehicle {ventry} with item {item}: {r.get('detail')}", flush=True)
++            time.sleep(2)
++            objs = call("interact.find", entry=ventry, limit=1).get("objects", [])
++        if not objs:
++            return False
++        if objs[0]["distance"] > 4:
++            o = objs[0]
++            self.travel(o["x"], o["y"], o["z"], within=3)
++        r = call("vehicle.enter", entry=ventry)
++        print(f"  enter vehicle {ventry}: {r.get('detail')} bar {r.get('state', {}).get('spells')}", flush=True)
++        return bool(call("vehicle.state").get("controlling"))
++
++    def leave_vehicle(self):
++        if call("vehicle.state").get("controlling"):
++            call("vehicle.exit")
++            time.sleep(1)
++
+     def quest_item(self, q):
+         """The quest-supplied item with an on-use spell, if any."""
+         for k in ("StartItem", "ItemDrop1", "ItemDrop2", "ItemDrop3", "ItemDrop4"):
+@@ -346,6 +486,47 @@ class Runner:
+             target, need = int(q[f"RequiredNpcOrGo{i}"]), int(q[f"RequiredNpcOrGoCount{i}"])
+             if not target or counts[i - 1] >= need:
+                 continue
++            if target > 0 and target in self.w.spellhit:
++                spell = self.w.spellhit[target]
++                if spell in self.w.vehicle_spell:  # a vehicle-bar spell: drive over and fire it
++                    if not self.ensure_vehicle(self.w.vehicle_spell[spell]):
++                        return False
++                    o = self.go_near("c", target, offset=4.0, usable_only=True)
++                    if not o:
++                        return False
++                    self.used[int(o["guid"])] = time.time()
++                    r = call("vehicle.cast", spell_id=spell, target=int(o["guid"]))
++                    print(f"  vehicle cast {spell} on {target}: {r.get('detail')}", flush=True)
++                    time.sleep(1.5)
++                    return True
++                o = self.go_near("c", target, offset=3.0, usable_only=True)
++                if o:
++                    self.used[int(o["guid"])] = time.time()
++                    item = next((i for i, sp in self.w.item_spell.items() if sp == spell), 0)
++                    if item:
++                        r = call("interact.use_item", entry=item, spell_id=spell, target={"guid": int(o["guid"])})
++                    else:
++                        r = call("interact.cast", spell_id=spell, target={"guid": int(o["guid"])})
++                    print(f"  hit {target} with {spell}: {r.get('detail')}", flush=True)
++                    time.sleep(1.5)
++                    return True
++                return False
++            if target > 0 and target not in self.w.cspawn and self.quest_item(q):
++                # a credit-only entry nobody spawns: the quest item's use is the credit (keys used)
++                item = self.quest_item(q)
++                r = call("interact.use_item", entry=item, spell_id=self.w.item_spell[item])
++                print(f"  use {item} for credit {target}: {r.get('detail')}", flush=True)
++                time.sleep(2)
++                return True
++            if target > 0 and target in self.w.spellclick:
++                o = self.go_near("c", target, offset=2.0, usable_only=True)
++                if not o:
++                    return False
++                self.used[int(o["guid"])] = time.time()
++                r = call("interact.spellclick", guid=int(o["guid"]))
++                print(f"  spellclick {target}: {r.get('detail')}", flush=True)
++                time.sleep(1.5)
++                return True
+             if target > 0:
+                 # a quest that hands out an item with an on-use spell wants it used on the
+                 # objective creature (Lazy Peons: Foreman's Blackjack on friendly peons)
+@@ -369,11 +550,22 @@ class Runner:
+             item, need = int(q[f"RequiredItemId{i}"]), int(q[f"RequiredItemCount{i}"])
+             if not item or inv.get(item, 0) >= need:
+                 continue
++            for v in sorted(self.w.vendor_items.get(item, ())):
++                if self.go_near("c", v):
++                    r = call("interact.vendor_buy", target={"entry": v}, item_id=item, count=1)
++                    print(f"  buy {item} from vendor {v}: {r.get('detail')}", flush=True)
++                    return True
+             for go, gotype in sorted(self.w.go_loot.get(item, ())):
+                 o = self.go_near("g", go, usable_only=True)
+                 if o:
+                     self.safe()  # an attacker interrupts the Opening cast (SPELL_FAILED_INTERRUPTED 40)
+-                    spell = OPENING if gotype == 3 else 0
++                    lock = self.w.go_lock.get(go, 0)
++                    spell = self.w.lock_spell.get(lock, OPENING) if gotype == 3 else 0
++                    if lock in self.w.lock_needs_vehicle:  # board the area's controllable vehicle first
++                        for v in self.w.summon_item:
++                            if self.ensure_vehicle(v):
++                                break
++                        o = self.go_near("g", go, usable_only=True) or o
+                     r = call("interact.use", target={"guid": int(o["guid"])}, loot_all=True, spell_id=spell)
+                     if r.get("opened"):  # only a looted object waits for its respawn
+                         self.used[int(o["guid"])] = time.time()
+@@ -416,6 +608,7 @@ class Runner:
+             if progressed:
+                 idle = 0
+                 continue
++            self.w.inventory = self.inventory()
+             avail = [q for q in sorted(self.w.starters) if q not in self.blocked and self.w.eligible(q, level, log)]
+             if avail:
+                 self.accept(avail[0])
+diff --git a/zeppelin/wow/objects.go b/zeppelin/wow/objects.go
+index 37c2525..c98e8bb 100644
+--- a/zeppelin/wow/objects.go
++++ b/zeppelin/wow/objects.go
+@@ -58,6 +58,7 @@ type Object struct {
+ 	MoveBegin          time.Time
+ 	MoveDur            time.Duration
+ 	Auras              map[uint8]uint32 // visible aura slot -> spell id
++	RunSpeed           float32
+ }
+ 
+ // HasAura reports whether the object carries a visible aura of this spell.
+@@ -103,6 +104,9 @@ func (s *Store) Apply(blocks []Block) {
+ 			if b.HasPos {
+ 				o.X, o.Y, o.Z, o.O, o.HasPos = b.X, b.Y, b.Z, b.O, true
+ 			}
++			if b.RunSpeed > 0 {
++				o.RunSpeed = b.RunSpeed
++			}
+ 			for k, v := range b.Values {
+ 				o.Values[k] = v
+ 			}
+diff --git a/zeppelin/wow/update.go b/zeppelin/wow/update.go
+index 46f031d..7f1e70e 100644
+--- a/zeppelin/wow/update.go
++++ b/zeppelin/wow/update.go
+@@ -61,16 +61,17 @@ const (
+ 
+ // Block is one entry of an SMSG_(COMPRESSED_)UPDATE_OBJECT.
+ type Block struct {
+-	Type    uint8
+-	GUID    uint64
+-	ObjType uint8 // create blocks only
+-	Self    bool  // UPDATEFLAG_SELF: this is the player we are playing
+-	HasPos  bool
+-	Map     uint32
+-	X, Y, Z float32
+-	O       float32
+-	Values  map[uint16]uint32 // field index -> raw 32-bit value (VALUES and CREATE blocks)
+-	GUIDs   []uint64          // OUT_OF_RANGE / NEAR_OBJECTS
++	Type     uint8
++	GUID     uint64
++	ObjType  uint8 // create blocks only
++	Self     bool  // UPDATEFLAG_SELF: this is the player we are playing
++	HasPos   bool
++	Map      uint32
++	X, Y, Z  float32
++	O        float32
++	Values   map[uint16]uint32 // field index -> raw 32-bit value (VALUES and CREATE blocks)
++	GUIDs    []uint64          // OUT_OF_RANGE / NEAR_OBJECTS
++	RunSpeed float32           // living units: the run speed from the movement block
+ }
+ 
+ // DecompressUpdate turns an SMSG_COMPRESSED_UPDATE_OBJECT payload (u32 size + zlib) into the
+@@ -190,7 +191,9 @@ func parseMovement(r *Reader, b *Block) {
+ 		if mf&moveFlagSplineElevation != 0 {
+ 			r.F32()
+ 		}
+-		r.Skip(9 * 4) // walk run runback swim swimback flight flightback turn pitch
++		r.F32()              // walk
++		b.RunSpeed = r.F32() // run
++		r.Skip(7 * 4)        // runback swim swimback flight flightback turn pitch
+ 		if mf&moveFlagSplineEnabled != 0 {
+ 			parseSpline(r)
+ 		}
+-- 
+2.34.1
+
