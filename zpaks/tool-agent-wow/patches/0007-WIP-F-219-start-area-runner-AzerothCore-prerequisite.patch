@@ -1,0 +1,90 @@
+From 11ddc9a5c546de96588cdd8f89779a1b98b8b813 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 10:28:35 +0000
+Subject: [PATCH] WIP: F-219 - start-area runner: AzerothCore prerequisite
+ semantics, retries, honest summary
+
+- prerequisites = PrevQuestID + every quest whose NextQuestID points here, satisfied by ANY
+  one rewarded (Player::SatisfyQuestPreviousQuest) - 792 or warlock 1499 -> 794
+- quests the server refused are retried after every reward
+- summary counts every race/class-allowed area quest not rewarded or refused,
+  independent of the eligibility check, so a gating bug cannot report PASS
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 28 +++++++++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 41032c2..5dc29f6 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -80,8 +80,16 @@ class World:
+             "q.RequiredItemCount1,q.RequiredItemCount2,q.RequiredItemCount3,q.RequiredItemCount4,q.RequiredItemCount5,q.RequiredItemCount6,"
+             "q.ItemDrop1,q.ItemDrop2,q.ItemDrop3,q.ItemDrop4,"
+             "COALESCE(a.AllowableClasses,0) AllowableClasses,COALESCE(a.PrevQuestID,0) PrevQuestID,"
+-            "COALESCE(a.ExclusiveGroup,0) ExclusiveGroup,COALESCE(a.BreadcrumbForQuestId,0) BreadcrumbForQuestId "
++            "COALESCE(a.ExclusiveGroup,0) ExclusiveGroup,COALESCE(a.BreadcrumbForQuestId,0) BreadcrumbForQuestId,"
++            "COALESCE(a.NextQuestID,0) NextQuestID "
+             f"FROM quest_template q LEFT JOIN quest_template_addon a ON a.ID=q.ID WHERE q.ID IN ({qs})")}
++        # AzerothCore also gates on NextQuestID: X.NextQuestID = Y puts X in Y's prerequisites
++        # (ObjectMgr::LoadQuests prevQuests) - e.g. 792 Vile Familiars -> 794 Burning Blade Medallion
++        self.prev_via_next = {}
++        for qid, q in self.quests.items():
++            nxt = int(q["NextQuestID"])
++            if nxt > 0:
++                self.prev_via_next.setdefault(nxt, set()).add(qid)
+         items = set()
+         for q in self.quests.values():
+             for k in ("StartItem", "ItemDrop1", "ItemDrop2", "ItemDrop3", "ItemDrop4") + tuple(f"RequiredItemId{i}" for i in range(1, 7)):
+@@ -114,6 +122,13 @@ class World:
+         pts = (self.cspawn if kind == "c" else self.gspawn).get(entry, [])
+         return min(pts, key=lambda p: math.dist(p[:2], (me["x"], me["y"])), default=None)
+ 
++    def for_char(self, qid):
++        """Race/class allow this quest and its ender is in the area (ignores level/prereqs)."""
++        q = self.quests[qid]
++        races, classes = int(q["AllowableRaces"]), int(q["AllowableClasses"])
++        return (qid in self.enders and (not races or races & (1 << (self.race - 1)))
++                and (not classes or classes & (1 << (self.cls - 1))))
++
+     def eligible(self, qid, level, in_log):
+         q = self.quests[qid]
+         if qid in self.rewarded or qid in in_log or qid not in self.enders:
+@@ -125,8 +140,11 @@ class World:
+             return False
+         if int(q["MinLevel"]) > level:
+             return False
++        # Player::SatisfyQuestPreviousQuest: prevQuests = PrevQuestID + every quest whose
++        # NextQuestID points here; ANY one rewarded satisfies it (792 or the warlock 1499 -> 794)
+         prev = int(q["PrevQuestID"])
+-        if prev > 0 and prev not in self.rewarded:
++        prevs = set(self.prev_via_next.get(qid, ())) | ({prev} if prev > 0 else set())
++        if prevs and not prevs & self.rewarded:
+             return False
+         if prev < 0 and -prev not in in_log:
+             return False
+@@ -250,6 +268,9 @@ class Runner:
+             return
+         print(f"[PASS] turn in {qid} {title} - {r.get('detail')}", flush=True)
+         self.w.rewarded.add(qid)
++        # progress can change what the server offers: retry quests it refused before
++        self.blocked -= self.refused
++        self.refused.clear()
+         eg = int(self.w.quests[qid]["ExclusiveGroup"])
+         if eg > 0:
+             self.w.excl_done.add(eg)
+@@ -378,7 +399,8 @@ def main():
+         return 1
+     level = call("interact.self").get("level")
+     log = r.log()
+-    todo = [q for q in w.starters if (w.eligible(q, 99, log) or q in log) and q not in r.refused and q not in w.rewarded]
++    # independent of eligible(): a prerequisite bug must not be able to hide a quest
++    todo = [q for q in w.starters if w.for_char(q) and q not in r.refused and q not in w.rewarded]
+     print(f"\nSUMMARY: {len(w.rewarded)} quests rewarded, level {level}, {r.kills} kills, {r.deaths} deaths, {secs / 60:.1f} min")
+     if todo:
+         print("left:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(todo)))
+-- 
+2.34.1
+
