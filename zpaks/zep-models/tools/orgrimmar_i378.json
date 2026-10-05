@@ -1,0 +1,30 @@
+{
+ "issue": "I-378",
+ "note": "OA Orgrimmar + Blizzard's 54 stairwell/other portals restored + 2 yd bbox headroom on the stair rooms",
+ "build": "3.80.2.69874",
+ "product": "wow_classic_titan",
+ "original_root_fdid": 113576,
+ "original_root_sha256": "a555935ddcc3c18dadbcdd29335e9f3fb3692056092520707ef9fe1a59185882",
+ "portals_restored": 54,
+ "headroom_yd": 2.0,
+ "headroom_groups": [
+  51,
+  53,
+  50,
+  49
+ ],
+ "oa_inputs": {
+  "OGRIMMAR.WMO": "9f0c872a93cca05769df272d09993869667123d64b8619458383dfd13dd583d1",
+  "OGRIMMAR_051.WMO": "04c722ed6324397005bdbf126ac5ce6b44bcf1a6d330825b6f544812dc9be909",
+  "OGRIMMAR_053.WMO": "e8117fae61e81f4f7ed87fda79fc7b40f08928cb993f2438f63f30f4b19a5982",
+  "OGRIMMAR_050.WMO": "d0d56c990b43c9726d70e4518833d8aea00c7ccedfa4561dc3544e81bed95069",
+  "OGRIMMAR_049.WMO": "5c79d5355bc23620107fabb632570d2276bc2ee3873d0ee262eed77d61876851"
+ },
+ "results": {
+  "Ogrimmar.wmo": "81f71fcd878fe57f178b9ff69184414d32ca87b29b2db0781cc0cbb709fc77bd",
+  "Ogrimmar_051.wmo": "76eea2bd4355a48ea4a00ddc4bc96180e5c38478476967f112c93d6d415e7026",
+  "Ogrimmar_053.wmo": "e4bcdb02d4ebf37c7848eb14a17f7a087cef610a496045e81a12263a946e8398",
+  "Ogrimmar_050.wmo": "d2ce1109b8cd1b99f429144f2dbafb12ec660504a0ba561b56ff43406931ed96",
+  "Ogrimmar_049.wmo": "0a1b35abbc9e51435148aea559f7914dcc2ed632c6fd6b7ce5a354d3cc090430"
+ }
+}
