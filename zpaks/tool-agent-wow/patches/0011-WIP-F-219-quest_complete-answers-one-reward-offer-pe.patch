@@ -1,0 +1,56 @@
+From 593a42cf715bf3c92f36bbc7123150b7fe639488 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 21:36:24 +0000
+Subject: [PATCH] WIP: F-219 - quest_complete answers one reward offer per
+ turn-in
+
+Three CMSG_QUESTGIVER_CHOOSE_REWARD within 4 ms for repeatable 28607 (The Keys to the Hot
+Rod) preceded the worldserver dropping all sessions twice; one REQUEST_REWARD and one
+CHOOSE_REWARD per call now.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/interact/main.go | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index d4ab1b6..81c145d 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -577,6 +577,7 @@ func (s *service) QuestComplete(ctx context.Context, req *interactv1.QuestReques
+ 		return nil, err
+ 	}
+ 	res := &interactv1.QuestResult{}
++	requested, chosen := false, false
+ 	deadline := time.Now().Add(2 * replyTimeout)
+ 	for {
+ 		p, ok := await(ctx, ch, time.Until(deadline))
+@@ -587,6 +588,10 @@ func (s *service) QuestComplete(ctx context.Context, req *interactv1.QuestReques
+ 		r := wow.NewReader(p.payload)
+ 		switch p.op {
+ 		case opcode.SMSGQuestgiverRequestItems:
++			if requested {
++				continue
++			}
++			requested = true
+ 			// the "Continue" button: ask for the reward window
+ 			var w wow.Writer
+ 			w.U64(guid)
+@@ -595,6 +600,13 @@ func (s *service) QuestComplete(ctx context.Context, req *interactv1.QuestReques
+ 				return nil, err
+ 			}
+ 		case opcode.SMSGQuestgiverOfferReward: // PlayerMenu::SendQuestGiverOfferReward
++			// Answer ONE offer per turn-in. The server can open the reward window more than once
++			// (COMPLETE_QUEST and REQUEST_REWARD both lead to it); three CHOOSE_REWARDs for
++			// repeatable 28607 within 4 ms preceded a worldserver drop twice (2026-10-06).
++			if chosen {
++				continue
++			}
++			chosen = true
+ 			r.U64()
+ 			r.U32() // quest
+ 			r.CString()
+-- 
+2.34.1
+
