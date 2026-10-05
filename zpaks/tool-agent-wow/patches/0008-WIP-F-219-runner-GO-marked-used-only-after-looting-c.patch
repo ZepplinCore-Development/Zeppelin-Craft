@@ -1,0 +1,46 @@
+From d630d9c8b0892aaada154a289e40ad89fdf8b6c7 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 11:07:16 +0000
+Subject: [PATCH] WIP: F-219 - runner: GO marked used only after looting, clear
+ attackers before opening, wait for respawns
+
+Thazz'ril's Pick: an interrupted Opening cast (cave mob) put the only pick on the 3-minute
+skip list and the runner quit after three idle loops.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 5dc29f6..1ab585c 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -330,9 +330,11 @@ class Runner:
+             for go, gotype in sorted(self.w.go_loot.get(item, ())):
+                 o = self.go_near("g", go, usable_only=True)
+                 if o:
+-                    self.used[int(o["guid"])] = time.time()
++                    self.safe()  # an attacker interrupts the Opening cast (SPELL_FAILED_INTERRUPTED 40)
+                     spell = OPENING if gotype == 3 else 0
+                     r = call("interact.use", target={"guid": int(o["guid"])}, loot_all=True, spell_id=spell)
++                    if r.get("opened"):  # only a looted object waits for its respawn
++                        self.used[int(o["guid"])] = time.time()
+                     print(f"  open GO {go} for item {item}: {r.get('detail')} {r.get('received', '')}", flush=True)
+                     return True
+             for c in sorted(self.w.creature_loot.get(item, ())):
+@@ -376,6 +378,10 @@ class Runner:
+                 self.accept(avail[0])
+                 continue
+             idle += 1
++            # quests still open: respawn timers / skipped objects need time, so wait (~4 min max)
++            if active and idle <= 24:
++                time.sleep(10)
++                continue
+             if idle > 2:
+                 break
+         return time.time() - t0
+-- 
+2.34.1
+
