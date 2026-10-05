@@ -1,0 +1,268 @@
+From 1b27051ff84a944f851a54ea1c1f31eb9b68fe45 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 02:02:36 +0000
+Subject: [PATCH] WIP: F-219 - local-process module runner (no Docker)
+
+- manifest: optional process.command (file in the module dir or a program on PATH),
+  mutually exclusive with compose; compose validation split out
+- ProcessRunner: child process in its own process group, socket env rewritten from
+  /run/agent-wow to the real SocketDir, output to <SocketDir>/module.log, Down = SIGTERM
+  then SIGKILL after 5 s
+- AutoRunner (new default): process.command -> ProcessRunner, else ComposeRunner
+- verified live: fixture module run as a process received pushed packets, called the
+  session clock back and exited on logout
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ pkg/modules/discovery/manifest.go    |  59 +++++++++++--
+ pkg/modules/runner/process.go        | 119 +++++++++++++++++++++++++++
+ pkg/modules/runtime/manager_state.go |   2 +-
+ 3 files changed, 172 insertions(+), 8 deletions(-)
+ create mode 100644 pkg/modules/runner/process.go
+
+diff --git a/pkg/modules/discovery/manifest.go b/pkg/modules/discovery/manifest.go
+index 07cca98..32b97e3 100644
+--- a/pkg/modules/discovery/manifest.go
++++ b/pkg/modules/discovery/manifest.go
+@@ -6,6 +6,7 @@ import (
+ 	"fmt"
+ 	"io"
+ 	"os"
++	"os/exec"
+ 	"path/filepath"
+ 	"regexp"
+ 	"sort"
+@@ -34,6 +35,11 @@ type Manifest struct {
+ 		File    string `yaml:"file" json:"file"`
+ 		Service string `yaml:"service" json:"service"`
+ 	} `yaml:"compose" json:"compose"`
++	// Process runs the module as a local child process instead of a Compose service, for hosts
++	// without a Docker engine. Command[0] is a file in the module directory or a program on PATH.
++	Process struct {
++		Command []string `yaml:"command" json:"command,omitempty"`
++	} `yaml:"process" json:"process"`
+ 	GRPC struct {
+ 		DescriptorSet string `yaml:"descriptor_set" json:"descriptor_set"`
+ 	} `yaml:"grpc" json:"grpc"`
+@@ -217,33 +223,72 @@ func asset(m Manifest, path string) (string, error) {
+ 	return full, nil
+ }
+ 
+-func loadDefinition(m Manifest) (*Definition, error) {
++// validateProcess checks a process launch: Command[0] must be a file inside the module directory
++// or a bare program name resolvable on PATH (an absolute or escaping path is rejected).
++func validateProcess(m Manifest) error {
++	if m.Compose.File != "" || m.Compose.Service != "" {
++		return errors.New("set either compose or process, not both")
++	}
++	bin := m.Process.Command[0]
++	if strings.TrimSpace(bin) == "" {
++		return errors.New("process command is empty")
++	}
++	if !strings.ContainsRune(bin, filepath.Separator) {
++		if _, err := os.Stat(filepath.Join(m.Directory, bin)); err == nil {
++			_, err = asset(m, bin)
++			return err
++		}
++		if _, err := exec.LookPath(bin); err != nil {
++			return fmt.Errorf("process command %q: %w", bin, err)
++		}
++		return nil
++	}
++	if _, err := asset(m, bin); err != nil {
++		return fmt.Errorf("process command: %w", err)
++	}
++	return nil
++}
++
++func validateCompose(m Manifest) error {
+ 	compose, err := asset(m, m.Compose.File)
+ 	if err != nil {
+-		return nil, fmt.Errorf("compose file: %w", err)
++		return fmt.Errorf("compose file: %w", err)
+ 	}
+ 	if !moduleName.MatchString(m.Compose.Service) {
+-		return nil, errors.New("invalid compose service")
++		return errors.New("invalid compose service")
+ 	}
+ 	// Compose performs interpolation and full validation; check the selected service offline first.
+ 	body, err := os.ReadFile(compose)
+ 	if err != nil {
+-		return nil, err
++		return err
+ 	}
+ 	var model struct {
+ 		Services map[string]any `yaml:"services"`
+ 	}
+ 	if err = yaml.Unmarshal(body, &model); err != nil {
+-		return nil, err
++		return err
+ 	}
+ 	if _, ok := model.Services[m.Compose.Service]; !ok {
+-		return nil, fmt.Errorf("compose service %q does not exist", m.Compose.Service)
++		return fmt.Errorf("compose service %q does not exist", m.Compose.Service)
++	}
++	return nil
++}
++
++func loadDefinition(m Manifest) (*Definition, error) {
++	var err error
++	if len(m.Process.Command) > 0 {
++		err = validateProcess(m)
++	} else {
++		err = validateCompose(m)
++	}
++	if err != nil {
++		return nil, err
+ 	}
+ 	desc, err := asset(m, m.GRPC.DescriptorSet)
+ 	if err != nil {
+ 		return nil, fmt.Errorf("descriptor set: %w", err)
+ 	}
+-	body, err = os.ReadFile(desc)
++	body, err := os.ReadFile(desc)
+ 	if err != nil {
+ 		return nil, err
+ 	}
+diff --git a/pkg/modules/runner/process.go b/pkg/modules/runner/process.go
+new file mode 100644
+index 0000000..45d9312
+--- /dev/null
++++ b/pkg/modules/runner/process.go
+@@ -0,0 +1,119 @@
++package modrunner
++
++import (
++	"context"
++	"errors"
++	"fmt"
++	"os"
++	"os/exec"
++	"path/filepath"
++	"sync"
++	"syscall"
++	"time"
++)
++
++// ProcessRunner starts a module as a local child process (manifest `process.command`) for hosts
++// with no Docker engine. The module listens on <SocketDir>/module.sock and dials
++// <SocketDir>/session.sock directly, so the /run/agent-wow socket paths that Compose bind-mounts
++// are rewritten to the real directory. Output goes to <SocketDir>/module.log.
++type ProcessRunner struct {
++	mu    sync.Mutex
++	procs map[string]*exec.Cmd
++}
++
++func (r *ProcessRunner) Up(ctx context.Context, l Launch) error {
++	argv := l.Manifest.Process.Command
++	if len(argv) == 0 {
++		return errors.New("process runner: manifest has no process.command")
++	}
++	bin := argv[0]
++	if local := filepath.Join(l.Manifest.Directory, bin); filepath.Base(bin) == bin {
++		if _, err := os.Stat(local); err == nil {
++			bin = local
++		}
++	} else {
++		bin = filepath.Join(l.Manifest.Directory, bin)
++	}
++	logFile, err := os.OpenFile(filepath.Join(l.SocketDir, "module.log"), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
++	if err != nil {
++		return err
++	}
++	// Not CommandContext: Up's context is startup-scoped, the process must outlive it.
++	cmd := exec.Command(bin, argv[1:]...)
++	cmd.Dir = l.Manifest.Directory
++	cmd.Stdout, cmd.Stderr = logFile, logFile
++	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true} // Down signals the whole group
++	cmd.Env = os.Environ()
++	for key, value := range l.Environment {
++		switch key {
++		case "AGENT_WOW_MODULE_SOCKET":
++			value = filepath.Join(l.SocketDir, "module.sock")
++		case "AGENT_WOW_SESSION_SOCKET":
++			value = filepath.Join(l.SocketDir, "session.sock")
++		}
++		cmd.Env = append(cmd.Env, key+"="+value)
++	}
++	if err := cmd.Start(); err != nil {
++		logFile.Close()
++		return fmt.Errorf("process runner: start %s: %w", bin, err)
++	}
++	logFile.Close() // the child holds its own descriptor
++	r.mu.Lock()
++	if r.procs == nil {
++		r.procs = map[string]*exec.Cmd{}
++	}
++	r.procs[l.Project] = cmd
++	r.mu.Unlock()
++	go func() { _ = cmd.Wait() }() // reap promptly; Down waits on ProcessState
++	if err := ctx.Err(); err != nil {
++		_ = r.Down(context.Background(), l)
++		return err
++	}
++	return nil
++}
++
++// Down sends SIGTERM to the module's process group, then SIGKILL after 5 s.
++func (r *ProcessRunner) Down(ctx context.Context, l Launch) error {
++	r.mu.Lock()
++	cmd := r.procs[l.Project]
++	delete(r.procs, l.Project)
++	r.mu.Unlock()
++	if cmd == nil || cmd.Process == nil {
++		return nil
++	}
++	pgid := -cmd.Process.Pid
++	_ = syscall.Kill(pgid, syscall.SIGTERM)
++	deadline := time.Now().Add(5 * time.Second)
++	for time.Now().Before(deadline) {
++		if syscall.Kill(pgid, 0) != nil {
++			return nil
++		}
++		select {
++		case <-ctx.Done():
++			deadline = time.Now()
++		case <-time.After(100 * time.Millisecond):
++		}
++	}
++	_ = syscall.Kill(pgid, syscall.SIGKILL)
++	return nil
++}
++
++// AutoRunner sends modules with a process.command to ProcessRunner and the rest to Compose.
++type AutoRunner struct {
++	Process ProcessRunner
++	Compose ComposeRunner
++}
++
++func (a *AutoRunner) Up(ctx context.Context, l Launch) error {
++	if len(l.Manifest.Process.Command) > 0 {
++		return a.Process.Up(ctx, l)
++	}
++	return a.Compose.Up(ctx, l)
++}
++
++func (a *AutoRunner) Down(ctx context.Context, l Launch) error {
++	if len(l.Manifest.Process.Command) > 0 {
++		return a.Process.Down(ctx, l)
++	}
++	return a.Compose.Down(ctx, l)
++}
+diff --git a/pkg/modules/runtime/manager_state.go b/pkg/modules/runtime/manager_state.go
+index e929e00..0181050 100644
+--- a/pkg/modules/runtime/manager_state.go
++++ b/pkg/modules/runtime/manager_state.go
+@@ -56,7 +56,7 @@ func New(registry *moddisc.Registry, runner modrunner.Runner, logger *slog.Logge
+ 		registry = &moddisc.Registry{}
+ 	}
+ 	if runner == nil {
+-		runner = modrunner.ComposeRunner{}
++		runner = &modrunner.AutoRunner{}
+ 	}
+ 	if logger == nil {
+ 		logger = slog.New(slog.DiscardHandler)
+-- 
+2.34.1
+

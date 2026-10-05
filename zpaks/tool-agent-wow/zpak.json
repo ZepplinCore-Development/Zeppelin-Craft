@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "tool-agent-wow",
+  "version": "0.1.0",
+  "description": "agent-wow (agent-wow/agent-wow) headless 3.3.5a packet client - forge-tracked source + Zeppelin patches: local-process module runner, gameplay modules (F-219 Track A)",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ]
+  },
+  "acore": {
+    "module": "agent-wow",
+    "source": "https://github.com/agent-wow/agent-wow.git",
+    "branch": "main",
+    "path": "Zeppelin-Tools/agent-wow",
+    "patch_mode": "granular"
+  },
+  "enabled": true,
+  "priority": 350,
+  "feature_id": "F-219"
+}
