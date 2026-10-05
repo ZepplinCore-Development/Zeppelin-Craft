@@ -1,0 +1,284 @@
+From b6f0bc788d5ec730752d2bbe58c73c06007b538c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 08:33:22 +0000
+Subject: [PATCH] WIP: I-382 - terrain phase reaches the minimap
+
+- Detour the minimap terrain-tile path builder (0x7F5240): a tile the
+  active phase has resolves "<phaseDir>\mapX_YY.blp" via md5translate
+- Detour the minimap slot refresh (0x7F5760): one forced full reload after
+  Set/ClearTerrainPhase (same-map re-enter otherwise keeps cached tiles)
+- WarcraftXL_GetTerrainPhase() Lua global for the world-map overlay swap
+- offsets/game/Minimap.hpp
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Sj1oBWKVaHgxBRH5t4imwS
+---
+ src/client/CWorldScene/Phasing.cpp    | 68 +++++++++++++++++++++++++--
+ src/client/CWorldScene/PhasingLua.cpp | 19 ++++++--
+ src/game/Loading.hpp                  |  3 ++
+ src/offsets/game/Minimap.hpp          | 57 ++++++++++++++++++++++
+ 4 files changed, 140 insertions(+), 7 deletions(-)
+ create mode 100644 src/offsets/game/Minimap.hpp
+
+diff --git a/src/client/CWorldScene/Phasing.cpp b/src/client/CWorldScene/Phasing.cpp
+index 641ef93..68db087 100644
+--- a/src/client/CWorldScene/Phasing.cpp
++++ b/src/client/CWorldScene/Phasing.cpp
+@@ -23,6 +23,7 @@
+ #include "game/Loading.hpp"
+ #include "offsets/engine/Io.hpp"
+ #include "offsets/game/ADT.hpp"
++#include "offsets/game/Minimap.hpp"
+ #include "offsets/game/World.hpp"
+ 
+ #include <cstdint>
+@@ -36,6 +37,7 @@ namespace
+     namespace woff = wxl::offsets::game::world;
+     namespace io   = wxl::offsets::engine::io;
+     namespace iff  = wxl::modern::assets::common::iff;
++    namespace mm   = wxl::offsets::game::minimap;
+ 
+     woff::TileLoaderFn g_origTileLoad = nullptr;
+     char    g_childMap[64] = { 0 };       // active phase directory
+@@ -92,16 +94,19 @@ namespace
+     }
+ 
+     /** @brief Reports whether the active phase has a variant tile at this tile's coords. */
+-    bool PhaseHasTile(const void* tile)
++    bool PhaseHasTileAt(int first, int second)
+     {
+-        const auto* t = static_cast<const adt::TileArea*>(tile);
+-        const int first  = t->tileFirst;
+-        const int second = t->tileSecond;
+         if (first < 0 || first >= 64 || second < 0 || second >= 64) return false;
+         const int slot = second * 64 + first; // matches the client's MAIN-chunk tile indexing (tile[0x4c]*64 + tile[0x48])
+         return (g_phaseMain[slot * 8] & 1) != 0;
+     }
+ 
++    bool PhaseHasTile(const void* tile)
++    {
++        const auto* t = static_cast<const adt::TileArea*>(tile);
++        return PhaseHasTileAt(t->tileFirst, t->tileSecond);
++    }
++
+     /**
+      * @brief Per-tile loader detour: when a phase is active and it has this tile, serve the tile from the
+      *        phase directory by swapping the loader path globals for this one load, then restoring them.
+@@ -121,9 +126,57 @@ namespace
+         std::memcpy(reinterpret_cast<void*>(woff::kMapNameStr), saveName, sizeof saveName);
+     }
+ 
++    // --- minimap (I-382) ---
++    // The minimap resolves terrain tiles from the Map.dbc Directory of its own map id, never from the
++    // loader name globals hkTileLoad swaps, so a phase tile still drew the base map's art. The phase
++    // art is keyed in md5translate as "<childMap>\mapX_YY.blp", the same key shape as a real map.
++    mm::Minimap_TerrainTexturePathFn g_origMinimapPath = nullptr;
++    mm::Minimap_RefreshTilesFn       g_origMinimapRefresh = nullptr;
++    bool                             g_minimapFlush = false;
++
++    int __cdecl hkMinimapPath(const int* tile, char* out, int outSize)
++    {
++        if (!g_childMap[0] || !tile || !PhaseHasTileAt(tile[0], tile[1]))
++            return g_origMinimapPath(tile, out, outSize);
++
++        char key[260];
++        std::snprintf(key, sizeof key, "%s\\map%d_%02d.blp", g_childMap, tile[0], tile[1]);
++        auto lookup = reinterpret_cast<mm::Minimap_TranslateLookupFn>(mm::kTranslateLookup);
++        const auto* entry = static_cast<const char*>(lookup(reinterpret_cast<void*>(mm::kTranslateTable), key));
++        if (!entry)
++        {
++            // Phase tile with no art mapped: keep the base tile rather than a hole in the minimap.
++            WLOG_INFO("phasing: no md5translate row for '%s', minimap keeps the base tile", key);
++            return g_origMinimapPath(tile, out, outSize);
++        }
++        std::snprintf(out, outSize, "Textures\\Minimap\\%s", entry + mm::kTranslateDstOffset);
++        return 1;
++    }
++
++    // A phase change re-enters the SAME map id, which the minimap reads as "nothing changed": tiles
++    // whose coords are still in the window keep their old texture. Force one full reload instead.
++    void __cdecl hkMinimapRefresh(const int* window, int mapChanged, void* slots)
++    {
++        if (g_minimapFlush)
++        {
++            g_minimapFlush = false;
++            mapChanged = 1;
++        }
++        g_origMinimapRefresh(window, mapChanged, slots);
++    }
++
++    /** @brief Makes the next minimap update re-resolve every tile (after the phase table changed). */
++    void FlushMinimap()
++    {
++        g_minimapFlush = true;
++        *reinterpret_cast<volatile uint32_t*>(mm::kDirtyFlags) |= mm::kDirtyTiles;
++    }
++
+     bool InstallPhasing()
+     {
+         wxl::hook::Install("TileLoader", woff::kTileLoader, &hkTileLoad, &g_origTileLoad);
++        wxl::hook::Install("MinimapTerrainPath", mm::kTerrainTexturePath, &hkMinimapPath, &g_origMinimapPath);
++        wxl::hook::Install("MinimapRefreshTiles", mm::kRefreshTiles, &hkMinimapRefresh, &g_origMinimapRefresh);
+         return true;
+     }
+ }
+@@ -140,6 +193,7 @@ namespace wxl::game::world
+         // Stay on the base map (its present table keeps every base tile); re-stream it - the loader detour
+         // swaps in the phase ADT only for the tiles the phase actually has, leaving the rest as base.
+         ReEnterMap(g_baseMap, MapId());
++        FlushMinimap();
+         WLOG_INFO("phasing: phase '%s' active over base '%s'", g_childMap, g_baseMap);
+     }
+ 
+@@ -148,9 +202,15 @@ namespace wxl::game::world
+         if (!g_baseMap[0]) return; // no phase active
+         g_childMap[0] = '\0';      // redirect off before the re-stream
+         ReEnterMap(g_baseMap, MapId());
++        FlushMinimap();
+         WLOG_INFO("phasing: restored base map '%s'", g_baseMap);
+         g_baseMap[0] = '\0';
+     }
++
++    const char* TerrainPhase()
++    {
++        return g_childMap[0] ? g_childMap : nullptr;
++    }
+ }
+ 
+ WXL_REGISTER_FEATURE("phasing", true, InstallPhasing)
+diff --git a/src/client/CWorldScene/PhasingLua.cpp b/src/client/CWorldScene/PhasingLua.cpp
+index 820e0a4..bf3e1e2 100644
+--- a/src/client/CWorldScene/PhasingLua.cpp
++++ b/src/client/CWorldScene/PhasingLua.cpp
+@@ -15,9 +15,11 @@
+ // along with this program. If not, see <https://www.gnu.org/licenses/>.
+ 
+ // Zeppelin (F-196): the server drives terrain swaps over an addon message (ALE server script -> CSMH ->
+-// these globals), so the client needs two Lua globals:
++// these globals), so the client needs these Lua globals:
+ //   WarcraftXL_SetTerrainPhase("<mapDir>")  overlays the phase-variant map's tiles on the base map
+ //   WarcraftXL_ClearTerrainPhase()          restores the base map
++//   WarcraftXL_GetTerrainPhase()            the active phase dir, or nil (I-382: the world map swaps
++//                                           its overlay art on it; survives /reload, unlike addon state)
+ //
+ // Two seams make a DLL-resident script function usable (see game/Script.hpp):
+ //   - FrameXML_CreateFrames is the last call before an interface loads, on both the glue and the world
+@@ -58,10 +60,20 @@ namespace
+         return 0;
+     }
+ 
++    int __cdecl Lua_GetTerrainPhase(void* state)
++    {
++        if (const char* dir = wxl::game::world::TerrainPhase())
++            script::PushString(state, dir);
++        else
++            script::PushNil(state);
++        return 1;
++    }
++
+     bool IsBridgeFunction(uintptr_t function)
+     {
+         return function == reinterpret_cast<uintptr_t>(&Lua_SetTerrainPhase)
+-            || function == reinterpret_cast<uintptr_t>(&Lua_ClearTerrainPhase);
++            || function == reinterpret_cast<uintptr_t>(&Lua_ClearTerrainPhase)
++            || function == reinterpret_cast<uintptr_t>(&Lua_GetTerrainPhase);
+     }
+ 
+     void __cdecl hkValidateCallback(uintptr_t function)
+@@ -71,7 +83,7 @@ namespace
+     }
+ 
+     /// Registers the bridge into the active context before an interface loads. LoadAddOn reaches the
+-    /// same entry once per addon; registering again just rebinds the same two globals. The context
++    /// same entry once per addon; registering again just rebinds the same globals. The context
+     /// pointer is not a reliable "already done" key -- a rebuilt context can reuse the old address --
+     /// so it only throttles the log line.
+     int __cdecl hkInterfaceLoad(const char* tocPath, const char* addOnName, void* md5Context, void* status)
+@@ -80,6 +92,7 @@ namespace
+         {
+             script::Register("WarcraftXL_SetTerrainPhase", &Lua_SetTerrainPhase);
+             script::Register("WarcraftXL_ClearTerrainPhase", &Lua_ClearTerrainPhase);
++            script::Register("WarcraftXL_GetTerrainPhase", &Lua_GetTerrainPhase);
+             if (context != g_loggedContext)
+             {
+                 g_loggedContext = context;
+diff --git a/src/game/Loading.hpp b/src/game/Loading.hpp
+index 8629c68..cd26d21 100644
+--- a/src/game/Loading.hpp
++++ b/src/game/Loading.hpp
+@@ -201,6 +201,9 @@ namespace wxl::game::world
+     /** @brief Clears the active terrain phase (loaded tiles return to the base map on the next re-stream). */
+     void ClearTerrainPhase();
+ 
++    /** @brief The active terrain phase directory (e.g. "LostIslesPhase1"), or null when none is active. */
++    const char* TerrainPhase();
++
+     /**
+      * @brief Reads the loaded map's bare name (the stem of the served ADT files), e.g. "Azeroth".
+      * @return Pointer to the engine's map-name string (empty before a world is loaded).
+diff --git a/src/offsets/game/Minimap.hpp b/src/offsets/game/Minimap.hpp
+new file mode 100644
+index 0000000..ccc601a
+--- /dev/null
++++ b/src/offsets/game/Minimap.hpp
+@@ -0,0 +1,57 @@
++// Minimap terrain-tile texture resolution and the minimap's tile-texture cache.
++// Copyright (C) 2026 WarcraftXL
++//
++// This program is free software: you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation, either version 3 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program. If not, see <https://www.gnu.org/licenses/>.
++
++#pragma once
++
++#include <cstdint>
++
++// INTERNAL to the core. Minimap.cpp: how a terrain tile becomes a texture path, and the cache that
++// decides whether a tile is re-resolved at all. Modules never include this.
++namespace wxl::offsets::game::minimap
++{
++    // --- terrain tile -> texture path ---
++    // Builds the texture path for one terrain tile (Minimap.cpp, sole caller 0x007F5868). Formats
++    // "%s\\map%d_%02d.blp" from the Map.dbc Directory of the MINIMAP's map id (kMinimapMapId) and
++    // tile[0]/tile[1] (the ADT filename's first/second index), looks that key up in md5translate and
++    // writes "Textures\\Minimap\\<dst>" to out. Returns 1, or 0 with out = "" when the key is absent.
++    // It never reads the map-loader name globals, so a tile-loader redirect does not reach it.
++    // __cdecl, caller-cleaned.
++    constexpr uintptr_t kTerrainTexturePath = 0x007F5240;
++    using Minimap_TerrainTexturePathFn = int(__cdecl*)(const int* tile, char* out, int outSize);
++
++    // Refreshes the minimap's tile-texture slots for a new tile window (sole caller 0x007F5A2C, in the
++    // minimap update 0x007F5930). With mapChanged == 0 a slot whose tile coords are still in the window
++    // keeps its texture and is never re-resolved; nonzero releases and reloads every slot. The update
++    // passes mapChanged = (map id != kMinimapMapId), so re-entering the SAME map keeps every texture.
++    // __cdecl, caller-cleaned.
++    constexpr uintptr_t kRefreshTiles = 0x007F5760;
++    using Minimap_RefreshTilesFn = void(__cdecl*)(const int* window, int mapChanged, void* slots);
++
++    // Map id the minimap last resolved tiles for (u32).
++    constexpr uintptr_t kMinimapMapId = 0x00AF4E48;
++    // Minimap dirty bits (u32). Bit 0 makes the next update call kRefreshTiles even when the tile window
++    // did not move; the zoom setter (0x007F3AE0) sets it the same way, the update clears it.
++    constexpr uintptr_t kDirtyFlags = 0x00D3922C;
++    constexpr uint32_t  kDirtyTiles = 0x1;
++
++    // md5translate.trs hash (the object passed as this to kTranslateLookup).
++    constexpr uintptr_t kTranslateTable = 0x00D39624;
++    // Looks a "<dir>\\mapX_YY.blp" key up in kTranslateTable; returns the entry or null. The entry's
++    // destination filename is an inline string at +0x18. __thiscall, callee-cleaned.
++    constexpr uintptr_t kTranslateLookup = 0x0055F4D0;
++    constexpr uintptr_t kTranslateDstOffset = 0x18;
++    using Minimap_TranslateLookupFn = void*(__thiscall*)(void* table, const char* key);
++}
+-- 
+2.34.1
+
