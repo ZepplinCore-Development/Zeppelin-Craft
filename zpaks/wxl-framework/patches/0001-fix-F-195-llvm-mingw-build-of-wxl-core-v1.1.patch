@@ -1,4 +1,4 @@
-From 3c65296fc2d6b51f9a529ac1298abe438b64482d Mon Sep 17 00:00:00 2001
+From 24a6e7b114a6c95266588d5a8f7aef1cda459ed2 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 1 Oct 2026 07:34:26 +0000
 Subject: [PATCH] fix: F-195 - llvm-mingw build of wxl-core v1.1

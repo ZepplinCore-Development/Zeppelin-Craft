@@ -1,0 +1,95 @@
+From 9f70ff67ab7116a089862d72eba76817eba4a188 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 5 Oct 2026 08:28:41 +0000
+Subject: [PATCH] fix: Release the replaced map root on terrain-phase re-enter
+ (I-355)
+
+- kMapEnter (0x7BFCE0) overwrites the map root at 0xCE04A8 without releasing
+  the old one; stock releases it first in kMapUnloadTiles (0x7D9D70 @0x7C3989)
+- every Set/ClearTerrainPhase leaked a root whose pooled ref node stayed in the
+  global list 0xAF16CC, drained at exit by 0x9DC7C0 after the pool is gone:
+  #132 ACCESS_VIOLATION at 0x7CECDF on quit
+- ReEnterMap(): EnterMap, then release the replaced root via 0x7D9D70
+- verified live: 0xAF16CC node count stays at 1 across swaps (was +1 per swap)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019VLYq8ZjsdFdeXnZ3QFN7G
+---
+ src/client/CWorldScene/Phasing.cpp |  4 ++--
+ src/game/Loading.hpp               | 17 +++++++++++++++++
+ src/offsets/game/World.hpp         |  9 +++++++++
+ 3 files changed, 28 insertions(+), 2 deletions(-)
+
+diff --git a/src/client/CWorldScene/Phasing.cpp b/src/client/CWorldScene/Phasing.cpp
+index 03187a6..641ef93 100644
+--- a/src/client/CWorldScene/Phasing.cpp
++++ b/src/client/CWorldScene/Phasing.cpp
+@@ -139,7 +139,7 @@ namespace wxl::game::world
+ 
+         // Stay on the base map (its present table keeps every base tile); re-stream it - the loader detour
+         // swaps in the phase ADT only for the tiles the phase actually has, leaving the rest as base.
+-        EnterMap(g_baseMap, MapId());
++        ReEnterMap(g_baseMap, MapId());
+         WLOG_INFO("phasing: phase '%s' active over base '%s'", g_childMap, g_baseMap);
+     }
+ 
+@@ -147,7 +147,7 @@ namespace wxl::game::world
+     {
+         if (!g_baseMap[0]) return; // no phase active
+         g_childMap[0] = '\0';      // redirect off before the re-stream
+-        EnterMap(g_baseMap, MapId());
++        ReEnterMap(g_baseMap, MapId());
+         WLOG_INFO("phasing: restored base map '%s'", g_baseMap);
+         g_baseMap[0] = '\0';
+     }
+diff --git a/src/game/Loading.hpp b/src/game/Loading.hpp
+index 3d85644..8629c68 100644
+--- a/src/game/Loading.hpp
++++ b/src/game/Loading.hpp
+@@ -61,6 +61,23 @@ namespace wxl::game::world
+         Native<woff::World_MapEnterFn>(woff::kMapEnter)(mapDir, mapId);
+     }
+ 
++    /**
++     * @brief EnterMap for a map that is already loaded: re-enters it, then releases the map root the
++     *        re-enter replaced, as the stock map change does in kMapUnloadTiles.
++     *
++     * kMapEnter alone leaks the old root, and the leaked root's ref node crashes the client at exit
++     * (#132 at 0x007CECDF, the 0x00AF16CC list's static destructor reading a node from a freed pool).
++     * @param mapDir  the map directory stem.
++     * @param mapId   the map id to keep.
++     */
++    inline void ReEnterMap(const char* mapDir, int mapId)
++    {
++        void* const old = *reinterpret_cast<void**>(woff::kMapRoot);
++        EnterMap(mapDir, mapId);
++        if (old && old != *reinterpret_cast<void**>(woff::kMapRoot))
++            Native<woff::World_MapRootReleaseFn>(woff::kMapRootRelease)(old);
++    }
++
+     /**
+      * @brief Reads a tile's in-flight async-read object (TileArea+0x70), null while idle.
+      * @param area  the tile (TileArea), as held by the caller (opaque outside this binding).
+diff --git a/src/offsets/game/World.hpp b/src/offsets/game/World.hpp
+index 927c3e7..35f756b 100644
+--- a/src/offsets/game/World.hpp
++++ b/src/offsets/game/World.hpp
+@@ -162,6 +162,15 @@ namespace wxl::offsets::game::world
+     // The player is not moved. mapId is written to kCurrentMapId.
+     constexpr uintptr_t kMapEnter = 0x007BFCE0;
+     using World_MapEnterFn = void(__cdecl*)(const char* mapDir, int mapId);
++    // The map root kMapEnter allocates (0x007D9BD0) and parks here. kMapEnter overwrites it WITHOUT
++    // releasing the previous one: the stock map change releases it beforehand, in kMapUnloadTiles
++    // (0x007C3989). A root that is never released leaves its pooled ref node linked in the global list
++    // at 0x00AF16CC, whose static destructor (0x009DC7C0) walks it at exit after the node pool is gone.
++    constexpr uintptr_t kMapRoot = 0x00CE04A8;
++    // Releases a map root: frees each pooled ref node (0x007C09F0 unlinks it from both the root's list
++    // and 0x00AF16CC), then the root itself (0x007C0340).
++    constexpr uintptr_t kMapRootRelease = 0x007D9D70;
++    using World_MapRootReleaseFn = void(__cdecl*)(void* root);
+ 
+     // --- cursor world pick ---
+     // CWorldFrame singleton holder: *(void**)kWorldFrame is the world frame (pass as the this/ECX).
+-- 
+2.34.1
+
