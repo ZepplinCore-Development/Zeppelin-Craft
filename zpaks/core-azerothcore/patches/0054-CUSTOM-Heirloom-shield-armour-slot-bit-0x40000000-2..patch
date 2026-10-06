@@ -1,0 +1,40 @@
+From 6b5d49b7356d0e604fad039863f7b6c9032abc74 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 6 Oct 2026 05:31:58 +0000
+Subject: [PATCH] CUSTOM: Heirloom shield armour slot bit 0x40000000 = 2.75 x
+ chest curve (F-214)
+
+- ScalingStatValuesEntry::getHeirloomSlotSixteenths: shield bit -> 44/16 of the
+  item's chest-material curve (stock shields run 2.4-3.3x plate chest, levels 10-80)
+- slot-bit strip widened to 0x7F000000
+- must match the client: WarcraftXL extension wxl-heirloom-slots (same change)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01H4Ch7VpPResUX1y2oEkQEq
+---
+ src/server/shared/DataStores/DBCStructure.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/shared/DataStores/DBCStructure.h b/src/server/shared/DataStores/DBCStructure.h
+index 650194234..a92d49dc2 100644
+--- a/src/server/shared/DataStores/DBCStructure.h
++++ b/src/server/shared/DataStores/DBCStructure.h
+@@ -1515,13 +1515,14 @@ struct ScalingStatValuesEntry
+         if (mask & 0x08000000) return 9;                    // waist
+         if (mask & 0x10000000) return 10;                   // hands
+         if (mask & 0x20000000) return 7;                    // wrists
++        if (mask & 0x40000000) return 44;                   // shield: 2.75 x chest (stock shields 2.4-3.3x plate chest)
+         return 0;
+     }
+ 
+     [[nodiscard]] uint32 getArmorMod(uint32 mask) const
+     {
+         if (uint32 sixteenths = getHeirloomSlotSixteenths(mask))
+-            return getArmorMod(mask & ~0x3F000000u) * sixteenths / 16;
++            return getArmorMod(mask & ~0x7F000000u) * sixteenths / 16;
+ 
+         if (mask & 0x00F801E0)
+         {
+-- 
+2.34.1
+
