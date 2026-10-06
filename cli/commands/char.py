@@ -664,6 +664,7 @@ TRINKET_MELEE = 42991   # Swift Hand of Justice
 TRINKET_CASTER = 42992  # Discerning Eye of the Beast
 RING = 50255            # Dread Pirate Ring (unique-equipped)
 INSIGNIA = (44097, 44098)   # Inherited Insignia of the Horde / of the Alliance
+WAND = 85042               # Tattered Dreadmist Wand (F-214; shield/relic heirlooms 85036-85041)
 SET_PLATE = [42949, 48685] + list(range(85012, 85018))           # Polished Valor
 SET_MAIL_AGI = [42950, 48677] + list(range(85006, 85012))        # Champion Herod
 SET_MAIL_INT = [42951, 48683] + list(range(85018, 85024))        # Mystical Elements
@@ -672,15 +673,15 @@ SET_LEATHER_INT = [42984, 48687] + list(range(85030, 85036))     # Preened Ironf
 SET_CLOTH = [42985, 48691] + list(range(85000, 85006))           # Tattered Dreadmist
 HEIRLOOMS = {
     1:  SET_PLATE + [42943, TRINKET_MELEE, RING],                 # warrior: 2H axe
-    2:  SET_PLATE + [44092, TRINKET_MELEE, RING],                 # paladin: 2H sword
+    2:  SET_PLATE + [44092, 85039, TRINKET_MELEE, RING],          # paladin: 2H sword, libram
     3:  SET_MAIL_AGI + [42943, 42946, TRINKET_MELEE, RING],       # hunter: 2H axe, bow/gun
     4:  SET_LEATHER_AGI + [42944, 44091, 44093, TRINKET_MELEE, RING],  # rogue: 2 daggers, gun/bow
-    5:  SET_CLOTH + [42947, TRINKET_CASTER, RING],                # priest: staff
-    6:  SET_PLATE + [42943, TRINKET_MELEE, RING],                 # death knight: 2H axe
-    7:  SET_MAIL_INT + [42948, TRINKET_CASTER, RING],             # shaman: caster mace
-    8:  SET_CLOTH + [42947, TRINKET_CASTER, RING],                # mage: staff
-    9:  SET_CLOTH + [42947, TRINKET_CASTER, RING],                # warlock: staff
-    11: SET_LEATHER_INT + [42947, TRINKET_CASTER, RING],          # druid: staff
+    5:  SET_CLOTH + [42947, WAND, TRINKET_CASTER, RING],          # priest: staff, wand
+    6:  SET_PLATE + [42943, 85041, TRINKET_MELEE, RING],          # death knight: 2H axe, sigil
+    7:  SET_MAIL_INT + [42948, 85037, 85038, TRINKET_CASTER, RING],  # shaman: caster mace, shield, totem
+    8:  SET_CLOTH + [42947, WAND, TRINKET_CASTER, RING],          # mage: staff, wand
+    9:  SET_CLOTH + [42947, WAND, TRINKET_CASTER, RING],          # warlock: staff, wand
+    11: SET_LEATHER_INT + [42947, 85040, TRINKET_CASTER, RING],   # druid: staff, idol
 }
 
 
