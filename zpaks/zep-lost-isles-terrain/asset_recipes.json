@@ -1,0 +1,153 @@
+{
+ "_comment": [
+  "Provenance for the binary client assets this zpak ships beside the phase ADTs.",
+  "*.m2/*.skin/*.blp are gitignored, so this file is the record of where each came from (F-203 shape).",
+  "Every entry is a plain library copy (already MD20 v264, no edits): copy base.source to",
+  "mpq/source-assets/<key> and mpq/parsed-assets/<KEY upper-cased>, then `zep build patch-mpq -p T --build`.",
+  "I-387: these are the Cataclysm doodads the LostIslesPhase1 _obj0 tiles place that no patch shipped."
+ ],
+ "World/Kalimdor/Stonetalon/PassiveDoodads/Volcano/StonetalonVolcanoTop.m2": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/kalimdor/stonetalon/passivedoodads/volcano/stonetalonvolcanotop.m2",
+   "sha256": "5aaf7431ccf81567170585a9c1749d64b861bb7590762d7299aa52f6c4cebddc"
+  },
+  "edits": []
+ },
+ "World/Kalimdor/Stonetalon/PassiveDoodads/Volcano/StonetalonVolcanoTop00.skin": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/kalimdor/stonetalon/passivedoodads/volcano/stonetalonvolcanotop00.skin",
+   "sha256": "b0a508378eb692e0847065cc938169d4369a9192b73f4ceefce6cea94ac3f846"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Volcano/LostIsles_VolcanoSmoke01.m2": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/volcano/lostisles_volcanosmoke01.m2",
+   "sha256": "f4143686d7c8350e135c88c70689bc353d2b1bd1789b2bb53de8f27357e3780e"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Volcano/LostIsles_VolcanoSmoke0100.skin": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/volcano/lostisles_volcanosmoke0100.skin",
+   "sha256": "fa59e0b36ba784405303c4c3fd3fbdf2749ad21cb319241f284736181199e5af"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Volcano/LostIsles_VolcanoSmoke01.blp": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/volcano/LostIsles_VolcanoSmoke01.blp",
+   "sha256": "75a1aabf37c1c2bcac9f775e10be0bdee31d81bcffff33563f5393553062a878"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Volcano/LostIsles_VolcanoMask01.blp": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/volcano/LostIsles_VolcanoMask01.blp",
+   "sha256": "209aae7c0c9e08cd6a8d46555abeb8cc06b288f0e82da6c782c8da0aff92af60"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Volcano/Volcano_LightningA.blp": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/volcano/Volcano_LightningA.blp",
+   "sha256": "48b518d07852a30f6228fdd63029c19e3e738f85be0b362ad9ee88c4eb93b8d2"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Volcano/Volcano_LightningB.blp": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/volcano/Volcano_LightningB.blp",
+   "sha256": "d2e6ef6ce410d446d9d89c507b60b42fca5e24a5202147df353152805ea30602"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Volcano/Volcano_LightningC.blp": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/volcano/Volcano_LightningC.blp",
+   "sha256": "1809e765214d6727a3e2d69f03ae9db1da79740a5a48338c8f3d3b3df25e9089"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Volcano/Volcano_LightningFlash.blp": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/volcano/Volcano_LightningFlash.blp",
+   "sha256": "034ad9446f1bdbe69b3f21497973ac055167af30d93e633e6e0003b73c55e299"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Waterfalls/LostIsles_LavaFall01.m2": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/waterfalls/lostisles_lavafall01.m2",
+   "sha256": "51d352e382c806ffa15185e0d6e678736b8f1bdf0956ddeb2c359e590ee0782b"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Waterfalls/LostIsles_LavaFall0100.skin": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/waterfalls/lostisles_lavafall0100.skin",
+   "sha256": "6415ae8b05e4452fec83c037b94f273ba383a27373d699a619ee3e35efdfaa1b"
+  },
+  "edits": []
+ },
+ "World/Kalimdor/Hyjal/LavaEffects/Hyjal_LavaAshEmber01.m2": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/kalimdor/hyjal/lavaeffects/hyjal_lavaashember01.m2",
+   "sha256": "5e82d65a542d238f5bc30dbae37676a86e7777158ab9a34ceeda513a225fc41b"
+  },
+  "edits": []
+ },
+ "World/Kalimdor/Hyjal/LavaEffects/Hyjal_LavaAshEmber0100.skin": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/kalimdor/hyjal/lavaeffects/hyjal_lavaashember0100.skin",
+   "sha256": "ebf6d6702daa7e4953d4a7a9c05bbfa624f9cd7028df93d482707c985d12c1f7"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Trees/LostIsles_BambooBurnt_04.m2": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/trees/lostisles_bambooburnt_04.m2",
+   "sha256": "316bf214db56cd93428960fa20fd062bc67c0ba4eb6cbb13de499f497c272279"
+  },
+  "edits": []
+ },
+ "World/Expansion03/Doodads/LostIsles/Trees/LostIsles_BambooBurnt_0400.skin": {
+  "note": "I-387 - Phase1 (LostIslesPhase1) _obj0 doodad/texture that shipped in no patch; missing M2 = checkered cube.",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/world/expansion03/doodads/lostisles/trees/lostisles_bambooburnt_0400.skin",
+   "sha256": "33a4af664f9a99bd844cefb384b2c95f0cb3cd0710fa43758a64a169bc52e79c"
+  },
+  "edits": []
+ }
+}
