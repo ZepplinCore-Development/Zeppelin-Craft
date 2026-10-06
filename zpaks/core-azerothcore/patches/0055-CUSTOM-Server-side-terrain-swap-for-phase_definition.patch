@@ -1,4 +1,4 @@
-From 70ae3dbcff2573063c5f20289e6700cda1d894d4 Mon Sep 17 00:00:00 2001
+From 5c4b74af5b093e79dd5ffaf13c51960b382ac7dc Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 6 Oct 2026 08:03:16 +0000
 Subject: [PATCH] CUSTOM: Server-side terrain swap for
@@ -14,20 +14,20 @@ Subject: [PATCH] CUSTOM: Server-side terrain swap for
 Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01FZSZZGNXFU6HXsk17qtuSK
 ---
- src/server/game/Globals/ObjectMgr.cpp         | 23 ++++++++
+ src/server/game/Globals/ObjectMgr.cpp         | 23 +++++++
  src/server/game/Globals/ObjectMgr.h           |  6 ++
- src/server/game/Grids/GridTerrainLoader.cpp   | 29 ++++++++++
+ src/server/game/Grids/GridTerrainLoader.cpp   | 29 +++++++++
  src/server/game/Grids/GridTerrainLoader.h     |  1 +
  src/server/game/Grids/MapGrid.h               | 14 +++++
- src/server/game/Maps/Map.cpp                  | 58 ++++++++++++++++---
- src/server/game/Maps/Map.h                    |  8 +++
- src/server/game/Maps/MapCollisionData.cpp     | 36 ++++++++++++
- src/server/game/Maps/MapCollisionData.h       | 14 +++++
- src/server/game/Maps/PhaseMgr.cpp             | 31 ++++++++++
+ src/server/game/Maps/Map.cpp                  | 63 ++++++++++++++++---
+ src/server/game/Maps/Map.h                    |  7 +++
+ src/server/game/Maps/MapCollisionData.cpp     | 50 ++++++++++++++-
+ src/server/game/Maps/MapCollisionData.h       | 17 +++++
+ src/server/game/Maps/PhaseMgr.cpp             | 31 +++++++++
  src/server/game/Maps/PhaseMgr.h               | 32 ++++++++--
- .../MovementGenerators/PathGenerator.cpp      | 27 +++++++++
+ .../MovementGenerators/PathGenerator.cpp      | 27 ++++++++
  .../MovementGenerators/PathGenerator.h        |  1 +
- 13 files changed, 268 insertions(+), 12 deletions(-)
+ 13 files changed, 288 insertions(+), 13 deletions(-)
 
 diff --git a/src/server/game/Globals/ObjectMgr.cpp b/src/server/game/Globals/ObjectMgr.cpp
 index e4169ed36..feb1d119b 100644
@@ -193,29 +193,19 @@ index 99758a5dd..95d37d4f2 100644
  
  #endif
 diff --git a/src/server/game/Maps/Map.cpp b/src/server/game/Maps/Map.cpp
-index 15265050a..b853a1a0f 100644
+index 15265050a..e1be0338e 100644
 --- a/src/server/game/Maps/Map.cpp
 +++ b/src/server/game/Maps/Map.cpp
-@@ -71,6 +71,7 @@ Map::Map(uint32 id, uint32 InstanceId, uint8 SpawnMode, Map* _parent) :
-     _transportsUpdateIter(_transports.end()), i_scriptLock(false), _defaultLight(GetDefaultMapLight(id))
- {
-     m_parentMap = (_parent ? _parent : this);
-+    _terrainSwapInfo = sObjectMgr->GetTerrainSwapInfo(id);
- 
-     _zonePlayerCountMap.clear();
-     _updatableObjectListRecheckTimer.SetInterval(UPDATABLE_OBJECT_LIST_RECHECK_TIMER);
-@@ -1105,6 +1106,33 @@ GridTerrainData* Map::GetGridTerrainData(float x, float y)
+@@ -1105,6 +1105,39 @@ GridTerrainData* Map::GetGridTerrainData(float x, float y)
      return GetGridTerrainData(gridCoord);
  }
  
 +// I-385: server half of the terrain swap. The client draws a swap map's tiles for phases in
 +// phase_definitions.terrainswapmap (ALE ZepTerrain.lua); ground/liquid/area for an object in such a
 +// phase must come from the same tiles, or anything that moves walks the base terrain.
++// Grids only carry swap tiles when this map has swap rules, so the grid check gates the rule lookup.
 +GridTerrainData* Map::GetGridTerrainData(uint32 phaseMask, float x, float y)
 +{
-+    if (!_terrainSwapInfo)
-+        return GetGridTerrainData(x, y);
-+
 +    GridCoord const gridCoord = Acore::ComputeGridCoord(x, y);
 +    if (!MapGridManager::IsValidGridCoordinates(gridCoord.x_coord, gridCoord.y_coord))
 +        return nullptr;
@@ -223,22 +213,30 @@ index 15265050a..b853a1a0f 100644
 +    EnsureGridCreated(gridCoord);
 +    MapGridType* grid = _mapGridManager.GetGrid(gridCoord.x_coord, gridCoord.y_coord);
 +    if (grid->HasSwapTerrainData())
-+        if (uint32 swapMapId = _terrainSwapInfo->Resolve(phaseMask))
++        if (uint32 swapMapId = GetTerrainSwapMapId(phaseMask))
 +            if (GridTerrainData* swapTerrain = grid->GetSwapTerrainData(swapMapId))
 +                return swapTerrain;
 +
 +    return grid->GetTerrainData();
 +}
 +
++// Looked up, never cached: pooling (PoolMgr::LoadFromDB) creates the continent maps before
++// LoadPhaseDefinitions builds the rules, so a value taken in the constructor is always empty.
++TerrainSwapInfo const* Map::GetTerrainSwapInfo() const
++{
++    return sObjectMgr->GetTerrainSwapInfo(GetId());
++}
++
 +uint32 Map::GetTerrainSwapMapId(uint32 phaseMask) const
 +{
-+    return _terrainSwapInfo ? _terrainSwapInfo->Resolve(phaseMask) : 0;
++    TerrainSwapInfo const* swapInfo = GetTerrainSwapInfo();
++    return swapInfo ? swapInfo->Resolve(phaseMask) : 0;
 +}
 +
  float Map::GetWaterOrGroundLevel(uint32 phasemask, float x, float y, float z, float* ground /*= nullptr*/, bool /*swim = false*/, float collisionHeight) const
  {
      // we need ground level (including grid height version) for proper return water level in point
-@@ -1154,10 +1182,16 @@ Transport* Map::GetTransportForPos(uint32 phase, float x, float y, float z, Worl
+@@ -1154,10 +1187,16 @@ Transport* Map::GetTransportForPos(uint32 phase, float x, float y, float z, Worl
  }
  
  float Map::GetHeight(float x, float y, float z, bool checkVMap /*= true*/, float maxSearchDist /*= DEFAULT_HEIGHT_SEARCH*/) const
@@ -256,7 +254,7 @@ index 15265050a..b853a1a0f 100644
      if (G3D::fuzzyGe(z, gridHeight - GROUND_HEIGHT_TOLERANCE))
          mapHeight = gridHeight;
  
-@@ -1195,6 +1229,14 @@ float Map::GetGridHeight(float x, float y) const
+@@ -1195,6 +1234,14 @@ float Map::GetGridHeight(float x, float y) const
      return INVALID_HEIGHT;
  }
  
@@ -271,7 +269,7 @@ index 15265050a..b853a1a0f 100644
  float Map::GetMinHeight(float x, float y) const
  {
      if (GridTerrainData const* grid = const_cast<Map*>(this)->GetGridTerrainData(x, y))
-@@ -1233,7 +1275,7 @@ bool Map::GetAreaInfo(uint32 phaseMask, float x, float y, float z, uint32& flags
+@@ -1233,7 +1280,7 @@ bool Map::GetAreaInfo(uint32 phaseMask, float x, float y, float z, uint32& flags
      if (hasVmapAreaInfo || hasDynamicAreaInfo)
      {
          // check if there's terrain between player height and object height
@@ -280,7 +278,7 @@ index 15265050a..b853a1a0f 100644
          {
              float mapHeight = gmap->getHeight(x, y);
              // z + 2.0f condition taken from GetHeight(), not sure if it's such a great choice...
-@@ -1256,7 +1298,7 @@ uint32 Map::GetAreaId(uint32 phaseMask, float x, float y, float z) const
+@@ -1256,7 +1303,7 @@ uint32 Map::GetAreaId(uint32 phaseMask, float x, float y, float z) const
  
      uint32 gridAreaId    = 0;
      float  gridMapHeight = INVALID_HEIGHT;
@@ -289,7 +287,7 @@ index 15265050a..b853a1a0f 100644
      {
          gridAreaId    = gmap->getArea(x, y);
          gridMapHeight = gmap->getHeight(x, y);
-@@ -1364,7 +1406,7 @@ LiquidData const Map::GetLiquidData(uint32 phaseMask, float x, float y, float z,
+@@ -1364,7 +1411,7 @@ LiquidData const Map::GetLiquidData(uint32 phaseMask, float x, float y, float z,
  
      if (useGridLiquid)
      {
@@ -298,7 +296,7 @@ index 15265050a..b853a1a0f 100644
          {
              LiquidData const& map_data = gmap->GetLiquidData(x, y, z, collisionHeight, ReqLiquidType);
              // Not override LIQUID_MAP_ABOVE_WATER with LIQUID_MAP_NO_WATER:
-@@ -1384,9 +1426,9 @@ LiquidData const Map::GetLiquidData(uint32 phaseMask, float x, float y, float z,
+@@ -1384,9 +1431,9 @@ LiquidData const Map::GetLiquidData(uint32 phaseMask, float x, float y, float z,
     return liquidData;
  }
  
@@ -310,7 +308,7 @@ index 15265050a..b853a1a0f 100644
  
      VMAP::AreaAndLiquidData vmapData;
      // VMAP::AreaAndLiquidData dynData;
-@@ -1577,7 +1619,7 @@ bool Map::isInLineOfSight(float x1, float y1, float z1, float x2, float y2, floa
+@@ -1577,7 +1624,7 @@ bool Map::isInLineOfSight(float x1, float y1, float z1, float x2, float y2, floa
  float Map::GetHeight(uint32 phasemask, float x, float y, float z, bool vmap/*=true*/, float maxSearchDist /*= DEFAULT_HEIGHT_SEARCH*/) const
  {
      float h1, h2;
@@ -319,7 +317,7 @@ index 15265050a..b853a1a0f 100644
      h2 = _mapCollisionData.GetDynamicTree().getHeight(x, y, z, maxSearchDist, phasemask);
      return std::max<float>(h1, h2);
  }
-@@ -3426,7 +3468,7 @@ bool Map::CheckCollisionAndGetValidCoords(WorldObject const* source, float start
+@@ -3426,7 +3473,7 @@ bool Map::CheckCollisionAndGetValidCoords(WorldObject const* source, float start
      if (groundZ <= INVALID_HEIGHT && unit && !unit->CanFly())
      {
          // fall back to gridHeight if any
@@ -329,7 +327,7 @@ index 15265050a..b853a1a0f 100644
          {
              destZ = gridHeight + unit->GetHoverHeight();
 diff --git a/src/server/game/Maps/Map.h b/src/server/game/Maps/Map.h
-index e91378040..5380f1b4d 100644
+index e91378040..711836c81 100644
 --- a/src/server/game/Maps/Map.h
 +++ b/src/server/game/Maps/Map.h
 @@ -64,6 +64,7 @@ class InstanceMap;
@@ -347,7 +345,7 @@ index e91378040..5380f1b4d 100644
 +    // I-385: the terrain an object with this phasemask stands on (a swap map's grid where one is shipped)
 +    GridTerrainData* GetGridTerrainData(uint32 phaseMask, float x, float y);
 +    [[nodiscard]] uint32 GetTerrainSwapMapId(uint32 phaseMask) const;
-+    [[nodiscard]] TerrainSwapInfo const* GetTerrainSwapInfo() const { return _terrainSwapInfo; }
++    [[nodiscard]] TerrainSwapInfo const* GetTerrainSwapInfo() const;
  
      [[nodiscard]] uint32 GetId() const { return i_mapEntry->MapID; }
  
@@ -367,16 +365,8 @@ index e91378040..5380f1b4d 100644
  
      template<class T> void InitializeObject(T* obj);
      void AddCreatureToMoveList(Creature* c);
-@@ -595,6 +602,7 @@ protected:
-     MapGridManager _mapGridManager;
-     MapEntry const* i_mapEntry;
-     MapCollisionData _mapCollisionData;
-+    TerrainSwapInfo const* _terrainSwapInfo = nullptr; // I-385, null = map has no terrain swap
-     uint8 i_spawnMode;
-     uint32 i_InstanceId;
-     uint32 m_unloadTimer;
 diff --git a/src/server/game/Maps/MapCollisionData.cpp b/src/server/game/Maps/MapCollisionData.cpp
-index bdce5edb2..8ff09d456 100644
+index bdce5edb2..ba37183d1 100644
 --- a/src/server/game/Maps/MapCollisionData.cpp
 +++ b/src/server/game/Maps/MapCollisionData.cpp
 @@ -21,6 +21,7 @@
@@ -387,31 +377,52 @@ index bdce5edb2..8ff09d456 100644
  #include "VMapFactory.h"
  #include "VMapMgr2.h"
  #include "World.h"
-@@ -46,6 +47,12 @@ MapCollisionData::MapCollisionData(Map const& map, Map const* parentMap) :
-             _staticVMapData._staticTree = newTree;
+@@ -29,7 +30,7 @@
+ #include <G3D/Vector3.h>
  
-         _mmapData._navMesh = MMAP::MMapMgr::LoadNavMesh(map.GetId());
-+
-+        // I-385: terrain-swap navmeshes (mmaps/<swap>.mmap, built over this map's tile coords)
-+        if (TerrainSwapInfo const* swapInfo = sObjectMgr->GetTerrainSwapInfo(map.GetId()))
-+            for (uint32 swapMapId : swapInfo->swapMapIds)
-+                if (std::shared_ptr<dtNavMesh> navMesh = MMAP::MMapMgr::LoadNavMesh(swapMapId))
-+                    _mmapData._swapNavMeshes.push_back({ swapMapId, std::move(navMesh), nullptr });
+ MapCollisionData::MapCollisionData(Map const& map, Map const* parentMap) :
+-    _map(map), _staticVMapData(map.GetId())
++    _map(map), _isBaseMap(parentMap == nullptr), _staticVMapData(map.GetId())
+ {
+     if (parentMap)
+     {
+@@ -49,6 +50,21 @@ MapCollisionData::MapCollisionData(Map const& map, Map const* parentMap) :
      }
  }
  
-@@ -65,6 +72,10 @@ int MapCollisionData::LoadMMapTile(uint32 tileX, uint32 tileY)
++// I-385: terrain-swap navmeshes (mmaps/<swap>.mmap, built over this map's tile coords). Not in the
++// constructor: pooling creates the continent maps before LoadPhaseDefinitions has built the rules.
++// Grids (and so tiles) are only created once the world is loaded, so the first tile is late enough.
++void MapCollisionData::LoadSwapNavMeshes()
++{
++    _mmapData._swapNavMeshesLoaded = true;
++    if (!_isBaseMap)
++        return;
++
++    if (TerrainSwapInfo const* swapInfo = sObjectMgr->GetTerrainSwapInfo(_map.GetId()))
++        for (uint32 swapMapId : swapInfo->swapMapIds)
++            if (std::shared_ptr<dtNavMesh> navMesh = MMAP::MMapMgr::LoadNavMesh(swapMapId))
++                _mmapData._swapNavMeshes.push_back({ swapMapId, std::move(navMesh), nullptr });
++}
++
+ int MapCollisionData::LoadVMapTile(uint32 tileX, uint32 tileY)
+ {
+     if (!VMAP::VMapFactory::createOrGetVMapMgr()->isMapLoadingEnabled() || !_staticVMapData._staticTree)
+@@ -65,6 +81,13 @@ int MapCollisionData::LoadMMapTile(uint32 tileX, uint32 tileY)
      if (!DisableMgr::IsPathfindingEnabled(&_map) || !_mmapData._navMesh)
          return MMAP::MMAP_LOAD_RESULT_IGNORED;
  
 +    // I-385: a swap navmesh only has tiles where its map was built (the island), so a miss is normal
++    if (!_mmapData._swapNavMeshesLoaded)
++        LoadSwapNavMeshes();
++
 +    for (MMapData::SwapNavMesh& swap : _mmapData._swapNavMeshes)
 +        MMAP::MMapMgr::LoadTile(swap.navMesh.get(), swap.mapId, tileX, tileY);
 +
      return MMAP::MMapMgr::LoadTile(_mmapData._navMesh.get(), _map.GetId(), tileX, tileY);
  }
  
-@@ -181,3 +192,28 @@ dtNavMeshQuery const* MMapData::GetNavMeshQuery()
+@@ -181,3 +204,28 @@ dtNavMeshQuery const* MMapData::GetNavMeshQuery()
  
      return _navMeshQuery.get();
  }
@@ -441,7 +452,7 @@ index bdce5edb2..8ff09d456 100644
 +    return nullptr;
 +}
 diff --git a/src/server/game/Maps/MapCollisionData.h b/src/server/game/Maps/MapCollisionData.h
-index bb8a3cdac..ed5fa3aa7 100644
+index bb8a3cdac..b43fa6355 100644
 --- a/src/server/game/Maps/MapCollisionData.h
 +++ b/src/server/game/Maps/MapCollisionData.h
 @@ -22,6 +22,8 @@
@@ -453,7 +464,7 @@ index bb8a3cdac..ed5fa3aa7 100644
  
  class Map;
  
-@@ -62,11 +64,23 @@ public:
+@@ -62,11 +64,24 @@ public:
      dtNavMesh const* GetNavMesh() const { return _navMesh.get(); }
      dtNavMeshQuery const* GetNavMeshQuery();
  
@@ -474,9 +485,26 @@ index bb8a3cdac..ed5fa3aa7 100644
 +        MMAP::ManagedNavMeshQuery navMeshQuery;
 +    };
 +    std::vector<SwapNavMesh> _swapNavMeshes; // I-385, base maps only
++    bool _swapNavMeshesLoaded = false;        // loaded with the first tile, see LoadMMapTile
  };
  
  // Map collision data holders (dynamic&static vmap, mmaps)
+@@ -78,6 +93,7 @@ public:
+ 
+     int LoadVMapTile(uint32 tileX, uint32 tileY);
+     int LoadMMapTile(uint32 tileX, uint32 tileY);
++    void LoadSwapNavMeshes(); // I-385
+ 
+     DynamicVMapCollisionData& GetDynamicTree() { return _dynamicVMapData; }
+     DynamicVMapCollisionData const& GetDynamicTree() const { return _dynamicVMapData; }
+@@ -91,6 +107,7 @@ public:
+ 
+ private:
+     Map const& _map;
++    bool _isBaseMap;
+ 
+     DynamicVMapCollisionData _dynamicVMapData;
+     StaticVMapCollisionData _staticVMapData;
 diff --git a/src/server/game/Maps/PhaseMgr.cpp b/src/server/game/Maps/PhaseMgr.cpp
 index 483d197f9..abfb14256 100644
 --- a/src/server/game/Maps/PhaseMgr.cpp
