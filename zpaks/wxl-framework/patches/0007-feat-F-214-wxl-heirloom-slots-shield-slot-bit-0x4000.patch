@@ -1,0 +1,53 @@
+From 1942223024a8e10c3c8335ba2166426b0f50d06c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 6 Oct 2026 05:32:52 +0000
+Subject: [PATCH] feat: F-214 - wxl-heirloom-slots: shield slot bit 0x40000000
+ = 44/16 of the chest curve
+
+Matches Zeppelin-Core ScalingStatValuesEntry::getArmorMod (core patch 0054).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01H4Ch7VpPResUX1y2oEkQEq
+---
+ extensions/wxl-heirloom-slots/src/Module.cpp | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/extensions/wxl-heirloom-slots/src/Module.cpp b/extensions/wxl-heirloom-slots/src/Module.cpp
+index 06682b7..a4b1dae 100644
+--- a/extensions/wxl-heirloom-slots/src/Module.cpp
++++ b/extensions/wxl-heirloom-slots/src/Module.cpp
+@@ -1,4 +1,4 @@
+-// wxl-heirloom-slots: per-slot heirloom armour for head/legs/feet/waist/hands/wrists (Zeppelin F-215).
++// wxl-heirloom-slots: per-slot heirloom armour for head/legs/feet/waist/hands/wrists and shields (Zeppelin F-214, ex F-215).
+ // Copyright (C) 2026 WarcraftXL
+ //
+ // This program is free software: you can redistribute it and/or modify
+@@ -41,7 +41,7 @@ namespace
+     // push ebp; mov ebp,esp; mov ecx,[ebp+8]; test ecx,ecx
+     constexpr uint8_t kExpectedPrologue[] = { 0x55, 0x8B, 0xEC, 0x8B, 0x4D, 0x08, 0x85, 0xC9 };
+ 
+-    constexpr uint32_t kSlotMask = 0x3F000000;
++    constexpr uint32_t kSlotMask = 0x7F000000;
+ 
+     /** Armour as sixteenths of the chest curve for the slot bit in `mask`, or 0 if none. */
+     uint32_t SlotSixteenths(uint32_t mask)
+@@ -52,6 +52,7 @@ namespace
+         if (mask & 0x08000000) return 9;    // waist
+         if (mask & 0x10000000) return 10;   // hands
+         if (mask & 0x20000000) return 7;    // wrists
++        if (mask & 0x40000000) return 44;   // shield: 2.75 x the chest curve (stock shields run 2.4-3.3x plate chest, levels 10-80)
+         return 0;
+     }
+ 
+@@ -99,7 +100,7 @@ int __cdecl WXL_Load(const WXL_Api* api)
+     if (api->HookAttach("HeirloomSlotArmor", kGetScalingArmor,
+                         reinterpret_cast<void*>(&hkGetScalingArmor),
+                         reinterpret_cast<void**>(&g_origGetScalingArmor), WXL_HOOK_DEFAULT_PRIORITY))
+-        api->Log(WXL_LOG_INFO, "wxl-heirloom-slots", "armour getter hooked (head/legs/feet/waist/hands/wrists)");
++        api->Log(WXL_LOG_INFO, "wxl-heirloom-slots", "armour getter hooked (head/legs/feet/waist/hands/wrists/shield)");
+     else
+         api->Log(WXL_LOG_ERROR, "wxl-heirloom-slots", "failed to hook the armour getter");
+     return 1;
+-- 
+2.34.1
+
