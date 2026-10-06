@@ -1,0 +1,1238 @@
+From 48570b67fefa7cb79fb62c5a2686aa50d3167c61 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 6 Oct 2026 04:13:13 +0000
+Subject: [PATCH] feat: Kezan start area completes headless (F-219)
+
+- vehicle: ground-aimed trajectory casts (siege arcs, castFlags 0x02)
+- interact: ground-point item use (DEST_LOCATION), SMSG_MESSAGECHAT chat events
+- combat: always ask the server where the corpse is (MSG_CORPSE_QUERY)
+- start_area.py: trainer visits only when something is learnable; vehicle
+  bombard (summoned waves, scripted goal markers, kill-credit impacts);
+  credit proxies; class-aware spellhit + stance + range + facing; summoned
+  loot GOs set off by activation items; vehicle quiz minigames decoded
+  from SAI (prompt text -> phase -> answer); GO-summoned credit (incl.
+  gossip-triggered scenes); hidden/stealthed NPC wait; multi-ender turn-in;
+  off-navmesh recovery; persistent revive; no-target is not progress;
+  condition-gated quests reported separately
+
+Refs F-219, I-384
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/main.go               |   9 +-
+ zeppelin/modules/interact/api/interact.pb.go  |  53 ++-
+ zeppelin/modules/interact/interact.proto      |   5 +
+ zeppelin/modules/interact/main.go             |  62 ++-
+ zeppelin/modules/interact/module.yaml         |   1 +
+ zeppelin/modules/vehicle/api/vehicle.pb.go    |  69 ++-
+ zeppelin/modules/vehicle/main.go              |  73 ++-
+ zeppelin/modules/vehicle/vehicle.proto        |   9 +
+ .../tests/__pycache__/rpc.cpython-310.pyc     | Bin 3015 -> 0 bytes
+ zeppelin/tests/start_area.py                  | 436 +++++++++++++++++-
+ zeppelin/wow/reader.go                        |   3 +
+ 11 files changed, 680 insertions(+), 40 deletions(-)
+ delete mode 100644 zeppelin/tests/__pycache__/rpc.cpython-310.pyc
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 4dfd84a..0b5d37d 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -516,12 +516,11 @@ func (s *service) Revive(ctx context.Context, _ *emptypb.Empty) (*combatv1.Reviv
+ 		return &combatv1.ReviveResult{Alive: true, Stage: "alive"}, nil
+ 	}
+ 	if !st.GetGhost() {
+-		pos, err := s.position(ctx)
+-		if err != nil {
+-			return nil, err
+-		}
++		// Never trust our own position for the corpse: dying on (or right after leaving) a
++		// vehicle leaves the move module's last fix somewhere else. The ghost stage asks the
++		// server (MSG_CORPSE_QUERY), which answers with where the corpse really lies.
+ 		s.mu.Lock()
+-		s.corpse = pos
++		s.corpse = nil
+ 		s.mu.Unlock()
+ 		var rp wow.Writer
+ 		rp.U8(0) // HandleRepopRequestOpcode read_skip<uint8>(): an empty packet is dropped
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index f20e402..8d8f4e5 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -1207,6 +1207,7 @@ type Event struct {
+ 	Count         uint32                 `protobuf:"varint,6,opt,name=count,proto3" json:"count,omitempty"`
+ 	Required      uint32                 `protobuf:"varint,7,opt,name=required,proto3" json:"required,omitempty"`
+ 	Text          string                 `protobuf:"bytes,8,opt,name=text,proto3" json:"text,omitempty"`
++	Guid          uint64                 `protobuf:"varint,9,opt,name=guid,proto3" json:"guid,omitempty"` // chat: the speaker (count = chat type, e.g. 0x0F monster whisper)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -1297,6 +1298,13 @@ func (x *Event) GetText() string {
+ 	return ""
+ }
+ 
++func (x *Event) GetGuid() uint64 {
++	if x != nil {
++		return x.Guid
++	}
++	return 0
++}
++
+ type EventsRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Since         uint32                 `protobuf:"varint,1,opt,name=since,proto3" json:"since,omitempty"`
+@@ -1668,6 +1676,10 @@ type UseItemRequest struct {
+ 	Target        *Target                `protobuf:"bytes,3,opt,name=target,proto3" json:"target,omitempty"`                           // optional unit / GO target
+ 	TargetKind    string                 `protobuf:"bytes,4,opt,name=target_kind,json=targetKind,proto3" json:"target_kind,omitempty"` // "unit" (default with a target), "go", "self"
+ 	TimeoutMs     uint32                 `protobuf:"varint,5,opt,name=timeout_ms,json=timeoutMs,proto3" json:"timeout_ms,omitempty"`
++	Ground        bool                   `protobuf:"varint,6,opt,name=ground,proto3" json:"ground,omitempty"` // area-at-point item spells (Kablooey Bombs): target this location
++	X             float32                `protobuf:"fixed32,7,opt,name=x,proto3" json:"x,omitempty"`
++	Y             float32                `protobuf:"fixed32,8,opt,name=y,proto3" json:"y,omitempty"`
++	Z             float32                `protobuf:"fixed32,9,opt,name=z,proto3" json:"z,omitempty"`
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -1737,6 +1749,34 @@ func (x *UseItemRequest) GetTimeoutMs() uint32 {
+ 	return 0
+ }
+ 
++func (x *UseItemRequest) GetGround() bool {
++	if x != nil {
++		return x.Ground
++	}
++	return false
++}
++
++func (x *UseItemRequest) GetX() float32 {
++	if x != nil {
++		return x.X
++	}
++	return 0
++}
++
++func (x *UseItemRequest) GetY() float32 {
++	if x != nil {
++		return x.Y
++	}
++	return 0
++}
++
++func (x *UseItemRequest) GetZ() float32 {
++	if x != nil {
++		return x.Z
++	}
++	return 0
++}
++
+ type TrainerSpell struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	SpellId       uint32                 `protobuf:"varint,1,opt,name=spell_id,json=spellId,proto3" json:"spell_id,omitempty"`
+@@ -2443,7 +2483,7 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\n" +
+ 	"CastResult\x12\x0e\n" +
+ 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
+-	"\x06detail\x18\x02 \x01(\tR\x06detail\"\xca\x01\n" +
++	"\x06detail\x18\x02 \x01(\tR\x06detail\"\xde\x01\n" +
+ 	"\x05Event\x12\x10\n" +
+ 	"\x03seq\x18\x01 \x01(\rR\x03seq\x12$\n" +
+ 	"\x0eclient_time_ms\x18\x02 \x01(\rR\fclientTimeMs\x12\x12\n" +
+@@ -2452,7 +2492,8 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x05entry\x18\x05 \x01(\rR\x05entry\x12\x14\n" +
+ 	"\x05count\x18\x06 \x01(\rR\x05count\x12\x1a\n" +
+ 	"\brequired\x18\a \x01(\rR\brequired\x12\x12\n" +
+-	"\x04text\x18\b \x01(\tR\x04text\"%\n" +
++	"\x04text\x18\b \x01(\tR\x04text\x12\x12\n" +
++	"\x04guid\x18\t \x01(\x04R\x04guid\"%\n" +
+ 	"\rEventsRequest\x12\x14\n" +
+ 	"\x05since\x18\x01 \x01(\rR\x05since\"Q\n" +
+ 	"\x06Events\x123\n" +
+@@ -2484,7 +2525,7 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x03bag\x18\x04 \x01(\rR\x03bag\x12\x12\n" +
+ 	"\x04slot\x18\x05 \x01(\rR\x04slot\"F\n" +
+ 	"\tInventory\x129\n" +
+-	"\x05items\x18\x01 \x03(\v2#.zeppelin.interact.v1.InventoryItemR\x05items\"\xb7\x01\n" +
++	"\x05items\x18\x01 \x03(\v2#.zeppelin.interact.v1.InventoryItemR\x05items\"\xf9\x01\n" +
+ 	"\x0eUseItemRequest\x12\x14\n" +
+ 	"\x05entry\x18\x01 \x01(\rR\x05entry\x12\x19\n" +
+ 	"\bspell_id\x18\x02 \x01(\rR\aspellId\x124\n" +
+@@ -2492,7 +2533,11 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\vtarget_kind\x18\x04 \x01(\tR\n" +
+ 	"targetKind\x12\x1d\n" +
+ 	"\n" +
+-	"timeout_ms\x18\x05 \x01(\rR\ttimeoutMs\"p\n" +
++	"timeout_ms\x18\x05 \x01(\rR\ttimeoutMs\x12\x16\n" +
++	"\x06ground\x18\x06 \x01(\bR\x06ground\x12\f\n" +
++	"\x01x\x18\a \x01(\x02R\x01x\x12\f\n" +
++	"\x01y\x18\b \x01(\x02R\x01y\x12\f\n" +
++	"\x01z\x18\t \x01(\x02R\x01z\"p\n" +
+ 	"\fTrainerSpell\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x14\n" +
+ 	"\x05state\x18\x02 \x01(\rR\x05state\x12\x12\n" +
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index ea74e21..bbdf8d0 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -125,6 +125,7 @@ message Event {
+   uint32 count = 6;
+   uint32 required = 7;
+   string text = 8;
++  uint64 guid = 9;       // chat: the speaker (count = chat type, e.g. 0x0F monster whisper)
+ }
+ message EventsRequest { uint32 since = 1; }
+ message Events { repeated Event events = 1; uint32 last = 2; }
+@@ -161,6 +162,10 @@ message UseItemRequest {
+   Target target = 3;     // optional unit / GO target
+   string target_kind = 4; // "unit" (default with a target), "go", "self"
+   uint32 timeout_ms = 5;
++  bool ground = 6;       // area-at-point item spells (Kablooey Bombs): target this location
++  float x = 7;
++  float y = 8;
++  float z = 9;
+ }
+ 
+ message TrainerSpell {
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index 81c145d..916a1f1 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -17,6 +17,7 @@ import (
+ 	"os/signal"
+ 	"path/filepath"
+ 	"sort"
++	"strings"
+ 	"sync"
+ 	"syscall"
+ 	"time"
+@@ -276,6 +277,43 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 	case opcode.SMSGQuestgiverQuestInvalid:
+ 		r := wow.NewReader(payload)
+ 		s.event(ctx, &interactv1.Event{Kind: "quest_invalid", Count: r.U32()})
++	case opcode.SMSGMessagechat:
++		// ChatHandler::BuildChatPacket: u8 type, i32 lang, u64 sender, u32 flags, then a
++		// type-specific block, u32 len + message, u8 tag. Monster speech carries the sender
++		// name and the receiver guid (+ name when the receiver is not a player or pet).
++		r := wow.NewReader(payload)
++		typ := r.U8()
++		r.U32()
++		sender := r.U64()
++		r.U32()
++		switch typ {
++		case 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x29, 0x2A, 0x2F:
++			r.Skip(int(r.U32())) // sender name (length includes the NUL)
++			if recv := r.U64(); recv != 0 && recv>>48 != 0 && recv>>48 != 0xF140 {
++				r.Skip(int(r.U32()))
++			}
++		case 0x08:
++			r.Skip(int(r.U32()))
++			r.U64()
++		case 0x24, 0x25, 0x26:
++			if recv := r.U64(); recv != 0 && recv>>48 != 0 {
++				r.Skip(int(r.U32()))
++			}
++		case 0x11:
++			r.CString() // channel
++			r.U64()
++		default:
++			r.U64()
++		}
++		n := int(r.U32())
++		msg := string(r.Take(n))
++		if r.Err() == nil {
++			if i := strings.IndexByte(msg, 0); i >= 0 {
++				msg = msg[:i]
++			}
++			s.event(ctx, &interactv1.Event{Kind: "chat", Guid: sender, Entry: uint32(sender>>24) & 0xFFFFFF,
++				Count: uint32(typ), Text: msg})
++		}
+ 	case opcode.SMSGItemPushResult:
+ 		r := wow.NewReader(payload)
+ 		r.U64()            // player
+@@ -767,8 +805,9 @@ const (
+ 	targetNone = iota
+ 	targetUnit
+ 	targetGO
+-	targetFlagUnit       = 0x00000002 // TARGET_FLAG_UNIT
+-	targetFlagGameObject = 0x00000800 // TARGET_FLAG_GAMEOBJECT
++	targetFlagUnit         = 0x00000002 // TARGET_FLAG_UNIT
++	targetFlagGameObject   = 0x00000800 // TARGET_FLAG_GAMEOBJECT
++	targetFlagDestLocation = 0x00000040 // TARGET_FLAG_DEST_LOCATION
+ )
+ 
+ func (s *service) Cast(ctx context.Context, req *interactv1.CastRequest) (*interactv1.CastResult, error) {
+@@ -801,7 +840,9 @@ func (s *service) cast(ctx context.Context, spell uint32, guid uint64, kind int,
+ 
+ // castWith sends CMSG_CAST_SPELL, or CMSG_USE_ITEM when item != nil (bag, slot, castCount,
+ // spell, item guid, glyph index, cast flags, targets - SpellHandler HandleUseItemOpcode).
+-func (s *service) castWith(ctx context.Context, op uint32, item *wow.InventoryItem, spell uint32, guid uint64, kind int, wait time.Duration) (*interactv1.CastResult, error) {
++// castWith sends a cast (or item use). dest (x, y, z) makes it a ground-targeted cast:
++// TARGET_FLAG_DEST_LOCATION with no transport, as the client sends for area-at-point spells.
++func (s *service) castWith(ctx context.Context, op uint32, item *wow.InventoryItem, spell uint32, guid uint64, kind int, wait time.Duration, dest ...float32) (*interactv1.CastResult, error) {
+ 	s.mu.Lock()
+ 	s.castCount++
+ 	count := s.castCount
+@@ -822,11 +863,17 @@ func (s *service) castWith(ctx context.Context, op uint32, item *wow.InventoryIt
+ 		w.U32(spell)
+ 		w.U8(0) // cast flags
+ 	}
+-	switch kind {
+-	case targetUnit:
++	switch {
++	case len(dest) == 3:
++		w.U32(targetFlagDestLocation)
++		w.PackedGUID(0)
++		w.F32(dest[0])
++		w.F32(dest[1])
++		w.F32(dest[2])
++	case kind == targetUnit:
+ 		w.U32(targetFlagUnit)
+ 		w.PackedGUID(guid)
+-	case targetGO:
++	case kind == targetGO:
+ 		w.U32(targetFlagGameObject)
+ 		w.PackedGUID(guid)
+ 	default:
+@@ -916,6 +963,9 @@ func (s *service) UseItem(ctx context.Context, req *interactv1.UseItemRequest) (
+ 	if req.GetTimeoutMs() > 0 {
+ 		wait = time.Duration(req.GetTimeoutMs()) * time.Millisecond
+ 	}
++	if req.GetGround() {
++		return s.castWith(ctx, opcode.CMSGUseItem, item, req.GetSpellId(), 0, targetNone, wait, req.GetX(), req.GetY(), req.GetZ())
++	}
+ 	return s.castWith(ctx, opcode.CMSGUseItem, item, req.GetSpellId(), guid, kind, wait)
+ }
+ 
+diff --git a/zeppelin/modules/interact/module.yaml b/zeppelin/modules/interact/module.yaml
+index 9b4baa5..048cd37 100644
+--- a/zeppelin/modules/interact/module.yaml
++++ b/zeppelin/modules/interact/module.yaml
+@@ -36,6 +36,7 @@ packets:
+   SMSG_NEW_WORLD: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_AURA_UPDATE: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_AURA_UPDATE_ALL: /zeppelin.interact.v1.Interact/OnPacket
++  SMSG_MESSAGECHAT: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_GOSSIP_MESSAGE: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_GOSSIP_COMPLETE: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_QUESTGIVER_QUEST_LIST: /zeppelin.interact.v1.Interact/OnPacket
+diff --git a/zeppelin/modules/vehicle/api/vehicle.pb.go b/zeppelin/modules/vehicle/api/vehicle.pb.go
+index f9eba39..1328194 100644
+--- a/zeppelin/modules/vehicle/api/vehicle.pb.go
++++ b/zeppelin/modules/vehicle/api/vehicle.pb.go
+@@ -160,10 +160,19 @@ func (x *EnterRequest) GetTimeoutMs() uint32 {
+ }
+ 
+ type CastRequest struct {
+-	state         protoimpl.MessageState `protogen:"open.v1"`
+-	Slot          uint32                 `protobuf:"varint,1,opt,name=slot,proto3" json:"slot,omitempty"` // action bar slot 1..10 (when spell_id is 0)
+-	SpellId       uint32                 `protobuf:"varint,2,opt,name=spell_id,json=spellId,proto3" json:"spell_id,omitempty"`
+-	Target        uint64                 `protobuf:"varint,3,opt,name=target,proto3" json:"target,omitempty"` // optional unit target
++	state   protoimpl.MessageState `protogen:"open.v1"`
++	Slot    uint32                 `protobuf:"varint,1,opt,name=slot,proto3" json:"slot,omitempty"` // action bar slot 1..10 (when spell_id is 0)
++	SpellId uint32                 `protobuf:"varint,2,opt,name=spell_id,json=spellId,proto3" json:"spell_id,omitempty"`
++	Target  uint64                 `protobuf:"varint,3,opt,name=target,proto3" json:"target,omitempty"` // optional unit target
++	// Ground-aimed (trajectory / siege) spells: set ground=true and the impact point. The module
++	// sends SOURCE+DEST_LOCATION targets plus castFlags 0x02 (elevation, speed) the way the client
++	// does after the aim arc; elevation defaults to 45 deg and speed is solved from gravity.
++	Ground        bool    `protobuf:"varint,4,opt,name=ground,proto3" json:"ground,omitempty"`
++	X             float32 `protobuf:"fixed32,5,opt,name=x,proto3" json:"x,omitempty"`
++	Y             float32 `protobuf:"fixed32,6,opt,name=y,proto3" json:"y,omitempty"`
++	Z             float32 `protobuf:"fixed32,7,opt,name=z,proto3" json:"z,omitempty"`
++	Pitch         float32 `protobuf:"fixed32,8,opt,name=pitch,proto3" json:"pitch,omitempty"`     // radians; 0 = 45 deg
++	Gravity       float32 `protobuf:"fixed32,9,opt,name=gravity,proto3" json:"gravity,omitempty"` // SpellMissile gravity; 0 = 30
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -219,6 +228,48 @@ func (x *CastRequest) GetTarget() uint64 {
+ 	return 0
+ }
+ 
++func (x *CastRequest) GetGround() bool {
++	if x != nil {
++		return x.Ground
++	}
++	return false
++}
++
++func (x *CastRequest) GetX() float32 {
++	if x != nil {
++		return x.X
++	}
++	return 0
++}
++
++func (x *CastRequest) GetY() float32 {
++	if x != nil {
++		return x.Y
++	}
++	return 0
++}
++
++func (x *CastRequest) GetZ() float32 {
++	if x != nil {
++		return x.Z
++	}
++	return 0
++}
++
++func (x *CastRequest) GetPitch() float32 {
++	if x != nil {
++		return x.Pitch
++	}
++	return 0
++}
++
++func (x *CastRequest) GetGravity() float32 {
++	if x != nil {
++		return x.Gravity
++	}
++	return 0
++}
++
+ type Result struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+@@ -294,11 +345,17 @@ const file_zeppelin_modules_vehicle_vehicle_proto_rawDesc = "" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x12\x1d\n" +
+ 	"\n" +
+-	"timeout_ms\x18\x03 \x01(\rR\ttimeoutMs\"T\n" +
++	"timeout_ms\x18\x03 \x01(\rR\ttimeoutMs\"\xc6\x01\n" +
+ 	"\vCastRequest\x12\x12\n" +
+ 	"\x04slot\x18\x01 \x01(\rR\x04slot\x12\x19\n" +
+ 	"\bspell_id\x18\x02 \x01(\rR\aspellId\x12\x16\n" +
+-	"\x06target\x18\x03 \x01(\x04R\x06target\"i\n" +
++	"\x06target\x18\x03 \x01(\x04R\x06target\x12\x16\n" +
++	"\x06ground\x18\x04 \x01(\bR\x06ground\x12\f\n" +
++	"\x01x\x18\x05 \x01(\x02R\x01x\x12\f\n" +
++	"\x01y\x18\x06 \x01(\x02R\x01y\x12\f\n" +
++	"\x01z\x18\a \x01(\x02R\x01z\x12\x14\n" +
++	"\x05pitch\x18\b \x01(\x02R\x05pitch\x12\x18\n" +
++	"\agravity\x18\t \x01(\x02R\agravity\"i\n" +
+ 	"\x06Result\x12\x0e\n" +
+ 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
+ 	"\x06detail\x18\x02 \x01(\tR\x06detail\x127\n" +
+diff --git a/zeppelin/modules/vehicle/main.go b/zeppelin/modules/vehicle/main.go
+index e579b0a..6b32d65 100644
+--- a/zeppelin/modules/vehicle/main.go
++++ b/zeppelin/modules/vehicle/main.go
+@@ -14,6 +14,7 @@ package main
+ import (
+ 	"context"
+ 	"fmt"
++	"math"
+ 	"net"
+ 	"os"
+ 	"os/signal"
+@@ -38,7 +39,14 @@ import (
+ 	"google.golang.org/protobuf/types/known/emptypb"
+ )
+ 
+-const targetFlagUnit = 0x00000002
++const (
++	targetFlagUnit      = 0x00000002
++	targetFlagSourceLoc = 0x00000020
++	targetFlagDestLoc   = 0x00000040
++	castFlagTrajectory  = 0x02 // elevation + speed + movement flag follow the targets
++	defaultMissileGrav  = 30.0
++	defaultMissilePitch = math.Pi / 4
++)
+ 
+ type service struct {
+ 	vehiclev1.UnimplementedVehicleServer
+@@ -266,15 +274,68 @@ func (s *service) Cast(ctx context.Context, req *vehiclev1.CastRequest) (*vehicl
+ 	var w wow.Writer
+ 	w.U8(c)
+ 	w.U32(spell)
+-	w.U8(0)
+-	if t := req.GetTarget(); t != 0 {
++	detail := fmt.Sprintf("cast %d sent", spell)
++	switch {
++	case req.GetGround():
++		// Trajectory spell (siege aim arc): launch from the vehicle, land on the given point.
++		// Spell::SelectImplicitTrajTargets builds the arc from the elevation; the hit delay is
++		// dist2d / (speed * cos(elevation)), so the speed must be the one that reaches the point.
++		var sx, sy, sz float32
++		if u := s.unit(ctx, st.GetVehicle()); u != nil {
++			sx, sy, sz = u.GetX(), u.GetY(), u.GetZ()
++		} else if me := s.unit(ctx, s.selfGUID(ctx)); me != nil {
++			sx, sy, sz = me.GetX(), me.GetY(), me.GetZ()
++		} else {
++			return nil, status.Error(codes.FailedPrecondition, "launch position unknown")
++		}
++		pitch, speed := solveArc(float64(req.GetX()-sx), float64(req.GetY()-sy), float64(req.GetZ()-sz),
++			float64(req.GetPitch()), float64(req.GetGravity()))
++		w.U8(castFlagTrajectory)
++		w.U32(targetFlagSourceLoc | targetFlagDestLoc)
++		w.PackedGUID(0)
++		w.F32(sx)
++		w.F32(sy)
++		w.F32(sz)
++		w.PackedGUID(0)
++		w.F32(req.GetX())
++		w.F32(req.GetY())
++		w.F32(req.GetZ())
++		w.F32(float32(pitch))
++		w.F32(float32(speed))
++		w.U8(0) // no movement block
++		detail = fmt.Sprintf("cast %d at (%.1f,%.1f,%.1f) pitch %.1f deg speed %.1f", spell,
++			req.GetX(), req.GetY(), req.GetZ(), pitch*180/math.Pi, speed)
++	case req.GetTarget() != 0:
++		w.U8(0)
+ 		w.U32(targetFlagUnit)
+-		w.PackedGUID(t)
+-	} else {
++		w.PackedGUID(req.GetTarget())
++	default:
++		w.U8(0)
+ 		w.U32(0)
+ 	}
+ 	if err := s.send(ctx, opcode.CMSGCastSpell, &w); err != nil {
+ 		return nil, err
+ 	}
+-	return &vehiclev1.Result{Ok: true, Detail: fmt.Sprintf("cast %d sent", spell), State: st}, nil
++	return &vehiclev1.Result{Ok: true, Detail: detail, State: st}, nil
++}
++
++// solveArc returns the elevation and launch speed of a ballistic shot covering (dx, dy) and
++// rising dz under gravity g: v^2 = g*d^2 / (2*cos^2(p) * (d*tan(p) - dz)). A pitch too shallow
++// to clear dz is raised until the shot is possible.
++func solveArc(dx, dy, dz, pitch, g float64) (float64, float64) {
++	if pitch <= 0 {
++		pitch = defaultMissilePitch
++	}
++	if g <= 0 {
++		g = defaultMissileGrav
++	}
++	d := math.Hypot(dx, dy)
++	if d < 0.5 {
++		return math.Pi / 2.2, 10
++	}
++	for pitch < 1.5 && d*math.Tan(pitch)-dz <= 0.5 {
++		pitch += 0.05
++	}
++	c := math.Cos(pitch)
++	return pitch, math.Sqrt(g * d * d / (2 * c * c * (d*math.Tan(pitch) - dz)))
+ }
+diff --git a/zeppelin/modules/vehicle/vehicle.proto b/zeppelin/modules/vehicle/vehicle.proto
+index 51f3de8..ea97103 100644
+--- a/zeppelin/modules/vehicle/vehicle.proto
++++ b/zeppelin/modules/vehicle/vehicle.proto
+@@ -23,6 +23,15 @@ message CastRequest {
+   uint32 slot = 1;       // action bar slot 1..10 (when spell_id is 0)
+   uint32 spell_id = 2;
+   uint64 target = 3;     // optional unit target
++  // Ground-aimed (trajectory / siege) spells: set ground=true and the impact point. The module
++  // sends SOURCE+DEST_LOCATION targets plus castFlags 0x02 (elevation, speed) the way the client
++  // does after the aim arc; elevation defaults to 45 deg and speed is solved from gravity.
++  bool ground = 4;
++  float x = 5;
++  float y = 6;
++  float z = 7;
++  float pitch = 8;       // radians; 0 = 45 deg
++  float gravity = 9;     // SpellMissile gravity; 0 = 30
+ }
+ message Result {
+   bool ok = 1;
+diff --git a/zeppelin/tests/__pycache__/rpc.cpython-310.pyc b/zeppelin/tests/__pycache__/rpc.cpython-310.pyc
+deleted file mode 100644
+index be73bcf56411242320b5ed5eb68d444a93b9fff8..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 3015
+zcmZWrOK%*<5$^7J?t>3We8xu5HiCrfh`XfX$c_-$5@b`cBQTCgL+}R1dbmBi9CCMN
+z)YD69C$oVO>MG<Kz!AVb>XKvrK>kG^f&@7P`~x}o5T~k#6bZQp-P6zNdVE#Y$;?cZ
+zK>5c<e?RC|2>CY-t`-{xccErS&<N5df(kaEZEF6k&CK6wTjp=K9bvUyK?Cmr5w>ui
+z5#faXiPf$MS9s4zyDFAMMO2^Bc1_eo9cJocS<H!fn3)kP;<~s2y;-p!7GZ5pupQD^
+z%^&YZ@tA+Q^PBDUN1xs2-9Z$_ivN^nDonW?#c?QkFOj?*rfE2cVjlEi!}@V@%vG2v
+zo^@rEs*JB~t>4=G1>coH_mJOfG|xaNvYoH)E0x}9wKi|P*W7?_^UnJl@8538wA;lE
+zR||!~U8q?dnvj4V2<ia1WV*To>}&<mAQamTOZ%Np91O!wM^`(YVIoEY?AJS;C!=6c
+zuDm4D1v;kr_Fn5ak%w6tbi-CElY_9US{DMX?<UD0YrPVym7h!6LisXewV94317bDg
+z4$bBho0^#}GJR3-J|F6@p=N)EMuAD+BLPwLlnJItK?*9Yzt~fHYE8+6Df_@Vb(L2z
+zG-yPp*2KcO1HZ7)sL$D-W+pbAt`u-);yebJ*zlcLl*Ilf$!;A}O7Qyvs_+Zvh{!Ef
+zEyy=SR0>D<tI&I4ozOqh!a1#pYDA`J_S*ItGM-zvni~yUdk0w(gPfX0Lc7CI?I-Y0
+z0~rjnyna846`Fi^oQC;)kfwvE8>lFWTX^hj4G1-;_Ea<slabO+C}kpZc86<MhS_MK
+z8g*@TfU=GIwIfEuG}CSvcM}n6cO(acXis}Gd@=%sYwyu{$NK!yL+!zGl7_Li2T34|
+z&b8GKRl}8N4T)IM_Ff{!+5!riO6|xn9gHunFFmuT8w>_>(95nv<FggIK(Es}ee*k?
+zEx})M+(o(;{4NTb+JSl>YPJPUL8UEd41NlRBEl*xP_&Keeqk3(E()h$&}Xp2T_(a4
+z{&Pm*RQ8sl1wk_i0_v}9Yx}c%J3HFmy7$S$Z|U!H_9f3PzRu-aaLX>J)9DRH+5StW
+zom57#GJ=DpYy`Jv$)R>dsK6hzJq+aG_k>07eFM415LBn{P@DSH{!ZS6;rB#D+!_&o
+z3?0NQ;uJ8+p4$@;@f0vSrSckJ(q0Aj3q+8!o!5rRQP}LuWE6{+mZncN9c!A)22hb3
+z&@`A)szgQ_wrt{j3mWa^oj%w))3pCO=Wa>wZP;c!ZJsVs`7;>(2Pzc*?ispR7kR!Y
+zhyj$-$nan2C~``sCY)LpvnKAuoA_V==Y)Plz6>T6#lUo>j5f$vEvmv<C6ij=6}40J
+zJT_&^r0|8eOc=w{X5OFD>~>Lw9S~-xtgsKM+*P)yAq-wHQ7=3(^NlTL3m;%HS8`Ff
+zE5yvszi`oSi<-E$N*MSnXcBL`KBeNu5tYdmN(&b&KxeVMaY~IR1BEBES9gjfq$-xd
+zCM)^7X`uEyD&eD8MFSp486Aa!uZ2N(pQ8itDC2u00S>f2h=!30MWflj(4#alp>E82
+zPDrl9B47+Gt$h(?Du}zGL<?x|oVu>aa2P~!6!*`%u#o%5!QhYs6T7+9-0bBZ9}5nN
+zBd;13*0RP;o->|lKTWa-0|^F-0Ad5+-YvP?%4_@;S)R|TB;msV5)}%OZ8sckW4r-h
+z58^&#D7e?a%mBPmzr>mWqQn@b-Q!5@N3pI9gQp!sM>Dkn)4*;hv{O#ej{G6+X2YY`
+zvFY>^(CtrPHCusZfz|0exYZBf+kgl%OV=p-8sPc>7SG{I?shS8Togp92h||;Z_p{d
+zO#mLBqo3J*h|d#Nuxt@9>X<n0p2u${JisW19sh(*?7|k6RRTT<?FxZW)r_EBLCiW6
+zS6PKqI18k33wMD)II7(sqJ9E+E>FR#_Xc<YuE7kRcQ0pvhCitkeo;|2wy<Mn6*5oH
+z0;J96zrDvxPvvO>@ri$x^m<vSzCv5~WHRJxKjd*3Kn76!D9WO}LCBLm%)C75amXif
+ze3K_JPezhwkqDdl4A2ST`JkG;C>91}kog_6RXYZ*+AB$9IiwGu!1FqflUEm%0G=rU
+ze2%S4DD+D!{PV;9?-&01;9vQ(56dX!T!9Z7OIrXC6LT6>`3X+ArEuDY+aYKr01gPk
+z;we;!c;fPk*AZi*25tihlXRAtZ2;rbw*fNmU}W2cweHn71Tyd{mVF9?9J2WdL<>a9
+z31oYC13>(>;Y~6A5hW9t0q?+6gz<ruJHCK-!i4?-@U(N@JEq4bX4fBmyz}|P-8&r9
+zPpPi?iz&=SJW$+dUScjl^<yRhnZwsbv*2xLV2tUMQ5PJ+1sA~2|C;?zKF0IZ<TJ<v
+z@4`s_yqx+K{^qsU>4>D;=}07?t!$jh53n~|J_wrU?*X|8lM?++Uc=?e$4|Rqic!Pl
+z#L{+{){MoB?-{Kc2CguT38Q=o_`fV)j31!hvp1o!i4W}KXQPQM->%kuuj*9i>NEcb
+Dg-y%7
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 38fd1c0..c90d6d3 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -12,6 +12,7 @@ Prints a PASS/FAIL line per step and a summary; exit 0 when every eligible quest
+ """
+ import argparse
+ import math
++import struct
+ import subprocess
+ import sys
+ import time
+@@ -128,9 +129,37 @@ class World:
+         targets = {int(q[f"RequiredNpcOrGo{i}"]) for q in self.quests.values() for i in range(1, 5)} - {0}
+         targets = {t for t in targets if t > 0}
+         self.spellhit = {}
++        self.spellhit_all = {}  # entry -> every SPELLHIT spell (class quests: one per class)
+         for r in sql("SELECT entryorguid e,event_param1 sp FROM smart_scripts WHERE source_type=0 AND event_type=8 "
+                      f"AND event_param1>0 AND entryorguid IN ({inlist(targets)})"):
+             self.spellhit.setdefault(int(r["e"]), int(r["sp"]))
++            self.spellhit_all.setdefault(int(r["e"]), []).append(int(r["sp"]))
++        # credit proxies: other creatures whose SPELLHIT pays KILL_CREDIT (action 33) for an objective
++        # (Life of the Party: credit 35175, but the phase-2 partygoers you entertain are 35186)
++        self.credit_proxy = {}  # objective entry -> {proxy entry: [spells]}
++        for r in sql("SELECT entryorguid e,event_param1 sp,action_param1 c FROM smart_scripts WHERE source_type=0 "
++                     f"AND event_type=8 AND action_type=33 AND event_param1>0 AND action_param1 IN ({inlist(targets)})"):
++            e, c = int(r["e"]), int(r["c"])
++            if e != c and e in self.cspawn:
++                self.credit_proxy.setdefault(c, {}).setdefault(e, []).append(int(r["sp"]))
++                self.spellhit_all.setdefault(e, []).append(int(r["sp"]))
++        # required forms: spell -> stances mask (bit form-1); form -> the spell that enters it
++        # (aura 36 MOD_SHAPESHIFT, misc = form) - Charge needs Battle Stance (form 17, 2457)
++        self.spell_stances, self.form_spell = {}, {}
++        hs0 = {sp for v in self.spellhit_all.values() for sp in v}
++        if hs0:
++            for r in dbc(f"SELECT id,stances FROM spell WHERE id IN ({inlist(hs0)}) AND stances<>0"):
++                self.spell_stances[int(r["id"])] = int(r["stances"])
++            for r in dbc("SELECT id,effect_misc_value_a_1 f FROM spell WHERE effect_apply_aura_name_1=36 AND effect_misc_value_a_1>0"):
++                self.form_spell.setdefault(int(r["f"]), []).append(int(r["id"]))
++        # spell ranges (min, max) - Charge on a training dummy needs 8yd+, so stand accordingly
++        self.spell_range = {}
++        hs = {sp for v in self.spellhit_all.values() for sp in v}
++        if hs:
++            for r in dbc("SELECT s.id,r.min_range_hostile mn,r.max_range_hostile mx FROM spell s JOIN spellrange r "
++                         f"ON r.id=s.range_index WHERE s.id IN ({inlist(hs)})"):
++                f = lambda v: struct.unpack("<f", struct.pack("<I", int(v) & 0xFFFFFFFF))[0]
++                self.spell_range[int(r["id"])] = (f(r["mn"]), f(r["mx"]))
+         # vehicles: spawned here, or summoned by a quest item's spell (effect 28 SUMMON, misc = entry)
+         item_spells = [sp for sp in self.item_spell.values() if sp]
+         self.summon_item = {}  # vehicle entry -> (item, spell)
+@@ -145,11 +174,88 @@ class World:
+         self.vehicle_spell = {}  # spell -> vehicle entry whose bar casts it
+         for r in sql(f"SELECT CreatureID c,Spell sp FROM creature_template_spell WHERE CreatureID IN ({inlist(vehicles)})"):
+             self.vehicle_spell.setdefault(int(r["sp"]), int(r["c"]))
++        # bar spells that launch another spell (TRIGGER_MISSILE siege shots: Throw Footbomb 69992
++        # -> impact 69993): the impact is what SPELLHIT scripts see, the bar spell is what we cast
++        self.vehicle_launch = {}  # impact spell -> (bar spell, vehicle entry)
++        if self.vehicle_spell:
++            for r in dbc("SELECT id,effect_trigger_spell_1 t1,effect_trigger_spell_2 t2,effect_trigger_spell_3 t3 "
++                         f"FROM spell WHERE id IN ({inlist(self.vehicle_spell)})"):
++                for k in ("t1", "t2", "t3"):
++                    if int(r[k]):
++                        self.vehicle_launch.setdefault(int(r[k]), (int(r["id"]), self.vehicle_spell[int(r["id"])]))
++        # unselectable objective markers (unit_flags 0x02000000) can't be clicked or killed; when a
++        # vehicle bar spell carries a C++ script, that script is what scores them (Fourth and Goal:
++        # spell_zep_q28414_footbomb_goal credits 37203 when the arc crosses the goal frame)
++        self.marker_targets = set(ids(sql(f"SELECT entry FROM creature_template WHERE entry IN ({inlist(targets)}) "
++                                          "AND (unit_flags & 33554432)"), "entry"))
++        self.scripted_launch = {}  # bar spell -> vehicle entry, for bar spells with a spell script
++        if self.vehicle_spell:
++            for r in sql(f"SELECT spell_id FROM spell_script_names WHERE spell_id IN ({inlist(self.vehicle_spell)})"):
++                self.scripted_launch[int(r["spell_id"])] = self.vehicle_spell[int(r["spell_id"])]
++        # impacts that pay credit themselves (KILL_CREDIT 90 / 134, misc = creature entry) - no SAI
++        # involved (Fourth and Goal: 69993 credits the rooftop marker 37203 directly)
++        if self.vehicle_launch:
++            for r in dbc("SELECT id,effect_1 e1,effect_misc_value_a_1 m1,effect_2 e2,effect_misc_value_a_2 m2,"
++                         f"effect_3 e3,effect_misc_value_a_3 m3 FROM spell WHERE id IN ({inlist(self.vehicle_launch)})"):
++                for e, m in (("e1", "m1"), ("e2", "m2"), ("e3", "m3")):
++                    if int(r[e]) in (90, 134) and int(r[m]):
++                        self.spellhit.setdefault(int(r[m]), int(r["id"]))
+         self.creature_loot = {}  # item -> creature entries (spawned here) that drop it
+         for r in sql(f"SELECT Entry,Item FROM creature_loot_template WHERE Item IN ({il})"):
+             for c in ids(sql(f"SELECT entry FROM creature_template WHERE lootid={int(r['Entry'])}"), "entry"):
+                 if c in self.cspawn:
+                     self.creature_loot.setdefault(int(r["Item"]), set()).add(c)
++        # loot GOs nobody spawns but another GO's SAI summons (action 50) - the source must be set
++        # off first (Kaja'mite Deposit 195489 -> 3 x Kaja'mite Chunk 195492 when activated)
++        # quest items whose spell activates GOs at a point (effect 86 ACTIVATE_OBJECT): Kablooey Bombs
++        self.activate_items = []
++        sp = {v: k for k, v in self.item_spell.items() if v}
++        if sp:
++            for r in dbc("SELECT id FROM spell WHERE (effect_1=86 OR effect_2=86 OR effect_3=86) "
++                         f"AND id IN ({inlist(sp)})"):
++                self.activate_items.append((sp[int(r["id"])], int(r["id"])))
++        self.go_summoners = {}
++        for r in sql("SELECT entryorguid src,action_param1 go FROM smart_scripts WHERE source_type=1 AND action_type=50"):
++            if int(r["src"]) in self.gspawn:
++                self.go_summoners.setdefault(int(r["go"]), set()).add(int(r["src"]))
++        # vehicle minigames that pay out an item (The Great Bank Heist: GO 195525 summons the vault
++        # 35486 you possess; it whispers which widget to press; 4 right answers cast 67492, which
++        # creates Personal Riches). item -> (summoning GO, vehicle entry)
++        self.minigame_item = {}
++        self.prompt_answer = {}  # vehicle entry -> {prompt text: bar spell}
++        rows = dbc("SELECT id,effect_1 e1,effect_item_type_1 i1,effect_2 e2,effect_item_type_2 i2,effect_3 e3,"
++                   f"effect_item_type_3 i3 FROM spell WHERE (effect_1=24 OR effect_2=24 OR effect_3=24) AND "
++                   f"(effect_item_type_1 IN ({il}) OR effect_item_type_2 IN ({il}) OR effect_item_type_3 IN ({il}))")
++        for r in rows:
++            item = next(int(r[i]) for e, i in (("e1", "i1"), ("e2", "i2"), ("e3", "i3")) if int(r[e]) == 24 and int(r[i]))
++            for c in sql(f"SELECT DISTINCT entryorguid e FROM smart_scripts WHERE source_type=0 AND action_type=11 "
++                         f"AND action_param1={r['id']}"):
++                veh = int(c["e"])
++                summons = [int(x["id"]) for x in dbc("SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1="
++                                                     f"{veh}) OR (effect_2=28 AND effect_misc_value_a_2={veh})")]
++                if not summons:
++                    continue
++                for g in sql("SELECT DISTINCT entryorguid g FROM smart_scripts WHERE source_type=1 AND action_type IN "
++                             f"(11,134) AND action_param1 IN ({inlist(summons)})"):
++                    if int(g["g"]) in self.gspawn:
++                        self.minigame_item[item] = (int(g["g"]), veh)
++                self.prompt_answer[veh] = self._prompts(veh)
++        # credit creatures nobody spawns but a GO summons when used (447: the Defective Generator
++        # 201735 casts 70198, which summons 37561, whose JUST_SUMMONED pays the credit)
++        self.summon_credit_go = {}  # creature entry -> GO entry to use
++        for t in targets:
++            if t in self.cspawn:
++                continue
++            spells = [int(x["id"]) for x in dbc(
++                f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={t}) OR "
++                f"(effect_2=28 AND effect_misc_value_a_2={t}) OR (effect_3=28 AND effect_misc_value_a_3={t})")]
++            if spells:
++                for g in sql("SELECT entryorguid g,event_type ev,event_param1 p1 FROM smart_scripts WHERE source_type=1 "
++                             f"AND action_type IN (11,134) AND action_param1 IN ({inlist(spells)})"):
++                    if int(g["g"]) in self.gspawn:
++                        # event 62 = GOSSIP_SELECT (param1 = menu): the GO's menu option is the trigger
++                        menu = int(g["p1"]) if int(g["ev"]) == 62 else 0
++                        self.summon_credit_go[t] = (int(g["g"]), menu)
+         self.vendor_items = {}  # item -> vendor entries spawned here (npc_vendor)
+         for r in sql(f"SELECT entry,item FROM npc_vendor WHERE item IN ({il}) AND entry IN ({ce})"):
+             self.vendor_items.setdefault(int(r["item"]), set()).add(int(r["entry"]))
+@@ -157,7 +263,7 @@ class World:
+         self.go_lock = {}  # chest entry -> Lock.dbc id (Data0)
+         for r in sql(f"SELECT t.entry,t.type,t.Data0,l.Item FROM gameobject_loot_template l JOIN gameobject_template t ON t.Data1=l.Entry "
+                      f"WHERE l.Item IN ({il}) AND t.type IN (3,25)"):
+-            if int(r["entry"]) in self.gspawn:
++            if int(r["entry"]) in self.gspawn or int(r["entry"]) in self.go_summoners:
+                 self.go_loot.setdefault(int(r["Item"]), set()).add((int(r["entry"]), int(r["type"])))
+                 if int(r["type"]) == 3:
+                     self.go_lock[int(r["entry"])] = int(r["Data0"])
+@@ -201,11 +307,35 @@ class World:
+         self.inventory = {}  # refreshed by the runner; used by CONDITION_ITEM
+         self.rewarded = set(ids(sql(f"SELECT quest FROM character_queststatus_rewarded WHERE guid={self.guid}", "characters"), "quest"))
+         # class trainers spawned in the area (trainer.Type 0 = class, Requirement = class id)
+-        self.trainers = ids(sql(
+-            "SELECT c.CreatureId FROM creature_default_trainer c JOIN trainer t ON t.Id=c.TrainerId "
+-            f"WHERE t.Type=0 AND t.Requirement={self.cls} AND c.CreatureId IN ({ce})"), "CreatureId")
++        rows = sql(
++            "SELECT c.CreatureId, c.TrainerId FROM creature_default_trainer c JOIN trainer t ON t.Id=c.TrainerId "
++            f"WHERE t.Type=0 AND t.Requirement={self.cls} AND c.CreatureId IN ({ce})")
++        self.trainers = [int(r["CreatureId"]) for r in rows]
++        # what each trainer teaches, so a visit only happens when something is learnable
++        self.trainer_spells = {}
++        for r in rows:
++            self.trainer_spells[int(r["CreatureId"])] = [
++                dict(spell=int(t["SpellId"]), level=int(t["ReqLevel"]), cost=int(t["MoneyCost"]),
++                     req=[int(t[k]) for k in ("ReqAbility1", "ReqAbility2", "ReqAbility3") if int(t[k])])
++                for t in sql(f"SELECT SpellId,ReqLevel,MoneyCost,ReqAbility1,ReqAbility2,ReqAbility3 "
++                             f"FROM trainer_spell WHERE TrainerId={r['TrainerId']}")]
+         self.excl_done = set()
+ 
++    @staticmethod
++    def _prompts(veh):
++        """Prompt text -> correct bar spell for a phase-driven SAI quiz: EVENT_PHASE_CHANGE rows
++        (66, param1 = phase mask) TALK the prompt group; the SPELLHIT row gated on exactly that
++        phase is the right answer (the wrong-answer rows are gated on every other phase)."""
++        talk = {int(r["p"]): int(r["g"]) for r in sql(
++            "SELECT event_param1 p,action_param1 g FROM smart_scripts WHERE source_type=0 AND "
++            f"entryorguid={veh} AND event_type=66 AND action_type=1")}
++        ans = {int(r["m"]): int(r["sp"]) for r in sql(
++            "SELECT event_phase_mask m,event_param1 sp FROM smart_scripts WHERE source_type=0 AND "
++            f"entryorguid={veh} AND event_type=8") if int(r["m"]) and not int(r["m"]) & (int(r["m"]) - 1)}
++        text = {int(r["groupid"]): r["Text"] for r in sql(
++            f"SELECT groupid,Text FROM creature_text WHERE CreatureID={veh}")}
++        return {text[g]: ans[m] for m, g in talk.items() if m in ans and g in text}
++
+     def nearest(self, kind, entry, me):
+         pts = (self.cspawn if kind == "c" else self.gspawn).get(entry, [])
+         return min(pts, key=lambda p: math.dist(p[:2], (me["x"], me["y"])), default=None)
+@@ -287,6 +417,7 @@ class Runner:
+     def __init__(self, world, abilities):
+         self.w, self.base_abilities = world, abilities
+         self.abilities, self.trained_level, self.learned = [], 0, []
++        self.untrainable = set()  # trainer spells the DB offers but the trainer refused
+         self.blocked, self.stuck, self.deaths, self.kills = set(), {}, 0, 0
+         self.used = {}  # GO guid -> last use time
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+@@ -312,9 +443,18 @@ class Runner:
+         self.trained_level = level
+         if self.w.trainers:
+             t = self.w.trainers[0]
+-            if self.go_near("c", t):
++            known = set(call("interact.spells").get("spells", [])) | self.untrainable
++            money = call("interact.self").get("money", 0)
++            todo = [x["spell"] for x in self.w.trainer_spells.get(t, [])
++                    if x["spell"] not in known and x["level"] <= level and x["cost"] <= money
++                    and all(q in known for q in x["req"])]
++            if not todo:
++                print(f"[TRAIN] level {level}: nothing new at trainer {t} - not visiting", flush=True)
++            elif self.go_near("c", t):
+                 r = call("interact.trainer_learn_all", entry=t)
+                 self.learned += r.get("learned", [])
++                # anything the DB said was learnable but the trainer refused: never travel for it again
++                self.untrainable |= set(todo) - set(r.get("learned", []))
+                 print(f"[TRAIN] level {level} at trainer {t}: learned {r.get('learned', [])} "
+                       f"({r.get('spent', 0)}c) - {r.get('detail')}", flush=True)
+         self.refresh_abilities()
+@@ -326,9 +466,19 @@ class Runner:
+         if st.get("dead"):
+             self.deaths += 1
+             print("  ! died - recovering", flush=True)
+-            for _ in range(20):
+-                if call("combat.revive").get("alive"):
++            # revive returns at once while walking back or during the reclaim delay (which grows
++            # with repeated deaths) - keep at it on a clock, never carry on as a ghost
++            t0, stage = time.time(), ""
++            while time.time() - t0 < 600:
++                r = call("combat.revive")
++                if r.get("alive"):
+                     break
++                if r.get("stage") != stage:
++                    stage = r.get("stage", "")
++                    print(f"    revive: {stage}", flush=True)
++                time.sleep(3)
++            else:
++                raise SystemExit("RESULT: FAIL - still a ghost after 10 min of revive attempts")
+             call("combat.rest", until_pct=90)
+             return
+         for g in st.get("attackers", []):
+@@ -340,9 +490,21 @@ class Runner:
+ 
+     def travel(self, x, y, z, within=4.0):
+         for _ in range(12):
++            before = self.me()
+             r = call("move.path_to", x=x, y=y, z=ground(x, y, z))
+             if r["move"].get("arrived") or r.get("remaining", 99) <= within:
++                self.on_mesh = r["move"].get("position", before)
+                 return True
++            after = r["move"].get("position", before)
++            moved = math.dist((before["x"], before["y"]), (after.get("x", 0), after.get("y", 0))) > 1.0
++            if moved:
++                self.on_mesh = after
++            elif r.get("partial") and getattr(self, "on_mesh", None):
++                # stranded off the navmesh (stepped onto a deck/GO by a straight move): walk straight
++                # back to the last point a path worked from, then path again
++                m = self.on_mesh
++                call("move.to", x=m["x"], y=m.get("y", 0), z=m.get("z", 0))
++                continue
+             if r["move"].get("reason") != "budget":
+                 self.safe()
+         return False
+@@ -367,7 +529,7 @@ class Runner:
+         if p is None:
+             raise StepFailed(f"no spawn of {kind}{entry} in the area")
+         o = pick()
+-        if o is None or o["distance"] > 40:
++        if o is None or o.get("distance", 0) > 40:
+             if o is None:  # nothing usable in sight: try spawn points further out
+                 pts = sorted((self.w.cspawn if kind == "c" else self.w.gspawn).get(entry, []),
+                              key=lambda q: math.dist(q[:2], (self.me()["x"], self.me()["y"])))
+@@ -385,6 +547,12 @@ class Runner:
+         dx, dy = me["x"] - o["x"], me["y"] - o["y"]
+         d = max(math.hypot(dx, dy), 0.01)
+         self.travel(o["x"] + dx / d * offset, o["y"] + dy / d * offset, o["z"], within=1.5)
++        # navmesh ends short of decks and platforms that are game objects (Gallywix on his yacht,
++        # 7 yd above the water): finish in a straight line, as a client walks up the collision
++        me = self.me()
++        if math.dist((me["x"], me["y"], me.get("z", 0)), (o["x"], o.get("y", 0), o.get("z", 0))) > offset + 2.5:
++            call("move.to", x=o["x"] + dx / d * min(offset, 1.5), y=o.get("y", 0) + dy / d * min(offset, 1.5),
++                 z=o.get("z", 0))
+         return o
+ 
+     def log(self):
+@@ -397,10 +565,22 @@ class Runner:
+                 inv[it["entry"]] = inv.get(it["entry"], 0) + it.get("count", 1)
+         return inv
+ 
++    def reach_npc(self, kind, entry):
++        """go_near, then wait out a giver who is briefly unseeable - Slinky Sharpshiv (34693)
++        re-stealths every 4 min for 10-50 s; a player just waits for him to reappear."""
++        o = self.go_near(kind, entry)
++        for _ in range(12):
++            if o is not None or kind != "c":
++                break
++            time.sleep(5)
++            o = self.go_near(kind, entry)
++        return o
++
+     def accept(self, qid):
+         self.leave_vehicle()
+         kind, entry = self.w.starters[qid][0]
+-        if not self.go_near(kind, entry):
++        if not self.reach_npc(kind, entry):
++            print(f"[SKIP] accept {qid}: cannot reach giver {kind}{entry}", flush=True)
+             self.blocked.add(qid)
+             return
+         r = call("interact.quest_accept", target={"entry": entry}, quest_id=qid)
+@@ -412,8 +592,17 @@ class Runner:
+ 
+     def turn_in(self, qid):
+         self.leave_vehicle()
++        # several enders (447: Gallywix or the Claims Adjuster), some only in other phases or out of
++        # reach: take the first one we can actually stand next to
+         kind, entry = self.w.enders[qid][0]
+-        self.go_near(kind, entry)
++        for k, e in sorted(self.w.enders[qid], key=lambda ke: math.dist(
++                (self.w.nearest(*ke, self.me()) or (1e9, 1e9))[:2], (self.me()["x"], self.me()["y"]))):
++            try:
++                if self.reach_npc(k, e):
++                    kind, entry = k, e
++                    break
++            except StepFailed:
++                continue
+         r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
+         title = self.w.quests[qid]["LogTitle"]
+         if not r.get("ok"):
+@@ -437,21 +626,190 @@ class Runner:
+         if st.get("controlling"):
+             call("vehicle.exit")
+         objs = call("interact.find", entry=ventry, limit=1).get("objects", [])
+-        if (not objs or objs[0]["distance"] > 30) and ventry in self.w.summon_item:
++        if (not objs or objs[0].get("distance", 0) > 30) and ventry in self.w.summon_item:
+             item, spell = self.w.summon_item[ventry]
+             r = call("interact.use_item", entry=item, spell_id=spell)
+             print(f"  summon vehicle {ventry} with item {item}: {r.get('detail')}", flush=True)
+             time.sleep(2)
+             objs = call("interact.find", entry=ventry, limit=1).get("objects", [])
++        if not objs and ventry in self.w.cspawn:
++            # out of sight: walk to its nearest spawn first (the Buccaneers stand on the field)
++            if self.go_near("c", ventry, offset=3.0):
++                objs = call("interact.find", entry=ventry, limit=1).get("objects", [])
+         if not objs:
++            print(f"  ~ no vehicle {ventry} to board", flush=True)
+             return False
+-        if objs[0]["distance"] > 4:
++        if objs[0].get("distance", 0) > 4:
+             o = objs[0]
+             self.travel(o["x"], o["y"], o["z"], within=3)
+         r = call("vehicle.enter", entry=ventry)
+         print(f"  enter vehicle {ventry}: {r.get('detail')} bar {r.get('state', {}).get('spells')}", flush=True)
+         return bool(call("vehicle.state").get("controlling"))
+ 
++    def proxy_credit(self, qid, idx, target, before):
++        """Earn `target` credit on a proxy creature. Its SPELLHIT rows are often phase-gated per
++        need (partygoers want one of five party spells), so try each spell on the same proxy until
++        the quest counter moves."""
++        known = set(call("interact.spells").get("spells", []))
++        for proxy, spells in self.w.credit_proxy[target].items():
++            near = min((self.w.spell_range.get(sp, (0.0, 5.0))[1] for sp in spells), default=5.0)
++            o = self.go_near("c", proxy, offset=max(1.5, min(3.0, near - 1.0)), usable_only=True)
++            if not o:
++                continue
++            g = int(o["guid"])
++            self.used[g] = time.time()
++            for sp in spells:
++                self.ensure_stance(sp, known)
++                r = call("interact.cast", spell_id=sp, target={"guid": g})
++                time.sleep(1.6)  # GCD on the party bar
++                now = self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[idx]
++                if now > before:
++                    print(f"  credit {target} via {proxy} with {sp} ({now})", flush=True)
++                    return True
++                if "result 97" in r.get("detail", ""):  # out of range: step in and retry once
++                    call("move.to", x=o["x"], y=o.get("y", 0), z=o.get("z", 0))
++                    call("interact.cast", spell_id=sp, target={"guid": g})
++                    time.sleep(1.6)
++                    if self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[idx] > before:
++                        print(f"  credit {target} via {proxy} with {sp} (after closing in)", flush=True)
++                        return True
++            print(f"  ~ {qid}: proxy {proxy} took none of {spells}", flush=True)
++            return True  # the proxy is marked used; the next step picks another
++        return False
++
++    def play_minigame(self, item, go, veh):
++        """Use the GO that summons the quiz vehicle, then answer each whispered prompt with the
++        bar spell the vehicle's SAI accepts for it, until the item lands or we are ejected."""
++        answers = self.w.prompt_answer.get(veh, {})
++        self.leave_vehicle()
++        if not self.go_near("g", go):
++            return False
++        since = call("interact.events", since=0).get("last", 0)
++        # interact.use waits for a loot window (none here) before returning, so board from a thread
++        # the moment the vehicle shows up: it is a spellclick vehicle and the first prompt is ~2.5 s
++        # after the summon, with a short answer clock
++        import threading
++        th = threading.Thread(target=lambda: call("interact.use", target={"entry": go}), daemon=True)
++        th.start()
++        # the summon usually seats us itself (ride aura -> CLIENT_CONTROL_UPDATE); clicking a vehicle
++        # we already ride ejects us and the vault despawns, so only spellclick if control never came
++        st = {}
++        for _ in range(12):
++            st = call("vehicle.state")
++            if st.get("entry") == veh:
++                break
++            time.sleep(0.25)
++        if st.get("entry") != veh:
++            r = call("vehicle.enter", entry=veh, timeout_ms=3000)
++            st = r.get("state", {})
++        print(f"  start minigame at GO {go}: riding {st.get('entry')} bar {st.get('spells')}", flush=True)
++        t0, boarded = time.time(), False
++        while time.time() - t0 < 90:
++            st = call("vehicle.state")
++            if st.get("entry") == veh:
++                boarded = True
++            elif boarded:
++                break  # ejected: success or a wrong / late answer
++            ev = call("interact.events", since=since)
++            since = ev.get("last", since)
++            for e in ev.get("events", []):
++                if e.get("kind") == "item" and e.get("entry") == item:
++                    print(f"  minigame won: item {item}", flush=True)
++                    return True
++                if e.get("kind") != "chat" or e.get("entry") != veh:
++                    continue
++                text = e.get("text", "")
++                sp = next((v for k, v in answers.items() if text == k or text.startswith(k[:24])), 0)
++                print(f"    prompt {text[:40]!r} -> {sp or 'no answer known'}", flush=True)
++                if sp:
++                    time.sleep(0.6)
++                    call("vehicle.cast", spell_id=sp)
++            time.sleep(0.4)
++        got = self.inventory().get(item, 0) > 0
++        print(f"  minigame {'won' if got else 'lost'} (vehicle {veh})", flush=True)
++        return True
++
++    def loot_summoned_go(self, go, item, inv):
++        """Loot GO `go` that only exists once a source GO is set off: loot any already in sight,
++        else walk to a fresh source, use the activation item on its spot, and loot what appears."""
++        def loot_visible():
++            got = False
++            for o in call("interact.find", entry=go, limit=6).get("objects", []):
++                if o.get("distance", 0) > 30 or time.time() - self.used.get(int(o["guid"]), 0) < 180:
++                    continue
++                self.travel(o["x"], o.get("y", 0), o.get("z", 0), within=2.0)  # summoned: no spawn row
++                spell = self.w.lock_spell.get(self.w.go_lock.get(go, 0), OPENING)
++                r = call("interact.use", target={"guid": int(o["guid"])}, loot_all=True, spell_id=spell)
++                self.used[int(o["guid"])] = time.time()
++                print(f"  loot summoned GO {go} for {item}: {r.get('detail')} {r.get('received', '')}", flush=True)
++                got = True
++            return got
++        if loot_visible():
++            return True
++        for src in sorted(self.w.go_summoners[go]):
++            o = self.go_near("g", src, offset=4.0, usable_only=True)
++            if not o:
++                continue
++            self.used[int(o["guid"])] = time.time()
++            it, spell = self.w.activate_items[0]
++            r = call("interact.use_item", entry=it, spell_id=spell, ground=True,
++                     x=o["x"], y=o.get("y", 0), z=o.get("z", 0))
++            print(f"  set off GO {src} with item {it}: {r.get('detail')}", flush=True)
++            time.sleep(2.5)
++            loot_visible()
++            return True
++        return False
++
++    def ensure_stance(self, spell, known):
++        """Enter a form the spell allows (stances mask) if we are not already in one."""
++        mask = self.w.spell_stances.get(spell, 0)
++        if not mask:
++            return
++        options = [fs for form, spells in self.w.form_spell.items() if mask >> (form - 1) & 1
++                   for fs in spells if fs in known]
++        if not options:
++            return
++        auras = set(call("interact.find", guid=self.w.guid, limit=1).get("objects", [{}])[0].get("auras", []))
++        if auras & set(options):
++            return
++        r = call("interact.cast", spell_id=options[0])
++        print(f"  enter stance {options[0]} for {spell}: {r.get('detail')}", flush=True)
++        time.sleep(1)
++
++    def vehicle_bombard(self, qid, target, bar_spell, ventry):
++        """Ride `ventry` and lob its ground-aimed bar spell at `target` creatures. Targets nobody
++        spawns are summoned by the ride itself (Necessary Roughness: the Buccaneer's aura calls
++        shark waves that march on the shredder), so wait for them instead of searching."""
++        if not self.ensure_vehicle(ventry):
++            return False
++        objs = [o for o in call("interact.find", entry=target, limit=10).get("objects", [])
++                if o.get("health", 0) > 0 and o.get("distance", 0) < 300]
++        if not objs and target in self.w.cspawn:
++            # a placed target out of sight (Fourth and Goal: a rooftop marker ~160yd off) - aim
++            # at its spawn point; siege arcs reach far beyond visibility
++            me = self.me()
++            sp = self.w.nearest("c", target, me)
++            if sp and math.dist(sp[:2], (me["x"], me["y"])) < 300:
++                r = call("vehicle.cast", spell_id=bar_spell, ground=True, x=sp[0], y=sp[1], z=sp[2])
++                print(f"  bombard {target} spawn ({math.dist(sp[:2], (me['x'], me['y'])):.0f}yd) "
++                      f"with {bar_spell}: {r.get('detail')}", flush=True)
++                time.sleep(2.2)
++                return True
++        if not objs:
++            waited = self.stuck.get(("wave", target), 0) + 1
++            self.stuck[("wave", target)] = waited
++            if waited > 30:  # a minute with nothing to shoot at
++                print(f"  ~ {qid}: no {target} ever appeared around vehicle {ventry}", flush=True)
++                return False
++            time.sleep(2)
++            return True
++        self.stuck.pop(("wave", target), None)
++        o = min(objs, key=lambda x: x.get("distance", 0))
++        r = call("vehicle.cast", spell_id=bar_spell, ground=True, x=o["x"], y=o.get("y", 0), z=o.get("z", 0))
++        print(f"  bombard {target} ({o.get('distance', 0):.0f}yd) with {bar_spell}: {r.get('detail')}", flush=True)
++        time.sleep(2.2)  # bar cooldown
++        return True
++
+     def leave_vehicle(self):
+         if call("vehicle.state").get("controlling"):
+             call("vehicle.exit")
+@@ -486,8 +844,30 @@ class Runner:
+             target, need = int(q[f"RequiredNpcOrGo{i}"]), int(q[f"RequiredNpcOrGoCount{i}"])
+             if not target or counts[i - 1] >= need:
+                 continue
++            if target > 0 and target in self.w.summon_credit_go:
++                go, menu = self.w.summon_credit_go[target]
++                if not self.go_near("g", go, usable_only=True):
++                    return False
++                r = call("interact.use", target={"entry": go})
++                if menu:  # the use opened its gossip; the option is what fires the script
++                    m = call("interact.gossip_select", target={"entry": go}, menu_id=menu, option=0)
++                    print(f"  gossip {menu} on GO {go}: {m.get('kind')}", flush=True)
++                self.used[int(r.get("guid", 0) or 0)] = time.time()
++                print(f"  use GO {go} to summon credit {target}: {r.get('detail', r.get('opened'))}", flush=True)
++                # the summoned NPC may act out a scene before paying (Gasbot walks his path, then
++                # torches the KTC): re-using the GO restarts it, so wait for the counter first
++                for _ in range(15 if menu else 1):
++                    time.sleep(2)
++                    if self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[i - 1] > counts[i - 1]:
++                        break
++                return True
++            if target > 0 and target in self.w.credit_proxy and not call(
++                    "interact.find", entry=target, limit=1).get("objects"):
++                return self.proxy_credit(qid, i - 1, target, counts[i - 1])
+             if target > 0 and target in self.w.spellhit:
+                 spell = self.w.spellhit[target]
++                if spell in self.w.vehicle_launch:  # a siege shot from a vehicle bar: lob it at them
++                    return self.vehicle_bombard(qid, target, *self.w.vehicle_launch[spell])
+                 if spell in self.w.vehicle_spell:  # a vehicle-bar spell: drive over and fire it
+                     if not self.ensure_vehicle(self.w.vehicle_spell[spell]):
+                         return False
+@@ -499,8 +879,15 @@ class Runner:
+                     print(f"  vehicle cast {spell} on {target}: {r.get('detail')}", flush=True)
+                     time.sleep(1.5)
+                     return True
+-                o = self.go_near("c", target, offset=3.0, usable_only=True)
++                # several classes share one target: use the spell this character knows
++                known = set(call("interact.spells").get("spells", []))
++                spell = next((sp for sp in self.w.spellhit_all.get(target, []) if sp in known), spell)
++                self.ensure_stance(spell, known)
++                mn, mx = self.w.spell_range.get(spell, (0.0, 30.0))
++                offset = min(max(3.0, mn + 4.0), max(3.0, mx - 2.0))
++                o = self.go_near("c", target, offset=offset, usable_only=True)
+                 if o:
++                    call("move.face", x=o["x"], y=o.get("y", 0))  # frontal spells: UNIT_NOT_INFRONT
+                     self.used[int(o["guid"])] = time.time()
+                     item = next((i for i, sp in self.w.item_spell.items() if sp == spell), 0)
+                     if item:
+@@ -511,6 +898,9 @@ class Runner:
+                     time.sleep(1.5)
+                     return True
+                 return False
++            if target > 0 and target in self.w.marker_targets and self.w.scripted_launch:
++                bar, ventry = next(iter(self.w.scripted_launch.items()))
++                return self.vehicle_bombard(qid, target, bar, ventry)
+             if target > 0 and target not in self.w.cspawn and self.quest_item(q):
+                 # a credit-only entry nobody spawns: the quest item's use is the credit (keys used)
+                 item = self.quest_item(q)
+@@ -519,6 +909,9 @@ class Runner:
+                 time.sleep(2)
+                 return True
+             if target > 0 and target in self.w.spellclick:
++                st = call("vehicle.state")
++                if st.get("controlling") and st.get("entry") != target:
++                    self.leave_vehicle()  # cannot click another vehicle from the driver's seat
+                 o = self.go_near("c", target, offset=2.0, usable_only=True)
+                 if not o:
+                     return False
+@@ -535,6 +928,8 @@ class Runner:
+                 if not self.go_near("c", target, offset=6.0):
+                     return False
+                 r = call("combat.kill", entry=target, abilities=self.abilities, loot=True)
++                if r.get("reason") == "no target":  # nothing alive in sight - not progress
++                    raise StepFailed(f"no living {target} in sight")
+                 if r.get("reason", "").startswith(("cannot attack", "no damage")):
+                     self.stuck[("use", target)] = 1  # friendly: a quest item / spell target
+                     return self.use_quest_item_on(q, target)
+@@ -550,12 +945,18 @@ class Runner:
+             item, need = int(q[f"RequiredItemId{i}"]), int(q[f"RequiredItemCount{i}"])
+             if not item or inv.get(item, 0) >= need:
+                 continue
++            if item in self.w.minigame_item:
++                return self.play_minigame(item, *self.w.minigame_item[item])
+             for v in sorted(self.w.vendor_items.get(item, ())):
+                 if self.go_near("c", v):
+                     r = call("interact.vendor_buy", target={"entry": v}, item_id=item, count=1)
+                     print(f"  buy {item} from vendor {v}: {r.get('detail')}", flush=True)
+                     return True
+             for go, gotype in sorted(self.w.go_loot.get(item, ())):
++                if go not in self.w.gspawn and go in self.w.go_summoners and self.w.activate_items:
++                    if self.loot_summoned_go(go, item, inv):
++                        return True
++                    continue
+                 o = self.go_near("g", go, usable_only=True)
+                 if o:
+                     self.safe()  # an attacker interrupts the Opening cast (SPELL_FAILED_INTERRUPTED 40)
+@@ -574,6 +975,8 @@ class Runner:
+             for c in sorted(self.w.creature_loot.get(item, ())):
+                 if self.go_near("c", c, offset=6.0):
+                     r = call("combat.kill", entry=c, abilities=self.abilities, loot=True)
++                    if r.get("reason") == "no target":
++                        raise StepFailed(f"no living {c} in sight (drops {item})")
+                     self.kills += r.get("killed", False)
+                     return True
+             return False
+@@ -643,10 +1046,17 @@ def main():
+     log = r.log()
+     # independent of eligible(): a prerequisite bug must not be able to hide a quest
+     todo = [q for q in w.starters if w.for_char(q) and q not in r.refused and q not in w.rewarded]
++    # quests the conditions table forbids right now (28607: not while holding the unique keys) are
++    # correct content, not unfinished work - list them, but keep them out of the verdict
++    w.inventory = r.inventory()
++    gated = [q for q in todo if q in w.cond19 and not w.groups_true(w.cond19[q], log)]
++    todo = [q for q in todo if q not in gated]
+     print(f"\nSUMMARY: {len(w.rewarded)} quests rewarded, level {level}, {r.kills} kills, {r.deaths} deaths, {secs / 60:.1f} min, "
+           f"trained {len(r.learned)} spell(s)")
+     if todo:
+         print("left:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(todo)))
++    if gated:
++        print("gated by conditions:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(gated)))
+     if r.refused:
+         print("refused by the server (breadcrumbs / not offered):", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(r.refused)))
+     blocked = sorted((r.blocked - r.refused) | {q for q in r.stuck if isinstance(q, int) and r.stuck[q] > 25})
+diff --git a/zeppelin/wow/reader.go b/zeppelin/wow/reader.go
+index 603e2e2..08d180c 100644
+--- a/zeppelin/wow/reader.go
++++ b/zeppelin/wow/reader.go
+@@ -73,6 +73,9 @@ func (r *Reader) F32() float32 { return math.Float32frombits(r.U32()) }
+ 
+ func (r *Reader) Skip(n int) { r.take(n) }
+ 
++// Take returns the next n bytes (nil and a sticky ErrShort when fewer remain).
++func (r *Reader) Take(n int) []byte { return r.take(n) }
++
+ // CString reads a NUL-terminated string (ByteBuffer << std::string).
+ func (r *Reader) CString() string {
+ 	if r.err != nil {
+-- 
+2.34.1
+
