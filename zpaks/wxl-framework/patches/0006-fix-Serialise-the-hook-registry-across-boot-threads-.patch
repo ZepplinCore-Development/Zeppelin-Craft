@@ -1,0 +1,75 @@
+From 75f95a2a4e988057ba9c93ba97426004b6fffe7d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 6 Oct 2026 05:09:54 +0000
+Subject: [PATCH] fix: Serialise the hook registry across boot threads (I-386)
+
+- Hook.cpp's chain deque/vectors had no lock, but two threads write them at
+  boot: the client thread loading extensions (EngineInitDetour -> LoadAll ->
+  HookAttach) and wxl-core's MainThread running the device-wait installers
+- an overlap corrupted a chain: #132 in hook::Install+0x77d, vector::insert
+  memcpy from a null insert position (grasswind InitShaderConstants in flight)
+- ChainLock() recursive mutex taken by Install, Enable and EnableAll
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019VLYq8ZjsdFdeXnZ3QFN7G
+---
+ src/engine/hook/Hook.cpp | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/src/engine/hook/Hook.cpp b/src/engine/hook/Hook.cpp
+index 6143a07..40865ad 100644
+--- a/src/engine/hook/Hook.cpp
++++ b/src/engine/hook/Hook.cpp
+@@ -21,6 +21,7 @@
+ 
+ #include <deque>
+ #include <iterator>
++#include <mutex>
+ #include <vector>
+ 
+ namespace wxl::hook
+@@ -54,6 +55,17 @@ namespace wxl::hook
+             return chains;
+         }
+ 
++        /// Serialises every chain access. Two threads register hooks at boot: the client thread loads
++        /// the extensions from the engine-init seam (EngineInitDetour) while wxl-core's MainThread runs
++        /// the Normal/PostEnable installers once the device exists. Unserialised, a push_back or
++        /// vector insert on one thread corrupts the other's chain (#132 in hook::Install, memcpy from
++        /// a null insert position). Recursive so a locked entry point may reach another.
++        std::recursive_mutex& ChainLock()
++        {
++            static std::recursive_mutex lock;
++            return lock;
++        }
++
+         Chain* FindChain(void* target)
+         {
+             for (Chain& chain : Chains())
+@@ -133,6 +145,7 @@ namespace wxl::hook
+      */
+     bool Install(const char* name, void* target, void* detour, void** original, int priority)
+     {
++        std::lock_guard<std::recursive_mutex> guard(ChainLock());
+         Chain& chain = ChainFor(target);
+ 
+         auto at = chain.links.end();
+@@ -157,6 +170,7 @@ namespace wxl::hook
+ 
+     bool Enable(void* target)
+     {
++        std::lock_guard<std::recursive_mutex> guard(ChainLock());
+         Chain* chain = FindChain(target);
+         if (!chain)
+         {
+@@ -181,6 +195,7 @@ namespace wxl::hook
+      */
+     bool EnableAll()
+     {
++        std::lock_guard<std::recursive_mutex> guard(ChainLock());
+         bool patched = true;
+         for (Chain& chain : Chains())
+         {
+-- 
+2.34.1
+
