@@ -1,0 +1,1395 @@
+From 782084ae9355d4602c37af6c9abee8ef1b041573 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 6 Oct 2026 10:29:26 +0000
+Subject: [PATCH] feat: Lost Isles headless progress, bag management, vault +
+ disenchant (F-219)
+
+- interact: equip / destroy / item-target spell (disenchant + loot) /
+  addon messages (CSMH: Item Vault deposit-all), INVENTORY_CHANGE_FAILURE
+- runner: make_room (vault -> equip bags -> disenchant -> destroy last),
+  GO data-field summons (escape pods), credit proxies through actionlists
+  and item spells, passenger bar attacks (Thrall's cyclone), passenger exit,
+  restored proto3 zero fields in rpc.py, tolerant turn-in
+- supervise.sh: survive worldserver restarts (relog + resume)
+
+Refs F-219
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/interact/api/interact.pb.go  | 389 +++++++++++++-----
+ .../modules/interact/api/interact_grpc.pb.go  | 152 +++++++
+ zeppelin/modules/interact/interact.proto      |  24 ++
+ zeppelin/modules/interact/main.go             |  71 ++++
+ zeppelin/modules/interact/module.yaml         |   5 +
+ zeppelin/tests/rpc.py                         |  23 +-
+ zeppelin/tests/start_area.py                  | 189 ++++++++-
+ zeppelin/tests/supervise.sh                   |  21 +
+ 8 files changed, 770 insertions(+), 104 deletions(-)
+ create mode 100755 zeppelin/tests/supervise.sh
+
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index 8d8f4e5..4b7efaa 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -1777,6 +1777,181 @@ func (x *UseItemRequest) GetZ() float32 {
+ 	return 0
+ }
+ 
++// a bag position: bag 255 = backpack (slots 23-38) / equipped (0-18) / bag slots (19-22)
++type ItemSlot struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Bag           uint32                 `protobuf:"varint,1,opt,name=bag,proto3" json:"bag,omitempty"`
++	Slot          uint32                 `protobuf:"varint,2,opt,name=slot,proto3" json:"slot,omitempty"`
++	Count         uint32                 `protobuf:"varint,3,opt,name=count,proto3" json:"count,omitempty"` // destroy: how many (0 = the whole stack)
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *ItemSlot) Reset() {
++	*x = ItemSlot{}
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[24]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *ItemSlot) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*ItemSlot) ProtoMessage() {}
++
++func (x *ItemSlot) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[24]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use ItemSlot.ProtoReflect.Descriptor instead.
++func (*ItemSlot) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{24}
++}
++
++func (x *ItemSlot) GetBag() uint32 {
++	if x != nil {
++		return x.Bag
++	}
++	return 0
++}
++
++func (x *ItemSlot) GetSlot() uint32 {
++	if x != nil {
++		return x.Slot
++	}
++	return 0
++}
++
++func (x *ItemSlot) GetCount() uint32 {
++	if x != nil {
++		return x.Count
++	}
++	return 0
++}
++
++// an addon message (SendAddonMessage): CMSG_MESSAGECHAT, LANG_ADDON, "prefix\tbody"
++type AddonMessage struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Prefix        string                 `protobuf:"bytes,1,opt,name=prefix,proto3" json:"prefix,omitempty"`
++	Body          string                 `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`
++	Target        string                 `protobuf:"bytes,3,opt,name=target,proto3" json:"target,omitempty"` // whisper target (CSMH frameworks whisper to the player itself)
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *AddonMessage) Reset() {
++	*x = AddonMessage{}
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[25]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *AddonMessage) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*AddonMessage) ProtoMessage() {}
++
++func (x *AddonMessage) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[25]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use AddonMessage.ProtoReflect.Descriptor instead.
++func (*AddonMessage) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{25}
++}
++
++func (x *AddonMessage) GetPrefix() string {
++	if x != nil {
++		return x.Prefix
++	}
++	return ""
++}
++
++func (x *AddonMessage) GetBody() string {
++	if x != nil {
++		return x.Body
++	}
++	return ""
++}
++
++func (x *AddonMessage) GetTarget() string {
++	if x != nil {
++		return x.Target
++	}
++	return ""
++}
++
++// cast a spell on a bag item and loot what it yields (Disenchant 13262, Prospecting, Milling)
++type ItemSpellRequest struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	ItemGuid      uint64                 `protobuf:"varint,1,opt,name=item_guid,json=itemGuid,proto3" json:"item_guid,omitempty"`
++	SpellId       uint32                 `protobuf:"varint,2,opt,name=spell_id,json=spellId,proto3" json:"spell_id,omitempty"` // 0 = Disenchant (13262)
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *ItemSpellRequest) Reset() {
++	*x = ItemSpellRequest{}
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[26]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *ItemSpellRequest) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*ItemSpellRequest) ProtoMessage() {}
++
++func (x *ItemSpellRequest) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[26]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use ItemSpellRequest.ProtoReflect.Descriptor instead.
++func (*ItemSpellRequest) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{26}
++}
++
++func (x *ItemSpellRequest) GetItemGuid() uint64 {
++	if x != nil {
++		return x.ItemGuid
++	}
++	return 0
++}
++
++func (x *ItemSpellRequest) GetSpellId() uint32 {
++	if x != nil {
++		return x.SpellId
++	}
++	return 0
++}
++
+ type TrainerSpell struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	SpellId       uint32                 `protobuf:"varint,1,opt,name=spell_id,json=spellId,proto3" json:"spell_id,omitempty"`
+@@ -1789,7 +1964,7 @@ type TrainerSpell struct {
+ 
+ func (x *TrainerSpell) Reset() {
+ 	*x = TrainerSpell{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[24]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[27]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -1801,7 +1976,7 @@ func (x *TrainerSpell) String() string {
+ func (*TrainerSpell) ProtoMessage() {}
+ 
+ func (x *TrainerSpell) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[24]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[27]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -1814,7 +1989,7 @@ func (x *TrainerSpell) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use TrainerSpell.ProtoReflect.Descriptor instead.
+ func (*TrainerSpell) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{24}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{27}
+ }
+ 
+ func (x *TrainerSpell) GetSpellId() uint32 {
+@@ -1857,7 +2032,7 @@ type TrainerList struct {
+ 
+ func (x *TrainerList) Reset() {
+ 	*x = TrainerList{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[25]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[28]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -1869,7 +2044,7 @@ func (x *TrainerList) String() string {
+ func (*TrainerList) ProtoMessage() {}
+ 
+ func (x *TrainerList) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[25]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[28]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -1882,7 +2057,7 @@ func (x *TrainerList) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use TrainerList.ProtoReflect.Descriptor instead.
+ func (*TrainerList) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{25}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{28}
+ }
+ 
+ func (x *TrainerList) GetGuid() uint64 {
+@@ -1923,7 +2098,7 @@ type TrainerBuyRequest struct {
+ 
+ func (x *TrainerBuyRequest) Reset() {
+ 	*x = TrainerBuyRequest{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[26]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[29]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -1935,7 +2110,7 @@ func (x *TrainerBuyRequest) String() string {
+ func (*TrainerBuyRequest) ProtoMessage() {}
+ 
+ func (x *TrainerBuyRequest) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[26]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[29]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -1948,7 +2123,7 @@ func (x *TrainerBuyRequest) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use TrainerBuyRequest.ProtoReflect.Descriptor instead.
+ func (*TrainerBuyRequest) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{26}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{29}
+ }
+ 
+ func (x *TrainerBuyRequest) GetTarget() *Target {
+@@ -1975,7 +2150,7 @@ type TrainerBuyResult struct {
+ 
+ func (x *TrainerBuyResult) Reset() {
+ 	*x = TrainerBuyResult{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[27]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[30]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -1987,7 +2162,7 @@ func (x *TrainerBuyResult) String() string {
+ func (*TrainerBuyResult) ProtoMessage() {}
+ 
+ func (x *TrainerBuyResult) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[27]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[30]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -2000,7 +2175,7 @@ func (x *TrainerBuyResult) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use TrainerBuyResult.ProtoReflect.Descriptor instead.
+ func (*TrainerBuyResult) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{27}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{30}
+ }
+ 
+ func (x *TrainerBuyResult) GetOk() bool {
+@@ -2029,7 +2204,7 @@ type LearnAllResult struct {
+ 
+ func (x *LearnAllResult) Reset() {
+ 	*x = LearnAllResult{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[28]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[31]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -2041,7 +2216,7 @@ func (x *LearnAllResult) String() string {
+ func (*LearnAllResult) ProtoMessage() {}
+ 
+ func (x *LearnAllResult) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[28]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[31]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -2054,7 +2229,7 @@ func (x *LearnAllResult) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use LearnAllResult.ProtoReflect.Descriptor instead.
+ func (*LearnAllResult) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{28}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{31}
+ }
+ 
+ func (x *LearnAllResult) GetLearned() []uint32 {
+@@ -2094,7 +2269,7 @@ type KnownSpells struct {
+ 
+ func (x *KnownSpells) Reset() {
+ 	*x = KnownSpells{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[29]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[32]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -2106,7 +2281,7 @@ func (x *KnownSpells) String() string {
+ func (*KnownSpells) ProtoMessage() {}
+ 
+ func (x *KnownSpells) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[29]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[32]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -2119,7 +2294,7 @@ func (x *KnownSpells) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use KnownSpells.ProtoReflect.Descriptor instead.
+ func (*KnownSpells) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{29}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{32}
+ }
+ 
+ func (x *KnownSpells) GetSpells() []uint32 {
+@@ -2143,7 +2318,7 @@ type VendorItem struct {
+ 
+ func (x *VendorItem) Reset() {
+ 	*x = VendorItem{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[30]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[33]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -2155,7 +2330,7 @@ func (x *VendorItem) String() string {
+ func (*VendorItem) ProtoMessage() {}
+ 
+ func (x *VendorItem) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[30]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[33]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -2168,7 +2343,7 @@ func (x *VendorItem) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use VendorItem.ProtoReflect.Descriptor instead.
+ func (*VendorItem) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{30}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{33}
+ }
+ 
+ func (x *VendorItem) GetSlot() uint32 {
+@@ -2224,7 +2399,7 @@ type VendorList struct {
+ 
+ func (x *VendorList) Reset() {
+ 	*x = VendorList{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[31]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[34]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -2236,7 +2411,7 @@ func (x *VendorList) String() string {
+ func (*VendorList) ProtoMessage() {}
+ 
+ func (x *VendorList) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[31]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[34]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -2249,7 +2424,7 @@ func (x *VendorList) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use VendorList.ProtoReflect.Descriptor instead.
+ func (*VendorList) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{31}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{34}
+ }
+ 
+ func (x *VendorList) GetGuid() uint64 {
+@@ -2284,7 +2459,7 @@ type VendorBuyRequest struct {
+ 
+ func (x *VendorBuyRequest) Reset() {
+ 	*x = VendorBuyRequest{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[32]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[35]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -2296,7 +2471,7 @@ func (x *VendorBuyRequest) String() string {
+ func (*VendorBuyRequest) ProtoMessage() {}
+ 
+ func (x *VendorBuyRequest) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[32]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[35]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -2309,7 +2484,7 @@ func (x *VendorBuyRequest) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use VendorBuyRequest.ProtoReflect.Descriptor instead.
+ func (*VendorBuyRequest) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{32}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{35}
+ }
+ 
+ func (x *VendorBuyRequest) GetTarget() *Target {
+@@ -2343,7 +2518,7 @@ type VendorBuyResult struct {
+ 
+ func (x *VendorBuyResult) Reset() {
+ 	*x = VendorBuyResult{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[33]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[36]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -2355,7 +2530,7 @@ func (x *VendorBuyResult) String() string {
+ func (*VendorBuyResult) ProtoMessage() {}
+ 
+ func (x *VendorBuyResult) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[33]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[36]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -2368,7 +2543,7 @@ func (x *VendorBuyResult) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use VendorBuyResult.ProtoReflect.Descriptor instead.
+ func (*VendorBuyResult) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{33}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{36}
+ }
+ 
+ func (x *VendorBuyResult) GetOk() bool {
+@@ -2537,7 +2712,18 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x06ground\x18\x06 \x01(\bR\x06ground\x12\f\n" +
+ 	"\x01x\x18\a \x01(\x02R\x01x\x12\f\n" +
+ 	"\x01y\x18\b \x01(\x02R\x01y\x12\f\n" +
+-	"\x01z\x18\t \x01(\x02R\x01z\"p\n" +
++	"\x01z\x18\t \x01(\x02R\x01z\"F\n" +
++	"\bItemSlot\x12\x10\n" +
++	"\x03bag\x18\x01 \x01(\rR\x03bag\x12\x12\n" +
++	"\x04slot\x18\x02 \x01(\rR\x04slot\x12\x14\n" +
++	"\x05count\x18\x03 \x01(\rR\x05count\"R\n" +
++	"\fAddonMessage\x12\x16\n" +
++	"\x06prefix\x18\x01 \x01(\tR\x06prefix\x12\x12\n" +
++	"\x04body\x18\x02 \x01(\tR\x04body\x12\x16\n" +
++	"\x06target\x18\x03 \x01(\tR\x06target\"J\n" +
++	"\x10ItemSpellRequest\x12\x1b\n" +
++	"\titem_guid\x18\x01 \x01(\x04R\bitemGuid\x12\x19\n" +
++	"\bspell_id\x18\x02 \x01(\rR\aspellId\"p\n" +
+ 	"\fTrainerSpell\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x14\n" +
+ 	"\x05state\x18\x02 \x01(\rR\x05state\x12\x12\n" +
+@@ -2580,9 +2766,13 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x05count\x18\x03 \x01(\rR\x05count\"9\n" +
+ 	"\x0fVendorBuyResult\x12\x0e\n" +
+ 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
+-	"\x06detail\x18\x02 \x01(\tR\x06detail2\xd3\r\n" +
++	"\x06detail\x18\x02 \x01(\tR\x06detail2\x95\x10\n" +
+ 	"\bInteract\x12K\n" +
+-	"\x04Find\x12!.zeppelin.interact.v1.FindRequest\x1a .zeppelin.interact.v1.FindResult\x12G\n" +
++	"\x04Find\x12!.zeppelin.interact.v1.FindRequest\x1a .zeppelin.interact.v1.FindResult\x12Q\n" +
++	"\tSendAddon\x12\".zeppelin.interact.v1.AddonMessage\x1a .zeppelin.interact.v1.CastResult\x12U\n" +
++	"\tItemSpell\x12&.zeppelin.interact.v1.ItemSpellRequest\x1a .zeppelin.interact.v1.LootResult\x12I\n" +
++	"\x05Equip\x12\x1e.zeppelin.interact.v1.ItemSlot\x1a .zeppelin.interact.v1.CastResult\x12K\n" +
++	"\aDestroy\x12\x1e.zeppelin.interact.v1.ItemSlot\x1a .zeppelin.interact.v1.CastResult\x12G\n" +
+ 	"\vGossipHello\x12\x1c.zeppelin.interact.v1.Target\x1a\x1a.zeppelin.interact.v1.Menu\x12O\n" +
+ 	"\fGossipSelect\x12#.zeppelin.interact.v1.SelectRequest\x1a\x1a.zeppelin.interact.v1.Menu\x12F\n" +
+ 	"\n" +
+@@ -2620,7 +2810,7 @@ func file_zeppelin_modules_interact_interact_proto_rawDescGZIP() []byte {
+ 	return file_zeppelin_modules_interact_interact_proto_rawDescData
+ }
+ 
+-var file_zeppelin_modules_interact_interact_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
++var file_zeppelin_modules_interact_interact_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
+ var file_zeppelin_modules_interact_interact_proto_goTypes = []any{
+ 	(*Target)(nil),            // 0: zeppelin.interact.v1.Target
+ 	(*WorldObject)(nil),       // 1: zeppelin.interact.v1.WorldObject
+@@ -2646,18 +2836,21 @@ var file_zeppelin_modules_interact_interact_proto_goTypes = []any{
+ 	(*InventoryItem)(nil),     // 21: zeppelin.interact.v1.InventoryItem
+ 	(*Inventory)(nil),         // 22: zeppelin.interact.v1.Inventory
+ 	(*UseItemRequest)(nil),    // 23: zeppelin.interact.v1.UseItemRequest
+-	(*TrainerSpell)(nil),      // 24: zeppelin.interact.v1.TrainerSpell
+-	(*TrainerList)(nil),       // 25: zeppelin.interact.v1.TrainerList
+-	(*TrainerBuyRequest)(nil), // 26: zeppelin.interact.v1.TrainerBuyRequest
+-	(*TrainerBuyResult)(nil),  // 27: zeppelin.interact.v1.TrainerBuyResult
+-	(*LearnAllResult)(nil),    // 28: zeppelin.interact.v1.LearnAllResult
+-	(*KnownSpells)(nil),       // 29: zeppelin.interact.v1.KnownSpells
+-	(*VendorItem)(nil),        // 30: zeppelin.interact.v1.VendorItem
+-	(*VendorList)(nil),        // 31: zeppelin.interact.v1.VendorList
+-	(*VendorBuyRequest)(nil),  // 32: zeppelin.interact.v1.VendorBuyRequest
+-	(*VendorBuyResult)(nil),   // 33: zeppelin.interact.v1.VendorBuyResult
+-	(*emptypb.Empty)(nil),     // 34: google.protobuf.Empty
+-	(*v1.WorldPacket)(nil),    // 35: agentwow.module.v1.WorldPacket
++	(*ItemSlot)(nil),          // 24: zeppelin.interact.v1.ItemSlot
++	(*AddonMessage)(nil),      // 25: zeppelin.interact.v1.AddonMessage
++	(*ItemSpellRequest)(nil),  // 26: zeppelin.interact.v1.ItemSpellRequest
++	(*TrainerSpell)(nil),      // 27: zeppelin.interact.v1.TrainerSpell
++	(*TrainerList)(nil),       // 28: zeppelin.interact.v1.TrainerList
++	(*TrainerBuyRequest)(nil), // 29: zeppelin.interact.v1.TrainerBuyRequest
++	(*TrainerBuyResult)(nil),  // 30: zeppelin.interact.v1.TrainerBuyResult
++	(*LearnAllResult)(nil),    // 31: zeppelin.interact.v1.LearnAllResult
++	(*KnownSpells)(nil),       // 32: zeppelin.interact.v1.KnownSpells
++	(*VendorItem)(nil),        // 33: zeppelin.interact.v1.VendorItem
++	(*VendorList)(nil),        // 34: zeppelin.interact.v1.VendorList
++	(*VendorBuyRequest)(nil),  // 35: zeppelin.interact.v1.VendorBuyRequest
++	(*VendorBuyResult)(nil),   // 36: zeppelin.interact.v1.VendorBuyResult
++	(*emptypb.Empty)(nil),     // 37: google.protobuf.Empty
++	(*v1.WorldPacket)(nil),    // 38: agentwow.module.v1.WorldPacket
+ }
+ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	1,  // 0: zeppelin.interact.v1.FindResult.objects:type_name -> zeppelin.interact.v1.WorldObject
+@@ -2673,56 +2866,64 @@ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	17, // 10: zeppelin.interact.v1.Events.events:type_name -> zeppelin.interact.v1.Event
+ 	21, // 11: zeppelin.interact.v1.Inventory.items:type_name -> zeppelin.interact.v1.InventoryItem
+ 	0,  // 12: zeppelin.interact.v1.UseItemRequest.target:type_name -> zeppelin.interact.v1.Target
+-	24, // 13: zeppelin.interact.v1.TrainerList.spells:type_name -> zeppelin.interact.v1.TrainerSpell
++	27, // 13: zeppelin.interact.v1.TrainerList.spells:type_name -> zeppelin.interact.v1.TrainerSpell
+ 	0,  // 14: zeppelin.interact.v1.TrainerBuyRequest.target:type_name -> zeppelin.interact.v1.Target
+-	30, // 15: zeppelin.interact.v1.VendorList.items:type_name -> zeppelin.interact.v1.VendorItem
++	33, // 15: zeppelin.interact.v1.VendorList.items:type_name -> zeppelin.interact.v1.VendorItem
+ 	0,  // 16: zeppelin.interact.v1.VendorBuyRequest.target:type_name -> zeppelin.interact.v1.Target
+ 	2,  // 17: zeppelin.interact.v1.Interact.Find:input_type -> zeppelin.interact.v1.FindRequest
+-	0,  // 18: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
+-	7,  // 19: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
+-	0,  // 20: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
+-	8,  // 21: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
+-	8,  // 22: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
+-	34, // 23: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
+-	14, // 24: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
+-	14, // 25: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
+-	18, // 26: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
+-	15, // 27: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
+-	34, // 28: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
+-	34, // 29: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
+-	23, // 30: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
+-	0,  // 31: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
+-	26, // 32: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
+-	0,  // 33: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
+-	34, // 34: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
+-	0,  // 35: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
+-	32, // 36: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
+-	0,  // 37: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
+-	35, // 38: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
+-	3,  // 39: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
+-	6,  // 40: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 41: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 42: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
+-	9,  // 43: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
+-	9,  // 44: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
+-	11, // 45: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
+-	13, // 46: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
+-	13, // 47: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
+-	19, // 48: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
+-	16, // 49: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
+-	20, // 50: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
+-	22, // 51: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
+-	16, // 52: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
+-	25, // 53: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
+-	27, // 54: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
+-	28, // 55: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
+-	29, // 56: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
+-	31, // 57: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
+-	33, // 58: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
+-	16, // 59: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
+-	34, // 60: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
+-	39, // [39:61] is the sub-list for method output_type
+-	17, // [17:39] is the sub-list for method input_type
++	25, // 18: zeppelin.interact.v1.Interact.SendAddon:input_type -> zeppelin.interact.v1.AddonMessage
++	26, // 19: zeppelin.interact.v1.Interact.ItemSpell:input_type -> zeppelin.interact.v1.ItemSpellRequest
++	24, // 20: zeppelin.interact.v1.Interact.Equip:input_type -> zeppelin.interact.v1.ItemSlot
++	24, // 21: zeppelin.interact.v1.Interact.Destroy:input_type -> zeppelin.interact.v1.ItemSlot
++	0,  // 22: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
++	7,  // 23: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
++	0,  // 24: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
++	8,  // 25: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
++	8,  // 26: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
++	37, // 27: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
++	14, // 28: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
++	14, // 29: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
++	18, // 30: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
++	15, // 31: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
++	37, // 32: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
++	37, // 33: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
++	23, // 34: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
++	0,  // 35: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
++	29, // 36: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
++	0,  // 37: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
++	37, // 38: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
++	0,  // 39: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
++	35, // 40: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
++	0,  // 41: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
++	38, // 42: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	3,  // 43: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
++	16, // 44: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
++	13, // 45: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
++	16, // 46: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
++	16, // 47: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
++	6,  // 48: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
++	6,  // 49: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
++	6,  // 50: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
++	9,  // 51: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
++	9,  // 52: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
++	11, // 53: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
++	13, // 54: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
++	13, // 55: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
++	19, // 56: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
++	16, // 57: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
++	20, // 58: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
++	22, // 59: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
++	16, // 60: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
++	28, // 61: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
++	30, // 62: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
++	31, // 63: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
++	32, // 64: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
++	34, // 65: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
++	36, // 66: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
++	16, // 67: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
++	37, // 68: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
++	43, // [43:69] is the sub-list for method output_type
++	17, // [17:43] is the sub-list for method input_type
+ 	17, // [17:17] is the sub-list for extension type_name
+ 	17, // [17:17] is the sub-list for extension extendee
+ 	0,  // [0:17] is the sub-list for field type_name
+@@ -2739,7 +2940,7 @@ func file_zeppelin_modules_interact_interact_proto_init() {
+ 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
+ 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_zeppelin_modules_interact_interact_proto_rawDesc), len(file_zeppelin_modules_interact_interact_proto_rawDesc)),
+ 			NumEnums:      0,
+-			NumMessages:   34,
++			NumMessages:   37,
+ 			NumExtensions: 0,
+ 			NumServices:   1,
+ 		},
+diff --git a/zeppelin/modules/interact/api/interact_grpc.pb.go b/zeppelin/modules/interact/api/interact_grpc.pb.go
+index e753cec..ff5b844 100644
+--- a/zeppelin/modules/interact/api/interact_grpc.pb.go
++++ b/zeppelin/modules/interact/api/interact_grpc.pb.go
+@@ -22,6 +22,10 @@ const _ = grpc.SupportPackageIsVersion9
+ 
+ const (
+ 	Interact_Find_FullMethodName            = "/zeppelin.interact.v1.Interact/Find"
++	Interact_SendAddon_FullMethodName       = "/zeppelin.interact.v1.Interact/SendAddon"
++	Interact_ItemSpell_FullMethodName       = "/zeppelin.interact.v1.Interact/ItemSpell"
++	Interact_Equip_FullMethodName           = "/zeppelin.interact.v1.Interact/Equip"
++	Interact_Destroy_FullMethodName         = "/zeppelin.interact.v1.Interact/Destroy"
+ 	Interact_GossipHello_FullMethodName     = "/zeppelin.interact.v1.Interact/GossipHello"
+ 	Interact_GossipSelect_FullMethodName    = "/zeppelin.interact.v1.Interact/GossipSelect"
+ 	Interact_QuestHello_FullMethodName      = "/zeppelin.interact.v1.Interact/QuestHello"
+@@ -50,6 +54,10 @@ const (
+ // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+ type InteractClient interface {
+ 	Find(ctx context.Context, in *FindRequest, opts ...grpc.CallOption) (*FindResult, error)
++	SendAddon(ctx context.Context, in *AddonMessage, opts ...grpc.CallOption) (*CastResult, error)
++	ItemSpell(ctx context.Context, in *ItemSpellRequest, opts ...grpc.CallOption) (*LootResult, error)
++	Equip(ctx context.Context, in *ItemSlot, opts ...grpc.CallOption) (*CastResult, error)
++	Destroy(ctx context.Context, in *ItemSlot, opts ...grpc.CallOption) (*CastResult, error)
+ 	GossipHello(ctx context.Context, in *Target, opts ...grpc.CallOption) (*Menu, error)
+ 	GossipSelect(ctx context.Context, in *SelectRequest, opts ...grpc.CallOption) (*Menu, error)
+ 	QuestHello(ctx context.Context, in *Target, opts ...grpc.CallOption) (*Menu, error)
+@@ -91,6 +99,46 @@ func (c *interactClient) Find(ctx context.Context, in *FindRequest, opts ...grpc
+ 	return out, nil
+ }
+ 
++func (c *interactClient) SendAddon(ctx context.Context, in *AddonMessage, opts ...grpc.CallOption) (*CastResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(CastResult)
++	err := c.cc.Invoke(ctx, Interact_SendAddon_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *interactClient) ItemSpell(ctx context.Context, in *ItemSpellRequest, opts ...grpc.CallOption) (*LootResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(LootResult)
++	err := c.cc.Invoke(ctx, Interact_ItemSpell_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *interactClient) Equip(ctx context.Context, in *ItemSlot, opts ...grpc.CallOption) (*CastResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(CastResult)
++	err := c.cc.Invoke(ctx, Interact_Equip_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
++func (c *interactClient) Destroy(ctx context.Context, in *ItemSlot, opts ...grpc.CallOption) (*CastResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(CastResult)
++	err := c.cc.Invoke(ctx, Interact_Destroy_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
+ func (c *interactClient) GossipHello(ctx context.Context, in *Target, opts ...grpc.CallOption) (*Menu, error) {
+ 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+ 	out := new(Menu)
+@@ -306,6 +354,10 @@ func (c *interactClient) OnPacket(ctx context.Context, in *v1.WorldPacket, opts
+ // for forward compatibility.
+ type InteractServer interface {
+ 	Find(context.Context, *FindRequest) (*FindResult, error)
++	SendAddon(context.Context, *AddonMessage) (*CastResult, error)
++	ItemSpell(context.Context, *ItemSpellRequest) (*LootResult, error)
++	Equip(context.Context, *ItemSlot) (*CastResult, error)
++	Destroy(context.Context, *ItemSlot) (*CastResult, error)
+ 	GossipHello(context.Context, *Target) (*Menu, error)
+ 	GossipSelect(context.Context, *SelectRequest) (*Menu, error)
+ 	QuestHello(context.Context, *Target) (*Menu, error)
+@@ -340,6 +392,18 @@ type UnimplementedInteractServer struct{}
+ func (UnimplementedInteractServer) Find(context.Context, *FindRequest) (*FindResult, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method Find not implemented")
+ }
++func (UnimplementedInteractServer) SendAddon(context.Context, *AddonMessage) (*CastResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method SendAddon not implemented")
++}
++func (UnimplementedInteractServer) ItemSpell(context.Context, *ItemSpellRequest) (*LootResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method ItemSpell not implemented")
++}
++func (UnimplementedInteractServer) Equip(context.Context, *ItemSlot) (*CastResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method Equip not implemented")
++}
++func (UnimplementedInteractServer) Destroy(context.Context, *ItemSlot) (*CastResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method Destroy not implemented")
++}
+ func (UnimplementedInteractServer) GossipHello(context.Context, *Target) (*Menu, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method GossipHello not implemented")
+ }
+@@ -442,6 +506,78 @@ func _Interact_Find_Handler(srv interface{}, ctx context.Context, dec func(inter
+ 	return interceptor(ctx, in, info, handler)
+ }
+ 
++func _Interact_SendAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(AddonMessage)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).SendAddon(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_SendAddon_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).SendAddon(ctx, req.(*AddonMessage))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Interact_ItemSpell_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(ItemSpellRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).ItemSpell(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_ItemSpell_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).ItemSpell(ctx, req.(*ItemSpellRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Interact_Equip_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(ItemSlot)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).Equip(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_Equip_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).Equip(ctx, req.(*ItemSlot))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
++func _Interact_Destroy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(ItemSlot)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).Destroy(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_Destroy_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).Destroy(ctx, req.(*ItemSlot))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
+ func _Interact_GossipHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+ 	in := new(Target)
+ 	if err := dec(in); err != nil {
+@@ -831,6 +967,22 @@ var Interact_ServiceDesc = grpc.ServiceDesc{
+ 			MethodName: "Find",
+ 			Handler:    _Interact_Find_Handler,
+ 		},
++		{
++			MethodName: "SendAddon",
++			Handler:    _Interact_SendAddon_Handler,
++		},
++		{
++			MethodName: "ItemSpell",
++			Handler:    _Interact_ItemSpell_Handler,
++		},
++		{
++			MethodName: "Equip",
++			Handler:    _Interact_Equip_Handler,
++		},
++		{
++			MethodName: "Destroy",
++			Handler:    _Interact_Destroy_Handler,
++		},
+ 		{
+ 			MethodName: "GossipHello",
+ 			Handler:    _Interact_GossipHello_Handler,
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index bbdf8d0..1f85e8f 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -168,6 +168,26 @@ message UseItemRequest {
+   float z = 9;
+ }
+ 
++// a bag position: bag 255 = backpack (slots 23-38) / equipped (0-18) / bag slots (19-22)
++message ItemSlot {
++  uint32 bag = 1;
++  uint32 slot = 2;
++  uint32 count = 3;      // destroy: how many (0 = the whole stack)
++}
++
++// an addon message (SendAddonMessage): CMSG_MESSAGECHAT, LANG_ADDON, "prefix\tbody"
++message AddonMessage {
++  string prefix = 1;
++  string body = 2;
++  string target = 3;     // whisper target (CSMH frameworks whisper to the player itself)
++}
++
++// cast a spell on a bag item and loot what it yields (Disenchant 13262, Prospecting, Milling)
++message ItemSpellRequest {
++  uint64 item_guid = 1;
++  uint32 spell_id = 2;   // 0 = Disenchant (13262)
++}
++
+ message TrainerSpell {
+   uint32 spell_id = 1;
+   uint32 state = 2;      // 0 learnable now, 1 not yet (level/skill/prereq), 2 already known
+@@ -221,6 +241,10 @@ message VendorBuyResult {
+ 
+ service Interact {
+   rpc Find(FindRequest) returns (FindResult);
++  rpc SendAddon(AddonMessage) returns (CastResult); // server-side ALE/CSMH handlers (Item Vault)
++  rpc ItemSpell(ItemSpellRequest) returns (LootResult); // CMSG_CAST_SPELL at an item + loot it
++  rpc Equip(ItemSlot) returns (CastResult);     // CMSG_AUTOEQUIP_ITEM (bags go to a bag slot)
++  rpc Destroy(ItemSlot) returns (CastResult);   // CMSG_DESTROYITEM
+   rpc GossipHello(Target) returns (Menu);
+   rpc GossipSelect(SelectRequest) returns (Menu);
+   rpc QuestHello(Target) returns (Menu);
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index 916a1f1..853d346 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -808,6 +808,7 @@ const (
+ 	targetFlagUnit         = 0x00000002 // TARGET_FLAG_UNIT
+ 	targetFlagGameObject   = 0x00000800 // TARGET_FLAG_GAMEOBJECT
+ 	targetFlagDestLocation = 0x00000040 // TARGET_FLAG_DEST_LOCATION
++	targetFlagItem         = 0x00000010 // TARGET_FLAG_ITEM
+ )
+ 
+ func (s *service) Cast(ctx context.Context, req *interactv1.CastRequest) (*interactv1.CastResult, error) {
+@@ -969,6 +970,76 @@ func (s *service) UseItem(ctx context.Context, req *interactv1.UseItemRequest) (
+ 	return s.castWith(ctx, opcode.CMSGUseItem, item, req.GetSpellId(), guid, kind, wait)
+ }
+ 
++// -- RPCs: bags ----------------------------------------------------------------------------------
++
++// SendAddon whispers an addon message the way SendAddonMessage(prefix, body, "WHISPER", target)
++// does: CMSG_MESSAGECHAT u32 CHAT_MSG_WHISPER (7), u32 LANG_ADDON, target, "prefix\tbody".
++func (s *service) SendAddon(ctx context.Context, req *interactv1.AddonMessage) (*interactv1.CastResult, error) {
++	var w wow.Writer
++	w.U32(7)
++	w.U32(0xFFFFFFFF)
++	w.CString(req.GetTarget())
++	w.CString(req.GetPrefix() + "\t" + req.GetBody())
++	if err := s.send(ctx, opcode.CMSGMessagechat, &w); err != nil {
++		return nil, err
++	}
++	return &interactv1.CastResult{Ok: true, Detail: "sent"}, nil
++}
++
++// ItemSpell casts at a bag item (TARGET_FLAG_ITEM 0x10 + packed item guid) and loots the window
++// the server opens on that item (Disenchant: SMSG_LOOT_RESPONSE keyed by the item guid).
++func (s *service) ItemSpell(ctx context.Context, req *interactv1.ItemSpellRequest) (*interactv1.LootResult, error) {
++	spell := req.GetSpellId()
++	if spell == 0 {
++		spell = 13262
++	}
++	item := req.GetItemGuid()
++	s.mu.Lock()
++	s.castCount++
++	count := s.castCount
++	s.mu.Unlock()
++	var w wow.Writer
++	w.U8(count)
++	w.U32(spell)
++	w.U8(0) // cast flags
++	w.U32(targetFlagItem)
++	w.PackedGUID(item)
++	return s.lootWith(ctx, item, func() error { return s.send(ctx, opcode.CMSGCastSpell, &w) }, true, 8*time.Second)
++}
++
++// Equip sends CMSG_AUTOEQUIP_ITEM (u8 bag, u8 slot): the server picks the slot, and a container
++// goes into a free bag slot. Errors come back as SMSG_INVENTORY_CHANGE_FAILURE (u8 result first).
++func (s *service) Equip(ctx context.Context, req *interactv1.ItemSlot) (*interactv1.CastResult, error) {
++	var w wow.Writer
++	w.U8(uint8(req.GetBag()))
++	w.U8(uint8(req.GetSlot()))
++	return s.bagOp(ctx, opcode.CMSGAutoequipItem, &w)
++}
++
++// Destroy sends CMSG_DESTROYITEM (u8 bag, u8 slot, u8 count, 3 x u8 unused).
++func (s *service) Destroy(ctx context.Context, req *interactv1.ItemSlot) (*interactv1.CastResult, error) {
++	var w wow.Writer
++	w.U8(uint8(req.GetBag()))
++	w.U8(uint8(req.GetSlot()))
++	w.U8(uint8(req.GetCount()))
++	w.U8(0)
++	w.U8(0)
++	w.U8(0)
++	return s.bagOp(ctx, opcode.CMSGDestroyitem, &w)
++}
++
++func (s *service) bagOp(ctx context.Context, op uint32, w *wow.Writer) (*interactv1.CastResult, error) {
++	ch := s.listen(opcode.SMSGInventoryChangeFailure)
++	defer s.unlisten(ch)
++	if err := s.send(ctx, op, w); err != nil {
++		return nil, err
++	}
++	if p, ok := await(ctx, ch, 800*time.Millisecond); ok && len(p.payload) > 0 && p.payload[0] != 0 {
++		return &interactv1.CastResult{Detail: fmt.Sprintf("inventory error %d", p.payload[0])}, nil
++	}
++	return &interactv1.CastResult{Ok: true, Detail: "done"}, nil
++}
++
+ // -- RPCs: trainers and spells --------------------------------------------------------------------
+ 
+ func (s *service) GetSpells(context.Context, *emptypb.Empty) (*interactv1.KnownSpells, error) {
+diff --git a/zeppelin/modules/interact/module.yaml b/zeppelin/modules/interact/module.yaml
+index 048cd37..6f921d7 100644
+--- a/zeppelin/modules/interact/module.yaml
++++ b/zeppelin/modules/interact/module.yaml
+@@ -28,6 +28,10 @@ rpc:
+   vendor_list: /zeppelin.interact.v1.Interact/GetVendorList
+   vendor_buy: /zeppelin.interact.v1.Interact/VendorBuy
+   spellclick: /zeppelin.interact.v1.Interact/SpellClick
++  equip: /zeppelin.interact.v1.Interact/Equip
++  addon: /zeppelin.interact.v1.Interact/SendAddon
++  item_spell: /zeppelin.interact.v1.Interact/ItemSpell
++  destroy: /zeppelin.interact.v1.Interact/Destroy
+ packets:
+   SMSG_UPDATE_OBJECT: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_COMPRESSED_UPDATE_OBJECT: /zeppelin.interact.v1.Interact/OnPacket
+@@ -37,6 +41,7 @@ packets:
+   SMSG_AURA_UPDATE: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_AURA_UPDATE_ALL: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_MESSAGECHAT: /zeppelin.interact.v1.Interact/OnPacket
++  SMSG_INVENTORY_CHANGE_FAILURE: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_GOSSIP_MESSAGE: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_GOSSIP_COMPLETE: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_QUESTGIVER_QUEST_LIST: /zeppelin.interact.v1.Interact/OnPacket
+diff --git a/zeppelin/tests/rpc.py b/zeppelin/tests/rpc.py
+index 8f0adcd..276f87e 100644
+--- a/zeppelin/tests/rpc.py
++++ b/zeppelin/tests/rpc.py
+@@ -21,7 +21,28 @@ def call(method, **params):
+         reply = json.load(r)
+     if "error" in reply:
+         raise StepFailed(f"{method}: {reply['error']}")
+-    return reply.get("result", {})
++    return _zeros(reply.get("result", {}))
++
++
++# proto3 JSON leaves out zero-valued fields: a pod floating at z = 0, a corpse at health 0, a unit
++# at distance 0. A missing coordinate/stat IS zero, so put the zeros back where scripts index them.
++_POS = ("x", "y", "z")
++_OBJ = _POS + ("distance", "health")
++
++
++def _zeros(res):
++    if isinstance(res, dict):
++        for o in res.get("objects", ()):
++            for k in _OBJ:
++                o.setdefault(k, 0)
++        for key in ("position", "move"):
++            sub = res.get(key)
++            if isinstance(sub, dict):
++                _zeros(sub)
++        if "known" in res or "map" in res:  # a Position
++            for k in _POS:
++                res.setdefault(k, 0)
++    return res
+ 
+ 
+ def step(name, ok, detail=""):
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index c90d6d3..b32bdb0 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -137,8 +137,14 @@ class World:
+         # credit proxies: other creatures whose SPELLHIT pays KILL_CREDIT (action 33) for an objective
+         # (Life of the Party: credit 35175, but the phase-2 partygoers you entertain are 35186)
+         self.credit_proxy = {}  # objective entry -> {proxy entry: [spells]}
+-        for r in sql("SELECT entryorguid e,event_param1 sp,action_param1 c FROM smart_scripts WHERE source_type=0 "
+-                     f"AND event_type=8 AND action_type=33 AND event_param1>0 AND action_param1 IN ({inlist(targets)})"):
++        # direct (spellhit -> action 33) or through a timed actionlist (spellhit -> action 80 list ->
++        # action 33: Monkey Business, bananas on 34699 pay 35760 via list 3469900)
++        rows = sql("SELECT entryorguid e,event_param1 sp,action_param1 c FROM smart_scripts WHERE source_type=0 "
++                   f"AND event_type=8 AND action_type=33 AND event_param1>0 AND action_param1 IN ({inlist(targets)})")
++        rows += sql("SELECT s.entryorguid e,s.event_param1 sp,l.action_param1 c FROM smart_scripts s JOIN smart_scripts l "
++                    "ON l.source_type=9 AND l.entryorguid=s.action_param1 AND l.action_type=33 WHERE s.source_type=0 "
++                    f"AND s.event_type=8 AND s.action_type=80 AND s.event_param1>0 AND l.action_param1 IN ({inlist(targets)})")
++        for r in rows:
+             e, c = int(r["e"]), int(r["c"])
+             if e != c and e in self.cspawn:
+                 self.credit_proxy.setdefault(c, {}).setdefault(e, []).append(int(r["sp"]))
+@@ -256,6 +262,35 @@ class World:
+                         # event 62 = GOSSIP_SELECT (param1 = menu): the GO's menu option is the trigger
+                         menu = int(g["p1"]) if int(g["ev"]) == 62 else 0
+                         self.summon_credit_go[t] = (int(g["g"]), menu)
++                # no SAI: the GO's own data-field spell (goober type 10 Data10, spellcaster type 22
++                # Data0) - Goblin Escape Pod 195188 casts 66137 -> Goblin Survivor 34748
++                if t not in self.summon_credit_go:
++                    for g in sql("SELECT entry FROM gameobject_template WHERE (type=10 AND Data10 IN "
++                                 f"({inlist(spells)})) OR (type=22 AND Data0 IN ({inlist(spells)}))"):
++                        if int(g["entry"]) in self.gspawn:
++                            self.summon_credit_go[t] = (int(g["entry"]), 0)
++                            break
++        # escorts summoned through a gossip: credit paid from actionlists of a summoned creature
++        # (Miner Troubles: Dampwick 35769 menu 510023 -> cast 68062 -> Frightened Miner 35813, whose
++        # mining-spot actionlists pay 35816 to the summoner). credit -> (npc, menu, escort entry)
++        self.escort_credit = {}
++        for t in targets:
++            if t in self.cspawn or t in self.summon_credit_go:
++                continue
++            owners = {int(r["e"]) for r in sql(
++                "SELECT DISTINCT o.entryorguid e FROM smart_scripts l JOIN smart_scripts o ON o.source_type=0 "
++                "AND o.action_type=80 AND o.action_param1=l.entryorguid WHERE l.source_type=9 AND l.action_type=33 "
++                f"AND l.action_param1={t}")}
++            for esc in owners - set(self.cspawn):
++                spells = [int(x["id"]) for x in dbc(
++                    f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={esc}) OR "
++                    f"(effect_2=28 AND effect_misc_value_a_2={esc})")]
++                if not spells:
++                    continue
++                for r in sql("SELECT entryorguid n,event_type ev,event_param1 m FROM smart_scripts WHERE source_type=0 "
++                             f"AND action_type IN (11,134) AND action_param1 IN ({inlist(spells)}) AND event_type IN (62,64)"):
++                    if int(r["n"]) in self.cspawn:
++                        self.escort_credit[t] = (int(r["n"]), int(r["m"]) if int(r["ev"]) == 62 else 0, esc)
+         self.vendor_items = {}  # item -> vendor entries spawned here (npc_vendor)
+         for r in sql(f"SELECT entry,item FROM npc_vendor WHERE item IN ({il}) AND entry IN ({ce})"):
+             self.vendor_items.setdefault(int(r["item"]), set()).add(int(r["entry"]))
+@@ -302,6 +337,7 @@ class World:
+         self.cond_refs = {}
+         for ref in refs:
+             self.cond_refs[ref] = sql(f"SELECT {cond_cols} FROM conditions WHERE SourceTypeOrReferenceId={ref}")
++        self.char = char
+         c = sql(f"SELECT guid,race,class,level,gender FROM characters WHERE name='{char}'", "characters")[0]
+         self.guid, self.race, self.cls, self.gender = int(c["guid"]), int(c["race"]), int(c["class"]), int(c["gender"])
+         self.inventory = {}  # refreshed by the runner; used by CONDITION_ITEM
+@@ -418,6 +454,7 @@ class Runner:
+         self.w, self.base_abilities = world, abilities
+         self.abilities, self.trained_level, self.learned = [], 0, []
+         self.untrainable = set()  # trainer spells the DB offers but the trainer refused
++        self.de_failed = set()    # item guids a disenchant did not yield anything from
+         self.blocked, self.stuck, self.deaths, self.kills = set(), {}, 0, 0
+         self.used = {}  # GO guid -> last use time
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+@@ -590,8 +627,78 @@ class Runner:
+             self.blocked.add(qid)
+             self.refused.add(qid)  # the server is the authority on what is offered
+ 
++    def vault_deposit_all(self):
++        """Item Vault (F-020, mod-item-vault) /ivda without the addon: the CSMH framework sends a REQ
++        (header 01 'C' 05, body %02d function %03d chunks reqId prefix) then a DAT (header 01 'C' 06,
++        body reqId), both whispered to ourselves as addon messages. Function 2 = DEPOSIT_ALL."""
++        import random, string
++        req = "".join(random.choice(string.ascii_lowercase) for _ in range(6))
++        call("interact.addon", prefix="\x01C\x05", body=f"02000{req}ItemVault", target=self.w.char)
++        call("interact.addon", prefix="\x01C\x06", body=req, target=self.w.char)
++        time.sleep(1.5)
++
++    def make_room(self, need=2):
++        """Keep `need` backpack slots free so rewards and loot can land (a full bag answers every
++        CHOOSE_REWARD with INVENTORY_CHANGE_FAILURE). Equip bags, then drop junk, then the cheapest
++        non-quest items - never quest items or anything an area quest asks for."""
++        items = call("interact.inventory").get("items", [])
++        pack = [i for i in items if i.get("bag") == 255 and 23 <= i.get("slot", 0) <= 38]
++        bags = [i for i in items if i.get("bag") in (19, 20, 21, 22)]
++        if len(pack) + len(bags) <= 16 - need:
++            return
++        info = {int(r["entry"]): r for r in sql(
++            "SELECT entry,class,Quality,SellPrice,startquest,DisenchantID FROM item_template WHERE entry IN "
++            f"({inlist({i['entry'] for i in pack if i.get('entry')})})")} if pack else {}
++        wanted = {int(q[f"RequiredItemId{k}"]) for q in self.w.quests.values() for k in range(1, 7)} | \
++                 {int(q["StartItem"]) for q in self.w.quests.values()}
++        free = 16 - len(pack)
++        if not getattr(self, "_vaulted", False):  # reagents/trade goods go to the Item Vault first
++            self._vaulted = True
++            self.vault_deposit_all()
++            after = call("interact.inventory").get("items", [])
++            moved = len(pack) - len([i for i in after if i.get("bag") == 255 and 23 <= i.get("slot", 0) <= 38])
++            print(f"  bags: Item Vault deposit-all moved {moved} stack(s)", flush=True)
++            self._vaulted = False
++            if moved > 0:
++                return self.make_room(need)
++        for it in pack:  # containers first: each one equipped adds its slots
++            r = info.get(it.get("entry"))
++            if r and int(r["class"]) == 1:
++                res = call("interact.equip", bag=255, slot=it["slot"])
++                print(f"  bags: equipped container {it['entry']}: {res.get('detail')}", flush=True)
++                if res.get("ok"):
++                    time.sleep(1)
++                    return self.make_room(need)  # recount with the new bag's slots
++        # disenchant what can be (F-081 flagged whites, greens): mats go to the vault, not the bin
++        if 13262 in set(call("interact.spells").get("spells", [])):
++            de = [it for it in pack if it.get("entry") in info and it["entry"] not in wanted
++                  and int(info[it["entry"]]["DisenchantID"]) > 0 and 1 <= int(info[it["entry"]]["Quality"]) <= 4
++                  and int(it["guid"]) not in self.de_failed]
++            for it in de:
++                res = call("interact.item_spell", item_guid=int(it["guid"]))
++                if not res.get("received"):
++                    self.de_failed.add(int(it["guid"]))  # skill too low / not disenchantable: never retry
++                print(f"  bags: disenchanted {it['entry']}: {res.get('detail')} {res.get('received', '')}", flush=True)
++            if de:
++                self.vault_deposit_all()
++                return self.make_room(need) if len(de) < len(pack) else None
++        def junk_rank(it):
++            r = info.get(it.get("entry"))
++            return (int(r["Quality"]), int(r["SellPrice"]) * it.get("count", 1)) if r else (9, 0)
++        cands = [it for it in pack if it.get("entry") in info and it["entry"] not in wanted
++                 and int(info[it["entry"]]["class"]) not in (1, 12) and int(info[it["entry"]]["startquest"]) == 0
++                 and int(info[it["entry"]]["Quality"]) <= 2]
++        for it in sorted(cands, key=junk_rank):
++            if free >= need:
++                break
++            res = call("interact.destroy", bag=255, slot=it["slot"], count=it.get("count", 1))
++            print(f"  bags: destroyed {it['entry']} x{it.get('count', 1)} (quality "
++                  f"{info[it['entry']]['Quality']}): {res.get('detail')}", flush=True)
++            free += 1
++
+     def turn_in(self, qid):
+         self.leave_vehicle()
++        self.make_room()
+         # several enders (447: Gallywix or the Claims Adjuster), some only in other phases or out of
+         # reach: take the first one we can actually stand next to
+         kind, entry = self.w.enders[qid][0]
+@@ -603,7 +710,10 @@ class Runner:
+                     break
+             except StepFailed:
+                 continue
+-        r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
++        try:
++            r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
++        except StepFailed as e:
++            r = {"detail": str(e)[:120]}
+         title = self.w.quests[qid]["LogTitle"]
+         if not r.get("ok"):
+             print(f"[FAIL] turn in {qid} {title} - {r.get('detail')}", flush=True)
+@@ -660,7 +770,11 @@ class Runner:
+             self.used[g] = time.time()
+             for sp in spells:
+                 self.ensure_stance(sp, known)
+-                r = call("interact.cast", spell_id=sp, target={"guid": g})
++                item = next((i for i, isp in self.w.item_spell.items() if isp == sp), 0)
++                if item and sp not in known:  # an item's on-use spell (Nitro-Potassium Bananas)
++                    r = call("interact.use_item", entry=item, spell_id=sp, target={"guid": g})
++                else:
++                    r = call("interact.cast", spell_id=sp, target={"guid": g})
+                 time.sleep(1.6)  # GCD on the party bar
+                 now = self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[idx]
+                 if now > before:
+@@ -677,6 +791,41 @@ class Runner:
+             return True  # the proxy is marked used; the next step picks another
+         return False
+ 
++    def run_escort(self, qid, idx, target, before):
++        """Ask the NPC for the escort (gossip), then shadow the summoned creature until the quest
++        counter stops moving (it pays as it reaches each stop) - defend it on the way."""
++        npc, menu, esc = self.w.escort_credit[target]
++        need = int(self.w.quests[qid][f"RequiredNpcOrGoCount{idx + 1}"])
++        if not call("interact.find", entry=esc, limit=1).get("objects"):
++            if not self.reach_npc("c", npc):
++                return False
++            call("interact.gossip_hello", entry=npc)
++            m = call("interact.gossip_select", target={"entry": npc}, menu_id=menu, option=0)
++            print(f"  escort: asked {npc} (menu {menu}) for {esc}: {m.get('kind')}", flush=True)
++            time.sleep(2)
++        t0, last, last_t = time.time(), before, time.time()
++        while time.time() - t0 < 420:
++            self.safe()
++            now = self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[idx]
++            if now != last:
++                print(f"  escort credit {target}: {now}/{need}", flush=True)
++                last, last_t = now, time.time()
++            if now >= need:
++                return True
++            objs = call("interact.find", entry=esc, limit=1).get("objects", [])
++            if not objs:
++                print(f"  ~ {qid}: escort {esc} gone at {now}/{need}", flush=True)
++                return now > before
++            o = objs[0]
++            if o["distance"] > 6:
++                call("move.path_to", x=o["x"], y=o["y"], z=o["z"])
++            else:
++                time.sleep(1.5)
++            if time.time() - last_t > 150:
++                print(f"  ~ {qid}: escort {esc} stalled at {now}/{need}", flush=True)
++                return now > before
++        return last > before
++
+     def play_minigame(self, item, go, veh):
+         """Use the GO that summons the quiz vehicle, then answer each whispered prompt with the
+         bar spell the vehicle's SAI accepts for it, until the item lands or we are ejected."""
+@@ -776,6 +925,20 @@ class Runner:
+         print(f"  enter stance {options[0]} for {spell}: {r.get('detail')}", flush=True)
+         time.sleep(1)
+ 
++    def bar_attack(self, target, bar):
++        """We sit on a vehicle whose bar is our weapon (passenger turret / flying cyclone): fire the
++        first bar spell at the nearest living target - ground-aimed, as AoE bar spells are."""
++        objs = [o for o in call("interact.find", entry=target, limit=10).get("objects", [])
++                if o["health"] > 0 and o["distance"] < 120]
++        if not objs:
++            time.sleep(2)  # the ride is carrying us on - targets come into range
++            return True
++        o = min(objs, key=lambda x: x["distance"])
++        r = call("vehicle.cast", spell_id=bar[0], ground=True, x=o["x"], y=o["y"], z=o["z"])
++        print(f"  bar {bar[0]} at {target} ({o['distance']:.0f}yd): {r.get('detail', '')[:60]}", flush=True)
++        time.sleep(1.2)
++        return True
++
+     def vehicle_bombard(self, qid, target, bar_spell, ventry):
+         """Ride `ventry` and lob its ground-aimed bar spell at `target` creatures. Targets nobody
+         spawns are summoned by the ride itself (Necessary Roughness: the Buccaneer's aura calls
+@@ -811,9 +974,11 @@ class Runner:
+         return True
+ 
+     def leave_vehicle(self):
+-        if call("vehicle.state").get("controlling"):
++        st = call("vehicle.state")
++        # driver (controlling) or passenger with a bar (Thrall's cyclone): either way we cannot walk
++        if st.get("controlling") or any(st.get("spells", [])):
+             call("vehicle.exit")
+-            time.sleep(1)
++            time.sleep(2)
+ 
+     def quest_item(self, q):
+         """The quest-supplied item with an on-use spell, if any."""
+@@ -844,15 +1009,18 @@ class Runner:
+             target, need = int(q[f"RequiredNpcOrGo{i}"]), int(q[f"RequiredNpcOrGoCount{i}"])
+             if not target or counts[i - 1] >= need:
+                 continue
++            if target > 0 and target in self.w.escort_credit:
++                return self.run_escort(qid, i - 1, target, counts[i - 1])
+             if target > 0 and target in self.w.summon_credit_go:
+                 go, menu = self.w.summon_credit_go[target]
+-                if not self.go_near("g", go, usable_only=True):
++                o = self.go_near("g", go, usable_only=True)
++                if not o:
+                     return False
+-                r = call("interact.use", target={"entry": go})
++                self.used[int(o["guid"])] = time.time()
++                r = call("interact.use", target={"guid": int(o["guid"])})
+                 if menu:  # the use opened its gossip; the option is what fires the script
+                     m = call("interact.gossip_select", target={"entry": go}, menu_id=menu, option=0)
+                     print(f"  gossip {menu} on GO {go}: {m.get('kind')}", flush=True)
+-                self.used[int(r.get("guid", 0) or 0)] = time.time()
+                 print(f"  use GO {go} to summon credit {target}: {r.get('detail', r.get('opened'))}", flush=True)
+                 # the summoned NPC may act out a scene before paying (Gasbot walks his path, then
+                 # torches the KTC): re-using the GO restarts it, so wait for the counter first
+@@ -927,6 +1095,9 @@ class Runner:
+                     return self.use_quest_item_on(q, target)
+                 if not self.go_near("c", target, offset=6.0):
+                     return False
++                bar = [sp for sp in call("vehicle.state").get("spells", []) if sp]
++                if bar:  # riding something with a bar (Thrall's cyclone: Lightning Strike) - shoot from it
++                    return self.bar_attack(target, bar)
+                 r = call("combat.kill", entry=target, abilities=self.abilities, loot=True)
+                 if r.get("reason") == "no target":  # nothing alive in sight - not progress
+                     raise StepFailed(f"no living {target} in sight")
+diff --git a/zeppelin/tests/supervise.sh b/zeppelin/tests/supervise.sh
+new file mode 100755
+index 0000000..e154fd7
+--- /dev/null
++++ b/zeppelin/tests/supervise.sh
+@@ -0,0 +1,21 @@
++#!/bin/bash
++# supervise.sh CHAR MAP X1 Y1 X2 Y2 MINUTES LOG - run start_area.py and survive worldserver restarts
++# (other sessions reboot the shared worldserver before their tests): when the agent-wow session
++# drops, wait for the server, log back in and resume. The runner rebuilds its state from the quest log.
++CHAR=$1; MAP=$2; BOX="$3 $4 $5 $6"; MIN=$7; LOG=$8
++RUN=$(cd "$(dirname "$0")" && pwd); TESTS="$RUN/../agent-wow/zeppelin/tests"
++deadline=$(( $(date +%s) + MIN * 60 ))
++for attempt in $(seq 1 12); do
++  if ! "$RUN/rpc.sh" interact.self | grep -q '"guid"'; then
++    pkill -f "agent-wow char play $CHAR" ; sleep 3
++    (cd "$RUN" && setsid ../agent-wow/bin/agent-wow char play "$CHAR" < /dev/null > "$RUN/session-$CHAR.log" 2>&1 &)
++    for i in $(seq 1 30); do sleep 5; "$RUN/rpc.sh" interact.self | grep -q '"guid"' && break; done
++    echo "[SUPERVISOR] session $attempt up: $("$RUN/rpc.sh" interact.self | cut -c1-80)" >> "$LOG"
++  fi
++  left=$(( (deadline - $(date +%s)) / 60 )); [ "$left" -le 0 ] && break
++  (cd "$TESTS" && python3 -u start_area.py --char "$CHAR" --map "$MAP" --box $BOX --minutes "$left" >> "$LOG" 2>&1)
++  tail -5 "$LOG" | grep -q "^RESULT:" && ! tail -30 "$LOG" | grep -q "Connection refused\|disconnected" && break
++  echo "[SUPERVISOR] runner stopped without a result (server restart?) - reconnecting" >> "$LOG"
++  sleep 20
++done
++echo "[SUPERVISOR] done" >> "$LOG"
+-- 
+2.34.1
+
