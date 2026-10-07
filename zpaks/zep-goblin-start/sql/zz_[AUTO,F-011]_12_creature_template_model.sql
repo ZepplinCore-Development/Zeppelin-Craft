@@ -2295,7 +2295,7 @@ INSERT INTO creature_template_model SET
   `CreatureID` = 36682,
   `Idx` = 0,
   `CreatureDisplayID` = 26216,
-  `DisplayScale` = 1,
+  `DisplayScale` = 5,
   `Probability` = 1,
   `VerifiedBuild` = 0;
 

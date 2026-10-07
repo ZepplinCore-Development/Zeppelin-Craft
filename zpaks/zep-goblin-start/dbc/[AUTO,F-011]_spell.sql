@@ -7182,6 +7182,53 @@ INSERT INTO spell SET
   `effect_spell_class_mask_b_1` = 0,
   `effect_spell_class_mask_c_1` = 0;
 
+-- 72077 Surrender Or Else!: Goblin Banner Aura
+DELETE FROM spell WHERE id = 72077;
+INSERT INTO spell SET
+  `id` = 72077,
+  `attributes` = 384,
+  `attributes_ex_1` = 0,
+  `attributes_ex_2` = 0,
+  `attributes_ex_3` = 0,
+  `attributes_ex_4` = 192,
+  `attributes_ex_5` = 0,
+  `attributes_ex_6` = 0,
+  `attributes_ex_7` = 0,
+  `cast_time_index` = 1,
+  `duration_index` = 21,
+  `range_index` = 1,
+  `power_type` = 0,
+  `speed` = 0,
+  `spell_visual_1` = 15233,
+  `spell_icon_id` = 1,
+  `active_icon_id` = 0,
+  `school_mask` = 1,
+  `spell_name_enus` = 'Surrender Or Else!: Goblin Banner Aura',
+  `spell_desc_enus` = '',
+  `spell_level` = 0,
+  `base_level` = 0,
+  `max_level` = 0,
+  `proc_chance` = 101,
+  `equipped_item_class` = -1,
+  `damage_class` = 1,
+  `effect_1` = 6,
+  `effect_apply_aura_name_1` = 4,
+  `effect_amplitude_1` = 0,
+  `effect_base_points_1` = 0,
+  `effect_die_sides_1` = 1,
+  `effect_item_type_1` = 0,
+  `effect_mechanic_1` = 0,
+  `effect_misc_value_a_1` = 0,
+  `effect_misc_value_b_1` = 0,
+  `effect_radius_index_1` = 0,
+  `effect_trigger_spell_1` = 0,
+  `effect_implicit_target_a_1` = 1,
+  `effect_implicit_target_b_1` = 0,
+  `effect_real_points_per_level_1` = 0,
+  `effect_spell_class_mask_a_1` = 0,
+  `effect_spell_class_mask_b_1` = 0,
+  `effect_spell_class_mask_c_1` = 0;
+
 -- 72085 Surrender Or Else!: Despawn Summons
 DELETE FROM spell WHERE id = 72085;
 INSERT INTO spell SET
@@ -15925,7 +15972,7 @@ INSERT INTO spell SET
   `effect_apply_aura_name_1` = 236,
   `effect_amplitude_1` = 0,
   `effect_base_points_1` = 3,
-  `effect_die_sides_1` = 1,
+  `effect_die_sides_1` = 0,
   `effect_item_type_1` = 0,
   `effect_mechanic_1` = 0,
   `effect_misc_value_a_1` = 0,
