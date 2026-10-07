@@ -1,0 +1,1338 @@
+From 2135563bce6ff1b65e24c3343a688804a6c08aaf Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 7 Oct 2026 09:37:33 +0000
+Subject: [PATCH] feat: Lost Isles headless - phases, jumps, rides, robustness
+ (F-219)
+
+- move: self-addressed monster moves set our position and are reported back
+  with MSG_MOVE_FALL_LAND (player splines are client-flown: rocket boots, drops)
+- start_area.py: phase-aware spawn choice (visible spawns -> last known ->
+  PhaseMgr-equivalent quest_phase); jump items (spell_target_position) as a
+  travel fallback; wait out vehicle rides (aura 236) before turning in;
+  over-long routes split; off-navmesh targets approached by nearby points or a
+  straight walk; KillCredit aliases; summons beside spawned hosts; GO data-field
+  kill credit; summoned rides; refused-quest retries; accept/turn-in/trainer
+  failures non-fatal; SIGTERM sender trace
+- rpc.py: restore proto3-omitted zeros; supervise.sh: liveness-checked verdicts,
+  exit codes, exec'd session launch
+
+Refs F-219
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/main.go               |   5 +-
+ zeppelin/modules/interact/api/interact.pb.go  | 109 +--
+ .../modules/interact/api/interact_grpc.pb.go  |  38 ++
+ zeppelin/modules/interact/interact.proto      |   1 +
+ zeppelin/modules/interact/main.go             |  20 +
+ zeppelin/modules/interact/module.yaml         |   1 +
+ zeppelin/modules/move/main.go                 |  30 +
+ zeppelin/modules/move/module.yaml             |   1 +
+ zeppelin/modules/vehicle/main.go              |   6 +
+ zeppelin/tests/rpc.py                         |  12 +
+ zeppelin/tests/start_area.py                  | 634 ++++++++++++++++--
+ zeppelin/tests/supervise.sh                   |  11 +-
+ 12 files changed, 772 insertions(+), 96 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 0b5d37d..62c9ee7 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -238,11 +238,12 @@ func (s *service) castAt(ctx context.Context, spell uint32, guid uint64) error {
+ 
+ // approach walks to meleeStand yards from the target (navmesh when far).
+ func (s *service) approach(ctx context.Context, me *movev1.Position, t *interactv1.WorldObject) error {
+-	d := distance(me, t.GetX(), t.GetY(), t.GetZ())
+ 	dx, dy := float64(me.GetX()-t.GetX()), float64(me.GetY()-t.GetY())
+ 	h := math.Max(math.Sqrt(dx*dx+dy*dy), 0.01)
+ 	x, y := float64(t.GetX())+dx/h*meleeStand, float64(t.GetY())+dy/h*meleeStand
+-	if d > pathThreshold {
++	// horizontal distance decides: a target straight below (Ravenous Lurkers 15-25 yd under the
++	// water the navmesh sits on) must be reached by a straight dive, never by surface pathing
++	if h > pathThreshold {
+ 		var r movev1.PathToResult
+ 		return s.invoke(ctx, "move", "path_to", &movev1.PathRequest{X: float32(x), Y: float32(y), Z: t.GetZ(), BudgetMs: 8000}, &r)
+ 	}
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index 4b7efaa..92c3039 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -2766,11 +2766,12 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x05count\x18\x03 \x01(\rR\x05count\"9\n" +
+ 	"\x0fVendorBuyResult\x12\x0e\n" +
+ 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
+-	"\x06detail\x18\x02 \x01(\tR\x06detail2\x95\x10\n" +
++	"\x06detail\x18\x02 \x01(\tR\x06detail2\xeb\x10\n" +
+ 	"\bInteract\x12K\n" +
+ 	"\x04Find\x12!.zeppelin.interact.v1.FindRequest\x1a .zeppelin.interact.v1.FindResult\x12Q\n" +
+ 	"\tSendAddon\x12\".zeppelin.interact.v1.AddonMessage\x1a .zeppelin.interact.v1.CastResult\x12U\n" +
+-	"\tItemSpell\x12&.zeppelin.interact.v1.ItemSpellRequest\x1a .zeppelin.interact.v1.LootResult\x12I\n" +
++	"\tItemSpell\x12&.zeppelin.interact.v1.ItemSpellRequest\x1a .zeppelin.interact.v1.LootResult\x12T\n" +
++	"\fQuestAbandon\x12\".zeppelin.interact.v1.QuestRequest\x1a .zeppelin.interact.v1.CastResult\x12I\n" +
+ 	"\x05Equip\x12\x1e.zeppelin.interact.v1.ItemSlot\x1a .zeppelin.interact.v1.CastResult\x12K\n" +
+ 	"\aDestroy\x12\x1e.zeppelin.interact.v1.ItemSlot\x1a .zeppelin.interact.v1.CastResult\x12G\n" +
+ 	"\vGossipHello\x12\x1c.zeppelin.interact.v1.Target\x1a\x1a.zeppelin.interact.v1.Menu\x12O\n" +
+@@ -2873,57 +2874,59 @@ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	2,  // 17: zeppelin.interact.v1.Interact.Find:input_type -> zeppelin.interact.v1.FindRequest
+ 	25, // 18: zeppelin.interact.v1.Interact.SendAddon:input_type -> zeppelin.interact.v1.AddonMessage
+ 	26, // 19: zeppelin.interact.v1.Interact.ItemSpell:input_type -> zeppelin.interact.v1.ItemSpellRequest
+-	24, // 20: zeppelin.interact.v1.Interact.Equip:input_type -> zeppelin.interact.v1.ItemSlot
+-	24, // 21: zeppelin.interact.v1.Interact.Destroy:input_type -> zeppelin.interact.v1.ItemSlot
+-	0,  // 22: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
+-	7,  // 23: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
+-	0,  // 24: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
+-	8,  // 25: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
+-	8,  // 26: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
+-	37, // 27: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
+-	14, // 28: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
+-	14, // 29: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
+-	18, // 30: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
+-	15, // 31: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
+-	37, // 32: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
+-	37, // 33: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
+-	23, // 34: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
+-	0,  // 35: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
+-	29, // 36: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
+-	0,  // 37: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
+-	37, // 38: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
+-	0,  // 39: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
+-	35, // 40: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
+-	0,  // 41: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
+-	38, // 42: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
+-	3,  // 43: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
+-	16, // 44: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
+-	13, // 45: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
+-	16, // 46: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 47: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
+-	6,  // 48: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 49: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 50: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
+-	9,  // 51: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
+-	9,  // 52: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
+-	11, // 53: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
+-	13, // 54: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
+-	13, // 55: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
+-	19, // 56: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
+-	16, // 57: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
+-	20, // 58: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
+-	22, // 59: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
+-	16, // 60: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
+-	28, // 61: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
+-	30, // 62: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
+-	31, // 63: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
+-	32, // 64: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
+-	34, // 65: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
+-	36, // 66: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
+-	16, // 67: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
+-	37, // 68: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
+-	43, // [43:69] is the sub-list for method output_type
+-	17, // [17:43] is the sub-list for method input_type
++	8,  // 20: zeppelin.interact.v1.Interact.QuestAbandon:input_type -> zeppelin.interact.v1.QuestRequest
++	24, // 21: zeppelin.interact.v1.Interact.Equip:input_type -> zeppelin.interact.v1.ItemSlot
++	24, // 22: zeppelin.interact.v1.Interact.Destroy:input_type -> zeppelin.interact.v1.ItemSlot
++	0,  // 23: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
++	7,  // 24: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
++	0,  // 25: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
++	8,  // 26: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
++	8,  // 27: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
++	37, // 28: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
++	14, // 29: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
++	14, // 30: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
++	18, // 31: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
++	15, // 32: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
++	37, // 33: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
++	37, // 34: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
++	23, // 35: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
++	0,  // 36: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
++	29, // 37: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
++	0,  // 38: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
++	37, // 39: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
++	0,  // 40: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
++	35, // 41: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
++	0,  // 42: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
++	38, // 43: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	3,  // 44: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
++	16, // 45: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
++	13, // 46: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
++	16, // 47: zeppelin.interact.v1.Interact.QuestAbandon:output_type -> zeppelin.interact.v1.CastResult
++	16, // 48: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
++	16, // 49: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
++	6,  // 50: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
++	6,  // 51: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
++	6,  // 52: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
++	9,  // 53: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
++	9,  // 54: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
++	11, // 55: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
++	13, // 56: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
++	13, // 57: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
++	19, // 58: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
++	16, // 59: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
++	20, // 60: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
++	22, // 61: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
++	16, // 62: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
++	28, // 63: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
++	30, // 64: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
++	31, // 65: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
++	32, // 66: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
++	34, // 67: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
++	36, // 68: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
++	16, // 69: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
++	37, // 70: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
++	44, // [44:71] is the sub-list for method output_type
++	17, // [17:44] is the sub-list for method input_type
+ 	17, // [17:17] is the sub-list for extension type_name
+ 	17, // [17:17] is the sub-list for extension extendee
+ 	0,  // [0:17] is the sub-list for field type_name
+diff --git a/zeppelin/modules/interact/api/interact_grpc.pb.go b/zeppelin/modules/interact/api/interact_grpc.pb.go
+index ff5b844..91c0f6e 100644
+--- a/zeppelin/modules/interact/api/interact_grpc.pb.go
++++ b/zeppelin/modules/interact/api/interact_grpc.pb.go
+@@ -24,6 +24,7 @@ const (
+ 	Interact_Find_FullMethodName            = "/zeppelin.interact.v1.Interact/Find"
+ 	Interact_SendAddon_FullMethodName       = "/zeppelin.interact.v1.Interact/SendAddon"
+ 	Interact_ItemSpell_FullMethodName       = "/zeppelin.interact.v1.Interact/ItemSpell"
++	Interact_QuestAbandon_FullMethodName    = "/zeppelin.interact.v1.Interact/QuestAbandon"
+ 	Interact_Equip_FullMethodName           = "/zeppelin.interact.v1.Interact/Equip"
+ 	Interact_Destroy_FullMethodName         = "/zeppelin.interact.v1.Interact/Destroy"
+ 	Interact_GossipHello_FullMethodName     = "/zeppelin.interact.v1.Interact/GossipHello"
+@@ -56,6 +57,7 @@ type InteractClient interface {
+ 	Find(ctx context.Context, in *FindRequest, opts ...grpc.CallOption) (*FindResult, error)
+ 	SendAddon(ctx context.Context, in *AddonMessage, opts ...grpc.CallOption) (*CastResult, error)
+ 	ItemSpell(ctx context.Context, in *ItemSpellRequest, opts ...grpc.CallOption) (*LootResult, error)
++	QuestAbandon(ctx context.Context, in *QuestRequest, opts ...grpc.CallOption) (*CastResult, error)
+ 	Equip(ctx context.Context, in *ItemSlot, opts ...grpc.CallOption) (*CastResult, error)
+ 	Destroy(ctx context.Context, in *ItemSlot, opts ...grpc.CallOption) (*CastResult, error)
+ 	GossipHello(ctx context.Context, in *Target, opts ...grpc.CallOption) (*Menu, error)
+@@ -119,6 +121,16 @@ func (c *interactClient) ItemSpell(ctx context.Context, in *ItemSpellRequest, op
+ 	return out, nil
+ }
+ 
++func (c *interactClient) QuestAbandon(ctx context.Context, in *QuestRequest, opts ...grpc.CallOption) (*CastResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(CastResult)
++	err := c.cc.Invoke(ctx, Interact_QuestAbandon_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
+ func (c *interactClient) Equip(ctx context.Context, in *ItemSlot, opts ...grpc.CallOption) (*CastResult, error) {
+ 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+ 	out := new(CastResult)
+@@ -356,6 +368,7 @@ type InteractServer interface {
+ 	Find(context.Context, *FindRequest) (*FindResult, error)
+ 	SendAddon(context.Context, *AddonMessage) (*CastResult, error)
+ 	ItemSpell(context.Context, *ItemSpellRequest) (*LootResult, error)
++	QuestAbandon(context.Context, *QuestRequest) (*CastResult, error)
+ 	Equip(context.Context, *ItemSlot) (*CastResult, error)
+ 	Destroy(context.Context, *ItemSlot) (*CastResult, error)
+ 	GossipHello(context.Context, *Target) (*Menu, error)
+@@ -398,6 +411,9 @@ func (UnimplementedInteractServer) SendAddon(context.Context, *AddonMessage) (*C
+ func (UnimplementedInteractServer) ItemSpell(context.Context, *ItemSpellRequest) (*LootResult, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method ItemSpell not implemented")
+ }
++func (UnimplementedInteractServer) QuestAbandon(context.Context, *QuestRequest) (*CastResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method QuestAbandon not implemented")
++}
+ func (UnimplementedInteractServer) Equip(context.Context, *ItemSlot) (*CastResult, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method Equip not implemented")
+ }
+@@ -542,6 +558,24 @@ func _Interact_ItemSpell_Handler(srv interface{}, ctx context.Context, dec func(
+ 	return interceptor(ctx, in, info, handler)
+ }
+ 
++func _Interact_QuestAbandon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(QuestRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).QuestAbandon(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_QuestAbandon_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).QuestAbandon(ctx, req.(*QuestRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
+ func _Interact_Equip_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+ 	in := new(ItemSlot)
+ 	if err := dec(in); err != nil {
+@@ -975,6 +1009,10 @@ var Interact_ServiceDesc = grpc.ServiceDesc{
+ 			MethodName: "ItemSpell",
+ 			Handler:    _Interact_ItemSpell_Handler,
+ 		},
++		{
++			MethodName: "QuestAbandon",
++			Handler:    _Interact_QuestAbandon_Handler,
++		},
+ 		{
+ 			MethodName: "Equip",
+ 			Handler:    _Interact_Equip_Handler,
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index 1f85e8f..1df1a83 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -243,6 +243,7 @@ service Interact {
+   rpc Find(FindRequest) returns (FindResult);
+   rpc SendAddon(AddonMessage) returns (CastResult); // server-side ALE/CSMH handlers (Item Vault)
+   rpc ItemSpell(ItemSpellRequest) returns (LootResult); // CMSG_CAST_SPELL at an item + loot it
++  rpc QuestAbandon(QuestRequest) returns (CastResult); // CMSG_QUESTLOG_REMOVE_QUEST (u8 log slot)
+   rpc Equip(ItemSlot) returns (CastResult);     // CMSG_AUTOEQUIP_ITEM (bags go to a bag slot)
+   rpc Destroy(ItemSlot) returns (CastResult);   // CMSG_DESTROYITEM
+   rpc GossipHello(Target) returns (Menu);
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index 853d346..5c0dd49 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -1007,6 +1007,26 @@ func (s *service) ItemSpell(ctx context.Context, req *interactv1.ItemSpellReques
+ 	return s.lootWith(ctx, item, func() error { return s.send(ctx, opcode.CMSGCastSpell, &w) }, true, 8*time.Second)
+ }
+ 
++// QuestAbandon drops a quest from the log (CMSG_QUESTLOG_REMOVE_QUEST, u8 slot) - how a player
++// restarts an escort that wandered off without them.
++func (s *service) QuestAbandon(ctx context.Context, req *interactv1.QuestRequest) (*interactv1.CastResult, error) {
++	log, err := s.GetQuestLog(ctx, &emptypb.Empty{})
++	if err != nil {
++		return nil, err
++	}
++	for _, e := range log.GetEntries() {
++		if e.GetQuestId() == req.GetQuestId() {
++			var w wow.Writer
++			w.U8(uint8(e.GetSlot()))
++			if err := s.send(ctx, opcode.CMSGQuestlogRemoveQuest, &w); err != nil {
++				return nil, err
++			}
++			return &interactv1.CastResult{Ok: true, Detail: fmt.Sprintf("abandoned (slot %d)", e.GetSlot())}, nil
++		}
++	}
++	return &interactv1.CastResult{Detail: "not in the quest log"}, nil
++}
++
+ // Equip sends CMSG_AUTOEQUIP_ITEM (u8 bag, u8 slot): the server picks the slot, and a container
+ // goes into a free bag slot. Errors come back as SMSG_INVENTORY_CHANGE_FAILURE (u8 result first).
+ func (s *service) Equip(ctx context.Context, req *interactv1.ItemSlot) (*interactv1.CastResult, error) {
+diff --git a/zeppelin/modules/interact/module.yaml b/zeppelin/modules/interact/module.yaml
+index 6f921d7..d6fe5b0 100644
+--- a/zeppelin/modules/interact/module.yaml
++++ b/zeppelin/modules/interact/module.yaml
+@@ -29,6 +29,7 @@ rpc:
+   vendor_buy: /zeppelin.interact.v1.Interact/VendorBuy
+   spellclick: /zeppelin.interact.v1.Interact/SpellClick
+   equip: /zeppelin.interact.v1.Interact/Equip
++  quest_abandon: /zeppelin.interact.v1.Interact/QuestAbandon
+   addon: /zeppelin.interact.v1.Interact/SendAddon
+   item_spell: /zeppelin.interact.v1.Interact/ItemSpell
+   destroy: /zeppelin.interact.v1.Interact/Destroy
+diff --git a/zeppelin/modules/move/main.go b/zeppelin/modules/move/main.go
+index 48fed58..31e306a 100644
+--- a/zeppelin/modules/move/main.go
++++ b/zeppelin/modules/move/main.go
+@@ -33,6 +33,7 @@ import (
+ 	"github.com/agent-wow/agent-wow/pkg/modules/v1"
+ 	"github.com/agent-wow/agent-wow/pkg/opcode"
+ 	movev1 "github.com/agent-wow/agent-wow/zeppelin/modules/move/api"
++	"github.com/agent-wow/agent-wow/zeppelin/wow"
+ 	"google.golang.org/grpc"
+ 	"google.golang.org/grpc/codes"
+ 	"google.golang.org/grpc/credentials/insecure"
+@@ -208,6 +209,35 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 			// the server holds the player "being teleported" until this ack arrives
+ 			_ = s.send(ctx, opcode.MSGMoveWorldportAck, nil)
+ 		}
++	case op == opcode.SMSGMonsterMove:
++		// The server moves US with a spline when it takes us off a vehicle (Unit::_ExitVehicle ->
++		// MoveSplineInit: the Wild Overlook drop at the end of Warchief's Revenge). Anything the
++		// vehicle did while we rode was never ours to track, so this is where our position becomes
++		// true again - without it the next MoveTo starts from the boarding point and the server,
++		// trusting client movement, warps the character back there.
++		m, err := wow.ParseMonsterMove(p.GetPayload())
++		if err != nil || m.GUID != s.guid {
++			break
++		}
++		s.mu.Lock()
++		mp, o := s.pos.Map, s.pos.O
++		s.mu.Unlock()
++		dest := m.Dest
++		if m.Stop {
++			dest = m.Start
++		}
++		s.setPosition(mp, [4]float32{dest[0], dest[1], dest[2], o}, true)
++		if !m.Stop && m.Duration > 0 {
++			// A spline on a PLAYER is flown by the client: the server sends the arc (a jump, a
++			// knockback-to-point, a vehicle drop) and keeps the old position until the client
++			// reports where it came down. Without this the bot believes it landed (Rockin'
++			// Powder Infused Rocket Boots -> the volcano) while the server still has it at the
++			// launch point, sends nothing of the new area, and the next MoveTo "teleports" back.
++			go func(d [3]float32, wait time.Duration) {
++				time.Sleep(wait + 150*time.Millisecond)
++				_ = s.sendMove(context.Background(), opcode.MSGMoveFallLand, 0, d[0], d[1], d[2], o)
++			}(dest, m.Duration)
++		}
+ 	case op == opcode.MSGMoveTeleportAck:
+ 		// packed guid, u32 counter, MovementInfo
+ 		guid, err := readPackedGUID(r)
+diff --git a/zeppelin/modules/move/module.yaml b/zeppelin/modules/move/module.yaml
+index 270ccc5..932fbb3 100644
+--- a/zeppelin/modules/move/module.yaml
++++ b/zeppelin/modules/move/module.yaml
+@@ -18,6 +18,7 @@ packets:
+   SMSG_LOGIN_VERIFY_WORLD: /zeppelin.move.v1.Move/OnPacket
+   SMSG_NEW_WORLD: /zeppelin.move.v1.Move/OnPacket
+   MSG_MOVE_TELEPORT_ACK: /zeppelin.move.v1.Move/OnPacket
++  SMSG_MONSTER_MOVE: /zeppelin.move.v1.Move/OnPacket
+   SMSG_FORCE_RUN_SPEED_CHANGE: /zeppelin.move.v1.Move/OnPacket
+   SMSG_FORCE_RUN_BACK_SPEED_CHANGE: /zeppelin.move.v1.Move/OnPacket
+   SMSG_FORCE_SWIM_SPEED_CHANGE: /zeppelin.move.v1.Move/OnPacket
+diff --git a/zeppelin/modules/vehicle/main.go b/zeppelin/modules/vehicle/main.go
+index 6b32d65..9a6bb9b 100644
+--- a/zeppelin/modules/vehicle/main.go
++++ b/zeppelin/modules/vehicle/main.go
+@@ -174,6 +174,12 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		s.changed = make(chan struct{})
+ 		s.mu.Unlock()
+ 	case opcode.SMSGPetSpells:
++		if len(p.GetPayload()) <= 8 { // guid only (or 0): the server took the bar away
++			s.mu.Lock()
++			s.spells = nil
++			s.mu.Unlock()
++			break
++		}
+ 		g := r.U64()
+ 		r.U16() // family
+ 		r.U32() // duration
+diff --git a/zeppelin/tests/rpc.py b/zeppelin/tests/rpc.py
+index 276f87e..d3edafb 100644
+--- a/zeppelin/tests/rpc.py
++++ b/zeppelin/tests/rpc.py
+@@ -13,6 +13,18 @@ class StepFailed(Exception):
+ 
+ 
+ def call(method, **params):
++    try:
++        return _call(method, **params)
++    except StepFailed as e:
++        # a movement left running by an interrupted step (a cancelled fight) blocks the next one:
++        # stop it and try once more, as a player would just turn and walk
++        if "already moving" in str(e) and method != "move.stop":
++            _call("move.stop")
++            return _call(method, **params)
++        raise
++
++
++def _call(method, **params):
+     global _id
+     _id += 1
+     body = json.dumps({"jsonrpc": "2.0", "id": _id, "method": method, "params": params}).encode()
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index b32bdb0..29f569b 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -73,8 +73,11 @@ class World:
+         x1, y1, x2, y2 = box
+         where = f"map={mapid} AND position_x BETWEEN {min(x1, x2)} AND {max(x1, x2)} AND position_y BETWEEN {min(y1, y2)} AND {max(y1, y2)}"
+         self.cspawn, self.gspawn = {}, {}
+-        for r in sql(f"SELECT id,position_x x,position_y y,position_z z FROM creature WHERE {where}"):
+-            self.cspawn.setdefault(int(r["id"]), []).append((float(r["x"]), float(r["y"]), float(r["z"])))
++        self.spawn_phase = {}  # creature spawn point -> phaseMask
++        for r in sql(f"SELECT guid,id,position_x x,position_y y,position_z z,phaseMask pm FROM creature WHERE {where}"):
++            pt = (float(r["x"]), float(r["y"]), float(r["z"]))
++            self.cspawn.setdefault(int(r["id"]), []).append(pt)
++            self.spawn_phase[pt] = int(r["pm"])
+         for r in sql(f"SELECT id,position_x x,position_y y,position_z z FROM gameobject WHERE {where}"):
+             self.gspawn.setdefault(int(r["id"]), []).append((float(r["x"]), float(r["y"]), float(r["z"])))
+         ce, ge = inlist(self.cspawn), inlist(self.gspawn)
+@@ -134,6 +137,14 @@ class World:
+                      f"AND event_param1>0 AND entryorguid IN ({inlist(targets)})"):
+             self.spellhit.setdefault(int(r["e"]), int(r["sp"]))
+             self.spellhit_all.setdefault(int(r["e"]), []).append(int(r["sp"]))
++        # quest items that JUMP/TELEPORT the player to a fixed spot (spell_target_position): the only
++        # way onto some ledges - Rockin' Powder Infused Rocket Boots 84322 -> 72971 -> the volcano
++        self.jump_items = []  # (item, spell, (x, y, z))
++        isp = {sp: it for it, sp in self.item_spell.items() if sp}
++        if isp:
++            for r in sql(f"SELECT ID,PositionX x,PositionY y,PositionZ z FROM spell_target_position WHERE MapID={mapid} "
++                         f"AND ID IN ({inlist(isp)})"):
++                self.jump_items.append((isp[int(r["ID"])], int(r["ID"]), (float(r["x"]), float(r["y"]), float(r["z"]))))
+         # credit proxies: other creatures whose SPELLHIT pays KILL_CREDIT (action 33) for an objective
+         # (Life of the Party: credit 35175, but the phase-2 partygoers you entertain are 35186)
+         self.credit_proxy = {}  # objective entry -> {proxy entry: [spells]}
+@@ -144,6 +155,66 @@ class World:
+         rows += sql("SELECT s.entryorguid e,s.event_param1 sp,l.action_param1 c FROM smart_scripts s JOIN smart_scripts l "
+                     "ON l.source_type=9 AND l.entryorguid=s.action_param1 AND l.action_type=33 WHERE s.source_type=0 "
+                     f"AND s.event_type=8 AND s.action_type=80 AND s.event_param1>0 AND l.action_param1 IN ({inlist(targets)})")
++        # credit paid by a creature's DEATH spell (Faceless of the Deep 38448 dies -> 72035 KILL_CREDIT
++        # 38448 dummy): kill that creature. If nobody spawns it, an escort summons it on the way
++        # (Ace 38455's waypoint-35 actionlist) - follow the escort until it shows up.
++        self.death_credit, self.escort_summons = {}, {}
++        kcs = {}
++        for r in dbc("SELECT id,effect_1 e1,effect_misc_value_a_1 m1,effect_2 e2,effect_misc_value_a_2 m2,"
++                     "effect_3 e3,effect_misc_value_a_3 m3 FROM spell WHERE effect_1 IN (90,134) OR "
++                     "effect_2 IN (90,134) OR effect_3 IN (90,134)"):
++            for e, m in (("e1", "m1"), ("e2", "m2"), ("e3", "m3")):
++                if int(r[e]) in (90, 134) and int(r[m]) in targets:
++                    kcs[int(r["id"])] = int(r[m])
++        if kcs:
++            for r in sql("SELECT entryorguid k,action_param1 sp FROM smart_scripts WHERE source_type=0 AND event_type=6 "
++                         f"AND action_type IN (11,134) AND action_param1 IN ({inlist(kcs)})"):
++                self.death_credit[kcs[int(r["sp"])]] = int(r["k"])
++        for t, k in self.death_credit.items():
++            if k in self.cspawn:
++                continue
++            for r in sql("SELECT o.entryorguid a FROM smart_scripts l JOIN smart_scripts o ON o.source_type=0 AND "
++                         "o.action_type=80 AND o.action_param1=l.entryorguid WHERE l.source_type=9 AND l.action_type=12 "
++                         f"AND l.action_param1={k}"):
++                self.escort_summons[k] = int(r["a"])
++        # creatures nobody spawns but a spawned creature summons when IT spawns (respawn 11 / reset 25 /
++        # just-summoned 54 / OOC 1): Goblin Captive 38643 -> 72243 -> Oomlot Shaman 38644 at its side.
++        # Borrow the summoner's spawn points so the objective can be found at all.
++        missing = [t for t in targets if t not in self.cspawn]
++        if missing:
++            ml = inlist(missing)
++            summon_of = {}  # summon spell -> creature it summons (one DBC query for all of them)
++            for x in dbc("SELECT id,effect_1 e1,effect_misc_value_a_1 m1,effect_2 e2,effect_misc_value_a_2 m2,"
++                         f"effect_3 e3,effect_misc_value_a_3 m3 FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1 "
++                         f"IN ({ml})) OR (effect_2=28 AND effect_misc_value_a_2 IN ({ml})) OR "
++                         f"(effect_3=28 AND effect_misc_value_a_3 IN ({ml}))"):
++                for e, m in (("e1", "m1"), ("e2", "m2"), ("e3", "m3")):
++                    if int(x[e]) == 28 and int(x[m]) in missing:
++                        summon_of[int(x["id"])] = int(x[m])
++            cond = f"(action_type=12 AND action_param1 IN ({ml}))" + (
++                f" OR (action_type IN (11,134) AND action_param1 IN ({inlist(summon_of)}))" if summon_of else "")
++            for r in sql("SELECT entryorguid x,action_type a,action_param1 p FROM smart_scripts WHERE source_type=0 AND "
++                         f"event_type IN (1,11,25,54) AND ({cond})"):
++                t = int(r["p"]) if int(r["a"]) == 12 else summon_of.get(int(r["p"]))
++                if t and int(r["x"]) in self.cspawn:
++                    self.cspawn.setdefault(t, []).extend(self.cspawn[int(r["x"])])
++        # template kill credit: killing any creature whose KillCredit1/2 is the objective pays it
++        # (Town-In-A-Box: Under Attack - Oomlot Warriors 38531/75116/385310 credit 38536)
++        self.kill_proxy = {}
++        for r in sql("SELECT entry,KillCredit1 k1,KillCredit2 k2 FROM creature_template WHERE "
++                     f"KillCredit1 IN ({inlist(targets)}) OR KillCredit2 IN ({inlist(targets)})"):
++            for k in (int(r["k1"]), int(r["k2"])):
++                if k in targets and int(r["entry"]) in self.cspawn:
++                    self.kill_proxy.setdefault(k, []).append(int(r["entry"]))
++        # spellclick proxies: ON_SPELLCLICK (73) -> actionlist (80, or 88 random range) -> credit
++        # (Irresistible Pool Pony: click a Naga Hatchling 38412 -> lists 3841200-03 pay 38413)
++        self.click_proxy = {}  # objective entry -> proxy entries to spellclick
++        for r in sql("SELECT s.entryorguid e,l.action_param1 c FROM smart_scripts s JOIN smart_scripts l ON "
++                     "l.source_type=9 AND l.action_type=33 AND (l.entryorguid=s.action_param1 OR (s.action_type=88 "
++                     "AND l.entryorguid BETWEEN s.action_param1 AND s.action_param2)) WHERE s.source_type=0 AND "
++                     f"s.event_type=73 AND s.action_type IN (80,88) AND l.action_param1 IN ({inlist(targets)})"):
++            if int(r["e"]) in self.cspawn:
++                self.click_proxy.setdefault(int(r["c"]), set()).add(int(r["e"]))
+         for r in rows:
+             e, c = int(r["e"]), int(r["c"])
+             if e != c and e in self.cspawn:
+@@ -207,10 +278,12 @@ class World:
+                     if int(r[e]) in (90, 134) and int(r[m]):
+                         self.spellhit.setdefault(int(r[m]), int(r["id"]))
+         self.creature_loot = {}  # item -> creature entries (spawned here) that drop it
+-        for r in sql(f"SELECT Entry,Item FROM creature_loot_template WHERE Item IN ({il})"):
++        self.loot_chance = {}    # (item, creature) -> drop chance, so farming starts at the real source
++        for r in sql(f"SELECT Entry,Item,Chance FROM creature_loot_template WHERE Item IN ({il})"):
+             for c in ids(sql(f"SELECT entry FROM creature_template WHERE lootid={int(r['Entry'])}"), "entry"):
+                 if c in self.cspawn:
+                     self.creature_loot.setdefault(int(r["Item"]), set()).add(c)
++                    self.loot_chance[(int(r["Item"]), c)] = float(r["Chance"])
+         # loot GOs nobody spawns but another GO's SAI summons (action 50) - the source must be set
+         # off first (Kaja'mite Deposit 195489 -> 3 x Kaja'mite Chunk 195492 when activated)
+         # quest items whose spell activates GOs at a point (effect 86 ACTIVATE_OBJECT): Kablooey Bombs
+@@ -224,6 +297,67 @@ class World:
+         for r in sql("SELECT entryorguid src,action_param1 go FROM smart_scripts WHERE source_type=1 AND action_type=50"):
+             if int(r["src"]) in self.gspawn:
+                 self.go_summoners.setdefault(int(r["go"]), set()).add(int(r["src"]))
++        # ... or through one of the GO's actionlists (Raptor Trap 310000 -> list 31000000 -> Raptor Egg 201974)
++        for r in sql("SELECT o.entryorguid src,l.action_param1 go FROM smart_scripts l JOIN smart_scripts o ON "
++                     "o.source_type=1 AND o.action_type=80 AND o.action_param1=l.entryorguid "
++                     "WHERE l.source_type=9 AND l.action_type=50"):
++            if int(r["src"]) in self.gspawn:
++                self.go_summoners.setdefault(int(r["go"]), set()).add(int(r["src"]))
++        # kill-credit dummies: creatures whose KillCredit1/2 names the objective count as kills of it
++        # (Town-In-A-Box: Under Attack - 30 x 38536 from Oomlot Warriors 38531/75116/385310)
++        self.kill_alias = {}
++        for r in sql(f"SELECT entry,KillCredit1 k1,KillCredit2 k2 FROM creature_template WHERE KillCredit1 IN "
++                     f"({inlist(targets)}) OR KillCredit2 IN ({inlist(targets)})"):
++            for k in (int(r["k1"]), int(r["k2"])):
++                if k in targets and int(r["entry"]) in self.cspawn:
++                    self.kill_alias.setdefault(k, []).append(int(r["entry"]))
++        # targets that only exist as summons of a spawned creature (Free the Captives: every Goblin
++        # Captive 38643 casts 72243 on (re)spawn, putting an Oomlot Shaman 38644 beside it)
++        self.summoned_near = {}  # target entry -> spawned summoner entries
++        for t in targets:
++            if t in self.cspawn or t in self.kill_alias:
++                continue
++            sp = [int(x["id"]) for x in dbc(
++                f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={t}) OR "
++                f"(effect_2=28 AND effect_misc_value_a_2={t}) OR (effect_3=28 AND effect_misc_value_a_3={t})")]
++            if sp:
++                hosts = {int(r["e"]) for r in sql(
++                    "SELECT DISTINCT entryorguid e FROM smart_scripts WHERE source_type=0 AND action_type IN (11,134) "
++                    f"AND action_param1 IN ({inlist(sp)})")} & set(self.cspawn)
++                if hosts:
++                    self.summoned_near[t] = sorted(hosts)
++        # loot GOs a creature summons (directly or via its actionlist) when ANOTHER creature dies:
++        # Mechachicken 38224 dies -> casts 71422 -> bunny 38227 -> list 3822700 -> GO 201977 (I-323)
++        self.go_on_death = {}  # GO entry -> creature entry to kill
++        for r in sql("SELECT o.entryorguid c,l.action_param1 g FROM smart_scripts l JOIN smart_scripts o ON "
++                     "o.source_type=0 AND o.action_type=80 AND o.action_param1=l.entryorguid WHERE l.source_type=9 "
++                     "AND l.action_type=50 UNION SELECT entryorguid c,action_param1 g FROM smart_scripts "
++                     "WHERE source_type=0 AND action_type=50"):
++            owner, g = int(r["c"]), int(r["g"])
++            if g in self.gspawn:
++                continue
++            if owner in self.cspawn:
++                kills = [owner] if sql(f"SELECT 1 x FROM smart_scripts WHERE source_type=0 AND entryorguid={owner} "
++                                       f"AND event_type=6 AND action_type=50 AND action_param1={g}") else []
++            else:
++                summons = [int(x["id"]) for x in dbc(
++                    f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={owner}) OR "
++                    f"(effect_2=28 AND effect_misc_value_a_2={owner})")]
++                kills = [int(x["e"]) for x in sql(
++                    "SELECT DISTINCT entryorguid e FROM smart_scripts WHERE source_type=0 AND event_type=6 "
++                    f"AND action_type IN (11,134) AND action_param1 IN ({inlist(summons)})")] if summons else []
++            for k in kills:
++                if k in self.cspawn:
++                    self.go_on_death[g] = k
++                    self.go_summoners.setdefault(g, set())
++        # quest-item spells aimed at a nearby creature by a type-13 condition (31 = creature, v2 entry):
++        # Wild Clucker Eggs 56576 -> trap marker 75113 next to every Raptor Trap
++        self.item_spell_target = {}
++        isp = [v for v in self.item_spell.values() if v]
++        if isp:
++            for r in sql("SELECT SourceEntry sp,ConditionValue2 e FROM conditions WHERE SourceTypeOrReferenceId=13 "
++                         f"AND ConditionTypeOrReference=31 AND ConditionValue1=3 AND SourceEntry IN ({inlist(isp)})"):
++                self.item_spell_target[int(r["sp"])] = int(r["e"])
+         # vehicle minigames that pay out an item (The Great Bank Heist: GO 195525 summons the vault
+         # 35486 you possess; it whispers which widget to press; 4 right answers cast 67492, which
+         # creates Personal Riches). item -> (summoning GO, vehicle entry)
+@@ -248,13 +382,31 @@ class World:
+                 self.prompt_answer[veh] = self._prompts(veh)
+         # credit creatures nobody spawns but a GO summons when used (447: the Defective Generator
+         # 201735 casts 70198, which summons 37561, whose JUST_SUMMONED pays the credit)
+-        self.summon_credit_go = {}  # creature entry -> GO entry to use
++        self.summon_credit_go = {}  # credit entry -> (GO entry to use, gossip menu)
++        self.summon_ride = {}       # credit entry -> summoned vehicle that pays it to its rider
+         for t in targets:
+             if t in self.cspawn:
+                 continue
+-            spells = [int(x["id"]) for x in dbc(
+-                f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={t}) OR "
+-                f"(effect_2=28 AND effect_misc_value_a_2={t}) OR (effect_3=28 AND effect_misc_value_a_3={t})")]
++            # who gets summoned: the credit NPC itself, or a creature whose own script pays it
++            # (Up, Up & Away: Sling Rocket 36505 credits 50046 to its rider on landing)
++            payers = [t] + [int(r["e"]) for r in sql(
++                "SELECT DISTINCT entryorguid e FROM smart_scripts WHERE source_type=0 AND action_type=33 "
++                f"AND action_param1={t} AND entryorguid<>{t}") if int(r["e"]) not in self.cspawn]
++            for payer in payers:
++                spells = [int(x["id"]) for x in dbc(
++                    f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={payer}) OR "
++                    f"(effect_2=28 AND effect_misc_value_a_2={payer}) OR (effect_3=28 AND effect_misc_value_a_3={payer})")]
++                if spells:
++                    # plus spells that only force/trigger-cast the summon (Mechashark Controller 202108:
++                    # 71662 FORCE_CAST -> 71648 SUMMON 38318)
++                    il2 = inlist(spells)
++                    spells += [int(x["id"]) for x in dbc(
++                        "SELECT id FROM spell WHERE (effect_1 IN (32,64,140) AND effect_trigger_spell_1 IN "
++                        f"({il2})) OR (effect_2 IN (32,64,140) AND effect_trigger_spell_2 IN ({il2})) OR "
++                        f"(effect_3 IN (32,64,140) AND effect_trigger_spell_3 IN ({il2}))")]
++                    if payer != t:
++                        self.summon_ride[t] = payer
++                    break
+             if spells:
+                 for g in sql("SELECT entryorguid g,event_type ev,event_param1 p1 FROM smart_scripts WHERE source_type=1 "
+                              f"AND action_type IN (11,134) AND action_param1 IN ({inlist(spells)})"):
+@@ -263,13 +415,18 @@ class World:
+                         menu = int(g["p1"]) if int(g["ev"]) == 62 else 0
+                         self.summon_credit_go[t] = (int(g["g"]), menu)
+                 # no SAI: the GO's own data-field spell (goober type 10 Data10, spellcaster type 22
+-                # Data0) - Goblin Escape Pod 195188 casts 66137 -> Goblin Survivor 34748
+-                if t not in self.summon_credit_go:
+-                    for g in sql("SELECT entry FROM gameobject_template WHERE (type=10 AND Data10 IN "
+-                                 f"({inlist(spells)})) OR (type=22 AND Data0 IN ({inlist(spells)}))"):
+-                        if int(g["entry"]) in self.gspawn:
+-                            self.summon_credit_go[t] = (int(g["entry"]), 0)
+-                            break
++                # Data0) - Goblin Escape Pod 195188 casts 66137 -> Goblin Survivor 34748. The spell may
++                # also pay the credit itself (KILL_CREDIT 90/134: Town-In-A-Box Plunger 201938 -> 68938)
++            spells = spells + [int(x["id"]) for x in dbc(
++                "SELECT id FROM spell WHERE (effect_1 IN (90,134) AND effect_misc_value_a_1="
++                f"{t}) OR (effect_2 IN (90,134) AND effect_misc_value_a_2={t}) OR "
++                f"(effect_3 IN (90,134) AND effect_misc_value_a_3={t})")]
++            if t not in self.summon_credit_go and spells:
++                for g in sql("SELECT entry FROM gameobject_template WHERE (type=10 AND Data10 IN "
++                             f"({inlist(spells)})) OR (type=22 AND Data0 IN ({inlist(spells)}))"):
++                    if int(g["entry"]) in self.gspawn:
++                        self.summon_credit_go[t] = (int(g["entry"]), 0)
++                        break
+         # escorts summoned through a gossip: credit paid from actionlists of a summoned creature
+         # (Miner Troubles: Dampwick 35769 menu 510023 -> cast 68062 -> Frightened Miner 35813, whose
+         # mining-spot actionlists pay 35816 to the summoner). credit -> (npc, menu, escort entry)
+@@ -298,7 +455,8 @@ class World:
+         self.go_lock = {}  # chest entry -> Lock.dbc id (Data0)
+         for r in sql(f"SELECT t.entry,t.type,t.Data0,l.Item FROM gameobject_loot_template l JOIN gameobject_template t ON t.Data1=l.Entry "
+                      f"WHERE l.Item IN ({il}) AND t.type IN (3,25)"):
+-            if int(r["entry"]) in self.gspawn or int(r["entry"]) in self.go_summoners:
++            if int(r["entry"]) in self.gspawn or int(r["entry"]) in self.go_summoners or \
++                    int(r["entry"]) in self.go_on_death:
+                 self.go_loot.setdefault(int(r["Item"]), set()).add((int(r["entry"]), int(r["type"])))
+                 if int(r["type"]) == 3:
+                     self.go_lock[int(r["entry"])] = int(r["Data0"])
+@@ -330,9 +488,24 @@ class World:
+         # quest availability conditions (source type 19): Kezan stages its quests this way
+         # (PrevQuestID is 0 by design there) - see memory reference_goblin_quest_staging_conditions
+         cond_cols = "SourceTypeOrReferenceId src,SourceEntry entry,ElseGroup eg,ConditionTypeOrReference t,ConditionValue1 v1,ConditionValue2 v2,NegativeCondition neg"
++        # zone phasing (F-194 PhaseMgr): ordered phase_definitions gated by type-26 conditions, so the
++        # player's phase follows from quest state alone - used when nothing visible gives it away
++        zone = int(sql(f"SELECT zone FROM characters WHERE name='{char}'", "characters")[0]["zone"])
++        self.phase_defs = [(int(r["entry"]), int(r["phasemask"]), int(r["flags"])) for r in sql(
++            f"SELECT entry,phasemask,flags FROM phase_definitions WHERE zoneId={zone} ORDER BY entry")]
++        self.phase_conds = {}
++        for r in sql(f"SELECT {cond_cols} FROM conditions WHERE SourceTypeOrReferenceId=26 AND SourceGroup={zone}"):
++            self.phase_conds.setdefault(int(r["entry"]), []).append(r)
+         self.cond19 = {}
+         for r in sql(f"SELECT {cond_cols} FROM conditions WHERE SourceTypeOrReferenceId=19 AND SourceEntry IN ({qs})"):
+             self.cond19.setdefault(int(r["entry"]), []).append(r)
++        # PhaseMgr (F-194): per-zone ordered definitions gated by type-26 conditions; every row here
++        # OVERWRITEs, so a player's mask is the LAST passing definition's (1 when none passes)
++        self.phase_defs = {}  # zone -> [(entry, phasemask, condition rows)]
++        for d in sql("SELECT zoneId z,entry e,phasemask m FROM phase_definitions ORDER BY zoneId,entry"):
++            rows = sql(f"SELECT {cond_cols} FROM conditions WHERE SourceTypeOrReferenceId=26 "
++                       f"AND SourceGroup={d['z']} AND SourceEntry={d['e']}")
++            self.phase_defs.setdefault(int(d["z"]), []).append((int(d["e"]), int(d["m"]), rows))
+         refs = {int(r["t"]) for rows in self.cond19.values() for r in rows if int(r["t"]) < 0}
+         self.cond_refs = {}
+         for ref in refs:
+@@ -372,8 +545,17 @@ class World:
+             f"SELECT groupid,Text FROM creature_text WHERE CreatureID={veh}")}
+         return {text[g]: ans[m] for m, g in talk.items() if m in ans and g in text}
+ 
+-    def nearest(self, kind, entry, me):
+-        pts = (self.cspawn if kind == "c" else self.gspawn).get(entry, [])
++    def in_phase(self, kind, pts, mask):
++        """Spawn points a player in phase `mask` can see (all of them when the mask is unknown or
++        nothing matches - better a wasted walk than a quest given up). Phased NPCs (Megs, Dampwick)
++        have a copy per phase and the nearest copy is often one we cannot see."""
++        if kind != "c" or not mask:
++            return pts
++        vis = [p for p in pts if self.spawn_phase.get(p, 1) & mask]
++        return vis or pts
++
++    def nearest(self, kind, entry, me, mask=0):
++        pts = self.in_phase(kind, (self.cspawn if kind == "c" else self.gspawn).get(entry, []), mask)
+         return min(pts, key=lambda p: math.dist(p[:2], (me["x"], me["y"])), default=None)
+ 
+     def cond_true(self, r, in_log, depth=0, static_only=False):
+@@ -403,6 +585,14 @@ class World:
+             ok = True
+         return ok != bool(int(r["neg"]))
+ 
++    def quest_phase(self, zone, in_log):
++        """The phasemask PhaseMgr gives a player in `zone`, from quest state alone."""
++        mask = 0
++        for _, m, rows in self.phase_defs.get(zone, []):
++            if self.groups_true(rows, in_log):
++                mask = m
++        return mask or 1
++
+     def groups_true(self, rows, in_log, depth=0, static_only=False):
+         groups = {}
+         for r in rows:
+@@ -519,7 +709,11 @@ class Runner:
+             call("combat.rest", until_pct=90)
+             return
+         for g in st.get("attackers", []):
+-            r = call("combat.kill", guid=int(g), abilities=self.abilities, loot=True)
++            try:
++                r = call("combat.kill", guid=int(g), abilities=self.abilities, loot=True)
++            except StepFailed as e:  # a long fight can outlast one RPC; the next pass resumes it
++                print(f"  ~ defending: {str(e)[:80]}", flush=True)
++                continue
+             self.kills += r.get("killed", False)
+         s = call("interact.self")
+         if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 50:
+@@ -528,7 +722,50 @@ class Runner:
+     def travel(self, x, y, z, within=4.0):
+         for _ in range(12):
+             before = self.me()
+-            r = call("move.path_to", x=x, y=y, z=ground(x, y, z))
++            try:
++                r = call("move.path_to", x=x, y=y, z=ground(x, y, z))
++            except StepFailed as e:
++                if "not on navmesh" in str(e) or "exceeds" in str(e):
++                    # a carried item that jumps us next to the target beats any walk
++                    have = set(self.inventory())
++                    jump = next((j for j in self.w.jump_items if j[0] in have
++                                 and math.dist(j[2][:2], (x, y)) < 40), None)
++                    if jump:
++                        r = call("interact.use_item", entry=jump[0], spell_id=jump[1])
++                        print(f"  jump with item {jump[0]} to {tuple(round(v) for v in jump[2])}: {r.get('detail')}", flush=True)
++                        time.sleep(4)
++                        if math.dist((self.me()["x"], self.me()["y"]), (x, y)) < 45:
++                            call("move.to", x=x, y=y, z=z)
++                            return True
++                if "not on navmesh" in str(e):
++                    # the target stands on something the navmesh does not cover (a GO deck, a
++                    # volcano ledge): try points around it, else walk straight in if it is close
++                    me = self.me()
++                    if math.dist((me["x"], me["y"]), (x, y)) < 60:
++                        call("move.to", x=x, y=y, z=z)
++                        return True
++                    for dx, dy in ((6, 0), (-6, 0), (0, 6), (0, -6), (12, 12), (-12, -12)):
++                        try:
++                            r = call("move.path_to", x=x + dx, y=y + dy, z=ground(x + dx, y + dy, z))
++                        except StepFailed:
++                            continue
++                        if r["move"].get("arrived") or r.get("remaining", 99) <= within + 15:
++                            call("move.to", x=x, y=y, z=z)
++                            return True
++                        break
++                    raise
++                if "exceeds" in str(e) and "use waypoints" in str(e):
++                    # the move module caps one path (2000 yd): go halfway first, then on
++                    me = self.me()
++                    mx, my = (me["x"] + x) / 2, (me["y"] + y) / 2
++                    if math.dist((me["x"], me["y"]), (x, y)) < 50 or not self.travel(mx, my, ground(mx, my, z), within=30):
++                        raise
++                    continue
++                if "already moving" not in str(e):
++                    raise
++                # a walk still running from elsewhere (the revive's corpse run) - stop it and go on
++                call("move.stop")
++                continue
+             if r["move"].get("arrived") or r.get("remaining", 99) <= within:
+                 self.on_mesh = r["move"].get("position", before)
+                 return True
+@@ -546,6 +783,44 @@ class Runner:
+                 self.safe()
+         return False
+ 
++    def phase_mask(self):
++        """The player's phase, read off the world: every DB-spawned creature we can see is in our
++        phase, so AND their phaseMasks (creature guid counter = spawn guid). Cached for 20 s."""
++        now = time.time()
++        if now - getattr(self, "_phase_t", 0) < 20:
++            return self._phase
++        # AC hands creatures a runtime guid counter, not the spawn guid, so tie each visible
++        # creature to the spawn of its entry it stands on (<10 yd) and take that spawn's mask
++        mask = 0
++        for o in call("interact.find", type=3, radius=200, limit=60).get("objects", []):
++            pts = [p for p in self.w.cspawn.get(o["entry"], [])
++                   if p in self.w.spawn_phase and math.dist(p[:2], (o["x"], o["y"])) < 10]
++            pm = 0
++            for p in pts:
++                pm |= self.w.spawn_phase[p]
++            if pm:
++                mask = pm if not mask else (mask & pm) or mask
++        # an empty view (a lonely ledge, a fresh landing) says nothing about our phase - keep
++        # the last one we saw instead of falling back to "any copy"
++        if not mask:
++            mask = getattr(self, "_phase", 0)
++        if not mask:
++            # nothing seen yet: ask the phase definitions, as the server does (zone from the
++            # character row - saved often enough for "which island am I on")
++            z = sql(f"SELECT zone FROM characters WHERE guid={self.w.guid}", "characters")
++            if z and int(z[0]["zone"]) in self.w.phase_defs:
++                mask = self.w.quest_phase(int(z[0]["zone"]), self.log())
++        if not mask:
++            # nobody in sight to read it from (an empty patch of a later phase): derive it from the
++            # phase definitions - overwrite-flagged entries (1) replace, others add
++            log = self.log()
++            for entry, pm, flags in self.w.phase_defs:
++                rows = self.w.phase_conds.get(entry, [])
++                if not rows or self.w.groups_true(rows, log):
++                    mask = pm if flags & 1 else mask | pm
++        self._phase, self._phase_t = mask, now
++        return mask
++
+     def go_near(self, kind, entry, offset=2.5, usable_only=False, has_aura=0):
+         """Walk to the nearest spawn of entry, then stand next to the visible object.
+ 
+@@ -554,6 +829,8 @@ class Runner:
+         """
+         def pick():
+             objs = call("interact.find", entry=entry, limit=15, has_aura=has_aura).get("objects", [])
++            if kind == "c":  # a corpse is not "found" - walk on to the next spawn with a living one
++                objs = [o for o in objs if o["health"] > 0]
+             if usable_only:
+                 now = time.time()
+                 objs = [o for o in objs if now - self.used.get(int(o["guid"]), 0) > 180]
+@@ -562,13 +839,14 @@ class Runner:
+                     objs = active or objs
+             return objs[0] if objs else None
+ 
+-        p = self.w.nearest(kind, entry, self.me())
++        mask = self.phase_mask()
++        p = self.w.nearest(kind, entry, self.me(), mask)
+         if p is None:
+             raise StepFailed(f"no spawn of {kind}{entry} in the area")
+         o = pick()
+         if o is None or o.get("distance", 0) > 40:
+             if o is None:  # nothing usable in sight: try spawn points further out
+-                pts = sorted((self.w.cspawn if kind == "c" else self.w.gspawn).get(entry, []),
++                pts = sorted(self.w.in_phase(kind, (self.w.cspawn if kind == "c" else self.w.gspawn).get(entry, []), mask),
+                              key=lambda q: math.dist(q[:2], (self.me()["x"], self.me()["y"])))
+                 for q in pts[: min(len(pts), 6)]:
+                     self.travel(*q, within=15)
+@@ -614,6 +892,7 @@ class Runner:
+         return o
+ 
+     def accept(self, qid):
++        self.safe()
+         self.leave_vehicle()
+         kind, entry = self.w.starters[qid][0]
+         if not self.reach_npc(kind, entry):
+@@ -696,7 +975,33 @@ class Runner:
+                   f"{info[it['entry']]['Quality']}): {res.get('detail')}", flush=True)
+             free += 1
+ 
++    def ride_out(self, entries, limit=240):
++        """We are a passenger (Ride Vehicle 46598) of something the quest summoned - Old Friends'
++        Flying Bomber carries the player out of the lair and drops them by the ender. Stepping off
++        mid-flight strands us, so wait for the ride to end (the drop) before walking anywhere."""
++        t0 = time.time()
++        while time.time() - t0 < limit:
++            me = call("interact.find", guid=self.w.guid, limit=1).get("objects", [{}])[0]
++            if not self.riding(me.get("auras", [])):
++                return
++            time.sleep(3)
++
++    def riding(self, auras):
++        """Any CONTROL_VEHICLE (aura 236) on us = a passenger: Ride Vehicle Hardcoded 46598, Old
++        Friends' rope ladder 91604 and its seat-3 swap 98707 all are. Cached per spell."""
++        cache = self.__dict__.setdefault("_ride_aura", {46598: True})
++        unknown = [a for a in auras if a not in cache]
++        if unknown:
++            hit = {int(r["id"]) for r in dbc(
++                f"SELECT id FROM spell WHERE id IN ({inlist(unknown)}) AND (effect_apply_aura_name_1=236 "
++                "OR effect_apply_aura_name_2=236 OR effect_apply_aura_name_3=236)")}
++            for a in unknown:
++                cache[a] = a in hit
++        return any(cache.get(a) for a in auras)
++
+     def turn_in(self, qid):
++        self.safe()  # a ghost's quest hello is silently ignored - revive before walking to the ender
++        self.ride_out([e for _, e in self.w.enders.get(qid, [])])
+         self.leave_vehicle()
+         self.make_room()
+         # several enders (447: Gallywix or the Claims Adjuster), some only in other phases or out of
+@@ -900,11 +1205,31 @@ class Runner:
+             if not o:
+                 continue
+             self.used[int(o["guid"])] = time.time()
+-            it, spell = self.w.activate_items[0]
+-            r = call("interact.use_item", entry=it, spell_id=spell, ground=True,
+-                     x=o["x"], y=o.get("y", 0), z=o.get("z", 0))
+-            print(f"  set off GO {src} with item {it}: {r.get('detail')}", flush=True)
+-            time.sleep(2.5)
++            act = [(i, sp) for i, sp in self.w.activate_items if i in set(inv)]
++            if act:
++                it, spell = act[0]
++                r = call("interact.use_item", entry=it, spell_id=spell, ground=True,
++                         x=o["x"], y=o.get("y", 0), z=o.get("z", 0))
++                print(f"  set off GO {src} with item {it}: {r.get('detail')}", flush=True)
++                time.sleep(2.5)
++            else:
++                # bait: a quest item whose spell targets a marker next to the source (decoy lures a
++                # raptor into the trap) - use it standing at the trap, then give the scene time
++                have = set(inv)
++                # the bait the quest itself hands out (StartItem of the quest that wants this loot)
++                starts = [int(q["StartItem"]) for q in self.w.quests.values()
++                          if item in {int(q[f"RequiredItemId{k}"]) for k in range(1, 7)}]
++                cands = [i for i in starts if i in have] + list(have)
++                it = next((i for i in cands if self.w.item_spell.get(i) in self.w.item_spell_target), 0)
++                spell = self.w.item_spell.get(it, 0)
++                if not it:
++                    return False
++                r = call("interact.use_item", entry=it, spell_id=spell)
++                print(f"  bait GO {src} with item {it}: {r.get('detail')}", flush=True)
++                for _ in range(8):
++                    time.sleep(2)
++                    if any(x["distance"] < 30 for x in call("interact.find", entry=go, limit=4).get("objects", [])):
++                        break
+             loot_visible()
+             return True
+         return False
+@@ -925,18 +1250,46 @@ class Runner:
+         print(f"  enter stance {options[0]} for {spell}: {r.get('detail')}", flush=True)
+         time.sleep(1)
+ 
++    def bar_kinds(self, bar):
++        """Bar spell -> 'unit' / 'ground' / None (not a damage spell: Repair, buffs). From the DBC:
++        effect 2 SCHOOL_DAMAGE (or 7 ENVIRONMENTAL / 9 HEALTH_LEECH) decides it is a weapon; a DEST
++        target flag (0x40) or a dest/area implicit target makes it ground-aimed."""
++        cache = self.__dict__.setdefault("_bar_kinds", {})
++        need = [sp for sp in bar if sp not in cache]
++        if need:
++            for r in dbc("SELECT id,effect_1 e1,effect_2 e2,effect_3 e3,effect_implicit_target_a_1 t1,targets FROM spell "
++                         f"WHERE id IN ({inlist(need)})"):
++                dmg = {int(r["e1"]), int(r["e2"]), int(r["e3"])} & {2, 7, 9}
++                ground = int(r["targets"]) & 0x40 or int(r["t1"]) in (16, 17, 18, 28, 47, 53, 87, 89)
++                cache[int(r["id"])] = ("ground" if ground else "unit") if dmg else None
++            for sp in need:
++                cache.setdefault(sp, "ground")  # unknown to the DBC: keep the old behaviour
++        return {sp: cache[sp] for sp in bar}
++
+     def bar_attack(self, target, bar):
+-        """We sit on a vehicle whose bar is our weapon (passenger turret / flying cyclone): fire the
+-        first bar spell at the nearest living target - ground-aimed, as AoE bar spells are."""
++        """We sit on a vehicle whose bar is our weapon (turret, flying cyclone, Mechashark): fire its
++        damage spells at the nearest living target - at the unit, or at its feet for AoE spells."""
+         objs = [o for o in call("interact.find", entry=target, limit=10).get("objects", [])
+                 if o["health"] > 0 and o["distance"] < 120]
+         if not objs:
+             time.sleep(2)  # the ride is carrying us on - targets come into range
+             return True
+         o = min(objs, key=lambda x: x["distance"])
+-        r = call("vehicle.cast", spell_id=bar[0], ground=True, x=o["x"], y=o["y"], z=o["z"])
+-        print(f"  bar {bar[0]} at {target} ({o['distance']:.0f}yd): {r.get('detail', '')[:60]}", flush=True)
+-        time.sleep(1.2)
++        if o["distance"] > 20 and call("vehicle.state").get("controlling"):
++            # we drive this one (Mechashark): close in - straight, it swims/flies - then shoot
++            dx, dy = self.me()["x"] - o["x"], self.me()["y"] - o["y"]
++            d = max(math.hypot(dx, dy), 0.01)
++            call("move.to", x=o["x"] + dx / d * 12, y=o["y"] + dy / d * 12, z=o["z"], timeout_ms=15000)
++            o = next((x for x in call("interact.find", guid=int(o["guid"]), limit=1).get("objects", [])), o)
++        for sp, kind in self.bar_kinds(bar).items():
++            if kind == "unit":
++                r = call("vehicle.cast", spell_id=sp, target=int(o["guid"]))
++            elif kind == "ground":
++                r = call("vehicle.cast", spell_id=sp, ground=True, x=o["x"], y=o["y"], z=o["z"])
++            else:
++                continue
++            print(f"  bar {sp} ({kind}) at {target} ({o['distance']:.0f}yd): {r.get('detail', '')[:50]}", flush=True)
++            time.sleep(1.2)
+         return True
+ 
+     def vehicle_bombard(self, qid, target, bar_spell, ventry):
+@@ -1009,6 +1362,40 @@ class Runner:
+             target, need = int(q[f"RequiredNpcOrGo{i}"]), int(q[f"RequiredNpcOrGoCount{i}"])
+             if not target or counts[i - 1] >= need:
+                 continue
++            if target > 0 and target not in self.w.cspawn and target in self.w.summoned_near \
++                    and target not in self.w.summon_credit_go:
++                # kill one already in sight, else go to a host (its summon stands beside it)
++                live = [o for o in call("interact.find", entry=target, limit=6).get("objects", [])
++                        if o["health"] > 0 and o["distance"] < 60]
++                if not live:
++                    for host in self.w.summoned_near[target]:
++                        if self.go_near("c", host, offset=8.0, usable_only=True):
++                            live = [o for o in call("interact.find", entry=target, limit=6).get("objects", [])
++                                    if o["health"] > 0 and o["distance"] < 40]
++                            if live:
++                                break
++                if not live:
++                    raise StepFailed(f"no living {target} beside {self.w.summoned_near[target]}")
++                o = min(live, key=lambda x: x["distance"])
++                r = call("combat.kill", guid=int(o["guid"]), abilities=self.abilities, loot=True)
++                self.kills += r.get("killed", False)
++                return True
++            if target > 0 and target not in self.w.cspawn and target in self.w.kill_alias:
++                bar = [sp for sp in call("vehicle.state").get("spells", []) if sp]
++                for alias in sorted(self.w.kill_alias[target], key=lambda e: -len(self.w.cspawn.get(e, []))):
++                    if bar:
++                        return self.bar_attack(alias, bar)
++                    try:
++                        if not self.go_near("c", alias, offset=6.0):
++                            continue
++                    except StepFailed:
++                        continue
++                    r = call("combat.kill", entry=alias, abilities=self.abilities, loot=True)
++                    if r.get("reason") == "no target":
++                        continue
++                    self.kills += r.get("killed", False)
++                    return True
++                raise StepFailed(f"no living {self.w.kill_alias[target]} (kill credit {target}) in sight")
+             if target > 0 and target in self.w.escort_credit:
+                 return self.run_escort(qid, i - 1, target, counts[i - 1])
+             if target > 0 and target in self.w.summon_credit_go:
+@@ -1021,14 +1408,108 @@ class Runner:
+                 if menu:  # the use opened its gossip; the option is what fires the script
+                     m = call("interact.gossip_select", target={"entry": go}, menu_id=menu, option=0)
+                     print(f"  gossip {menu} on GO {go}: {m.get('kind')}", flush=True)
++                ride = self.w.summon_ride.get(target)
++                if ride:  # a summoned vehicle pays its rider: get on (unless it seated us) and ride
++                    time.sleep(1.5)
++                    st = call("vehicle.state")
++                    me = call("interact.find", guid=self.w.guid, limit=1).get("objects", [{}])[0]
++                    click = {int(r["spell_id"]) for r in sql(
++                        f"SELECT spell_id FROM npc_spellclick_spells WHERE npc_entry={ride}")}
++                    # the summon often seats us itself (Sling Rocket: Ride Vehicle 46598 + its click
++                    # spell 68805) - clicking a vehicle we already ride EJECTS us, so look first
++                    seated = bool(set(me.get("auras", [])) & ({46598} | click))
++                    if not seated and not any(st.get("spells", [])) and st.get("entry") != ride:
++                        if call("interact.find", entry=ride, limit=1).get("objects"):
++                            r2 = call("vehicle.enter", entry=ride, timeout_ms=3000)
++                            print(f"  board {ride}: {r2.get('detail')}", flush=True)
++                    menu = menu or 1  # wait out the ride below
+                 print(f"  use GO {go} to summon credit {target}: {r.get('detail', r.get('opened'))}", flush=True)
+                 # the summoned NPC may act out a scene before paying (Gasbot walks his path, then
+                 # torches the KTC): re-using the GO restarts it, so wait for the counter first
+-                for _ in range(15 if menu else 1):
++                for _ in range((45 if self.w.summon_ride.get(target) else 15) if menu else 1):
+                     time.sleep(2)
+                     if self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[i - 1] > counts[i - 1]:
+                         break
+                 return True
++            if target > 0 and target in self.w.death_credit and target not in self.w.cspawn:
++                k = self.w.death_credit[target]
++                live = [o for o in call("interact.find", entry=k, limit=3).get("objects", []) if o["health"] > 0]
++                if live:
++                    r = call("combat.kill", guid=int(live[0]["guid"]), abilities=self.abilities, loot=True)
++                    print(f"  kill {k} for credit {target}: {r.get('reason', 'killed')}", flush=True)
++                    return True
++                if k in self.w.cspawn:
++                    return bool(self.go_near("c", k, offset=6.0))
++                esc = self.w.escort_summons.get(k)
++                guide = call("interact.find", entry=esc, limit=1).get("objects", []) if esc else []
++                if guide:  # shadow the escort; it summons the target when it gets there
++                    g = guide[0]
++                    if g["distance"] > 6:
++                        call("move.path_to", x=g["x"], y=g["y"], z=g["z"])
++                    else:
++                        time.sleep(2)
++                    self.stuck.pop(("escort", target), None)
++                    # an escort that stops is usually being attacked (Ace is passive with a 30% floor:
++                    # he can neither win nor die, so the walk waits forever) - kill what is on him
++                    last = self.__dict__.setdefault("_escort_last", {})
++                    pos = (round(g["x"], 1), round(g["y"], 1))
++                    still = last.get(esc, (pos, 0))
++                    last[esc] = (pos, still[1] + 1 if still[0] == pos else 0)
++                    if last[esc][1] >= 5:
++                        friends = {esc} | {int(x["action_param1"]) for x in sql(
++                            "SELECT action_param1 FROM smart_scripts WHERE source_type=9 AND action_type=12 AND "
++                            f"entryorguid IN (SELECT action_param1 FROM smart_scripts WHERE entryorguid={esc} "
++                            "AND source_type=0 AND action_type=80)")}
++                        foes = [o for o in call("interact.find", type=3, radius=45, limit=30).get("objects", [])
++                                if o["health"] > 0 and o["entry"] not in friends and o.get("type") == 3
++                                and math.dist((o["x"], o["y"]), (g["x"], g["y"])) < 35]
++                        for o in sorted(foes, key=lambda x: math.dist((x["x"], x["y"]), (g["x"], g["y"]))):
++                            r = call("combat.kill", guid=int(o["guid"]), abilities=self.abilities, loot=False)
++                            if not r.get("reason", "").startswith(("cannot attack", "no damage")):
++                                print(f"  escort {esc} stalled - fought {o['entry']}: {r.get('reason', 'killed')}", flush=True)
++                                break
++                        last[esc] = (pos, 0)
++                    return True
++                waited = self.stuck.get(("escort", target), 0) + 1
++                self.stuck[("escort", target)] = waited
++                if waited == 10 and esc:
++                    # the escort is gone (walked on without us, despawned): drop and retake the quest,
++                    # as a player would - accepting it again summons a fresh escort
++                    r = call("interact.quest_abandon", quest_id=qid)
++                    print(f"  escort {esc} gone - abandon {qid} to restart it: {r.get('detail')}", flush=True)
++                    self.stuck.pop(("escort", target), None)
++                    self.stuck.pop(qid, None)
++                    time.sleep(2)
++                    return True
++                if waited > 20:
++                    raise StepFailed(f"no {k} and no escort {esc} for credit {target}")
++                time.sleep(3)
++                return True
++            if target > 0 and target not in self.w.cspawn and target in self.w.kill_proxy:
++                for k in self.w.kill_proxy[target]:  # whichever proxy has living spawns in our phase
++                    try:
++                        if not self.go_near("c", k, offset=6.0):
++                            continue
++                    except StepFailed:
++                        continue
++                    r = call("combat.kill", entry=k, abilities=self.abilities, loot=True)
++                    if r.get("reason") == "no target":
++                        continue
++                    self.kills += r.get("killed", False)
++                    return True
++                raise StepFailed(f"no living {self.w.kill_proxy[target]} (kill credit {target}) in reach")
++            if target > 0 and target in self.w.click_proxy:
++                for proxy in sorted(self.w.click_proxy[target]):
++                    o = self.go_near("c", proxy, offset=2.5, usable_only=True)
++                    if not o:
++                        continue
++                    self.used[int(o["guid"])] = time.time()
++                    r = call("interact.spellclick", guid=int(o["guid"]))
++                    time.sleep(3)
++                    now = self.log().get(qid, {}).get("counts", [0, 0, 0, 0])[i - 1]
++                    print(f"  click {proxy} for {target}: {r.get('detail', '')[:40]} ({now}/{need})", flush=True)
++                    return True
++                raise StepFailed(f"no clickable {sorted(self.w.click_proxy[target])} for {target}")
+             if target > 0 and target in self.w.credit_proxy and not call(
+                     "interact.find", entry=target, limit=1).get("objects"):
+                 return self.proxy_credit(qid, i - 1, target, counts[i - 1])
+@@ -1096,7 +1577,21 @@ class Runner:
+                 if not self.go_near("c", target, offset=6.0):
+                     return False
+                 bar = [sp for sp in call("vehicle.state").get("spells", []) if sp]
+-                if bar:  # riding something with a bar (Thrall's cyclone: Lightning Strike) - shoot from it
++                if not bar:
++                    # this quest's other objective was earned by summoning a vehicle (Mechashark): the
++                    # fight is meant to be fought from it, so summon/board it again first
++                    for k in range(1, 5):
++                        o2 = int(q[f"RequiredNpcOrGo{k}"])
++                        if o2 > 0 and o2 != target and o2 in self.w.summon_credit_go and int(
++                                sql(f"SELECT VehicleId v FROM creature_template WHERE entry={o2}")[0]["v"]):
++                            go2, _ = self.w.summon_credit_go[o2]
++                            if self.go_near("g", go2):
++                                call("interact.use", target={"entry": go2})
++                                print(f"  re-summon vehicle {o2} at GO {go2} for {target}", flush=True)
++                                time.sleep(3)
++                                bar = [sp for sp in call("vehicle.state").get("spells", []) if sp]
++                            break
++                if bar:  # riding something with a bar (cyclone, Mechashark) - fight from it
+                     return self.bar_attack(target, bar)
+                 r = call("combat.kill", entry=target, abilities=self.abilities, loot=True)
+                 if r.get("reason") == "no target":  # nothing alive in sight - not progress
+@@ -1124,7 +1619,26 @@ class Runner:
+                     print(f"  buy {item} from vendor {v}: {r.get('detail')}", flush=True)
+                     return True
+             for go, gotype in sorted(self.w.go_loot.get(item, ())):
+-                if go not in self.w.gspawn and go in self.w.go_summoners and self.w.activate_items:
++                if go not in self.w.gspawn and go in self.w.go_on_death:
++                    # kill the creature whose death conjures the loot object, then loot it
++                    k = self.w.go_on_death[go]
++                    for o in call("interact.find", entry=go, limit=4).get("objects", []):
++                        if o["distance"] < 40:
++                            self.travel(o["x"], o["y"], o["z"], within=2.0)
++                            r = call("interact.use", target={"guid": int(o["guid"])}, loot_all=True,
++                                     spell_id=self.w.lock_spell.get(self.w.go_lock.get(go, 0), OPENING))
++                            print(f"  loot {go} (from {k}): {r.get('detail')} {r.get('received', '')}", flush=True)
++                            return True
++                    if not self.go_near("c", k, offset=6.0):
++                        return False
++                    r = call("combat.kill", entry=k, abilities=self.abilities, loot=True)
++                    if r.get("reason") == "no target":
++                        raise StepFailed(f"no living {k} in sight (its death drops GO {go})")
++                    print(f"  killed {k} for GO {go}: {r.get('reason', 'killed')}", flush=True)
++                    time.sleep(3)
++                    return True
++                if go not in self.w.gspawn and go in self.w.go_summoners and (
++                        self.w.activate_items or self.w.item_spell_target):
+                     if self.loot_summoned_go(go, item, inv):
+                         return True
+                     continue
+@@ -1143,7 +1657,8 @@ class Runner:
+                         self.used[int(o["guid"])] = time.time()
+                     print(f"  open GO {go} for item {item}: {r.get('detail')} {r.get('received', '')}", flush=True)
+                     return True
+-            for c in sorted(self.w.creature_loot.get(item, ())):
++            # best source first (Shark Parts: Ravenous Lurker 96%, not a 0.01% pirate)
++            for c in sorted(self.w.creature_loot.get(item, ()), key=lambda c: -self.w.loot_chance.get((item, c), 0)):
+                 if self.go_near("c", c, offset=6.0):
+                     r = call("combat.kill", entry=c, abilities=self.abilities, loot=True)
+                     if r.get("reason") == "no target":
+@@ -1159,12 +1674,19 @@ class Runner:
+             self.safe()
+             log = self.log()
+             level = call("interact.self").get("level", 1)
+-            self.train(level)
++            try:
++                self.train(level)
++            except StepFailed as e:  # trainer out of reach: train later
++                print(f"  ~ trainer: {e}", flush=True)
+             # the quest log update that removes a turned-in quest can lag the reward packet
+             log = {q: e for q, e in log.items() if q not in self.w.rewarded}
+             ready = [q for q, e in log.items() if q in self.w.quests and e.get("state") == 1 and q not in self.blocked]
+             if ready:
+-                self.turn_in(ready[0])
++                try:
++                    self.turn_in(ready[0])
++                except StepFailed as e:  # cannot reach the ender right now: not a run-ender
++                    print(f"  ~ turn in {ready[0]}: {e}", flush=True)
++                    self.blocked.add(ready[0])
+                 continue
+             active = [q for q in log if q in self.w.quests and q not in self.blocked]
+             progressed = False
+@@ -1185,9 +1707,20 @@ class Runner:
+             self.w.inventory = self.inventory()
+             avail = [q for q in sorted(self.w.starters) if q not in self.blocked and self.w.eligible(q, level, log)]
+             if avail:
+-                self.accept(avail[0])
++                try:
++                    self.accept(avail[0])
++                except StepFailed as e:  # cannot reach the giver right now
++                    print(f"  ~ accept {avail[0]}: {e}", flush=True)
++                    self.blocked.add(avail[0])
+                 continue
+             idle += 1
++            # a quest refused a moment after its prerequisite was rewarded is often offered seconds
++            # later (24816 right after 24744): give refusals a few more tries before calling it done
++            if self.refused and idle <= 3:
++                self.blocked -= self.refused
++                self.refused.clear()
++                time.sleep(5)
++                continue
+             # quests still open: respawn timers / skipped objects need time, so wait (~4 min max)
+             if active and idle <= 24:
+                 time.sleep(10)
+@@ -1197,7 +1730,30 @@ class Runner:
+         return time.time() - t0
+ 
+ 
++def _trace_sigterm():
++    """Runners have been dying of a SIGTERM nobody here sends (exit 143, no traceback).
++    Block SIGTERM and wait for it on a thread with sigwaitinfo, which - unlike a Python
++    signal handler - reports the SENDER, then log who it was and exit as before."""
++    import os
++    import signal
++    import threading
++
++    signal.pthread_sigmask(signal.SIG_BLOCK, {signal.SIGTERM})
++
++    def wait():
++        info = signal.sigwaitinfo({signal.SIGTERM})
++        try:
++            cmd = open(f"/proc/{info.si_pid}/cmdline", "rb").read().replace(b"\0", b" ").decode(errors="replace")
++        except OSError:
++            cmd = "(sender already gone)"
++        print(f"[SIGTERM] from pid {info.si_pid} uid {info.si_uid}: {cmd[:300]}", flush=True)
++        os._exit(143)
++
++    threading.Thread(target=wait, daemon=True).start()
++
++
+ def main():
++    _trace_sigterm()
+     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+     ap.add_argument("--char", required=True)
+     ap.add_argument("--map", type=int, required=True)
+@@ -1211,6 +1767,8 @@ def main():
+     try:
+         secs = r.run(a.minutes)
+     except StepFailed as e:
++        import traceback
++        traceback.print_exc()
+         print(f"RESULT: FAIL at {e}")
+         return 1
+     level = call("interact.self").get("level")
+diff --git a/zeppelin/tests/supervise.sh b/zeppelin/tests/supervise.sh
+index e154fd7..c1b1c0f 100755
+--- a/zeppelin/tests/supervise.sh
++++ b/zeppelin/tests/supervise.sh
+@@ -8,13 +8,18 @@ deadline=$(( $(date +%s) + MIN * 60 ))
+ for attempt in $(seq 1 12); do
+   if ! "$RUN/rpc.sh" interact.self | grep -q '"guid"'; then
+     pkill -f "agent-wow char play $CHAR" ; sleep 3
+-    (cd "$RUN" && setsid ../agent-wow/bin/agent-wow char play "$CHAR" < /dev/null > "$RUN/session-$CHAR.log" 2>&1 &)
++    (cd "$RUN" && exec setsid ../agent-wow/bin/agent-wow char play "$CHAR" < /dev/null > "$RUN/session-$CHAR.log" 2>&1 &)
+     for i in $(seq 1 30); do sleep 5; "$RUN/rpc.sh" interact.self | grep -q '"guid"' && break; done
+     echo "[SUPERVISOR] session $attempt up: $("$RUN/rpc.sh" interact.self | cut -c1-80)" >> "$LOG"
+   fi
+   left=$(( (deadline - $(date +%s)) / 60 )); [ "$left" -le 0 ] && break
+-  (cd "$TESTS" && python3 -u start_area.py --char "$CHAR" --map "$MAP" --box $BOX --minutes "$left" >> "$LOG" 2>&1)
+-  tail -5 "$LOG" | grep -q "^RESULT:" && ! tail -30 "$LOG" | grep -q "Connection refused\|disconnected" && break
++  RUNLOG=$(mktemp)
++  (cd "$TESTS" && python3 -u start_area.py --char "$CHAR" --map "$MAP" --box $BOX --minutes "$left" 2>&1; echo "[SUPERVISOR] runner exit code $?") | tee -a "$LOG" > "$RUNLOG"
++  # a real verdict from THIS run (not an old line further up the log) and no dropped connection in it
++  # a verdict only counts if the session survived the run: a worldserver restart mid-step surfaces as
++  # anything from "Connection refused" to "context canceled", so ask the session instead of the text
++  if grep -q "^RESULT:" "$RUNLOG" && "$RUN/rpc.sh" interact.self | grep -q '"guid"'; then rm -f "$RUNLOG"; break; fi
++  rm -f "$RUNLOG"
+   echo "[SUPERVISOR] runner stopped without a result (server restart?) - reconnecting" >> "$LOG"
+   sleep 20
+ done
+-- 
+2.34.1
+
