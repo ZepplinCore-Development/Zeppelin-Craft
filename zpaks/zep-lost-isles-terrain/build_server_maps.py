@@ -314,8 +314,11 @@ def stage_navmesh(stage, maps_dir, vmaps_dir):
              (ISLAND_X x ISLAND_Y), so the navmesh covers the whole island and a path can leave a
              swapped tile. Only the swapped tiles go to the LIVE data/maps - the core loads every
              swap tile it finds as an overlay, and an identical copy there would just cost memory.
-    vmaps/ : map 1's own collision under the swap ids (001.vmtree -> 659.vmtree, 001_Y_X.vmtile ->
-             659_Y_X.vmtile) plus every model, all HARD links (no copy). The server keeps map 1's
+    vmaps/ : map 1's own collision under the swap ids (001.vmtree -> 659.vmtree, 001_X_Y.vmtile ->
+             659_X_Y.vmtile) plus every model, all HARD links (no copy). vmtile names are ADT X_Y
+             order (001_52_29 holds the Gallywix Labor Mine) - the OPPOSITE of the .map/.mmtile
+             names ({map}YYXX). mmaps_generator bridges it with loadVMap(mapID, tileY, tileX); the
+             Y_X-named tiles are a different patch of Kalimdor (I-385 fix 4). The server keeps map 1's
              vmaps for LoS/vmap height in every phase, so the swap navmesh must see the same
              objects. Phase-only WMOs (the Phase2 town) are NOT in any vmap - see I-385.
     mmaps/ : empty; mmaps_generator writes 659.mmap/661.mmap + tiles here -> copy into data/mmaps.
@@ -338,9 +341,9 @@ def stage_navmesh(stage, maps_dir, vmaps_dir):
         os.link(os.path.join(vmaps_dir, f"{BASE_MAP:03}.vmtree"), os.path.join(svmaps, f"{map_id:03}.vmtree"))
         for x in ISLAND_X:
             for y in ISLAND_Y:
-                t = os.path.join(vmaps_dir, f"{BASE_MAP:03}_{y:02}_{x:02}.vmtile")
+                t = os.path.join(vmaps_dir, f"{BASE_MAP:03}_{x:02}_{y:02}.vmtile")
                 if os.path.exists(t):
-                    os.link(t, os.path.join(svmaps, f"{map_id:03}_{y:02}_{x:02}.vmtile"))
+                    os.link(t, os.path.join(svmaps, f"{map_id:03}_{x:02}_{y:02}.vmtile"))
     models = 0
     for f in os.listdir(vmaps_dir):
         if not f.endswith((".vmtree", ".vmtile")):

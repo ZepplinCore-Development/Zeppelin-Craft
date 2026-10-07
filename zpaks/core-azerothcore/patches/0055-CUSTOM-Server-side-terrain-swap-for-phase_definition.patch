@@ -1,4 +1,4 @@
-From 5c4b74af5b093e79dd5ffaf13c51960b382ac7dc Mon Sep 17 00:00:00 2001
+From 28d2f6749439aa6a475fdd9ee78cfa21023609f1 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 6 Oct 2026 08:03:16 +0000
 Subject: [PATCH] CUSTOM: Server-side terrain swap for
@@ -25,9 +25,9 @@ Claude-Session: https://claude.ai/code/session_01FZSZZGNXFU6HXsk17qtuSK
  src/server/game/Maps/MapCollisionData.h       | 17 +++++
  src/server/game/Maps/PhaseMgr.cpp             | 31 +++++++++
  src/server/game/Maps/PhaseMgr.h               | 32 ++++++++--
- .../MovementGenerators/PathGenerator.cpp      | 27 ++++++++
+ .../MovementGenerators/PathGenerator.cpp      | 53 ++++++++++++++++
  .../MovementGenerators/PathGenerator.h        |  1 +
- 13 files changed, 288 insertions(+), 13 deletions(-)
+ 13 files changed, 314 insertions(+), 13 deletions(-)
 
 diff --git a/src/server/game/Globals/ObjectMgr.cpp b/src/server/game/Globals/ObjectMgr.cpp
 index e4169ed36..feb1d119b 100644
@@ -609,7 +609,7 @@ index 1c4535b06..3d118a807 100644
  {
  public:
 diff --git a/src/server/game/Movement/MovementGenerators/PathGenerator.cpp b/src/server/game/Movement/MovementGenerators/PathGenerator.cpp
-index 607428cb6..e92471d88 100644
+index 607428cb6..9ed7821db 100644
 --- a/src/server/game/Movement/MovementGenerators/PathGenerator.cpp
 +++ b/src/server/game/Movement/MovementGenerators/PathGenerator.cpp
 @@ -69,6 +69,8 @@ bool PathGenerator::CalculatePath(float x, float y, float z, float destX, float
@@ -621,7 +621,7 @@ index 607428cb6..e92471d88 100644
      // make sure navMesh works - we can run on map w/o mmap
      // check if the start and end point have a .mmtile loaded (can we pass via not loaded tile on the way?)
      Unit const* _sourceUnit = _source->ToUnit();
-@@ -712,6 +714,31 @@ NavTerrain PathGenerator::GetNavTerrain(float x, float y, float z) const
+@@ -712,6 +714,57 @@ NavTerrain PathGenerator::GetNavTerrain(float x, float y, float z) const
      }
  }
  
@@ -643,11 +643,37 @@ index 607428cb6..e92471d88 100644
 +        return;
 +
 +    dtNavMesh const* baseNavMesh = _navMesh;
++    dtNavMeshQuery const* baseQuery = _navMeshQuery;
 +    _navMesh = swapNavMesh;
-+    if (HaveTile(startPos) && HaveTile(endPos))
-+        _navMeshQuery = mmapData.GetSwapNavMeshQuery(swapMapId);
-+    else
++    if (!HaveTile(startPos) || !HaveTile(endPos))
++    {
 +        _navMesh = baseNavMesh;
++        return;
++    }
++
++    // A swap tile is no proof the swap mesh holds the unit's floor: anything walkable that is not
++    // in the vmaps it was built with is a hole (phase-only WMOs such as the Phase2 town; the
++    // Gallywix Labor Mine while the staging linked the wrong vmtiles). Planning there leaves the
++    // creature unable to reach anyone and it evades every pull. Use the swap mesh only when it
++    // has floor right at both ends; height and LoS stay base anyway.
++    dtNavMeshQuery const* swapQuery = mmapData.GetSwapNavMeshQuery(swapMapId);
++    auto onFloor = [&](G3D::Vector3 const& p)
++    {
++        float const point[VERTEX_SIZE] = { p.y, p.z, p.x };
++        float const extents[VERTEX_SIZE] = { 3.0f, 5.0f, 3.0f };
++        float closest[VERTEX_SIZE];
++        dtPolyRef ref = INVALID_POLYREF;
++        return swapQuery && dtStatusSucceed(swapQuery->findNearestPoly(point, extents, &_filter, &ref, closest)) &&
++            ref != INVALID_POLYREF;
++    };
++
++    if (onFloor(startPos) && onFloor(endPos))
++        _navMeshQuery = swapQuery;
++    else
++    {
++        _navMesh = baseNavMesh;
++        _navMeshQuery = baseQuery;
++    }
 +}
 +
  bool PathGenerator::HaveTile(const G3D::Vector3& p) const
