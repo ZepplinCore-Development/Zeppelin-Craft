@@ -1,0 +1,800 @@
+From 577827e90c425b5690be2935b7eb5be9f7081791 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 7 Oct 2026 17:14:54 +0000
+Subject: [PATCH] feat: Lost Isles headless run complete - 97 quests PASS
+ (F-219)
+
+- move: nav_map override on path/path_to/ground (plan on a terrain-swap map's navmesh)
+- rpc: route path/ground queries to the phase's swap navmesh, fall back to base where it has no floor
+- runner: long routes split along the planned path, phase inference by overlap with zone
+  definitions (shared-point spawns OR'd), summoned quest givers (Greely), condition-gated quests
+  of such givers, missing on-use items farmed from their drop source, evading mobs skipped and
+  other spawn points walked, GO SmartAI kill credits, failed turn-ins retried, phase-aware
+  trainer choice + refused spells remembered per character
+- vehicles: open-from-vehicle locks only board summonable vehicles, re-board click vehicles
+  before a fight, sustained bar rotation against a boss, weapon-damage bar spells, vehicle made
+  the mover on boarding, ground vehicles driven on the navmesh (straight lines left the Footbomb
+  Uniform under the terrain, failing every cast on LoS)
+- travel/StepFailed lines carry target, navmesh and source line
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/move/api/move.pb.go |  28 ++-
+ zeppelin/modules/move/main.go        |  13 +-
+ zeppelin/modules/move/move.proto     |   2 +
+ zeppelin/tests/rpc.py                |  19 ++
+ zeppelin/tests/start_area.py         | 349 +++++++++++++++++++++++++--
+ 5 files changed, 387 insertions(+), 24 deletions(-)
+
+diff --git a/zeppelin/modules/move/api/move.pb.go b/zeppelin/modules/move/api/move.pb.go
+index e04e597..074e1f5 100644
+--- a/zeppelin/modules/move/api/move.pb.go
++++ b/zeppelin/modules/move/api/move.pb.go
+@@ -327,6 +327,7 @@ type PathRequest struct {
+ 	Z             float32                `protobuf:"fixed32,3,opt,name=z,proto3" json:"z,omitempty"`
+ 	Speed         float32                `protobuf:"fixed32,4,opt,name=speed,proto3" json:"speed,omitempty"`                      // path_to only; 0 = current run speed
+ 	BudgetMs      uint32                 `protobuf:"varint,5,opt,name=budget_ms,json=budgetMs,proto3" json:"budget_ms,omitempty"` // path_to only; walking time per call, 0 = 25 s (module calls cap at 30 s)
++	NavMap        uint32                 `protobuf:"varint,6,opt,name=nav_map,json=navMap,proto3" json:"nav_map,omitempty"`       // navmesh to plan on, 0 = the current map (a terrain-swap phase walks 659/661)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -396,6 +397,13 @@ func (x *PathRequest) GetBudgetMs() uint32 {
+ 	return 0
+ }
+ 
++func (x *PathRequest) GetNavMap() uint32 {
++	if x != nil {
++		return x.NavMap
++	}
++	return 0
++}
++
+ type PathResult struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Points        []*Point               `protobuf:"bytes,1,rep,name=points,proto3" json:"points,omitempty"`    // waypoints from the current position (first = start)
+@@ -528,7 +536,8 @@ type GroundRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	X             float32                `protobuf:"fixed32,1,opt,name=x,proto3" json:"x,omitempty"`
+ 	Y             float32                `protobuf:"fixed32,2,opt,name=y,proto3" json:"y,omitempty"`
+-	Z             float32                `protobuf:"fixed32,3,opt,name=z,proto3" json:"z,omitempty"` // a guess; the nearest navmesh poly within 50 yd vertically wins
++	Z             float32                `protobuf:"fixed32,3,opt,name=z,proto3" json:"z,omitempty"`                        // a guess; the nearest navmesh poly within 50 yd vertically wins
++	NavMap        uint32                 `protobuf:"varint,4,opt,name=nav_map,json=navMap,proto3" json:"nav_map,omitempty"` // as PathRequest.nav_map
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -584,6 +593,13 @@ func (x *GroundRequest) GetZ() float32 {
+ 	return 0
+ }
+ 
++func (x *GroundRequest) GetNavMap() uint32 {
++	if x != nil {
++		return x.NavMap
++	}
++	return 0
++}
++
+ type GroundResult struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+@@ -824,13 +840,14 @@ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+ 	"\x05Point\x12\f\n" +
+ 	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
+ 	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
+-	"\x01z\x18\x03 \x01(\x02R\x01z\"j\n" +
++	"\x01z\x18\x03 \x01(\x02R\x01z\"\x83\x01\n" +
+ 	"\vPathRequest\x12\f\n" +
+ 	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
+ 	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
+ 	"\x01z\x18\x03 \x01(\x02R\x01z\x12\x14\n" +
+ 	"\x05speed\x18\x04 \x01(\x02R\x05speed\x12\x1b\n" +
+-	"\tbudget_ms\x18\x05 \x01(\rR\bbudgetMs\"m\n" +
++	"\tbudget_ms\x18\x05 \x01(\rR\bbudgetMs\x12\x17\n" +
++	"\anav_map\x18\x06 \x01(\rR\x06navMap\"m\n" +
+ 	"\n" +
+ 	"PathResult\x12/\n" +
+ 	"\x06points\x18\x01 \x03(\v2\x17.zeppelin.move.v1.PointR\x06points\x12\x18\n" +
+@@ -840,11 +857,12 @@ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+ 	"\x04move\x18\x01 \x01(\v2\x1e.zeppelin.move.v1.MoveToResultR\x04move\x12\x18\n" +
+ 	"\apartial\x18\x02 \x01(\bR\apartial\x12\x1c\n" +
+ 	"\tremaining\x18\x03 \x01(\x02R\tremaining\x12\x1c\n" +
+-	"\twaypoints\x18\x04 \x01(\rR\twaypoints\"9\n" +
++	"\twaypoints\x18\x04 \x01(\rR\twaypoints\"R\n" +
+ 	"\rGroundRequest\x12\f\n" +
+ 	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
+ 	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
+-	"\x01z\x18\x03 \x01(\x02R\x01z\"B\n" +
++	"\x01z\x18\x03 \x01(\x02R\x01z\x12\x17\n" +
++	"\anav_map\x18\x04 \x01(\rR\x06navMap\"B\n" +
+ 	"\fGroundResult\x12\x0e\n" +
+ 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\f\n" +
+ 	"\x01z\x18\x02 \x01(\x02R\x01z\x12\x14\n" +
+diff --git a/zeppelin/modules/move/main.go b/zeppelin/modules/move/main.go
+index 31e306a..bb7db93 100644
+--- a/zeppelin/modules/move/main.go
++++ b/zeppelin/modules/move/main.go
+@@ -556,7 +556,7 @@ func (s *service) path(req *movev1.PathRequest) (*movev1.PathResult, error) {
+ 	if !p.GetKnown() {
+ 		return nil, status.Error(codes.FailedPrecondition, "position unknown (not in world yet)")
+ 	}
+-	reply, err := s.nav.query(fmt.Sprintf("path %d %f %f %f %f %f %f", p.GetMap(), p.GetX(), p.GetY(), p.GetZ(), req.GetX(), req.GetY(), req.GetZ()))
++	reply, err := s.nav.query(fmt.Sprintf("path %d %f %f %f %f %f %f", navMap(p.GetMap(), req.GetNavMap()), p.GetX(), p.GetY(), p.GetZ(), req.GetX(), req.GetY(), req.GetZ()))
+ 	if err != nil {
+ 		return nil, status.Error(codes.Unavailable, err.Error())
+ 	}
+@@ -574,6 +574,15 @@ func (s *service) path(req *movev1.PathRequest) (*movev1.PathResult, error) {
+ 	return res, nil
+ }
+ 
++// navMap is the navmesh a query plans on: the caller's override (a phase whose terrain is swapped
++// to another map, e.g. the erupted Lost Isles on 659), else the map we stand on.
++func navMap(current, override uint32) uint32 {
++	if override != 0 {
++		return override
++	}
++	return current
++}
++
+ func (s *service) Path(_ context.Context, req *movev1.PathRequest) (*movev1.PathResult, error) {
+ 	return s.path(req)
+ }
+@@ -614,7 +623,7 @@ func (s *service) PathTo(ctx context.Context, req *movev1.PathRequest) (*movev1.
+ 
+ func (s *service) Ground(_ context.Context, req *movev1.GroundRequest) (*movev1.GroundResult, error) {
+ 	p := s.snapshot()
+-	reply, err := s.nav.query(fmt.Sprintf("height %d %f %f %f", p.GetMap(), req.GetX(), req.GetY(), req.GetZ()))
++	reply, err := s.nav.query(fmt.Sprintf("height %d %f %f %f", navMap(p.GetMap(), req.GetNavMap()), req.GetX(), req.GetY(), req.GetZ()))
+ 	if err != nil {
+ 		return nil, status.Error(codes.Unavailable, err.Error())
+ 	}
+diff --git a/zeppelin/modules/move/move.proto b/zeppelin/modules/move/move.proto
+index 51a3d15..469e971 100644
+--- a/zeppelin/modules/move/move.proto
++++ b/zeppelin/modules/move/move.proto
+@@ -43,6 +43,7 @@ message PathRequest {
+   float z = 3;
+   float speed = 4;       // path_to only; 0 = current run speed
+   uint32 budget_ms = 5;  // path_to only; walking time per call, 0 = 25 s (module calls cap at 30 s)
++  uint32 nav_map = 6;    // navmesh to plan on, 0 = the current map (a terrain-swap phase walks 659/661)
+ }
+ message PathResult {
+   repeated Point points = 1; // waypoints from the current position (first = start)
+@@ -59,6 +60,7 @@ message GroundRequest {
+   float x = 1;
+   float y = 2;
+   float z = 3;           // a guess; the nearest navmesh poly within 50 yd vertically wins
++  uint32 nav_map = 4;    // as PathRequest.nav_map
+ }
+ message GroundResult {
+   bool ok = 1;
+diff --git a/zeppelin/tests/rpc.py b/zeppelin/tests/rpc.py
+index d3edafb..6836c75 100644
+--- a/zeppelin/tests/rpc.py
++++ b/zeppelin/tests/rpc.py
+@@ -12,7 +12,26 @@ class StepFailed(Exception):
+     pass
+ 
+ 
++# navmesh override for path/ground queries: a runner sets this to a callable returning the map whose
++# terrain we actually walk (a terrain-swap phase plans on 659/661, not the map we are on), 0 = ours
++nav_map = None
++_NAV_METHODS = ("move.path", "move.path_to", "move.ground")
++
++
+ def call(method, **params):
++    if nav_map and method in _NAV_METHODS and "nav_map" not in params:
++        m = nav_map()
++        if m:
++            # the swap navmesh is built from the swapped terrain alone (no vmaps): WMO interiors such
++            # as the Kaja'mine are holes in it, but the base mesh has them - fall back per query
++            try:
++                r = call(method, nav_map=m, **params)
++            except StepFailed as e:
++                if "not on navmesh" not in str(e):
++                    raise
++            else:
++                if "not on navmesh" not in r.get("error", ""):
++                    return r
+     try:
+         return _call(method, **params)
+     except StepFailed as e:
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 29f569b..d78d96c 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -11,12 +11,15 @@ Needs a running `agent-wow char play <char>` with the move, interact and combat
+ Prints a PASS/FAIL line per step and a summary; exit 0 when every eligible quest was rewarded.
+ """
+ import argparse
++import json
+ import math
+ import struct
+ import subprocess
+ import sys
+ import time
++import traceback
+ 
++import rpc
+ from rpc import StepFailed, call, ground, step
+ 
+ CRAFT = "/workspace/project/Zeppelin-Craft"
+@@ -77,7 +80,9 @@ class World:
+         for r in sql(f"SELECT guid,id,position_x x,position_y y,position_z z,phaseMask pm FROM creature WHERE {where}"):
+             pt = (float(r["x"]), float(r["y"]), float(r["z"]))
+             self.cspawn.setdefault(int(r["id"]), []).append(pt)
+-            self.spawn_phase[pt] = int(r["pm"])
++            # two rows can share a point (trainer 38513 at the mine: one in 32768, one in 16384) -
++            # the point is seen from either phase
++            self.spawn_phase[pt] = self.spawn_phase.get(pt, 0) | int(r["pm"])
+         for r in sql(f"SELECT id,position_x x,position_y y,position_z z FROM gameobject WHERE {where}"):
+             self.gspawn.setdefault(int(r["id"]), []).append((float(r["x"]), float(r["y"]), float(r["z"])))
+         ce, ge = inlist(self.cspawn), inlist(self.gspawn)
+@@ -86,10 +91,32 @@ class World:
+             self.starters.setdefault(int(r["quest"]), []).append(("c", int(r["id"])))
+         for r in sql(f"SELECT id,quest FROM gameobject_queststarter WHERE id IN ({ge})"):
+             self.starters.setdefault(int(r["quest"]), []).append(("g", int(r["id"])))
++        # givers that only exist as a summon (Assistant Greely 39199, summoned at the q25110 turn-in,
++        # follows the player through the mine): take the quests chained off ours whose giver is
++        # an effect-28 summon target - she is found in sight, never at a spawn point
++        summonable = {int(r["e"]) for k in (1, 2, 3) for r in dbc(
++            f"SELECT effect_misc_value_a_{k} e FROM spell WHERE effect_{k}=28 AND effect_misc_value_a_{k}>0")}
++        self.summoned_givers = set()
++        for _ in range(8):  # chain closure: each pass reaches one more link
++            have = inlist(self.starters)
++            rows = sql("SELECT s.id,s.quest FROM creature_queststarter s JOIN quest_template_addon a ON a.ID=s.quest "
++                       f"WHERE a.PrevQuestID IN ({have}) AND s.quest NOT IN ({have})")
++            rows = [r for r in rows if int(r["id"]) in summonable and int(r["id"]) not in self.cspawn]
++            if not rows:
++                break
++            for r in rows:
++                self.starters.setdefault(int(r["quest"]), []).append(("c", int(r["id"])))
++                self.summoned_givers.add(int(r["id"]))
++        # and everything else such a giver hands out: q25125 has no PrevQuestID at all, it is
++        # gated by conditions (19/type 8) on the three quests before it
++        if self.summoned_givers:
++            for r in sql(f"SELECT id,quest FROM creature_queststarter WHERE id IN ({inlist(self.summoned_givers)})"):
++                if ("c", int(r["id"])) not in self.starters.get(int(r["quest"]), []):
++                    self.starters.setdefault(int(r["quest"]), []).append(("c", int(r["id"])))
+         qs = inlist(self.starters)
+         self.enders = {}
+         for r in sql(f"SELECT id,quest FROM creature_questender WHERE quest IN ({qs})"):
+-            if int(r["id"]) in self.cspawn:
++            if int(r["id"]) in self.cspawn or int(r["id"]) in self.summoned_givers:
+                 self.enders.setdefault(int(r["quest"]), []).append(("c", int(r["id"])))
+         for r in sql(f"SELECT id,quest FROM gameobject_questender WHERE quest IN ({qs})"):
+             if int(r["id"]) in self.gspawn:
+@@ -248,6 +275,8 @@ class World:
+                         self.summon_item[int(r[f"effect_misc_value_a_{k}"])] = (item, int(r["id"]))
+         cand = set(self.cspawn) | set(self.summon_item)
+         vehicles = ids(sql(f"SELECT entry FROM creature_template WHERE VehicleId>0 AND entry IN ({inlist(cand)})"), "entry")
++        self.vehicles = set(vehicles)
++        self.flying_vehicles = set(ids(sql("SELECT CreatureId FROM creature_template_movement WHERE Flight>0"), "CreatureId"))
+         self.vehicle_spell = {}  # spell -> vehicle entry whose bar casts it
+         for r in sql(f"SELECT CreatureID c,Spell sp FROM creature_template_spell WHERE CreatureID IN ({inlist(vehicles)})"):
+             self.vehicle_spell.setdefault(int(r["sp"]), int(r["c"]))
+@@ -326,6 +355,24 @@ class World:
+                     f"AND action_param1 IN ({inlist(sp)})")} & set(self.cspawn)
+                 if hosts:
+                     self.summoned_near[t] = sorted(hosts)
++        # NPC gossip options that summon a vehicle (Pride of Kezan: Sassy 38387 menu 510094 -> 73430 ->
++        # summons 39074, VehicleId 669) - the way into air combat quests. npc -> [(menu, vehicle)]
++        self.gossip_vehicle = {}
++        for r in sql("SELECT entryorguid n,event_param1 m,action_param1 sp FROM smart_scripts WHERE source_type=0 "
++                     "AND event_type=62 AND action_type IN (11,134)"):
++            if int(r["n"]) not in self.cspawn:
++                continue
++            for x in dbc(f"SELECT effect_misc_value_a_1 v FROM spell WHERE id={r['sp']} AND effect_1=28"):
++                v = int(x["v"])
++                if v and sql(f"SELECT 1 x FROM creature_template WHERE entry={v} AND VehicleId>0"):
++                    self.gossip_vehicle.setdefault(int(r["n"]), []).append((int(r["m"]), v))
++        # bar spells of those gossip vehicles: a SPELLHIT objective whose spell is one of them is
++        # earned from the vehicle (Pride of Kezan: 73477 Wild Weasel Rockets on 39039 fighters)
++        self.gossip_bar = {}  # spell -> (npc, menu, vehicle)
++        for npc, opts in self.gossip_vehicle.items():
++            for menu, veh in opts:
++                for r in sql(f"SELECT Spell sp FROM creature_template_spell WHERE CreatureID={veh}"):
++                    self.gossip_bar.setdefault(int(r["sp"]), (npc, menu, veh))
+         # loot GOs a creature summons (directly or via its actionlist) when ANOTHER creature dies:
+         # Mechachicken 38224 dies -> casts 71422 -> bunny 38227 -> list 3822700 -> GO 201977 (I-323)
+         self.go_on_death = {}  # GO entry -> creature entry to kill
+@@ -427,6 +474,14 @@ class World:
+                     if int(g["entry"]) in self.gspawn:
+                         self.summon_credit_go[t] = (int(g["entry"]), 0)
+                         break
++            if t not in self.summon_credit_go:
++                # a GO whose own SmartAI pays the credit when used (Good-bye, Sweet Oil: Big Red
++                # Button 205061, event 70 -> KILL_CREDIT 39393 to the presser)
++                for g in sql("SELECT DISTINCT entryorguid g FROM smart_scripts WHERE source_type=1 "
++                             f"AND action_type=33 AND action_param1={t}"):
++                    if int(g["g"]) in self.gspawn:
++                        self.summon_credit_go[t] = (int(g["g"]), 0)
++                        break
+         # escorts summoned through a gossip: credit paid from actionlists of a summoned creature
+         # (Miner Troubles: Dampwick 35769 menu 510023 -> cast 68062 -> Frightened Miner 35813, whose
+         # mining-spot actionlists pay 35816 to the summoner). credit -> (npc, menu, escort entry)
+@@ -491,7 +546,7 @@ class World:
+         # zone phasing (F-194 PhaseMgr): ordered phase_definitions gated by type-26 conditions, so the
+         # player's phase follows from quest state alone - used when nothing visible gives it away
+         zone = int(sql(f"SELECT zone FROM characters WHERE name='{char}'", "characters")[0]["zone"])
+-        self.phase_defs = [(int(r["entry"]), int(r["phasemask"]), int(r["flags"])) for r in sql(
++        self.zone_phase_defs = [(int(r["entry"]), int(r["phasemask"]), int(r["flags"])) for r in sql(
+             f"SELECT entry,phasemask,flags FROM phase_definitions WHERE zoneId={zone} ORDER BY entry")]
+         self.phase_conds = {}
+         for r in sql(f"SELECT {cond_cols} FROM conditions WHERE SourceTypeOrReferenceId=26 AND SourceGroup={zone}"):
+@@ -501,6 +556,10 @@ class World:
+             self.cond19.setdefault(int(r["entry"]), []).append(r)
+         # PhaseMgr (F-194): per-zone ordered definitions gated by type-26 conditions; every row here
+         # OVERWRITEs, so a player's mask is the LAST passing definition's (1 when none passes)
++        # terrain swap (I-385): a phase whose definition names terrainswapmap walks that map's
++        # ground server-side, so plan paths on its navmesh (the erupted Lost Isles = 659)
++        self.swap_rules = [(int(r["m"]), int(r["t"])) for r in sql(
++            f"SELECT phasemask m,terrainswapmap t FROM phase_definitions WHERE zoneId={zone} AND terrainswapmap>0")]
+         self.phase_defs = {}  # zone -> [(entry, phasemask, condition rows)]
+         for d in sql("SELECT zoneId z,entry e,phasemask m FROM phase_definitions ORDER BY zoneId,entry"):
+             rows = sql(f"SELECT {cond_cols} FROM conditions WHERE SourceTypeOrReferenceId=26 "
+@@ -643,10 +702,18 @@ class Runner:
+     def __init__(self, world, abilities):
+         self.w, self.base_abilities = world, abilities
+         self.abilities, self.trained_level, self.learned = [], 0, []
+-        self.untrainable = set()  # trainer spells the DB offers but the trainer refused
++        # trainer spells the DB offers but the trainer refused - kept per character across runs, or
++        # every supervisor restart walks to the trainer again for nothing
++        self.untrainable_file = f"/tmp/agent-wow-untrainable-{world.guid}.json"
++        try:
++            self.untrainable = set(json.load(open(self.untrainable_file)))
++        except (OSError, ValueError):
++            self.untrainable = set()
+         self.de_failed = set()    # item guids a disenchant did not yield anything from
+         self.blocked, self.stuck, self.deaths, self.kills = set(), {}, 0, 0
+         self.used = {}  # GO guid -> last use time
++        self.immune = {}  # creature guid -> when it last took no damage (evading)
++        self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+     def me(self):
+@@ -669,7 +736,12 @@ class Runner:
+             return
+         self.trained_level = level
+         if self.w.trainers:
+-            t = self.w.trainers[0]
++            # a trainer whose spawn is in our phase (the Lost Isles move him per phase; the first
++            # row's copy may be invisible from here - a 1600 yd walk for nothing)
++            me, mask = self.me(), self.phase_mask()
++            near = [(math.dist(p[:2], (me["x"], me["y"])), tr) for tr in self.w.trainers
++                    for p in [self.w.nearest("c", tr, me, mask)] if p]
++            t = min(near)[1] if near else self.w.trainers[0]
+             known = set(call("interact.spells").get("spells", [])) | self.untrainable
+             money = call("interact.self").get("money", 0)
+             todo = [x["spell"] for x in self.w.trainer_spells.get(t, [])
+@@ -677,11 +749,17 @@ class Runner:
+                     and all(q in known for q in x["req"])]
+             if not todo:
+                 print(f"[TRAIN] level {level}: nothing new at trainer {t} - not visiting", flush=True)
+-            elif self.go_near("c", t):
++            elif not self.go_near("c", t):
++                print(f"[TRAIN] level {level}: trainer {t} not found at his spawn - skipped", flush=True)
++            else:
+                 r = call("interact.trainer_learn_all", entry=t)
+                 self.learned += r.get("learned", [])
+                 # anything the DB said was learnable but the trainer refused: never travel for it again
+                 self.untrainable |= set(todo) - set(r.get("learned", []))
++                if set(todo) - set(r.get("learned", [])):
++                    print(f"  trainer refused {sorted(set(todo) - set(r.get('learned', [])))}", flush=True)
++                with open(self.untrainable_file, "w") as f:
++                    json.dump(sorted(self.untrainable), f)
+                 print(f"[TRAIN] level {level} at trainer {t}: learned {r.get('learned', [])} "
+                       f"({r.get('spent', 0)}c) - {r.get('detail')}", flush=True)
+         self.refresh_abilities()
+@@ -720,11 +798,27 @@ class Runner:
+             call("combat.rest", until_pct=90)
+ 
+     def travel(self, x, y, z, within=4.0):
++        me = self.me()
++        far = math.dist((me["x"], me["y"]), (x, y))
++        if far > 300:  # a long trip is worth a line: where to and why is in the caller's next print
++            caller = traceback.extract_stack(limit=3)[0]
++            print(f"  travel {far:.0f} yd -> ({x:.0f},{y:.0f},{z:.0f}) from line {caller.lineno} ({caller.name})", flush=True)
+         for _ in range(12):
+             before = self.me()
+             try:
+                 r = call("move.path_to", x=x, y=y, z=ground(x, y, z))
+             except StepFailed as e:
++                e.args = (f"{e} [to {x:.0f},{y:.0f},{z:.0f} nav {self.nav_map() or 'own'}]",)
++                if "start not on navmesh" in str(e):
++                    # dropped off a vehicle under a ledge / into a cliff (Pride of Kezan): walk
++                    # straight out toward the target - the server accepts client movement
++                    me = self.me()
++                    if math.dist((me["x"], me["y"]), (x, y)) < 200:
++                        call("move.to", x=x, y=y, z=z, timeout_ms=30000)
++                        return True
++                    mx, my = me["x"] + (x - me["x"]) * 0.2, me["y"] + (y - me["y"]) * 0.2
++                    call("move.to", x=mx, y=my, z=ground(mx, my, z), timeout_ms=20000)
++                    continue
+                 if "not on navmesh" in str(e) or "exceeds" in str(e):
+                     # a carried item that jumps us next to the target beats any walk
+                     have = set(self.inventory())
+@@ -755,10 +849,25 @@ class Runner:
+                         break
+                     raise
+                 if "exceeds" in str(e) and "use waypoints" in str(e):
+-                    # the move module caps one path (2000 yd): go halfway first, then on
++                    # the move module caps one walk (2000 yd) but the route itself is found: walk
++                    # its first ~1500 yd, then on. (The straight-line midpoint was often open sea or
++                    # air - Bastia's drop to the mine put it 170 yd up over the water.)
+                     me = self.me()
++                    if math.dist((me["x"], me["y"]), (x, y)) < 50:
++                        raise
++                    pts = call("move.path", x=x, y=y, z=ground(x, y, z)).get("points", [])
++                    far, run = None, 0.0
++                    for a, b in zip(pts, pts[1:]):
++                        run += math.dist((a["x"], a["y"], a["z"]), (b["x"], b["y"], b["z"]))
++                        far = b
++                        if run > 1500:
++                            break
++                    if far:
++                        if not self.travel(far["x"], far["y"], far["z"], within=10):
++                            raise
++                        continue
+                     mx, my = (me["x"] + x) / 2, (me["y"] + y) / 2
+-                    if math.dist((me["x"], me["y"]), (x, y)) < 50 or not self.travel(mx, my, ground(mx, my, z), within=30):
++                    if not self.travel(mx, my, ground(mx, my, z), within=30):
+                         raise
+                     continue
+                 if "already moving" not in str(e):
+@@ -783,6 +892,21 @@ class Runner:
+                 self.safe()
+         return False
+ 
++    def nav_map(self):
++        """The map whose navmesh our phase walks - core TerrainSwapInfo::Resolve: an exact
++        definition match, else none when bit 1 is set, else the one map every overlapped rule names."""
++        rules = self.w.swap_rules
++        if not rules:
++            return 0
++        mask = self.phase_mask()
++        for pm, t in rules:
++            if pm == mask:
++                return t
++        if not mask or mask & 1:
++            return 0
++        maps = {t for pm, t in rules if pm & mask}
++        return maps.pop() if len(maps) == 1 else 0
++
+     def phase_mask(self):
+         """The player's phase, read off the world: every DB-spawned creature we can see is in our
+         phase, so AND their phaseMasks (creature guid counter = spawn guid). Cached for 20 s."""
+@@ -791,7 +915,7 @@ class Runner:
+             return self._phase
+         # AC hands creatures a runtime guid counter, not the spawn guid, so tie each visible
+         # creature to the spawn of its entry it stands on (<10 yd) and take that spawn's mask
+-        mask = 0
++        mask, seen = 0, []
+         for o in call("interact.find", type=3, radius=200, limit=60).get("objects", []):
+             pts = [p for p in self.w.cspawn.get(o["entry"], [])
+                    if p in self.w.spawn_phase and math.dist(p[:2], (o["x"], o["y"])) < 10]
+@@ -799,7 +923,18 @@ class Runner:
+             for p in pts:
+                 pm |= self.w.spawn_phase[p]
+             if pm:
++                seen.append(pm)
+                 mask = pm if not mask else (mask & pm) or mask
++        # a player sees a creature when their masks merely OVERLAP: Greely in phase 8 and the mine
++        # crew in 32768 are both seen from 32776, but their AND is 0. So when the zone has phase
++        # definitions, our mask is the definition that overlaps everything in sight
++        zone_masks = {m for defs in self.w.phase_defs.values() for _, m, _ in defs}
++        fits = [m for m in zone_masks if seen and all(m & pm for pm in seen)]
++        if fits:
++            # several fit (16384 vs 16392...): the one the quest log predicts, else the narrowest
++            zone = next((z for z, defs in self.w.phase_defs.items() if any(m in fits for _, m, _ in defs)), None)
++            want = self.w.quest_phase(zone, self.log()) if zone is not None else 0
++            mask = want if want in fits else min(fits, key=lambda m: bin(m).count("1"))
+         # an empty view (a lonely ledge, a fresh landing) says nothing about our phase - keep
+         # the last one we saw instead of falling back to "any copy"
+         if not mask:
+@@ -814,7 +949,7 @@ class Runner:
+             # nobody in sight to read it from (an empty patch of a later phase): derive it from the
+             # phase definitions - overwrite-flagged entries (1) replace, others add
+             log = self.log()
+-            for entry, pm, flags in self.w.phase_defs:
++            for entry, pm, flags in self.w.zone_phase_defs:
+                 rows = self.w.phase_conds.get(entry, [])
+                 if not rows or self.w.groups_true(rows, log):
+                     mask = pm if flags & 1 else mask | pm
+@@ -841,6 +976,11 @@ class Runner:
+ 
+         mask = self.phase_mask()
+         p = self.w.nearest(kind, entry, self.me(), mask)
++        if p is None and kind == "c" and entry in self.w.summoned_givers:
++            o = pick()  # no spawn point: she walks with us (or she was never summoned)
++            if o is None:
++                raise StepFailed(f"summoned giver c{entry} not in sight")
++            p = (o["x"], o["y"], o["z"])
+         if p is None:
+             raise StepFailed(f"no spawn of {kind}{entry} in the area")
+         o = pick()
+@@ -1023,6 +1163,7 @@ class Runner:
+         if not r.get("ok"):
+             print(f"[FAIL] turn in {qid} {title} - {r.get('detail')}", flush=True)
+             self.blocked.add(qid)
++            self.refused.add(qid)  # the ender may just be in a phase we have not reached yet: retry later
+             return
+         print(f"[PASS] turn in {qid} {title} - {r.get('detail')}", flush=True)
+         self.w.rewarded.add(qid)
+@@ -1061,12 +1202,58 @@ class Runner:
+         print(f"  enter vehicle {ventry}: {r.get('detail')} bar {r.get('state', {}).get('spells')}", flush=True)
+         return bool(call("vehicle.state").get("controlling"))
+ 
++    def fetch_item(self, item):
++        """An on-use item we must cast from but do not carry: it is a quest-time DROP, not a
++        hand-out (Kaja'Cola Zero-One from Brute Overseers 40%, Blastshadow's Soulstone from
++        Blastshadow 100%). Kill one source and say so (True = acted), False = already carried."""
++        if self.inventory().get(item):
++            return False
++        for c in sorted(self.w.creature_loot.get(item, ()), key=lambda c: -self.w.loot_chance.get((item, c), 0)):
++            if not self.go_near("c", c, offset=6.0):
++                continue
++            # one that would not take damage (an evading Overseer over a navmesh hole, I-385)
++            # is skipped for a while, or we would pull the same one forever
++            now = time.time()
++            def alive():
++                return [o for o in call("interact.find", entry=c, limit=10).get("objects", [])
++                        if o.get("health", 0) > 0 and o["distance"] < 60
++                        and now - self.immune.get(int(o["guid"]), 0) > 300]
++            live = alive()
++            if not live:
++                # this camp is dead or evading: walk the other spawn points, farthest-checked last
++                me, mask = self.me(), self.phase_mask()
++                pts = sorted(self.w.in_phase("c", self.w.cspawn.get(c, []), mask),
++                             key=lambda q: (now - self.visited.get(q, 0) < 180, math.dist(q[:2], (me["x"], me["y"]))))
++                for q in pts[:4]:
++                    self.visited[q] = now
++                    self.travel(*q, within=15)
++                    live = alive()
++                    if live:
++                        break
++            if not live:
++                continue
++            g = int(min(live, key=lambda o: o["distance"])["guid"])
++            r = call("combat.kill", guid=g, abilities=self.abilities, loot=True)
++            self.kills += r.get("killed", False)
++            if "no damage" in r.get("reason", ""):
++                self.immune[g] = now
++            print(f"  kill {c} for item {item}: {r.get('reason', 'killed')}", flush=True)
++            return True
++        raise StepFailed(f"item {item} not carried and no source of it in sight")
++
+     def proxy_credit(self, qid, idx, target, before):
+         """Earn `target` credit on a proxy creature. Its SPELLHIT rows are often phase-gated per
+         need (partygoers want one of five party spells), so try each spell on the same proxy until
+         the quest counter moves."""
+         known = set(call("interact.spells").get("spells", []))
+         for proxy, spells in self.w.credit_proxy[target].items():
++            # nothing in hand to cast at it (a known spell, or a carried item's): fetch the first item
++            inv = self.inventory()
++            via = {sp: next((i for i, isp in self.w.item_spell.items() if isp == sp), 0) for sp in spells}
++            if not any(sp in known or inv.get(it) for sp, it in via.items()):
++                item = next((it for it in via.values() if it and it in self.w.creature_loot), 0)
++                if item and self.fetch_item(item):
++                    return True
+             near = min((self.w.spell_range.get(sp, (0.0, 5.0))[1] for sp in spells), default=5.0)
+             o = self.go_near("c", proxy, offset=max(1.5, min(3.0, near - 1.0)), usable_only=True)
+             if not o:
+@@ -1259,18 +1446,77 @@ class Runner:
+         if need:
+             for r in dbc("SELECT id,effect_1 e1,effect_2 e2,effect_3 e3,effect_implicit_target_a_1 t1,targets FROM spell "
+                          f"WHERE id IN ({inlist(need)})"):
+-                dmg = {int(r["e1"]), int(r["e2"]), int(r["e3"])} & {2, 7, 9}
++                dmg = {int(r["e1"]), int(r["e2"]), int(r["e3"])} & {2, 7, 9, 17, 31, 58, 121}  # + weapon hits (Illegal Contact)
+                 ground = int(r["targets"]) & 0x40 or int(r["t1"]) in (16, 17, 18, 28, 47, 53, 87, 89)
+                 cache[int(r["id"])] = ("ground" if ground else "unit") if dmg else None
+             for sp in need:
+                 cache.setdefault(sp, "ground")  # unknown to the DBC: keep the old behaviour
+         return {sp: cache[sp] for sp in bar}
+ 
++    def board_quest_vehicle(self, qid):
++        """The quest's giver offers a ride by gossip (Sassy: "Get me up into the skies") - take it,
++        and board the summoned vehicle if the summon did not seat us itself."""
++        for kind, npc in self.w.starters.get(qid, []):
++            for menu, veh in self.w.gossip_vehicle.get(npc, []):
++                if not self.reach_npc("c", npc):
++                    continue
++                call("interact.gossip_hello", entry=npc)
++                call("interact.gossip_select", target={"entry": npc}, menu_id=menu, option=0)
++                time.sleep(2.5)
++                if not any(call("vehicle.state").get("spells", [])):
++                    r = call("vehicle.enter", entry=veh, timeout_ms=4000)
++                    print(f"  board {veh} (gossip {menu} at {npc}): {r.get('detail', '')[:60]}", flush=True)
++                time.sleep(1)
++                if any(call("vehicle.state").get("spells", [])):
++                    return True
++        return False
++
++    def drive(self, ventry, x, y, z, timeout_ms):
++        """Move the vehicle we control. A flyer goes straight; anything on the ground follows the
++        navmesh - a straight line ignores terrain, and the server takes the client's word for z, so
++        the Footbomb Uniform ended up ~20 yd under the ground where every Field Goal failed line of
++        sight (silently: a vehicle's failed cast is never reported). Swimmers (Mechashark) fall
++        back to straight when there is no path."""
++        if ventry not in self.w.flying_vehicles:
++            try:
++                ok = self.travel(x, y, ground(x, y, z), within=6.0)
++                return {"reason": "path" if ok else "partial path"}
++            except StepFailed:
++                pass
++        return call("move.to", x=x, y=y, z=z, timeout_ms=timeout_ms)
++
+     def bar_attack(self, target, bar):
+         """We sit on a vehicle whose bar is our weapon (turret, flying cyclone, Mechashark): fire its
+         damage spells at the nearest living target - at the unit, or at its feet for AoE spells."""
++        # a passenger waits for the ride to bring targets in; a vehicle WE drive (Pride of Kezan,
++        # Mechashark) goes and gets them - fighters patrol 300+ yd off at altitude
++        vst = call("vehicle.state")
++        if vst.get("controlling"):
++            # the mover's position can be stale (control granted at login before the vehicle was
++            # known): re-anchor it to where the vehicle really is, or every distance - and every
++            # move - is computed from the boarding point
++            v = next(iter(call("interact.find", guid=int(vst["vehicle"]), limit=1).get("objects", [])), None)
++            me = self.me()
++            # ...and make the VEHICLE the mover the moment we drive it: right after boarding the two
++            # positions agree, so a distance test never fires, and every move goes out under the
++            # player's guid - the server ignores it and the ride stays parked where it was summoned
++            # (Final Confrontation: the uniform sat at its spawn while we "walked" up to Gallywix)
++            if v and (getattr(self, "_mover", None) != vst["vehicle"]
++                      or math.dist((v["x"], v["y"]), (me["x"], me["y"])) > 15):
++                call("move.set_mover", guid=int(vst["vehicle"]), x=v["x"], y=v["y"], z=v["z"],
++                     run_speed=v.get("runSpeed", 7))
++                self._mover = vst["vehicle"]
++        reach = 500 if vst.get("controlling") else 120
+         objs = [o for o in call("interact.find", entry=target, limit=10).get("objects", [])
+-                if o["health"] > 0 and o["distance"] < 120]
++                if o["health"] > 0 and o["distance"] < reach]
++        if not objs and vst.get("controlling") and self.w.cspawn.get(target):
++            # we fly this one and nothing is in sight: head for the nearest place they live
++            me = self.me()
++            sp = min(self.w.cspawn[target], key=lambda p: math.dist(p[:2], (me["x"], me["y"])))
++            r = self.drive(vst.get("entry", 0), sp[0], sp[1], sp[2], 20000)
++            print(f"  bar: flying toward {target} spawn ({math.dist(sp[:2], (me['x'], me['y'])):.0f}yd): "
++                  f"{r.get('reason', '')}", flush=True)
++            return True
+         if not objs:
+             time.sleep(2)  # the ride is carrying us on - targets come into range
+             return True
+@@ -1279,9 +1525,34 @@ class Runner:
+             # we drive this one (Mechashark): close in - straight, it swims/flies - then shoot
+             dx, dy = self.me()["x"] - o["x"], self.me()["y"] - o["y"]
+             d = max(math.hypot(dx, dy), 0.01)
+-            call("move.to", x=o["x"] + dx / d * 12, y=o["y"] + dy / d * 12, z=o["z"], timeout_ms=15000)
++            self.drive(call("vehicle.state").get("entry", 0), o["x"] + dx / d * 12, o["y"] + dy / d * 12, o["z"], 15000)
+             o = next((x for x in call("interact.find", guid=int(o["guid"]), limit=1).get("objects", [])), o)
+-        for sp, kind in self.bar_kinds(bar).items():
++        kinds = self.bar_kinds(bar)
++        if o["health"] > 5000:
++            # a boss (Final Confrontation: Gallywix, 19.6k HP, hits like level 85): one shot per
++            # runner pass loses the race - stay on the bar and keep every damage spell rolling on the
++            # GCD until he is down to his scripted end, the ride is gone, or time is up
++            g, hp0, t0, casts = int(o["guid"]), o["health"], time.time(), 0
++            while time.time() - t0 < 45:
++                if not any(call("vehicle.state").get("spells", [])):
++                    break
++                cur = next(iter(call("interact.find", guid=g, limit=1).get("objects", [])), None)
++                if not cur or cur.get("health", 0) <= 0:
++                    break
++                for sp, kind in kinds.items():
++                    if kind == "unit":
++                        call("vehicle.cast", spell_id=sp, target=g)
++                    elif kind == "ground":
++                        call("vehicle.cast", spell_id=sp, ground=True, x=cur["x"], y=cur["y"], z=cur["z"])
++                    else:
++                        continue
++                    casts += 1
++                    time.sleep(1.6)
++            cur = next(iter(call("interact.find", guid=g, limit=1).get("objects", [])), None)
++            print(f"  bar duel with {target}: {casts} casts in {time.time() - t0:.0f}s, hp {hp0} -> "
++                  f"{cur.get('health', 0) if cur else 'gone'}", flush=True)
++            return True
++        for sp, kind in kinds.items():
+             if kind == "unit":
+                 r = call("vehicle.cast", spell_id=sp, target=int(o["guid"]))
+             elif kind == "ground":
+@@ -1513,6 +1784,21 @@ class Runner:
+             if target > 0 and target in self.w.credit_proxy and not call(
+                     "interact.find", entry=target, limit=1).get("objects"):
+                 return self.proxy_credit(qid, i - 1, target, counts[i - 1])
++            if target > 0 and target in self.w.spellhit and self.w.spellhit[target] in self.w.gossip_bar:
++                spell = self.w.spellhit[target]
++                if spell not in call("vehicle.state").get("spells", []):
++                    npc, menu, veh = self.w.gossip_bar[spell]
++                    if not self.reach_npc("c", npc):
++                        return False
++                    call("interact.gossip_hello", entry=npc)
++                    call("interact.gossip_select", target={"entry": npc}, menu_id=menu, option=0)
++                    time.sleep(2.5)
++                    if spell not in call("vehicle.state").get("spells", []):
++                        r = call("vehicle.enter", entry=veh, timeout_ms=4000)
++                        print(f"  board {veh} (gossip {menu} at {npc}): {r.get('detail', '')[:60]}", flush=True)
++                    if spell not in call("vehicle.state").get("spells", []):
++                        raise StepFailed(f"could not board {veh} for bar spell {spell}")
++                return self.bar_attack(target, [spell])
+             if target > 0 and target in self.w.spellhit:
+                 spell = self.w.spellhit[target]
+                 if spell in self.w.vehicle_launch:  # a siege shot from a vehicle bar: lob it at them
+@@ -1532,6 +1818,9 @@ class Runner:
+                 known = set(call("interact.spells").get("spells", []))
+                 spell = next((sp for sp in self.w.spellhit_all.get(target, []) if sp in known), spell)
+                 self.ensure_stance(spell, known)
++                need = next((i for i, sp in self.w.item_spell.items() if sp == spell), 0)
++                if need and spell not in known and self.fetch_item(need):
++                    return True
+                 mn, mx = self.w.spell_range.get(spell, (0.0, 30.0))
+                 offset = min(max(3.0, mn + 4.0), max(3.0, mx - 2.0))
+                 o = self.go_near("c", target, offset=offset, usable_only=True)
+@@ -1574,6 +1863,25 @@ class Runner:
+                 # objective creature (Lazy Peons: Foreman's Blackjack on friendly peons)
+                 if self.quest_item(q) or ("use", target) in self.stuck:
+                     return self.use_quest_item_on(q, target)
++                # air combat: the quest giver hands out the vehicle by gossip (Pride of Kezan) and the
++                # targets fly, so board first - walking to a plane is never possible
++                # the quest's own vehicle comes from clicking another of its objectives (Final
++                # Confrontation: Ultimate Footbomb Uniform): that, not the giver's gossip vehicle
++                click_obj = next((int(q[f"RequiredNpcOrGo{k}"]) for k in range(1, 5)
++                                  if int(q[f"RequiredNpcOrGo{k}"]) in self.w.spellclick
++                                  and int(q[f"RequiredNpcOrGo{k}"]) != target), 0)
++                if click_obj and not any(call("vehicle.state").get("spells", [])):
++                    # board first, then fight from it - on foot a level-14 is one-shot by the boss
++                    o = self.go_near("c", click_obj, offset=2.0)
++                    if not o:
++                        return False
++                    r = call("interact.spellclick", guid=int(o["guid"]))
++                    print(f"  re-click {click_obj} for a vehicle bar against {target}: {r.get('detail')}", flush=True)
++                    time.sleep(3)
++                    bar = [sp for sp in call("vehicle.state").get("spells", []) if sp]
++                    return self.bar_attack(target, bar) if bar else True
++                if not click_obj and not any(call("vehicle.state").get("spells", [])) and self.board_quest_vehicle(qid):
++                    return self.bar_attack(target, [sp for sp in call("vehicle.state").get("spells", []) if sp])
+                 if not self.go_near("c", target, offset=6.0):
+                     return False
+                 bar = [sp for sp in call("vehicle.state").get("spells", []) if sp]
+@@ -1648,8 +1956,11 @@ class Runner:
+                     lock = self.w.go_lock.get(go, 0)
+                     spell = self.w.lock_spell.get(lock, OPENING) if gotype == 3 else 0
+                     if lock in self.w.lock_needs_vehicle:  # board the area's controllable vehicle first
+-                        for v in self.w.summon_item:
+-                            if self.ensure_vehicle(v):
++                        # only one we can actually summon: Wild Clucker Eggs summon a non-vehicle,
++                        # and the Kaja'Cola cans (lock 1818, "open from vehicle") open fine on foot
++                        have = self.inventory()
++                        for v, (it, _) in self.w.summon_item.items():
++                            if v in self.w.vehicles and have.get(it) and self.ensure_vehicle(v):
+                                 break
+                         o = self.go_near("g", go, usable_only=True) or o
+                     r = call("interact.use", target={"guid": int(o["guid"])}, loot_all=True, spell_id=spell)
+@@ -1687,6 +1998,7 @@ class Runner:
+                 except StepFailed as e:  # cannot reach the ender right now: not a run-ender
+                     print(f"  ~ turn in {ready[0]}: {e}", flush=True)
+                     self.blocked.add(ready[0])
++                    self.refused.add(ready[0])
+                 continue
+             active = [q for q in log if q in self.w.quests and q not in self.blocked]
+             progressed = False
+@@ -1699,7 +2011,9 @@ class Runner:
+                         progressed = True
+                         break
+                 except StepFailed as e:  # one failed action (range, despawn...) is retryable
+-                    print(f"  ~ {qid}: {e}", flush=True)
++                    at = next((f.lineno for f in reversed(traceback.extract_tb(e.__traceback__))
++                               if f.filename.endswith("start_area.py")), 0)
++                    print(f"  ~ {qid}: {e} (line {at})", flush=True)
+                 self.stuck[qid] = n + 1
+             if progressed:
+                 idle = 0
+@@ -1764,6 +2078,7 @@ def main():
+     print(f"area: {sum(map(len, w.cspawn.values()))} creature + {sum(map(len, w.gspawn.values()))} GO spawns, "
+           f"{len(w.starters)} quests started here; char race {w.race} class {w.cls}", flush=True)
+     r = Runner(w, CLASS_ABILITIES.get(w.cls, []))
++    rpc.nav_map = r.nav_map  # path/ground queries plan on the phase's swapped terrain
+     try:
+         secs = r.run(a.minutes)
+     except StepFailed as e:
+-- 
+2.34.1
+
