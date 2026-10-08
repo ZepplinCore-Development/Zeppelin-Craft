@@ -1,0 +1,91 @@
+From 0f53b877a9d61731a6734a880a9b705a4cd0e101 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 09:10:26 +0000
+Subject: [PATCH] fix: in-area spawns before far objective spawns; no corpse
+ runs into a death loop (F-219)
+
+Camp Narache: a level-3 tauren on The Battleboars walked to a battleboar spawn loaded from the
+wide objective margin and died in a quilboar camp on repeat (die, walk 400 yd back, die).
+- spawns loaded only for objectives (beyond the area box) are used only when the box has none
+- two deaths within 30 yd in 10 min: release and rez at the spirit healer instead
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 6c82d50..49a1773 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -165,6 +165,7 @@ class World:
+         wide = (f"map={mapid} AND position_x BETWEEN {min(x1, x2) - m} AND {max(x1, x2) + m} "
+                 f"AND position_y BETWEEN {min(y1, y2) - m} AND {max(y1, y2) + m}")
+         added = 0
++        self.beyond = set()  # spawn points loaded only for objectives - a last resort, never a first stop
+         if objc:
+             for r in sql(f"SELECT id,position_x x,position_y y,position_z z,phaseMask pm FROM creature WHERE {wide} "
+                          f"AND id IN ({inlist(objc)})"):
+@@ -172,6 +173,7 @@ class World:
+                 if pt not in self.cspawn.get(int(r["id"]), []):
+                     self.cspawn.setdefault(int(r["id"]), []).append(pt)
+                     self.spawn_phase[pt] = self.spawn_phase.get(pt, 0) | int(r["pm"])
++                    self.beyond.add(pt)
+                     added += 1
+         if objg:
+             for r in sql(f"SELECT id,position_x x,position_y y,position_z z FROM gameobject WHERE {wide} "
+@@ -179,6 +181,7 @@ class World:
+                 pt = (float(r["x"]), float(r["y"]), float(r["z"]))
+                 if pt not in self.gspawn.get(int(r["id"]), []):
+                     self.gspawn.setdefault(int(r["id"]), []).append(pt)
++                    self.beyond.add(pt)
+                     added += 1
+         self.objective_spawns_outside = added
+         # AzerothCore also gates on NextQuestID: X.NextQuestID = Y puts X in Y's prerequisites
+@@ -698,6 +701,10 @@ class World:
+ 
+     def nearest(self, kind, entry, me, mask=0):
+         pts = self.in_phase(kind, (self.cspawn if kind == "c" else self.gspawn).get(entry, []), mask)
++        # inside the area first: a far camp loaded for objectives is where a level-3 tauren hunting
++        # Battleboars walked into quilboar country and died on repeat
++        home = [p for p in pts if p not in self.beyond]
++        pts = home or pts
+         return min(pts, key=lambda p: math.dist(p[:2], (me["x"], me["y"])), default=None)
+ 
+     def cond_true(self, r, in_log, depth=0, static_only=False):
+@@ -892,6 +899,22 @@ class Runner:
+             # with repeated deaths) - keep at it on a clock, never carry on as a ghost
+             # where we fell = where the corpse lies (asked before the release moves us to a graveyard)
+             corpse = None if st.get("ghost") else self.me()
++            now = time.time()
++            recent = [(t, p) for t, p in getattr(self, "_deaths", []) if now - t < 600]
++            if corpse:
++                looped = any(math.dist((p["x"], p["y"]), (corpse["x"], corpse["y"])) < 30 for _, p in recent)
++                self._deaths = recent + [(now, corpse)]
++                if looped:
++                    # died on the same spot twice in 10 min: whatever killed us is still standing on
++                    # the corpse (a level-3 tauren in a quilboar camp) - rez at the healer instead
++                    print("  ! died on the same spot again - spirit rez instead of a corpse run", flush=True)
++                    try:
++                        call("combat.revive")  # release first: only a ghost sees the spirit healer
++                    except StepFailed:
++                        pass
++                    if self.spirit_rez():
++                        call("combat.rest", until_pct=90)
++                        return
+             t0, stage, failed_reclaims = time.time(), "", 0
+             while time.time() - t0 < 600:
+                 try:
+@@ -1137,7 +1160,7 @@ class Runner:
+         if o is None or o.get("distance", 0) > 40:
+             if o is None:  # nothing usable in sight: try spawn points further out
+                 pts = sorted(self.w.in_phase(kind, (self.w.cspawn if kind == "c" else self.w.gspawn).get(entry, []), mask),
+-                             key=lambda q: math.dist(q[:2], (self.me()["x"], self.me()["y"])))
++                             key=lambda q: (q in self.w.beyond, math.dist(q[:2], (self.me()["x"], self.me()["y"]))))
+                 for q in pts[: min(len(pts), 6)]:
+                     self.travel(*q, within=15)
+                     o = pick()
+-- 
+2.34.1
+
