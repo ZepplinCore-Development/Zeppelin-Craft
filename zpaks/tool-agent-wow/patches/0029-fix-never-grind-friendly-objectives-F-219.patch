@@ -1,0 +1,61 @@
+From 962f55f8a1ed84eff77ac1dd703abc3f61dfc8bc Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 12:21:45 +0000
+Subject: [PATCH] fix: never grind friendly objectives (F-219)
+
+Ammen Vale: the grinder pulled Draenei Survivors 16483 (healed for Rescue the Survivors) 26
+times for 'no damage'. Entries a grind pull cannot damage are skipped for the run, and creatures
+a quest item must be used on are no longer grind candidates.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 0bfaeb9..3a086be 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -177,7 +177,9 @@ class World:
+                 f"AND position_y BETWEEN {min(y1, y2) - m} AND {max(y1, y2) + m}")
+         added = 0
+         self.beyond = set()  # spawn points loaded only for objectives - a last resort, never a first stop
+-        self.objective_creatures = set(objc)  # quest kill/loot targets: hostile by design, safe to grind
++        # quest kill/loot targets: hostile by design, safe to grind - minus creatures a quest item must
++        # be used ON (those are converted/healed, not fought)
++        self.objective_creatures = set(objc) - set(self.spell_unit_target.values())
+         if objc:
+             for r in sql(f"SELECT id,position_x x,position_y y,position_z z,phaseMask pm FROM creature WHERE {wide} "
+                          f"AND id IN ({inlist(objc)})"):
+@@ -817,6 +819,7 @@ class Runner:
+         self.immune = {}  # creature guid -> when it last took no damage (evading)
+         self.deaths_on = {}  # quest -> deaths while working it
+         self.refusals = {}  # quest -> times the server refused our accept
++        self.grind_skip = set()  # entries a grind pull could not damage (friendly objectives)
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -874,7 +877,9 @@ class Runner:
+         (template minlevel), within 80 yd. Used while the quests left are too hard for our level."""
+         objs = call("interact.find", type=3, radius=80, limit=80).get("objects", [])
+         mobs = [o for o in objs if o.get("health", 0) > 0 and not o.get("npcFlags")]
+-        ents = {o["entry"] for o in mobs} & self.w.objective_creatures  # never a guard or a critter
++        # never a guard or a critter, nor a friendly objective (Draenei Survivors 16483 are HEALED for
++        # Rescue the Survivors - the bot "ground" them 26 times for no damage)
++        ents = ({o["entry"] for o in mobs} & self.w.objective_creatures) - self.grind_skip
+         if not ents:
+             # nothing easy in sight: walk to the nearest spawn of a quest target at or below our level
+             cands = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+@@ -916,6 +921,8 @@ class Runner:
+             self.travel(t["x"], t.get("y", 0), t.get("z", 0), within=4)
+         r = call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
+         self.kills += r.get("killed", False)
++        if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
++            self.grind_skip.add(t["entry"])
+         print(f"  grind {t['entry']} (level {lv.get(t['entry'])}) while quests wait for level {level + 1}: "
+               f"{r.get('reason', 'killed')}", flush=True)
+         return True
+-- 
+2.34.1
+
