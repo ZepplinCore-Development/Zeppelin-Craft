@@ -2,7 +2,7 @@
   "$schema": "../../schemas/zpak.schema.json",
   "name": "zep-terrain",
   "version": "0.1.0",
-  "description": "F-196 terrain-phase client addons (WarcraftXL-driven)",
+  "description": "F-196 terrain-swap mechanism: server ALE driver (ZepTerrain.lua), its generator, and the client addons (ZepTerrainRecv/ZepTerrainTest). Zone tiles live in per-zone zpaks (zep-lost-isles-terrain).",
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-A",

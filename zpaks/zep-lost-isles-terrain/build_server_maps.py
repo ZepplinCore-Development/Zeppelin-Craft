@@ -26,7 +26,7 @@ Usage:
                                                      # also stage the mmaps_generator input for 659/661
                                                      # (inside data/ so the ac-tools container sees it as /output/swapnav)
 """
-import argparse, os, struct, subprocess, sys
+import argparse, os, struct, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MAPS_IN = os.path.join(HERE, "mpq", "parsed-assets", "WORLD", "MAPS")
@@ -34,7 +34,13 @@ OA_KALIMDOR = os.path.normpath(os.path.join(
     HERE, "..", "patch-open-azeroth", "mpq", "parsed-assets", "WORLD", "MAPS", "KALIMDOR"))
 DATA = "/workspace/project/data"
 
-SWAPS = {659: "LostIslesPhase1", 661: "LostIslesPhase2"}
+# Which maps the zone swaps to and their client directories come from data (phase_definitions +
+# DBC Map.directory) via cli/lib/terrain_swaps.py - the same source gen_terrain_map.py uses for the
+# client side, so server and client can't disagree. Lost Isles = 659 LostIslesPhase1, 661 LostIslesPhase2.
+ZONE = 4720
+sys.path.insert(0, os.path.normpath(os.path.join(HERE, "..", "..", "cli")))
+from lib.dbc_utils import DBCConfig, run_sql           # noqa: E402
+from lib.terrain_swaps import zone_swap_dirs           # noqa: E402
 BASE_MAP = 1
 # Tiles the 659/661 navmesh is built over (ADT X 50-55, Y 28-33 = the island and its shelf).
 # The swapped tiles are inside; the rest are base copies so a path can leave a swapped tile.
@@ -63,10 +69,11 @@ def chunks(d, start=0, end=None):
 
 def liquid_soundbanks():
     """LiquidType id -> type (SoundBank: 0 water, 1 ocean, 2 magma, 3 slime) from OUR dbc."""
-    out = subprocess.run([sys.executable, "-m", "cli.zep", "dbc", "info", "query",
-                          "SELECT id, type FROM liquidtype"],
-                         cwd=os.path.normpath(os.path.join(HERE, "..", "..")),
-                         capture_output=True, text=True, check=True).stdout
+    from pathlib import Path
+    config = DBCConfig.from_env(Path(HERE).parents[1] / "cli" / ".env")
+    ok, out = run_sql("SELECT id, type FROM liquidtype", config, config.live)
+    if not ok:
+        raise SystemExit(f"liquidtype query failed: {out}")
     res = {}
     for line in out.splitlines():
         p = line.split("\t")
@@ -307,7 +314,7 @@ def read_heights(path):
     return list(struct.unpack_from(f"<{n9+n8}f", d, p))
 
 
-def stage_navmesh(stage, maps_dir, vmaps_dir):
+def stage_navmesh(stage, maps_dir, vmaps_dir, swaps):
     """mmaps_generator input tree for the 659/661 navmeshes (run on the UNRAID host, I-385).
 
     maps/  : the swapped tiles + a copy of the base map-1 tile for every other island tile
@@ -330,7 +337,7 @@ def stage_navmesh(stage, maps_dir, vmaps_dir):
             shutil.rmtree(d)
         os.makedirs(d, exist_ok=True)
     smaps, svmaps = os.path.join(stage, "maps"), os.path.join(stage, "vmaps")
-    for map_id in SWAPS:
+    for map_id in swaps:
         for x in ISLAND_X:
             for y in ISLAND_Y:
                 own = os.path.join(maps_dir, map_name(map_id, x, y))
@@ -358,11 +365,12 @@ def main():
     ap.add_argument("--data", default=DATA)
     ap.add_argument("--verify-base", nargs=2, type=int, metavar=("X", "Y"))
     ap.add_argument("--stage-navmesh", metavar="DIR",
-                    help="build the mmaps_generator input tree for 659/661 in DIR (see stage_navmesh)")
+                    help="build the mmaps_generator input tree for the swap maps in DIR (see stage_navmesh)")
     a = ap.parse_args()
     maps_dir = os.path.join(a.data, "maps")
     banks = liquid_soundbanks()
     tables = wxl_liquid_tables()
+    swaps = zone_swap_dirs(ZONE)
 
     if a.verify_base:
         x, y = a.verify_base
@@ -377,7 +385,7 @@ def main():
         return
 
     written = []
-    for map_id, name in SWAPS.items():
+    for map_id, name in swaps.items():
         src = os.path.join(MAPS_IN, name.upper())
         for f in sorted(os.listdir(src)):
             parts = f[:-4].split("_")
@@ -392,7 +400,7 @@ def main():
             print(f"{f} -> {os.path.basename(out)}  height {lo:.1f}..{hi:.1f}")
 
     if a.stage_navmesh:
-        stage_navmesh(a.stage_navmesh, maps_dir, os.path.join(a.data, "vmaps"))
+        stage_navmesh(a.stage_navmesh, maps_dir, os.path.join(a.data, "vmaps"), swaps)
 
 if __name__ == "__main__":
     main()
