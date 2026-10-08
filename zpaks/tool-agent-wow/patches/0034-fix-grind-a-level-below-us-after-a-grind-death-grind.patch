@@ -1,0 +1,72 @@
+From e5e64482f78258af675cfcb8d6e59aab2be4e102 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 15:34:23 +0000
+Subject: [PATCH] fix: grind a level below us after a grind death; grind spots
+ within 400 yd (F-219)
+
+Three grind deaths at level == level (Valley, goblin, Sunstrider) - an even fight in starting
+gear is a coin flip; after the first, cap grind targets at level-1. Camp Narache walked 1243 yd
+to a higher-level grind spot: cap the search at 400 yd.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 56c8e18..6dc20e2 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -821,6 +821,7 @@ class Runner:
+         self.refusals = {}  # quest -> times the server refused our accept
+         self.grind_skip = set()  # entries a grind pull could not damage (friendly objectives)
+         self.grind_slow = {}     # entry -> grind pulls that ran out of time without a kill
++        self.grind_deaths = 0    # grind pulls that killed us
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -904,7 +905,8 @@ class Runner:
+             # the toughest easy mob pays the most XP (Deathknell: level-1 zombies gave a level-4 almost
+             # nothing while level-3/4 spiders and Scarlet converts stood nearby)
+             spots = sorted(((-cands[e], math.dist(p[:2], (me["x"], me["y"])), e, p) for e in cands
+-                            for p in self.w.cspawn.get(e, []) if p not in self.w.beyond), key=lambda t: t[:2])
++                            for p in self.w.cspawn.get(e, []) if p not in self.w.beyond
++                            and math.dist(p[:2], (me["x"], me["y"])) < 400), key=lambda t: t[:2])
+             if not spots:
+                 return False
+             _, _, e, p = spots[0]
+@@ -914,7 +916,10 @@ class Runner:
+         # never ended) - CREATURE_FLAG_EXTRA_NO_XP 0x40 marks those
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+             f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)}) AND (flags_extra & 64)=0")}
+-        easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= level]
++        # an even fight is a coin flip in starting gear (three grind deaths at level == level in one
++        # fleet run): once a grind pull has killed us, only take mobs a level below us
++        cap = level - 1 if self.grind_deaths else level
++        easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= cap]
+         if not easy:
+             return False
+ 
+@@ -930,7 +935,8 @@ class Runner:
+                 f"AND minlevel BETWEEN {best + 1} AND {level}")}
+             me = self.me()
+             spots = sorted(((-better[e], math.dist(p[:2], (me["x"], me["y"])), p) for e in better
+-                            for p in self.w.cspawn.get(e, []) if p not in self.w.beyond), key=lambda q: q[:2])
++                            for p in self.w.cspawn.get(e, []) if p not in self.w.beyond
++                            and math.dist(p[:2], (me["x"], me["y"])) < 400), key=lambda q: q[:2])
+             if spots:
+                 self.travel(*spots[0][2], within=15)
+                 return True
+@@ -940,6 +946,8 @@ class Runner:
+         self.kills += r.get("killed", False)
+         if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
+             self.grind_skip.add(t["entry"])
++        if "died" in r.get("reason", ""):
++            self.grind_deaths += 1
+         if r.get("reason") == "budget":  # outlasted a whole kill call: not worth grinding
+             self.grind_slow[t["entry"]] = self.grind_slow.get(t["entry"], 0) + 1
+             if self.grind_slow[t["entry"]] >= 3:
+-- 
+2.34.1
+
