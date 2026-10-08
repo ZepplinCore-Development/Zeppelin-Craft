@@ -1,0 +1,102 @@
+From b667df8b0378fc20beac94ae60839cdeaeb6bdf0 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 08:08:37 +0000
+Subject: [PATCH] fix: load quest objective spawns beyond the start box; fleet
+ retries through server restarts (F-219)
+
+- Break Sharptusk! (Camp Narache) stalled: Chief Sharptusk Thornmantle 8554 stands 1000 yd
+  outside the giver's box, so the runner never knew where to go. World now also loads spawns
+  of every objective creature/GO and of creatures/chests dropping a required item within
+  1200 yd of the box (all 9 start areas gained 10-350 such spawns).
+- fleet.py: agent-wow CLI calls retry while the worldserver refuses connections.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/fleet.py      | 11 ++++++++--
+ zeppelin/tests/start_area.py | 40 +++++++++++++++++++++++++++++++++++-
+ 2 files changed, 48 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index f5dba60..7772199 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -91,8 +91,15 @@ def log(name, line):
+ 
+ 
+ def aw(name, *args, timeout=60):
+-    """agent-wow in the area's instance dir (its config.yaml, auth and realm)."""
+-    return subprocess.run([BIN, *args], cwd=area_dir(name), capture_output=True, text=True, timeout=timeout)
++    """agent-wow in the area's instance dir (its config.yaml, auth and realm). A worldserver restart
++    (other sessions reboot it before their tests) refuses connections for a minute or two: retry."""
++    for attempt in range(30):
++        r = subprocess.run([BIN, *args], cwd=area_dir(name), capture_output=True, text=True, timeout=timeout)
++        err = (r.stderr or "") + (r.stdout or "")
++        if r.returncode == 0 or not any(t in err for t in ("connection refused", "connection reset", "i/o timeout", "EOF")):
++            return r
++        time.sleep(10)
++    return r
+ 
+ 
+ # -- commands -------------------------------------------------------------------------------------
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 1d24cf7..2eadf6b 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -144,6 +144,43 @@ class World:
+             "COALESCE(a.ExclusiveGroup,0) ExclusiveGroup,COALESCE(a.BreadcrumbForQuestId,0) BreadcrumbForQuestId,"
+             "COALESCE(a.NextQuestID,0) NextQuestID "
+             f"FROM quest_template q LEFT JOIN quest_template_addon a ON a.ID=q.ID WHERE q.ID IN ({qs})")}
++        # objectives often lie outside the box the givers stand in (Break Sharptusk!: Camp Narache
++        # hands it out, Chief Sharptusk Thornmantle 8554 stands 1000 yd south): also load the spawns
++        # of every objective creature/GO and of the creatures that drop a required item, in a wide
++        # margin around the box
++        objc, objg, items = set(), set(), set()
++        for q in self.quests.values():
++            for k in range(1, 5):
++                t = int(q[f"RequiredNpcOrGo{k}"])
++                (objc if t > 0 else objg).add(abs(t)) if t else None
++            for k in range(1, 7):
++                if int(q[f"RequiredItemId{k}"]):
++                    items.add(int(q[f"RequiredItemId{k}"]))
++        if items:
++            objc |= set(ids(sql("SELECT t.entry FROM creature_template t JOIN creature_loot_template l ON l.Entry=t.lootid "
++                                f"WHERE l.Item IN ({inlist(items)})"), "entry"))
++            objg |= set(ids(sql("SELECT t.entry FROM gameobject_template t JOIN gameobject_loot_template l ON "
++                                f"l.Entry=t.Data1 WHERE t.type=3 AND l.Item IN ({inlist(items)})"), "entry"))
++        m = 1200
++        wide = (f"map={mapid} AND position_x BETWEEN {min(x1, x2) - m} AND {max(x1, x2) + m} "
++                f"AND position_y BETWEEN {min(y1, y2) - m} AND {max(y1, y2) + m}")
++        added = 0
++        if objc:
++            for r in sql(f"SELECT id,position_x x,position_y y,position_z z,phaseMask pm FROM creature WHERE {wide} "
++                         f"AND id IN ({inlist(objc)})"):
++                pt = (float(r["x"]), float(r["y"]), float(r["z"]))
++                if pt not in self.cspawn.get(int(r["id"]), []):
++                    self.cspawn.setdefault(int(r["id"]), []).append(pt)
++                    self.spawn_phase[pt] = self.spawn_phase.get(pt, 0) | int(r["pm"])
++                    added += 1
++        if objg:
++            for r in sql(f"SELECT id,position_x x,position_y y,position_z z FROM gameobject WHERE {wide} "
++                         f"AND id IN ({inlist(objg)})"):
++                pt = (float(r["x"]), float(r["y"]), float(r["z"]))
++                if pt not in self.gspawn.get(int(r["id"]), []):
++                    self.gspawn.setdefault(int(r["id"]), []).append(pt)
++                    added += 1
++        self.objective_spawns_outside = added
+         # AzerothCore also gates on NextQuestID: X.NextQuestID = Y puts X in Y's prerequisites
+         # (ObjectMgr::LoadQuests prevQuests) - e.g. 792 Vile Familiars -> 794 Burning Blade Medallion
+         self.prev_via_next = {}
+@@ -2269,7 +2306,8 @@ def main():
+     a = ap.parse_args()
+     w = World(a.map, a.box, a.char)
+     print(f"area: {sum(map(len, w.cspawn.values()))} creature + {sum(map(len, w.gspawn.values()))} GO spawns, "
+-          f"{len(w.starters)} quests started here; char race {w.race} class {w.cls}", flush=True)
++          f"{len(w.starters)} quests started here ({w.objective_spawns_outside} objective spawns beyond the box); "
++          f"char race {w.race} class {w.cls}", flush=True)
+     r = Runner(w, CLASS_ABILITIES.get(w.cls, []))
+     rpc.nav_map = r.nav_map  # path/ground queries plan on the phase's swapped terrain
+     try:
+-- 
+2.34.1
+
