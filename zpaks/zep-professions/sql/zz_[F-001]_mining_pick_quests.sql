@@ -136,10 +136,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90029: Darnassus (Borin Irondelve - 70)
+-- Quest 90029: Darnassus (Borin Irondelve - 900951)
 -- -----------------------------------------------------
 SET @quest := 90029;
-SET @npc := 70;
+SET @npc := 900951;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -532,10 +532,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90037: Darnassus (Borin Irondelve - 70)
+-- Quest 90037: Darnassus (Borin Irondelve - 900951)
 -- -----------------------------------------------------
 SET @quest := 90037;
-SET @npc := 70;
+SET @npc := 900951;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,

@@ -2,7 +2,7 @@
 -- F-089: Classic City Jewelcrafting Trainers
 -- ========================================
 -- Farii (19778) remains in Exodar (stock location).
--- Faris (72) is a new NPC for Stormwind, based on Farii's template.
+-- Faris (900950) is a new NPC for Stormwind, based on Farii's template.
 -- Nessera (76) is a JC supply vendor for Stormwind, cloned from Inessera (19065).
 
 -- ========================================
@@ -18,11 +18,13 @@ VALUES (3110710, 19778, 530, -3781.55, -11541.8, -134.744, 1.93941, 120, 811, 85
 -- ========================================
 -- FARIS - Stormwind Jewelcrafting Trainer
 -- ========================================
--- New NPC (entry 72) based on Farii's template, placed in Dwarven District.
+-- New NPC (entry 900950) based on Farii's template, placed in the Trade District.
+-- Custom entry: this was 72 until 2026-10-08, which is stock "[UNUSED] Antaris the
+-- Trader" (display 19) -- a DELETE+INSERT on a stock entry, not a new creature.
 
-DELETE FROM `creature_template` WHERE `entry` = 72;
+DELETE FROM `creature_template` WHERE `entry` = 900950;
 INSERT INTO `creature_template`
-SET `entry` = 72,
+SET `entry` = 900950,
     `name` = 'Faris',
     `subname` = 'Jewelcrafting Trainer',
     `gossip_menu_id` = 8382, -- Same JC trainer gossip as Farii
@@ -46,18 +48,18 @@ SET `entry` = 72,
     `flags_extra` = 2; -- Civilian/No aggro
 
 -- Use Farii's model (Draenei female, displayid 19195)
-DELETE FROM `creature_template_model` WHERE `CreatureID` = 72;
+DELETE FROM `creature_template_model` WHERE `CreatureID` = 900950;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
-(72, 0, 19195, 1, 1);
+(900950, 0, 19195, 1, 1);
 
 -- Assign same JC trainer template as Farii (113 = base JC trainer, 0-290 skill)
-DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 72;
-INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (72, 113);
+DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 900950;
+INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (900950, 113);
 
 -- Spawn Faris in Stormwind Dwarven District
-DELETE FROM `creature` WHERE `id` = 72 OR `guid` = 3110711;
+DELETE FROM `creature` WHERE `id` = 900950 OR `guid` = 3110711;
 INSERT INTO `creature` (`guid`, `id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
-(3110711, 72, 0, -8714.3, 620.1, 100.9, 0.06, 300);
+(3110711, 900950, 0, -8714.3, 620.1, 100.9, 0.06, 300);
 
 -- ========================================
 -- NESSERA - Stormwind Jewelcrafting Supplies

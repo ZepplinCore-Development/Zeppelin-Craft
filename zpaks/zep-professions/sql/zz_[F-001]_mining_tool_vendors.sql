@@ -12,7 +12,7 @@
 -- Add VENDOR flag (128) to Borin Irondelve (Darnassus Mining Trainer)
 -- so he can also sell items. Currently npcflag = 83 -> 211.
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 128
-WHERE `entry` = 70
+WHERE `entry` = 900951
 AND (`npcflag` & 128) = 0;
 
 -- Add "browse goods" option to Borin's gossip menu (7690)
@@ -46,11 +46,11 @@ INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Exte
 (4256, 0, 57701, 0, 0, 0),
 (4256, 0, 57702, 0, 0, 0),
 (4256, 0, 57703, 0, 0, 0),
--- Darnassus - Borin Irondelve (70)
-(70, 0, 57700, 0, 0, 0),
-(70, 0, 57701, 0, 0, 0),
-(70, 0, 57702, 0, 0, 0),
-(70, 0, 57703, 0, 0, 0),
+-- Darnassus - Borin Irondelve (900951)
+(900951, 0, 57700, 0, 0, 0),
+(900951, 0, 57701, 0, 0, 0),
+(900951, 0, 57702, 0, 0, 0),
+(900951, 0, 57703, 0, 0, 0),
 -- Exodar - Merran (16751)
 (16751, 0, 57700, 0, 0, 0),
 (16751, 0, 57701, 0, 0, 0),
@@ -115,15 +115,15 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 (23, 4256, 57700, 0, 5, 8, 0, 90032, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90032'),
 (23, 4256, 57700, 0, 6, 8, 0, 90033, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90033'),
 (23, 4256, 57700, 0, 7, 8, 0, 90034, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90034'),
--- Darnassus - Borin Irondelve (70)
-(23, 70, 57700, 0, 0, 8, 0, 90027, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90027'),
-(23, 70, 57700, 0, 1, 8, 0, 90028, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90028'),
-(23, 70, 57700, 0, 2, 8, 0, 90029, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90029'),
-(23, 70, 57700, 0, 3, 8, 0, 90030, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90030'),
-(23, 70, 57700, 0, 4, 8, 0, 90031, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90031'),
-(23, 70, 57700, 0, 5, 8, 0, 90032, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90032'),
-(23, 70, 57700, 0, 6, 8, 0, 90033, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90033'),
-(23, 70, 57700, 0, 7, 8, 0, 90034, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90034'),
+-- Darnassus - Borin Irondelve (900951)
+(23, 900951, 57700, 0, 0, 8, 0, 90027, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90027'),
+(23, 900951, 57700, 0, 1, 8, 0, 90028, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90028'),
+(23, 900951, 57700, 0, 2, 8, 0, 90029, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90029'),
+(23, 900951, 57700, 0, 3, 8, 0, 90030, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90030'),
+(23, 900951, 57700, 0, 4, 8, 0, 90031, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90031'),
+(23, 900951, 57700, 0, 5, 8, 0, 90032, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90032'),
+(23, 900951, 57700, 0, 6, 8, 0, 90033, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90033'),
+(23, 900951, 57700, 0, 7, 8, 0, 90034, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90034'),
 -- Exodar - Merran (16751)
 (23, 16751, 57700, 0, 0, 8, 0, 90027, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90027'),
 (23, 16751, 57700, 0, 1, 8, 0, 90028, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick J - Quest 90028'),
@@ -201,15 +201,15 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 (23, 4256, 57701, 0, 5, 8, 0, 90040, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90040'),
 (23, 4256, 57701, 0, 6, 8, 0, 90041, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90041'),
 (23, 4256, 57701, 0, 7, 8, 0, 90042, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90042'),
--- Darnassus - Borin Irondelve (70)
-(23, 70, 57701, 0, 0, 8, 0, 90035, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90035'),
-(23, 70, 57701, 0, 1, 8, 0, 90036, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90036'),
-(23, 70, 57701, 0, 2, 8, 0, 90037, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90037'),
-(23, 70, 57701, 0, 3, 8, 0, 90038, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90038'),
-(23, 70, 57701, 0, 4, 8, 0, 90039, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90039'),
-(23, 70, 57701, 0, 5, 8, 0, 90040, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90040'),
-(23, 70, 57701, 0, 6, 8, 0, 90041, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90041'),
-(23, 70, 57701, 0, 7, 8, 0, 90042, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90042'),
+-- Darnassus - Borin Irondelve (900951)
+(23, 900951, 57701, 0, 0, 8, 0, 90035, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90035'),
+(23, 900951, 57701, 0, 1, 8, 0, 90036, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90036'),
+(23, 900951, 57701, 0, 2, 8, 0, 90037, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90037'),
+(23, 900951, 57701, 0, 3, 8, 0, 90038, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90038'),
+(23, 900951, 57701, 0, 4, 8, 0, 90039, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90039'),
+(23, 900951, 57701, 0, 5, 8, 0, 90040, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90040'),
+(23, 900951, 57701, 0, 6, 8, 0, 90041, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90041'),
+(23, 900951, 57701, 0, 7, 8, 0, 90042, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90042'),
 -- Exodar - Merran (16751)
 (23, 16751, 57701, 0, 0, 8, 0, 90035, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90035'),
 (23, 16751, 57701, 0, 1, 8, 0, 90036, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick A - Quest 90036'),
@@ -275,9 +275,9 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 -- Ironforge - Golnir Bouldertoe (4256)
 (23, 4256, 57702, 0, 0, 8, 0, 90043, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick M - Quest 90043'),
 (23, 4256, 57702, 0, 1, 8, 0, 90044, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick M - Quest 90044'),
--- Darnassus - Borin Irondelve (70)
-(23, 70, 57702, 0, 0, 8, 0, 90043, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick M - Quest 90043'),
-(23, 70, 57702, 0, 1, 8, 0, 90044, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick M - Quest 90044'),
+-- Darnassus - Borin Irondelve (900951)
+(23, 900951, 57702, 0, 0, 8, 0, 90043, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick M - Quest 90043'),
+(23, 900951, 57702, 0, 1, 8, 0, 90044, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick M - Quest 90044'),
 -- Exodar - Merran (16751)
 (23, 16751, 57702, 0, 0, 8, 0, 90043, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick M - Quest 90043'),
 (23, 16751, 57702, 0, 1, 8, 0, 90044, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick M - Quest 90044'),
@@ -305,8 +305,8 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 (23, 5514, 57703, 0, 0, 8, 0, 90045, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick GM - Quest 90045'),
 -- Ironforge - Golnir Bouldertoe (4256)
 (23, 4256, 57703, 0, 0, 8, 0, 90045, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick GM - Quest 90045'),
--- Darnassus - Borin Irondelve (70)
-(23, 70, 57703, 0, 0, 8, 0, 90045, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick GM - Quest 90045'),
+-- Darnassus - Borin Irondelve (900951)
+(23, 900951, 57703, 0, 0, 8, 0, 90045, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick GM - Quest 90045'),
 -- Exodar - Merran (16751)
 (23, 16751, 57703, 0, 0, 8, 0, 90045, 0, 0, 0, 0, 0, '', 'F-001 Mining Pick GM - Quest 90045'),
 -- Orgrimmar - Gorina (3358)
