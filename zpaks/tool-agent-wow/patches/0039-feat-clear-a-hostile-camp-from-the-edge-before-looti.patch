@@ -1,0 +1,86 @@
+From 0ad321445d39196238faa7ed5193011a42878147 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 19:26:22 +0000
+Subject: [PATCH] feat: clear a hostile camp from the edge before looting its
+ crate (F-219)
+
+User call: the right play for a crate in the middle of a camp is to clear the camp carefully,
+not to outlevel the quest and rush the crate. Before opening a loot GO, clear_camp() stages 35 yd
+out on our side, then pulls the mobs within 25 yd of the crate one at a time - outermost first,
+approached from their outer side so a pull does not drag in the camp - resting to 90% between
+pulls; critters and mobs 4+ levels above us are left alone, unattackable ones skipped.
+Deaths right before an Opening cast were the largest death cause in every start area.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 46 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 09d4e6d..d4df55c 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -911,6 +911,49 @@ class Runner:
+                 return True
+         return False
+ 
++    def clear_camp(self, spot, radius=25.0):
++        """Before walking to an object in a hostile camp, clear the camp from the edge: one mob at a
++        time, OUTERMOST first, approached from outside so the pull does not drag in the rest, and rest
++        to full in between. The bot used to walk straight to the crate and die in the middle of the
++        camp (Coldridge: 30 deaths for A Refugee's Quandary's troll-camp crates; deaths before an
++        Opening cast dominated every area). Returns True when it pulled (call again), False when
++        clear - then the crate is safe to open."""
++        me = self.me()
++        if math.dist((me["x"], me["y"]), spot[:2]) > 60:
++            # stage at the camp's edge first: 35 yd out on our side of the crate
++            d = max(math.dist((me["x"], me["y"]), spot[:2]), 0.01)
++            k = 35.0 / d
++            sx, sy = spot[0] + (me["x"] - spot[0]) * k, spot[1] + (me["y"] - spot[1]) * k
++            self.travel(sx, sy, ground(sx, sy, spot[2]), within=8)
++            me = self.me()
++        mobs = [o for o in call("interact.find", type=3, radius=80, limit=80).get("objects", [])
++                if o.get("health", 0) > 0 and not o.get("npcFlags") and o.get("entry") not in self.grind_skip
++                and math.dist((o["x"], o.get("y", 0)), spot[:2]) < radius]
++        if not mobs:
++            return False
++        info = {int(r["entry"]): (int(r["minlevel"]), int(r["type"])) for r in sql(
++            f"SELECT entry,minlevel,type FROM creature_template WHERE entry IN ({inlist({o['entry'] for o in mobs})})")}
++        level = call("interact.self").get("level", 1)
++        # no critters (type 8), nothing far above us
++        mobs = [o for o in mobs if info.get(o["entry"], (99, 0))[1] != 8 and info.get(o["entry"], (99, 0))[0] <= level + 3]
++        if not mobs:
++            return False
++        # outermost = farthest from the crate; among those, the nearest to us
++        t = max(mobs, key=lambda o: (round(math.dist((o["x"], o.get("y", 0)), spot[:2]) / 5), -o.get("distance", 0)))
++        ux, uy = t["x"] - spot[0], t.get("y", 0) - spot[1]
++        n = max(math.hypot(ux, uy), 0.01)
++        ax, ay = t["x"] + ux / n * 6, t.get("y", 0) + uy / n * 6  # its outer side
++        if math.dist((me["x"], me["y"]), (ax, ay)) > 8:
++            self.travel(ax, ay, ground(ax, ay, t.get("z", 0)), within=4)
++        r = call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
++        self.kills += r.get("killed", False)
++        if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
++            self.grind_skip.add(t["entry"])  # not hostile after all
++        print(f"  clear camp at ({spot[0]:.0f},{spot[1]:.0f}): {t['entry']} - {r.get('reason', 'killed')} "
++              f"({len(mobs) - 1} left)", flush=True)
++        call("combat.rest", until_pct=90)
++        return True
++
+     def grind(self, level):
+         """Kill one easy mob for XP: the nearest isolated non-NPC creature whose level is at most ours
+         (template minlevel), within 80 yd. Used while the quests left are too hard for our level."""
+@@ -2423,6 +2466,9 @@ class Runner:
+                     if self.loot_summoned_go(go, item, inv):
+                         return True
+                     continue
++                spot = self.w.nearest("g", go, self.me(), self.phase_mask())
++                if spot and self.clear_camp(spot):
++                    return True  # pulled one camp mob; the crate waits until the camp is clear
+                 o = self.go_near("g", go, usable_only=True)
+                 if o:
+                     self.safe()  # an attacker interrupts the Opening cast (SPELL_FAILED_INTERRUPTED 40)
+-- 
+2.34.1
+
