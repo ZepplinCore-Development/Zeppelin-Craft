@@ -27,7 +27,7 @@ TABS = ('creature', 'character', 'object', 'item', 'wmo')
 # the picker reads data/v2 while a deploy runs: build data/v2.new, swap it in when done
 STAGE = 'v2.new'
 CHAR_PANE_VERSION = 2          # 2: each option wears the bake it ships with (bake_for), not the live DBC's
-PANE_CODE_VERSION = 1          # bump when pane building changes: every cached pane is rebuilt
+PANE_CODE_VERSION = 2          # bump when pane building changes: every cached pane is rebuilt (2: geoset 0 nibbles, I-388)
 PANE_CACHE = Path('/workspace/project/logs/viewer_pane_cache.pkl')
 
 
@@ -153,8 +153,8 @@ class Finder:
     everything else from the current picks; stock / live build for what the index
     does not cover."""
 
-    def __init__(self, picks: Picks, override: Dict[str, ai.Option]):
-        self.picks, self.override = picks, override
+    def __init__(self, picks: Picks, override: Dict[str, ai.Option], stock_only: bool = False):
+        self.picks, self.override, self.stock_only = picks, override, stock_only
         self.eff = picks.result['effective_assets']
         self.log: Optional[list] = None
         self.conflicts: set = set()       # shared textures no single option fits for every user
@@ -171,6 +171,8 @@ class Finder:
         return None
 
     def _resolve(self, p: str) -> Optional[Path]:
+        if self.stock_only:
+            return ms.stock_asset(p)        # the untouched original (Customise's stock reference)
         if p.endswith('.blp'):
             o, _ = self.picks.texture(p, self.override)
             if o is None and self.override:
@@ -228,7 +230,9 @@ class Deployer:
         if v2dir.is_dir():
             shutil.rmtree(v2dir)                      # cleared up front: panes write their provenance into it
         (v2dir / 'tex').mkdir(parents=True)
-        self.prov_dir = v2dir / 'prov'
+        # content-named by pane key like data/maps (same key = same provenance): persistent, written once,
+        # not ~52k files rewritten into every staged data/v2.new and deleted again at the swap
+        self.prov_dir = out_root / 'data' / 'prov'
         self.n_maps = 0
         self.maps: Dict[str, Dict[str, str]] = {}
         self._displays_of = None
@@ -251,13 +255,16 @@ class Deployer:
     # ---- one pane ------------------------------------------------------------------
     def pane(self, path: str, opt: ai.Option, did: Optional[int] = None,
              tex_override: Optional[Dict[str, ai.Option]] = None, dbc_source: Optional[str] = None,
-             skins: Optional[tuple] = None) -> Optional[dict]:
+             skins: Optional[tuple] = None, row_over: Optional[dict] = None,
+             stock_only: bool = False) -> Optional[dict]:
         """Cached: rebuilt only when re-resolving a path it used gives a different file (a new
         pick, a pack update, a new source) - checked in memory, no file I/O."""
         import copy
         base = (PANE_CODE_VERSION, path, opt.key, did, dbc_source, sorted(opt.sources),
                 CHAR_PANE_VERSION if path.startswith('character/') else 0)
         own = self.own_skins(did, opt, dbc_source, path)    # only the panes it changes get a new key
+        if row_over:
+            own = (own or ()) + (('row', tuple(sorted((k, str(v)) for k, v in row_over.items()))),)
         if dbc_source is None and did is not None:
             live_ = self.result['effective_dbc'][0].get(did) or {}
             ocgd = self.own_cgd(did, opt, path, live_)
@@ -272,7 +279,7 @@ class Deployer:
                     cg_ = x_[1]
             if cg_:
                 from lib import geoset_fix as gf
-                fx_ = gf.fixed(cg_, gf.mesh_geosets(opt.files[path[:-3] + '00.skin'].read_bytes()))
+                fx_ = gf.fixed(cg_, self._geosets_of(opt.files[path[:-3] + '00.skin']))
                 if fx_ is not None:
                     own = (own or ()) + (('gfix', fx_),)
         from lib import hd_curate_fixes as hcf
@@ -280,8 +287,14 @@ class Deployer:
             base = base + (('fix', hcf.key(path)),)
         if skins:
             own = skins                                       # guessed from the folder (no display)
+        if stock_only:
+            base = base + (('stock_only',),)
         key = hashlib.sha1(repr(base + (('skins', own),) if own else base).encode()).hexdigest()[:16]
         hit = self.cache.get(key)
+        if hit is not None and stock_only:
+            self._publish(key, hit)                            # stock files never change: no re-resolve
+            self.reused += 1
+            return copy.deepcopy(hit['pane'])
         if hit is not None:
             f = Finder(self.picks, {path: opt})
             ok = True
@@ -294,7 +307,16 @@ class Deployer:
                 self._publish(key, hit)
                 self.reused += 1
                 return copy.deepcopy(hit['pane'])
-        return self._build_pane(path, opt, did, tex_override, dbc_source, key, skins)
+        return self._build_pane(path, opt, did, tex_override, dbc_source, key, skins, row_over, stock_only)
+
+    def _geosets_of(self, sk) -> set:
+        # submesh ids of a .skin, read once per deploy (pane keys ask for every pane with geoset data)
+        c = self.__dict__.setdefault('_gs_cache', {})
+        k = str(sk)
+        if k not in c:
+            from lib import geoset_fix as gf
+            c[k] = gf.mesh_geosets(Path(k).read_bytes())
+        return c[k]
 
     def _publish(self, key: str, rec: dict) -> None:
         mid = rec['pane']['map']
@@ -302,8 +324,13 @@ class Deployer:
         if not mp.exists():
             mp.write_text(json.dumps(rec['map'], separators=(',', ':')))
         if rec.get('prov') is not None:
-            self.prov_dir.mkdir(parents=True, exist_ok=True)
-            (self.prov_dir / f'{mid}.json').write_text(json.dumps(rec['prov'], separators=(',', ':'), default=str))
+            pp = self.prov_dir / f'{mid}.json'
+            if not getattr(self, '_prov_have', None):
+                self.prov_dir.mkdir(parents=True, exist_ok=True)
+                self._prov_have = set(os.listdir(self.prov_dir))   # one listing; membership in memory
+            if pp.name not in self._prov_have:
+                pp.write_text(json.dumps(rec['prov'], separators=(',', ':'), default=str))
+                self._prov_have.add(pp.name)
         self.maps[mid] = rec['map']
         self.used[key] = rec
 
@@ -316,6 +343,12 @@ class Deployer:
         for f in self.maps_dir.glob('*.json'):
             if f.stem not in keep:
                 f.unlink()
+        # provenance is content-named by the same map ids; only v2's own 'm...' files are pruned
+        # (data/prov/ also holds the v1 viewer's numeric files)
+        if self.prov_dir.is_dir():
+            for f in self.prov_dir.glob('m*.json'):
+                if f.stem not in keep:
+                    f.unlink()
 
     def ignored_skin_names(self, path: str, opt: ai.Option) -> List[str]:
         """Display-skin slots (types 11-13) that carry an embedded filename: the client ignores it
@@ -631,12 +664,13 @@ class Deployer:
         return row, chs
 
     def _build_pane(self, path: str, opt: ai.Option, did: Optional[int], tex_override, dbc_source,
-                    key: str, skins_given: Optional[tuple] = None) -> Optional[dict]:
+                    key: str, skins_given: Optional[tuple] = None, row_over: Optional[dict] = None,
+                    stock_only: bool = False) -> Optional[dict]:
         """Pane descriptor + map for mesh `path` drawn with option `opt` (on display `did`
         for creature/character models)."""
         kind = tab_of(path)
         override = {path: opt}
-        finder = Finder(self.picks, override)
+        finder = Finder(self.picks, override, stock_only)
         finder.log = []
         fdid_files: Dict[int, Path] = {}
 
@@ -660,6 +694,8 @@ class Deployer:
             cdi, cmd = self.result['effective_dbc']
             char_dbc = self.result['effective_char_dbc']
         row = cdi.get(did) if did is not None else None
+        if row_over and did is not None:
+            row = {**(row or {}), **row_over}          # a row we derive (community remaster option)
         mrow = cmd.get(int(row.get('model_id') or 0)) if row else None
         skins = [str(row.get(k) or '') for k in ms.CDI_TEX_FIELDS] if row else ['', '', '']
         own_sk = self.own_skins(did, opt, dbc_source, path)
@@ -721,7 +757,7 @@ class Deployer:
                         # a nibble naming a geoset this mesh lacks draws nothing in game: curate
                         # resets it (lib/geoset_fix); the pane shows what will ship
                         from lib import geoset_fix as gf
-                        fx_ = gf.fixed(cgd, gf.mesh_geosets(opt.files[path[:-3] + '00.skin'].read_bytes()))
+                        fx_ = gf.fixed(cgd, self._geosets_of(opt.files[path[:-3] + '00.skin']))
                         if fx_ is not None:
                             pane['geosets_fixed'] = [cgd, fx_]
                             cgd = fx_
@@ -774,7 +810,7 @@ class Deployer:
         self.n_maps += 1
         pv_saved = None
         (self.maps_dir / f'{mid}.json').write_text(json.dumps(fmap, separators=(',', ':')))
-        # Sources panel (provenance), loaded on demand: data/v2/prov/<map id>.json
+        # Sources panel (provenance), loaded on demand: data/prov/<map id>.json
         try:
             layer = ([] if dbc_source == 'stock' else [srcs[dbc_source]] if dbc_source in srcs else
                      sorted((x for x in self.result['sources'] if x.enabled), key=lambda x: x.priority))
@@ -1180,6 +1216,22 @@ def display_entries(dep: 'Deployer', edits: Optional[dict], cnames: Dict[int, st
             if mrow:
                 completed.setdefault(cdid, {})[sname] = ms.norm(str(mrow.get('model_path') or ''))
     stock_paths = {ms.norm(str(r.get('model_path') or '')) for r in dep.result['stock_dbc'][1].values()}
+    # the remaster lookup's community half: a model a pack moved MOST of a stock model's displays onto
+    # is offered to that model's other displays (lib/repoint_complete.community_remasters)
+    remasters = rc.community_remasters(dep.result)
+    geo_l = None
+    cust_c: Dict[str, dict] = {}
+    def cust_of(path: str, o) -> Optional[dict]:
+        # what Customise needs to edit a display on this option's model: geoset groups, skin slots
+        if path not in cust_c:
+            root = o.files.get(path)
+            if root is None:
+                cust_c[path] = None
+            else:
+                sk = o.files.get(path[:-3] + '00.skin')
+                cust_c[path] = {'groups': skin_geosets(Path(str(root))) if sk is None else skin_geosets_file(sk),
+                                'slots': _skin_slots(root)}
+        return cust_c[path]
     for did, d in dep.result['displays'].items():
         if not isinstance(did, int) or d.get('kind', 'creature') != 'creature':
             continue
@@ -1191,7 +1243,9 @@ def display_entries(dep: 'Deployer', edits: Optional[dict], cnames: Dict[int, st
                 by_path.setdefault(r.model_path, []).append(name)
         for name, tp in completed.get(did, {}).items():
             by_path.setdefault(tp, []).append(name)
-        repoint = len(by_path) > 1 and dep.names.get(did)
+        rem_here = [(sn, b, row) for sn, by in remasters.items() for b, row in (by.get(did) or {}).items()
+                    if b not in by_path and sn in srcs]
+        repoint = (len(by_path) > 1 or rem_here) and dep.names.get(did)
         if not repoint and did not in compare:
             continue
         panes = []
@@ -1217,6 +1271,37 @@ def display_entries(dep: 'Deployer', edits: Optional[dict], cnames: Dict[int, st
                         pn['completed'] = done_by       # we finished this pack's repoint
                     if path in reused:
                         pn['reused'] = True             # I-390: the pack put another creature on this id
+                    pn['cust'] = cust_of(path, o)
+                    pn['tex_key'] = tex_key(path, names)
+                    srow_ = (srcs[names[0]].cdi.get(did) if names[0] in srcs else dep.result['stock_dbc'][0].get(did)) or {}
+                    if names[0] in completed.get(did, {}) or not srow_:
+                        srow_ = cdi_eff.get(did) or srow_
+                    pn['skin_names'] = [str(srow_.get(f'texture_variation_{k}') or '') for k in (1, 2, 3)]
+                    ext_ = int(srow_.get('extended_display_info_id') or 0)
+                    if path.startswith('character/') and ext_:
+                        cdx_ = srcs[names[0]].cdx if names[0] in srcs and srcs[names[0]].cdx else dep.result['stock_char_dbc'][0]
+                        x_ = cdx_.get(ext_) or dep.result['effective_char_dbc'][0].get(ext_)
+                        if x_:
+                            if geo_l is None:
+                                geo_l = mvd._geo_lookups('effective')
+                            pn['char'] = char_info(x_, *geo_l)
+                    panes.append(pn)
+            for sn, b, row in rem_here:
+                a_ = dep.ix.meshes.get(b)
+                o = a_.option_of(sn) if a_ else None
+                if o is None:
+                    f = srcs[sn].assets.get(b)
+                    if f is None:
+                        continue
+                    o = ai.Option('r' + b[-11:], [sn], {b: f})
+                pn = dep.pane(b, o, did, dbc_source=sn, row_over={k: v for k, v in row.items() if not k.startswith('_')})
+                if pn:
+                    pn['option'] = b
+                    pn['sources'] = [sn]
+                    pn['remaster'] = {'of': d['stock'].model_path if d.get('stock') else '', 'moved': row.get('_moved', 0)}
+                    pn['cust'] = cust_of(b, o)
+                    pn['tex_key'] = tex_key(b, [sn])
+                    pn['skin_names'] = [str(row.get(f'texture_variation_{k}') or '') for k in (1, 2, 3)]
                     panes.append(pn)
         cmp_panes = []
         for c in compare.get(did, [])[:3]:
@@ -1316,10 +1401,52 @@ def publish_retail_index(out_root: Path, assets: List[dict], log: Callable = pri
             str((cdi_e.get(int(d)) or {}).get(f'texture_variation_{k}') or '').lower() for k in (1, 2, 3)))
         if any(t):
             skins[str(e['display'])] = t
+    named = named_remaster_index(dep, set(models), log) if dep is not None else {}
+    for v in named.values():                                 # the picker labels targets and skins by path
+        for t in v['targets']:
+            names[str(t[1])] = by_id.get(t[1], '')
+            for sk, _n in t[3]:
+                for fd in sk:
+                    if fd:
+                        names[str(fd)] = by_id.get(fd, '')
     (out_root / 'data' / STAGE / 'retail.json').write_text(json.dumps(
-        {'build': retail.build(), 'models': models, 'skins': skins, 'names': names}, separators=(',', ':')))
-    log(f'  retail (live): {len(models):,} models have a retail remaster')
+        {'build': retail.build(), 'models': models, 'skins': skins, 'names': names, 'named': named},
+        separators=(',', ':')))
+    log(f'  retail (live): {len(models):,} models have a retail remaster, {len(named):,} more by name (per display)')
     return len(models)
+
+
+def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> Dict[str, dict]:
+    """Remasters found by NAME (retail.named_remasters) for stock creature models the display rule
+    misses, keyed by the STOCK model path - a display a zpak already repointed (I-154 Landslide ->
+    mountaingiant_howling) is still offered its stock model's remaster:
+      {path: {stock_anims, displays: [[did, names, stock skins]],
+              targets: [[path, fdid, retail displays, [[skins x3, displays]], anims]]}}"""
+    from lib import retail
+    scdi, scmd = dep.result['stock_dbc']
+    by_stock: Dict[str, List[int]] = {}
+    for did, row in scdi.items():
+        mrow = scmd.get(int(row.get('model_id') or 0))
+        if mrow and dep.names.get(did):
+            by_stock.setdefault(ms.norm(str(mrow.get('model_path') or '')), []).append(did)
+    out: Dict[str, dict] = {}
+    for path, dids in sorted(by_stock.items()):
+        if path in skip or not path.startswith('creature/'):
+            continue
+        targets = retail.named_remasters(path)
+        if not targets:
+            continue
+        sf = ms.stock_asset(path)
+        rows = []
+        for tp, fd in targets:
+            rows.append([tp, fd, retail.retail_displays(fd), retail.skin_sets(fd)[:24], retail.retail_anim_ids(fd)])
+        dids.sort(key=lambda d: (-len(dep.names.get(d, [])), d))
+        out[path] = {'stock_anims': retail.anim_ids(sf.read_bytes()) if sf else [],
+                     'displays': [[d, dep.names.get(d, [])[:3],
+                                   [str((scdi.get(d) or {}).get(f'texture_variation_{k}') or '') for k in (1, 2, 3)]]
+                                  for d in dids[:200]],
+                     'targets': rows}
+    return out
 
 
 def skin_geosets(m2: Path) -> Dict[int, List[int]]:
@@ -1374,16 +1501,11 @@ def customise_entries(dep: 'Deployer', assets: List[dict]) -> List[dict]:
             e = {'display': did, 'path': path, 'names': nm[:4], 'groups': groups}   # pane: the mesh entry's current one
             e['skins'] = [str(row.get(f'texture_variation_{k}') or '') for k in (1, 2, 3)]
             e['slots'] = slots_c.setdefault(path, _skin_slots(root))
+            e['tex_key'] = tex_key(path, o.sources if o else [])
             ext = int(row.get('extended_display_info_id') or 0)
             x = cdx.get(ext) if ext else None
             if x:
-                race, sex = int(x.get('race') or 0), int(x.get('gender') or 0)
-                e['char'] = {'race': race, 'gender': sex, 'hair_style': int(x.get('hair_style') or 0),
-                             'facial_hair': int(x.get('facial_hair') or 0), 'hair_color': int(x.get('hair_color') or 0),
-                             'hair_options': sorted({k[2] for k in hair_t if k[:2] == (race, sex)}),
-                             'facial_options': sorted({k[2] for k in facial_t if k[:2] == (race, sex)}),
-                             'hair_geo': {str(k[2]): v[0] for k, v in hair_t.items() if k[:2] == (race, sex)},
-                             'facial_geo': {str(k[2]): list(v[:3]) for k, v in facial_t.items() if k[:2] == (race, sex)}}
+                e['char'] = char_info(x, hair_t, facial_t)
             else:
                 cgd = int(row.get('creature_geoset_data') or 0)
                 e['cgd'] = [(cgd >> (4 * k)) & 0xF for k in range(8)]
@@ -1391,16 +1513,40 @@ def customise_entries(dep: 'Deployer', assets: List[dict]) -> List[dict]:
     return out
 
 
+def char_info(x: dict, hair_t, facial_t) -> dict:
+    """Customise's character facts for one CreatureDisplayInfoExtra row: its look and the hair /
+    facial-hair choices (with their geosets) of its race and sex."""
+    race, sex = int(x.get('race') or 0), int(x.get('gender') or 0)
+    return {'race': race, 'gender': sex, 'hair_style': int(x.get('hair_style') or 0),
+            'facial_hair': int(x.get('facial_hair') or 0), 'hair_color': int(x.get('hair_color') or 0),
+            'hair_options': sorted({k[2] for k in hair_t if k[:2] == (race, sex)}),
+            'facial_options': sorted({k[2] for k in facial_t if k[:2] == (race, sex)}),
+            'hair_geo': {str(k[2]): v[0] for k, v in hair_t.items() if k[:2] == (race, sex)},
+            'facial_geo': {str(k[2]): list(v[:3]) for k, v in facial_t.items() if k[:2] == (race, sex)}}
+
+
+def tex_key(path: str, sources) -> str:
+    """customise_tex.json key: the model and the packs its textures come from (stock is the fallback)."""
+    return path + '|' + ','.join(sorted(x for x in sources if x not in ('stock', 'retail')))
+
+
+_SLOT_IX = None
+
+
 def _skin_slots(root) -> List[int]:
-    """Display-skin slots (0..2 = texture_variation_1..3) the model reads (texture types 11-13)."""
+    """Display-skin slots (0..2 = texture_variation_1..3) the model reads (texture types 11-13).
+    Through the asset index's persistent MetaCache ('textab', the same entry fill_skins uses)."""
     from lib import skin_fill as sf
     try:
-        return sf.needed(sf.texture_table(Path(str(root)).read_bytes()))
+        f = Path(str(root))
+        if _SLOT_IX is not None:
+            return sf.needed(_SLOT_IX._meta_cache().get('textab', f, lambda x: sf.texture_table(x.read_bytes())))
+        return sf.needed(sf.texture_table(f.read_bytes()))
     except OSError:
         return []
 
 
-def customise_extras(dep: 'Deployer', custom: List[dict], v2: Path, log: Callable = print) -> None:
+def customise_extras(dep: 'Deployer', custom: List[dict], v2: Path, log: Callable = print, disp: Optional[List[dict]] = None) -> None:
     """Customise layer, loaded on demand (not at startup):
       customise_tex.json   {model path: [[texture stem, cas name], ...]} - every texture in the model's
                            folder a display skin slot can name (the pick's own pack first, then stock);
@@ -1415,19 +1561,30 @@ def customise_extras(dep: 'Deployer', custom: List[dict], v2: Path, log: Callabl
         return out
     by_src = {'stock': folder_index(dep.ix.stock)}
     tex: Dict[str, List[List[str]]] = {}
-    for e in custom:
+    # keyed per model AND option: a pack's texture is painted for that pack's mesh (patch-hd-everything's
+    # humanfemalepeasant_bluedress on patch-hd-creatures-mounts' mesh = a broken look)
+    extra = [{'path': p['model'], 'slots': (p.get('cust') or {}).get('slots'), 'srcs': p.get('sources') or []}
+             for d in (disp or []) for p in d.get('panes', []) if (p.get('cust') or {}).get('slots')]
+    for e in list(custom) + extra:
         path = e['path']
-        if path in tex or not e.get('slots'):
+        if not e.get('slots'):
             continue
-        o = dep.picks.mesh(path)
+        if 'srcs' in e:
+            srcs_ = [x for x in e['srcs'] if x not in ('stock', 'retail')]
+        else:
+            o = dep.picks.mesh(path)
+            srcs_ = [x for x in (o.sources if o else []) if x not in ('stock', 'retail')]
+        tk = tex_key(path, srcs_)
+        if tk in tex:
+            continue
         folder = path.rsplit('/', 1)[0]
         seen: Dict[str, Path] = {}
-        for src in [x for x in (o.sources if o else []) if x not in ('stock', 'retail')] + ['stock']:
+        for src in srcs_ + ['stock']:
             if src not in by_src:
                 by_src[src] = folder_index(dep.ix._src_files(src))
             for stem, f in by_src[src].get(folder, []):
                 seen.setdefault(stem.lower(), f)
-        tex[path] = [[stem, dep.store.put(f)] for stem, f in sorted(seen.items())]
+        tex[tk] = [[stem, dep.store.put(f)] for stem, f in sorted(seen.items())]
     (v2 / 'customise_tex.json').write_text(json.dumps(tex, separators=(',', ':')))
     # stock look per display
     stock_cdi, stock_cmd = dep.result['stock_dbc']
@@ -1442,10 +1599,12 @@ def customise_extras(dep: 'Deployer', custom: List[dict], v2: Path, log: Callabl
         if f is None:
             continue
         try:
-            pn = dep.pane(sp, ai.Option('stock:' + sp[-24:], ['stock'], {sp: f}), did, dbc_source='stock')
+            pn = dep.pane(sp, ai.Option('stock:' + sp[-24:], ['stock'], {sp: f}), did, dbc_source='stock', stock_only=True)
         except Exception:
             pn = None
         if pn:
+            if not pn.get('camera'):
+                mvd._pane_cameras([pn])               # the same framing every other pane gets
             chunks.setdefault(did // 1000, {})[str(did)] = pn
             n += 1
     d = v2 / 'custom_stock'
@@ -1486,11 +1645,27 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
               equipment: Dict, log: Callable = print, edits: Optional[dict] = None,
               cnames: Optional[Dict[int, str]] = None) -> dict:
     dep = Deployer(result, ix, out_root, choices, names, equipment, log)
+    global _SLOT_IX
+    _SLOT_IX = ix                                     # _skin_slots reads through ix's MetaCache
     assets = dep.assets()
     disp = display_entries(dep, edits, cnames or {})
     log(f"  displays: {sum(1 for e in disp if len(e['panes']) > 1):,} repoints, "
         f"{sum(1 for e in disp if e['compare']):,} with creature-level edits")
     assets += disp
+    # I-390: a display no in-game creature can show needs no decision (picker drops it from Undecided).
+    # Only models some creature template uses are judged; a model with none may still be a spell or
+    # doodad asset.
+    try:
+        from lib.display_reach import reachable_displays
+        reach = reachable_displays(log)
+        for e in assets:
+            if e['tab'] == 'display':
+                e['ingame'] = e['display'] in reach
+            elif e['tab'] == 'creature' and e.get('displays_used'):
+                e['ingame'] = any(x in reach for m in (e['members'] or [e['path']]) for x in dep.displays_of(m))
+        log(f"  not in game: {sum(1 for e in assets if e.get('ingame') is False):,} entries leave Undecided")
+    except Exception as ex:                                  # never block a deploy on it
+        log(f'  in-game filter: skipped - {ex}')
     log(f'  assets: {len(assets):,} with >1 option, {dep.n_maps:,} panes')
     # the current option's pane of each mesh, for the texture tab's 3D view
     cur_pane: Dict[str, dict] = {}
@@ -1514,6 +1689,24 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     log(f'  bodies: {len(bd)} race/sex bodies for item fitting')
     (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
     cat = dep.catalog()
+    # a stock model that packs repoint displays OFF (to a model of their own - often an HD remaster
+    # under a new name: skeletonmage -> maldraxxusskeleton) has a real model-level choice even though
+    # no pack ships a file of its name: give it a card in the chooser, not a catalogue row
+    rep_src = {d['panes'][0].get('model') for d in assets if d.get('tab') == 'display' and d.get('panes')
+               and 'stock' in d['panes'][0].get('sources', [])}
+    have = {e['path'] for e in assets}
+    moved = [e for e in cat if e.get('tab') == 'creature' and e['path'] in rep_src and e['path'] not in have]
+    if moved:
+        mset = {e['path'] for e in moved}
+        cat = [e for e in cat if e['path'] not in mset]
+        for e in moved:
+            e.pop('single', None)
+            e['repoint_source'] = True
+            e['used_ids'] = [x for x in dep.displays_of(e['path']) if dep.names.get(x)][:400]
+            e['displays_used'] = len(e['used_ids'])
+        assets += moved
+        (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
+        log(f'  repoint sources: {len(moved):,} stock models packs move displays off join the chooser')
     log(f'  catalogue: {len(cat):,} more models with a single option (All view)')
     try:
         publish_retail_index(out_root, assets + cat, log, dep.displays_of, dep)
@@ -1538,7 +1731,7 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     (v2 / 'catalog.json').write_text(json.dumps({'stock': cat, 'retail': ronly}, separators=(',', ':')))
     custom = customise_entries(dep, assets + cat)   # every used display, not only models with choices
     (v2 / 'customise.json').write_text(json.dumps({'displays': custom}, separators=(',', ':')))
-    customise_extras(dep, custom, v2, log)
+    customise_extras(dep, custom, v2, log, [e for e in assets if e.get('tab') == 'display'])
     log(f'  customise: {len(custom):,} named displays')
     # textures: a light index for the list (filters/search) + detail shards loaded on demand
     CH = 400
@@ -1556,4 +1749,8 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     (v2 / 'textures_index.json').write_text(json.dumps(index, separators=(',', ':')))
     dep.save_cache()
     log(f'  panes: {dep.reused:,} reused from the last deploy, {dep.n_maps:,} rebuilt')
+    # the per-file metadata cache (texture tables, BLP thumbnails) is only saved by an index BUILD;
+    # a deploy reusing the index added to it and threw it away - 124 s of thumbnail decodes and 85 s of
+    # .m2 reads every run (profile 2026-10-08)
+    dep.ix._meta_cache().save()
     return {'assets': len(assets), 'textures': len(textures), 'maps': len(dep.used)}

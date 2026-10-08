@@ -84,22 +84,22 @@
   .info { padding: 8px 10px; display: grid; gap: 4px; border-top: 1px solid var(--line); }
   .info .h { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .info .stats { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
-  .use { justify-self: start; }
+  .use, .usecust { justify-self: start; }
   .empty { color: var(--muted); padding: 30px; }
   .help { color: var(--muted); font-size: 12px; padding: 0 14px 8px; }
   .prov summary { cursor: pointer; font-size: 12px; color: var(--muted); }
   .pb { font-size: 11px; display: grid; gap: 3px; max-height: 300px; overflow: auto; }
-  .cust { display: grid; grid-template-columns: minmax(240px, 440px) minmax(240px, 440px) 1fr; gap: 12px; padding: 10px; overflow: auto; }
-  .cust .ph { font-size: 12px; padding: 6px 8px; color: var(--muted); border-bottom: 1px solid var(--line); }
-  .cust .ph b { color: var(--text); }
-  .cust .skinrow { display: grid; grid-template-columns: 120px 1fr 48px; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
-  .cust .skinrow canvas { width: 48px; height: 48px; aspect-ratio: auto; }
-  .cust .was { font-size: 11px; color: var(--muted); grid-column: 2 / 4; margin-top: -4px; }
-  @media (max-width: 900px) { .cust { grid-template-columns: 1fr; } }
-  .cust .ctl { display: grid; gap: 8px; align-content: start; }
-  .cust label { display: grid; grid-template-columns: 120px 1fr; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
-  .cust select, .cust input { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; font: inherit; }
-  .cust h3 { margin: 6px 0 0; font-size: 13px; }
+  .custctl .ph { font-size: 12px; padding: 6px 8px; color: var(--muted); border-bottom: 1px solid var(--line); }
+  .custctl .ph b { color: var(--text); }
+  .custctl .skinrow { display: grid; grid-template-columns: 120px 1fr 48px; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+  .custctl .skinrow canvas { width: 48px; height: 48px; aspect-ratio: auto; }
+  .custctl .was { font-size: 11px; color: var(--muted); margin: -4px 0 0 128px; }
+  .custctl .note { font-size: 12px; color: var(--muted); }
+  .custctl .ctl { display: grid; gap: 8px; align-content: start; }
+  @media (max-width: 760px) { .pane.cs-ref { order: 9; } }      /* phones: preview, controls, then the original */
+  .custctl label { display: grid; grid-template-columns: 120px 1fr; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+  .custctl select, .custctl input { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; font: inherit; }
+  .custctl h3 { margin: 6px 0 0; font-size: 13px; }
   @media (max-width: 760px) { .cust { grid-template-columns: 1fr; } }
   /* phones: one scrolling page - the list (its own scroll), then the model, cards one per row */
   @media (max-width: 760px) {
@@ -139,7 +139,7 @@
         <button data-tab="wmo">WMOs</button>
         <button data-tab="display">Displays</button>
         <button data-tab="texture">Textures</button>
-        <button data-tab="custom">Customise</button>
+        <button data-tab="custom">Display editor</button>
     </div>
     <div class="drawer">
     <header>
@@ -203,17 +203,18 @@ let tab = 'creature', filter = 'todo', search = '', cur = null, view = [], texMo
 const texChunks = {};
 
 const FILTERS = {
-  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['wish', 'Shortlist']],
+  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['wish', 'Shortlist'], ['remaster', 'Remasters']],
   texture: [['decide', 'Needs decision'], ['review', 'Review'], ['all', 'All']],
-  custom: [['all', 'All'], ['done', 'Customised']],
+  custom: [['all', 'All'], ['done', 'Edited']],
 };
 const HELP = {
   display: 'Display-level 3D choice: packs that point this display at a DIFFERENT model. Each option is drawn with that ' +
            'pack\'s own display rows. Compare panes show our own creature-level edits (read-only).',
   asset: 'Layer 1 — pick the 3D asset (mesh). Packs shipping byte-identical files are one option. ' +
          'Each option is shown wearing its default textures (the largest compatible); pick textures in the Textures tab.',
-  custom: 'Layer 3 — customise one display: geosets (creatures), hair / facial hair (characters), or an outfit ' +
-          '(retail item ids, built by the F-198 wardrobe with a new bake). The preview uses the mesh\'s current pane.',
+  custom: 'Display editor — edit one display: geosets and skins (creatures), hair / facial hair (characters), or an outfit ' +
+          '(retail item ids, built by the F-198 wardrobe with a new bake). It starts from the option that ships; saving makes our own ' +
+          'option on the display, activated on its Displays page.',
   texture: 'Layer 2 — pick the texture. Default = the largest file among options painted for the chosen mesh. ' +
            '"Needs decision": no option fits every mesh using it, or the largest one is painted for another mesh.',
 };
@@ -238,7 +239,8 @@ function modelOptions(e) {
   const stockPane = e.panes.find(p => p.sources.includes('stock')) || e.panes[0];
   const packs = new Set();
   e.panes.forEach(p => p.sources.forEach(x => packs.add(x)));
-  ds.forEach(d => d.panes.slice(1).forEach(p => p.sources.forEach(x => packs.add(x))));
+  // remaster panes are OFFERS to displays a pack did not move: never a pack's model-level move
+  ds.forEach(d => d.panes.slice(1).filter(p => !p.remaster).forEach(p => p.sources.forEach(x => packs.add(x))));
   packs.delete('stock'); packs.delete('retail');
   const groups = new Map();
   const add = (src, file, reps) => {
@@ -258,7 +260,7 @@ function modelOptions(e) {
   [...packs].sort().forEach(x => {
     const file = e.panes.find(p => p.sources.includes(x)) || stockPane;
     let reps = {};
-    ds.forEach(d => { const rp = d.panes.slice(1).find(p => p.sources.includes(x)); if (rp) reps[d.display] = rp; });
+    ds.forEach(d => { const rp = d.panes.slice(1).find(p => p.sources.includes(x) && !p.remaster); if (rp) reps[d.display] = rp; });
     // a clean swap only: ALL used displays, all to ONE model. Several targets (felbat: 23 to
     // giantvampirebat, 1 to the taxi bat) is not a model swap - decided per display.
     const targets = new Set(Object.values(reps).map(r => r.model));
@@ -309,8 +311,13 @@ const F220 = 'Fused rider/driver: the rider is part of the mount model. F-220 re
 // a creature/character model no creature shows (no display, or only unused displays)
 const unusedModel = (e) => (e.tab === 'creature' || e.tab === 'character') && !e.retailOnly &&
   !(e.displays_used > 0) && !repEntries(e.path).length;
-const nOptions = (e) => (e.tab === 'display' || e.tab === 'item' ? e.panes.length : modelOptions(e).length) +
-  (retailIdx.models && retailIdx.models[e.path] ? 1 : 0);
+// I-390: creatures reference it, but nothing can put it in game (no spawn, summon, mount, script...)
+const notInGame = (e) => e.ingame === false &&
+  (e.tab === 'display' || !repEntries(e.path).some(d => d.ingame !== false));
+const nOptions = (e) => (e.tab === 'display' ? Math.max(1, e.panes.length) + (choices.custom[String(e.display)] ? 1 : 0)
+  : e.tab === 'item' ? e.panes.length : modelOptions(e).length) +
+  (retailIdx.models && retailIdx.models[e.path] ? 1 : 0) +
+  (e.tab === 'creature' && namedFor(e.path) ? namedFor(e.path).targets.length : 0);
 // a pack-only model reached only by per-display repoints (tiger2: packs move 15 of tiger.m2's 58
 // displays onto it): each Displays-tab option already carries its pack's file, so the file is
 // chosen there too - nothing to decide at model level
@@ -350,7 +357,115 @@ function optionsOf(entry) {
   // the live Retail remaster pane is an option too: record it, or every pick saved next to it
   // reads as "new option: retail" on the next load
   if (entry.tab !== 'display' && retailIdx.models && retailIdx.models[entry.path]) o.retail = ['retail'];
+  if (entry.tab === 'display' && choices.custom[String(entry.display)]) o.custom = ['custom'];
+  // a display's retail remasters found by name (picked per display, see retailNamedPanel)
+  if (entry.tab === 'display' && entry.panes && entry.panes.length) {
+    const nm = namedFor(entry.panes[0].model);
+    if (nm) nm.targets.forEach(t => { o[t[0]] = ['retail']; });
+  }
   return o;
+}
+// ---- retail remasters found BY NAME (data/v2/retail.json 'named') ---------------------------
+// Retail made <dir>2/<name>2.m2 but never moved the classic displays onto it, so there is no
+// retail skin for our display ids: each display gets its target model + a retail skin set here.
+// Saved as a display pick { option: <retail path>, sources: ['retail'], fdid, skins, remaster_of }.
+const namedFor = (path) => (retailIdx.named || {})[path] || null;
+const isRetailPick = (pk) => pk && (pk.sources || [])[0] === 'retail';
+// list chip: the model has a retail remaster (model-level) or remasters by name (n of its displays use one)
+function remasterChip(path) {
+  if ((retailIdx.models || {})[path]) return '<span class="chip" title="Retail moved this model\'s displays to a newer model: pick Retail on the model card">retail remaster</span>';
+  const nm = namedFor(path);
+  if (!nm) return '';
+  const used = nm.displays.filter(r => isRetailPick(choices.display[String(r[0])])).length;
+  const t = nm.targets.map(x => x[0].split('/').pop()).join(', ');
+  return `<span class="chip${used ? ' ok' : ''}" title="Retail remaster by name (${esc(t)}), chosen per display on this model's page">remaster by name${used ? ` · ${used}/${nm.displays.length}` : ''}</span>`;
+}
+async function saveRetailDisplays(path, dids, target) {
+  const status = $('save');
+  status.className = ''; status.textContent = `saving ${dids.length} display choices…`;
+  try {
+    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+    const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
+                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
+                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    const at = new Date().toISOString(), nm = namedFor(path);
+    dids.forEach(did => {
+      const k = String(did);
+      if (!target) { if (isRetailPick(merged.display[k])) delete merged.display[k]; return; }
+      const d = assets.find(a => a.tab === 'display' && a.display === +did);
+      const options = d ? optionsOf(d) : Object.fromEntries(nm.targets.map(t => [t[0], ['retail']]));
+      merged.display[k] = { option: target.path, sources: ['retail'], fdid: target.fdid, skins: target.skins,
+                            remaster_of: path, options, at };
+    });
+    const headers = { 'Content-Type': 'application/json' };
+    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
+    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
+    choices = merged;
+    status.className = 'ok'; status.textContent = target ? `saved: ${dids.length} display${dids.length > 1 ? 's' : ''} → ${target.path.split('/').pop()}`
+      : `cleared retail on ${dids.length} display${dids.length > 1 ? 's' : ''}`;
+  } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
+  render(); openItem(cur);
+}
+// the panel: target + skin set (live pane) and the stock model's displays to put it on.
+// `only` = a single display (the Displays tab)
+function retailNamedPanel(path, only, scale) {
+  const nm = namedFor(path);
+  if (!nm || !nm.targets.length) return;
+  const animName = (id) => animNames[id] || `anim ${id}`;
+  const rows = only ? nm.displays.filter(r => r[0] === only).concat(nm.displays.some(r => r[0] === only) ? [] : [[only, [], []]]) : nm.displays;
+  const pickOfD = (did) => isRetailPick(choices.display[String(did)]) ? choices.display[String(did)] : null;
+  // start on what the first picked display uses, else the exact <name>2 model and its commonest skins
+  const first = rows.map(r => pickOfD(r[0])).find(Boolean);
+  let ti = Math.max(0, first ? nm.targets.findIndex(t => t[0] === first.option) : 0);
+  let si = 0;
+  const chk = new Set(only ? [only] : []);
+  if (first) { const s = nm.targets[ti][3].findIndex(x => x[0].join() === (first.skins || []).join()); si = Math.max(0, s); }
+  const skinName = (fd) => fd ? String(((retailIdx.names || {})[String(fd)]) || fd).split('/').pop().replace(/\.blp$/, '') : '';
+  const html = () => {
+    const t = nm.targets[ti], sets = t[3], set = sets[si] ? sets[si][0] : [0, 0, 0];
+    const prm = new URLSearchParams({ src: 'v2', model: t[0], retail: t[1], build: retailIdx.build, skins: set.join(','), scale: scale || 1, pv: PANE_V });
+    const missing = nm.stock_anims.filter(a => !t[4].includes(a)), added = t[4].filter(a => !nm.stock_anims.includes(a));
+    return `<iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster by name"></iframe>
+      <div class="info"><div class="h"><b>Retail remaster (by name)</b><span class="chip">live from wago.tools</span><span class="chip warn" title="Retail never moved these displays onto the new model, so no retail skin maps to them: pick the model and a retail skin set per display">chosen per display</span></div>
+      <div class="stats" data-live>loading…</div>
+      <div class="stats">model <select data-rn="t">${nm.targets.map((x, i) => `<option value="${i}"${i === ti ? ' selected' : ''}>${esc(x[0].split('/').pop())} · ${x[2]} retail display${x[2] === 1 ? '' : 's'}</option>`).join('')}</select>
+        skins <select data-rn="s">${sets.length ? sets.map((x, i) => `<option value="${i}"${i === si ? ' selected' : ''}>${esc(x[0].filter(Boolean).map(skinName).join(' + '))} · ${x[1]} display${x[1] === 1 ? '' : 's'}</option>`).join('') : '<option>none (the model textures itself)</option>'}</select></div>
+      <div class="stats">${missing.length ? `<span class="chip bad" title="Animations the classic model has and this one lacks: creatures using them play nothing">missing ${missing.length}: ${esc(missing.map(animName).join(', '))}</span>` : '<span class="chip ok">no classic animation missing</span>'}
+        ${added.length ? ` <span class="chip" title="${esc(added.map(animName).join(', '))}">+${added.length} new animations</span>` : ''}</div>
+      <div class="stats">FileDataID ${t[1]}. Picked, it ships converted the WarcraftXL way as a new model (CreatureModelData = retail's id), the display keeps its scale; ${esc(path.split('/').pop())} itself is unchanged.</div>
+      <div style="max-height:240px;overflow:auto;border-top:1px solid var(--line);margin-top:4px">${rows.map(r => {
+        const pk = pickOfD(r[0]);
+        const now = pk ? `<span class="chip ok">retail → ${esc(String(pk.option).split('/').pop())}${(pk.skins || []).some(Boolean) ? ' · ' + esc(pk.skins.filter(Boolean).map(skinName).join(' + ')) : ''}</span>`
+          : `<span class="chip">${esc(r[2].filter(Boolean).join(', ') || 'stock')}</span>`;
+        return `<label class="stats" style="display:flex;gap:6px;align-items:center"><input type="checkbox" data-rd="${r[0]}"${chk.has(r[0]) ? ' checked' : ''}>
+          <b style="white-space:nowrap">${r[0]}</b><span style="flex:1;min-width:0">${esc((r[1] || []).join(', '))}</span>${now}</label>`;
+      }).join('')}</div>
+      <button class="use" data-rn="apply">${only ? 'Use this for display ' + only : 'Use on checked displays'}</button>
+      ${rows.some(r => pickOfD(r[0])) ? `<button class="usecust" data-rn="clear">Clear retail on checked</button>` : ''}
+      ${only ? '' : '<button class="usecust" data-rn="all">check all</button>'}</div>`;
+  };
+  const box = document.createElement('div');
+  box.className = 'pane';
+  const wire = () => {
+    box.innerHTML = html();
+    box.querySelector('[data-rn="t"]').onchange = (ev) => { ti = +ev.target.value; si = 0; wire(); };
+    const ss = box.querySelector('[data-rn="s"]');
+    if (ss) ss.onchange = (ev) => { si = +ev.target.value; wire(); };
+    box.querySelectorAll('[data-rd]').forEach(x => x.onchange = () => { x.checked ? chk.add(+x.dataset.rd) : chk.delete(+x.dataset.rd); });
+    const checked = () => [...chk];
+    box.querySelector('[data-rn="apply"]').onclick = () => {
+      const ds = checked(), t = nm.targets[ti];
+      if (!ds.length) { $('save').className = 'err'; $('save').textContent = 'check the displays to put it on'; return; }
+      saveRetailDisplays(path, ds, { path: t[0], fdid: t[1], skins: t[3][si] ? t[3][si][0] : [0, 0, 0] });
+    };
+    const cl = box.querySelector('[data-rn="clear"]');
+    if (cl) cl.onclick = () => { const ds = checked(); if (ds.length) saveRetailDisplays(path, ds, null); };
+    const al = box.querySelector('[data-rn="all"]');
+    if (al) al.onclick = () => box.querySelectorAll('[data-rd]').forEach(x => { x.checked = true; chk.add(+x.dataset.rd); });
+  };
+  wire();
+  $('panes').appendChild(box);
 }
 function reviewReason(kind, key, entry) {
   const c = choices[kind][key];
@@ -363,7 +478,7 @@ function reviewReason(kind, key, entry) {
   if (gone.length) return 'an option was removed';
   return null;
 }
-async function save(kind, key, entry, optionKey, extra = {}) {
+async function save(kind, key, entry, optionKey, extra = {}, nav = true) {
   const status = $('save');
   status.className = ''; status.textContent = 'saving…';
   const pick = { option: optionKey, sources: optionsOf(entry)[optionKey], options: optionsOf(entry), at: new Date().toISOString(), ...extra };
@@ -380,7 +495,8 @@ async function save(kind, key, entry, optionKey, extra = {}) {
     if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
     choices = merged;
     status.className = 'ok'; status.textContent = `saved → ${label(pick.sources)}`;
-  } catch (e) { status.className = 'err'; status.textContent = 'save failed: ' + e.message; return; }
+  } catch (e) { status.className = 'err'; status.textContent = 'save failed: ' + e.message; return false; }
+  if (!nav) return true;
   try {
     const pos = view.indexOf(cur);
     render();
@@ -391,7 +507,7 @@ async function save(kind, key, entry, optionKey, extra = {}) {
 // ---- list -------------------------------------------------------------------------------
 // Undecided / Review: real choices only. All / Shortlist: also every single-source model and
 // the retail-only ones (live panes), for shopping new content.
-const shopping = () => filter === 'all' || filter === 'wish';
+const shopping = () => filter === 'all' || filter === 'wish' || filter === 'remaster';
 function pool() { return shopping() && catalog ? assets.concat(catalog) : assets; }
 function ensureCatalog() {
   if (catalog || catalogLoading) return;
@@ -471,13 +587,15 @@ function assetMatches(e) {
       (e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)))) return false;   // decided per display / nothing to decide
   if (filter === 'todo' && e.tab === 'display' && modelDecides(e)) return false;   // the model pick decides it
   if (filter === 'todo' && unusedModel(e)) return false;                            // nothing in game uses it yet
+  if (filter === 'todo' && notInGame(e)) return false;                              // its creatures never appear
   if (filter === 'todo' && perDisplayTarget(e)) return false;                       // its file is picked per display
   if (filter === 'todo' && (c || viaModel(e))) return false;   // Undecided = never picked (here or via the model); changed picks are in Review
   if (filter === 'review' && !rv) return false;
   if (filter === 'wish' && !(choices.wish || {})[e.path]) return false;
+  if (filter === 'remaster' && !(e.tab === 'creature' && !e.retailOnly && (namedFor(e.path) || (retailIdx.models || {})[e.path]))) return false;
   if (search) {
     // every word must match the path, display, names or keywords (a word also matches its synonyms)
-    const hay = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + (e.kw || '')).toLowerCase();
+    const hay = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + (e.kw || '') + ' ' + dispModels(e)).toLowerCase();
     if (!searchWords().every(alts => alts.some(w => hay.includes(w)))) return false;
   }
   return true;
@@ -513,8 +631,11 @@ function searchWords() {
   return _sw.words;
 }
 // 0 = every word in the path or a name, 1 = needed the keywords
+// a Displays-tab entry is found by every model file its options use (skeletonmage.m2 finds the
+// displays a pack moves off it, maldraxxusskeleton.m2 the ones it moves onto it)
+const dispModels = (e) => e.tab === 'display' ? [...(e.panes || []), ...(e.compare || [])].map(p => p.model || '').join(' ') : '';
 function searchRank(e) {
-  const strong = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ')).toLowerCase();
+  const strong = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + dispModels(e)).toLowerCase();
   return searchWords().every(alts => alts.some(w => strong.includes(w))) ? 0 : 1;
 }
 function texMatches(t) {
@@ -538,10 +659,10 @@ function render() {
       (!search || String(c.display).includes(search) || c.names.some(n => n.toLowerCase().includes(search)) || c.path.includes(search)))
       .sort((x, y) => crank(x) - crank(y) || x.display - y.display);   // 13 -> display 13 first, then 130..139, ...
     if (!search && filter !== 'done') view.sort((x, y) => x.display - y.display);
-    $('progress').textContent = `${customList.length.toLocaleString()} displays · ${Object.keys(choices.custom).length.toLocaleString()} customised · ${view.length.toLocaleString()} shown`;
+    $('progress').textContent = `${customList.length.toLocaleString()} displays · ${Object.keys(choices.custom).length.toLocaleString()} edited · ${view.length.toLocaleString()} shown`;
     $('listtoggle').textContent = 'List · ' + view.length.toLocaleString();
     $('list').innerHTML = view.slice(0, 400).map(c => `<div class="q${cur === c ? ' cur' : ''}" data-d="${c.display}">
-      <div class="t"><b>${c.display}</b> ${esc(c.names[0] || '')}${choices.custom[c.display] ? '<span class="chip ok">customised</span>' : ''}</div>
+      <div class="t"><b>${c.display}</b> ${esc(c.names[0] || '')}${choices.custom[c.display] ? '<span class="chip ok">edited</span>' : ''}</div>
       <div class="n">${esc(c.path)}</div></div>`).join('') + (view.length > 400 ? `<div class="more">${(view.length - 400).toLocaleString()} more — refine the search</div>` : '');
     return;
   }
@@ -576,10 +697,12 @@ function render() {
         : viaModel(e) ? `<span class="chip ok">✓ via model pick</span>`
         : e.tab === 'display' && modelDecides(e) ? `<span class="chip">decided by the model pick</span>`
         : unusedModel(e) ? '<span class="chip">not used by any creature</span>'
+        : notInGame(e) ? '<span class="chip" title="Creature templates use it, but none is spawned, summoned, ridden or scripted, so nothing shows it in game">not in game</span>'
         : perDisplayTarget(e) ? '<span class="chip" title="Only per-display repoints reach this model; each display option in the Displays tab ships its pack\'s file">chosen per display</span>'
         : e.retailOnly ? '<span class="chip">retail only</span>'
         : e.single ? `<span class="chip">${esc(label(e.panes[0].sources))} only</span>` : '') +
         ((choices.wish || {})[e.path] ? '<span class="chip ok">★</span>' : '') +
+        (e.tab === 'creature' && !e.retailOnly ? remasterChip(e.path) : '') +
         (e.tab === 'creature' && isFusedRider(e.path) ? `<span class="chip warn" title="${F220}">fused rider · F-220</span>` : '') +
         (e.tab !== 'display' && e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)
           ? `<span class="chip warn" title="A pack moves this model's displays in more than a simple swap (only some of them, or to several models); those are decided one by one in the Displays tab">split · ${e._partial.size} display${e._partial.size > 1 ? 's' : ''} per display</span>` : '');
@@ -606,6 +729,7 @@ function paneUrl(p, extra = {}) {
   if (hy) prm.set('h', hy);
   if (p.tex) prm.set('tex', Object.entries(p.tex).map(([k, v]) => k + ':' + v).join(','));
   if (p.mesh) prm.set('mesh', p.mesh.join(','));
+  if (p.mesh && !String(p.model || '').startsWith('character/')) prm.set('g0all', '1');   // creature: group 0 always drawn
   if (p.scalp) prm.set('scalp', '1');
   if (p.geoall) prm.set('geoall', p.geoall.join(','));
   let items = p.items ? [...p.items] : [], ovr = extra.ovr ? { ...extra.ovr } : null;
@@ -626,7 +750,7 @@ function paneUrl(p, extra = {}) {
   prm.set('pv', PANE_V);
   return 'pane.html?' + prm.toString();
 }
-// ---- Sources panel (provenance), data/v2/prov/<id>.json fetched when opened -----------------
+// ---- Sources panel (provenance), data/prov/<id>.json fetched when opened -----------------
 const provBox = (p) => p.prov ? `<details class="prov" data-prov="${p.prov}"><summary>Sources</summary><div class="pb">loading…</div></details>` : '';
 const ownChip = (o) => `<span class="chip${o === 'missing' ? ' bad' : ''}">${esc(o)}</span>`;
 const fileRows = (files) => files.map(([path, o]) => `<div class="row" style="flex-wrap:nowrap;gap:6px">${ownChip(o)}<span style="overflow-wrap:anywhere;font-family:ui-monospace,monospace">${esc(path)}</span></div>`).join('');
@@ -646,7 +770,7 @@ document.addEventListener('toggle', async (ev) => {
   if (!d.classList || !d.classList.contains('prov') || !d.open || d.dataset.loaded) return;
   d.dataset.loaded = '1';
   const box = d.querySelector('.pb');
-  try { box.innerHTML = renderProv(await fetch(`data/v2/prov/${d.dataset.prov}.json`).then(r => r.json())); }
+  try { box.innerHTML = renderProv(await fetch(`data/prov/${d.dataset.prov}.json`).then(r => r.json())); }
   catch (err) { box.textContent = 'could not load sources: ' + err.message; }
 }, true);
 
@@ -710,7 +834,7 @@ function openAsset(e) {
   $('title').innerHTML = esc(e.id) + ` <button id="wish" class="chip">${(choices.wish || {})[e.path] ? '★ shortlisted' : '☆ shortlist'}</button>`;
   $('wish').onclick = () => saveWish(e, !(choices.wish || {})[e.path]);
   if (e.display && customList.some(x => x.display === e.display)) {
-    $('title').insertAdjacentHTML('beforeend', ` <button id="custgo" class="chip" title="Geosets, hair and outfit for this display (Customise layer)">customise display ${e.display}</button>`);
+    $('title').insertAdjacentHTML('beforeend', ` <button id="custgo" class="chip" title="Geosets, skins, hair and outfit for this display (Display editor)">edit display ${e.display}</button>`);
     $('custgo').onclick = () => openCustom_(e.display);
   }
   $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
@@ -791,11 +915,18 @@ function openAsset(e) {
         Ship <select data-var="${k}">${vs.map((v, i) => `<option value="${i}"${(c ? v.key === c.option : i === g.def) ? ' selected' : ''}>${esc(label(v.sources))}${v.file.option === e.current ? ' (current)' : ''}</option>`).join('')}</select></div>` : ''}
       ${repHtml}
       ${provBox(p)}
-      ${e.single ? '' : `<button class="use" data-k="${k}">${chosen ? (c ? 'Chosen' : 'Chosen via model · override here') : e.tab === 'display' && implied ? 'Override for this display' : 'Use this'}</button>`}</div></div>`;
+      ${p.remaster ? `<div class="stats"><span class="chip warn" title="The pack moved most of ${esc(p.remaster.of)}'s displays to this model (a remaster under a new name) but not this one; offered here with the skins of a moved sibling">community remaster</span> ${esc(label(p.sources))} moved ${p.remaster.moved} other displays of ${esc(String(p.remaster.of).split('/').pop())} here</div>` : ''}
+      ${e.single ? '' : `<button class="use" data-k="${k}">${chosen ? (c ? 'Chosen' : 'Chosen via model · override here') : e.tab === 'display' && implied ? 'Override for this display' : 'Use this'}</button>`}
+      ${e.tab === 'display' && p.cust ? `<button class="usecust" data-k="${k}" title="Tune display ${e.display}'s geosets and skins on this model; saving the customisation also picks this model">Edit</button>` : ''}</div></div>`;
   }).join('') + (e.compare || []).map(p => `<div class="pane"><iframe src="${paneUrl(p)}" loading="lazy"></iframe>
       <div class="info"><div class="h"><b>creature ${p.compare.creature} → display ${p.compare.display}</b><span class="chip">creature-level edit · compare only</span></div>
       <div class="stats">${esc(p.compare.name)} now uses display ${p.compare.display} instead of this display (${esc((p.compare.provenance || []).join(', ') || 'not in any zpak SQL')})</div>
       ${provBox(p)}</div></div>`).join('');
+  $('panes').querySelectorAll('.usecust').forEach(b => b.onclick = () => {
+    const g = groups[+b.dataset.k], p = g.file, v = viaOf(p, label(g.sources));
+    if (v) v.pick = { entry: e, key: g.key };          // saved together with the customisation
+    openCustom_(e.display, true, v);
+  });
   $('panes').querySelectorAll('.use').forEach(b => b.onclick = () => {
     const g0 = groups[+b.dataset.k], vsel = $('panes').querySelector(`select[data-var="${b.dataset.k}"]`);
     const g = g0.variants ? g0.variants[vsel ? +vsel.value : g0.def] : g0;
@@ -841,6 +972,49 @@ function openAsset(e) {
     render();
     return;
   }
+  // our customisation of this display: its own option, built on the panel it was edited from
+  const cu = e.tab === 'display' ? choices.custom[String(e.display)] : null;
+  if (cu) {
+    const cb = cu.base || {};
+    const bp = e.panes.find(x => x.option === cb.option && (cb.sources || []).some(z => x.sources.includes(z)))
+      || e.panes.find(x => x.model === (cb.model || cu.path)) || e.panes[0];
+    const ent = customList.find(x => x.display === e.display) || {};
+    const ctx = { display: e.display, char: String(bp.model).startsWith('character/') ? (bp.char || ent.char || null) : null,
+                  cgd: cb.cgd || ent.cgd || [0, 0, 0, 0, 0, 0, 0, 0], slots: cb.slots || ent.slots || [], skins: cb.skins || ent.skins || [],
+                  tex_key: cb.tex_key || ent.tex_key, path: bp.model };
+    const chosenC = c && c.option === 'custom';
+    const drawC = () => {
+      const look = customLook(ctx, cu, bp);
+      const f = $('panes').querySelector('#cu-pf');
+      if (f) f.src = paneUrl(look.pane, look.ovr ? { ovr: look.ovr } : {});
+    };
+    const edits = [cu.geosets && cu.geosets.some(Boolean) ? 'geosets ' + cu.geosets.join(',') : '', cu.skins ? 'skins ' + cu.skins.filter(Boolean).join(', ') : '',
+                   cu.hair_style !== undefined ? `hair ${cu.hair_style}` : '', cu.facial_hair !== undefined ? `facial ${cu.facial_hair}` : '',
+                   cu.outfit ? 'outfit ' + Object.keys(cu.outfit).length + ' items' : ''].filter(Boolean).join(' · ');
+    $('panes').insertAdjacentHTML('beforeend', `<div class="pane${chosenC ? ' chosen' : ''}" data-opt="custom"><iframe id="cu-pf" title="Our edit"></iframe>
+      <div class="info"><div class="h"><b>Our edit</b><span class="chip ok">ours</span><span class="chip">based on ${esc(label(bp.sources))}</span></div>
+      <div class="stats">${esc(edits || 'no edits')}</div>
+      <div class="stats">${esc(bp.model)} · ships only while this display's pick is this panel</div>
+      <button class="use" id="cu-use">${chosenC ? 'Chosen' : 'Use this'}</button><button class="usecust" id="cu-edit">Edit</button></div></div>`);
+    $('cu-use').onclick = () => save('display', String(e.display), e, 'custom');
+    $('cu-edit').onclick = () => openCustom_(e.display, true, Object.assign(viaOf({ ...bp, cust: bp.cust || { groups: ent.groups || {}, slots: ctx.slots },
+      skin_names: ctx.skins, tex_key: ctx.tex_key }, label(bp.sources)) || {}, {}));
+    if ((ctx.slots || []).length && !custTex) loadCustTex().then(() => { if (cur === e) drawC(); }); else drawC();
+  }
+  // Displays tab: the retail remaster of the display's stock model, in this display's retail skins
+  // (view only - shipping retail is a model-level pick: it replaces the stock file for every display)
+  if (e.tab === 'display' && e.panes.length && retailIdx.models && retailIdx.models[e.panes[0].model]) {
+    const sm = e.panes[0].model, rf = retailIdx.models[sm], b0 = e.panes[0];
+    const prm = new URLSearchParams({ src: 'v2', model: sm, retail: rf, build: retailIdx.build,
+      cam: b0.camera ? [...b0.camera.target, b0.camera.dist].join(',') : '', scale: b0.scale || 1,
+      skins: ((retailIdx.skins || {})[String(e.display)] || [0, 0, 0]).join(','), pv: PANE_V });
+    $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
+      <div class="info"><div class="h"><b>Retail remaster</b><span class="chip">live from wago.tools</span><span class="chip">view only here</span></div>
+      <div class="stats" data-live>loading…</div>
+      <div class="stats">${esc(((retailIdx.names || {})[String(rf)] || '').split('/').pop())} · FileDataID ${rf}. To ship it, pick Retail on the model card for ${esc(sm.split('/').pop())}: it replaces that file for every display.</div></div></div>`);
+  }
+  if (e.tab === 'creature' && namedFor(e.path)) retailNamedPanel(e.path);
+  if (e.tab === 'display' && e.panes.length && namedFor(e.panes[0].model)) retailNamedPanel(e.panes[0].model, e.display, e.panes[0].scale);
   const rfd = retailIdx.models && retailIdx.models[e.path];
   if ((e.tab === 'creature' || e.tab === 'object') && rfd && !e.panes.some(p => p.sources.includes('retail'))) {
     const base = e.panes[0];
@@ -913,7 +1087,7 @@ function fitPanes() {
   });
 }
 let _fitT = null;
-new ResizeObserver(() => { clearTimeout(_fitT); _fitT = setTimeout(() => { if (cur && !(cur.display !== undefined && cur.groups)) fitPanes(); }, 120); }).observe($('panes'));
+new ResizeObserver(() => { clearTimeout(_fitT); _fitT = setTimeout(() => { if (cur) fitPanes(); }, 120); }).observe($('panes'));
 async function saveFit(path, fit) {
   const status = $('save');
   status.className = ''; status.textContent = 'saving fit…';
@@ -998,9 +1172,41 @@ function loadCustStock(did) {
   return custStock[k].then(d => d[String(did)] || null);
 }
 const casFid = (cas) => 900000000 + parseInt(cas.slice(0, 7), 16) % 99000000;   // the deploy's alloc() ids
+// The customised look of a display: ctx = the display's base facts (char, cgd, slots, skins, tex_key),
+// sel = the edits (geosets / skins / hair_style / facial_hair), base = the pane it builds on.
+// Used by the Customise preview and by the Displays tab's "Our customisation" panel alike.
+function customLook(ctx, sel, base) {
+  const p = { ...base, display: ctx.display };
+  if (!ctx.char && String(base.model || '').startsWith('character/')) return { pane: p, ovr: null };   // keep its own geosets
+  if (ctx.char) {
+    const m = (base.mesh || new Array(20).fill(1)).slice();
+    const hs = sel.hair_style ?? ctx.char.hair_style, fh = sel.facial_hair ?? ctx.char.facial_hair;
+    if (ctx.char.hair_geo[hs] !== undefined) m[0] = ctx.char.hair_geo[hs];
+    const f = ctx.char.facial_geo[fh];
+    if (f) { m[1] = f[0]; m[3] = f[1]; m[2] = f[2]; }
+    p.mesh = m;
+    return { pane: p, ovr: null };
+  }
+  const g = (sel.geosets || ctx.cgd || []).slice(0, 8);
+  // all-zero geoset data = no filtering: the client draws every geoset (gnoll2melee, F-219)
+  if (g.some(Boolean)) p.mesh = [0, ...g]; else delete p.mesh;
+  let ovr = null;
+  const tex = (custTex || {})[ctx.tex_key || ctx.path] || [];
+  if ((ctx.slots || []).length && sel.skins && tex.length) {
+    const sk = (p.skins || [0, 0, 0]).slice();
+    ovr = {};
+    sel.skins.forEach((stem, k) => {
+      if (String(stem || '').toLowerCase() === String((ctx.skins || [])[k] || '').toLowerCase()) return;   // unchanged: the pane's own
+      const hit = tex.find(([n]) => n.toLowerCase() === String(stem).toLowerCase());
+      if (hit && ctx.slots.includes(k)) { sk[k] = casFid(hit[1]); ovr['fdid/' + sk[k]] = hit[1]; }
+    });
+    p.skins = sk;
+  }
+  return { pane: p, ovr };
+}
 function openCustom(c) {
   cur = c;
-  const base = meshPaneOf(c.path);
+  const base = c.base || meshPaneOf(c.path);
   if (!base && !catalog) {                           // load the catalogue once, then draw the preview
     ensureCatalog();
     if (catalogLoading) catalogLoading.then(() => { if (cur === c) openCustom(c); });
@@ -1008,10 +1214,12 @@ function openCustom(c) {
   const saved = choices.custom[c.display] || {};
   $('title').textContent = `Display ${c.display}`;
   $('subtitle').textContent = [c.names.join(', '), c.path, base && base.display && base.display !== c.display ? `preview textures from display ${base.display}` : ''].filter(Boolean).join(' · ');
-  const groupSel = (g, val) => `<label>Group ${g}<select data-g="${g}"><option value="0"${val === 0 ? ' selected' : ''}>hidden (0)</option>` +
+  const groupSel = (g, val) => `<label>Group ${g}<select data-g="${g}"><option value="0"${val === 0 ? ' selected' : ''}>0 (default)</option>` +
     (c.groups[g] || []).filter(v => v).map(v => `<option value="${v}"${v === val ? ' selected' : ''}>${g * 100 + v}</option>`).join('') + '</select></label>';
   let ctl = '';
-  if (c.char) {
+  if (!c.char && String(c.path || '').startsWith('character/')) {
+    ctl += '<div class="note">This option is a character model with no bake row to edit here (hair and outfit need its CreatureDisplayInfoExtra).</div>';
+  } else if (c.char) {
     const hs = saved.hair_style ?? c.char.hair_style, fh = saved.facial_hair ?? c.char.facial_hair;
     ctl += `<h3>Look (no new bake needed)</h3>
       <label>Hair style<select id="cs-hair">${c.char.hair_options.map(v => `<option${v === hs ? ' selected' : ''}>${v}</option>`).join('')}</select></label>
@@ -1022,7 +1230,7 @@ function openCustom(c) {
     const gs = saved.geosets || c.cgd;
     ctl += '<h3>Geosets (CreatureDisplayInfo.creature_geoset_data)</h3>' + [1, 2, 3, 4, 5, 6, 7, 8].filter(g => c.groups[g]).map(g => groupSel(g, gs[g - 1])).join('');
     if ((c.slots || []).length) {
-      const opts = (custTex || {})[c.path] || [];
+      const opts = (custTex || {})[c.tex_key || c.path] || [];
       const cur = saved.skins || c.skins || ['', '', ''];
       ctl += '<h3>Skins (texture_variation, any texture in the model\'s folder)</h3>' + c.slots.map(k => {
         const v = String(cur[k] || ''), has = opts.some(([n]) => n.toLowerCase() === v.toLowerCase());
@@ -1034,18 +1242,23 @@ function openCustom(c) {
       }).join('') + (custTex ? '' : '<div class="was">loading the folder\'s textures…</div>');
     }
   }
-  ctl += `<div class="row"><button id="cs-save">Save customisation</button><button id="cs-clear">Clear</button></div>`;
-  $('panes').innerHTML = `<div class="cust" style="grid-column: 1 / -1">
-    <div class="pane"><div class="ph"><b>Stock display ${c.display}</b> · the original, for reference</div><div id="cs-stock"><div class="empty">loading…</div></div></div>
-    <div class="pane"><div class="ph"><b>Customised</b> · what ships</div><div id="cs-pane"></div></div>
-    <div class="ctl">${ctl}</div></div>`;
+  ctl += `<div class="row"><button id="cs-save">Save edit</button><button id="cs-clear">Clear</button></div>`;
+  $('panes').innerHTML = `
+    <div class="pane cs-ref"><iframe id="cs-stockf" loading="lazy" title="Stock"></iframe><div class="info">
+      <div class="h"><b>Stock display ${c.display}</b><span class="chip">the original · reference</span></div>
+      <div class="stats" id="cs-stockinfo">loading…</div></div></div>
+    <div class="pane"><iframe id="cs-pf" title="Edited"></iframe><div class="info">
+      <div class="h"><b>Edited</b><span class="chip ok">our option</span>${c.via ? `<span class="chip">on ${esc(c.via)}</span>` : ''}</div>
+      <div class="stats">${esc(c.path)}${base && base.display && base.display !== c.display ? ` · textures previewed from display ${base.display}` : ''}</div></div></div>
+    <div class="pane custctl"><div class="info"><div class="h"><b>Edit display ${c.display}</b></div><div class="ctl">${ctl}</div></div></div>`;
   loadCustStock(c.display).then(sp => {
     if (cur !== c) return;
-    $('cs-stock').innerHTML = sp ? `<iframe src="${paneUrl(sp)}"></iframe>` : '<div class="empty">No stock look: this display is not in the stock client.</div>';
+    if (sp) { $('cs-stockf').src = paneUrl(sp); $('cs-stockinfo').textContent = `${sp.model}${(sp.skins || []).some(Boolean) ? '' : ''}`; }
+    else { $('cs-stockf').replaceWith(Object.assign(document.createElement('div'), { className: 'empty', textContent: 'Not a stock display: no original to compare.' })); $('cs-stockinfo').textContent = 'added by a pack or by us'; }
   });
   if (!custTex && (c.slots || []).length) loadCustTex().then(() => { if (cur === c) openCustom(c); });
   const skinPick = () => [...document.querySelectorAll('#panes select[data-skin]')].reduce((a, sl) => (a[+sl.dataset.skin] = sl.value, a), (saved.skins || c.skins || ['', '', '']).slice());
-  const casOf = (stem) => { const hit = ((custTex || {})[c.path] || []).find(([n]) => n.toLowerCase() === String(stem).toLowerCase()); return hit ? hit[1] : null; };
+  const casOf = (stem) => { const hit = ((custTex || {})[c.tex_key || c.path] || []).find(([n]) => n.toLowerCase() === String(stem).toLowerCase()); return hit ? hit[1] : null; };
   const thumbs = () => document.querySelectorAll('#panes canvas[data-thumb]').forEach(async cv => {
     const cas = casOf(skinPick()[+cv.dataset.thumb]);
     if (!cas) return;
@@ -1055,47 +1268,37 @@ function openCustom(c) {
       cv.getContext('2d').putImageData(new ImageData(img.data, img.width, img.height), 0, 0);
     } catch (err) { /* thumbnail only */ }
   });
+  const selNow = () => c.char
+    ? { hair_style: +$('cs-hair').value, facial_hair: +$('cs-facial').value }
+    : { geosets: [...document.querySelectorAll('#panes select[data-g]')].reduce((a, s) => (a[+s.dataset.g - 1] = +s.value, a), c.cgd.slice()),
+        skins: skinPick() };
   const preview = () => {
-    if (!base) { $('cs-pane').innerHTML = '<div class="empty">No preview pane for this mesh.</div>'; return; }
-    const p = { ...base, display: c.display };
-    if (c.char) {
-      const m = (base.mesh || new Array(20).fill(1)).slice();
-      const hs = $('cs-hair').value, fh = $('cs-facial').value;
-      if (c.char.hair_geo[hs] !== undefined) m[0] = c.char.hair_geo[hs];
-      const f = c.char.facial_geo[fh];
-      if (f) { m[1] = f[0]; m[3] = f[1]; m[2] = f[2]; }
-      p.mesh = m;
-    } else {
-      const g = [...document.querySelectorAll('#panes select[data-g]')].reduce((a, s) => (a[+s.dataset.g - 1] = +s.value, a), c.cgd.slice());
-      p.mesh = [0, ...g];
-    }
-    let ovr = null;
-    if (!c.char && (c.slots || []).length && custTex) {
-      const sk = (p.skins || [0, 0, 0]).slice();
-      ovr = {};
-      skinPick().forEach((stem, k) => { const cas = casOf(stem); if (cas && c.slots.includes(k)) { sk[k] = casFid(cas); ovr['fdid/' + sk[k]] = cas; } });
-      p.skins = sk;
-    }
-    $('cs-pane').innerHTML = `<iframe src="${paneUrl(p, ovr ? { ovr } : {})}"></iframe>`;
+    if (!base) { const f = $('cs-pf'); if (f) f.replaceWith(Object.assign(document.createElement('div'), { className: 'empty', textContent: 'No preview pane for this mesh.' })); return; }
+    const look = customLook(c, selNow(), base);
+    $('cs-pf').src = paneUrl(look.pane, look.ovr ? { ovr: look.ovr } : {});
     thumbs();
   };
   $('panes').querySelectorAll('select').forEach(s => s.onchange = preview);
-  $('cs-save').onclick = () => {
-    const pick = { at: new Date().toISOString(), path: c.path };
+  $('cs-save').onclick = async () => {
+    const pick = { at: new Date().toISOString(), path: c.path,
+      // the panel this customisation builds on: it ships only when the display's pick is "custom"
+      base: base ? { option: base.option, sources: base.sources, model: base.model, tex_key: c.tex_key || null,
+                     skins: c.skins || null, cgd: c.cgd || null, slots: c.slots || [] } : null };
     if (c.char) {
       pick.hair_style = +$('cs-hair').value; pick.facial_hair = +$('cs-facial').value;
       const outfit = {};
       document.querySelectorAll('#panes input[data-slot]').forEach(i => { if (i.value.trim()) outfit[i.dataset.slot] = +i.value.trim(); });
       if (Object.keys(outfit).length) pick.outfit = outfit;
     } else {
-      pick.geosets = [...document.querySelectorAll('#panes select[data-g]')].reduce((a, s) => (a[+s.dataset.g - 1] = +s.value, a), c.cgd.slice());
+      pick.geosets = selNow().geosets;
       const sk = skinPick();
       if (sk.some((v, k) => String(v || '').toLowerCase() !== String((c.skins || [])[k] || '').toLowerCase())) pick.skins = sk;
     }
-    saveCustom(c.display, pick);
+    if (await saveCustom(c.display, pick)) openDisplay(c.display);   // review + activate it on the display page
   };
   $('cs-clear').onclick = () => saveCustom(c.display, null);
   preview();
+  fitPanes();
   render();
 }
 async function saveCustom(did, pick) {
@@ -1115,7 +1318,8 @@ async function saveCustom(did, pick) {
     choices = merged;
     status.className = 'ok'; status.textContent = pick ? `saved display ${did}` : `cleared display ${did}`;
     render();
-  } catch (e) { status.className = 'err'; status.textContent = 'save failed: ' + e.message; }
+    return true;
+  } catch (e) { status.className = 'err'; status.textContent = 'save failed: ' + e.message; return false; }
 }
 
 function openItem(x) {
@@ -1133,7 +1337,7 @@ const LAYERS = [
   ['wmo', 'WMOs', 'Buildings and world map objects'],
   ['display', 'Displays', 'Per-display choices: packs pointing one display at another model'],
   ['texture', 'Textures', 'Layer 2: which texture ships for each path'],
-  ['custom', 'Customise', 'Layer 3: geosets, hair, outfits per display'],
+  ['custom', 'Display editor', 'Edit one display: geosets, skins, hair, outfit'],
 ];
 function layerCounts(t) {
   if (t === 'texture') return [texIndex.filter(x => x[4].length).length, 'need a decision'];
@@ -1151,11 +1355,58 @@ function showHome(push = true) {
   $('home').hidden = false;
   if (push) history.pushState({ home: 1 }, '', location.pathname);
 }
-function openCustom_(did, push = true) {
+const viaOf = (p, lbl) => p && p.cust ? { pane: p, path: p.model, cust: p.cust, skins: p.skin_names, label: lbl, tex_key: p.tex_key, char: p.char || null } : null;
+// the Displays-tab option that ships for a display: its explicit pick, else its model's pick
+function shippingVia(did) {
+  const d = assets.find(a => a.tab === 'display' && a.display === +did);
+  if (!d || !d.panes.length) return null;
+  const pk = choices.display[String(did)] || viaModel(d);
+  if (!pk) return null;
+  const p = d.panes.find(x => x.option === pk.option && (!pk.sources || pk.sources.some(z => x.sources.includes(z))));
+  return p && !p.sources.includes('stock') ? viaOf(p, label(p.sources)) : null;
+}
+// the Displays page of one display; a display no pack offers a choice for gets a stand-in page
+// (stock + our customisation) so a customisation can be reviewed and activated the same way
+function displayEntry(did) {
+  let d = assets.find(a => a.tab === 'display' && a.display === +did);
+  if (!d) {
+    const cu = customList.find(x => x.display === +did) || {};
+    d = { id: `display:${+did}`, tab: 'display', display: +did, path: `display:${+did}`, names: cu.names || [], members: [],
+          displays: 1, current: cu.path || null, panes: [], compare: [], standin: true };
+    assets.push(d);
+  }
+  return d;
+}
+const closeDrawer = () => $('side').classList.remove('open');      // phones: a jump lands on the item, not the list
+async function openDisplay(did, push = true) {
+  const d = displayEntry(did);
+  if (d.standin && !d.panes.length) {
+    const sp = await loadCustStock(+did);
+    if (sp) d.panes = [{ ...sp, option: sp.model, sources: ['stock'] }];
+  }
+  openLayer('display', false);
+  if (push) history.pushState({ layer: 'display', display: +did }, '', `${location.pathname}?layer=display&display=${+did}`);
+  openItem(d); render(); closeDrawer();
+}
+function openCustom_(did, push = true, via = null) {
+  if (!via) via = shippingVia(did);
   openLayer('custom', false);
-  const c = customList.find(x => x.display === +did);
+  let c = customList.find(x => x.display === +did);
+  if (via && String(via.path).startsWith('character/')) {
+    // a character option (patch-hd-creatures-mounts' humanfemale for display 213): its OWN bake row's
+    // race / sex hair choices, drawn on its pane - never the creature model's geoset data
+    c = { ...(c || { display: +did, names: [] }), path: via.path, char: via.char || null, groups: {}, slots: [],
+          skins: via.skins || ['', '', ''], cgd: [0, 0, 0, 0, 0, 0, 0, 0], base: via.pane, via: via.label, tex_key: via.tex_key };
+  } else if (via && via.cust) {
+    // customise on the option just picked in the Displays tab (its model, groups, skin slots, row)
+    const mesh = via.pane.mesh;
+    c = { ...(c || { display: +did, names: [] }), path: via.path, groups: via.cust.groups, slots: via.cust.slots,
+          skins: via.skins || ['', '', ''], cgd: mesh ? mesh.slice(1, 9) : [0, 0, 0, 0, 0, 0, 0, 0], base: via.pane, via: via.label,
+          tex_key: via.tex_key, pick: via.pick };
+    delete c.char;
+  }
   if (push) history.pushState({ layer: 'custom', display: +did }, '', `${location.pathname}?layer=custom&display=${+did}`);
-  if (c) { openItem(c); render(); }
+  if (c) { openItem(c); render(); closeDrawer(); }
   else $('panes').innerHTML = `<div class="empty">Display ${+did} has nothing to customise (no geoset groups, hair or outfit).</div>`;
 }
 function openLayer(t, push = true) {
@@ -1168,7 +1419,8 @@ function openLayer(t, push = true) {
 }
 $('tiles').onclick = (ev) => { const b = ev.target.closest('.tile'); if (b) openLayer(b.dataset.layer); };
 addEventListener('popstate', () => { const u = new URLSearchParams(location.search), t = u.get('layer');
-  t === 'custom' && u.get('display') ? openCustom_(u.get('display'), false) : t ? openLayer(t, false) : showHome(false); });
+  t === 'custom' && u.get('display') ? openCustom_(u.get('display'), false)
+    : t === 'display' && u.get('display') ? openDisplay(u.get('display'), false) : t ? openLayer(t, false) : showHome(false); });
 $('menu').onclick = () => showHome();
 $('listtoggle').onclick = () => { $('side').classList.toggle('open'); };
 if (innerWidth <= 760) $('side').classList.add('open');              // phones start on the list
@@ -1241,8 +1493,16 @@ window.addEventListener('message', (e) => {
   assets = a.assets; texIndex = t; customList = cu.displays;
   if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {} };
   const startLayer = new URLSearchParams(location.search).get('layer');
+  Object.keys(choices.custom || {}).forEach(did => { if (/^\d+$/.test(did)) displayEntry(+did); });
   const startDisplay = new URLSearchParams(location.search).get('display');
   if (startLayer === 'custom' && startDisplay) openCustom_(startDisplay, false);
+  else if (startLayer === 'display' && startDisplay) openDisplay(startDisplay, false);
+  else if (startLayer && new URLSearchParams(location.search).get('path')) {     // ?layer=creature&path=<model>
+    const pth = new URLSearchParams(location.search).get('path');
+    openLayer(startLayer, false);
+    const go = () => { const x = pool().find(e => e.tab === startLayer && e.path === pth); if (x) { cur = x; render(); openItem(x); } return !!x; };
+    if (!go()) { filter = 'all'; render(); const t0 = setInterval(() => { if (go() || catalog) clearInterval(t0); if (catalog) go(); }, 500); }
+  }
   else if (startLayer) openLayer(startLayer, false); else { render(); showHome(false); }
 })();
 </script>

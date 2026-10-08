@@ -318,3 +318,87 @@ def texture_file(fdid: int) -> Optional[Path]:
     dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_bytes(blob)
     return dst
+
+
+def named_remasters(path: str) -> List[Tuple[str, int]]:
+    """Retail remasters of a classic creature model found BY NAME, for models the display rule
+    (remaster()) finds nothing for: retail made <dir>2/<name>2.m2 but never moved the classic
+    displays onto it (mountaingiant -> mountaingiant2, used only by new retail displays).
+    -> [(path, fdid)]: the exact <dir>2/<name>2.m2 first, then suffixed siblings
+    (mountaingiant2ice, gnoll2caster), each a separate option. Nothing is automatic: the new mesh
+    has its own UVs and no retail display maps our display ids to a skin, so every display is
+    given its target + retail skins in the picker (choices 'display', sources ['retail'])."""
+    import re
+    if not path.startswith('creature/') or not path.endswith('.m2'):
+        return []
+    by_path, _ = listfile()
+    d, f = path.rsplit('/', 1)
+    dd, stem = d.rsplit('/', 1)[-1], f[:-3]
+    exact = f'creature/{dd}2/{stem}2.m2'
+    pat = re.compile(re.escape(f'creature/{dd}2') + r'[a-z_]*/' + re.escape(stem + '2') + r'[a-z_]*\.m2')
+    global _named_index
+    if _named_index is None:
+        _named_index = sorted(p for p in by_path if p.startswith('creature/') and p.endswith('.m2'))
+    hits = [p for p in _named_index if pat.fullmatch(p)]
+    hits.sort(key=lambda p: (p != exact, p))
+    return [(p, by_path[p]) for p in hits]
+
+
+_named_index: Optional[List[str]] = None
+
+
+def skin_sets(fdid: int) -> List[Tuple[List[int], int]]:
+    """Distinct retail skin sets the displays of model `fdid` wear: [([fdid x3], displays)],
+    commonest first."""
+    from collections import Counter
+    display_row(0)
+    c = Counter(tuple(t[:3]) for m, t in _cdi.values() if m == fdid and any(t))
+    return [(list(k), n) for k, n in sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))]
+
+
+def retail_displays(fdid: int) -> int:
+    display_row(0)
+    return sum(1 for m, _ in _cdi.values() if m == fdid)
+
+
+def anim_ids(data: bytes) -> List[int]:
+    """Sequence animation ids of an MD20 (any version) or MD21 model, sorted, unique."""
+    if data[:4] == b'MD21':
+        data = data[8:]
+    if data[:4] != b'MD20' or len(data) < 0x24:
+        return []
+    n, o = struct.unpack_from('<II', data, 0x1C)
+    ver = struct.unpack_from('<I', data, 4)[0]
+    stride = 0x40 if ver >= 264 else 0x44          # TBC sequences carry an end timestamp
+    if o + n * stride > len(data):
+        return []
+    return sorted({struct.unpack_from('<H', data, o + i * stride)[0] for i in range(n)})
+
+
+def retail_anim_ids(fdid: int) -> List[int]:
+    raw = fetch(fdid)
+    return anim_ids(raw) if raw else []
+
+
+_cmd_ids: Optional[Dict[int, int]] = None
+
+
+def model_data_id(fdid: int) -> int:
+    """Retail CreatureModelData ID of model file `fdid` (the lowest, when several rows share it),
+    0 when none. A retail model shipped as a new model of ours takes this id, so it is stable
+    across builds and recognisable."""
+    global _cmd_ids
+    if _cmd_ids is None:
+        pk = CACHE / f'cmdid_{build()}.pkl'
+        if pk.exists():
+            _cmd_ids = pickle.loads(pk.read_bytes())
+        else:
+            _cmd_ids = {}
+            for r in _csv('CreatureModelData'):
+                if r['ID'].isdigit() and (r['FileDataID'] or '').isdigit():
+                    fd, i = int(r['FileDataID']), int(r['ID'])
+                    if fd and (fd not in _cmd_ids or i < _cmd_ids[fd]):
+                        _cmd_ids[fd] = i
+            CACHE.mkdir(parents=True, exist_ok=True)
+            pk.write_bytes(pickle.dumps(_cmd_ids))
+    return _cmd_ids.get(fdid, 0)

@@ -44,7 +44,9 @@ def schema(table: str) -> List[Tuple[str, str]]:
             if len(parts) < 2 or parts[0] in ('Field',) or ' ' in parts[0]:
                 continue
             t = parts[1].lower()
-            kind = 'float' if ('float' in t or 'double' in t) else 'str' if ('char' in t or 'text' in t) else 'int'
+            # the DBC database stores DBC floats as decimal(38,16): read as float from the WDBC
+            # (as int they came out as bit patterns - model_scale 1065353216 - in any stock-copied row)
+            kind = 'float' if ('float' in t or 'double' in t or 'decimal' in t) else 'str' if ('char' in t or 'text' in t) else 'int'
             cols.append((parts[0], kind))
         if not cols:
             raise RuntimeError(f'no schema for {table}: {r.stderr[-300:]}')
