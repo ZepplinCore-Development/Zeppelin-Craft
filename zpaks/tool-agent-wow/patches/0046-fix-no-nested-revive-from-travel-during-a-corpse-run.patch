@@ -1,0 +1,92 @@
+From ad73e01f456cfec69a2cf1e4d939faa65acddcfc Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 22:39:07 +0000
+Subject: [PATCH] fix: no nested revive from travel() during a corpse run
+ (F-219)
+
+Regression from 'walk in 6 s slices and fight back': a long corpse run walks the ghost with
+travel(), whose between-slice check saw 'dead' and called safe() - a revive inside the revive,
+repeated until the 10-minute limit (Camp Narache: RESULT: FAIL - still a ghost). The revive now
+runs in _revive_loop() under a reviving flag that travel() honours.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 40 ++++++++++++++++++++++++------------
+ 1 file changed, 27 insertions(+), 13 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 5fb17b7..32ec32f 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -836,6 +836,7 @@ class Runner:
+         self.grind_deaths = 0    # grind pulls that killed us
+         self.grind_nodmg = {}    # entry -> grind pulls that did no damage
+         self.idle_rechecks = 0   # times the end of the run was deferred by open quests in the DB
++        self.reviving = False    # inside the revive loop: travel() must not call safe() (nested revive)
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -1128,7 +1129,28 @@ class Runner:
+                     if self.spirit_rez():
+                         call("combat.rest", until_pct=90)
+                         return
+-            t0, stage, failed_reclaims = time.time(), "", 0
++            self.reviving = True
++            try:
++                self._revive_loop(corpse)
++            finally:
++                self.reviving = False
++            return
++        for g in st.get("attackers", []):
++            try:
++                r = call("combat.kill", guid=int(g), abilities=self.abilities, loot=True)
++            except StepFailed as e:  # a long fight can outlast one RPC; the next pass resumes it
++                print(f"  ~ defending: {str(e)[:80]}", flush=True)
++                continue
++            self.kills += r.get("killed", False)
++        s = call("interact.self")
++        if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70:  # never start a pull half dead
++            call("combat.rest", until_pct=90)
++
++    def _revive_loop(self, corpse):
++        """Revive on a clock (release, walk back, wait out the reclaim delay, reclaim); fall back to the
++        spirit healer when the server keeps ignoring the reclaim."""
++        t0, stage, failed_reclaims = time.time(), "", 0
++        if True:
+             while time.time() - t0 < 600:
+                 try:
+                     r = call("combat.revive")
+@@ -1162,17 +1184,6 @@ class Runner:
+             else:
+                 raise SystemExit("RESULT: FAIL - still a ghost after 10 min of revive attempts")
+             call("combat.rest", until_pct=90)
+-            return
+-        for g in st.get("attackers", []):
+-            try:
+-                r = call("combat.kill", guid=int(g), abilities=self.abilities, loot=True)
+-            except StepFailed as e:  # a long fight can outlast one RPC; the next pass resumes it
+-                print(f"  ~ defending: {str(e)[:80]}", flush=True)
+-                continue
+-            self.kills += r.get("killed", False)
+-        s = call("interact.self")
+-        if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70:  # never start a pull half dead
+-            call("combat.rest", until_pct=90)
+ 
+     def travel(self, x, y, z, within=4.0):
+         me = self.me()
+@@ -1277,7 +1288,10 @@ class Runner:
+                 call("move.to", x=sx, y=sy, z=sz, timeout_ms=20000)
+                 continue
+             st = call("combat.state")
+-            if r["move"].get("reason") != "budget" or st.get("attackers") or st.get("dead"):
++            # ...but not while a revive is walking the ghost back (long corpse runs use travel()):
++            # safe() would start a revive inside the revive (Camp Narache: nested revives until the
++            # 10-minute limit, RESULT: FAIL - still a ghost)
++            if not self.reviving and (r["move"].get("reason") != "budget" or st.get("attackers") or st.get("dead")):
+                 self.safe()
+         return False
+ 
+-- 
+2.34.1
+
