@@ -1,0 +1,101 @@
+From 21ca4c8e85d093cc4b4ace32332d9350b9be1e87 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 09:31:25 +0000
+Subject: [PATCH] fix: pull the most isolated target and rest at 70% before
+ pulling (F-219)
+
+Fleet run: Northshire (Defias Thugs, Brotherhood of Thieves), Coldridge and Sunstrider bots died
+on repeat at level 3 - kill-by-entry took the NEAREST mob, usually one of a pack, and the bot only
+rested below 50%. kill(entry) now picks the live target with the fewest other mobs within 10 yd;
+safe() rests below 70%.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 49a1773..49433f3 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -855,6 +855,22 @@ class Runner:
+         self.refresh_abilities()
+         print(f"  abilities: {[a['spell_id'] for a in self.abilities]}", flush=True)
+ 
++    def kill(self, entry):
++        """Fight one creature of `entry`, choosing the most ISOLATED of the ones in reach rather than
++        the nearest: a fresh level-3 warrior in starting gear dies to a pack (Northshire's Defias
++        Thugs stand in threes) but beats them one at a time. Falls back to the module's own pick."""
++        objs = call("interact.find", type=3, radius=70, limit=80).get("objects", [])
++        mobs = [o for o in objs if o.get("health", 0) > 0 and not o.get("npcFlags")]
++        cands = [o for o in mobs if o.get("entry") == entry and o.get("distance", 999) < 60]
++        if not cands:
++            return call("combat.kill", entry=entry, abilities=self.abilities, loot=True)
++
++        def crowd(t):
++            return sum(1 for m in mobs if m is not t and
++                       math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 10)
++        t = min(cands, key=lambda o: (crowd(o), o.get("distance", 999)))
++        return call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
++
+     def spirit_rez(self):
+         """Resurrect at the nearest spirit healer (npcflag 0x4000; only a ghost sees one). Its spawn
+         comes from the DB - the graveyard we were released to - since the healer is often out of
+@@ -958,7 +974,7 @@ class Runner:
+                 continue
+             self.kills += r.get("killed", False)
+         s = call("interact.self")
+-        if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 50:
++        if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70:  # never start a pull half dead
+             call("combat.rest", until_pct=90)
+ 
+     def travel(self, x, y, z, within=4.0):
+@@ -1951,7 +1967,7 @@ class Runner:
+                             continue
+                     except StepFailed:
+                         continue
+-                    r = call("combat.kill", entry=alias, abilities=self.abilities, loot=True)
++                    r = self.kill(alias)
+                     if r.get("reason") == "no target":
+                         continue
+                     self.kills += r.get("killed", False)
+@@ -2053,7 +2069,7 @@ class Runner:
+                             continue
+                     except StepFailed:
+                         continue
+-                    r = call("combat.kill", entry=k, abilities=self.abilities, loot=True)
++                    r = self.kill(k)
+                     if r.get("reason") == "no target":
+                         continue
+                     self.kills += r.get("killed", False)
+@@ -2199,7 +2215,7 @@ class Runner:
+                             break
+                 if bar:  # riding something with a bar (cyclone, Mechashark) - fight from it
+                     return self.bar_attack(target, bar)
+-                r = call("combat.kill", entry=target, abilities=self.abilities, loot=True)
++                r = self.kill(target)
+                 if r.get("reason") == "no target":  # nothing alive in sight - not progress
+                     raise StepFailed(f"no living {target} in sight")
+                 if r.get("reason", "").startswith(("cannot attack", "no damage")):
+@@ -2237,7 +2253,7 @@ class Runner:
+                             return True
+                     if not self.go_near("c", k, offset=6.0):
+                         return False
+-                    r = call("combat.kill", entry=k, abilities=self.abilities, loot=True)
++                    r = self.kill(k)
+                     if r.get("reason") == "no target":
+                         raise StepFailed(f"no living {k} in sight (its death drops GO {go})")
+                     print(f"  killed {k} for GO {go}: {r.get('reason', 'killed')}", flush=True)
+@@ -2269,7 +2285,7 @@ class Runner:
+             # best source first (Shark Parts: Ravenous Lurker 96%, not a 0.01% pirate)
+             for c in sorted(self.w.creature_loot.get(item, ()), key=lambda c: -self.w.loot_chance.get((item, c), 0)):
+                 if self.go_near("c", c, offset=6.0):
+-                    r = call("combat.kill", entry=c, abilities=self.abilities, loot=True)
++                    r = self.kill(c)
+                     if r.get("reason") == "no target":
+                         raise StepFailed(f"no living {c} in sight (drops {item})")
+                     self.kills += r.get("killed", False)
+-- 
+2.34.1
+
