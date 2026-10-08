@@ -5,8 +5,13 @@
 --   Stock rods are mapped to their final spell by a hard-coded table in
 --   SpellAuraEffects.cpp; these rods name theirs in effect 2's trigger spell,
 --   read by Zeppelin-Core's I-376 fallback in that same handler.
---   final spell (clone of 19681): charms the beast as a temporary pet (aura 6,
---   15 min) and completes the quest (effect 16, misc = quest id).
+--   final spell (clone of 19681): charms the beast as a temporary pet (aura 6)
+--   and gives the quest's tracker credit (effect 90 KILL_CREDIT, misc = the
+--   never-spawned credit creature 900916-900918, so killing a beast never counts).
+--   Charm is stock's 15 min. spell_hun_tame_beast refuses the next rod while any
+--   charm is up (PET_TAME_ANOTHER_SUMMON_ACTIVE): release it with pet-frame
+--   Dismiss (ElvUI used to strip that for hunters - fixed in add-elvui, I-376).
+--   Charm removal despawns the beast (script).
 -- Rod targets are limited to their own creature by `conditions` (source type 17)
 -- in zz_[I-376]_hunter_taming.sql; script names there too.
 
@@ -143,7 +148,7 @@ INSERT INTO spell SET
   `range_index` = 4,
   `equipped_item_class` = -1,
   `effect_1` = 6,
-  `effect_2` = 16,
+  `effect_2` = 90,
   `effect_die_sides_1` = 1,
   `effect_real_points_per_level_1` = 1,
   `effect_base_points_1` = 11,
@@ -151,7 +156,7 @@ INSERT INTO spell SET
   `effect_implicit_target_a_2` = 1,
   `effect_implicit_target_a_3` = 6,
   `effect_apply_aura_name_1` = 6,
-  `effect_misc_value_a_2` = 91212,
+  `effect_misc_value_a_2` = 900916,
   `effect_damage_multiplier_1` = 1,
   `effect_damage_multiplier_2` = 1,
   `effect_damage_multiplier_3` = 1,
@@ -177,7 +182,7 @@ INSERT INTO spell SET
   `range_index` = 4,
   `equipped_item_class` = -1,
   `effect_1` = 6,
-  `effect_2` = 16,
+  `effect_2` = 90,
   `effect_die_sides_1` = 1,
   `effect_real_points_per_level_1` = 1,
   `effect_base_points_1` = 11,
@@ -185,7 +190,7 @@ INSERT INTO spell SET
   `effect_implicit_target_a_2` = 1,
   `effect_implicit_target_a_3` = 6,
   `effect_apply_aura_name_1` = 6,
-  `effect_misc_value_a_2` = 91213,
+  `effect_misc_value_a_2` = 900917,
   `effect_damage_multiplier_1` = 1,
   `effect_damage_multiplier_2` = 1,
   `effect_damage_multiplier_3` = 1,
@@ -211,7 +216,7 @@ INSERT INTO spell SET
   `range_index` = 4,
   `equipped_item_class` = -1,
   `effect_1` = 6,
-  `effect_2` = 16,
+  `effect_2` = 90,
   `effect_die_sides_1` = 1,
   `effect_real_points_per_level_1` = 1,
   `effect_base_points_1` = 11,
@@ -219,7 +224,7 @@ INSERT INTO spell SET
   `effect_implicit_target_a_2` = 1,
   `effect_implicit_target_a_3` = 6,
   `effect_apply_aura_name_1` = 6,
-  `effect_misc_value_a_2` = 91214,
+  `effect_misc_value_a_2` = 900918,
   `effect_damage_multiplier_1` = 1,
   `effect_damage_multiplier_2` = 1,
   `effect_damage_multiplier_3` = 1,

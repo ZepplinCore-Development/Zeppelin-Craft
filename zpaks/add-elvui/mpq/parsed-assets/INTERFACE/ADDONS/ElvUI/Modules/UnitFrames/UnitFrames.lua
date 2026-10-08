@@ -1350,9 +1350,12 @@ function UF:Initialize()
 	self:LoadUnits()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
+	-- Zeppelin I-376: PET_DISMISS is no longer stripped for hunters. Blizzard's UnitPopup already
+	-- hides it for a real hunter pet (PetCanBeAbandoned), so the strip only removed the one way
+	-- to release a charmed pet - e.g. the Taming the Beast quest beast, which blocks the next rod.
 	for k in pairs(UnitPopupMenus) do
 		for x, y in pairs(UnitPopupMenus[k]) do
-			if y == "SET_FOCUS" or y == "CLEAR_FOCUS" or y == "LOCK_FOCUS_FRAME" or y == "UNLOCK_FOCUS_FRAME" or (E.myclass == "HUNTER" and y == "PET_DISMISS") then
+			if y == "SET_FOCUS" or y == "CLEAR_FOCUS" or y == "LOCK_FOCUS_FRAME" or y == "UNLOCK_FOCUS_FRAME" then
 				tremove(UnitPopupMenus[k], x)
 			end
 		end
