@@ -1,0 +1,130 @@
+From e9e6b8e55755e6dff5a29266729748d43e069dcb Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 09:49:00 +0000
+Subject: [PATCH] feat: level gate - a quest that killed us twice waits while
+ we grind easier quest targets (F-219)
+
+Northshire: a fresh level-3 warrior on Brotherhood of Thieves (quest level 4) meets Defias
+Thugs (104 HP, as much as we have) two at a time and dies every pull, isolated target or not.
+Deaths are now attributed to the quest being worked; one with 2+ deaths is set aside until our
+level exceeds its QuestLevel, and while only such quests remain the bot grinds the nearest
+isolated quest-target creature at or below its level (walking to one if none is in sight).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 50 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 49433f3..8581587 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -134,7 +134,7 @@ class World:
+             if int(r["id"]) in self.gspawn:
+                 self.enders.setdefault(int(r["quest"]), []).append(("g", int(r["id"])))
+         self.quests = {int(r["ID"]): r for r in sql(
+-            "SELECT q.ID,q.LogTitle,q.MinLevel,q.AllowableRaces,q.StartItem,"
++            "SELECT q.ID,q.LogTitle,q.MinLevel,q.QuestLevel,q.AllowableRaces,q.StartItem,"
+             "q.RequiredNpcOrGo1,q.RequiredNpcOrGo2,q.RequiredNpcOrGo3,q.RequiredNpcOrGo4,"
+             "q.RequiredNpcOrGoCount1,q.RequiredNpcOrGoCount2,q.RequiredNpcOrGoCount3,q.RequiredNpcOrGoCount4,"
+             "q.RequiredItemId1,q.RequiredItemId2,q.RequiredItemId3,q.RequiredItemId4,q.RequiredItemId5,q.RequiredItemId6,"
+@@ -166,6 +166,7 @@ class World:
+                 f"AND position_y BETWEEN {min(y1, y2) - m} AND {max(y1, y2) + m}")
+         added = 0
+         self.beyond = set()  # spawn points loaded only for objectives - a last resort, never a first stop
++        self.objective_creatures = set(objc)  # quest kill/loot targets: hostile by design, safe to grind
+         if objc:
+             for r in sql(f"SELECT id,position_x x,position_y y,position_z z,phaseMask pm FROM creature WHERE {wide} "
+                          f"AND id IN ({inlist(objc)})"):
+@@ -803,6 +804,7 @@ class Runner:
+         self.blocked, self.stuck, self.deaths, self.kills = set(), {}, 0, 0
+         self.used = {}  # GO guid -> last use time
+         self.immune = {}  # creature guid -> when it last took no damage (evading)
++        self.deaths_on = {}  # quest -> deaths while working it
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -855,6 +857,40 @@ class Runner:
+         self.refresh_abilities()
+         print(f"  abilities: {[a['spell_id'] for a in self.abilities]}", flush=True)
+ 
++    def grind(self, level):
++        """Kill one easy mob for XP: the nearest isolated non-NPC creature whose level is at most ours
++        (template minlevel), within 80 yd. Used while the quests left are too hard for our level."""
++        objs = call("interact.find", type=3, radius=80, limit=80).get("objects", [])
++        mobs = [o for o in objs if o.get("health", 0) > 0 and not o.get("npcFlags")]
++        ents = {o["entry"] for o in mobs} & self.w.objective_creatures  # never a guard or a critter
++        if not ents:
++            # nothing easy in sight: walk to the nearest spawn of a quest target at or below our level
++            cands = [int(r["entry"]) for r in sql(
++                f"SELECT entry FROM creature_template WHERE entry IN ({inlist(self.w.objective_creatures)}) "
++                f"AND minlevel <= {level}")] if self.w.objective_creatures else []
++            me = self.me()
++            spots = sorted(((math.dist(p[:2], (me["x"], me["y"])), e, p) for e in cands
++                            for p in self.w.cspawn.get(e, []) if p not in self.w.beyond), key=lambda t: t[0])
++            if not spots:
++                return False
++            _, e, p = spots[0]
++            self.travel(*p, within=15)
++            return True
++        lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
++            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)})")}
++        easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= level]
++        if not easy:
++            return False
++
++        def crowd(t):
++            return sum(1 for m in mobs if m is not t and math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 10)
++        t = min(easy, key=lambda o: (crowd(o), o.get("distance", 999)))
++        r = call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
++        self.kills += r.get("killed", False)
++        print(f"  grind {t['entry']} (level {lv.get(t['entry'])}) while quests wait for level {level + 1}: "
++              f"{r.get('reason', 'killed')}", flush=True)
++        return True
++
+     def kill(self, entry):
+         """Fight one creature of `entry`, choosing the most ISOLATED of the ones in reach rather than
+         the nearest: a fresh level-3 warrior in starting gear dies to a pack (Northshire's Defias
+@@ -910,6 +946,9 @@ class Runner:
+         st = call("combat.state")
+         if st.get("dead"):
+             self.deaths += 1
++            q = getattr(self, "current_qid", None)
++            if q:
++                self.deaths_on[q] = self.deaths_on.get(q, 0) + 1
+             print("  ! died - recovering", flush=True)
+             # revive returns at once while walking back or during the reclaim delay (which grows
+             # with repeated deaths) - keep at it on a clock, never carry on as a ghost
+@@ -2315,12 +2354,18 @@ class Runner:
+                     self.refused.add(ready[0])
+                 continue
+             active = [q for q in log if q in self.w.quests and q not in self.blocked]
++            # a quest that killed us twice waits until we outlevel it (Brotherhood of Thieves: a
++            # level-3 warrior meets Defias Thugs two at a time) - a player would level first too
++            hard = [q for q in active if self.deaths_on.get(q, 0) >= 2
++                    and level <= int(self.w.quests[q].get("QuestLevel") or 0)]
++            active = [q for q in active if q not in hard]
+             progressed = False
+             for qid in active:
+                 n = self.stuck.get(qid, 0)
+                 if n > 25:
+                     continue
+                 try:
++                    self.current_qid = qid
+                     if self.objective_step(qid, log[qid]):
+                         progressed = True
+                         break
+@@ -2350,6 +2395,9 @@ class Runner:
+                 time.sleep(5)
+                 continue
+             # quests still open: respawn timers / skipped objects need time, so wait (~4 min max)
++            if hard and self.grind(level):
++                idle = 0
++                continue
+             if active and idle <= 24:
+                 time.sleep(10)
+                 continue
+-- 
+2.34.1
+
