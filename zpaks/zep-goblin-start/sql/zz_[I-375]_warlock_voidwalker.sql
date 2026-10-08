@@ -246,7 +246,7 @@ UPDATE quest_template SET AllowableRaces = 2 WHERE ID = 1504;   -- The Binding
 UPDATE quest_template SET AllowableRaces = 2 WHERE ID = 10790;  -- Return to Gan'rul Bloodeye
 
 -- ---------------------------------------------------------------------------
--- Spawns: Evol on the rim (phase 16384) + the Summoning Circle
+-- Spawns: Evol at the Sky Falls camp spot (phase 16384) + the Summoning Circle
 -- ---------------------------------------------------------------------------
 DELETE FROM creature WHERE guid = @EVOL_GUID;
 INSERT INTO creature SET
@@ -256,14 +256,14 @@ INSERT INTO creature SET
   spawnMask = 1,
   phaseMask = 16384,
   equipment_id = 1,
-  position_x = 1306.8276,
-  position_y = -10822.817,
-  position_z = 221.6851,
-  orientation = 5.88,       -- facing the circle
+  position_x = 1304.4,      -- same spot as his phase-32768 camp spawn 11002135, so he
+  position_y = -10858.3,    -- doesn't jump 35 yd when the mine phase starts (user,
+  position_z = 222.939,     -- 2026-10-06; was the rim at 1306.8,-10822.8)
+  orientation = 0.4538,
   spawntimesecs = 300,
   wander_distance = 0,
   MovementType = 0,
-  Comment = '[I-375] Evol Fingers - rim above the Gallywix Labor Mine';
+  Comment = '[I-375] Evol Fingers - Sky Falls camp spot (mine phase)';
 
 -- Own circle template: stock 105576 is spell focus 203, which the client names
 -- "Orgrimmar Summoning Circle" in the error when the orb is used elsewhere.
