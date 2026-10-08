@@ -1,0 +1,78 @@
+From e2899c959a162b2ea60ec029ba2fe0d972aa3399 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 08:43:54 +0000
+Subject: [PATCH] fix: a SPELLHIT that credits another entry is a proxy, not
+ this objective's method (F-219)
+
+Sunstrider: Mana Wyrm 15274 answers Arcane Torrent with 61314 = KILL_CREDIT 15468 (Thirst
+Unending), so the runner treated 'kill 8 Mana Wyrms' (Reclaiming Sunstrider Isle) as 'torrent
+them' - 293 casts, 2 kills. Spellhits whose reaction credits a different entry (action 33 to
+another id, or a cast whose KILL_CREDIT names another id) no longer map to the hit creature;
+cast-based credits now register as credit proxies for the entry they pay.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 39 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 35 insertions(+), 4 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 5a40341..6c82d50 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -209,10 +209,26 @@ class World:
+         targets = {t for t in targets if t > 0}
+         self.spellhit = {}
+         self.spellhit_all = {}  # entry -> every SPELLHIT spell (class quests: one per class)
+-        for r in sql("SELECT entryorguid e,event_param1 sp FROM smart_scripts WHERE source_type=0 AND event_type=8 "
+-                     f"AND event_param1>0 AND entryorguid IN ({inlist(targets)})"):
+-            self.spellhit.setdefault(int(r["e"]), int(r["sp"]))
+-            self.spellhit_all.setdefault(int(r["e"]), []).append(int(r["sp"]))
++        hits = sql("SELECT entryorguid e,event_param1 sp,action_type a,action_param1 p FROM smart_scripts WHERE "
++                   f"source_type=0 AND event_type=8 AND event_param1>0 AND entryorguid IN ({inlist(targets)})")
++        # a SPELLHIT only earns THIS objective if its reaction does not credit someone else: Mana
++        # Wyrm 15274 answers Arcane Torrent with 61314 = KILL_CREDIT 15468 (Thirst Unending), yet the
++        # wyrm is also a plain kill target (Reclaiming Sunstrider Isle) - the bot torrented it 293 times
++        cast = {int(r["p"]) for r in hits if int(r["a"]) in (11, 85, 86, 134) and int(r["p"])}
++        credit_of = {}
++        if cast:
++            for r in dbc("SELECT id,effect_1 e1,effect_misc_value_a_1 m1,effect_2 e2,effect_misc_value_a_2 m2,"
++                         f"effect_3 e3,effect_misc_value_a_3 m3 FROM spell WHERE id IN ({inlist(cast)})"):
++                for e, m in (("e1", "m1"), ("e2", "m2"), ("e3", "m3")):
++                    if int(r[e]) in (90, 134) and int(r[m]):
++                        credit_of[int(r["id"])] = int(r[m])
++        for r in hits:
++            e, a, p = int(r["e"]), int(r["a"]), int(r["p"])
++            other = (a == 33 and p not in (0, e)) or (a in (11, 85, 86, 134) and credit_of.get(p, e) != e)
++            if other:
++                continue
++            self.spellhit.setdefault(e, int(r["sp"]))
++            self.spellhit_all.setdefault(e, []).append(int(r["sp"]))
+         # quest items that JUMP/TELEPORT the player to a fixed spot (spell_target_position): the only
+         # way onto some ledges - Rockin' Powder Infused Rocket Boots 84322 -> 72971 -> the volcano
+         self.jump_items = []  # (item, spell, (x, y, z))
+@@ -291,6 +307,21 @@ class World:
+                      f"s.event_type=73 AND s.action_type IN (80,88) AND l.action_param1 IN ({inlist(targets)})"):
+             if int(r["e"]) in self.cspawn:
+                 self.click_proxy.setdefault(int(r["c"]), set()).add(int(r["e"]))
++        # ...or the reaction CASTS a spell whose KILL_CREDIT names the objective (Thirst Unending: Arcane
++        # Torrent on a Mana Wyrm 15274 -> it casts 61314 = KILL_CREDIT 15468 on us)
++        cast_rows = sql("SELECT entryorguid e,event_param1 sp,action_param1 p FROM smart_scripts WHERE source_type=0 "
++                        "AND event_type=8 AND event_param1>0 AND action_type IN (11,85,86,134) AND action_param1>0")
++        cps = {int(r["p"]) for r in cast_rows}
++        pays = {}
++        if cps:
++            for r in dbc("SELECT id,effect_1 e1,effect_misc_value_a_1 m1,effect_2 e2,effect_misc_value_a_2 m2,"
++                         f"effect_3 e3,effect_misc_value_a_3 m3 FROM spell WHERE id IN ({inlist(cps)})"):
++                for ef, m in (("e1", "m1"), ("e2", "m2"), ("e3", "m3")):
++                    if int(r[ef]) in (90, 134) and int(r[m]):
++                        pays[int(r["id"])] = int(r[m])
++        tset = set(targets)
++        rows = list(rows) + [{"e": r["e"], "sp": r["sp"], "c": pays[int(r["p"])]} for r in cast_rows
++                             if pays.get(int(r["p"])) in tset]
+         for r in rows:
+             e, c = int(r["e"]), int(r["c"])
+             if e != c and e in self.cspawn:
+-- 
+2.34.1
+
