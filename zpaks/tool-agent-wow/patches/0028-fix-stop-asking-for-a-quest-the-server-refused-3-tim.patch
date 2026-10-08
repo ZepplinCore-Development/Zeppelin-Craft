@@ -1,0 +1,45 @@
+From b536e490b1b6a6e6d01214975eda9b669c63668a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 11:52:09 +0000
+Subject: [PATCH] fix: stop asking for a quest the server refused 3 times
+ (F-219)
+
+Ammen Vale: Botanist Taerix 9371 (SpecialFlags 4, Flags 0x88) is never offered at its giver;
+the server answered QUESTGIVER_QUEST_INVALID 24 times because every bit of progress re-queued
+the refusal. Refusals are retried at most twice more, then the quest stays blocked for the run.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 92b443d..0bfaeb9 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -816,6 +816,7 @@ class Runner:
+         self.used = {}  # GO guid -> last use time
+         self.immune = {}  # creature guid -> when it last took no damage (evading)
+         self.deaths_on = {}  # quest -> deaths while working it
++        self.refusals = {}  # quest -> times the server refused our accept
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -1312,7 +1313,12 @@ class Runner:
+         print(f"[{'PASS' if r.get('ok') else 'SKIP'}] accept {qid} {title} - {r.get('detail')}", flush=True)
+         if not r.get("ok"):
+             self.blocked.add(qid)
+-            self.refused.add(qid)  # the server is the authority on what is offered
++            # the server is the authority on what is offered: retry a refusal after progress (24816 is
++            # offered seconds after its prerequisite) but not forever - Botanist Taerix 9371 (auto-
++            # accept/tracking flags, never offered at the giver) was refused 24 times in a row
++            self.refusals[qid] = self.refusals.get(qid, 0) + 1
++            if self.refusals[qid] < 3:
++                self.refused.add(qid)
+ 
+     def vault_deposit_all(self):
+         """Item Vault (F-020, mod-item-vault) /ivda without the addon: the CSMH framework sends a REQ
+-- 
+2.34.1
+
