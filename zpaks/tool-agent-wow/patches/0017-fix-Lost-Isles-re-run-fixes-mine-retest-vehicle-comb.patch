@@ -1,0 +1,289 @@
+From ae73c5eae3bd03114ff3030e365647547f8e426b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 06:58:02 +0000
+Subject: [PATCH] fix: Lost Isles re-run fixes, mine retest, vehicle combat
+ rework (F-219)
+
+Second goblin (Gobmine) run from Kezan through the Lost Isles; I-385 mine Overseer PASS.
+- accept from the NEAREST giver in our phase (Farewell, For Now: Thrall's ship vs the Overlook)
+- accept timeout: talk to the giver (gossip hello) and ask again
+- spellhit that is really the click's own spell (Good Help is Hard to Find 66306): click instead
+- stranded on a dead-end partial path (seabed after Irresistible Pool Pony): straight step at the target
+- swimmers (Mechashark) drive straight like flyers; ground vehicles stay on the navmesh
+- REVERT "make the vehicle the mover on boarding": re-anchoring at interact.find's stale summon
+  spot broke the Mechashark (no damage); re-anchor only when >15 yd apart
+- sustained bar casting from 2000 HP up (a 3.7k naga out-healed spaced shots); kite targets
+  10+ levels above us (Gallywix) at the bar's longest range instead of trading in melee
+- bar_kinds: TRIGGER_SPELL into a damage spell = "cone" weapon (Machine Gun 73456 -> 74958)
+- bar_timing: per-spell cooldown + range from the DBC (SpellRange floats are raw IEEE bits)
+- dogfight(): flying vehicle vs flying targets (The Pride of Kezan) - re-aim at the nearest
+  fighter every 0.5 s in short hops, Machine Gun cone within 45 yd, rockets only in range and
+  off cooldown. NOT yet exercised live (Gobmine was past 25066 when it landed).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 171 +++++++++++++++++++++++++++++++----
+ 1 file changed, 154 insertions(+), 17 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index d78d96c..f649ba1 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -276,7 +276,10 @@ class World:
+         cand = set(self.cspawn) | set(self.summon_item)
+         vehicles = ids(sql(f"SELECT entry FROM creature_template WHERE VehicleId>0 AND entry IN ({inlist(cand)})"), "entry")
+         self.vehicles = set(vehicles)
+-        self.flying_vehicles = set(ids(sql("SELECT CreatureId FROM creature_template_movement WHERE Flight>0"), "CreatureId"))
++        # vehicles that leave the ground (fly or swim) move in straight 3D lines; the rest follow the
++        # navmesh (Mechashark 38318 swims - snapped to the navmesh it sat on the surface above its prey)
++        self.flying_vehicles = set(ids(sql("SELECT CreatureId FROM creature_template_movement WHERE Flight>0 OR (Swim>0 AND Ground=0)"),
++                                       "CreatureId"))
+         self.vehicle_spell = {}  # spell -> vehicle entry whose bar casts it
+         for r in sql(f"SELECT CreatureID c,Spell sp FROM creature_template_spell WHERE CreatureID IN ({inlist(vehicles)})"):
+             self.vehicle_spell.setdefault(int(r["sp"]), int(r["c"]))
+@@ -882,11 +885,20 @@ class Runner:
+             moved = math.dist((before["x"], before["y"]), (after.get("x", 0), after.get("y", 0))) > 1.0
+             if moved:
+                 self.on_mesh = after
+-            elif r.get("partial") and getattr(self, "on_mesh", None):
++            elif r.get("partial"):
+                 # stranded off the navmesh (stepped onto a deck/GO by a straight move): walk straight
+                 # back to the last point a path worked from, then path again
+-                m = self.on_mesh
+-                call("move.to", x=m["x"], y=m.get("y", 0), z=m.get("z", 0))
++                m = getattr(self, "on_mesh", None)
++                if m and math.dist((m["x"], m.get("y", 0)), (before["x"], before["y"])) > 5:
++                    call("move.to", x=m["x"], y=m.get("y", 0), z=m.get("z", 0))
++                    continue
++                # ...but the last good point is where we stand (the seabed after Irresistible Pool
++                # Pony: every path is "partial" and ends here) - swim/walk straight at the target
++                d = math.dist((before["x"], before["y"]), (x, y))
++                k = min(1.0, 60.0 / max(d, 1.0))
++                sx, sy = before["x"] + (x - before["x"]) * k, before["y"] + (y - before["y"]) * k
++                sz = before.get("z", z) + (z - before.get("z", z)) * k
++                call("move.to", x=sx, y=sy, z=sz, timeout_ms=20000)
+                 continue
+             if r["move"].get("reason") != "budget":
+                 self.safe()
+@@ -1034,12 +1046,24 @@ class Runner:
+     def accept(self, qid):
+         self.safe()
+         self.leave_vehicle()
+-        kind, entry = self.w.starters[qid][0]
++        # several givers (Farewell, For Now: Thrall's ship 36161 or the Wild Overlook 36188, where
++        # the cyclone just dropped us): take the nearest in our phase - the first one listed can be
++        # somewhere the next step cannot walk back from
++        me, mask = self.me(), self.phase_mask()
++        givers = self.w.starters[qid]
++        kind, entry = min(givers, key=lambda ke: math.dist(
++            (self.w.nearest(ke[0], ke[1], me, mask) or (1e9, 1e9))[:2], (me["x"], me["y"])))
+         if not self.reach_npc(kind, entry):
+             print(f"[SKIP] accept {qid}: cannot reach giver {kind}{entry}", flush=True)
+             self.blocked.add(qid)
+             return
+         r = call("interact.quest_accept", target={"entry": entry}, quest_id=qid)
++        if not r.get("ok") and "timeout" in r.get("detail", ""):
++            # a cold accept can go unanswered (Who's Top of the Food Chain Now? 24816, four times in a
++            # row); talking to the giver first - as a player always does - and asking again takes
++            call("interact.gossip_hello", entry=entry)
++            time.sleep(0.5)
++            r = call("interact.quest_accept", target={"entry": entry}, quest_id=qid)
+         title = self.w.quests[qid]["LogTitle"]
+         print(f"[{'PASS' if r.get('ok') else 'SKIP'}] accept {qid} {title} - {r.get('detail')}", flush=True)
+         if not r.get("ok"):
+@@ -1444,15 +1468,91 @@ class Runner:
+         cache = self.__dict__.setdefault("_bar_kinds", {})
+         need = [sp for sp in bar if sp not in cache]
+         if need:
+-            for r in dbc("SELECT id,effect_1 e1,effect_2 e2,effect_3 e3,effect_implicit_target_a_1 t1,targets FROM spell "
+-                         f"WHERE id IN ({inlist(need)})"):
+-                dmg = {int(r["e1"]), int(r["e2"]), int(r["e3"])} & {2, 7, 9, 17, 31, 58, 121}  # + weapon hits (Illegal Contact)
++            weapon = {2, 7, 9, 17, 31, 58, 121}  # school damage, health leech + weapon hits (Illegal Contact)
++            rows = dbc("SELECT id,effect_1 e1,effect_2 e2,effect_3 e3,effect_implicit_target_a_1 t1,targets,"
++                       f"effect_trigger_spell_1 tr FROM spell WHERE id IN ({inlist(need)})")
++            trig = {int(r["tr"]) for r in rows if int(r["e1"]) == 64 and int(r["tr"])}
++            trig_dmg = {int(r["id"]) for r in dbc(
++                f"SELECT id FROM spell WHERE id IN ({inlist(trig)}) AND (effect_1 IN ({inlist(weapon)}) "
++                f"OR effect_2 IN ({inlist(weapon)}))")} if trig else set()
++            for r in rows:
++                dmg = {int(r["e1"]), int(r["e2"]), int(r["e3"])} & weapon
+                 ground = int(r["targets"]) & 0x40 or int(r["t1"]) in (16, 17, 18, 28, 47, 53, 87, 89)
++                if not dmg and int(r["e1"]) == 64 and int(r["tr"]) in trig_dmg:
++                    # TRIGGER_SPELL into a damage spell: the Pride of Kezan's Machine Gun 73456 sweeps a
++                    # 45 yd cone ahead and each enemy in it takes 74958 - aim by facing, not by target
++                    cache[int(r["id"])] = "cone"
++                    continue
+                 cache[int(r["id"])] = ("ground" if ground else "unit") if dmg else None
+             for sp in need:
+                 cache.setdefault(sp, "ground")  # unknown to the DBC: keep the old behaviour
+         return {sp: cache[sp] for sp in bar}
+ 
++    def bar_timing(self, bar):
++        """Bar spell -> (cooldown s, max range yd) from the DBC: recovery time (at least the GCD) and
++        the hostile max range; a cone's reach is its effect radius."""
++        cache = self.__dict__.setdefault("_bar_timing", {})
++        need = [sp for sp in bar if sp and sp not in cache]
++        if need:
++            for r in dbc("SELECT s.id,s.recovery_time rt,s.category_recovery_time crt,s.start_recovery_time gcd,"
++                         "r.max_range_hostile mr,rad.radius rad FROM spell s LEFT JOIN spellrange r ON r.id=s.range_index "
++                         "LEFT JOIN spellradius rad ON rad.id=s.effect_radius_index_1 "
++                         f"WHERE s.id IN ({inlist(need)})"):
++                num = lambda v: 0.0 if v in (None, "", "NULL") else float(v)
++                cd = max(num(r["rt"]), num(r["crt"]), num(r["gcd"]), 500) / 1000.0
++                mr = num(r["mr"])
++                if mr > 1e6:  # SpellRange floats are stored as their raw IEEE-754 bits (100 yd = 1120403456)
++                    mr = struct.unpack("<f", struct.pack("<I", int(mr)))[0]
++                cache[int(r["id"])] = (cd, mr or 30.0, num(r["rad"]))
++        return {sp: cache.get(sp, (1.5, 30.0, 0.0)) for sp in bar if sp}
++
++    def dogfight(self, target, bar):
++        """We fly a gunship against fighters faster than us (The Pride of Kezan: Gnomeregan Stealth
++        Fighters 39039 vs our 39074). Chasing one target to 12 yd never closes and long-range
++        rockets fail out of range (silently - a vehicle's failed cast is never reported). Instead:
++        re-aim at the nearest fighter every half second in short hops, sweep the Machine Gun cone
++        whenever one is inside its radius, and fire rockets only in range and off cooldown."""
++        kinds = self.bar_kinds(bar)
++        timing = self.bar_timing([sp for sp, k in kinds.items() if k])
++        last, shots, t0 = {}, 0, time.time()
++        log0 = self.log()
++        while time.time() - t0 < 40:
++            if not any(call("vehicle.state").get("spells", [])):
++                break
++            objs = [o for o in call("interact.find", entry=target, limit=10).get("objects", [])
++                    if o.get("health", 0) > 0 and o.get("distance", 999) < 500]
++            if not objs:
++                time.sleep(1)
++                continue
++            o = min(objs, key=lambda x: x["distance"])
++            d = o["distance"]
++            call("move.face", x=o["x"], y=o.get("y", 0))
++            for sp, kind in kinds.items():
++                if not kind:
++                    continue
++                cd, rng, rad = timing.get(sp, (1.5, 30.0, 0.0))
++                reach = rad if kind == "cone" and rad else rng
++                if d > reach - 3 or time.time() - last.get(sp, 0) < cd:
++                    continue
++                if kind == "ground":
++                    call("vehicle.cast", spell_id=sp, ground=True, x=o["x"], y=o.get("y", 0), z=o.get("z", 0))
++                else:
++                    call("vehicle.cast", spell_id=sp, target=int(o["guid"]))
++                last[sp], shots = time.time(), shots + 1
++            if d > 30:
++                # close in: a short hop to a point just short of it, at its altitude, then re-aim
++                me = self.me()
++                k = max(0.0, (d - 20) / max(d, 1))
++                call("move.to", x=me["x"] + (o["x"] - me["x"]) * k, y=me["y"] + (o.get("y", 0) - me["y"]) * k,
++                     z=me.get("z", 0) + (o.get("z", 0) - me.get("z", 0)) * k, timeout_ms=1200)
++            else:
++                time.sleep(0.4)
++        log1 = self.log()
++        gained = sum(sum(e.get("counts", [0, 0, 0, 0])) for e in log1.values()) - \
++            sum(sum(e.get("counts", [0, 0, 0, 0])) for e in log0.values())
++        print(f"  dogfight with {target}: {shots} shots in {time.time() - t0:.0f}s, +{gained} credit", flush=True)
++        return True
++
+     def board_quest_vehicle(self, qid):
+         """The quest's giver offers a ride by gossip (Sassy: "Get me up into the skies") - take it,
+         and board the summoned vehicle if the summon did not seat us itself."""
+@@ -1501,8 +1601,7 @@ class Runner:
+             # positions agree, so a distance test never fires, and every move goes out under the
+             # player's guid - the server ignores it and the ride stays parked where it was summoned
+             # (Final Confrontation: the uniform sat at its spawn while we "walked" up to Gallywix)
+-            if v and (getattr(self, "_mover", None) != vst["vehicle"]
+-                      or math.dist((v["x"], v["y"]), (me["x"], me["y"])) > 15):
++            if v and math.dist((v["x"], v["y"]), (me["x"], me["y"])) > 15:
+                 call("move.set_mover", guid=int(vst["vehicle"]), x=v["x"], y=v["y"], z=v["z"],
+                      run_speed=v.get("runSpeed", 7))
+                 self._mover = vst["vehicle"]
+@@ -1521,6 +1620,9 @@ class Runner:
+             time.sleep(2)  # the ride is carrying us on - targets come into range
+             return True
+         o = min(objs, key=lambda x: x["distance"])
++        if vst.get("controlling") and vst.get("entry") in self.w.flying_vehicles and \
++                int(sql(f"SELECT COUNT(*) n FROM creature_template_movement WHERE CreatureId={target} AND Flight>0")[0]["n"]):
++            return self.dogfight(target, bar)  # air-to-air: the Pride of Kezan against stealth fighters
+         if o["distance"] > 20 and call("vehicle.state").get("controlling"):
+             # we drive this one (Mechashark): close in - straight, it swims/flies - then shoot
+             dx, dy = self.me()["x"] - o["x"], self.me()["y"] - o["y"]
+@@ -1528,26 +1630,53 @@ class Runner:
+             self.drive(call("vehicle.state").get("entry", 0), o["x"] + dx / d * 12, o["y"] + dy / d * 12, o["z"], 15000)
+             o = next((x for x in call("interact.find", guid=int(o["guid"]), limit=1).get("objects", [])), o)
+         kinds = self.bar_kinds(bar)
+-        if o["health"] > 5000:
+-            # a boss (Final Confrontation: Gallywix, 19.6k HP, hits like level 85): one shot per
++        if o["health"] > 2000:
++            # a tough target (Gallywix 19.6k HP; a 3.7k naga out-heals spaced Mechashark shots): one shot per
+             # runner pass loses the race - stay on the bar and keep every damage spell rolling on the
+             # GCD until he is down to his scripted end, the ride is gone, or time is up
+             g, hp0, t0, casts = int(o["guid"]), o["health"], time.time(), 0
++            timing = self.bar_timing([sp for sp, k in kinds.items() if k])
++            # the longest-reaching weapon sets the stand-off (Field Goal 40 yd); a melee-only one (Illegal
++            # Contact, 6 yd) is used only when he is on top of us anyway
++            far = max((timing[sp][1] for sp, k in kinds.items() if k in ("unit", "ground")), default=30.0)
++            ventry = call("vehicle.state").get("entry", 0)
++            # kite only what out-levels us badly (Gallywix 85 vs 14); a 3.7k naga dies faster up close
++            lvl = int(sql(f"SELECT minlevel l FROM creature_template WHERE entry={target}")[0]["l"])
++            kite = lvl > call("interact.self").get("level", 1) + 10
+             while time.time() - t0 < 45:
+                 if not any(call("vehicle.state").get("spells", [])):
+-                    break
++                    time.sleep(1)  # the bar arrives a moment after boarding
++                    if not any(call("vehicle.state").get("spells", [])):
++                        break
+                 cur = next(iter(call("interact.find", guid=g, limit=1).get("objects", [])), None)
+                 if not cur or cur.get("health", 0) <= 0:
+                     break
++                d = cur.get("distance", 0)
++                if kite and vst.get("controlling") and d < 14:
++                    # kite: Gallywix (level 85, x4 damage) flattens the uniform in melee - back off to
++                    # just inside our reach, then turn and fire again
++                    me = self.me()
++                    ux, uy = me["x"] - cur["x"], me["y"] - cur["y"]
++                    n = max(math.hypot(ux, uy), 0.01)
++                    self.drive(ventry, cur["x"] + ux / n * (far - 6), cur["y"] + uy / n * (far - 6), cur["z"], 6000)
++                    continue
++                if kite and vst.get("controlling") and d > far - 2:
++                    me = self.me()
++                    ux, uy = me["x"] - cur["x"], me["y"] - cur["y"]
++                    n = max(math.hypot(ux, uy), 0.01)
++                    self.drive(ventry, cur["x"] + ux / n * (far - 5), cur["y"] + uy / n * (far - 5), cur["z"], 6000)
++                    continue
++                call("move.face", x=cur["x"], y=cur["y"])
+                 for sp, kind in kinds.items():
++                    if kind not in ("unit", "ground") or d > timing.get(sp, (1.5, 30.0, 0))[1] - 1:
++                        continue
+                     if kind == "unit":
+                         call("vehicle.cast", spell_id=sp, target=g)
+-                    elif kind == "ground":
+-                        call("vehicle.cast", spell_id=sp, ground=True, x=cur["x"], y=cur["y"], z=cur["z"])
+                     else:
+-                        continue
++                        call("vehicle.cast", spell_id=sp, ground=True, x=cur["x"], y=cur["y"], z=cur["z"])
+                     casts += 1
+                     time.sleep(1.6)
++                    break  # one shot, then re-check range - he closes ~12 yd per GCD
+             cur = next(iter(call("interact.find", guid=g, limit=1).get("objects", [])), None)
+             print(f"  bar duel with {target}: {casts} casts in {time.time() - t0:.0f}s, hp {hp0} -> "
+                   f"{cur.get('health', 0) if cur else 'gone'}", flush=True)
+@@ -1799,7 +1928,15 @@ class Runner:
+                     if spell not in call("vehicle.state").get("spells", []):
+                         raise StepFailed(f"could not board {veh} for bar spell {spell}")
+                 return self.bar_attack(target, [spell])
+-            if target > 0 and target in self.w.spellhit:
++            uncastable = False
++            if target > 0 and target in self.w.spellhit and target in self.w.spellclick:
++                # the SPELLHIT is the click's own spell (Good Help is Hard to Find: clicking a troll
++                # 34830 casts 66306 at it) - we can neither cast it nor use an item for it: click
++                sp = self.w.spellhit[target]
++                uncastable = sp not in set(call("interact.spells").get("spells", [])) and not any(
++                    isp == sp for isp in self.w.item_spell.values()) and sp not in self.w.vehicle_spell \
++                    and sp not in self.w.vehicle_launch
++            if target > 0 and target in self.w.spellhit and not uncastable:
+                 spell = self.w.spellhit[target]
+                 if spell in self.w.vehicle_launch:  # a siege shot from a vehicle bar: lob it at them
+                     return self.vehicle_bombard(qid, target, *self.w.vehicle_launch[spell])
+-- 
+2.34.1
+
