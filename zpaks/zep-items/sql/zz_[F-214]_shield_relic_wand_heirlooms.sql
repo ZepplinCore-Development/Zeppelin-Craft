@@ -72,6 +72,7 @@ INSERT INTO item_template SET
   stackable = 1,
   ScalingStatDistribution = 9,
   ScalingStatValue = 16,     -- 0x10 ranged/relic budget
+  TotemCategory = 21,        -- Master Totem: counts as Earth/Air/Fire/Water (user: no need to carry the four)
   bonding = 1,
   Material = -1;
 
