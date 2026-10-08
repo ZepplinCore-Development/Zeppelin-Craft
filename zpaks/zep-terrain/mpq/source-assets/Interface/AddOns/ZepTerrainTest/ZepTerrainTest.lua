@@ -47,7 +47,11 @@ SlashCmdList["ZEPTERRAIN"] = function(input)
     if cmd == "clear" or cmd == "off" then
         clearPhase()
     elseif cmd == "set" and arg ~= "" then
-        setPhase(arg)
+        -- Resolve presets here too. "/terrain set 1" used to pass the literal "1" through as a
+        -- map directory, so the framework looked for World\Maps\1\1.wdt, logged
+        -- "phase WDT ... not found" to wxl-core.log and returned without swapping -- which in
+        -- game looks exactly like a dead command. Accept either form.
+        setPhase(PRESETS[arg:lower()] or arg)
     elseif PRESETS[cmd] then
         setPhase(PRESETS[cmd])
     elseif cmd == "status" then
@@ -55,7 +59,7 @@ SlashCmdList["ZEPTERRAIN"] = function(input)
                           or "framework |cffff5555NOT loaded|r")
     else
         msg("usage:")
-        msg("  /terrain set <MapDir>   e.g. /terrain set LostIslesPhase1")
+        msg("  /terrain set <MapDir>   e.g. /terrain set LostIslesPhase1 (or: set 1)")
         msg("  /terrain 1  |  /terrain 2   (presets)")
         msg("  /terrain clear          restore base terrain")
         msg("  /terrain status         is the framework loaded?")
