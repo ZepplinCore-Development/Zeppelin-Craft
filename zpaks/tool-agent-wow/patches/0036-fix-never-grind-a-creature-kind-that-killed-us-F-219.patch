@@ -1,0 +1,31 @@
+From 7a03683232b746179b21ccff4cbb93b427068112 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 16:50:20 +0000
+Subject: [PATCH] fix: never grind a creature kind that killed us (F-219)
+
+Coldridge died to Frostmane Troll Whelps 706 three times while grinding (packs). A grind death
+now puts that entry on the run's grind skip list.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index a8c0c20..c942716 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -957,6 +957,9 @@ class Runner:
+             self.grind_skip.add(t["entry"])
+         if "died" in r.get("reason", ""):
+             self.grind_deaths += 1
++            # this kind killed us (Coldridge: Frostmane Troll Whelps 706 three times - they come in
++            # packs): never grind it again this run
++            self.grind_skip.add(t["entry"])
+         if r.get("reason") == "budget":  # outlasted a whole kill call: not worth grinding
+             self.grind_slow[t["entry"]] = self.grind_slow.get(t["entry"], 0) + 1
+             if self.grind_slow[t["entry"]] >= 3:
+-- 
+2.34.1
+
