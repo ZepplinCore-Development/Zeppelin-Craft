@@ -1,0 +1,48 @@
+From eab859913c633ab40ddcb277a5dd6848b8ce506b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 12:59:02 +0000
+Subject: [PATCH] fix: try the next quest giver when the nearest cannot be
+ reached (F-219)
+
+Regression from 'accept from the nearest giver': Fourth and Goal 28414 also lists 37203 Fourth
+And Goal Target (a rooftop marker, z 137) as a starter; it is nearer than the coach, unreachable,
+and the goblin fleet bot stopped INCOMPLETE on Kezan. Givers are now tried nearest-first and
+the first one we can stand next to is used.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 3a086be..e13eeed 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1302,10 +1302,20 @@ class Runner:
+         # the cyclone just dropped us): take the nearest in our phase - the first one listed can be
+         # somewhere the next step cannot walk back from
+         me, mask = self.me(), self.phase_mask()
+-        givers = self.w.starters[qid]
+-        kind, entry = min(givers, key=lambda ke: math.dist(
++        givers = sorted(self.w.starters[qid], key=lambda ke: math.dist(
+             (self.w.nearest(ke[0], ke[1], me, mask) or (1e9, 1e9))[:2], (me["x"], me["y"])))
+-        if not self.reach_npc(kind, entry):
++        # ...but fall through to the next one when the nearest cannot be reached: Fourth and Goal's
++        # starters include 37203 "Fourth And Goal Target", a marker on a rooftop, nearer than the coach
++        kind, entry = givers[0]
++        reached = False
++        for k, e in givers:
++            try:
++                if self.reach_npc(k, e):
++                    kind, entry, reached = k, e, True
++                    break
++            except StepFailed:
++                continue
++        if not reached:
+             print(f"[SKIP] accept {qid}: cannot reach giver {kind}{entry}", flush=True)
+             self.blocked.add(qid)
+             return
+-- 
+2.34.1
+
