@@ -27,3 +27,5 @@
 *.pyc binary
 *.pyz binary
 *.pkg binary
+# F-216 model viewer engine: emscripten data package is binary (no NUL bytes, so auto-detect calls it text)
+cli/assets/modelviewer/engine/project.data binary
