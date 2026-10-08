@@ -1,0 +1,57 @@
+From 196b5131dc5905c0b531951483b533ecd427619e Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 14:47:25 +0000
+Subject: [PATCH] fix: step onto the quest NPC before talking - out-of-range
+ packets get no reply (F-219)
+
+Coldridge, The Troll Cave 182: COMPLETE_QUEST, GOSSIP_HELLO, COMPLETE_QUEST again - the server
+answered none of them (it is silent when the player is out of interaction range), while the bot
+believed it stood next to Grelin Whitebeard (z 385.9, navmesh point below). Before accepting or
+handing in at a creature, close to within 4 yd of the creature itself.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 568bad0..56c8e18 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1305,6 +1305,14 @@ class Runner:
+                 inv[it["entry"]] = inv.get(it["entry"], 0) + it.get("count", 1)
+         return inv
+ 
++    def close_in(self, entry):
++        """Stand within talking range of a creature: the server answers a quest/gossip packet from too
++        far away with SILENCE (The Troll Cave hand-in: three packets, no reply - the bot stood on the
++        navmesh below Grelin Whitebeard). Step straight onto him when we are more than 4 yd off."""
++        o = next(iter(call("interact.find", entry=entry, limit=1).get("objects", [])), None)
++        if o and o.get("distance", 0) > 4:
++            call("move.to", x=o["x"], y=o.get("y", 0), z=o.get("z", 0), timeout_ms=8000)
++
+     def reach_npc(self, kind, entry):
+         """go_near, then wait out a giver who is briefly unseeable - Slinky Sharpshiv (34693)
+         re-stealths every 4 min for 10-50 s; a player just waits for him to reappear."""
+@@ -1340,6 +1348,8 @@ class Runner:
+             print(f"[SKIP] accept {qid}: cannot reach giver {kind}{entry}", flush=True)
+             self.blocked.add(qid)
+             return
++        if kind == "c":
++            self.close_in(entry)
+         r = call("interact.quest_accept", target={"entry": entry}, quest_id=qid)
+         if not r.get("ok") and "timeout" in r.get("detail", ""):
+             # a cold accept can go unanswered (Who's Top of the Food Chain Now? 24816, four times in a
+@@ -1467,6 +1477,8 @@ class Runner:
+                     break
+             except StepFailed:
+                 continue
++        if kind == "c":
++            self.close_in(entry)
+         try:
+             r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
+             if not r.get("ok") and "timeout" in r.get("detail", ""):
+-- 
+2.34.1
+
