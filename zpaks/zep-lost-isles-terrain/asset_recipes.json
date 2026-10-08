@@ -149,5 +149,23 @@
    "sha256": "33a4af664f9a99bd844cefb384b2c95f0cb3cd0710fa43758a64a169bc52e79c"
   },
   "edits": []
+ },
+ "Tileset/BurningStepps/BurningSteppsLava02_s.blp": {
+  "note": "I-387 - specular companion (_s) of a Phase1 tex0 layer; no patch shipped it and the Cata tex0 has no MTXF opt-out, so the client draws missing-texture GREEN with specular lighting on (52_30 lava02; 53_29 WaterBlue base layer of 4 chunks).",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/tileset/burningstepps/burningsteppslava02_s.blp",
+   "sha256": "6e995a2270cc09469a9be30a54b861fa599c15d339cb1fd53363497a2ee18e3e"
+  },
+  "edits": []
+ },
+ "Tileset/Generic/WaterBlue_s.blp": {
+  "note": "I-387 - specular companion (_s) of a Phase1 tex0 layer; no patch shipped it and the Cata tex0 has no MTXF opt-out, so the client draws missing-texture GREEN with specular lighting on (52_30 lava02; 53_29 WaterBlue base layer of 4 chunks).",
+  "base": {
+   "kind": "library",
+   "source": "Zeppelin-Tools/Asset Library/GAME ASSETS/tileset/generic/waterblue_s.blp",
+   "sha256": "03575fa67e546829a8991f4c2cbe626d18bac1902a16ffb5a899709283690d26"
+  },
+  "edits": []
  }
 }
