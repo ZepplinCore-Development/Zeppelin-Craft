@@ -128,6 +128,18 @@ function upgradeM2(buf) {
       }
     }
   }
+  // A sequence whose next-variation link points past the sequence array (14 HD-pack trees:
+  // canopylesstree01, elwynntreecanopy02, redridgetreecanopy01.. carry 1 sequence with next = 1)
+  // sends the engine into an endless loop and freezes the page. End the chain there instead.
+  {
+    const nS = dv.getUint32(0x1C, true), oS = dv.getUint32(0x20, true);
+    if (oS + 64 * nS <= buf.byteLength) {
+      for (let i = 0; i < nS; i++) {
+        const o = oS + 64 * i + 60;
+        if (dv.getInt16(o, true) >= nS) dv.setInt16(o, -1, true);
+      }
+    }
+  }
   // Sequences with duration 0 (Maribeth's static doodads, e.g. flowerswreath01):
   // the client treats them as static, the engine wraps time by the duration and
   // the bone matrices go NaN, so the whole mesh disappears. Give them 1 ms.
