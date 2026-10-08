@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model Source Picker</title>
+<style>
+  :root {
+    --bg: #0f1520; --panel: #161e2b; --panel2: #1c2636; --line: #2a3648;
+    --text: #e6ebf2; --muted: #8b98ab; --accent: #6aa9ff; --good: #4cc38a;
+    --warn: #e2b04a; --bad: #e5676b; --chosen: #2c5a3f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+    font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .app { display: grid; grid-template-columns: 300px 1fr; height: 100%; }
+  aside { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+  aside header { padding: 12px; border-bottom: 1px solid var(--line); }
+  aside h1 { font-size: 15px; margin: 0 0 8px; }
+  .progress { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+  .bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-bottom: 10px; }
+  .bar > i { display: block; height: 100%; background: var(--good); width: 0; }
+  .filters { display: flex; gap: 4px; margin-bottom: 8px; }
+  .filters button { flex: 1; }
+  input[type=search] { width: 100%; padding: 6px 8px; background: var(--bg); color: var(--text);
+    border: 1px solid var(--line); border-radius: 6px; }
+  button { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 6px;
+    padding: 5px 8px; cursor: pointer; font: inherit; font-size: 12px; }
+  button:hover { border-color: var(--accent); }
+  button.on { background: var(--accent); color: #08111f; border-color: var(--accent); }
+  #queue { overflow: auto; flex: 1; }
+  .q { padding: 8px 12px; border-bottom: 1px solid var(--line); cursor: pointer; display: grid; gap: 2px; }
+  .q:hover { background: var(--panel2); }
+  .q.cur { background: #22324a; box-shadow: inset 3px 0 0 var(--accent); }
+  .q .t { display: flex; justify-content: space-between; gap: 6px; }
+  .q .n { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tick { color: var(--good); font-size: 12px; }
+  main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .top { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .top h2 { font-size: 16px; margin: 0; }
+  .top .sub { color: var(--muted); font-size: 12px; }
+  .top .sp { flex: 1; }
+  select { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 5px; }
+  #save { font-size: 12px; color: var(--muted); }
+  #save.err { color: var(--bad); }
+  #save.ok { color: var(--good); }
+  .panes { flex: 1; display: grid; gap: 10px; padding: 10px; min-height: 0;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); grid-auto-rows: 1fr; overflow: auto; }
+  .pane { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; display: flex; flex-direction: column; min-height: 360px; overflow: hidden; }
+  .pane.chosen { border-color: var(--good); box-shadow: 0 0 0 1px var(--good); }
+  .pane iframe { flex: 1; border: 0; width: 100%; min-height: 220px; background: #1e2a3a; }
+  .info { padding: 8px 10px; display: grid; gap: 4px; border-top: 1px solid var(--line); }
+  .info .h { display: flex; align-items: center; gap: 6px; }
+  .info .h b { font-size: 13px; }
+  .key { color: var(--muted); font-size: 11px; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+  .who { color: var(--muted); font-size: 12px; }
+  .stats { font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--muted); }
+  .chips { display: flex; gap: 4px; flex-wrap: wrap; }
+  .chip { font-size: 11px; padding: 1px 6px; border-radius: 10px; background: var(--panel2); border: 1px solid var(--line); }
+  .chip.ship { border-color: var(--accent); color: var(--accent); }
+  .chip.flag { border-color: var(--warn); color: var(--warn); }
+  .chip.miss { border-color: var(--bad); color: var(--bad); }
+  .use { margin-top: 4px; padding: 7px; font-size: 13px; }
+  .pane.chosen .use { background: var(--good); color: #06150d; border-color: var(--good); }
+  .empty { margin: auto; color: var(--muted); }
+  #menu, .scrim, .grow { display: none; }
+  #menu svg, .grow svg, .controls svg { display: block; }
+  .grow { position: absolute; top: 6px; right: 6px; z-index: 2; padding: 3px 7px; opacity: .85; }
+  .pane { position: relative; }
+  .pane.full { position: fixed; inset: 0; z-index: 50; border-radius: 0; min-height: 0; }
+  .pane.full .grow { display: block; }
+  .controls { display: flex; align-items: center; gap: 6px; }
+  .hint { color: var(--muted); font-size: 12px; }
+  @media (hover: hover) { .pane:hover .grow { display: block; } }
+  @media (max-width: 760px) {
+    .app { grid-template-columns: 1fr; }
+    aside { position: fixed; inset: 0 auto 0 0; width: min(86vw, 340px); z-index: 40;
+      transform: translateX(-102%); transition: transform .2s ease; box-shadow: 4px 0 18px rgba(0,0,0,.5); }
+    body.drawer aside { transform: none; }
+    body.drawer .scrim { display: block; position: fixed; inset: 0; z-index: 30; background: rgba(0,0,0,.45); }
+    #menu { display: inline-block; }
+    .top { gap: 6px; padding: 8px 10px; }
+    .top > div:first-of-type { flex: 1 1 100%; min-width: 0; }
+    .top h2 { font-size: 15px; }
+    .top .sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .top .sp, .hint { display: none; }
+    .controls { flex: 1 1 100%; }
+    .controls select { flex: 1; min-width: 0; }
+    .controls { gap: 4px; }
+    .controls button { padding: 8px 9px; font-size: 14px; }
+    #save { flex: 1 1 100%; }
+    .panes { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; align-content: start; align-items: start; gap: 6px; padding: 6px; }
+    .panes { grid-auto-rows: min-content; }
+    .pane { min-height: 0; height: auto; align-self: start; border-radius: 8px; }
+    .pane iframe { flex: none; aspect-ratio: 1 / 1; min-height: 0; height: auto; }
+    .pane.full iframe { flex: 1; aspect-ratio: auto; }
+    .grow { display: block; }
+    .info { padding: 6px; gap: 3px; }
+    .info .h b { font-size: 12px; overflow-wrap: anywhere; }
+    .who, .stats .path { display: none; }
+    .stats { font-size: 10px; }
+    .chip { font-size: 10px; }
+    .use { padding: 9px 4px; font-size: 13px; }
+  }
+  .conflictbar { font-size: 12px; color: #e8c766; }
+  .conflictbar:empty { display: none; }
+  /* Sources panel: where every piece of a pane comes from */
+  .prov summary { cursor: pointer; font-size: 12px; color: var(--muted, #9aa4b2); user-select: none; }
+  .prov[open] summary { margin-bottom: 4px; }
+  .pb { font-size: 11px; display: grid; gap: 6px; max-height: 340px; overflow: auto; }
+  .pb h4 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; opacity: .7; }
+  .pb .row { display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; }
+  .pb .path { font-family: ui-monospace, monospace; overflow-wrap: anywhere; }
+  .pb .own { padding: 0 5px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel2); white-space: nowrap; }
+  .pb .own.stock { opacity: .75; }
+  .pb .own.miss { border-color: #c0504d; color: #e88; }
+  .pb .warn { border: 1px solid #c9a227; border-radius: 6px; padding: 4px 6px; color: #e8c766; }
+  .pb .item { border-left: 2px solid var(--line); padding-left: 6px; display: grid; gap: 2px; }
+  .pb .bad { color: #e88; }
+</style>
+</head>
+<body>
+<div class="scrim" id="scrim"></div>
+<div class="app">
+  <aside>
+    <header>
+      <h1>Model Source Picker</h1>
+      <div class="progress" id="progress"></div>
+      <div class="bar"><i id="bar"></i></div>
+      <div class="filters">
+        <button data-f="todo" class="on">Undecided</button>
+        <button data-f="flag">Flagged</button>
+        <button data-f="conflict">Conflicts</button>
+        <button data-f="all">All</button>
+      </div>
+      <div class="filters kinds">
+        <button data-k="all" class="on">All</button>
+        <button data-k="creature">Creatures</button>
+        <button data-k="gobject">Objects</button>
+        <button data-k="item">Items</button>
+      </div>
+      <input type="search" id="search" placeholder="Model, display id or name…">
+    </header>
+    <div id="queue"></div>
+  </aside>
+  <main>
+    <div class="top">
+      <div>
+        <h2 id="title">Loading…</h2>
+        <div class="sub" id="subtitle"></div>
+      <div class="conflictbar" id="conflictbar"></div>
+      </div>
+      <div class="sp"></div>
+      <span class="hint">drag: orbit (all panes) · wheel/±: zoom · right- or middle-drag, or the ✥ toggle: pan (per pane) · double-click resets</span>
+      <div class="controls">
+        <button id="menu" title="Queue" aria-label="Queue"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <select id="anim" title="Animation"><option value="0">Stand (0)</option></select>
+        <button id="resetcam" title="Reset all views (0)" aria-label="Reset all views"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg></button>
+        <button id="prev" title="Previous (←)">←</button>
+        <button id="next" title="Next (→)">→</button>
+      </div>
+      <span id="save"></span>
+    </div>
+    <div class="panes" id="panes"><div class="empty">Loading queue…</div></div>
+  </main>
+</div>
+<script>
+// stamped at deploy: a new pane.html is fetched after every deploy (no stale browser copy)
+const PANE_V = '__PANE_V__';
+const CHOICES_URL = 'choices/model_choices.json';
+
+// Save key: opened once as ...#key=XXXX, kept in this browser, sent with each save.
+// The key lives only in nginx.conf on the server, never in these public files.
+const KEY_STORE = 'f216-picker-key';
+let pickerKey = '';
+try { pickerKey = localStorage.getItem(KEY_STORE) || ''; } catch (e) {}
+(() => {
+  const m = location.hash.match(/key=([0-9a-f]+)/i);
+  if (!m) return;
+  pickerKey = m[1];
+  try { localStorage.setItem(KEY_STORE, pickerKey); } catch (e) {}
+  history.replaceState(null, '', location.pathname + location.search);
+})();
+let queue = [], animNames = {}, choices = { version: 1, choices: {} };
+let filter = 'todo', kindFilter = 'all', search = '', cur = -1, view = [];
+const $ = (id) => document.getElementById(id);
+
+// Conflicts: one file ships once, so every group whose pick uses a model file must
+// agree on the source of that file. Live, from the choices: groups (or displays
+// inside one group) that picked different sources for the same model path.
+// Cross-model texture collisions come from the curate dry run (curate_conflicts.json).
+let conflicts = new Map();          // queue index -> [{path, mine, others}]
+let curateConflicts = {};           // display id -> [message]
+function computeConflicts() {
+  const byPath = new Map();         // model path -> Map(source -> Set(queue index))
+  queue.forEach((g, gi) => g.displays.forEach(id => {
+    const c = choices.choices[id], dd = byDisplay[id];
+    if (!c || !dd) return;
+    const pp = dd.panes.find(x => !x.compare && (x.source === c.source || x.same_as.includes(c.source)));
+    if (!pp) return;
+    if (!byPath.has(pp.model)) byPath.set(pp.model, new Map());
+    const m = byPath.get(pp.model);
+    if (!m.has(c.source)) m.set(c.source, new Set());
+    m.get(c.source).add(gi);
+  }));
+  conflicts = new Map();
+  for (const [path, bySrc] of byPath) {
+    if (bySrc.size < 2) continue;
+    for (const [src, gs] of bySrc) for (const gi of gs) {
+      const others = [...bySrc].filter(([s2]) => s2 !== src)
+        .map(([s2, g2]) => `${s2} (${[...g2].map(x => queue[x].display).slice(0, 4).join(', ')}${g2.size > 4 ? '…' : ''})`);
+      if (!conflicts.has(gi)) conflicts.set(gi, []);
+      if (!conflicts.get(gi).some(x => x.path === path)) conflicts.get(gi).push({ path, mine: src, others });
+    }
+  }
+  queue.forEach((g, gi) => {
+    const msgs = g.displays.flatMap(id => curateConflicts[id] || []);
+    if (!msgs.length) return;
+    if (!conflicts.has(gi)) conflicts.set(gi, []);
+    [...new Set(msgs)].slice(0, 8).forEach(m => conflicts.get(gi).push({ path: m, mine: '', others: [] }));
+  });
+}
+const conflictText = (gi) => (conflicts.get(gi) || []).map(c =>
+  c.others.length ? `${c.path}: you picked ${c.mine}; also picked from ${c.others.join('; ')}` : c.path).join('\n');
+
+async function load() {
+  const [q, a, c] = await Promise.all([
+    fetch('data/queue.json', { cache: 'no-store' }).then(r => r.json()),
+    fetch('data/anims.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+    fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+    fetch('data/curate_conflicts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+  ]).then(r => { curateConflicts = r[3] || {}; return r; });
+  rawQueue = q.displays;
+  queue = groupByModel(rawQueue);
+  animNames = a;
+  if (c && c.choices) choices = c;
+  render();
+  const first = view.length ? view[0] : 0;
+  open(first);
+}
+
+// Many displays share the same set of model versions and differ only in skins.
+// Group them so one choice covers them all: the key is the set of
+// (source, model, sha) panes; the group shows its most-used display.
+let rawQueue = [];
+const byDisplay = {};
+function groupByModel(displays) {
+  const groups = new Map();
+  displays.forEach(d => {
+    byDisplay[d.display] = d;
+    // every source counts, including ones merged into a pane as identical (same_as):
+    // the rendered display splits packs by file CONTENT, the rest of its group only
+    // by model file, and both must land in the same group
+    const key = d.panes.filter(p => !p.compare)
+      .flatMap(p => [p.source, ...p.same_as].map(s => `${s}|${p.model}|${p.stats && p.stats.sha}`)).sort().join(';');
+    if (!groups.has(key)) groups.set(key, { ...d, displays: [], creatures: [], models: [], gi: groups.size });
+    const g = groups.get(key);
+    g.displays.push(d.display);
+    d.creatures.forEach(n => { if (!g.creatures.includes(n)) g.creatures.push(n); });
+  });
+  for (const g of groups.values()) {
+    g.models = [...new Set(g.panes.map(p => p.model))];
+    g.displays.forEach(id => { groupOf[id] = g.gi; });
+  }
+  return [...groups.values()];
+}
+// Every choice is logged against the options it was made between: {source: fingerprint
+// of the files that source itself served}. A new pack, a pack that is no longer offered,
+// or a changed fingerprint (pack update) sends the choice back to review, as does an
+// explicit flag (e.g. 'twin split'). A choice in review counts as undecided.
+const groupOf = {};                   // display id -> queue index
+const currentOptions = (g) => {
+  const out = {};
+  g.panes.filter(p => !p.compare && !p.light).forEach(p => Object.assign(out, p.skeys || {}));
+  return out;
+};
+function reviewReason(id) {
+  const c = choices.choices[id];
+  if (!c) return null;
+  if (c.review) return c.review;
+  if (!c.options) return null;
+  const g = queue[groupOf[id]];
+  if (!g) return null;
+  const cur = currentOptions(g);
+  if (!Object.keys(cur).length) return null;           // group not rendered this deploy
+  const added = Object.keys(cur).filter(s => !(s in c.options));
+  const gone = Object.keys(c.options).filter(s => !(s in cur));
+  const changed = Object.keys(c.options).filter(s => s in cur && c.options[s] !== cur[s]);
+  const why = [added.length && `new option: ${added.join(', ')}`, gone.length && `no longer offered: ${gone.join(', ')}`,
+               changed.length && `updated: ${changed.join(', ')}`].filter(Boolean);
+  return why.length ? why.join('; ') : null;
+}
+const isDecided = (id) => choices.choices[id] && !reviewReason(id);
+const reviewReasons = (g) => [...new Set(g.displays.map(reviewReason).filter(Boolean))];
+const needsReview = (g) => reviewReasons(g).length > 0;
+const decidedCount = (g) => g.displays.filter(isDecided).length;
+const decided = (g) => decidedCount(g) === g.displays.length;
+const flagged = (d) => d.panes.some(p => p.flags.length);
+const groupChoice = (g) => {   // the source chosen for every display of the group, if consistent
+  const srcs = new Set(g.displays.map(id => choices.choices[id] && choices.choices[id].source));
+  return srcs.size === 1 ? [...srcs][0] : null;
+};
+
+function render() {
+  computeConflicts();
+  const s = search.trim().toLowerCase();
+  view = [];
+  queue.forEach((d, i) => {
+    if (filter === 'todo' && decided(d)) return;
+    if (filter === 'flag' && !flagged(d)) return;
+    if (filter === 'conflict' && !conflicts.has(i)) return;
+    if (kindFilter !== 'all' && (d.kind || 'creature') !== kindFilter) return;
+    if (s && !d.displays.some(id => String(id).includes(s))
+          && !d.creatures.some(n => n.toLowerCase().includes(s))
+          && !d.models.some(m => m.includes(s))) return;
+    view.push(i);
+  });
+  const done = queue.filter(decided).length;
+  const doneDisplays = rawQueue.filter(d => isDecided(d.display)).length;
+  $('progress').textContent = `${done} of ${queue.length} model groups decided (${doneDisplays} of ${rawQueue.length} displays) · ${view.length} shown`;
+  $('bar').style.width = (queue.length ? 100 * done / queue.length : 0) + '%';
+  $('queue').innerHTML = view.map(i => {
+    const d = queue[i], n = decidedCount(d), gc = groupChoice(d);
+    const name = d.models[0].split('/').pop();
+    const tag = n === d.displays.length ? `<span class="tick">✓ ${esc(gc || 'mixed')}</span>`
+      : n ? `<span class="chip">${n}/${d.displays.length}</span>` : flagged(d) ? '<span class="chip flag">flags</span>' : '';
+    const cf = conflicts.has(i) ? `<span class="chip miss" title="${esc(conflictText(i))}">conflict</span>` : '';
+    const rr = reviewReasons(d);
+    const rv = rr.length ? `<span class="chip flag" title="${esc(rr.join('\n'))}">${esc(rr.length === 1 && rr[0].length < 28 ? rr[0] : 'review')}</span>` : '';
+    return `<div class="q${i === cur ? ' cur' : ''}" data-i="${i}">
+      <div class="t"><b>${esc(name)}</b>${tag}${rv}${cf}</div>
+      <div class="n">${d.displays.length} display${d.displays.length > 1 ? 's' : ''} · ${esc(d.creatures.join(', ') || '')}</div></div>`;
+  }).join('');
+}
+
+// Sources panel: data/prov/<n>.json, fetched the first time a panel opens.
+const ownChip = (o) => `<span class="own${o.startsWith('stock') ? ' stock' : ''}${o === 'missing' ? ' miss' : ''}">${esc(o)}</span>`;
+const fileRows = (files) => files.map(([path, o]) =>
+  `<div class="row">${ownChip(o)}<span class="path">${esc(path)}</span></div>`).join('');
+const byList = (by) => by && by.length ? by.map(esc).join(' → ') : 'stock';
+function renderProv(pv) {
+  const out = [];
+  if (pv.splits.length)
+    out.push(`<div class="warn"><b>Split pairs</b> (texture from a pack whose own mesh is not the one worn):<br>${pv.splits.map(esc).join('<br>')}</div>`);
+  out.push('<h4>DBC rows</h4>' + pv.dbc.map(r =>
+    `<div class="row"><b>${esc(r.table)} ${r.id}</b><span>${byList(r.by)}</span></div>`).join(''));
+  out.push(`<div class="row"><b>Hair/facial geoset tables</b><span>${esc(pv.geosets)}</span></div>`);
+  out.push('<h4>Body files</h4>' + fileRows(pv.body));
+  if (pv.items.length)
+    out.push('<h4>Items</h4>' + pv.items.map(it => `<div class="item">
+      <div class="row"><b>${esc(it.slot)}</b><span>ItemDisplayInfo ${it.idi}: ${byList(it.idi_by)}</span></div>
+      <div class="row${it.status === 'drawn' ? '' : ' bad'}">${esc(it.status)}</div>${fileRows(it.files)}</div>`).join(''));
+  return out.join('');
+}
+document.addEventListener('toggle', async (e) => {
+  const det = e.target;
+  if (!det.classList || !det.classList.contains('prov') || !det.open || det.dataset.loaded) return;
+  det.dataset.loaded = '1';
+  const box = det.querySelector('.pb');
+  try {
+    const r = await fetch(`data/prov/${det.dataset.prov}.json`);
+    box.innerHTML = r.ok ? renderProv(await r.json()) : `could not load sources (HTTP ${r.status})`;
+  } catch (err) { box.textContent = 'could not load sources: ' + err.message; }
+}, true);
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+let animSets = {};
+function open(i) {
+  if (i < 0 || i >= queue.length) return;
+  cur = i;
+  const d = queue[i];
+  const gc = groupChoice(d);
+  const ch = gc ? { source: gc } : null;
+  const isGo = String(d.display).startsWith('go:');
+  const isItem = String(d.display).startsWith('item:');
+  // an item group = one helm across its race/sex models, a shoulder pair, a weapon
+  $('title').textContent = isItem
+    ? `Item: ${String(d.display).slice(5).split('/').pop()} · ${String(d.display).slice(5).split('/')[0]}`
+    : d.displays.length > 1
+    ? `${d.models[0].split('/').pop()} · ${d.displays.length} ${isGo ? 'objects' : 'displays'}`
+    : (isGo ? `Object display ${String(d.display).slice(3)}` : `Display ${d.display}`);
+  $('title').title = 'Displays: ' + d.displays.join(', ');
+  const cfl = conflicts.get(i) || [];
+  $('conflictbar').innerHTML = cfl.length ? '<b>Conflict</b> — one file ships once, these picks disagree:<br>' +
+    cfl.slice(0, 6).map(c => esc(c.others.length ? `${c.path}: you picked ${c.mine}; also picked from ${c.others.join('; ')}` : c.path)).join('<br>') : '';
+  $('subtitle').textContent = [
+    d.displays.length > 1 ? `shown: ${d.display} (of ${d.displays.slice(0, 8).join(', ')}${d.displays.length > 8 ? '…' : ''})` : '',
+    d.creatures.slice(0, 3).join(', '), `ships: ${d.shipping || '?'}`,
+    d.retail_fdid ? `retail FDID ${d.retail_fdid}` : ''].filter(Boolean).join(' · ');
+  animSets = {};
+  $('anim').innerHTML = '<option value="0">Stand (0)</option>';
+  // metadata-only panes (light) carry no files to draw; never render one
+  $('panes').innerHTML = d.panes.map((p, k) => p.light ? '' : (() => {
+    const st = p.stats || {};
+    const cam = p.camera ? [...p.camera.target, p.camera.dist].join(',') : '';
+    const url = `pane.html?pv=${PANE_V}&src=${encodeURIComponent(p.src)}&model=${encodeURIComponent(p.model)}&skins=${(p.skins || []).join(',')}&cam=${cam}`
+      + `&scale=${p.scale || 1}` + (p.height_yd ? `&h=${p.height_yd}` : '')
+      + (p.tex ? `&tex=${Object.entries(p.tex).map(([k, v]) => k + ':' + v).join(',')}` : '')
+      + (p.mesh ? `&mesh=${p.mesh.join(',')}` : '')
+      + (p.scalp ? '&scalp=1' : '')
+      + (p.geoall ? `&geoall=${p.geoall.join(',')}` : '')
+      + (p.items ? `&items=${encodeURIComponent(JSON.stringify(p.items))}` : '');
+    const chips = [
+      d.shipping === p.source ? '<span class="chip ship">shipping now</span>' : '',
+      p.compare ? '<span class="chip">creature-level edit · compare only</span>' : '',
+      ...p.flags.map(f => `<span class="chip flag">${esc(f)}</span>`),
+      (p.missing || []).length ? `<span class="chip miss" title="${esc(p.missing.join('\n'))}">${p.missing.length} missing</span>` : '',
+    ].join('');
+    return `<div class="pane${ch && (ch.source === p.source || p.same_as.includes(ch.source)) ? ' chosen' : ''}" data-k="${k}">
+      <button class="grow" data-k="${k}" title="Expand" aria-label="Expand"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+      <iframe src="${url}" loading="lazy" title="${esc(p.source)}"></iframe>
+      <div class="info">
+        <div class="h"><span class="key">${k + 1}</span><b>${esc(p.source)}</b></div>
+        <div class="who">${esc(p.author || '')}${p.same_as.length ? ` · same file: ${esc(p.same_as.join(', '))}` : ''}</div>
+        <div class="stats"><span class="path">${esc(p.model)}<br></span>v${st.version} · ${st.mb} MB · bones ${st.bones} · particles ${st.particles} · ribbons ${st.ribbons} · ${st.sha}</div>
+        <div class="chips">${chips}</div>
+        ${p.prov !== undefined ? `<details class="prov" data-prov="${p.prov}"><summary>Sources</summary><div class="pb">loading…</div></details>` : ''}
+        ${p.compare
+          ? `<div class="who">${esc(p.compare.name)} now uses display ${p.compare.display} instead of this stock display (${esc(p.author)})</div>`
+          : `<button class="use" data-k="${k}">${ch && (ch.source === p.source || p.same_as.includes(ch.source)) ? 'Chosen' : 'Use this'}</button>`}
+      </div></div>`;
+  })()).join('') || '<div class="empty">No panes</div>';
+  render();
+  const el = document.querySelector(`.q[data-i="${i}"]`);
+  if (el) el.scrollIntoView({ block: 'nearest' });
+}
+
+async function choose(k) {
+  const d = queue[cur], p = d && d.panes[k];
+  if (!p || p.compare) return;       // comparison panes are view-only
+  // One choice covers every display of the model group: each display gets the
+  // pane of the same source (same model file; its own skins).
+  const at = new Date().toISOString();
+  const entries = {};
+  const options = currentOptions(d);     // what this pick was made between
+  d.displays.forEach(id => {
+    const dd = byDisplay[id];
+    // the chosen source may be its own pane on one display and merged into an
+    // identical twin (same_as) on another
+    const pp = dd && dd.panes.find(x => !x.compare && (x.source === p.source || x.same_as.includes(p.source)));
+    if (pp) entries[id] = { source: p.source, model: pp.model, sha: pp.stats && pp.stats.sha,
+      same_as: [pp.source, ...pp.same_as].filter(x => x !== p.source), options,
+      shipping_was: dd.shipping, group_of: d.displays.length, at };
+  });
+  const status = $('save');
+  status.className = ''; status.textContent = 'saving…';
+  try {
+    // Merge with what is on the server, in case another tab saved meanwhile.
+    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+    const merged = { version: 1, choices: { ...(latest.choices || {}), ...choices.choices, ...entries } };
+    const headers = { 'Content-Type': 'application/json' };
+    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
+    const r = await fetch(CHOICES_URL, { method: 'PUT', headers,
+      body: JSON.stringify(merged, null, 1) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? (pickerKey ? ' (key rejected)' : ' (open the page once with its #key= link)') : ''}`);
+    choices = merged;
+    status.className = 'ok'; status.textContent = `saved ${Object.keys(entries).length} display${Object.keys(entries).length > 1 ? 's' : ''} → ${p.source}`;
+  } catch (e) {
+    status.className = 'err'; status.textContent = 'save failed: ' + e.message;
+    return;
+  }
+  // The save is done; a problem drawing the next group is a display error, not a failed save.
+  try {
+    const pos = view.indexOf(cur);
+    render();
+    // Undecided filter: the decided row drops out, so open what is now at its position.
+    if (filter === 'todo' && view.length) open(view[Math.min(pos, view.length - 1)]);
+    else open(cur);
+  } catch (e) {
+    status.className = 'err'; status.textContent += ` (saved, but showing the next group failed: ${e.message})`;
+    console.error(e);
+  }
+}
+
+function step(dir) {
+  const pos = view.indexOf(cur);
+  const next = pos < 0 ? view[0] : view[pos + dir];
+  if (next !== undefined) open(next);
+}
+
+window.addEventListener('message', (e) => {
+  const m = e.data || {};
+  if (m.type === 'pane-cam') {   // mirror one pane's camera to its siblings
+    document.querySelectorAll('.pane iframe').forEach(f => {
+      if (f.contentWindow && f.contentWindow !== e.source) f.contentWindow.postMessage({ type: 'cam', cam: m.cam }, '*');
+    });
+  }
+  if (m.type === 'pane-items') {   // helmet / shoulders / weapons merged into the model
+    document.querySelectorAll('.pane').forEach(el => {
+      const f = el.querySelector('iframe');
+      if (!f || f.contentWindow !== e.source || el.querySelector('.chip.items')) return;
+      const c = document.createElement('span');
+      c.className = 'chip items';
+      const d = queue[cur];
+      c.title = 'Helmet/shoulders from the display; weapons from ' + ((d && d.equipment_from) || 'the creature');
+      c.textContent = `${m.merged}/${m.wanted} items`;
+      el.querySelector('.chips').appendChild(c);
+    });
+  }
+  if (m.type === 'pane-error') {   // the pane's engine crashed: label it
+    document.querySelectorAll('.pane').forEach(el => {
+      const f = el.querySelector('iframe');
+      if (!f || f.contentWindow !== e.source || el.querySelector('.chip.crash')) return;
+      const c = document.createElement('span');
+      c.className = 'chip miss crash';
+      c.title = m.message;
+      c.textContent = 'viewer crashed';
+      el.querySelector('.chips').appendChild(c);
+    });
+  }
+  if (m.type === 'pane-malformed') {   // the pane hid batches with out-of-range indices
+    document.querySelectorAll('.pane').forEach(el => {
+      const f = el.querySelector('iframe');
+      if (!f || f.contentWindow !== e.source || el.querySelector('.chip.bad')) return;
+      const c = document.createElement('span');
+      c.className = 'chip miss bad';
+      c.title = 'Batches whose indices run past the model\'s lookup tables (downport defect). Hidden here; fix the file.';
+      c.textContent = `${m.count} malformed batch${m.count > 1 ? 'es' : ''} hidden`;
+      el.querySelector('.chips').appendChild(c);
+    });
+  }
+  if (m.type === 'pane-anims') {
+    animSets[m.src] = m.ids;
+    const all = [...new Set(Object.values(animSets).flat())].sort((a, b) => a - b);
+    const sel = $('anim'), keep = sel.value;
+    sel.innerHTML = all.map(id => `<option value="${id}">${esc(animNames[id] || 'Anim')} (${id})</option>`).join('');
+    sel.value = all.includes(+keep) ? keep : (all.includes(0) ? '0' : String(all[0] ?? 0));
+  }
+});
+
+$('anim').addEventListener('change', () => {
+  const id = +$('anim').value;
+  document.querySelectorAll('.pane iframe').forEach(f => f.contentWindow && f.contentWindow.postMessage({ type: 'anim', id }, '*'));
+});
+$('queue').addEventListener('click', (e) => {
+  const q = e.target.closest('.q');
+  if (q) { open(+q.dataset.i); document.body.classList.remove('drawer'); }
+});
+$('menu').addEventListener('click', () => document.body.classList.toggle('drawer'));
+$('scrim').addEventListener('click', () => document.body.classList.remove('drawer'));
+$('panes').addEventListener('click', (e) => {
+  const g = e.target.closest('.grow');
+  if (g) {
+    const pane = g.closest('.pane'), full = !pane.classList.contains('full');
+    document.querySelectorAll('.pane.full').forEach(p => p.classList.remove('full'));
+    pane.classList.toggle('full', full);
+    g.innerHTML = full ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+    return;
+  }
+  const b = e.target.closest('.use'); if (b) choose(+b.dataset.k);
+});
+document.querySelectorAll('.filters:not(.kinds) button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.filters:not(.kinds) button').forEach(x => x.classList.toggle('on', x === b));
+  filter = b.dataset.f; render();
+}));
+document.querySelectorAll('.filters.kinds button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.filters.kinds button').forEach(x => x.classList.toggle('on', x === b));
+  kindFilter = b.dataset.k; render();
+}));
+$('search').addEventListener('input', (e) => { search = e.target.value; render(); });
+// Camera buttons: every pane gets the same command, so they stay in step.
+function camAll(msg) {
+  document.querySelectorAll('.pane iframe').forEach(f => f.contentWindow && f.contentWindow.postMessage(msg, '*'));
+}
+$('resetcam').addEventListener('click', () => camAll({ type: 'resetcam' }));
+$('prev').addEventListener('click', () => step(-1));
+$('next').addEventListener('click', () => step(1));
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+  if (e.key === 'Escape') document.querySelectorAll('.pane.full').forEach(p => p.classList.remove('full'));
+  else if (e.key === '0') camAll({ type: 'resetcam' });
+  else if (e.key === 'ArrowRight') step(1);
+  else if (e.key === 'ArrowLeft') step(-1);
+  else if (/^[1-9]$/.test(e.key)) choose(+e.key - 1);
+});
+load().catch(e => { $('panes').innerHTML = `<div class="empty">Failed to load queue: ${esc(e.message)}</div>`; });
+</script>
+</body>
+</html>

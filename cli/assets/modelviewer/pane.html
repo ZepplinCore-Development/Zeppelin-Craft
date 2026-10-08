@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model Pane</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #1e2a3a; }
+  canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+  #grab { position: absolute; inset: 0; cursor: grab; touch-action: none; }
+  #grab:active { cursor: grabbing; }
+  #ruler { position: absolute; left: 8px; top: 8px; font: 11px system-ui, sans-serif; color: #e6ebf2;
+    pointer-events: none; text-shadow: 0 1px 2px #000; display: grid; gap: 2px; }
+  #rbar { height: 6px; border: 2px solid #e6ebf2; border-top: 0; box-sizing: border-box; min-width: 4px; }
+  #height { color: #aab6c8; }
+  body.mini #ruler, body.mini #zoom { display: none; }
+  #zoom { position: absolute; right: 6px; bottom: 6px; display: grid; gap: 6px; }
+  #zoom button { width: 34px; height: 34px; border-radius: 8px; border: 1px solid #2a3648;
+    background: rgba(22,30,43,.85); color: #e6ebf2; font: 600 20px/1 system-ui, sans-serif; cursor: pointer; touch-action: manipulation; }
+  #zoom button svg { display: block; margin: auto; }
+  #panmode.on { background: #6aa9ff; color: #08111f; border-color: #6aa9ff; }
+  #status { position: absolute; left: 6px; bottom: 4px; font: 11px system-ui, sans-serif; color: #cbd5e1; opacity: .8; pointer-events: none; }
+</style>
+</head>
+<body>
+<canvas id="wowcanvas"></canvas>
+<div id="grab" title="drag: orbit · right-drag: pan · wheel: zoom · double-click: reset"></div>
+<div id="status">loading…</div>
+<div id="ruler"><div id="rbar"></div><span id="rlabel"></span><span id="height"></span></div>
+<div id="zoom">
+  <button id="zin" aria-label="Zoom in">+</button>
+  <button id="zout" aria-label="Zoom out">&minus;</button>
+  <button id="panmode" aria-label="Pan mode" title="Pan mode: drag moves the view instead of orbiting">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M2 12h20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3"/></svg>
+  </button>
+</div>
+<script>
+// One WebWowViewerCpp instance per iframe (the emscripten Module is global).
+// ?src=<source>&model=<path.m2>&skins=<id,id,id>
+const q = new URLSearchParams(location.search);
+const SRC = q.get('src');
+const MODEL = q.get('model');
+const SKINS = (q.get('skins') || '0,0,0').split(',').map(Number);
+const BASE = 'files/' + encodeURIComponent(SRC) + '/';
+const status = document.getElementById('status');
+const missing = new Set();
+let pending = 0;
+
+// The engine requests "<prefix><name as spelled in the M2>". Files are staged
+// lowercase with forward slashes, so normalise every request under files/.
+function fixUrl(u) {
+  const s = String(u);
+  const i = s.indexOf(BASE);
+  if (i < 0) return s;
+  const head = s.slice(0, i + BASE.length);
+  let tail = decodeURIComponent(s.slice(i + BASE.length)).replace(/\\/g, '/').toLowerCase();
+  tail = tail.replace(/\.md[xl]$/, '.m2');
+  return head + tail.split('/').map(encodeURIComponent).join('/');
+}
+// File map (F-216 layered picker): ?map=<id> loads data/maps/<id>.json =
+// {normalised path or 'fdid/<n>': content-store name}. Every request keeps its
+// LOGICAL path (all the skin/model matching below works on it) and is fetched from
+// files/cas/<name>, so one staged copy of a file serves every pane and option.
+let FILEMAP = null;
+async function fetchMap() {
+  const id = q.get('map');
+  if (!id) return;
+  FILEMAP = await xfetch('data/maps/' + encodeURIComponent(id) + '.json').then(r => r.ok ? r.json() : null).catch(() => null);
+  // ?ovr={key: cas name}: the texture viewer's 3D mode swaps one texture option in
+  try { Object.assign(FILEMAP || {}, JSON.parse(q.get('ovr') || '{}')); } catch (e) {}
+}
+// ?retail=<fdid>&build=<retail build>: every file the engine asks for by id comes from wago.tools
+const RETAIL_FDID = +(q.get('retail') || 0);
+const RETAIL_BUILD = q.get('build') || '';
+function mapUrl(logical) {
+  if (RETAIL_FDID) {
+    // ids the pane's own map has (the stock skins of a display retail moved to a newer model)
+    // stay local; every other id is the retail model's own file
+    const m = logical.match(/\/fdid\/(\d+)(?:\?|$)/);
+    if (m && !(FILEMAP && FILEMAP['fdid/' + m[1]]))
+      return `https://wago.tools/api/casc/${m[1]}?version=${encodeURIComponent(RETAIL_BUILD)}`;
+  }
+  if (!FILEMAP) return logical;
+  const i = logical.indexOf(BASE);
+  if (i < 0) return logical;
+  const tail = decodeURIComponent(logical.slice(i + BASE.length).split('?')[0]);
+  const hit = FILEMAP[tail];
+  return hit ? logical.slice(0, i) + 'files/cas/' + hit : logical;
+}
+
+// WotLK (MD20 v264) records the engine reads with retail sizes:
+//   camera   100 -> 116 bytes (float fov after type; retail has a FoV track at the end)
+//   particle 476 -> 492 bytes (retail appends 16 bytes of multiTextureParam)
+// Append re-laid-out copies and repoint the two header arrays. M2 offsets are
+// absolute, so every track inside the copied records still resolves.
+function upgradeM2(buf) {
+  const dv = new DataView(buf);
+  // debug: ?opaque forces every material to blend mode 0 (no alpha cut-out)
+  if (q.has('opaque') && buf.byteLength > 0x78 && dv.getUint32(0, true) === 0x3032444D) {
+    const n = dv.getUint32(0x70, true), o = dv.getUint32(0x74, true);
+    for (let i = 0; i < n; i++) dv.setUint16(o + 4 * i + 2, 0, true);
+  }
+  // debug: ?unlit sets material flag 0x1 (unlit); ?twosided sets 0x4 (no culling)
+  if ((q.has('unlit') || q.has('twosided')) && buf.byteLength > 0x78 && dv.getUint32(0, true) === 0x3032444D) {
+    const n = dv.getUint32(0x70, true), o = dv.getUint32(0x74, true);
+    const bit = (q.has('unlit') ? 1 : 0) | (q.has('twosided') ? 4 : 0);
+    for (let i = 0; i < n; i++) dv.setUint16(o + 4 * i, dv.getUint16(o + 4 * i, true) | bit, true);
+  }
+  if (buf.byteLength < 0x130 || dv.getUint32(0, true) !== 0x3032444D) return buf;   // 'MD20'
+  if (dv.getUint32(4, true) >= 272) return buf;
+  // Stock models carry zero-length vertex normals (gnollmelee: 57 of 695).
+  // The engine's normalize() turns them into NaN and the lit face renders black;
+  // the 3.3.5 client tolerates them. Give them a neutral up normal.
+  {
+    const nV = dv.getUint32(0x3C, true), oV = dv.getUint32(0x40, true);
+    if (oV + 48 * nV <= buf.byteLength) {
+      for (let i = 0; i < nV; i++) {
+        const o = oV + 48 * i + 20;
+        const x = dv.getFloat32(o, true), y = dv.getFloat32(o + 4, true), z = dv.getFloat32(o + 8, true);
+        if (!(x * x + y * y + z * z > 1e-12)) {           // zero or NaN
+          dv.setFloat32(o, 0, true); dv.setFloat32(o + 4, 0, true); dv.setFloat32(o + 8, 1, true);
+        }
+        // All four bone weights zero (222 HD-pack doodads: bloodmysttree01, the Elwynn trees): the
+        // client draws them on their first bone; the engine skins by weight and collapses them to
+        // a point. Bind them the way the client treats them.
+        const w = oV + 48 * i + 12;
+        if (!dv.getUint32(w, true)) dv.setUint8(w, 255);
+      }
+    }
+  }
+  // Sequences with duration 0 (Maribeth's static doodads, e.g. flowerswreath01):
+  // the client treats them as static, the engine wraps time by the duration and
+  // the bone matrices go NaN, so the whole mesh disappears. Give them 1 ms.
+  {
+    const nS = dv.getUint32(0x1C, true), oS = dv.getUint32(0x20, true);
+    if (oS + 64 * nS <= buf.byteLength)
+      for (let i = 0; i < nS; i++) if (dv.getUint32(oS + 64 * i + 4, true) === 0) dv.setUint32(oS + 64 * i + 4, 1, true);
+  }
+  // Sequence bounds that do not contain the mesh (Maribeth's flowerswreath01:
+  // bounds at z 4-22 for a 0.4-tall wreath). The engine frames on them and the
+  // client culls by them, so the model is aimed past / culled. Viewer: use the
+  // header visibility box instead.
+  {
+    const nV = dv.getUint32(0x3C, true), oV = dv.getUint32(0x40, true);
+    const nS = dv.getUint32(0x1C, true), oS = dv.getUint32(0x20, true);
+    if (nV && oV + 48 * nV <= buf.byteLength && oS + 64 * nS <= buf.byteLength) {
+      const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+      for (let i = 0; i < nV; i++) for (let k = 0; k < 3; k++) {
+        const v = dv.getFloat32(oV + 48 * i + 4 * k, true);
+        if (v < lo[k]) lo[k] = v; if (v > hi[k]) hi[k] = v;
+      }
+      for (let i = 0; i < nS; i++) {
+        const b = oS + 64 * i + 32;
+        let ok = true;              // replace only bounds that miss the mesh entirely
+        for (let k = 0; k < 3; k++) {
+          if (dv.getFloat32(b + 4 * k, true) > hi[k] || dv.getFloat32(b + 12 + 4 * k, true) < lo[k]) ok = false;
+        }
+        if (!ok) {
+          for (let k = 0; k < 7; k++) dv.setFloat32(b + 4 * k, dv.getFloat32(0xA0 + 4 * k, true), true);   // bbox + radius
+          badBounds = true;
+        }
+      }
+    }
+  }
+  const nCam = dv.getUint32(0x110, true), oCam = dv.getUint32(0x114, true);
+  const nPar = q.has('noparticles') ? 0 : dv.getUint32(0x128, true), oPar = dv.getUint32(0x12C, true);
+  if (!nCam && !nPar) return buf;
+  const base = (buf.byteLength + 15) & ~15;
+  const camAt = base, parAt = (camAt + nCam * 116 + 15) & ~15;
+  const out = new Uint8Array(parAt + nPar * 492);
+  const src = new Uint8Array(buf);
+  out.set(src);
+  for (let i = 0; i < nCam; i++) {
+    const s = oCam + i * 100, d = camAt + i * 116;
+    out.set(src.subarray(s, s + 4), d);              // type
+    out.set(src.subarray(s + 8, s + 100), d + 4);    // far, near, tracks (fov dropped)
+    new DataView(out.buffer).setInt16(d + 96 + 2, -1, true);   // empty FoV track, no global seq
+  }
+  for (let i = 0; i < nPar; i++) {
+    out.set(src.subarray(oPar + i * 476, oPar + i * 476 + 476), parAt + i * 492);
+  }
+  const odv = new DataView(out.buffer);
+  if (nCam) odv.setUint32(0x114, camAt, true);
+  odv.setUint32(0x128, nPar, true);
+  if (nPar) odv.setUint32(0x12C, parAt, true);
+  return out.buffer;
+}
+
+// The 3.3.5 client derives each batch's runtime shader from the stored id, the
+// material blend mode and the texture-unit lookup when a .skin loads. Retail
+// .skin files store the derived id, so the engine has this step disabled
+// (SkinGeom::fixData "TODO: enable this for WOTLK"). Port of its
+// fixShaderIdBasedOnBlendOverride, applied to v264 skins only.
+const legacyM2 = {};   // model stem -> upgraded MD20 buffer
+let malformed = 0;     // batches hidden by fixLegacySkin (reported to the picker)
+let badBounds = false; // sequence bounds replaced (do not contain the mesh)
+function fixLegacySkin(skinBuf, m2Buf) {
+  const m = new DataView(m2Buf), s = new DataView(skinBuf);
+  const arr = (dv, at) => [dv.getUint32(at, true), dv.getUint32(at + 4, true)];
+  const flags = m.getUint32(16, true);
+  const hasBlendMaps = (flags & 0x8) !== 0;
+  const [nMat, oMat] = arr(m, 0x70);
+  const [nTu, oTu] = arr(m, 0x88);
+  const [nBm, oBm] = hasBlendMaps ? arr(m, 0x130) : [0, 0];
+  const texUnit = (i) => (i < nTu ? m.getUint16(oTu + 2 * i, true) : 0xFFFF);
+  const blendMap = (i) => (i < nBm ? m.getUint16(oBm + 2 * i, true) : 0);
+  const [nB0, oB] = arr(s, 4 + 8 * 4);
+  // debug: ?maxbatches=N draws only the first N batches
+  const nB = q.has('maxbatches') ? Math.min(nB0, +q.get('maxbatches')) : nB0;
+  if (nB !== nB0) s.setUint32(4 + 8 * 4, nB, true);
+  const drop = [];
+  // Downport defect: batches whose combo indices run past the model's lookup
+  // tables (seen: texunit index 1 with 1-entry tables, colour 0 with no colours).
+  // The engine reads whatever follows and paints a garbage layer. Hide them and
+  // report the count. (Transparency is NOT one of them - see below.)
+  const cnt = (at) => m.getUint32(at, true);
+  const nCol = cnt(0x48), nTexLk = cnt(0x80), nTrLk = cnt(0x90), nUvLk = cnt(0x98);
+  const nSub = s.getUint32(4 + 8 * 3, true);
+  const badBatch = (b) => {
+    const sub = s.getUint16(b + 4, true), col = s.getInt16(b + 8, true), mat = s.getUint16(b + 10, true);
+    const tc = s.getUint16(b + 14, true), texCombo = s.getUint16(b + 16, true), uvCombo = s.getUint16(b + 18, true);
+    const wCombo = s.getUint16(b + 20, true), ttCombo = s.getUint16(b + 22, true);
+    // Only each combo's FIRST entry must exist: working 2-texture env batches
+    // routinely have a 1-entry texunit lookup (the golem's body batch does).
+    // tc === 0: a batch with no textures (downport leftover, e.g. macwarrior's
+    // floatingcrate01) draws solid black over the real one in the engine.
+    return tc === 0 || sub >= nSub || mat >= nMat || (col >= 0 && col >= nCol) || texCombo >= nTexLk
+      || uvCombo >= nTu || ttCombo >= nUvLk;
+  };
+  for (let i = 0; i < nB; i++) {
+    const b = oB + 24 * i;
+    if (badBatch(b)) { drop.push(i); malformed++; continue; }
+    // a material-layer follower that shares its base batch's material is not drawn. kFinalizeSkin
+    // (0x837A40) links a layer > 0 batch to batch[i - layer]; proven in the real client on
+    // zebramount's horn (F-219, 2026-10-08): the follower (material 5 = its base's) never draws,
+    // whatever its texture, coords, layer flags or weight; given material 6 it draws; the body's
+    // follower (its own material) draws.
+    {
+      const lay = s.getUint16(b + 12, true), bi = i - lay;
+      if (lay > 0 && bi >= 0 && !q.has('drawfollowers')) {
+        const bb = oB + 24 * bi;
+        if (s.getUint16(bb + 10, true) === s.getUint16(b + 10, true) && s.getUint16(bb + 4, true) === s.getUint16(b + 4, true)) { drop.push(i); continue; }
+      }
+    }
+    // a transparency index past the lookup: the real client draws the batch anyway (zerglingpet's
+    // whole body batch reads entry 1 of a 1-entry table - F-219 check 2026-10-08); entry 0 here
+    if (s.getUint16(b + 20, true) >= nTrLk) { if (!nTrLk) { drop.push(i); malformed++; continue; } s.setUint16(b + 20, 0, true); }
+    const shader = s.getUint16(b + 2, true);
+    if (shader & 0x8000) {
+      // 3.3.5 native combos (switch at 0x836C90) are the retail table shifted
+      // by one: 0x8000 = no material (batch merged into the layer below, not
+      // drawn), 0x8001 Opaque_Mod2xNA_Alpha, 0x8002 Opaque_AddAlpha,
+      // 0x8003 Opaque_AddAlpha_Alpha. Retail index n-1 is the same effect.
+      const n = shader & 0x7FFF;
+      if (q.has('noremap')) continue;   // debug: engine's retail reading
+      if (n === 0) drop.push(i);
+      else s.setUint16(b + 2, 0x8000 | (n - 1), true);
+      continue;
+    }
+    const matIdx = s.getUint16(b + 10, true);
+    const blending = matIdx < nMat ? m.getUint16(oMat + 4 * matIdx + 2, true) : 0;
+    const opCount = s.getUint16(b + 14, true);
+    const coordCombo = s.getUint16(b + 18, true);
+    let id = 0;
+    if (!hasBlendMaps) {
+      const tu = texUnit(coordCombo);
+      id = (blending !== 0) ? 1 : 0;
+      if (tu > 2) id |= 8;
+      id = id << 4;
+      if (tu === 1) id |= 0x4000;
+    } else {
+      const vals = [0, 0];
+      for (let j = 0; j < opCount && j < 2; j++) {
+        let v = blendMap(shader + j);
+        if (j === 0 && blending === 0) v = 0;
+        const tu = texUnit(coordCombo + j);
+        vals[j] = tu > 2 ? (v | 8) : v;
+        if (tu === 1 && j + 1 === opCount) id |= 0x4000;
+      }
+      id |= (vals[1] & 0xFFFF) | ((vals[0] << 4) & 0xFFFF);
+    }
+    s.setUint16(b + 2, id & 0xFFFF, true);
+  }
+  if (drop.length) {   // compact the batch list without the undrawn batches
+    const bytes = new Uint8Array(skinBuf);
+    let w = 0;
+    for (let i = 0; i < nB; i++) {
+      if (drop.includes(i)) continue;
+      if (w !== i) bytes.copyWithin(oB + 24 * w, oB + 24 * i, oB + 24 * i + 24);
+      w++;
+    }
+    s.setUint32(4 + 8 * 4, w, true);
+  }
+  return skinBuf;
+}
+
+// BLP2 mip tables sometimes carry garbage past the real mip chain (seen: a
+// 256x256 smoke texture with slot 9 pointing past EOF). The client derives the
+// mip count from the dimensions; the engine walks every non-zero slot and reads
+// out of bounds. Clear slots beyond log2(max(w,h))+1 or past the end of the file.
+function sanitizeBlp(buf) {
+  if (buf.byteLength < 148) return buf;
+  const dv = new DataView(buf);
+  if (dv.getUint32(0, true) !== 0x32504C42) return buf;   // 'BLP2'
+  const w = dv.getUint32(12, true), h = dv.getUint32(16, true);
+  // debug: ?nomips keeps only the base level (discriminates mip sampling issues)
+  const levels = q.has('nomips') ? 1 : Math.floor(Math.log2(Math.max(1, w, h))) + 1;
+  let out = null;
+  for (let i = 0; i < 16; i++) {
+    const off = dv.getUint32(20 + 4 * i, true), size = dv.getUint32(84 + 4 * i, true);
+    if (!off && !size) continue;
+    if (i >= levels || off + size > buf.byteLength) {
+      if (!out) out = buf.slice(0);
+      const o = new DataView(out);
+      o.setUint32(20 + 4 * i, 0, true); o.setUint32(84 + 4 * i, 0, true);
+    }
+  }
+  return paletteOpaqueAlpha(out || buf);
+}
+// A palettized BLP with alpha depth 0 has no alpha bytes. The client draws it fully opaque (the HD
+// naga's fin textures, *_extra.blp, in game 2026-10-08); the engine instead reads past each mip's
+// index data as alpha, and an alpha-keyed batch keeps only garbage speckles. Give it explicit
+// 8-bit alpha = 255 so the engine sees what the client draws.
+function paletteOpaqueAlpha(buf) {
+  const dv = new DataView(buf);
+  if (dv.getUint8(8) !== 1 || dv.getUint8(9) !== 0 || q.has('rawalpha')) return buf;
+  const w = dv.getUint32(12, true), h = dv.getUint32(16, true);
+  const mips = [];
+  for (let i = 0; i < 16; i++) {
+    const off = dv.getUint32(20 + 4 * i, true), size = dv.getUint32(84 + 4 * i, true);
+    if (!off || !size) break;
+    const n = Math.max(1, w >> i) * Math.max(1, h >> i);
+    mips.push(new Uint8Array(buf, off, Math.min(n, size, buf.byteLength - off)));
+  }
+  if (!mips.length) return buf;
+  const head = 148 + 1024;
+  const total = head + mips.reduce((t, m) => t + 2 * m.length, 0);
+  const out = new Uint8Array(total);
+  out.set(new Uint8Array(buf, 0, head));
+  const o = new DataView(out.buffer);
+  o.setUint8(9, 8);
+  for (let i = 0; i < 16; i++) { o.setUint32(20 + 4 * i, 0, true); o.setUint32(84 + 4 * i, 0, true); }
+  let at = head;
+  mips.forEach((m, i) => {
+    out.set(m, at); out.fill(255, at + m.length, at + 2 * m.length);
+    o.setUint32(20 + 4 * i, at, true); o.setUint32(84 + 4 * i, 2 * m.length, true);
+    at += 2 * m.length;
+  });
+  return out.buffer;
+}
+
+// ---------------------------------------------------------------------------
+// Attached items (helmet, shoulders, weapons). The engine cannot attach one
+// model to another, so each item mesh is merged into the main model, bound to
+// the attachment's bone: a vertex at (attachment position + item vertex) skinned
+// by that bone lands exactly where the client's bone x attachment matrix puts it.
+// ?items=[{a: attachment id, m: item .m2, t: item texture}] (staged by deploy).
+// ---------------------------------------------------------------------------
+const ITEMS = (() => { try { return JSON.parse(q.get('items') || '[]'); } catch (e) { return []; } })();
+let itemData = [];        // [{spec, m2, skin}] fetched before the scene starts
+let itemPlan = null;      // per merged item: indices the skin merge needs
+let itemsMerged = 0;
+async function fetchItems() {
+  const get = (p) => xfetch(mapUrl(BASE + p.split('/').map(encodeURIComponent).join('/'))).then(r => r.ok ? r.arrayBuffer() : null);
+  itemData = (await Promise.all(ITEMS.map(async (it) => {
+    const [m2, skin] = await Promise.all([get(it.m), get(it.m.replace(/\.m2$/, '00.skin'))]);
+    return m2 && skin ? { spec: it, m2: upgradeM2(m2), skin } : null;
+  }))).filter(Boolean);
+  // One collection model can serve several slots (chest/boots/gloves of one set):
+  // merge it once with the union of the geosets they ask for.
+  const cols = {};
+  itemData = itemData.filter(it => {
+    if (!it.spec.col) return true;
+    const key = it.spec.m + '|' + it.spec.t;
+    if (cols[key]) { cols[key].spec.col = [...new Set([...cols[key].spec.col, ...it.spec.col])]; cols[key].slots++; return false; }
+    it.spec = { ...it.spec, col: [...it.spec.col] }; it.slots = 1; cols[key] = it; return true;
+  });
+}
+
+// wxl-equip-extension collections are skinned to their own skeleton, modelled in
+// character space. Map each collection bone onto the character's: same name CRC,
+// else same key-bone id, else the nearest mapped ancestor (EquipExtension.cpp).
+function collectionBoneMap(m, im) {
+  const list = (dv) => {
+    const n = dv.getUint32(0x2C, true), o = dv.getUint32(0x30, true), out = [];
+    for (let i = 0; i < n; i++) {
+      const b = o + 0x58 * i;
+      out.push({ key: dv.getInt32(b, true), parent: dv.getInt16(b + 8, true), crc: dv.getUint32(b + 12, true) });
+    }
+    return out;
+  };
+  const pb = list(m), cb = list(im);
+  const byCrc = {}, byKey = {};
+  pb.forEach((b, i) => { if (b.crc && !(b.crc in byCrc)) byCrc[b.crc] = i; if (b.key >= 0 && !(b.key in byKey)) byKey[b.key] = i; });
+  const map = cb.map(b => (b.crc && b.crc in byCrc) ? byCrc[b.crc] : (b.key >= 0 && b.key in byKey) ? byKey[b.key] : -1);
+  for (let i = 0; i < cb.length; i++) {
+    let j = i, guard = 0;
+    while (map[i] < 0 && guard++ < 64) {
+      j = cb[j].parent;
+      if (j < 0 || j >= cb.length) { map[i] = 0; break; }
+      if (map[j] >= 0) map[i] = map[j];
+    }
+    if (map[i] < 0) map[i] = 0;
+  }
+  return map;
+}
+
+// Grow-only byte builder for appended blocks.
+class Blob8 {
+  constructor() { this.parts = []; this.len = 0; }
+  align(base) { const pad = (16 - ((base + this.len) % 16)) % 16; if (pad) this.push(new Uint8Array(pad)); }
+  push(u8) { const at = this.len; this.parts.push(u8); this.len += u8.length; return at; }
+  bytes() { const out = new Uint8Array(this.len); let o = 0; for (const p of this.parts) { out.set(p, o); o += p.length; } return out; }
+}
+const u8 = (buf, off, len) => new Uint8Array(buf, off, len).slice();
+
+function mergeItemsM2(buf) {
+  if (!itemData.length) return buf;
+  const m = new DataView(buf);
+  const arr = (dv, at) => [dv.getUint32(at, true), dv.getUint32(at + 4, true)];
+  const [nAtt, oAtt] = arr(m, 0xF0);
+  const attach = {};
+  for (let i = 0; i < nAtt; i++) {
+    const o = oAtt + 40 * i;
+    attach[m.getUint32(o, true)] = { bone: m.getUint16(o + 4, true),
+      pos: [m.getFloat32(o + 8, true), m.getFloat32(o + 12, true), m.getFloat32(o + 16, true)] };
+  }
+  const tables = { vert: [0x3C, 48], blk: [0x78, 2], tex: [0x50, 16], tlk: [0x80, 2], mat: [0x70, 4],
+                   tu: [0x88, 2], tr: [0x90, 2], uv: [0x98, 2] };
+  const grow = {};   // table -> list of Uint8Array to append after the existing entries
+  for (const k in tables) grow[k] = [];
+  const count = (k) => arr(m, tables[k][0])[0];
+  const added = (k) => grow[k].reduce((n, b) => n + b.length / tables[k][1], 0);
+  const strings = new Blob8();
+  const pendingNames = [];   // [texture record index in grow.tex, string bytes]
+  itemPlan = [];
+  for (const it of itemData) {
+    const col = it.spec.col;
+    const at = col ? { bone: 0, pos: [0, 0, 0] } : attach[it.spec.a];
+    if (!at || at.bone > 255) continue;
+    const im = new DataView(it.m2);
+    const [nV, oV] = arr(im, 0x3C);
+    if (count('vert') + added('vert') + nV > 65535) continue;
+    const plan = { skin: it.skin, attPos: at.pos, col, vertBase: count('vert') + added('vert'), combo: count('blk') + added('blk'),
+      tlk: count('tlk') + added('tlk'), mat: count('mat') + added('mat'), tu: count('tu') + added('tu'),
+      tr: count('tr') + added('tr'), uv: count('uv') + added('uv') };
+    const vb = u8(it.m2, oV, 48 * nV), vdv = new DataView(vb.buffer);
+    if (col) {
+      // collection: keep its weights, re-point each influence at the character's bone
+      const map = collectionBoneMap(m, im);
+      if (map.some(b => b > 255)) continue;
+      for (let i = 0; i < nV; i++) for (let k = 0; k < 4; k++) vb[48 * i + 16 + k] = map[vb[48 * i + 16 + k]] || 0;
+      const [nL, oL] = arr(im, 0x78), lb = new Uint8Array(2 * nL), ld = new DataView(lb.buffer);
+      for (let i = 0; i < nL; i++) ld.setInt16(2 * i, map[im.getInt16(oL + 2 * i, true)] || 0, true);
+      grow.blk.push(lb);
+    } else {
+      // attached item: move to the attachment, bind fully to its bone.
+      // ?items=[{..., fit: {dx, dy, dz, scale}}] = the F-165 model transform (zep model shift):
+      // scale about the item's own vertex centroid, then shift (X forward, Y left, Z up).
+      const fit = it.spec.fit || null;
+      let cen = [0, 0, 0];
+      if (fit && fit.scale && fit.scale !== 1) {
+        for (let i = 0; i < nV; i++) for (let k = 0; k < 3; k++) cen[k] += vdv.getFloat32(48 * i + 4 * k, true) / nV;
+      }
+      const off = fit ? [fit.dx || 0, fit.dy || 0, fit.dz || 0] : [0, 0, 0], sc = fit && fit.scale ? fit.scale : 1;
+      for (let i = 0; i < nV; i++) {
+        const o = 48 * i;
+        for (let k = 0; k < 3; k++) {
+          const v = vdv.getFloat32(o + 4 * k, true);
+          vdv.setFloat32(o + 4 * k, cen[k] + (v - cen[k]) * sc + off[k] + at.pos[k], true);
+        }
+        vb.set([255, 0, 0, 0], o + 12); vb.set([at.bone, 0, 0, 0], o + 16);
+      }
+      const bl = new Uint8Array(2); new DataView(bl.buffer).setInt16(0, at.bone, true); grow.blk.push(bl);
+    }
+    grow.vert.push(vb);
+    // textures: the item-texture slot (type 2) becomes a named texture
+    const [nT, oT] = arr(im, 0x50), texBase = count('tex') + added('tex');
+    const tb = new Uint8Array(16 * nT), tdv = new DataView(tb.buffer);
+    for (let i = 0; i < nT; i++) {
+      const o = oT + 16 * i, type = im.getUint32(o, true), flags = im.getUint32(o + 4, true);
+      const ln = im.getUint32(o + 8, true), no = im.getUint32(o + 12, true);
+      let name = ln ? new TextDecoder('latin1').decode(new Uint8Array(it.m2, no, ln)).replace(/\0.*$/, '') : '';
+      let t = type;
+      if (type === 2 && it.spec.t) { t = 0; name = it.spec.t; }
+      tdv.setUint32(16 * i, t, true); tdv.setUint32(16 * i + 4, flags, true);
+      if (name) pendingNames.push([texBase + i, new TextEncoder().encode(name + '\0')]);
+    }
+    grow.tex.push(tb);
+    const remap16 = (off, delta, signedKeepNeg) => {
+      const [n, o] = arr(im, off), b = new Uint8Array(2 * n), d = new DataView(b.buffer);
+      for (let i = 0; i < n; i++) { const v = im.getInt16(o + 2 * i, true); d.setInt16(2 * i, (signedKeepNeg && v < 0) ? v : v + delta, true); }
+      return b;
+    };
+    grow.tlk.push(remap16(0x80, texBase, true));
+    const [nM, oM] = arr(im, 0x70); grow.mat.push(u8(it.m2, oM, 4 * nM));
+    grow.tu.push(remap16(0x88, 0, true));
+    // Lookups sized like the item's own (a 2-texture batch reads two entries):
+    // transparency -> the model's first weight track, no texture animation.
+    const fill = (off, v) => { const n = Math.max(arr(im, off)[0], 1), b = new Uint8Array(2 * n), d = new DataView(b.buffer);
+      for (let i = 0; i < n; i++) d.setInt16(2 * i, v, true); return b; };
+    grow.tr.push(fill(0x90, 0));
+    grow.uv.push(fill(0x98, -1));
+    plan.slots = it.slots || 1;
+    itemPlan.push(plan);
+  }
+  if (!itemPlan.length) return buf;
+  // Rebuild: original file, then each grown table (old entries + new ones), then strings.
+  const tail = new Blob8(), base = buf.byteLength, newOff = {};
+  for (const k in tables) {
+    if (!grow[k].length) continue;
+    tail.align(base);
+    const [n, o] = arr(m, tables[k][0]);
+    newOff[k] = base + tail.push(u8(buf, o, n * tables[k][1]));
+    grow[k].forEach(b => tail.push(b));
+  }
+  tail.align(base);
+  const strBase = base + tail.len;
+  const strOff = pendingNames.map(([, bytes]) => strBase + strings.push(bytes));
+  const out = new Uint8Array(base + tail.len + strings.len);
+  out.set(new Uint8Array(buf), 0); out.set(tail.bytes(), base); out.set(strings.bytes(), strBase);
+  const o = new DataView(out.buffer);
+  for (const k in tables) {
+    if (!(k in newOff)) continue;
+    o.setUint32(tables[k][0], count(k) + added(k), true);
+    o.setUint32(tables[k][0] + 4, newOff[k], true);
+  }
+  pendingNames.forEach(([ti, bytes], j) => {
+    const rec = newOff.tex + 16 * ti;
+    o.setUint32(rec + 8, bytes.length, true); o.setUint32(rec + 12, strOff[j], true);
+  });
+  itemsMerged = itemPlan.reduce((n, p) => n + p.slots, 0);
+  return out.buffer;
+}
+
+// CharHairGeosets.show_scalp: the scalp (geoset 1) is drawn under the hair style
+// as well. The engine shows one geoset per group, so relabel it to 0 (always on).
+function promoteScalp(buf) {
+  const s = new DataView(buf), n = s.getUint32(28, true), o = s.getUint32(32, true);
+  for (let i = 0; i < n; i++) if (s.getUint16(o + 48 * i, true) === 1) s.setUint16(o + 48 * i, 0, true);
+  return buf;
+}
+
+// creature_geoset_data: a 0 nibble leaves its group unfiltered in game (wendigo2's face, I-388),
+// but the engine filters every group the mesh array covers to one value. ?geoall=g,... lists the
+// groups before the array's last value whose nibble is 0: relabel their geosets to 0 (always on).
+const GEOALL = new Set((q.get('geoall') || '').split(',').filter(x => x !== '').map(Number));
+function promoteGroups(buf) {
+  const s = new DataView(buf), n = s.getUint32(28, true), o = s.getUint32(32, true);
+  for (let i = 0; i < n; i++) if (GEOALL.has(Math.floor(s.getUint16(o + 48 * i, true) / 100))) s.setUint16(o + 48 * i, 0, true);
+  return buf;
+}
+
+function mergeItemsSkin(buf) {
+  if (!itemPlan || !itemPlan.length) return buf;
+  const s = new DataView(buf);
+  const arr = (dv, at) => [dv.getUint32(at, true), dv.getUint32(at + 4, true)];
+  const T = { vtx: [4, 2], idx: [12, 2], bon: [20, 4], sub: [28, 48], bat: [36, 24] };
+  const grow = { vtx: [], idx: [], bon: [], sub: [], bat: [] };
+  let nVtx = arr(s, 4)[0], nIdx = arr(s, 12)[0], nSub = arr(s, 28)[0];
+  for (const p of itemPlan) {
+    const k = new DataView(p.skin);
+    const [iv, ov] = arr(k, 4), [ii, oi] = arr(k, 12), [is, os] = arr(k, 28), [ib, ob] = arr(k, 36);
+    const vb = new Uint8Array(2 * iv), vd = new DataView(vb.buffer);
+    for (let i = 0; i < iv; i++) vd.setUint16(2 * i, p.vertBase + k.getUint16(ov + 2 * i, true), true);
+    grow.vtx.push(vb);
+    const ix = new Uint8Array(2 * ii), xd = new DataView(ix.buffer);
+    for (let i = 0; i < ii; i++) xd.setUint16(2 * i, nVtx + k.getUint16(oi + 2 * i, true), true);
+    grow.idx.push(ix);
+    grow.bon.push(p.col ? u8(p.skin, arr(k, 20)[1], 4 * iv)   // collection: its own per-vertex combo slots
+                        : new Uint8Array(4 * iv));             // every vertex -> combo entry 0 = the attachment bone
+    const sb = u8(p.skin, os, 48 * is), sd = new DataView(sb.buffer);
+    for (let i = 0; i < is; i++) {
+      const o = 48 * i;
+      const idxStart = sd.getUint16(o + 8, true) + (sd.getUint16(o + 2, true) << 16) + nIdx;
+      const geo = sd.getUint16(o, true);
+      sd.setUint16(o, 0, true);                                // geoset 0: always shown
+      sd.setUint16(o + 2, idxStart >>> 16, true);              // Level: high bits of indexStart
+      sd.setUint16(o + 4, sd.getUint16(o + 4, true) + nVtx, true);
+      sd.setUint16(o + 8, idxStart & 0xFFFF, true);
+      if (p.col) {
+        // only the slot's geosets (and 0) of a collection are worn
+        if (geo !== 0 && !p.col.includes(geo)) sd.setUint16(o + 10, 0, true);
+        sd.setUint16(o + 14, sd.getUint16(o + 14, true) + p.combo, true);
+      } else {
+        sd.setUint16(o + 12, 1, true); sd.setUint16(o + 14, p.combo, true);
+        sd.setUint16(o + 16, 1, true); sd.setUint16(o + 18, 0, true);
+      }
+      // The engine culls and depth-sorts per submesh from centerPosition (20)
+      // and sortCenter (32). Left at the item's own origin they sit at the
+      // model's feet, so the item pops in and out: move them with the vertices.
+      for (const at of [20, 32]) for (let c = 0; c < 3; c++)
+        sd.setFloat32(o + at + 4 * c, sd.getFloat32(o + at + 4 * c, true) + p.attPos[c], true);
+    }
+    grow.sub.push(sb);
+    const bb = u8(p.skin, ob, 24 * ib), bd = new DataView(bb.buffer);
+    for (let i = 0; i < ib; i++) {
+      const o = 24 * i;
+      bd.setUint16(o + 4, bd.getUint16(o + 4, true) + nSub, true);
+      bd.setUint16(o + 6, bd.getUint16(o + 6, true) + nSub, true);
+      bd.setInt16(o + 8, -1, true);
+      bd.setUint16(o + 10, bd.getUint16(o + 10, true) + p.mat, true);
+      bd.setUint16(o + 16, bd.getUint16(o + 16, true) + p.tlk, true);
+      bd.setUint16(o + 18, bd.getUint16(o + 18, true) + p.tu, true);
+      bd.setUint16(o + 20, bd.getUint16(o + 20, true) + p.tr, true);
+      bd.setUint16(o + 22, bd.getUint16(o + 22, true) + p.uv, true);
+    }
+    grow.bat.push(bb);
+    nVtx += iv; nIdx += ii; nSub += is;
+  }
+  const tail = new Blob8(), base = buf.byteLength, newOff = {};
+  for (const k in T) {
+    tail.align(base);
+    const [n, o] = arr(s, T[k][0]);
+    newOff[k] = base + tail.push(u8(buf, o, n * T[k][1]));
+    grow[k].forEach(b => tail.push(b));
+  }
+  const out = new Uint8Array(base + tail.len);
+  out.set(new Uint8Array(buf), 0); out.set(tail.bytes(), base);
+  const o = new DataView(out.buffer);
+  for (const k in T) {
+    const n = arr(s, T[k][0])[0] + grow[k].reduce((c, b) => c + b.length / T[k][1], 0);
+    o.setUint32(T[k][0], n, true); o.setUint32(T[k][0] + 4, newOff[k], true);
+  }
+  return out.buffer;
+}
+
+const xopen = XMLHttpRequest.prototype.open;
+XMLHttpRequest.prototype.open = function (method, url, ...rest) {
+  const logical = fixUrl(url);
+  const fixed = mapUrl(logical);
+  const isM2 = /\.m2$/i.test(logical.split('?')[0]);
+  this.addEventListener('readystatechange', () => {
+    if (this.readyState !== 4 || this.status !== 200 || !(this.response instanceof ArrayBuffer)) return;
+    const path = logical.split('?')[0];
+    if (isM2) {
+      const raw = this.response;
+      const isLegacy = raw.byteLength > 8 && new DataView(raw).getUint32(0, true) === 0x3032444D
+        && new DataView(raw).getUint32(4, true) < 272;
+      let up = upgradeM2(raw);
+      if (path.toLowerCase().endsWith('/' + MODEL.toLowerCase())) {
+        up = mergeItemsM2(up);
+        if (ITEMS.length) parent.postMessage({ type: 'pane-items', src: SRC, merged: itemsMerged, wanted: ITEMS.length }, '*');
+      }
+      if (isLegacy) legacyM2[path.slice(0, -3)] = up;
+      if (up !== raw) Object.defineProperty(this, 'response', { value: up, configurable: true });
+    } else if (RETAIL_FDID && path.endsWith('/fdid/' + RETAIL_FDID)) {
+      // the retail model itself (MD21 -> MD20 at +8): report its stats to the picker, and frame a
+      // retail-only model (no deploy camera) from its own bounding box
+      const dv = new DataView(this.response);
+      const b = dv.byteLength > 0xC8 && dv.getUint32(0, true) === 0x3132444D ? 8 : 0;
+      if (dv.byteLength > b + 0x130) {
+        const f = (o) => dv.getFloat32(b + o, true);
+        // the mesh's own extent: a retail header box spans every animation (a drake's raised
+        // wings made its 7 yd model read 22 yd)
+        let lo = [f(0xA0), f(0xA4), f(0xA8)], hi = [f(0xAC), f(0xB0), f(0xB4)];
+        const nV = dv.getUint32(b + 0x3C, true), oV = dv.getUint32(b + 0x40, true);
+        if (nV && b + oV + 48 * nV <= dv.byteLength) {
+          lo = [Infinity, Infinity, Infinity]; hi = [-Infinity, -Infinity, -Infinity];
+          for (let i = 0; i < nV; i++) for (let k = 0; k < 3; k++) {
+            const v = dv.getFloat32(b + oV + 48 * i + 4 * k, true);
+            if (v < lo[k]) lo[k] = v; if (v > hi[k]) hi[k] = v;
+          }
+        }
+        const r = Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]) / 2;
+        const height = Math.round((hi[2] - lo[2]) * SCALE * 100) / 100;
+        if (!HEIGHT_YD && height > 0) HEIGHT_YD = height;
+        parent.postMessage({ type: 'pane-stats', size: dv.byteLength, version: dv.getUint32(b + 4, true),
+          bones: dv.getUint32(b + 0x2C, true), particles: dv.getUint32(b + 0x128, true), height }, '*');
+        if (!q.get('cam') && r > 0.01 && r < 5000) {
+          CAM0.target = [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2];
+          CAM0.dist = Math.max(2.4 * r, 1.6);
+          cam = JSON.parse(JSON.stringify(CAM0));
+        }
+      }
+    } else if (/\.blp$/i.test(path) || /\/fdid\/\d+$/.test(path)) {
+      const fixedBlp = sanitizeBlp(this.response);
+      if (fixedBlp !== this.response) Object.defineProperty(this, 'response', { value: fixedBlp, configurable: true });
+    } else if (/\d\d\.skin$/i.test(path)) {
+      const m2 = legacyM2[path.replace(/\d\d\.skin$/i, '')];
+      if (m2) {
+        let sk = this.response.slice(0);
+        if (path.toLowerCase().endsWith('/' + MODEL.toLowerCase().replace(/\.m2$/, '00.skin'))) {
+          if (q.get('scalp')) sk = promoteScalp(sk);
+          if (GEOALL.size) sk = promoteGroups(sk);
+          sk = mergeItemsSkin(sk);
+        }
+        Object.defineProperty(this, 'response', { value: fixLegacySkin(sk, m2), configurable: true });
+        if (malformed) parent.postMessage({ type: 'pane-malformed', src: SRC, count: malformed }, '*');
+      }
+    }
+  });
+  this.addEventListener('loadend', () => {
+    pending--;
+    if (this.status >= 400) { missing.add(logical.slice(logical.indexOf(BASE) + BASE.length)); report(); }
+    status.textContent = pending > 0 ? `loading ${pending}…` : '';
+  });
+  pending++;
+  return xopen.call(this, method, fixed, ...rest);
+};
+const xfetch = window.fetch;
+window.fetch = (u, o) => xfetch(fixUrl(typeof u === 'string' ? u : u.url), o);
+
+// Engine crash: tell the picker, so a blank pane is labelled instead of silent.
+addEventListener('error', (e) => {
+  status.textContent = 'viewer crashed';
+  parent.postMessage({ type: 'pane-error', src: SRC, message: String(e.message || e.error || 'error') }, '*');
+});
+
+function report() {
+  parent.postMessage({ type: 'pane-missing', src: SRC, missing: [...missing] }, '*');
+}
+
+let ready = false;
+
+// Character models: visible geoset per group (?mesh=v0,v1,...; group = geoset / 100,
+// value = geoset % 100), from the display's hair, facial hair and gear.
+const MESH = (q.get('mesh') || '').split(',').filter(x => x !== '').map(Number);
+function applyMeshes() {
+  if (!ready || !MESH.length) return;
+  const ptr = Module._malloc(MESH.length);
+  new Int8Array(Module.HEAP32.buffer, ptr, MESH.length).set(MESH);
+  Module._setMeshIdArray(ptr, MESH.length);
+  Module._free(ptr);
+}
+
+// Orbit camera kept here (not in the engine) so every pane of a display can be
+// driven to exactly the same view. ?cam=tx,ty,tz,dist comes from the deploy step.
+const CAM0 = (() => {
+  const v = (q.get('cam') || '0,0,1,8').split(',').map(Number);
+  // deploy's distance is 2.1x the in-game mesh radius; a little extra margin for the square mobile panes.
+  // at least 1.6 yd: the engine clips everything nearer than 1 yd (small items vanished)
+  return { target: v.slice(0, 3), dist: Math.max(v[3] * 1.15, 1.6), yaw: 0.785, pitch: 0.3 };
+})();
+let cam = JSON.parse(JSON.stringify(CAM0));
+const panOff = [0, 0];   // accumulated engine view offset, undone on reset
+function resetPan() {
+  if (ready && (panOff[0] || panOff[1])) Module._addCameraViewOffset(-panOff[0], -panOff[1]);
+  panOff[0] = panOff[1] = 0;
+}
+// In-game scale: the engine draws raw geometry; in game it is multiplied by
+// CreatureModelData.model_scale x CreatureDisplayInfo.creature_model_scale.
+const SCALE = +(q.get('scale') || 1) || 1;
+let HEIGHT_YD = q.get('h');
+if (q.has('mini')) document.body.classList.add('mini');
+const TAN_HALF_FOV = Math.tan((53.9726294579437 / 2) * Math.PI / 180);   // engine DEFAULT_FOV_VALUE (vertical)
+function updateRuler() {
+  const c = Module.canvas, h = c.clientHeight || 1;
+  const pxPerUnit = (h / 2) / (cam.dist * TAN_HALF_FOV);       // at the target's depth
+  const pxPerYd = pxPerUnit / SCALE;                            // one in-game yard
+  const steps = [0.1, 0.25, 0.5, 1, 2, 5, 10, 20, 50, 100];
+  let yd = steps[0];
+  for (const st of steps) if (st * pxPerYd <= Math.max(70, c.clientWidth * 0.3)) yd = st;
+  document.getElementById('rbar').style.width = Math.round(yd * pxPerYd) + 'px';
+  document.getElementById('rlabel').textContent = yd + ' yd';
+  document.getElementById('height').textContent =
+    (HEIGHT_YD ? HEIGHT_YD + ' yd tall' : '') + (SCALE !== 1 ? ` · scale ×${SCALE}` : '');
+}
+// The engine's M2 camera rebuilds a position set with setScenePos from
+// atan(y/x) with no quadrant fix, so any position on the far side (x < 0 about
+// its orbit centre) comes back reflected through the centre: a 180-degree snap.
+// Its own orbit/zoom calls (addHorizontalViewDir / addVerticalViewDir /
+// zoomInFromMouseScroll) go all the way round, but apply only part of each
+// step (frame-time spring). So: set the position once at the safe start angle,
+// then drive the engine closed-loop every frame toward cam {yaw, pitch, dist},
+// measured from the engine's real position about its orbit centre.
+let camCentre = null;     // engine-space orbit centre = enginePos - setPos (constant offset)
+let camLive = false;
+function enginePos() {
+  const ptr = Module._malloc(12);
+  Module._getScenePos(ptr);
+  const v = Array.from(new Float32Array(Module.HEAP32.buffer, ptr, 3));
+  Module._free(ptr);
+  return v;
+}
+function measureCam() {
+  const e = enginePos(), v = [e[0] - camCentre[0], e[1] - camCentre[1], e[2] - camCentre[2]];
+  const h = Math.hypot(v[0], v[1]);
+  return { yaw: Math.atan2(v[1], v[0]), pitch: Math.atan2(v[2], h), dist: Math.hypot(h, v[2]) };
+}
+function startView() {
+  // CAM0's start position as an orbit target about the engine's (fixed) centre.
+  const [tx, ty, tz] = CAM0.target, cp = Math.cos(CAM0.pitch);
+  const p0 = [tx + CAM0.dist * cp * Math.cos(CAM0.yaw), ty + CAM0.dist * cp * Math.sin(CAM0.yaw), tz + CAM0.dist * Math.sin(CAM0.pitch)];
+  const h = Math.hypot(p0[0], p0[1]);
+  return { yaw: Math.atan2(p0[1], p0[0]), pitch: Math.atan2(p0[2], h), dist: Math.hypot(h, p0[2]) };
+}
+// Reset: the orbit centre is a fixed property of the model, so never re-measure
+// it (re-measuring right after setScenePos raced the first rendered frame on slow
+// devices and left the controller aiming at the wrong point). Just steer the
+// closed-loop controller back to the start view.
+function resetView() {
+  if (!camCentre) { placeStart(); return; }
+  Object.assign(cam, startView());
+  updateRuler();
+}
+function placeStart() {
+  // CAM0 aims at the deploy's mesh centre from the safe (x > 0) start angle.
+  if (!ready) return;
+  const [tx, ty, tz] = CAM0.target, cp = Math.cos(CAM0.pitch);
+  const p0 = [tx + CAM0.dist * cp * Math.cos(CAM0.yaw), ty + CAM0.dist * cp * Math.sin(CAM0.yaw), tz + CAM0.dist * Math.sin(CAM0.pitch)];
+  camLive = false;
+  Module._setScenePos(p0[0], p0[1], p0[2]);
+  // measure once the engine has rendered a few frames with the new position
+  let frames = 0;
+  const waitFrames = (fn) => requestAnimationFrame(() => (++frames >= 4 ? fn() : waitFrames(fn)));
+  waitFrames(() => {
+    const e = enginePos();
+    camCentre = [e[0] - p0[0], e[1] - p0[1], e[2] - p0[2]];
+    const m = measureCam();
+    cam.yaw = m.yaw; cam.pitch = m.pitch; cam.dist = m.dist;
+    camLive = true;
+    updateRuler();
+  });
+}
+const wrapPi = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+function camStep() {                     // called every frame
+  if (!camLive) return;
+  const m = measureCam(), D = 180 / Math.PI;
+  const dy = wrapPi(cam.yaw - m.yaw), dp = cam.pitch - m.pitch, dd = cam.dist - m.dist;
+  if (Math.abs(dy) > 1e-3) Module._addHorizontalViewDir(-dy * D);    // +v turns yaw down
+  if (Math.abs(dp) > 1e-3) Module._addVerticalViewDir(dp * D);       // +v raises the camera
+  if (Math.abs(dd) > 1e-3 * cam.dist) Module._zoomInFromMouseScroll(dd); // +v moves back v units
+}
+function applyCam() { updateRuler(); }
+function moveCam(mut, broadcast = true) {
+  mut(cam);
+  cam.pitch = Math.max(-1.45, Math.min(1.45, cam.pitch));
+  cam.dist = Math.max(1.1, cam.dist);   // engine near plane = 1 yd: never zoom the model into it
+  applyCam();
+  // Only the orbit angle is mirrored to the other panes; zoom and pan stay per pane
+  // (each pane's own target and distance are sized to its model).
+  if (broadcast) parent.postMessage({ type: 'pane-cam', src: SRC, cam: { yaw: cam.yaw, pitch: cam.pitch } }, '*');
+}
+(() => {
+  const g = document.getElementById('grab');
+  let drag = null;
+  let panMode = false;   // touch screens have no right button: a toggle makes one-finger drag pan
+  const pm = document.getElementById('panmode');
+  pm.addEventListener('click', () => { panMode = !panMode; pm.classList.toggle('on', panMode); });
+  g.addEventListener('auxclick', (e) => e.preventDefault());
+  const pts = new Map();   // active pointers, for pinch zoom on touch screens
+  let pinch = 0;
+  const spread = () => { const [a, b] = [...pts.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+  g.addEventListener('contextmenu', (e) => e.preventDefault());
+  g.addEventListener('pointerdown', (e) => {
+    g.setPointerCapture(e.pointerId);
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pts.size === 2) { pinch = spread(); drag = null; }
+    else drag = { x: e.clientX, y: e.clientY, pan: panMode || e.button === 1 || e.button === 2 || e.shiftKey };
+  });
+  const lift = (e) => { pts.delete(e.pointerId); if (pts.size < 2) pinch = 0; if (!pts.size) drag = null; };
+  g.addEventListener('pointerup', lift);
+  g.addEventListener('pointercancel', lift);
+  g.addEventListener('pointermove', (e) => {
+    if (pts.has(e.pointerId)) pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pts.size === 2 && pinch) {
+      const now = spread();
+      if (now > 0) moveCam((c) => { c.dist *= pinch / now; }, false);
+      pinch = now;
+      return;
+    }
+    if (!drag) return;
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    drag.x = e.clientX; drag.y = e.clientY;
+    if (drag.pan) {
+      // The engine's M2 camera always aims at the model (setSceneLookAt is
+      // ignored), so pan with its own screen-space view offset. Scale so the
+      // model tracks the finger at the target's depth.
+      const k = (2 * cam.dist * TAN_HALF_FOV) / (Module.canvas.clientHeight || 1);
+      Module._addCameraViewOffset(dx * k, -dy * k);
+      panOff[0] += dx * k; panOff[1] += -dy * k;
+    } else {
+      moveCam((c) => { c.yaw -= dx * 0.01; c.pitch += dy * 0.01; });
+    }
+  });
+  g.addEventListener('wheel', (e) => { e.preventDefault(); moveCam((c) => { c.dist *= Math.pow(1.1, Math.sign(e.deltaY)); }, false); }, { passive: false });
+  document.getElementById('zin').addEventListener('click', () => moveCam((c) => { c.dist /= 1.25; }, false));
+  document.getElementById('zout').addEventListener('click', () => moveCam((c) => { c.dist *= 1.25; }, false));
+  g.addEventListener('dblclick', () => { resetPan(); resetView(); });
+})();
+
+// C string into wasm memory without relying on which runtime helpers a build
+// exports (allocateUTF8 exists in some builds, not others).
+function cstr(text) {
+  const bytes = new TextEncoder().encode(text + '\0');
+  const ptr = Module._malloc(bytes.length);
+  new Uint8Array(Module.HEAP32.buffer, ptr, bytes.length).set(bytes);
+  return ptr;
+}
+function setAnim(id) { if (ready) Module._setAnimationId(id | 0); }
+
+var Module = {
+  canvas: document.getElementById('wowcanvas'),
+  // Engine -> page: animation ids the model has, and its geoset (mesh) ids.
+  animationArrayCallback(ids) {
+    // Fires once the model is parsed; the engine re-frames on load, so set our camera after.
+    parent.postMessage({ type: 'pane-anims', src: SRC, ids: Array.from(ids) }, '*');
+    setTimeout(() => { applyMeshes(); placeStart(); }, 50);
+  },
+  meshIdArrayCallback(ids) {
+    parent.postMessage({ type: 'pane-meshes', src: SRC, ids: Array.from(ids) }, '*');
+  },
+  locateFile: (path) => 'engine/' + path,
+  onRuntimeInitialized() { fetchMap().then(fetchItems).catch(() => {}).finally(() => startScene()); },
+};
+function startScene() {
+  {
+    const c = Module.canvas;
+    c.width = innerWidth; c.height = innerHeight;
+    const pName = cstr(BASE), pFdid = cstr(BASE + 'fdid/');
+    Module._createWebJsScene(c.width, c.height, pName, pFdid);
+    Module._free(pName); Module._free(pFdid);
+    Module._setClearColor(0.117, 0.165, 0.227);
+    if (RETAIL_FDID) {
+      // Retail, live: the engine loads the modern model by FileDataID and asks for its
+      // skins/anims/textures by id; mapUrl() sends those straight to wago.tools.
+      Module._setSceneFileDataId(0, RETAIL_FDID, -1);
+    } else {
+      const pModel = cstr(MODEL);
+      Module._setScene(q.get('scene') === 'wmo' ? 1 : 0, pModel, -1);   // 1 = WMO scene
+      Module._free(pModel);
+    }
+    // Display skins: slots are texture types, creature skins are types 11-13.
+    // Character models also get ?tex=slot:fdid (1 = NPC bake, 6 = hair, 8 = extra skin).
+    const slots = new Int32Array(27);
+    slots[11] = SKINS[0] || 0; slots[12] = SKINS[1] || 0; slots[13] = SKINS[2] || 0;
+    (q.get('tex') || '').split(',').filter(Boolean).forEach(kv => {
+      const [slot, fid] = kv.split(':').map(Number);
+      if (slot >= 0 && slot < 27) slots[slot] = fid;
+    });
+    const buf = Module._malloc(slots.length * 4);
+    Module.HEAP32.set(slots, buf >> 2);
+    Module._setTextures(buf, slots.length);
+    Module._free(buf);
+    ready = true;
+    applyMeshes();
+    syncSize();
+    let last;
+    const loop = (now) => {
+      camStep();
+      Module._gameloop(last === undefined ? 0 : (now - last) / 1000);
+      last = now;
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+    parent.postMessage({ type: 'pane-ready', src: SRC }, '*');
+  }
+}
+
+// Keep the engine's viewport and aspect in step with the pane's real size
+// (the grid can lay the iframe out after the engine has started).
+function syncSize() {
+  const c = Module.canvas;
+  const w = Math.max(1, Math.round(c.clientWidth)), h = Math.max(1, Math.round(c.clientHeight));
+  if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
+  if (ready) Module._setSceneSize(w, h);
+}
+new ResizeObserver(syncSize).observe(document.getElementById('wowcanvas'));
+addEventListener('resize', () => { syncSize(); updateRuler(); });
+addEventListener('message', (e) => {
+  if (e.data && e.data.type === 'anim') setAnim(e.data.id);
+  if (e.data && e.data.type === 'resetcam') { resetPan(); resetView(); }
+  if (e.data && e.data.type === 'cam') moveCam((c) => {   // sibling moved: take its angle and pan, keep our zoom
+    c.yaw = e.data.cam.yaw; c.pitch = e.data.cam.pitch;
+  }, false);
+});
+</script>
+<script src="engine/hammer.min.js"></script>
+<script src="engine/project.js"></script>
+</body>
+</html>

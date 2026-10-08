@@ -1,0 +1,1250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asset Layers Picker</title>
+<style>
+  :root {
+    --bg: #0f1520; --panel: #161e2b; --panel2: #1c2636; --line: #2a3648;
+    --text: #e6ebf2; --muted: #8b98ab; --accent: #6aa9ff; --good: #4cc38a;
+    --warn: #e2b04a; --bad: #e5676b; --chosen: #2c5a3f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+    font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .app { display: grid; grid-template-columns: 320px 1fr; height: 100%; }
+  aside { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+  aside header { padding: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 8px; }
+  body.home .app { display: none; }
+  #home { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  #home h1 { margin: 0 0 4px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+  .tile { text-align: left; padding: 16px; border-radius: 10px; display: grid; gap: 6px; cursor: pointer; }
+  .tile b { font-size: 17px; }
+  .tile .n { font-size: 26px; font-weight: 600; }
+  .tile .d { color: var(--muted); font-size: 12px; }
+  .layerbar { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .layerbar b { font-size: 15px; }
+  #menu { font-size: 18px; line-height: 1; padding: 6px 10px; }
+  #listtoggle { display: none; margin-left: auto; }
+  .menu { display: grid; gap: 4px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+  .menu[hidden] { display: none; }
+  .menu button { text-align: left; }
+  .drawer { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+  .drawer #list { flex: 1; min-height: 0; overflow: auto; }
+  h1 { font-size: 15px; margin: 0; }
+  .progress { color: var(--muted); font-size: 12px; }
+  .row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .row button { flex: 1; }
+  input[type=search] { width: 100%; padding: 6px 8px; background: var(--bg); color: var(--text);
+    border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+  button { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 6px;
+    padding: 5px 8px; cursor: pointer; font: inherit; font-size: 12px; }
+  button:hover { border-color: var(--accent); }
+  button.on { background: var(--accent); color: #08111f; border-color: var(--accent); }
+  #list { overflow: auto; flex: 1; }
+  .q { padding: 8px 12px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .q:hover { background: var(--panel2); }
+  .q.cur { background: #22324a; }
+  .q .t { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; overflow-wrap: anywhere; }
+  .q .n { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+  .more { padding: 10px 12px; color: var(--muted); font-size: 12px; }
+  .chip { font-size: 11px; padding: 1px 6px; border-radius: 10px; background: var(--panel2); border: 1px solid var(--line); white-space: nowrap; }
+  .chip.ok { border-color: var(--good); color: var(--good); }
+  .chip.warn { border-color: var(--warn); color: var(--warn); }
+  .chip.bad { border-color: var(--bad); color: var(--bad); }
+  main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .top { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .top .title { flex: 1; min-width: 0; }
+  .top .title b { font-size: 15px; overflow-wrap: anywhere; }
+  .sub { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+  #save { font-size: 12px; color: var(--muted); }
+  #save.ok { color: var(--good); } #save.err { color: var(--bad); }
+  .panes { flex: 1; overflow: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 10px; padding: 10px; align-content: start; }
+  .pane { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+  .pane.chosen { border-color: var(--good); box-shadow: 0 0 0 1px var(--good); }
+  .sect { grid-column: 1 / -1; color: var(--muted); font-size: 13px; padding: 8px 2px 0; border-top: 1px solid var(--line); }
+  .sect b { color: var(--text); }
+  .pane.rep iframe { aspect-ratio: 4 / 3; }
+  .pane iframe { width: 100%; aspect-ratio: 1 / 1; border: 0; background: #1e2a3a; display: block; flex: none; }
+  .pane > .info { flex: 1 1 auto; min-height: 0; overflow: auto; }
+  .pane > .ptitle { flex: none; padding: 7px 10px; border-bottom: 1px solid var(--line); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  /* pinned button on a solid strip the width of the card, so scrolled details never show through */
+  .pane > .info .use { position: sticky; bottom: 0; z-index: 1;
+    box-shadow: 0 0 0 100vmax var(--panel); clip-path: inset(-8px -100vmax -10px -100vmax); }
+  .looks { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--line); }
+  .looks figure { margin: 0; background: var(--panel); display: flex; flex-direction: column; }
+  .looks figcaption { font-size: 12px; color: var(--muted); padding: 6px 10px; overflow-wrap: anywhere; }
+  .looks figcaption b { color: var(--text); }
+  .simw { font-size: 12px; color: var(--muted); display: flex; gap: 4px; align-items: center; margin-top: 4px; }
+  .pane canvas { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; flex: none; display: block; image-rendering: pixelated;
+    background: repeating-conic-gradient(#2a3648 0 25%, #1c2636 0 50%) 0 0 / 16px 16px; object-fit: contain; }
+  .info { padding: 8px 10px; display: grid; gap: 4px; border-top: 1px solid var(--line); }
+  .info .h { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .info .stats { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+  .use { justify-self: start; }
+  .empty { color: var(--muted); padding: 30px; }
+  .help { color: var(--muted); font-size: 12px; padding: 0 14px 8px; }
+  .prov summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+  .pb { font-size: 11px; display: grid; gap: 3px; max-height: 300px; overflow: auto; }
+  .cust { display: grid; grid-template-columns: minmax(240px, 440px) minmax(240px, 440px) 1fr; gap: 12px; padding: 10px; overflow: auto; }
+  .cust .ph { font-size: 12px; padding: 6px 8px; color: var(--muted); border-bottom: 1px solid var(--line); }
+  .cust .ph b { color: var(--text); }
+  .cust .skinrow { display: grid; grid-template-columns: 120px 1fr 48px; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+  .cust .skinrow canvas { width: 48px; height: 48px; aspect-ratio: auto; }
+  .cust .was { font-size: 11px; color: var(--muted); grid-column: 2 / 4; margin-top: -4px; }
+  @media (max-width: 900px) { .cust { grid-template-columns: 1fr; } }
+  .cust .ctl { display: grid; gap: 8px; align-content: start; }
+  .cust label { display: grid; grid-template-columns: 120px 1fr; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+  .cust select, .cust input { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; font: inherit; }
+  .cust h3 { margin: 6px 0 0; font-size: 13px; }
+  @media (max-width: 760px) { .cust { grid-template-columns: 1fr; } }
+  /* phones: one scrolling page - the list (its own scroll), then the model, cards one per row */
+  @media (max-width: 760px) {
+    html, body { height: auto; }
+    .app { display: block; height: auto; }
+    aside { border-right: 0; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
+    #listtoggle { display: inline-block; }
+    aside .drawer { display: none; }
+    aside.open .drawer { display: flex; }
+    aside.open #list { max-height: 55vh; }
+    main { display: block; }
+    #help { display: none; }
+    .top .title { flex: 1 1 100%; }          /* the model name gets its own full-width row */
+    .top { gap: 8px; }
+    .panes { overflow: visible; gap: 8px; padding: 8px; }
+  }
+</style>
+</head>
+<body>
+<div id="home" hidden>
+  <h1>Asset Layers Picker</h1>
+  <p class="sub">Pick a layer to work in. Counts are what is still undecided.</p>
+  <div class="tiles" id="tiles"></div>
+</div>
+<div class="app">
+  <aside id="side">
+    <div class="layerbar">
+      <button id="menu" title="All layers (home)" aria-label="Back to the layer list">☰</button>
+      <b id="layername">Creatures</b>
+      <button id="listtoggle" title="Show / hide the model list">List</button>
+    </div>
+    <div class="menu" id="tabs" hidden>
+        <button data-tab="creature" class="on">Creatures</button>
+        <button data-tab="character">Characters</button>
+        <button data-tab="object">Objects</button>
+        <button data-tab="item">Items</button>
+        <button data-tab="wmo">WMOs</button>
+        <button data-tab="display">Displays</button>
+        <button data-tab="texture">Textures</button>
+        <button data-tab="custom">Customise</button>
+    </div>
+    <div class="drawer">
+    <header>
+      <div class="row" id="filters"></div>
+      <input type="search" id="search" placeholder="Path, display id, name or keyword (wolf, tree, legion…)">
+      <label class="simw"><input type="checkbox" id="simw"> similar words (wolf finds worgs, hounds…)</label>
+      <div class="progress" id="progress"></div>
+    </header>
+    <div id="list"></div>
+    </div>
+  </aside>
+  <main>
+    <div class="top">
+      <div class="title"><b id="title">Loading…</b><div class="sub" id="subtitle"></div></div>
+      <button id="mode" hidden title="Texture options flat (2D) or on the model (3D)">3D view</button>
+      <label id="riderbox" class="simw" hidden title="Seat a character on mounts (attachment 0) to compare seat positions"><input type="checkbox" id="rider"> rider <select id="ridercode"></select></label>
+      <select id="anim" title="Animation (all panes)"><option value="0">Stand (0)</option></select>
+      <button id="resetcam" title="Reset all views">Reset views</button>
+      <span id="save"></span>
+    </div>
+    <div class="help" id="help"></div>
+    <div class="panes" id="panes"></div>
+  </main>
+</div>
+<script src="blp.js"></script>
+<script>
+// stamped at deploy: a new pane.html is fetched after every deploy (no stale browser copy)
+const PANE_V = '__PANE_V__';
+// Layered asset selection (F-216): 1. 3D asset (mesh) -> 2. 2D asset (texture) -> 3. customise.
+// Choices: choices/layers.json {version: 2, mesh: {path: pick}, texture: {path: pick}, custom: {}}
+// Every pick is logged against the options it was made between ({option key: sources}); a new,
+// changed or removed option sends it back to review.
+const CHOICES_URL = 'choices/layers.json';
+const KEY_STORE = 'f216-picker-key';
+let pickerKey = '';
+try { pickerKey = localStorage.getItem(KEY_STORE) || ''; } catch (e) {}
+(() => {
+  const m = location.hash.match(/key=([0-9a-f]+)/i);
+  if (!m) return;
+  pickerKey = m[1];
+  try { localStorage.setItem(KEY_STORE, pickerKey); } catch (e) {}
+  history.replaceState(null, '', location.pathname + location.search);
+})();
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const mb = (n) => n >= 1048576 ? (n / 1048576).toFixed(2) + ' MB' : (n / 1024).toFixed(0) + ' KB';
+const label = (srcs) => srcs.join(' + ');
+
+let customList = [];
+// Retail on demand: the picker asks, the next `zep model viewer` run fetches + converts (WXL way)
+let retailIdx = { models: {}, skins: {} };   // data/v2/retail.json
+const OUTFIT_SLOTS = ['helm', 'shoulders', 'cape', 'chest', 'shirt', 'tabard', 'wrists', 'gloves', 'belt', 'legs', 'boots'];
+let assets = [], texIndex = [], choices = { version: 2, mesh: {}, texture: {}, custom: {}, fit: {}, display: {}, wish: {} };
+// All view: every other model (data/v2/catalog.json, loaded the first time All / Shortlist opens)
+let catalog = null, catalogLoading = null;
+let bodies = {}, fitBody = null;           // item fitting: race/sex bodies ('hum', 'orf', ...)
+let riderOn = false, riderCode = 'hum';
+let mountSet = new Map();                   // model -> [seat attachment, dx, dy, dz] (data/v2/mounts.json)
+let tab = 'creature', filter = 'todo', search = '', cur = null, view = [], texMode = '2d';
+const texChunks = {};
+
+const FILTERS = {
+  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['wish', 'Shortlist']],
+  texture: [['decide', 'Needs decision'], ['review', 'Review'], ['all', 'All']],
+  custom: [['all', 'All'], ['done', 'Customised']],
+};
+const HELP = {
+  display: 'Display-level 3D choice: packs that point this display at a DIFFERENT model. Each option is drawn with that ' +
+           'pack\'s own display rows. Compare panes show our own creature-level edits (read-only).',
+  asset: 'Layer 1 — pick the 3D asset (mesh). Packs shipping byte-identical files are one option. ' +
+         'Each option is shown wearing its default textures (the largest compatible); pick textures in the Textures tab.',
+  custom: 'Layer 3 — customise one display: geosets (creatures), hair / facial hair (characters), or an outfit ' +
+          '(retail item ids, built by the F-198 wardrobe with a new bake). The preview uses the mesh\'s current pane.',
+  texture: 'Layer 2 — pick the texture. Default = the largest file among options painted for the chosen mesh. ' +
+           '"Needs decision": no option fits every mesh using it, or the largest one is painted for another mesh.',
+};
+
+// ---- choices + review -----------------------------------------------------------------
+// Model-level options: one per pack AS IT SHIPS (stock fallback) = the file it ships at this path
+// + the displays it repoints to other models (Spaceslam: 23 golem displays -> arcanegolem2).
+// Packs doing exactly the same thing are one option.
+let repIdx = null;   // model path -> its Displays-tab entries
+function repEntries(path) {
+  if (!repIdx) {
+    repIdx = {};
+    assets.forEach(d => { if (d.tab === 'display' && d.panes.length) (repIdx[d.panes[0].model] = repIdx[d.panes[0].model] || []).push(d); });
+  }
+  return repIdx[path] || [];
+}
+const hash = (t) => { let h = 0; for (const ch of t) h = (h * 31 + ch.charCodeAt(0)) | 0; return (h >>> 0).toString(36); };
+function modelOptions(e) {
+  if (e._mo) return e._mo;
+  const ds = e.tab === 'item' || e.tab === 'display' ? [] : repEntries(e.path);
+  if (!ds.length) return (e._mo = mergeNear(e, e.panes.map(p => ({ key: p.option, sources: p.sources, file: p, reps: {} }))));
+  const stockPane = e.panes.find(p => p.sources.includes('stock')) || e.panes[0];
+  const packs = new Set();
+  e.panes.forEach(p => p.sources.forEach(x => packs.add(x)));
+  ds.forEach(d => d.panes.slice(1).forEach(p => p.sources.forEach(x => packs.add(x))));
+  packs.delete('stock'); packs.delete('retail');
+  const groups = new Map();
+  const add = (src, file, reps) => {
+    const ids = Object.keys(reps).sort();
+    const sig = file.option + '|' + ids.map(k => k + ':' + reps[k].option).join(',');
+    let g = groups.get(sig);
+    if (!g) groups.set(sig, g = { key: ids.length ? file.option + '+r' + hash(sig) : file.option, sources: [], file, reps });
+    g.sources.push(src);
+  };
+  add('stock', stockPane, {});
+  // a pack decides at MODEL level only what it does to every display at once: its file, or a
+  // repoint of ALL the model's (used) displays. A repoint of only some goes to the Displays tab.
+  // every used display that STARTED on this model: still on it live, or moved away by a pack
+  const used = new Set([...(e.used_ids || []).map(String), ...ds.map(d => String(d.display))]).size || e.displays || ds.length;
+  e._used = used;
+  e._partial = new Set();
+  [...packs].sort().forEach(x => {
+    const file = e.panes.find(p => p.sources.includes(x)) || stockPane;
+    let reps = {};
+    ds.forEach(d => { const rp = d.panes.slice(1).find(p => p.sources.includes(x)); if (rp) reps[d.display] = rp; });
+    // a clean swap only: ALL used displays, all to ONE model. Several targets (felbat: 23 to
+    // giantvampirebat, 1 to the taxi bat) is not a model swap - decided per display.
+    const targets = new Set(Object.values(reps).map(r => r.model));
+    if (Object.keys(reps).length && (Object.keys(reps).length < used || targets.size > 1)) {
+      Object.keys(reps).forEach(id => e._partial.add(id));
+      reps = {};
+      if (file === stockPane && !stockPane.sources.includes(x)) return;   // nothing left at model level: not an option here
+    }
+    add(x, file, reps);
+  });
+  return (e._mo = mergeNear(e, [...groups.values()]));
+}
+// near-duplicates (same look, a few bytes of metadata apart: a rider-seat nudge) are ONE card
+// whose variants are picked from a menu
+function mergeNear(e, gs) {
+  // shown as separate cards (the difference can matter: a rider-seat height), each noting it
+  gs.forEach(g => {
+    const n = (g.file.near || []).find(x => gs.some(h => h !== g && h.file.option === x.option));
+    if (n) g.note = `same look as ${label((gs.find(h => h.file.option === n.option) || {}).sources || [])} except: ${n.summary}`;
+  });
+  return gs;
+}
+function mergeNearCards(e, gs) {
+  const out = [];
+  gs.forEach(g => {
+    const sig = Object.keys(g.reps).sort().map(k => k + ':' + g.reps[k].option).join(',');
+    const m = out.find(h => h._sig === sig && (h.variants || [h]).some(v => (v.file.near || []).some(n => n.option === g.file.option)));
+    if (!m) { g._sig = sig; out.push(g); return; }
+    if (!m.variants) Object.assign(m, { variants: [{ ...m }], note: (g.file.near.find(n => n.option === m.file.option) || {}).summary });
+    m.variants.push(g);
+    m.sources = [...new Set([...m.sources, ...g.sources])];
+  });
+  out.forEach(m => {
+    if (!m.variants) return;
+    const d = m.variants.findIndex(v => v.file.option === e.current);
+    m.def = d < 0 ? 0 : d;
+  });
+  return out;
+}
+// classic models with the rider baked into the mount mesh; F-220 replaces them with NPC + mount
+// the F-220 scope list (rider / driver baked into the mount mesh)
+const FUSED = new Set(['batrider.m2', 'alliancerider.m2', 'alliancerider2.m2', 'horderider.m2', 'goblinrocketcar.m2',
+  'gnomerocketcar.m2', 'headlesshorsemanmount.m2', 'mounteddeathknight.m2', 'mounteddeathknight_blaumeux.m2',
+  'mounteddeathknight_korthazz.m2', 'mounteddeathknight_mograine.m2', 'mounteddeathknight_zeliek.m2', 'mountedknight.m2',
+  'mounteddemonknight.m2', 'terongorefiend_mounted.m2', 'felorcnetherdrakemounted.m2', 'orcdrakerider.m2', 'tauren_mountedcanoe.m2']);
+const isFusedRider = (path) => FUSED.has((path || '').split('/').pop());
+const F220 = 'Fused rider/driver: the rider is part of the mount model. F-220 replaces these with an NPC on a mount or vehicle.';
+// a creature/character model no creature shows (no display, or only unused displays)
+const unusedModel = (e) => (e.tab === 'creature' || e.tab === 'character') && !e.retailOnly &&
+  !(e.displays_used > 0) && !repEntries(e.path).length;
+const nOptions = (e) => (e.tab === 'display' || e.tab === 'item' ? e.panes.length : modelOptions(e).length) +
+  (retailIdx.models && retailIdx.models[e.path] ? 1 : 0);
+// a pack-only model reached only by per-display repoints (tiger2: packs move 15 of tiger.m2's 58
+// displays onto it): each Displays-tab option already carries its pack's file, so the file is
+// chosen there too - nothing to decide at model level
+let byTarget = null;
+function perDisplayTarget(e) {
+  if (e.tab !== 'creature' || e.retailOnly || e.panes.some(p => p.sources.includes('stock'))) return false;
+  if (!byTarget) {
+    byTarget = {};
+    assets.forEach(d => { if (d.tab === 'display') d.panes.slice(1).forEach(p => {
+      if (p.model !== d.panes[0].model) (byTarget[p.model] = byTarget[p.model] || new Set()).add(d); }); });
+  }
+  const ds = [...(byTarget[e.path] || [])];
+  // every pack that moves them keeps other displays of their stock model in place (deploy's src_partial):
+  // a full swap (wendigo -> wendigo2, all 29) is a model-level choice and stays on the card
+  if (!ds.length || !ds.every(d => d.src_partial)) return false;
+  const ids = new Set(ds.map(d => String(d.display)));
+  return (e.used_ids || []).every(id => ids.has(String(id)));
+}
+// the model's displays its options decide (full repoints); the rest of its repoints are per display
+let byPath = null;
+function modelDecides(d) {
+  if (!byPath) { byPath = {}; assets.forEach(x => { if (x.tab !== 'display') byPath[x.path] = x; }); }
+  const m = d.panes.length ? byPath[d.panes[0].model] : null;
+  return !!m && modelOptions(m).some(g => g.reps[d.display]);
+}
+// a display decided by its model's pick (Displays tab: not in the queue, overridable)
+function viaModel(d) {
+  if (d.tab !== 'display' || !d.panes.length) return null;
+  const m = choices.mesh[d.panes[0].model];
+  return m && m.displays ? m.displays[String(d.display)] || null : null;
+}
+function optionsOf(entry) {
+  const o = {};
+  if (entry.panes && entry.tab !== 'display' && entry.tab !== 'item' && !entry.retailOnly) modelOptions(entry).forEach(g => { o[g.key] = g.sources; });
+  else if (entry.panes) entry.panes.forEach(p => { o[p.option] = p.sources; });
+  else if (entry.options) entry.options.forEach(x => { o[x.key] = x.sources; });
+  // the live Retail remaster pane is an option too: record it, or every pick saved next to it
+  // reads as "new option: retail" on the next load
+  if (entry.tab !== 'display' && retailIdx.models && retailIdx.models[entry.path]) o.retail = ['retail'];
+  return o;
+}
+function reviewReason(kind, key, entry) {
+  const c = choices[kind][key];
+  if (!c || !c.options || !entry) return null;
+  const now = optionsOf(entry);
+  const added = Object.keys(now).filter(k => !(k in c.options));
+  const gone = Object.keys(c.options).filter(k => !(k in now));
+  if (gone.includes(c.option)) return 'picked option no longer offered';
+  if (added.length) return `new option: ${added.map(k => label(now[k])).join(', ')}`;
+  if (gone.length) return 'an option was removed';
+  return null;
+}
+async function save(kind, key, entry, optionKey, extra = {}) {
+  const status = $('save');
+  status.className = ''; status.textContent = 'saving…';
+  const pick = { option: optionKey, sources: optionsOf(entry)[optionKey], options: optionsOf(entry), at: new Date().toISOString(), ...extra };
+  try {
+    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+    const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
+                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
+                     display: { ...(latest.display || {}), ...(choices.display || {}) },
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    merged[kind][key] = pick;
+    const headers = { 'Content-Type': 'application/json' };
+    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
+    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
+    choices = merged;
+    status.className = 'ok'; status.textContent = `saved → ${label(pick.sources)}`;
+  } catch (e) { status.className = 'err'; status.textContent = 'save failed: ' + e.message; return; }
+  try {
+    const pos = view.indexOf(cur);
+    render();
+    if (filter !== 'all' && view.length) openItem(view[Math.min(pos, view.length - 1)]); else openItem(cur);
+  } catch (e) { console.error(e); }
+}
+
+// ---- list -------------------------------------------------------------------------------
+// Undecided / Review: real choices only. All / Shortlist: also every single-source model and
+// the retail-only ones (live panes), for shopping new content.
+const shopping = () => filter === 'all' || filter === 'wish';
+function pool() { return shopping() && catalog ? assets.concat(catalog) : assets; }
+function ensureCatalog() {
+  if (catalog || catalogLoading) return;
+  catalogLoading = fetch('data/v2/catalog.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : { stock: [], retail: [] })
+    .catch(() => ({ stock: [], retail: [] })).then(d => {
+      catalog = (d.stock || []).concat((d.retail || []).map(([p, t, fd, sk, kw]) => ({ id: p, tab: t, path: p, members: [p],
+        display: null, displays: 0, names: [], current: null, retailOnly: fd, rskins: sk, kw: kw || '', panes: [] })));
+      if (shopping()) { render(); if (!cur) openItem(view[0]); }
+    });
+}
+// a model-level pick: the file option + what every display of the model does
+function saveModel(e, g) {
+  const displays = {};
+  const decided = new Set(modelOptions(e).flatMap(h => Object.keys(h.reps)));
+  repEntries(e.path).forEach(d => {
+    if (!decided.has(String(d.display))) return;          // a partial repoint: decided per display
+    const rp = g.reps[d.display];
+    if (rp) { displays[d.display] = { option: rp.option, sources: rp.sources }; return; }
+    // stays on this file: take the display row from the same pack as the chosen file (its skins fit it)
+    const keep = d.panes[0], own = g.sources.find(x => keep.sources.includes(x)) || keep.sources[0];
+    displays[d.display] = { option: keep.option, sources: [own, ...keep.sources.filter(x => x !== own)] };
+  });
+  return save('mesh', e.path, e, g.key, { file_option: g.file.option, file_sources: g.file.sources, displays });
+}
+async function saveDisplays(items) {
+  const status = $('save');
+  status.className = ''; status.textContent = `saving ${items.length} display choices…`;
+  try {
+    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+    const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
+                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
+                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    const at = new Date().toISOString();
+    items.forEach(([d, opt]) => {
+      const o = optionsOf(d);
+      merged.display[String(d.display)] = { option: opt, sources: o[opt], options: o, at };
+    });
+    const headers = { 'Content-Type': 'application/json' };
+    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
+    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
+    choices = merged;
+    status.className = 'ok'; status.textContent = `saved ${items.length} display choices`;
+  } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
+  render(); openItem(cur);
+}
+async function saveWish(e, on) {
+  const status = $('save');
+  status.className = ''; status.textContent = 'saving shortlist…';
+  try {
+    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+    const wish = { ...(latest.wish || {}), ...(choices.wish || {}) };
+    if (on) wish[e.path] = { tab: e.tab, fdid: e.retailOnly || (retailIdx.models || {})[e.path] || undefined,
+                             sources: e.retailOnly ? ['retail'] : (e.panes[0] || {}).sources, at: new Date().toISOString() };
+    else delete wish[e.path];
+    const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
+                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
+                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish };
+    const headers = { 'Content-Type': 'application/json' };
+    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
+    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
+    choices = merged;
+    status.className = 'ok'; status.textContent = on ? 'added to the shortlist' : 'removed from the shortlist';
+  } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
+  render(); openItem(cur);
+}
+const kindOf = (e) => e.tab === 'display' ? 'display' : 'mesh';
+const keyOf = (e) => e.tab === 'display' ? String(e.display) : e.path;
+const pickOf = (e) => (choices[kindOf(e)] || {})[keyOf(e)];
+function assetMatches(e) {
+  if (e.tab !== tab) return false;
+  const c = pickOf(e);
+  const rv = reviewReason(kindOf(e), keyOf(e), e);
+  if ((filter === 'todo' || filter === 'review') && (e.single || e.retailOnly)) return false;
+  if (filter === 'todo' && e.tab !== 'display' && (nOptions(e) < 2 ||
+      (e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)))) return false;   // decided per display / nothing to decide
+  if (filter === 'todo' && e.tab === 'display' && modelDecides(e)) return false;   // the model pick decides it
+  if (filter === 'todo' && unusedModel(e)) return false;                            // nothing in game uses it yet
+  if (filter === 'todo' && perDisplayTarget(e)) return false;                       // its file is picked per display
+  if (filter === 'todo' && (c || viaModel(e))) return false;   // Undecided = never picked (here or via the model); changed picks are in Review
+  if (filter === 'review' && !rv) return false;
+  if (filter === 'wish' && !(choices.wish || {})[e.path]) return false;
+  if (search) {
+    // every word must match the path, display, names or keywords (a word also matches its synonyms)
+    const hay = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + (e.kw || '')).toLowerCase();
+    if (!searchWords().every(alts => alts.some(w => hay.includes(w)))) return false;
+  }
+  return true;
+}
+// Synonym groups for search: a word finds every word of its group.
+const SYNONYMS = [
+  ['wolf', 'worg', 'hound', 'dog', 'canine', 'jackal', 'coyote', 'fox', 'vulpera'],
+  ['cat', 'sabre', 'saber', 'tiger', 'lion', 'panther', 'lynx', 'feline', 'cougar', 'leopard', 'manticore'],
+  ['bear', 'ursine', 'furbolg', 'grizzly'],
+  ['dragon', 'drake', 'whelp', 'wyrm', 'proto', 'dragonkin', 'serpent'],
+  ['bird', 'hawk', 'eagle', 'owl', 'raven', 'crow', 'vulture', 'parrot', 'gryphon', 'griffin', 'hippogryph', 'flying'],
+  ['horse', 'steed', 'stallion', 'mare', 'charger', 'pony', 'nightmare', 'mount'],
+  ['undead', 'skeleton', 'zombie', 'ghoul', 'ghost', 'spirit', 'banshee', 'lich', 'wraith', 'scourge', 'risen'],
+  ['demon', 'fel', 'imp', 'felhound', 'felguard', 'infernal', 'succubus', 'eredar', 'satyr', 'legion'],
+  ['elemental', 'fire', 'water', 'earth', 'air', 'storm', 'lava', 'magma', 'golem', 'rock', 'stone'],
+  ['spider', 'arachnid', 'nerubian', 'crawler', 'scorpid', 'scorpion', 'insect', 'bug', 'beetle', 'silithid', 'aqir'],
+  ['fish', 'shark', 'whale', 'eel', 'murloc', 'naga', 'crab', 'turtle', 'sea', 'aquatic'],
+  ['reptile', 'lizard', 'raptor', 'basilisk', 'crocolisk', 'crocodile', 'thunderlizard', 'dinosaur', 'devilsaur', 'saurok'],
+  ['robot', 'mech', 'mechanical', 'golem', 'construct', 'harvester', 'gnome', 'goblin', 'shredder'],
+  ['tree', 'treant', 'ancient', 'bush', 'plant', 'flower', 'vine', 'ivy', 'foliage', 'mushroom', 'shroom'],
+  ['house', 'building', 'hut', 'tent', 'tower', 'wall', 'gate', 'bridge', 'fence', 'ruin', 'ruins'],
+  ['chair', 'bench', 'table', 'bed', 'barrel', 'crate', 'box', 'chest', 'furniture', 'shelf', 'cart'],
+  ['light', 'lamp', 'lantern', 'torch', 'candle', 'brazier', 'fire', 'bonfire', 'campfire'],
+  ['rat', 'rodent', 'mouse', 'squirrel', 'rabbit', 'hare', 'critter', 'vermin'],
+];
+const SYN = {};
+SYNONYMS.forEach(g => g.forEach(w => { SYN[w] = [...new Set([...(SYN[w] || []), ...g])]; }));
+let _sw = { q: null, words: [] };
+let similar = false;
+function searchWords() {
+  const k = search + '|' + similar;
+  if (_sw.q !== k) _sw = { q: k, words: search.split(/\s+/).filter(Boolean).map(w => similar && SYN[w] ? SYN[w] : [w]) };
+  return _sw.words;
+}
+// 0 = every word in the path or a name, 1 = needed the keywords
+function searchRank(e) {
+  const strong = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ')).toLowerCase();
+  return searchWords().every(alts => alts.some(w => strong.includes(w))) ? 0 : 1;
+}
+function texMatches(t) {
+  const [path, n, current, chunk, flags] = t;
+  if (filter === 'decide' && !flags.length) return false;
+  if (filter === 'review' && !(choices.texture[path] && choices.texture[path].review)) return false;
+  if (search && !path.includes(search)) return false;
+  return true;
+}
+function render() {
+  const isTex = tab === 'texture', isCust = tab === 'custom';
+  const fk = isTex ? 'texture' : isCust ? 'custom' : 'asset';
+  $('filters').innerHTML = FILTERS[fk].map(([k, l]) =>
+    `<button data-f="${k}" class="${k === filter ? 'on' : ''}">${l}</button>`).join('');
+  $('help').textContent = tab === 'display' ? HELP.display : HELP[fk];
+  $('mode').hidden = !isTex;
+  if (isCust) {
+    const num = /^\d+$/.test(search);
+    const crank = (c) => !search ? 0 : String(c.display) === search ? 0 : num && String(c.display).startsWith(search) ? 1 : 2;
+    view = customList.filter(c => (filter !== 'done' || choices.custom[c.display]) &&
+      (!search || String(c.display).includes(search) || c.names.some(n => n.toLowerCase().includes(search)) || c.path.includes(search)))
+      .sort((x, y) => crank(x) - crank(y) || x.display - y.display);   // 13 -> display 13 first, then 130..139, ...
+    if (!search && filter !== 'done') view.sort((x, y) => x.display - y.display);
+    $('progress').textContent = `${customList.length.toLocaleString()} displays · ${Object.keys(choices.custom).length.toLocaleString()} customised · ${view.length.toLocaleString()} shown`;
+    $('listtoggle').textContent = 'List · ' + view.length.toLocaleString();
+    $('list').innerHTML = view.slice(0, 400).map(c => `<div class="q${cur === c ? ' cur' : ''}" data-d="${c.display}">
+      <div class="t"><b>${c.display}</b> ${esc(c.names[0] || '')}${choices.custom[c.display] ? '<span class="chip ok">customised</span>' : ''}</div>
+      <div class="n">${esc(c.path)}</div></div>`).join('') + (view.length > 400 ? `<div class="more">${(view.length - 400).toLocaleString()} more — refine the search</div>` : '');
+    return;
+  }
+  if (isTex) {
+    view = texIndex.filter(texMatches);
+    $('progress').textContent = `${texIndex.length.toLocaleString()} textures with options · ` +
+      `${Object.keys(choices.texture).length.toLocaleString()} picked · ${view.length.toLocaleString()} shown`;
+    $('listtoggle').textContent = 'List · ' + view.length.toLocaleString();
+    $('list').innerHTML = view.slice(0, 400).map(t => {
+      const [path, n, current, chunk, flags, nrefs] = t;
+      const c = choices.texture[path];
+      return `<div class="q${cur === t ? ' cur' : ''}" data-p="${esc(path)}"><div class="t"><b>${esc(path.split('/').pop())}</b>
+        ${c ? '<span class="chip ok">picked</span>' : ''}${flags.map(f => `<span class="chip ${f === 'none-compatible' ? 'bad' : 'warn'}">${esc(f)}</span>`).join('')}</div>
+        <div class="n">${esc(path)} · ${n} options · used by ${nrefs}</div></div>`;
+    }).join('') + (view.length > 400 ? `<div class="more">${(view.length - 400).toLocaleString()} more — refine the search</div>` : '');
+  } else {
+    if (shopping()) ensureCatalog();
+    view = pool().filter(assetMatches);
+    if (search) {
+      const r = new Map(view.map(e => [e, searchRank(e)]));
+      view.sort((x, y) => r.get(x) - r.get(y));
+    }
+    const inTab = assets.filter(e => e.tab === tab);
+    const done = inTab.filter(e => pickOf(e) && !reviewReason(kindOf(e), keyOf(e), e)).length;
+    $('progress').textContent = `${done.toLocaleString()} of ${inTab.length.toLocaleString()} picked · ${view.length.toLocaleString()} shown` +
+      (shopping() && !catalog ? ' · loading every other model…' : '');
+    $('listtoggle').textContent = 'List · ' + view.length.toLocaleString();
+    $('list').innerHTML = view.slice(0, 400).map(e => {
+      const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
+      const tag = (rv ? `<span class="chip warn" title="${esc(rv)}">review</span>`
+        : c ? `<span class="chip ok">✓ ${esc(label(c.sources))}</span>`
+        : viaModel(e) ? `<span class="chip ok">✓ via model pick</span>`
+        : e.tab === 'display' && modelDecides(e) ? `<span class="chip">decided by the model pick</span>`
+        : unusedModel(e) ? '<span class="chip">not used by any creature</span>'
+        : perDisplayTarget(e) ? '<span class="chip" title="Only per-display repoints reach this model; each display option in the Displays tab ships its pack\'s file">chosen per display</span>'
+        : e.retailOnly ? '<span class="chip">retail only</span>'
+        : e.single ? `<span class="chip">${esc(label(e.panes[0].sources))} only</span>` : '') +
+        ((choices.wish || {})[e.path] ? '<span class="chip ok">★</span>' : '') +
+        (e.tab === 'creature' && isFusedRider(e.path) ? `<span class="chip warn" title="${F220}">fused rider · F-220</span>` : '') +
+        (e.tab !== 'display' && e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)
+          ? `<span class="chip warn" title="A pack moves this model's displays in more than a simple swap (only some of them, or to several models); those are decided one by one in the Displays tab">split · ${e._partial.size} display${e._partial.size > 1 ? 's' : ''} per display</span>` : '');
+      const nOpt = nOptions(e);
+      const what = e.retailOnly ? `retail · FileDataID ${e.retailOnly}` : `${nOpt} option${nOpt === 1 ? '' : 's'}`;
+      return `<div class="q${cur === e ? ' cur' : ''}" data-id="${esc(e.id)}"><div class="t"><b>${esc(e.id.split('/').pop())}</b>${tag}</div>
+        <div class="n">${what}${e.displays ? ` · ${e.displays} displays` : ''}${e.names.length ? ' · ' + esc(e.names.slice(0, 3).join(', ')) : ''}</div></div>`;
+    }).join('') + (view.length > 400 ? `<div class="more">${(view.length - 400).toLocaleString()} more — refine the search</div>` : '');
+  }
+}
+
+// ---- 3D asset view ----------------------------------------------------------------------------
+// in-game height: bounding-box height x the display's scale (the old viewer's metric)
+function heightOf(p) {
+  if (p.height_yd) return p.height_yd;
+  const b = p.bbox;
+  return b && b.length === 6 && b[5] > b[2] ? Math.round((b[5] - b[2]) * (p.scale || 1) * 100) / 100 : null;
+}
+function paneUrl(p, extra = {}) {
+  const cam = p.camera ? [...p.camera.target, p.camera.dist].join(',') : '';
+  const prm = new URLSearchParams({ src: 'v2', model: p.model, map: p.map, skins: (p.skins || [0, 0, 0]).join(','), cam,
+    scale: p.scale || 1 });
+  const hy = heightOf(p);
+  if (hy) prm.set('h', hy);
+  if (p.tex) prm.set('tex', Object.entries(p.tex).map(([k, v]) => k + ':' + v).join(','));
+  if (p.mesh) prm.set('mesh', p.mesh.join(','));
+  if (p.scalp) prm.set('scalp', '1');
+  if (p.geoall) prm.set('geoall', p.geoall.join(','));
+  let items = p.items ? [...p.items] : [], ovr = extra.ovr ? { ...extra.ovr } : null;
+  // Rider toggle: a body seated in its Mount pose at the seat point (attachment 0) of creature models
+  // fused rider models (batrider, alliancerider: the rider is part of the mesh) get no second rider
+  const fused = isFusedRider(p.model);   // rider already in the mesh (not mechastrider / tallstrider)
+  // only models used as mounts: attachment 0 on a humanoid is its shield, not a saddle
+  const rb = riderOn && !fused && mountSet.has(p.model) && bodies[riderCode] && bodies[riderCode].rider;
+  if (rb) {
+    const [sa, sx, sy, sz] = mountSet.get(p.model);
+    items.push({ a: sa, m: `rider/${riderCode}.m2`, t: '', fit: sx || sy || sz ? { dx: sx, dy: sy, dz: sz, scale: 1 } : undefined });
+    ovr = { ...(ovr || {}), [`rider/${riderCode}.m2`]: rb.m2, [`rider/${riderCode}00.skin`]: rb.skin };
+    Object.entries(rb.tex || {}).forEach(([k, v]) => { ovr[`rider/${riderCode}_${k}.blp`] = v; });
+  }
+  if (items.length) prm.set('items', JSON.stringify(items));
+  if (p.scene) prm.set('scene', p.scene);
+  if (ovr) prm.set('ovr', JSON.stringify(ovr));
+  prm.set('pv', PANE_V);
+  return 'pane.html?' + prm.toString();
+}
+// ---- Sources panel (provenance), data/v2/prov/<id>.json fetched when opened -----------------
+const provBox = (p) => p.prov ? `<details class="prov" data-prov="${p.prov}"><summary>Sources</summary><div class="pb">loading…</div></details>` : '';
+const ownChip = (o) => `<span class="chip${o === 'missing' ? ' bad' : ''}">${esc(o)}</span>`;
+const fileRows = (files) => files.map(([path, o]) => `<div class="row" style="flex-wrap:nowrap;gap:6px">${ownChip(o)}<span style="overflow-wrap:anywhere;font-family:ui-monospace,monospace">${esc(path)}</span></div>`).join('');
+const byList = (by) => by && by.length ? by.map(esc).join(' → ') : 'stock';
+function renderProv(pv) {
+  const out = [];
+  if (pv.splits && pv.splits.length) out.push(`<div class="chip warn" style="white-space:normal">Split pairs: ${pv.splits.map(esc).join('; ')}</div>`);
+  if (pv.dbc && pv.dbc.length) out.push('<b>DBC rows</b>' + pv.dbc.map(r => `<div>${esc(r.table)} ${r.id}: ${byList(r.by)}</div>`).join(''));
+  out.push(`<div>Hair/facial geoset tables: ${esc(pv.geosets || '')}</div>`);
+  out.push('<b>Files</b>' + fileRows(pv.body || []));
+  if (pv.items && pv.items.length) out.push('<b>Items</b>' + pv.items.map(it =>
+    `<div><b>${esc(it.slot)}</b> ItemDisplayInfo ${it.idi}: ${byList(it.idi_by)} · ${esc(it.status)}</div>${fileRows(it.files || [])}`).join(''));
+  return out.join('');
+}
+document.addEventListener('toggle', async (ev) => {
+  const d = ev.target;
+  if (!d.classList || !d.classList.contains('prov') || !d.open || d.dataset.loaded) return;
+  d.dataset.loaded = '1';
+  const box = d.querySelector('.pb');
+  try { box.innerHTML = renderProv(await fetch(`data/v2/prov/${d.dataset.prov}.json`).then(r => r.json())); }
+  catch (err) { box.textContent = 'could not load sources: ' + err.message; }
+}, true);
+
+// ---- items on a body (fitment) ------------------------------------------------------------------
+const RACE_NAMES = { hu: 'Human', or: 'Orc', dw: 'Dwarf', ni: 'Night Elf', sc: 'Undead', ta: 'Tauren', gn: 'Gnome',
+  tr: 'Troll', be: 'Blood Elf', dr: 'Draenei', go: 'Goblin', wo: 'Worgen' };
+const codeName = (c) => `${RACE_NAMES[c.slice(0, 2)] || c.slice(0, 2)} ${c.endsWith('f') ? 'female' : 'male'}`;
+function itemMembersFor(e, code) {
+  // helms: the variant for this race/sex; shoulders/weapons: every model of the group
+  return e.codes && e.codes.length ? e.members.filter(m => m.endsWith(`_${code}.m2`)) : e.members;
+}
+function fitOf(path, option) {
+  const f = (choices.fit || {})[path];
+  return f && f.option === option ? f : null;
+}
+function bodyPaneUrl(e, p, code, override) {
+  const body = bodies[code];
+  if (!body || !e.variants) return null;
+  const vs = e.variants[p.option] || {};
+  const items = [], ovr = {};
+  for (const m of itemMembersFor(e, code)) {
+    const fit = (override && override.path === m) ? override : fitOf(m, p.option);
+    const src = fit && fit.borrow && vs[fit.borrow] ? fit.borrow : m;   // borrow another race's model
+    const v = vs[src];
+    if (!v) continue;
+    const [attach, m2c, skc, tex, texc] = v;
+    items.push({ a: attach, m, t: tex || '', fit: fit ? { dx: fit.dx, dy: fit.dy, dz: fit.dz, scale: fit.scale } : undefined });
+    ovr[m] = m2c;
+    if (skc) ovr[m.replace(/\.m2$/, '00.skin')] = skc;
+    if (tex && texc) ovr[tex] = texc;
+  }
+  if (!items.length) return null;
+  return paneUrl({ ...body, items }, { ovr });
+}
+function fitPanel(e) {
+  const code = fitBody;
+  const members = itemMembersFor(e, code);
+  if (!members.length) return '';
+  const c = choices.mesh[e.path];
+  const optKey = c ? c.option : e.current;
+  const m = members[0], f = fitOf(m, optKey) || { dx: 0, dy: 0, dz: 0, scale: 1 };
+  const borrow = e.codes && e.codes.length ? e.members.filter(x => x !== m) : [];
+  const sl = (k, min, max, v) => `<label>${k}<input type="range" data-fit="${k}" min="${min}" max="${max}" step="0.005" value="${v}"><span data-show="${k}">${(+v).toFixed(3)}</span></label>`;
+  return `<div class="pane fitbox"><div class="info"><div class="h"><b>Fit</b><span class="chip">${esc(m.split('/').pop())}</span>
+    <span class="chip">option ${esc(label(e.panes.find(p => p.option === optKey)?.sources || []))}</span></div>
+    <div class="stats">F-165 transform: scale about the model's centre, then shift (X forward, Y left, Z up). Previewed on the chosen option's pane; saved per model file.</div>
+    <div class="cust" style="padding:0;display:grid;grid-template-columns:1fr;gap:6px">
+    ${sl('dx', -0.5, 0.5, f.dx)}${sl('dy', -0.5, 0.5, f.dy)}${sl('dz', -0.5, 0.5, f.dz)}${sl('scale', 0.5, 1.5, f.scale)}
+    ${borrow.length ? `<label>Borrow model<select data-fit="borrow"><option value="">(this race's own)</option>${borrow.map(b => `<option value="${esc(b)}"${f.borrow === b ? ' selected' : ''}>${esc(b.split('/').pop())}</option>`).join('')}</select></label>` : ''}
+    </div><div class="row"><button id="fit-save">Save fit</button><button id="fit-reset">Reset</button></div></div></div>`;
+}
+
+function openAsset(e) {
+  cur = e;
+  resetAnims();
+  const rcodes = Object.keys(bodies).filter(k => bodies[k].rider);
+  $('riderbox').hidden = e.tab !== 'creature' || !rcodes.length || !(e.panes || []).some(p => mountSet.has(p.model)) || isFusedRider(e.path);
+  if (rcodes.length && !$('ridercode').options.length)
+    $('ridercode').innerHTML = rcodes.map(k => `<option value="${k}"${k === riderCode ? ' selected' : ''}>${esc(codeName(k))}</option>`).join('');
+  const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
+  $('title').innerHTML = esc(e.id) + ` <button id="wish" class="chip">${(choices.wish || {})[e.path] ? '★ shortlisted' : '☆ shortlist'}</button>`;
+  $('wish').onclick = () => saveWish(e, !(choices.wish || {})[e.path]);
+  if (e.display && customList.some(x => x.display === e.display)) {
+    $('title').insertAdjacentHTML('beforeend', ` <button id="custgo" class="chip" title="Geosets, hair and outfit for this display (Customise layer)">customise display ${e.display}</button>`);
+    $('custgo').onclick = () => openCustom_(e.display);
+  }
+  $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
+    e.members.length > 1 ? `${e.members.length} model files in this group` : '', rv ? 'REVIEW: ' + rv : '',
+    e.tab === 'creature' && isFusedRider(e.path) ? F220 : ''].filter(Boolean).join(' · ');
+  const isItem = e.tab === 'item' && e.variants && Object.keys(bodies).length;
+  if (isItem) {
+    const codes = e.codes && e.codes.length ? e.codes.filter(x => bodies[x]) : Object.keys(bodies);
+    if (!codes.includes(fitBody)) fitBody = codes.includes('hum') ? 'hum' : codes[0];
+    $('subtitle').innerHTML = esc($('subtitle').textContent) + ` · on <select id="fitbody">${codes.map(x =>
+      `<option value="${x}"${x === fitBody ? ' selected' : ''}>${esc(codeName(x))}</option>`).join('')}</select>`;
+    $('fitbody').onchange = (ev) => { fitBody = ev.target.value; openAsset(e); };
+  }
+  const groups = e.tab === 'display' ? e.panes.map(p => ({ key: p.option, sources: p.sources, file: p, reps: {} })) : modelOptions(e);
+  const implied = e.tab === 'display' ? viaModel(e) : null;
+  const allDs = repEntries(e.path);
+  $('panes').innerHTML = groups.map((g, k) => {
+    const p = g.file, st = p.stats || {};
+    const vs = g.variants || null;
+    const isKey = (x) => vs ? vs.some(v => v.key === x) : x === g.key;
+    const chosen = c ? isKey(c.option) : implied ? isKey(implied.option) : false;
+    const ids = Object.keys(g.reps);
+    // the looks this option gives the model's displays: one per target model, plus the file
+    // itself for the displays it leaves on it. 2+ looks = a wide card, every look full size.
+    const names = (id) => { const d = allDs.find(x => String(x.display) === String(id)); return d ? d.names : []; };
+    const byModel = {};
+    ids.forEach(id => { const rp = g.reps[id]; (byModel[rp.model] = byModel[rp.model] || { pane: rp, ids: [] }).ids.push(id); });
+    const used = e._used || (e.displays_used !== undefined ? e.displays_used : e.displays || 0);
+    const unused = Math.max(0, (e.displays || 0) - (e.displays_used !== undefined ? e.displays_used : e.displays || 0));
+    const total = Math.max(used, ids.length), rest = total - ids.length;
+    const fileNote = p.sources.includes('stock') && !g.sources.some(x => x !== 'stock' && p.sources.includes(x))
+      ? 'stock file (this pack ships no ' + e.path.split('/').pop() + ')' : e.path.split('/').pop();
+    const looks = [];
+    if (!ids.length || rest > 0) looks.push({ pane: p, n: ids.length ? rest : total, model: fileNote, ids: null });
+    Object.entries(byModel).forEach(([m, r]) => looks.push({ pane: r.pane, n: r.ids.length, model: m.split('/').pop(), ids: r.ids }));
+    // where options of the same packs disagree (crackelf 15513: blue vs nightfallen)
+    const diffs = groups.filter(h => h !== g && Object.keys(h.reps).length && ids.length).map(h => {
+      const dd = [...new Set([...ids, ...Object.keys(h.reps)])].filter(id => ((g.reps[id] || {}).model || '') !== ((h.reps[id] || {}).model || ''));
+      return dd.length && dd.length < Math.max(ids.length, Object.keys(h.reps).length) ? `differs from ${label(h.sources)} only on display${dd.length > 1 ? 's' : ''} ${dd.slice(0, 5).map(id =>
+        `${id} (→ ${((g.reps[id] || {}).model || e.path).split('/').pop()})`).join(', ')}` : '';
+    }).filter(Boolean);
+    const lookStats = (q) => { const t = q.stats || {}; return `${heightOf(q) ? heightOf(q) + ' yd tall · ' : ''}${t.version ? 'v' + t.version + ' · ' : ''}${mb(q.size)}${t.bones !== undefined ? ` · bones ${t.bones} · particles ${t.particles}` : ''}`; };
+    const wide = looks.length > 1;
+    if (wide) {
+      const span = '';
+      return `<div class="pane wide${chosen ? ' chosen' : ''}" data-opt="${p.option}"${span}>
+        <div class="looks">${looks.map(l => `<figure><iframe src="${paneUrl(l.pane)}" loading="lazy"></iframe>
+          <figcaption><b>${esc(l.model)}</b> · ${l.n} display${l.n === 1 ? '' : 's'}${l.ids ? ` (${l.ids.slice(0, 5).join(', ')}${l.ids.length > 5 ? '…' : ''})` : ''}
+          ${l.ids ? `<br>${esc([...new Set(l.ids.flatMap(names))].slice(0, 4).join(', '))}` : ''}${(l.pane.completed || []).length ? ' <span class="chip warn">completed by us</span>' : ''}
+          <br>${lookStats(l.pane)}${(l.pane.conflicts || []).length ? ` · <span class="chip bad" title="${esc(l.pane.conflicts.join('\n'))}">${l.pane.conflicts.length} texture conflict${l.pane.conflicts.length > 1 ? 's' : ''}</span>` : ''}</figcaption></figure>`).join('')}</div>
+        <div class="info"><div class="h"><b>${esc(label(g.sources))}</b><span class="chip">${looks.length} looks for ${total} displays</span>${implied && implied.option === g.key && !c ? '<span class="chip ok">via model pick</span>' : ''}</div>
+        ${diffs.map(x => `<div class="stats"><span class="chip warn">${esc(x)}</span></div>`).join('')}
+        ${unused ? `<div class="stats">${unused} more display${unused > 1 ? 's' : ''} no creature uses</div>` : ''}
+        ${provBox(p)}
+        <button class="use" data-k="${k}">${chosen ? (c ? 'Chosen' : 'Chosen via model · override here') : 'Use this (all looks)'}</button></div></div>`;
+    }
+    // a clean swap to ONE other model (Spaceslam's seagiant2 for all sea giant displays): the card
+    // shows that model, not this file
+    const sp = ids.length && looks.length === 1 ? looks[0].pane : p, sst = sp.stats || {};
+    const repHtml = ids.length ? `<div class="stats"><b>Moves all ${ids.length} displays to ${esc(looks[0].model)}</b> (a different model; ${esc(e.path.split('/').pop())} itself is unchanged)</div>` : '';
+    const src = (isItem && bodyPaneUrl(e, p, fitBody)) || paneUrl(sp);
+    return `<div class="pane${chosen ? ' chosen' : ''}" data-opt="${p.option}"><iframe src="${src}" loading="lazy" title="${esc(label(g.sources))}"></iframe>
+      <div class="info"><div class="h"><b>${esc(label(g.sources))}</b>${(p.completed || []).length ? '<span class="chip warn" title="The pack left this display on the old model while upgrading its siblings; we complete the repoint (sibling skins, scaled to match)">completed by us</span>' : ''}${p.reused ? '<span class="chip bad" title="I-390: the pack reused this stock display id for a different creature (another stock model, no bake, unrelated file name) - not an HD version of it">another creature</span>' : ''}${p.option === e.current && !ids.length ? '<span class="chip">current file</span>' : ''}${implied && implied.option === g.key && !c ? '<span class="chip ok">via model pick</span>' : ''}</div>
+      ${p.borrowed ? `<div class="stats"><span class="chip warn">no display uses this model</span> skins borrowed from display ${p.borrowed} (a sibling model in this folder)</div>` : ''}
+      ${(p.broken_rows || []).length ? `<div class="stats"><span class="chip bad" title="This pack's display row names skins no source ships; the picker (and the curated build) use another pack's row for this option">pack defect: ${esc(p.broken_rows.join('; '))} (skin not shipped)</span></div>` : ''}
+      ${p.own_display ? `<div class="stats"><span class="chip">shown on display ${p.own_display}</span> this pack's own display for this model (it keeps display ${e.display} on another model)</div>` : ''}
+      ${p.home_display ? `<div class="stats"><span class="chip">shown on display ${p.home_display}</span> its own display, which the live data currently points at another model</div>` : ''}
+      ${p.folder_skins ? `<div class="stats"><span class="chip warn">no display uses this model</span> skins guessed from its folder: ${esc(p.folder_skins.filter(Boolean).join(', '))}</div>` : ''}
+      ${p.fixed_by_us ? `<div class="stats"><span class="chip ok" title="${esc(p.fixed_by_us)}">fixed by us</span> a recorded repair of this pack's file (zep-hd-curated/curate_transforms.json); this is what ships</div>` : ''}
+      ${p.ignored_skin && !p.fixed_by_us ? `<div class="stats"><span class="chip bad" title="A display-skin slot (type 11-13) names its own texture; the client ignores that name and paints the display's skin instead, which was made for another model. The model needs that slot as a fixed texture.">pack defect: skin slot names ${esc(p.ignored_skin.map(x => x.split('/').pop()).join(', '))} (ignored in game)</span></div>` : ''}
+      ${p.geosets_fixed ? `<div class="stats"><span class="chip warn" title="The pack's geoset data names a geoset its own mesh does not have, so that group draws nothing in game (wendigo2: brows and lip fur). We point it at the variant the mesh has.">geosets fixed by us: ${p.geosets_fixed[0]} → ${p.geosets_fixed[1]}</span></div>` : ''}
+      ${p.skins_filled ? `<div class="stats"><span class="chip warn" title="The pack swapped in a model that needs display skins and left this display without any; these are filled from the stock look or the sibling displays">skins filled by us: ${esc(p.skins_filled.join(', '))}</span></div>` : ''}
+      ${p.empty_tex && !p.fixed_by_us ? `<div class="stats"><span class="chip bad" title="A batch reads a hardcoded texture with no filename - a broken conversion in this file. It draws black here; in game it gets no texture.">pack defect: ${p.empty_tex.toLocaleString()} triangles use an empty texture</span></div>` : ''}
+      <div class="stats">${heightOf(sp) ? heightOf(sp) + ' yd tall · ' : ''}${sst.version ? 'v' + sst.version + ' · ' : ''}${mb(sp.size)}${sst.bones !== undefined ? ` · bones ${sst.bones} · particles ${sst.particles}` : ''}${(p.missing || []).length ? ` · <span class="chip warn" title="${esc(p.missing.join('\n'))}">${p.missing.length} missing</span>` : ''}${(p.conflicts || []).length ? ` · <span class="chip bad" title="${esc('Shared with other models whose current pick needs a different version. Shown with the one that fits THIS option; one file ships, so settle it in the Textures tab:\n' + p.conflicts.join('\n'))}">${p.conflicts.length} texture conflict${p.conflicts.length > 1 ? 's' : ''}</span>` : ''}</div>
+      ${e.tab === 'display' ? `<div class="stats">model: ${esc(p.model)}</div>` : ''}
+      ${!vs && g.note ? `<div class="stats"><span class="chip">near-duplicate</span> ${esc(g.note)}</div>` : ''}
+      ${vs ? `<div class="stats"><span class="chip">same look</span> these packs' files differ only in metadata (${esc(g.note || '')}).
+        Ship <select data-var="${k}">${vs.map((v, i) => `<option value="${i}"${(c ? v.key === c.option : i === g.def) ? ' selected' : ''}>${esc(label(v.sources))}${v.file.option === e.current ? ' (current)' : ''}</option>`).join('')}</select></div>` : ''}
+      ${repHtml}
+      ${provBox(p)}
+      ${e.single ? '' : `<button class="use" data-k="${k}">${chosen ? (c ? 'Chosen' : 'Chosen via model · override here') : e.tab === 'display' && implied ? 'Override for this display' : 'Use this'}</button>`}</div></div>`;
+  }).join('') + (e.compare || []).map(p => `<div class="pane"><iframe src="${paneUrl(p)}" loading="lazy"></iframe>
+      <div class="info"><div class="h"><b>creature ${p.compare.creature} → display ${p.compare.display}</b><span class="chip">creature-level edit · compare only</span></div>
+      <div class="stats">${esc(p.compare.name)} now uses display ${p.compare.display} instead of this display (${esc((p.compare.provenance || []).join(', ') || 'not in any zpak SQL')})</div>
+      ${provBox(p)}</div></div>`).join('');
+  $('panes').querySelectorAll('.use').forEach(b => b.onclick = () => {
+    const g0 = groups[+b.dataset.k], vsel = $('panes').querySelector(`select[data-var="${b.dataset.k}"]`);
+    const g = g0.variants ? g0.variants[vsel ? +vsel.value : g0.def] : g0;
+    if (e.tab === 'display' || isItem || e.tab === 'item') save(kindOf(e), keyOf(e), e, g.key);
+    else saveModel(e, g);
+  });
+  if (isItem) {
+    $('panes').insertAdjacentHTML('beforeend', fitPanel(e));
+    const fb = $('panes').querySelector('.fitbox');
+    if (fb) {
+      const c2 = choices.mesh[e.path], optKey = c2 ? c2.option : e.current;
+      const m = itemMembersFor(e, fitBody)[0];
+      const read = () => {
+        const v = { path: m, option: optKey };
+        fb.querySelectorAll('[data-fit]').forEach(i => { v[i.dataset.fit] = i.dataset.fit === 'borrow' ? (i.value || undefined) : +i.value; });
+        fb.querySelectorAll('[data-show]').forEach(sp => { sp.textContent = (+v[sp.dataset.show]).toFixed(3); });
+        return v;
+      };
+      let timer = null;
+      const preview = () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          const pn = e.panes.find(p => p.option === optKey);
+          const card = $('panes').querySelector(`.pane[data-opt="${optKey}"] iframe`);
+          const url = pn && bodyPaneUrl(e, pn, fitBody, read());
+          if (card && url) card.src = url;
+        }, 250);
+      };
+      fb.querySelectorAll('[data-fit]').forEach(i => i.oninput = preview);
+      $('fit-save').onclick = () => { const v = read(); delete v.path; saveFit(m, v); };
+      $('fit-reset').onclick = () => saveFit(m, null);
+    }
+  }
+  // Retail, LIVE: wago.tools serves the modern model + its files by id (CORS-open), so the
+  // pane loads them directly. The WXL-converted file is made only if Retail is picked.
+  if (e.retailOnly) {
+    const prm = new URLSearchParams({ src: 'v2', model: e.path, retail: e.retailOnly, build: retailIdx.build,
+      skins: (e.rskins || [0, 0, 0]).join(','), pv: PANE_V });
+    $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="pane.html?${prm}" loading="lazy" title="Retail"></iframe>
+      <div class="info"><div class="h"><b>Retail</b><span class="chip">live from wago.tools</span><span class="chip">not in the 3.3.5 client</span></div>
+      <div class="stats" data-live>loading…</div>
+      <div class="stats">FileDataID ${e.retailOnly} · a candidate for new content: shortlist it; shipping it needs a new display (F-197 / F-216 curate).</div></div></div>`);
+    render();
+    return;
+  }
+  const rfd = retailIdx.models && retailIdx.models[e.path];
+  if ((e.tab === 'creature' || e.tab === 'object') && rfd && !e.panes.some(p => p.sources.includes('retail'))) {
+    const base = e.panes[0];
+    const prm = new URLSearchParams({ src: 'v2', model: e.path, retail: rfd, build: retailIdx.build,
+      cam: base.camera ? [...base.camera.target, base.camera.dist].join(',') : '', scale: base.scale || 1,
+      skins: ((retailIdx.skins || {})[String(e.display)] || [0, 0, 0]).join(','), pv: PANE_V });
+    const chosen = c && c.option === 'retail';
+    const rname = ((retailIdx.names || {})[String(rfd)] || '').split('/').pop();
+    $('panes').insertAdjacentHTML('beforeend', `<div class="pane${chosen ? ' chosen' : ''}"><iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
+      <div class="info"><div class="h"><b>Retail remaster</b><span class="chip">live from wago.tools</span></div>
+      <div class="stats" data-live>loading…</div>
+      <div class="stats">${esc(rname)} · FileDataID ${rfd} · the newer model retail moved these displays to, wearing their retail skins.
+        Picked, it ships converted the WarcraftXL way in place of ${esc(e.path.split('/').pop())}.</div>
+      <button class="use" id="useretail">${chosen ? 'Chosen' : 'Use this'}</button></div></div>`);
+    $('useretail').onclick = () => {
+      const displays = {};
+      repEntries(e.path).forEach(d => { displays[d.display] = { option: d.panes[0].option, sources: d.panes[0].sources }; });
+      save(kindOf(e), keyOf(e), e, 'retail', { file_option: 'retail', file_sources: ['retail'], displays });
+    };
+  }
+  render();
+  fitPanes();
+}
+// Cards share the width (2 cards = halves, 3 = thirds; wrap past ~280 px each) and, on one row,
+// the 3D views take the browser height left after the tallest card's info.
+function fitPanes() {
+  const box = $('panes');
+  const cards = [...box.children].filter(x => x.classList.contains('pane'));
+  if (!cards.length) return;
+  const cs = getComputedStyle(box), gap = parseFloat(cs.columnGap) || 10;
+  const W = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  // phones scroll the whole page: size cards against the screen, not the (unbounded) box
+  const phone = innerWidth <= 760;
+  const H = phone ? Math.round(innerHeight * 0.85) : box.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  const weight = cards.map(c => c.classList.contains('wide') ? Math.max(1, c.querySelectorAll('.looks figure').length) : 1);
+  const total = weight.reduce((a, b) => a + b, 0);
+  const cols = Math.max(1, Math.min(total, Math.floor((W + gap) / (280 + gap))));
+  box.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+  cards.forEach((c, i) => { c.style.gridColumn = weight[i] > 1 ? `span ${Math.min(weight[i], cols)}` : ''; });
+  // title / render / details: the title goes on top, the details scroll inside the card
+  cards.forEach(c => {
+    const h = c.querySelector(':scope > .info > .h');
+    if (h && !c.querySelector(':scope > .ptitle')) {
+      const t = document.createElement('div');
+      t.className = 'ptitle';
+      t.append(...h.childNodes);
+      h.remove();
+      c.prepend(t);
+    }
+  });
+  const views = cards.flatMap(c => [...c.querySelectorAll(':scope > iframe, :scope > canvas, .looks iframe')]);
+  views.forEach(v => { v.style.aspectRatio = 'auto'; });
+  let rows = 0, used = 0;
+  weight.forEach(w => { if (used === 0 || used + Math.min(w, cols) > cols) { rows++; used = 0; } used += Math.min(w, cols); });
+  requestAnimationFrame(() => {
+    const colW = (W - gap * (cols - 1)) / cols;
+    const title = Math.max(0, ...cards.map(c => (c.querySelector(':scope > .ptitle') || {}).offsetHeight || 0));
+    const cap = Math.max(0, ...cards.flatMap(c => [...c.querySelectorAll('.looks figcaption')].map(f => f.offsetHeight)));
+    const info = Math.max(0, ...cards.map(c => { const i = c.querySelector(':scope > .info'); return i ? i.scrollHeight : 0; }));
+    if (rows === 1) {
+      const det = Math.min(Math.max(info, 110), Math.max(110, H * 0.38));      // details: scroll past this
+      const h = Math.max(200, H - title - det - 4);
+      views.forEach(v => { v.style.height = Math.round(h - (v.closest('.looks') ? cap : 0)) + 'px'; });
+      cards.forEach(c => { c.style.height = H + 'px'; });
+    } else {
+      const h = Math.max(200, Math.min(colW, H * (phone ? 0.7 : 0.6)));
+      views.forEach(v => { v.style.height = Math.round(h) + 'px'; });
+      cards.forEach(c => { c.style.height = ''; const i = c.querySelector(':scope > .info'); if (i) i.style.maxHeight = '260px'; });
+    }
+  });
+}
+let _fitT = null;
+new ResizeObserver(() => { clearTimeout(_fitT); _fitT = setTimeout(() => { if (cur && !(cur.display !== undefined && cur.groups)) fitPanes(); }, 120); }).observe($('panes'));
+async function saveFit(path, fit) {
+  const status = $('save');
+  status.className = ''; status.textContent = 'saving fit…';
+  try {
+    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+    const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
+                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
+                     display: { ...(latest.display || {}), ...(choices.display || {}) },
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    if (fit) merged.fit[path] = { ...fit, at: new Date().toISOString() }; else delete merged.fit[path];
+    const headers = { 'Content-Type': 'application/json' };
+    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
+    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    choices = merged;
+    status.className = 'ok'; status.textContent = fit ? `fit saved: ${path.split('/').pop()}` : 'fit cleared';
+    openAsset(cur);
+  } catch (err) { status.className = 'err'; status.textContent = 'save failed: ' + err.message; }
+}
+
+// ---- texture view ---------------------------------------------------------------------------------
+async function texDetail(t) {
+  const ch = t[3];
+  if (!texChunks[ch]) texChunks[ch] = await fetch(`data/v2/tex/${ch}.json`).then(r => r.json());
+  return texChunks[ch].find(x => x.path === t[0]);
+}
+async function openTexture(t) {
+  cur = t;
+  render();
+  const d = await texDetail(t);
+  if (cur !== t || !d) return;
+  const c = choices.texture[d.path];
+  $('title').textContent = d.path.split('/').pop();
+  $('subtitle').textContent = [d.path, `used by ${d.nrefs}: ${d.refs.slice(0, 4).join(', ')}${d.nrefs > 4 ? '…' : ''}`,
+    d.why && d.why.length ? d.why.join('; ') : ''].filter(Boolean).join(' · ');
+  $('riderbox').hidden = true;                       // rider / animation belong to the model tabs
+  const can3d = !!d.view;
+  $('mode').title = can3d ? 'Texture options flat (2D) or on the model (3D)' : 'No model pane shows this texture yet (2D only)';
+  $('mode').disabled = !can3d;
+  $('mode').textContent = texMode === '3d' ? '2D view' : '3D view';
+  $('panes').innerHTML = d.options.map((o, k) => {
+    const chosen = c ? c.option === o.key : o.key === d.current;
+    const body = texMode === '3d' && can3d
+      ? `<iframe src="${paneUrl(d.view.pane, { ovr: { [d.view.key]: o.cas } })}" loading="lazy"></iframe>`
+      : `<canvas data-cas="${o.cas}"></canvas>`;
+    return `<div class="pane${chosen ? ' chosen' : ''}">${body}<div class="info">
+      <div class="h"><b>${esc(label(o.sources))}</b>${o.key === d.current ? '<span class="chip">default</span>' : ''}
+        ${o.compatible ? '' : '<span class="chip bad" title="Painted for a different mesh than the one picked">other mesh</span>'}</div>
+      <div class="stats">${o.w}×${o.h} · ${esc(o.fmt || '')}${o.alpha ? ' · alpha ' + o.alpha : ''} · ${o.mips} mips · ${mb(o.size)}</div>
+      <button class="use" data-k="${k}">${c && c.option === o.key ? 'Chosen' : 'Use this'}</button></div></div>`;
+  }).join('');
+  $('panes').querySelectorAll('.use').forEach(b => b.onclick = () => save('texture', d.path, d, d.options[+b.dataset.k].key));
+  fitPanes();                                        // same title / view / scrolling-details cards as the model pages
+  $('panes').querySelectorAll('canvas[data-cas]').forEach(async cv => {
+    try {
+      const buf = await fetch('files/cas/' + cv.dataset.cas).then(r => r.arrayBuffer());
+      const img = decodeBlp(buf);
+      cv.width = img.width; cv.height = img.height;
+      cv.getContext('2d').putImageData(new ImageData(img.data, img.width, img.height), 0, 0);
+    } catch (err) { cv.replaceWith(Object.assign(document.createElement('div'), { className: 'empty', textContent: 'cannot decode: ' + err.message })); }
+  });
+}
+
+// ---- layer 3: customise one display ---------------------------------------------------------------
+function meshPaneOf(path) {
+  // a single-option model (stock only, e.g. display 13's hufmcitizenlow) lives in the All catalogue
+  const e = assets.find(a => a.path === path) || (catalog || []).find(a => a.path === path && a.panes && a.panes.length);
+  return e ? (e.panes.find(p => p.option === e.current) || e.panes[0]) : null;
+}
+// Customise data loaded on demand: folder textures per model, stock look per display (chunks of 1000)
+let custTex = null, custTexLoading = null;
+const custStock = {};
+function loadCustTex() {
+  if (!custTexLoading) custTexLoading = fetch('data/v2/customise_tex.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : {}).catch(() => ({})).then(d => { custTex = d; });
+  return custTexLoading;
+}
+function loadCustStock(did) {
+  const k = Math.floor(did / 1000);
+  if (!custStock[k]) custStock[k] = fetch(`data/v2/custom_stock/${k}.json`, { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : {}).catch(() => ({}));
+  return custStock[k].then(d => d[String(did)] || null);
+}
+const casFid = (cas) => 900000000 + parseInt(cas.slice(0, 7), 16) % 99000000;   // the deploy's alloc() ids
+function openCustom(c) {
+  cur = c;
+  const base = meshPaneOf(c.path);
+  if (!base && !catalog) {                           // load the catalogue once, then draw the preview
+    ensureCatalog();
+    if (catalogLoading) catalogLoading.then(() => { if (cur === c) openCustom(c); });
+  }
+  const saved = choices.custom[c.display] || {};
+  $('title').textContent = `Display ${c.display}`;
+  $('subtitle').textContent = [c.names.join(', '), c.path, base && base.display && base.display !== c.display ? `preview textures from display ${base.display}` : ''].filter(Boolean).join(' · ');
+  const groupSel = (g, val) => `<label>Group ${g}<select data-g="${g}"><option value="0"${val === 0 ? ' selected' : ''}>hidden (0)</option>` +
+    (c.groups[g] || []).filter(v => v).map(v => `<option value="${v}"${v === val ? ' selected' : ''}>${g * 100 + v}</option>`).join('') + '</select></label>';
+  let ctl = '';
+  if (c.char) {
+    const hs = saved.hair_style ?? c.char.hair_style, fh = saved.facial_hair ?? c.char.facial_hair;
+    ctl += `<h3>Look (no new bake needed)</h3>
+      <label>Hair style<select id="cs-hair">${c.char.hair_options.map(v => `<option${v === hs ? ' selected' : ''}>${v}</option>`).join('')}</select></label>
+      <label>Facial hair<select id="cs-facial">${c.char.facial_options.map(v => `<option${v === fh ? ' selected' : ''}>${v}</option>`).join('')}</select></label>
+      <h3>Outfit (F-198 wardrobe: new bake)</h3>` +
+      OUTFIT_SLOTS.map(sl => `<label>${sl}<input data-slot="${sl}" inputmode="numeric" placeholder="retail item id" value="${esc((saved.outfit || {})[sl] || '')}"></label>`).join('');
+  } else {
+    const gs = saved.geosets || c.cgd;
+    ctl += '<h3>Geosets (CreatureDisplayInfo.creature_geoset_data)</h3>' + [1, 2, 3, 4, 5, 6, 7, 8].filter(g => c.groups[g]).map(g => groupSel(g, gs[g - 1])).join('');
+    if ((c.slots || []).length) {
+      const opts = (custTex || {})[c.path] || [];
+      const cur = saved.skins || c.skins || ['', '', ''];
+      ctl += '<h3>Skins (texture_variation, any texture in the model\'s folder)</h3>' + c.slots.map(k => {
+        const v = String(cur[k] || ''), has = opts.some(([n]) => n.toLowerCase() === v.toLowerCase());
+        return `<div class="skinrow"><span>Skin ${k + 1}</span><select data-skin="${k}">
+          ${has || !v ? '' : `<option value="${esc(v)}" selected>${esc(v)} (not in this folder)</option>`}
+          ${opts.map(([n]) => `<option value="${esc(n)}"${n.toLowerCase() === v.toLowerCase() ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select>
+          <canvas data-thumb="${k}"></canvas></div>
+          <div class="was">now: ${esc(String((c.skins || [])[k] || '(blank)'))}</div>`;
+      }).join('') + (custTex ? '' : '<div class="was">loading the folder\'s textures…</div>');
+    }
+  }
+  ctl += `<div class="row"><button id="cs-save">Save customisation</button><button id="cs-clear">Clear</button></div>`;
+  $('panes').innerHTML = `<div class="cust" style="grid-column: 1 / -1">
+    <div class="pane"><div class="ph"><b>Stock display ${c.display}</b> · the original, for reference</div><div id="cs-stock"><div class="empty">loading…</div></div></div>
+    <div class="pane"><div class="ph"><b>Customised</b> · what ships</div><div id="cs-pane"></div></div>
+    <div class="ctl">${ctl}</div></div>`;
+  loadCustStock(c.display).then(sp => {
+    if (cur !== c) return;
+    $('cs-stock').innerHTML = sp ? `<iframe src="${paneUrl(sp)}"></iframe>` : '<div class="empty">No stock look: this display is not in the stock client.</div>';
+  });
+  if (!custTex && (c.slots || []).length) loadCustTex().then(() => { if (cur === c) openCustom(c); });
+  const skinPick = () => [...document.querySelectorAll('#panes select[data-skin]')].reduce((a, sl) => (a[+sl.dataset.skin] = sl.value, a), (saved.skins || c.skins || ['', '', '']).slice());
+  const casOf = (stem) => { const hit = ((custTex || {})[c.path] || []).find(([n]) => n.toLowerCase() === String(stem).toLowerCase()); return hit ? hit[1] : null; };
+  const thumbs = () => document.querySelectorAll('#panes canvas[data-thumb]').forEach(async cv => {
+    const cas = casOf(skinPick()[+cv.dataset.thumb]);
+    if (!cas) return;
+    try {
+      const img = decodeBlp(await fetch('files/cas/' + cas).then(r => r.arrayBuffer()));
+      cv.width = img.width; cv.height = img.height;
+      cv.getContext('2d').putImageData(new ImageData(img.data, img.width, img.height), 0, 0);
+    } catch (err) { /* thumbnail only */ }
+  });
+  const preview = () => {
+    if (!base) { $('cs-pane').innerHTML = '<div class="empty">No preview pane for this mesh.</div>'; return; }
+    const p = { ...base, display: c.display };
+    if (c.char) {
+      const m = (base.mesh || new Array(20).fill(1)).slice();
+      const hs = $('cs-hair').value, fh = $('cs-facial').value;
+      if (c.char.hair_geo[hs] !== undefined) m[0] = c.char.hair_geo[hs];
+      const f = c.char.facial_geo[fh];
+      if (f) { m[1] = f[0]; m[3] = f[1]; m[2] = f[2]; }
+      p.mesh = m;
+    } else {
+      const g = [...document.querySelectorAll('#panes select[data-g]')].reduce((a, s) => (a[+s.dataset.g - 1] = +s.value, a), c.cgd.slice());
+      p.mesh = [0, ...g];
+    }
+    let ovr = null;
+    if (!c.char && (c.slots || []).length && custTex) {
+      const sk = (p.skins || [0, 0, 0]).slice();
+      ovr = {};
+      skinPick().forEach((stem, k) => { const cas = casOf(stem); if (cas && c.slots.includes(k)) { sk[k] = casFid(cas); ovr['fdid/' + sk[k]] = cas; } });
+      p.skins = sk;
+    }
+    $('cs-pane').innerHTML = `<iframe src="${paneUrl(p, ovr ? { ovr } : {})}"></iframe>`;
+    thumbs();
+  };
+  $('panes').querySelectorAll('select').forEach(s => s.onchange = preview);
+  $('cs-save').onclick = () => {
+    const pick = { at: new Date().toISOString(), path: c.path };
+    if (c.char) {
+      pick.hair_style = +$('cs-hair').value; pick.facial_hair = +$('cs-facial').value;
+      const outfit = {};
+      document.querySelectorAll('#panes input[data-slot]').forEach(i => { if (i.value.trim()) outfit[i.dataset.slot] = +i.value.trim(); });
+      if (Object.keys(outfit).length) pick.outfit = outfit;
+    } else {
+      pick.geosets = [...document.querySelectorAll('#panes select[data-g]')].reduce((a, s) => (a[+s.dataset.g - 1] = +s.value, a), c.cgd.slice());
+      const sk = skinPick();
+      if (sk.some((v, k) => String(v || '').toLowerCase() !== String((c.skins || [])[k] || '').toLowerCase())) pick.skins = sk;
+    }
+    saveCustom(c.display, pick);
+  };
+  $('cs-clear').onclick = () => saveCustom(c.display, null);
+  preview();
+  render();
+}
+async function saveCustom(did, pick) {
+  const status = $('save');
+  status.className = ''; status.textContent = 'saving…';
+  try {
+    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+    const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
+                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
+                     display: { ...(latest.display || {}), ...(choices.display || {}) },
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    if (pick) merged.custom[did] = pick; else delete merged.custom[did];
+    const headers = { 'Content-Type': 'application/json' };
+    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
+    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    choices = merged;
+    status.className = 'ok'; status.textContent = pick ? `saved display ${did}` : `cleared display ${did}`;
+    render();
+  } catch (e) { status.className = 'err'; status.textContent = 'save failed: ' + e.message; }
+}
+
+function openItem(x) {
+  if (!x) { $('panes').innerHTML = '<div class="empty">Nothing here.</div>'; return; }
+  if (Array.isArray(x)) openTexture(x); else if (x.display !== undefined && x.groups) openCustom(x); else openAsset(x);
+}
+
+// ---- events ---------------------------------------------------------------------------------------------
+// ---- home page: pick a layer, each layer is its own address (?layer=creature) ------------------
+const LAYERS = [
+  ['creature', 'Creatures', 'Creature models: stock, community packs, retail remasters'],
+  ['character', 'Characters', 'Player-race character models and their bakes'],
+  ['object', 'Objects', 'Doodads and game-object models'],
+  ['item', 'Items', 'Weapons, helms, shoulders - fitted on a body'],
+  ['wmo', 'WMOs', 'Buildings and world map objects'],
+  ['display', 'Displays', 'Per-display choices: packs pointing one display at another model'],
+  ['texture', 'Textures', 'Layer 2: which texture ships for each path'],
+  ['custom', 'Customise', 'Layer 3: geosets, hair, outfits per display'],
+];
+function layerCounts(t) {
+  if (t === 'texture') return [texIndex.filter(x => x[4].length).length, 'need a decision'];
+  if (t === 'custom') return [Object.keys(choices.custom || {}).length, `customised of ${customList.length.toLocaleString()}`];
+  const keep = [tab, filter, search];
+  tab = t; filter = 'todo'; search = '';
+  const n = assets.filter(assetMatches).length;
+  [tab, filter, search] = keep;
+  return [n, 'undecided'];
+}
+function showHome(push = true) {
+  $('tiles').innerHTML = LAYERS.map(([k, name, d]) => { const [n, what] = layerCounts(k);
+    return `<button class="tile" data-layer="${k}"><b>${name}</b><span class="n">${n.toLocaleString()}</span><span class="d">${what} · ${d}</span></button>`; }).join('');
+  document.body.classList.add('home');
+  $('home').hidden = false;
+  if (push) history.pushState({ home: 1 }, '', location.pathname);
+}
+function openCustom_(did, push = true) {
+  openLayer('custom', false);
+  const c = customList.find(x => x.display === +did);
+  if (push) history.pushState({ layer: 'custom', display: +did }, '', `${location.pathname}?layer=custom&display=${+did}`);
+  if (c) { openItem(c); render(); }
+  else $('panes').innerHTML = `<div class="empty">Display ${+did} has nothing to customise (no geoset groups, hair or outfit).</div>`;
+}
+function openLayer(t, push = true) {
+  const b = $('tabs').querySelector(`button[data-tab="${t}"]`);
+  if (!b) return showHome(push);
+  document.body.classList.remove('home');
+  $('home').hidden = true;
+  if (push) history.pushState({ layer: t }, '', `${location.pathname}?layer=${t}`);
+  b.click();
+}
+$('tiles').onclick = (ev) => { const b = ev.target.closest('.tile'); if (b) openLayer(b.dataset.layer); };
+addEventListener('popstate', () => { const u = new URLSearchParams(location.search), t = u.get('layer');
+  t === 'custom' && u.get('display') ? openCustom_(u.get('display'), false) : t ? openLayer(t, false) : showHome(false); });
+$('menu').onclick = () => showHome();
+$('listtoggle').onclick = () => { $('side').classList.toggle('open'); };
+if (innerWidth <= 760) $('side').classList.add('open');              // phones start on the list
+$('tabs').onclick = (ev) => {
+  const b = ev.target.closest('button'); if (!b) return;
+  $('layername').textContent = b.textContent;
+  $('tabs').hidden = true;
+  if (innerWidth <= 760) $('side').classList.add('open');
+  tab = b.dataset.tab;
+  [...$('tabs').children].forEach(x => x.classList.toggle('on', x === b));
+  filter = tab === 'texture' ? 'decide' : tab === 'custom' ? 'all' : 'todo';
+  render(); openItem(view[0]);
+};
+$('filters').onclick = (ev) => {
+  const b = ev.target.closest('button'); if (!b) return;
+  filter = b.dataset.f; render(); openItem(view[0]);
+};
+$('search').oninput = (ev) => { search = ev.target.value.trim().toLowerCase(); render(); };
+$('simw').onchange = (ev) => { similar = ev.target.checked; render(); };
+$('rider').onchange = (ev) => { riderOn = ev.target.checked; if (cur && !Array.isArray(cur)) openItem(cur); };
+$('ridercode').onchange = (ev) => { riderCode = ev.target.value; if (riderOn && cur && !Array.isArray(cur)) openItem(cur); };
+$('list').onclick = (ev) => {
+  const q = ev.target.closest('.q'); if (!q) return;
+  openItem(q.dataset.p !== undefined ? texIndex.find(t => t[0] === q.dataset.p)
+    : q.dataset.d !== undefined ? customList.find(c => String(c.display) === q.dataset.d)
+    : pool().find(e => e.id === q.dataset.id));
+  if (innerWidth <= 760) { $('side').classList.remove('open'); scrollTo({ top: 0 }); }   // phones: the model, full screen
+};
+$('mode').onclick = () => { texMode = texMode === '3d' ? '2d' : '3d'; if (Array.isArray(cur)) openTexture(cur); };
+$('resetcam').onclick = () => document.querySelectorAll('.pane iframe').forEach(f => f.contentWindow && f.contentWindow.postMessage({ type: 'resetcam' }, '*'));
+// animation menu: the union of every open pane's animations, applied to all panes
+let animNames = {}, animSets = new Map();   // pane window -> its animation ids
+fetch('data/v2/anims.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(a => { animNames = a || {}; });
+function resetAnims() { animSets = new Map(); $('anim').innerHTML = '<option value="0">Stand (0)</option>'; }
+$('anim').addEventListener('change', () => {
+  const id = +$('anim').value;
+  document.querySelectorAll('.pane iframe').forEach(f => f.contentWindow && f.contentWindow.postMessage({ type: 'anim', id }, '*'));
+});
+window.addEventListener('message', (e) => {
+  const m = e.data || {};
+  if (m.type === 'pane-stats') {
+    const f = [...document.querySelectorAll('.pane iframe')].find(x => x.contentWindow === e.source);
+    const el = f && f.closest('.pane').querySelector('[data-live]');
+    if (el) el.textContent = `${m.height ? m.height + ' yd tall · ' : ''}v${m.version} (retail, converted to v264 when picked) · ` +
+      `${mb(m.size)} · bones ${m.bones} · particles ${m.particles}`;
+  }
+  if (m.type === 'pane-anims') {
+    animSets.set(e.source, m.ids);
+    const all = [...new Set([...animSets.values()].flat())].sort((a, b) => a - b);
+    const sel = $('anim'), keep = sel.value;
+    sel.innerHTML = all.map(id => `<option value="${id}">${esc(animNames[id] || 'Anim')} (${id})</option>`).join('');
+    if (all.includes(+keep)) sel.value = keep;
+    else if (+keep) e.source.postMessage({ type: 'anim', id: +keep }, '*');
+  }
+  if (m.type === 'pane-cam') document.querySelectorAll('.pane iframe').forEach(f => {
+    if (f.contentWindow && f.contentWindow !== e.source) f.contentWindow.postMessage({ type: 'cam', cam: m.cam }, '*');
+  });
+});
+
+(async () => {
+  const [a, t, c, cu] = await Promise.all([
+    fetch('data/v2/assets.json', { cache: 'no-store' }).then(r => r.json()),
+    fetch('data/v2/textures_index.json', { cache: 'no-store' }).then(r => r.json()),
+    fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
+    fetch('data/v2/customise.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : { displays: [] }).catch(() => ({ displays: [] })),
+    fetch('data/v2/bodies.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(b => { bodies = b; }),
+    fetch('data/v2/retail.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(r => { retailIdx = r || {}; }),
+    fetch('data/v2/mounts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
+  ]);
+  assets = a.assets; texIndex = t; customList = cu.displays;
+  if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {} };
+  const startLayer = new URLSearchParams(location.search).get('layer');
+  const startDisplay = new URLSearchParams(location.search).get('display');
+  if (startLayer === 'custom' && startDisplay) openCustom_(startDisplay, false);
+  else if (startLayer) openLayer(startLayer, false); else { render(); showHome(false); }
+})();
+</script>
+</body>
+</html>

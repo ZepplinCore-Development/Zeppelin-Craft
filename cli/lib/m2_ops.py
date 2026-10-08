@@ -543,7 +543,79 @@ def _op_sequence_flags(data: bytearray, cfg: Dict[str, Any]) -> str:
     return f"sequence[{index}] (animID {anim_id}).flags {before:#x} -> {value:#x}"
 
 
+OFS_N_TEXTURES = 0x50
+TEXTURE_STRIDE = 16
+
+
+def _op_texture_set(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Set one texture record's type and/or filename.
+
+    F-216: patch-hd-everything's golemcannonstone combines its skin with a hardcoded texture
+    whose filename was lost in conversion (type 0, empty name -> black); its sibling golemstone
+    carries the same layer intact as Creature\\Golemstone\\orbreflect02.blp. A new name is
+    APPENDED at the end of the file (nothing moves; .skin files index vertices, not file offsets).
+
+    `expect_type` / `expect_name` guard the write: texture indices only mean anything for the exact
+    file the recipe was written against.
+    """
+    if 'index' not in cfg or ('type' not in cfg and 'name' not in cfg):
+        raise M2OpError("m2.texture.set requires 'index' and 'type' and/or 'name'")
+    index = int(cfg['index'])
+    base = read_m2_header(data)['base_offset']
+    _require_wotlk(data, base)
+    n, ofs = struct.unpack_from('<II', data, base + OFS_N_TEXTURES)
+    if index >= n:
+        raise M2OpError(f"texture index {index} but model has {n} texture(s)")
+    at = base + ofs + TEXTURE_STRIDE * index
+    typ, flags, ln, no = struct.unpack_from('<4I', data, at)
+    old_name = bytes(data[base + no:base + no + ln - 1]).decode('latin1') if ln else ''
+    if 'expect_type' in cfg and typ != int(cfg['expect_type']):
+        raise M2OpError(f"texture {index} is type {typ}, expected {cfg['expect_type']} — wrong file, refusing")
+    if 'expect_name' in cfg and old_name != str(cfg['expect_name']):
+        raise M2OpError(f"texture {index} is named {old_name!r}, expected {cfg['expect_name']!r} — refusing")
+    new_type = int(cfg.get('type', typ))
+    if 'name' in cfg:
+        raw = str(cfg['name']).encode('latin1') + b'\0'
+        while (len(data) - base) % 16:
+            data.append(0)
+        name_at = len(data) - base
+        data += raw
+        ln, no = len(raw), name_at
+    struct.pack_into('<4I', data, at, new_type, flags, ln, no)
+    new_name = cfg.get('name', old_name)
+    return f"texture[{index}] type {typ} -> {new_type}, name {old_name!r} -> {new_name!r}"
+
+
+OFS_N_VIEWS = 0x44
+
+
+def _op_views_count(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Set the number of skin profiles (LODs) the model declares.
+
+    F-216: several community-pack models (patch-hd-* drakemount2grand*) declare 2-4 skin profiles but
+    ship only <name>00.skin; the client asks for the missing LOD file at distance. Declaring only the
+    shipped ones is what the files can support. `expect` guards the current count.
+    """
+    if 'value' not in cfg:
+        raise M2OpError("m2.views.count requires 'value'")
+    value = int(cfg['value'])
+    base = read_m2_header(data)['base_offset']
+    _require_wotlk(data, base)
+    before = struct.unpack_from('<I', data, base + OFS_N_VIEWS)[0]
+    if 'expect' in cfg and before != int(cfg['expect']):
+        raise M2OpError(f"model declares {before} skin profiles, expected {cfg['expect']} — refusing")
+    if not 1 <= value <= before:
+        raise M2OpError(f"skin profile count {value} must be 1..{before}")
+    struct.pack_into('<I', data, base + OFS_N_VIEWS, value)
+    return f"skin profiles {before} -> {value}"
+
+
+# ops that only ever APPEND to the file (allowed to grow it)
+APPEND_ONLY = {'m2.texture.set'}
+
 OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
+    'm2.texture.set': _op_texture_set,
+    'm2.views.count': _op_views_count,
     'm2.camera.fov': _op_camera_fov,
     'm2.camera.pan': _op_camera_pan,
     'm2.bounds.sphere_radius': _op_bounds_sphere_radius,
@@ -560,6 +632,22 @@ OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
 from lib.blp_ops import OPS as _BLP_OPS  # noqa: E402
 
 OPS.update(_BLP_OPS)
+
+
+def apply_ops_bytes(data: bytes, ops: List[Dict[str, Any]]) -> tuple:
+    """apply_ops on a buffer: -> (new bytes, descriptions). Same size rules."""
+    buf = bytearray(data)
+    size_before = len(buf)
+    applied = []
+    for cfg in ops:
+        func = OPS.get(cfg.get('op'))
+        if not func:
+            raise M2OpError(f"unknown op {cfg.get('op')!r} (known: {', '.join(sorted(OPS))})")
+        applied.append(func(buf, cfg))
+    if len(buf) != size_before and bytes(buf[:4]) == b'MD20' and \
+            not (len(buf) > size_before and all(c.get('op') in APPEND_ONLY for c in ops)):
+        raise M2OpError("ops changed the file size — offsets in .skin files would break")
+    return bytes(buf), applied
 
 
 def apply_ops(m2_path: Path, ops: List[Dict[str, Any]]) -> List[str]:
@@ -589,7 +677,8 @@ def apply_ops(m2_path: Path, ops: List[Dict[str, Any]]) -> List[str]:
         applied.append(func(data, cfg))
 
     # .skin files hold offsets into the .m2; a WMO group file has nothing pointing into it.
-    if len(data) != size_before and bytes(data[:4]) == b'MD20':
+    if len(data) != size_before and bytes(data[:4]) == b'MD20' and \
+            not (len(data) > size_before and all(c.get('op') in APPEND_ONLY for c in ops)):
         raise M2OpError("ops changed the file size — offsets in .skin files would break")
 
     m2_path.write_bytes(bytes(data))
