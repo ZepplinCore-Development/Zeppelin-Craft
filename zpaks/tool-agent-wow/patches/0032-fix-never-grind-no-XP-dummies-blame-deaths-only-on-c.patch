@@ -1,0 +1,87 @@
+From 95f7b59a6db0f53d797e58e27b93a782f001a9e4 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 14:22:10 +0000
+Subject: [PATCH] fix: never grind no-XP dummies; blame deaths only on combat
+ quests (F-219)
+
+- Kezan: the goblin bot ground Training Dummy 48304 (the Charge target) 25 times - it never dies
+  and gives no XP. Grind skips CREATURE_FLAG_EXTRA_NO_XP (0x40) and any entry that outlasts three
+  kill calls.
+- Ammen Vale: Rescue the Survivors / Inoculation were parked by the level gate because a death
+  was charged to whatever quest was last worked. Deaths now count only against quests with a
+  hostile kill target or a creature-dropped required item.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 7566958..568bad0 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -820,6 +820,7 @@ class Runner:
+         self.deaths_on = {}  # quest -> deaths while working it
+         self.refusals = {}  # quest -> times the server refused our accept
+         self.grind_skip = set()  # entries a grind pull could not damage (friendly objectives)
++        self.grind_slow = {}     # entry -> grind pulls that ran out of time without a kill
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -872,6 +873,20 @@ class Runner:
+         self.refresh_abilities()
+         print(f"  abilities: {[a['spell_id'] for a in self.abilities]}", flush=True)
+ 
++    def is_combat_quest(self, qid):
++        """Does the quest send us at hostile creatures (a kill target, or a creature that drops a
++        required item)? Rescue the Survivors / Inoculation do not - deaths there were incidental."""
++        q = self.w.quests[qid]
++        for k in range(1, 5):
++            t = int(q[f"RequiredNpcOrGo{k}"])
++            if t > 0 and t in self.w.objective_creatures:
++                return True
++        for k in range(1, 7):
++            it = int(q[f"RequiredItemId{k}"])
++            if it and self.w.creature_loot.get(it):
++                return True
++        return False
++
+     def grind(self, level):
+         """Kill one easy mob for XP: the nearest isolated non-NPC creature whose level is at most ours
+         (template minlevel), within 80 yd. Used while the quests left are too hard for our level."""
+@@ -895,8 +910,10 @@ class Runner:
+             _, _, e, p = spots[0]
+             self.travel(*p, within=15)
+             return True
++        # no XP to be had from a training dummy (Kezan 48304, the Charge quest's target: 25 pulls that
++        # never ended) - CREATURE_FLAG_EXTRA_NO_XP 0x40 marks those
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+-            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)})")}
++            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)}) AND (flags_extra & 64)=0")}
+         easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= level]
+         if not easy:
+             return False
+@@ -923,6 +940,10 @@ class Runner:
+         self.kills += r.get("killed", False)
+         if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
+             self.grind_skip.add(t["entry"])
++        if r.get("reason") == "budget":  # outlasted a whole kill call: not worth grinding
++            self.grind_slow[t["entry"]] = self.grind_slow.get(t["entry"], 0) + 1
++            if self.grind_slow[t["entry"]] >= 3:
++                self.grind_skip.add(t["entry"])
+         print(f"  grind {t['entry']} (level {lv.get(t['entry'])}) while quests wait for level {level + 1}: "
+               f"{r.get('reason', 'killed')}", flush=True)
+         return True
+@@ -983,7 +1004,7 @@ class Runner:
+         if st.get("dead"):
+             self.deaths += 1
+             q = getattr(self, "current_qid", None)
+-            if q:
++            if q and self.is_combat_quest(q):  # a healing/item-use quest is not what killed us
+                 self.deaths_on[q] = self.deaths_on.get(q, 0) + 1
+             print("  ! died - recovering", flush=True)
+             # revive returns at once while walking back or during the reclaim delay (which grows
+-- 
+2.34.1
+
