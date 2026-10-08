@@ -1,0 +1,97 @@
+From f53685b01248b1fbcf322fedcf22d0b8c9ac8e45 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 21:49:03 +0000
+Subject: [PATCH] fix: never end a run with parked quests; scripted spellhit
+ table; grind skip needs 2 misses (F-219)
+
+Ammen Vale ended INCOMPLETE at level 4 after 49 min:
+- Volatile Mutations 10302 was parked by the level gate and its only grind target (16516) was
+  skipped after ONE 'no damage' pull, so grind found nothing and the run idled out. When parked
+  quests remain and nothing can be ground, they are attempted anyway; grind skips an entry only
+  after two no-damage pulls. (A hand-run objective_step on the live session killed a 16516 fine.)
+- Rescue the Survivors 9283: Draenei Survivor 16483 credits through a C++ script
+  (npc_draenei_survivor) reacting to Gift of the Naaru - invisible in the DB. SCRIPTED_SPELLHIT
+  maps such entries to their spells (all 7 class variants).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index d919bf6..47c9cbb 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -26,6 +26,13 @@ CRAFT = "/workspace/project/Zeppelin-Craft"
+ OPENING = 22810  # "Opening - No Text": opens locked chest GOs (GameObject::Use has no CHEST case)
+ # class id -> abilities as FIRST-rank spell ids; the runner casts the highest rank it knows
+ # (spell_ranks) and only abilities it has learned (interact.spells).
++# objective creatures whose credit comes from a C++ script reacting to a spell (no SmartAI row to read):
++# entry -> spells (any rank / per-class variant; the runner casts the one it knows)
++SCRIPTED_SPELLHIT = {
++    16483: [28880, 59542, 59543, 59544, 59545, 59547, 59548],  # Draenei Survivor (npc_draenei_survivor):
++                                                               # Gift of the Naaru - Rescue the Survivors!
++}
++
+ CLASS_ABILITIES = {
+     1: [  # warrior
+         {"spell_id": 6673, "every_ms": 110000, "min_power": 100, "on_self": True},  # Battle Shout
+@@ -226,6 +233,11 @@ class World:
+         targets = {t for t in targets if t > 0}
+         self.spellhit = {}
+         self.spellhit_all = {}  # entry -> every SPELLHIT spell (class quests: one per class)
++        # creature scripts in C++ react to a spell the DB never mentions: the runner cannot infer these
++        for e, sps in SCRIPTED_SPELLHIT.items():
++            if e in targets:
++                self.spellhit.setdefault(e, sps[0])
++                self.spellhit_all.setdefault(e, []).extend(sps)
+         hits = sql("SELECT entryorguid e,event_param1 sp,action_type a,action_param1 p FROM smart_scripts WHERE "
+                    f"source_type=0 AND event_type=8 AND event_param1>0 AND entryorguid IN ({inlist(targets)})")
+         # a SPELLHIT only earns THIS objective if its reaction does not credit someone else: Mana
+@@ -822,6 +834,7 @@ class Runner:
+         self.grind_skip = set()  # entries a grind pull could not damage (friendly objectives)
+         self.grind_slow = {}     # entry -> grind pulls that ran out of time without a kill
+         self.grind_deaths = 0    # grind pulls that killed us
++        self.grind_nodmg = {}    # entry -> grind pulls that did no damage
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -1006,7 +1019,11 @@ class Runner:
+         r = call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
+         self.kills += r.get("killed", False)
+         if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
+-            self.grind_skip.add(t["entry"])
++            # twice, not once: a single evade (unreachable, leashed) is not a friendly mob - Ammen Vale
++            # lost its only grind target, Volatile Mutation 16516, to one such pull
++            self.grind_nodmg[t["entry"]] = self.grind_nodmg.get(t["entry"], 0) + 1
++            if self.grind_nodmg[t["entry"]] >= 2:
++                self.grind_skip.add(t["entry"])
+         if "died" in r.get("reason", ""):
+             self.grind_deaths += 1
+             # this kind killed us (Coldridge: Frostmane Troll Whelps 706 three times - they come in
+@@ -2596,6 +2613,21 @@ class Runner:
+             if hard and self.grind(level):
+                 idle = 0
+                 continue
++            if hard:
++                # nothing left to grind either (Ammen Vale: its one grind target was skipped after a
++                # single "no damage" pull) - try the parked quests rather than end the run with them
++                for qid in hard:
++                    try:
++                        self.current_qid = qid
++                        if self.objective_step(qid, log[qid]):
++                            idle = 0
++                            break
++                    except StepFailed as e:
++                        print(f"  ~ {qid}: {e}", flush=True)
++                else:
++                    hard = []
++                if idle == 0:
++                    continue
+             if active and idle <= 24:
+                 time.sleep(10)
+                 continue
+-- 
+2.34.1
+
