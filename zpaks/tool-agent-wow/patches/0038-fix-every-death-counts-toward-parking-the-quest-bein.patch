@@ -1,0 +1,35 @@
+From e8fbb704dd96c70a742d4a22363d4a7352e349bf Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 18:55:50 +0000
+Subject: [PATCH] fix: every death counts toward parking the quest being worked
+ (F-219)
+
+Coldridge died 30 times walking into a troll camp for A Refugee's Quandary 3361 (loot GOs): the
+death-to-quest charge was restricted to kill/loot-drop quests, so this one was never parked by
+the level gate. Charge all deaths again; a quest parked by mistake only waits for a level.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index bece648..09d4e6d 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1024,7 +1024,10 @@ class Runner:
+         if st.get("dead"):
+             self.deaths += 1
+             q = getattr(self, "current_qid", None)
+-            if q and self.is_combat_quest(q):  # a healing/item-use quest is not what killed us
++            # charge every death to the quest being worked: a looting quest can kill too (Coldridge:
++            # 30 deaths walking into a troll camp for A Refugee's Quandary, never parked because it has
++            # no kill target). A wrongly parked quest only waits until we outlevel it.
++            if q:
+                 self.deaths_on[q] = self.deaths_on.get(q, 0) + 1
+             print("  ! died - recovering", flush=True)
+             # revive returns at once while walking back or during the reclaim delay (which grows
+-- 
+2.34.1
+
