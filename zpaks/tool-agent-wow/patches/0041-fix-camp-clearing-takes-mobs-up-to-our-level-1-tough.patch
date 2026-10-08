@@ -1,0 +1,43 @@
+From 93f9f8725cd772f2be20b4cb4494e5e8f843402d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 20:06:02 +0000
+Subject: [PATCH] fix: camp clearing takes mobs up to our level+1; tougher
+ guards park the quest (F-219)
+
+Ammen Vale: a level-2 bot died to a Mutated Root Lasher 16537 (the last mob of a crate's camp) -
+the clear allowed mobs up to level+3. Now any guard above level+1 parks the quest through the
+level gate instead of a fight.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index f9d2f60..77355c3 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -934,10 +934,17 @@ class Runner:
+         info = {int(r["entry"]): (int(r["minlevel"]), int(r["type"])) for r in sql(
+             f"SELECT entry,minlevel,type FROM creature_template WHERE entry IN ({inlist({o['entry'] for o in mobs})})")}
+         level = call("interact.self").get("level", 1)
+-        # no critters (type 8), nothing far above us
+-        mobs = [o for o in mobs if info.get(o["entry"], (99, 0))[1] != 8 and info.get(o["entry"], (99, 0))[0] <= level + 3]
++        mobs = [o for o in mobs if info.get(o["entry"], (99, 0))[1] != 8]  # no critters (type 8)
+         if not mobs:
+             return False
++        if any(info.get(o["entry"], (99, 0))[0] > level + 1 for o in mobs):
++            # a guard 2+ levels above us (Ammen Vale: a level-2 draenei died to a Mutated Root Lasher
++            # clearing the last mob) - not a fight to take yet: park the quest until we outlevel it
++            q = getattr(self, "current_qid", None)
++            if q:
++                self.deaths_on[q] = max(self.deaths_on.get(q, 0), 2)
++            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) is guarded above level {level + 1} - later", flush=True)
++            return True
+         # outermost = farthest from the crate; among those, the nearest to us
+         t = max(mobs, key=lambda o: (round(math.dist((o["x"], o.get("y", 0)), spot[:2]) / 5), -o.get("distance", 0)))
+         ux, uy = t["x"] - spot[0], t.get("y", 0) - spot[1]
+-- 
+2.34.1
+
