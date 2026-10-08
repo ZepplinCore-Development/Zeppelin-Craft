@@ -1,0 +1,37 @@
+From 9cd6f72c3d0c35c15532c3de6db31d7710594690 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 19:49:40 +0000
+Subject: [PATCH] fix: revive before talking to a quest NPC - a ghost's quest
+ packets get no reply (F-219)
+
+The recurring hand-in 'timeouts' (Volatile Mutations, The Troll Cave, Thazz'ril's Pick, Thirst
+Unending): live check found the Ammen Vale bot standing ON Botanist Taerix as a ghost - it died
+on the walk over, after turn_in's pre-walk revive. close_in() now checks for death first,
+revives and walks back before any quest/gossip packet.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index d4df55c..f9d2f60 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1375,6 +1375,12 @@ class Runner:
+         """Stand within talking range of a creature: the server answers a quest/gossip packet from too
+         far away with SILENCE (The Troll Cave hand-in: three packets, no reply - the bot stood on the
+         navmesh below Grelin Whitebeard). Step straight onto him when we are more than 4 yd off."""
++        if call("combat.state").get("dead"):
++            # died on the walk over (the revive happens before the walk, not after): a GHOST's quest
++            # and gossip packets get no reply either - Volatile Mutations was "timing out" while the
++            # bot stood on Botanist Taerix as a ghost. Revive, then come back.
++            self.safe()
++            self.reach_npc("c", entry)
+         o = next(iter(call("interact.find", entry=entry, limit=1).get("objects", [])), None)
+         if o and o.get("distance", 0) > 4:
+             call("move.to", x=o["x"], y=o.get("y", 0), z=o.get("z", 0), timeout_ms=8000)
+-- 
+2.34.1
+
