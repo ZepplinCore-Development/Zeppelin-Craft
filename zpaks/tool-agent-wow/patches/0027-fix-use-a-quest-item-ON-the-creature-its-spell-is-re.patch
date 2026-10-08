@@ -1,0 +1,58 @@
+From 5a655f92600b1671e0583e1d673644db0a7fa7ec Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 11:22:09 +0000
+Subject: [PATCH] fix: use a quest item ON the creature its spell is restricted
+ to (F-219)
+
+Ammen Vale, Inoculation (9303): credit 16534 is nobody's spawn - the Inoculating Crystal's
+spell 29528 may only target Nestlewood Owlkin 16518 (conditions source 17 / type 31) and the
+hit converts them. The runner used the item into the air: 849 bad-target casts. Explicit-target
+conditions are now read; such items are used on that creature, whose spawns are loaded with the
+objective spawns (most owlkin stand outside the area box).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index d0a33aa..92b443d 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -148,7 +148,18 @@ class World:
+         # hands it out, Chief Sharptusk Thornmantle 8554 stands 1000 yd south): also load the spawns
+         # of every objective creature/GO and of the creatures that drop a required item, in a wide
+         # margin around the box
++        # spells restricted to one creature entry by an explicit-target condition (source 17, type 31)
++        self.spell_unit_target = {int(r["s"]): int(r["e"]) for r in sql(
++            "SELECT SourceEntry s,ConditionValue2 e FROM conditions WHERE SourceTypeOrReferenceId=17 AND "
++            "ConditionTypeOrReference=31 AND ConditionValue1=3 AND ConditionValue2>0 AND NegativeCondition=0")}
+         objc, objg, items = set(), set(), set()
++        # the creature a quest item must be used ON (Inoculating Crystal -> Nestlewood Owlkin 16518)
++        qitems = {int(q[k]) for q in self.quests.values() for k in ("StartItem", "ItemDrop1", "ItemDrop2",
++                                                                      "ItemDrop3", "ItemDrop4") if int(q[k])}
++        if qitems:
++            for r in sql(f"SELECT spellid_1 sp FROM item_template WHERE entry IN ({inlist(qitems)})"):
++                if self.spell_unit_target.get(int(r["sp"])):
++                    objc.add(self.spell_unit_target[int(r["sp"])])
+         for q in self.quests.values():
+             for k in range(1, 5):
+                 t = int(q[f"RequiredNpcOrGo{k}"])
+@@ -2209,6 +2220,13 @@ class Runner:
+             if target > 0 and target in self.w.marker_targets and self.w.scripted_launch:
+                 bar, ventry = next(iter(self.w.scripted_launch.items()))
+                 return self.vehicle_bombard(qid, target, bar, ventry)
++            if target > 0 and target not in self.w.cspawn and self.quest_item(q) and \
++                    self.w.spell_unit_target.get(self.w.item_spell.get(self.quest_item(q), 0)):
++                # the item's spell may only target one creature (conditions 17/31) and the HIT is what
++                # pays the credit (Inoculation: Inoculating Crystal on Nestlewood Owlkin 16518 ->
++                # 16534) - use it on that creature, not into the air (849 bad-target casts)
++                item = self.quest_item(q)
++                return self.use_quest_item_on(q, self.w.spell_unit_target[self.w.item_spell[item]])
+             if target > 0 and target not in self.w.cspawn and self.quest_item(q):
+                 # a credit-only entry nobody spawns: the quest item's use is the credit (keys used)
+                 item = self.quest_item(q)
+-- 
+2.34.1
+
