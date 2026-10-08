@@ -1,0 +1,48 @@
+From 677508348b6fa09ed91d3dc1e6a24968df380568 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 20:28:59 +0000
+Subject: [PATCH] fix: walk in 6 s slices and fight back between them (F-219)
+
+Most early deaths happened on the road, not in camps: travel() issued 25 s path_to walks and only
+defended itself when one ended, so a mob aggroed on the way hit our back the whole time (two of
+them kill a fresh level-2). Walks are now 6 s slices; after each, attackers or death trigger
+safe() before walking on.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 77355c3..0bfd3d1 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1152,10 +1152,12 @@ class Runner:
+         if far > 300:  # a long trip is worth a line: where to and why is in the caller's next print
+             caller = traceback.extract_stack(limit=3)[0]
+             print(f"  travel {far:.0f} yd -> ({x:.0f},{y:.0f},{z:.0f}) from line {caller.lineno} ({caller.name})", flush=True)
+-        for _ in range(12):
++        # walk in 6 s slices and turn to fight between them: one 25 s path_to let a mob that aggroed
++        # on the way hit our back the whole time (most early deaths were on the road, not in camps)
++        for _ in range(60):
+             before = self.me()
+             try:
+-                r = call("move.path_to", x=x, y=y, z=ground(x, y, z))
++                r = call("move.path_to", x=x, y=y, z=ground(x, y, z), budget_ms=6000)
+             except StepFailed as e:
+                 e.args = (f"{e} [to {x:.0f},{y:.0f},{z:.0f} nav {self.nav_map() or 'own'}]",)
+                 if "start not on navmesh" in str(e):
+@@ -1246,7 +1248,8 @@ class Runner:
+                 sz = before.get("z", z) + (z - before.get("z", z)) * k
+                 call("move.to", x=sx, y=sy, z=sz, timeout_ms=20000)
+                 continue
+-            if r["move"].get("reason") != "budget":
++            st = call("combat.state")
++            if r["move"].get("reason") != "budget" or st.get("attackers") or st.get("dead"):
+                 self.safe()
+         return False
+ 
+-- 
+2.34.1
+
