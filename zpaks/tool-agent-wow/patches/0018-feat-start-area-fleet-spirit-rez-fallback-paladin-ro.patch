@@ -1,0 +1,748 @@
+From 03f38c1acfad2d07bedc9490ee784c5843ca682b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 07:42:57 +0000
+Subject: [PATCH] feat: start-area fleet, spirit rez fallback, paladin/rogue
+ rotations (F-219)
+
+- fleet.py: one bot per starting area (9 areas, accounts ZEPF1-9, ports 8100-8108), each with
+  its own instance dir under agent-wow-fleet/. `restart [--build]` = stop + reinstall modules +
+  FRESH characters + start, so every code change replays all start zones (regressions such as
+  the Mechashark one can no longer hide behind a single-zone run). Goblin runs Kezan then the
+  Lost Isles as two legs; a leg must PASS before the next starts.
+- interact: SpiritHeal RPC (CMSG_SPIRIT_HEALER_ACTIVATE); runner falls back to the nearest spirit
+  healer after 2.5 min of failed reclaims (Gobmine's corpse after the Footbomb Uniform death was
+  never handed back) - verified: resurrected at 39660.
+- runner/supervise/rpc: RPC port from AGENT_WOW_RPC_PORT; supervise.sh takes AW_RUN/AW_BIN/AW_TESTS.
+- CLASS_ABILITIES: paladin (aura, blessing, seal, judgement) and rogue (Sinister Strike, Eviscerate).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/interact/api/interact.pb.go  |  68 ++--
+ .../modules/interact/api/interact_grpc.pb.go  |  38 +++
+ zeppelin/modules/interact/interact.proto      |   1 +
+ zeppelin/modules/interact/main.go             |  27 ++
+ zeppelin/modules/interact/module.yaml         |   1 +
+ zeppelin/tests/fleet.py                       | 290 ++++++++++++++++++
+ zeppelin/tests/rpc.py                         |   4 +-
+ zeppelin/tests/rpc.sh                         |   3 +
+ zeppelin/tests/start_area.py                  |  60 +++-
+ zeppelin/tests/supervise.sh                   |  25 +-
+ 10 files changed, 474 insertions(+), 43 deletions(-)
+ create mode 100755 zeppelin/tests/fleet.py
+ create mode 100755 zeppelin/tests/rpc.sh
+
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index 92c3039..245bc0c 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -2766,7 +2766,7 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x05count\x18\x03 \x01(\rR\x05count\"9\n" +
+ 	"\x0fVendorBuyResult\x12\x0e\n" +
+ 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
+-	"\x06detail\x18\x02 \x01(\tR\x06detail2\xeb\x10\n" +
++	"\x06detail\x18\x02 \x01(\tR\x06detail2\xb9\x11\n" +
+ 	"\bInteract\x12K\n" +
+ 	"\x04Find\x12!.zeppelin.interact.v1.FindRequest\x1a .zeppelin.interact.v1.FindResult\x12Q\n" +
+ 	"\tSendAddon\x12\".zeppelin.interact.v1.AddonMessage\x1a .zeppelin.interact.v1.CastResult\x12U\n" +
+@@ -2796,7 +2796,9 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\rGetVendorList\x12\x1c.zeppelin.interact.v1.Target\x1a .zeppelin.interact.v1.VendorList\x12Z\n" +
+ 	"\tVendorBuy\x12&.zeppelin.interact.v1.VendorBuyRequest\x1a%.zeppelin.interact.v1.VendorBuyResult\x12L\n" +
+ 	"\n" +
+-	"SpellClick\x12\x1c.zeppelin.interact.v1.Target\x1a .zeppelin.interact.v1.CastResult\x12C\n" +
++	"SpellClick\x12\x1c.zeppelin.interact.v1.Target\x1a .zeppelin.interact.v1.CastResult\x12L\n" +
++	"\n" +
++	"SpiritHeal\x12\x1c.zeppelin.interact.v1.Target\x1a .zeppelin.interact.v1.CastResult\x12C\n" +
+ 	"\bOnPacket\x12\x1f.agentwow.module.v1.WorldPacket\x1a\x16.google.protobuf.EmptyBIZGgithub.com/agent-wow/agent-wow/zeppelin/modules/interact/api;interactv1b\x06proto3"
+ 
+ var (
+@@ -2897,36 +2899,38 @@ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	0,  // 40: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
+ 	35, // 41: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
+ 	0,  // 42: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
+-	38, // 43: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
+-	3,  // 44: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
+-	16, // 45: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
+-	13, // 46: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
+-	16, // 47: zeppelin.interact.v1.Interact.QuestAbandon:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 48: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 49: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
+-	6,  // 50: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 51: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 52: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
+-	9,  // 53: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
+-	9,  // 54: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
+-	11, // 55: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
+-	13, // 56: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
+-	13, // 57: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
+-	19, // 58: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
+-	16, // 59: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
+-	20, // 60: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
+-	22, // 61: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
+-	16, // 62: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
+-	28, // 63: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
+-	30, // 64: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
+-	31, // 65: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
+-	32, // 66: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
+-	34, // 67: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
+-	36, // 68: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
+-	16, // 69: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
+-	37, // 70: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
+-	44, // [44:71] is the sub-list for method output_type
+-	17, // [17:44] is the sub-list for method input_type
++	0,  // 43: zeppelin.interact.v1.Interact.SpiritHeal:input_type -> zeppelin.interact.v1.Target
++	38, // 44: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	3,  // 45: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
++	16, // 46: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
++	13, // 47: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
++	16, // 48: zeppelin.interact.v1.Interact.QuestAbandon:output_type -> zeppelin.interact.v1.CastResult
++	16, // 49: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
++	16, // 50: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
++	6,  // 51: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
++	6,  // 52: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
++	6,  // 53: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
++	9,  // 54: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
++	9,  // 55: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
++	11, // 56: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
++	13, // 57: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
++	13, // 58: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
++	19, // 59: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
++	16, // 60: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
++	20, // 61: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
++	22, // 62: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
++	16, // 63: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
++	28, // 64: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
++	30, // 65: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
++	31, // 66: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
++	32, // 67: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
++	34, // 68: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
++	36, // 69: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
++	16, // 70: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
++	16, // 71: zeppelin.interact.v1.Interact.SpiritHeal:output_type -> zeppelin.interact.v1.CastResult
++	37, // 72: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
++	45, // [45:73] is the sub-list for method output_type
++	17, // [17:45] is the sub-list for method input_type
+ 	17, // [17:17] is the sub-list for extension type_name
+ 	17, // [17:17] is the sub-list for extension extendee
+ 	0,  // [0:17] is the sub-list for field type_name
+diff --git a/zeppelin/modules/interact/api/interact_grpc.pb.go b/zeppelin/modules/interact/api/interact_grpc.pb.go
+index 91c0f6e..6a1a88a 100644
+--- a/zeppelin/modules/interact/api/interact_grpc.pb.go
++++ b/zeppelin/modules/interact/api/interact_grpc.pb.go
+@@ -47,6 +47,7 @@ const (
+ 	Interact_GetVendorList_FullMethodName   = "/zeppelin.interact.v1.Interact/GetVendorList"
+ 	Interact_VendorBuy_FullMethodName       = "/zeppelin.interact.v1.Interact/VendorBuy"
+ 	Interact_SpellClick_FullMethodName      = "/zeppelin.interact.v1.Interact/SpellClick"
++	Interact_SpiritHeal_FullMethodName      = "/zeppelin.interact.v1.Interact/SpiritHeal"
+ 	Interact_OnPacket_FullMethodName        = "/zeppelin.interact.v1.Interact/OnPacket"
+ )
+ 
+@@ -80,6 +81,7 @@ type InteractClient interface {
+ 	GetVendorList(ctx context.Context, in *Target, opts ...grpc.CallOption) (*VendorList, error)
+ 	VendorBuy(ctx context.Context, in *VendorBuyRequest, opts ...grpc.CallOption) (*VendorBuyResult, error)
+ 	SpellClick(ctx context.Context, in *Target, opts ...grpc.CallOption) (*CastResult, error)
++	SpiritHeal(ctx context.Context, in *Target, opts ...grpc.CallOption) (*CastResult, error)
+ 	OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error)
+ }
+ 
+@@ -351,6 +353,16 @@ func (c *interactClient) SpellClick(ctx context.Context, in *Target, opts ...grp
+ 	return out, nil
+ }
+ 
++func (c *interactClient) SpiritHeal(ctx context.Context, in *Target, opts ...grpc.CallOption) (*CastResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(CastResult)
++	err := c.cc.Invoke(ctx, Interact_SpiritHeal_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
+ func (c *interactClient) OnPacket(ctx context.Context, in *v1.WorldPacket, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+ 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+ 	out := new(emptypb.Empty)
+@@ -391,6 +403,7 @@ type InteractServer interface {
+ 	GetVendorList(context.Context, *Target) (*VendorList, error)
+ 	VendorBuy(context.Context, *VendorBuyRequest) (*VendorBuyResult, error)
+ 	SpellClick(context.Context, *Target) (*CastResult, error)
++	SpiritHeal(context.Context, *Target) (*CastResult, error)
+ 	OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error)
+ 	mustEmbedUnimplementedInteractServer()
+ }
+@@ -480,6 +493,9 @@ func (UnimplementedInteractServer) VendorBuy(context.Context, *VendorBuyRequest)
+ func (UnimplementedInteractServer) SpellClick(context.Context, *Target) (*CastResult, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method SpellClick not implemented")
+ }
++func (UnimplementedInteractServer) SpiritHeal(context.Context, *Target) (*CastResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method SpiritHeal not implemented")
++}
+ func (UnimplementedInteractServer) OnPacket(context.Context, *v1.WorldPacket) (*emptypb.Empty, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method OnPacket not implemented")
+ }
+@@ -972,6 +988,24 @@ func _Interact_SpellClick_Handler(srv interface{}, ctx context.Context, dec func
+ 	return interceptor(ctx, in, info, handler)
+ }
+ 
++func _Interact_SpiritHeal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(Target)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).SpiritHeal(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_SpiritHeal_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).SpiritHeal(ctx, req.(*Target))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
+ func _Interact_OnPacket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+ 	in := new(v1.WorldPacket)
+ 	if err := dec(in); err != nil {
+@@ -1101,6 +1135,10 @@ var Interact_ServiceDesc = grpc.ServiceDesc{
+ 			MethodName: "SpellClick",
+ 			Handler:    _Interact_SpellClick_Handler,
+ 		},
++		{
++			MethodName: "SpiritHeal",
++			Handler:    _Interact_SpiritHeal_Handler,
++		},
+ 		{
+ 			MethodName: "OnPacket",
+ 			Handler:    _Interact_OnPacket_Handler,
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index 1df1a83..39c1404 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -266,5 +266,6 @@ service Interact {
+   rpc GetVendorList(Target) returns (VendorList);
+   rpc VendorBuy(VendorBuyRequest) returns (VendorBuyResult);
+   rpc SpellClick(Target) returns (CastResult);
++  rpc SpiritHeal(Target) returns (CastResult); // CMSG_SPIRIT_HEALER_ACTIVATE: a ghost resurrects at the spirit healer
+   rpc OnPacket(agentwow.module.v1.WorldPacket) returns (google.protobuf.Empty);
+ }
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index 5c0dd49..551ef2e 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -1270,6 +1270,33 @@ func (s *service) VendorBuy(ctx context.Context, req *interactv1.VendorBuyReques
+ 
+ // SpellClick sends CMSG_SPELLCLICK (guid) - npc_spellclick_spells: quest "click the NPC" credit,
+ // boarding vehicles - and reports the first SPELL_GO / CAST_FAILED that follows.
++// SpiritHeal asks a spirit healer (npcflag 0x4000, visible only to ghosts) to resurrect us:
++// CMSG_SPIRIT_HEALER_ACTIVATE (u64 healer guid). The server revives at half health with Resurrection
++// Sickness and leaves bones where the corpse was - the way out when CMSG_RECLAIM_CORPSE is ignored.
++func (s *service) SpiritHeal(ctx context.Context, t *interactv1.Target) (*interactv1.CastResult, error) {
++	guid, err := s.resolve(ctx, t)
++	if err != nil {
++		return nil, err
++	}
++	var w wow.Writer
++	w.U64(guid)
++	if err := s.send(ctx, opcode.CMSGSpiritHealerActivate, &w); err != nil {
++		return nil, err
++	}
++	deadline := time.Now().Add(5 * time.Second)
++	for time.Now().Before(deadline) {
++		if st := s.store.SelfInfo(); st.Known && !st.Ghost && st.Health > 0 {
++			return &interactv1.CastResult{Ok: true, Detail: "resurrected"}, nil
++		}
++		select {
++		case <-ctx.Done():
++			return nil, ctx.Err()
++		case <-time.After(250 * time.Millisecond):
++		}
++	}
++	return &interactv1.CastResult{Detail: "still a ghost (healer out of range, or not a spirit healer)"}, nil
++}
++
+ func (s *service) SpellClick(ctx context.Context, t *interactv1.Target) (*interactv1.CastResult, error) {
+ 	guid, err := s.resolve(ctx, t)
+ 	if err != nil {
+diff --git a/zeppelin/modules/interact/module.yaml b/zeppelin/modules/interact/module.yaml
+index d6fe5b0..d1d7477 100644
+--- a/zeppelin/modules/interact/module.yaml
++++ b/zeppelin/modules/interact/module.yaml
+@@ -28,6 +28,7 @@ rpc:
+   vendor_list: /zeppelin.interact.v1.Interact/GetVendorList
+   vendor_buy: /zeppelin.interact.v1.Interact/VendorBuy
+   spellclick: /zeppelin.interact.v1.Interact/SpellClick
++  spirit_heal: /zeppelin.interact.v1.Interact/SpiritHeal
+   equip: /zeppelin.interact.v1.Interact/Equip
+   quest_abandon: /zeppelin.interact.v1.Interact/QuestAbandon
+   addon: /zeppelin.interact.v1.Interact/SendAddon
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+new file mode 100755
+index 0000000..f5dba60
+--- /dev/null
++++ b/zeppelin/tests/fleet.py
+@@ -0,0 +1,290 @@
++#!/usr/bin/env python3
++"""fleet.py - one agent-wow bot per starting area, run side by side (F-219).
++
++Every code change to the runner or a module should be followed by `fleet.py restart` (optionally
++--build to reinstall the Go modules): each bot gets a FRESH character and replays its starting
++area from level 1, so a fix for one zone cannot silently break another (the Mechashark regression
++came from a Gallywix fix).
++
++    fleet.py setup                 instance dirs, accounts' auth.json, shared module install
++    fleet.py install               rebuild + install the Go modules into the shared module dir
++    fleet.py new [AREA...]         delete the area's character(s), create a fresh one
++    fleet.py start [AREA...]       run each area's legs in the background
++    fleet.py stop [AREA...]        stop driver, supervisor, runner and session
++    fleet.py restart [--build] [AREA...]   stop + (install) + new + start
++    fleet.py status                one line per area
++    fleet.py drive AREA            (internal) run an area's legs in order
++
++AREA defaults to all. Instances live in $AW_FLEET (default Zeppelin-Tools/agent-wow-fleet):
++<area>/config.yaml (own worldrpc port), <area>/config/{auth.json,realm.json,modules->../../modules},
++<area>/data, <area>/fleet.log (the driver's and every leg's output), <area>/state.json (character).
++Accounts ZEPF1..ZEPF9 (auth ids 16-24) are one per area: one account can only be in world once.
++"""
++import json
++import os
++import shutil
++import signal
++import subprocess
++import sys
++import time
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))           # agent-wow repo
++FLEET = os.environ.get("AW_FLEET", os.path.abspath(os.path.join(ROOT, "..", "agent-wow-fleet")))
++BIN = os.path.join(ROOT, "bin", "agent-wow")
++TEMPLATE = os.path.abspath(os.path.join(ROOT, "..", "agent-wow-run"))  # config.yaml + realm.json
++PORT0 = 8100
++MODULES = ["move", "interact", "combat", "vehicle"]
++
++
++def box(x, y, half=450):
++    return (x - half, y - half, x + half, y + half)
++
++
++# name, race, class, account index, legs [(map, box, minutes)]. Starts from playercreateinfo; worgen
++# start in Shadowglen here, so the night elf covers it.
++AREAS = [
++    ("northshire", "human", "warrior", 1, [(0, box(-8950, -132), 240)]),
++    ("valley", "orc", "warrior", 2, [(1, (-800, -4500, -30, -4000), 240)]),
++    ("coldridge", "dwarf", "warrior", 3, [(0, box(-6240, 331), 240)]),
++    ("shadowglen", "night-elf", "warrior", 4, [(1, box(10311, 832), 240)]),
++    ("deathknell", "undead", "warrior", 5, [(0, box(1677, 1678), 240)]),
++    ("narache", "tauren", "warrior", 6, [(1, box(-2918, -258), 240)]),
++    ("sunstrider", "blood-elf", "paladin", 7, [(0, box(8216, -4224), 240)]),  # no blood elf warriors
++    ("ammenvale", "draenei", "warrior", 8, [(1, box(5638, 4202), 240)]),
++    ("goblin", "goblin", "warrior", 9, [(1, (-9120, -11680, -8230, -10750), 240),      # Kezan
++                                        (1, (-500, -11720, 2100, -8850), 360)]),       # Lost Isles
++]
++BY_NAME = {a[0]: a for a in AREAS}
++
++
++def area_dir(name):
++    return os.path.join(FLEET, name)
++
++
++def port_of(name):
++    return PORT0 + [a[0] for a in AREAS].index(name)
++
++
++def env_for(name):
++    e = dict(os.environ)
++    e.update(AW_RUN=area_dir(name), AW_BIN=BIN, AW_TESTS=HERE, AGENT_WOW_RPC_PORT=str(port_of(name)))
++    return e
++
++
++def state(name):
++    try:
++        with open(os.path.join(area_dir(name), "state.json")) as f:
++            return json.load(f)
++    except (OSError, ValueError):
++        return {}
++
++
++def save_state(name, st):
++    with open(os.path.join(area_dir(name), "state.json"), "w") as f:
++        json.dump(st, f)
++
++
++def log(name, line):
++    with open(os.path.join(area_dir(name), "fleet.log"), "a") as f:
++        f.write(f"[FLEET {time.strftime('%H:%M:%S')}] {line}\n")
++
++
++def aw(name, *args, timeout=60):
++    """agent-wow in the area's instance dir (its config.yaml, auth and realm)."""
++    return subprocess.run([BIN, *args], cwd=area_dir(name), capture_output=True, text=True, timeout=timeout)
++
++
++# -- commands -------------------------------------------------------------------------------------
++
++def cmd_setup(names):
++    os.makedirs(os.path.join(FLEET, "modules"), exist_ok=True)
++    tpl = open(os.path.join(TEMPLATE, "config.yaml")).read()
++    for name in names:
++        d = area_dir(name)
++        os.makedirs(os.path.join(d, "config"), exist_ok=True)
++        os.makedirs(os.path.join(d, "data"), exist_ok=True)
++        with open(os.path.join(d, "config.yaml"), "w") as f:
++            f.write(tpl.replace("port: 8086", f"port: {port_of(name)}"))
++        shutil.copyfile(os.path.join(TEMPLATE, "config", "realm.json"), os.path.join(d, "config", "realm.json"))
++        auth = os.path.join(FLEET, f"acct{BY_NAME[name][3]}", "auth.json")
++        shutil.copyfile(auth, os.path.join(d, "config", "auth.json"))
++        os.chmod(os.path.join(d, "config", "auth.json"), 0o600)
++        link = os.path.join(d, "config", "modules")
++        if not os.path.islink(link):
++            os.symlink(os.path.join("..", "..", "modules"), link)
++        print(f"{name}: {d} port {port_of(name)} account ZEPF{BY_NAME[name][3]}")
++    if not os.listdir(os.path.join(FLEET, "modules")):
++        cmd_install()
++
++
++def cmd_install():
++    r = subprocess.run([os.path.join(ROOT, "zeppelin", "install.sh"), os.path.join(FLEET, "modules"), *MODULES],
++                       cwd=ROOT, capture_output=True, text=True)
++    print(r.stdout.strip() or r.stderr.strip())
++    if r.returncode:
++        raise SystemExit(f"install failed: {r.stderr[-400:]}")
++
++
++def pids(char):
++    """Driver, supervisor, runner and session processes of one character."""
++    out = []
++    for line in subprocess.run(["ps", "-eo", "pid,args"], capture_output=True, text=True).stdout.splitlines()[1:]:
++        pid, _, args = line.strip().partition(" ")
++        a = args.split()
++        if (len(a) >= 4 and a[1].endswith("supervise.sh") and a[2] == char) or \
++           ("start_area.py" in args and f"--char {char} " in args + " ") or \
++           (len(a) >= 4 and a[0].endswith("agent-wow") and a[1:3] == ["char", "play"] and a[3] == char):
++            out.append(int(pid))
++    return out
++
++
++def driver_pids(name):
++    out = []
++    for line in subprocess.run(["ps", "-eo", "pid,args"], capture_output=True, text=True).stdout.splitlines()[1:]:
++        pid, _, args = line.strip().partition(" ")
++        if "fleet.py drive" in args and args.split()[-1] == name:
++            out.append(int(pid))
++    return out
++
++
++def cmd_stop(names):
++    for name in names:
++        char = state(name).get("char")
++        targets = driver_pids(name) + (pids(char) if char else [])
++        for p in targets:
++            try:
++                os.kill(p, signal.SIGTERM)
++            except ProcessLookupError:
++                pass
++        if targets:
++            log(name, f"stopped ({len(targets)} processes)")
++        print(f"{name}: stopped {len(targets)} processes")
++
++
++def cmd_new(names):
++    for name in names:
++        _, race, cls, _, _ = BY_NAME[name]
++        r = aw(name, "auth", "login")  # session saved in the instance's data dir; play reuses it
++        if r.returncode:
++            raise SystemExit(f"{name}: auth login failed: {(r.stderr or r.stdout).strip()[:300]}")
++        listing = aw(name, "char", "list")
++        for line in listing.stdout.splitlines()[2:]:
++            f = line.split()
++            if f and f[0].isdigit():
++                r = aw(name, "char", "delete", f[1], "--yes")
++                print(f"{name}: deleted {f[1]} ({(r.stdout or r.stderr).strip()[:60]})")
++        r = aw(name, "char", "create", "--race", race, "--class", cls)
++        if r.returncode:
++            raise SystemExit(f"{name}: create failed: {(r.stderr or r.stdout).strip()[:300]}")
++        listing = aw(name, "char", "list")
++        chars = [l.split()[1] for l in listing.stdout.splitlines()[2:] if l.split() and l.split()[0].isdigit()]
++        if len(chars) != 1:
++            raise SystemExit(f"{name}: expected one character after create, got {chars}")
++        save_state(name, {"char": chars[0], "race": race, "class": cls, "created": time.strftime("%F %T")})
++        log(name, f"new character {chars[0]} ({race} {cls})")
++        print(f"{name}: {chars[0]} ({race} {cls})")
++
++
++def cmd_start(names):
++    for name in names:
++        if driver_pids(name):
++            print(f"{name}: already running")
++            continue
++        if not state(name).get("char"):
++            raise SystemExit(f"{name}: no character - run `fleet.py new {name}` first")
++        subprocess.Popen([sys.executable, os.path.abspath(__file__), "drive", name], cwd=HERE, env=env_for(name),
++                         stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
++                         start_new_session=True)
++        print(f"{name}: started ({state(name)['char']}, port {port_of(name)})")
++
++
++def cmd_drive(name):
++    """Run the area's legs in order; a leg must PASS before the next one starts."""
++    char, legs = state(name)["char"], BY_NAME[name][4]
++    flog = os.path.join(area_dir(name), "fleet.log")
++    for i, (mapid, bx, minutes) in enumerate(legs, 1):
++        log(name, f"leg {i}/{len(legs)} map {mapid} box {bx} ({minutes} min)")
++        start = os.path.getsize(flog)
++        subprocess.run([os.path.join(HERE, "supervise.sh"), char, str(mapid), *map(str, bx), str(minutes), flog],
++                       env=env_for(name), stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
++        with open(flog) as f:
++            f.seek(start)
++            verdicts = [l.strip() for l in f if l.startswith("RESULT:")]
++        verdict = verdicts[-1] if verdicts else "RESULT: none"
++        log(name, f"leg {i} {verdict}")
++        if not verdict.startswith("RESULT: PASS"):
++            log(name, "FLEET RESULT: STOPPED")
++            return
++    log(name, "FLEET RESULT: PASS (all legs)")
++
++
++def db(sql, database):
++    r = subprocess.run([sys.executable, "-m", "cli.zep", "world", "sql", "query", sql, "-d", database],
++                       cwd=os.path.abspath(os.path.join(ROOT, "..", "..", "Zeppelin-Craft")),
++                       capture_output=True, text=True)
++    rows = [l.split("\t") for l in r.stdout.splitlines() if l and l[0].isdigit()]
++    return rows
++
++
++def cmd_status(names):
++    for name in names:
++        st = state(name)
++        char = st.get("char", "-")
++        lvl, rewarded = "-", "-"
++        if char != "-":
++            rows = db(f"SELECT c.level,(SELECT COUNT(*) FROM character_queststatus_rewarded r WHERE r.guid=c.guid) "
++                      f"FROM characters c WHERE c.name='{char}'", "characters")
++            if rows:
++                lvl, rewarded = rows[0][0], rows[0][1]
++        last, verdict = "", ""
++        try:
++            with open(os.path.join(area_dir(name), "fleet.log")) as f:
++                lines = [l.rstrip() for l in f if l.strip()]
++            last = lines[-1][:70] if lines else ""
++            verdict = next((l for l in reversed(lines) if "FLEET RESULT" in l or l.startswith("RESULT:")), "")
++        except OSError:
++            pass
++        run = "running" if driver_pids(name) else "idle"
++        print(f"{name:11} {char:13} L{lvl:>2} q{rewarded:>3} {run:7} | {verdict[-40:]:40} | {last}")
++
++
++def main():
++    args = sys.argv[1:]
++    if not args:
++        print(__doc__)
++        return
++    cmd, rest = args[0], args[1:]
++    build = "--build" in rest
++    rest = [a for a in rest if a != "--build"]
++    names = rest or [a[0] for a in AREAS]
++    for n in names:
++        if n not in BY_NAME:
++            raise SystemExit(f"unknown area {n}; areas: {', '.join(BY_NAME)}")
++    if cmd == "setup":
++        cmd_setup(names)
++    elif cmd == "install":
++        cmd_install()
++    elif cmd == "new":
++        cmd_new(names)
++    elif cmd == "start":
++        cmd_start(names)
++    elif cmd == "stop":
++        cmd_stop(names)
++    elif cmd == "restart":
++        cmd_stop(names)
++        time.sleep(5)
++        if build:
++            cmd_install()
++        cmd_new(names)
++        cmd_start(names)
++    elif cmd == "status":
++        cmd_status(names)
++    elif cmd == "drive":
++        cmd_drive(names[0])
++    else:
++        raise SystemExit(__doc__)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/zeppelin/tests/rpc.py b/zeppelin/tests/rpc.py
+index 6836c75..84d3d9d 100644
+--- a/zeppelin/tests/rpc.py
++++ b/zeppelin/tests/rpc.py
+@@ -1,10 +1,12 @@
+ """Tiny JSON-RPC client + step runner for Zeppelin agent-wow test scripts (F-219 Track A)."""
+ import json
++import os
+ import sys
+ import time
+ import urllib.request
+ 
+-URL = "http://127.0.0.1:8086/rpc"
++# one agent-wow session per port: a fleet runs one bot per starting area side by side
++URL = f"http://127.0.0.1:{os.environ.get('AGENT_WOW_RPC_PORT', '8086')}/rpc"
+ _id = 0
+ 
+ 
+diff --git a/zeppelin/tests/rpc.sh b/zeppelin/tests/rpc.sh
+new file mode 100755
+index 0000000..a645fa9
+--- /dev/null
++++ b/zeppelin/tests/rpc.sh
+@@ -0,0 +1,3 @@
++#!/bin/bash
++# rpc.sh METHOD '[json params]' -> one JSON-RPC call to the agent-wow session on $AGENT_WOW_RPC_PORT (8086)
++curl -s -H 'Content-Type: application/json' "http://127.0.0.1:${AGENT_WOW_RPC_PORT:-8086}/rpc" -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"$1\",\"params\":${2:-{\}}}"; echo
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index f649ba1..1d24cf7 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -33,6 +33,17 @@ CLASS_ABILITIES = {
+         {"spell_id": 6343, "every_ms": 6000, "min_power": 200},                     # Thunder Clap
+         {"spell_id": 78, "every_ms": 3000, "min_power": 150},                       # Heroic Strike
+     ],
++    # min_power is the raw power value: rage is x10 (100 = 10 rage), energy and mana are not
++    2: [  # paladin (blood elves have no warrior here)
++        {"spell_id": 465, "every_ms": 3600000, "on_self": True},                    # Devotion Aura
++        {"spell_id": 19740, "every_ms": 600000, "min_power": 30, "on_self": True},  # Blessing of Might
++        {"spell_id": 21084, "every_ms": 1800000, "min_power": 30, "on_self": True}, # Seal of Righteousness
++        {"spell_id": 20271, "every_ms": 10000, "min_power": 30},                    # Judgement of Light
++    ],
++    4: [  # rogue
++        {"spell_id": 1752, "every_ms": 1000, "min_power": 45},                      # Sinister Strike
++        {"spell_id": 2098, "every_ms": 6000, "min_power": 35},                      # Eviscerate
++    ],
+ }
+ 
+ 
+@@ -73,6 +84,7 @@ class World:
+     """Everything the runner needs about the area, loaded once."""
+ 
+     def __init__(self, mapid, box, char):
++        self.map = mapid
+         x1, y1, x2, y2 = box
+         where = f"map={mapid} AND position_x BETWEEN {min(x1, x2)} AND {max(x1, x2)} AND position_y BETWEEN {min(y1, y2)} AND {max(y1, y2)}"
+         self.cspawn, self.gspawn = {}, {}
+@@ -768,6 +780,40 @@ class Runner:
+         self.refresh_abilities()
+         print(f"  abilities: {[a['spell_id'] for a in self.abilities]}", flush=True)
+ 
++    def spirit_rez(self):
++        """Resurrect at the nearest spirit healer (npcflag 0x4000; only a ghost sees one). Its spawn
++        comes from the DB - the graveyard we were released to - since the healer is often out of
++        sight once we have run back toward the corpse."""
++        me = self.me()
++        healers = [o for o in call("interact.find", type=3, radius=250, limit=60).get("objects", [])
++                   if o.get("npcFlags", 0) & 0x4000]
++        if not healers:
++            rows = sql("SELECT c.position_x x,c.position_y y,c.position_z z FROM creature c JOIN creature_template t "
++                       f"ON t.entry=c.id WHERE t.npcflag & 16384 AND c.map={self.w.map}")
++            spots = sorted(((float(r["x"]), float(r["y"]), float(r["z"])) for r in rows),
++                           key=lambda p: math.dist(p[:2], (me["x"], me["y"])))
++            if not spots:
++                print("    spirit rez: no spirit healer on this map", flush=True)
++                return False
++            sp = spots[0]
++            print(f"    spirit rez: walking to the spirit healer at ({sp[0]:.0f},{sp[1]:.0f}) "
++                  f"{math.dist(sp[:2], (me['x'], me['y'])):.0f} yd", flush=True)
++            try:
++                self.travel(*sp, within=6)
++            except StepFailed as e:
++                print(f"    spirit rez: {str(e)[:80]}", flush=True)
++            healers = [o for o in call("interact.find", type=3, radius=60, limit=60).get("objects", [])
++                       if o.get("npcFlags", 0) & 0x4000]
++        if not healers:
++            print("    spirit rez: no spirit healer in sight", flush=True)
++            return False
++        h = min(healers, key=lambda o: o.get("distance", 999))
++        if h.get("distance", 0) > 5:
++            call("move.to", x=h["x"], y=h.get("y", 0), z=h.get("z", 0), timeout_ms=15000)
++        r = call("interact.spirit_heal", guid=int(h["guid"]))
++        print(f"    spirit rez at {h.get('entry')}: {r.get('detail')}", flush=True)
++        return bool(r.get("ok"))
++
+     def safe(self):
+         """Revive if dead, fight back if attacked, rest if hurt."""
+         st = call("combat.state")
+@@ -776,14 +822,24 @@ class Runner:
+             print("  ! died - recovering", flush=True)
+             # revive returns at once while walking back or during the reclaim delay (which grows
+             # with repeated deaths) - keep at it on a clock, never carry on as a ghost
+-            t0, stage = time.time(), ""
++            t0, stage, rez_try = time.time(), "", 0.0
+             while time.time() - t0 < 600:
+-                r = call("combat.revive")
++                try:
++                    r = call("combat.revive")
++                except StepFailed as e:  # a walk still running ("already moving"): stop it, go on
++                    call("move.stop")
++                    r = {"stage": f"retry ({str(e)[:40]})"}
+                 if r.get("alive"):
+                     break
+                 if r.get("stage") != stage:
+                     stage = r.get("stage", "")
+                     print(f"    revive: {stage}", flush=True)
++                # the server ignores our reclaim (a corpse it will not hand back - seen after dying in
++                # the Footbomb Uniform): after 2.5 min give up on the body and take the spirit healer
++                if time.time() - t0 > 150 and time.time() - rez_try > 60:
++                    rez_try = time.time()
++                    if self.spirit_rez():
++                        break
+                 time.sleep(3)
+             else:
+                 raise SystemExit("RESULT: FAIL - still a ghost after 10 min of revive attempts")
+diff --git a/zeppelin/tests/supervise.sh b/zeppelin/tests/supervise.sh
+index c1b1c0f..1955393 100755
+--- a/zeppelin/tests/supervise.sh
++++ b/zeppelin/tests/supervise.sh
+@@ -2,23 +2,32 @@
+ # supervise.sh CHAR MAP X1 Y1 X2 Y2 MINUTES LOG - run start_area.py and survive worldserver restarts
+ # (other sessions reboot the shared worldserver before their tests): when the agent-wow session
+ # drops, wait for the server, log back in and resume. The runner rebuilds its state from the quest log.
++#
++# One instance per bot. Override for a fleet member (fleet.py sets these):
++#   AW_RUN   instance dir holding config.yaml + config/ (default: this script's dir)
++#   AW_BIN   agent-wow binary            AW_TESTS  dir with start_area.py + rpc.sh
++#   AGENT_WOW_RPC_PORT                   must match worldrpc.port in AW_RUN/config.yaml
+ CHAR=$1; MAP=$2; BOX="$3 $4 $5 $6"; MIN=$7; LOG=$8
+-RUN=$(cd "$(dirname "$0")" && pwd); TESTS="$RUN/../agent-wow/zeppelin/tests"
++HERE=$(cd "$(dirname "$0")" && pwd)
++RUN=${AW_RUN:-$HERE}
++TESTS=${AW_TESTS:-$RUN/../agent-wow/zeppelin/tests}
++BIN=${AW_BIN:-$RUN/../agent-wow/bin/agent-wow}
++RPC="$TESTS/rpc.sh"
++alive() { "$RPC" interact.self | grep -q '"guid"'; }
+ deadline=$(( $(date +%s) + MIN * 60 ))
+ for attempt in $(seq 1 12); do
+-  if ! "$RUN/rpc.sh" interact.self | grep -q '"guid"'; then
+-    pkill -f "agent-wow char play $CHAR" ; sleep 3
+-    (cd "$RUN" && exec setsid ../agent-wow/bin/agent-wow char play "$CHAR" < /dev/null > "$RUN/session-$CHAR.log" 2>&1 &)
+-    for i in $(seq 1 30); do sleep 5; "$RUN/rpc.sh" interact.self | grep -q '"guid"' && break; done
+-    echo "[SUPERVISOR] session $attempt up: $("$RUN/rpc.sh" interact.self | cut -c1-80)" >> "$LOG"
++  if ! alive; then
++    pkill -f "agent-wow char play $CHAR\$" ; sleep 3
++    (cd "$RUN" && exec setsid "$BIN" char play "$CHAR" < /dev/null > "$RUN/session-$CHAR.log" 2>&1 &)
++    for i in $(seq 1 30); do sleep 5; alive && break; done
++    echo "[SUPERVISOR] session $attempt up: $("$RPC" interact.self | cut -c1-80)" >> "$LOG"
+   fi
+   left=$(( (deadline - $(date +%s)) / 60 )); [ "$left" -le 0 ] && break
+   RUNLOG=$(mktemp)
+   (cd "$TESTS" && python3 -u start_area.py --char "$CHAR" --map "$MAP" --box $BOX --minutes "$left" 2>&1; echo "[SUPERVISOR] runner exit code $?") | tee -a "$LOG" > "$RUNLOG"
+-  # a real verdict from THIS run (not an old line further up the log) and no dropped connection in it
+   # a verdict only counts if the session survived the run: a worldserver restart mid-step surfaces as
+   # anything from "Connection refused" to "context canceled", so ask the session instead of the text
+-  if grep -q "^RESULT:" "$RUNLOG" && "$RUN/rpc.sh" interact.self | grep -q '"guid"'; then rm -f "$RUNLOG"; break; fi
++  if grep -q "^RESULT:" "$RUNLOG" && alive; then rm -f "$RUNLOG"; break; fi
+   rm -f "$RUNLOG"
+   echo "[SUPERVISOR] runner stopped without a result (server restart?) - reconnecting" >> "$LOG"
+   sleep 20
+-- 
+2.34.1
+
