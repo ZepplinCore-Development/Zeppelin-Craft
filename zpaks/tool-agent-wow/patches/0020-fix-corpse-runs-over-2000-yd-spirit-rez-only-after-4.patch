@@ -1,0 +1,87 @@
+From 031a0fe1f7e27d414d29f4398cf85927edf3bf07 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 08:35:12 +0000
+Subject: [PATCH] fix: corpse runs over 2000 yd, spirit rez only after 4 failed
+ reclaims; fleet status per character (F-219)
+
+- combat.revive's single path_to fails 'exceeds 2000 yd' when the graveyard is far from the
+  body (Camp Narache): remember where we fell and walk it with travel() (split route)
+- spirit healer only after 4 ignored reclaims (or 9 min without progress) - the 2.5 min timer
+  cut a normal corpse walk short and sent the bot 429 yd to a healer
+- fleet.py status reads only the current character's log lines
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/fleet.py      |  3 +++
+ zeppelin/tests/start_area.py | 30 ++++++++++++++++++++++--------
+ 2 files changed, 25 insertions(+), 8 deletions(-)
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index 7772199..e283a00 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -248,6 +248,9 @@ def cmd_status(names):
+         try:
+             with open(os.path.join(area_dir(name), "fleet.log")) as f:
+                 lines = [l.rstrip() for l in f if l.strip()]
++            # only this character's run: everything before its "new character" line is history
++            cut = max((i for i, l in enumerate(lines) if "new character" in l), default=-1)
++            lines = lines[cut + 1:]
+             last = lines[-1][:70] if lines else ""
+             verdict = next((l for l in reversed(lines) if "FLEET RESULT" in l or l.startswith("RESULT:")), "")
+         except OSError:
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 2eadf6b..5a40341 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -859,24 +859,38 @@ class Runner:
+             print("  ! died - recovering", flush=True)
+             # revive returns at once while walking back or during the reclaim delay (which grows
+             # with repeated deaths) - keep at it on a clock, never carry on as a ghost
+-            t0, stage, rez_try = time.time(), "", 0.0
++            # where we fell = where the corpse lies (asked before the release moves us to a graveyard)
++            corpse = None if st.get("ghost") else self.me()
++            t0, stage, failed_reclaims = time.time(), "", 0
+             while time.time() - t0 < 600:
+                 try:
+                     r = call("combat.revive")
+-                except StepFailed as e:  # a walk still running ("already moving"): stop it, go on
+-                    call("move.stop")
+-                    r = {"stage": f"retry ({str(e)[:40]})"}
++                except StepFailed as e:
++                    if "exceeds" in str(e) and corpse:
++                        # the graveyard is >2000 yd of route from the body: the module walks one path
++                        # only - our travel splits it (Camp Narache: died 730 yd out on the plains)
++                        print("    revive: long corpse run - walking it in legs", flush=True)
++                        try:
++                            self.travel(corpse["x"], corpse["y"], corpse.get("z", 0), within=15)
++                        except StepFailed:
++                            pass
++                        continue
++                    call("move.stop")  # a walk still running ("already moving"): stop it, go on
++                    r = {"stage": f"retry ({str(e)[:60]})"}
+                 if r.get("alive"):
+                     break
+                 if r.get("stage") != stage:
+                     stage = r.get("stage", "")
+                     print(f"    revive: {stage}", flush=True)
+-                # the server ignores our reclaim (a corpse it will not hand back - seen after dying in
+-                # the Footbomb Uniform): after 2.5 min give up on the body and take the spirit healer
+-                if time.time() - t0 > 150 and time.time() - rez_try > 60:
+-                    rez_try = time.time()
++                if r.get("stage", "").startswith("reclaim sent"):
++                    failed_reclaims += 1
++                # the server keeps ignoring our reclaim (a corpse it will not hand back - seen after
++                # dying in the Footbomb Uniform): after 4 failed reclaims - or 9 min of getting nowhere -
++                # give up on the body and take the spirit healer
++                if failed_reclaims >= 4 or time.time() - t0 > 540:
+                     if self.spirit_rez():
+                         break
++                    failed_reclaims = 0
+                 time.sleep(3)
+             else:
+                 raise SystemExit("RESULT: FAIL - still a ghost after 10 min of revive attempts")
+-- 
+2.34.1
+
