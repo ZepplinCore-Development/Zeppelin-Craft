@@ -1,0 +1,117 @@
+From 38d514ccb5460b0099782e6c1d0b716a11549c80 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 23:31:51 +0000
+Subject: [PATCH] feat: quest-hub sweep, easiest-first ordering, careful camp
+ clearing for kill targets (F-219)
+
+User direction: pick up everything a hub offers, work out from it by quest level (easiest first),
+and go into camps carefully until the target is reached.
+- before working objectives, accept every eligible quest whose giver stands within ~100 yd
+- active quests are ordered: objectives within 80 yd at most a level above us first ('while I'm
+  here' - Battleboars and Break Sharptusk! share the quilboar camp), then QuestLevel, then distance
+  to the nearest place an unfinished objective can be advanced
+- kill(): a target with mobs within 15 yd is in a camp - pull the outermost first from its outer
+  side, rest, repeat until the target is next (crates already used clear_camp)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 66 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 65 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 32ec32f..96c7356 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1039,6 +1039,34 @@ class Runner:
+               f"{r.get('reason', 'killed')}", flush=True)
+         return True
+ 
++    def giver_distance(self, qid, me):
++        """Distance to the nearest spawn of any of the quest's givers."""
++        best = 1e9
++        for kind, e in self.w.starters.get(qid, []):
++            p = self.w.nearest(kind, e, me, self.phase_mask())
++            if p:
++                best = min(best, math.dist(p[:2], (me["x"], me["y"])))
++        return best
++
++    def objective_distance(self, qid, entry_log, me):
++        """Distance to the nearest place an unfinished objective of the quest can be advanced: its kill/
++        use targets, and the creatures and objects that drop its required items."""
++        q, counts = self.w.quests[qid], entry_log.get("counts", [0, 0, 0, 0])
++        pts = []
++        for k in range(1, 5):
++            t, need = int(q[f"RequiredNpcOrGo{k}"]), int(q[f"RequiredNpcOrGoCount{k}"])
++            if t and counts[k - 1] < need:
++                pts += self.w.cspawn.get(t, []) if t > 0 else self.w.gspawn.get(-t, [])
++        inv = self.w.inventory or {}
++        for k in range(1, 7):
++            it, need = int(q[f"RequiredItemId{k}"]), int(q[f"RequiredItemCount{k}"])
++            if it and inv.get(it, 0) < need:
++                for c in self.w.creature_loot.get(it, ()):
++                    pts += self.w.cspawn.get(c, [])
++                for go, _ in self.w.go_loot.get(it, ()):
++                    pts += self.w.gspawn.get(go, [])
++        return min((math.dist(p[:2], (me["x"], me["y"])) for p in pts), default=1e9)
++
+     def kill(self, entry):
+         """Fight one creature of `entry`, choosing the most ISOLATED of the ones in reach rather than
+         the nearest: a fresh level-3 warrior in starting gear dies to a pack (Northshire's Defias
+@@ -1053,8 +1081,25 @@ class Runner:
+             return sum(1 for m in mobs if m is not t and
+                        math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 10)
+         t = min(cands, key=lambda o: (crowd(o), o.get("distance", 999)))
++        group = [m for m in mobs if math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 15]
++        if len(group) > 1:
++            # the target stands in a camp: clear it from the edge - outermost first, approached from
++            # its outer side - until the target is the next one out (a player would; the bot used to
++            # walk to the target and pull the whole camp)
++            cx = sum(m["x"] for m in group) / len(group)
++            cy = sum(m.get("y", 0) for m in group) / len(group)
++            out = max(group, key=lambda m: (round(math.dist((m["x"], m.get("y", 0)), (cx, cy)) / 4), -m.get("distance", 0)))
++            ux, uy = out["x"] - cx, out.get("y", 0) - cy
++            n = max(math.hypot(ux, uy), 0.01)
++            ax, ay = out["x"] + ux / n * 6, out.get("y", 0) + uy / n * 6
++            me = self.me()
++            if math.dist((me["x"], me["y"]), (ax, ay)) > 8:
++                self.travel(ax, ay, ground(ax, ay, out.get("z", 0)), within=4)
++            t = out
+         r = call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
+-        self.fight_log(entry, r)
++        self.fight_log(t["entry"], r)
++        if len(group) > 1:
++            call("combat.rest", until_pct=90)
+         return r
+ 
+     def fight_log(self, entry, r):
+@@ -2583,7 +2628,26 @@ class Runner:
+                     self.blocked.add(ready[0])
+                     self.refused.add(ready[0])
+                 continue
++            # quest hub: take every quest a giver within ~100 yd offers BEFORE walking out - one trip
++            # south for The Battleboars and Break Sharptusk!, not two, the way a player does it
++            self.w.inventory = self.inventory()
++            me = self.me()
++            near_avail = [q for q in sorted(self.w.starters) if q not in self.blocked and q not in log
++                          and self.w.eligible(q, level, log) and self.giver_distance(q, me) < 100]
++            if near_avail:
++                try:
++                    self.accept(near_avail[0])
++                except StepFailed as e:
++                    print(f"  ~ accept {near_avail[0]}: {e}", flush=True)
++                    self.blocked.add(near_avail[0])
++                continue
+             active = [q for q in log if q in self.w.quests and q not in self.blocked]
++            # easiest first, working out from the hub - but anything at or near our level whose
++            # objective is right here gets done while we are here
++            me = self.me()
++            dist = {q: self.objective_distance(q, log[q], me) for q in active}
++            active.sort(key=lambda q: (0 if dist[q] < 80 and int(self.w.quests[q].get("QuestLevel") or 0) <= level + 1 else 1,
++                                       int(self.w.quests[q].get("QuestLevel") or 0), dist[q]))
+             # a quest that killed us twice waits until we outlevel it (Brotherhood of Thieves: a
+             # level-3 warrior meets Defias Thugs two at a time) - a player would level first too
+             hard = [q for q in active if self.deaths_on.get(q, 0) >= 2
+-- 
+2.34.1
+
