@@ -1,12 +1,12 @@
 """F-216: creature_geoset_data that asks for geosets the shipped mesh does not have.
 
 creature_geoset_data holds one nibble per geoset group (nibble k = group k+1, value v = geoset
-(k+1)*100 + v; a lone 0 nibble: unproven). A pack's row that names a geoset its own mesh lacks
+(k+1)*100 + v; a 0 nibble leaves its group unfiltered - wendigo2's face, I-388). A pack's row that names a geoset its own mesh lacks
 draws NOTHING for that group: patch-hd-everything gives all 29 wendigo2 displays 801 (0x321),
 group 3 asks for 303, its mesh has only 301 - the brows and lip fur vanish, in the picker and in
 the real client alike (F-219 check, 2026-10-08). fixed() points such a nibble at the lowest
-variant the group really has (303 -> 301): explicit, so nothing rests on what a lone 0 nibble does
-inside non-zero data (unproven; ALL-zero data = no filtering, every geoset drawn - gnoll2melee
+variant the group really has (303 -> 301): explicit, so nothing rests on what a 0 nibble does
+to a multi-variant group (unproven; ALL-zero data = no filtering, every geoset drawn - gnoll2melee
 display 123 in the real client wears every variant, 2026-10-08).
 """
 import struct
