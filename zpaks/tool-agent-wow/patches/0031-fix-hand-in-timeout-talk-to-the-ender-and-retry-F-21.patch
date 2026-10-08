@@ -1,0 +1,34 @@
+From 2ce8e20a87892a43b0fef4b28f5126e57e60d9d1 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 13:21:46 +0000
+Subject: [PATCH] fix: hand-in timeout - talk to the ender and retry (F-219)
+
+Coldridge: The Troll Cave 182 turn-in timed out in two fleet runs (it went through on a later
+retry). Same remedy as the accept path: gossip hello, then COMPLETE_QUEST again.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index e13eeed..7566958 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1448,6 +1448,12 @@ class Runner:
+                 continue
+         try:
+             r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
++            if not r.get("ok") and "timeout" in r.get("detail", ""):
++                # like a cold accept, a cold hand-in can go unanswered (The Troll Cave 182, twice):
++                # open the ender's dialogue first, as a player does, and try again
++                call("interact.gossip_hello", entry=entry)
++                time.sleep(0.5)
++                r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
+         except StepFailed as e:
+             r = {"detail": str(e)[:120]}
+         title = self.w.quests[qid]["LogTitle"]
+-- 
+2.34.1
+
