@@ -1,0 +1,89 @@
+From 6dba3dc0aff6b7fdb0ad268a448c53181823cfe6 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 16:07:48 +0000
+Subject: [PATCH] fix: grinding relaxes instead of giving up (F-219)
+
+Camp Narache ended INCOMPLETE: both remaining quests were parked by the level gate and, after a
+grind death, nothing at level-1 stood within 400 yd, so grind() returned False and the run idled
+out. walk_to_grind() now steps down: our cap within 400 yd, then our cap anywhere in the area,
+then our own level anywhere - and is also used when mobs are in sight but none is easy enough.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 43 ++++++++++++++++++++++--------------
+ 1 file changed, 26 insertions(+), 17 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 6dc20e2..a8c0c20 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -888,6 +888,29 @@ class Runner:
+                 return True
+         return False
+ 
++    def walk_to_grind(self, level, cap):
++        """Nothing easy in sight: walk to the best spawn of a quest-target creature we can farm. Relax
++        step by step rather than give up (Camp Narache ended INCOMPLETE: after a grind death the level-2
++        cap left nothing within 400 yd): cap within 400 yd, then cap anywhere in the area, then our own
++        level anywhere."""
++        if not self.w.objective_creatures:
++            return False
++        me = self.me()
++        lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
++            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(self.w.objective_creatures)}) "
++            "AND (flags_extra & 64)=0")}
++        lv = {e: m for e, m in lv.items() if e not in self.grind_skip}
++        for top, reach in ((cap, 400), (cap, 1e9), (level, 1e9)):
++            # the toughest allowed mob pays the most XP (Deathknell: level-1 zombies gave a level-4
++            # almost nothing while level-3/4 spiders stood nearby)
++            spots = sorted(((-lv[e], math.dist(p[:2], (me["x"], me["y"])), p) for e in lv if lv[e] <= top
++                            for p in self.w.cspawn.get(e, []) if p not in self.w.beyond
++                            and math.dist(p[:2], (me["x"], me["y"])) < reach), key=lambda t: t[:2])
++            if spots:
++                self.travel(*spots[0][2], within=15)
++                return True
++        return False
++
+     def grind(self, level):
+         """Kill one easy mob for XP: the nearest isolated non-NPC creature whose level is at most ours
+         (template minlevel), within 80 yd. Used while the quests left are too hard for our level."""
+@@ -896,32 +919,18 @@ class Runner:
+         # never a guard or a critter, nor a friendly objective (Draenei Survivors 16483 are HEALED for
+         # Rescue the Survivors - the bot "ground" them 26 times for no damage)
+         ents = ({o["entry"] for o in mobs} & self.w.objective_creatures) - self.grind_skip
++        cap = level - 1 if self.grind_deaths else level
+         if not ents:
+-            # nothing easy in sight: walk to the nearest spawn of a quest target at or below our level
+-            cands = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+-                f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(self.w.objective_creatures)}) "
+-                f"AND minlevel <= {level}")} if self.w.objective_creatures else {}
+-            me = self.me()
+-            # the toughest easy mob pays the most XP (Deathknell: level-1 zombies gave a level-4 almost
+-            # nothing while level-3/4 spiders and Scarlet converts stood nearby)
+-            spots = sorted(((-cands[e], math.dist(p[:2], (me["x"], me["y"])), e, p) for e in cands
+-                            for p in self.w.cspawn.get(e, []) if p not in self.w.beyond
+-                            and math.dist(p[:2], (me["x"], me["y"])) < 400), key=lambda t: t[:2])
+-            if not spots:
+-                return False
+-            _, _, e, p = spots[0]
+-            self.travel(*p, within=15)
+-            return True
++            return self.walk_to_grind(level, cap)
+         # no XP to be had from a training dummy (Kezan 48304, the Charge quest's target: 25 pulls that
+         # never ended) - CREATURE_FLAG_EXTRA_NO_XP 0x40 marks those
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+             f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)}) AND (flags_extra & 64)=0")}
+         # an even fight is a coin flip in starting gear (three grind deaths at level == level in one
+         # fleet run): once a grind pull has killed us, only take mobs a level below us
+-        cap = level - 1 if self.grind_deaths else level
+         easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= cap]
+         if not easy:
+-            return False
++            return self.walk_to_grind(level, cap)
+ 
+         def crowd(t):
+             return sum(1 for m in mobs if m is not t and math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 10)
+-- 
+2.34.1
+
