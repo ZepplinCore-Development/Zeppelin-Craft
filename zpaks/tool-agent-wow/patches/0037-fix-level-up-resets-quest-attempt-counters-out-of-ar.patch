@@ -1,0 +1,57 @@
+From 366b3e722216d3930721f65141f018d0c280e835 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 17:50:46 +0000
+Subject: [PATCH] fix: level-up resets quest attempt counters; out-of-area
+ prerequisites leave the verdict (F-219)
+
+Deathknell ended INCOMPLETE at level 5:
+- Rattling the Rattlecages 3901 hit the 25-attempt cutoff before the level gate parked it, and
+  was skipped for good once the bot outlevelled it. A level-up now clears the counters.
+- A Rogue's Deal 590 needs quest 8 (Elwynn); a start-area run can never meet that. Quests whose
+  PrevQuestID is outside the area are listed as 'prerequisite outside this area' and no longer
+  count against the verdict.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index c942716..bece648 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2455,6 +2455,12 @@ class Runner:
+             self.safe()
+             log = self.log()
+             level = call("interact.self").get("level", 1)
++            if level > getattr(self, "_last_level", level):
++                # a level-up changes what is doable: give every quest a fresh set of attempts (Rattling
++                # the Rattlecages hit the 25-attempt cutoff while parked by the level gate, and was never
++                # tried again once we outlevelled it)
++                self.stuck = {k: v for k, v in self.stuck.items() if not isinstance(k, int)}
++            self._last_level = level
+             try:
+                 self.train(level)
+             except StepFailed as e:  # trainer out of reach: train later
+@@ -2575,10 +2581,17 @@ def main():
+     w.inventory = r.inventory()
+     gated = [q for q in todo if q in w.cond19 and not w.groups_true(w.cond19[q], log)]
+     todo = [q for q in todo if q not in gated]
++    # a prerequisite from another zone (A Rogue's Deal 590 needs 8, an Elwynn quest) can never be met
++    # by a start-area run - list it, keep it out of the verdict
++    elsewhere = [q for q in todo if q not in log and 0 < int(w.quests[q]["PrevQuestID"]) not in w.quests
++                 and int(w.quests[q]["PrevQuestID"]) not in w.rewarded]
++    todo = [q for q in todo if q not in elsewhere]
+     print(f"\nSUMMARY: {len(w.rewarded)} quests rewarded, level {level}, {r.kills} kills, {r.deaths} deaths, {secs / 60:.1f} min, "
+           f"trained {len(r.learned)} spell(s)")
+     if todo:
+         print("left:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(todo)))
++    if elsewhere:
++        print("prerequisite outside this area:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(elsewhere)))
+     if gated:
+         print("gated by conditions:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(gated)))
+     if r.refused:
+-- 
+2.34.1
+
