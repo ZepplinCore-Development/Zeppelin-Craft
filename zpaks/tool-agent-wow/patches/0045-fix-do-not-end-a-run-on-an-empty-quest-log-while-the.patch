@@ -1,0 +1,51 @@
+From 597bc491798b049c3cb21c1c960a661029cab8ce Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 8 Oct 2026 22:00:14 +0000
+Subject: [PATCH] fix: do not end a run on an empty quest log while the DB has
+ quests open (F-219)
+
+Sunstrider ended INCOMPLETE after 4.7 min with Reclaiming Sunstrider Isle 8325 still in progress
+(a hand-run objective_step on the same session then killed three Mana Wyrms in a row): the run
+stops after three idle passes when the session's quest log shows nothing active. Before ending,
+check character_queststatus for open area quests and keep going (up to 20 x 15 s).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 47c9cbb..5fb17b7 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -835,6 +835,7 @@ class Runner:
+         self.grind_slow = {}     # entry -> grind pulls that ran out of time without a kill
+         self.grind_deaths = 0    # grind pulls that killed us
+         self.grind_nodmg = {}    # entry -> grind pulls that did no damage
++        self.idle_rechecks = 0   # times the end of the run was deferred by open quests in the DB
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -2632,6 +2633,18 @@ class Runner:
+                 time.sleep(10)
+                 continue
+             if idle > 2:
++                # the session's quest log can come back empty for a moment (Sunstrider ended after 4.7
++                # min with Reclaiming Sunstrider Isle still in progress; a hand-run step then killed
++                # three wyrms in a row) - ask the character DB before calling it a day
++                open_q = [int(r["quest"]) for r in sql(
++                    f"SELECT quest FROM character_queststatus WHERE guid={self.w.guid} AND status=3", "characters")
++                    if int(r["quest"]) in self.w.quests]
++                if open_q and self.idle_rechecks < 20:
++                    self.idle_rechecks += 1
++                    print(f"  quest log empty but {open_q} still open in the DB - waiting", flush=True)
++                    time.sleep(15)
++                    idle = 0
++                    continue
+                 break
+         return time.time() - t0
+ 
+-- 
+2.34.1
+
