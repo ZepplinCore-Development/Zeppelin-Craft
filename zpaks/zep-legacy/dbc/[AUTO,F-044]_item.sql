@@ -6485,6 +6485,8 @@ INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `mater
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (84511, 15, 0, -1, 3, 26571, 0, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (84512, 15, 0, -1, 3, 20611, 0, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (84513, 15, 0, -1, 3, 34578, 0, 0);
+INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (84519, 12, 0, -1, 1, 7064, 0, 0);
+INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (84520, 15, 0, -1, -1, 28840, 0, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (85000, 4, 1, -1, 7, 31263, 1, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (85001, 4, 1, -1, 7, 29797, 7, 0);
 INSERT INTO `item` (`id`, `class`, `subclass`, `sound_override_subclass`, `material`, `display_id`, `inventory_type`, `sheath`) VALUES (85002, 4, 1, -1, 7, 29799, 8, 0);
