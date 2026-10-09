@@ -1,0 +1,53 @@
+From 6baecf55665ee5ad563454a99fb6b7b292dcab12 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 01:04:52 +0000
+Subject: [PATCH] fix: a trainer over 250 yd away waits until we are 3 levels
+ behind (F-219)
+
+Shadowglen: 8 of 10 deaths happened walking to the generic Warrior Trainer 26332 470-550 yd away
+(the in-tree spawn is never found), once per level-up. Far trainer visits now wait until three
+levels of training have piled up.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 3811540..a0cea79 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -837,6 +837,7 @@ class Runner:
+         self.grind_nodmg = {}    # entry -> grind pulls that did no damage
+         self.idle_rechecks = 0   # times the end of the run was deferred by open quests in the DB
+         self.reviving = False    # inside the revive loop: travel() must not call safe() (nested revive)
++        self.visited_trainer_level = 1  # level of the last trainer visit (far trainers wait 3 levels)
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -858,7 +859,6 @@ class Runner:
+         """Visit the class trainer after every level-up (and once at the start)."""
+         if level <= self.trained_level:
+             return
+-        self.trained_level = level
+         if self.w.trainers:
+             # a trainer whose spawn is in our phase (the Lost Isles move him per phase; the first
+             # row's copy may be invisible from here - a 1600 yd walk for nothing)
+@@ -866,6 +866,13 @@ class Runner:
+             near = [(math.dist(p[:2], (me["x"], me["y"])), tr) for tr in self.w.trainers
+                     for p in [self.w.nearest("c", tr, me, mask)] if p]
+             t = min(near)[1] if near else self.w.trainers[0]
++            # a long walk at every level-up kills fresh characters (Shadowglen: 8 of 10 deaths on the
++            # way to a trainer 470-550 yd off) - a far trainer waits until we are 3 levels behind
++            if near and min(near)[0] > 250 and level - self.visited_trainer_level < 3:
++                return
++            self.visited_trainer_level = level
++        self.trained_level = level
++        if self.w.trainers:
+             known = set(call("interact.spells").get("spells", [])) | self.untrainable
+             money = call("interact.self").get("money", 0)
+             todo = [x["spell"] for x in self.w.trainer_spells.get(t, [])
+-- 
+2.34.1
+

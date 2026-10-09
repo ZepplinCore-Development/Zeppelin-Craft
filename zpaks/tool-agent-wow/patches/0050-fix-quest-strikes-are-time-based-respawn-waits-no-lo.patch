@@ -1,0 +1,45 @@
+From 91a9f416293f44c9cc907e013642b04826bff212 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 01:58:35 +0000
+Subject: [PATCH] fix: quest strikes are time-based - respawn waits no longer
+ write a quest off (F-219)
+
+Deathknell: Rattling the Rattlecages 3901 was written off (25 strikes) while its skeletons
+respawned after the bot cleared them; a hand-run step afterwards killed one in 6 swings. A quest
+now gets at most one strike per 20 s, so the cutoff means 8+ minutes of real trying.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index a0cea79..baf4bdf 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -838,6 +838,7 @@ class Runner:
+         self.idle_rechecks = 0   # times the end of the run was deferred by open quests in the DB
+         self.reviving = False    # inside the revive loop: travel() must not call safe() (nested revive)
+         self.visited_trainer_level = 1  # level of the last trainer visit (far trainers wait 3 levels)
++        self.stuck_t = {}        # quest -> time of its last stuck strike
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -2689,7 +2690,12 @@ class Runner:
+                     at = next((f.lineno for f in reversed(traceback.extract_tb(e.__traceback__))
+                                if f.filename.endswith("start_area.py")), 0)
+                     print(f"  ~ {qid}: {e} (line {at})", flush=True)
+-                self.stuck[qid] = n + 1
++                # count at most one strike per 20 s: an empty camp waiting to respawn (Deathknell's
++                # Rattlecage Skeletons after the bot cleared them) burned all 25 strikes in a minute
++                # and the quest was written off while the skeletons came back
++                if time.time() - self.stuck_t.get(qid, 0) >= 20:
++                    self.stuck[qid] = n + 1
++                    self.stuck_t[qid] = time.time()
+             if progressed:
+                 idle = 0
+                 continue
+-- 
+2.34.1
+
