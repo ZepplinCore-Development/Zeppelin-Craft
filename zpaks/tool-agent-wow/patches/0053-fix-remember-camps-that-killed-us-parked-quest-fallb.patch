@@ -1,0 +1,86 @@
+From 1239007ee79b8ecde129615a88009dd3e9daba56 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 05:05:36 +0000
+Subject: [PATCH] fix: remember camps that killed us; parked-quest fallback
+ waits out 15 min after a death (F-219)
+
+Coldridge replay: 15 deaths at one Frostmane troll camp (A Refugee's Quandary crates) - level-3
+whelps converge on the level-4 bot before it swings, and the 'nothing to grind, try the parked
+quests anyway' fallback sent it straight back each time.
+- clear_camp counts deaths per camp (20 yd cell); after two, the camp waits until we are 2 levels
+  above its toughest mob (quest parked)
+- the parked-quest fallback skips quests that killed us in the last 15 min, and waits instead of
+  idling the run out when all of them have
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 33657c8..edf205f 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -839,6 +839,8 @@ class Runner:
+         self.reviving = False    # inside the revive loop: travel() must not call safe() (nested revive)
+         self.visited_trainer_level = 1  # level of the last trainer visit (far trainers wait 3 levels)
+         self.stuck_t = {}        # quest -> time of its last stuck strike
++        self.camp_deaths = {}    # camp (20 yd cell) -> deaths there
++        self.last_death_on = {}  # quest -> time it last killed us
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
+@@ -976,6 +978,16 @@ class Runner:
+         if not mobs:
+             return False
+         # level+1 still lost 1v1 (a level-3 draenei vs a lone Mutated Owlkin 16537): only even or lower
++        key = (round(spot[0] / 20), round(spot[1] / 20))
++        top = max(info.get(o["entry"], (99, 0))[0] for o in mobs)
++        # a camp that already killed us twice waits until we are 2 levels above its mobs (Coldridge:
++        # 15 deaths at one Frostmane camp - level-3 whelps converge on a level-4 bot before it swings)
++        if self.camp_deaths.get(key, 0) >= 2 and level < top + 2:
++            q = getattr(self, "current_qid", None)
++            if q:
++                self.deaths_on[q] = max(self.deaths_on.get(q, 0), 2)
++            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) killed us {self.camp_deaths[key]}x - later", flush=True)
++            return True
+         if any(info.get(o["entry"], (99, 0))[0] > level for o in mobs):
+             # a guard 2+ levels above us (Ammen Vale: a level-2 draenei died to a Mutated Root Lasher
+             # clearing the last mob) - not a fight to take yet: park the quest until we outlevel it
+@@ -996,6 +1008,8 @@ class Runner:
+         self.kills += r.get("killed", False)
+         if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
+             self.grind_skip.add(t["entry"])  # not hostile after all
++        if "died" in r.get("reason", ""):
++            self.camp_deaths[key] = self.camp_deaths.get(key, 0) + 1
+         print(f"  clear camp at ({spot[0]:.0f},{spot[1]:.0f}): {t['entry']} - {r.get('reason', 'killed')} "
+               f"({len(mobs) - 1} left)", flush=True)
+         call("combat.rest", until_pct=90)
+@@ -1190,6 +1204,7 @@ class Runner:
+             # no kill target). A wrongly parked quest only waits until we outlevel it.
+             if q:
+                 self.deaths_on[q] = self.deaths_on.get(q, 0) + 1
++                self.last_death_on[q] = time.time()
+             print("  ! died - recovering", flush=True)
+             # revive returns at once while walking back or during the reclaim delay (which grows
+             # with repeated deaths) - keep at it on a clock, never carry on as a ghost
+@@ -2741,7 +2756,14 @@ class Runner:
+             if hard:
+                 # nothing left to grind either (Ammen Vale: its one grind target was skipped after a
+                 # single "no damage" pull) - try the parked quests rather than end the run with them
+-                for qid in hard:
++                ready_hard = [q for q in hard if time.time() - self.last_death_on.get(q, 0) > 900]
++                if not ready_hard:
++                    # every parked quest killed us within 15 min: let the camp (and us) settle - wait,
++                    # do not let this count toward ending the run
++                    time.sleep(30)
++                    idle = 0
++                    continue
++                for qid in ready_hard:
+                     try:
+                         self.current_qid = qid
+                         if self.objective_step(qid, log[qid]):
+-- 
+2.34.1
+
