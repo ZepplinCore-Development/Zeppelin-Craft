@@ -1,0 +1,135 @@
+From a65e7dc02a072489b82ed31900f05b6da358bd1d Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 21:11:17 +0000
+Subject: [PATCH] fix: quiet spirit healer, threats beyond the area box, skip
+ absent trainers (F-219)
+
+- spirit rez picks the nearest healer with no mob 2+ levels above us within 60 yd (Mulgore's
+  (-2727,-1115) healer sits among level-7 harpies: 62 deaths rezzing into them)
+- camp threats load from the DB over the box + 500 yd (objectives and corpse runs leave the box)
+- a trainer not at his spawn is remembered and the next nearest is used (generic 26332/26327
+  made Narache/Northshire/Sunstrider skip every level's training)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 61 +++++++++++++++++++++++++-----------
+ 1 file changed, 43 insertions(+), 18 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 2eb8c16..80d2427 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -106,7 +106,7 @@ class World:
+     """Everything the runner needs about the area, loaded once."""
+ 
+     def __init__(self, mapid, box, char):
+-        self.map = mapid
++        self.map, self.box = mapid, box
+         x1, y1, x2, y2 = box
+         where = f"map={mapid} AND position_x BETWEEN {min(x1, x2)} AND {max(x1, x2)} AND position_y BETWEEN {min(y1, y2)} AND {max(y1, y2)}"
+         self.cspawn, self.gspawn = {}, {}
+@@ -1030,7 +1030,10 @@ class Runner:
+             # a trainer whose spawn is in our phase (the Lost Isles move him per phase; the first
+             # row's copy may be invisible from here - a 1600 yd walk for nothing)
+             me, mask = self.me(), self.phase_mask()
+-            near = [(math.dist(p[:2], (me["x"], me["y"])), tr) for tr in self.w.trainers
++            # ...and never one that was not at his spawn (Narache: generic Warrior Trainer 26332 has
++            # the nearest spawn but is never there - every level was "skipped", never trained)
++            absent = self.__dict__.setdefault("absent_trainers", set())
++            near = [(math.dist(p[:2], (me["x"], me["y"])), tr) for tr in self.w.trainers if tr not in absent
+                     for p in [self.w.nearest("c", tr, me, mask)] if p]
+             t = min(near)[1] if near else self.w.trainers[0]
+             # a long walk at every level-up kills fresh characters (Shadowglen: 8 of 10 deaths on the
+@@ -1048,7 +1051,11 @@ class Runner:
+             if not todo:
+                 print(f"[TRAIN] level {level}: nothing new at trainer {t} - not visiting", flush=True)
+             elif not self.reach_trainer(t):
+-                print(f"[TRAIN] level {level}: trainer {t} not found at his spawn - skipped", flush=True)
++                print(f"[TRAIN] level {level}: trainer {t} not found at his spawn - trying another", flush=True)
++                self.absent_trainers.add(t)
++                if len(self.absent_trainers) < len(self.w.trainers):
++                    self.trained_level = level - 1
++                    return self.train(level)
+             else:
+                 r = call("interact.trainer_learn_all", entry=t)
+                 self.learned += r.get("learned", [])
+@@ -1332,23 +1339,36 @@ class Runner:
+         comes from the DB - the graveyard we were released to - since the healer is often out of
+         sight once we have run back toward the corpse."""
+         me = self.me()
++        level = call("interact.self").get("level", 1)
++        rows = sql("SELECT c.position_x x,c.position_y y,c.position_z z FROM creature c JOIN creature_template t "
++                   f"ON t.entry=c.id WHERE t.npcflag & 16384 AND c.map={self.w.map}")
++        spots = sorted(((float(r["x"]), float(r["y"]), float(r["z"])) for r in rows),
++                       key=lambda p: math.dist(p[:2], (me["x"], me["y"])))
++
++        def unsafe(p):  # mobs 2+ levels above us within 60 yd: they jump us as we rise (Narache: 60
++            return any(t[2] >= level + 2 and math.dist(t[:2], p[:2]) < 60 for t in self.threats())  # deaths)
++        # the nearest healer, unless mobs above our level stand around it - then the nearest quiet one
++        # (a ghost walks there unseen; Mulgore's (-2727,-1115) healer sits among level-7 harpies)
++        safe_spots = [p for p in spots if not unsafe(p) and math.dist(p[:2], (me["x"], me["y"])) < 2500]
++        pick = safe_spots[0] if safe_spots else (spots[0] if spots else None)
+         healers = [o for o in call("interact.find", type=3, radius=250, limit=60).get("objects", [])
+-                   if o.get("npcFlags", 0) & 0x4000]
++                   if o.get("npcFlags", 0) & 0x4000 and (not pick or math.dist((o["x"], o.get("y", 0)), pick[:2]) < 30)]
+         if not healers:
+-            rows = sql("SELECT c.position_x x,c.position_y y,c.position_z z FROM creature c JOIN creature_template t "
+-                       f"ON t.entry=c.id WHERE t.npcflag & 16384 AND c.map={self.w.map}")
+-            spots = sorted(((float(r["x"]), float(r["y"]), float(r["z"])) for r in rows),
+-                           key=lambda p: math.dist(p[:2], (me["x"], me["y"])))
+-            if not spots:
++            if not pick:
+                 print("    spirit rez: no spirit healer on this map", flush=True)
+                 return False
+-            sp = spots[0]
++            sp = pick
++            if spots and sp != spots[0]:
++                print(f"    spirit rez: healer at ({spots[0][0]:.0f},{spots[0][1]:.0f}) is guarded - using a quiet one", flush=True)
+             print(f"    spirit rez: walking to the spirit healer at ({sp[0]:.0f},{sp[1]:.0f}) "
+                   f"{math.dist(sp[:2], (me['x'], me['y'])):.0f} yd", flush=True)
++            was, self.reviving = self.reviving, True  # a ghost: no detours, no fighting on the way
+             try:
+                 self.travel(*sp, within=6)
+             except StepFailed as e:
+                 print(f"    spirit rez: {str(e)[:80]}", flush=True)
++            finally:
++                self.reviving = was
+             healers = [o for o in call("interact.find", type=3, radius=60, limit=60).get("objects", [])
+                        if o.get("npcFlags", 0) & 0x4000]
+         if not healers:
+@@ -1452,18 +1472,23 @@ class Runner:
+             self.rest(90)
+ 
+     def threats(self):
+-        """Spawn points of creatures that attack us on sight: [(x, y, level, entry)]. One batch query
+-        (hostile() asks per entry - hundreds of entries here)."""
++        """Spawn points of creatures that attack us on sight: [(x, y, level, entry)], over the area
++        box plus 500 yd - objectives and corpse runs leave the box, and a threat list limited to it
++        walked a level-3 tauren into Windfury Ridge's level-7 harpies (62 deaths). One batch query
++        (hostile() asks per entry)."""
+         if getattr(self, "_threats", None) is None:
+             side = 2 if self.w.race in (1, 3, 4, 7, 11, 12) else 4
+-            rows = sql(f"SELECT entry,faction,minlevel,type,npcflag FROM creature_template WHERE entry IN ({inlist(self.w.cspawn)})")
+-            facs = inlist({int(r["faction"]) for r in rows})
++            x1, y1, x2, y2 = self.w.box
++            m = 500
++            rows = sql("SELECT c.id e,c.position_x x,c.position_y y,t.faction f,t.minlevel l FROM creature c "
++                       "JOIN creature_template t ON t.entry=c.id WHERE t.type<>8 AND t.npcflag=0 AND "
++                       f"c.map={self.w.map} AND c.position_x BETWEEN {min(x1, x2) - m} AND {max(x1, x2) + m} "
++                       f"AND c.position_y BETWEEN {min(y1, y2) - m} AND {max(y1, y2) + m}")
++            facs = inlist({int(r["f"]) for r in rows})
+             enemy = {int(r["id"]) for r in dbc(f"SELECT id,enemy_group e FROM factiontemplate WHERE id IN ({facs})")
+                      if int(r["e"]) & (1 | side)}
+-            lvl = {int(r["entry"]): int(r["minlevel"]) for r in rows
+-                   if int(r["faction"]) in enemy and int(r["type"]) != 8 and int(r["npcflag"]) == 0}
+-            self._threats = [(p[0], p[1], lvl[e], e) for e, pts in self.w.cspawn.items() if e in lvl
+-                             for p in pts if p not in self.w.beyond]
++            self._threats = [(float(r["x"]), float(r["y"]), int(r["l"]), int(r["e"])) for r in rows
++                             if int(r["f"]) in enemy]
+         return self._threats
+ 
+     def detour(self, x, y, z):
+-- 
+2.34.1
+
