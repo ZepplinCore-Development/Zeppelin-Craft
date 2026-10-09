@@ -1,0 +1,1593 @@
+From 40cda8f3e9c1a08a578dc7723e75e92ab79947d3 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 13:20:55 +0000
+Subject: [PATCH] feat: bot combat kit + safer travel - per-target Rend, AoE
+ gate, potions, food, ranged pull, camp detours, stop-and-fight (F-219)
+
+- combat.kill: peak_attackers + pull result per fight; abilities gain per_target (Rend on
+  every attacker), min_attackers (Thunder Clap only on packs), item_id (potions); pull_spell
+  opens from range and waits for the target to walk out of its camp
+- combat.rest eats food first when low; interact gains set_ammo + equipped slots in inventory
+- move.path_to stop_on_attack (move now hears SMSG_ATTACKSTART/ATTACKERSTATEUPDATE); zepnav
+  queries time out after 15 s and restart the helper instead of hanging the module
+- runner: travel skirts hostile camps (aggro radius by level, each camp once per trip) and
+  stops to fight anything that engages; supplies() buys ranged weapon/ammo/food the class can
+  use from area vendors; every fight logged pull/defend xN; paladin Holy Light below 40 %
+- rpc: a stalled call fails the step instead of crashing the runner
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/api/combat.pb.go      | 117 ++++++-
+ zeppelin/modules/combat/combat.proto          |  11 +
+ zeppelin/modules/combat/main.go               | 150 ++++++++-
+ zeppelin/modules/interact/api/interact.pb.go  | 151 ++++-----
+ .../modules/interact/api/interact_grpc.pb.go  |  38 +++
+ zeppelin/modules/interact/interact.proto      |   6 +-
+ zeppelin/modules/interact/main.go             |  11 +
+ zeppelin/modules/interact/module.yaml         |   1 +
+ zeppelin/modules/move/api/move.pb.go          |  19 +-
+ zeppelin/modules/move/main.go                 |  65 +++-
+ zeppelin/modules/move/module.yaml             |   2 +
+ zeppelin/modules/move/move.proto              |   1 +
+ zeppelin/tests/rpc.py                         |   9 +-
+ zeppelin/tests/start_area.py                  | 291 ++++++++++++++++--
+ zeppelin/wow/objects.go                       |  24 ++
+ 15 files changed, 776 insertions(+), 120 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index a79dd00..fdbe071 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -31,6 +31,9 @@ type Ability struct {
+ 	MinPower       uint32                 `protobuf:"varint,3,opt,name=min_power,json=minPower,proto3" json:"min_power,omitempty"`                     // rage/mana/energy needed (skip below)
+ 	OnSelf         bool                   `protobuf:"varint,4,opt,name=on_self,json=onSelf,proto3" json:"on_self,omitempty"`                           // self-cast (shouts, buffs) instead of on the target
+ 	BelowHealthPct uint32                 `protobuf:"varint,5,opt,name=below_health_pct,json=belowHealthPct,proto3" json:"below_health_pct,omitempty"` // 0 = always; else only while our health is below this %
++	PerTarget      bool                   `protobuf:"varint,6,opt,name=per_target,json=perTarget,proto3" json:"per_target,omitempty"`                  // DoTs (Rend): cast on EVERY live attacker in melee reach, each on its own timer
++	MinAttackers   uint32                 `protobuf:"varint,7,opt,name=min_attackers,json=minAttackers,proto3" json:"min_attackers,omitempty"`         // only while at least this many units attack us (Thunder Clap); 0 = always
++	ItemId         uint32                 `protobuf:"varint,8,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`                           // use this bag item instead (potions); spell_id is then its on-use spell
+ 	unknownFields  protoimpl.UnknownFields
+ 	sizeCache      protoimpl.SizeCache
+ }
+@@ -100,6 +103,27 @@ func (x *Ability) GetBelowHealthPct() uint32 {
+ 	return 0
+ }
+ 
++func (x *Ability) GetPerTarget() bool {
++	if x != nil {
++		return x.PerTarget
++	}
++	return false
++}
++
++func (x *Ability) GetMinAttackers() uint32 {
++	if x != nil {
++		return x.MinAttackers
++	}
++	return 0
++}
++
++func (x *Ability) GetItemId() uint32 {
++	if x != nil {
++		return x.ItemId
++	}
++	return 0
++}
++
+ type KillRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Guid          uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+@@ -108,6 +132,8 @@ type KillRequest struct {
+ 	Loot          bool                   `protobuf:"varint,4,opt,name=loot,proto3" json:"loot,omitempty"`                                // loot the corpse when it dies
+ 	BudgetMs      uint32                 `protobuf:"varint,5,opt,name=budget_ms,json=budgetMs,proto3" json:"budget_ms,omitempty"`        // 0 = 25 s (agent-wow caps a call at 30 s); call again while "budget"
+ 	ChaseLimit    float32                `protobuf:"fixed32,6,opt,name=chase_limit,json=chaseLimit,proto3" json:"chase_limit,omitempty"` // give up if the target gets further than this (yd); 0 = 60
++	PullSpell     uint32                 `protobuf:"varint,7,opt,name=pull_spell,json=pullSpell,proto3" json:"pull_spell,omitempty"`     // opener from range (Shoot/Throw): cast it, stand, let the target come to us
++	PullRange     float32                `protobuf:"fixed32,8,opt,name=pull_range,json=pullRange,proto3" json:"pull_range,omitempty"`    // cast the opener from this far; 0 = 25
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -184,6 +210,20 @@ func (x *KillRequest) GetChaseLimit() float32 {
+ 	return 0
+ }
+ 
++func (x *KillRequest) GetPullSpell() uint32 {
++	if x != nil {
++		return x.PullSpell
++	}
++	return 0
++}
++
++func (x *KillRequest) GetPullRange() float32 {
++	if x != nil {
++		return x.PullRange
++	}
++	return 0
++}
++
+ type LootItem struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	ItemId        uint32                 `protobuf:"varint,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+@@ -250,6 +290,8 @@ type KillResult struct {
+ 	DamageTaken   uint32                 `protobuf:"varint,10,opt,name=damage_taken,json=damageTaken,proto3" json:"damage_taken,omitempty"`
+ 	Loot          []*LootItem            `protobuf:"bytes,11,rep,name=loot,proto3" json:"loot,omitempty"`
+ 	Casts         uint32                 `protobuf:"varint,12,opt,name=casts,proto3" json:"casts,omitempty"`
++	PeakAttackers uint32                 `protobuf:"varint,13,opt,name=peak_attackers,json=peakAttackers,proto3" json:"peak_attackers,omitempty"` // most units attacking us at once during the fight (1 = a single pull)
++	Pull          string                 `protobuf:"bytes,14,opt,name=pull,proto3" json:"pull,omitempty"`                                         // "" no opener, "pulled", "came" (target walked in), "failed N" (cast result)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -368,10 +410,27 @@ func (x *KillResult) GetCasts() uint32 {
+ 	return 0
+ }
+ 
++func (x *KillResult) GetPeakAttackers() uint32 {
++	if x != nil {
++		return x.PeakAttackers
++	}
++	return 0
++}
++
++func (x *KillResult) GetPull() string {
++	if x != nil {
++		return x.Pull
++	}
++	return ""
++}
++
+ type RestRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	UntilPct      uint32                 `protobuf:"varint,1,opt,name=until_pct,json=untilPct,proto3" json:"until_pct,omitempty"` // 0 = 90
+ 	BudgetMs      uint32                 `protobuf:"varint,2,opt,name=budget_ms,json=budgetMs,proto3" json:"budget_ms,omitempty"` // 0 = 25 s
++	FoodItem      uint32                 `protobuf:"varint,3,opt,name=food_item,json=foodItem,proto3" json:"food_item,omitempty"` // eat this bag item first (its on-use spell in food_spell) when below food_below_pct
++	FoodSpell     uint32                 `protobuf:"varint,4,opt,name=food_spell,json=foodSpell,proto3" json:"food_spell,omitempty"`
++	FoodBelowPct  uint32                 `protobuf:"varint,5,opt,name=food_below_pct,json=foodBelowPct,proto3" json:"food_below_pct,omitempty"` // 0 = 60
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -420,12 +479,34 @@ func (x *RestRequest) GetBudgetMs() uint32 {
+ 	return 0
+ }
+ 
++func (x *RestRequest) GetFoodItem() uint32 {
++	if x != nil {
++		return x.FoodItem
++	}
++	return 0
++}
++
++func (x *RestRequest) GetFoodSpell() uint32 {
++	if x != nil {
++		return x.FoodSpell
++	}
++	return 0
++}
++
++func (x *RestRequest) GetFoodBelowPct() uint32 {
++	if x != nil {
++		return x.FoodBelowPct
++	}
++	return 0
++}
++
+ type RestResult struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Done          bool                   `protobuf:"varint,1,opt,name=done,proto3" json:"done,omitempty"`
+ 	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"` // rested, budget, attacked
+ 	Health        uint32                 `protobuf:"varint,3,opt,name=health,proto3" json:"health,omitempty"`
+ 	MaxHealth     uint32                 `protobuf:"varint,4,opt,name=max_health,json=maxHealth,proto3" json:"max_health,omitempty"`
++	Ate           bool                   `protobuf:"varint,5,opt,name=ate,proto3" json:"ate,omitempty"`
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -488,6 +569,13 @@ func (x *RestResult) GetMaxHealth() uint32 {
+ 	return 0
+ }
+ 
++func (x *RestResult) GetAte() bool {
++	if x != nil {
++		return x.Ate
++	}
++	return false
++}
++
+ type ReviveResult struct {
+ 	state          protoimpl.MessageState `protogen:"open.v1"`
+ 	Alive          bool                   `protobuf:"varint,1,opt,name=alive,proto3" json:"alive,omitempty"`
+@@ -628,13 +716,17 @@ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+-	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x9f\x01\n" +
++	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xfc\x01\n" +
+ 	"\aAbility\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x19\n" +
+ 	"\bevery_ms\x18\x02 \x01(\rR\aeveryMs\x12\x1b\n" +
+ 	"\tmin_power\x18\x03 \x01(\rR\bminPower\x12\x17\n" +
+ 	"\aon_self\x18\x04 \x01(\bR\x06onSelf\x12(\n" +
+-	"\x10below_health_pct\x18\x05 \x01(\rR\x0ebelowHealthPct\"\xc4\x01\n" +
++	"\x10below_health_pct\x18\x05 \x01(\rR\x0ebelowHealthPct\x12\x1d\n" +
++	"\n" +
++	"per_target\x18\x06 \x01(\bR\tperTarget\x12#\n" +
++	"\rmin_attackers\x18\a \x01(\rR\fminAttackers\x12\x17\n" +
++	"\aitem_id\x18\b \x01(\rR\x06itemId\"\x82\x02\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+@@ -642,10 +734,14 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x04loot\x18\x04 \x01(\bR\x04loot\x12\x1b\n" +
+ 	"\tbudget_ms\x18\x05 \x01(\rR\bbudgetMs\x12\x1f\n" +
+ 	"\vchase_limit\x18\x06 \x01(\x02R\n" +
+-	"chaseLimit\"9\n" +
++	"chaseLimit\x12\x1d\n" +
++	"\n" +
++	"pull_spell\x18\a \x01(\rR\tpullSpell\x12\x1d\n" +
++	"\n" +
++	"pull_range\x18\b \x01(\x02R\tpullRange\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+-	"\x05count\x18\x02 \x01(\rR\x05count\"\xf4\x02\n" +
++	"\x05count\x18\x02 \x01(\rR\x05count\"\xaf\x03\n" +
+ 	"\n" +
+ 	"KillResult\x12\x16\n" +
+ 	"\x06killed\x18\x01 \x01(\bR\x06killed\x12\x16\n" +
+@@ -662,17 +758,24 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\fdamage_taken\x18\n" +
+ 	" \x01(\rR\vdamageTaken\x120\n" +
+ 	"\x04loot\x18\v \x03(\v2\x1c.zeppelin.combat.v1.LootItemR\x04loot\x12\x14\n" +
+-	"\x05casts\x18\f \x01(\rR\x05casts\"G\n" +
++	"\x05casts\x18\f \x01(\rR\x05casts\x12%\n" +
++	"\x0epeak_attackers\x18\r \x01(\rR\rpeakAttackers\x12\x12\n" +
++	"\x04pull\x18\x0e \x01(\tR\x04pull\"\xa9\x01\n" +
+ 	"\vRestRequest\x12\x1b\n" +
+ 	"\tuntil_pct\x18\x01 \x01(\rR\buntilPct\x12\x1b\n" +
+-	"\tbudget_ms\x18\x02 \x01(\rR\bbudgetMs\"o\n" +
++	"\tbudget_ms\x18\x02 \x01(\rR\bbudgetMs\x12\x1b\n" +
++	"\tfood_item\x18\x03 \x01(\rR\bfoodItem\x12\x1d\n" +
++	"\n" +
++	"food_spell\x18\x04 \x01(\rR\tfoodSpell\x12$\n" +
++	"\x0efood_below_pct\x18\x05 \x01(\rR\ffoodBelowPct\"\x81\x01\n" +
+ 	"\n" +
+ 	"RestResult\x12\x12\n" +
+ 	"\x04done\x18\x01 \x01(\bR\x04done\x12\x16\n" +
+ 	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x16\n" +
+ 	"\x06health\x18\x03 \x01(\rR\x06health\x12\x1d\n" +
+ 	"\n" +
+-	"max_health\x18\x04 \x01(\rR\tmaxHealth\"c\n" +
++	"max_health\x18\x04 \x01(\rR\tmaxHealth\x12\x10\n" +
++	"\x03ate\x18\x05 \x01(\bR\x03ate\"c\n" +
+ 	"\fReviveResult\x12\x14\n" +
+ 	"\x05alive\x18\x01 \x01(\bR\x05alive\x12\x14\n" +
+ 	"\x05stage\x18\x02 \x01(\tR\x05stage\x12'\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 2fb94dc..9a044a5 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -12,6 +12,9 @@ message Ability {
+   uint32 min_power = 3;  // rage/mana/energy needed (skip below)
+   bool on_self = 4;      // self-cast (shouts, buffs) instead of on the target
+   uint32 below_health_pct = 5; // 0 = always; else only while our health is below this %
++  bool per_target = 6;   // DoTs (Rend): cast on EVERY live attacker in melee reach, each on its own timer
++  uint32 min_attackers = 7; // only while at least this many units attack us (Thunder Clap); 0 = always
++  uint32 item_id = 8;    // use this bag item instead (potions); spell_id is then its on-use spell
+ }
+ 
+ message KillRequest {
+@@ -21,6 +24,8 @@ message KillRequest {
+   bool loot = 4;         // loot the corpse when it dies
+   uint32 budget_ms = 5;  // 0 = 25 s (agent-wow caps a call at 30 s); call again while "budget"
+   float chase_limit = 6; // give up if the target gets further than this (yd); 0 = 60
++  uint32 pull_spell = 7; // opener from range (Shoot/Throw): cast it, stand, let the target come to us
++  float pull_range = 8;  // cast the opener from this far; 0 = 25
+ }
+ 
+ message LootItem {
+@@ -41,17 +46,23 @@ message KillResult {
+   uint32 damage_taken = 10;
+   repeated LootItem loot = 11;
+   uint32 casts = 12;
++  uint32 peak_attackers = 13; // most units attacking us at once during the fight (1 = a single pull)
++  string pull = 14;      // "" no opener, "pulled", "came" (target walked in), "failed N" (cast result)
+ }
+ 
+ message RestRequest {
+   uint32 until_pct = 1;  // 0 = 90
+   uint32 budget_ms = 2;  // 0 = 25 s
++  uint32 food_item = 3;  // eat this bag item first (its on-use spell in food_spell) when below food_below_pct
++  uint32 food_spell = 4;
++  uint32 food_below_pct = 5; // 0 = 60
+ }
+ message RestResult {
+   bool done = 1;
+   string reason = 2;     // rested, budget, attacked
+   uint32 health = 3;
+   uint32 max_health = 4;
++  bool ate = 5;
+ }
+ 
+ message ReviveResult {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 62c9ee7..64801d6 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -59,6 +59,7 @@ type service struct {
+ 	castCount                                     uint8
+ 	corpse                                        *movev1.Position // where we died
+ 	reclaimAt                                     time.Time        // SMSG_CORPSE_RECLAIM_DELAY
++	castFailed                                    map[uint32]uint8 // spell -> last SMSG_CAST_FAILED result
+ }
+ 
+ func main() {
+@@ -86,7 +87,7 @@ func run() error {
+ 		return err
+ 	}
+ 	defer conn.Close()
+-	s := &service{session: modv1.NewSessionClient(conn), attackers: map[uint64]time.Time{}}
++	s := &service{session: modv1.NewSessionClient(conn), attackers: map[uint64]time.Time{}, castFailed: map[uint32]uint8{}}
+ 	server := grpc.NewServer()
+ 	combatv1.RegisterCombatServer(server, s)
+ 	healthy := health.NewServer()
+@@ -184,6 +185,7 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		r.U8()
+ 		spell, result := r.U32(), r.U8()
+ 		fmt.Fprintf(os.Stderr, "cast failed spell %d result %d\n", spell, result)
++		s.castFailed[spell] = result
+ 	case opcode.MSGCorpseQuery: // u8 found, i32 map, x y z, i32 corpse map (QueryHandler)
+ 		if r.U8() == 1 {
+ 			m := r.U32()
+@@ -238,12 +240,17 @@ func (s *service) castAt(ctx context.Context, spell uint32, guid uint64) error {
+ 
+ // approach walks to meleeStand yards from the target (navmesh when far).
+ func (s *service) approach(ctx context.Context, me *movev1.Position, t *interactv1.WorldObject) error {
++	return s.approachTo(ctx, me, t, meleeStand)
++}
++
++// approachTo walks to `stand` yards from the target, on our side of it.
++func (s *service) approachTo(ctx context.Context, me *movev1.Position, t *interactv1.WorldObject, stand float64) error {
+ 	dx, dy := float64(me.GetX()-t.GetX()), float64(me.GetY()-t.GetY())
+ 	h := math.Max(math.Sqrt(dx*dx+dy*dy), 0.01)
+-	x, y := float64(t.GetX())+dx/h*meleeStand, float64(t.GetY())+dy/h*meleeStand
++	x, y := float64(t.GetX())+dx/h*stand, float64(t.GetY())+dy/h*stand
+ 	// horizontal distance decides: a target straight below (Ravenous Lurkers 15-25 yd under the
+ 	// water the navmesh sits on) must be reached by a straight dive, never by surface pathing
+-	if h > pathThreshold {
++	if h-stand > pathThreshold {
+ 		var r movev1.PathToResult
+ 		return s.invoke(ctx, "move", "path_to", &movev1.PathRequest{X: float32(x), Y: float32(y), Z: t.GetZ(), BudgetMs: 8000}, &r)
+ 	}
+@@ -298,6 +305,19 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		return res, nil
+ 	}
+ 	lastCast := map[uint32]time.Time{}
++	lastOn := map[[2]uint64]time.Time{} // per-target timers (DoTs): {spell, unit}
++	var live []uint64                   // units attacking us now, refreshed once a second
++	var counted time.Time
++	pullRange := float64(req.GetPullRange())
++	if pullRange <= 0 {
++		pullRange = 25
++	}
++	pullState := "" // "" not yet, "cast" waiting for the target to come, "done"
++	if req.GetPullSpell() == 0 {
++		pullState = "done"
++	}
++	var pullAt time.Time
++	var pullFrom float64
+ 	attacking := false
+ 	var lastHP uint32
+ 	var stuckSince time.Time
+@@ -338,6 +358,62 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		if d > chase {
+ 			return finish("too far", false)
+ 		}
++		if time.Since(counted) > time.Second {
++			live, counted = s.liveAttackers(ctx), time.Now()
++			n := uint32(len(live))
++			if !contains(live, guid) {
++				n++ // the target itself, before it has swung at us
++			}
++			if n > res.PeakAttackers {
++				res.PeakAttackers = n
++			}
++		}
++		if pullState != "done" {
++			// open from range and let the target walk to us: it leaves its camp mates behind
++			// instead of us walking into their aggro radius
++			s.mu.Lock()
++			_, engaged := s.attackers[guid]
++			failed, hasFail := s.castFailed[req.GetPullSpell()]
++			s.mu.Unlock()
++			switch {
++			case pullState == "" && (engaged || d <= meleeTrigger+4):
++				pullState = "done" // already on us, or too close for a ranged opener (5 yd min)
++			case pullState == "" && d > pullRange:
++				if err := s.approachTo(ctx, me, t, pullRange-3); err != nil {
++					return nil, err
++				}
++				continue
++			case pullState == "":
++				var face movev1.Position
++				if err := s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face); err != nil {
++					return nil, err
++				}
++				s.mu.Lock()
++				delete(s.castFailed, req.GetPullSpell())
++				s.mu.Unlock()
++				if err := s.castAt(ctx, req.GetPullSpell(), guid); err != nil {
++					return nil, err
++				}
++				pullState, pullAt, pullFrom, res.Pull = "cast", time.Now(), d, "cast"
++				res.Casts++
++				time.Sleep(tick)
++				continue
++			case hasFail:
++				res.Pull, pullState = fmt.Sprintf("failed %d", failed), "done"
++			case d <= meleeTrigger:
++				pullState = "done"
++			case time.Since(pullAt) > 8*time.Second || (time.Since(pullAt) > 4*time.Second && d > pullFrom-2):
++				pullState = "done" // it never came (a caster stays at range, or the shot missed): go to it
++			default:
++				if d < pullFrom-2 {
++					res.Pull = "pulled"
++				}
++				var face movev1.Position
++				_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face)
++				time.Sleep(tick)
++				continue
++			}
++		}
+ 		s.mu.Lock()
+ 		notInRange, badFacing, cant := s.notInRange, s.badFacing, s.cantAttack
+ 		s.notInRange, s.badFacing = false, false
+@@ -374,7 +450,8 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			attacking = true
+ 		}
+ 		for _, a := range req.GetAbilities() {
+-			if time.Since(lastCast[a.GetSpellId()]) < time.Duration(a.GetEveryMs())*time.Millisecond {
++			every := time.Duration(a.GetEveryMs()) * time.Millisecond
++			if n := a.GetMinAttackers(); n > 0 && uint32(len(live)) < n {
+ 				continue
+ 			}
+ 			if st.GetPower() < a.GetMinPower() {
+@@ -383,6 +460,41 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			if p := a.GetBelowHealthPct(); p > 0 && st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() >= p {
+ 				continue
+ 			}
++			if a.GetPerTarget() {
++				// the target first, then every other attacker in melee reach - one cast a tick
++				for _, g := range append([]uint64{guid}, live...) {
++					key := [2]uint64{uint64(a.GetSpellId()), g}
++					if time.Since(lastOn[key]) < every {
++						continue
++					}
++					if g != guid {
++						u, err := s.unit(ctx, g)
++						if err != nil || u == nil || u.GetHealth() == 0 || distance(me, u.GetX(), u.GetY(), u.GetZ()) > 5 {
++							continue
++						}
++						var face movev1.Position // melee abilities need the unit in front of us
++						_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: u.GetX(), Y: u.GetY()}, &face)
++					}
++					if err := s.castAt(ctx, a.GetSpellId(), g); err != nil {
++						return nil, err
++					}
++					lastOn[key] = time.Now()
++					res.Casts++
++					break
++				}
++				continue
++			}
++			if time.Since(lastCast[a.GetSpellId()]) < every {
++				continue
++			}
++			if a.GetItemId() != 0 {
++				lastCast[a.GetSpellId()] = time.Now() // tried or not: never spam a missing potion
++				var cr interactv1.CastResult
++				if err := s.invoke(ctx, "interact", "use_item", &interactv1.UseItemRequest{Entry: a.GetItemId(), SpellId: a.GetSpellId(), TargetKind: "self", TimeoutMs: 1000}, &cr); err == nil {
++					res.Casts++
++				}
++				continue
++			}
+ 			target := guid
+ 			if a.GetOnSelf() {
+ 				target = st.GetGuid()
+@@ -397,6 +509,15 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	}
+ }
+ 
++func contains(ids []uint64, g uint64) bool {
++	for _, x := range ids {
++		if x == g {
++			return true
++		}
++	}
++	return false
++}
++
+ // lootCorpse waits briefly for the corpse to become lootable, walks up and takes everything.
+ func (s *service) lootCorpse(ctx context.Context, guid uint64, res *combatv1.KillResult) {
+ 	for i := 0; i < 8; i++ {
+@@ -477,8 +598,23 @@ func (s *service) Rest(ctx context.Context, req *combatv1.RestRequest) (*combatv
+ 		budget = time.Duration(req.GetBudgetMs()) * time.Millisecond
+ 	}
+ 	deadline := time.Now().Add(budget)
+-	if err := s.stand(ctx, 1); err != nil { // UNIT_STAND_STATE_SIT
+-		return nil, err
++	ate := false
++	if f := req.GetFoodItem(); f != 0 {
++		below := req.GetFoodBelowPct()
++		if below == 0 {
++			below = 60
++		}
++		if st, err := s.self(ctx); err == nil && st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() < below {
++			// eating sits us down itself (the food aura); a failed bite just rests as before
++			var cr interactv1.CastResult
++			err := s.invoke(ctx, "interact", "use_item", &interactv1.UseItemRequest{Entry: f, SpellId: req.GetFoodSpell(), TargetKind: "self", TimeoutMs: 1500}, &cr)
++			ate = err == nil && cr.GetOk()
++		}
++	}
++	if !ate {
++		if err := s.stand(ctx, 1); err != nil { // UNIT_STAND_STATE_SIT
++			return nil, err
++		}
+ 	}
+ 	defer func() { _ = s.stand(context.Background(), 0) }()
+ 	for {
+@@ -486,7 +622,7 @@ func (s *service) Rest(ctx context.Context, req *combatv1.RestRequest) (*combatv
+ 		if err != nil {
+ 			return nil, err
+ 		}
+-		res := &combatv1.RestResult{Health: st.GetHealth(), MaxHealth: st.GetMaxHealth()}
++		res := &combatv1.RestResult{Health: st.GetHealth(), MaxHealth: st.GetMaxHealth(), Ate: ate}
+ 		if st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() >= pct {
+ 			res.Done, res.Reason = true, "rested"
+ 			return res, nil
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index 245bc0c..95e9fde 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -1628,6 +1628,7 @@ func (x *InventoryItem) GetSlot() uint32 {
+ type Inventory struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Items         []*InventoryItem       `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
++	Equipped      []*InventoryItem       `protobuf:"bytes,2,rep,name=equipped,proto3" json:"equipped,omitempty"` // worn: bag 255, slot 0-18 (17 = ranged)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -1669,6 +1670,13 @@ func (x *Inventory) GetItems() []*InventoryItem {
+ 	return nil
+ }
+ 
++func (x *Inventory) GetEquipped() []*InventoryItem {
++	if x != nil {
++		return x.Equipped
++	}
++	return nil
++}
++
+ type UseItemRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Entry         uint32                 `protobuf:"varint,1,opt,name=entry,proto3" json:"entry,omitempty"`                            // item entry in the bags
+@@ -2698,9 +2706,10 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x12\x14\n" +
+ 	"\x05count\x18\x03 \x01(\rR\x05count\x12\x10\n" +
+ 	"\x03bag\x18\x04 \x01(\rR\x03bag\x12\x12\n" +
+-	"\x04slot\x18\x05 \x01(\rR\x04slot\"F\n" +
++	"\x04slot\x18\x05 \x01(\rR\x04slot\"\x87\x01\n" +
+ 	"\tInventory\x129\n" +
+-	"\x05items\x18\x01 \x03(\v2#.zeppelin.interact.v1.InventoryItemR\x05items\"\xf9\x01\n" +
++	"\x05items\x18\x01 \x03(\v2#.zeppelin.interact.v1.InventoryItemR\x05items\x12?\n" +
++	"\bequipped\x18\x02 \x03(\v2#.zeppelin.interact.v1.InventoryItemR\bequipped\"\xf9\x01\n" +
+ 	"\x0eUseItemRequest\x12\x14\n" +
+ 	"\x05entry\x18\x01 \x01(\rR\x05entry\x12\x19\n" +
+ 	"\bspell_id\x18\x02 \x01(\rR\aspellId\x124\n" +
+@@ -2766,7 +2775,7 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x05count\x18\x03 \x01(\rR\x05count\"9\n" +
+ 	"\x0fVendorBuyResult\x12\x0e\n" +
+ 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
+-	"\x06detail\x18\x02 \x01(\tR\x06detail2\xb9\x11\n" +
++	"\x06detail\x18\x02 \x01(\tR\x06detail2\x8c\x12\n" +
+ 	"\bInteract\x12K\n" +
+ 	"\x04Find\x12!.zeppelin.interact.v1.FindRequest\x1a .zeppelin.interact.v1.FindResult\x12Q\n" +
+ 	"\tSendAddon\x12\".zeppelin.interact.v1.AddonMessage\x1a .zeppelin.interact.v1.CastResult\x12U\n" +
+@@ -2788,6 +2797,7 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\aGetSelf\x12\x16.google.protobuf.Empty\x1a\x1f.zeppelin.interact.v1.SelfState\x12G\n" +
+ 	"\fGetInventory\x12\x16.google.protobuf.Empty\x1a\x1f.zeppelin.interact.v1.Inventory\x12Q\n" +
+ 	"\aUseItem\x12$.zeppelin.interact.v1.UseItemRequest\x1a .zeppelin.interact.v1.CastResult\x12Q\n" +
++	"\aSetAmmo\x12$.zeppelin.interact.v1.UseItemRequest\x1a .zeppelin.interact.v1.CastResult\x12Q\n" +
+ 	"\x0eGetTrainerList\x12\x1c.zeppelin.interact.v1.Target\x1a!.zeppelin.interact.v1.TrainerList\x12]\n" +
+ 	"\n" +
+ 	"TrainerBuy\x12'.zeppelin.interact.v1.TrainerBuyRequest\x1a&.zeppelin.interact.v1.TrainerBuyResult\x12U\n" +
+@@ -2868,72 +2878,75 @@ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	0,  // 9: zeppelin.interact.v1.CastRequest.target:type_name -> zeppelin.interact.v1.Target
+ 	17, // 10: zeppelin.interact.v1.Events.events:type_name -> zeppelin.interact.v1.Event
+ 	21, // 11: zeppelin.interact.v1.Inventory.items:type_name -> zeppelin.interact.v1.InventoryItem
+-	0,  // 12: zeppelin.interact.v1.UseItemRequest.target:type_name -> zeppelin.interact.v1.Target
+-	27, // 13: zeppelin.interact.v1.TrainerList.spells:type_name -> zeppelin.interact.v1.TrainerSpell
+-	0,  // 14: zeppelin.interact.v1.TrainerBuyRequest.target:type_name -> zeppelin.interact.v1.Target
+-	33, // 15: zeppelin.interact.v1.VendorList.items:type_name -> zeppelin.interact.v1.VendorItem
+-	0,  // 16: zeppelin.interact.v1.VendorBuyRequest.target:type_name -> zeppelin.interact.v1.Target
+-	2,  // 17: zeppelin.interact.v1.Interact.Find:input_type -> zeppelin.interact.v1.FindRequest
+-	25, // 18: zeppelin.interact.v1.Interact.SendAddon:input_type -> zeppelin.interact.v1.AddonMessage
+-	26, // 19: zeppelin.interact.v1.Interact.ItemSpell:input_type -> zeppelin.interact.v1.ItemSpellRequest
+-	8,  // 20: zeppelin.interact.v1.Interact.QuestAbandon:input_type -> zeppelin.interact.v1.QuestRequest
+-	24, // 21: zeppelin.interact.v1.Interact.Equip:input_type -> zeppelin.interact.v1.ItemSlot
+-	24, // 22: zeppelin.interact.v1.Interact.Destroy:input_type -> zeppelin.interact.v1.ItemSlot
+-	0,  // 23: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
+-	7,  // 24: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
+-	0,  // 25: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
+-	8,  // 26: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
+-	8,  // 27: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
+-	37, // 28: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
+-	14, // 29: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
+-	14, // 30: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
+-	18, // 31: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
+-	15, // 32: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
+-	37, // 33: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
+-	37, // 34: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
+-	23, // 35: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
+-	0,  // 36: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
+-	29, // 37: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
+-	0,  // 38: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
+-	37, // 39: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
+-	0,  // 40: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
+-	35, // 41: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
+-	0,  // 42: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
+-	0,  // 43: zeppelin.interact.v1.Interact.SpiritHeal:input_type -> zeppelin.interact.v1.Target
+-	38, // 44: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
+-	3,  // 45: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
+-	16, // 46: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
+-	13, // 47: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
+-	16, // 48: zeppelin.interact.v1.Interact.QuestAbandon:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 49: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 50: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
+-	6,  // 51: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 52: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 53: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
+-	9,  // 54: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
+-	9,  // 55: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
+-	11, // 56: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
+-	13, // 57: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
+-	13, // 58: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
+-	19, // 59: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
+-	16, // 60: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
+-	20, // 61: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
+-	22, // 62: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
+-	16, // 63: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
+-	28, // 64: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
+-	30, // 65: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
+-	31, // 66: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
+-	32, // 67: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
+-	34, // 68: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
+-	36, // 69: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
+-	16, // 70: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 71: zeppelin.interact.v1.Interact.SpiritHeal:output_type -> zeppelin.interact.v1.CastResult
+-	37, // 72: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
+-	45, // [45:73] is the sub-list for method output_type
+-	17, // [17:45] is the sub-list for method input_type
+-	17, // [17:17] is the sub-list for extension type_name
+-	17, // [17:17] is the sub-list for extension extendee
+-	0,  // [0:17] is the sub-list for field type_name
++	21, // 12: zeppelin.interact.v1.Inventory.equipped:type_name -> zeppelin.interact.v1.InventoryItem
++	0,  // 13: zeppelin.interact.v1.UseItemRequest.target:type_name -> zeppelin.interact.v1.Target
++	27, // 14: zeppelin.interact.v1.TrainerList.spells:type_name -> zeppelin.interact.v1.TrainerSpell
++	0,  // 15: zeppelin.interact.v1.TrainerBuyRequest.target:type_name -> zeppelin.interact.v1.Target
++	33, // 16: zeppelin.interact.v1.VendorList.items:type_name -> zeppelin.interact.v1.VendorItem
++	0,  // 17: zeppelin.interact.v1.VendorBuyRequest.target:type_name -> zeppelin.interact.v1.Target
++	2,  // 18: zeppelin.interact.v1.Interact.Find:input_type -> zeppelin.interact.v1.FindRequest
++	25, // 19: zeppelin.interact.v1.Interact.SendAddon:input_type -> zeppelin.interact.v1.AddonMessage
++	26, // 20: zeppelin.interact.v1.Interact.ItemSpell:input_type -> zeppelin.interact.v1.ItemSpellRequest
++	8,  // 21: zeppelin.interact.v1.Interact.QuestAbandon:input_type -> zeppelin.interact.v1.QuestRequest
++	24, // 22: zeppelin.interact.v1.Interact.Equip:input_type -> zeppelin.interact.v1.ItemSlot
++	24, // 23: zeppelin.interact.v1.Interact.Destroy:input_type -> zeppelin.interact.v1.ItemSlot
++	0,  // 24: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
++	7,  // 25: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
++	0,  // 26: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
++	8,  // 27: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
++	8,  // 28: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
++	37, // 29: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
++	14, // 30: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
++	14, // 31: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
++	18, // 32: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
++	15, // 33: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
++	37, // 34: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
++	37, // 35: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
++	23, // 36: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
++	23, // 37: zeppelin.interact.v1.Interact.SetAmmo:input_type -> zeppelin.interact.v1.UseItemRequest
++	0,  // 38: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
++	29, // 39: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
++	0,  // 40: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
++	37, // 41: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
++	0,  // 42: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
++	35, // 43: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
++	0,  // 44: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
++	0,  // 45: zeppelin.interact.v1.Interact.SpiritHeal:input_type -> zeppelin.interact.v1.Target
++	38, // 46: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	3,  // 47: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
++	16, // 48: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
++	13, // 49: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
++	16, // 50: zeppelin.interact.v1.Interact.QuestAbandon:output_type -> zeppelin.interact.v1.CastResult
++	16, // 51: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
++	16, // 52: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
++	6,  // 53: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
++	6,  // 54: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
++	6,  // 55: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
++	9,  // 56: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
++	9,  // 57: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
++	11, // 58: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
++	13, // 59: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
++	13, // 60: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
++	19, // 61: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
++	16, // 62: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
++	20, // 63: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
++	22, // 64: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
++	16, // 65: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
++	16, // 66: zeppelin.interact.v1.Interact.SetAmmo:output_type -> zeppelin.interact.v1.CastResult
++	28, // 67: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
++	30, // 68: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
++	31, // 69: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
++	32, // 70: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
++	34, // 71: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
++	36, // 72: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
++	16, // 73: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
++	16, // 74: zeppelin.interact.v1.Interact.SpiritHeal:output_type -> zeppelin.interact.v1.CastResult
++	37, // 75: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
++	47, // [47:76] is the sub-list for method output_type
++	18, // [18:47] is the sub-list for method input_type
++	18, // [18:18] is the sub-list for extension type_name
++	18, // [18:18] is the sub-list for extension extendee
++	0,  // [0:18] is the sub-list for field type_name
+ }
+ 
+ func init() { file_zeppelin_modules_interact_interact_proto_init() }
+diff --git a/zeppelin/modules/interact/api/interact_grpc.pb.go b/zeppelin/modules/interact/api/interact_grpc.pb.go
+index 6a1a88a..59645ee 100644
+--- a/zeppelin/modules/interact/api/interact_grpc.pb.go
++++ b/zeppelin/modules/interact/api/interact_grpc.pb.go
+@@ -40,6 +40,7 @@ const (
+ 	Interact_GetSelf_FullMethodName         = "/zeppelin.interact.v1.Interact/GetSelf"
+ 	Interact_GetInventory_FullMethodName    = "/zeppelin.interact.v1.Interact/GetInventory"
+ 	Interact_UseItem_FullMethodName         = "/zeppelin.interact.v1.Interact/UseItem"
++	Interact_SetAmmo_FullMethodName         = "/zeppelin.interact.v1.Interact/SetAmmo"
+ 	Interact_GetTrainerList_FullMethodName  = "/zeppelin.interact.v1.Interact/GetTrainerList"
+ 	Interact_TrainerBuy_FullMethodName      = "/zeppelin.interact.v1.Interact/TrainerBuy"
+ 	Interact_TrainerLearnAll_FullMethodName = "/zeppelin.interact.v1.Interact/TrainerLearnAll"
+@@ -74,6 +75,7 @@ type InteractClient interface {
+ 	GetSelf(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SelfState, error)
+ 	GetInventory(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Inventory, error)
+ 	UseItem(ctx context.Context, in *UseItemRequest, opts ...grpc.CallOption) (*CastResult, error)
++	SetAmmo(ctx context.Context, in *UseItemRequest, opts ...grpc.CallOption) (*CastResult, error)
+ 	GetTrainerList(ctx context.Context, in *Target, opts ...grpc.CallOption) (*TrainerList, error)
+ 	TrainerBuy(ctx context.Context, in *TrainerBuyRequest, opts ...grpc.CallOption) (*TrainerBuyResult, error)
+ 	TrainerLearnAll(ctx context.Context, in *Target, opts ...grpc.CallOption) (*LearnAllResult, error)
+@@ -283,6 +285,16 @@ func (c *interactClient) UseItem(ctx context.Context, in *UseItemRequest, opts .
+ 	return out, nil
+ }
+ 
++func (c *interactClient) SetAmmo(ctx context.Context, in *UseItemRequest, opts ...grpc.CallOption) (*CastResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(CastResult)
++	err := c.cc.Invoke(ctx, Interact_SetAmmo_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
+ func (c *interactClient) GetTrainerList(ctx context.Context, in *Target, opts ...grpc.CallOption) (*TrainerList, error) {
+ 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+ 	out := new(TrainerList)
+@@ -396,6 +408,7 @@ type InteractServer interface {
+ 	GetSelf(context.Context, *emptypb.Empty) (*SelfState, error)
+ 	GetInventory(context.Context, *emptypb.Empty) (*Inventory, error)
+ 	UseItem(context.Context, *UseItemRequest) (*CastResult, error)
++	SetAmmo(context.Context, *UseItemRequest) (*CastResult, error)
+ 	GetTrainerList(context.Context, *Target) (*TrainerList, error)
+ 	TrainerBuy(context.Context, *TrainerBuyRequest) (*TrainerBuyResult, error)
+ 	TrainerLearnAll(context.Context, *Target) (*LearnAllResult, error)
+@@ -472,6 +485,9 @@ func (UnimplementedInteractServer) GetInventory(context.Context, *emptypb.Empty)
+ func (UnimplementedInteractServer) UseItem(context.Context, *UseItemRequest) (*CastResult, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method UseItem not implemented")
+ }
++func (UnimplementedInteractServer) SetAmmo(context.Context, *UseItemRequest) (*CastResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method SetAmmo not implemented")
++}
+ func (UnimplementedInteractServer) GetTrainerList(context.Context, *Target) (*TrainerList, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method GetTrainerList not implemented")
+ }
+@@ -862,6 +878,24 @@ func _Interact_UseItem_Handler(srv interface{}, ctx context.Context, dec func(in
+ 	return interceptor(ctx, in, info, handler)
+ }
+ 
++func _Interact_SetAmmo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(UseItemRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).SetAmmo(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_SetAmmo_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).SetAmmo(ctx, req.(*UseItemRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
+ func _Interact_GetTrainerList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+ 	in := new(Target)
+ 	if err := dec(in); err != nil {
+@@ -1107,6 +1141,10 @@ var Interact_ServiceDesc = grpc.ServiceDesc{
+ 			MethodName: "UseItem",
+ 			Handler:    _Interact_UseItem_Handler,
+ 		},
++		{
++			MethodName: "SetAmmo",
++			Handler:    _Interact_SetAmmo_Handler,
++		},
+ 		{
+ 			MethodName: "GetTrainerList",
+ 			Handler:    _Interact_GetTrainerList_Handler,
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index 39c1404..fe2f3bf 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -154,7 +154,10 @@ message InventoryItem {
+   uint32 bag = 4;        // 255 backpack, else bag equipment slot 19-22
+   uint32 slot = 5;
+ }
+-message Inventory { repeated InventoryItem items = 1; }
++message Inventory {
++  repeated InventoryItem items = 1;
++  repeated InventoryItem equipped = 2; // worn: bag 255, slot 0-18 (17 = ranged)
++}
+ 
+ message UseItemRequest {
+   uint32 entry = 1;      // item entry in the bags
+@@ -259,6 +262,7 @@ service Interact {
+   rpc GetSelf(google.protobuf.Empty) returns (SelfState);
+   rpc GetInventory(google.protobuf.Empty) returns (Inventory);
+   rpc UseItem(UseItemRequest) returns (CastResult);
++  rpc SetAmmo(UseItemRequest) returns (CastResult); // CMSG_SET_AMMO u32 item entry (bows/guns fire it)
+   rpc GetTrainerList(Target) returns (TrainerList);
+   rpc TrainerBuy(TrainerBuyRequest) returns (TrainerBuyResult);
+   rpc TrainerLearnAll(Target) returns (LearnAllResult);
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index 551ef2e..5cd3960 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -929,6 +929,10 @@ func (s *service) GetInventory(context.Context, *emptypb.Empty) (*interactv1.Inv
+ 		out.Items = append(out.Items, &interactv1.InventoryItem{Guid: it.GUID, Entry: it.Entry, Count: it.Count,
+ 			Bag: uint32(it.Bag), Slot: uint32(it.Slot)})
+ 	}
++	for _, it := range s.store.Equipped() {
++		out.Equipped = append(out.Equipped, &interactv1.InventoryItem{Guid: it.GUID, Entry: it.Entry, Count: it.Count,
++			Bag: uint32(it.Bag), Slot: uint32(it.Slot)})
++	}
+ 	return out, nil
+ }
+ 
+@@ -1036,6 +1040,13 @@ func (s *service) Equip(ctx context.Context, req *interactv1.ItemSlot) (*interac
+ 	return s.bagOp(ctx, opcode.CMSGAutoequipItem, &w)
+ }
+ 
++// SetAmmo sends CMSG_SET_AMMO (u32 item entry): the ammo a bow or gun fires, from the bags.
++func (s *service) SetAmmo(ctx context.Context, req *interactv1.UseItemRequest) (*interactv1.CastResult, error) {
++	var w wow.Writer
++	w.U32(req.GetEntry())
++	return s.bagOp(ctx, opcode.CMSGSetAmmo, &w)
++}
++
+ // Destroy sends CMSG_DESTROYITEM (u8 bag, u8 slot, u8 count, 3 x u8 unused).
+ func (s *service) Destroy(ctx context.Context, req *interactv1.ItemSlot) (*interactv1.CastResult, error) {
+ 	var w wow.Writer
+diff --git a/zeppelin/modules/interact/module.yaml b/zeppelin/modules/interact/module.yaml
+index d1d7477..250f40f 100644
+--- a/zeppelin/modules/interact/module.yaml
++++ b/zeppelin/modules/interact/module.yaml
+@@ -21,6 +21,7 @@ rpc:
+   self: /zeppelin.interact.v1.Interact/GetSelf
+   inventory: /zeppelin.interact.v1.Interact/GetInventory
+   use_item: /zeppelin.interact.v1.Interact/UseItem
++  set_ammo: /zeppelin.interact.v1.Interact/SetAmmo
+   trainer_list: /zeppelin.interact.v1.Interact/GetTrainerList
+   trainer_buy: /zeppelin.interact.v1.Interact/TrainerBuy
+   trainer_learn_all: /zeppelin.interact.v1.Interact/TrainerLearnAll
+diff --git a/zeppelin/modules/move/api/move.pb.go b/zeppelin/modules/move/api/move.pb.go
+index 074e1f5..95b92fe 100644
+--- a/zeppelin/modules/move/api/move.pb.go
++++ b/zeppelin/modules/move/api/move.pb.go
+@@ -325,9 +325,10 @@ type PathRequest struct {
+ 	X             float32                `protobuf:"fixed32,1,opt,name=x,proto3" json:"x,omitempty"`
+ 	Y             float32                `protobuf:"fixed32,2,opt,name=y,proto3" json:"y,omitempty"`
+ 	Z             float32                `protobuf:"fixed32,3,opt,name=z,proto3" json:"z,omitempty"`
+-	Speed         float32                `protobuf:"fixed32,4,opt,name=speed,proto3" json:"speed,omitempty"`                      // path_to only; 0 = current run speed
+-	BudgetMs      uint32                 `protobuf:"varint,5,opt,name=budget_ms,json=budgetMs,proto3" json:"budget_ms,omitempty"` // path_to only; walking time per call, 0 = 25 s (module calls cap at 30 s)
+-	NavMap        uint32                 `protobuf:"varint,6,opt,name=nav_map,json=navMap,proto3" json:"nav_map,omitempty"`       // navmesh to plan on, 0 = the current map (a terrain-swap phase walks 659/661)
++	Speed         float32                `protobuf:"fixed32,4,opt,name=speed,proto3" json:"speed,omitempty"`                                    // path_to only; 0 = current run speed
++	BudgetMs      uint32                 `protobuf:"varint,5,opt,name=budget_ms,json=budgetMs,proto3" json:"budget_ms,omitempty"`               // path_to only; walking time per call, 0 = 25 s (module calls cap at 30 s)
++	NavMap        uint32                 `protobuf:"varint,6,opt,name=nav_map,json=navMap,proto3" json:"nav_map,omitempty"`                     // navmesh to plan on, 0 = the current map (a terrain-swap phase walks 659/661)
++	StopOnAttack  bool                   `protobuf:"varint,7,opt,name=stop_on_attack,json=stopOnAttack,proto3" json:"stop_on_attack,omitempty"` // path_to only: stop (reason "attacked") the moment something attacks us
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -404,6 +405,13 @@ func (x *PathRequest) GetNavMap() uint32 {
+ 	return 0
+ }
+ 
++func (x *PathRequest) GetStopOnAttack() bool {
++	if x != nil {
++		return x.StopOnAttack
++	}
++	return false
++}
++
+ type PathResult struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Points        []*Point               `protobuf:"bytes,1,rep,name=points,proto3" json:"points,omitempty"`    // waypoints from the current position (first = start)
+@@ -840,14 +848,15 @@ const file_zeppelin_modules_move_move_proto_rawDesc = "" +
+ 	"\x05Point\x12\f\n" +
+ 	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
+ 	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
+-	"\x01z\x18\x03 \x01(\x02R\x01z\"\x83\x01\n" +
++	"\x01z\x18\x03 \x01(\x02R\x01z\"\xa9\x01\n" +
+ 	"\vPathRequest\x12\f\n" +
+ 	"\x01x\x18\x01 \x01(\x02R\x01x\x12\f\n" +
+ 	"\x01y\x18\x02 \x01(\x02R\x01y\x12\f\n" +
+ 	"\x01z\x18\x03 \x01(\x02R\x01z\x12\x14\n" +
+ 	"\x05speed\x18\x04 \x01(\x02R\x05speed\x12\x1b\n" +
+ 	"\tbudget_ms\x18\x05 \x01(\rR\bbudgetMs\x12\x17\n" +
+-	"\anav_map\x18\x06 \x01(\rR\x06navMap\"m\n" +
++	"\anav_map\x18\x06 \x01(\rR\x06navMap\x12$\n" +
++	"\x0estop_on_attack\x18\a \x01(\bR\fstopOnAttack\"m\n" +
+ 	"\n" +
+ 	"PathResult\x12/\n" +
+ 	"\x06points\x18\x01 \x03(\v2\x17.zeppelin.move.v1.PointR\x06points\x12\x18\n" +
+diff --git a/zeppelin/modules/move/main.go b/zeppelin/modules/move/main.go
+index bb7db93..52c53ad 100644
+--- a/zeppelin/modules/move/main.go
++++ b/zeppelin/modules/move/main.go
+@@ -49,6 +49,7 @@ const (
+ 	heartbeatEvery   = 500 * time.Millisecond
+ 	maxMoveDistance  = 2000.0           // yards; anything longer is a caller bug, not a walk
+ 	maxBudget        = 25 * time.Second // agent-wow caps a module call at 30 s
++	navTimeout       = 15 * time.Second // one navmesh query; a stalled helper is killed after this
+ 	moveFlagsUnknown = 0
+ )
+ 
+@@ -80,6 +81,7 @@ type service struct {
+ 	pending  []pendingAck    // speed acks waiting for our position
+ 	mover    uint64          // the unit our movement packets move: us, or a vehicle we control
+ 	ownPos   movev1.Position // our own position while a vehicle is the mover
++	attacked time.Time       // last time a unit started attacking / swung at us
+ }
+ 
+ func main() {
+@@ -238,6 +240,25 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 				_ = s.sendMove(context.Background(), opcode.MSGMoveFallLand, 0, d[0], d[1], d[2], o)
+ 			}(dest, m.Duration)
+ 		}
++	case op == opcode.SMSGAttackstart: // attacker u64, victim u64
++		var a, v uint64
++		if binary.Read(r, le, &a) == nil && binary.Read(r, le, &v) == nil && v == s.guid && a != s.guid {
++			s.mu.Lock()
++			s.attacked = time.Now()
++			s.mu.Unlock()
++		}
++	case op == opcode.SMSGAttackerstateupdate: // u32 hitInfo, packed attacker, packed victim
++		var hit uint32
++		if binary.Read(r, le, &hit) != nil {
++			break
++		}
++		a, err1 := readPackedGUID(r)
++		v, err2 := readPackedGUID(r)
++		if err1 == nil && err2 == nil && v == s.guid && a != s.guid {
++			s.mu.Lock()
++			s.attacked = time.Now()
++			s.mu.Unlock()
++		}
+ 	case op == opcode.MSGMoveTeleportAck:
+ 		// packed guid, u32 counter, MovementInfo
+ 		guid, err := readPackedGUID(r)
+@@ -385,6 +406,13 @@ type point struct{ x, y, z float64 }
+ // budget). Z is linear within a leg, so navmesh waypoints give ground-following movement.
+ // budget 0 = the whole route's walking time + 5 s, capped below the 30 s module call limit.
+ func (s *service) walk(ctx context.Context, route []point, speed float64, budget time.Duration) (*movev1.MoveToResult, error) {
++	return s.walkOpts(ctx, route, speed, budget, false)
++}
++
++// walkOpts is walk; stopOnAttack ends it ("attacked") as soon as something starts hitting us, so
++// the caller turns to fight instead of dragging the mob - and whatever it aggroes next - along.
++func (s *service) walkOpts(ctx context.Context, route []point, speed float64, budget time.Duration, stopOnAttack bool) (*movev1.MoveToResult, error) {
++	began := time.Now()
+ 	s.mu.Lock()
+ 	if !s.pos.Known {
+ 		s.mu.Unlock()
+@@ -474,6 +502,14 @@ func (s *service) walk(ctx context.Context, route []point, speed float64, budget
+ 				if now.After(deadline) && frac < 1 {
+ 					return stopAt(frac, "budget", false)
+ 				}
++				if stopOnAttack {
++					s.mu.Lock()
++					hit := s.attacked.After(began)
++					s.mu.Unlock()
++					if hit {
++						return stopAt(frac, "attacked", false)
++					}
++				}
+ 				if frac >= 1 {
+ 					if i == len(route)-1 {
+ 						return stopAt(1, "arrived", true)
+@@ -543,12 +579,31 @@ func (n *nav) query(line string) (string, error) {
+ 		n.cmd = nil
+ 		return "", err
+ 	}
+-	reply, err := n.out.ReadString('\n')
+-	if err != nil {
++	// a reply that never comes (the helper stalled - the container thrashing at its memory limit)
++	// must not hang every later path query: give up, kill the helper, start a fresh one next time
++	type answer struct {
++		line string
++		err  error
++	}
++	got := make(chan answer, 1)
++	out := n.out
++	go func() {
++		l, err := out.ReadString('\n')
++		got <- answer{l, err}
++	}()
++	select {
++	case a := <-got:
++		if a.err != nil {
++			n.cmd = nil
++			return "", a.err
++		}
++		return strings.TrimSpace(a.line), nil
++	case <-time.After(navTimeout):
++		_ = n.cmd.Process.Kill()
++		go func(c *exec.Cmd) { _ = c.Wait() }(n.cmd)
+ 		n.cmd = nil
+-		return "", err
++		return "", fmt.Errorf("zepnav: no reply in %s (restarted)", navTimeout)
+ 	}
+-	return strings.TrimSpace(reply), nil
+ }
+ 
+ func (s *service) path(req *movev1.PathRequest) (*movev1.PathResult, error) {
+@@ -608,7 +663,7 @@ func (s *service) PathTo(ctx context.Context, req *movev1.PathRequest) (*movev1.
+ 	if budget <= 0 {
+ 		budget = maxBudget
+ 	}
+-	mv, err := s.walk(ctx, route, float64(req.GetSpeed()), budget)
++	mv, err := s.walkOpts(ctx, route, float64(req.GetSpeed()), budget, req.GetStopOnAttack())
+ 	if err != nil {
+ 		return nil, err
+ 	}
+diff --git a/zeppelin/modules/move/module.yaml b/zeppelin/modules/move/module.yaml
+index 932fbb3..c42257d 100644
+--- a/zeppelin/modules/move/module.yaml
++++ b/zeppelin/modules/move/module.yaml
+@@ -19,6 +19,8 @@ packets:
+   SMSG_NEW_WORLD: /zeppelin.move.v1.Move/OnPacket
+   MSG_MOVE_TELEPORT_ACK: /zeppelin.move.v1.Move/OnPacket
+   SMSG_MONSTER_MOVE: /zeppelin.move.v1.Move/OnPacket
++  SMSG_ATTACKSTART: /zeppelin.move.v1.Move/OnPacket          # path_to stop_on_attack
++  SMSG_ATTACKERSTATEUPDATE: /zeppelin.move.v1.Move/OnPacket
+   SMSG_FORCE_RUN_SPEED_CHANGE: /zeppelin.move.v1.Move/OnPacket
+   SMSG_FORCE_RUN_BACK_SPEED_CHANGE: /zeppelin.move.v1.Move/OnPacket
+   SMSG_FORCE_SWIM_SPEED_CHANGE: /zeppelin.move.v1.Move/OnPacket
+diff --git a/zeppelin/modules/move/move.proto b/zeppelin/modules/move/move.proto
+index 469e971..1f509b2 100644
+--- a/zeppelin/modules/move/move.proto
++++ b/zeppelin/modules/move/move.proto
+@@ -44,6 +44,7 @@ message PathRequest {
+   float speed = 4;       // path_to only; 0 = current run speed
+   uint32 budget_ms = 5;  // path_to only; walking time per call, 0 = 25 s (module calls cap at 30 s)
+   uint32 nav_map = 6;    // navmesh to plan on, 0 = the current map (a terrain-swap phase walks 659/661)
++  bool stop_on_attack = 7; // path_to only: stop (reason "attacked") the moment something attacks us
+ }
+ message PathResult {
+   repeated Point points = 1; // waypoints from the current position (first = start)
+diff --git a/zeppelin/tests/rpc.py b/zeppelin/tests/rpc.py
+index 84d3d9d..3b3379f 100644
+--- a/zeppelin/tests/rpc.py
++++ b/zeppelin/tests/rpc.py
+@@ -50,8 +50,13 @@ def _call(method, **params):
+     _id += 1
+     body = json.dumps({"jsonrpc": "2.0", "id": _id, "method": method, "params": params}).encode()
+     req = urllib.request.Request(URL, body, {"Content-Type": "application/json"})
+-    with urllib.request.urlopen(req, timeout=40) as r:
+-        reply = json.load(r)
++    try:
++        with urllib.request.urlopen(req, timeout=40) as r:
++            reply = json.load(r)
++    except TimeoutError:
++        # the session is alive but this call stalled (a box thrashing at its memory limit): fail the
++        # step, not the run - a dead session still raises (connection refused) for the supervisor
++        raise StepFailed(f"{method}: rpc timeout")
+     if "error" in reply:
+         raise StepFailed(f"{method}: {reply['error']}")
+     return _zeros(reply.get("result", {}))
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index e705e45..7430781 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -36,12 +36,16 @@ SCRIPTED_SPELLHIT = {
+ CLASS_ABILITIES = {
+     1: [  # warrior
+         {"spell_id": 6673, "every_ms": 110000, "min_power": 100, "on_self": True},  # Battle Shout
+-        {"spell_id": 772, "every_ms": 15000, "min_power": 100},                     # Rend
+-        {"spell_id": 6343, "every_ms": 6000, "min_power": 200},                     # Thunder Clap
++        # a pack: Thunder Clap hits them all; Rend bleeds EVERY attacker (15 s each, own timer)
++        {"spell_id": 6343, "every_ms": 6000, "min_power": 200, "min_attackers": 2}, # Thunder Clap
++        {"spell_id": 772, "every_ms": 15000, "min_power": 100, "per_target": True}, # Rend
+         {"spell_id": 78, "every_ms": 3000, "min_power": 150},                       # Heroic Strike
+     ],
+     # min_power is the raw power value: rage is x10 (100 = 10 rage), energy and mana are not
+     2: [  # paladin (blood elves have no warrior here)
++        # heal first: a level-3 paladin lost every 2v1 against Sunstrider's Feral Tenders (23 deaths
++        # in 40 min) with Holy Light in the spellbook and never cast
++        {"spell_id": 635, "every_ms": 4000, "min_power": 35, "on_self": True, "below_health_pct": 40},  # Holy Light
+         {"spell_id": 465, "every_ms": 3600000, "on_self": True},                    # Devotion Aura
+         {"spell_id": 19740, "every_ms": 600000, "min_power": 30, "on_self": True},  # Blessing of Might
+         {"spell_id": 21084, "every_ms": 1800000, "min_power": 30, "on_self": True}, # Seal of Righteousness
+@@ -685,6 +689,30 @@ class World:
+         c = sql(f"SELECT guid,race,class,level,gender FROM characters WHERE name='{char}'", "characters")[0]
+         self.guid, self.race, self.cls, self.gender = int(c["guid"]), int(c["race"]), int(c["class"]), int(c["gender"])
+         self.inventory = {}  # refreshed by the runner; used by CONDITION_ITEM
++        # supplies for fighting, sold by vendors spawned here: a ranged weapon our STARTING weapon
++        # skills can fire (bow 45 / gun 46 / crossbow 226 / thrown 176 -> item subclass 2/3/18/16),
++        # its ammo (class 6: arrows 2, bullets 3) and food (class 0/5, spell category 11)
++        skills = {int(r["skill"]) for r in sql(
++            f"SELECT skill FROM playercreateinfo_skills WHERE (raceMask=0 OR raceMask & {1 << (self.race - 1)}) "
++            f"AND (classMask=0 OR classMask & {1 << (self.cls - 1)})")}
++        self.ranged_sub = {sub for sk, sub in ((45, 2), (46, 3), (226, 18), (176, 16)) if sk in skills}
++        self.shop = [dict(vendor=int(r["vendor"]), item=int(r["item"]), cls=int(r["class"]), sub=int(r["subclass"]),
++                          lvl=int(r["lvl"]), price=int(r["price"]), buy=max(int(r["bc"]), 1), spell=int(r["spell"]),
++                          dps=(int(r["dmin"]) + int(r["dmax"])) / max(int(r["delay"]), 1))
++                     for r in sql(
++            "SELECT v.entry vendor,i.entry item,i.class,i.subclass,i.RequiredLevel lvl,i.BuyPrice price,i.BuyCount bc,"
++            "i.spellid_1 spell,i.dmg_min1 dmin,i.dmg_max1 dmax,i.delay FROM npc_vendor v JOIN item_template i ON i.entry=v.item "
++            f"WHERE v.entry IN ({ce}) AND v.ExtendedCost=0 "
++            f"AND (i.AllowableClass<=0 OR i.AllowableClass & {1 << (self.cls - 1)}) "
++            f"AND (i.AllowableRace<=0 OR i.AllowableRace & {1 << (self.race - 1)}) AND ("
++            "(i.class=2 AND i.subclass IN (2,3,16,18)) OR (i.class=6 AND i.subclass IN (2,3)) "
++            "OR (i.class=0 AND i.subclass=5 AND i.spellcategory_1=11))")]
++        # healing potions (looted, rarely sold this low): item -> its on-use spell, when that heals
++        pots = {int(r["entry"]): int(r["spell"]) for r in sql(
++            "SELECT entry,spellid_1 spell FROM item_template WHERE class=0 AND subclass=1 AND RequiredLevel<=30 AND spellid_1>0")}
++        heal = {int(r["id"]) for r in dbc(f"SELECT id FROM spell WHERE effect_1=10 AND id IN ({inlist(pots.values())})")} if pots else set()
++        self.potions = {i: sp for i, sp in pots.items() if sp in heal}
++        self.item_info = {}  # entry -> (class, subclass, on-use spell, spell category), filled on demand
+         self.rewarded = set(ids(sql(f"SELECT quest FROM character_queststatus_rewarded WHERE guid={self.guid}", "characters"), "quest"))
+         # class trainers spawned in the area (trainer.Type 0 = class, Requirement = class id)
+         rows = sql(
+@@ -859,6 +887,113 @@ class Runner:
+                 out.append(dict(a, spell_id=have[-1]))
+         self.abilities = out
+ 
++    def items(self, entries):
++        """(class, subclass, on-use spell, spell category) of item entries, cached."""
++        want = [e for e in set(entries) if e and e not in self.w.item_info]
++        if want:
++            for r in sql(f"SELECT entry,class,subclass,spellid_1 sp,spellcategory_1 cat FROM item_template WHERE entry IN ({inlist(want)})"):
++                self.w.item_info[int(r["entry"])] = (int(r["class"]), int(r["subclass"]), int(r["sp"]), int(r["cat"]))
++        return {e: self.w.item_info.get(e) for e in entries}
++
++    def bags(self):
++        """(entry -> count in the bags, entry worn in the ranged slot or 0)."""
++        inv = call("interact.inventory")
++        have = {}
++        for it in inv.get("items", []):
++            if it.get("entry"):
++                have[it["entry"]] = have.get(it["entry"], 0) + it.get("count", 1)
++        ranged = next((it.get("entry", 0) for it in inv.get("equipped", []) if it.get("slot") == 17), 0)
++        return have, ranged
++
++    def fight_args(self):
++        """combat.kill arguments: the rotation, a healing potion when we carry one (below 35 %, the
++        potion cooldown is 2 min) and a ranged opener when we wear something to open with."""
++        if time.time() - getattr(self, "_kit_t", 0) > 60:  # bags change slowly; ask once a minute
++            self._kit_t = time.time()
++            have, ranged = self.bags()
++            pot = next((i for i in sorted(self.w.potions, reverse=True) if have.get(i)), 0)
++            self._potion = [{"spell_id": self.w.potions[pot], "item_id": pot, "every_ms": 120000,
++                             "below_health_pct": 35}] if pot else []
++            food = [i for i, inf in self.items(list(have)).items() if inf and inf[0] == 0 and inf[1] == 5 and inf[3] == 11]
++            self._food = {"food_item": food[0], "food_spell": self.items(food)[food[0]][2]} if food else {}
++            self._pull = 0
++            if ranged:
++                sub = self.items([ranged])[ranged][1]
++                known = set(call("interact.spells").get("spells", []))
++                if sub == 16 and 2764 in known:
++                    self._pull = 2764  # Throw: no ammo
++                elif sub in (2, 3, 18) and 3018 in known and any(
++                        inf and inf[0] == 6 for inf in self.items(list(have)).values()):
++                    self._pull = 3018  # Shoot: needs ammo in the bags (set_ammo picked it)
++        a = {"abilities": self._potion + self.abilities}
++        if self._pull:
++            a["pull_spell"] = self._pull
++        return a
++
++    def rest(self, until_pct=90):
++        """Sit until healed - eating first when we are low and carry food."""
++        self.fight_args()  # refreshes the food pick
++        r = call("combat.rest", until_pct=until_pct, **self._food)
++        if r.get("ate"):
++            self._kit_t = 0  # one bite fewer: re-read the bags
++        return r
++
++    def supplies(self, level):
++        """Buy a ranged weapon (pull from range: a camp mob walks to us alone), its ammo and food
++        from the area's vendors. Once per level; the weapon is worth a walk of up to 300 yd, the
++        rest only when a vendor is close."""
++        if getattr(self, "_supplied", 0) >= level or not self.w.shop:
++            return
++        self._supplied = level
++        have, ranged = self.bags()
++        me, money = self.me(), call("interact.self").get("money", 0)
++
++        def buy(rows, count, max_walk):
++            for r in rows:
++                p = self.w.nearest("c", r["vendor"], me, self.phase_mask())
++                if not p or math.dist(p[:2], (me["x"], me["y"])) > max_walk:
++                    continue
++                if not self.go_near("c", r["vendor"]):
++                    continue
++                res = call("interact.vendor_buy", target={"entry": r["vendor"]}, item_id=r["item"], count=count)
++                print(f"  supplies: buy {r['item']} x{count} from {r['vendor']}: {res.get('detail')}", flush=True)
++                if res.get("ok"):
++                    return r
++            return None
++        if not ranged and self.w.ranged_sub:
++            guns = sorted((r for r in self.w.shop if r["cls"] == 2 and r["sub"] in self.w.ranged_sub
++                           and r["lvl"] <= level and r["price"] * 2 <= money), key=lambda r: -r["dps"])
++            got = buy(guns, 1, 300)
++            if got:
++                time.sleep(1)
++                slot = next((it for it in call("interact.inventory").get("items", []) if it.get("entry") == got["item"]), None)
++                if slot:
++                    res = call("interact.equip", bag=slot["bag"], slot=slot["slot"])
++                    print(f"  supplies: equipped ranged {got['item']}: {res.get('detail')}", flush=True)
++                    ranged, money = got["item"], money - got["price"]
++                    have, _ = self.bags()
++        if ranged:
++            sub = self.items([ranged])[ranged][1]
++            ammo_sub = {2: 2, 18: 2, 3: 3}.get(sub)
++            ammo = [e for e, inf in self.items(list(have)).items() if inf and inf[0] == 6 and inf[1] == ammo_sub]
++            if ammo_sub and sum(have[e] for e in ammo) < 100:
++                rows = sorted((r for r in self.w.shop if r["cls"] == 6 and r["sub"] == ammo_sub and r["lvl"] <= level
++                               and r["price"] * 3 <= money), key=lambda r: (-r["lvl"], r["price"]))
++                got = buy(rows, 1, 150)
++                if got:
++                    ammo.append(got["item"])
++                    money -= got["price"]
++            if ammo:
++                res = call("interact.set_ammo", entry=ammo[-1])
++                print(f"  supplies: ammo {ammo[-1]}: {res.get('detail')}", flush=True)
++        food = [e for e, inf in self.items(list(have)).items() if inf and inf[0] == 0 and inf[1] == 5 and inf[3] == 11]
++        if sum(have[e] for e in food) < 5:
++            rows = sorted((r for r in self.w.shop if r["cls"] == 0 and r["lvl"] <= level and r["price"] * 10 <= money),
++                          key=lambda r: (-r["lvl"], r["price"]))
++            if rows:
++                buy(rows, max(1, 10 // rows[0]["buy"]), 150)
++        self._kit_t = 0
++
+     def reach_trainer(self, t):
+         """Walk to the trainer's NEAREST spawn only and stand by him if he is there. go_near would fall
+         back to farther spawn points - Shadowglen's in-tree Warrior Trainer is never found, and the
+@@ -1007,10 +1142,12 @@ class Runner:
+         t = max(mobs, key=lambda o: (round(math.dist((o["x"], o.get("y", 0)), spot[:2]) / 5), -o.get("distance", 0)))
+         ux, uy = t["x"] - spot[0], t.get("y", 0) - spot[1]
+         n = max(math.hypot(ux, uy), 0.01)
+-        ax, ay = t["x"] + ux / n * 6, t.get("y", 0) + uy / n * 6  # its outer side
++        # its outer side: 6 yd to walk in and swing, 20 yd with a ranged opener (it walks out to us)
++        off = 20 if self.fight_args().get("pull_spell") else 6
++        ax, ay = t["x"] + ux / n * off, t.get("y", 0) + uy / n * off
+         if math.dist((me["x"], me["y"]), (ax, ay)) > 8:
+             self.travel(ax, ay, ground(ax, ay, t.get("z", 0)), within=4)
+-        r = call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
++        r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
+         self.fight_log(t["entry"], r)
+         self.kills += r.get("killed", False)
+         if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
+@@ -1019,7 +1156,7 @@ class Runner:
+             self.camp_deaths[key] = self.camp_deaths.get(key, 0) + 1
+         print(f"  clear camp at ({spot[0]:.0f},{spot[1]:.0f}): {t['entry']} - {r.get('reason', 'killed')} "
+               f"({len(mobs) - 1} left)", flush=True)
+-        call("combat.rest", until_pct=90)
++        self.rest(90)
+         return True
+ 
+     def grind(self, level):
+@@ -1062,7 +1199,8 @@ class Runner:
+                 return True
+         if t.get("distance", 0) > 5:  # the kill RPC will not chase far ("too far") - close in first
+             self.travel(t["x"], t.get("y", 0), t.get("z", 0), within=4)
+-        r = call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
++        r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
++        self.fight_log(t["entry"], r)
+         self.kills += r.get("killed", False)
+         if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
+             # twice, not once: a single evade (unreachable, leashed) is not a friendly mob - Ammen Vale
+@@ -1132,7 +1270,7 @@ class Runner:
+         mobs = [o for o in objs if o.get("health", 0) > 0 and not o.get("npcFlags")]
+         cands = [o for o in mobs if o.get("entry") == entry and o.get("distance", 999) < 60]
+         if not cands:
+-            return call("combat.kill", entry=entry, abilities=self.abilities, loot=True)
++            return call("combat.kill", entry=entry, **self.fight_args(), loot=True)
+ 
+         def crowd(t):
+             return sum(1 for m in mobs if m is not t and
+@@ -1149,22 +1287,26 @@ class Runner:
+             out = max(group, key=lambda m: (round(math.dist((m["x"], m.get("y", 0)), (cx, cy)) / 4), -m.get("distance", 0)))
+             ux, uy = out["x"] - cx, out.get("y", 0) - cy
+             n = max(math.hypot(ux, uy), 0.01)
+-            ax, ay = out["x"] + ux / n * 6, out.get("y", 0) + uy / n * 6
++            off = 20 if self.fight_args().get("pull_spell") else 6  # a ranged opener stands well back
++            ax, ay = out["x"] + ux / n * off, out.get("y", 0) + uy / n * off
+             me = self.me()
+             if math.dist((me["x"], me["y"]), (ax, ay)) > 8:
+                 self.travel(ax, ay, ground(ax, ay, out.get("z", 0)), within=4)
+             t = out
+-        r = call("combat.kill", guid=int(t["guid"]), abilities=self.abilities, loot=True)
++        r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
+         self.fight_log(t["entry"], r)
+         if len(group) > 1:
+-            call("combat.rest", until_pct=90)
++            self.rest(90)
+         return r
+ 
+-    def fight_log(self, entry, r):
++    def fight_log(self, entry, r, kind="pull"):
+         """One line per fight with what the combat module measured - how hard we hit vs how hard we
+-        are hit is the number that explains the death rate of fresh characters."""
+-        print(f"  fight {entry}: {r.get('reason', 'killed')} swings {r.get('swings', 0)} dealt {r.get('damageDone', 0)} "
+-              f"taken {r.get('damageTaken', 0)}", flush=True)
++        are hit, and how many attacked us at once (a single pull vs a pack: the death-rate question).
++        kind: pull (we chose the target) or defend (it came at us - on the road, mid-quest)."""
++        print(f"  fight {entry}: {r.get('reason', 'killed')} [{kind} x{r.get('peakAttackers', 1)}"
++              f"{' ' + r['pull'] if r.get('pull') else ''}] swings {r.get('swings', 0)} dealt {r.get('damageDone', 0)} "
++              f"taken {r.get('damageTaken', 0)} hp {r.get('ourHealth', 0)}/{r.get('ourMaxHealth', 0)} casts {r.get('casts', 0)}",
++              flush=True)
+ 
+     def spirit_rez(self):
+         """Resurrect at the nearest spirit healer (npcflag 0x4000; only a ghost sees one). Its spawn
+@@ -1231,7 +1373,7 @@ class Runner:
+                     except StepFailed:
+                         pass
+                     if self.spirit_rez():
+-                        call("combat.rest", until_pct=90)
++                        self.rest(90)
+                         return
+             self.reviving = True
+             try:
+@@ -1241,14 +1383,15 @@ class Runner:
+             return
+         for g in st.get("attackers", []):
+             try:
+-                r = call("combat.kill", guid=int(g), abilities=self.abilities, loot=True)
++                r = call("combat.kill", guid=int(g), **self.fight_args(), loot=True)
+             except StepFailed as e:  # a long fight can outlast one RPC; the next pass resumes it
+                 print(f"  ~ defending: {str(e)[:80]}", flush=True)
+                 continue
++            self.fight_log(r.get("entry", 0), r, "defend")
+             self.kills += r.get("killed", False)
+         s = call("interact.self")
+         if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70:  # never start a pull half dead
+-            call("combat.rest", until_pct=90)
++            self.rest(90)
+ 
+     def _revive_loop(self, corpse):
+         """Revive on a clock (release, walk back, wait out the reclaim delay, reclaim); fall back to the
+@@ -1287,7 +1430,80 @@ class Runner:
+                 time.sleep(3)
+             else:
+                 raise SystemExit("RESULT: FAIL - still a ghost after 10 min of revive attempts")
+-            call("combat.rest", until_pct=90)
++            self.rest(90)
++
++    def threats(self):
++        """Spawn points of creatures that attack us on sight: [(x, y, level, entry)]. One batch query
++        (hostile() asks per entry - hundreds of entries here)."""
++        if getattr(self, "_threats", None) is None:
++            side = 2 if self.w.race in (1, 3, 4, 7, 11, 12) else 4
++            rows = sql(f"SELECT entry,faction,minlevel,type,npcflag FROM creature_template WHERE entry IN ({inlist(self.w.cspawn)})")
++            facs = inlist({int(r["faction"]) for r in rows})
++            enemy = {int(r["id"]) for r in dbc(f"SELECT id,enemy_group e FROM factiontemplate WHERE id IN ({facs})")
++                     if int(r["e"]) & (1 | side)}
++            lvl = {int(r["entry"]): int(r["minlevel"]) for r in rows
++                   if int(r["faction"]) in enemy and int(r["type"]) != 8 and int(r["npcflag"]) == 0}
++            self._threats = [(p[0], p[1], lvl[e], e) for e, pts in self.w.cspawn.items() if e in lvl
++                             for p in pts if p not in self.w.beyond]
++        return self._threats
++
++    def detour(self, x, y, z):
++        """Waypoints that keep the walk out of hostile camps (a player skirts them; the bot walked the
++        straight navmesh line through them and died on the road - 38 of Shadowglen's 41 deaths).
++        Plans the path, finds the first stretch inside a mob's aggro radius (20 yd at our level, one
++        less per level we are above it) that is not the destination's own camp, and goes around that
++        cluster on whichever side the navmesh allows."""
++        level = call("interact.self").get("level", 1)
++        try:
++            pts = call("move.path", x=x, y=y, z=z).get("points", [])
++        except StepFailed:
++            return []
++        if len(pts) < 2:
++            return []
++        start = (pts[0].get("x", 0), pts[0].get("y", 0))
++
++        def radius(t):
++            return max(6.0, min(28.0, 20.0 + t[2] - level)) + 4  # +4: the mob is not always on its spawn
++        threats = [t for t in self.threats() if level - t[2] < 6                    # grey mobs leave us be
++                   and math.dist(t[:2], (x, y)) > radius(t) + 15                     # the camp we are going to
++                   and math.dist(t[:2], start) > radius(t)                           # one we are already in
++                   and not any(math.dist(t[:2], c) < 30 for c in self._skirted)]       # skirted this trip
++        hit = None
++        for a, b in zip(pts, pts[1:]):
++            ax, ay, bx, by = a.get("x", 0), a.get("y", 0), b.get("x", 0), b.get("y", 0)
++            n = max(1, int(math.dist((ax, ay), (bx, by)) / 4))
++            for i in range(n + 1):
++                px, py = ax + (bx - ax) * i / n, ay + (by - ay) * i / n
++                hit = next((t for t in threats if math.dist(t[:2], (px, py)) < radius(t)), None)
++                if hit:
++                    break
++            if hit:
++                dx, dy = bx - ax, by - ay
++                break
++        if not hit:
++            return []
++        camp = [t for t in threats if math.dist(t[:2], hit[:2]) < 25]
++        cx, cy = sum(t[0] for t in camp) / len(camp), sum(t[1] for t in camp) / len(camp)
++        R = max(math.dist(t[:2], (cx, cy)) + radius(t) for t in camp) + 6
++        L = max(math.hypot(dx, dy), 0.01)
++        best = None
++        for side in (1, -1):  # either flank of the camp, perpendicular to our heading
++            wx, wy = cx - dy / L * R * side, cy + dx / L * R * side
++            if any(math.dist(t[:2], (wx, wy)) < radius(t) for t in threats):
++                wx, wy = cx - dy / L * (R + 15) * side, cy + dx / L * (R + 15) * side
++            g = call("move.ground", x=wx, y=wy, z=z)
++            if not g.get("ok"):
++                continue
++            cost = math.dist(start, (wx, wy)) + math.dist((wx, wy), (x, y))
++            if best is None or cost < best[0]:
++                best = (cost, (wx, wy, g["z"]))
++        if not best:
++            return []
++        w = best[1]
++        self._skirted.append((cx, cy))  # going round it once is enough: re-planning from the flank
++        # would see its edge again and walk us around it in circles (Kezan: 4 detours, one camp)
++        print(f"  detour around a camp of {len(camp)} at ({cx:.0f},{cy:.0f}) via ({w[0]:.0f},{w[1]:.0f})", flush=True)
++        return [w]
+ 
+     def travel(self, x, y, z, within=4.0):
+         me = self.me()
+@@ -1295,12 +1511,33 @@ class Runner:
+         if far > 300:  # a long trip is worth a line: where to and why is in the caller's next print
+             caller = traceback.extract_stack(limit=3)[0]
+             print(f"  travel {far:.0f} yd -> ({x:.0f},{y:.0f},{z:.0f}) from line {caller.lineno} ({caller.name})", flush=True)
++        # skirt hostile camps on the way (a ghost walks straight through: nothing sees it). One
++        # detour at a time, re-planned from each waypoint, so camp after camp is avoided
++        if far > 40 and not self.reviving and not getattr(self, "_detouring", False):
++            self._detouring, self._skirted = True, []
++            try:
++                for _ in range(6):
++                    try:
++                        wps = self.detour(x, y, z)
++                    except (StepFailed, KeyError, ValueError, ZeroDivisionError) as e:
++                        print(f"  ~ detour: {str(e)[:80]}", flush=True)  # plan failed: the plain path
++                        break
++                    here = self.me()
++                    if not wps or math.dist((here["x"], here["y"]), wps[0][:2]) < 12:
++                        break  # nothing in the way, or the flank we stand on already: walk on
++                    try:
++                        self.travel(*wps[0], within=8)
++                    except StepFailed:
++                        break  # the flank is unwalkable after all: take the plain path
++            finally:
++                self._detouring = False
+         # walk in 6 s slices and turn to fight between them: one 25 s path_to let a mob that aggroed
+         # on the way hit our back the whole time (most early deaths were on the road, not in camps)
+         for _ in range(60):
+             before = self.me()
+             try:
+-                r = call("move.path_to", x=x, y=y, z=ground(x, y, z), budget_ms=6000)
++                # stop the moment something attacks: fight it where it caught us, then walk on
++                r = call("move.path_to", x=x, y=y, z=ground(x, y, z), budget_ms=6000, stop_on_attack=not self.reviving)
+             except StepFailed as e:
+                 e.args = (f"{e} [to {x:.0f},{y:.0f},{z:.0f} nav {self.nav_map() or 'own'}]",)
+                 if "start not on navmesh" in str(e):
+@@ -1656,7 +1893,7 @@ class Runner:
+             r = info.get(it.get("entry"))
+             return (int(r["Quality"]), int(r["SellPrice"]) * it.get("count", 1)) if r else (9, 0)
+         cands = [it for it in pack if it.get("entry") in info and it["entry"] not in wanted
+-                 and int(info[it["entry"]]["class"]) not in (1, 12) and int(info[it["entry"]]["startquest"]) == 0
++                 and int(info[it["entry"]]["class"]) not in (0, 1, 6, 12) and int(info[it["entry"]]["startquest"]) == 0
+                  and int(info[it["entry"]]["Quality"]) <= 2]
+         for it in sorted(cands, key=junk_rank):
+             if free >= need:
+@@ -1792,7 +2029,8 @@ class Runner:
+             if not live:
+                 continue
+             g = int(min(live, key=lambda o: o["distance"])["guid"])
+-            r = call("combat.kill", guid=g, abilities=self.abilities, loot=True)
++            r = call("combat.kill", guid=g, **self.fight_args(), loot=True)
++            self.fight_log(r.get("entry", 0), r)
+             self.kills += r.get("killed", False)
+             if "no damage" in r.get("reason", ""):
+                 self.immune[g] = now
+@@ -2312,7 +2550,8 @@ class Runner:
+                 if not live:
+                     raise StepFailed(f"no living {target} beside {self.w.summoned_near[target]}")
+                 o = min(live, key=lambda x: x["distance"])
+-                r = call("combat.kill", guid=int(o["guid"]), abilities=self.abilities, loot=True)
++                r = call("combat.kill", guid=int(o["guid"]), **self.fight_args(), loot=True)
++                self.fight_log(o["entry"], r)
+                 self.kills += r.get("killed", False)
+                 return True
+             if target > 0 and target not in self.w.cspawn and target in self.w.kill_alias:
+@@ -2370,7 +2609,7 @@ class Runner:
+                 k = self.w.death_credit[target]
+                 live = [o for o in call("interact.find", entry=k, limit=3).get("objects", []) if o["health"] > 0]
+                 if live:
+-                    r = call("combat.kill", guid=int(live[0]["guid"]), abilities=self.abilities, loot=True)
++                    r = call("combat.kill", guid=int(live[0]["guid"]), **self.fight_args(), loot=True)
+                     print(f"  kill {k} for credit {target}: {r.get('reason', 'killed')}", flush=True)
+                     return True
+                 if k in self.w.cspawn:
+@@ -2399,7 +2638,7 @@ class Runner:
+                                 if o["health"] > 0 and o["entry"] not in friends and o.get("type") == 3
+                                 and math.dist((o["x"], o["y"]), (g["x"], g["y"])) < 35]
+                         for o in sorted(foes, key=lambda x: math.dist((x["x"], x["y"]), (g["x"], g["y"]))):
+-                            r = call("combat.kill", guid=int(o["guid"]), abilities=self.abilities, loot=False)
++                            r = call("combat.kill", guid=int(o["guid"]), **self.fight_args(), loot=False)
+                             if not r.get("reason", "").startswith(("cannot attack", "no damage")):
+                                 print(f"  escort {esc} stalled - fought {o['entry']}: {r.get('reason', 'killed')}", flush=True)
+                                 break
+@@ -2680,6 +2919,10 @@ class Runner:
+                 self.train(level)
+             except StepFailed as e:  # trainer out of reach: train later
+                 print(f"  ~ trainer: {e}", flush=True)
++            try:
++                self.supplies(level)
++            except StepFailed as e:
++                print(f"  ~ supplies: {e}", flush=True)
+             # the quest log update that removes a turned-in quest can lag the reward packet
+             log = {q: e for q, e in log.items() if q not in self.w.rewarded}
+             ready = [q for q, e in log.items() if q in self.w.quests and e.get("state") == 1 and q not in self.blocked]
+diff --git a/zeppelin/wow/objects.go b/zeppelin/wow/objects.go
+index c98e8bb..2005076 100644
+--- a/zeppelin/wow/objects.go
++++ b/zeppelin/wow/objects.go
+@@ -401,3 +401,27 @@ func (s *Store) Inventory() []InventoryItem {
+ 	}
+ 	return out
+ }
++
++// Equipped lists what we wear: bag 255, slot = equipment slot (0 head .. 15 main hand, 16 off hand,
++// 17 ranged, 18 tabard).
++func (s *Store) Equipped() []InventoryItem {
++	s.mu.RLock()
++	defer s.mu.RUnlock()
++	me, ok := s.objects[s.self]
++	if !ok {
++		return nil
++	}
++	var out []InventoryItem
++	for i := 0; i < 19; i++ {
++		g := guidAt(me.Values, uint16(FieldPlayerInvSlot+2*i))
++		if g == 0 {
++			continue
++		}
++		it := InventoryItem{GUID: g, Bag: BagBackpack, Slot: uint8(i), Count: 1}
++		if o, ok := s.objects[g]; ok {
++			it.Entry, it.Count = o.Values[FieldEntry], o.Values[FieldItemStackCount]
++		}
++		out = append(out, it)
++	}
++	return out
++}
+-- 
+2.34.1
+
