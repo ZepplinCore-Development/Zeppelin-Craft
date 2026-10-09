@@ -1,0 +1,70 @@
+From 59400ee940bcc3b86204e29fd28498f8c1cd0619 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 02:35:08 +0000
+Subject: [PATCH] fix: trainer at its nearest spawn only; red quests wait for
+ our level (F-219)
+
+Shadowglen (level 2, 1 quest, 10 deaths after an hour):
+- the in-tree Warrior Trainer is never found at its spawn and go_near fell back to the other copy
+  472 yd away - a deadly walk at every level-up. reach_trainer() tries the nearest spawn only.
+- the quest-hub sweep hands out The Emerald Dreamcatcher (QuestLevel 6) at level 2 and the bot
+  went for it once easier quests stalled. Quests more than 2 levels above us now join the level
+  gate's parked set (grind meanwhile).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index baf4bdf..67eea77 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -856,6 +856,20 @@ class Runner:
+                 out.append(dict(a, spell_id=have[-1]))
+         self.abilities = out
+ 
++    def reach_trainer(self, t):
++        """Walk to the trainer's NEAREST spawn only and stand by him if he is there. go_near would fall
++        back to farther spawn points - Shadowglen's in-tree Warrior Trainer is never found, and the
++        fallback walked a level-2 night elf 472 yd across the valley to the other copy (and death)."""
++        me = self.me()
++        p = self.w.nearest("c", t, me, self.phase_mask())
++        if not p:
++            return None
++        self.travel(*p, within=15)
++        o = next((x for x in call("interact.find", entry=t, limit=3).get("objects", []) if x.get("distance", 99) < 40), None)
++        if o and o.get("distance", 0) > 4:
++            self.travel(o["x"], o.get("y", 0), o.get("z", 0), within=3)
++        return o
++
+     def train(self, level):
+         """Visit the class trainer after every level-up (and once at the start)."""
+         if level <= self.trained_level:
+@@ -881,7 +895,7 @@ class Runner:
+                     and all(q in known for q in x["req"])]
+             if not todo:
+                 print(f"[TRAIN] level {level}: nothing new at trainer {t} - not visiting", flush=True)
+-            elif not self.go_near("c", t):
++            elif not self.reach_trainer(t):
+                 print(f"[TRAIN] level {level}: trainer {t} not found at his spawn - skipped", flush=True)
+             else:
+                 r = call("interact.trainer_learn_all", entry=t)
+@@ -2673,8 +2687,11 @@ class Runner:
+                                        int(self.w.quests[q].get("QuestLevel") or 0), dist[q]))
+             # a quest that killed us twice waits until we outlevel it (Brotherhood of Thieves: a
+             # level-3 warrior meets Defias Thugs two at a time) - a player would level first too
+-            hard = [q for q in active if self.deaths_on.get(q, 0) >= 2
+-                    and level <= int(self.w.quests[q].get("QuestLevel") or 0)]
++            hard = [q for q in active if (self.deaths_on.get(q, 0) >= 2
++                    and level <= int(self.w.quests[q].get("QuestLevel") or 0))
++                    # a red quest (3+ levels above us) waits too: the hub sweep hands a level-2 night elf
++                    # The Emerald Dreamcatcher (level 6) and it walked into a Grell camp
++                    or int(self.w.quests[q].get("QuestLevel") or 0) > level + 2]
+             active = [q for q in active if q not in hard]
+             progressed = False
+             for qid in active:
+-- 
+2.34.1
+
