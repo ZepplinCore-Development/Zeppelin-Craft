@@ -1,0 +1,34 @@
+From d3a3f473bd34955f8ef41f9bc13f63943d458358 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 06:28:50 +0000
+Subject: [PATCH] fix: waiting on open quests refreshes their attempts (F-219)
+
+Deathknell again: Rattling the Rattlecages 3901 ran out of strikes while its skeletons respawned,
+fell out of the active list, and the idle wait only checked the DB without letting the quest be
+tried again. The wait now clears the strikes of the open quests it waits for.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index edf205f..ef196bb 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2787,6 +2787,11 @@ class Runner:
+                     if int(r["quest"]) in self.w.quests]
+                 if open_q and self.idle_rechecks < 20:
+                     self.idle_rechecks += 1
++                    # the usual reason nothing is workable: we cleared the targets and they are
++                    # respawning, and the strikes ran out meanwhile (Deathknell's Rattlecage
++                    # Skeletons) - give those quests fresh attempts for when they are back
++                    for q in open_q:
++                        self.stuck.pop(q, None)
+                     print(f"  nothing workable right now but {open_q} still open in the DB - waiting", flush=True)
+                     time.sleep(15)
+                     idle = 0
+-- 
+2.34.1
+
