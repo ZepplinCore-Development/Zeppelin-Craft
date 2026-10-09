@@ -1,0 +1,37 @@
+From 34871ca545e5f972d31e08428a2fc5fe2eb12b23 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 03:52:20 +0000
+Subject: [PATCH] fix: path points with a zero coordinate (F-219)
+
+Valley runner crashed with KeyError 'x' splitting a long route: proto3 JSON omits zero fields, so a
+path point at x 0 has no x key. Read path coordinates with a 0 default.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 67eea77..33657c8 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1330,12 +1330,13 @@ class Runner:
+                     pts = call("move.path", x=x, y=y, z=ground(x, y, z)).get("points", [])
+                     far, run = None, 0.0
+                     for a, b in zip(pts, pts[1:]):
+-                        run += math.dist((a["x"], a["y"], a["z"]), (b["x"], b["y"], b["z"]))
++                        # proto3 JSON drops zero fields - a path point at x 0 has no "x" (Valley crash)
++                        run += math.dist((a.get("x", 0), a.get("y", 0), a.get("z", 0)), (b.get("x", 0), b.get("y", 0), b.get("z", 0)))
+                         far = b
+                         if run > 1500:
+                             break
+                     if far:
+-                        if not self.travel(far["x"], far["y"], far["z"], within=10):
++                        if not self.travel(far.get("x", 0), far.get("y", 0), far.get("z", 0), within=10):
+                             raise
+                         continue
+                     mx, my = (me["x"] + x) / 2, (me["y"] + y) / 2
+-- 
+2.34.1
+
