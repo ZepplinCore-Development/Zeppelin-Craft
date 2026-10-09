@@ -1,0 +1,94 @@
+From cea44e7bf5b8f670a93f8203ec823c246d38d418 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 9 Oct 2026 07:36:05 +0000
+Subject: [PATCH] fix: a too-strong camp parks its quest by level (no busy
+ loop); grind walks capped (F-219)
+
+- Coldridge: 'camp killed us 2x - later' printed 5886 times in 30 min - clear_camp returned
+  True (progress) and A Refugee's Quandary is below our level, so the death gate never held it.
+  clear_camp now returns 'later', the step reports no progress, and the quest waits in
+  defer_until for the level the camp needs (part of the level gate).
+- walk_to_grind relaxes to 700 / 1000 yd, not the whole map (Camp Narache walked 1243 yd).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 29 ++++++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index ef196bb..e705e45 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -840,6 +840,7 @@ class Runner:
+         self.visited_trainer_level = 1  # level of the last trainer visit (far trainers wait 3 levels)
+         self.stuck_t = {}        # quest -> time of its last stuck strike
+         self.camp_deaths = {}    # camp (20 yd cell) -> deaths there
++        self.defer_until = {}    # quest -> level it waits for (a camp too strong for us)
+         self.last_death_on = {}  # quest -> time it last killed us
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+@@ -939,7 +940,8 @@ class Runner:
+             f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(self.w.objective_creatures)}) "
+             "AND (flags_extra & 64)=0")}
+         lv = {e: m for e, m in lv.items() if e not in self.grind_skip}
+-        for top, reach in ((cap, 400), (cap, 1e9), (level, 1e9)):
++        # never across the whole map: Camp Narache walked 1243 yd to grind (and died on the way)
++        for top, reach in ((cap, 400), (cap, 700), (level, 1000)):
+             # the toughest allowed mob pays the most XP (Deathknell: level-1 zombies gave a level-4
+             # almost nothing while level-3/4 spiders stood nearby)
+             spots = sorted(((-lv[e], math.dist(p[:2], (me["x"], me["y"])), p) for e in lv if lv[e] <= top
+@@ -985,17 +987,22 @@ class Runner:
+         if self.camp_deaths.get(key, 0) >= 2 and level < top + 2:
+             q = getattr(self, "current_qid", None)
+             if q:
+-                self.deaths_on[q] = max(self.deaths_on.get(q, 0), 2)
+-            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) killed us {self.camp_deaths[key]}x - later", flush=True)
+-            return True
++                # parked until a LEVEL, not by the death count: A Refugee's Quandary is below our level,
++                # so the death gate never held it and this check looped 5886 times in 30 min
++                self.defer_until[q] = max(self.defer_until.get(q, 0), top + 2)
++            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) killed us {self.camp_deaths[key]}x - "
++                  f"back at level {top + 2}", flush=True)
++            return "later"
+         if any(info.get(o["entry"], (99, 0))[0] > level for o in mobs):
+             # a guard 2+ levels above us (Ammen Vale: a level-2 draenei died to a Mutated Root Lasher
+             # clearing the last mob) - not a fight to take yet: park the quest until we outlevel it
+             q = getattr(self, "current_qid", None)
++            guard = max(info.get(o["entry"], (99, 0))[0] for o in mobs)
+             if q:
+-                self.deaths_on[q] = max(self.deaths_on.get(q, 0), 2)
+-            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) is guarded above level {level} - later", flush=True)
+-            return True
++                self.defer_until[q] = max(self.defer_until.get(q, 0), guard)
++            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) is guarded above level {level} - back at level {guard}",
++                  flush=True)
++            return "later"
+         # outermost = farthest from the crate; among those, the nearest to us
+         t = max(mobs, key=lambda o: (round(math.dist((o["x"], o.get("y", 0)), spot[:2]) / 5), -o.get("distance", 0)))
+         ux, uy = t["x"] - spot[0], t.get("y", 0) - spot[1]
+@@ -2623,7 +2630,10 @@ class Runner:
+                         return True
+                     continue
+                 spot = self.w.nearest("g", go, self.me(), self.phase_mask())
+-                if spot and self.clear_camp(spot):
++                cleared = self.clear_camp(spot) if spot else False
++                if cleared == "later":
++                    return False  # parked until we level - no progress, let other quests run
++                if cleared:
+                     return True  # pulled one camp mob; the crate waits until the camp is clear
+                 o = self.go_near("g", go, usable_only=True)
+                 if o:
+@@ -2707,7 +2717,8 @@ class Runner:
+                     and level <= int(self.w.quests[q].get("QuestLevel") or 0))
+                     # a red quest (3+ levels above us) waits too: the hub sweep hands a level-2 night elf
+                     # The Emerald Dreamcatcher (level 6) and it walked into a Grell camp
+-                    or int(self.w.quests[q].get("QuestLevel") or 0) > level + 2]
++                    or int(self.w.quests[q].get("QuestLevel") or 0) > level + 2
++                    or level < self.defer_until.get(q, 0)]
+             active = [q for q in active if q not in hard]
+             progressed = False
+             for qid in active:
+-- 
+2.34.1
+
