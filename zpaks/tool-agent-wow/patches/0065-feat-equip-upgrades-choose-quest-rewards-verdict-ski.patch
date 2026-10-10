@@ -1,0 +1,238 @@
+From ea19d694666d3867132c4c0e24dfe2c6e493734c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 08:35:22 +0000
+Subject: [PATCH] feat: equip upgrades + choose quest rewards; verdict skips
+ event/scripted/superseded; ender guard (F-219)
+
+- gear_up(): wear every usable bag item (class, level, armour type, starting weapon skills) that
+  beats what is in its slot (class-weighted stats + armour + weapon DPS; a two-hander vs main+off);
+  runs after every turn-in. Northshire's level-6 warrior still wore its starting kit with a belt,
+  cloak, trousers and boots in the bag
+- pick_reward(): the biggest usable upgrade among RewardChoiceItemIDs, else the best seller
+- verdict: superseded (RewardNextQuest done/taken - AC refuses the earlier quest), event-only
+  givers (game_event_creature) and scripted Special-quest givers are listed, not counted
+- hand-ins only for quests whose ender is in the area (9704's KeyError ended Sunstrider's run)
+
+Queued for the next fleet restart.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 140 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 135 insertions(+), 5 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 9b56dfe..5f3e8a1 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -103,6 +103,18 @@ def inlist(values):
+     return ",".join(str(v) for v in values) or "0"
+ 
+ 
++# -- gear: equip upgrades, choose quest rewards ---------------------------------------------------
++# InventoryType -> equipment slots it can go to (0 head .. 15 main hand, 16 off hand, 17 ranged)
++INV_SLOTS = {1: [0], 2: [1], 3: [2], 5: [4], 20: [4], 6: [5], 7: [6], 8: [7], 9: [8], 10: [9], 11: [10, 11],
++             12: [12, 13], 16: [14], 13: [15], 21: [15], 17: [15], 22: [16], 14: [16], 23: [16], 15: [17],
++             25: [17], 26: [17]}
++WEAPON_SKILL = {0: 44, 1: 172, 2: 45, 3: 46, 4: 54, 5: 160, 6: 229, 7: 43, 8: 55, 10: 136, 13: 473,
++                15: 173, 16: 176, 18: 226}  # item subclass -> skill line
++ARMOR_OK = {1: {1, 2, 3, 6}, 2: {1, 2, 3, 6}, 3: {1, 2}, 4: {1, 2}, 5: {1}, 6: {1, 2, 3}, 7: {1, 2}, 8: {1},
++            9: {1}, 11: {1, 2}}  # class -> armour subclasses wearable below 40 (6 = shield)
++STAT_W = {1: {4: 2.0, 3: 1.0, 7: 1.5}, 2: {4: 2.0, 5: 1.0, 7: 1.5}, 4: {3: 2.0, 4: 1.0, 7: 1.5}}  # STR 4 AGI 3 INT 5 STA 7
++
++
+ class World:
+     """Everything the runner needs about the area, loaded once."""
+ 
+@@ -157,7 +169,7 @@ class World:
+             if int(r["id"]) in self.gspawn:
+                 self.enders.setdefault(int(r["quest"]), []).append(("g", int(r["id"])))
+         self.quests = {int(r["ID"]): r for r in sql(
+-            "SELECT q.ID,q.LogTitle,q.MinLevel,q.QuestLevel,q.AllowableRaces,q.StartItem,"
++            "SELECT q.ID,q.LogTitle,q.MinLevel,q.QuestLevel,q.AllowableRaces,q.StartItem,q.RewardNextQuest,q.QuestSortID,"
+             "q.RequiredNpcOrGo1,q.RequiredNpcOrGo2,q.RequiredNpcOrGo3,q.RequiredNpcOrGo4,"
+             "q.RequiredNpcOrGoCount1,q.RequiredNpcOrGoCount2,q.RequiredNpcOrGoCount3,q.RequiredNpcOrGoCount4,"
+             "q.RequiredItemId1,q.RequiredItemId2,q.RequiredItemId3,q.RequiredItemId4,q.RequiredItemId5,q.RequiredItemId6,"
+@@ -711,6 +723,7 @@ class World:
+             f"SELECT skill FROM playercreateinfo_skills WHERE (raceMask=0 OR raceMask & {1 << (self.race - 1)}) "
+             f"AND (classMask=0 OR classMask & {1 << (self.cls - 1)})")}
+         self.ranged_sub = {sub for sk, sub in ((45, 2), (46, 3), (226, 18), (176, 16)) if sk in skills}
++        self.skills = skills  # weapon/armour proficiencies we start with (gear_up checks them)
+         self.shop = [dict(vendor=int(r["vendor"]), item=int(r["item"]), cls=int(r["class"]), sub=int(r["subclass"]),
+                           lvl=int(r["lvl"]), price=int(r["price"]), buy=max(int(r["bc"]), 1), spell=int(r["spell"]),
+                           dps=(int(r["dmin"]) + int(r["dmax"])) / max(int(r["delay"]), 1))
+@@ -903,6 +916,91 @@ class Runner:
+                 out.append(dict(a, spell_id=have[-1]))
+         self.abilities = out
+ 
++    def item_rows(self, entries):
++        """item_template rows (gear columns) for entries, cached."""
++        cache = self.__dict__.setdefault("_item_rows", {})
++        want = [e for e in set(entries) if e and e not in cache]
++        if want:
++            cols = ",".join(["entry", "class", "subclass", "InventoryType", "AllowableClass", "RequiredLevel",
++                             "armor", "dmg_min1", "dmg_max1", "delay", "SellPrice", "Quality"] +
++                            [f"stat_type{i},stat_value{i}" for i in range(1, 11)])
++            for r in sql(f"SELECT {cols} FROM item_template WHERE entry IN ({inlist(want)})"):
++                cache[int(r["entry"])] = {k: (int(float(v)) if v.replace(".", "", 1).lstrip("-").isdigit() else v)
++                                          for k, v in r.items()}
++        return {e: cache.get(e) for e in entries}
++
++    def gear_score(self, r):
++        """How good a piece is for our class: weighted primary stats + armour + weapon DPS."""
++        if not r:
++            return 0.0
++        w = STAT_W.get(self.w.cls, {4: 1.0, 3: 1.0, 5: 1.0, 7: 1.0})
++        sc = sum(w.get(r[f"stat_type{i}"], 0) * r[f"stat_value{i}"] for i in range(1, 11)) + r["armor"] * 0.1
++        if r["class"] == 2 and r["delay"]:
++            sc += (r["dmg_min1"] + r["dmg_max1"]) / 2 / (r["delay"] / 1000) * 3
++        return sc
++
++    def can_use(self, r, level):
++        if not r or r["class"] not in (2, 4) or r["RequiredLevel"] > level:
++            return False
++        if r["AllowableClass"] > 0 and not r["AllowableClass"] & (1 << (self.w.cls - 1)):
++            return False
++        if r["class"] == 2:
++            return WEAPON_SKILL.get(r["subclass"]) in self.w.skills
++        return r["subclass"] == 0 or r["subclass"] in ARMOR_OK.get(self.w.cls, {1})
++
++    def slot_value(self, r, worn):
++        """Score now held in the slot(s) r would take (a two-hander replaces main AND off hand)."""
++        slots = INV_SLOTS.get(r["InventoryType"], [])
++        rows = self.item_rows([e for e in worn.values() if e])
++        if r["InventoryType"] == 17:
++            return sum(self.gear_score(rows.get(worn.get(sl))) for sl in (15, 16))
++        return min((self.gear_score(rows.get(worn.get(sl))) for sl in slots), default=0.0)
++
++    def gear_up(self):
++        """Wear every bag item that beats what is in its slot. The bots used to fight a whole run in
++        starting gear with quest-reward weapons in the bag (Shadowglen's level-5 warrior lost 1v1 to
++        even-level Nightsabers at full health: 40 damage dealt to 138 taken)."""
++        level = call("interact.self").get("level", 1)
++        for _ in range(8):  # one swap at a time, then look again
++            inv = call("interact.inventory")
++            worn = {it.get("slot"): it.get("entry") for it in inv.get("equipped", [])}
++            bag = [it for it in inv.get("items", []) if it.get("entry")]
++            rows = self.item_rows([it["entry"] for it in bag])
++            best = None
++            for it in bag:
++                r = rows.get(it["entry"])
++                if not self.can_use(r, level) or r["InventoryType"] not in INV_SLOTS:
++                    continue
++                gain = self.gear_score(r) - self.slot_value(r, worn)
++                if gain > 0.5 and (not best or gain > best[0]):
++                    best = (gain, it, r)
++            if not best:
++                return
++            gain, it, r = best
++            res = call("interact.equip", bag=it["bag"], slot=it["slot"])
++            print(f"  gear: equipped {it['entry']} (+{gain:.1f}): {res.get('detail')}", flush=True)
++            if not res.get("ok"):
++                return
++            time.sleep(0.5)
++
++    def pick_reward(self, qid):
++        """Choice-reward index: the biggest upgrade we can use, else the one that sells best."""
++        rows = sql("SELECT " + ",".join(f"RewardChoiceItemID{i}" for i in range(1, 7)) + f" FROM quest_template WHERE ID={qid}")
++        items = [int(rows[0][f"RewardChoiceItemID{i}"]) for i in range(1, 7)] if rows else []
++        items = [e for e in items if e]
++        if len(items) < 2:
++            return 0
++        level = call("interact.self").get("level", 1)
++        worn = {it.get("slot"): it.get("entry") for it in call("interact.inventory").get("equipped", [])}
++        info = self.item_rows(items)
++        gains = [(self.gear_score(info[e]) - self.slot_value(info[e], worn)) if self.can_use(info[e], level)
++                 and info[e]["InventoryType"] in INV_SLOTS else -1e9 for e in items]
++        i = max(range(len(items)), key=lambda k: gains[k])
++        if gains[i] <= 0:
++            i = max(range(len(items)), key=lambda k: (info[items[k]] or {}).get("SellPrice", 0))
++        print(f"  reward for {qid}: choice {i} = item {items[i]}", flush=True)
++        return i
++
+     def items(self, entries):
+         """(class, subclass, on-use spell, spell category) of item entries, cached."""
+         want = [e for e in set(entries) if e and e not in self.w.item_info]
+@@ -2210,13 +2308,14 @@ class Runner:
+         if kind == "c":
+             self.close_in(entry)
+         try:
+-            r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
++            choice = self.pick_reward(qid)  # the upgrade we can use, not always the first item
++            r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid, reward=choice)
+             if not r.get("ok") and "timeout" in r.get("detail", ""):
+                 # like a cold accept, a cold hand-in can go unanswered (The Troll Cave 182, twice):
+                 # open the ender's dialogue first, as a player does, and try again
+                 call("interact.gossip_hello", entry=entry)
+                 time.sleep(0.5)
+-                r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid)
++                r = call("interact.quest_complete", target={"entry": entry}, quest_id=qid, reward=choice)
+         except StepFailed as e:
+             r = {"detail": str(e)[:120]}
+         title = self.w.quests[qid]["LogTitle"]
+@@ -2227,6 +2326,10 @@ class Runner:
+             return
+         print(f"[PASS] turn in {qid} {title} - {r.get('detail')}", flush=True)
+         self.w.rewarded.add(qid)
++        try:
++            self.gear_up()  # a reward is often an upgrade: wear it now, not never
++        except StepFailed as e:
++            print(f"  ~ gear: {str(e)[:80]}", flush=True)
+         # progress can change what the server offers: retry quests it refused before
+         self.blocked -= self.refused
+         self.refused.clear()
+@@ -3198,7 +3301,10 @@ class Runner:
+                 print(f"  ~ trainer: {e}", flush=True)
+             # the quest log update that removes a turned-in quest can lag the reward packet
+             log = {q: e for q, e in log.items() if q not in self.w.rewarded}
+-            ready = [q for q, e in log.items() if q in self.w.quests and e.get("state") == 1 and q not in self.blocked]
++            # only quests handed in HERE: one whose ender stands outside the area (Sunstrider's 9704
++            # Slain by the Wretched -> 17849) crashed turn_in with a KeyError and ended the run
++            ready = [q for q, e in log.items() if q in self.w.quests and e.get("state") == 1 and q not in self.blocked
++                     and self.w.enders.get(q)]
+             if ready:
+                 try:
+                     self.turn_in(ready[0])
+@@ -3384,6 +3490,27 @@ def main():
+     elsewhere = [q for q in todo if q not in log and 0 < int(w.quests[q]["PrevQuestID"]) not in w.quests
+                  and int(w.quests[q]["PrevQuestID"]) not in w.rewarded]
+     todo = [q for q in todo if q not in elsewhere]
++    # content no start-area run can or should finish - listed, kept out of the verdict:
++    #  superseded: its chain follow-up (RewardNextQuest) is done or taken - AzerothCore then refuses
++    #    it for good (Valley's 4641 Your Place In The World after 788 Cutting Teeth)
++    #  event: every giver spawn belongs to a game event (13952 The Grateful Dead, Day of the Dead)
++    #  scripted giver: a "Special" quest (sort -284) whose giver offers it only from its script
++    #    (3861 CLUCK!: /chicken at a chicken)
++    cand = sorted(set(todo) | set(r.blocked) | {q for q in r.stuck if isinstance(q, int)})
++    superseded = [q for q in cand if q in w.quests and int(w.quests[q].get("RewardNextQuest", 0) or 0)
++                  and (int(w.quests[q]["RewardNextQuest"]) in w.rewarded or int(w.quests[q]["RewardNextQuest"]) in log)]
++    givers = {}
++    for row in sql(f"SELECT s.quest q,s.id e FROM creature_queststarter s WHERE s.quest IN ({inlist(cand)})"):
++        givers.setdefault(int(row["q"]), set()).add(int(row["e"]))
++    ents = inlist({e for g in givers.values() for e in g})
++    gated_ev = {int(row["id"]) for row in sql(
++        f"SELECT c.id FROM creature c LEFT JOIN game_event_creature g ON g.guid=c.guid WHERE c.id IN ({ents}) "
++        "GROUP BY c.id HAVING SUM(g.guid IS NULL)=0")}
++    scripted = {int(row["entry"]) for row in sql(f"SELECT entry FROM creature_template WHERE entry IN ({ents}) AND ScriptName<>''")}
++    event = [q for q in cand if givers.get(q) and givers[q] <= gated_ev]
++    special = [q for q in cand if q in w.quests and int(w.quests[q]["QuestSortID"]) == -284 and givers.get(q) and givers[q] <= scripted]
++    skip = set(superseded) | set(event) | set(special)
++    todo = [q for q in todo if q not in skip]
+     print(f"\nSUMMARY: {len(w.rewarded)} quests rewarded, level {level}, {r.kills} kills, {r.deaths} deaths, {secs / 60:.1f} min, "
+           f"trained {len(r.learned)} spell(s)")
+     if todo:
+@@ -3394,7 +3521,10 @@ def main():
+         print("gated by conditions:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(gated)))
+     if r.refused:
+         print("refused by the server (breadcrumbs / not offered):", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in sorted(r.refused)))
+-    blocked = sorted((r.blocked - r.refused) | {q for q in r.stuck if isinstance(q, int) and r.stuck[q] > 25})
++    for name, qs in (("superseded by a done follow-up", superseded), ("event-only giver", event), ("scripted giver", special)):
++        if qs:
++            print(f"{name}:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in qs if q in w.quests))
++    blocked = sorted(((r.blocked - r.refused) | {q for q in r.stuck if isinstance(q, int) and r.stuck[q] > 25}) - skip)
+     if blocked:
+         print("blocked/stuck:", ", ".join(f"{q} {w.quests[q]['LogTitle']}" for q in blocked if q in w.quests))
+     print("RESULT: PASS" if not todo and not blocked else "RESULT: INCOMPLETE")
+-- 
+2.34.1
+
