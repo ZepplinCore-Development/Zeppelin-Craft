@@ -1,0 +1,42 @@
+From cf6f6ca2b42ecc320445871a4933546ee6e46bfd Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 01:41:06 +0000
+Subject: [PATCH] docs: greys are auto-sold by mod-junk-to-gold - sell_junk
+ handles white/green gear only (F-219)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 387fc26..d60fee5 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -958,9 +958,10 @@ class Runner:
+         return r
+ 
+     def sell_junk(self, max_walk=150):
+-        """Sell greys and spare weapons/armour at the nearest area vendor. The bots used to DESTROY
+-        their loot to free bag space and stayed broke: Northshire's level-6 warrior had 102c and the
+-        trainer refused Thunder Clap, Pummel and Victory Rush - then died 73 times among the Defias."""
++        """Sell spare white/green weapons and armour at the nearest area vendor instead of destroying
++        them for bag space. Greys never reach the bags: mod-junk-to-gold pays them out on loot. Small
++        money (2-25c a visit at levels 3-6) - the real shortfall is income vs. training costs
++        (Northshire's level-6 warrior had 102c; the trainer refused Thunder Clap, Pummel, Victory Rush)."""
+         if not self.w.vendors:
+             return 0
+         items = [i for i in call("interact.inventory").get("items", []) if i.get("entry")]
+@@ -973,7 +974,7 @@ class Runner:
+                  {int(q["StartItem"]) for q in self.w.quests.values()}
+         junk = [i for i in items if (r := info.get(i["entry"])) and int(r["SellPrice"]) > 0
+                 and i["entry"] not in wanted and int(r["startquest"]) == 0
+-                and (int(r["Quality"]) == 0 or (int(r["class"]) in (2, 4) and int(r["Quality"]) <= 2))]
++                and int(r["class"]) in (2, 4) and int(r["Quality"]) <= 2]  # greys: auto-sold on loot
+         if not junk:
+             return 0
+         me = self.me()
+-- 
+2.34.1
+
