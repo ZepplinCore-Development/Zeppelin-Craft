@@ -1,0 +1,57 @@
+From e7dc63cf2dd7de7a29ef92def1352a9b3892e782 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 11:54:28 +0000
+Subject: [PATCH] fix: proxy credit for visible non-hostile markers; camps
+ ignore unfightable NPCs (F-219)
+
+- Thirst Unending: the credit marker 15468 was in sight, so the rogue attacked it for no damage
+  forever instead of casting Arcane Torrent (25046 rogue / 28730 paladin both credit) on a proxy
+- clear_camp skips non-attackable / immune-to-PC / unselectable NPCs and anything 10+ levels up:
+  a level-70 Kezan NPC parked Goblin's quest "until level 70"
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index c67b12a..781bd85 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1406,11 +1406,15 @@ class Runner:
+                 and math.dist((o["x"], o.get("y", 0)), spot[:2]) < radius]
+         if not mobs:
+             return False
+-        info = {int(r["entry"]): (int(r["minlevel"]), int(r["type"])) for r in sql(
+-            f"SELECT entry,minlevel,type FROM creature_template WHERE entry IN ({inlist({o['entry'] for o in mobs})})")}
++        info = {int(r["entry"]): (int(r["minlevel"]), int(r["type"]), int(r["uf"])) for r in sql(
++            f"SELECT entry,minlevel,type,unit_flags uf FROM creature_template WHERE entry IN ({inlist({o['entry'] for o in mobs})})")}
+         level = call("interact.self").get("level", 1)
+-        mobs = [o for o in mobs if info.get(o["entry"], (99, 0))[1] != 8  # no critters (type 8)
+-                and self.hostile(o["entry"])]                         # nor friendly/neutral bystanders
++        mobs = [o for o in mobs if info.get(o["entry"], (99, 0, 0))[1] != 8  # no critters (type 8)
++                and self.hostile(o["entry"])                             # nor friendly/neutral bystanders
++                # nor scripted NPCs we could never fight: non-attackable / immune to players /
++                # unselectable, or 10+ levels up (Kezan: a level-70 NPC parked a quest "until 70")
++                and not info.get(o["entry"], (0, 0, 0))[2] & (0x2 | 0x100 | 0x2000000)
++                and info.get(o["entry"], (99, 0, 0))[0] < level + 10]
+         if not mobs:
+             return False
+         # level+1 still lost 1v1 (a level-3 draenei vs a lone Mutated Owlkin 16537): only even or lower
+@@ -3226,8 +3230,10 @@ class Runner:
+                     print(f"  click {proxy} for {target}: {r.get('detail', '')[:40]} ({now}/{need})", flush=True)
+                     return True
+                 raise StepFailed(f"no clickable {sorted(self.w.click_proxy[target])} for {target}")
+-            if target > 0 and target in self.w.credit_proxy and not call(
+-                    "interact.find", entry=target, limit=1).get("objects"):
++            # proxy credit when the credit creature is out of sight - or in sight but not hostile (a
++            # marker NPC: Thirst Unending's 15468 stood in view and the rogue "fought" it forever)
++            if target > 0 and target in self.w.credit_proxy and (not self.hostile(target) or not call(
++                    "interact.find", entry=target, limit=1).get("objects")):
+                 return self.proxy_credit(qid, i - 1, target, counts[i - 1])
+             if target > 0 and target in self.w.spellhit and self.w.spellhit[target] in self.w.gossip_bar:
+                 spell = self.w.spellhit[target]
+-- 
+2.34.1
+
