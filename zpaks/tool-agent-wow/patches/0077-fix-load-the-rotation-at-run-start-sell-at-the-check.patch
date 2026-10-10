@@ -1,0 +1,45 @@
+From 455306c81f84724c34318e88d783e4a5e70e69e5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 11:19:49 +0000
+Subject: [PATCH] fix: load the rotation at run start; sell at the checked
+ vendor spawn only (F-219)
+
+Teldrassil's hunter sold before training, died walking 492 + 1321 yd to vendors (go_near chose
+far copies) and never got an ability. Tirisfal's mage walked 1339 yd the same way.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 6fbe261..c67b12a 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1206,9 +1206,9 @@ class Runner:
+         _, v, p = min(pts)
+         # walk to THAT spawn (go_near may pick another copy: Teldrassil's level-1 hunter walked
+         # 492 yd for pennies), then stand by the vendor himself
+-        self.travel(*p, within=15)
+-        if not self.go_near("c", v):
+-            return 0
++        self.travel(*p, within=4)  # that spawn, never go_near (it walked Tirisfal's mage 1339 yd)
++        if not any(o.get("distance", 99) < 30 for o in call("interact.find", entry=v, limit=3).get("objects", [])):
++            return 0  # not at his spawn right now
+         before = call("interact.self").get("money", 0)
+         sold = sum(1 for i in junk if call("interact.vendor_sell", target={"entry": v}, item_guid=int(i["guid"])).get("ok"))
+         gained = call("interact.self").get("money", 0) - before
+@@ -3455,6 +3455,9 @@ class Runner:
+ 
+     def run(self, minutes):
+         t0, idle = time.time(), 0
++        # the rotation we already know, before the first errand: Teldrassil's hunter walked off to
++        # sell its starting gun, died on the way and never reached the trainer that loads it
++        self.refresh_abilities()
+         while time.time() - t0 < minutes * 60:
+             self.safe()
+             log = self.log()
+-- 
+2.34.1
+
