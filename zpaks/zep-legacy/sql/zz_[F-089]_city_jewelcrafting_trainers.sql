@@ -17,9 +17,9 @@
 -- so each uses a stock, no-helm display of the right race/gender that no spawned
 -- creature wears (all bakes ship in the HD packs).
 -- Positions: retail spots for IF/Darn/TB (IF nudged 5 yd so Hanner does not stand
--- inside Geofram Bouldertoe). Retail Neller (1645.5, 331.0) is hidden inside the stone
--- pillar at the end of the WotLK mining counter (seen in the F-219 client) -- he stands
--- on the open floor beside Brom Killian instead. Retail Lugrah stands in the Cata-rebuilt Drag, which is
+-- inside Geofram Bouldertoe). Undercity's mining shop was laid out in-game on 2026-10-10:
+-- Sara Lanner takes the counter slot, stock Sarah Killian moves beside her (see the
+-- UNDERCITY SHOP section), Neller stands at the counter end. Retail Lugrah stands in the Cata-rebuilt Drag, which is
 -- off-mesh in WotLK Orgrimmar -- she stands beside Makaru at Red Canyon Mining instead.
 -- Trainer 113 = base JC (0-290), same as Faris/Farii. Gossip 7815 = stock JC trainer
 -- menu (retail uses it for these NPCs; its vendor option hides without npcflag 128).
@@ -174,7 +174,7 @@ INSERT INTO `creature` (`guid`, `id`, `map`, `position_x`, `position_y`, `positi
 (3110714, @HANNER, 0, -4709.5,  -1114.0,  504.53,   3.01942, 300), -- Ironforge, Deepmountain Mining Guild
 (3110715, @AESSA,  1, 10145.0,  2356.48,  1332.05,  6.07375, 300), -- Darnassus, Craftsmen's Terrace
 (3110716, @LUGRAH, 1, 2028.5,   -4701.5,  27.17,    3.35,    300), -- Orgrimmar, Red Canyon Mining (Valley of Honor)
-(3110717, @NELLER, 0, 1640.6,   340.2,    -62.11,   0.63,    300), -- Undercity, War Quarter beside Brom Killian
+(3110717, @NELLER, 0, 1645.682, 330.817,  -62.178,  2.2218,  300), -- Undercity, War Quarter mining shop (in-game placement)
 (3110718, @NAHARI, 1, -1225.76, 153.337,  133.357,  5.09636, 300); -- Thunder Bluff, lower rise by Stonehoof Geology
 
 -- ========================================
@@ -183,7 +183,7 @@ INSERT INTO `creature` (`guid`, `id`, `map`, `position_x`, `position_y`, `positi
 -- Retail Cata names/genders; stock look-alike displays (unspawned merchants, bakes ship
 -- in the HD packs). Stock same as Nessera (76, Stormwind) = Inessera's Exodar list.
 -- Org: retail Taryssa Lazuria stood in the Cata Drag (off-mesh here) -- beside Lugrah.
--- UC: retail Sara Lanner's spot is taken by stock Sarah Killian -- beside Neller.
+-- UC: Sara Lanner behind the mining shop counter; Sarah Killian shifted along it.
 
 SET @LAIDA   := 900957;
 SET @TARIEN  := 900958;
@@ -333,7 +333,7 @@ INSERT INTO `creature` (`guid`, `id`, `map`, `position_x`, `position_y`, `positi
 (3110719, @LAIDA,   0, -4714.22, -1113.47, 504.53,  6.16101, 300), -- Ironforge (retail spot)
 (3110723, @TARIEN,  1, 10149.4,  2350.4,   1332.05, 0.314159, 300), -- Darnassus (retail spot)
 (3110724, @TARYSSA, 1, 2031.5,   -4702.0,  27.23,   3.35,    300), -- Orgrimmar, beside Lugrah
-(3110725, @SARA,    0, 1643.0,   341.5,    -62.11,  0.63,    300), -- Undercity, beside Neller
+(3110725, @SARA,    0, 1642.335, 328.519,  -62.183, 1.1851,  300), -- Undercity, behind the shop counter (in-game placement)
 (3110726, @PAKU,    1, -1222.18, 153.882,  133.229, 4.43314, 300); -- Thunder Bluff (retail spot)
 
 -- ========================================
@@ -347,7 +347,7 @@ INSERT INTO `points_of_interest` (`ID`, `PositionX`, `PositionY`, `Icon`, `Flags
 (1021, -4709.5, -1114.0, 7, 99, 0, 'Ironforge Jewelcrafting Trainer'),
 (1022, 10145.0, 2356.48, 7, 99, 0, 'Darnassus Jewelcrafting Trainer'),
 (1023, 2028.5, -4701.5, 7, 99, 0, 'Orgrimmar Jewelcrafting Trainer'),
-(1024, 1640.6, 340.2, 7, 99, 0, 'Undercity Jewelcrafting Trainer'),
+(1024, 1645.682, 330.817, 7, 99, 0, 'Undercity Jewelcrafting Trainer'),
 (1025, -1225.76, 153.337, 7, 99, 0, 'Thunder Bluff Jewelcrafting Trainer');
 
 DELETE FROM `npc_text` WHERE `ID` BETWEEN 66010 AND 66014;
@@ -378,3 +378,48 @@ INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionTex
 (2847,  13, 0, 'Jewelcrafting', 1, 1, 66013, 1024), -- Undercity guardian
 (10767, 13, 0, 'Jewelcrafting', 1, 1, 66013, 1024), -- Undercity guardian (alt menu)
 (751,   12, 0, 'Jewelcrafting', 1, 1, 66014, 1025); -- Thunder Bluff brave
+
+-- ========================================
+-- UNDERCITY SHOP - Sarah Killian shifted along the counter for Sara Lanner
+-- ========================================
+-- Stock spawn (guid 38433, the only Sarah Killian spawn); was 1641.5, 329.05, -62.1, 1.09956.
+UPDATE `creature` SET `position_x` = 1639.434, `position_y` = 329.889, `position_z` = -62.187, `orientation` = 1.1231
+WHERE `guid` = 38433 AND `id` = 4599;
+
+-- ========================================
+-- UNDERCITY SHOP SIGN - "Mining" -> "Mining and Gems"
+-- ========================================
+-- Stock sign gameobject over the War Quarter mining shop (UndeadSign_Miner, display
+-- 744). Entry 58620 has exactly one spawn (guid 44952), so the rename touches nothing else.
+UPDATE `gameobject_template` SET `name` = 'Mining and Gems' WHERE `entry` = 58620;
+
+-- ========================================
+-- UNDERCITY SHOP - gem display on the counter in front of Sara Lanner
+-- ========================================
+-- Decorative type-5 (GENERIC) props using the stock TBC jewelcrafting doodad models -- the
+-- same set Thunder Bluff's Stonehoof Geology table shows. Custom templates so the sizes
+-- are ours (stock 188190 grinder at size 1 is a machine that hides the whole counter).
+-- Counter top measured in the F-219 client: z = -61.236 at (1642.94, 330.0).
+
+DELETE FROM `gameobject_template` WHERE `entry` BETWEEN 900930 AND 900938;
+INSERT INTO `gameobject_template` SET `entry` = 900930, `type` = 5, `displayId` = 7554, `name` = 'Cut Gem', `size` = 0.4;
+INSERT INTO `gameobject_template` SET `entry` = 900931, `type` = 5, `displayId` = 7075, `name` = 'Cut Gem', `size` = 0.5;
+INSERT INTO `gameobject_template` SET `entry` = 900932, `type` = 5, `displayId` = 9024, `name` = 'Cut Gem', `size` = 0.5;
+INSERT INTO `gameobject_template` SET `entry` = 900933, `type` = 5, `displayId` = 7454, `name` = 'Uncut Gem', `size` = 0.22;
+INSERT INTO `gameobject_template` SET `entry` = 900934, `type` = 5, `displayId` = 7455, `name` = 'Uncut Gem', `size` = 0.22;
+INSERT INTO `gameobject_template` SET `entry` = 900935, `type` = 5, `displayId` = 7456, `name` = 'Uncut Gem', `size` = 0.22;
+INSERT INTO `gameobject_template` SET `entry` = 900936, `type` = 5, `displayId` = 8368, `name` = 'Jade Figurine', `size` = 0.8;
+INSERT INTO `gameobject_template` SET `entry` = 900937, `type` = 5, `displayId` = 7733, `name` = 'Jeweler''s Grinder', `size` = 0.15;
+INSERT INTO `gameobject_template` SET `entry` = 900938, `type` = 5, `displayId` = 8555, `name` = 'Gem Heart', `size` = 0.3;
+
+DELETE FROM `gameobject` WHERE `id` BETWEEN 900930 AND 900938 OR `guid` BETWEEN 3110700 AND 3110708;
+INSERT INTO `gameobject` (`guid`, `id`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`) VALUES
+(3110700, 900937, 0, 1641.251, 330.874, -61.239, 5.87885, 0, 0, 0.200793, -0.979634, 300, 100, 1), -- grinder: in-game placement
+(3110701, 900933, 0, 1642.416, 330.303, -61.236, 0.3, 0, 0, 0.149438, 0.988771, 300, 100, 1),
+(3110702, 900934, 0, 1642.488, 330.081, -61.236, 1.2, 0, 0, 0.564642, 0.825336, 300, 100, 1),
+(3110703, 900935, 0, 1642.706, 330.221, -61.236, 2.6, 0, 0, 0.963558, 0.267499, 300, 100, 1),
+(3110704, 900938, 0, 1642.940, 330.000, -61.236, 1.185, 0, 0, 0.558437, 0.829547, 300, 100, 1),
+(3110705, 900930, 0, 1643.230, 329.918, -61.236, 0.8, 0, 0, 0.389418, 0.921061, 300, 100, 1),
+(3110706, 900931, 0, 1643.302, 329.697, -61.236, 1.9, 0, 0, 0.813416, 0.581683, 300, 100, 1),
+(3110707, 900932, 0, 1643.512, 329.818, -61.236, 3.1, 0, 0, 0.999784, 0.020795, 300, 100, 1),
+(3110708, 900936, 0, 1643.844, 329.573, -61.236, 4.33, 0, 0, 0.828595, -0.559849, 300, 100, 1);
