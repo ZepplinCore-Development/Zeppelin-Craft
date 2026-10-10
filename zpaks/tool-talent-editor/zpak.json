@@ -18,6 +18,6 @@
     "patch_mode": "single"
   },
   "enabled": true,
-  "priority": 100,
+  "priority": 360,
   "feature_id": "F-045"
 }

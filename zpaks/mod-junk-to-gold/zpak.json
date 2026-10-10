@@ -15,5 +15,5 @@
     "patch_mode": "single"
   },
   "enabled": true,
-  "priority": 100
+  "priority": 200
 }

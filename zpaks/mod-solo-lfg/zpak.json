@@ -17,5 +17,5 @@
     "patches": ["patches/*.patch"]
   },
   "enabled": true,
-  "priority": 100
+  "priority": 260
 }

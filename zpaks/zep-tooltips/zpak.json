@@ -7,7 +7,7 @@
   "type": "mpq",
   "client_patch": "PATCH-A",
   "enabled": true,
-  "priority": 999,
+  "priority": 550,
   "build": {
     "preprocessors": ["tooltip-data"]
   }

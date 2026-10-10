@@ -9,8 +9,8 @@
   "source": {
     "type": "nexusmods",
     "url": "https://www.nexusmods.com/worldofwarcraft/mods/850",
-    "last_imported": "2026-05-12",
-    "notes": "Pulled fresh archive 2026-05-12 (file HD TreesPolygonsTextures-850-9-1-1772923444.zip). Earlier mixed-with-Morfium attribution was dropped after the file-level diff against the fresh Nexus release showed no detectable Morfium-only content. The Morfium MEGA upload is static/unmaintained. Re-import procedure: extract MPQ, strip WORLD/MAPS/*.adt (I-176 recurrence), re-run dbc bin import, rebuild PATCH-Q."
+    "last_imported": "2026-10-08",
+    "notes": "Pulled fresh archive 2026-05-12 (file HD TreesPolygonsTextures-850-9-1-1772923444.zip). Earlier mixed-with-Morfium attribution was dropped after the file-level diff against the fresh Nexus release showed no detectable Morfium-only content. The Morfium MEGA upload is static/unmaintained. Re-import procedure: extract MPQ, strip WORLD/MAPS/*.adt (I-176 recurrence), re-run dbc bin import, rebuild PATCH-Q. 2026-10-08: Nexus file_id 1100 (single-file update, dated 2026-09-22): World/KALIMDOR/Kalidar/PassiveDoodads/ORACLETREE/ORACLETREESKIN.blp, a sharper repaint; same size, format and alpha as before (1024 DXT5, 12 mips). SAME BYTE COUNT as the old file, so --parse-build would skip it: it was copied into parsed-assets by hand. NOT shipped yet: a `-p Q --build` (v9) dropped 143 and changed 108 patch-gob-retroport files that the July PATCH-Q still carried (gob-retroport is disabled/PATCH-T in zpak.json), so PATCH-Q was restored to the July build (v10, byte-identical). Any PATCH-Q rebuild from current config repeats that loss."
   },
   "feature_id": "F-049",
   "launcher": {
@@ -28,5 +28,5 @@
     ]
   },
   "enabled": true,
-  "priority": 10
+  "priority": 30
 }

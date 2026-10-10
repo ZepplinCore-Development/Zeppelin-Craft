@@ -29,5 +29,5 @@
     "sql": ["sql/*.sql"]
   },
   "enabled": true,
-  "priority": 20
+  "priority": 40
 }

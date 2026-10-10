@@ -9,7 +9,7 @@
   "client_patch": "PATCH-L",
   "patch_display_name": "Modern Login",
   "enabled": true,
-  "priority": 30,
+  "priority": 70,
   "launcher": {
     "mandatory": true,
     "enabled_by_default": true,

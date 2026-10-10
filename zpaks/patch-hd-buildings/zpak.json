@@ -23,5 +23,5 @@
     "mpq": ["mpq/**/*"]
   },
   "enabled": true,
-  "priority": 100
+  "priority": 320
 }
