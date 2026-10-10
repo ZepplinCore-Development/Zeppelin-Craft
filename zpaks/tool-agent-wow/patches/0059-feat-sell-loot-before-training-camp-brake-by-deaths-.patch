@@ -1,0 +1,668 @@
+From ed30961170197da8a7944a6d8c7e08f64c6a2db3 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 00:17:20 +0000
+Subject: [PATCH] feat: sell loot before training, camp brake by deaths, back
+ out to rest, Victory Rush (F-219)
+
+- interact.vendor_sell (CMSG_SELL_ITEM; AC answers only a failure)
+- runner sells greys/spare gear at the nearest area vendor each level BEFORE the trainer and
+  instead of destroying when bags fill (Northshire's level-6 warrior had 102c, no Thunder Clap)
+- every death's spot is recorded (defends too); 3 at one camp at our level park the quest a level
+- hurt below 60 % after a camp kill: walk out past the camp edge before resting
+- Victory Rush in the warrior rotation; food keeps 3s back for the trainer
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/interact/api/interact.pb.go  | 216 ++++++++++++------
+ .../modules/interact/api/interact_grpc.pb.go  |  38 +++
+ zeppelin/modules/interact/interact.proto      |   8 +-
+ zeppelin/modules/interact/main.go             |  22 ++
+ zeppelin/modules/interact/module.yaml         |   2 +
+ zeppelin/tests/start_area.py                  |  94 +++++++-
+ 6 files changed, 300 insertions(+), 80 deletions(-)
+
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index 95e9fde..04a36f2 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -2516,6 +2516,66 @@ func (x *VendorBuyRequest) GetCount() uint32 {
+ 	return 0
+ }
+ 
++type VendorSellRequest struct {
++	state         protoimpl.MessageState `protogen:"open.v1"`
++	Target        *Target                `protobuf:"bytes,1,opt,name=target,proto3" json:"target,omitempty"`                      // the vendor
++	ItemGuid      uint64                 `protobuf:"varint,2,opt,name=item_guid,json=itemGuid,proto3" json:"item_guid,omitempty"` // a bag item (inventory guid)
++	Count         uint32                 `protobuf:"varint,3,opt,name=count,proto3" json:"count,omitempty"`                       // 0 = the whole stack
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
++}
++
++func (x *VendorSellRequest) Reset() {
++	*x = VendorSellRequest{}
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[36]
++	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++	ms.StoreMessageInfo(mi)
++}
++
++func (x *VendorSellRequest) String() string {
++	return protoimpl.X.MessageStringOf(x)
++}
++
++func (*VendorSellRequest) ProtoMessage() {}
++
++func (x *VendorSellRequest) ProtoReflect() protoreflect.Message {
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[36]
++	if x != nil {
++		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
++		if ms.LoadMessageInfo() == nil {
++			ms.StoreMessageInfo(mi)
++		}
++		return ms
++	}
++	return mi.MessageOf(x)
++}
++
++// Deprecated: Use VendorSellRequest.ProtoReflect.Descriptor instead.
++func (*VendorSellRequest) Descriptor() ([]byte, []int) {
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{36}
++}
++
++func (x *VendorSellRequest) GetTarget() *Target {
++	if x != nil {
++		return x.Target
++	}
++	return nil
++}
++
++func (x *VendorSellRequest) GetItemGuid() uint64 {
++	if x != nil {
++		return x.ItemGuid
++	}
++	return 0
++}
++
++func (x *VendorSellRequest) GetCount() uint32 {
++	if x != nil {
++		return x.Count
++	}
++	return 0
++}
++
+ type VendorBuyResult struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+@@ -2526,7 +2586,7 @@ type VendorBuyResult struct {
+ 
+ func (x *VendorBuyResult) Reset() {
+ 	*x = VendorBuyResult{}
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[36]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[37]
+ 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 	ms.StoreMessageInfo(mi)
+ }
+@@ -2538,7 +2598,7 @@ func (x *VendorBuyResult) String() string {
+ func (*VendorBuyResult) ProtoMessage() {}
+ 
+ func (x *VendorBuyResult) ProtoReflect() protoreflect.Message {
+-	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[36]
++	mi := &file_zeppelin_modules_interact_interact_proto_msgTypes[37]
+ 	if x != nil {
+ 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+ 		if ms.LoadMessageInfo() == nil {
+@@ -2551,7 +2611,7 @@ func (x *VendorBuyResult) ProtoReflect() protoreflect.Message {
+ 
+ // Deprecated: Use VendorBuyResult.ProtoReflect.Descriptor instead.
+ func (*VendorBuyResult) Descriptor() ([]byte, []int) {
+-	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{36}
++	return file_zeppelin_modules_interact_interact_proto_rawDescGZIP(), []int{37}
+ }
+ 
+ func (x *VendorBuyResult) GetOk() bool {
+@@ -2772,10 +2832,14 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\x10VendorBuyRequest\x124\n" +
+ 	"\x06target\x18\x01 \x01(\v2\x1c.zeppelin.interact.v1.TargetR\x06target\x12\x17\n" +
+ 	"\aitem_id\x18\x02 \x01(\rR\x06itemId\x12\x14\n" +
++	"\x05count\x18\x03 \x01(\rR\x05count\"|\n" +
++	"\x11VendorSellRequest\x124\n" +
++	"\x06target\x18\x01 \x01(\v2\x1c.zeppelin.interact.v1.TargetR\x06target\x12\x1b\n" +
++	"\titem_guid\x18\x02 \x01(\x04R\bitemGuid\x12\x14\n" +
+ 	"\x05count\x18\x03 \x01(\rR\x05count\"9\n" +
+ 	"\x0fVendorBuyResult\x12\x0e\n" +
+ 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x16\n" +
+-	"\x06detail\x18\x02 \x01(\tR\x06detail2\x8c\x12\n" +
++	"\x06detail\x18\x02 \x01(\tR\x06detail2\xe5\x12\n" +
+ 	"\bInteract\x12K\n" +
+ 	"\x04Find\x12!.zeppelin.interact.v1.FindRequest\x1a .zeppelin.interact.v1.FindResult\x12Q\n" +
+ 	"\tSendAddon\x12\".zeppelin.interact.v1.AddonMessage\x1a .zeppelin.interact.v1.CastResult\x12U\n" +
+@@ -2797,7 +2861,9 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\aGetSelf\x12\x16.google.protobuf.Empty\x1a\x1f.zeppelin.interact.v1.SelfState\x12G\n" +
+ 	"\fGetInventory\x12\x16.google.protobuf.Empty\x1a\x1f.zeppelin.interact.v1.Inventory\x12Q\n" +
+ 	"\aUseItem\x12$.zeppelin.interact.v1.UseItemRequest\x1a .zeppelin.interact.v1.CastResult\x12Q\n" +
+-	"\aSetAmmo\x12$.zeppelin.interact.v1.UseItemRequest\x1a .zeppelin.interact.v1.CastResult\x12Q\n" +
++	"\aSetAmmo\x12$.zeppelin.interact.v1.UseItemRequest\x1a .zeppelin.interact.v1.CastResult\x12W\n" +
++	"\n" +
++	"VendorSell\x12'.zeppelin.interact.v1.VendorSellRequest\x1a .zeppelin.interact.v1.CastResult\x12Q\n" +
+ 	"\x0eGetTrainerList\x12\x1c.zeppelin.interact.v1.Target\x1a!.zeppelin.interact.v1.TrainerList\x12]\n" +
+ 	"\n" +
+ 	"TrainerBuy\x12'.zeppelin.interact.v1.TrainerBuyRequest\x1a&.zeppelin.interact.v1.TrainerBuyResult\x12U\n" +
+@@ -2823,7 +2889,7 @@ func file_zeppelin_modules_interact_interact_proto_rawDescGZIP() []byte {
+ 	return file_zeppelin_modules_interact_interact_proto_rawDescData
+ }
+ 
+-var file_zeppelin_modules_interact_interact_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
++var file_zeppelin_modules_interact_interact_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
+ var file_zeppelin_modules_interact_interact_proto_goTypes = []any{
+ 	(*Target)(nil),            // 0: zeppelin.interact.v1.Target
+ 	(*WorldObject)(nil),       // 1: zeppelin.interact.v1.WorldObject
+@@ -2861,9 +2927,10 @@ var file_zeppelin_modules_interact_interact_proto_goTypes = []any{
+ 	(*VendorItem)(nil),        // 33: zeppelin.interact.v1.VendorItem
+ 	(*VendorList)(nil),        // 34: zeppelin.interact.v1.VendorList
+ 	(*VendorBuyRequest)(nil),  // 35: zeppelin.interact.v1.VendorBuyRequest
+-	(*VendorBuyResult)(nil),   // 36: zeppelin.interact.v1.VendorBuyResult
+-	(*emptypb.Empty)(nil),     // 37: google.protobuf.Empty
+-	(*v1.WorldPacket)(nil),    // 38: agentwow.module.v1.WorldPacket
++	(*VendorSellRequest)(nil), // 36: zeppelin.interact.v1.VendorSellRequest
++	(*VendorBuyResult)(nil),   // 37: zeppelin.interact.v1.VendorBuyResult
++	(*emptypb.Empty)(nil),     // 38: google.protobuf.Empty
++	(*v1.WorldPacket)(nil),    // 39: agentwow.module.v1.WorldPacket
+ }
+ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	1,  // 0: zeppelin.interact.v1.FindResult.objects:type_name -> zeppelin.interact.v1.WorldObject
+@@ -2884,69 +2951,72 @@ var file_zeppelin_modules_interact_interact_proto_depIdxs = []int32{
+ 	0,  // 15: zeppelin.interact.v1.TrainerBuyRequest.target:type_name -> zeppelin.interact.v1.Target
+ 	33, // 16: zeppelin.interact.v1.VendorList.items:type_name -> zeppelin.interact.v1.VendorItem
+ 	0,  // 17: zeppelin.interact.v1.VendorBuyRequest.target:type_name -> zeppelin.interact.v1.Target
+-	2,  // 18: zeppelin.interact.v1.Interact.Find:input_type -> zeppelin.interact.v1.FindRequest
+-	25, // 19: zeppelin.interact.v1.Interact.SendAddon:input_type -> zeppelin.interact.v1.AddonMessage
+-	26, // 20: zeppelin.interact.v1.Interact.ItemSpell:input_type -> zeppelin.interact.v1.ItemSpellRequest
+-	8,  // 21: zeppelin.interact.v1.Interact.QuestAbandon:input_type -> zeppelin.interact.v1.QuestRequest
+-	24, // 22: zeppelin.interact.v1.Interact.Equip:input_type -> zeppelin.interact.v1.ItemSlot
+-	24, // 23: zeppelin.interact.v1.Interact.Destroy:input_type -> zeppelin.interact.v1.ItemSlot
+-	0,  // 24: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
+-	7,  // 25: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
+-	0,  // 26: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
+-	8,  // 27: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
+-	8,  // 28: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
+-	37, // 29: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
+-	14, // 30: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
+-	14, // 31: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
+-	18, // 32: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
+-	15, // 33: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
+-	37, // 34: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
+-	37, // 35: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
+-	23, // 36: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
+-	23, // 37: zeppelin.interact.v1.Interact.SetAmmo:input_type -> zeppelin.interact.v1.UseItemRequest
+-	0,  // 38: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
+-	29, // 39: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
+-	0,  // 40: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
+-	37, // 41: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
+-	0,  // 42: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
+-	35, // 43: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
+-	0,  // 44: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
+-	0,  // 45: zeppelin.interact.v1.Interact.SpiritHeal:input_type -> zeppelin.interact.v1.Target
+-	38, // 46: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
+-	3,  // 47: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
+-	16, // 48: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
+-	13, // 49: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
+-	16, // 50: zeppelin.interact.v1.Interact.QuestAbandon:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 51: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 52: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
+-	6,  // 53: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 54: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
+-	6,  // 55: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
+-	9,  // 56: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
+-	9,  // 57: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
+-	11, // 58: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
+-	13, // 59: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
+-	13, // 60: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
+-	19, // 61: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
+-	16, // 62: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
+-	20, // 63: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
+-	22, // 64: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
+-	16, // 65: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 66: zeppelin.interact.v1.Interact.SetAmmo:output_type -> zeppelin.interact.v1.CastResult
+-	28, // 67: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
+-	30, // 68: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
+-	31, // 69: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
+-	32, // 70: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
+-	34, // 71: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
+-	36, // 72: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
+-	16, // 73: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
+-	16, // 74: zeppelin.interact.v1.Interact.SpiritHeal:output_type -> zeppelin.interact.v1.CastResult
+-	37, // 75: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
+-	47, // [47:76] is the sub-list for method output_type
+-	18, // [18:47] is the sub-list for method input_type
+-	18, // [18:18] is the sub-list for extension type_name
+-	18, // [18:18] is the sub-list for extension extendee
+-	0,  // [0:18] is the sub-list for field type_name
++	0,  // 18: zeppelin.interact.v1.VendorSellRequest.target:type_name -> zeppelin.interact.v1.Target
++	2,  // 19: zeppelin.interact.v1.Interact.Find:input_type -> zeppelin.interact.v1.FindRequest
++	25, // 20: zeppelin.interact.v1.Interact.SendAddon:input_type -> zeppelin.interact.v1.AddonMessage
++	26, // 21: zeppelin.interact.v1.Interact.ItemSpell:input_type -> zeppelin.interact.v1.ItemSpellRequest
++	8,  // 22: zeppelin.interact.v1.Interact.QuestAbandon:input_type -> zeppelin.interact.v1.QuestRequest
++	24, // 23: zeppelin.interact.v1.Interact.Equip:input_type -> zeppelin.interact.v1.ItemSlot
++	24, // 24: zeppelin.interact.v1.Interact.Destroy:input_type -> zeppelin.interact.v1.ItemSlot
++	0,  // 25: zeppelin.interact.v1.Interact.GossipHello:input_type -> zeppelin.interact.v1.Target
++	7,  // 26: zeppelin.interact.v1.Interact.GossipSelect:input_type -> zeppelin.interact.v1.SelectRequest
++	0,  // 27: zeppelin.interact.v1.Interact.QuestHello:input_type -> zeppelin.interact.v1.Target
++	8,  // 28: zeppelin.interact.v1.Interact.QuestAccept:input_type -> zeppelin.interact.v1.QuestRequest
++	8,  // 29: zeppelin.interact.v1.Interact.QuestComplete:input_type -> zeppelin.interact.v1.QuestRequest
++	38, // 30: zeppelin.interact.v1.Interact.GetQuestLog:input_type -> google.protobuf.Empty
++	14, // 31: zeppelin.interact.v1.Interact.Use:input_type -> zeppelin.interact.v1.UseRequest
++	14, // 32: zeppelin.interact.v1.Interact.Loot:input_type -> zeppelin.interact.v1.UseRequest
++	18, // 33: zeppelin.interact.v1.Interact.GetEvents:input_type -> zeppelin.interact.v1.EventsRequest
++	15, // 34: zeppelin.interact.v1.Interact.Cast:input_type -> zeppelin.interact.v1.CastRequest
++	38, // 35: zeppelin.interact.v1.Interact.GetSelf:input_type -> google.protobuf.Empty
++	38, // 36: zeppelin.interact.v1.Interact.GetInventory:input_type -> google.protobuf.Empty
++	23, // 37: zeppelin.interact.v1.Interact.UseItem:input_type -> zeppelin.interact.v1.UseItemRequest
++	23, // 38: zeppelin.interact.v1.Interact.SetAmmo:input_type -> zeppelin.interact.v1.UseItemRequest
++	36, // 39: zeppelin.interact.v1.Interact.VendorSell:input_type -> zeppelin.interact.v1.VendorSellRequest
++	0,  // 40: zeppelin.interact.v1.Interact.GetTrainerList:input_type -> zeppelin.interact.v1.Target
++	29, // 41: zeppelin.interact.v1.Interact.TrainerBuy:input_type -> zeppelin.interact.v1.TrainerBuyRequest
++	0,  // 42: zeppelin.interact.v1.Interact.TrainerLearnAll:input_type -> zeppelin.interact.v1.Target
++	38, // 43: zeppelin.interact.v1.Interact.GetSpells:input_type -> google.protobuf.Empty
++	0,  // 44: zeppelin.interact.v1.Interact.GetVendorList:input_type -> zeppelin.interact.v1.Target
++	35, // 45: zeppelin.interact.v1.Interact.VendorBuy:input_type -> zeppelin.interact.v1.VendorBuyRequest
++	0,  // 46: zeppelin.interact.v1.Interact.SpellClick:input_type -> zeppelin.interact.v1.Target
++	0,  // 47: zeppelin.interact.v1.Interact.SpiritHeal:input_type -> zeppelin.interact.v1.Target
++	39, // 48: zeppelin.interact.v1.Interact.OnPacket:input_type -> agentwow.module.v1.WorldPacket
++	3,  // 49: zeppelin.interact.v1.Interact.Find:output_type -> zeppelin.interact.v1.FindResult
++	16, // 50: zeppelin.interact.v1.Interact.SendAddon:output_type -> zeppelin.interact.v1.CastResult
++	13, // 51: zeppelin.interact.v1.Interact.ItemSpell:output_type -> zeppelin.interact.v1.LootResult
++	16, // 52: zeppelin.interact.v1.Interact.QuestAbandon:output_type -> zeppelin.interact.v1.CastResult
++	16, // 53: zeppelin.interact.v1.Interact.Equip:output_type -> zeppelin.interact.v1.CastResult
++	16, // 54: zeppelin.interact.v1.Interact.Destroy:output_type -> zeppelin.interact.v1.CastResult
++	6,  // 55: zeppelin.interact.v1.Interact.GossipHello:output_type -> zeppelin.interact.v1.Menu
++	6,  // 56: zeppelin.interact.v1.Interact.GossipSelect:output_type -> zeppelin.interact.v1.Menu
++	6,  // 57: zeppelin.interact.v1.Interact.QuestHello:output_type -> zeppelin.interact.v1.Menu
++	9,  // 58: zeppelin.interact.v1.Interact.QuestAccept:output_type -> zeppelin.interact.v1.QuestResult
++	9,  // 59: zeppelin.interact.v1.Interact.QuestComplete:output_type -> zeppelin.interact.v1.QuestResult
++	11, // 60: zeppelin.interact.v1.Interact.GetQuestLog:output_type -> zeppelin.interact.v1.QuestLog
++	13, // 61: zeppelin.interact.v1.Interact.Use:output_type -> zeppelin.interact.v1.LootResult
++	13, // 62: zeppelin.interact.v1.Interact.Loot:output_type -> zeppelin.interact.v1.LootResult
++	19, // 63: zeppelin.interact.v1.Interact.GetEvents:output_type -> zeppelin.interact.v1.Events
++	16, // 64: zeppelin.interact.v1.Interact.Cast:output_type -> zeppelin.interact.v1.CastResult
++	20, // 65: zeppelin.interact.v1.Interact.GetSelf:output_type -> zeppelin.interact.v1.SelfState
++	22, // 66: zeppelin.interact.v1.Interact.GetInventory:output_type -> zeppelin.interact.v1.Inventory
++	16, // 67: zeppelin.interact.v1.Interact.UseItem:output_type -> zeppelin.interact.v1.CastResult
++	16, // 68: zeppelin.interact.v1.Interact.SetAmmo:output_type -> zeppelin.interact.v1.CastResult
++	16, // 69: zeppelin.interact.v1.Interact.VendorSell:output_type -> zeppelin.interact.v1.CastResult
++	28, // 70: zeppelin.interact.v1.Interact.GetTrainerList:output_type -> zeppelin.interact.v1.TrainerList
++	30, // 71: zeppelin.interact.v1.Interact.TrainerBuy:output_type -> zeppelin.interact.v1.TrainerBuyResult
++	31, // 72: zeppelin.interact.v1.Interact.TrainerLearnAll:output_type -> zeppelin.interact.v1.LearnAllResult
++	32, // 73: zeppelin.interact.v1.Interact.GetSpells:output_type -> zeppelin.interact.v1.KnownSpells
++	34, // 74: zeppelin.interact.v1.Interact.GetVendorList:output_type -> zeppelin.interact.v1.VendorList
++	37, // 75: zeppelin.interact.v1.Interact.VendorBuy:output_type -> zeppelin.interact.v1.VendorBuyResult
++	16, // 76: zeppelin.interact.v1.Interact.SpellClick:output_type -> zeppelin.interact.v1.CastResult
++	16, // 77: zeppelin.interact.v1.Interact.SpiritHeal:output_type -> zeppelin.interact.v1.CastResult
++	38, // 78: zeppelin.interact.v1.Interact.OnPacket:output_type -> google.protobuf.Empty
++	49, // [49:79] is the sub-list for method output_type
++	19, // [19:49] is the sub-list for method input_type
++	19, // [19:19] is the sub-list for extension type_name
++	19, // [19:19] is the sub-list for extension extendee
++	0,  // [0:19] is the sub-list for field type_name
+ }
+ 
+ func init() { file_zeppelin_modules_interact_interact_proto_init() }
+@@ -2960,7 +3030,7 @@ func file_zeppelin_modules_interact_interact_proto_init() {
+ 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
+ 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_zeppelin_modules_interact_interact_proto_rawDesc), len(file_zeppelin_modules_interact_interact_proto_rawDesc)),
+ 			NumEnums:      0,
+-			NumMessages:   37,
++			NumMessages:   38,
+ 			NumExtensions: 0,
+ 			NumServices:   1,
+ 		},
+diff --git a/zeppelin/modules/interact/api/interact_grpc.pb.go b/zeppelin/modules/interact/api/interact_grpc.pb.go
+index 59645ee..f503036 100644
+--- a/zeppelin/modules/interact/api/interact_grpc.pb.go
++++ b/zeppelin/modules/interact/api/interact_grpc.pb.go
+@@ -41,6 +41,7 @@ const (
+ 	Interact_GetInventory_FullMethodName    = "/zeppelin.interact.v1.Interact/GetInventory"
+ 	Interact_UseItem_FullMethodName         = "/zeppelin.interact.v1.Interact/UseItem"
+ 	Interact_SetAmmo_FullMethodName         = "/zeppelin.interact.v1.Interact/SetAmmo"
++	Interact_VendorSell_FullMethodName      = "/zeppelin.interact.v1.Interact/VendorSell"
+ 	Interact_GetTrainerList_FullMethodName  = "/zeppelin.interact.v1.Interact/GetTrainerList"
+ 	Interact_TrainerBuy_FullMethodName      = "/zeppelin.interact.v1.Interact/TrainerBuy"
+ 	Interact_TrainerLearnAll_FullMethodName = "/zeppelin.interact.v1.Interact/TrainerLearnAll"
+@@ -76,6 +77,7 @@ type InteractClient interface {
+ 	GetInventory(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Inventory, error)
+ 	UseItem(ctx context.Context, in *UseItemRequest, opts ...grpc.CallOption) (*CastResult, error)
+ 	SetAmmo(ctx context.Context, in *UseItemRequest, opts ...grpc.CallOption) (*CastResult, error)
++	VendorSell(ctx context.Context, in *VendorSellRequest, opts ...grpc.CallOption) (*CastResult, error)
+ 	GetTrainerList(ctx context.Context, in *Target, opts ...grpc.CallOption) (*TrainerList, error)
+ 	TrainerBuy(ctx context.Context, in *TrainerBuyRequest, opts ...grpc.CallOption) (*TrainerBuyResult, error)
+ 	TrainerLearnAll(ctx context.Context, in *Target, opts ...grpc.CallOption) (*LearnAllResult, error)
+@@ -295,6 +297,16 @@ func (c *interactClient) SetAmmo(ctx context.Context, in *UseItemRequest, opts .
+ 	return out, nil
+ }
+ 
++func (c *interactClient) VendorSell(ctx context.Context, in *VendorSellRequest, opts ...grpc.CallOption) (*CastResult, error) {
++	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
++	out := new(CastResult)
++	err := c.cc.Invoke(ctx, Interact_VendorSell_FullMethodName, in, out, cOpts...)
++	if err != nil {
++		return nil, err
++	}
++	return out, nil
++}
++
+ func (c *interactClient) GetTrainerList(ctx context.Context, in *Target, opts ...grpc.CallOption) (*TrainerList, error) {
+ 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+ 	out := new(TrainerList)
+@@ -409,6 +421,7 @@ type InteractServer interface {
+ 	GetInventory(context.Context, *emptypb.Empty) (*Inventory, error)
+ 	UseItem(context.Context, *UseItemRequest) (*CastResult, error)
+ 	SetAmmo(context.Context, *UseItemRequest) (*CastResult, error)
++	VendorSell(context.Context, *VendorSellRequest) (*CastResult, error)
+ 	GetTrainerList(context.Context, *Target) (*TrainerList, error)
+ 	TrainerBuy(context.Context, *TrainerBuyRequest) (*TrainerBuyResult, error)
+ 	TrainerLearnAll(context.Context, *Target) (*LearnAllResult, error)
+@@ -488,6 +501,9 @@ func (UnimplementedInteractServer) UseItem(context.Context, *UseItemRequest) (*C
+ func (UnimplementedInteractServer) SetAmmo(context.Context, *UseItemRequest) (*CastResult, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method SetAmmo not implemented")
+ }
++func (UnimplementedInteractServer) VendorSell(context.Context, *VendorSellRequest) (*CastResult, error) {
++	return nil, status.Errorf(codes.Unimplemented, "method VendorSell not implemented")
++}
+ func (UnimplementedInteractServer) GetTrainerList(context.Context, *Target) (*TrainerList, error) {
+ 	return nil, status.Errorf(codes.Unimplemented, "method GetTrainerList not implemented")
+ }
+@@ -896,6 +912,24 @@ func _Interact_SetAmmo_Handler(srv interface{}, ctx context.Context, dec func(in
+ 	return interceptor(ctx, in, info, handler)
+ }
+ 
++func _Interact_VendorSell_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
++	in := new(VendorSellRequest)
++	if err := dec(in); err != nil {
++		return nil, err
++	}
++	if interceptor == nil {
++		return srv.(InteractServer).VendorSell(ctx, in)
++	}
++	info := &grpc.UnaryServerInfo{
++		Server:     srv,
++		FullMethod: Interact_VendorSell_FullMethodName,
++	}
++	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
++		return srv.(InteractServer).VendorSell(ctx, req.(*VendorSellRequest))
++	}
++	return interceptor(ctx, in, info, handler)
++}
++
+ func _Interact_GetTrainerList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+ 	in := new(Target)
+ 	if err := dec(in); err != nil {
+@@ -1145,6 +1179,10 @@ var Interact_ServiceDesc = grpc.ServiceDesc{
+ 			MethodName: "SetAmmo",
+ 			Handler:    _Interact_SetAmmo_Handler,
+ 		},
++		{
++			MethodName: "VendorSell",
++			Handler:    _Interact_VendorSell_Handler,
++		},
+ 		{
+ 			MethodName: "GetTrainerList",
+ 			Handler:    _Interact_GetTrainerList_Handler,
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index fe2f3bf..8909c90 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -237,6 +237,11 @@ message VendorBuyRequest {
+   uint32 item_id = 2;
+   uint32 count = 3;      // number of buys; 0 = 1
+ }
++message VendorSellRequest {
++  Target target = 1;     // the vendor
++  uint64 item_guid = 2;  // a bag item (inventory guid)
++  uint32 count = 3;      // 0 = the whole stack
++}
+ message VendorBuyResult {
+   bool ok = 1;
+   string detail = 2;     // "bought", "failed reason N", "not sold here", "timeout"
+@@ -262,7 +267,8 @@ service Interact {
+   rpc GetSelf(google.protobuf.Empty) returns (SelfState);
+   rpc GetInventory(google.protobuf.Empty) returns (Inventory);
+   rpc UseItem(UseItemRequest) returns (CastResult);
+-  rpc SetAmmo(UseItemRequest) returns (CastResult); // CMSG_SET_AMMO u32 item entry (bows/guns fire it)
++  rpc SetAmmo(UseItemRequest) returns (CastResult);
++  rpc VendorSell(VendorSellRequest) returns (CastResult); // CMSG_SELL_ITEM; AC answers only a failure // CMSG_SET_AMMO u32 item entry (bows/guns fire it)
+   rpc GetTrainerList(Target) returns (TrainerList);
+   rpc TrainerBuy(TrainerBuyRequest) returns (TrainerBuyResult);
+   rpc TrainerLearnAll(Target) returns (LearnAllResult);
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index 5cd3960..691c1b5 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -1279,6 +1279,28 @@ func (s *service) VendorBuy(ctx context.Context, req *interactv1.VendorBuyReques
+ 	return &interactv1.VendorBuyResult{Detail: fmt.Sprintf("failed reason %d", b[len(b)-1])}, nil
+ }
+ 
++// VendorSell sends CMSG_SELL_ITEM (vendor u64, item u64, u32 count). AzerothCore replies with
++// SMSG_SELL_ITEM only when the sale fails (vendor u64, item u64, u8 error); silence is a sale.
++func (s *service) VendorSell(ctx context.Context, req *interactv1.VendorSellRequest) (*interactv1.CastResult, error) {
++	vendor, err := s.resolve(ctx, req.GetTarget())
++	if err != nil {
++		return nil, err
++	}
++	ch := s.listen(opcode.SMSGSellItem)
++	defer s.unlisten(ch)
++	var w wow.Writer
++	w.U64(vendor)
++	w.U64(req.GetItemGuid())
++	w.U32(req.GetCount())
++	if err := s.send(ctx, opcode.CMSGSellItem, &w); err != nil {
++		return nil, err
++	}
++	if p, ok := await(ctx, ch, 800*time.Millisecond); ok && len(p.payload) > 0 {
++		return &interactv1.CastResult{Detail: fmt.Sprintf("sell error %d", p.payload[len(p.payload)-1])}, nil
++	}
++	return &interactv1.CastResult{Ok: true, Detail: "sold"}, nil
++}
++
+ // SpellClick sends CMSG_SPELLCLICK (guid) - npc_spellclick_spells: quest "click the NPC" credit,
+ // boarding vehicles - and reports the first SPELL_GO / CAST_FAILED that follows.
+ // SpiritHeal asks a spirit healer (npcflag 0x4000, visible only to ghosts) to resurrect us:
+diff --git a/zeppelin/modules/interact/module.yaml b/zeppelin/modules/interact/module.yaml
+index 250f40f..f8f17bd 100644
+--- a/zeppelin/modules/interact/module.yaml
++++ b/zeppelin/modules/interact/module.yaml
+@@ -28,6 +28,7 @@ rpc:
+   spells: /zeppelin.interact.v1.Interact/GetSpells
+   vendor_list: /zeppelin.interact.v1.Interact/GetVendorList
+   vendor_buy: /zeppelin.interact.v1.Interact/VendorBuy
++  vendor_sell: /zeppelin.interact.v1.Interact/VendorSell
+   spellclick: /zeppelin.interact.v1.Interact/SpellClick
+   spirit_heal: /zeppelin.interact.v1.Interact/SpiritHeal
+   equip: /zeppelin.interact.v1.Interact/Equip
+@@ -36,6 +37,7 @@ rpc:
+   item_spell: /zeppelin.interact.v1.Interact/ItemSpell
+   destroy: /zeppelin.interact.v1.Interact/Destroy
+ packets:
++  SMSG_SELL_ITEM: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_UPDATE_OBJECT: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_COMPRESSED_UPDATE_OBJECT: /zeppelin.interact.v1.Interact/OnPacket
+   SMSG_DESTROY_OBJECT: /zeppelin.interact.v1.Interact/OnPacket
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 80d2427..387fc26 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -45,6 +45,7 @@ CLASS_ABILITIES = {
+         # a pack: Thunder Clap hits them all; Rend bleeds EVERY attacker (15 s each, own timer)
+         {"spell_id": 6343, "every_ms": 6000, "min_power": 200, "min_attackers": 2},           # Thunder Clap
+         {"spell_id": 772, "every_ms": 15000, "min_power": 100, "per_target": True},           # Rend
++        {"spell_id": 34428, "every_ms": 1500, "below_health_pct": 80},                         # Victory Rush (after a kill)
+         {"spell_id": 78, "every_ms": 3000, "min_power": 150},                                 # Heroic Strike
+     ],
+     2: [  # paladin (blood elves have no warrior here)
+@@ -630,6 +631,9 @@ class World:
+                              f"AND action_type IN (11,134) AND action_param1 IN ({inlist(spells)}) AND event_type IN (62,64)"):
+                     if int(r["n"]) in self.cspawn:
+                         self.escort_credit[t] = (int(r["n"]), int(r["m"]) if int(r["ev"]) == 62 else 0, esc)
++        # any vendor (npcflag 0x80) spawned here: where loot is sold for training money
++        self.vendors = sorted({int(r["id"]) for r in sql(
++            f"SELECT DISTINCT c.id FROM creature c JOIN creature_template t ON t.entry=c.id WHERE {where} AND t.npcflag & 128")})
+         self.vendor_items = {}  # item -> vendor entries spawned here (npc_vendor)
+         for r in sql(f"SELECT entry,item FROM npc_vendor WHERE item IN ({il}) AND entry IN ({ce})"):
+             self.vendor_items.setdefault(int(r["item"]), set()).add(int(r["entry"]))
+@@ -879,6 +883,7 @@ class Runner:
+         self.visited_trainer_level = 1  # level of the last trainer visit (far trainers wait 3 levels)
+         self.stuck_t = {}        # quest -> time of its last stuck strike
+         self.camp_deaths = {}    # camp (20 yd cell) -> deaths there
++        self.death_spots = []    # (x, y, our level) of every death, defends included
+         self.defer_until = {}    # quest -> level it waits for (a camp too strong for us)
+         self.last_death_on = {}  # quest -> time it last killed us
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+@@ -952,13 +957,53 @@ class Runner:
+             self._kit_t = 0  # one bite fewer: re-read the bags
+         return r
+ 
++    def sell_junk(self, max_walk=150):
++        """Sell greys and spare weapons/armour at the nearest area vendor. The bots used to DESTROY
++        their loot to free bag space and stayed broke: Northshire's level-6 warrior had 102c and the
++        trainer refused Thunder Clap, Pummel and Victory Rush - then died 73 times among the Defias."""
++        if not self.w.vendors:
++            return 0
++        items = [i for i in call("interact.inventory").get("items", []) if i.get("entry")]
++        if not items:
++            return 0
++        info = {int(r["entry"]): r for r in sql(
++            "SELECT entry,class,Quality,SellPrice,startquest FROM item_template WHERE entry IN "
++            f"({inlist({i['entry'] for i in items})})")}
++        wanted = {int(q[f"RequiredItemId{k}"]) for q in self.w.quests.values() for k in range(1, 7)} | \
++                 {int(q["StartItem"]) for q in self.w.quests.values()}
++        junk = [i for i in items if (r := info.get(i["entry"])) and int(r["SellPrice"]) > 0
++                and i["entry"] not in wanted and int(r["startquest"]) == 0
++                and (int(r["Quality"]) == 0 or (int(r["class"]) in (2, 4) and int(r["Quality"]) <= 2))]
++        if not junk:
++            return 0
++        me = self.me()
++        pts = [(math.dist(p[:2], (me["x"], me["y"])), v, p) for v in self.w.vendors
++               for p in [self.w.nearest("c", v, me, self.phase_mask())] if p]
++        if not pts or min(pts)[0] > max_walk:
++            return 0
++        _, v, _ = min(pts)
++        if not self.go_near("c", v):
++            return 0
++        before = call("interact.self").get("money", 0)
++        sold = sum(1 for i in junk if call("interact.vendor_sell", target={"entry": v}, item_guid=int(i["guid"])).get("ok"))
++        gained = call("interact.self").get("money", 0) - before
++        print(f"  sold {sold} item(s) to vendor {v} for {gained}c", flush=True)
++        self._kit_t = 0
++        return sold
++
+     def supplies(self, level):
+         """Buy a ranged weapon (pull from range: a camp mob walks to us alone), its ammo and food
+         from the area's vendors. Once per level; the weapon is worth a walk of up to 300 yd, the
+         rest only when a vendor is close."""
+-        if getattr(self, "_supplied", 0) >= level or not self.w.shop:
++        if getattr(self, "_supplied", 0) >= level:
+             return
+         self._supplied = level
++        try:
++            self.sell_junk(300)  # money first: the trainer and the shop both need it
++        except StepFailed as e:
++            print(f"  ~ sell: {str(e)[:80]}", flush=True)
++        if not self.w.shop:
++            return
+         have, ranged = self.bags()
+         me, money = self.me(), call("interact.self").get("money", 0)
+ 
+@@ -1002,7 +1047,8 @@ class Runner:
+                 print(f"  supplies: ammo {ammo[-1]}: {res.get('detail')}", flush=True)
+         food = [e for e, inf in self.items(list(have)).items() if inf and inf[0] == 0 and inf[1] == 5 and inf[3] == 11]
+         if sum(have[e] for e in food) < 5:
+-            rows = sorted((r for r in self.w.shop if r["cls"] == 0 and r["lvl"] <= level and r["price"] * 10 <= money),
++            # keep 3s back for the trainer (supplies now run BEFORE training)
++            rows = sorted((r for r in self.w.shop if r["cls"] == 0 and r["lvl"] <= level and r["price"] * 10 + 300 <= money),
+                           key=lambda r: (-r["lvl"], r["price"]))
+             if rows:
+                 buy(rows, max(1, 10 // rows[0]["buy"]), 150)
+@@ -1140,6 +1186,17 @@ class Runner:
+         top = max(info.get(o["entry"], (99, 0))[0] for o in mobs)
+         # a camp that already killed us twice waits until we are 2 levels above its mobs (Coldridge:
+         # 15 deaths at one Frostmane camp - level-3 whelps converge on a level-4 bot before it swings)
++        # ...and whatever the mob levels, 3 deaths around this camp at our CURRENT level park it until
++        # the next level (Northshire: 73 deaths at the Defias vineyard - 28 green Thugs, deaths spread
++        # over ten 20 yd cells and mostly in defend fights, so the cell count above never reached 2)
++        here = sum(1 for x, y, lv in self.death_spots if lv == level and math.dist((x, y), spot[:2]) < 45)
++        if here >= 3:
++            q = getattr(self, "current_qid", None)
++            if q:
++                self.defer_until[q] = max(self.defer_until.get(q, 0), level + 1)
++            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) killed us {here}x at level {level} - "
++                  f"back at level {level + 1}", flush=True)
++            return "later"
+         if self.camp_deaths.get(key, 0) >= 2 and level < top + 2:
+             q = getattr(self, "current_qid", None)
+             if q:
+@@ -1177,6 +1234,20 @@ class Runner:
+             self.camp_deaths[key] = self.camp_deaths.get(key, 0) + 1
+         print(f"  clear camp at ({spot[0]:.0f},{spot[1]:.0f}): {t['entry']} - {r.get('reason', 'killed')} "
+               f"({len(mobs) - 1} left)", flush=True)
++        s = call("interact.self")
++        if not s.get("dead") and s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 60:
++            # hurt inside the camp: resting here gets us jumped by the next wanderer (won at 15 HP,
++            # sat down, died). Back out past the camp's edge first, then rest
++            me = self.me()
++            edge = max(math.dist((o["x"], o.get("y", 0)), spot[:2]) for o in mobs) + 25
++            vx, vy = me["x"] - spot[0], me["y"] - spot[1]
++            n = max(math.hypot(vx, vy), 0.01)
++            rx, ry = spot[0] + vx / n * edge, spot[1] + vy / n * edge
++            print(f"  hurt in camp ({s['health']}/{s['maxHealth']}) - back out to ({rx:.0f},{ry:.0f}) to rest", flush=True)
++            try:
++                self.travel(rx, ry, ground(rx, ry, me.get("z", 0)), within=6)
++            except StepFailed:
++                pass
+         self.rest(90)
+         return True
+ 
+@@ -1398,6 +1469,8 @@ class Runner:
+             # with repeated deaths) - keep at it on a clock, never carry on as a ghost
+             # where we fell = where the corpse lies (asked before the release moves us to a graveyard)
+             corpse = None if st.get("ghost") else self.me()
++            if corpse:
++                self.death_spots.append((corpse["x"], corpse["y"], call("interact.self").get("level", 1)))
+             now = time.time()
+             recent = [(t, p) for t, p in getattr(self, "_deaths", []) if now - t < 600]
+             if corpse:
+@@ -1903,6 +1976,15 @@ class Runner:
+         wanted = {int(q[f"RequiredItemId{k}"]) for q in self.w.quests.values() for k in range(1, 7)} | \
+                  {int(q["StartItem"]) for q in self.w.quests.values()}
+         free = 16 - len(pack)
++        if not getattr(self, "_selling", False):  # a vendor in reach turns junk into training money
++            self._selling = True
++            try:
++                if self.sell_junk(300):
++                    return self.make_room(need)
++            except StepFailed:
++                pass
++            finally:
++                self._selling = False
+         if not getattr(self, "_vaulted", False):  # reagents/trade goods go to the Item Vault first
+             self._vaulted = True
+             self.vault_deposit_all()
+@@ -2959,14 +3041,14 @@ class Runner:
+                 # tried again once we outlevelled it)
+                 self.stuck = {k: v for k, v in self.stuck.items() if not isinstance(k, int)}
+             self._last_level = level
++            try:  # sell loot + buy supplies first: training costs money the bots never had
++                self.supplies(level)
++            except StepFailed as e:
++                print(f"  ~ supplies: {e}", flush=True)
+             try:
+                 self.train(level)
+             except StepFailed as e:  # trainer out of reach: train later
+                 print(f"  ~ trainer: {e}", flush=True)
+-            try:
+-                self.supplies(level)
+-            except StepFailed as e:
+-                print(f"  ~ supplies: {e}", flush=True)
+             # the quest log update that removes a turned-in quest can lag the reward packet
+             log = {q: e for q, e in log.items() if q not in self.w.rewarded}
+             ready = [q for q, e in log.items() if q in self.w.quests and e.get("state") == 1 and q not in self.blocked]
+-- 
+2.34.1
+
