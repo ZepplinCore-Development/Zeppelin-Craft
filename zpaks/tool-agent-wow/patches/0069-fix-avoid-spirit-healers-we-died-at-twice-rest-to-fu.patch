@@ -1,0 +1,41 @@
+From 303df1c46d077f12b60cad053af5c74d18039a66 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 08:41:14 +0000
+Subject: [PATCH] fix: avoid spirit healers we died at twice; rest to full
+ after a spirit rez (F-219)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index dff3496..9944295 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1634,7 +1634,10 @@ class Runner:
+                        key=lambda p: math.dist(p[:2], (me["x"], me["y"])))
+ 
+         def unsafe(p):  # mobs 2+ levels above us within 60 yd: they jump us as we rise (Narache: 60
+-            return any(t[2] >= level + 2 and math.dist(t[:2], p[:2]) < 60 for t in self.threats())  # deaths)
++            # deaths) - or two deaths there already at this level (Shadowglen: even-level Nightsabers
++            # and Sprites killed it on every rise at the same healer)
++            return any(t[2] >= level + 2 and math.dist(t[:2], p[:2]) < 60 for t in self.threats()) or \
++                sum(1 for dx, dy, dl in self.death_spots if dl == level and math.dist((dx, dy), p[:2]) < 60) >= 2
+         # the nearest healer, unless mobs above our level stand around it - then the nearest quiet one
+         # (a ghost walks there unseen; Mulgore's (-2727,-1115) healer sits among level-7 harpies)
+         safe_spots = [p for p in spots if not unsafe(p) and math.dist(p[:2], (me["x"], me["y"])) < 2500]
+@@ -1667,6 +1670,9 @@ class Runner:
+             call("move.to", x=h["x"], y=h.get("y", 0), z=h.get("z", 0), timeout_ms=15000)
+         r = call("interact.spirit_heal", guid=int(h["guid"]))
+         print(f"    spirit rez at {h.get('entry')}: {r.get('detail')}", flush=True)
++        if r.get("ok"):
++            time.sleep(1)
++            self.rest(95)  # a spirit rez leaves us at half health: never walk off like that
+         return bool(r.get("ok"))
+ 
+     def safe(self):
+-- 
+2.34.1
+

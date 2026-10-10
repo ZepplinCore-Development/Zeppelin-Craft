@@ -1,0 +1,51 @@
+From b650059368920bd2cfa4938748fd38a6b8e2564b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 08:40:45 +0000
+Subject: [PATCH] fix: a no-damage kill only becomes a use-item objective when
+ the quest has an item (F-219)
+
+One rising Rattlecage Skeleton turned Deathknell's 3901 into a use quest with no item; it then
+waited for ever. Without an item the creature is skipped for 2 min and another one is fought.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index addb198..dff3496 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1500,7 +1500,8 @@ class Runner:
+         Thugs stand in threes) but beats them one at a time. Falls back to the module's own pick."""
+         objs = call("interact.find", type=3, radius=70, limit=80).get("objects", [])
+         mobs = [o for o in objs if o.get("health", 0) > 0 and not o.get("npcFlags")]
+-        cands = [o for o in mobs if o.get("entry") == entry and o.get("distance", 999) < 60]
++        cands = [o for o in mobs if o.get("entry") == entry and o.get("distance", 999) < 60
++                 and time.time() - self.immune.get(int(o["guid"]), 0) > 120]
+         if not cands:
+             return call("combat.kill", entry=entry, **self.fight_args(), loot=True)
+ 
+@@ -3212,8 +3213,16 @@ class Runner:
+                 if r.get("reason") == "no target":  # nothing alive in sight - not progress
+                     raise StepFailed(f"no living {target} in sight")
+                 if r.get("reason", "").startswith(("cannot attack", "no damage")):
+-                    self.stuck[("use", target)] = 1  # friendly: a quest item / spell target
+-                    return self.use_quest_item_on(q, target)
++                    if any(int(q[k]) and self.w.item_spell.get(int(q[k]))
++                           for k in ("StartItem", "ItemDrop1", "ItemDrop2", "ItemDrop3", "ItemDrop4")):
++                        self.stuck[("use", target)] = 1  # friendly: a quest item / spell target
++                        return self.use_quest_item_on(q, target)
++                    # no item to use on it: THIS one is evading or not up yet (a Rattlecage Skeleton
++                    # still rising) - never turn a kill quest into a use quest for good (Deathknell's
++                    # 3901 waited 21 times on an objective it could no longer attempt). Skip it 2 min
++                    if r.get("guid"):
++                        self.immune[int(r["guid"])] = time.time()
++                    return True
+                 self.kills += r.get("killed", False)
+                 return True
+             go = -target
+-- 
+2.34.1
+
