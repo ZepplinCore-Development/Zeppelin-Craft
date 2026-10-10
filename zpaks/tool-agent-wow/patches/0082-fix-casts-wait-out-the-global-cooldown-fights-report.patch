@@ -1,0 +1,165 @@
+From a27929a14c1bb557231e61490421fbe4f11111d5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 17:34:15 +0000
+Subject: [PATCH] fix: casts wait out the global cooldown; fights report
+ cast-failure reasons (F-219)
+
+The Tirisfal mage's session: 2743 CMSG_CAST_SPELL, 1930 SMSG_CAST_FAILED. The 400 ms hold was
+cleared on SPELL_GO, so the next tick cast into the 1.5 s GCD. Now GO holds until 1.5 s after the
+cast was sent and a failure waits 300 ms; KillResult.cast_fails lists "spell:result xN" per fight
+(shown in the fight log) so the remaining reasons are measured, not guessed.
+Needs a module rebuild - queued for the next full fleet restart.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/api/combat.pb.go | 14 ++++++++++++--
+ zeppelin/modules/combat/combat.proto     |  1 +
+ zeppelin/modules/combat/main.go          | 17 ++++++++++++++---
+ zeppelin/tests/start_area.py             |  3 ++-
+ 4 files changed, 29 insertions(+), 6 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index c49d200..119c80a 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -349,6 +349,7 @@ type KillResult struct {
+ 	Casts         uint32                 `protobuf:"varint,12,opt,name=casts,proto3" json:"casts,omitempty"`
+ 	PeakAttackers uint32                 `protobuf:"varint,13,opt,name=peak_attackers,json=peakAttackers,proto3" json:"peak_attackers,omitempty"` // most units attacking us at once during the fight (1 = a single pull)
+ 	Spells        []uint32               `protobuf:"varint,15,rep,packed,name=spells,proto3" json:"spells,omitempty"`                             // every spell we cast this fight, in order (proof the rotation fires)
++	CastFails     []string               `protobuf:"bytes,16,rep,name=cast_fails,json=castFails,proto3" json:"cast_fails,omitempty"`              // "spell:result xN" from SMSG_CAST_FAILED this fight
+ 	Pull          string                 `protobuf:"bytes,14,opt,name=pull,proto3" json:"pull,omitempty"`                                         // "" no opener, "pulled", "came" (target walked in), "failed N" (cast result)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+@@ -482,6 +483,13 @@ func (x *KillResult) GetSpells() []uint32 {
+ 	return nil
+ }
+ 
++func (x *KillResult) GetCastFails() []string {
++	if x != nil {
++		return x.CastFails
++	}
++	return nil
++}
++
+ func (x *KillResult) GetPull() string {
+ 	if x != nil {
+ 		return x.Pull
+@@ -847,7 +855,7 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\bflee_pct\x18\r \x01(\rR\afleePct\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+-	"\x05count\x18\x02 \x01(\rR\x05count\"\xc7\x03\n" +
++	"\x05count\x18\x02 \x01(\rR\x05count\"\xe6\x03\n" +
+ 	"\n" +
+ 	"KillResult\x12\x16\n" +
+ 	"\x06killed\x18\x01 \x01(\bR\x06killed\x12\x16\n" +
+@@ -866,7 +874,9 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x04loot\x18\v \x03(\v2\x1c.zeppelin.combat.v1.LootItemR\x04loot\x12\x14\n" +
+ 	"\x05casts\x18\f \x01(\rR\x05casts\x12%\n" +
+ 	"\x0epeak_attackers\x18\r \x01(\rR\rpeakAttackers\x12\x16\n" +
+-	"\x06spells\x18\x0f \x03(\rR\x06spells\x12\x12\n" +
++	"\x06spells\x18\x0f \x03(\rR\x06spells\x12\x1d\n" +
++	"\n" +
++	"cast_fails\x18\x10 \x03(\tR\tcastFails\x12\x12\n" +
+ 	"\x04pull\x18\x0e \x01(\tR\x04pull\"\xac\x02\n" +
+ 	"\vRestRequest\x12\x1b\n" +
+ 	"\tuntil_pct\x18\x01 \x01(\rR\buntilPct\x12\x1b\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 39e76f8..e77dedb 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -56,6 +56,7 @@ message KillResult {
+   uint32 casts = 12;
+   uint32 peak_attackers = 13; // most units attacking us at once during the fight (1 = a single pull)
+   repeated uint32 spells = 15; // every spell we cast this fight, in order (proof the rotation fires)
++  repeated string cast_fails = 16; // "spell:result xN" from SMSG_CAST_FAILED this fight
+   string pull = 14;      // "" no opener, "pulled", "came" (target walked in), "failed N" (cast result)
+ }
+ 
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index ebdaa41..d2e1c28 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -63,6 +63,8 @@ type service struct {
+ 	auras                                         map[uint8]uint32     // our visible aura slots -> spell
+ 	casting                                       map[uint64]time.Time // unit -> when its current cast ends
+ 	selfCastUntil                                 time.Time            // our own cast bar
++	lastCastSent                                  time.Time            // GCD runs from here
++	castFails                                     map[string]uint32    // "spell:result" -> count, this fight
+ }
+ 
+ func main() {
+@@ -91,7 +93,7 @@ func run() error {
+ 	}
+ 	defer conn.Close()
+ 	s := &service{session: modv1.NewSessionClient(conn), attackers: map[uint64]time.Time{}, castFailed: map[uint32]uint8{},
+-		auras: map[uint8]uint32{}, casting: map[uint64]time.Time{}}
++		auras: map[uint8]uint32{}, casting: map[uint64]time.Time{}, castFails: map[string]uint32{}}
+ 	server := grpc.NewServer()
+ 	combatv1.RegisterCombatServer(server, s)
+ 	healthy := health.NewServer()
+@@ -201,7 +203,9 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		spell, result := r.U32(), r.U8()
+ 		fmt.Fprintf(os.Stderr, "cast failed spell %d result %d\n", spell, result)
+ 		s.castFailed[spell] = result
+-		s.selfCastUntil = time.Time{}
++		s.castFails[fmt.Sprintf("%d:%d", spell, result)]++
++		// a retry the same tick fails the same way: give it a beat (not ready, out of range...)
++		s.selfCastUntil = time.Now().Add(300 * time.Millisecond)
+ 	case opcode.MSGCorpseQuery: // u8 found, i32 map, x y z, i32 corpse map (QueryHandler)
+ 		if r.U8() == 1 {
+ 			m := r.U32()
+@@ -241,7 +245,9 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		u := r.PackedGUID()
+ 		delete(s.casting, u)
+ 		if u == me {
+-			s.selfCastUntil = time.Time{}
++			// the cast is done but the global cooldown (1.5 s from the cast) is not: casting into
++			// it failed ~70 % of a mage's Frostbolts (SMSG_CAST_FAILED 1930 of 2743)
++			s.selfCastUntil = s.lastCastSent.Add(1500 * time.Millisecond)
+ 		}
+ 	case opcode.SMSGSpellFailure, opcode.SMSGSpellFailedOther: // packed caster, ...
+ 		u := r.PackedGUID()
+@@ -293,6 +299,7 @@ func (s *service) castAt(ctx context.Context, spell uint32, guid uint64) error {
+ 	// hold the next cast until the server answers this one (SPELL_START extends it for a cast
+ 	// bar, GO/FAILURE clears it): a 300 ms tick re-cast Frostbolt 25 times a fight before
+ 	s.mu.Lock()
++	s.lastCastSent = time.Now()
+ 	if t := time.Now().Add(400 * time.Millisecond); t.After(s.selfCastUntil) {
+ 		s.selfCastUntil = t
+ 	}
+@@ -351,12 +358,16 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	s.mu.Lock()
+ 	s.target, s.notInRange, s.badFacing, s.deadTarget, s.cantAttack = guid, false, false, false, false
+ 	swings0, done0, taken0 := s.swings, s.dmgDone, s.dmgTaken
++	s.castFails = map[string]uint32{}
+ 	s.mu.Unlock()
+ 	res := &combatv1.KillResult{Guid: guid}
+ 	finish := func(reason string, killed bool) (*combatv1.KillResult, error) {
+ 		_ = s.send(context.Background(), opcode.CMSGAttackstop, nil)
+ 		s.mu.Lock()
+ 		res.Swings, res.DamageDone, res.DamageTaken = s.swings-swings0, s.dmgDone-done0, s.dmgTaken-taken0
++		for k, n := range s.castFails {
++			res.CastFails = append(res.CastFails, fmt.Sprintf("%sx%d", k, n))
++		}
+ 		delete(s.attackers, guid)
+ 		s.target = 0
+ 		s.mu.Unlock()
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 3a0e72c..c155bce 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1804,7 +1804,8 @@ class Runner:
+         kind: pull (we chose the target) or defend (it came at us - on the road, mid-quest)."""
+         print(f"  fight {entry}: {r.get('reason', 'killed')} [{kind} x{r.get('peakAttackers', 1)}"
+               f"{' ' + r['pull'] if r.get('pull') else ''}] swings {r.get('swings', 0)} dealt {r.get('damageDone', 0)} "
+-              f"taken {r.get('damageTaken', 0)} hp {r.get('ourHealth', 0)}/{r.get('ourMaxHealth', 0)} casts {r.get('spells', [])}",
++              f"taken {r.get('damageTaken', 0)} hp {r.get('ourHealth', 0)}/{r.get('ourMaxHealth', 0)} casts {r.get('spells', [])}"
++              f"{' fails ' + ','.join(r['castFails']) if r.get('castFails') else ''}",
+               flush=True)
+         self.check_loot(r)
+         if r.get("reason") == "flee":
+-- 
+2.34.1
+

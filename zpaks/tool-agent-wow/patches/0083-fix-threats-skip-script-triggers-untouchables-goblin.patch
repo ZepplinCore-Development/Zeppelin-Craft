@@ -1,0 +1,56 @@
+From 5033b11c3a02d98a563b73f324df71d4e69b7604 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 19:36:43 +0000
+Subject: [PATCH] fix: threats skip script triggers/untouchables; goblin legs
+ run without the zone filter (F-219)
+
+- Azuremyst: five invisible level-60 Red Radiation Triggers (16922, unselectable + immune to PC) at
+  the lake made the destination guard park Healing the Lake until level 58 - most of the zone's
+  chain waited behind it (400 kills of grinding, 12 quests). threats() now drops unit_flags
+  NON_ATTACKABLE|IMMUNE_TO_PC|NOT_SELECTABLE and flags_extra TRIGGER, as clear_camp already did
+- Kezan/Lost Isles: custom islands with custom area ids - the zone filter dropped the host of a
+  summoned quest NPC (35816) and the Lost Isles leg ended; each box is one island anyway
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/fleet.py      | 6 ++++--
+ zeppelin/tests/start_area.py | 5 ++++-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index 82e86f2..d5f3344 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -55,8 +55,10 @@ AREAS = [
+     ("mulgore", "tauren", "druid", 6, [(1, (-3698, -3090, -273, 2048), 240, 215)]),
+     ("eversong", "blood-elf", "rogue", 7, [(0, (5625, -7279, 8908, -2354), 240, 3430)]),
+     ("azuremyst", "draenei", "shaman", 8, [(1, (4092, 3563, 6806, 7633), 240, 3524)]),
+-    ("goblin", "goblin", "warrior", 9, [(1, (-9120, -11680, -8230, -10750), 240, 4737),   # Kezan
+-                                        (1, (-500, -11720, 2100, -8850), 360, 4720)]),    # Lost Isles
++    # zone 0: Kezan and the Lost Isles are custom islands (custom area ids; summoned quest NPCs found
++    # beside hosts the zone filter dropped) - each box is already one island
++    ("goblin", "goblin", "warrior", 9, [(1, (-9120, -11680, -8230, -10750), 240, 0),      # Kezan
++                                        (1, (-500, -11720, 2100, -8850), 360, 0)]),       # Lost Isles
+ ]
+ BY_NAME = {a[0]: a for a in AREAS}
+ 
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index c155bce..5dfee7a 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1973,7 +1973,10 @@ class Runner:
+             rows = sql("SELECT c.guid g,c.id e,c.position_x x,c.position_y y,t.faction f,t.minlevel l,"
+                        "c.MovementType mt,c.wander_distance wd,a.path_id p FROM creature c "
+                        "LEFT JOIN creature_addon a ON a.guid=c.guid "
+-                       "JOIN creature_template t ON t.entry=c.id WHERE t.type<>8 AND t.npcflag=0 AND "
++                       "JOIN creature_template t ON t.entry=c.id WHERE t.type<>8 AND t.npcflag=0 "
++                       # never script triggers or untouchables: Azuremyst's invisible level-60 Red
++                       # Radiation Triggers "guarded" Healing the Lake until level 58
++                       "AND (t.unit_flags & 33554690)=0 AND (t.flags_extra & 128)=0 AND "
+                        f"c.map={self.w.map} AND c.position_x BETWEEN {min(x1, x2) - m} AND {max(x1, x2) + m} "
+                        f"AND c.position_y BETWEEN {min(y1, y2) - m} AND {max(y1, y2) + m}")
+             facs = inlist({int(r["f"]) for r in rows})
+-- 
+2.34.1
+

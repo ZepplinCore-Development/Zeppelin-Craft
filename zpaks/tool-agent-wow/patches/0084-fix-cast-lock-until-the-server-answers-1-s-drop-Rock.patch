@@ -1,0 +1,61 @@
+From dcc370186aa179dd3aedf6a80d16a103b317b604 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 20:57:11 +0000
+Subject: [PATCH] fix: cast lock until the server answers (1 s); drop
+ Rockbiter; space Eviscerate (F-219)
+
+First run with failure reasons (SharedDefines SpellCastResult): mage 105 SPELL_IN_PROGRESS x54 (the
+400 ms lock was shorter than the round trip), shaman Rockbiter 44 ITEM_NOT_FOUND x40 (weapon enchant
+cast at the player), rogue Eviscerate 78 NO_COMBO_POINTS. Cast rejections fell from 70 % to 17-48 %
+with the GCD fix; this targets the rest. Queued for the next fleet restart.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/main.go | 4 +++-
+ zeppelin/tests/start_area.py    | 7 +++++--
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index d2e1c28..a4642ec 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -300,7 +300,9 @@ func (s *service) castAt(ctx context.Context, spell uint32, guid uint64) error {
+ 	// bar, GO/FAILURE clears it): a 300 ms tick re-cast Frostbolt 25 times a fight before
+ 	s.mu.Lock()
+ 	s.lastCastSent = time.Now()
+-	if t := time.Now().Add(400 * time.Millisecond); t.After(s.selfCastUntil) {
++	// until the server answers (SPELL_START extends it, GO/FAILURE ends it): a fixed 400 ms was
++	// sometimes shorter than the round trip - 105 SPELL_IN_PROGRESS was the mage's top failure
++	if t := time.Now().Add(1000 * time.Millisecond); t.After(s.selfCastUntil) {
+ 		s.selfCastUntil = t
+ 	}
+ 	s.mu.Unlock()
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 5dfee7a..e8be22e 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -81,7 +81,8 @@ CLASS_ABILITIES = {
+         {"spell_id": 331, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Wave
+         {"spell_id": 8042, "every_ms": 6000, "min_power": 30, "interrupt": True},            # Earth Shock (interrupt)
+         {"spell_id": 324, "every_ms": 3000, "min_power": 45, "on_self": True, "buff": True},  # Lightning Shield
+-        {"spell_id": 8017, "every_ms": 290000, "min_power": 20, "on_self": True},            # Rockbiter Weapon (item buff)
++        # Rockbiter Weapon (8017) needs the WEAPON as its target - cast at ourselves it failed with
++        # ITEM_NOT_FOUND 40 times in half an hour. Back once casts can target an item
+         {"spell_id": 8042, "every_ms": 6000, "min_power": 30},                               # Earth Shock
+         {"spell_id": 403, "every_ms": 0, "min_power": 15},                                   # Lightning Bolt
+     ],
+@@ -109,7 +110,9 @@ CLASS_ABILITIES = {
+     4: [  # rogue
+         {"spell_id": 1766, "every_ms": 10000, "min_power": 25, "interrupt": True},            # Kick
+         {"spell_id": 1752, "every_ms": 1000, "min_power": 45},                                # Sinister Strike
+-        {"spell_id": 2098, "every_ms": 6000, "min_power": 35},                                # Eviscerate
++        # no combo-point tracking yet: space Eviscerate so 3+ Sinister Strikes land first (it failed
++        # with NO_COMBO_POINTS when fired every 6 s)
++        {"spell_id": 2098, "every_ms": 10000, "min_power": 35},                               # Eviscerate
+     ],
+ }
+ 
+-- 
+2.34.1
+
