@@ -87,7 +87,11 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         if not mesh.startswith('character/'):
             continue
         mo = chosen_mesh.get(mesh) or picks.mesh(mesh)
+        # the picker's choice of bake: a Displays-page pick 'bake:<source>' (character displays), or an edit's
         explicit = ((choices.get('custom') or {}).get(str(did)) or {}).get('bake')
+        dpk = str(((choices.get('display') or {}).get(str(did)) or {}).get('option') or '')
+        if dpk.startswith('bake:'):
+            explicit = dpk[5:]
         cands = []
         for src in char_sources:
             cdx = result['stock_char_dbc'][0] if src == 'stock' else srcs[src].cdx
@@ -270,14 +274,32 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     report.setdefault('retail_displays', [])
     report.setdefault('retail_display_failed', [])
     customs = choices.get('custom') or {}
+    custom_geo: set = set()          # displays whose geoset data is an edit (incl. "none (hidden)" groups)
     for did_s, dp in display_picks.items():
         if not did_s.isdigit() or not dp:
             continue
+        if str(dp.get('option') or '').startswith('bake:'):
+            continue                                   # a character display's bake pick: the NPC bakes pass above
+        if dp.get('option') == 'custom' and (customs.get(did_s) or {}).get('new'):
+            continue                                   # a display we created: layer 3 builds its row
         if dp.get('option') == 'custom':
             # our own option: ship the panel it was built on; layer 3 below applies the edits to it
             b_ = (customs.get(did_s) or {}).get('base') or {}
             dp = {'option': b_.get('option'), 'sources': b_.get('sources') or ['stock']}
+            if 'retail' in dp['sources']:
+                # a retail remaster (by name) picked in the Display editor: the per-display retail path
+                dp.update({'fdid': b_.get('fdid'), 'skins': b_.get('skins'), 'remaster_of': b_.get('remaster_of')})
         did, src = int(did_s), (dp.get('sources') or ['stock'])[0]
+        if src == 'retail' and not dp.get('fdid'):
+            # the picker's option-key collision (before 2026-10-10): a pack card on the same path as a
+            # retail remaster was saved as ['retail']. A real retail pick carries its fdid; without one,
+            # the pick is the pack that ships that path
+            tp_ = ms.norm(str(dp.get('option') or ''))
+            own = next((n for n in srcs if tp_ in ix._src_files(n)), None)
+            if own:
+                dp = {**dp, 'sources': [own]}
+                src = own
+                report.setdefault('retail_collision_repaired', []).append(did)
         if src == 'retail':
             # a retail remaster found BY NAME, picked for this display (picker: model card panel)
             why = _retail_display(did, dp, layers, result, srcs, want, wanted_rows, log)
@@ -346,18 +368,27 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     # ---- layer 3: per-display customisation --------------------------------------------
     # AFTER the display picks: a customisation edits the row its display ships (the picked option's)
     outfits = {}
-    for did_s, cu in (choices.get('custom') or {}).items():
+    for did_s, cu in sorted((choices.get('custom') or {}).items(), key=lambda kv: int(kv[0]) if kv[0].isdigit() else 0):
         if not did_s.isdigit() or not cu:
             continue
-        # a customisation is its own option on the display: it ships only once the display's pick is it
-        if (display_picks.get(did_s) or {}).get('option') != 'custom':
-            continue
         did = int(did_s)
+        if cu.get('new'):
+            # a display the picker CREATED (Display editor's "New display"): no stock option to pick
+            # against, it always ships - its row is a copy of the row the model was shown with
+            why = _new_display(did, cu, layers, result, srcs, want, wanted_rows, ix, log)
+            report.setdefault('new_displays' if not why else 'new_display_failed', []).append(f'{did}: {why}' if why else did)
+            if why:
+                continue
+            custom_geo.add(did)
+        # a customisation is its own option on the display: it ships only once the display's pick is it
+        elif (display_picks.get(did_s) or {}).get('option') != 'custom':
+            continue
         if cu.get('geosets'):
             row = dict(wanted_rows.get(('creaturedisplayinfo', (did,))) or
                        layers.state('creaturedisplayinfo', 'base').get((did,)) or {})
             if row:
                 row['creature_geoset_data'] = sum((int(v) & 0xF) << (4 * k) for k, v in enumerate(cu['geosets'][:8]))
+                custom_geo.add(did)                    # deliberate: the geoset fix below leaves it alone
                 wanted_rows[('creaturedisplayinfo', (did,))] = row
         if cu.get('skins') and cu.get('path'):
             # display skin slots picked in Customise (texture stems in the model's folder)
@@ -366,18 +397,19 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
             if row:
                 folder = ms.norm(cu['path']).rsplit('/', 1)[0]
                 o_c = chosen_mesh.get(ms.norm(cu['path']))
+                src_l = list(o_c.sources) if o_c else list(((cu.get('base') or {}).get('sources')) or [])
                 for k, stem in enumerate(cu['skins'][:3]):
                     if stem is None:
                         continue
                     row[f'texture_variation_{k + 1}'] = stem
                     tp = f'{folder}/{str(stem).lower()}.blp'
                     if stem and want.get(tp) is None and tp not in ix.stock:
-                        f = next((ix._src_files(x)[tp] for x in (o_c.sources if o_c else []) if tp in ix._src_files(x)), None)
+                        f = next((ix._src_files(x)[tp] for x in src_l if x not in ('stock', 'retail') and tp in ix._src_files(x)), None)
                         if f is not None:
                             want[tp] = f              # a pack texture nothing else ships
                 wanted_rows[('creaturedisplayinfo', (did,))] = row
         if 'hair_style' in cu or 'facial_hair' in cu:
-            ext = int((cdi_eff.get(did) or {}).get('extended_display_info_id') or 0)
+            ext = int((wanted_rows.get(('creaturedisplayinfo', (did,))) or cdi_eff.get(did) or {}).get('extended_display_info_id') or 0)
             row = dict(wanted_rows.get(('creaturedisplayinfoextra', (ext,))) or
                        layers.state('creaturedisplayinfoextra', 'base').get((ext,)) or {}) if ext else {}
             if row:
@@ -397,6 +429,8 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     base_cmd = layers.state('creaturemodeldata', 'base')
     gs_cache: Dict[str, set] = {}
     for key in set(base_cdi) | {k for t, k in wanted_rows if t == 'creaturedisplayinfo'}:
+        if key[0] in custom_geo:
+            continue                                   # an edit may hide a group on purpose (an absent variant)
         row = wanted_rows.get(('creaturedisplayinfo', key)) or base_cdi.get(key)
         cg = int((row or {}).get('creature_geoset_data') or 0)
         if not cg:
@@ -480,6 +514,91 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     report.update({'files': len(manifest), 'dropped': dropped, 'stock_copies': stock_copies,
                    'rows': len(wanted_rows)})
     return {'manifest': manifest, 'wanted_rows': wanted_rows, 'report': report}
+
+
+def _new_display(did: int, cu: dict, layers: 'hd.Layers', result: dict, srcs: dict, want: dict,
+                 wanted_rows: dict, ix, log) -> str:
+    """A new CreatureDisplayInfo row for a display the picker created: a copy of the row its model was
+    shown with (cu['base']['display'] - size, sound, scale, blood), on the new id, wearing the edit's
+    skins / geosets (layer 3 applies those). A pack-only model brings its CreatureModelData row and
+    files. '' when done, else why not."""
+    path = ms.norm(str(cu.get('path') or ''))
+    b = cu.get('base') or {}
+    sources = [x for x in (b.get('sources') or ['stock']) if x != 'retail'] or ['stock']
+    for name, rows in [('stock', layers.state('creaturedisplayinfo', 'stock')), ('base', layers.state('creaturedisplayinfo', 'base')),
+                       ('live', result['effective_dbc'][0])] + [(n, s.cdi) for n, s in srcs.items()]:
+        if (rows.get((did,)) if name in ('stock', 'base') else rows.get(did)):
+            return f'display id {did} is already used by {name}'
+    tpl_id = int(b.get('display') or 0)
+    tpl, src = None, None
+    for x in sources + ['base', 'stock']:
+        r_ = layers.state('creaturedisplayinfo', x).get((tpl_id,)) if tpl_id else None
+        if r_:
+            tpl, src = r_, x
+            break
+    def model_row(rows_, mid_):
+        r_ = rows_.get((mid_,))
+        return r_ if r_ and ms.norm(str(r_.get('model_path') or '')).replace('.mdx', '.m2') == path else None
+    mrow, msrc = None, None
+    if tpl:
+        mid = int(tpl.get('model_id') or 0)
+        for x in ['base', src, 'stock']:
+            mrow = model_row(layers.state('creaturemodeldata', x), mid)
+            if mrow:
+                msrc = x
+                break
+    if mrow is None:                                   # any row naming the model path
+        for x in ['base', 'stock'] + sources:
+            mrow = next((r_ for r_ in layers.state('creaturemodeldata', x).values()
+                         if ms.norm(str(r_.get('model_path') or '')).replace('.mdx', '.m2') == path), None)
+            if mrow:
+                msrc = x
+                break
+    if mrow is None:
+        return f'no CreatureModelData row names {path}'
+    if tpl is None:
+        tpl = next(iter(layers.state('creaturedisplayinfo', 'stock').values()))
+        tpl = {k: (0 if isinstance(v, (int, float)) else '') for k, v in tpl.items()}
+        tpl.update({'creature_model_scale': 1.0, 'creature_model_alpha': 255})
+    if msrc not in ('base', 'stock'):
+        wanted_rows[('creaturemodeldata', (int(mrow['id']),))] = dict(mrow)
+    if path not in ix.stock and want.get(path) is None:
+        files = next((ix._src_files(x) for x in sources if x != 'stock' and path in ix._src_files(x)), None)
+        if files is None:
+            return f'no source ships {path}'
+        stem = path[:-3]
+        for k, f in files.items():
+            if k == path or (k.startswith(stem) and k.endswith(('.skin', '.anim'))):
+                want.setdefault(k, f)
+    row = dict(tpl)
+    row['id'] = did
+    row['model_id'] = int(mrow['id'])
+    ext = int(tpl.get('extended_display_info_id') or 0)
+    row['extended_display_info_id'] = 0
+    if ext:
+        # a character model draws its bake row: the clone gets its OWN copy (a later edit to the original's
+        # hair / outfit must not reach it), on the highest CreatureDisplayInfoExtra id + 1
+        x = None
+        for name in [src, 'base', 'stock']:
+            x = layers.state('creaturedisplayinfoextra', name).get((ext,)) if name else None
+            if x:
+                break
+        if x is None:
+            return f'display {tpl_id} names bake row {ext}, which no source has'
+        used = set()
+        for name in ['stock', 'base']:
+            used |= {k[0] for k in layers.state('creaturedisplayinfoextra', name)}
+        used |= set(result.get('effective_char_dbc', ({},))[0])
+        used |= {k[1][0] for k in wanted_rows if k[0] == 'creaturedisplayinfoextra'}
+        for s_ in srcs.values():
+            used |= set(getattr(s_, 'cdx', None) or {})
+        nx = max(used) + 1
+        x = dict(x)
+        x['id'] = nx
+        wanted_rows[('creaturedisplayinfoextra', (nx,))] = x
+        row['extended_display_info_id'] = nx
+    wanted_rows[('creaturedisplayinfo', (did,))] = row
+    return ''
 
 
 def _retail_display(did: int, dp: dict, layers: hd.Layers, result: dict, srcs: dict,

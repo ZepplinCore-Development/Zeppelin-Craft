@@ -85,6 +85,7 @@ function mapUrl(logical) {
   if (i < 0) return logical;
   const tail = decodeURIComponent(logical.slice(i + BASE.length).split('?')[0]);
   const hit = FILEMAP[tail];
+  if (hit && /^(blob:|https?:)/.test(hit)) return hit;   // a texture the page made (the outfitter's live bake)
   return hit ? logical.slice(0, i) + 'files/cas/' + hit : logical;
 }
 
@@ -206,6 +207,21 @@ function upgradeM2(buf) {
 const legacyM2 = {};   // model stem -> upgraded MD20 buffer
 let malformed = 0;     // batches hidden by fixLegacySkin (reported to the picker)
 let badBounds = false; // sequence bounds replaced (do not contain the mesh)
+// creature geoset data (?g0all) the client's way - proven in the real client 2026-10-08 on wendigo2
+// and bogbeast2: group 0 (ids 0-99) is always drawn; a group whose value is 0 draws EVERY variant
+// (bogbeast2 0x20 still wore its branches, variant 102); a present value draws that variant only;
+// an absent value draws nothing. The engine's filter keeps only id == group*100 + value, so the
+// ids of group 0 and of every 0-valued group are folded onto group*100.
+function cgdFold(s) {
+  if (!q.has('g0all') || s.getUint32(0, true) !== 0x4E494B53) return;
+  const nS0 = s.getUint32(4 + 8 * 3, true), oS0 = s.getUint32(4 + 8 * 3 + 4, true);
+  const mesh = (q.get('mesh') || '').split(',').filter(x => x !== '').map(Number);
+  for (let j = 0; j < nS0; j++) {
+    const id = s.getUint16(oS0 + 48 * j, true), g = Math.floor(id / 100);
+    if (g === 0) s.setUint16(oS0 + 48 * j, 0, true);
+    else if (g < mesh.length && mesh[g] === 0) s.setUint16(oS0 + 48 * j, g * 100, true);
+  }
+}
 function fixLegacySkin(skinBuf, m2Buf) {
   const m = new DataView(m2Buf), s = new DataView(skinBuf);
   const arr = (dv, at) => [dv.getUint32(at, true), dv.getUint32(at + 4, true)];
@@ -217,6 +233,7 @@ function fixLegacySkin(skinBuf, m2Buf) {
   const texUnit = (i) => (i < nTu ? m.getUint16(oTu + 2 * i, true) : 0xFFFF);
   const blendMap = (i) => (i < nBm ? m.getUint16(oBm + 2 * i, true) : 0);
   const [nB0, oB] = arr(s, 4 + 8 * 4);
+  cgdFold(s);
   // debug: ?maxbatches=N draws only the first N batches
   const nB = q.has('maxbatches') ? Math.min(nB0, +q.get('maxbatches')) : nB0;
   if (nB !== nB0) s.setUint32(4 + 8 * 4, nB, true);
@@ -637,6 +654,51 @@ function mergeItemsSkin(buf) {
   return out.buffer;
 }
 
+// ---- geoset group regions: the M2 holds only numbers; where a group sits on the body comes from the
+// bones its vertices hang on (key bone ids have fixed meanings). Posted to the Display editor.
+const KEY_REGION = { 0: 'arms', 1: 'arms', 2: 'shoulders', 3: 'shoulders', 4: 'spine', 5: 'waist', 6: 'head', 7: 'jaw',
+  8: 'hands', 9: 'hands', 10: 'hands', 11: 'hands', 12: 'hands', 13: 'hands', 14: 'hands', 15: 'hands', 16: 'hands', 17: 'hands',
+  18: 'head', 19: 'hands', 20: 'hands', 21: 'head', 24: 'chest', 25: 'chest', 34: 'head', 35: 'cape', 36: 'cape', 37: 'cape', 38: 'cape',
+  39: 'cape', 42: 'tabard', 43: 'tabard', 46: 'upper body', 47: 'neck', 49: 'head' };
+function geoRegions(m2buf, skbuf) {
+  try {
+    const m = new DataView(m2buf), sk = new DataView(skbuf);
+    const b = m.getUint32(0, true) === 0x3132444D ? 8 : 0;                 // MD21 -> MD20 at +8
+    if (sk.getUint32(0, true) !== 0x4E494B53) return null;                  // 'SKIN'
+    const nB = m.getUint32(b + 0x2C, true), oB = b + m.getUint32(b + 0x30, true);
+    const nV = m.getUint32(b + 0x3C, true), oV = b + m.getUint32(b + 0x40, true);
+    const key = (i) => m.getInt32(oB + 88 * i, true), par = (i) => m.getInt16(oB + 88 * i + 8, true);
+    const region = (bi) => { for (let n = 0; bi >= 0 && bi < nB && n < 64; n++, bi = par(bi)) { const r = KEY_REGION[key(bi)]; if (r) return r; } return 'body'; };
+    const nI = sk.getUint32(4, true), oI = sk.getUint32(8, true), nS = sk.getUint32(28, true), oS = sk.getUint32(32, true);
+    const tally = {};
+    for (let j = 0; j < nS; j++) {
+      const id = sk.getUint16(oS + 48 * j, true), g = Math.floor(id / 100);
+      if (!g) continue;
+      const vs = sk.getUint16(oS + 48 * j + 4, true) + (sk.getUint16(oS + 48 * j + 2, true) << 16), vc = sk.getUint16(oS + 48 * j + 6, true);
+      const t = tally[g] = tally[g] || {};
+      for (let i = vs; i < vs + vc && i < nI; i++) {
+        const v = sk.getUint16(oI + 2 * i, true);
+        if (v >= nV) continue;
+        let best = 0, bw = -1;
+        for (let k = 0; k < 4; k++) { const w = m.getUint8(oV + 48 * v + 12 + k); if (w > bw) { bw = w; best = m.getUint8(oV + 48 * v + 16 + k); } }
+        const r = region(best); t[r] = (t[r] || 0) + 1;
+      }
+    }
+    const out = {};
+    Object.entries(tally).forEach(([g, t]) => {
+      const tot = Object.values(t).reduce((a, x) => a + x, 0), top = Object.entries(t).sort((x, y) => y[1] - x[1]);
+      if (!tot) return;
+      out[g] = top[0][0] + (top[1] && top[1][1] / tot >= 0.3 && top[1][0] !== top[0][0] ? ' / ' + top[1][0] : '');
+    });
+    return out;
+  } catch (e) { return null; }
+}
+let geoM2 = null, geoSent = false;
+function sendRegions(skbuf) {
+  if (geoSent || !geoM2) return;
+  const r = geoRegions(geoM2, skbuf);
+  if (r && Object.keys(r).length) { geoSent = true; parent.postMessage({ type: 'pane-georegions', regions: r }, '*'); }
+}
 const xopen = XMLHttpRequest.prototype.open;
 XMLHttpRequest.prototype.open = function (method, url, ...rest) {
   const logical = fixUrl(url);
@@ -655,11 +717,13 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
         if (ITEMS.length) parent.postMessage({ type: 'pane-items', src: SRC, merged: itemsMerged, wanted: ITEMS.length }, '*');
       }
       if (isLegacy) legacyM2[path.slice(0, -3)] = up;
+      if (path.toLowerCase().endsWith('/' + MODEL.toLowerCase())) geoM2 = raw;
       if (up !== raw) Object.defineProperty(this, 'response', { value: up, configurable: true });
     } else if (RETAIL_FDID && path.endsWith('/fdid/' + RETAIL_FDID)) {
       // the retail model itself (MD21 -> MD20 at +8): report its stats to the picker, and frame a
       // retail-only model (no deploy camera) from its own bounding box
       const dv = new DataView(this.response);
+      geoM2 = this.response;
       const b = dv.byteLength > 0xC8 && dv.getUint32(0, true) === 0x3132444D ? 8 : 0;
       if (dv.byteLength > b + 0x130) {
         const f = (o) => dv.getFloat32(b + o, true);
@@ -683,12 +747,20 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
           CAM0.target = [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2];
           CAM0.dist = Math.max(2.4 * r, 1.6);
           cam = JSON.parse(JSON.stringify(CAM0));
+          if (VIEW.length >= 3) { cam.yaw = VIEW[0]; cam.pitch = VIEW[1]; cam.dist = VIEW[2]; }
         }
+      }
+    } else if (/\/fdid\/\d+$/.test(path) && this.response.byteLength > 48 && new DataView(this.response).getUint32(0, true) === 0x4E494B53) {
+      sendRegions(this.response);                                         // a retail .skin (by FileDataID)
+      if (q.has('g0all')) {                                               // the client's geoset rules here too
+        const sk = this.response.slice(0); cgdFold(new DataView(sk));
+        Object.defineProperty(this, 'response', { value: sk, configurable: true });
       }
     } else if (/\.blp$/i.test(path) || /\/fdid\/\d+$/.test(path)) {
       const fixedBlp = sanitizeBlp(this.response);
       if (fixedBlp !== this.response) Object.defineProperty(this, 'response', { value: fixedBlp, configurable: true });
     } else if (/\d\d\.skin$/i.test(path)) {
+      if (path.toLowerCase().endsWith('/' + MODEL.toLowerCase().replace(/\.m2$/, '00.skin'))) sendRegions(this.response);
       const m2 = legacyM2[path.replace(/\d\d\.skin$/i, '')];
       if (m2) {
         let sk = this.response.slice(0);
@@ -745,6 +817,8 @@ const CAM0 = (() => {
   return { target: v.slice(0, 3), dist: Math.max(v[3] * 1.15, 1.6), yaw: 0.785, pitch: 0.3 };
 })();
 let cam = JSON.parse(JSON.stringify(CAM0));
+const VIEW = (q.get('view') || '').split(',').map(Number);
+if (VIEW.length >= 3 && VIEW.slice(0, 3).every(Number.isFinite)) { cam.yaw = VIEW[0]; cam.pitch = VIEW[1]; cam.dist = VIEW[2]; }
 const panOff = [0, 0];   // accumulated engine view offset, undone on reset
 function resetPan() {
   if (ready && (panOff[0] || panOff[1])) Module._addCameraViewOffset(-panOff[0], -panOff[1]);
@@ -821,6 +895,9 @@ function placeStart() {
     camCentre = [e[0] - p0[0], e[1] - p0[1], e[2] - p0[2]];
     const m = measureCam();
     cam.yaw = m.yaw; cam.pitch = m.pitch; cam.dist = m.dist;
+    // a restored view (?view=, the Display editor reloading its preview) is in this same orbit
+    // frame: camStep steers the engine there
+    if (VIEW.length >= 3 && VIEW.slice(0, 3).every(Number.isFinite)) { cam.yaw = VIEW[0]; cam.pitch = VIEW[1]; cam.dist = VIEW[2]; }
     camLive = true;
     updateRuler();
   });
@@ -843,6 +920,10 @@ function moveCam(mut, broadcast = true) {
   // Only the orbit angle is mirrored to the other panes; zoom and pan stay per pane
   // (each pane's own target and distance are sized to its model).
   if (broadcast) parent.postMessage({ type: 'pane-cam', src: SRC, cam: { yaw: cam.yaw, pitch: cam.pitch } }, '*');
+  reportView();
+}
+function reportView() {
+  parent.postMessage({ type: 'pane-view', view: [cam.yaw, cam.pitch, cam.dist, panOff[0], panOff[1]].map(x => +(+x).toFixed(4)) }, '*');
 }
 (() => {
   const g = document.getElementById('grab');
@@ -868,8 +949,7 @@ function moveCam(mut, broadcast = true) {
     if (pts.has(e.pointerId)) pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pts.size === 2 && pinch) {
       const now = spread();
-      if (now > 0) moveCam((c) => { c.dist *= pinch / now; }, false);
-      pinch = now;
+      if (now > 0 && Math.abs(now - pinch) > 6) { moveCam((c) => { c.dist *= pinch / now; }, false); pinch = now; }   // < 6 px: a two-finger scroll, not a pinch
       return;
     }
     if (!drag) return;
@@ -882,11 +962,23 @@ function moveCam(mut, broadcast = true) {
       const k = (2 * cam.dist * TAN_HALF_FOV) / (Module.canvas.clientHeight || 1);
       Module._addCameraViewOffset(dx * k, -dy * k);
       panOff[0] += dx * k; panOff[1] += -dy * k;
+      reportView();
     } else {
       moveCam((c) => { c.yaw -= dx * 0.01; c.pitch += dy * 0.01; });
     }
   });
-  g.addEventListener('wheel', (e) => { e.preventDefault(); moveCam((c) => { c.dist *= Math.pow(1.1, Math.sign(e.deltaY)); }, false); }, { passive: false });
+  // the picker says whether its card area scrolls: then a plain wheel / vertical swipe scrolls the
+  // page (touch-action pan-y), and only a pinch, ctrl+wheel (trackpad pinch) or +/- zooms
+  let pageScrolls = false;
+  addEventListener('message', (ev) => {
+    if ((ev.data || {}).type !== 'pane-scrollmode') return;
+    pageScrolls = !!ev.data.scroll;
+    g.style.touchAction = pageScrolls ? 'pan-y' : 'none';
+  });
+  g.addEventListener('wheel', (e) => {
+    if (pageScrolls && !e.ctrlKey) return;        // let it scroll the card area
+    e.preventDefault(); moveCam((c) => { c.dist *= Math.pow(1.1, Math.sign(e.deltaY)); }, false);
+  }, { passive: false });
   document.getElementById('zin').addEventListener('click', () => moveCam((c) => { c.dist /= 1.25; }, false));
   document.getElementById('zout').addEventListener('click', () => moveCam((c) => { c.dist *= 1.25; }, false));
   g.addEventListener('dblclick', () => { resetPan(); resetView(); });
@@ -946,6 +1038,7 @@ function startScene() {
     Module._setTextures(buf, slots.length);
     Module._free(buf);
     ready = true;
+    if (VIEW.length >= 5 && (VIEW[3] || VIEW[4])) { Module._addCameraViewOffset(VIEW[3], VIEW[4]); panOff[0] = VIEW[3]; panOff[1] = VIEW[4]; }
     applyMeshes();
     syncSize();
     let last;

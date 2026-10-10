@@ -335,11 +335,12 @@ def named_remasters(path: str) -> List[Tuple[str, int]]:
     d, f = path.rsplit('/', 1)
     dd, stem = d.rsplit('/', 1)[-1], f[:-3]
     exact = f'creature/{dd}2/{stem}2.m2'
-    pat = re.compile(re.escape(f'creature/{dd}2') + r'[a-z_]*/' + re.escape(stem + '2') + r'[a-z_]*\.m2')
+    # <name>2 and the other numberings retail used (wendigo_02 beside wendigo2)
+    pat = re.compile(re.escape(f'creature/{dd}') + r'_?\d+[a-z_]*/' + re.escape(stem) + r'_?\d+[a-z_]*\.m2')
     global _named_index
     if _named_index is None:
         _named_index = sorted(p for p in by_path if p.startswith('creature/') and p.endswith('.m2'))
-    hits = [p for p in _named_index if pat.fullmatch(p)]
+    hits = [p for p in _named_index if pat.fullmatch(p) and p != path]
     hits.sort(key=lambda p: (p != exact, p))
     return [(p, by_path[p]) for p in hits]
 
@@ -402,3 +403,110 @@ def model_data_id(fdid: int) -> int:
             CACHE.mkdir(parents=True, exist_ok=True)
             pk.write_bytes(pickle.dumps(_cmd_ids))
     return _cmd_ids.get(fdid, 0)
+
+
+_cdg: Optional[Dict[int, List[Tuple[int, int]]]] = None
+
+
+def geoset_data(did: int) -> List[Tuple[int, int]]:
+    """Retail CreatureDisplayInfoGeosetData of a display: [(GeosetIndex, GeosetValue)]. Index i is
+    geoset GROUP i+1 and the value its variant, i.e. geoset (i+1)*100 + value - the same layout as
+    3.3.5's creature_geoset_data nibbles (dragonspawn2: (0,6) (1,2) (2,1) (3,1) = 106 202 301 401,
+    all present in its .skin). Without it a model draws EVERY variant at once."""
+    global _cdg
+    if _cdg is None:
+        pk = CACHE / f'cdg_{build()}.pkl'
+        if pk.exists():
+            _cdg = pickle.loads(pk.read_bytes())
+        else:
+            _cdg = {}
+            for r in _csv('CreatureDisplayInfoGeosetData'):
+                try:
+                    _cdg.setdefault(int(r['CreatureDisplayInfoID']), []).append((int(r['GeosetIndex']), int(r['GeosetValue'])))
+                except (KeyError, ValueError):
+                    continue
+            CACHE.mkdir(parents=True, exist_ok=True)
+            pk.write_bytes(pickle.dumps(_cdg))
+    return _cdg.get(did, [])
+
+
+def geo_nibbles(pairs) -> List[int]:
+    """[(index, value)] -> the 8 creature_geoset_data nibbles (groups 1..8); later groups dropped."""
+    out = [0] * 8
+    for i, v in pairs:
+        if 0 <= i < 8 and 0 <= v < 16:
+            out[i] = v
+    return out
+
+
+def skin_sets_geo(fdid: int):
+    """skin_sets() plus, per set, the commonest geoset choice of the displays wearing it, and the
+    geoset values retail uses per group on this model: ([[skins x3, displays, nibbles x8]], {group: [values]})."""
+    from collections import Counter
+    display_row(0)
+    by_set: Dict[tuple, Counter] = {}
+    groups: Dict[int, set] = {}
+    for did, (m, t) in _cdi.items():
+        if m != fdid:
+            continue
+        g = tuple(geo_nibbles(geoset_data(did)))
+        for k, v in enumerate(g):
+            if v:
+                groups.setdefault(k + 1, set()).add(v)
+        if any(t[:3]):
+            by_set.setdefault(tuple(t[:3]), Counter())[g] += 1
+    sets = [[list(k), sum(c.values()), list(c.most_common(1)[0][0])] for k, c in by_set.items()]
+    sets.sort(key=lambda x: (-x[1], x[0]))
+    if not sets:
+        sets = folder_skin_sets(fdid)
+    return sets, {g: sorted(v) for g, v in sorted(groups.items())}
+
+
+def folder_skin_sets(fdid: int) -> List[list]:
+    """Skin sets for a retail model NO retail display uses (creature/wendigo_02: 0 displays, so 0 sets
+    and an invisible pane - its body is a display-skin slot): each texture in the model's folder that the
+    model does not hardcode (TXID), in its first display-skin slot. [[skins x3, 0 displays, no geosets]]"""
+    import struct
+    _, by_id = listfile()
+    path = by_id.get(fdid, '')
+    if '/' not in path:
+        return []
+    data = fetch(fdid)
+    if not data:
+        return []
+    ch = chunks(data) if data[:4] == b'MD21' else {b'MD21': data}
+    md = ch.get(b'MD21', data)
+    try:
+        n, o = struct.unpack_from('<II', md, 0x50)
+        types = [struct.unpack_from('<I', md, o + 16 * i)[0] for i in range(n)]
+    except struct.error:
+        return []
+    slot = next((t - 11 for t in types if 11 <= t <= 13), None)
+    if slot is None:
+        return []
+    fixed = set(struct.unpack_from(f'<{len(ch[b"TXID"]) // 4}I', ch[b'TXID'])) if b'TXID' in ch else set()
+    folder = path.rsplit('/', 1)[0] + '/'
+    by_path, _ = listfile()
+    out = []
+    for p, f in sorted(by_path.items()):
+        if p.startswith(folder) and p.endswith('.blp') and '/' not in p[len(folder):] and f not in fixed:
+            sk = [0, 0, 0]
+            sk[slot] = f
+            out.append([sk, 0, [0] * 8])
+    return out
+
+
+def folder_remasters(pack_path: str, stock_paths) -> List[Tuple[str, int]]:
+    """Retail models a community pack's model points at: the same path in retail (a straight
+    retroport) and the creature models in its folder - packs keep retail's folder, renaming the file
+    (patch-hd-creatures-mounts' creature/dragon2/dragon2fixed.m2 -> retail creature/dragon2/dragon2.m2).
+    Only for a pack folder that is not a stock folder (stock folders are the classic models)."""
+    if not pack_path.startswith('creature/') or not pack_path.endswith('.m2'):
+        return []
+    by_path, _ = listfile()
+    folder = pack_path.rsplit('/', 1)[0] + '/'
+    if any(str(p).startswith(folder) for p in stock_paths):
+        return []
+    hits = sorted(p for p in by_path if p.startswith(folder) and p.endswith('.m2') and '/' not in p[len(folder):])
+    hits.sort(key=lambda p: (p != pack_path, p))
+    return [(p, by_path[p]) for p in hits]

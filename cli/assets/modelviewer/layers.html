@@ -23,13 +23,16 @@
   .tile { text-align: left; padding: 16px; border-radius: 10px; display: grid; gap: 6px; cursor: pointer; }
   .tile b { font-size: 17px; }
   .tile .n { font-size: 26px; font-weight: 600; }
+  .tile .nums { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+  .tile .nums b { font-size: 20px; color: var(--text); margin-right: 3px; }
+  .tile .nums .r b { color: var(--warn, #e6b450); } .tile .nums .c b { color: var(--good); }
   .tile .d { color: var(--muted); font-size: 12px; }
   .layerbar { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
   .layerbar b { font-size: 15px; }
   #menu { font-size: 18px; line-height: 1; padding: 6px 10px; }
   #listtoggle { display: none; margin-left: auto; }
   .menu { display: grid; gap: 4px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
-  .menu[hidden] { display: none; }
+  .menu[hidden], [hidden] { display: none !important; }   /* class display rules (.simw flex) must not undo hidden */
   .menu button { text-align: left; }
   .drawer { display: flex; flex-direction: column; min-height: 0; flex: 1; }
   .drawer #list { flex: 1; min-height: 0; overflow: auto; }
@@ -56,13 +59,14 @@
   .chip.bad { border-color: var(--bad); color: var(--bad); }
   main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
   .top { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-  .top .title { flex: 1; min-width: 0; }
+  .top .title { flex: 1 1 320px; min-width: 240px; }
   .top .title b { font-size: 15px; overflow-wrap: anywhere; }
   .sub { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
   #save { font-size: 12px; color: var(--muted); }
   #save.ok { color: var(--good); } #save.err { color: var(--bad); }
   .panes { flex: 1; overflow: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 10px; padding: 10px; align-content: start; }
+    gap: 10px; padding: 10px; align-content: start;
+    grid-auto-rows: max-content; }   /* overflow:hidden cards have a 0 minimum: auto rows squeezed them to their titles */
   .pane { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
   .pane.chosen { border-color: var(--good); box-shadow: 0 0 0 1px var(--good); }
   .sect { grid-column: 1 / -1; color: var(--muted); font-size: 13px; padding: 8px 2px 0; border-top: 1px solid var(--line); }
@@ -71,9 +75,23 @@
   .pane iframe { width: 100%; aspect-ratio: 1 / 1; border: 0; background: #1e2a3a; display: block; flex: none; }
   .pane > .info { flex: 1 1 auto; min-height: 0; overflow: auto; }
   .pane > .ptitle { flex: none; padding: 7px 10px; border-bottom: 1px solid var(--line); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-  /* pinned button on a solid strip the width of the card, so scrolled details never show through */
-  .pane > .info .use { position: sticky; bottom: 0; z-index: 1;
-    box-shadow: 0 0 0 100vmax var(--panel); clip-path: inset(-8px -100vmax -10px -100vmax); }
+  .pane > .actions { flex: none; display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 10px; border-top: 1px solid var(--line); }
+  .pane > .actions .row { display: flex; gap: 6px; flex: 1 1 100%; }
+  .grpbox { font-size: 12px; color: var(--muted); display: flex; gap: 5px; align-items: center; }
+  #grpbar { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
+  .pane > .ptitle .dettog { margin-left: auto; font-size: 11px; padding: 2px 8px; background: none; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); cursor: pointer; }
+  .pane.nodet > .info { display: none; }
+  .pane > .info { overflow-y: auto; overflow-x: hidden; }
+  .dsec { border-top: 1px solid var(--line); padding: 3px 0; }
+  .dsec:first-child { border-top: 0; }
+  .dsec > summary { cursor: pointer; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 2px 0; }
+  .dsec .dtags { display: flex; flex-wrap: wrap; gap: 4px; padding: 3px 0; }
+  .dsec .dbody { display: grid; gap: 3px; padding: 3px 0; }
+  .outfit { display: grid; gap: 2px; font-size: 12px; }
+  .outfit .ofrow { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 6px; }
+  .outfit .ofrow > span:first-child { color: var(--muted); }
+  .outfit .ofrow.none { color: var(--muted); } .outfit .ok { color: var(--good); } .outfit .warn { color: #e6b450; } .outfit .ofnote { font-size: 11px; color: var(--muted); }
+  .dsec .anims { display: grid; gap: 2px; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
   .looks { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--line); }
   .looks figure { margin: 0; background: var(--panel); display: flex; flex-direction: column; }
   .looks figcaption { font-size: 12px; color: var(--muted); padding: 6px 10px; overflow-wrap: anywhere; }
@@ -95,9 +113,34 @@
   .custctl .skinrow canvas { width: 48px; height: 48px; aspect-ratio: auto; }
   .custctl .was { font-size: 11px; color: var(--muted); margin: -4px 0 0 128px; }
   .custctl .note { font-size: 12px; color: var(--muted); }
+  .ofpick { display: flex; gap: 4px; min-width: 0; } .ofpick input { flex: 1; min-width: 0; }
+  .wardov { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .wardbox { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; width: min(1100px, 100%); height: min(760px, 100%); display: flex; flex-direction: column; }
+  .wardhd { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 10px; border-bottom: 1px solid var(--line); }
+  .wardhd input { flex: 1 1 200px; min-width: 0; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; }
+  .wardarm { display: flex; gap: 4px; flex-wrap: wrap; } .wardarm button.on { background: var(--accent, #4c7dff); color: #fff; }
+  .wardgrid { flex: 1; overflow: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 6px; padding: 10px; align-content: start; }
+  .wardtile { display: grid; justify-items: center; gap: 4px; padding: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; font-size: 10px; color: var(--muted); }
+  .wardtile:hover { border-color: var(--good); } .wardtile canvas { width: 56px; height: 56px; image-rendering: auto; background: #111; border-radius: 4px; }
+  .wardtile img { width: 96px; height: 96px; object-fit: contain; background: #111; border-radius: 4px; }
+  .creatorlist { overflow: auto; padding: 8px; display: grid; gap: 4px; }
+  .q .star { background: none; border: 0; padding: 0 6px 0 0; font-size: 15px; line-height: 1; color: var(--muted); cursor: pointer; }
+  .q .star.on { color: #f5c542; }
+  .crow { display: grid; gap: 2px; text-align: left; padding: 6px 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; color: var(--muted); font-size: 11px; cursor: pointer; }
+  .crow b { color: var(--text); font-size: 13px; } .crow:hover { border-color: var(--good); }
+  .wardtile span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+  .wardmore { font-size: 11px; color: var(--muted); padding: 4px 10px 8px; }
+  /* never wider than the card: a grid's auto column takes the longest <option> as its width (Safari) */
+  .custctl > .info, .custctl .ctl { grid-template-columns: minmax(0, 1fr); overflow-x: hidden; }
+  .custctl label > *, .custctl .skinrow > * { min-width: 0; }
+  .custctl h3, .custctl .note { overflow-wrap: anywhere; }
+  .pane.custctl > .info { flex: 1 1 auto; max-height: none; }
+  .custctl .glab { display: block; font-size: 11px; color: var(--muted); opacity: .85; }
+  .custctl .thumbs { display: flex; gap: 6px; } .custctl .thumbs canvas { width: 64px; height: 64px; aspect-ratio: auto; }
   .custctl .ctl { display: grid; gap: 8px; align-content: start; }
   @media (max-width: 760px) { .pane.cs-ref { order: 9; } }      /* phones: preview, controls, then the original */
-  .custctl label { display: grid; grid-template-columns: 120px 1fr; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+  .custctl label { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+  .custctl select { width: 100%; min-width: 0; }
   .custctl select, .custctl input { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; font: inherit; }
   .custctl h3 { margin: 6px 0 0; font-size: 13px; }
   @media (max-width: 760px) { .cust { grid-template-columns: 1fr; } }
@@ -193,6 +236,153 @@ let customList = [];
 // Retail on demand: the picker asks, the next `zep model viewer` run fetches + converts (WXL way)
 let retailIdx = { models: {}, skins: {} };   // data/v2/retail.json
 const OUTFIT_SLOTS = ['helm', 'shoulders', 'cape', 'chest', 'shirt', 'tabard', 'wrists', 'gloves', 'belt', 'legs', 'boots'];
+// ---- 3.3.5 outfitter: item displays per slot (data/v2/outfit335) + a live bake composited here, the
+// same layers and order as lib/wardrobe/compositor.py (skin, face, facial hair, scalp, underwear, items)
+const O335 = { slots: {}, files: null, hgvd: null };
+async function o335Load() {
+  if (!O335.files) {
+    const [f, h] = await Promise.all([fetch('data/v2/outfit335/files.json').then(r => r.json()).catch(() => ({})),
+                                      fetch('data/v2/outfit335/hgvd.json').then(r => r.json()).catch(() => ({}))]);
+    O335.files = f; O335.hgvd = h;
+    await Promise.all(OUTFIT_SLOTS.map(async sl => { O335.slots[sl] = await fetch(`data/v2/outfit335/${sl}.json`).then(r => r.json()).catch(() => ({ items: [] }));
+      O335.slots[sl].by = new Map(O335.slots[sl].items.map(e => [e[0], e])); }));
+  }
+  return O335;
+}
+const O335_REG = { ArmUpper: [0, 0, 128, 64], ArmLower: [0, 64, 128, 64], Hand: [0, 128, 128, 32], FaceUpper: [0, 160, 128, 32],
+  FaceLower: [0, 192, 128, 64], TorsoUpper: [128, 0, 128, 64], TorsoLower: [128, 64, 128, 32], LegUpper: [128, 96, 128, 64],
+  LegLower: [128, 160, 128, 64], Foot: [128, 224, 128, 32] };
+const O335_DIR = { ArmUpper: 'armuppertexture', ArmLower: 'armlowertexture', Hand: 'handtexture', TorsoUpper: 'torsouppertexture',
+  TorsoLower: 'torsolowertexture', LegUpper: 'leguppertexture', LegLower: 'leglowertexture', Foot: 'foottexture' };
+const O335_ORDER = ['shirt', 'chest', 'tabard', 'legs', 'belt', 'boots', 'wrists', 'gloves'];   // compositor.py SLOT_ORDER
+const _bmp = {};
+function casBitmap(cas) {
+  if (!cas) return Promise.resolve(null);
+  // a remote (wago.tools) texture gives up after 20 s: a slow wago must not freeze the preview
+  if (!_bmp[cas]) _bmp[cas] = fetch(/^https?:/.test(cas) ? cas : 'files/cas/' + cas, /^https?:/.test(cas) && AbortSignal.timeout ? { signal: AbortSignal.timeout(20000) } : {}).then(r => r.arrayBuffer()).then(b => { const im = decodeBlp(b);
+    return createImageBitmap(new ImageData(im.data, im.width, im.height)); }).catch(() => null);
+  return _bmp[cas];
+}
+// an uncompressed BLP2 (BGRA8888) the pane engine loads like any other texture
+function canvasToBlp(cv) {
+  const w = cv.width, h = cv.height, px = cv.getContext('2d').getImageData(0, 0, w, h).data;
+  const head = 148 + 1024, buf = new ArrayBuffer(head + w * h * 4), dv = new DataView(buf), u8 = new Uint8Array(buf);
+  u8.set([66, 76, 80, 50], 0); dv.setUint32(4, 1, true);
+  dv.setUint8(8, 3); dv.setUint8(9, 8); dv.setUint8(10, 8); dv.setUint8(11, 0);
+  dv.setUint32(12, w, true); dv.setUint32(16, h, true); dv.setUint32(20, head, true); dv.setUint32(84, w * h * 4, true);
+  for (let i = 0; i < w * h; i++) { u8[head + 4 * i] = px[4 * i + 2]; u8[head + 4 * i + 1] = px[4 * i + 1]; u8[head + 4 * i + 2] = px[4 * i]; u8[head + 4 * i + 3] = px[4 * i + 3]; }
+  return buf;
+}
+let _bakeUrl = null;
+// -> { url (blob BLP bake), mesh overrides {group: value}, items [{a, m, t}], ovr {path: cas} } for an outfit
+// the cas of a pane's NPC bake (texture slot 1), from its file map
+const _maps = {};
+async function bakeCasOf(pane) {
+  if (!pane || !pane.map || !pane.tex || !pane.tex['1']) return null;
+  if (pane._ovr && pane._ovr['fdid/' + pane.tex['1']]) return pane._ovr['fdid/' + pane.tex['1']];
+  if (!_maps[pane.map]) _maps[pane.map] = fetch('data/maps/' + encodeURIComponent(pane.map) + '.json').then(r => r.ok ? r.json() : {}).catch(() => ({}));
+  return (await _maps[pane.map])['fdid/' + pane.tex['1']] || null;
+}
+// retail armour by item id (data/v2/wardrobe/<slot>.json, shared with the browser)
+const RW = {};
+async function retailSlot(sl) {
+  if (!RW[sl]) {
+    if (!wardrobe[sl]) wardrobe[sl] = await fetch(`data/v2/wardrobe/${sl}.json`, { cache: 'no-store' }).then(r => r.json()).catch(() => null);
+    RW[sl] = new Map(((wardrobe[sl] || {}).items || []).map(e => [e[0], e]));
+    RW[sl].build = (wardrobe[sl] || {}).build;
+  }
+  return RW[sl];
+}
+async function o335Bake(ch, outfit, hairStyle, facialHair, pane = null) {
+  const O = await o335Load(), cs = ch.cs || {}, S = 2, female = ch.gender === 1;
+  const isR = (v) => /^r:\d+$/.test(String(v || ''));
+  for (const sl of OUTFIT_SLOTS) if (isR(outfit[sl]) || isR((ch.outfit || {})[sl])) await retailSlot(sl);
+  const cv = document.createElement('canvas'); cv.width = cv.height = 256 * S;
+  const g = cv.getContext('2d', { willReadFrequently: true });
+  const failed = [];
+  const blit = async (cas, region) => { const b = await casBitmap(cas); if (b) { const [x, y, w, h] = O335_REG[region]; g.drawImage(b, x * S, y * S, w * S, h * S); }
+    else if (/^https?:/.test(cas || '')) { delete _bmp[cas]; failed.push(region); } };
+  const comp = (region, stem) => String(stem).startsWith('url:') ? stem.slice(4)
+    : O.files[`item/texturecomponents/${O335_DIR[region]}/${stem}_${female ? 'f' : 'm'}.blp`] || O.files[`item/texturecomponents/${O335_DIR[region]}/${stem}_u.blp`];
+  // a slot's item in the 3.3.5 entry shape; a retail item (r:<id>) draws its region textures live from wago.tools
+  const item = (sl, o) => {
+    if (isR(o[sl])) {
+      const e = RW[sl] && RW[sl].get(+String(o[sl]).slice(2));
+      if (!e) return null;
+      const reg = Object.fromEntries(Object.entries(e[7] || {}).map(([r, mf]) => [r, 'url:https://wago.tools/api/casc/' + (female ? mf[1] : mf[0]) + '?version=' + encodeURIComponent(RW[sl].build || '')]));
+      return [e[0], e[1], '', e[6] || [0, 0, 0], reg, '', '', '', '', 0, 0];
+    }
+    return O.slots[sl] && O.slots[sl].by.get(+o[sl] || 0);
+  };
+  const orig = await casBitmap(await bakeCasOf(pane));
+  const BODY = ['ArmUpper', 'ArmLower', 'Hand', 'TorsoUpper', 'TorsoLower', 'LegUpper', 'LegLower', 'Foot'];
+  if (orig) {
+    // keep the display's own bake; repaint only the regions the changed slots touch (old item + new item)
+    g.drawImage(orig, 0, 0, 256 * S, 256 * S);
+    const was = ch.outfit || {}, touched = new Set();
+    O335_ORDER.forEach(sl => { if (String(outfit[sl] || '') === String(was[sl] || '')) return;
+      [item(sl, was), item(sl, outfit)].forEach(e => e && Object.keys(e[4]).forEach(r => touched.add(r))); });
+    if (touched.size) {
+      // bare skin there: the skin colour closest to the bake's own uncovered skin (pack bakes are often
+      // painted off-row), else the row's colour
+      const covered = new Set(); O335_ORDER.forEach(sl => { const e = item(sl, was); if (e) Object.keys(e[4]).forEach(r => covered.add(r)); });
+      const bare = BODY.filter(r => !covered.has(r));
+      const px = (img, r) => { const [x, y, w, h] = O335_REG[r], c = document.createElement('canvas'); c.width = 16; c.height = 8;
+        const cx = c.getContext('2d', { willReadFrequently: true }); cx.drawImage(img, x * img.width / 256, y * img.height / 256, w * img.width / 256, h * img.height / 256, 0, 0, 16, 8);
+        return cx.getImageData(0, 0, 16, 8).data; };
+      let color = String(cs.color ?? ''), best = Infinity;
+      if (bare.length && cs.skins) for (const [c, cas] of Object.entries(cs.skins)) {
+        const sk = await casBitmap(cas); if (!sk) continue;
+        let d = 0; bare.forEach(r => { const a = px(orig, r), b = px(sk, r); for (let i = 0; i < a.length; i += 4) d += Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]); });
+        if (d < best) { best = d; color = c; }
+      }
+      const skin = await casBitmap((cs.skins || {})[color] || cs.skin), und = (cs.under || {})[color] || cs.underwear || [];
+      for (const r of BODY.filter(x => touched.has(x))) {
+        const [x, y, w, h] = O335_REG[r];
+        if (skin) g.drawImage(skin, x * skin.width / 256, y * skin.height / 256, w * skin.width / 256, h * skin.height / 256, x * S, y * S, w * S, h * S);
+        if (r === 'LegUpper') await blit(und[0], 'LegUpper');
+        if (r === 'TorsoUpper') await blit(und[1], 'TorsoUpper');
+        for (const sl of O335_ORDER) { const e = item(sl, outfit); if (e && e[4][r]) await blit(comp(r, e[4][r]), r); }
+      }
+    }
+  } else {
+    // no bake to start from: the whole bake from the appearance (lib/wardrobe/compositor.py order)
+    const skin = await casBitmap(cs.skin);
+    if (!skin) return null;
+    g.drawImage(skin, 0, 0, 256 * S, 256 * S);
+    const face = cs.face || [], fac = (cs.facial || {})[String(facialHair)] || [], sca = (cs.scalp || {})[String(hairStyle)] || [], und = cs.underwear || [];
+    await blit(face[0], 'FaceLower'); await blit(face[1], 'FaceUpper');
+    await blit(fac[0], 'FaceLower'); await blit(fac[1], 'FaceUpper');
+    await blit(sca[0], 'FaceLower'); await blit(sca[1], 'FaceUpper');
+    await blit(und[0], 'LegUpper'); await blit(und[1], 'TorsoUpper');
+    for (const sl of O335_ORDER) { const e = item(sl, outfit); if (e) for (const [region, stem] of Object.entries(e[4])) await blit(comp(region, stem), region); }
+  }
+  if (_bakeUrl) URL.revokeObjectURL(_bakeUrl);
+  _bakeUrl = URL.createObjectURL(new Blob([canvasToBlp(cv)]));
+  // geosets from the items (model_viewer_deploy._char_mesh's item rules) and helm / shoulder models
+  const get = (sl) => item(sl, outfit), mesh = {};
+  if (get('gloves')) mesh[4] = 1 + get('gloves')[3][0];
+  if (get('boots')) mesh[5] = 1 + get('boots')[3][0];
+  const top = get('chest') || get('shirt'); if (top) mesh[8] = 1 + top[3][0];
+  if (get('chest') && get('chest')[3][2]) mesh[13] = 1 + get('chest')[3][2];
+  if (get('legs')) { mesh[9] = 1 + get('legs')[3][0]; if (get('legs')[3][2]) mesh[13] = 1 + get('legs')[3][2]; }
+  if (get('tabard')) mesh[12] = 2;
+  if (get('cape')) mesh[15] = 1 + get('cape')[3][0];
+  if (get('belt')) mesh[18] = 1 + get('belt')[3][0];
+  const items = [], ovr = {}, add = (p) => { if (O.files[p]) ovr[p] = O.files[p]; };
+  const helm = get('helm');
+  if (helm && helm[5] && ch.prefix) {
+    const m = `item/objectcomponents/head/${helm[5]}_${ch.prefix}${female ? 'f' : 'm'}.m2`, t = helm[7] ? `item/objectcomponents/head/${helm[7]}.blp` : '';
+    items.push({ a: 11, m, t }); add(m); add(m.replace(/\.m2$/, '00.skin')); if (t) add(t);
+    const vis = (O.hgvd || {})[String(female ? helm[10] : helm[9])];
+    if (vis) [0, 1, 2, 3, 7].forEach((grp, i) => { if ((vis[i] >>> ch.race) & 1) mesh[grp] = 1; });
+  }
+  const sh = get('shoulders');
+  if (sh) [[6, sh[5], sh[7]], [5, sh[6], sh[8]]].forEach(([a, mm, tt]) => { if (!mm) return;
+    const m = `item/objectcomponents/shoulder/${mm}.m2`, t = tt ? `item/objectcomponents/shoulder/${tt}.blp` : '';
+    items.push({ a, m, t }); add(m); add(m.replace(/\.m2$/, '00.skin')); if (t) add(t); });
+  return { url: _bakeUrl, mesh, items, ovr, failed };
+}
 let assets = [], texIndex = [], choices = { version: 2, mesh: {}, texture: {}, custom: {}, fit: {}, display: {}, wish: {} };
 // All view: every other model (data/v2/catalog.json, loaded the first time All / Shortlist opens)
 let catalog = null, catalogLoading = null;
@@ -203,9 +393,9 @@ let tab = 'creature', filter = 'todo', search = '', cur = null, view = [], texMo
 const texChunks = {};
 
 const FILTERS = {
-  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['wish', 'Shortlist'], ['remaster', 'Remasters']],
+  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['wish', 'Shortlist']],
   texture: [['decide', 'Needs decision'], ['review', 'Review'], ['all', 'All']],
-  custom: [['all', 'All'], ['done', 'Edited']],
+  custom: [['all', 'All'], ['done', 'Edited'], ['new', 'New displays']],
 };
 const HELP = {
   display: 'Display-level 3D choice: packs that point this display at a DIFFERENT model. Each option is drawn with that ' +
@@ -264,6 +454,8 @@ function modelOptions(e) {
     // a clean swap only: ALL used displays, all to ONE model. Several targets (felbat: 23 to
     // giantvampirebat, 1 to the taxi bat) is not a model swap - decided per display.
     const targets = new Set(Object.values(reps).map(r => r.model));
+    // (a retail remaster found BY NAME is offered beside these on the same listing, chosen per display
+    // in the Display editor; it no longer splits a pack's clean swap off the model card)
     if (Object.keys(reps).length && (Object.keys(reps).length < used || targets.size > 1)) {
       Object.keys(reps).forEach(id => e._partial.add(id));
       reps = {};
@@ -315,6 +507,7 @@ const unusedModel = (e) => (e.tab === 'creature' || e.tab === 'character') && !e
 const notInGame = (e) => e.ingame === false &&
   (e.tab === 'display' || !repEntries(e.path).some(d => d.ingame !== false));
 const nOptions = (e) => (e.tab === 'display' ? Math.max(1, e.panes.length) + (choices.custom[String(e.display)] ? 1 : 0)
+    + (namedFor((e.panes[0] || {}).model || e.named_of) ? 1 : 0)
   : e.tab === 'item' ? e.panes.length : modelOptions(e).length) +
   (retailIdx.models && retailIdx.models[e.path] ? 1 : 0) +
   (e.tab === 'creature' && namedFor(e.path) ? namedFor(e.path).targets.length : 0);
@@ -336,6 +529,46 @@ function perDisplayTarget(e) {
   const ids = new Set(ds.map(d => String(d.display)));
   return (e.used_ids || []).every(id => ids.has(String(id)));
 }
+// a pack-only model every display reaches through its stock model's full swap (wendigo -> wendigo2):
+// not a listing of its own - it is an option card on the stock model, where the displays are moved
+function swapSourceOf(e) {
+  if (e.tab !== 'creature' || e.retailOnly || e.panes.some(p => p.sources.includes('stock'))) return null;
+  perDisplayTarget(e);                                   // builds byTarget
+  const ds = [...(byTarget[e.path] || [])];
+  if (!ds.length || !(e.used_ids || []).every(id => ds.some(d => String(d.display) === String(id)))) return null;
+  if (!byPath) { byPath = {}; assets.forEach(x => { if (x.tab !== 'display') byPath[x.path] = x; }); }
+  const srcs = new Set(ds.map(d => d.panes[0].model));
+  if (srcs.size !== 1) return null;
+  const m = byPath[[...srcs][0]];
+  return m && ds.every(d => modelOptions(m).some(g => g.reps[d.display] && g.reps[d.display].model === e.path)) ? m : null;
+}
+// the model cards of a stock model, a full swap split into one card per file of its target that a pack
+// ships (wendigo2: two packs, two different files) - picking one moves the displays AND picks that file
+function swapCards(e) {
+  const out = [];
+  modelOptions(e).forEach(g => {
+    const tm = [...new Set(Object.values(g.reps).map(r => r.model))];
+    if (!g.variants && tm.length === 1) {
+      if (!byPath) { byPath = {}; assets.forEach(x => { if (x.tab !== 'display') byPath[x.path] = x; }); }
+      const t = byPath[tm[0]];
+      if (t && swapSourceOf(t) === e && t.panes.length > 1) {
+        // each file from the group of the pack that ships it (two packs, two files = two cards, not four)
+        const mine = t.panes.filter(tp => tp.sources.some(x => g.sources.includes(x)));
+        (mine.length ? mine : t.panes).forEach(tp => out.push({ ...g, sources: tp.sources, swap: { entry: t, pane: tp },
+          reps: Object.fromEntries(Object.entries(g.reps).map(([id, r]) => [id, { ...r, ...tp, option: r.option, sources: r.sources, display: r.display }])) }));
+        return;
+      }
+    }
+    out.push(g);
+  });
+  return out;
+}
+// the paths folded into a stock model's listing, so searching wendigo2 finds wendigo
+let foldedInto = null;
+const foldedNames = (e) => {
+  if (!foldedInto) { foldedInto = {}; assets.forEach(x => { const m = swapSourceOf(x); if (m) (foldedInto[m.path] = foldedInto[m.path] || []).push(x.path); }); }
+  return (foldedInto[e.path] || []).join(' ') + ' ' + ((namedFor(e.path) || {}).targets || []).map(t => t[0]).join(' ');
+};
 // the model's displays its options decide (full repoints); the rest of its repoints are per display
 let byPath = null;
 function modelDecides(d) {
@@ -347,7 +580,33 @@ function modelDecides(d) {
 function viaModel(d) {
   if (d.tab !== 'display' || !d.panes.length) return null;
   const m = choices.mesh[d.panes[0].model];
-  return m && m.displays ? m.displays[String(d.display)] || null : null;
+  if (!m || !m.displays) return null;
+  // a model pick saved before the per-file split: what its card (modelSplitKey) gives this display
+  if (!byPath) { byPath = {}; assets.forEach(x => { if (x.tab !== 'display') byPath[x.path] = x; }); }
+  const M = byPath[d.panes[0].model];
+  if (M && M.tab === 'creature') {
+    const k = modelSplitKey(m, M);
+    if (k !== m.option) { const g = modelOptions(M).find(x => x.key === k), rp = g && g.reps[d.display];
+      if (rp) return { option: rp.option, sources: rp.sources }; }
+  }
+  return m.displays[String(d.display)] || null;
+}
+// Until 2026-10-10 optionsOf keyed a display's retail remaster by its bare path, so a pack's card on the
+// same path (bogbeast2.m2) was saved with sources ['retail'] (53 picks). A real retail pick carries its
+// fdid; one without, whose option is a pack card, is that pack's pick: repaired in memory on load so
+// the next save writes it back corrected.
+function repairRetailCollisions() {
+  let n = 0;
+  Object.entries(choices.display || {}).forEach(([k, v]) => {
+    if (!v || (v.sources || [])[0] !== 'retail' || v.fdid) return;
+    const d = assets.find(a => a.tab === 'display' && String(a.display) === k);
+    const p = d && d.panes.find(x => x.option === v.option && !x.sources.includes('retail'));
+    if (!p) return;
+    v.sources = p.sources.slice();
+    if (v.options) { v.options[v.option] = p.sources.slice(); }
+    n++;
+  });
+  if (n) console.log(`repaired ${n} display picks saved as retail by the option-key collision`);
 }
 function optionsOf(entry) {
   const o = {};
@@ -358,10 +617,12 @@ function optionsOf(entry) {
   // reads as "new option: retail" on the next load
   if (entry.tab !== 'display' && retailIdx.models && retailIdx.models[entry.path]) o.retail = ['retail'];
   if (entry.tab === 'display' && choices.custom[String(entry.display)]) o.custom = ['custom'];
+  if (entry.tab === 'display' && entry.bakes) entry.bakes.forEach(b => { o['bake:' + b[0]] = [b[0]]; });
   // a display's retail remasters found by name (picked per display, see retailNamedPanel)
   if (entry.tab === 'display' && entry.panes && entry.panes.length) {
     const nm = namedFor(entry.panes[0].model);
-    if (nm) nm.targets.forEach(t => { o[t[0]] = ['retail']; });
+    // keyed apart: a pack's card can have the SAME path (bogbeast2.m2) and must keep its sources
+    if (nm) nm.targets.forEach(t => { o['retail:' + t[0]] = ['retail']; });
   }
   return o;
 }
@@ -380,101 +641,82 @@ function remasterChip(path) {
   const t = nm.targets.map(x => x[0].split('/').pop()).join(', ');
   return `<span class="chip${used ? ' ok' : ''}" title="Retail remaster by name (${esc(t)}), chosen per display on this model's page">remaster by name${used ? ` · ${used}/${nm.displays.length}` : ''}</span>`;
 }
-async function saveRetailDisplays(path, dids, target) {
-  const status = $('save');
-  status.className = ''; status.textContent = `saving ${dids.length} display choices…`;
-  try {
-    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
-    const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
-                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
-    const at = new Date().toISOString(), nm = namedFor(path);
-    dids.forEach(did => {
-      const k = String(did);
-      if (!target) { if (isRetailPick(merged.display[k])) delete merged.display[k]; return; }
-      const d = assets.find(a => a.tab === 'display' && a.display === +did);
-      const options = d ? optionsOf(d) : Object.fromEntries(nm.targets.map(t => [t[0], ['retail']]));
-      merged.display[k] = { option: target.path, sources: ['retail'], fdid: target.fdid, skins: target.skins,
-                            remaster_of: path, options, at };
-    });
-    const headers = { 'Content-Type': 'application/json' };
-    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
-    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
-    if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
-    choices = merged;
-    status.className = 'ok'; status.textContent = target ? `saved: ${dids.length} display${dids.length > 1 ? 's' : ''} → ${target.path.split('/').pop()}`
-      : `cleared retail on ${dids.length} display${dids.length > 1 ? 's' : ''}`;
-  } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
-  render(); openItem(cur);
-}
 // the panel: target + skin set (live pane) and the stock model's displays to put it on.
 // `only` = a single display (the Displays tab)
+function namedNotice(path, scale) {
+  return retailNamedPanel(path, null, scale);
+}
 function retailNamedPanel(path, only, scale) {
+  // the Displays page: each retail remaster as a plain panel in its commonest retail look (skins +
+  // geosets). Choosing a model / skins / geosets happens in the Display editor ("Edit").
   const nm = namedFor(path);
   if (!nm || !nm.targets.length) return;
   const animName = (id) => animNames[id] || `anim ${id}`;
-  const rows = only ? nm.displays.filter(r => r[0] === only).concat(nm.displays.some(r => r[0] === only) ? [] : [[only, [], []]]) : nm.displays;
-  const pickOfD = (did) => isRetailPick(choices.display[String(did)]) ? choices.display[String(did)] : null;
-  // start on what the first picked display uses, else the exact <name>2 model and its commonest skins
-  const first = rows.map(r => pickOfD(r[0])).find(Boolean);
-  let ti = Math.max(0, first ? nm.targets.findIndex(t => t[0] === first.option) : 0);
-  let si = 0;
-  const chk = new Set(only ? [only] : []);
-  if (first) { const s = nm.targets[ti][3].findIndex(x => x[0].join() === (first.skins || []).join()); si = Math.max(0, s); }
   const skinName = (fd) => fd ? String(((retailIdx.names || {})[String(fd)]) || fd).split('/').pop().replace(/\.blp$/, '') : '';
-  const html = () => {
-    const t = nm.targets[ti], sets = t[3], set = sets[si] ? sets[si][0] : [0, 0, 0];
-    const prm = new URLSearchParams({ src: 'v2', model: t[0], retail: t[1], build: retailIdx.build, skins: set.join(','), scale: scale || 1, pv: PANE_V });
+  nm.targets.forEach((t, ti) => {
+    const look = (t[3] || [])[0] || [[0, 0, 0], 0, [0, 0, 0, 0, 0, 0, 0, 0]];
+    const prm = new URLSearchParams({ src: 'v2', model: t[0], retail: t[1], build: retailIdx.build, skins: look[0].join(','), scale: scale || 1, pv: PANE_V });
+    if ((look[2] || []).some(Boolean)) { prm.set('mesh', [0, ...look[2]].join(',')); prm.set('g0all', '1'); }
     const missing = nm.stock_anims.filter(a => !t[4].includes(a)), added = t[4].filter(a => !nm.stock_anims.includes(a));
-    return `<iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster by name"></iframe>
-      <div class="info"><div class="h"><b>Retail remaster (by name)</b><span class="chip">live from wago.tools</span><span class="chip warn" title="Retail never moved these displays onto the new model, so no retail skin maps to them: pick the model and a retail skin set per display">chosen per display</span></div>
+    const box = document.createElement('div');
+    box.className = 'pane';
+    box.innerHTML = `<iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
+      <div class="info"><div class="h"><b>Retail remaster · ${esc(t[0].split('/').pop())}</b><span class="chip" title="Retail model, loaded live; converted to v264 the WarcraftXL way when picked">live from wago.tools</span><span class="chip warn" title="${nm.rule ? 'Retail moved these displays to this model' : 'Found by name'}: shown in ${t[2] ? `retail's commonest look (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'own textures')}, ${look[1]} of ${t[2]} retail displays)` : `a skin from its folder (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'none')}): no retail display uses this model`}. Pick skins and geosets in the Display editor.">${nm.rule ? 'remaster' : 'by name'}</span></div>
       <div class="stats" data-live>loading…</div>
-      <div class="stats">model <select data-rn="t">${nm.targets.map((x, i) => `<option value="${i}"${i === ti ? ' selected' : ''}>${esc(x[0].split('/').pop())} · ${x[2]} retail display${x[2] === 1 ? '' : 's'}</option>`).join('')}</select>
-        skins <select data-rn="s">${sets.length ? sets.map((x, i) => `<option value="${i}"${i === si ? ' selected' : ''}>${esc(x[0].filter(Boolean).map(skinName).join(' + '))} · ${x[1]} display${x[1] === 1 ? '' : 's'}</option>`).join('') : '<option>none (the model textures itself)</option>'}</select></div>
+      <div class="stats">model: ${esc(t[0])}</div>
       <div class="stats">${missing.length ? `<span class="chip bad" title="Animations the classic model has and this one lacks: creatures using them play nothing">missing ${missing.length}: ${esc(missing.map(animName).join(', '))}</span>` : '<span class="chip ok">no classic animation missing</span>'}
         ${added.length ? ` <span class="chip" title="${esc(added.map(animName).join(', '))}">+${added.length} new animations</span>` : ''}</div>
-      <div class="stats">FileDataID ${t[1]}. Picked, it ships converted the WarcraftXL way as a new model (CreatureModelData = retail's id), the display keeps its scale; ${esc(path.split('/').pop())} itself is unchanged.</div>
-      <div style="max-height:240px;overflow:auto;border-top:1px solid var(--line);margin-top:4px">${rows.map(r => {
-        const pk = pickOfD(r[0]);
-        const now = pk ? `<span class="chip ok">retail → ${esc(String(pk.option).split('/').pop())}${(pk.skins || []).some(Boolean) ? ' · ' + esc(pk.skins.filter(Boolean).map(skinName).join(' + ')) : ''}</span>`
-          : `<span class="chip">${esc(r[2].filter(Boolean).join(', ') || 'stock')}</span>`;
-        return `<label class="stats" style="display:flex;gap:6px;align-items:center"><input type="checkbox" data-rd="${r[0]}"${chk.has(r[0]) ? ' checked' : ''}>
-          <b style="white-space:nowrap">${r[0]}</b><span style="flex:1;min-width:0">${esc((r[1] || []).join(', '))}</span>${now}</label>`;
-      }).join('')}</div>
-      <button class="use" data-rn="apply">${only ? 'Use this for display ' + only : 'Use on checked displays'}</button>
-      ${rows.some(r => pickOfD(r[0])) ? `<button class="usecust" data-rn="clear">Clear retail on checked</button>` : ''}
-      ${only ? '' : '<button class="usecust" data-rn="all">check all</button>'}</div>`;
-  };
-  const box = document.createElement('div');
-  box.className = 'pane';
-  const wire = () => {
-    box.innerHTML = html();
-    box.querySelector('[data-rn="t"]').onchange = (ev) => { ti = +ev.target.value; si = 0; wire(); };
-    const ss = box.querySelector('[data-rn="s"]');
-    if (ss) ss.onchange = (ev) => { si = +ev.target.value; wire(); };
-    box.querySelectorAll('[data-rd]').forEach(x => x.onchange = () => { x.checked ? chk.add(+x.dataset.rd) : chk.delete(+x.dataset.rd); });
-    const checked = () => [...chk];
-    box.querySelector('[data-rn="apply"]').onclick = () => {
-      const ds = checked(), t = nm.targets[ti];
-      if (!ds.length) { $('save').className = 'err'; $('save').textContent = 'check the displays to put it on'; return; }
-      saveRetailDisplays(path, ds, { path: t[0], fdid: t[1], skins: t[3][si] ? t[3][si][0] : [0, 0, 0] });
-    };
-    const cl = box.querySelector('[data-rn="clear"]');
-    if (cl) cl.onclick = () => { const ds = checked(); if (ds.length) saveRetailDisplays(path, ds, null); };
-    const al = box.querySelector('[data-rn="all"]');
-    if (al) al.onclick = () => box.querySelectorAll('[data-rd]').forEach(x => { x.checked = true; chk.add(+x.dataset.rd); });
-  };
-  wire();
-  $('panes').appendChild(box);
+      ${only ? `<button class="usecust" data-rt="${ti}">Edit</button>` : `<div class="stats"><span class="chip warn" title="Retail never moved these displays onto it, so no retail skin maps to them: each display gets its model + skin set in the Display editor">decided per display</span></div>
+      <button class="usecust" data-rt="${ti}">Open display ${nm.displays[0][0]}</button>`}</div>`;
+    box.querySelector('[data-rt]').onclick = () => only ? openCustom_(only, true, { retail: { model: path, ti, si: 0 } }) : openDisplay(nm.displays[0][0]);
+    $('panes').appendChild(box);
+  });
+}
+// a display pick saved before a path was split per file (option = the bare path) means the card of
+// that path whose sources include the pick's first source
+function splitKey(c, entry) {
+  if (c && entry && entry.tab === 'creature' && c.option && c.displays) return modelSplitKey(c, entry);
+  if (!c || !entry || entry.tab !== 'display' || !c.option || String(c.option).includes('#')) return c && c.option;
+  const p = (entry.panes || []).find(x => x.option.startsWith(c.option + '#') && (c.sources || []).some(z => x.sources.includes(z)));
+  return p ? p.option : c.option;
+}
+// a model pick saved before display options were split per file (displays -> 'wendigo2.m2', now
+// 'wendigo2.m2#<pack>'): the card moving the same displays to the same model, from the pack whose file
+// of that model ships (its mesh pick, else its current file)
+function modelSplitKey(c, e) {
+  const gs = modelOptions(e);
+  if (gs.some(g => g.key === c.option)) return c.option;
+  const base = (o) => String(o || '').split('#')[0], ds = c.displays || {};
+  const moved = Object.keys(ds).filter(id => base(ds[id].option) !== e.path && !String(ds[id].option).startsWith(e.current || '\0'));
+  if (!moved.length) return c.option;
+  const cand = gs.filter(g => Object.keys(g.reps).length === moved.length && moved.every(id => g.reps[id] && base(g.reps[id].option) === base(ds[id].option)));
+  if (cand.length < 2) return cand.length ? cand[0].key : c.option;
+  if (!byPath) { byPath = {}; assets.forEach(x => { if (x.tab !== 'display') byPath[x.path] = x; }); }
+  const t = byPath[base(ds[moved[0]].option)];
+  const fo = t && ((choices.mesh[t.path] || {}).option || t.current), tp = t && t.panes.find(p => p.option === fo);
+  return ((tp && cand.find(g => g.sources.some(x => tp.sources.includes(x)))) || cand[0]).key;
 }
 function reviewReason(kind, key, entry) {
-  const c = choices[kind][key];
-  if (!c || !c.options || !entry) return null;
+  const c0 = choices[kind][key];
+  if (!c0 || !c0.options || !entry) return null;
+  const c = { ...c0, option: splitKey(c0, entry) };
   const now = optionsOf(entry);
-  const added = Object.keys(now).filter(k => !(k in c.options));
-  const gone = Object.keys(c.options).filter(k => !(k in now));
+  // picks saved before retail remasters got their own key ('retail:<path>') recorded them under the bare path
+  const was = (k, opts) => k in opts || (String(k).startsWith('retail:') && k.slice(7) in opts);
+  if (c.option !== c0.option) {                      // same choice, renamed by the split: compare its sources
+    // renamed cards whose sources were all offered before are not new
+    const had = new Set(Object.values(c0.options).flat());
+    const added0 = Object.keys(now).filter(k => !was(k, c0.options) && !k.startsWith(c0.option + '#') && !(now[k] || []).every(z => had.has(z)));
+    return added0.length ? `new option: ${added0.map(k => label(now[k])).join(', ')}` : null;
+  }
+  // a card split per file is not new when its sources were already offered on that path
+  const renamed = (k) => { const [base] = String(k).split('#'); return k.includes('#') && base in c.options &&
+    (now[k] || []).every(z => (c.options[base] || []).includes(z)); };
+  const added = Object.keys(now).filter(k => !was(k, c.options) && !renamed(k));
+  const gone = Object.keys(c.options).filter(k => !(k in now) && !Object.keys(now).some(n => n.startsWith(k + '#')));
   if (gone.includes(c.option)) return 'picked option no longer offered';
-  if (added.length) return `new option: ${added.map(k => label(now[k])).join(', ')}`;
+  const nm = (k) => (now[k] || []).includes('retail') ? String(k).split('/').pop() + ' (retail)' : label(now[k]);
+  if (added.length) return `new option: ${added.map(nm).join(', ')}`;
   if (gone.length) return 'an option was removed';
   return null;
 }
@@ -489,6 +731,10 @@ async function save(kind, key, entry, optionKey, extra = {}, nav = true) {
                      display: { ...(latest.display || {}), ...(choices.display || {}) },
                      wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
     merged[kind][key] = pick;
+    if (kind === 'display') groupTargets(key).forEach(od => {
+      const oe = assets.find(a => a.tab === 'display' && a.display === od);
+      merged.display[String(od)] = { ...pick, options: oe ? optionsOf(oe) : pick.options, group_of: +key };
+    });
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
     const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
@@ -573,7 +819,7 @@ async function saveWish(e, on) {
     choices = merged;
     status.className = 'ok'; status.textContent = on ? 'added to the shortlist' : 'removed from the shortlist';
   } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
-  render(); openItem(cur);
+  render();
 }
 const kindOf = (e) => e.tab === 'display' ? 'display' : 'mesh';
 const keyOf = (e) => e.tab === 'display' ? String(e.display) : e.path;
@@ -586,16 +832,24 @@ function assetMatches(e) {
   if (filter === 'todo' && e.tab !== 'display' && (nOptions(e) < 2 ||
       (e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)))) return false;   // decided per display / nothing to decide
   if (filter === 'todo' && e.tab === 'display' && modelDecides(e)) return false;   // the model pick decides it
+  if (filter === 'todo' && e.tab === 'display' && nOptions(e) < 2 && !(e.standin && search)) return false;     // compare-only (a creature-level SQL edit): nothing to decide
   if (filter === 'todo' && unusedModel(e)) return false;                            // nothing in game uses it yet
+  // same-look displays are ONE row (the group's first id) in every list, so each unique look is worked once;
+  // a member with its own pick (not applied from the group) or searched by its exact id still shows
+  if (e.tab === 'display' && e.look_group && e.display !== e.look_group[0] && !(search && String(e.display) === search)) {
+    const own = choices.display[String(e.display)];
+    if (!own || own.group_of === e.look_group[0] || filter === 'todo') return false;
+  }
   if (filter === 'todo' && notInGame(e)) return false;                              // its creatures never appear
   if (filter === 'todo' && perDisplayTarget(e)) return false;                       // its file is picked per display
+  if (swapSourceOf(e)) return false;                                                // an option on its stock model's listing
   if (filter === 'todo' && (c || viaModel(e))) return false;   // Undecided = never picked (here or via the model); changed picks are in Review
   if (filter === 'review' && !rv) return false;
   if (filter === 'wish' && !(choices.wish || {})[e.path]) return false;
   if (filter === 'remaster' && !(e.tab === 'creature' && !e.retailOnly && (namedFor(e.path) || (retailIdx.models || {})[e.path]))) return false;
   if (search) {
     // every word must match the path, display, names or keywords (a word also matches its synonyms)
-    const hay = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + (e.kw || '') + ' ' + dispModels(e)).toLowerCase();
+    const hay = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + (e.kw || '') + ' ' + dispModels(e) + ' ' + foldedNames(e)).toLowerCase();
     if (!searchWords().every(alts => alts.some(w => hay.includes(w)))) return false;
   }
   return true;
@@ -635,12 +889,12 @@ function searchWords() {
 // displays a pack moves off it, maldraxxusskeleton.m2 the ones it moves onto it)
 const dispModels = (e) => e.tab === 'display' ? [...(e.panes || []), ...(e.compare || [])].map(p => p.model || '').join(' ') : '';
 function searchRank(e) {
-  const strong = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + dispModels(e)).toLowerCase();
+  const strong = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + dispModels(e) + ' ' + foldedNames(e)).toLowerCase();
   return searchWords().every(alts => alts.some(w => strong.includes(w))) ? 0 : 1;
 }
 function texMatches(t) {
   const [path, n, current, chunk, flags] = t;
-  if (filter === 'decide' && !flags.length) return false;
+  if (filter === 'decide' && (!flags.length || choices.texture[path])) return false;   // picked = decided
   if (filter === 'review' && !(choices.texture[path] && choices.texture[path].review)) return false;
   if (search && !path.includes(search)) return false;
   return true;
@@ -649,14 +903,16 @@ function render() {
   const isTex = tab === 'texture', isCust = tab === 'custom';
   const fk = isTex ? 'texture' : isCust ? 'custom' : 'asset';
   $('filters').innerHTML = FILTERS[fk].map(([k, l]) =>
-    `<button data-f="${k}" class="${k === filter ? 'on' : ''}">${l}</button>`).join('');
+    `<button data-f="${k}" class="${k === filter ? 'on' : ''}">${l}</button>`).join('') +
+    (isCust ? '<button data-newdisp title="Wire up a new display id (highest + 1) on any creature model, then dress it here">+ New display</button>' : '');
+  const nb = $('filters').querySelector('[data-newdisp]'); if (nb) nb.onclick = (ev) => { ev.stopPropagation(); openCreator(); };
   $('help').textContent = tab === 'display' ? HELP.display : HELP[fk];
   $('mode').hidden = !isTex;
   if (isCust) {
     const num = /^\d+$/.test(search);
     const crank = (c) => !search ? 0 : String(c.display) === search ? 0 : num && String(c.display).startsWith(search) ? 1 : 2;
-    view = customList.filter(c => (filter !== 'done' || choices.custom[c.display]) &&
-      (!search || String(c.display).includes(search) || c.names.some(n => n.toLowerCase().includes(search)) || c.path.includes(search)))
+    view = customList.filter(c => (filter !== 'done' || choices.custom[c.display]) && (filter !== 'new' || c.isNew) &&
+      (!search || String(c.display).includes(search) || c.names.some(n => n.toLowerCase().includes(search)) || c.path.includes(search) || (c.kw || '').includes(search)))
       .sort((x, y) => crank(x) - crank(y) || x.display - y.display);   // 13 -> display 13 first, then 130..139, ...
     if (!search && filter !== 'done') view.sort((x, y) => x.display - y.display);
     $('progress').textContent = `${customList.length.toLocaleString()} displays · ${Object.keys(choices.custom).length.toLocaleString()} edited · ${view.length.toLocaleString()} shown`;
@@ -680,6 +936,11 @@ function render() {
     }).join('') + (view.length > 400 ? `<div class="more">${(view.length - 400).toLocaleString()} more — refine the search</div>` : '');
   } else {
     if (shopping()) ensureCatalog();
+    if (tab === 'display' && search.length >= 3) {
+      // any display a creature uses, found by an NPC name (Travis Coomingham -> 3614), not only the queue
+      customList.filter(c => c.names.some(n => n.toLowerCase().includes(search)) || (c.kw || '').includes(search) || String(c.display) === search)
+        .slice(0, 60).forEach(c => displayEntry(c.display));
+    }
     view = pool().filter(assetMatches);
     if (search) {
       const r = new Map(view.map(e => [e, searchRank(e)]));
@@ -693,7 +954,7 @@ function render() {
     $('list').innerHTML = view.slice(0, 400).map(e => {
       const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
       const tag = (rv ? `<span class="chip warn" title="${esc(rv)}">review</span>`
-        : c ? `<span class="chip ok">✓ ${esc(label(c.sources))}</span>`
+        : c ? `<span class="chip ok">✓ ${c.option === 'custom' ? 'our edit' : esc(label(c.sources))}</span>`
         : viaModel(e) ? `<span class="chip ok">✓ via model pick</span>`
         : e.tab === 'display' && modelDecides(e) ? `<span class="chip">decided by the model pick</span>`
         : unusedModel(e) ? '<span class="chip">not used by any creature</span>'
@@ -701,14 +962,16 @@ function render() {
         : perDisplayTarget(e) ? '<span class="chip" title="Only per-display repoints reach this model; each display option in the Displays tab ships its pack\'s file">chosen per display</span>'
         : e.retailOnly ? '<span class="chip">retail only</span>'
         : e.single ? `<span class="chip">${esc(label(e.panes[0].sources))} only</span>` : '') +
-        ((choices.wish || {})[e.path] ? '<span class="chip ok">★</span>' : '') +
+
         (e.tab === 'creature' && !e.retailOnly ? remasterChip(e.path) : '') +
         (e.tab === 'creature' && isFusedRider(e.path) ? `<span class="chip warn" title="${F220}">fused rider · F-220</span>` : '') +
         (e.tab !== 'display' && e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)
           ? `<span class="chip warn" title="A pack moves this model's displays in more than a simple swap (only some of them, or to several models); those are decided one by one in the Displays tab">split · ${e._partial.size} display${e._partial.size > 1 ? 's' : ''} per display</span>` : '');
       const nOpt = nOptions(e);
-      const what = e.retailOnly ? `retail · FileDataID ${e.retailOnly}` : `${nOpt} option${nOpt === 1 ? '' : 's'}`;
-      return `<div class="q${cur === e ? ' cur' : ''}" data-id="${esc(e.id)}"><div class="t"><b>${esc(e.id.split('/').pop())}</b>${tag}</div>
+      const what = (e.retailOnly ? `retail · FileDataID ${e.retailOnly}` : `${nOpt} option${nOpt === 1 ? '' : 's'}`) +
+        (e.tab === 'display' && e.look_group ? ` · +${e.look_group.length - 1} same look` : '');
+      const on = !!(choices.wish || {})[e.path];
+      return `<div class="q${cur === e ? ' cur' : ''}" data-id="${esc(e.id)}"><div class="t"><button class="star${on ? ' on' : ''}" data-star title="${on ? 'On the shortlist: click to remove' : 'Add to the shortlist'}">${on ? '★' : '☆'}</button><b>${esc(e.id.split('/').pop())}</b>${tag}</div>
         <div class="n">${what}${e.displays ? ` · ${e.displays} displays` : ''}${e.names.length ? ' · ' + esc(e.names.slice(0, 3).join(', ')) : ''}</div></div>`;
     }).join('') + (view.length > 400 ? `<div class="more">${(view.length - 400).toLocaleString()} more — refine the search</div>` : '');
   }
@@ -732,7 +995,7 @@ function paneUrl(p, extra = {}) {
   if (p.mesh && !String(p.model || '').startsWith('character/')) prm.set('g0all', '1');   // creature: group 0 always drawn
   if (p.scalp) prm.set('scalp', '1');
   if (p.geoall) prm.set('geoall', p.geoall.join(','));
-  let items = p.items ? [...p.items] : [], ovr = extra.ovr ? { ...extra.ovr } : null;
+  let items = p.items ? [...p.items] : [], ovr = p._ovr || extra.ovr ? { ...(p._ovr || {}), ...(extra.ovr || {}) } : null;
   // Rider toggle: a body seated in its Mount pose at the seat point (attachment 0) of creature models
   // fused rider models (batrider, alliancerider: the rider is part of the mesh) get no second rider
   const fused = isFusedRider(p.model);   // rider already in the mesh (not mechastrider / tallstrider)
@@ -751,6 +1014,12 @@ function paneUrl(p, extra = {}) {
   return 'pane.html?' + prm.toString();
 }
 // ---- Sources panel (provenance), data/prov/<id>.json fetched when opened -----------------
+// a display's outfit (deploy: lib/npc_outfit): from its bake row, or matched from a character clone's skin
+const slotRank = (s) => { const i = OUTFIT_SLOTS.indexOf(String(s).toLowerCase()); return i < 0 ? 99 : i; };
+const outfitBox = (p) => !(p && p.outfit && p.outfit.length) ? '' : `<div class="outfit">${p.outfit.slice().sort((a, b) => slotRank(a[0]) - slotRank(b[0])).map(([slot, idi, name, items, how, score]) =>
+  how === 'none' ? `<div class="ofrow none"><span>not matched</span><span>${esc(name)}</span></div>`
+  : `<div class="ofrow"><span>${esc(slot)}</span><span><b>${esc(name)}</b>${items.length ? ` · item${items.length > 1 ? 's' : ''} ${items.join(', ')}` : ''} · display ${idi}${how === 'matched' ? (score <= 5 ? ` · <span class="ok">exact match</span>` : ` · <span class="warn" title="Same texture art, but the colours differ (difference ${score}): likely a recolour of this item">same art, maybe a recolour</span>`) : ''}</span></div>`).join('')}
+  ${p.outfit.some(r => r[4] === 'matched') ? '<div class="ofnote">matched from the baked skin; unmatched regions are listed, never guessed</div>' : ''}</div>`;
 const provBox = (p) => p.prov ? `<details class="prov" data-prov="${p.prov}"><summary>Sources</summary><div class="pb">loading…</div></details>` : '';
 const ownChip = (o) => `<span class="chip${o === 'missing' ? ' bad' : ''}">${esc(o)}</span>`;
 const fileRows = (files) => files.map(([path, o]) => `<div class="row" style="flex-wrap:nowrap;gap:6px">${ownChip(o)}<span style="overflow-wrap:anywhere;font-family:ui-monospace,monospace">${esc(path)}</span></div>`).join('');
@@ -827,16 +1096,12 @@ function openAsset(e) {
   cur = e;
   resetAnims();
   const rcodes = Object.keys(bodies).filter(k => bodies[k].rider);
-  $('riderbox').hidden = e.tab !== 'creature' || !rcodes.length || !(e.panes || []).some(p => mountSet.has(p.model)) || isFusedRider(e.path);
+  $('riderbox').hidden = (e.tab !== 'creature' && e.tab !== 'display') || !rcodes.length
+    || !(e.panes || []).some(p => mountSet.has(p.model) && !isFusedRider(p.model)) || isFusedRider(e.path);
   if (rcodes.length && !$('ridercode').options.length)
     $('ridercode').innerHTML = rcodes.map(k => `<option value="${k}"${k === riderCode ? ' selected' : ''}>${esc(codeName(k))}</option>`).join('');
   const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
-  $('title').innerHTML = esc(e.id) + ` <button id="wish" class="chip">${(choices.wish || {})[e.path] ? '★ shortlisted' : '☆ shortlist'}</button>`;
-  $('wish').onclick = () => saveWish(e, !(choices.wish || {})[e.path]);
-  if (e.display && customList.some(x => x.display === e.display)) {
-    $('title').insertAdjacentHTML('beforeend', ` <button id="custgo" class="chip" title="Geosets, skins, hair and outfit for this display (Display editor)">edit display ${e.display}</button>`);
-    $('custgo').onclick = () => openCustom_(e.display);
-  }
+  $('title').textContent = e.id;          // shortlist: the star on the list row; edits: each card's Edit
   $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
     e.members.length > 1 ? `${e.members.length} model files in this group` : '', rv ? 'REVIEW: ' + rv : '',
     e.tab === 'creature' && isFusedRider(e.path) ? F220 : ''].filter(Boolean).join(' · ');
@@ -848,14 +1113,15 @@ function openAsset(e) {
       `<option value="${x}"${x === fitBody ? ' selected' : ''}>${esc(codeName(x))}</option>`).join('')}</select>`;
     $('fitbody').onchange = (ev) => { fitBody = ev.target.value; openAsset(e); };
   }
-  const groups = e.tab === 'display' ? e.panes.map(p => ({ key: p.option, sources: p.sources, file: p, reps: {} })) : modelOptions(e);
+  const groups = e.tab === 'display' ? e.panes.map(p => ({ key: p.option, sources: p.sources, file: p, reps: {} })) : swapCards(e);
   const implied = e.tab === 'display' ? viaModel(e) : null;
   const allDs = repEntries(e.path);
   $('panes').innerHTML = groups.map((g, k) => {
     const p = g.file, st = p.stats || {};
     const vs = g.variants || null;
     const isKey = (x) => vs ? vs.some(v => v.key === x) : x === g.key;
-    const chosen = c ? isKey(c.option) : implied ? isKey(implied.option) : false;
+    const swapOk = !g.swap || ((choices.mesh[g.swap.entry.path] || {}).option || g.swap.entry.current) === g.swap.pane.option;
+    const chosen = swapOk && (c ? isKey(splitKey(c, e)) : implied ? isKey(splitKey(implied, e)) : false);
     const ids = Object.keys(g.reps);
     // the looks this option gives the model's displays: one per target model, plus the file
     // itself for the displays it leaves on it. 2+ looks = a wide card, every look full size.
@@ -876,7 +1142,7 @@ function openAsset(e) {
       return dd.length && dd.length < Math.max(ids.length, Object.keys(h.reps).length) ? `differs from ${label(h.sources)} only on display${dd.length > 1 ? 's' : ''} ${dd.slice(0, 5).map(id =>
         `${id} (→ ${((g.reps[id] || {}).model || e.path).split('/').pop()})`).join(', ')}` : '';
     }).filter(Boolean);
-    const lookStats = (q) => { const t = q.stats || {}; return `${heightOf(q) ? heightOf(q) + ' yd tall · ' : ''}${t.version ? 'v' + t.version + ' · ' : ''}${mb(q.size)}${t.bones !== undefined ? ` · bones ${t.bones} · particles ${t.particles}` : ''}`; };
+    const lookStats = paneStatsLine;
     const wide = looks.length > 1;
     if (wide) {
       const span = '';
@@ -888,18 +1154,22 @@ function openAsset(e) {
         <div class="info"><div class="h"><b>${esc(label(g.sources))}</b><span class="chip">${looks.length} looks for ${total} displays</span>${implied && implied.option === g.key && !c ? '<span class="chip ok">via model pick</span>' : ''}</div>
         ${diffs.map(x => `<div class="stats"><span class="chip warn">${esc(x)}</span></div>`).join('')}
         ${unused ? `<div class="stats">${unused} more display${unused > 1 ? 's' : ''} no creature uses</div>` : ''}
+        ${outfitBox(p)}
         ${provBox(p)}
         <button class="use" data-k="${k}">${chosen ? (c ? 'Chosen' : 'Chosen via model · override here') : 'Use this (all looks)'}</button></div></div>`;
     }
     // a clean swap to ONE other model (Spaceslam's seagiant2 for all sea giant displays): the card
     // shows that model, not this file
     const sp = ids.length && looks.length === 1 ? looks[0].pane : p, sst = sp.stats || {};
-    const repHtml = ids.length ? `<div class="stats"><b>Moves all ${ids.length} displays to ${esc(looks[0].model)}</b> (a different model; ${esc(e.path.split('/').pop())} itself is unchanged)</div>` : '';
+    const repHtml = ids.length ? `<div class="stats"><b>Moves all ${ids.length} displays to ${esc(looks[0].model)}</b> (a different model; ${esc(e.path.split('/').pop())} itself is unchanged)${g.swap ? ` · this pack's ${esc(looks[0].model)} file` : ''}</div>` : '';
     const src = (isItem && bodyPaneUrl(e, p, fitBody)) || paneUrl(sp);
     return `<div class="pane${chosen ? ' chosen' : ''}" data-opt="${p.option}"><iframe src="${src}" loading="lazy" title="${esc(label(g.sources))}"></iframe>
       <div class="info"><div class="h"><b>${esc(label(g.sources))}</b>${(p.completed || []).length ? '<span class="chip warn" title="The pack left this display on the old model while upgrading its siblings; we complete the repoint (sibling skins, scaled to match)">completed by us</span>' : ''}${p.reused ? '<span class="chip bad" title="I-390: the pack reused this stock display id for a different creature (another stock model, no bake, unrelated file name) - not an HD version of it">another creature</span>' : ''}${p.option === e.current && !ids.length ? '<span class="chip">current file</span>' : ''}${implied && implied.option === g.key && !c ? '<span class="chip ok">via model pick</span>' : ''}</div>
       ${p.borrowed ? `<div class="stats"><span class="chip warn">no display uses this model</span> skins borrowed from display ${p.borrowed} (a sibling model in this folder)</div>` : ''}
       ${(p.broken_rows || []).length ? `<div class="stats"><span class="chip bad" title="This pack's display row names skins no source ships; the picker (and the curated build) use another pack's row for this option">pack defect: ${esc(p.broken_rows.join('; '))} (skin not shipped)</span></div>` : ''}
+      ${p.resaves ? `<div class="stats"><span class="chip" title="${esc(p.resaves.join(', '))} ship${p.resaves.length > 1 ? '' : 's'} this model re-saved by a model tool: offsets, padding, texture-name case or metadata only - it renders the same as stock">same as stock: ${esc(p.resaves.join(', '))} (re-save)</span></div>` : ''}
+      ${p.misfit ? `<div class="stats"><span class="chip bad" title="${esc('Your texture pick for ' + p.misfit.join(', ') + ' is painted for another mesh; this mesh draws it scrambled (as it would in game). Change it on the Textures page.')}">texture pick doesn't fit this mesh</span></div>` : ''}
+      ${p.file_pick ? `<div class="stats"><span class="chip" title="These sources all keep this display on ${esc(p.option)}; which file ships is picked on that model's card">file: ${esc(label(p.file_pick))} (model card pick)</span></div>` : ''}
       ${p.own_display ? `<div class="stats"><span class="chip">shown on display ${p.own_display}</span> this pack's own display for this model (it keeps display ${e.display} on another model)</div>` : ''}
       ${p.home_display ? `<div class="stats"><span class="chip">shown on display ${p.home_display}</span> its own display, which the live data currently points at another model</div>` : ''}
       ${p.folder_skins ? `<div class="stats"><span class="chip warn">no display uses this model</span> skins guessed from its folder: ${esc(p.folder_skins.filter(Boolean).join(', '))}</div>` : ''}
@@ -908,12 +1178,13 @@ function openAsset(e) {
       ${p.geosets_fixed ? `<div class="stats"><span class="chip warn" title="The pack's geoset data names a geoset its own mesh does not have, so that group draws nothing in game (wendigo2: brows and lip fur). We point it at the variant the mesh has.">geosets fixed by us: ${p.geosets_fixed[0]} → ${p.geosets_fixed[1]}</span></div>` : ''}
       ${p.skins_filled ? `<div class="stats"><span class="chip warn" title="The pack swapped in a model that needs display skins and left this display without any; these are filled from the stock look or the sibling displays">skins filled by us: ${esc(p.skins_filled.join(', '))}</span></div>` : ''}
       ${p.empty_tex && !p.fixed_by_us ? `<div class="stats"><span class="chip bad" title="A batch reads a hardcoded texture with no filename - a broken conversion in this file. It draws black here; in game it gets no texture.">pack defect: ${p.empty_tex.toLocaleString()} triangles use an empty texture</span></div>` : ''}
-      <div class="stats">${heightOf(sp) ? heightOf(sp) + ' yd tall · ' : ''}${sst.version ? 'v' + sst.version + ' · ' : ''}${mb(sp.size)}${sst.bones !== undefined ? ` · bones ${sst.bones} · particles ${sst.particles}` : ''}${(p.missing || []).length ? ` · <span class="chip warn" title="${esc(p.missing.join('\n'))}">${p.missing.length} missing</span>` : ''}${(p.conflicts || []).length ? ` · <span class="chip bad" title="${esc('Shared with other models whose current pick needs a different version. Shown with the one that fits THIS option; one file ships, so settle it in the Textures tab:\n' + p.conflicts.join('\n'))}">${p.conflicts.length} texture conflict${p.conflicts.length > 1 ? 's' : ''}</span>` : ''}</div>
+      <div class="stats">${paneStatsLine(sp)}${(p.missing || []).length ? ` · <span class="chip warn" title="${esc(p.missing.join('\n'))}">${p.missing.length} missing</span>` : ''}${(p.conflicts || []).length ? ` · <span class="chip bad" title="${esc('Shared with other models whose current pick needs a different version. Shown with the one that fits THIS option; one file ships, so settle it in the Textures tab:\n' + p.conflicts.join('\n'))}">${p.conflicts.length} texture conflict${p.conflicts.length > 1 ? 's' : ''}</span>` : ''}</div>
       ${e.tab === 'display' ? `<div class="stats">model: ${esc(p.model)}</div>` : ''}
       ${!vs && g.note ? `<div class="stats"><span class="chip">near-duplicate</span> ${esc(g.note)}</div>` : ''}
       ${vs ? `<div class="stats"><span class="chip">same look</span> these packs' files differ only in metadata (${esc(g.note || '')}).
         Ship <select data-var="${k}">${vs.map((v, i) => `<option value="${i}"${(c ? v.key === c.option : i === g.def) ? ' selected' : ''}>${esc(label(v.sources))}${v.file.option === e.current ? ' (current)' : ''}</option>`).join('')}</select></div>` : ''}
       ${repHtml}
+      ${outfitBox(sp)}
       ${provBox(p)}
       ${p.remaster ? `<div class="stats"><span class="chip warn" title="The pack moved most of ${esc(p.remaster.of)}'s displays to this model (a remaster under a new name) but not this one; offered here with the skins of a moved sibling">community remaster</span> ${esc(label(p.sources))} moved ${p.remaster.moved} other displays of ${esc(String(p.remaster.of).split('/').pop())} here</div>` : ''}
       ${e.single ? '' : `<button class="use" data-k="${k}">${chosen ? (c ? 'Chosen' : 'Chosen via model · override here') : e.tab === 'display' && implied ? 'Override for this display' : 'Use this'}</button>`}
@@ -931,6 +1202,7 @@ function openAsset(e) {
     const g0 = groups[+b.dataset.k], vsel = $('panes').querySelector(`select[data-var="${b.dataset.k}"]`);
     const g = g0.variants ? g0.variants[vsel ? +vsel.value : g0.def] : g0;
     if (e.tab === 'display' || isItem || e.tab === 'item') save(kindOf(e), keyOf(e), e, g.key);
+    else if (g.swap) save('mesh', g.swap.entry.path, g.swap.entry, g.swap.pane.option, {}, false).then(ok => ok && saveModel(e, g));
     else saveModel(e, g);
   });
   if (isItem) {
@@ -966,55 +1238,106 @@ function openAsset(e) {
     const prm = new URLSearchParams({ src: 'v2', model: e.path, retail: e.retailOnly, build: retailIdx.build,
       skins: (e.rskins || [0, 0, 0]).join(','), pv: PANE_V });
     $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="pane.html?${prm}" loading="lazy" title="Retail"></iframe>
-      <div class="info"><div class="h"><b>Retail</b><span class="chip">live from wago.tools</span><span class="chip">not in the 3.3.5 client</span></div>
+      <div class="info"><div class="h"><b>Retail</b><span class="chip" title="Retail model, loaded live (FileDataID ${e.retailOnly})">live from wago.tools</span><span class="chip" title="A candidate for new content: shortlist it; shipping it needs a new display (F-197 / F-216 curate)">not in the 3.3.5 client</span></div>
       <div class="stats" data-live>loading…</div>
-      <div class="stats">FileDataID ${e.retailOnly} · a candidate for new content: shortlist it; shipping it needs a new display (F-197 / F-216 curate).</div></div></div>`);
+      <div class="stats">model: ${esc(e.path)}</div></div></div>`);
     render();
     return;
   }
+  // the display's MODEL options (no pack moves this display, so the choice is which file of its model
+  // ships - one file for every display of that model): the model card's options, drawn in THIS
+  // display's skins. A pick here is the model pick (Travis Coomingham / kobold display 26).
+  if (e.tab === 'display' && e.panes.length <= 1) {
+    const ent = customList.find(x => x.display === e.display) || {};
+    const M = assets.find(a => a.tab === 'creature' && (a.path === (e.panes[0] || {}).model || a.path === ent.path));
+    if (M && M.panes.length > 1) {
+      const anchor = $('panes').querySelector('.pane');
+      const draw = () => modelOptions(M).forEach(g => {
+        const p = g.file, packs = p.sources.filter(x => x !== 'stock' && x !== 'retail').sort();
+        const tex = (custTex || {})[M.path + '|' + packs.join(',')] || [];
+        const sk = [0, 0, 0], ovr = {};
+        (ent.slots || []).forEach(k => { const hit = tex.find(([n]) => n.toLowerCase() === String((ent.skins || [])[k] || '').toLowerCase());
+          if (hit) { sk[k] = casFid(hit[1]); ovr['fdid/' + sk[k]] = hit[1]; } });
+        const pp = { ...p, display: e.display, skins: sk.some(Boolean) ? sk : p.skins };
+        const chosenM = (choices.mesh[M.path] || {}).option === g.key;
+        const div = document.createElement('div');
+        div.className = 'pane' + (chosenM ? ' chosen' : '');
+        div.innerHTML = `<iframe src="${paneUrl(pp, Object.keys(ovr).length ? { ovr } : {})}" loading="lazy"></iframe>
+          <div class="info"><div class="h"><b>${esc(label(g.sources))}</b><span class="chip" title="Which file of ${esc(M.path)} ships: one file for every display of that model">model-level</span>${p.option === M.current ? '<span class="chip">current file</span>' : ''}</div>
+          <div class="stats">${paneStatsLine(p)}</div><div class="stats">model: ${esc(M.path)}</div>
+          ${provBox(p)}<button class="use">${chosenM ? 'Chosen (model)' : 'Use this for the model'}</button></div>`;
+        div.querySelector('.use').onclick = () => saveModel(M, g);
+        if (anchor && anchor.isConnected) anchor.before(div); else $('panes').append(div);   // in model-card order
+      });
+      if ((ent.slots || []).length && !custTex) loadCustTex().then(() => { if (cur === e) openAsset(e); }); else draw();
+      // the lone stock card duplicates the model card's stock option
+      const lone = [...$('panes').querySelectorAll('.pane')].find(x => x.querySelector('.ptitle b, .h b') && /^stock$/.test((x.querySelector('.h b') || {}).textContent || ''));
+      if (lone && e.standin) lone.remove();
+    }
+  }
+  if (e.tab === 'display' && e.display) bakeCards(e, c);
   // our customisation of this display: its own option, built on the panel it was edited from
   const cu = e.tab === 'display' ? choices.custom[String(e.display)] : null;
   if (cu) {
     const cb = cu.base || {};
-    const bp = e.panes.find(x => x.option === cb.option && (cb.sources || []).some(z => x.sources.includes(z)))
-      || e.panes.find(x => x.model === (cb.model || cu.path)) || e.panes[0];
     const ent = customList.find(x => x.display === e.display) || {};
-    const ctx = { display: e.display, char: String(bp.model).startsWith('character/') ? (bp.char || ent.char || null) : null,
+    // a created display has no card of its own: it is drawn from its saved snapshot
+    const bp = (cu.entry && cu.entry.base && cu.entry.base.model ? { ...cu.entry.base, display: e.display } : null)
+      || e.panes.find(x => x.option === cb.option && (cb.sources || []).some(z => x.sources.includes(z)))
+      || e.panes.find(x => x.model === (cb.model || cu.path)) || e.panes[0];
+    const ctx = { display: e.display, char: String(bp.model).startsWith('character/') ? (bp.char || ent.char || (cu.entry || {}).char || null) : null,
                   cgd: cb.cgd || ent.cgd || [0, 0, 0, 0, 0, 0, 0, 0], slots: cb.slots || ent.slots || [], skins: cb.skins || ent.skins || [],
                   tex_key: cb.tex_key || ent.tex_key, path: bp.model };
     const chosenC = c && c.option === 'custom';
     const drawC = () => {
       const look = customLook(ctx, cu, bp);
       const f = $('panes').querySelector('#cu-pf');
-      if (f) f.src = paneUrl(look.pane, look.ovr ? { ovr: look.ovr } : {});
+      if (!f) return;
+      if (ctx.char && ctx.char.cs && cu.outfit) {
+        bakedLook(look, ctx.char, cu.outfit, cu.hair_style ?? ctx.char.hair_style, cu.facial_hair ?? ctx.char.facial_hair)
+          .then(bl => { if (cur === e) f.src = bl ? paneUrl(bl.pane, { ovr: bl.ovr }) : paneUrl(look.pane, look.ovr ? { ovr: look.ovr } : {}); });
+        return;
+      }
+      f.src = paneUrl(look.pane, look.ovr ? { ovr: look.ovr } : {});
     };
     const edits = [cu.geosets && cu.geosets.some(Boolean) ? 'geosets ' + cu.geosets.join(',') : '', cu.skins ? 'skins ' + cu.skins.filter(Boolean).join(', ') : '',
                    cu.hair_style !== undefined ? `hair ${cu.hair_style}` : '', cu.facial_hair !== undefined ? `facial ${cu.facial_hair}` : '',
                    cu.outfit ? 'outfit ' + Object.keys(cu.outfit).length + ' items' : ''].filter(Boolean).join(' · ');
     $('panes').insertAdjacentHTML('beforeend', `<div class="pane${chosenC ? ' chosen' : ''}" data-opt="custom"><iframe id="cu-pf" title="Our edit"></iframe>
-      <div class="info"><div class="h"><b>Our edit</b><span class="chip ok">ours</span><span class="chip">based on ${esc(label(bp.sources))}</span></div>
+      <div class="info"><div class="h"><b>${cu.new ? esc(cu.label || 'New display') : 'Our edit'}</b><span class="chip ok">${cu.new ? (cu.clone_of ? `new · clone of ${cu.clone_of}` : 'new display') : 'ours'}</span><span class="chip">based on ${esc((cb.sources || []).includes('retail') ? 'retail' : label(bp.sources || ['stock']))}</span></div>
       <div class="stats">${esc(edits || 'no edits')}</div>
-      <div class="stats">${esc(bp.model)} · ships only while this display's pick is this panel</div>
+      <div class="stats">${esc(bp.model)} · ${cu.new ? 'a display we created: it always ships' : 'ships only while this display\'s pick is this panel'}</div>
+      ${cu.outfit ? outfitBox({ outfit: OUTFIT_SLOTS.filter(sl => cu.outfit[sl]).map(sl => [sl[0].toUpperCase() + sl.slice(1), cu.outfit[sl], String(cu.outfit[sl]).startsWith('r:') ? 'retail item ' + String(cu.outfit[sl]).slice(2) : 'item display ' + cu.outfit[sl], [], 'edit']) }) : outfitBox(bp)}${provBox(bp)}
       <button class="use" id="cu-use">${chosenC ? 'Chosen' : 'Use this'}</button><button class="usecust" id="cu-edit">Edit</button></div></div>`);
     $('cu-use').onclick = () => save('display', String(e.display), e, 'custom');
-    $('cu-edit').onclick = () => openCustom_(e.display, true, Object.assign(viaOf({ ...bp, cust: bp.cust || { groups: ent.groups || {}, slots: ctx.slots },
+    $('cu-edit').onclick = () => cu.new ? openCustom_(e.display, true, null) : openCustom_(e.display, true, Object.assign(viaOf({ ...bp, cust: bp.cust || { groups: ent.groups || {}, slots: ctx.slots },
       skin_names: ctx.skins, tex_key: ctx.tex_key }, label(bp.sources)) || {}, {}));
-    if ((ctx.slots || []).length && !custTex) loadCustTex().then(() => { if (cur === e) drawC(); }); else drawC();
+    if ((cb.sources || []).includes('retail')) {
+      // a retail model picked in the Display editor: drawn live, retail's own skin set
+      const f = $('panes').querySelector('#cu-pf');
+      const prm_ = new URLSearchParams({ src: 'v2', model: cb.model, retail: cb.fdid, build: retailIdx.build,
+        skins: (cb.skins || [0, 0, 0]).join(','), scale: (e.panes[0] || {}).scale || 1, pv: PANE_V });
+      if ((cb.geosets || []).some(Boolean)) { prm_.set('mesh', [0, ...cb.geosets].join(',')); prm_.set('g0all', '1'); }
+      if (f) f.src = 'pane.html?' + prm_;
+      const st = $('panes').querySelector('.pane[data-opt="custom"] .stats');
+      if (st) st.textContent = `retail ${String(cb.model).split('/').pop()} (FileDataID ${cb.fdid}), retail skin set`;
+    } else if ((ctx.slots || []).length && !custTex) loadCustTex().then(() => { if (cur === e) drawC(); }); else drawC();
   }
   // Displays tab: the retail remaster of the display's stock model, in this display's retail skins
   // (view only - shipping retail is a model-level pick: it replaces the stock file for every display)
-  if (e.tab === 'display' && e.panes.length && retailIdx.models && retailIdx.models[e.panes[0].model]) {
+  if (e.tab === 'display' && e.panes.length && retailIdx.models && retailIdx.models[e.panes[0].model] && !namedFor(e.panes[0].model)) {
     const sm = e.panes[0].model, rf = retailIdx.models[sm], b0 = e.panes[0];
     const prm = new URLSearchParams({ src: 'v2', model: sm, retail: rf, build: retailIdx.build,
       cam: b0.camera ? [...b0.camera.target, b0.camera.dist].join(',') : '', scale: b0.scale || 1,
       skins: ((retailIdx.skins || {})[String(e.display)] || [0, 0, 0]).join(','), pv: PANE_V });
     $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
-      <div class="info"><div class="h"><b>Retail remaster</b><span class="chip">live from wago.tools</span><span class="chip">view only here</span></div>
+      <div class="info"><div class="h"><b>Retail remaster</b><span class="chip" title="Retail model, loaded live (FileDataID ${rf})">live from wago.tools</span><span class="chip" title="To ship it, pick Retail on the model card for ${esc(sm.split('/').pop())}: it replaces that file for every display">view only here</span></div>
       <div class="stats" data-live>loading…</div>
-      <div class="stats">${esc(((retailIdx.names || {})[String(rf)] || '').split('/').pop())} · FileDataID ${rf}. To ship it, pick Retail on the model card for ${esc(sm.split('/').pop())}: it replaces that file for every display.</div></div></div>`);
+      <div class="stats">model: ${esc((retailIdx.names || {})[String(rf)] || sm)}</div></div></div>`);
   }
-  if (e.tab === 'creature' && namedFor(e.path)) retailNamedPanel(e.path);
-  if (e.tab === 'display' && e.panes.length && namedFor(e.panes[0].model)) retailNamedPanel(e.panes[0].model, e.display, e.panes[0].scale);
+  if (e.tab === 'creature' && namedFor(e.path) && !namedFor(e.path).rule) namedNotice(e.path, (e.panes.find(p => p.sources.includes('stock')) || e.panes[0] || {}).scale);
+  const sm_ = e.tab === 'display' ? ((e.panes[0] || {}).model || e.named_of) : null;
+  if (e.tab === 'display' && sm_ && namedFor(sm_)) retailNamedPanel(sm_, e.display, (e.panes[0] || {}).scale);
   const rfd = retailIdx.models && retailIdx.models[e.path];
   if ((e.tab === 'creature' || e.tab === 'object') && rfd && !e.panes.some(p => p.sources.includes('retail'))) {
     const base = e.panes[0];
@@ -1024,10 +1347,9 @@ function openAsset(e) {
     const chosen = c && c.option === 'retail';
     const rname = ((retailIdx.names || {})[String(rfd)] || '').split('/').pop();
     $('panes').insertAdjacentHTML('beforeend', `<div class="pane${chosen ? ' chosen' : ''}"><iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
-      <div class="info"><div class="h"><b>Retail remaster</b><span class="chip">live from wago.tools</span></div>
+      <div class="info"><div class="h"><b>Retail remaster</b><span class="chip" title="The newer model retail moved these displays to (FileDataID ${rfd}), wearing their retail skins. Picked, it ships converted the WarcraftXL way in place of ${esc(e.path.split('/').pop())}.">live from wago.tools</span></div>
       <div class="stats" data-live>loading…</div>
-      <div class="stats">${esc(rname)} · FileDataID ${rfd} · the newer model retail moved these displays to, wearing their retail skins.
-        Picked, it ships converted the WarcraftXL way in place of ${esc(e.path.split('/').pop())}.</div>
+      <div class="stats">model: ${esc((retailIdx.names || {})[String(rfd)] || rname)}</div>
       <button class="use" id="useretail">${chosen ? 'Chosen' : 'Use this'}</button></div></div>`);
     $('useretail').onclick = () => {
       const displays = {};
@@ -1035,54 +1357,256 @@ function openAsset(e) {
       save(kindOf(e), keyOf(e), e, 'retail', { file_option: 'retail', file_sources: ['retail'], displays });
     };
   }
+  if (e.tab === 'display' && e.look_group) {
+    // the group bar: who shares this exact look and options, and whether a pick applies to all of them
+    const others = e.look_group.filter(x => x !== e.display);
+    $('panes').insertAdjacentHTML('afterbegin', `<div id="grpbar"><span class="chip warn">same look ×${e.look_group.length}</span>
+      <span>same stock look and options as display${others.length > 1 ? 's' : ''} ${others.slice(0, 12).join(', ')}${others.length > 12 ? '…' : ''}</span>${groupBox(e.display)}</div>`);
+  }
   render();
   fitPanes();
 }
 // Cards share the width (2 cards = halves, 3 = thirds; wrap past ~280 px each) and, on one row,
 // the 3D views take the browser height left after the tallest card's info.
+// Cards: title / render / details (scrolls, collapses) / action buttons. As many columns as fit at
+// CARD_MIN_W; when every card fits one row with a render of at least VIEW_MIN_H, the row fills the
+// height; otherwise the cards keep a comfortable size and the card area scrolls (tablets, many options).
+const CARD_MIN_W = 340, VIEW_MIN_H = 320;
+let detOpen = (() => { try { return localStorage.getItem('mv.details') !== '0'; } catch (e) { return true; } })();
+// A card's details, in fixed collapsing sections (open state remembered per section name):
+//   Tags (every chip), Model (height, version, size, bones, particles, model path, and what the
+//   option does to it), Animations, Sources. A sentence that only explains a chip becomes its tooltip.
+const SECTIONS = ['Tags', 'Model', 'Outfit', 'Animations', 'Sources'];
+const secOpen = (() => { try { return JSON.parse(localStorage.getItem('mv.sections2') || '{}'); } catch (e) { return {}; } })();
+const secDefault = { Tags: true, Model: true, Outfit: false, Animations: false, Sources: false };
+function sectionise(c) {
+  const info = c.querySelector(':scope > .info');
+  if (!info || info.dataset.sect) return;
+  info.dataset.sect = '1';
+  const bins = Object.fromEntries(SECTIONS.map(k => [k, []]));
+  const t = c.querySelector(':scope > .ptitle');
+  if (t) t.querySelectorAll('.chip').forEach(ch => bins.Tags.push(ch));                  // title = the name only
+  const chipOnly = (el) => el.querySelector('.chip') && ![...el.childNodes].some(n =>
+    n.nodeType === 3 ? n.textContent.replace(/[\s·]/g, '') !== '' : n.nodeType === 1 && !n.classList.contains('chip') && n.tagName !== 'BR');
+  [...info.children].forEach(el => {
+    if (el.matches('details.prov')) { bins.Sources.push(el); return; }
+    if (el.matches('.outfit')) { bins.Outfit.push(el); return; }
+    if (el.matches('[data-live]') || el.id) { bins.Model.push(el); return; }   // stats filled in later
+    const txt = el.textContent || '';
+    if (/animation/i.test(txt) && el.querySelector('.chip')) {
+      // the chips ARE the animation facts: kept as tags, and spelled out (with their lists) as text here
+      const lines = [...el.querySelectorAll('.chip')].map(ch => {
+        bins.Tags.push(ch.cloneNode(true));
+        const d = document.createElement('div');
+        d.textContent = ch.textContent.trim() + (ch.title ? ': ' + ch.title : '');
+        return d;
+      });
+      el.replaceChildren(...lines); el.classList.add('anims'); bins.Animations.push(el); return;
+    }
+    if (chipOnly(el)) { el.querySelectorAll('.chip').forEach(ch => bins.Tags.push(ch)); el.remove(); return; }
+    if (/yd tall|\bbones\b|particles|\b\d+(\.\d+)? ?(KB|MB)\b|^\s*model:|FileDataID|\bv2[67]\d\b/i.test(txt)) {
+      // chips riding a stats line (missing textures, conflicts) are tags
+      el.querySelectorAll('.chip').forEach(ch => { bins.Tags.push(ch); ch.remove(); });
+      el.innerHTML = el.innerHTML.replace(/(\s*·\s*)+$/, '');
+      bins.Model.push(el); return;
+    }
+    const chips = [...el.querySelectorAll('.chip')];
+    chips.forEach(ch => { bins.Tags.push(ch); ch.remove(); });
+    el.innerHTML = el.innerHTML.replace(/^(\s|·|—|-|:)+/, '');
+    const rest = (el.textContent || '').trim();
+    if (chips.length && rest) {
+      // the sentence explains its chip: fold it into the chip's tooltip, not a line of its own
+      chips.forEach(ch => { if (!ch.title) ch.title = rest; });
+      el.remove();
+    } else if (rest) bins.Model.push(el); else el.remove();
+  });
+  info.innerHTML = '';
+  SECTIONS.forEach(k => {
+    if (!bins[k].length) return;
+    let d;
+    if (k === 'Sources' && bins[k].length === 1) {
+      d = bins[k][0]; d.classList.add('dsec');                     // keeps its lazy loader (toggle event)
+    } else {
+      d = document.createElement('details'); d.className = 'dsec';
+      d.innerHTML = `<summary>${k}</summary>`;
+      const body = document.createElement('div'); body.className = k === 'Tags' ? 'dtags' : 'dbody';
+      bins[k].forEach(x => body.append(x)); d.append(body);
+    }
+    d.dataset.sec = k;
+    const o = secOpen[k] ?? secDefault[k];
+    if (o && k !== 'Sources') d.open = true;
+    d.addEventListener('toggle', () => { secOpen[k] = d.open; try { localStorage.setItem('mv.sections2', JSON.stringify(secOpen)); } catch (e) {} });
+    info.append(d);
+  });
+}
+function groupBox(did) {
+  const g = groupOf(did);
+  if (!g) return '';
+  return `<label class="grpbox"><input type="checkbox" data-grp${groupApply ? ' checked' : ''}> apply to all ${g.length} same-look displays</label>`;
+}
+document.addEventListener('change', (ev) => { if (ev.target.matches && ev.target.matches('input[data-grp]')) {
+  groupApply = ev.target.checked; document.querySelectorAll('input[data-grp]').forEach(x => { x.checked = groupApply; }); } });
+// ---- outfitter browser: retail armour for one slot (data/v2/wardrobe/<slot>.json), icons from wago.tools
+const wardrobe = {};
+// 3.3.5 tab: the item displays real items of the slot use + what NPC bake rows wear there (data/v2/outfit335)
+async function browse335(slot, input) {
+  const O = await o335Load(), items = (O.slots[slot] || { items: [] }).items;
+  let q = '', shown = 0;
+  const ov = document.createElement('div'); ov.className = 'wardov';
+  ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b>${esc(slot)}</b><span class="wardarm"><button class="on">3.3.5</button><button data-wr>Retail</button></span>
+    <input placeholder="search ${items.length.toLocaleString()} item displays (name or display id)" data-wq><button data-wx>close</button></div>
+    <div class="wardgrid"></div><div class="wardmore"></div></div>`;
+  document.body.append(ov);
+  const grid = ov.querySelector('.wardgrid'), more = ov.querySelector('.wardmore');
+  const list = () => items.filter(([id, name]) => !q || name.toLowerCase().includes(q) || String(id) === q);
+  const draw = (reset) => {
+    const all = list();
+    if (reset) { grid.innerHTML = ''; shown = 0; grid.scrollTop = 0; }
+    const add = all.slice(shown, shown + 240); shown += add.length;
+    // Wowhead's 3D snapshot by item display id (most 3.3.5 ids live on in retail), else the inventory icon
+    grid.insertAdjacentHTML('beforeend', add.map(([id, name, icon]) => `<button class="wardtile" data-wid="${id}" title="${esc(name)} · item display ${id}">
+      <img loading="lazy" src="https://wow.zamimg.com/modelviewer/live/webthumbs/item/${id % 256}/${id}.webp" data-icon="${esc(String(icon || '').toLowerCase())}" alt=""><span>${esc(name)}</span></button>`).join(''));
+    grid.querySelectorAll('img[data-icon]:not([data-seen])').forEach(im => { im.dataset.seen = 1;
+      im.onerror = () => { im.onerror = null; if (im.dataset.icon) im.src = `https://wow.zamimg.com/images/wow/icons/large/${im.dataset.icon}.jpg`; }; });
+    more.textContent = shown < all.length ? `${shown.toLocaleString()} of ${all.length.toLocaleString()} - scroll for more` : `${all.length.toLocaleString()} item displays`;
+  };
+  grid.addEventListener('scroll', () => { if (grid.scrollTop + grid.clientHeight > grid.scrollHeight - 300) draw(false); });
+  let tq = null;
+  ov.querySelector('[data-wq]').oninput = (ev) => { clearTimeout(tq); tq = setTimeout(() => { q = ev.target.value.trim().toLowerCase(); draw(true); }, 200); };
+  const close = () => ov.remove();
+  ov.querySelector('[data-wx]').onclick = close;
+  ov.querySelector('[data-wr]').onclick = () => { close(); browseSlot(slot, input); };
+  ov.addEventListener('click', (ev) => { if (ev.target === ov) close(); });
+  grid.addEventListener('click', (ev) => { const t = ev.target.closest('.wardtile'); if (!t) return;
+    input.value = t.dataset.wid; input.dispatchEvent(new Event('change', { bubbles: true })); close(); });
+  draw(true);
+  ov.querySelector('[data-wq]').focus();
+}
+async function browseSlot(slot, input) {
+  if (!wardrobe[slot]) wardrobe[slot] = await fetch(`data/v2/wardrobe/${slot}.json`, { cache: 'no-store' }).then(r => r.json()).catch(() => null);
+  const w = wardrobe[slot];
+  if (!w) { $('save').className = 'err'; $('save').textContent = 'no wardrobe data for ' + slot; return; }
+  let q = '', armour = -1, shown = 0;
+  const ov = document.createElement('div'); ov.className = 'wardov';
+  ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b>${esc(slot)}</b><span class="wardarm"><button data-w3>3.3.5</button><button class="on">Retail</button></span><input placeholder="search ${w.items.length.toLocaleString()} items" data-wq>
+    <span class="wardarm">${['all', ...Object.values(w.armour)].map((a, i) => `<button data-wa="${i - 1}"${i === 0 ? ' class="on"' : ''}>${a}</button>`).join('')}</span>
+    <button data-wx>close</button></div><div class="wardgrid"></div><div class="wardmore"></div></div>`;
+  document.body.append(ov);
+  const grid = ov.querySelector('.wardgrid'), more = ov.querySelector('.wardmore');
+  const list = () => w.items.filter(([id, name, , sub]) => (armour < 0 || sub === armour) && (!q || name.toLowerCase().includes(q) || String(id) === q));
+  // icons: decoded BLPs from wago.tools, a few at a time, only once a tile scrolls into view
+  let busy = 0; const queue = [];
+  const pump = () => { while (busy < 6 && queue.length) { const [cv, fd] = queue.shift(); busy++;
+    fetch(`https://wago.tools/api/casc/${fd}?version=${encodeURIComponent(w.build)}`).then(r => r.arrayBuffer()).then(b => {
+      const img = decodeBlp(b); cv.width = img.width; cv.height = img.height;
+      cv.getContext('2d').putImageData(new ImageData(img.data, img.width, img.height), 0, 0); }).catch(() => {}).finally(() => { busy--; pump(); }); } };
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); queue.push([e.target, +e.target.dataset.fd]); pump(); } }), { root: grid });
+  const draw = (reset) => {
+    const all = list();
+    if (reset) { grid.innerHTML = ''; shown = 0; grid.scrollTop = 0; }
+    const add = all.slice(shown, shown + 240); shown += add.length;
+    grid.insertAdjacentHTML('beforeend', add.map(([id, name, fd, sub, app, di]) =>
+      `<button class="wardtile" data-wid="${id}" title="${esc(name)} · item ${id} · ${esc(w.armour[sub] || '')}">${di
+        ? `<img loading="lazy" src="https://wow.zamimg.com/modelviewer/live/webthumbs/item/${di % 256}/${di}.webp" data-fd="${fd}" alt="">`
+        : `<canvas data-fd="${fd}"></canvas>`}<span>${esc(name)}</span></button>`).join(''));
+    grid.querySelectorAll('img[data-fd]:not([data-seen])').forEach(im => { im.dataset.seen = 1;
+      im.onerror = () => { const cv = document.createElement('canvas'); cv.dataset.fd = im.dataset.fd; im.replaceWith(cv); io.observe(cv); }; });
+    grid.querySelectorAll('canvas[data-fd]:not([data-seen])').forEach(cv => { cv.dataset.seen = 1; io.observe(cv); });
+    more.textContent = shown < all.length ? `${shown.toLocaleString()} of ${all.length.toLocaleString()} - scroll for more` : `${all.length.toLocaleString()} items`;
+  };
+  grid.addEventListener('scroll', () => { if (grid.scrollTop + grid.clientHeight > grid.scrollHeight - 300) draw(false); });
+  let tq = null;
+  ov.querySelector('[data-wq]').oninput = (ev) => { clearTimeout(tq); tq = setTimeout(() => { q = ev.target.value.trim().toLowerCase(); draw(true); }, 200); };
+  ov.querySelectorAll('[data-wa]').forEach(b => b.onclick = () => { armour = +b.dataset.wa; ov.querySelectorAll('[data-wa]').forEach(x => x.classList.toggle('on', x === b)); draw(true); });
+  const close = () => { io.disconnect(); ov.remove(); };
+  ov.querySelector('[data-wx]').onclick = close;
+  ov.querySelector('[data-w3]').onclick = () => { close(); browse335(slot, input); };
+  ov.addEventListener('click', (ev) => { if (ev.target === ov) close(); });
+  grid.addEventListener('click', (ev) => { const t = ev.target.closest('.wardtile'); if (!t) return;
+    input.value = 'r:' + t.dataset.wid; input.dispatchEvent(new Event('change', { bubbles: true })); close(); });
+  draw(true);
+  ov.querySelector('[data-wq]').focus();
+}
+document.addEventListener('click', (ev) => { const b = ev.target.closest && ev.target.closest('[data-browse]'); if (!b) return;
+  ev.preventDefault(); const inp = b.parentElement.querySelector('input');
+  (/^r:/.test(inp.value) ? browseSlot : browse335)(b.dataset.browse, inp); });
+function cardShape(c) {
+  if (c.classList.contains('custctl')) {          // the Display editor's controls ARE the content: never collapsed
+    const h = c.querySelector(':scope > .info > .h');
+    if (h && !c.querySelector(':scope > .ptitle')) { const t = document.createElement('div'); t.className = 'ptitle'; t.append(...h.childNodes); h.remove(); c.prepend(t); }
+    return;
+  }
+  // title row (+ the details toggle), and the buttons moved out of the details into their own bar
+  const h = c.querySelector(':scope > .info > .h');
+  if (h && !c.querySelector(':scope > .ptitle')) {
+    const t = document.createElement('div');
+    t.className = 'ptitle';
+    t.append(...h.childNodes);
+    h.remove();
+    c.prepend(t);
+  }
+  const info = c.querySelector(':scope > .info');
+  const t = c.querySelector(':scope > .ptitle');
+  if (info && t && !t.querySelector('.dettog')) {
+    const tg = document.createElement('button');
+    tg.className = 'dettog'; tg.title = 'Show / hide the details';
+    tg.onclick = (ev) => { ev.stopPropagation(); detOpen = c.classList.contains('nodet');
+      try { localStorage.setItem('mv.details', detOpen ? '1' : '0'); } catch (e) {}
+      document.querySelectorAll('#panes > .pane').forEach(x => x.classList.toggle('nodet', !detOpen)); fitPanes(); };
+    t.append(tg);
+  }
+  if (info && !c.querySelector(':scope > .actions')) {
+    const btns = [...info.querySelectorAll(':scope > button.use, :scope > button.usecust, :scope > .row')];
+    if (btns.length) { const a = document.createElement('div'); a.className = 'actions'; a.append(...btns); c.append(a); }
+  }
+  sectionise(c);
+  c.classList.toggle('nodet', !detOpen);
+  const tg = c.querySelector('.dettog'); if (tg) tg.textContent = detOpen ? 'details −' : 'details +';
+}
+// panes need to know whether a swipe / wheel should scroll the page instead of turning the model
+function tellScroll() {
+  const box = $('panes'), phone = innerWidth <= 760;
+  const scroll = phone ? document.documentElement.scrollHeight > innerHeight + 4 : box.scrollHeight > box.clientHeight + 4;
+  box.querySelectorAll('iframe').forEach(f => { try { f.contentWindow.postMessage({ type: 'pane-scrollmode', scroll }, '*'); } catch (e) {} });
+}
 function fitPanes() {
   const box = $('panes');
   const cards = [...box.children].filter(x => x.classList.contains('pane'));
   if (!cards.length) return;
   const cs = getComputedStyle(box), gap = parseFloat(cs.columnGap) || 10;
   const W = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-  // phones scroll the whole page: size cards against the screen, not the (unbounded) box
-  const phone = innerWidth <= 760;
+  const phone = innerWidth <= 760;     // phones scroll the whole page: size cards against the screen
   const H = phone ? Math.round(innerHeight * 0.85) : box.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
   const weight = cards.map(c => c.classList.contains('wide') ? Math.max(1, c.querySelectorAll('.looks figure').length) : 1);
   const total = weight.reduce((a, b) => a + b, 0);
-  const cols = Math.max(1, Math.min(total, Math.floor((W + gap) / (280 + gap))));
+  const cols = Math.max(1, Math.min(total, Math.floor((W + gap) / (CARD_MIN_W + gap))));
   box.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
   cards.forEach((c, i) => { c.style.gridColumn = weight[i] > 1 ? `span ${Math.min(weight[i], cols)}` : ''; });
-  // title / render / details: the title goes on top, the details scroll inside the card
-  cards.forEach(c => {
-    const h = c.querySelector(':scope > .info > .h');
-    if (h && !c.querySelector(':scope > .ptitle')) {
-      const t = document.createElement('div');
-      t.className = 'ptitle';
-      t.append(...h.childNodes);
-      h.remove();
-      c.prepend(t);
-    }
-  });
+  // the Display editor's controls: beside the previews when all three fit, else a full-width row
+  cards.forEach(c => { if (c.classList.contains('custctl') && cols < cards.length) c.style.gridColumn = '1 / -1'; });
+  cards.forEach(cardShape);
   const views = cards.flatMap(c => [...c.querySelectorAll(':scope > iframe, :scope > canvas, .looks iframe')]);
   views.forEach(v => { v.style.aspectRatio = 'auto'; });
   let rows = 0, used = 0;
   weight.forEach(w => { if (used === 0 || used + Math.min(w, cols) > cols) { rows++; used = 0; } used += Math.min(w, cols); });
   requestAnimationFrame(() => {
+    setTimeout(tellScroll, 60);
     const colW = (W - gap * (cols - 1)) / cols;
-    const title = Math.max(0, ...cards.map(c => (c.querySelector(':scope > .ptitle') || {}).offsetHeight || 0));
+    const hOf = (sel) => Math.max(0, ...cards.map(c => (c.querySelector(sel) || {}).offsetHeight || 0));
+    const title = hOf(':scope > .ptitle'), act = hOf(':scope > .actions');
     const cap = Math.max(0, ...cards.flatMap(c => [...c.querySelectorAll('.looks figcaption')].map(f => f.offsetHeight)));
-    const info = Math.max(0, ...cards.map(c => { const i = c.querySelector(':scope > .info'); return i ? i.scrollHeight : 0; }));
-    if (rows === 1) {
-      const det = Math.min(Math.max(info, 110), Math.max(110, H * 0.38));      // details: scroll past this
-      const h = Math.max(200, H - title - det - 4);
-      views.forEach(v => { v.style.height = Math.round(h - (v.closest('.looks') ? cap : 0)) + 'px'; });
-      cards.forEach(c => { c.style.height = H + 'px'; });
+    const info = detOpen ? Math.max(0, ...cards.filter(c => !c.classList.contains('custctl')).map(c => { const i = c.querySelector(':scope > .info'); return i ? i.scrollHeight : 0; })) : 0;
+    const det = detOpen ? Math.min(Math.max(info, 90), Math.max(90, H * 0.34)) : 0;
+    const fill = rows === 1 && !phone ? H - title - act - det - 6 : 0;
+    if (fill >= VIEW_MIN_H) {
+      // one row: the cards fill the height, the details scroll inside the card
+      views.forEach(v => { v.style.height = Math.round(fill - (v.closest('.looks') ? cap : 0)) + 'px'; });
+      cards.forEach(c => { c.style.height = H + 'px'; const i = c.querySelector(':scope > .info'); if (i) i.style.maxHeight = ''; });
     } else {
-      const h = Math.max(200, Math.min(colW, H * (phone ? 0.7 : 0.6)));
-      views.forEach(v => { v.style.height = Math.round(h) + 'px'; });
-      cards.forEach(c => { c.style.height = ''; const i = c.querySelector(':scope > .info'); if (i) i.style.maxHeight = '260px'; });
+      // too many for one screen: a comfortable fixed size per card, and the card area scrolls
+      const h = Math.round(Math.max(VIEW_MIN_H, Math.min(colW * 0.95, H * (phone ? 0.62 : 0.66))));
+      views.forEach(v => { v.style.height = (h - (v.closest('.looks') ? cap : 0)) + 'px'; });
+      cards.forEach(c => { c.style.height = ''; const i = c.querySelector(':scope > .info'); if (i) i.style.maxHeight = c.classList.contains('custctl') ? '' : (phone ? 240 : 200) + 'px'; });
     }
   });
 }
@@ -1128,7 +1652,9 @@ async function openTexture(t) {
   $('mode').title = can3d ? 'Texture options flat (2D) or on the model (3D)' : 'No model pane shows this texture yet (2D only)';
   $('mode').disabled = !can3d;
   $('mode').textContent = texMode === '3d' ? '2D view' : '3D view';
-  $('panes').innerHTML = d.options.map((o, k) => {
+  const fits = d.options.filter(o => o.compatible);
+  const shownOpts = fits.length ? fits : d.options;     // only legitimate options for the picked mesh(es)
+  $('panes').innerHTML = shownOpts.map((o) => { const k = d.options.indexOf(o);
     const chosen = c ? c.option === o.key : o.key === d.current;
     const body = texMode === '3d' && can3d
       ? `<iframe src="${paneUrl(d.view.pane, { ovr: { [d.view.key]: o.cas } })}" loading="lazy"></iframe>`
@@ -1137,6 +1663,7 @@ async function openTexture(t) {
       <div class="h"><b>${esc(label(o.sources))}</b>${o.key === d.current ? '<span class="chip">default</span>' : ''}
         ${o.compatible ? '' : '<span class="chip bad" title="Painted for a different mesh than the one picked">other mesh</span>'}</div>
       <div class="stats">${o.w}×${o.h} · ${esc(o.fmt || '')}${o.alpha ? ' · alpha ' + o.alpha : ''} · ${o.mips} mips · ${mb(o.size)}</div>
+      ${o.dupes ? `<div class="stats"><span class="chip" title="Same image in ${o.dupes + 1} sources (a re-encode or re-save): one option">same image ×${o.dupes + 1}</span></div>` : ''}
       <button class="use" data-k="${k}">${c && c.option === o.key ? 'Chosen' : 'Use this'}</button></div></div>`;
   }).join('');
   $('panes').querySelectorAll('.use').forEach(b => b.onclick = () => save('texture', d.path, d, d.options[+b.dataset.k].key));
@@ -1158,12 +1685,126 @@ function meshPaneOf(path) {
   return e ? (e.panes.find(p => p.option === e.current) || e.panes[0]) : null;
 }
 // Customise data loaded on demand: folder textures per model, stock look per display (chunks of 1000)
-let custTex = null, custTexLoading = null;
+let custTex = null, custTexLoading = null, custSets = null;
 const custStock = {};
+// ---- display creator: a new display id on any creature model (data/v2/creator.json) -----------
+let creator = null, creatorLoading = null;
+function loadCreator() {
+  if (!creatorLoading) creatorLoading = fetch('data/v2/creator.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : { max_display: 0, models: [] })
+    .catch(() => ({ max_display: 0, models: [] })).then(d => { creator = d; creator.by = new Map(d.models.map(m => [m[0], m])); return d; });
+  return creatorLoading;
+}
+const isNewDisplay = (did) => !!(choices.custom[String(did)] || {}).new;
+// highest id in the live DBC (deploy) or among displays created here + 1
+const nextDisplayId = () => Math.max(creator ? creator.max_display : 0,
+  ...Object.keys(choices.custom || {}).filter(k => /^\d+$/.test(k) && choices.custom[k].new).map(Number)) + 1;
+// the Display editor entry of a created display (saved, or about to be)
+function newDisplayEntry(did, path, saved = null) {
+  if (saved && saved.entry) {
+    const x = saved.entry;
+    return { ...x, display: did, isNew: true, names: [saved.label || 'new display'], kw: 'new display ' + (x.from_names || []).join(' ').toLowerCase(),
+             base: { ...x.base, display: did }, from_names: x.from_names || [], clone_of: saved.clone_of || null };
+  }
+  const m = creator && creator.by.get(path);
+  if (!m) return null;
+  const [, src, pane, groups, slots, tk, names] = m;
+  return { display: did, isNew: true, names: [saved && saved.label ? saved.label : 'new display'], kw: 'new display ' + names.join(' ').toLowerCase(),
+           path, groups: groups || {}, slots: slots || [], skins: null, cgd: [0, 0, 0, 0, 0, 0, 0, 0], tex_key: tk,
+           base: { ...pane, display: did, src_display: pane.display, cust: { groups, slots } }, via: src, from_names: names };
+}
+// saved created displays join the editor's list
+function addNewDisplays() {
+  customList = customList.filter(c => !c.isNew);
+  Object.entries(choices.custom || {}).forEach(([k, v]) => { if (v && v.new) { const c = newDisplayEntry(+k, v.path, v); if (c) customList.push(c); } });
+}
+function openCreator() {
+  loadCreator().then(d => {
+    let q = '';
+    const ov = document.createElement('div'); ov.className = 'wardov';
+    ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b>New display ${nextDisplayId()}</b><input placeholder="search ${d.models.length.toLocaleString()} creature models (path or creature name)" data-cq>
+      <button data-cx>close</button></div><div class="creatorlist"></div><div class="wardmore"></div></div>`;
+    document.body.append(ov);
+    const list = ov.querySelector('.creatorlist'), more = ov.querySelector('.wardmore');
+    const draw = () => {
+      const ws = q.split(/\s+/).filter(Boolean);
+      const hit = d.models.filter(m => !ws.length || ws.every(w => (m[0] + ' ' + m[6].join(' ')).toLowerCase().includes(w)));
+      list.innerHTML = hit.slice(0, 300).map(m => `<button class="crow" data-cp="${esc(m[0])}"><b>${esc(m[0].split('/').pop())}</b>
+        <span>${esc(m[0])}</span><span>${esc(m[6].join(', ') || 'no creature uses it')} · ${esc(m[1])}${(m[4] || []).length ? ` · ${m[4].length} skin slot${m[4].length > 1 ? 's' : ''}` : ''}</span></button>`).join('');
+      more.textContent = hit.length > 300 ? `300 of ${hit.length.toLocaleString()} - narrow the search` : `${hit.length.toLocaleString()} models`;
+    };
+    let tq = null;
+    ov.querySelector('[data-cq]').oninput = (ev) => { clearTimeout(tq); tq = setTimeout(() => { q = ev.target.value.trim().toLowerCase(); draw(); }, 150); };
+    const close = () => ov.remove();
+    ov.querySelector('[data-cx]').onclick = close;
+    ov.addEventListener('click', (ev) => { if (ev.target === ov) close(); });
+    list.addEventListener('click', (ev) => { const b = ev.target.closest('[data-cp]'); if (!b) return;
+      const c = newDisplayEntry(nextDisplayId(), b.dataset.cp);
+      close();
+      if (!c) return;
+      openLayer('custom', false);
+      openItem(c); render();
+    });
+    draw();
+    ov.querySelector('[data-cq]').focus();
+  });
+}
 function loadCustTex() {
   if (!custTexLoading) custTexLoading = fetch('data/v2/customise_tex.json', { cache: 'no-store' })
-    .then(r => r.ok ? r.json() : {}).catch(() => ({})).then(d => { custTex = d; });
+    .then(r => r.ok ? r.json() : {}).catch(() => ({})).then(d => { custTex = d.tex || d; custSets = d.sets || {}; });
   return custTexLoading;
+}
+// ---- character displays: the bake is the choice ------------------------------------------------
+// Packs replace character models IN PLACE and ship their own HD bake per display, so nothing repoints the
+// display; what changes is the bake. One card per source's bake (custom_stock 'bakes'), drawn on the
+// model file the model pick ships. Default = curate's: the largest bake that fits that file.
+const _maps2 = {};
+const mapOf = (id) => id ? (_maps2[id] = _maps2[id] || fetch('data/maps/' + encodeURIComponent(id) + '.json').then(r => r.ok ? r.json() : {}).catch(() => ({}))) : Promise.resolve({});
+function bakeDefault(bakes, key) {
+  const fit = bakes.filter(b => b[3].includes(key));
+  return fit.length ? fit.reduce((a, b) => (b[2] > a[2] ? b : a))[0] : null;
+}
+async function bakeCards(e, c) {
+  const sp = await loadCustStock(e.display);
+  if (!sp || !(sp.bakes || []).length || !String(sp.model).startsWith('character/') || cur !== e) return;
+  e.bakes = sp.bakes;
+  const M = assets.find(a => a.tab === 'character' && a.path === sp.model);
+  const key = (choices.mesh[sp.model] || {}).option || (M ? M.current : null);
+  const shipFile = M && M.panes.find(p => p.option === key);
+  const def = bakeDefault(sp.bakes, key), pick = String((c || {}).option || '').startsWith('bake:') ? c.option.slice(5) : null;
+  const smap = await mapOf(sp.map);
+  if (cur !== e) return;
+  const ent = customList.find(x => x.display === e.display) || {};
+  // this display's own textures (hair, extra skin) and attached items travel to every card
+  const base = {};
+  Object.values(sp.tex || {}).forEach(fd => { const v = smap['fdid/' + fd]; if (v) base['fdid/' + fd] = v; });
+  (sp.items || []).forEach(it => [it.m, it.m.replace(/\.m2$/, '00.skin'), it.t].forEach(k => { if (k && smap[k]) base[k] = smap[k]; }));
+  document.querySelectorAll('#panes .pane:not([data-opt="custom"])').forEach(x => x.remove());   // these cards ARE the options
+  const shipLabel = shipFile ? label(shipFile.sources) : 'stock';
+  sp.bakes.forEach(([src, cas, size, fits]) => {
+    // each source as it ships: ITS model file wearing ITS bake (stock = the classic model + stock bake)
+    const file = src === 'stock' ? null : M && M.panes.find(p => p.sources.includes(src));
+    const p = file ? { ...file, display: e.display, tex: sp.tex, mesh: sp.mesh, items: sp.items, scale: sp.scale, camera: sp.camera,
+                       _ovr: { ...base, ['fdid/' + sp.tex['1']]: cas }, _bake: src }
+                   : { ...sp, display: e.display, _bake: 'stock' };
+    // one file of the model ships for every display: a card is choosable when its file is the model pick's
+    const usable = file ? !!shipFile && file.option === shipFile.option && fits.includes(key) : !!shipFile && shipFile.sources.includes('stock');
+    // chosen: the explicit pick, else the default - unless another option (our edit) is the pick
+    const chosen = usable && (pick ? pick === src : !(c && c.option) && src === def);
+    const div = document.createElement('div');
+    div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.bake = src;
+    div.innerHTML = `<iframe src="${paneUrl(p)}" loading="lazy" title="${esc(label([src]))}"></iframe>
+      <div class="info"><div class="h"><b>${esc(label([src]))}</b>${usable && src === def ? '<span class="chip ok" title="What curate ships unless you pick another: the largest bake that fits the model file the model pick ships">default</span>' : ''}${usable ? '' : `<span class="chip warn" title="One file of ${esc(sp.model.split('/').pop())} ships for every display (the model pick: ${esc(shipLabel)}). This card's bake is painted for ${src === 'stock' ? 'the classic model' : esc(label([src])) + '\'s file'}, so it can only ship with that file.">${src === 'stock' ? 'needs the classic model file' : `needs ${esc(label([src]))}'s model file`}</span>`}</div>
+      <div class="stats">${paneStatsLine(file || sp)} · ${mb(size)} bake</div>
+      <div class="stats">model: ${esc(sp.model)}${file ? '' : ' (classic)'}</div>
+      ${outfitBox(sp)}${provBox(file || sp)}
+      <button class="use"${usable ? '' : ' disabled'}>${chosen ? (pick ? 'Chosen' : 'Chosen (default)') : 'Use this'}</button><button class="usecust">Edit</button></div>`;
+    div.querySelector('.use').onclick = () => save('display', String(e.display), e, 'bake:' + src);
+    div.querySelector('.usecust').onclick = () => openCustom_(e.display, true, { pane: p, path: sp.model, cust: { groups: {}, slots: [] }, skins: ['', '', ''],
+      label: label([src]), tex_key: (file || sp).tex_key, char: (file && file.char) || sp.char || ent.char || null });
+    const anchor = $('panes').querySelector('.pane[data-opt="custom"]');
+    if (anchor) anchor.before(div); else $('panes').append(div);
+  });
+  if (typeof fitPanes === 'function') fitPanes();
 }
 function loadCustStock(did) {
   const k = Math.floor(did / 1000);
@@ -1175,6 +1816,9 @@ const casFid = (cas) => 900000000 + parseInt(cas.slice(0, 7), 16) % 99000000;   
 // The customised look of a display: ctx = the display's base facts (char, cgd, slots, skins, tex_key),
 // sel = the edits (geosets / skins / hair_style / facial_hair), base = the pane it builds on.
 // Used by the Customise preview and by the Displays tab's "Our customisation" panel alike.
+const paneStatsLine = (q) => { const t = q.stats || {}, hh = q._h || heightOf(q);
+  return [hh ? hh + ' yd tall' : '', t.version ? 'v' + t.version : '', q.size ? mb(q.size) : '',
+          t.bones !== undefined ? `bones ${t.bones}` : '', t.particles !== undefined ? `particles ${t.particles}` : ''].filter(Boolean).join(' · '); };
 function customLook(ctx, sel, base) {
   const p = { ...base, display: ctx.display };
   if (!ctx.char && String(base.model || '').startsWith('character/')) return { pane: p, ovr: null };   // keep its own geosets
@@ -1196,7 +1840,7 @@ function customLook(ctx, sel, base) {
     const sk = (p.skins || [0, 0, 0]).slice();
     ovr = {};
     sel.skins.forEach((stem, k) => {
-      if (String(stem || '').toLowerCase() === String((ctx.skins || [])[k] || '').toLowerCase()) return;   // unchanged: the pane's own
+      if (!ctx.isNew && String(stem || '').toLowerCase() === String((ctx.skins || [])[k] || '').toLowerCase()) return;   // unchanged: the pane's own
       const hit = tex.find(([n]) => n.toLowerCase() === String(stem).toLowerCase());
       if (hit && ctx.slots.includes(k)) { sk[k] = casFid(hit[1]); ovr['fdid/' + sk[k]] = hit[1]; }
     });
@@ -1204,8 +1848,26 @@ function customLook(ctx, sel, base) {
   }
   return { pane: p, ovr };
 }
+// a character look with an outfit edit: the pane re-baked live (o335Bake) - editor preview and Displays page alike
+async function bakedLook(look, ch, outfit, hs, fh) {
+  const bk = await o335Bake(ch, outfit || {}, hs, fh, look.pane);
+  if (!bk) return null;
+  const p = { ...look.pane, mesh: (look.pane.mesh || new Array(20).fill(1)).slice() };
+  [4, 5, 8, 9, 12, 13, 15, 18].forEach(g => { p.mesh[g] = 1; });     // item geosets back to bare, then the outfit's
+  Object.entries(bk.mesh).forEach(([g, v]) => { p.mesh[+g] = v; });
+  p.items = (p.items || []).filter(it => ![5, 6, 11].includes(it.a)).concat(bk.items);
+  const ovr = { ...(look.ovr || {}), ...bk.ovr };
+  if (p.tex && p.tex['1']) ovr['fdid/' + p.tex['1']] = bk.url;
+  return { pane: p, ovr, failed: bk.failed };
+}
+let editView = null, editViewFor = null;
+const withView = (url) => editView ? url + (url.includes('?') ? '&' : '?') + 'view=' + editView.join(',') : url;
 function openCustom(c) {
+  if (editViewFor !== c.display) editView = null;   // a different display starts on its default framing
+  editViewFor = c.display;
   cur = c;
+  { const bm = (c.base || {}).model || c.path || '';
+    $('riderbox').hidden = !mountSet.has(bm) || isFusedRider(bm) || !Object.keys(bodies).some(k => bodies[k].rider); }
   const base = c.base || meshPaneOf(c.path);
   if (!base && !catalog) {                           // load the catalogue once, then draw the preview
     ensureCatalog();
@@ -1214,50 +1876,99 @@ function openCustom(c) {
   const saved = choices.custom[c.display] || {};
   $('title').textContent = `Display ${c.display}`;
   $('subtitle').textContent = [c.names.join(', '), c.path, base && base.display && base.display !== c.display ? `preview textures from display ${base.display}` : ''].filter(Boolean).join(' · ');
-  const groupSel = (g, val) => `<label>Group ${g}<select data-g="${g}"><option value="0"${val === 0 ? ' selected' : ''}>0 (default)</option>` +
-    (c.groups[g] || []).filter(v => v).map(v => `<option value="${v}"${v === val ? ' selected' : ''}>${g * 100 + v}</option>`).join('') + '</select></label>';
+  const groupSel = (g, val) => { const hv = hiddenVariant(c.groups[g] || []);
+    return `<label><span>Group ${g}<span class="glab" data-glab="${g}"></span></span><select data-g="${g}"><option value="0"${val === 0 ? ' selected' : ''}>unset (all variants)</option>` +
+      (hv ? `<option value="${hv}"${val === hv ? ' selected' : ''}>none (hidden)</option>` : '') +
+      (c.groups[g] || []).filter(v => v).map(v => `<option value="${v}"${v === val ? ' selected' : ''}>${g * 100 + v}</option>`).join('') + '</select></label>'; };
   let ctl = '';
-  if (!c.char && String(c.path || '').startsWith('character/')) {
+  const models = c.isNew ? [{ kind: 'pane', pane: base, label: `${c.path.split('/').pop()} · ${c.via || 'stock'}` }] : relevantModels(c.display, c);
+  if (c.isNew) {
+    // a created display: its skins start on the model's most used set (an empty slot = a white model)
+    if (!c.skins && custSets) c.skins = ((((custSets || {})[c.tex_key] || [])[0] || [])[0] || ['', '', '']).slice();
+    ctl += `<label>Name<input id="cs-label" placeholder="what this display is for" value="${esc(saved.label || '')}"></label>
+      <div class="note">New display ${c.display} (the highest display id + 1) on ${esc(c.path)}, ${c.clone_of ? 'a clone of' : 'copied from'} display ${base.src_display || '?'}'s row${c.from_names.length ? ` (${esc(c.from_names.join(', '))})` : ''}. It ships with the curated build; point a creature at it with its id.</div>`;
+  }
+  const mi = c.retail ? models.findIndex(m => m.kind === 'retail' && m.ti === c.retail.ti)
+    : Math.max(0, models.findIndex(m => m.kind === 'pane' && base && m.pane.option === base.option && m.pane.model === base.model));
+  ctl += `<label>Model<select id="cs-model">${models.map((m, i) => `<option value="${i}"${i === mi ? ' selected' : ''}>${esc(m.label)}</option>`).join('')}</select></label>`;
+  if (c.retail) {
+    const t = namedFor(c.retail.model).targets[c.retail.ti], sets = t[3] || [], groupsR = t[5] || {};
+    const skinName = (fd) => fd ? String(((retailIdx.names || {})[String(fd)]) || fd).split('/').pop().replace(/\.blp$/, '') : '(none)';
+    const sv = saved.base && saved.base.option === t[0] ? saved.base : null;
+    const pre = sets[c.retail.si] || sets[0] || [[0, 0, 0], 0, [0, 0, 0, 0, 0, 0, 0, 0]];
+    const curSk = (sv && sv.skins) || pre[0], curG = (sv && sv.geosets) || pre[2] || [0, 0, 0, 0, 0, 0, 0, 0];
+    c._rsk = curSk.slice(); c._rgeo = curG.slice();
+    ctl += `<label>Start from<select id="cs-rset">${sets.map((x, i) => `<option value="${i}"${!sv && i === c.retail.si ? ' selected' : ''}>${esc(x[0].filter(Boolean).map(skinName).join(' + '))} · ${x[1] ? `${x[1]} retail display${x[1] === 1 ? '' : 's'}` : 'in its folder (no retail display uses it)'}</option>`).join('')}${sv ? '<option value="-1" selected>(this edit)</option>' : ''}</select></label>`;
+    ctl += '<h3>Skins (each slot: what retail uses there on this model)</h3>' + slotChoices(sets.map(x => [x[0], x[1]])).map((vals, k) =>
+      vals.length ? `<label>Skin ${k + 1}<select data-rsk="${k}">${vals.map(([v, n]) => `<option value="${v}"${String(v) === String(curSk[k] || 0) ? ' selected' : ''}>${esc(skinName(v))} · ${n}</option>`).join('')}</select></label>` : '').join('');
+    ctl += '<h3>Geosets (retail\'s CreatureDisplayInfoGeosetData values on this model)</h3>' + Object.entries(groupsR).filter(([g]) => +g <= 8).map(([g, vals]) =>
+      `<label><span>Group ${g}<span class="glab" data-glab="${g}"></span></span><select data-rg="${g}"><option value="0"${!curG[g - 1] ? ' selected' : ''}>unset (all variants)</option>${(hv => hv ? `<option value="${hv}"${+curG[g - 1] === hv ? ' selected' : ''}>none (hidden)</option>` : '')(hiddenVariant(vals))}${vals.map(v => `<option value="${v}"${+curG[g - 1] === v ? ' selected' : ''}>${g * 100 + v}</option>`).join('')}</select></label>`).join('') +
+      (Object.keys(groupsR).some(g => +g > 8) ? '<div class="note">Groups past 8 cannot be set in 3.3.5 (8 nibbles).</div>' : '');
+    ctl += `<div class="note">Ships converted the WarcraftXL way as a new model for this display only; its skins go beside it as retail_&lt;fdid&gt;.blp.</div>`;
+  } else if (!c.char && String(c.path || '').startsWith('character/')) {
     ctl += '<div class="note">This option is a character model with no bake row to edit here (hair and outfit need its CreatureDisplayInfoExtra).</div>';
   } else if (c.char) {
     const hs = saved.hair_style ?? c.char.hair_style, fh = saved.facial_hair ?? c.char.facial_hair;
     ctl += `<h3>Look (no new bake needed)</h3>
       <label>Hair style<select id="cs-hair">${c.char.hair_options.map(v => `<option${v === hs ? ' selected' : ''}>${v}</option>`).join('')}</select></label>
       <label>Facial hair<select id="cs-facial">${c.char.facial_options.map(v => `<option${v === fh ? ' selected' : ''}>${v}</option>`).join('')}</select></label>
-      <h3>Outfit (F-198 wardrobe: new bake)</h3>` +
-      OUTFIT_SLOTS.map(sl => `<label>${sl}<input data-slot="${sl}" inputmode="numeric" placeholder="retail item id" value="${esc((saved.outfit || {})[sl] || '')}"></label>`).join('');
+      <h3>Outfit (new bake: 3.3.5 item displays, or r:&lt;retail item id&gt;)</h3>` +
+      OUTFIT_SLOTS.map(sl => `<label>${sl}<span class="ofpick"><input data-slot="${sl}" placeholder="item display id" value="${esc(String((saved.outfit || c.char.outfit || {})[sl] || ''))}"><button type="button" data-browse="${sl}">browse</button></span></label>`).join('') +
+      '<div class="note" data-ofnote>Starts as this display\'s bake row. Changing a slot redraws only the parts of the bake that item covers; retail items (r:id) are drawn from wago.tools (retail helmets and shoulders are not drawn yet).</div>';
   } else {
     const gs = saved.geosets || c.cgd;
     ctl += '<h3>Geosets (CreatureDisplayInfo.creature_geoset_data)</h3>' + [1, 2, 3, 4, 5, 6, 7, 8].filter(g => c.groups[g]).map(g => groupSel(g, gs[g - 1])).join('');
     if ((c.slots || []).length) {
-      const opts = (custTex || {})[c.tex_key || c.path] || [];
-      const cur = saved.skins || c.skins || ['', '', ''];
-      ctl += '<h3>Skins (texture_variation, any texture in the model\'s folder)</h3>' + c.slots.map(k => {
-        const v = String(cur[k] || ''), has = opts.some(([n]) => n.toLowerCase() === v.toLowerCase());
-        return `<div class="skinrow"><span>Skin ${k + 1}</span><select data-skin="${k}">
-          ${has || !v ? '' : `<option value="${esc(v)}" selected>${esc(v)} (not in this folder)</option>`}
-          ${opts.map(([n]) => `<option value="${esc(n)}"${n.toLowerCase() === v.toLowerCase() ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select>
-          <canvas data-thumb="${k}"></canvas></div>
-          <div class="was">now: ${esc(String((c.skins || [])[k] || '(blank)'))}</div>`;
-      }).join('') + (custTex ? '' : '<div class="was">loading the folder\'s textures…</div>');
+      // only the skin SETS used with this model by its own pack (else stock): no incompatible mixes
+      const cur = (saved.base && saved.base.option === (base || {}).option ? saved.skins : null) || c.skins || ['', '', ''];
+      const sets = ((custSets || {})[c.tex_key || c.path] || []).slice();
+      const same = (a, b) => [0, 1, 2].every(k => String(a[k] || '').toLowerCase() === String(b[k] || '').toLowerCase());
+      if (!sets.some(x => same(x[0], cur))) sets.unshift([cur, 0]);
+      const vals = slotChoices(sets);
+      ctl += `<label>Start from<select id="cs-set"><option value="-1">(as now)</option>${sets.map((x, i) => `<option value="${i}">${esc(x[0].filter(Boolean).join(' + ') || '(none)')}${x[1] ? ` · ${x[1]} display${x[1] === 1 ? '' : 's'}` : ' · current'}</option>`).join('')}</select></label>` +
+        '<h3>Skins (each slot: what this model\'s displays use there)</h3>' +
+        c.slots.map(k => `<label>Skin ${k + 1}<select data-psk="${k}">${(vals[k].some(([v]) => String(v || '').toLowerCase() === String(cur[k] || '').toLowerCase()) ? [] : [[cur[k] || '', 0]]).concat(vals[k])
+          .map(([v, n]) => `<option value="${esc(v || '')}"${String(v || '').toLowerCase() === String(cur[k] || '').toLowerCase() ? ' selected' : ''}>${esc(v || '(none)')}${n ? ' · ' + n : ''}</option>`).join('')}</select></label>`).join('') +
+        `<div class="thumbs">${c.slots.map(k => `<canvas data-thumb="${k}" title="skin ${k + 1}"></canvas>`).join('')}</div>` +
+        (custTex ? '' : '<div class="note">loading the model\'s textures…</div>');
+      c._sets = sets;
     }
   }
-  ctl += `<div class="row"><button id="cs-save">Save edit</button><button id="cs-clear">Clear</button></div>`;
+  ctl += groupBox(c.display) + `<div class="row"><button id="cs-save">${c.isNew ? 'Save' : 'Save edit'}</button>${c.retail ? '' : `<button id="cs-saveas" title="Keep display ${c.display} as it is and save this look on a new display id (the highest + 1): a clone with your changes">Save as new display</button>`}<button id="cs-clear">${c.isNew ? 'Delete' : 'Clear'}</button></div>`;
   $('panes').innerHTML = `
     <div class="pane cs-ref"><iframe id="cs-stockf" loading="lazy" title="Stock"></iframe><div class="info">
       <div class="h"><b>Stock display ${c.display}</b><span class="chip">the original · reference</span></div>
       <div class="stats" id="cs-stockinfo">loading…</div></div></div>
     <div class="pane"><iframe id="cs-pf" title="Edited"></iframe><div class="info">
       <div class="h"><b>Edited</b><span class="chip ok">our option</span>${c.via ? `<span class="chip">on ${esc(c.via)}</span>` : ''}</div>
-      <div class="stats">${esc(c.path)}${base && base.display && base.display !== c.display ? ` · textures previewed from display ${base.display}` : ''}</div></div></div>
+      ${c.retail ? '<div class="stats" data-live>loading…</div>' : base ? `<div class="stats">${paneStatsLine(base)}</div>` : ''}
+      <div class="stats">model: ${esc(c.path)}</div>
+      ${base && base.display && base.display !== c.display ? `<div class="stats">textures previewed from display ${base.display}</div>` : ''}
+      ${!c.retail && base ? outfitBox(base) + provBox(base) : ''}</div></div>
     <div class="pane custctl"><div class="info"><div class="h"><b>Edit display ${c.display}</b></div><div class="ctl">${ctl}</div></div></div>`;
   loadCustStock(c.display).then(sp => {
     if (cur !== c) return;
-    if (sp) { $('cs-stockf').src = paneUrl(sp); $('cs-stockinfo').textContent = `${sp.model}${(sp.skins || []).some(Boolean) ? '' : ''}`; }
-    else { $('cs-stockf').replaceWith(Object.assign(document.createElement('div'), { className: 'empty', textContent: 'Not a stock display: no original to compare.' })); $('cs-stockinfo').textContent = 'added by a pack or by us'; }
+    if (sp && !$('cs-stockinfo')) return;            // already filled by an earlier load of this card
+    if (sp) {
+      $('cs-stockf').src = paneUrl(sp);
+      $('cs-stockinfo').outerHTML = `<div class="stats">${paneStatsLine(sp)}</div><div class="stats">model: ${esc(sp.model)}</div>`;
+      const info0 = $('cs-stockf').closest('.pane').querySelector(':scope > .info');
+      if (info0 && sp.outfit && !info0.querySelector('[data-sec="Outfit"]')) {
+        const d = document.createElement('details'); d.className = 'dsec'; d.dataset.sec = 'Outfit'; d.open = secOpen.Outfit ?? false;
+        d.innerHTML = '<summary>Outfit</summary>' + outfitBox(sp); const ms_ = info0.querySelector('[data-sec="Model"]'); if (ms_) ms_.after(d); else info0.append(d);
+      }
+      const info = $('cs-stockf').closest('.pane').querySelector(':scope > .info');
+      if (info && sp.prov && !info.querySelector('[data-sec="Sources"]')) {
+        info.insertAdjacentHTML('beforeend', provBox(sp));
+        const d = info.lastElementChild; d.classList.add('dsec'); d.dataset.sec = 'Sources';
+      }
+    }
+    else { $('cs-stockf').replaceWith(Object.assign(document.createElement('div'), { className: 'empty', textContent: c.isNew ? 'A new display: nothing to compare.' : 'Not a stock display: no original to compare.' })); $('cs-stockinfo').textContent = c.isNew ? 'created here' : 'added by a pack or by us'; }
   });
   if (!custTex && (c.slots || []).length) loadCustTex().then(() => { if (cur === c) openCustom(c); });
-  const skinPick = () => [...document.querySelectorAll('#panes select[data-skin]')].reduce((a, sl) => (a[+sl.dataset.skin] = sl.value, a), (saved.skins || c.skins || ['', '', '']).slice());
+  const skinPick = () => [...document.querySelectorAll('#panes select[data-psk]')].reduce((a, sl) => (a[+sl.dataset.psk] = sl.value, a), (saved.skins || c.skins || ['', '', '']).slice());
+  const rPick = () => ({ skins: [...document.querySelectorAll('#panes select[data-rsk]')].reduce((a, sl) => (a[+sl.dataset.rsk] = +sl.value, a), (c._rsk || [0, 0, 0]).slice()),
+                         geosets: [...document.querySelectorAll('#panes select[data-rg]')].reduce((a, sl) => (a[+sl.dataset.rg - 1] = +sl.value, a), (c._rgeo || [0, 0, 0, 0, 0, 0, 0, 0]).slice()) });
   const casOf = (stem) => { const hit = ((custTex || {})[c.tex_key || c.path] || []).find(([n]) => n.toLowerCase() === String(stem).toLowerCase()); return hit ? hit[1] : null; };
   const thumbs = () => document.querySelectorAll('#panes canvas[data-thumb]').forEach(async cv => {
     const cas = casOf(skinPick()[+cv.dataset.thumb]);
@@ -1272,31 +1983,132 @@ function openCustom(c) {
     ? { hair_style: +$('cs-hair').value, facial_hair: +$('cs-facial').value }
     : { geosets: [...document.querySelectorAll('#panes select[data-g]')].reduce((a, s) => (a[+s.dataset.g - 1] = +s.value, a), c.cgd.slice()),
         skins: skinPick() };
+  const retailUrl = () => {
+    const t = namedFor(c.retail.model).targets[c.retail.ti], rp = rPick();
+    const sp = (assets.find(a => a.tab === 'display' && a.display === c.display) || {}).panes || [];
+    const prm = new URLSearchParams({ src: 'v2', model: t[0], retail: t[1], build: retailIdx.build, skins: rp.skins.join(','),
+      scale: (sp[0] || {}).scale || 1, pv: PANE_V });
+    if (rp.geosets.some(Boolean)) { prm.set('mesh', [0, ...rp.geosets].join(',')); prm.set('g0all', '1'); }   // none = every variant at once
+    return 'pane.html?' + prm;
+  };
   const preview = () => {
+    if (c.retail) { $('cs-pf').src = withView(retailUrl()); return; }
     if (!base) { const f = $('cs-pf'); if (f) f.replaceWith(Object.assign(document.createElement('div'), { className: 'empty', textContent: 'No preview pane for this mesh.' })); return; }
     const look = customLook(c, selNow(), base);
-    $('cs-pf').src = paneUrl(look.pane, look.ovr ? { ovr: look.ovr } : {});
+    if (c.char && c.char.cs) {
+      const outfit = outfitNow();
+      const same = OUTFIT_SLOTS.every(sl => String(outfit[sl] || '') === String((c.char.outfit || {})[sl] || ''));
+      if (!same) {
+        const tok = (c._bakeTok = (c._bakeTok || 0) + 1);
+        bakedLook(look, c.char, outfit, selNow().hair_style, selNow().facial_hair).then(bl => {
+          if (!bl || tok !== c._bakeTok || cur !== c) return;
+          $('cs-pf').src = withView(paneUrl(bl.pane, { ovr: bl.ovr }));
+          const nt = document.querySelector('#panes [data-ofnote]');
+          if (nt) nt.innerHTML = bl.failed && bl.failed.length
+            ? `<span class="chip bad">retail textures did not load: ${esc([...new Set(bl.failed)].join(', '))}</span> wago.tools did not answer; those regions show bare skin. Change any field to retry.`
+            : 'Starts as this display\'s bake row. Changing a slot redraws only the parts of the bake that item covers; retail items (r:id) are drawn from wago.tools (retail helmets and shoulders are not drawn yet).';
+        });
+        return;
+      }
+    }
+    $('cs-pf').src = withView(paneUrl(look.pane, look.ovr ? { ovr: look.ovr } : {}));
     thumbs();
   };
+  function outfitNow() {
+    const o = {};
+    document.querySelectorAll('#panes input[data-slot]').forEach(i => { const v = i.value.trim(); if (v) o[i.dataset.slot] = /^\d+$/.test(v) ? +v : v; });
+    return o;
+  }
+  $('panes').querySelectorAll('input[data-slot]').forEach(i => i.onchange = () => preview());
   $('panes').querySelectorAll('select').forEach(s => s.onchange = preview);
+  const rs = $('cs-rset');
+  if (rs && c.retail) rs.onchange = () => {
+    const x = (namedFor(c.retail.model).targets[c.retail.ti][3] || [])[+rs.value]; if (!x) return;
+    document.querySelectorAll('#panes select[data-rsk]').forEach(sl => { sl.value = String(x[0][+sl.dataset.rsk] || 0); });
+    document.querySelectorAll('#panes select[data-rg]').forEach(sl => { sl.value = String(x[2][+sl.dataset.rg - 1] || 0); });
+    preview();
+  };
+  const ps = $('cs-set');
+  if (ps && !c.retail) ps.onchange = () => {
+    const x = (c._sets || [])[+ps.value]; if (!x) return;
+    document.querySelectorAll('#panes select[data-psk]').forEach(sl => { const v = String(x[0][+sl.dataset.psk] || ''); if ([...sl.options].some(o => o.value === v)) sl.value = v; });
+    preview();
+  };
+  // a different model = a different editor (its own groups, slots, skin sets)
+  $('cs-model').onchange = (ev) => {
+    const m = models[+ev.target.value];
+    if (m.kind === 'retail') return openCustom_(c.display, false, { retail: { model: m.model, ti: m.ti, si: 0 } });
+    const ent = customList.find(x => x.display === c.display) || {};
+    const v = viaOf(m.pane, label(m.pane.sources)) || { pane: m.pane, path: m.pane.model, label: label(m.pane.sources), skins: m.pane.skin_names || ent.skins,
+      cust: { groups: m.pane.model === ent.path ? ent.groups || {} : {}, slots: m.pane.model === ent.path ? ent.slots || [] : [] }, tex_key: m.pane.tex_key || ent.tex_key };
+    openCustom_(c.display, false, v);
+  };
   $('cs-save').onclick = async () => {
+    if (c.retail) {
+      const t = namedFor(c.retail.model).targets[c.retail.ti], pk = rPick();
+      const rp = { at: new Date().toISOString(), path: t[0], geosets: pk.geosets,
+        base: { option: t[0], sources: ['retail'], model: t[0], fdid: t[1], skins: pk.skins, geosets: pk.geosets, remaster_of: c.retail.model } };
+      if (await saveCustom(c.display, rp)) {
+        await save('display', String(c.display), displayEntry(c.display), 'custom', {}, false);
+        openDisplay(c.display);
+      }
+      return;
+    }
+    const pick = buildPick(false);
+    if (c.isNew) {                                       // ships regardless; picked too, so the Displays page shows it chosen
+      if (await saveCustom(c.display, pick)) {
+        addNewDisplays();
+        await save('display', String(c.display), displayEntry(c.display), 'custom', {}, false);
+        openDisplay(c.display);
+      }
+      return;
+    }
+    if (await saveCustom(c.display, pick)) {
+      const de = displayEntry(c.display);
+      await save('display', String(c.display), de, 'custom', {}, false);   // the edit becomes the chosen option
+      openDisplay(c.display);
+    }
+  };
+  // the edit as a pick; asNew = a clone on a new display id, its row copied from this display's
+  function buildPick(asNew) {
     const pick = { at: new Date().toISOString(), path: c.path,
       // the panel this customisation builds on: it ships only when the display's pick is "custom"
       base: base ? { option: base.option, sources: base.sources, model: base.model, tex_key: c.tex_key || null,
-                     skins: c.skins || null, cgd: c.cgd || null, slots: c.slots || [] } : null };
+                     skins: c.skins || null, cgd: c.cgd || null, slots: c.slots || [],
+                     ...(c.isNew ? { display: base.src_display || 0 } : asNew ? { display: c.display } : {}) } : null };
+    if (c.isNew || asNew) {
+      pick.new = true; pick.label = ($('cs-label') || {}).value || (asNew ? `copy of display ${c.display}` : '');
+      if (asNew) pick.clone_of = c.display;
+    }
+    // what the editor needs to reopen THIS edit as it was made (its model option, bake, skins): every edit
+    { const pane = { ...(base || {}) };
+      pick.entry = { path: c.path, groups: c.groups || {}, slots: c.slots || [], tex_key: c.tex_key || null, skins: c.skins || null,
+                     cgd: c.cgd || [0, 0, 0, 0, 0, 0, 0, 0], char: c.char || null, via: c.via || '', from_names: c.isNew ? c.from_names : c.names,
+                     base: { ...pane, src_display: c.isNew ? base.src_display : c.display } }; }
+    if (base && base._bake) pick.bake = base._bake;          // curate ships the bake the edit started from
     if (c.char) {
       pick.hair_style = +$('cs-hair').value; pick.facial_hair = +$('cs-facial').value;
-      const outfit = {};
-      document.querySelectorAll('#panes input[data-slot]').forEach(i => { if (i.value.trim()) outfit[i.dataset.slot] = +i.value.trim(); });
-      if (Object.keys(outfit).length) pick.outfit = outfit;
+      const outfit = outfitNow();
+      // only a CHANGED outfit is an edit (the fields start as the display's own bake row)
+      if (OUTFIT_SLOTS.some(sl => String(outfit[sl] || '') !== String(((c.char || {}).outfit || {})[sl] || ''))) pick.outfit = outfit;
     } else {
       pick.geosets = selNow().geosets;
       const sk = skinPick();
-      if (sk.some((v, k) => String(v || '').toLowerCase() !== String((c.skins || [])[k] || '').toLowerCase())) pick.skins = sk;
+      if (c.isNew || asNew || sk.some((v, k) => String(v || '').toLowerCase() !== String((c.skins || [])[k] || '').toLowerCase())) pick.skins = sk;
     }
-    if (await saveCustom(c.display, pick)) openDisplay(c.display);   // review + activate it on the display page
+    return pick;
+  }
+  if ($('cs-saveas')) $('cs-saveas').onclick = async () => {
+    await loadCreator();
+    const nid = nextDisplayId(), pick = buildPick(true);
+    if (await saveCustom(nid, pick)) {
+      addNewDisplays();
+      await save('display', String(nid), displayEntry(nid), 'custom', {}, false);
+      await openDisplay(nid);
+      $('save').className = 'ok'; $('save').textContent = `saved as new display ${nid} (display ${c.display} unchanged)`;
+    }
   };
-  $('cs-clear').onclick = () => saveCustom(c.display, null);
+  $('cs-clear').onclick = () => saveCustom(c.display, null).then(ok => { if (ok && c.isNew) { addNewDisplays(); render(); openItem(view[0]); } });
   preview();
   fitPanes();
   render();
@@ -1310,7 +2122,7 @@ async function saveCustom(did, pick) {
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
                      display: { ...(latest.display || {}), ...(choices.display || {}) },
                      wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
-    if (pick) merged.custom[did] = pick; else delete merged.custom[did];
+    [did, ...groupTargets(did)].forEach(d => { if (pick) merged.custom[String(d)] = { ...pick, ...(d !== +did ? { group_of: +did } : {}) }; else delete merged.custom[String(d)]; });
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
     const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
@@ -1324,7 +2136,8 @@ async function saveCustom(did, pick) {
 
 function openItem(x) {
   if (!x) { $('panes').innerHTML = '<div class="empty">Nothing here.</div>'; return; }
-  if (Array.isArray(x)) openTexture(x); else if (x.display !== undefined && x.groups) openCustom(x); else openAsset(x);
+  if (Array.isArray(x)) openTexture(x); else if (x.display !== undefined && x.groups) openCustom(x);
+  else if (x.standin && !x.panes.length && !x.looked) openDisplay(x.display, false); else openAsset(x);
 }
 
 // ---- events ---------------------------------------------------------------------------------------------
@@ -1339,29 +2152,83 @@ const LAYERS = [
   ['texture', 'Textures', 'Layer 2: which texture ships for each path'],
   ['custom', 'Display editor', 'Edit one display: geosets, skins, hair, outfit'],
 ];
+// home tiles: undecided / review / completed per layer (the same filters the layer's list uses)
 function layerCounts(t) {
-  if (t === 'texture') return [texIndex.filter(x => x[4].length).length, 'need a decision'];
-  if (t === 'custom') return [Object.keys(choices.custom || {}).length, `customised of ${customList.length.toLocaleString()}`];
+  if (t === 'custom') return { done: Object.keys(choices.custom || {}).length, of: customList.length };
   const keep = [tab, filter, search];
-  tab = t; filter = 'todo'; search = '';
-  const n = assets.filter(assetMatches).length;
+  tab = t; search = '';
+  let out;
+  if (t === 'texture') {
+    filter = 'decide'; const und = texIndex.filter(texMatches).length;
+    filter = 'review'; const rev = texIndex.filter(texMatches).length;
+    out = { und, rev, done: Object.keys(choices.texture || {}).length - rev };
+  } else {
+    filter = 'todo'; const und = assets.filter(assetMatches).length;
+    filter = 'review'; const rev = assets.filter(assetMatches).length;
+    const inTab = assets.filter(e => e.tab === t);
+    out = { und, rev, done: inTab.filter(e => pickOf(e) && !reviewReason(kindOf(e), keyOf(e), e)).length };
+  }
   [tab, filter, search] = keep;
-  return [n, 'undecided'];
+  return out;
 }
 function showHome(push = true) {
-  $('tiles').innerHTML = LAYERS.map(([k, name, d]) => { const [n, what] = layerCounts(k);
-    return `<button class="tile" data-layer="${k}"><b>${name}</b><span class="n">${n.toLocaleString()}</span><span class="d">${what} · ${d}</span></button>`; }).join('');
+  $('tiles').innerHTML = LAYERS.map(([k, name, d]) => { const c = layerCounts(k), f = (n) => n.toLocaleString();
+    const nums = c.of !== undefined
+      ? `<span class="nums"><span><b>${f(c.done)}</b> edited</span><span>of ${f(c.of)}</span></span>`
+      : `<span class="nums"><span class="u"><b>${f(c.und)}</b> undecided</span><span class="r"><b>${f(c.rev)}</b> review</span><span class="c"><b>${f(c.done)}</b> completed</span></span>`;
+    return `<button class="tile" data-layer="${k}"><b>${name}</b>${nums}<span class="d">${d}</span></button>`; }).join('');
   document.body.classList.add('home');
   $('home').hidden = false;
   if (push) history.pushState({ home: 1 }, '', location.pathname);
 }
+// each skin slot's choices = the values the model's own sets use in that slot (with display counts):
+// slots mix freely (body + armour of ONE model), textures of another model never appear
+// a group's "none": the lowest variant number the mesh does NOT have. 3.3.5 draws nothing for a group
+// whose geoset data names an absent variant (proven: patch-hd-everything's wendigo2 801 -> 303 hid the brows)
+function hiddenVariant(vals) {
+  for (let v = 1; v < 16; v++) if (!vals.includes(v)) return v;
+  return 0;
+}
+function slotChoices(sets) {
+  return [0, 1, 2].map(k => {
+    const m = new Map();
+    let empty = 0;
+    sets.forEach(([sk, n]) => { const v = sk[k]; if (v) m.set(v, (m.get(v) || 0) + (n || 0)); else empty += (n || 0); });
+    const out = [...m.entries()].sort((x, y) => y[1] - x[1]);
+    // a slot some of the model's own looks leave empty offers "(none)" too (skin 3 on most dragonspawn2)
+    return out.length && empty ? [[0, empty], ...out] : out;
+  });
+}
+function stockModelOf(did) {
+  const d = assets.find(a => a.tab === 'display' && a.display === +did);
+  const ent = customList.find(x => x.display === +did) || {};
+  return (d && ((d.panes[0] || {}).model || d.named_of)) || ent.path || '';
+}
+// every model this display can wear: its Displays options (stock, packs, community remasters)
+// and the retail remasters found by name for its stock model
+function relevantModels(did, cur) {
+  const d = assets.find(a => a.tab === 'display' && a.display === +did);
+  const out = [];
+  (d ? d.panes : []).forEach(p => out.push({ kind: 'pane', pane: p, label: `${p.model.split('/').pop()} · ${label(p.sources)}${p.remaster ? ' · community remaster' : ''}` }));
+  if (cur && cur.base && !out.some(x => x.pane.option === cur.base.option && x.pane.model === cur.base.model))
+    out.unshift({ kind: 'pane', pane: cur.base, label: `${String(cur.base.model).split('/').pop()} · ${label(cur.base.sources || [])}` });
+  const sm = stockModelOf(did), nm = namedFor(sm);
+  if (nm) nm.targets.forEach((t, ti) => out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (by name) · ${t[2]} retail displays` }));
+  return out;
+}
+// look groups (deploy: same stock look AND same options): one decision for every member
+const groupOf = (did) => { const d = assets.find(a => a.tab === 'display' && a.display === +did); return d && d.look_group || null; };
+let groupApply = true;                                   // the "apply to all same-look displays" box
+const groupTargets = (did) => groupApply && groupOf(did) ? groupOf(did).filter(x => x !== +did) : [];
 const viaOf = (p, lbl) => p && p.cust ? { pane: p, path: p.model, cust: p.cust, skins: p.skin_names, label: lbl, tex_key: p.tex_key, char: p.char || null } : null;
 // the Displays-tab option that ships for a display: its explicit pick, else its model's pick
 function shippingVia(did) {
   const d = assets.find(a => a.tab === 'display' && a.display === +did);
   if (!d || !d.panes.length) return null;
-  const pk = choices.display[String(did)] || viaModel(d);
+  let pk = choices.display[String(did)] || viaModel(d);
   if (!pk) return null;
+  // the edit is the pick: the option it was built on (edits saved before snapshots existed)
+  if (pk.option === 'custom') { const b = (choices.custom[String(did)] || {}).base; if (!b) return null; pk = { option: b.option, sources: b.sources }; }
   const p = d.panes.find(x => x.option === pk.option && (!pk.sources || pk.sources.some(z => x.sources.includes(z))));
   return p && !p.sources.includes('stock') ? viaOf(p, label(p.sources)) : null;
 }
@@ -1371,7 +2238,7 @@ function displayEntry(did) {
   let d = assets.find(a => a.tab === 'display' && a.display === +did);
   if (!d) {
     const cu = customList.find(x => x.display === +did) || {};
-    d = { id: `display:${+did}`, tab: 'display', display: +did, path: `display:${+did}`, names: cu.names || [], members: [],
+    d = { id: `display:${+did}`, tab: 'display', display: +did, path: `display:${+did}`, names: cu.names || [], kw: cu.kw || '', members: [],
           displays: 1, current: cu.path || null, panes: [], compare: [], standin: true };
     assets.push(d);
   }
@@ -1380,19 +2247,40 @@ function displayEntry(did) {
 const closeDrawer = () => $('side').classList.remove('open');      // phones: a jump lands on the item, not the list
 async function openDisplay(did, push = true) {
   const d = displayEntry(did);
-  if (d.standin && !d.panes.length) {
+  if (d.standin && !d.panes.length && !d.looked) {
     const sp = await loadCustStock(+did);
     if (sp) d.panes = [{ ...sp, option: sp.model, sources: ['stock'] }];
+    d.looked = true;                                 // a created display has no stock card: never look again (openItem loop)
   }
   openLayer('display', false);
   if (push) history.pushState({ layer: 'display', display: +did }, '', `${location.pathname}?layer=display&display=${+did}`);
   openItem(d); render(); closeDrawer();
 }
 function openCustom_(did, push = true, via = null) {
+  const saved_ = choices.custom[String(+did)];
+  if (!via && saved_ && saved_.base && (saved_.base.sources || []).includes('retail')) {
+    const sm = stockModelOf(+did), nm = namedFor(sm);
+    if (nm) {
+      const ti = Math.max(0, nm.targets.findIndex(t => t[0] === saved_.base.option));
+      const si = Math.max(0, (nm.targets[ti][3] || []).findIndex(x => x[0].join() === (saved_.base.skins || []).join()));
+      via = { retail: { model: sm, ti, si } };
+    }
+  }
   if (!via) via = shippingVia(did);
   openLayer('custom', false);
   let c = customList.find(x => x.display === +did);
-  if (via && String(via.path).startsWith('character/')) {
+  if (!via && saved_ && saved_.entry && !saved_.new && !(saved_.base && (saved_.base.sources || []).includes('retail'))) {
+    // an edit reopens on what it was made from (its own snapshot), not on the display's stock model
+    const x = saved_.entry;
+    c = { ...(c || { display: +did, names: [] }), path: x.path, groups: x.groups || {}, slots: x.slots || [], skins: x.skins || ['', '', ''],
+          cgd: x.cgd || [0, 0, 0, 0, 0, 0, 0, 0], char: x.char || null, tex_key: x.tex_key, via: x.via, base: { ...x.base, display: +did } };
+    if (!c.char) delete c.char;
+  }
+  if (via && via.retail) {
+    // a retail remaster by name: the model is retail's, the skins are retail's sets for it
+    c = { ...(c || { display: +did, names: [] }), retail: via.retail, groups: {}, slots: [], char: null,
+          path: namedFor(via.retail.model).targets[via.retail.ti][0], base: null, via: 'retail (by name)' };
+  } else if (via && String(via.path).startsWith('character/')) {
     // a character option (patch-hd-creatures-mounts' humanfemale for display 213): its OWN bake row's
     // race / sex hair choices, drawn on its pane - never the creature model's geoset data
     c = { ...(c || { display: +did, names: [] }), path: via.path, char: via.char || null, groups: {}, slots: [],
@@ -1435,7 +2323,7 @@ $('tabs').onclick = (ev) => {
   render(); openItem(view[0]);
 };
 $('filters').onclick = (ev) => {
-  const b = ev.target.closest('button'); if (!b) return;
+  const b = ev.target.closest('button'); if (!b || !b.dataset.f) return;
   filter = b.dataset.f; render(); openItem(view[0]);
 };
 $('search').oninput = (ev) => { search = ev.target.value.trim().toLowerCase(); render(); };
@@ -1444,9 +2332,15 @@ $('rider').onchange = (ev) => { riderOn = ev.target.checked; if (cur && !Array.i
 $('ridercode').onchange = (ev) => { riderCode = ev.target.value; if (riderOn && cur && !Array.isArray(cur)) openItem(cur); };
 $('list').onclick = (ev) => {
   const q = ev.target.closest('.q'); if (!q) return;
-  openItem(q.dataset.p !== undefined ? texIndex.find(t => t[0] === q.dataset.p)
-    : q.dataset.d !== undefined ? customList.find(c => String(c.display) === q.dataset.d)
-    : pool().find(e => e.id === q.dataset.id));
+  if (ev.target.closest('[data-star]')) {                // the shortlist star: toggle, don't open
+    const e = pool().find(x => x.id === q.dataset.id);
+    if (e) saveWish(e, !(choices.wish || {})[e.path]);
+    return;
+  }
+  if (q.dataset.d !== undefined && !q.dataset.p) {
+    const c0 = customList.find(c => String(c.display) === q.dataset.d);
+    if (c0 && c0.isNew) openItem(c0); else openCustom_(q.dataset.d, false);
+  } else openItem(q.dataset.p !== undefined ? texIndex.find(t => t[0] === q.dataset.p) : pool().find(e => e.id === q.dataset.id));
   if (innerWidth <= 760) { $('side').classList.remove('open'); scrollTo({ top: 0 }); }   // phones: the model, full screen
 };
 $('mode').onclick = () => { texMode = texMode === '3d' ? '2d' : '3d'; if (Array.isArray(cur)) openTexture(cur); };
@@ -1459,13 +2353,26 @@ $('anim').addEventListener('change', () => {
   const id = +$('anim').value;
   document.querySelectorAll('.pane iframe').forEach(f => f.contentWindow && f.contentWindow.postMessage({ type: 'anim', id }, '*'));
 });
+document.addEventListener('load', (ev) => { if (ev.target && ev.target.tagName === 'IFRAME') setTimeout(tellScroll, 50); }, true);
 window.addEventListener('message', (e) => {
   const m = e.data || {};
+  if (m.type === 'pane-view') {
+    // remember the Display editor preview's camera, so a geoset / skin change reloads it in place
+    const f = $('cs-pf');
+    if (f && f.contentWindow === e.source) editView = m.view;
+    return;
+  }
+  if (m.type === 'pane-georegions') {
+    // where each geoset group sits on the body (from its bones' key ids), for the Display editor
+    const f = $('cs-pf');
+    if (f && f.contentWindow === e.source)
+      Object.entries(m.regions || {}).forEach(([g, r]) => document.querySelectorAll(`#panes [data-glab="${g}"]`).forEach(x => { x.textContent = r; }));
+    return;
+  }
   if (m.type === 'pane-stats') {
     const f = [...document.querySelectorAll('.pane iframe')].find(x => x.contentWindow === e.source);
     const el = f && f.closest('.pane').querySelector('[data-live]');
-    if (el) el.textContent = `${m.height ? m.height + ' yd tall · ' : ''}v${m.version} (retail, converted to v264 when picked) · ` +
-      `${mb(m.size)} · bones ${m.bones} · particles ${m.particles}`;
+    if (el) el.textContent = paneStatsLine({ size: m.size, stats: { version: m.version, bones: m.bones, particles: m.particles }, _h: m.height });
   }
   if (m.type === 'pane-anims') {
     animSets.set(e.source, m.ids);
@@ -1492,8 +2399,11 @@ window.addEventListener('message', (e) => {
   ]);
   assets = a.assets; texIndex = t; customList = cu.displays;
   if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {} };
+  repairRetailCollisions();
   const startLayer = new URLSearchParams(location.search).get('layer');
+  if (Object.values(choices.custom || {}).some(v => v && v.new)) { await loadCreator(); addNewDisplays(); }
   Object.keys(choices.custom || {}).forEach(did => { if (/^\d+$/.test(did)) displayEntry(+did); });
+  Object.entries(retailIdx.named || {}).forEach(([path, nm]) => (nm.displays || []).forEach(r => { const d = displayEntry(r[0]); if (!d.panes.length) d.named_of = path; }));
   const startDisplay = new URLSearchParams(location.search).get('display');
   if (startLayer === 'custom' && startDisplay) openCustom_(startDisplay, false);
   else if (startLayer === 'display' && startDisplay) openDisplay(startDisplay, false);

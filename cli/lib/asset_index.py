@@ -81,12 +81,69 @@ def stat_of(f: Path) -> Tuple[int, int]:
 
 
 def _thumb(f: Path):
-    """24x24 RGB thumbnail of a BLP as a flat list (None if it can't be decoded)."""
+    """24x24 RGB thumbnail of a BLP as a flat list (None if it can't be decoded). Decodes only the
+    smallest mip level still >= 24 px (a 2048 world texture's full mip 0 in PIL's pure-Python DXT
+    decoder took seconds - the F-216 texture dedupe sat on it for half an hour)."""
     try:
         from PIL import Image
-        return list(Image.open(f).convert('RGB').resize((24, 24), Image.BILINEAR).tobytes())
+        img = _small_mip(f)
+        if img is None:
+            img = Image.open(f).convert('RGB')
+        return list(img.resize((24, 24), Image.BILINEAR).tobytes())
     except Exception:
         return None
+
+
+def _small_mip(f: Path):
+    """A BLP2's smallest mip >= 24 px as a PIL RGB image, or None (BLP1 / no mips: caller falls back)."""
+    import struct
+    import numpy as np
+    from PIL import Image
+    b = Path(f).read_bytes()
+    if b[:4] != b'BLP2' or len(b) < 148:
+        return None
+    comp, adepth, atype, mips = b[8], b[9], b[10], b[11]
+    w, h = struct.unpack_from('<II', b, 12)
+    offs = struct.unpack_from('<16I', b, 20)
+    sizes = struct.unpack_from('<16I', b, 84)
+    lvl = 0
+    while mips and lvl + 1 < 16 and offs[lvl + 1] and sizes[lvl + 1] and min(w >> (lvl + 1), h >> (lvl + 1)) >= 24:
+        lvl += 1
+    mw, mh = max(1, w >> lvl), max(1, h >> lvl)
+    data = b[offs[lvl]:offs[lvl] + sizes[lvl]]
+    if comp == 1:
+        pal = np.frombuffer(b[148:148 + 1024], np.uint8).reshape(256, 4)
+        idx = np.frombuffer(data[:mw * mh], np.uint8)
+        if idx.size < mw * mh:
+            return None
+        return Image.fromarray(pal[idx][:, [2, 1, 0]].reshape(mh, mw, 3).copy())
+    if comp == 3:
+        a = np.frombuffer(data[:mw * mh * 4], np.uint8)
+        if a.size < mw * mh * 4:
+            return None
+        return Image.fromarray(a.reshape(mh, mw, 4)[:, :, [2, 1, 0]].copy())
+    if comp != 2:
+        return None
+    # DXT1 (alpha type 0) / DXT3 (1) / DXT5 (7): colour block is the last 8 bytes of each block
+    bpb = 8 if atype == 0 else 16
+    bw, bh = max(1, (mw + 3) // 4), max(1, (mh + 3) // 4)
+    blk = np.frombuffer(data[:bw * bh * bpb], np.uint8)
+    if blk.size < bw * bh * bpb:
+        return None
+    blk = blk.reshape(bw * bh, bpb)[:, bpb - 8:]
+    c = blk[:, :4].copy().view('<u2').astype(np.int32)
+    bits = blk[:, 4:].copy().view('<u4')[:, 0]
+    def rgb(v):
+        return np.stack([((v >> 11) & 31) * 255 // 31, ((v >> 5) & 63) * 255 // 63, (v & 31) * 255 // 31], -1)
+    c0, c1 = rgb(c[:, 0]), rgb(c[:, 1])
+    four = (c[:, 0] > c[:, 1]) | (atype != 0)
+    p2 = np.where(four[:, None], (2 * c0 + c1) // 3, (c0 + c1) // 2)
+    p3 = np.where(four[:, None], (c0 + 2 * c1) // 3, 0)
+    pal = np.stack([c0, c1, p2, p3], 1)                                    # (n, 4, 3)
+    ix = (bits[:, None] >> (2 * np.arange(16, dtype=np.uint32))) & 3       # (n, 16)
+    px = np.take_along_axis(pal, ix[:, :, None].astype(np.int64).repeat(3, 2), 1)   # (n, 16, 3)
+    img = px.reshape(bh, bw, 4, 4, 3).transpose(0, 2, 1, 3, 4).reshape(bh * 4, bw * 4, 3)[:mh, :mw]
+    return Image.fromarray(img.astype(np.uint8))
 
 
 def _corr(a, b) -> float:
