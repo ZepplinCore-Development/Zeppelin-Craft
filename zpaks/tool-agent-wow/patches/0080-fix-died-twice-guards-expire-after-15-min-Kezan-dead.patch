@@ -1,0 +1,50 @@
+From ab36678009ad81b292f765c3b7ffe3cee4135a74 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 15:13:05 +0000
+Subject: [PATCH] fix: died-twice guards expire after 15 min (Kezan deadlocked
+ at level 4) (F-219)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index d16715a..f65c914 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1001,12 +1001,20 @@ class Runner:
+         self.visited_trainer_level = 1  # level of the last trainer visit (far trainers wait 3 levels)
+         self.stuck_t = {}        # quest -> time of its last stuck strike
+         self.camp_deaths = {}    # camp (20 yd cell) -> deaths there
+-        self.death_spots = []    # (x, y, our level) of every death, defends included
++        self.death_log = []      # (x, y, our level, time) of every death, defends included
+         self.defer_until = {}    # quest -> level it waits for (a camp too strong for us)
+         self.last_death_on = {}  # quest -> time it last killed us
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
+ 
++    @property
++    def death_spots(self):
++        """(x, y, level) of deaths in the last 15 min. The died-twice guards must EXPIRE: Kezan is
++        linear - its one open quest and its grind spot were both parked, no XP could come, and the
++        run ended at level 4 after 68 min. Retry after a while, rested and respawned."""
++        now = time.time()
++        return [(x, y, lv) for x, y, lv, t in self.death_log if now - t < 900]
++
+     def me(self):
+         return call("move.position")
+ 
+@@ -1845,7 +1853,7 @@ class Runner:
+             # where we fell = where the corpse lies (asked before the release moves us to a graveyard)
+             corpse = None if st.get("ghost") else self.me()
+             if corpse:
+-                self.death_spots.append((corpse["x"], corpse["y"], call("interact.self").get("level", 1)))
++                self.death_log.append((corpse["x"], corpse["y"], call("interact.self").get("level", 1), time.time()))
+             now = time.time()
+             recent = [(t, p) for t, p in getattr(self, "_deaths", []) if now - t < 600]
+             if corpse:
+-- 
+2.34.1
+

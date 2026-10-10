@@ -1,0 +1,81 @@
+From f62d4c6a3248f15e00a30155c990388d64441892 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 12:41:33 +0000
+Subject: [PATCH] fix: casters rest for mana (safe() below 40 %, before a pull
+ below 60 %); count spell damage (F-219)
+
+Casters died in defend fights at 17-32 damage taken: they walked on dry, resting only on health.
+combat counts SMSG_SPELLNONMELEEDAMAGELOG for dealt/taken - every caster read "dealt 0".
+Queued for the next fleet restart.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/main.go     | 11 +++++++++++
+ zeppelin/modules/combat/module.yaml |  1 +
+ zeppelin/tests/start_area.py        |  8 ++++++--
+ 3 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 9afec25..ebdaa41 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -177,6 +177,17 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 			s.attackers[attacker] = time.Now()
+ 			s.dmgTaken += dmg
+ 		}
++	case opcode.SMSGSpellnonmeleedamagelog: // packed target, packed caster, u32 spell, u32 damage, ...
++		victim, caster := r.PackedGUID(), r.PackedGUID()
++		r.U32()
++		dmg := r.U32()
++		if r.Err() == nil {
++			if caster == me {
++				s.dmgDone += dmg // casters' damage: the swing log alone showed "dealt 0" for every mage
++			} else if victim == me {
++				s.dmgTaken += dmg
++			}
++		}
+ 	case opcode.SMSGAttackswingNotinrange:
+ 		s.notInRange = true
+ 	case opcode.SMSGAttackswingBadfacing:
+diff --git a/zeppelin/modules/combat/module.yaml b/zeppelin/modules/combat/module.yaml
+index 91e8d55..06c9fb6 100644
+--- a/zeppelin/modules/combat/module.yaml
++++ b/zeppelin/modules/combat/module.yaml
+@@ -12,6 +12,7 @@ rpc:
+   revive: /zeppelin.combat.v1.Combat/Revive
+   state: /zeppelin.combat.v1.Combat/GetState
+ packets:
++  SMSG_SPELLNONMELEEDAMAGELOG: /zeppelin.combat.v1.Combat/OnPacket   # spell damage (dealt/taken)
+   SMSG_SPELL_START: /zeppelin.combat.v1.Combat/OnPacket      # interrupts: who is casting
+   SMSG_SPELL_GO: /zeppelin.combat.v1.Combat/OnPacket
+   SMSG_SPELL_FAILURE: /zeppelin.combat.v1.Combat/OnPacket
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 781bd85..d16715a 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1651,7 +1651,9 @@ class Runner:
+             print(f"  every way to {entry} passes other mobs - taking the least crowded", flush=True)
+         group = [m for m in mobs if math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 18
+                  and (m is t or self.hostile(m["entry"]))]
+-        if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 85:
++        dry = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
++               and s.get("power", 0) * 100 < s["maxPower"] * 60)
++        if dry or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 85):
+             self.rest(95)  # every planned pull starts near full: the second mob is what kills
+         body = None
+         if len(group) > 1:
+@@ -1875,7 +1877,9 @@ class Runner:
+             self.fight_log(r.get("entry", 0), r, "defend")
+             self.kills += r.get("killed", False)
+         s = call("interact.self")
+-        if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70:  # never start a pull half dead
++        low_mana = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
++                    and s.get("power", 0) * 100 < s["maxPower"] * 40)  # a dry caster loses its next fight
++        if low_mana or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70):  # never start a pull half dead
+             self.rest(90)
+ 
+     def _revive_loop(self, corpse):
+-- 
+2.34.1
+

@@ -1,0 +1,221 @@
+From 6bd989333d9628b81c4ed993057d73e76ede0074 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 15:16:45 +0000
+Subject: [PATCH] feat: real zone membership from the server's .map area grids
+ (F-219)
+
+WorldMapArea rectangles overlap neighbours: Mulgore's holds the Crossroads, so the druid walked into
+level-16 Barrens mobs, died 73 times and spirit-rezzed at the Crossroads. zonemap.area_at() reads
+AzerothCore's extracted maps (map_fileheader.areaMapOffset -> AREA grid, GridMap::getArea) and
+AreaTable maps area -> zone. A run keeps spawns, givers, enders, objectives and spirit healers in
+its zone + capital (city quests count); starting valleys mapped explicitly (Northshire 9 has no
+AreaTable row, Valley of Trials 363 points at 6451). leaves_zone now means "spawns nowhere in the
+zone" over the whole DB; the level cap uses max(QuestLevel, MinLevel). Mulgore: 48 quests, init 75 s.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/fleet.py      |  4 +--
+ zeppelin/tests/start_area.py | 57 ++++++++++++++++++++++++++++--------
+ zeppelin/tests/zonemap.py    | 40 +++++++++++++++++++++++++
+ 3 files changed, 86 insertions(+), 15 deletions(-)
+ create mode 100644 zeppelin/tests/zonemap.py
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index 817fb9b..82e86f2 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -80,10 +80,10 @@ def env_for(name):
+ 
+ 
+ def snapshot_runner(name):
+-    """Freeze the runner for this run: <area>/runner/ gets start_area.py, rpc.py, rpc.sh."""
++    """Freeze the runner for this run: <area>/runner/ gets start_area.py, rpc.py, rpc.sh, zonemap.py."""
+     d = os.path.join(area_dir(name), "runner")
+     os.makedirs(d, exist_ok=True)
+-    for f in ("start_area.py", "rpc.py", "rpc.sh"):
++    for f in ("start_area.py", "rpc.py", "rpc.sh", "zonemap.py"):
+         shutil.copy2(os.path.join(HERE, f), d)
+     return d
+ 
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index f65c914..3a0e72c 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -20,6 +20,7 @@ import time
+ import traceback
+ 
+ import rpc
++import zonemap
+ from rpc import StepFailed, call, ground, step
+ 
+ CRAFT = "/workspace/project/Zeppelin-Craft"
+@@ -153,6 +154,10 @@ def inlist(values):
+ 
+ # quest sorts a fresh character cannot do: professions (Elixirs for the Bladeleafs 1581 = Alchemy)
+ # and holidays (A Tisket, a Tasket 13502 = Noblegarden; The Grateful Dead 13952 = Day of the Dead)
++# a zone run covers its zone AND its capital (city quests count); starting valleys whose AreaTable
++# row is missing or points elsewhere here (Northshire 9 has no row; Valley of Trials 363 -> 6451)
++ZONE_CAPITAL = {12: 1519, 14: 1637, 215: 1638, 85: 1497, 141: 1657, 1: 1537, 3430: 3487, 3524: 3557}
++VALLEY_ZONE = {9: 12, 363: 14, 132: 1, 188: 141, 154: 85, 220: 215, 3431: 3430, 3526: 3524}
+ UNBOTABLE_SORTS = {-24, -101, -121, -181, -182, -201, -264, -304, -324, -371, -373,       # professions
+                    -22, -41, -364, -366, -369, -370, -374, -375, -376, -1001, -1002, -1003, -1005,  # holidays
+                    -25, 2597, 2839, 3277, 3358, 3820, 4384, 4710}  # battlegrounds / PvP calls to arms
+@@ -187,20 +192,35 @@ class World:
+                         self._summon_idx.setdefault((int(r[f"m{k}"]), k), []).append(int(r["id"]))
+         return sorted({sp for k in range(1, slots + 1) for sp in self._summon_idx.get((int(entry), k), [])})
+ 
++    def in_zone(self, x, y):
++        """Is a point in this run's zone (or its capital)? True for every point when no --zone."""
++        if not self.zone:
++            return True
++        a = zonemap.area_at(self.map, x, y)
++        if a not in self._area_zone:
++            self._area_zone[a] = VALLEY_ZONE.get(a) or self._zone_of.get(a) or a
++        return self._area_zone[a] in self.zones
++
+     def __init__(self, mapid, box, char, zone=0):
+         self.map, self.box, self.zone = mapid, box, zone
++        self.zones = {zone, ZONE_CAPITAL.get(zone, zone)}
++        self._area_zone = {}
++        self._zone_of = {int(r["id"]): int(r["z"]) for r in dbc("SELECT id,zone_id z FROM areatable WHERE zone_id<>0")} if zone else {}
+         x1, y1, x2, y2 = box
+         where = f"map={mapid} AND position_x BETWEEN {min(x1, x2)} AND {max(x1, x2)} AND position_y BETWEEN {min(y1, y2)} AND {max(y1, y2)}"
+         self.cspawn, self.gspawn = {}, {}
+         self.spawn_phase = {}  # creature spawn point -> phaseMask
+         for r in sql(f"SELECT guid,id,position_x x,position_y y,position_z z,phaseMask pm FROM creature WHERE {where}"):
+             pt = (float(r["x"]), float(r["y"]), float(r["z"]))
++            if not self.in_zone(pt[0], pt[1]):
++                continue  # inside the rectangle, outside the zone (Mulgore's box holds the Crossroads)
+             self.cspawn.setdefault(int(r["id"]), []).append(pt)
+             # two rows can share a point (trainer 38513 at the mine: one in 32768, one in 16384) -
+             # the point is seen from either phase
+             self.spawn_phase[pt] = self.spawn_phase.get(pt, 0) | int(r["pm"])
+         for r in sql(f"SELECT id,position_x x,position_y y,position_z z FROM gameobject WHERE {where}"):
+-            self.gspawn.setdefault(int(r["id"]), []).append((float(r["x"]), float(r["y"]), float(r["z"])))
++            if self.in_zone(float(r["x"]), float(r["y"])):
++                self.gspawn.setdefault(int(r["id"]), []).append((float(r["x"]), float(r["y"]), float(r["z"])))
+         ce, ge = inlist(self.cspawn), inlist(self.gspawn)
+         self.starters = {}  # quest -> [("c"|"g", entry)]
+         for r in sql(f"SELECT id,quest FROM creature_queststarter WHERE id IN ({ce})"):
+@@ -306,15 +326,20 @@ class World:
+         # in the world but NEVER inside the box takes us out of the zone (Westfall, the Stockade,
+         # Scarlet Monastery quests handed out in Stormwind) - not this run's business. Counted over
+         # the whole DB: their spawns are far beyond the 1200 yd loaded for objectives
+-        inbox = (f"c.map={mapid} AND c.position_x BETWEEN {min(x1, x2)} AND {max(x1, x2)} "
+-                 f"AND c.position_y BETWEEN {min(y1, y2)} AND {max(y1, y2)}")
++        def nowhere_here(tbl, ents):
++            """Entries with spawns in the world but none in this zone (other maps count as away)."""
++            if not ents:
++                return set()
++            home, seen = set(), set()
++            for r in sql(f"SELECT id,map,position_x x,position_y y FROM {tbl} WHERE id IN ({inlist(ents)})"):
++                e = int(r["id"])
++                seen.add(e)
++                if int(r["map"]) == mapid and self.in_zone(float(r["x"]), float(r["y"])):
++                    home.add(e)
++            return seen - home
+         self.leaves_zone = set()
+         tc = {int(q[f"RequiredNpcOrGo{k}"]) for q in self.quests.values() for k in range(1, 5)}
+-        away = set()
+-        for tbl, ents, sign in (("creature", {t for t in tc if t > 0}, 1), ("gameobject", {-t for t in tc if t < 0}, -1)):
+-            if ents:
+-                away |= {sign * int(r["id"]) for r in sql(f"SELECT c.id FROM {tbl} c WHERE c.id IN ({inlist(ents)}) "
+-                                                         f"GROUP BY c.id HAVING SUM({inbox})=0")}
++        away = nowhere_here("creature", {t for t in tc if t > 0}) | {-g for g in nowhere_here("gameobject", {-t for t in tc if t < 0})}
+         for qid, q in self.quests.items():
+             if any(int(q[f"RequiredNpcOrGo{k}"]) in away for k in range(1, 5)):
+                 self.leaves_zone.add(qid)
+@@ -541,9 +566,12 @@ class World:
+                 self.creature_loot.setdefault(int(r["Item"]), set()).add(c)
+                 self.loot_chance[(int(r["Item"]), c)] = float(r["Chance"])
+         # ...and an item objective whose every dropping creature spawns only outside the box
+-        away_items = {int(r["Item"]) for r in sql(
+-            "SELECT l.Item FROM creature_loot_template l JOIN creature_template t ON t.lootid=l.Entry "
+-            f"JOIN creature c ON c.id=t.entry WHERE l.Item IN ({il}) GROUP BY l.Item HAVING SUM({inbox})=0")}
++        droppers = {}
++        for r in sql("SELECT l.Item,t.entry FROM creature_loot_template l JOIN creature_template t ON t.lootid=l.Entry "
++                     f"WHERE l.Item IN ({il})"):
++            droppers.setdefault(int(r["Item"]), set()).add(int(r["entry"]))
++        gone = nowhere_here("creature", {c for cs in droppers.values() for c in cs})
++        away_items = {it for it, cs in droppers.items() if cs and cs <= gone}
+         for qid, q in self.quests.items():
+             if any(int(q[f"RequiredItemId{k}"]) in away_items for k in range(1, 7)):
+                 self.leaves_zone.add(qid)
+@@ -924,7 +952,7 @@ class World:
+         q = self.quests[qid]
+         races, classes = int(q["AllowableRaces"]), int(q["AllowableClasses"])
+         return (qid in self.enders and int(q.get("QuestSortID", 0) or 0) not in UNBOTABLE_SORTS
+-                and qid not in self.leaves_zone and int(q["QuestLevel"]) <= ZONE_LEVEL_CAP and (not races or races & (1 << (self.race - 1)))
++                and qid not in self.leaves_zone and max(int(q["QuestLevel"]), int(q["MinLevel"])) <= ZONE_LEVEL_CAP and (not races or races & (1 << (self.race - 1)))
+                 and (not classes or classes & (1 << (self.cls - 1)))
+                 and (qid not in self.cond19 or self.groups_true(self.cond19[qid], {}, static_only=True)))
+ 
+@@ -942,7 +970,7 @@ class World:
+             return False  # a profession, holiday or battleground quest: never walk to its giver
+         if qid in self.leaves_zone:
+             return False  # its objective exists only outside the zone
+-        if int(q["QuestLevel"]) > ZONE_LEVEL_CAP:
++        if max(int(q["QuestLevel"]), int(q["MinLevel"])) > ZONE_LEVEL_CAP:  # QuestLevel -1: MinLevel 50
+             return False  # a capital's level 20-60 quest: beyond a starting zone
+         nxt = int(q.get("RewardNextQuest", 0) or 0)
+         if nxt and (nxt in self.rewarded or nxt in in_log):
+@@ -1792,6 +1820,9 @@ class Runner:
+                    f"ON t.entry=c.id WHERE t.npcflag & 16384 AND c.map={self.w.map}")
+         spots = sorted(((float(r["x"]), float(r["y"]), float(r["z"])) for r in rows),
+                        key=lambda p: math.dist(p[:2], (me["x"], me["y"])))
++        # healers of OUR zone first: Mulgore's druid took the Crossroads one and woke among
++        # level-16 Barrens mobs
++        spots = [p for p in spots if self.w.in_zone(p[0], p[1])] or spots
+ 
+         def unsafe(p):  # mobs 2+ levels above us within 60 yd: they jump us as we rise (Narache: 60
+             # deaths) - or two deaths there already at this level (Shadowglen: even-level Nightsabers
+diff --git a/zeppelin/tests/zonemap.py b/zeppelin/tests/zonemap.py
+new file mode 100644
+index 0000000..3f8c4ae
+--- /dev/null
++++ b/zeppelin/tests/zonemap.py
+@@ -0,0 +1,40 @@
++"""Which zone a point is in, from the server's own .map files (F-219 fleet).
++
++WorldMapArea bounds are rectangles: Mulgore's holds the Crossroads, so a "Mulgore" run walked a
++level-6 druid into level-16 Barrens mobs. AzerothCore's extracted maps store an area id per cell
++(GridMap::getArea); AreaTable maps an area to its zone.
++"""
++import os
++import struct
++
++MAPS = "/workspace/project/data/maps"
++GRID = 533.3333333
++_tiles = {}
++
++
++def _tile(mapid, gx, gy):
++    k = (mapid, gx, gy)
++    if k not in _tiles:
++        fn = os.path.join(MAPS, "%03d%02d%02d.map" % (mapid, gx, gy))
++        if not os.path.exists(fn):
++            _tiles[k] = None
++        else:
++            with open(fn, "rb") as f:
++                b = f.read()
++            aoff = struct.unpack_from("<I", b, 12)[0]  # map_fileheader.areaMapOffset
++            _, flags, grid = struct.unpack_from("<4sHH", b, aoff)  # 'AREA', flags, gridArea
++            amap = None if flags & 1 else struct.unpack_from("<256H", b, aoff + 8)  # MAP_AREA_NO_AREA
++            _tiles[k] = (grid, amap)
++    return _tiles[k]
++
++
++def area_at(mapid, x, y):
++    """AreaTable id at a world point (0 = no map data): AzerothCore GridMap::getArea."""
++    t = _tile(mapid, int(32 - x / GRID), int(32 - y / GRID))
++    if t is None:
++        return 0
++    grid, amap = t
++    if amap is None:
++        return grid
++    lx, ly = int(16 * (32 - x / GRID)) & 15, int(16 * (32 - y / GRID)) & 15
++    return amap[lx * 16 + ly]
+-- 
+2.34.1
+
