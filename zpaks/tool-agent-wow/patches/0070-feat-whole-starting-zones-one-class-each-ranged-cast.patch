@@ -1,0 +1,776 @@
+From bcac27bfa83d244ff4926a3ba06f9e82f8e99697 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 09:07:44 +0000
+Subject: [PATCH] feat: whole starting zones, one class each; ranged
+ casters/hunters; drink; loot gear-up (F-219)
+
+- fleet: 9 areas = Elwynn (human priest), Durotar (orc warlock), Dun Morogh (dwarf paladin),
+  Teldrassil (NE hunter), Tirisfal (undead mage), Mulgore (tauren druid), Eversong (BE rogue),
+  Azuremyst (draenei shaman), Kezan + Lost Isles (goblin warrior); boxes = WorldMapArea bounds,
+  600-min legs; AW_ZONE -> runner --zone keeps only the zone's quests (its AreaTable sub-areas +
+  starting valleys + class quests) - Elwynn's box also holds Stormwind's 59 quests
+- combat.kill range: casters/hunters stand off and cast, wait out their own cast bar (SPELL_START/
+  GO/FAILURE for us), melee only what reaches them, go in when nothing lands for 5 s (LOS);
+  abilities cast one per tick (a second only hit the GCD)
+- combat.rest drinks (drink_item, drink_below_pct) and waits for mana_pct
+- rotations for hunter, priest, shaman, mage, warlock, druid; caster classes count as ranged
+  openers in pull planning; supplies buy water for mana classes
+- gear_up() also after a fight that looted weapons/armour
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/api/combat.pb.go |  55 +++++-
+ zeppelin/modules/combat/combat.proto     |   5 +
+ zeppelin/modules/combat/main.go          | 210 ++++++++++++++++-------
+ zeppelin/tests/fleet.py                  |  35 ++--
+ zeppelin/tests/start_area.py             | 114 ++++++++++--
+ zeppelin/tests/supervise.sh              |   3 +-
+ 6 files changed, 323 insertions(+), 99 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 1af302c..d0c9fde 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -154,6 +154,7 @@ type KillRequest struct {
+ 	BodyPull    bool                   `protobuf:"varint,10,opt,name=body_pull,json=bodyPull,proto3" json:"body_pull,omitempty"`         // no opener: inch up 2 yd at a time until the target alone aggroes, then back
+ 	// off `retreat` yd so it follows us out of its camp
+ 	Retreat       float32 `protobuf:"fixed32,11,opt,name=retreat,proto3" json:"retreat,omitempty"` // 0 = 15
++	Range         float32 `protobuf:"fixed32,12,opt,name=range,proto3" json:"range,omitempty"`     // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -265,6 +266,13 @@ func (x *KillRequest) GetRetreat() float32 {
+ 	return 0
+ }
+ 
++func (x *KillRequest) GetRange() float32 {
++	if x != nil {
++		return x.Range
++	}
++	return 0
++}
++
+ type LootItem struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	ItemId        uint32                 `protobuf:"varint,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+@@ -480,6 +488,10 @@ type RestRequest struct {
+ 	FoodItem      uint32                 `protobuf:"varint,3,opt,name=food_item,json=foodItem,proto3" json:"food_item,omitempty"` // eat this bag item first (its on-use spell in food_spell) when below food_below_pct
+ 	FoodSpell     uint32                 `protobuf:"varint,4,opt,name=food_spell,json=foodSpell,proto3" json:"food_spell,omitempty"`
+ 	FoodBelowPct  uint32                 `protobuf:"varint,5,opt,name=food_below_pct,json=foodBelowPct,proto3" json:"food_below_pct,omitempty"` // 0 = 60
++	DrinkItem     uint32                 `protobuf:"varint,6,opt,name=drink_item,json=drinkItem,proto3" json:"drink_item,omitempty"`            // casters: drink this first when mana is below drink_below_pct
++	DrinkSpell    uint32                 `protobuf:"varint,7,opt,name=drink_spell,json=drinkSpell,proto3" json:"drink_spell,omitempty"`
++	DrinkBelowPct uint32                 `protobuf:"varint,8,opt,name=drink_below_pct,json=drinkBelowPct,proto3" json:"drink_below_pct,omitempty"` // 0 = 50
++	ManaPct       uint32                 `protobuf:"varint,9,opt,name=mana_pct,json=manaPct,proto3" json:"mana_pct,omitempty"`                     // also rest until mana reaches this (0 = health only)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -549,6 +561,34 @@ func (x *RestRequest) GetFoodBelowPct() uint32 {
+ 	return 0
+ }
+ 
++func (x *RestRequest) GetDrinkItem() uint32 {
++	if x != nil {
++		return x.DrinkItem
++	}
++	return 0
++}
++
++func (x *RestRequest) GetDrinkSpell() uint32 {
++	if x != nil {
++		return x.DrinkSpell
++	}
++	return 0
++}
++
++func (x *RestRequest) GetDrinkBelowPct() uint32 {
++	if x != nil {
++		return x.DrinkBelowPct
++	}
++	return 0
++}
++
++func (x *RestRequest) GetManaPct() uint32 {
++	if x != nil {
++		return x.ManaPct
++	}
++	return 0
++}
++
+ type RestResult struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Done          bool                   `protobuf:"varint,1,opt,name=done,proto3" json:"done,omitempty"`
+@@ -778,7 +818,7 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\aitem_id\x18\b \x01(\rR\x06itemId\x12\x12\n" +
+ 	"\x04buff\x18\t \x01(\bR\x04buff\x12\x1c\n" +
+ 	"\tinterrupt\x18\n" +
+-	" \x01(\bR\tinterrupt\"\xdc\x02\n" +
++	" \x01(\bR\tinterrupt\"\xf2\x02\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+@@ -794,7 +834,8 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\fcharge_spell\x18\t \x01(\rR\vchargeSpell\x12\x1b\n" +
+ 	"\tbody_pull\x18\n" +
+ 	" \x01(\bR\bbodyPull\x12\x18\n" +
+-	"\aretreat\x18\v \x01(\x02R\aretreat\"9\n" +
++	"\aretreat\x18\v \x01(\x02R\aretreat\x12\x14\n" +
++	"\x05range\x18\f \x01(\x02R\x05range\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+ 	"\x05count\x18\x02 \x01(\rR\x05count\"\xc7\x03\n" +
+@@ -817,14 +858,20 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x05casts\x18\f \x01(\rR\x05casts\x12%\n" +
+ 	"\x0epeak_attackers\x18\r \x01(\rR\rpeakAttackers\x12\x16\n" +
+ 	"\x06spells\x18\x0f \x03(\rR\x06spells\x12\x12\n" +
+-	"\x04pull\x18\x0e \x01(\tR\x04pull\"\xa9\x01\n" +
++	"\x04pull\x18\x0e \x01(\tR\x04pull\"\xac\x02\n" +
+ 	"\vRestRequest\x12\x1b\n" +
+ 	"\tuntil_pct\x18\x01 \x01(\rR\buntilPct\x12\x1b\n" +
+ 	"\tbudget_ms\x18\x02 \x01(\rR\bbudgetMs\x12\x1b\n" +
+ 	"\tfood_item\x18\x03 \x01(\rR\bfoodItem\x12\x1d\n" +
+ 	"\n" +
+ 	"food_spell\x18\x04 \x01(\rR\tfoodSpell\x12$\n" +
+-	"\x0efood_below_pct\x18\x05 \x01(\rR\ffoodBelowPct\"\x81\x01\n" +
++	"\x0efood_below_pct\x18\x05 \x01(\rR\ffoodBelowPct\x12\x1d\n" +
++	"\n" +
++	"drink_item\x18\x06 \x01(\rR\tdrinkItem\x12\x1f\n" +
++	"\vdrink_spell\x18\a \x01(\rR\n" +
++	"drinkSpell\x12&\n" +
++	"\x0fdrink_below_pct\x18\b \x01(\rR\rdrinkBelowPct\x12\x19\n" +
++	"\bmana_pct\x18\t \x01(\rR\amanaPct\"\x81\x01\n" +
+ 	"\n" +
+ 	"RestResult\x12\x12\n" +
+ 	"\x04done\x18\x01 \x01(\bR\x04done\x12\x16\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 5992dde..7810579 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -32,6 +32,7 @@ message KillRequest {
+   bool body_pull = 10;   // no opener: inch up 2 yd at a time until the target alone aggroes, then back
+                          // off `retreat` yd so it follows us out of its camp
+   float retreat = 11;    // 0 = 15
++  float range = 12;      // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
+ }
+ 
+ message LootItem {
+@@ -63,6 +64,10 @@ message RestRequest {
+   uint32 food_item = 3;  // eat this bag item first (its on-use spell in food_spell) when below food_below_pct
+   uint32 food_spell = 4;
+   uint32 food_below_pct = 5; // 0 = 60
++  uint32 drink_item = 6;     // casters: drink this first when mana is below drink_below_pct
++  uint32 drink_spell = 7;
++  uint32 drink_below_pct = 8; // 0 = 50
++  uint32 mana_pct = 9;       // also rest until mana reaches this (0 = health only)
+ }
+ message RestResult {
+   bool done = 1;
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index a23c1f8..b7acecf 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -62,6 +62,7 @@ type service struct {
+ 	castFailed                                    map[uint32]uint8     // spell -> last SMSG_CAST_FAILED result
+ 	auras                                         map[uint8]uint32     // our visible aura slots -> spell
+ 	casting                                       map[uint64]time.Time // unit -> when its current cast ends
++	selfCastUntil                                 time.Time            // our own cast bar
+ }
+ 
+ func main() {
+@@ -189,6 +190,7 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		spell, result := r.U32(), r.U8()
+ 		fmt.Fprintf(os.Stderr, "cast failed spell %d result %d\n", spell, result)
+ 		s.castFailed[spell] = result
++		s.selfCastUntil = time.Time{}
+ 	case opcode.MSGCorpseQuery: // u8 found, i32 map, x y z, i32 corpse map (QueryHandler)
+ 		if r.U8() == 1 {
+ 			m := r.U32()
+@@ -216,14 +218,26 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		r.U8()
+ 		r.U32()
+ 		r.U32()
+-		if ms := r.U32(); r.Err() == nil && ms > 0 && unit != me {
+-			s.casting[unit] = time.Now().Add(time.Duration(ms) * time.Millisecond)
++		if ms := r.U32(); r.Err() == nil && ms > 0 {
++			if unit == me {
++				s.selfCastUntil = time.Now().Add(time.Duration(ms)*time.Millisecond + 150*time.Millisecond)
++			} else {
++				s.casting[unit] = time.Now().Add(time.Duration(ms) * time.Millisecond)
++			}
+ 		}
+ 	case opcode.SMSGSpellGo: // packed caster (item or unit), packed caster unit, ...
+ 		r.PackedGUID()
+-		delete(s.casting, r.PackedGUID())
++		u := r.PackedGUID()
++		delete(s.casting, u)
++		if u == me {
++			s.selfCastUntil = time.Time{}
++		}
+ 	case opcode.SMSGSpellFailure, opcode.SMSGSpellFailedOther: // packed caster, ...
+-		delete(s.casting, r.PackedGUID())
++		u := r.PackedGUID()
++		delete(s.casting, u)
++		if u == me {
++			s.selfCastUntil = time.Time{}
++		}
+ 	case opcode.SMSGCorpseReclaimDelay: // u32 ms
+ 		s.reclaimAt = time.Now().Add(time.Duration(r.U32()) * time.Millisecond)
+ 	}
+@@ -350,6 +364,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	var pullFrom float64
+ 	charged := req.GetChargeSpell() == 0
+ 	bodyDone := !req.GetBodyPull()
++	rng := float64(req.GetRange()) // > 0: a caster/hunter fighting from range until it must melee
+ 	attacking := false
+ 	var lastHP uint32
+ 	var stuckSince time.Time
+@@ -501,6 +516,45 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			time.Sleep(600 * time.Millisecond) // the server moves us (SMSG_MONSTER_MOVE)
+ 			continue
+ 		}
++		s.mu.Lock()
++		busy := time.Now().Before(s.selfCastUntil)
++		s.mu.Unlock()
++		if busy { // our own cast bar: moving would cancel it - just keep facing
++			var face movev1.Position
++			_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face)
++			time.Sleep(tick)
++			continue
++		}
++		if rng > 0 && d <= rng {
++			// in cast range: stay put and cast; melee only once it has come to us
++			if hp := t.GetHealth(); hp != lastHP {
++				lastHP, stuckSince = hp, time.Now()
++			} else if stuckSince.IsZero() {
++				stuckSince = time.Now()
++			} else if time.Since(stuckSince) > 5*time.Second && d > meleeTrigger {
++				rng, stuckSince = 0, time.Now() // nothing lands from here (line of sight, range): go to it
++				continue
++			}
++			var face movev1.Position
++			if err := s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face); err != nil {
++				return nil, err
++			}
++			if d <= meleeTrigger && !attacking {
++				if err := s.attack(ctx, guid); err != nil {
++					return nil, err
++				}
++				attacking = true
++			}
++			s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res)
++			time.Sleep(tick)
++			continue
++		}
++		if rng > 0 && d > rng {
++			if err := s.approachTo(ctx, me, t, rng-3); err != nil {
++				return nil, err
++			}
++			continue
++		}
+ 		if d > meleeTrigger || notInRange {
+ 			if err := s.approach(ctx, me, t); err != nil {
+ 				return nil, err
+@@ -529,73 +583,84 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			}
+ 			attacking = true
+ 		}
+-		for _, a := range req.GetAbilities() {
+-			every := time.Duration(a.GetEveryMs()) * time.Millisecond
+-			if n := a.GetMinAttackers(); n > 0 && uint32(len(live)) < n {
+-				continue
+-			}
+-			if a.GetBuff() && s.hasAura(a.GetSpellId()) {
+-				continue
+-			}
+-			if a.GetInterrupt() && !s.isCasting(guid) {
+-				continue
+-			}
+-			if st.GetPower() < a.GetMinPower() {
+-				continue
+-			}
+-			if p := a.GetBelowHealthPct(); p > 0 && st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() >= p {
+-				continue
+-			}
+-			if a.GetPerTarget() {
+-				// the target first, then every other attacker in melee reach - one cast a tick
+-				for _, g := range append([]uint64{guid}, live...) {
+-					key := [2]uint64{uint64(a.GetSpellId()), g}
+-					if time.Since(lastOn[key]) < every {
++		if err := s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res); err != nil {
++			return nil, err
++		}
++		time.Sleep(tick)
++	}
++}
++
++// castAbilities casts the first ability that is ready (priority order), at most one per tick.
++func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest, st *interactv1.SelfState,
++	me *movev1.Position, t *interactv1.WorldObject, guid uint64, live []uint64,
++	lastCast map[uint32]time.Time, lastOn map[[2]uint64]time.Time, res *combatv1.KillResult) error {
++	for _, a := range req.GetAbilities() {
++		every := time.Duration(a.GetEveryMs()) * time.Millisecond
++		if n := a.GetMinAttackers(); n > 0 && uint32(len(live)) < n {
++			continue
++		}
++		if a.GetBuff() && s.hasAura(a.GetSpellId()) {
++			continue
++		}
++		if a.GetInterrupt() && !s.isCasting(guid) {
++			continue
++		}
++		if st.GetPower() < a.GetMinPower() {
++			continue
++		}
++		if p := a.GetBelowHealthPct(); p > 0 && st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() >= p {
++			continue
++		}
++		if a.GetPerTarget() {
++			// the target first, then every other attacker in melee reach - one cast a tick
++			for _, g := range append([]uint64{guid}, live...) {
++				key := [2]uint64{uint64(a.GetSpellId()), g}
++				if time.Since(lastOn[key]) < every {
++					continue
++				}
++				if g != guid {
++					u, err := s.unit(ctx, g)
++					if err != nil || u == nil || u.GetHealth() == 0 || distance(me, u.GetX(), u.GetY(), u.GetZ()) > 5 {
+ 						continue
+ 					}
+-					if g != guid {
+-						u, err := s.unit(ctx, g)
+-						if err != nil || u == nil || u.GetHealth() == 0 || distance(me, u.GetX(), u.GetY(), u.GetZ()) > 5 {
+-							continue
+-						}
+-						var face movev1.Position // melee abilities need the unit in front of us
+-						_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: u.GetX(), Y: u.GetY()}, &face)
+-					}
+-					if err := s.castAt(ctx, a.GetSpellId(), g); err != nil {
+-						return nil, err
+-					}
+-					lastOn[key] = time.Now()
+-					res.Casts++
+-					res.Spells = append(res.Spells, a.GetSpellId())
+-					break
++					var face movev1.Position // melee abilities need the unit in front of us
++					_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: u.GetX(), Y: u.GetY()}, &face)
+ 				}
+-				continue
+-			}
+-			if time.Since(lastCast[a.GetSpellId()]) < every {
+-				continue
+-			}
+-			if a.GetItemId() != 0 {
+-				lastCast[a.GetSpellId()] = time.Now() // tried or not: never spam a missing potion
+-				var cr interactv1.CastResult
+-				if err := s.invoke(ctx, "interact", "use_item", &interactv1.UseItemRequest{Entry: a.GetItemId(), SpellId: a.GetSpellId(), TargetKind: "self", TimeoutMs: 1000}, &cr); err == nil {
+-					res.Casts++
+-					res.Spells = append(res.Spells, a.GetSpellId())
++				if err := s.castAt(ctx, a.GetSpellId(), g); err != nil {
++					return err
+ 				}
+-				continue
+-			}
+-			target := guid
+-			if a.GetOnSelf() {
+-				target = st.GetGuid()
++				lastOn[key] = time.Now()
++				res.Casts++
++				res.Spells = append(res.Spells, a.GetSpellId())
++				return nil // one cast a tick: a second one only hits the global cooldown
+ 			}
+-			if err := s.castAt(ctx, a.GetSpellId(), target); err != nil {
+-				return nil, err
++			continue
++		}
++		if time.Since(lastCast[a.GetSpellId()]) < every {
++			continue
++		}
++		if a.GetItemId() != 0 {
++			lastCast[a.GetSpellId()] = time.Now() // tried or not: never spam a missing potion
++			var cr interactv1.CastResult
++			if err := s.invoke(ctx, "interact", "use_item", &interactv1.UseItemRequest{Entry: a.GetItemId(), SpellId: a.GetSpellId(), TargetKind: "self", TimeoutMs: 1000}, &cr); err == nil {
++				res.Casts++
++				res.Spells = append(res.Spells, a.GetSpellId())
+ 			}
+-			lastCast[a.GetSpellId()] = time.Now()
+-			res.Casts++
+-			res.Spells = append(res.Spells, a.GetSpellId())
++			continue
+ 		}
+-		time.Sleep(tick)
++		target := guid
++		if a.GetOnSelf() {
++			target = st.GetGuid()
++		}
++		if err := s.castAt(ctx, a.GetSpellId(), target); err != nil {
++			return err
++		}
++		lastCast[a.GetSpellId()] = time.Now()
++		res.Casts++
++		res.Spells = append(res.Spells, a.GetSpellId())
++		return nil // one cast a tick
+ 	}
++	return nil
+ }
+ 
+ func (s *service) hasAura(spell uint32) bool {
+@@ -719,6 +784,21 @@ func (s *service) Rest(ctx context.Context, req *combatv1.RestRequest) (*combatv
+ 			ate = err == nil && cr.GetOk()
+ 		}
+ 	}
++	if d := req.GetDrinkItem(); d != 0 {
++		below := req.GetDrinkBelowPct()
++		if below == 0 {
++			below = 50
++		}
++		if st, err := s.self(ctx); err == nil && st.GetPowerType() == 0 && st.GetMaxPower() > 0 &&
++			st.GetPower()*100/st.GetMaxPower() < below {
++			if ate {
++				time.Sleep(1600 * time.Millisecond) // the food cast's global cooldown
++			}
++			var cr interactv1.CastResult
++			err := s.invoke(ctx, "interact", "use_item", &interactv1.UseItemRequest{Entry: d, SpellId: req.GetDrinkSpell(), TargetKind: "self", TimeoutMs: 1500}, &cr)
++			ate = ate || (err == nil && cr.GetOk())
++		}
++	}
+ 	if !ate {
+ 		if err := s.stand(ctx, 1); err != nil { // UNIT_STAND_STATE_SIT
+ 			return nil, err
+@@ -731,7 +811,9 @@ func (s *service) Rest(ctx context.Context, req *combatv1.RestRequest) (*combatv
+ 			return nil, err
+ 		}
+ 		res := &combatv1.RestResult{Health: st.GetHealth(), MaxHealth: st.GetMaxHealth(), Ate: ate}
+-		if st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() >= pct {
++		manaOK := req.GetManaPct() == 0 || st.GetPowerType() != 0 || st.GetMaxPower() == 0 ||
++			st.GetPower()*100/st.GetMaxPower() >= req.GetManaPct()
++		if st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() >= pct && manaOK {
+ 			res.Done, res.Reason = true, "rested"
+ 			return res, nil
+ 		}
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index 0f6c6ae..01e4594 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -41,19 +41,22 @@ def box(x, y, half=450):
+     return (x - half, y - half, x + half, y + half)
+ 
+ 
+-# name, race, class, account index, legs [(map, box, minutes)]. Starts from playercreateinfo; worgen
+-# start in Shadowglen here, so the night elf covers it.
++# name, race, class, account index, legs [(map, box, minutes, zone)]. One bot per starting ZONE, one
++# class each: the whole zone to its exit (boxes = WorldMapArea bounds; zone = AreaTable id, which
++# keeps the zone's capital, holidays and battleground calls out of the quest list). Eversong and
++# Azuremyst sit on maps 0/1 here. Not yet: death knight (MinLevelForHeroicCharacter 55 needs a
++# level-55 character on the account), worgen (Gilneas content in progress).
+ AREAS = [
+-    ("northshire", "human", "warrior", 1, [(0, box(-8950, -132), 240)]),
+-    ("valley", "orc", "warrior", 2, [(1, (-800, -4500, -30, -4000), 240)]),
+-    ("coldridge", "dwarf", "warrior", 3, [(0, box(-6240, 331), 240)]),
+-    ("shadowglen", "night-elf", "warrior", 4, [(1, box(10311, 832), 240)]),
+-    ("deathknell", "undead", "warrior", 5, [(0, box(1677, 1678), 240)]),
+-    ("narache", "tauren", "warrior", 6, [(1, box(-2918, -258), 240)]),
+-    ("sunstrider", "blood-elf", "paladin", 7, [(0, box(8216, -4224), 240)]),  # no blood elf warriors
+-    ("ammenvale", "draenei", "warrior", 8, [(1, box(5638, 4202), 240)]),
+-    ("goblin", "goblin", "warrior", 9, [(1, (-9120, -11680, -8230, -10750), 240),      # Kezan
+-                                        (1, (-500, -11720, 2100, -8850), 360)]),       # Lost Isles
++    ("elwynn", "human", "priest", 1, [(0, (-10254, -1935, -7940, 1535), 600, 12)]),
++    ("durotar", "orc", "warlock", 2, [(1, (-1717, -7250, 1808, -1962), 600, 14)]),
++    ("dunmorogh", "dwarf", "paladin", 3, [(0, (-7160, -3123, -3877, 1802), 600, 1)]),
++    ("teldrassil", "night-elf", "hunter", 4, [(1, (8437, -1277, 11831, 3815), 600, 141)]),
++    ("tirisfal", "undead", "mage", 5, [(0, (825, -1485, 3837, 3033), 600, 85)]),
++    ("mulgore", "tauren", "druid", 6, [(1, (-3698, -3090, -273, 2048), 600, 215)]),
++    ("eversong", "blood-elf", "rogue", 7, [(0, (5625, -7279, 8908, -2354), 600, 3430)]),
++    ("azuremyst", "draenei", "shaman", 8, [(1, (4092, 3563, 6806, 7633), 600, 3524)]),
++    ("goblin", "goblin", "warrior", 9, [(1, (-9120, -11680, -8230, -10750), 240, 4737),   # Kezan
++                                        (1, (-500, -11720, 2100, -8850), 480, 4720)]),    # Lost Isles
+ ]
+ BY_NAME = {a[0]: a for a in AREAS}
+ 
+@@ -225,11 +228,13 @@ def cmd_drive(name):
+     """Run the area's legs in order; a leg must PASS before the next one starts."""
+     char, legs = state(name)["char"], BY_NAME[name][4]
+     flog = os.path.join(area_dir(name), "fleet.log")
+-    for i, (mapid, bx, minutes) in enumerate(legs, 1):
+-        log(name, f"leg {i}/{len(legs)} map {mapid} box {bx} ({minutes} min)")
++    for i, (mapid, bx, minutes, zone) in enumerate(legs, 1):
++        log(name, f"leg {i}/{len(legs)} map {mapid} box {bx} zone {zone} ({minutes} min)")
+         start = os.path.getsize(flog)
++        env = env_for(name)
++        env["AW_ZONE"] = str(zone)
+         subprocess.run([os.path.join(HERE, "supervise.sh"), char, str(mapid), *map(str, bx), str(minutes), flog],
+-                       env=env_for(name), stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
++                       env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+         with open(flog) as f:
+             f.seek(start)
+             verdicts = [l.strip() for l in f if l.startswith("RESULT:")]
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 9944295..38672e9 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -62,6 +62,49 @@ CLASS_ABILITIES = {
+         {"spell_id": 20271, "every_ms": 10000, "min_power": 30},                              # Judgement of Light (needs the seal)
+         {"spell_id": 19740, "every_ms": 3000, "min_power": 30, "on_self": True, "buff": True},  # Blessing of Might
+     ],
++    3: [  # hunter - from range: Auto Shot repeats on its own; stings per target; Raptor Strike in melee
++        {"spell_id": 13163, "every_ms": 3000, "min_power": 20, "on_self": True, "buff": True},  # Aspect of the Monkey
++        {"spell_id": 1130, "every_ms": 30000, "min_power": 15},                              # Hunter's Mark
++        {"spell_id": 1978, "every_ms": 15000, "min_power": 15, "per_target": True},          # Serpent Sting
++        {"spell_id": 75, "every_ms": 2500},                                                  # Auto Shot
++        {"spell_id": 2973, "every_ms": 6000, "min_power": 15},                               # Raptor Strike (melee)
++    ],
++    5: [  # priest - shield, heal, Pain on each attacker, Smite
++        {"spell_id": 2050, "every_ms": 3000, "min_power": 30, "on_self": True, "below_health_pct": 40},  # Lesser Heal
++        {"spell_id": 17, "every_ms": 15000, "min_power": 45, "on_self": True, "below_health_pct": 90},   # Power Word: Shield
++        {"spell_id": 1243, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Power Word: Fortitude
++        {"spell_id": 589, "every_ms": 18000, "min_power": 25, "per_target": True},           # Shadow Word: Pain
++        {"spell_id": 585, "every_ms": 0, "min_power": 20},                                   # Smite
++    ],
++    7: [  # shaman - Earth Shock doubles as the interrupt
++        {"spell_id": 331, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Wave
++        {"spell_id": 8042, "every_ms": 6000, "min_power": 30, "interrupt": True},            # Earth Shock (interrupt)
++        {"spell_id": 324, "every_ms": 3000, "min_power": 45, "on_self": True, "buff": True},  # Lightning Shield
++        {"spell_id": 8017, "every_ms": 290000, "min_power": 20, "on_self": True},            # Rockbiter Weapon (item buff)
++        {"spell_id": 8042, "every_ms": 6000, "min_power": 30},                               # Earth Shock
++        {"spell_id": 403, "every_ms": 0, "min_power": 15},                                   # Lightning Bolt
++    ],
++    8: [  # mage
++        {"spell_id": 168, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Frost Armor
++        {"spell_id": 1459, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Arcane Intellect
++        {"spell_id": 2136, "every_ms": 8000, "min_power": 40},                               # Fire Blast
++        {"spell_id": 116, "every_ms": 0, "min_power": 25},                                   # Frostbolt (slows: fewer hits taken)
++        {"spell_id": 133, "every_ms": 0, "min_power": 30},                                   # Fireball (before Frostbolt is known)
++    ],
++    9: [  # warlock
++        {"spell_id": 687, "every_ms": 3000, "min_power": 50, "on_self": True, "buff": True},  # Demon Skin
++        {"spell_id": 172, "every_ms": 18000, "min_power": 35, "per_target": True},           # Corruption
++        {"spell_id": 348, "every_ms": 15000, "min_power": 25},                               # Immolate
++        {"spell_id": 686, "every_ms": 0, "min_power": 25},                                   # Shadow Bolt
++    ],
++    11: [  # druid (caster form)
++        {"spell_id": 5185, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Touch
++        {"spell_id": 774, "every_ms": 12000, "min_power": 25, "on_self": True, "below_health_pct": 70},  # Rejuvenation
++        {"spell_id": 1126, "every_ms": 3000, "min_power": 20, "on_self": True, "buff": True},  # Mark of the Wild
++        {"spell_id": 467, "every_ms": 3000, "min_power": 35, "on_self": True, "buff": True},  # Thorns
++        {"spell_id": 8921, "every_ms": 12000, "min_power": 25, "per_target": True},          # Moonfire
++        {"spell_id": 5176, "every_ms": 0, "min_power": 20},                                  # Wrath
++    ],
+     4: [  # rogue
+         {"spell_id": 1766, "every_ms": 10000, "min_power": 25, "interrupt": True},            # Kick
+         {"spell_id": 1752, "every_ms": 1000, "min_power": 45},                                # Sinister Strike
+@@ -70,6 +113,11 @@ CLASS_ABILITIES = {
+ }
+ 
+ 
++# classes that fight from range (yd): they stand off and cast, and melee only what reaches them
++CLASS_RANGE = {3: 28, 5: 28, 7: 26, 8: 28, 9: 28, 11: 28}
++MANA_CLASSES = {2, 3, 5, 7, 8, 9, 11}
++
++
+ # -- world DB -------------------------------------------------------------------------------------
+ 
+ def sql(query, db="world"):
+@@ -105,6 +153,7 @@ def inlist(values):
+ 
+ # quest sorts a fresh character cannot do: professions (Elixirs for the Bladeleafs 1581 = Alchemy)
+ # and holidays (A Tisket, a Tasket 13502 = Noblegarden; The Grateful Dead 13952 = Day of the Dead)
++START_SUBAREAS = {9, 132, 188, 154, 220, 363, 3431, 3526}  # starting valleys not parented to their zone
+ UNBOTABLE_SORTS = {-24, -101, -121, -181, -182, -201, -264, -304, -324, -371, -373,       # professions
+                    -22, -41, -364, -366, -369, -370, -374, -375, -376, -1001, -1002, -1003, -1005}  # holidays
+ 
+@@ -124,8 +173,8 @@ STAT_W = {1: {4: 2.0, 3: 1.0, 7: 1.5}, 2: {4: 2.0, 5: 1.0, 7: 1.5}, 4: {3: 2.0,
+ class World:
+     """Everything the runner needs about the area, loaded once."""
+ 
+-    def __init__(self, mapid, box, char):
+-        self.map, self.box = mapid, box
++    def __init__(self, mapid, box, char, zone=0):
++        self.map, self.box, self.zone = mapid, box, zone
+         x1, y1, x2, y2 = box
+         where = f"map={mapid} AND position_x BETWEEN {min(x1, x2)} AND {max(x1, x2)} AND position_y BETWEEN {min(y1, y2)} AND {max(y1, y2)}"
+         self.cspawn, self.gspawn = {}, {}
+@@ -144,6 +193,14 @@ class World:
+             self.starters.setdefault(int(r["quest"]), []).append(("c", int(r["id"])))
+         for r in sql(f"SELECT id,quest FROM gameobject_queststarter WHERE id IN ({ge})"):
+             self.starters.setdefault(int(r["quest"]), []).append(("g", int(r["id"])))
++        if zone:
++            # a whole-zone run: the box also holds its capital (Elwynn's holds Stormwind - 59 city
++            # quests, plus holidays and battleground calls). Keep quests filed under the zone, its
++            # sub-areas, the starting sub-areas, and class quests (negative sorts, class-gated)
++            areas = {zone} | {int(r["id"]) for r in dbc(f"SELECT id FROM areatable WHERE zone_id={zone}")} | START_SUBAREAS
++            sort = {int(r["ID"]): int(r["s"]) for r in sql(
++                f"SELECT ID,QuestSortID s FROM quest_template WHERE ID IN ({inlist(self.starters)})")}
++            self.starters = {q: g for q, g in self.starters.items() if sort.get(q, 0) <= 0 or sort[q] in areas}
+         # givers that only exist as a summon (Assistant Greely 39199, summoned at the q25110 turn-in,
+         # follows the player through the mine): take the quests chained off ours whose giver is
+         # an effect-28 summon target - she is found in sight, never at a spawn point
+@@ -731,16 +788,16 @@ class World:
+         self.ranged_sub = {sub for sk, sub in ((45, 2), (46, 3), (226, 18), (176, 16)) if sk in skills}
+         self.skills = skills  # weapon/armour proficiencies we start with (gear_up checks them)
+         self.shop = [dict(vendor=int(r["vendor"]), item=int(r["item"]), cls=int(r["class"]), sub=int(r["subclass"]),
+-                          lvl=int(r["lvl"]), price=int(r["price"]), buy=max(int(r["bc"]), 1), spell=int(r["spell"]),
++                          lvl=int(r["lvl"]), price=int(r["price"]), buy=max(int(r["bc"]), 1), spell=int(r["spell"]), cat=int(r["cat"]),
+                           dps=(int(r["dmin"]) + int(r["dmax"])) / max(int(r["delay"]), 1))
+                      for r in sql(
+             "SELECT v.entry vendor,i.entry item,i.class,i.subclass,i.RequiredLevel lvl,i.BuyPrice price,i.BuyCount bc,"
+-            "i.spellid_1 spell,i.dmg_min1 dmin,i.dmg_max1 dmax,i.delay FROM npc_vendor v JOIN item_template i ON i.entry=v.item "
++            "i.spellid_1 spell,i.spellcategory_1 cat,i.dmg_min1 dmin,i.dmg_max1 dmax,i.delay FROM npc_vendor v JOIN item_template i ON i.entry=v.item "
+             f"WHERE v.entry IN ({ce}) AND v.ExtendedCost=0 "
+             f"AND (i.AllowableClass<=0 OR i.AllowableClass & {1 << (self.cls - 1)}) "
+             f"AND (i.AllowableRace<=0 OR i.AllowableRace & {1 << (self.race - 1)}) AND ("
+             "(i.class=2 AND i.subclass IN (2,3,16,18)) OR (i.class=6 AND i.subclass IN (2,3)) "
+-            "OR (i.class=0 AND i.subclass=5 AND i.spellcategory_1=11))")]
++            "OR (i.class=0 AND i.subclass=5 AND i.spellcategory_1 IN (11,59)))")]
+         # healing potions (looted, rarely sold this low): item -> its on-use spell, when that heals
+         pots = {int(r["entry"]): int(r["spell"]) for r in sql(
+             "SELECT entry,spellid_1 spell FROM item_template WHERE class=0 AND subclass=1 AND RequiredLevel<=30 AND spellid_1>0")}
+@@ -1041,6 +1098,11 @@ class Runner:
+                              "below_health_pct": 35}] if pot else []
+             food = [i for i, inf in self.items(list(have)).items() if inf and inf[0] == 0 and inf[1] == 5 and inf[3] == 11]
+             self._food = {"food_item": food[0], "food_spell": self.items(food)[food[0]][2]} if food else {}
++            if self.w.cls in MANA_CLASSES:
++                water = [i for i, inf in self.items(list(have)).items() if inf and inf[0] == 0 and inf[1] == 5 and inf[3] == 59]
++                if water:
++                    self._food.update(drink_item=water[0], drink_spell=self.items(water)[water[0]][2])
++                self._food["mana_pct"] = 80  # a caster with no mana is a bad melee fighter
+             self._pull = 0
+             if ranged:
+                 sub = self.items([ranged])[ranged][1]
+@@ -1051,6 +1113,8 @@ class Runner:
+                         inf and inf[0] == 6 for inf in self.items(list(have)).values()):
+                     self._pull = 3018  # Shoot: needs ammo in the bags (set_ammo picked it)
+         a = {"abilities": self._potion + [x for x in self.abilities if not x.get("charge")]}
++        if CLASS_RANGE.get(self.w.cls):
++            a["range"] = CLASS_RANGE[self.w.cls]
+         charge = next((x["spell_id"] for x in self.abilities if x.get("charge")), 0)
+         if solo and charge:
+             a["charge_spell"] = charge
+@@ -1058,6 +1122,11 @@ class Runner:
+             a["pull_spell"] = self._pull
+         return a
+ 
++    def ranged_opener(self):
++        """Do we start fights from range (Shoot/Throw equipped, or a caster/hunter class)? Then a camp
++        mob is pulled out to us and camp tightness matters far less."""
++        return bool(self.fight_args().get("pull_spell") or CLASS_RANGE.get(self.w.cls))
++
+     def rest(self, until_pct=90):
+         """Sit until healed - eating first when we are low and carry food."""
+         self.fight_args()  # refreshes the food pick
+@@ -1158,13 +1227,17 @@ class Runner:
+             if ammo:
+                 res = call("interact.set_ammo", entry=ammo[-1])
+                 print(f"  supplies: ammo {ammo[-1]}: {res.get('detail')}", flush=True)
+-        food = [e for e, inf in self.items(list(have)).items() if inf and inf[0] == 0 and inf[1] == 5 and inf[3] == 11]
+-        if sum(have[e] for e in food) < 5:
++        # food for everyone, water for mana users (category 11 food, 59 drink)
++        for cat in (11, 59) if self.w.cls in MANA_CLASSES else (11,):
++            held = [e for e, inf in self.items(list(have)).items() if inf and inf[0] == 0 and inf[1] == 5 and inf[3] == cat]
++            if sum(have[e] for e in held) >= 5:
++                continue
+             # keep 3s back for the trainer (supplies now run BEFORE training)
+-            rows = sorted((r for r in self.w.shop if r["cls"] == 0 and r["lvl"] <= level and r["price"] * 10 + 300 <= money),
+-                          key=lambda r: (-r["lvl"], r["price"]))
++            rows = sorted((r for r in self.w.shop if r["cls"] == 0 and r.get("cat") == cat and r["lvl"] <= level
++                           and r["price"] * 10 + 300 <= money), key=lambda r: (-r["lvl"], r["price"]))
+             if rows:
+-                buy(rows, max(1, 10 // rows[0]["buy"]), 150)
++                if buy(rows, max(1, 10 // rows[0]["buy"]), 150):
++                    money -= rows[0]["price"] * max(1, 10 // rows[0]["buy"])
+         self._kit_t = 0
+ 
+     def reach_trainer(self, t):
+@@ -1334,7 +1407,7 @@ class Runner:
+         ux, uy = t["x"] - spot[0], t.get("y", 0) - spot[1]
+         n = max(math.hypot(ux, uy), 0.01)
+         # its outer side: 6 yd to walk in and swing, 20 yd with a ranged opener (it walks out to us)
+-        off = 20 if self.fight_args().get("pull_spell") else 6
++        off = 20 if self.ranged_opener() else 6
+         ax, ay = t["x"] + ux / n * off, t.get("y", 0) + uy / n * off
+         # where we would fight from, who else is in aggro reach (~20 yd, a yard less per level we
+         # are above them)? A tight camp joins in whole: Sunstrider's Feral Tenders stand 1-15 yd
+@@ -1342,7 +1415,7 @@ class Runner:
+         joins = [o for o in mobs if o is not t and math.dist((o["x"], o.get("y", 0)), (ax, ay))
+                  < max(8, 20 - (level - info.get(o["entry"], (level, 0))[0]))]
+         body = None
+-        if len(joins) >= 2 and not self.fight_args().get("pull_spell"):
++        if len(joins) >= 2 and not self.ranged_opener():
+             # a body pull: inch toward the outermost until IT alone notices us, then back out - if
+             # the spot where it notices us is clear of the others' reach
+             lv = lambda o: info.get(o["entry"], (level, 0))[0]
+@@ -1352,7 +1425,7 @@ class Runner:
+                 print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}): body-pulling {t['entry']} from ({ax:.0f},{ay:.0f})", flush=True)
+         # (3 levels over the camp, take it: green mobs in a pack are a fight we win, and parking
+         # past that level would loop on "later" like the old 5886-pass busy loop)
+-        if len(joins) >= 2 and not body and level < top + 3 and not self.fight_args().get("pull_spell"):
++        if len(joins) >= 2 and not body and level < top + 3 and not self.ranged_opener():
+             q = getattr(self, "current_qid", None)
+             back = min(level + 1, top + 3)
+             if q:
+@@ -1537,7 +1610,7 @@ class Runner:
+             cx = sum(m["x"] for m in group) / len(group)
+             cy = sum(m.get("y", 0) for m in group) / len(group)
+             out = max(group, key=lambda m: (round(math.dist((m["x"], m.get("y", 0)), (cx, cy)) / 4), -m.get("distance", 0)))
+-            pull = self.fight_args().get("pull_spell")
++            pull = self.ranged_opener()
+             ax = ay = None
+             if not pull:
+                 # body pull: inch toward it until IT alone notices us, then back out with it
+@@ -1613,6 +1686,15 @@ class Runner:
+                         near.add(o["guid"])
+         return len(near)
+ 
++    def check_loot(self, r):
++        """A fight that looted gear (a green sword off a mob) wears it now, not at the next turn-in."""
++        got = [it.get("itemId") for it in r.get("loot", []) if it.get("itemId")]
++        if got and any(row and row["class"] in (2, 4) for row in self.item_rows(got).values()):
++            try:
++                self.gear_up()
++            except StepFailed as e:
++                print(f"  ~ gear: {str(e)[:80]}", flush=True)
++
+     def fight_log(self, entry, r, kind="pull"):
+         """One line per fight with what the combat module measured - how hard we hit vs how hard we
+         are hit, and how many attacked us at once (a single pull vs a pack: the death-rate question).
+@@ -1621,6 +1703,7 @@ class Runner:
+               f"{' ' + r['pull'] if r.get('pull') else ''}] swings {r.get('swings', 0)} dealt {r.get('damageDone', 0)} "
+               f"taken {r.get('damageTaken', 0)} hp {r.get('ourHealth', 0)}/{r.get('ourMaxHealth', 0)} casts {r.get('spells', [])}",
+               flush=True)
++        self.check_loot(r)
+ 
+     def spirit_rez(self):
+         """Resurrect at the nearest spirit healer (npcflag 0x4000; only a ghost sees one). Its spawn
+@@ -3495,8 +3578,9 @@ def main():
+     ap.add_argument("--map", type=int, required=True)
+     ap.add_argument("--box", type=float, nargs=4, required=True, metavar=("X1", "Y1", "X2", "Y2"))
+     ap.add_argument("--minutes", type=float, default=60)
++    ap.add_argument("--zone", type=int, default=0, help="AreaTable zone id: keep only that zone's quests")
+     a = ap.parse_args()
+-    w = World(a.map, a.box, a.char)
++    w = World(a.map, a.box, a.char, a.zone)
+     print(f"area: {sum(map(len, w.cspawn.values()))} creature + {sum(map(len, w.gspawn.values()))} GO spawns, "
+           f"{len(w.starters)} quests started here ({w.objective_spawns_outside} objective spawns beyond the box); "
+           f"char race {w.race} class {w.cls}", flush=True)
+diff --git a/zeppelin/tests/supervise.sh b/zeppelin/tests/supervise.sh
+index 1955393..540f7ed 100755
+--- a/zeppelin/tests/supervise.sh
++++ b/zeppelin/tests/supervise.sh
+@@ -7,6 +7,7 @@
+ #   AW_RUN   instance dir holding config.yaml + config/ (default: this script's dir)
+ #   AW_BIN   agent-wow binary            AW_TESTS  dir with start_area.py + rpc.sh
+ #   AGENT_WOW_RPC_PORT                   must match worldrpc.port in AW_RUN/config.yaml
++#   AW_ZONE  AreaTable zone id: the runner keeps only that zone's quests (whole-zone legs)
+ CHAR=$1; MAP=$2; BOX="$3 $4 $5 $6"; MIN=$7; LOG=$8
+ HERE=$(cd "$(dirname "$0")" && pwd)
+ RUN=${AW_RUN:-$HERE}
+@@ -24,7 +25,7 @@ for attempt in $(seq 1 12); do
+   fi
+   left=$(( (deadline - $(date +%s)) / 60 )); [ "$left" -le 0 ] && break
+   RUNLOG=$(mktemp)
+-  (cd "$TESTS" && python3 -u start_area.py --char "$CHAR" --map "$MAP" --box $BOX --minutes "$left" 2>&1; echo "[SUPERVISOR] runner exit code $?") | tee -a "$LOG" > "$RUNLOG"
++  (cd "$TESTS" && python3 -u start_area.py --char "$CHAR" --map "$MAP" --box $BOX --minutes "$left" ${AW_ZONE:+--zone $AW_ZONE} 2>&1; echo "[SUPERVISOR] runner exit code $?") | tee -a "$LOG" > "$RUNLOG"
+   # a verdict only counts if the session survived the run: a worldserver restart mid-step surfaces as
+   # anything from "Connection refused" to "context canceled", so ask the session instead of the text
+   if grep -q "^RESULT:" "$RUNLOG" && alive; then rm -f "$RUNLOG"; break; fi
+-- 
+2.34.1
+

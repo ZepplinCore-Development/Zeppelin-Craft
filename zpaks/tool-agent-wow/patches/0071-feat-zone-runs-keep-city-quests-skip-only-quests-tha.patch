@@ -1,0 +1,136 @@
+From 36cf0bb9240ba3f0cdbf3a839f7f052ba72cae3b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 09:22:54 +0000
+Subject: [PATCH] feat: zone runs keep city quests; skip only quests that leave
+ the zone, holiday/event, PvP (F-219)
+
+- no QuestSortID zone filter: the capital sits inside the zone box and its quests count
+- World.leaves_zone: a quest whose kill/use target, or every creature dropping its item, spawns
+  only outside the box; skipped in quest choice and the verdict
+- battleground zones / -25 joined the unbotable sorts (with holidays and professions)
+- creature loot sources in one join instead of a query per loot row (zone-wide init was > 10 min)
+- no death knight runs
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/fleet.py      |  8 +++---
+ zeppelin/tests/start_area.py | 47 +++++++++++++++++++++++-------------
+ 2 files changed, 34 insertions(+), 21 deletions(-)
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index 01e4594..aa4c9f6 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -42,10 +42,10 @@ def box(x, y, half=450):
+ 
+ 
+ # name, race, class, account index, legs [(map, box, minutes, zone)]. One bot per starting ZONE, one
+-# class each: the whole zone to its exit (boxes = WorldMapArea bounds; zone = AreaTable id, which
+-# keeps the zone's capital, holidays and battleground calls out of the quest list). Eversong and
+-# Azuremyst sit on maps 0/1 here. Not yet: death knight (MinLevelForHeroicCharacter 55 needs a
+-# level-55 character on the account), worgen (Gilneas content in progress).
++# class each: the whole zone to its exit (boxes = WorldMapArea bounds, capital included - city quests
++# count). The runner skips quests that leave the zone (ender or objectives only outside the box),
++# holiday/event, profession and battleground quests. zone = AreaTable id (logged). Eversong and
++# Azuremyst sit on maps 0/1 here. No death knight runs; worgen once Gilneas content is ready.
+ AREAS = [
+     ("elwynn", "human", "priest", 1, [(0, (-10254, -1935, -7940, 1535), 600, 12)]),
+     ("durotar", "orc", "warlock", 2, [(1, (-1717, -7250, 1808, -1962), 600, 14)]),
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 38672e9..0b87da6 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -153,9 +153,9 @@ def inlist(values):
+ 
+ # quest sorts a fresh character cannot do: professions (Elixirs for the Bladeleafs 1581 = Alchemy)
+ # and holidays (A Tisket, a Tasket 13502 = Noblegarden; The Grateful Dead 13952 = Day of the Dead)
+-START_SUBAREAS = {9, 132, 188, 154, 220, 363, 3431, 3526}  # starting valleys not parented to their zone
+ UNBOTABLE_SORTS = {-24, -101, -121, -181, -182, -201, -264, -304, -324, -371, -373,       # professions
+-                   -22, -41, -364, -366, -369, -370, -374, -375, -376, -1001, -1002, -1003, -1005}  # holidays
++                   -22, -41, -364, -366, -369, -370, -374, -375, -376, -1001, -1002, -1003, -1005,  # holidays
++                   -25, 2597, 3277, 3358, 3820, 4384, 4710}  # battlegrounds / PvP calls to arms
+ 
+ 
+ # -- gear: equip upgrades, choose quest rewards ---------------------------------------------------
+@@ -193,14 +193,6 @@ class World:
+             self.starters.setdefault(int(r["quest"]), []).append(("c", int(r["id"])))
+         for r in sql(f"SELECT id,quest FROM gameobject_queststarter WHERE id IN ({ge})"):
+             self.starters.setdefault(int(r["quest"]), []).append(("g", int(r["id"])))
+-        if zone:
+-            # a whole-zone run: the box also holds its capital (Elwynn's holds Stormwind - 59 city
+-            # quests, plus holidays and battleground calls). Keep quests filed under the zone, its
+-            # sub-areas, the starting sub-areas, and class quests (negative sorts, class-gated)
+-            areas = {zone} | {int(r["id"]) for r in dbc(f"SELECT id FROM areatable WHERE zone_id={zone}")} | START_SUBAREAS
+-            sort = {int(r["ID"]): int(r["s"]) for r in sql(
+-                f"SELECT ID,QuestSortID s FROM quest_template WHERE ID IN ({inlist(self.starters)})")}
+-            self.starters = {q: g for q, g in self.starters.items() if sort.get(q, 0) <= 0 or sort[q] in areas}
+         # givers that only exist as a summon (Assistant Greely 39199, summoned at the q25110 turn-in,
+         # follows the player through the mine): take the quests chained off ours whose giver is
+         # an effect-28 summon target - she is found in sight, never at a spawn point
+@@ -296,6 +288,15 @@ class World:
+                     self.beyond.add(pt)
+                     added += 1
+         self.objective_spawns_outside = added
++        # city quests stay (the capital is in the zone box); a quest whose objective lives ONLY
++        # outside the box takes us out of the zone - not this run's business
++        self.leaves_zone = set()
++        for qid, q in self.quests.items():
++            for k in range(1, 5):
++                t = int(q[f"RequiredNpcOrGo{k}"])
++                pts = self.cspawn.get(t, []) if t > 0 else self.gspawn.get(-t, []) if t < 0 else []
++                if pts and all(p in self.beyond for p in pts):
++                    self.leaves_zone.add(qid)
+         # AzerothCore also gates on NextQuestID: X.NextQuestID = Y puts X in Y's prerequisites
+         # (ObjectMgr::LoadQuests prevQuests) - e.g. 792 Vile Familiars -> 794 Burning Blade Medallion
+         self.prev_via_next = {}
+@@ -511,11 +512,20 @@ class World:
+                         self.spellhit.setdefault(int(r[m]), int(r["id"]))
+         self.creature_loot = {}  # item -> creature entries (spawned here) that drop it
+         self.loot_chance = {}    # (item, creature) -> drop chance, so farming starts at the real source
+-        for r in sql(f"SELECT Entry,Item,Chance FROM creature_loot_template WHERE Item IN ({il})"):
+-            for c in ids(sql(f"SELECT entry FROM creature_template WHERE lootid={int(r['Entry'])}"), "entry"):
+-                if c in self.cspawn:
+-                    self.creature_loot.setdefault(int(r["Item"]), set()).add(c)
+-                    self.loot_chance[(int(r["Item"]), c)] = float(r["Chance"])
++        # one join, not a query per loot row (a whole zone has hundreds of them)
++        for r in sql("SELECT l.Item,l.Chance,t.entry c FROM creature_loot_template l JOIN creature_template t "
++                     f"ON t.lootid=l.Entry WHERE l.Item IN ({il})"):
++            c = int(r["c"])
++            if c in self.cspawn:
++                self.creature_loot.setdefault(int(r["Item"]), set()).add(c)
++                self.loot_chance[(int(r["Item"]), c)] = float(r["Chance"])
++        # ...and an item objective dropped only by creatures outside the box leaves the zone too
++        for qid, q in self.quests.items():
++            for k in range(1, 7):
++                it = int(q[f"RequiredItemId{k}"])
++                src = self.creature_loot.get(it, set())
++                if src and all(all(p in self.beyond for p in self.cspawn.get(c, [])) for c in src):
++                    self.leaves_zone.add(qid)
+         # loot GOs nobody spawns but another GO's SAI summons (action 50) - the source must be set
+         # off first (Kaja'mite Deposit 195489 -> 3 x Kaja'mite Chunk 195492 when activated)
+         # quest items whose spell activates GOs at a point (effect 86 ACTIVATE_OBJECT): Kablooey Bombs
+@@ -897,7 +907,8 @@ class World:
+         """Race/class allow this quest and its ender is in the area (ignores level/prereqs)."""
+         q = self.quests[qid]
+         races, classes = int(q["AllowableRaces"]), int(q["AllowableClasses"])
+-        return (qid in self.enders and int(q.get("QuestSortID", 0) or 0) not in UNBOTABLE_SORTS and (not races or races & (1 << (self.race - 1)))
++        return (qid in self.enders and int(q.get("QuestSortID", 0) or 0) not in UNBOTABLE_SORTS
++                and qid not in self.leaves_zone and (not races or races & (1 << (self.race - 1)))
+                 and (not classes or classes & (1 << (self.cls - 1)))
+                 and (qid not in self.cond19 or self.groups_true(self.cond19[qid], {}, static_only=True)))
+ 
+@@ -906,7 +917,9 @@ class World:
+         if qid in self.rewarded or qid in in_log or qid not in self.enders:
+             return False  # no ender in the area = an exit quest; out of scope here
+         if int(q.get("QuestSortID", 0) or 0) in UNBOTABLE_SORTS:
+-            return False  # a profession or holiday quest: never walk to its giver
++            return False  # a profession, holiday or battleground quest: never walk to its giver
++        if qid in self.leaves_zone:
++            return False  # its objective exists only outside the zone
+         nxt = int(q.get("RewardNextQuest", 0) or 0)
+         if nxt and (nxt in self.rewarded or nxt in in_log):
+             return False  # its chain follow-up is done/taken: AzerothCore refuses it (Rude Awakening 363)
+-- 
+2.34.1
+

@@ -1,0 +1,40 @@
+From 107a7985789bdf941051b2b161a49e7f20b8a9db Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 10:14:26 +0000
+Subject: [PATCH] fix: sell only at a vendor within 150 yd on level-up, walking
+ to that spawn (F-219)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 748cd06..ad42b3a 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1197,7 +1197,10 @@ class Runner:
+                for p in [self.w.nearest("c", v, me, self.phase_mask())] if p]
+         if not pts or min(pts)[0] > max_walk:
+             return 0
+-        _, v, _ = min(pts)
++        _, v, p = min(pts)
++        # walk to THAT spawn (go_near may pick another copy: Teldrassil's level-1 hunter walked
++        # 492 yd for pennies), then stand by the vendor himself
++        self.travel(*p, within=15)
+         if not self.go_near("c", v):
+             return 0
+         before = call("interact.self").get("money", 0)
+@@ -1215,7 +1218,7 @@ class Runner:
+             return
+         self._supplied = level
+         try:
+-            self.sell_junk(300)  # money first: the trainer and the shop both need it
++            self.sell_junk(150)  # money first - but never a long walk for pennies
+         except StepFailed as e:
+             print(f"  ~ sell: {str(e)[:80]}", flush=True)
+         if not self.w.shop:
+-- 
+2.34.1
+

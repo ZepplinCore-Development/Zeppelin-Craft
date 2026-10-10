@@ -1,0 +1,178 @@
+From cd3737746d4a5d61682ab459c9e3dff293441799 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 09:29:31 +0000
+Subject: [PATCH] perf+fix: zone World init 100 s (was >10 min); leaves-zone by
+ whole-DB spawns; level cap 13 (F-219)
+
+- summoners(): one indexed DBC query for "spells that summon X" (182 per-entry queries = 67 s)
+- leaves_zone: an objective target (or every dropper of an objective item) that spawns somewhere
+  but never inside the box - catches Westfall/Stockade/Scarlet Monastery quests from Stormwind,
+  whose spawns lie beyond the 1200 yd loaded for objectives (Elwynn: 16 -> 84 flagged)
+- quests above level 13 are out of a starting-zone run (Stormwind hands out level 20-60 quests);
+  Alterac Valley's sort joins the PvP list
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 72 +++++++++++++++++++++---------------
+ 1 file changed, 43 insertions(+), 29 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 0b87da6..8ddbde9 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -155,7 +155,9 @@ def inlist(values):
+ # and holidays (A Tisket, a Tasket 13502 = Noblegarden; The Grateful Dead 13952 = Day of the Dead)
+ UNBOTABLE_SORTS = {-24, -101, -121, -181, -182, -201, -264, -304, -324, -371, -373,       # professions
+                    -22, -41, -364, -366, -369, -370, -374, -375, -376, -1001, -1002, -1003, -1005,  # holidays
+-                   -25, 2597, 3277, 3358, 3820, 4384, 4710}  # battlegrounds / PvP calls to arms
++                   -25, 2597, 2839, 3277, 3358, 3820, 4384, 4710}  # battlegrounds / PvP calls to arms
++# starting zones end around level 10-13: a capital in the box hands out level 20-60 quests too
++ZONE_LEVEL_CAP = 13
+ 
+ 
+ # -- gear: equip upgrades, choose quest rewards ---------------------------------------------------
+@@ -173,6 +175,18 @@ STAT_W = {1: {4: 2.0, 3: 1.0, 7: 1.5}, 2: {4: 2.0, 5: 1.0, 7: 1.5}, 4: {3: 2.0,
+ class World:
+     """Everything the runner needs about the area, loaded once."""
+ 
++    def summoners(self, entry, slots=3):
++        """Spells that summon creature `entry` (effect 28 in effect slot 1..slots) - one indexed DBC
++        query for the whole run instead of one per creature (182 of them cost 67 s on Elwynn)."""
++        if not hasattr(self, "_summon_idx"):
++            self._summon_idx = {}
++            for r in dbc("SELECT id,effect_1 e1,effect_misc_value_a_1 m1,effect_2 e2,effect_misc_value_a_2 m2,"
++                         "effect_3 e3,effect_misc_value_a_3 m3 FROM spell WHERE effect_1=28 OR effect_2=28 OR effect_3=28"):
++                for k in (1, 2, 3):
++                    if int(r[f"e{k}"]) == 28:
++                        self._summon_idx.setdefault((int(r[f"m{k}"]), k), []).append(int(r["id"]))
++        return sorted({sp for k in range(1, slots + 1) for sp in self._summon_idx.get((int(entry), k), [])})
++
+     def __init__(self, mapid, box, char, zone=0):
+         self.map, self.box, self.zone = mapid, box, zone
+         x1, y1, x2, y2 = box
+@@ -288,15 +302,22 @@ class World:
+                     self.beyond.add(pt)
+                     added += 1
+         self.objective_spawns_outside = added
+-        # city quests stay (the capital is in the zone box); a quest whose objective lives ONLY
+-        # outside the box takes us out of the zone - not this run's business
++        # city quests stay (the capital is in the zone box); a quest whose objective spawns somewhere
++        # in the world but NEVER inside the box takes us out of the zone (Westfall, the Stockade,
++        # Scarlet Monastery quests handed out in Stormwind) - not this run's business. Counted over
++        # the whole DB: their spawns are far beyond the 1200 yd loaded for objectives
++        inbox = (f"c.map={mapid} AND c.position_x BETWEEN {min(x1, x2)} AND {max(x1, x2)} "
++                 f"AND c.position_y BETWEEN {min(y1, y2)} AND {max(y1, y2)}")
+         self.leaves_zone = set()
++        tc = {int(q[f"RequiredNpcOrGo{k}"]) for q in self.quests.values() for k in range(1, 5)}
++        away = set()
++        for tbl, ents, sign in (("creature", {t for t in tc if t > 0}, 1), ("gameobject", {-t for t in tc if t < 0}, -1)):
++            if ents:
++                away |= {sign * int(r["id"]) for r in sql(f"SELECT c.id FROM {tbl} c WHERE c.id IN ({inlist(ents)}) "
++                                                         f"GROUP BY c.id HAVING SUM({inbox})=0")}
+         for qid, q in self.quests.items():
+-            for k in range(1, 5):
+-                t = int(q[f"RequiredNpcOrGo{k}"])
+-                pts = self.cspawn.get(t, []) if t > 0 else self.gspawn.get(-t, []) if t < 0 else []
+-                if pts and all(p in self.beyond for p in pts):
+-                    self.leaves_zone.add(qid)
++            if any(int(q[f"RequiredNpcOrGo{k}"]) in away for k in range(1, 5)):
++                self.leaves_zone.add(qid)
+         # AzerothCore also gates on NextQuestID: X.NextQuestID = Y puts X in Y's prerequisites
+         # (ObjectMgr::LoadQuests prevQuests) - e.g. 792 Vile Familiars -> 794 Burning Blade Medallion
+         self.prev_via_next = {}
+@@ -519,13 +540,13 @@ class World:
+             if c in self.cspawn:
+                 self.creature_loot.setdefault(int(r["Item"]), set()).add(c)
+                 self.loot_chance[(int(r["Item"]), c)] = float(r["Chance"])
+-        # ...and an item objective dropped only by creatures outside the box leaves the zone too
++        # ...and an item objective whose every dropping creature spawns only outside the box
++        away_items = {int(r["Item"]) for r in sql(
++            "SELECT l.Item FROM creature_loot_template l JOIN creature_template t ON t.lootid=l.Entry "
++            f"JOIN creature c ON c.id=t.entry WHERE l.Item IN ({il}) GROUP BY l.Item HAVING SUM({inbox})=0")}
+         for qid, q in self.quests.items():
+-            for k in range(1, 7):
+-                it = int(q[f"RequiredItemId{k}"])
+-                src = self.creature_loot.get(it, set())
+-                if src and all(all(p in self.beyond for p in self.cspawn.get(c, [])) for c in src):
+-                    self.leaves_zone.add(qid)
++            if any(int(q[f"RequiredItemId{k}"]) in away_items for k in range(1, 7)):
++                self.leaves_zone.add(qid)
+         # loot GOs nobody spawns but another GO's SAI summons (action 50) - the source must be set
+         # off first (Kaja'mite Deposit 195489 -> 3 x Kaja'mite Chunk 195492 when activated)
+         # quest items whose spell activates GOs at a point (effect 86 ACTIVATE_OBJECT): Kablooey Bombs
+@@ -559,9 +580,7 @@ class World:
+         for t in targets:
+             if t in self.cspawn or t in self.kill_alias:
+                 continue
+-            sp = [int(x["id"]) for x in dbc(
+-                f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={t}) OR "
+-                f"(effect_2=28 AND effect_misc_value_a_2={t}) OR (effect_3=28 AND effect_misc_value_a_3={t})")]
++            sp = self.summoners(t, 3)
+             if sp:
+                 hosts = {int(r["e"]) for r in sql(
+                     "SELECT DISTINCT entryorguid e FROM smart_scripts WHERE source_type=0 AND action_type IN (11,134) "
+@@ -600,9 +619,7 @@ class World:
+                 kills = [owner] if sql(f"SELECT 1 x FROM smart_scripts WHERE source_type=0 AND entryorguid={owner} "
+                                        f"AND event_type=6 AND action_type=50 AND action_param1={g}") else []
+             else:
+-                summons = [int(x["id"]) for x in dbc(
+-                    f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={owner}) OR "
+-                    f"(effect_2=28 AND effect_misc_value_a_2={owner})")]
++                summons = self.summoners(owner, 2)
+                 kills = [int(x["e"]) for x in sql(
+                     "SELECT DISTINCT entryorguid e FROM smart_scripts WHERE source_type=0 AND event_type=6 "
+                     f"AND action_type IN (11,134) AND action_param1 IN ({inlist(summons)})")] if summons else []
+@@ -631,8 +648,7 @@ class World:
+             for c in sql(f"SELECT DISTINCT entryorguid e FROM smart_scripts WHERE source_type=0 AND action_type=11 "
+                          f"AND action_param1={r['id']}"):
+                 veh = int(c["e"])
+-                summons = [int(x["id"]) for x in dbc("SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1="
+-                                                     f"{veh}) OR (effect_2=28 AND effect_misc_value_a_2={veh})")]
++                summons = self.summoners(veh, 2)
+                 if not summons:
+                     continue
+                 for g in sql("SELECT DISTINCT entryorguid g FROM smart_scripts WHERE source_type=1 AND action_type IN "
+@@ -653,9 +669,7 @@ class World:
+                 "SELECT DISTINCT entryorguid e FROM smart_scripts WHERE source_type=0 AND action_type=33 "
+                 f"AND action_param1={t} AND entryorguid<>{t}") if int(r["e"]) not in self.cspawn]
+             for payer in payers:
+-                spells = [int(x["id"]) for x in dbc(
+-                    f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={payer}) OR "
+-                    f"(effect_2=28 AND effect_misc_value_a_2={payer}) OR (effect_3=28 AND effect_misc_value_a_3={payer})")]
++                spells = self.summoners(payer, 3)
+                 if spells:
+                     # plus spells that only force/trigger-cast the summon (Mechashark Controller 202108:
+                     # 71662 FORCE_CAST -> 71648 SUMMON 38318)
+@@ -707,9 +721,7 @@ class World:
+                 "AND o.action_type=80 AND o.action_param1=l.entryorguid WHERE l.source_type=9 AND l.action_type=33 "
+                 f"AND l.action_param1={t}")}
+             for esc in owners - set(self.cspawn):
+-                spells = [int(x["id"]) for x in dbc(
+-                    f"SELECT id FROM spell WHERE (effect_1=28 AND effect_misc_value_a_1={esc}) OR "
+-                    f"(effect_2=28 AND effect_misc_value_a_2={esc})")]
++                spells = self.summoners(esc, 2)
+                 if not spells:
+                     continue
+                 for r in sql("SELECT entryorguid n,event_type ev,event_param1 m FROM smart_scripts WHERE source_type=0 "
+@@ -908,7 +920,7 @@ class World:
+         q = self.quests[qid]
+         races, classes = int(q["AllowableRaces"]), int(q["AllowableClasses"])
+         return (qid in self.enders and int(q.get("QuestSortID", 0) or 0) not in UNBOTABLE_SORTS
+-                and qid not in self.leaves_zone and (not races or races & (1 << (self.race - 1)))
++                and qid not in self.leaves_zone and int(q["QuestLevel"]) <= ZONE_LEVEL_CAP and (not races or races & (1 << (self.race - 1)))
+                 and (not classes or classes & (1 << (self.cls - 1)))
+                 and (qid not in self.cond19 or self.groups_true(self.cond19[qid], {}, static_only=True)))
+ 
+@@ -920,6 +932,8 @@ class World:
+             return False  # a profession, holiday or battleground quest: never walk to its giver
+         if qid in self.leaves_zone:
+             return False  # its objective exists only outside the zone
++        if int(q["QuestLevel"]) > ZONE_LEVEL_CAP:
++            return False  # a capital's level 20-60 quest: beyond a starting zone
+         nxt = int(q.get("RewardNextQuest", 0) or 0)
+         if nxt and (nxt in self.rewarded or nxt in in_log):
+             return False  # its chain follow-up is done/taken: AzerothCore refuses it (Rude Awakening 363)
+-- 
+2.34.1
+

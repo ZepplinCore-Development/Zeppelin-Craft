@@ -1,0 +1,91 @@
+From e6dab6b5687f0d9d036b126cc2dfd46e1939bd64 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 10:46:47 +0000
+Subject: [PATCH] fix: accept nearest givers first; rotation loads even when
+ training waits; cast lockout (F-219)
+
+- accepts were taken in quest-id order: in a whole zone that sent Elwynn's level-1 priest 1090 yd
+  past level-6 wolves to a far giver. Now: givers within 400 yd first, then effective level
+  (QuestLevel -1 = MinLevel - city quests sorted as the easiest), then distance
+- train()'s far-trainer deferral returned before refresh_abilities: Teldrassil's hunter fought
+  every fight with an empty rotation
+- castAt holds the next cast 400 ms until the server answers (a mage logged 25 Frostbolts a fight)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/main.go |  7 +++++++
+ zeppelin/tests/start_area.py    | 18 ++++++++++++++++--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index b04b05b..9afec25 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -279,6 +279,13 @@ func (s *service) castAt(ctx context.Context, spell uint32, guid uint64) error {
+ 	w.U8(0)
+ 	w.U32(targetFlagUnit)
+ 	w.PackedGUID(guid)
++	// hold the next cast until the server answers this one (SPELL_START extends it for a cast
++	// bar, GO/FAILURE clears it): a 300 ms tick re-cast Frostbolt 25 times a fight before
++	s.mu.Lock()
++	if t := time.Now().Add(400 * time.Millisecond); t.After(s.selfCastUntil) {
++		s.selfCastUntil = t
++	}
++	s.mu.Unlock()
+ 	return s.send(ctx, opcode.CMSGCastSpell, &w)
+ }
+ 
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index ad42b3a..6fbe261 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -928,6 +928,12 @@ class World:
+                 and (not classes or classes & (1 << (self.cls - 1)))
+                 and (qid not in self.cond19 or self.groups_true(self.cond19[qid], {}, static_only=True)))
+ 
++    def eff_level(self, qid):
++        """A quest's real level: QuestLevel -1 scales to the player (city quests) - use MinLevel."""
++        q = self.quests[qid]
++        lv = int(q.get("QuestLevel") or 0)
++        return lv if lv > 0 else int(q.get("MinLevel") or 1)
++
+     def eligible(self, qid, level, in_log):
+         q = self.quests[qid]
+         if qid in self.rewarded or qid in in_log or qid not in self.enders:
+@@ -1308,6 +1314,9 @@ class Runner:
+             # a long walk at every level-up kills fresh characters (Shadowglen: 8 of 10 deaths on the
+             # way to a trainer 470-550 yd off) - a far trainer waits until we are 3 levels behind
+             if near and min(near)[0] > 250 and level - self.visited_trainer_level < 3:
++                # deferring the WALK must not defer the rotation: this return used to skip
++                # refresh_abilities - Teldrassil's hunter fought 10 fights with no abilities at all
++                self.refresh_abilities()
+                 return
+             self.visited_trainer_level = level
+         self.trained_level = level
+@@ -3496,8 +3505,8 @@ class Runner:
+             # objective is right here gets done while we are here
+             me = self.me()
+             dist = {q: self.objective_distance(q, log[q], me) for q in active}
+-            active.sort(key=lambda q: (0 if dist[q] < 80 and int(self.w.quests[q].get("QuestLevel") or 0) <= level + 1 else 1,
+-                                       int(self.w.quests[q].get("QuestLevel") or 0), dist[q]))
++            active.sort(key=lambda q: (0 if dist[q] < 80 and self.w.eff_level(q) <= level + 1 else 1,
++                                       self.w.eff_level(q), dist[q]))
+             # a quest that killed us twice waits until we outlevel it (Brotherhood of Thieves: a
+             # level-3 warrior meets Defias Thugs two at a time) - a player would level first too
+             hard = [q for q in active if (self.deaths_on.get(q, 0) >= 2
+@@ -3532,6 +3541,11 @@ class Runner:
+                 continue
+             self.w.inventory = self.inventory()
+             avail = [q for q in sorted(self.w.starters) if q not in self.blocked and self.w.eligible(q, level, log)]
++            # nearest givers first, then the easiest: quest-id order sent Elwynn's level-1 priest
++            # 1090 yd past level-6 wolves to a far giver, with Northshire's givers beside it
++            me = self.me()
++            gd = {q: self.giver_distance(q, me) for q in avail}
++            avail.sort(key=lambda q: (gd[q] > 400, self.w.eff_level(q), gd[q]))
+             if avail:
+                 try:
+                     self.accept(avail[0])
+-- 
+2.34.1
+

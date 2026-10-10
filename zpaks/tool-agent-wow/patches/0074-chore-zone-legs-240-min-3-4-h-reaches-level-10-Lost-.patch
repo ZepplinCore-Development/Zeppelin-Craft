@@ -1,0 +1,45 @@
+From 8ccdb8b2ad5c0341b13d76d18d730af5979322b6 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 10:11:44 +0000
+Subject: [PATCH] chore: zone legs 240 min (3-4 h reaches level 10); Lost Isles
+ 360 (F-219)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/fleet.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index aa4c9f6..817fb9b 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -47,16 +47,16 @@ def box(x, y, half=450):
+ # holiday/event, profession and battleground quests. zone = AreaTable id (logged). Eversong and
+ # Azuremyst sit on maps 0/1 here. No death knight runs; worgen once Gilneas content is ready.
+ AREAS = [
+-    ("elwynn", "human", "priest", 1, [(0, (-10254, -1935, -7940, 1535), 600, 12)]),
+-    ("durotar", "orc", "warlock", 2, [(1, (-1717, -7250, 1808, -1962), 600, 14)]),
+-    ("dunmorogh", "dwarf", "paladin", 3, [(0, (-7160, -3123, -3877, 1802), 600, 1)]),
+-    ("teldrassil", "night-elf", "hunter", 4, [(1, (8437, -1277, 11831, 3815), 600, 141)]),
+-    ("tirisfal", "undead", "mage", 5, [(0, (825, -1485, 3837, 3033), 600, 85)]),
+-    ("mulgore", "tauren", "druid", 6, [(1, (-3698, -3090, -273, 2048), 600, 215)]),
+-    ("eversong", "blood-elf", "rogue", 7, [(0, (5625, -7279, 8908, -2354), 600, 3430)]),
+-    ("azuremyst", "draenei", "shaman", 8, [(1, (4092, 3563, 6806, 7633), 600, 3524)]),
++    ("elwynn", "human", "priest", 1, [(0, (-10254, -1935, -7940, 1535), 240, 12)]),
++    ("durotar", "orc", "warlock", 2, [(1, (-1717, -7250, 1808, -1962), 240, 14)]),
++    ("dunmorogh", "dwarf", "paladin", 3, [(0, (-7160, -3123, -3877, 1802), 240, 1)]),
++    ("teldrassil", "night-elf", "hunter", 4, [(1, (8437, -1277, 11831, 3815), 240, 141)]),
++    ("tirisfal", "undead", "mage", 5, [(0, (825, -1485, 3837, 3033), 240, 85)]),
++    ("mulgore", "tauren", "druid", 6, [(1, (-3698, -3090, -273, 2048), 240, 215)]),
++    ("eversong", "blood-elf", "rogue", 7, [(0, (5625, -7279, 8908, -2354), 240, 3430)]),
++    ("azuremyst", "draenei", "shaman", 8, [(1, (4092, 3563, 6806, 7633), 240, 3524)]),
+     ("goblin", "goblin", "warrior", 9, [(1, (-9120, -11680, -8230, -10750), 240, 4737),   # Kezan
+-                                        (1, (-500, -11720, 2100, -8850), 480, 4720)]),    # Lost Isles
++                                        (1, (-500, -11720, 2100, -8850), 360, 4720)]),    # Lost Isles
+ ]
+ BY_NAME = {a[0]: a for a in AREAS}
+ 
+-- 
+2.34.1
+

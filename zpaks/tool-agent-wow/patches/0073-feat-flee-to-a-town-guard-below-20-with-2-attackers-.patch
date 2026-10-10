@@ -1,0 +1,152 @@
+From a8e04cd4e393a460c8d94eddf17e0460aa5ccefb Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 09:30:28 +0000
+Subject: [PATCH] feat: flee to a town guard below 20 % with 2+ attackers, when
+ one is within 80 yd (F-219)
+
+combat.kill flee_pct breaks off (reason flee); the runner offers it only near a guard
+(CREATURE_FLAG_EXTRA_GUARD 0x8000) and runs to him without stopping to fight.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/api/combat.pb.go | 17 +++++++++++++----
+ zeppelin/modules/combat/combat.proto     |  1 +
+ zeppelin/modules/combat/main.go          |  3 +++
+ zeppelin/tests/start_area.py             | 24 ++++++++++++++++++++++++
+ 4 files changed, 41 insertions(+), 4 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index d0c9fde..c49d200 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -153,8 +153,9 @@ type KillRequest struct {
+ 	ChargeSpell uint32                 `protobuf:"varint,9,opt,name=charge_spell,json=chargeSpell,proto3" json:"charge_spell,omitempty"` // gap closer (Charge) cast once from 8-25 yd while nothing attacks us
+ 	BodyPull    bool                   `protobuf:"varint,10,opt,name=body_pull,json=bodyPull,proto3" json:"body_pull,omitempty"`         // no opener: inch up 2 yd at a time until the target alone aggroes, then back
+ 	// off `retreat` yd so it follows us out of its camp
+-	Retreat       float32 `protobuf:"fixed32,11,opt,name=retreat,proto3" json:"retreat,omitempty"` // 0 = 15
+-	Range         float32 `protobuf:"fixed32,12,opt,name=range,proto3" json:"range,omitempty"`     // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
++	Retreat       float32 `protobuf:"fixed32,11,opt,name=retreat,proto3" json:"retreat,omitempty"`               // 0 = 15
++	Range         float32 `protobuf:"fixed32,12,opt,name=range,proto3" json:"range,omitempty"`                   // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
++	FleePct       uint32  `protobuf:"varint,13,opt,name=flee_pct,json=fleePct,proto3" json:"flee_pct,omitempty"` // break off (reason "flee") below this health % while 2+ attack us; 0 = never
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -273,6 +274,13 @@ func (x *KillRequest) GetRange() float32 {
+ 	return 0
+ }
+ 
++func (x *KillRequest) GetFleePct() uint32 {
++	if x != nil {
++		return x.FleePct
++	}
++	return 0
++}
++
+ type LootItem struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	ItemId        uint32                 `protobuf:"varint,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+@@ -818,7 +826,7 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\aitem_id\x18\b \x01(\rR\x06itemId\x12\x12\n" +
+ 	"\x04buff\x18\t \x01(\bR\x04buff\x12\x1c\n" +
+ 	"\tinterrupt\x18\n" +
+-	" \x01(\bR\tinterrupt\"\xf2\x02\n" +
++	" \x01(\bR\tinterrupt\"\x8d\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+@@ -835,7 +843,8 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\tbody_pull\x18\n" +
+ 	" \x01(\bR\bbodyPull\x12\x18\n" +
+ 	"\aretreat\x18\v \x01(\x02R\aretreat\x12\x14\n" +
+-	"\x05range\x18\f \x01(\x02R\x05range\"9\n" +
++	"\x05range\x18\f \x01(\x02R\x05range\x12\x19\n" +
++	"\bflee_pct\x18\r \x01(\rR\afleePct\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+ 	"\x05count\x18\x02 \x01(\rR\x05count\"\xc7\x03\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 7810579..39e76f8 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -33,6 +33,7 @@ message KillRequest {
+                          // off `retreat` yd so it follows us out of its camp
+   float retreat = 11;    // 0 = 15
+   float range = 12;      // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
++  uint32 flee_pct = 13;  // break off (reason "flee") below this health % while 2+ attack us; 0 = never
+ }
+ 
+ message LootItem {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index b7acecf..b04b05b 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -380,6 +380,9 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		if st.GetDead() {
+ 			return finish("we died", false)
+ 		}
++		if f := req.GetFleePct(); f > 0 && st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() < f && len(live) >= 2 {
++			return finish("flee", false) // the caller runs for a guard: a pack at 20 % is a death
++		}
+ 		t, err := s.unit(ctx, guid)
+ 		if err != nil {
+ 			return nil, err
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 8ddbde9..748cd06 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -728,6 +728,10 @@ class World:
+                              f"AND action_type IN (11,134) AND action_param1 IN ({inlist(spells)}) AND event_type IN (62,64)"):
+                     if int(r["n"]) in self.cspawn:
+                         self.escort_credit[t] = (int(r["n"]), int(r["m"]) if int(r["ev"]) == 62 else 0, esc)
++        # town guards (CREATURE_FLAG_EXTRA_GUARD 0x8000): where a losing fight runs to
++        self.guards = [(float(r["x"]), float(r["y"]), float(r["z"])) for r in sql(
++            f"SELECT c.position_x x,c.position_y y,c.position_z z FROM creature c JOIN creature_template t ON t.entry=c.id "
++            f"WHERE {where} AND t.flags_extra & 32768")]
+         # any vendor (npcflag 0x80) spawned here: where loot is sold for training money
+         self.vendors = sorted({int(r["id"]) for r in sql(
+             f"SELECT DISTINCT c.id FROM creature c JOIN creature_template t ON t.entry=c.id WHERE {where} AND t.npcflag & 128")})
+@@ -1140,6 +1144,9 @@ class Runner:
+                         inf and inf[0] == 6 for inf in self.items(list(have)).values()):
+                     self._pull = 3018  # Shoot: needs ammo in the bags (set_ammo picked it)
+         a = {"abilities": self._potion + [x for x in self.abilities if not x.get("charge")]}
++        me = self.me()
++        if any(math.dist(g[:2], (me["x"], me["y"])) < 80 for g in self.w.guards):
++            a["flee_pct"] = 20  # a guard is in reach: a pack at 20 % runs to him instead of dying
+         if CLASS_RANGE.get(self.w.cls):
+             a["range"] = CLASS_RANGE[self.w.cls]
+         charge = next((x["spell_id"] for x in self.abilities if x.get("charge")), 0)
+@@ -1722,6 +1729,21 @@ class Runner:
+             except StepFailed as e:
+                 print(f"  ~ gear: {str(e)[:80]}", flush=True)
+ 
++    def flee_to_guard(self):
++        """Run - without stopping to fight - to the nearest guard and let him take the pack."""
++        me = self.me()
++        g = min(self.w.guards, key=lambda p: math.dist(p[:2], (me["x"], me["y"])), default=None)
++        if not g:
++            return
++        print(f"  ! fleeing to the guard at ({g[0]:.0f},{g[1]:.0f}) {math.dist(g[:2], (me['x'], me['y'])):.0f} yd", flush=True)
++        was, self.reviving = self.reviving, True  # no detours, no stop-on-attack: just run
++        try:
++            self.travel(g[0], g[1], g[2], within=4)
++        except StepFailed:
++            pass
++        finally:
++            self.reviving = was
++
+     def fight_log(self, entry, r, kind="pull"):
+         """One line per fight with what the combat module measured - how hard we hit vs how hard we
+         are hit, and how many attacked us at once (a single pull vs a pack: the death-rate question).
+@@ -1731,6 +1753,8 @@ class Runner:
+               f"taken {r.get('damageTaken', 0)} hp {r.get('ourHealth', 0)}/{r.get('ourMaxHealth', 0)} casts {r.get('spells', [])}",
+               flush=True)
+         self.check_loot(r)
++        if r.get("reason") == "flee":
++            self.flee_to_guard()
+ 
+     def spirit_rez(self):
+         """Resurrect at the nearest spirit healer (npcflag 0x4000; only a ghost sees one). Its spawn
+-- 
+2.34.1
+
