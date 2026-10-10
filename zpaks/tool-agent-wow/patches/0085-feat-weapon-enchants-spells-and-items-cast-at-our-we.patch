@@ -1,0 +1,368 @@
+From 00a708f2d3f5bcc9630d22db3fddf1b486d9a469 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 22:55:52 +0000
+Subject: [PATCH] feat: weapon enchants - spells and items cast at our weapon
+ (Rockbiter now; stones/oils) (F-219)
+
+- interact: target kind "weapon"/"offhand" (CMSG_CAST_SPELL / CMSG_USE_ITEM with TARGET_FLAG_ITEM
+  0x10 + the equipped item's packed guid); inventory reports each item's temporary enchant
+  (ITEM_FIELD_ENCHANTMENT_1_1 = OBJECT_END + 0x10, TEMP_ENCHANTMENT_SLOT 1)
+- combat: Ability.on_weapon casts at the main hand only while it carries no temporary enchant
+- runner: Rockbiter back as on_weapon; weapon_consumable() puts a stone/oil (any item whose spell
+  is effect 54 ENCHANT_ITEM_TEMPORARY) on a bare main hand before a pull, never retrying a rejected one
+Verified live: Azuremyst shaman's main hand 36 carries temp enchant 29 (Rockbiter) after one cast.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/api/combat.pb.go     | 13 +++++--
+ zeppelin/modules/combat/combat.proto         |  1 +
+ zeppelin/modules/combat/main.go              | 24 +++++++++++++
+ zeppelin/modules/interact/api/interact.pb.go | 15 ++++++--
+ zeppelin/modules/interact/interact.proto     |  3 +-
+ zeppelin/modules/interact/main.go            | 36 ++++++++++++++++++--
+ zeppelin/tests/start_area.py                 | 33 ++++++++++++++++--
+ zeppelin/wow/objects.go                      |  5 +++
+ 8 files changed, 120 insertions(+), 10 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 119c80a..e087d7e 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -36,6 +36,7 @@ type Ability struct {
+ 	ItemId         uint32                 `protobuf:"varint,8,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`                           // use this bag item instead (potions); spell_id is then its on-use spell
+ 	Buff           bool                   `protobuf:"varint,9,opt,name=buff,proto3" json:"buff,omitempty"`                                             // a self buff (shout, seal, blessing, aura): cast only while it is NOT on us
+ 	Interrupt      bool                   `protobuf:"varint,10,opt,name=interrupt,proto3" json:"interrupt,omitempty"`                                  // only while the target is casting (Pummel, Rebuke; with on_self: Arcane Torrent)
++	OnWeapon       bool                   `protobuf:"varint,11,opt,name=on_weapon,json=onWeapon,proto3" json:"on_weapon,omitempty"`                    // a weapon enchant spell (Rockbiter): cast at our main hand, only while it has none
+ 	unknownFields  protoimpl.UnknownFields
+ 	sizeCache      protoimpl.SizeCache
+ }
+@@ -140,6 +141,13 @@ func (x *Ability) GetInterrupt() bool {
+ 	return false
+ }
+ 
++func (x *Ability) GetOnWeapon() bool {
++	if x != nil {
++		return x.OnWeapon
++	}
++	return false
++}
++
+ type KillRequest struct {
+ 	state       protoimpl.MessageState `protogen:"open.v1"`
+ 	Guid        uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+@@ -821,7 +829,7 @@ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+-	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xae\x02\n" +
++	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xcb\x02\n" +
+ 	"\aAbility\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x19\n" +
+ 	"\bevery_ms\x18\x02 \x01(\rR\aeveryMs\x12\x1b\n" +
+@@ -834,7 +842,8 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\aitem_id\x18\b \x01(\rR\x06itemId\x12\x12\n" +
+ 	"\x04buff\x18\t \x01(\bR\x04buff\x12\x1c\n" +
+ 	"\tinterrupt\x18\n" +
+-	" \x01(\bR\tinterrupt\"\x8d\x03\n" +
++	" \x01(\bR\tinterrupt\x12\x1b\n" +
++	"\ton_weapon\x18\v \x01(\bR\bonWeapon\"\x8d\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index e77dedb..676b820 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -17,6 +17,7 @@ message Ability {
+   uint32 item_id = 8;    // use this bag item instead (potions); spell_id is then its on-use spell
+   bool buff = 9;         // a self buff (shout, seal, blessing, aura): cast only while it is NOT on us
+   bool interrupt = 10;   // only while the target is casting (Pummel, Rebuke; with on_self: Arcane Torrent)
++  bool on_weapon = 11;   // a weapon enchant spell (Rockbiter): cast at our main hand, only while it has none
+ }
+ 
+ message KillRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index a4642ec..195aea2 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -673,6 +673,30 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 		if time.Since(lastCast[a.GetSpellId()]) < every {
+ 			continue
+ 		}
++		if a.GetOnWeapon() {
++			// a temporary weapon enchant (Rockbiter): only when the main hand has none, cast AT the
++			// weapon - cast at ourselves it failed ITEM_NOT_FOUND every time
++			lastCast[a.GetSpellId()] = time.Now()
++			var inv interactv1.Inventory
++			if err := s.invoke(ctx, "interact", "inventory", &emptypb.Empty{}, &inv); err != nil {
++				continue
++			}
++			bare := false
++			for _, it := range inv.GetEquipped() {
++				if it.GetSlot() == 15 && it.GetTempEnchant() == 0 {
++					bare = true
++				}
++			}
++			if !bare {
++				continue
++			}
++			var cr interactv1.CastResult
++			if err := s.invoke(ctx, "interact", "cast", &interactv1.CastRequest{SpellId: a.GetSpellId(), TargetKind: "weapon", TimeoutMs: 1500}, &cr); err == nil {
++				res.Casts++
++				res.Spells = append(res.Spells, a.GetSpellId())
++			}
++			return nil
++		}
+ 		if a.GetItemId() != 0 {
+ 			lastCast[a.GetSpellId()] = time.Now() // tried or not: never spam a missing potion
+ 			var cr interactv1.CastResult
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index 04a36f2..9eb7f13 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -1081,7 +1081,7 @@ type CastRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	SpellId       uint32                 `protobuf:"varint,1,opt,name=spell_id,json=spellId,proto3" json:"spell_id,omitempty"`
+ 	Target        *Target                `protobuf:"bytes,2,opt,name=target,proto3" json:"target,omitempty"`                           // empty = no target (self / area)
+-	TargetKind    string                 `protobuf:"bytes,3,opt,name=target_kind,json=targetKind,proto3" json:"target_kind,omitempty"` // "unit" (default when a target is given), "go", "self"
++	TargetKind    string                 `protobuf:"bytes,3,opt,name=target_kind,json=targetKind,proto3" json:"target_kind,omitempty"` // "unit" (default when a target is given), "go", "self", "weapon" / "offhand" (our equipped item)
+ 	TimeoutMs     uint32                 `protobuf:"varint,4,opt,name=timeout_ms,json=timeoutMs,proto3" json:"timeout_ms,omitempty"`   // wait for SPELL_GO / failure; 0 = 12 s (covers cast times)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+@@ -1556,6 +1556,7 @@ type InventoryItem struct {
+ 	Count         uint32                 `protobuf:"varint,3,opt,name=count,proto3" json:"count,omitempty"`
+ 	Bag           uint32                 `protobuf:"varint,4,opt,name=bag,proto3" json:"bag,omitempty"` // 255 backpack, else bag equipment slot 19-22
+ 	Slot          uint32                 `protobuf:"varint,5,opt,name=slot,proto3" json:"slot,omitempty"`
++	TempEnchant   uint32                 `protobuf:"varint,6,opt,name=temp_enchant,json=tempEnchant,proto3" json:"temp_enchant,omitempty"` // temporary enchant on it (Rockbiter, a stone, an oil); 0 = none
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -1625,6 +1626,13 @@ func (x *InventoryItem) GetSlot() uint32 {
+ 	return 0
+ }
+ 
++func (x *InventoryItem) GetTempEnchant() uint32 {
++	if x != nil {
++		return x.TempEnchant
++	}
++	return 0
++}
++
+ type Inventory struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Items         []*InventoryItem       `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+@@ -2760,13 +2768,14 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"standState\x12\x12\n" +
+ 	"\x04dead\x18\f \x01(\bR\x04dead\x12\x14\n" +
+ 	"\x05known\x18\r \x01(\bR\x05known\x12\x14\n" +
+-	"\x05ghost\x18\x0e \x01(\bR\x05ghost\"u\n" +
++	"\x05ghost\x18\x0e \x01(\bR\x05ghost\"\x98\x01\n" +
+ 	"\rInventoryItem\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x12\x14\n" +
+ 	"\x05count\x18\x03 \x01(\rR\x05count\x12\x10\n" +
+ 	"\x03bag\x18\x04 \x01(\rR\x03bag\x12\x12\n" +
+-	"\x04slot\x18\x05 \x01(\rR\x04slot\"\x87\x01\n" +
++	"\x04slot\x18\x05 \x01(\rR\x04slot\x12!\n" +
++	"\ftemp_enchant\x18\x06 \x01(\rR\vtempEnchant\"\x87\x01\n" +
+ 	"\tInventory\x129\n" +
+ 	"\x05items\x18\x01 \x03(\v2#.zeppelin.interact.v1.InventoryItemR\x05items\x12?\n" +
+ 	"\bequipped\x18\x02 \x03(\v2#.zeppelin.interact.v1.InventoryItemR\bequipped\"\xf9\x01\n" +
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index 8909c90..bc53abd 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -108,7 +108,7 @@ message UseRequest {
+ message CastRequest {
+   uint32 spell_id = 1;
+   Target target = 2;     // empty = no target (self / area)
+-  string target_kind = 3; // "unit" (default when a target is given), "go", "self"
++  string target_kind = 3; // "unit" (default when a target is given), "go", "self", "weapon" / "offhand" (our equipped item)
+   uint32 timeout_ms = 4; // wait for SPELL_GO / failure; 0 = 12 s (covers cast times)
+ }
+ message CastResult {
+@@ -153,6 +153,7 @@ message InventoryItem {
+   uint32 count = 3;
+   uint32 bag = 4;        // 255 backpack, else bag equipment slot 19-22
+   uint32 slot = 5;
++  uint32 temp_enchant = 6; // temporary enchant on it (Rockbiter, a stone, an oil); 0 = none
+ }
+ message Inventory {
+   repeated InventoryItem items = 1;
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index 691c1b5..29b6038 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -805,6 +805,7 @@ const (
+ 	targetNone = iota
+ 	targetUnit
+ 	targetGO
++	targetItem                          // one of our items (weapon enchants: Rockbiter, sharpening stones, mana oils)
+ 	targetFlagUnit         = 0x00000002 // TARGET_FLAG_UNIT
+ 	targetFlagGameObject   = 0x00000800 // TARGET_FLAG_GAMEOBJECT
+ 	targetFlagDestLocation = 0x00000040 // TARGET_FLAG_DEST_LOCATION
+@@ -826,6 +827,20 @@ func (s *service) Cast(ctx context.Context, req *interactv1.CastRequest) (*inter
+ 	if req.GetTargetKind() == "self" {
+ 		kind, guid = targetUnit, s.store.Self()
+ 	}
++	if tk := req.GetTargetKind(); tk == "weapon" || tk == "offhand" {
++		want := uint8(15)
++		if tk == "offhand" {
++			want = 16
++		}
++		for _, it := range s.store.Equipped() {
++			if it.Slot == want {
++				kind, guid = targetItem, it.GUID
++			}
++		}
++		if kind != targetItem {
++			return nil, status.Errorf(codes.FailedPrecondition, "no %s equipped", tk)
++		}
++	}
+ 	wait := 12 * time.Second
+ 	if req.GetTimeoutMs() > 0 {
+ 		wait = time.Duration(req.GetTimeoutMs()) * time.Millisecond
+@@ -877,6 +892,9 @@ func (s *service) castWith(ctx context.Context, op uint32, item *wow.InventoryIt
+ 	case kind == targetGO:
+ 		w.U32(targetFlagGameObject)
+ 		w.PackedGUID(guid)
++	case kind == targetItem: // SpellCastTargets: TARGET_FLAG_ITEM 0x10 -> packed item guid
++		w.U32(0x10)
++		w.PackedGUID(guid)
+ 	default:
+ 		w.U32(0)
+ 	}
+@@ -927,11 +945,11 @@ func (s *service) GetInventory(context.Context, *emptypb.Empty) (*interactv1.Inv
+ 	out := &interactv1.Inventory{}
+ 	for _, it := range s.store.Inventory() {
+ 		out.Items = append(out.Items, &interactv1.InventoryItem{Guid: it.GUID, Entry: it.Entry, Count: it.Count,
+-			Bag: uint32(it.Bag), Slot: uint32(it.Slot)})
++			Bag: uint32(it.Bag), Slot: uint32(it.Slot), TempEnchant: it.TempEnchant})
+ 	}
+ 	for _, it := range s.store.Equipped() {
+ 		out.Equipped = append(out.Equipped, &interactv1.InventoryItem{Guid: it.GUID, Entry: it.Entry, Count: it.Count,
+-			Bag: uint32(it.Bag), Slot: uint32(it.Slot)})
++			Bag: uint32(it.Bag), Slot: uint32(it.Slot), TempEnchant: it.TempEnchant})
+ 	}
+ 	return out, nil
+ }
+@@ -964,6 +982,20 @@ func (s *service) UseItem(ctx context.Context, req *interactv1.UseItemRequest) (
+ 	if req.GetTargetKind() == "self" {
+ 		kind, guid = targetUnit, s.store.Self()
+ 	}
++	if tk := req.GetTargetKind(); tk == "weapon" || tk == "offhand" {
++		want := uint8(15)
++		if tk == "offhand" {
++			want = 16
++		}
++		for _, it := range s.store.Equipped() {
++			if it.Slot == want {
++				kind, guid = targetItem, it.GUID
++			}
++		}
++		if kind != targetItem {
++			return nil, status.Errorf(codes.FailedPrecondition, "no %s equipped", tk)
++		}
++	}
+ 	wait := 12 * time.Second
+ 	if req.GetTimeoutMs() > 0 {
+ 		wait = time.Duration(req.GetTimeoutMs()) * time.Millisecond
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index e8be22e..b3a5591 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -81,8 +81,7 @@ CLASS_ABILITIES = {
+         {"spell_id": 331, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Wave
+         {"spell_id": 8042, "every_ms": 6000, "min_power": 30, "interrupt": True},            # Earth Shock (interrupt)
+         {"spell_id": 324, "every_ms": 3000, "min_power": 45, "on_self": True, "buff": True},  # Lightning Shield
+-        # Rockbiter Weapon (8017) needs the WEAPON as its target - cast at ourselves it failed with
+-        # ITEM_NOT_FOUND 40 times in half an hour. Back once casts can target an item
++        {"spell_id": 8017, "every_ms": 10000, "min_power": 20, "on_weapon": True},          # Rockbiter Weapon (on the weapon)
+         {"spell_id": 8042, "every_ms": 6000, "min_power": 30},                               # Earth Shock
+         {"spell_id": 403, "every_ms": 0, "min_power": 15},                                   # Lightning Bolt
+     ],
+@@ -1201,6 +1200,32 @@ class Runner:
+             a["pull_spell"] = self._pull
+         return a
+ 
++    def weapon_consumable(self):
++        """A sharpening stone / weightstone / oil in the bags and a bare main hand: put it on before the
++        pull. Any item whose on-use spell is a temporary weapon enchant (spell effect 54) - the same
++        item-targeted use the shaman's Rockbiter needs. A rejected one (a stone on a mace) is not
++        tried again."""
++        inv = call("interact.inventory")
++        main = next((it for it in inv.get("equipped", []) if it.get("slot") == 15), None)
++        if not main or main.get("tempEnchant"):
++            return
++        bag = {it["entry"] for it in inv.get("items", []) if it.get("entry")}
++        bad = self.__dict__.setdefault("_bad_weapon_items", set())
++        known = self.__dict__.setdefault("_weapon_items", {})  # entry -> enchant spell or 0
++        new = [e for e in bag if e not in known]
++        if new:
++            sp = {e: inf[2] for e, inf in self.items(new).items() if inf and inf[0] == 0 and inf[2]}
++            ench = {int(r["id"]) for r in dbc(f"SELECT id FROM spell WHERE effect_1=54 AND id IN ({inlist(sp.values())})")} if sp else set()
++            for e in new:
++                known[e] = sp.get(e, 0) if sp.get(e, 0) in ench else 0
++        for e in sorted(bag):
++            if known.get(e) and e not in bad:
++                r = call("interact.use_item", entry=e, spell_id=known[e], target_kind="weapon", timeout_ms=6000)
++                print(f"  weapon: used {e} on the main hand: {r.get('detail')}", flush=True)
++                if not r.get("ok"):
++                    bad.add(e)
++                return
++
+     def ranged_opener(self):
+         """Do we start fights from range (Shoot/Throw equipped, or a caster/hunter class)? Then a camp
+         mob is pulled out to us and camp tightness matters far less."""
+@@ -1694,6 +1719,10 @@ class Runner:
+                and s.get("power", 0) * 100 < s["maxPower"] * 60)
+         if dry or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 85):
+             self.rest(95)  # every planned pull starts near full: the second mob is what kills
++        try:
++            self.weapon_consumable()
++        except StepFailed as e:
++            print(f"  ~ weapon: {str(e)[:80]}", flush=True)
+         body = None
+         if len(group) > 1:
+             # the target stands in a camp: clear it from the edge - outermost first - until the
+diff --git a/zeppelin/wow/objects.go b/zeppelin/wow/objects.go
+index 2005076..daf7933 100644
+--- a/zeppelin/wow/objects.go
++++ b/zeppelin/wow/objects.go
+@@ -37,6 +37,7 @@ const (
+ 	FieldPlayerNextXP   = unitEnd + 0x01E7
+ 	FieldPlayerCoinage  = unitEnd + 0x03FE
+ 	FieldItemStackCount = objectEnd + 0x0008
++	FieldItemEnchant1   = objectEnd + 0x0010 // ITEM_FIELD_ENCHANTMENT_1_1: 12 slots x (id, duration, charges)
+ 	itemEnd             = objectEnd + 0x003A
+ 	FieldContainerSlots = itemEnd + 0x0000
+ 	FieldContainerSlot1 = itemEnd + 0x0002 // 36 x guid
+@@ -362,6 +363,8 @@ type InventoryItem struct {
+ 	Count uint32
+ 	Bag   uint8 // 255 = backpack, else the equipment slot of the bag (19-22)
+ 	Slot  uint8
++	// TempEnchant: enchant id in TEMP_ENCHANTMENT_SLOT (1) - Rockbiter, sharpening stones, oils; 0 = none
++	TempEnchant uint32
+ }
+ 
+ func guidAt(v map[uint16]uint32, idx uint16) uint64 { return uint64(v[idx]) | uint64(v[idx+1])<<32 }
+@@ -382,6 +385,7 @@ func (s *Store) Inventory() []InventoryItem {
+ 		it := InventoryItem{GUID: g, Bag: bag, Slot: slot, Count: 1}
+ 		if o, ok := s.objects[g]; ok {
+ 			it.Entry, it.Count = o.Values[FieldEntry], o.Values[FieldItemStackCount]
++			it.TempEnchant = o.Values[FieldItemEnchant1+3]
+ 		}
+ 		out = append(out, it)
+ 	}
+@@ -420,6 +424,7 @@ func (s *Store) Equipped() []InventoryItem {
+ 		it := InventoryItem{GUID: g, Bag: BagBackpack, Slot: uint8(i), Count: 1}
+ 		if o, ok := s.objects[g]; ok {
+ 			it.Entry, it.Count = o.Values[FieldEntry], o.Values[FieldItemStackCount]
++			it.TempEnchant = o.Values[FieldItemEnchant1+3]
+ 		}
+ 		out = append(out, it)
+ 	}
+-- 
+2.34.1
+
