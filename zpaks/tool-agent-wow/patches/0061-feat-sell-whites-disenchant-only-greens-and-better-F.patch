@@ -1,0 +1,46 @@
+From bf14e08e2b523214915460e1d9548f43897faaf5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 01:43:31 +0000
+Subject: [PATCH] feat: sell whites, disenchant only greens and better (F-219)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index d60fee5..5bb57d2 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -972,9 +972,12 @@ class Runner:
+             f"({inlist({i['entry'] for i in items})})")}
+         wanted = {int(q[f"RequiredItemId{k}"]) for q in self.w.quests.values() for k in range(1, 7)} | \
+                  {int(q["StartItem"]) for q in self.w.quests.values()}
++        # whites always; greens only when we cannot disenchant them (make_room DEs greens for mats).
++        # Greys never get here: mod-junk-to-gold pays them out on loot
++        top = 1 if 13262 in set(call("interact.spells").get("spells", [])) else 2
+         junk = [i for i in items if (r := info.get(i["entry"])) and int(r["SellPrice"]) > 0
+                 and i["entry"] not in wanted and int(r["startquest"]) == 0
+-                and int(r["class"]) in (2, 4) and int(r["Quality"]) <= 2]  # greys: auto-sold on loot
++                and int(r["class"]) in (2, 4) and 1 <= int(r["Quality"]) <= top]
+         if not junk:
+             return 0
+         me = self.me()
+@@ -2003,10 +2006,11 @@ class Runner:
+                 if res.get("ok"):
+                     time.sleep(1)
+                     return self.make_room(need)  # recount with the new bag's slots
+-        # disenchant what can be (F-081 flagged whites, greens): mats go to the vault, not the bin
++        # disenchant greens and better: mats go to the vault, not the bin. Whites are SOLD instead
++        # (sell_junk, above) - vendor copper beats the mats a white yields
+         if 13262 in set(call("interact.spells").get("spells", [])):
+             de = [it for it in pack if it.get("entry") in info and it["entry"] not in wanted
+-                  and int(info[it["entry"]]["DisenchantID"]) > 0 and 1 <= int(info[it["entry"]]["Quality"]) <= 4
++                  and int(info[it["entry"]]["DisenchantID"]) > 0 and 2 <= int(info[it["entry"]]["Quality"]) <= 4
+                   and int(it["guid"]) not in self.de_failed]
+             for it in de:
+                 res = call("interact.item_spell", item_guid=int(it["guid"]))
+-- 
+2.34.1
+
