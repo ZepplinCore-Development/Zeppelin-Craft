@@ -1,0 +1,354 @@
+From c86534742fc9d385badd515706d15ca7466db7f0 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 06:21:42 +0000
+Subject: [PATCH] feat: body pulls, path-clear targets (caves), park where we
+ died twice (F-219)
+
+- combat.kill body_pull: inch 2 yd at a time until the target alone aggroes, then back off
+  `retreat` yd so it follows us out of its camp (fight log shows "body")
+- runner: body_pull_spot() - the outermost mob's outer side, used when the spot where it notices
+  us is outside every other camp mob's reach; parking is now the fallback (kill + clear_camp)
+- kill() prefers targets whose navmesh walk passes no other hostile in aggro reach (3D - cave
+  tunnels stack: Night Web Hollow pulled 5-6 spiders on the way to one)
+- travel refuses a destination where we already died twice at this level and parks the quest
+  (Ammen Vale's Inoculation: deaths all in defend fights, invisible to the camp rules) - not yet
+  live in the running fleet
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/api/combat.pb.go |  44 ++++++--
+ zeppelin/modules/combat/combat.proto     |   3 +
+ zeppelin/modules/combat/main.go          |  33 ++++++
+ zeppelin/tests/start_area.py             | 135 ++++++++++++++++++-----
+ 4 files changed, 176 insertions(+), 39 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index ea4ed53..1af302c 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -141,16 +141,19 @@ func (x *Ability) GetInterrupt() bool {
+ }
+ 
+ type KillRequest struct {
+-	state         protoimpl.MessageState `protogen:"open.v1"`
+-	Guid          uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+-	Entry         uint32                 `protobuf:"varint,2,opt,name=entry,proto3" json:"entry,omitempty"` // nearest visible creature of this entry
+-	Abilities     []*Ability             `protobuf:"bytes,3,rep,name=abilities,proto3" json:"abilities,omitempty"`
+-	Loot          bool                   `protobuf:"varint,4,opt,name=loot,proto3" json:"loot,omitempty"`                                  // loot the corpse when it dies
+-	BudgetMs      uint32                 `protobuf:"varint,5,opt,name=budget_ms,json=budgetMs,proto3" json:"budget_ms,omitempty"`          // 0 = 25 s (agent-wow caps a call at 30 s); call again while "budget"
+-	ChaseLimit    float32                `protobuf:"fixed32,6,opt,name=chase_limit,json=chaseLimit,proto3" json:"chase_limit,omitempty"`   // give up if the target gets further than this (yd); 0 = 60
+-	PullSpell     uint32                 `protobuf:"varint,7,opt,name=pull_spell,json=pullSpell,proto3" json:"pull_spell,omitempty"`       // opener from range (Shoot/Throw): cast it, stand, let the target come to us
+-	PullRange     float32                `protobuf:"fixed32,8,opt,name=pull_range,json=pullRange,proto3" json:"pull_range,omitempty"`      // cast the opener from this far; 0 = 25
+-	ChargeSpell   uint32                 `protobuf:"varint,9,opt,name=charge_spell,json=chargeSpell,proto3" json:"charge_spell,omitempty"` // gap closer (Charge) cast once from 8-25 yd while nothing attacks us
++	state       protoimpl.MessageState `protogen:"open.v1"`
++	Guid        uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
++	Entry       uint32                 `protobuf:"varint,2,opt,name=entry,proto3" json:"entry,omitempty"` // nearest visible creature of this entry
++	Abilities   []*Ability             `protobuf:"bytes,3,rep,name=abilities,proto3" json:"abilities,omitempty"`
++	Loot        bool                   `protobuf:"varint,4,opt,name=loot,proto3" json:"loot,omitempty"`                                  // loot the corpse when it dies
++	BudgetMs    uint32                 `protobuf:"varint,5,opt,name=budget_ms,json=budgetMs,proto3" json:"budget_ms,omitempty"`          // 0 = 25 s (agent-wow caps a call at 30 s); call again while "budget"
++	ChaseLimit  float32                `protobuf:"fixed32,6,opt,name=chase_limit,json=chaseLimit,proto3" json:"chase_limit,omitempty"`   // give up if the target gets further than this (yd); 0 = 60
++	PullSpell   uint32                 `protobuf:"varint,7,opt,name=pull_spell,json=pullSpell,proto3" json:"pull_spell,omitempty"`       // opener from range (Shoot/Throw): cast it, stand, let the target come to us
++	PullRange   float32                `protobuf:"fixed32,8,opt,name=pull_range,json=pullRange,proto3" json:"pull_range,omitempty"`      // cast the opener from this far; 0 = 25
++	ChargeSpell uint32                 `protobuf:"varint,9,opt,name=charge_spell,json=chargeSpell,proto3" json:"charge_spell,omitempty"` // gap closer (Charge) cast once from 8-25 yd while nothing attacks us
++	BodyPull    bool                   `protobuf:"varint,10,opt,name=body_pull,json=bodyPull,proto3" json:"body_pull,omitempty"`         // no opener: inch up 2 yd at a time until the target alone aggroes, then back
++	// off `retreat` yd so it follows us out of its camp
++	Retreat       float32 `protobuf:"fixed32,11,opt,name=retreat,proto3" json:"retreat,omitempty"` // 0 = 15
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -248,6 +251,20 @@ func (x *KillRequest) GetChargeSpell() uint32 {
+ 	return 0
+ }
+ 
++func (x *KillRequest) GetBodyPull() bool {
++	if x != nil {
++		return x.BodyPull
++	}
++	return false
++}
++
++func (x *KillRequest) GetRetreat() float32 {
++	if x != nil {
++		return x.Retreat
++	}
++	return 0
++}
++
+ type LootItem struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	ItemId        uint32                 `protobuf:"varint,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+@@ -761,7 +778,7 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\aitem_id\x18\b \x01(\rR\x06itemId\x12\x12\n" +
+ 	"\x04buff\x18\t \x01(\bR\x04buff\x12\x1c\n" +
+ 	"\tinterrupt\x18\n" +
+-	" \x01(\bR\tinterrupt\"\xa5\x02\n" +
++	" \x01(\bR\tinterrupt\"\xdc\x02\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+@@ -774,7 +791,10 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"pull_spell\x18\a \x01(\rR\tpullSpell\x12\x1d\n" +
+ 	"\n" +
+ 	"pull_range\x18\b \x01(\x02R\tpullRange\x12!\n" +
+-	"\fcharge_spell\x18\t \x01(\rR\vchargeSpell\"9\n" +
++	"\fcharge_spell\x18\t \x01(\rR\vchargeSpell\x12\x1b\n" +
++	"\tbody_pull\x18\n" +
++	" \x01(\bR\bbodyPull\x12\x18\n" +
++	"\aretreat\x18\v \x01(\x02R\aretreat\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+ 	"\x05count\x18\x02 \x01(\rR\x05count\"\xc7\x03\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 579decd..5992dde 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -29,6 +29,9 @@ message KillRequest {
+   uint32 pull_spell = 7; // opener from range (Shoot/Throw): cast it, stand, let the target come to us
+   float pull_range = 8;  // cast the opener from this far; 0 = 25
+   uint32 charge_spell = 9; // gap closer (Charge) cast once from 8-25 yd while nothing attacks us
++  bool body_pull = 10;   // no opener: inch up 2 yd at a time until the target alone aggroes, then back
++                         // off `retreat` yd so it follows us out of its camp
++  float retreat = 11;    // 0 = 15
+ }
+ 
+ message LootItem {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 4250547..a23c1f8 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -349,6 +349,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	var pullAt time.Time
+ 	var pullFrom float64
+ 	charged := req.GetChargeSpell() == 0
++	bodyDone := !req.GetBodyPull()
+ 	attacking := false
+ 	var lastHP uint32
+ 	var stuckSince time.Time
+@@ -453,6 +454,38 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		if cant {
+ 			return finish("cannot attack (friendly or immune?)", false)
+ 		}
++		if !bodyDone {
++			s.mu.Lock()
++			_, engaged := s.attackers[guid]
++			s.mu.Unlock()
++			switch {
++			case engaged && d > meleeTrigger:
++				// it noticed us at range: back off along our line so it follows us, alone, away from
++				// the rest of its camp - then fight where we stop
++				bodyDone, res.Pull = true, "body"
++				back := float64(req.GetRetreat())
++				if back <= 0 {
++					back = 15
++				}
++				dx, dy := float64(me.GetX()-t.GetX()), float64(me.GetY()-t.GetY())
++				h := math.Max(math.Hypot(dx, dy), 0.01)
++				var mv movev1.MoveToResult
++				_ = s.invoke(ctx, "move", "to", &movev1.MoveToRequest{X: me.GetX() + float32(dx/h*back),
++					Y: me.GetY() + float32(dy/h*back), Z: me.GetZ(), TimeoutMs: 5000}, &mv)
++				continue
++			case engaged || d <= meleeTrigger+1:
++				bodyDone = true // reached it without a reaction (or it is on us already): just fight
++			default:
++				// inch 2 yd closer and give its aggro check a moment
++				step := math.Min(2, d-meleeTrigger)
++				f := float32(step / d)
++				var mv movev1.MoveToResult
++				_ = s.invoke(ctx, "move", "to", &movev1.MoveToRequest{X: me.GetX() + (t.GetX()-me.GetX())*f,
++					Y: me.GetY() + (t.GetY()-me.GetY())*f, Z: me.GetZ() + (t.GetZ()-me.GetZ())*f, TimeoutMs: 3000}, &mv)
++				time.Sleep(350 * time.Millisecond)
++				continue
++			}
++		}
+ 		if !charged && len(live) == 0 && d >= 8 && d <= 25 {
+ 			// a lone target: Charge (out of combat only) closes the gap with a stun and rage
+ 			charged = true
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index c115855..7869387 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1232,9 +1232,18 @@ class Runner:
+         # apart and a pull from the edge brought 7 at once. Not clearable in melee at this level
+         joins = [o for o in mobs if o is not t and math.dist((o["x"], o.get("y", 0)), (ax, ay))
+                  < max(8, 20 - (level - info.get(o["entry"], (level, 0))[0]))]
++        body = None
++        if len(joins) >= 2 and not self.fight_args().get("pull_spell"):
++            # a body pull: inch toward the outermost until IT alone notices us, then back out - if
++            # the spot where it notices us is clear of the others' reach
++            lv = lambda o: info.get(o["entry"], (level, 0))[0]
++            body = self.body_pull_spot(t, [o for o in mobs if o is not t], spot[0], spot[1], level, lv)
++            if body:
++                ax, ay = body
++                print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}): body-pulling {t['entry']} from ({ax:.0f},{ay:.0f})", flush=True)
+         # (3 levels over the camp, take it: green mobs in a pack are a fight we win, and parking
+         # past that level would loop on "later" like the old 5886-pass busy loop)
+-        if len(joins) >= 2 and level < top + 3 and not self.fight_args().get("pull_spell"):
++        if len(joins) >= 2 and not body and level < top + 3 and not self.fight_args().get("pull_spell"):
+             q = getattr(self, "current_qid", None)
+             back = min(level + 1, top + 3)
+             if q:
+@@ -1244,7 +1253,8 @@ class Runner:
+             return "later"
+         if math.dist((me["x"], me["y"]), (ax, ay)) > 8:
+             self.travel(ax, ay, ground(ax, ay, t.get("z", 0)), within=4)
+-        r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
++        r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True,
++                 **({"body_pull": True, "retreat": 15} if body else {}))
+         self.fight_log(t["entry"], r)
+         self.kills += r.get("killed", False)
+         if "no damage" in r.get("reason", "") or "cannot attack" in r.get("reason", ""):
+@@ -1388,47 +1398,109 @@ class Runner:
+         def crowd(t):
+             return sum(1 for m in mobs if m is not t and self.hostile(m["entry"]) and
+                        math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 18)
+-        t = min(cands, key=lambda o: (crowd(o), o.get("distance", 999)))
+-        group = [m for m in mobs if math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 18
+-                 and (m is t or self.hostile(m["entry"]))]
+         s = call("interact.self")
+         level = s.get("level", 1)
+-        # even the least crowded target has 2+ hostiles in aggro reach (Northshire's vineyard: 28
+-        # Thugs, every pull came 2-3 at once and killed us): not a melee fight at this level - park
+-        # the quest a level (never past 3 over the mobs, or "later" would loop for ever)
+-        if crowd(t) >= 2 and not self.fight_args().get("pull_spell"):
+-            top = max(int(r["minlevel"]) for r in sql(
+-                f"SELECT minlevel FROM creature_template WHERE entry IN ({inlist({m['entry'] for m in group})})"))
+-            if level < top + 3:
+-                q = getattr(self, "current_qid", None)
+-                back = min(level + 1, top + 3)
+-                if q:
+-                    self.defer_until[q] = max(self.defer_until.get(q, 0), back)
+-                print(f"  {entry} only stands in packs ({crowd(t) + 1} in reach) - back at level {back}", flush=True)
+-                return {"reason": "camp too tight"}
++        lvl = {int(r["entry"]): int(r["minlevel"]) for r in sql(
++            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist({m['entry'] for m in mobs})})")}
++        lv = lambda o: lvl.get(o["entry"], level)
++        hostiles = [m for m in mobs if self.hostile(m["entry"])]
++        ranked = sorted(cands, key=lambda o: (crowd(o), o.get("distance", 999)))
++        # ...and whose WALK there stays clear of the others: in a cave the path to the "isolated"
++        # spider ran past five more. Inside-out never works there; entrance-first does
++        t = ranked[0]
++        for o in ranked[:5]:
++            if self.path_passes(o, hostiles, level, lv) == 0:
++                t = o
++                break
++        else:
++            print(f"  every way to {entry} passes other mobs - taking the least crowded", flush=True)
++        group = [m for m in mobs if math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 18
++                 and (m is t or self.hostile(m["entry"]))]
+         if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 85:
+             self.rest(95)  # every planned pull starts near full: the second mob is what kills
++        body = None
+         if len(group) > 1:
+-            # the target stands in a camp: clear it from the edge - outermost first, approached from
+-            # its outer side - until the target is the next one out (a player would; the bot used to
+-            # walk to the target and pull the whole camp)
++            # the target stands in a camp: clear it from the edge - outermost first - until the
++            # target is the next one out (a player would; the bot used to walk in and pull it all)
+             cx = sum(m["x"] for m in group) / len(group)
+             cy = sum(m.get("y", 0) for m in group) / len(group)
+             out = max(group, key=lambda m: (round(math.dist((m["x"], m.get("y", 0)), (cx, cy)) / 4), -m.get("distance", 0)))
+-            ux, uy = out["x"] - cx, out.get("y", 0) - cy
+-            n = max(math.hypot(ux, uy), 0.01)
+-            off = 20 if self.fight_args().get("pull_spell") else 6  # a ranged opener stands well back
+-            ax, ay = out["x"] + ux / n * off, out.get("y", 0) + uy / n * off
++            pull = self.fight_args().get("pull_spell")
++            ax = ay = None
++            if not pull:
++                # body pull: inch toward it until IT alone notices us, then back out with it
++                body = self.body_pull_spot(out, [m for m in group if m is not out], cx, cy, level, lv)
++            if body:
++                ax, ay = body
++                print(f"  body-pulling {out['entry']} out of a group of {len(group)} from ({ax:.0f},{ay:.0f})", flush=True)
++            elif crowd(t) >= 2 and not pull and level < max(lv(m) for m in group) + 3:
++                # even the least crowded target stands in a pack and nobody can be body-pulled alone
++                # (Northshire's vineyard: every pull came 2-3 at once): park the quest a level, never
++                # past 3 over the mobs or "later" would loop for ever
++                back = min(level + 1, max(lv(m) for m in group) + 3)
++                q = getattr(self, "current_qid", None)
++                if q:
++                    self.defer_until[q] = max(self.defer_until.get(q, 0), back)
++                print(f"  {entry} only stands in packs ({crowd(t) + 1} in reach) - back at level {back}", flush=True)
++                return {"reason": "camp too tight"}
++            else:
++                ux, uy = out["x"] - cx, out.get("y", 0) - cy
++                n = max(math.hypot(ux, uy), 0.01)
++                off = 20 if pull else 6  # a ranged opener stands well back
++                ax, ay = out["x"] + ux / n * off, out.get("y", 0) + uy / n * off
+             me = self.me()
+-            if math.dist((me["x"], me["y"]), (ax, ay)) > 8:
++            if ax is not None and math.dist((me["x"], me["y"]), (ax, ay)) > 8:
+                 self.travel(ax, ay, ground(ax, ay, out.get("z", 0)), within=4)
+             t = out
+-        r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(solo=len(group) <= 1), loot=True)
++        r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(solo=len(group) <= 1), loot=True,
++                 **({"body_pull": True, "retreat": 15} if body else {}))
+         self.fight_log(t["entry"], r)
+         if len(group) > 1:
+             self.rest(90)
+         return r
+ 
++    def aggro_r(self, mob_level, level):
++        """Roughly how close a hostile mob notices us: 20 yd at our level, a yard less per level we
++        are above it, a yard more per level below (AzerothCore clamps to 5..45)."""
++        return max(5.0, min(45.0, 20.0 + mob_level - level))
++
++    def body_pull_spot(self, t, others, cx, cy, level, lvl_of):
++        """Where to stand to body-pull t out of its camp: on its outer side (away from the camp
++        centre cx,cy), just past its aggro reach. None when the spot where it would notice us is
++        inside another camp mob's reach too - then the whole camp comes and a body pull is no help."""
++        ux, uy = t["x"] - cx, t.get("y", 0) - cy
++        n = math.hypot(ux, uy)
++        if n < 0.5:  # the target IS the centre: approach from our side
++            me = self.me()
++            ux, uy, n = me["x"] - t["x"], me["y"] - t.get("y", 0), max(math.hypot(me["x"] - t["x"], me["y"] - t.get("y", 0)), 0.01)
++        ux, uy = ux / n, uy / n
++        r = self.aggro_r(lvl_of(t), level)
++        notice = (t["x"] + ux * r, t.get("y", 0) + uy * r)
++        if any(math.dist((o["x"], o.get("y", 0)), notice) < self.aggro_r(lvl_of(o), level) + 2 for o in others):
++            return None
++        return (t["x"] + ux * (r + 6), t.get("y", 0) + uy * (r + 6))
++
++    def path_passes(self, t, mobs, level, lvl_of):
++        """How many OTHER hostiles the walk to t passes within their aggro reach (3D: a cave's
++        tunnels stack - Deathknell's Night Web Hollow pulled 5-6 spiders walking to one)."""
++        try:
++            pts = call("move.path", x=t["x"], y=t.get("y", 0), z=t.get("z", 0)).get("points", [])
++        except StepFailed:
++            return 0
++        near = set()
++        for a, b in zip(pts, pts[1:]):
++            A = (a.get("x", 0), a.get("y", 0), a.get("z", 0))
++            B = (b.get("x", 0), b.get("y", 0), b.get("z", 0))
++            k = max(1, int(math.dist(A, B) / 3))
++            for i in range(k + 1):
++                P = tuple(A[j] + (B[j] - A[j]) * i / k for j in range(3))
++                if math.dist(P[:2], (t["x"], t.get("y", 0))) < 8:
++                    continue  # the target's own surroundings: crowd() judges those
++                for o in mobs:
++                    if o is not t and math.dist(P, (o["x"], o.get("y", 0), o.get("z", 0))) < self.aggro_r(lvl_of(o), level):
++                        near.add(o["guid"])
++        return len(near)
++
+     def fight_log(self, entry, r, kind="pull"):
+         """One line per fight with what the combat module measured - how hard we hit vs how hard we
+         are hit, and how many attacked us at once (a single pull vs a pack: the death-rate question).
+@@ -1672,6 +1744,15 @@ class Runner:
+                 if q:
+                     self.defer_until[q] = max(self.defer_until.get(q, 0), guard - 2)
+                 raise StepFailed(f"destination ({x:.0f},{y:.0f}) guarded by level-{guard} mobs - back at level {guard - 2}")
++            # ...and never a third time where we already died twice at this level, whatever the quest
++            # type (Ammen Vale: Inoculation's use-item targets stand among Mutated Owlkin - every death
++            # a defend fight, so no camp rule ever saw them; 7 deaths in 25 min)
++            died = sum(1 for dx, dy, lv in self.death_spots if lv == level and math.dist((dx, dy), (x, y)) < 45)
++            if died >= 2:
++                q = getattr(self, "current_qid", None)
++                if q:
++                    self.defer_until[q] = max(self.defer_until.get(q, 0), level + 1)
++                raise StepFailed(f"died {died}x near ({x:.0f},{y:.0f}) at level {level} - back at level {level + 1}")
+         # skirt hostile camps on the way (a ghost walks straight through: nothing sees it). One
+         # detour at a time, re-planned from each waypoint, so camp after camp is avoided
+         if far > 40 and not self.reviving and not getattr(self, "_detouring", False):
+-- 
+2.34.1
+
