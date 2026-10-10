@@ -1,0 +1,86 @@
+From 4e93923b6fe1646a9029271284df9acbf29bb11a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 05:00:59 +0000
+Subject: [PATCH] feat: park tight camps/packs a level, never travel into mobs
+ 3+ levels up (F-219)
+
+- clear_camp: count hostiles in aggro reach (~20 yd, -1 per level above them) of the spot we would
+  fight from; 2+ joiners = not clearable in melee now - park the quest a level, capped at camp
+  level + 3 so "later" can never loop (Sunstrider's Feral Tenders: one pull brought 7)
+- kill(): the same when even the least crowded target stands in a pack (Northshire's vineyard)
+- travel refuses a destination with hostiles 3+ levels above us within 30 yd and parks the quest
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 40 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 5bb57d2..c115855 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1227,6 +1227,21 @@ class Runner:
+         # its outer side: 6 yd to walk in and swing, 20 yd with a ranged opener (it walks out to us)
+         off = 20 if self.fight_args().get("pull_spell") else 6
+         ax, ay = t["x"] + ux / n * off, t.get("y", 0) + uy / n * off
++        # where we would fight from, who else is in aggro reach (~20 yd, a yard less per level we
++        # are above them)? A tight camp joins in whole: Sunstrider's Feral Tenders stand 1-15 yd
++        # apart and a pull from the edge brought 7 at once. Not clearable in melee at this level
++        joins = [o for o in mobs if o is not t and math.dist((o["x"], o.get("y", 0)), (ax, ay))
++                 < max(8, 20 - (level - info.get(o["entry"], (level, 0))[0]))]
++        # (3 levels over the camp, take it: green mobs in a pack are a fight we win, and parking
++        # past that level would loop on "later" like the old 5886-pass busy loop)
++        if len(joins) >= 2 and level < top + 3 and not self.fight_args().get("pull_spell"):
++            q = getattr(self, "current_qid", None)
++            back = min(level + 1, top + 3)
++            if q:
++                self.defer_until[q] = max(self.defer_until.get(q, 0), back)
++            print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}) too tight: {len(joins) + 1} would come at once - "
++                  f"back at level {back}", flush=True)
++            return "later"
+         if math.dist((me["x"], me["y"]), (ax, ay)) > 8:
+             self.travel(ax, ay, ground(ax, ay, t.get("z", 0)), within=4)
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
+@@ -1377,6 +1392,20 @@ class Runner:
+         group = [m for m in mobs if math.dist((m["x"], m.get("y", 0)), (t["x"], t.get("y", 0))) < 18
+                  and (m is t or self.hostile(m["entry"]))]
+         s = call("interact.self")
++        level = s.get("level", 1)
++        # even the least crowded target has 2+ hostiles in aggro reach (Northshire's vineyard: 28
++        # Thugs, every pull came 2-3 at once and killed us): not a melee fight at this level - park
++        # the quest a level (never past 3 over the mobs, or "later" would loop for ever)
++        if crowd(t) >= 2 and not self.fight_args().get("pull_spell"):
++            top = max(int(r["minlevel"]) for r in sql(
++                f"SELECT minlevel FROM creature_template WHERE entry IN ({inlist({m['entry'] for m in group})})"))
++            if level < top + 3:
++                q = getattr(self, "current_qid", None)
++                back = min(level + 1, top + 3)
++                if q:
++                    self.defer_until[q] = max(self.defer_until.get(q, 0), back)
++                print(f"  {entry} only stands in packs ({crowd(t) + 1} in reach) - back at level {back}", flush=True)
++                return {"reason": "camp too tight"}
+         if s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 85:
+             self.rest(95)  # every planned pull starts near full: the second mob is what kills
+         if len(group) > 1:
+@@ -1632,6 +1661,17 @@ class Runner:
+         if far > 300:  # a long trip is worth a line: where to and why is in the caller's next print
+             caller = traceback.extract_stack(limit=3)[0]
+             print(f"  travel {far:.0f} yd -> ({x:.0f},{y:.0f},{z:.0f}) from line {caller.lineno} ({caller.name})", flush=True)
++        # never walk INTO mobs 3+ levels above us: the detour ignores the destination's own camp, so a
++        # trip whose goal sits among them went straight in (Shadowglen level 5: deaths to level 8-10
++        # Silkspinners, Elder Nightsabers, Mire Beasts beyond the valley). Park the quest instead
++        if far > 40 and not self.reviving:
++            level = call("interact.self").get("level", 1)
++            guard = max((t[2] for t in self.threats() if t[2] >= level + 3 and math.dist(t[:2], (x, y)) < 30), default=0)
++            if guard:
++                q = getattr(self, "current_qid", None)
++                if q:
++                    self.defer_until[q] = max(self.defer_until.get(q, 0), guard - 2)
++                raise StepFailed(f"destination ({x:.0f},{y:.0f}) guarded by level-{guard} mobs - back at level {guard - 2}")
+         # skirt hostile camps on the way (a ghost walks straight through: nothing sees it). One
+         # detour at a time, re-planned from each waypoint, so camp after camp is avoided
+         if far > 40 and not self.reviving and not getattr(self, "_detouring", False):
+-- 
+2.34.1
+
