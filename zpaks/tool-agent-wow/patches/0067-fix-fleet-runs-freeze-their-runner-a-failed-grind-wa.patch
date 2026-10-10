@@ -1,0 +1,91 @@
+From 4a33240c431a731af7d0490c0e0741e3658e46f2 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 08:39:28 +0000
+Subject: [PATCH] fix: fleet runs freeze their runner; a failed grind walk is
+ not a run-ender (F-219)
+
+- fleet.py start snapshots start_area.py/rpc.py/rpc.sh into <area>/runner and points the
+  supervisor there: a relaunch after a worldserver restart no longer loads code committed mid-run
+- run(): StepFailed out of grind() is "no grind this pass" (Goblin's run ended RESULT: FAIL on the
+  died-twice guard raised from grind's travel)
+- grind skips targets within 45 yd of two deaths at this level
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/fleet.py      | 19 +++++++++++++++++--
+ zeppelin/tests/start_area.py | 11 +++++++++--
+ 2 files changed, 26 insertions(+), 4 deletions(-)
+
+diff --git a/zeppelin/tests/fleet.py b/zeppelin/tests/fleet.py
+index e283a00..0f6c6ae 100755
+--- a/zeppelin/tests/fleet.py
++++ b/zeppelin/tests/fleet.py
+@@ -68,10 +68,23 @@ def port_of(name):
+ 
+ def env_for(name):
+     e = dict(os.environ)
+-    e.update(AW_RUN=area_dir(name), AW_BIN=BIN, AW_TESTS=HERE, AGENT_WOW_RPC_PORT=str(port_of(name)))
++    # AW_TESTS_SNAPSHOT: the runner copy this run started with (cmd_start) - a supervisor relaunch
++    # after a worldserver restart must not pick up code committed mid-run (Goblin's run ended on a
++    # guard that was not in the code it started with)
++    e.update(AW_RUN=area_dir(name), AW_BIN=BIN, AW_TESTS=os.environ.get("AW_TESTS_SNAPSHOT") or HERE,
++             AGENT_WOW_RPC_PORT=str(port_of(name)))
+     return e
+ 
+ 
++def snapshot_runner(name):
++    """Freeze the runner for this run: <area>/runner/ gets start_area.py, rpc.py, rpc.sh."""
++    d = os.path.join(area_dir(name), "runner")
++    os.makedirs(d, exist_ok=True)
++    for f in ("start_area.py", "rpc.py", "rpc.sh"):
++        shutil.copy2(os.path.join(HERE, f), d)
++    return d
++
++
+ def state(name):
+     try:
+         with open(os.path.join(area_dir(name), "state.json")) as f:
+@@ -200,7 +213,9 @@ def cmd_start(names):
+             continue
+         if not state(name).get("char"):
+             raise SystemExit(f"{name}: no character - run `fleet.py new {name}` first")
+-        subprocess.Popen([sys.executable, os.path.abspath(__file__), "drive", name], cwd=HERE, env=env_for(name),
++        env = env_for(name)
++        env["AW_TESTS_SNAPSHOT"] = env["AW_TESTS"] = snapshot_runner(name)
++        subprocess.Popen([sys.executable, os.path.abspath(__file__), "drive", name], cwd=HERE, env=env,
+                          stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                          start_new_session=True)
+         print(f"{name}: started ({state(name)['char']}, port {port_of(name)})")
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index e495e45..addb198 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1406,7 +1406,9 @@ class Runner:
+             f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)}) AND (flags_extra & 64)=0")}
+         # an even fight is a coin flip in starting gear (three grind deaths at level == level in one
+         # fleet run): once a grind pull has killed us, only take mobs a level below us
+-        easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= cap]
++        easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= cap
++                and sum(1 for dx, dy, dl in self.death_spots if dl == level
++                        and math.dist((dx, dy), (o["x"], o.get("y", 0))) < 45) < 2]  # not where we died twice
+         if not easy:
+             return self.walk_to_grind(level, cap)
+ 
+@@ -3394,7 +3396,12 @@ class Runner:
+                 time.sleep(5)
+                 continue
+             # quests still open: respawn timers / skipped objects need time, so wait (~4 min max)
+-            if hard and self.grind(level):
++            try:
++                ground_one = hard and self.grind(level)
++            except StepFailed as e:  # a refused or failed grind walk is no grind this pass, not the end
++                print(f"  ~ grind: {str(e)[:100]}", flush=True)
++                ground_one = False
++            if ground_one:
+                 idle = 0
+                 continue
+             if hard:
+-- 
+2.34.1
+

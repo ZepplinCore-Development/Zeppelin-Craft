@@ -1,0 +1,56 @@
+From 5f2e6f0e631147fba8180e5e1a8c6fb798c09574 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 10 Oct 2026 08:36:46 +0000
+Subject: [PATCH] feat: never chase profession/holiday quests or ones
+ superseded by their follow-up (F-219)
+
+Deathknell retried Rude Awakening 6x after 364 was done; Ammen Vale Botanist Taerix 6x;
+Shadowglen walked to Alchemy and Noblegarden givers. Queued for the next fleet restart.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/tests/start_area.py | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 5f3e8a1..e495e45 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -103,6 +103,12 @@ def inlist(values):
+     return ",".join(str(v) for v in values) or "0"
+ 
+ 
++# quest sorts a fresh character cannot do: professions (Elixirs for the Bladeleafs 1581 = Alchemy)
++# and holidays (A Tisket, a Tasket 13502 = Noblegarden; The Grateful Dead 13952 = Day of the Dead)
++UNBOTABLE_SORTS = {-24, -101, -121, -181, -182, -201, -264, -304, -324, -371, -373,       # professions
++                   -22, -41, -364, -366, -369, -370, -374, -375, -376, -1001, -1002, -1003, -1005}  # holidays
++
++
+ # -- gear: equip upgrades, choose quest rewards ---------------------------------------------------
+ # InventoryType -> equipment slots it can go to (0 head .. 15 main hand, 16 off hand, 17 ranged)
+ INV_SLOTS = {1: [0], 2: [1], 3: [2], 5: [4], 20: [4], 6: [5], 7: [6], 8: [7], 9: [8], 10: [9], 11: [10, 11],
+@@ -834,7 +840,7 @@ class World:
+         """Race/class allow this quest and its ender is in the area (ignores level/prereqs)."""
+         q = self.quests[qid]
+         races, classes = int(q["AllowableRaces"]), int(q["AllowableClasses"])
+-        return (qid in self.enders and (not races or races & (1 << (self.race - 1)))
++        return (qid in self.enders and int(q.get("QuestSortID", 0) or 0) not in UNBOTABLE_SORTS and (not races or races & (1 << (self.race - 1)))
+                 and (not classes or classes & (1 << (self.cls - 1)))
+                 and (qid not in self.cond19 or self.groups_true(self.cond19[qid], {}, static_only=True)))
+ 
+@@ -842,6 +848,11 @@ class World:
+         q = self.quests[qid]
+         if qid in self.rewarded or qid in in_log or qid not in self.enders:
+             return False  # no ender in the area = an exit quest; out of scope here
++        if int(q.get("QuestSortID", 0) or 0) in UNBOTABLE_SORTS:
++            return False  # a profession or holiday quest: never walk to its giver
++        nxt = int(q.get("RewardNextQuest", 0) or 0)
++        if nxt and (nxt in self.rewarded or nxt in in_log):
++            return False  # its chain follow-up is done/taken: AzerothCore refuses it (Rude Awakening 363)
+         races, classes = int(q["AllowableRaces"]), int(q["AllowableClasses"])
+         if races and not races & (1 << (self.race - 1)):
+             return False
+-- 
+2.34.1
+
