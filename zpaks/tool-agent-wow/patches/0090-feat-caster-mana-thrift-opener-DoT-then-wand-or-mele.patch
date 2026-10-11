@@ -1,0 +1,386 @@
+From 5059a14e72342e4b4da587fcb1e070aaf9c29171 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 11 Oct 2026 21:57:33 +0000
+Subject: [PATCH] feat: caster mana thrift - opener, DoT, then wand or melee;
+ spend when losing (F-219)
+
+- Ability max_per_target / min_power_pct; both lift while losing (our health %
+  under 50 and under the target's, or 2+ attackers)
+- KillRequest wand_spell: a ranged fighter whose limited spells are spent
+  wands from range, else closes in and melees with its weapon
+- rotations: priest Smite -> Shadow Word: Pain -> melee; warlock Shadow Bolt
+  -> Corruption/Immolate; druid Wrath -> Moonfire; shaman Lightning Bolt ->
+  Earth Shock; mage two nukes + Fire Blast. DoTs carry a lower mana floor
+- gear: wands (subclass 19, skill 228) are wearable; Shoot 5019 when worn
+- Power Word: Shield every 16 s (Weakened Soul is 15 s)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 46 ++++++++++++---
+ zeppelin/modules/combat/combat.proto     |  6 ++
+ zeppelin/modules/combat/main.go          | 71 +++++++++++++++++++++++-
+ zeppelin/tests/start_area.py             | 45 +++++++++------
+ 4 files changed, 141 insertions(+), 27 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 4be0a0c..29314ba 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -39,8 +39,12 @@ type Ability struct {
+ 	OnWeapon       bool                   `protobuf:"varint,11,opt,name=on_weapon,json=onWeapon,proto3" json:"on_weapon,omitempty"`                    // a weapon enchant spell (Rockbiter): cast at our main hand, only while it has none
+ 	MinRange       float32                `protobuf:"fixed32,12,opt,name=min_range,json=minRange,proto3" json:"min_range,omitempty"`                   // skip while the target is closer than this (yd): ranged shots fail TOO_CLOSE in melee
+ 	MaxRange       float32                `protobuf:"fixed32,13,opt,name=max_range,json=maxRange,proto3" json:"max_range,omitempty"`                   // skip while the target is further than this (yd); 0 = no limit
+-	unknownFields  protoimpl.UnknownFields
+-	sizeCache      protoimpl.SizeCache
++	// mana thrift (low-level casters): a couple of nukes, then wand or melee - unless we are LOSING the
++	// fight (our health % under 50 and under the target's, or 2+ attackers): then both limits lift
++	MaxPerTarget  uint32 `protobuf:"varint,14,opt,name=max_per_target,json=maxPerTarget,proto3" json:"max_per_target,omitempty"` // cast at most this many times on one target; 0 = no cap
++	MinPowerPct   uint32 `protobuf:"varint,15,opt,name=min_power_pct,json=minPowerPct,proto3" json:"min_power_pct,omitempty"`    // skip below this % of our max mana; 0 = no floor
++	unknownFields protoimpl.UnknownFields
++	sizeCache     protoimpl.SizeCache
+ }
+ 
+ func (x *Ability) Reset() {
+@@ -164,6 +168,20 @@ func (x *Ability) GetMaxRange() float32 {
+ 	return 0
+ }
+ 
++func (x *Ability) GetMaxPerTarget() uint32 {
++	if x != nil {
++		return x.MaxPerTarget
++	}
++	return 0
++}
++
++func (x *Ability) GetMinPowerPct() uint32 {
++	if x != nil {
++		return x.MinPowerPct
++	}
++	return 0
++}
++
+ type KillRequest struct {
+ 	state       protoimpl.MessageState `protogen:"open.v1"`
+ 	Guid        uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+@@ -177,9 +195,10 @@ type KillRequest struct {
+ 	ChargeSpell uint32                 `protobuf:"varint,9,opt,name=charge_spell,json=chargeSpell,proto3" json:"charge_spell,omitempty"` // gap closer (Charge) cast once from 8-25 yd while nothing attacks us
+ 	BodyPull    bool                   `protobuf:"varint,10,opt,name=body_pull,json=bodyPull,proto3" json:"body_pull,omitempty"`         // no opener: inch up 2 yd at a time until the target alone aggroes, then back
+ 	// off `retreat` yd so it follows us out of its camp
+-	Retreat       float32 `protobuf:"fixed32,11,opt,name=retreat,proto3" json:"retreat,omitempty"`               // 0 = 15
+-	Range         float32 `protobuf:"fixed32,12,opt,name=range,proto3" json:"range,omitempty"`                   // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
+-	FleePct       uint32  `protobuf:"varint,13,opt,name=flee_pct,json=fleePct,proto3" json:"flee_pct,omitempty"` // break off (reason "flee") below this health % while 2+ attack us; 0 = never
++	Retreat       float32 `protobuf:"fixed32,11,opt,name=retreat,proto3" json:"retreat,omitempty"`                     // 0 = 15
++	Range         float32 `protobuf:"fixed32,12,opt,name=range,proto3" json:"range,omitempty"`                         // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
++	FleePct       uint32  `protobuf:"varint,13,opt,name=flee_pct,json=fleePct,proto3" json:"flee_pct,omitempty"`       // break off (reason "flee") below this health % while 2+ attack us; 0 = never
++	WandSpell     uint32  `protobuf:"varint,14,opt,name=wand_spell,json=wandSpell,proto3" json:"wand_spell,omitempty"` // Shoot (5019) with a wand equipped: what a ranged fighter does once its
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -305,6 +324,13 @@ func (x *KillRequest) GetFleePct() uint32 {
+ 	return 0
+ }
+ 
++func (x *KillRequest) GetWandSpell() uint32 {
++	if x != nil {
++		return x.WandSpell
++	}
++	return 0
++}
++
+ type LootItem struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	ItemId        uint32                 `protobuf:"varint,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+@@ -845,7 +871,7 @@ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+-	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x85\x03\n" +
++	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xcf\x03\n" +
+ 	"\aAbility\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x19\n" +
+ 	"\bevery_ms\x18\x02 \x01(\rR\aeveryMs\x12\x1b\n" +
+@@ -861,7 +887,9 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	" \x01(\bR\tinterrupt\x12\x1b\n" +
+ 	"\ton_weapon\x18\v \x01(\bR\bonWeapon\x12\x1b\n" +
+ 	"\tmin_range\x18\f \x01(\x02R\bminRange\x12\x1b\n" +
+-	"\tmax_range\x18\r \x01(\x02R\bmaxRange\"\x8d\x03\n" +
++	"\tmax_range\x18\r \x01(\x02R\bmaxRange\x12$\n" +
++	"\x0emax_per_target\x18\x0e \x01(\rR\fmaxPerTarget\x12\"\n" +
++	"\rmin_power_pct\x18\x0f \x01(\rR\vminPowerPct\"\xac\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+@@ -879,7 +907,9 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	" \x01(\bR\bbodyPull\x12\x18\n" +
+ 	"\aretreat\x18\v \x01(\x02R\aretreat\x12\x14\n" +
+ 	"\x05range\x18\f \x01(\x02R\x05range\x12\x19\n" +
+-	"\bflee_pct\x18\r \x01(\rR\afleePct\"9\n" +
++	"\bflee_pct\x18\r \x01(\rR\afleePct\x12\x1d\n" +
++	"\n" +
++	"wand_spell\x18\x0e \x01(\rR\twandSpell\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+ 	"\x05count\x18\x02 \x01(\rR\x05count\"\xe6\x03\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index d41a4af..0b089ef 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -20,6 +20,10 @@ message Ability {
+   bool on_weapon = 11;   // a weapon enchant spell (Rockbiter): cast at our main hand, only while it has none
+   float min_range = 12;  // skip while the target is closer than this (yd): ranged shots fail TOO_CLOSE in melee
+   float max_range = 13;  // skip while the target is further than this (yd); 0 = no limit
++  // mana thrift (low-level casters): a couple of nukes, then wand or melee - unless we are LOSING the
++  // fight (our health % under 50 and under the target's, or 2+ attackers): then both limits lift
++  uint32 max_per_target = 14; // cast at most this many times on one target; 0 = no cap
++  uint32 min_power_pct = 15;  // skip below this % of our max mana; 0 = no floor
+ }
+ 
+ message KillRequest {
+@@ -37,6 +41,8 @@ message KillRequest {
+   float retreat = 11;    // 0 = 15
+   float range = 12;      // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
+   uint32 flee_pct = 13;  // break off (reason "flee") below this health % while 2+ attack us; 0 = never
++  uint32 wand_spell = 14; // Shoot (5019) with a wand equipped: what a ranged fighter does once its
++                          // thrift-limited spells are spent; 0 = close in and melee instead
+ }
+ 
+ message LootItem {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 1d35c37..c21e894 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -65,6 +65,8 @@ type service struct {
+ 	selfCastUntil                                 time.Time            // our own cast bar
+ 	lastCastSent                                  time.Time            // GCD runs from here
+ 	castFails                                     map[string]uint32    // "spell:result" -> count, this fight
++	castsOn                                       map[[2]uint64]uint32 // (spell, target) -> casts, for max_per_target
++	maxSeen                                       map[uint64]uint32    // target -> highest health seen (its max: no field for it)
+ }
+ 
+ func main() {
+@@ -430,6 +432,17 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			return finish("target gone", false)
+ 		}
+ 		res.Entry, res.TargetHealth = t.GetEntry(), t.GetHealth()
++		if s.maxSeen == nil || len(s.maxSeen) > 500 {
++			s.maxSeen, s.castsOn = map[uint64]uint32{}, map[[2]uint64]uint32{}
++		}
++		if t.GetHealth() > s.maxSeen[guid] {
++			s.maxSeen[guid] = t.GetHealth()
++		}
++		losing := len(live) >= 2
++		if m := s.maxSeen[guid]; !losing && m > 0 && st.GetMaxHealth() > 0 {
++			ours, theirs := st.GetHealth()*100/st.GetMaxHealth(), t.GetHealth()*100/m
++			losing = ours < 50 && ours < theirs // it would outlast us: spend the mana now
++		}
+ 		if t.GetHealth() == 0 {
+ 			_, _ = finish("killed", true)
+ 			if req.GetLoot() {
+@@ -608,7 +621,23 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 				}
+ 				attacking = true
+ 			}
+-			s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res)
++			s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res, losing)
++			if !s.offenseLeft(req, st, guid, losing) {
++				// the thrift-limited spells are spent: wand it from here, or walk in and melee
++				if w := req.GetWandSpell(); w != 0 && d > meleeTrigger {
++					if time.Since(lastCast[w]) > 5*time.Second { // Shoot repeats on its own; re-arm after other casts
++						if err := s.castAt(ctx, w, guid); err != nil {
++							return nil, err
++						}
++						lastCast[w] = time.Now()
++						res.Casts++
++						res.Spells = append(res.Spells, w)
++					}
++					stuckSince = time.Time{} // a wand fight is slow, not stuck
++				} else if d > meleeTrigger {
++					rng, stuckSince = 0, time.Now()
++				}
++			}
+ 			time.Sleep(tick)
+ 			continue
+ 		}
+@@ -646,7 +675,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			}
+ 			attacking = true
+ 		}
+-		if err := s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res); err != nil {
++		if err := s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res, losing); err != nil {
+ 			return nil, err
+ 		}
+ 		time.Sleep(tick)
+@@ -656,10 +685,13 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ // castAbilities casts the first ability that is ready (priority order), at most one per tick.
+ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest, st *interactv1.SelfState,
+ 	me *movev1.Position, t *interactv1.WorldObject, guid uint64, live []uint64,
+-	lastCast map[uint32]time.Time, lastOn map[[2]uint64]time.Time, res *combatv1.KillResult) error {
++	lastCast map[uint32]time.Time, lastOn map[[2]uint64]time.Time, res *combatv1.KillResult, losing bool) error {
+ 	d := distance(me, t.GetX(), t.GetY(), t.GetZ())
+ 	for _, a := range req.GetAbilities() {
+ 		every := time.Duration(a.GetEveryMs()) * time.Millisecond
++		if !s.thriftOK(a, st, guid, losing) {
++			continue
++		}
+ 		if !a.GetOnSelf() && a.GetItemId() == 0 && !a.GetOnWeapon() {
+ 			// out of the spell's range band: the hunter's Serpent Sting failed TOO_CLOSE in melee and
+ 			// Raptor Strike fired from range - the cast only cost the tick
+@@ -753,6 +785,9 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 		if err := s.castAt(ctx, a.GetSpellId(), target); err != nil {
+ 			return err
+ 		}
++		if target == guid {
++			s.castsOn[[2]uint64{uint64(a.GetSpellId()), guid}]++
++		}
+ 		lastCast[a.GetSpellId()] = time.Now()
+ 		res.Casts++
+ 		res.Spells = append(res.Spells, a.GetSpellId())
+@@ -761,6 +796,36 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 	return nil
+ }
+ 
++// thriftOK: the mana-thrift gates of an ability (max_per_target, min_power_pct), both lifted while
++// we are losing the fight.
++func (s *service) thriftOK(a *combatv1.Ability, st *interactv1.SelfState, guid uint64, losing bool) bool {
++	if losing {
++		return true
++	}
++	if n := a.GetMaxPerTarget(); n > 0 && s.castsOn[[2]uint64{uint64(a.GetSpellId()), guid}] >= n {
++		return false
++	}
++	if p := a.GetMinPowerPct(); p > 0 && st.GetPowerType() == 0 && st.GetMaxPower() > 0 &&
++		st.GetPower()*100/st.GetMaxPower() < p {
++		return false
++	}
++	return true
++}
++
++// offenseLeft: is any attack spell (not a self cast, item, weapon enchant or interrupt) still allowed
++// on this target by power and thrift? None left = a ranged fighter switches to wand or melee.
++func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfState, guid uint64, losing bool) bool {
++	for _, a := range req.GetAbilities() {
++		if a.GetOnSelf() || a.GetItemId() != 0 || a.GetOnWeapon() || a.GetInterrupt() || a.GetBuff() {
++			continue
++		}
++		if st.GetPower() >= a.GetMinPower() && s.thriftOK(a, st, guid, losing) {
++			return true
++		}
++	}
++	return false
++}
++
+ func (s *service) hasAura(spell uint32) bool {
+ 	s.mu.Lock()
+ 	defer s.mu.Unlock()
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index bafcf54..e51fb44 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -60,7 +60,7 @@ CLASS_ABILITIES = {
+         {"spell_id": 28730, "every_ms": 120000, "on_self": True, "interrupt": True},          # Arcane Torrent (blood elf)
+         {"spell_id": 465, "every_ms": 3000, "on_self": True, "buff": True},                   # Devotion Aura
+         {"spell_id": 21084, "every_ms": 3000, "min_power": 30, "on_self": True, "buff": True},  # Seal of Righteousness
+-        {"spell_id": 20271, "every_ms": 10000, "min_power": 30},                              # Judgement of Light (needs the seal)
++        {"spell_id": 20271, "every_ms": 10000, "min_power": 30, "min_power_pct": 30},         # Judgement of Light (needs the seal)
+         {"spell_id": 19740, "every_ms": 3000, "min_power": 30, "on_self": True, "buff": True},  # Blessing of Might
+     ],
+     3: [  # hunter - from range: Auto Shot repeats on its own; stings per target; Raptor Strike in melee
+@@ -70,41 +70,50 @@ CLASS_ABILITIES = {
+         {"spell_id": 75, "every_ms": 2500},                                                  # Auto Shot
+         {"spell_id": 2973, "every_ms": 6000, "min_power": 15},                               # Raptor Strike (melee)
+     ],
++    # Mana thrift (casters): max_per_target / min_power_pct keep a level-5 caster from emptying its
++    # mana into one mob and resting after every fight - a couple of nukes, then wand (if one is worn)
++    # or melee. Both limits lift while we are LOSING (health % under 50 and under the target's, or 2+
++    # attackers): then every spell goes. Heals and buffs are never limited.
+     5: [  # priest - shield, heal, Pain on each attacker, Smite
+         {"spell_id": 2050, "every_ms": 3000, "min_power": 30, "on_self": True, "below_health_pct": 40},  # Lesser Heal
+-        {"spell_id": 17, "every_ms": 15000, "min_power": 45, "on_self": True, "below_health_pct": 90},   # Power Word: Shield
++        {"spell_id": 17, "every_ms": 16000, "min_power": 45, "on_self": True, "below_health_pct": 90},   # Power Word: Shield (16 s: Weakened Soul lasts 15 - recast at 15 failed TARGET_AURASTATE 111x a run)
+         {"spell_id": 1243, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Power Word: Fortitude
+-        {"spell_id": 589, "every_ms": 18000, "min_power": 25, "per_target": True},           # Shadow Word: Pain
+-        {"spell_id": 585, "every_ms": 0, "min_power": 20},                                   # Smite
++        # open with Smite while it runs in (the cast is never pushed back), then Pain for the whole fight,
++        # then the stick - Pain is the mana-efficient part, so its floor is lower
++        {"spell_id": 585, "every_ms": 0, "min_power": 20, "max_per_target": 1, "min_power_pct": 35},     # Smite
++        {"spell_id": 589, "every_ms": 18000, "min_power": 25, "per_target": True, "min_power_pct": 20},  # Shadow Word: Pain
+     ],
+     7: [  # shaman - Earth Shock doubles as the interrupt
+         {"spell_id": 331, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Wave
+         {"spell_id": 8042, "every_ms": 6000, "min_power": 30, "interrupt": True},            # Earth Shock (interrupt)
+         {"spell_id": 324, "every_ms": 3000, "min_power": 45, "on_self": True, "buff": True},  # Lightning Shield
+         {"spell_id": 8017, "every_ms": 10000, "min_power": 20, "on_weapon": True},          # Rockbiter Weapon (on the weapon)
+-        {"spell_id": 8042, "every_ms": 6000, "min_power": 30},                               # Earth Shock
+-        {"spell_id": 403, "every_ms": 0, "min_power": 15},                                   # Lightning Bolt
++        # Lightning Bolt opener while it runs in, one Earth Shock, then the mace (Rockbiter does the work)
++        {"spell_id": 403, "every_ms": 0, "min_power": 15, "max_per_target": 1, "min_power_pct": 35},     # Lightning Bolt
++        {"spell_id": 8042, "every_ms": 6000, "min_power": 30, "max_per_target": 1, "min_power_pct": 40},  # Earth Shock
+     ],
+     8: [  # mage
+         {"spell_id": 168, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Frost Armor
+         {"spell_id": 1459, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Arcane Intellect
+-        {"spell_id": 2136, "every_ms": 8000, "min_power": 40},                               # Fire Blast
+-        {"spell_id": 116, "every_ms": 0, "min_power": 25},                                   # Frostbolt (slows: fewer hits taken)
+-        {"spell_id": 133, "every_ms": 0, "min_power": 30},                                   # Fireball (before Frostbolt is known)
++        {"spell_id": 2136, "every_ms": 8000, "min_power": 40, "max_per_target": 1, "min_power_pct": 35},  # Fire Blast
++        {"spell_id": 116, "every_ms": 0, "min_power": 25, "max_per_target": 2, "min_power_pct": 30},     # Frostbolt (slows: fewer hits taken)
++        {"spell_id": 133, "every_ms": 0, "min_power": 30, "max_per_target": 2, "min_power_pct": 30},     # Fireball (before Frostbolt is known)
+     ],
+     9: [  # warlock
+         {"spell_id": 687, "every_ms": 3000, "min_power": 50, "on_self": True, "buff": True},  # Demon Skin
+-        {"spell_id": 172, "every_ms": 18000, "min_power": 35, "per_target": True},           # Corruption
+-        {"spell_id": 348, "every_ms": 15000, "min_power": 25},                               # Immolate
+-        {"spell_id": 686, "every_ms": 0, "min_power": 25},                                   # Shadow Bolt
++        # Shadow Bolt opener while it runs in, then the DoTs (Corruption instant), then wand/stick
++        {"spell_id": 686, "every_ms": 0, "min_power": 25, "max_per_target": 1, "min_power_pct": 35},     # Shadow Bolt
++        {"spell_id": 172, "every_ms": 18000, "min_power": 35, "per_target": True, "min_power_pct": 20},  # Corruption
++        {"spell_id": 348, "every_ms": 15000, "min_power": 25, "max_per_target": 1, "min_power_pct": 30},  # Immolate
+     ],
+     11: [  # druid (caster form)
+         {"spell_id": 5185, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Touch
+         {"spell_id": 774, "every_ms": 12000, "min_power": 25, "on_self": True, "below_health_pct": 70},  # Rejuvenation
+         {"spell_id": 1126, "every_ms": 3000, "min_power": 20, "on_self": True, "buff": True},  # Mark of the Wild
+         {"spell_id": 467, "every_ms": 3000, "min_power": 35, "on_self": True, "buff": True},  # Thorns
+-        {"spell_id": 8921, "every_ms": 12000, "min_power": 25, "per_target": True},          # Moonfire
+-        {"spell_id": 5176, "every_ms": 0, "min_power": 20},                                  # Wrath
++        # Wrath opener while it runs in, then Moonfire for the fight, then the staff
++        {"spell_id": 5176, "every_ms": 0, "min_power": 20, "max_per_target": 1, "min_power_pct": 35},     # Wrath
++        {"spell_id": 8921, "every_ms": 12000, "min_power": 25, "per_target": True, "min_power_pct": 20},  # Moonfire
+     ],
+     4: [  # rogue
+         {"spell_id": 1766, "every_ms": 10000, "min_power": 25, "interrupt": True},            # Kick
+@@ -176,7 +185,7 @@ INV_SLOTS = {1: [0], 2: [1], 3: [2], 5: [4], 20: [4], 6: [5], 7: [6], 8: [7], 9:
+              12: [12, 13], 16: [14], 13: [15], 21: [15], 17: [15], 22: [16], 14: [16], 23: [16], 15: [17],
+              25: [17], 26: [17]}
+ WEAPON_SKILL = {0: 44, 1: 172, 2: 45, 3: 46, 4: 54, 5: 160, 6: 229, 7: 43, 8: 55, 10: 136, 13: 473,
+-                15: 173, 16: 176, 18: 226}  # item subclass -> skill line
++                15: 173, 16: 176, 18: 226, 19: 228}  # item subclass -> skill line (19 wand: casters had none)
+ ARMOR_OK = {1: {1, 2, 3, 6}, 2: {1, 2, 3, 6}, 3: {1, 2}, 4: {1, 2}, 5: {1}, 6: {1, 2, 3}, 7: {1, 2}, 8: {1},
+             9: {1}, 11: {1, 2}}  # class -> armour subclasses wearable below 40 (6 = shield)
+ STAT_W = {1: {4: 2.0, 3: 1.0, 7: 1.5}, 2: {4: 2.0, 5: 1.0, 7: 1.5}, 4: {3: 2.0, 4: 1.0, 7: 1.5}}  # STR 4 AGI 3 INT 5 STA 7
+@@ -1211,9 +1220,11 @@ class Runner:
+                 if water:
+                     self._food.update(drink_item=water[0], drink_spell=self.items(water)[water[0]][2])
+                 self._food["mana_pct"] = 80  # a caster with no mana is a bad melee fighter
+-            self._pull = 0
++            self._pull, self._wand = 0, 0
+             if ranged:
+                 sub = self.items([ranged])[ranged][1]
++                if sub == 19 and 5019 in set(call("interact.spells").get("spells", [])):
++                    self._wand = 5019  # Shoot (wand): what a caster does once its thrift spells are spent
+                 known = set(call("interact.spells").get("spells", []))
+                 if sub == 16 and 2764 in known:
+                     self._pull = 2764  # Throw: no ammo
+@@ -1231,6 +1242,8 @@ class Runner:
+             a["charge_spell"] = charge
+         if self._pull:
+             a["pull_spell"] = self._pull
++        if getattr(self, "_wand", 0):
++            a["wand_spell"] = self._wand
+         return a
+ 
+     def weapon_consumable(self):
+-- 
+2.34.1
+
