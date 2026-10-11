@@ -699,6 +699,26 @@ function sendRegions(skbuf) {
   const r = geoRegions(geoM2, skbuf);
   if (r && Object.keys(r).length) { geoSent = true; parent.postMessage({ type: 'pane-georegions', regions: r }, '*'); }
 }
+// Retail particles with a TXAC value and no material flag 0x20 make this engine build throw "Incompatible
+// situation" (particleEmitter::selectShaderId; newer engine source only logs it) - arcanegolem2 crashed the pane.
+// Zero the TXAC entries of the particle emitters (they then take the default particle shader).
+function retailTxacFix(buf) {
+  const dv = new DataView(buf);
+  if (dv.byteLength < 16 || dv.getUint32(0, true) !== 0x3132444D) return null;     // 'MD21'
+  const nMat = dv.getUint32(8 + 0x70, true), nPar = dv.getUint32(8 + 0x128, true);
+  if (!nPar) return null;
+  let o = 0;
+  while (o + 8 <= dv.byteLength) {
+    const id = dv.getUint32(o, true), sz = dv.getUint32(o + 4, true);
+    if (id === 0x43415854) {                                                       // 'TXAC'
+      const out = buf.slice(0), u8 = new Uint8Array(out), start = o + 8 + 2 * nMat, end = Math.min(o + 8 + sz, start + 2 * nPar);
+      if (start < end) { u8.fill(0, start, end); return out; }
+      return null;
+    }
+    o += 8 + sz;
+  }
+  return null;
+}
 const xopen = XMLHttpRequest.prototype.open;
 XMLHttpRequest.prototype.open = function (method, url, ...rest) {
   const logical = fixUrl(url);
@@ -722,6 +742,8 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
     } else if (RETAIL_FDID && path.endsWith('/fdid/' + RETAIL_FDID)) {
       // the retail model itself (MD21 -> MD20 at +8): report its stats to the picker, and frame a
       // retail-only model (no deploy camera) from its own bounding box
+      const fixedTxac = retailTxacFix(this.response);
+      if (fixedTxac) Object.defineProperty(this, 'response', { value: fixedTxac, configurable: true });
       const dv = new DataView(this.response);
       geoM2 = this.response;
       const b = dv.byteLength > 0xC8 && dv.getUint32(0, true) === 0x3132444D ? 8 : 0;

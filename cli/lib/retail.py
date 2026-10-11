@@ -86,7 +86,7 @@ def fetch(fdid: int) -> Optional[bytes]:
         with _get(f'{WAGO}/casc/{fdid}?version={build()}', 120) as r:
             data = r.read()
     except Exception:
-        data = b''
+        return None                                    # a network failure (wago.tools stalls) is retried next time, never cached
     f.write_bytes(data)
     time.sleep(0.05)                                   # be polite to wago.tools
     return data or None
@@ -460,6 +460,34 @@ def skin_sets_geo(fdid: int):
     if not sets:
         sets = folder_skin_sets(fdid)
     return sets, {g: sorted(v) for g, v in sorted(groups.items())}
+
+
+_mesh_geo: Dict[int, Dict[int, List[int]]] = {}
+
+
+def mesh_geosets(fdid: int) -> Dict[int, List[int]]:
+    """{group: [variants]} the retail model's first .skin really has (groups >= 1). Retail displays use only
+    some of them (dragonspawn2darkshade: armour group 2 has 2/3/4, its 11 displays use 3/4); the Display editor
+    offers the mesh's full set."""
+    import struct
+    if fdid in _mesh_geo:
+        return _mesh_geo[fdid]
+    out: Dict[int, set] = {}
+    try:
+        data = fetch(fdid)
+        ch = chunks(data) if data and data[:4] == b'MD21' else {}
+        sf = struct.unpack_from('<I', ch[b'SFID'], 0)[0] if b'SFID' in ch else 0
+        sk = fetch(sf) if sf else None
+        if sk and sk[:4] == b'SKIN':
+            ns, os_ = struct.unpack_from('<II', sk, 28)
+            for j in range(ns):
+                g = struct.unpack_from('<H', sk, os_ + 48 * j)[0]
+                if g // 100 >= 1 and g % 100:
+                    out.setdefault(g // 100, set()).add(g % 100)
+    except (struct.error, TypeError, KeyError):
+        pass
+    _mesh_geo[fdid] = {k: sorted(v) for k, v in sorted(out.items())}
+    return _mesh_geo[fdid]
 
 
 def folder_skin_sets(fdid: int) -> List[list]:

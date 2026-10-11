@@ -497,7 +497,10 @@ function mergeNearCards(e, gs) {
 const FUSED = new Set(['batrider.m2', 'alliancerider.m2', 'alliancerider2.m2', 'horderider.m2', 'goblinrocketcar.m2',
   'gnomerocketcar.m2', 'headlesshorsemanmount.m2', 'mounteddeathknight.m2', 'mounteddeathknight_blaumeux.m2',
   'mounteddeathknight_korthazz.m2', 'mounteddeathknight_mograine.m2', 'mounteddeathknight_zeliek.m2', 'mountedknight.m2',
-  'mounteddemonknight.m2', 'terongorefiend_mounted.m2', 'felorcnetherdrakemounted.m2', 'orcdrakerider.m2', 'tauren_mountedcanoe.m2']);
+  'mounteddemonknight.m2', 'terongorefiend_mounted.m2', 'felorcnetherdrakemounted.m2', 'orcdrakerider.m2', 'tauren_mountedcanoe.m2',
+  // pilot baked in (its own display-skin slot 12/13): Mechano-Tank, Thermaplugg's pounder; the empty
+  // vehicles gnomespidertank02 / gnomepoundervehicle (Assault Bot) have no pilot slot and are not here
+  'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2']);
 const isFusedRider = (path) => FUSED.has((path || '').split('/').pop());
 const F220 = 'Fused rider/driver: the rider is part of the mount model. F-220 replaces these with an NPC on a mount or vehicle.';
 // a creature/character model no creature shows (no display, or only unused displays)
@@ -531,6 +534,12 @@ function perDisplayTarget(e) {
 }
 // a pack-only model every display reaches through its stock model's full swap (wendigo -> wendigo2):
 // not a listing of its own - it is an option card on the stock model, where the displays are moved
+// a model with no model-level pick whose every display was picked on its own (Displays page / Display editor)
+function decidedPerDisplay(e) {
+  if (e.tab !== 'creature' || e.retailOnly || pickOf(e)) return false;
+  const ds = repEntries(e.path);
+  return ds.length > 0 && ds.every(d => choices.display[String(d.display)]);
+}
 function swapSourceOf(e) {
   if (e.tab !== 'creature' || e.retailOnly || e.panes.some(p => p.sources.includes('stock'))) return null;
   perDisplayTarget(e);                                   // builds byTarget
@@ -574,6 +583,10 @@ let byPath = null;
 function modelDecides(d) {
   if (!byPath) { byPath = {}; assets.forEach(x => { if (x.tab !== 'display') byPath[x.path] = x; }); }
   const m = d.panes.length ? byPath[d.panes[0].model] : null;
+  // a character display (5785): packs replace the character model in place, so the model file pick decides
+  // it - and with it the default bake (the largest that fits that file); a card pick only overrides
+  // - only when nothing moves it to ANOTHER model (16624 bloodelfmale -> arator.m2 is a real display choice)
+  if (m && m.tab === 'character' && choices.mesh[m.path] && d.panes.every(p => p.model === m.path)) return true;
   return !!m && modelOptions(m).some(g => g.reps[d.display]);
 }
 // a display decided by its model's pick (Displays tab: not in the queue, overridable)
@@ -844,6 +857,7 @@ function assetMatches(e) {
   if (filter === 'todo' && perDisplayTarget(e)) return false;                       // its file is picked per display
   if (swapSourceOf(e)) return false;                                                // an option on its stock model's listing
   if (filter === 'todo' && (c || viaModel(e))) return false;   // Undecided = never picked (here or via the model); changed picks are in Review
+  if (filter === 'todo' && decidedPerDisplay(e)) return false;    // every display it shows picked one by one (bogbeast: 36 of 36)
   if (filter === 'review' && !rv) return false;
   if (filter === 'wish' && !(choices.wish || {})[e.path]) return false;
   if (filter === 'remaster' && !(e.tab === 'creature' && !e.retailOnly && (namedFor(e.path) || (retailIdx.models || {})[e.path]))) return false;
@@ -956,6 +970,7 @@ function render() {
       const tag = (rv ? `<span class="chip warn" title="${esc(rv)}">review</span>`
         : c ? `<span class="chip ok">✓ ${c.option === 'custom' ? 'our edit' : esc(label(c.sources))}</span>`
         : viaModel(e) ? `<span class="chip ok">✓ via model pick</span>`
+        : decidedPerDisplay(e) ? `<span class="chip ok" title="No model-level pick: every display of this model has its own pick">✓ decided per display</span>`
         : e.tab === 'display' && modelDecides(e) ? `<span class="chip">decided by the model pick</span>`
         : unusedModel(e) ? '<span class="chip">not used by any creature</span>'
         : notInGame(e) ? '<span class="chip" title="Creature templates use it, but none is spawned, summoned, ridden or scripted, so nothing shows it in game">not in game</span>'

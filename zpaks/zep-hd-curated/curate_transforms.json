@@ -1,0 +1,1461 @@
+{
+ "_doc": "F-216: fixes applied by `zep model curate` (and the model picker's panes) to community-pack files it ships. Keyed by lowercase path. base_sha256 = the pack file the recipe was written for: a different file (pack update) skips the recipe with a warning. 'ship' = extra files the fixed model needs, taken from the same option's sources. Ops: cli/lib/m2_ops.py.",
+ "creature/golemstone/golemcannonstone.m2": {
+  "source": "patch-hd-everything",
+  "note": "Texture 1 (the reflection layer the body batch combines with its skin) lost its filename in conversion: type 0, empty name -> the golem draws black. Give it the reflection map its sibling golemstone.m2 in the same pack uses.",
+  "base_sha256": "8097f23e14d9e5181599872fca48d7de729d183e04b32f6dd8910edd7541f114",
+  "result_sha256": "1111b211f8cbf6b1d0a450d65e96d66e52783e405e6068c899be0bf18fef21af",
+  "ops": [
+   {
+    "op": "m2.texture.set",
+    "index": 1,
+    "expect_type": 0,
+    "expect_name": "",
+    "name": "Creature\\Golemstone\\orbreflect02.blp"
+   }
+  ],
+  "ship": [
+   "creature/golemstone/orbreflect02.blp"
+  ]
+ },
+ "creature/gryphon/gryphon_mount.m2": {
+  "source": "patch-hd-everything",
+  "note": "The pack's gryphon_mount is the elite gryphon mesh. Texture 0 names CREATURE\\ELITEGRYPHON\\ELITEGRYPHON.BLP but is typed 11 (display skin), so the client ignores the name and paints the display's Gryphon_Skin (made for the regular gryphon) -> scrambled. Make it a fixed texture (type 0).",
+  "base_sha256": "f167c8f81345ccaad1c51b397bdfb555feea1818369554d7f038df86b10cfbb7",
+  "result_sha256": "272b958d0c67c5d141068fb05b68bf1ccc53df204d3dd765e2dad54368c04457",
+  "ops": [
+   {
+    "op": "m2.texture.set",
+    "index": 0,
+    "expect_type": 11,
+    "expect_name": "CREATURE\\ELITEGRYPHON\\ELITEGRYPHON.BLP",
+    "type": 0
+   }
+  ],
+  "ship": [
+   "creature/elitegryphon/elitegryphon.blp"
+  ]
+ },
+ "creature/beholder/beholder_king.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names beholderwarlock_purple.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "b1323276cee211c9610515df5e2fed6a089ab2a55ad980db6ddc79f68c2637d8",
+   "result_sha256": "b20d5ef6dd46f1683b143e2e174d7688435355f8017e72c083c0c244d130a29c",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/beholderwarlock_boss/beholderwarlock_purple.blp"
+   ]
+  }
+ ],
+ "creature/boar/boar.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "ec8e401f1fc9e8a5c5747b4ea2a7b68ed0befbec57b36d74c1d1587bbe89c8b6",
+   "result_sha256": "e5fc34544f66adf4d3dce20ea6391edc06a09a2cc95a0c570c6f9c5e94640a4a",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/doomguardoutland2/doomguardoutland.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names varimathras.blp; display skin None missing -> fixed texture; slot 6 (type 12) names varimathras_wings.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "cbfcc580a81093b770a7113e0e4634334a6cccc1c180437436661a7d885afc95",
+   "result_sha256": "e77af5d5ca9d1cae90aeccc7f28c7457a62c6b227a73cf6dbd3d9d54921bef98",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    },
+    {
+     "op": "m2.texture.set",
+     "index": 6,
+     "expect_type": 12,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/varimathras/varimathras.blp",
+    "creature/varimathras/varimathras_wings.blp"
+   ]
+  }
+ ],
+ "creature/dragonspawn2/dragonspawn2.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "ad5f823ad7ecef0ab0eb07cec64cfee342e946231f980604712de195947ff7cb",
+   "result_sha256": "5ecac51806295c40f6d53cc03669ca48b763ef155c87adb0d4d933a58e1e249f",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/dragonspawn2/dragonspawn2armored.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "e1d645e912e5e2c843bd3d657a6d694fc504344e675193d6a5d6daf56099fe03",
+   "result_sha256": "4a7d63f6dc3c8d5987e18abe646ea7a532ed2931af31d6361cdbf7882bedd58c",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/dragonspawn2caster/dragonspawn2caster.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "975721a5689632dc12a6596a72ada813ab52bcbc1525317d7d0528c52a18eaee",
+   "result_sha256": "bc6663363a71879855765f19c64e15f2cc622db6766219050743c69e65db8f77",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grand.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "32458c3e59c6a144576cfb1f5176d192e5a5ec51a41ba5f2b4a2618930142332",
+   "result_sha256": "bf398ecf857aa21c055578a28c9c132d63c793e50f7bce64169a689afdda288a",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "243df1b0b9b31b711ba2a6727d48a72c5d19f7fc72b9fcac8dd195d3dd5bbe72",
+   "result_sha256": "0f2ad32fbe35fde281d44d40836dd3b14821bde4b3850e24ad0e7a32457f5bf9",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grandalex.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "7b4111e59fbc29fbee7252a3dde712a122966ca2b354cc77110abd9b436ab396",
+   "result_sha256": "822188338ecef21dfcccea69547ec45925802cc75d7aebfdb658d54c90c04523",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "ac2859abe862aeba9e5d8a8f550c396acf277aa831d7905f0b64434fba643363",
+   "result_sha256": "36f42b2cea3b94eceb855011c8d3cf5fea77d55a9f2a1e8935aa5947b49833c3",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grandhalion.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "907d4a02a8c40f1269cc29962ffeba099483bb194f074a534547e597d358eec5",
+   "result_sha256": "7cb3fe56c61895c56dc94579ecf5677ce2858942d7f56bc49bc6d5e25ec49622",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "acffa8fcf6cc7e6089b336eeecc3b06b1b4cf95e292ce61551ed95326d7d2349",
+   "result_sha256": "660f39a88a127854c5fb8973948e81708b24e2e6b45f0d1dbca2f53ba8a9199a",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grandmalygos.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "cb5fbba2fa2ea139c2c2f4ea892284a0eb43b4d1308d78c0f8067508859a0ad1",
+   "result_sha256": "c7298cae8836f0b67cde8c17253a5e93d22c3cd1b6e6295d6b377610eb898558",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "becfed0869f55f65745ca504e5fe506c1565b975e65e975d95ff8f25b0f672ab",
+   "result_sha256": "42d942625aeac9259d43b9a8a277f3c7638c42dd8d4e41539b6822c242dc42a3",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grandnefarian.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "c692fea509c5a433a55017bde5174f89c67568090603b445b34ff763d9c69e2c",
+   "result_sha256": "c6f99ff90f284c461421d64cd7f19ae9a0f8e07fe57987f036616bb7a02d6d2c",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "29c9bff203d604fb294baff58aa32a92592b7a404a221447b7f3d34eb4d215c0",
+   "result_sha256": "9400a8ed72e0719b9088012d38aa348c6d00e91761c3821ff6a7b7c1f5844211",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grandnozdormu.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "f1eaf90aa9ffbc94e6b618012c2d87b10f165724c9cbbf8646684c410411e7ba",
+   "result_sha256": "739a2cb38048a9722660e6ccb0889f4d577f58211af15c34fd1e611a07276594",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "e4196c562c24d2a83896c5bfe595dfcc77b03b69d7ef7fae147e7c314c987756",
+   "result_sha256": "c5c797126e43e23c55164d9aabbddaf550f14fa35fb7491559266825b5eb5ce5",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grandonyxia.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "afd81b3ae704f27def11c04aab4638cec123384f7cf90ddf3e300628d13a583f",
+   "result_sha256": "cc62a9fccaa0b82a419ae1a52e60926b53e23bb0be56ad6d50a4a20f5de6d180",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "223c278e394eeea5e56122eb3e693f556ff74fbdb2c56c75c6f628c28069ed59",
+   "result_sha256": "08b58743503a3c482cd963bf699f7eee59be3df788c255d3eebc328ea02ab930",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grandterac.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "1b6ca00c6cbdbc87e9c53153117e3132aeb4fe2d26873f699b33e5e4153191bd",
+   "result_sha256": "0d724593831a6a71c406e2d2c717ef615a090640f04adb6dcf895d7a69e93ae8",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "6235cc7c07f3f025dfa515cf9c3c77356513348e9b4d80acfd715a4d068e18ea",
+   "result_sha256": "b6188d990b9ee7c4f0705dd2db1b60d7c7d03b2455cb522d46ab0b8fcc413b7f",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakegrand2/drakemount2grandysera.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "212b0ef84d0e18086bb475b9d534cc8669d1bbfd22ebdb92231a2c3cddc292cd",
+   "result_sha256": "4d308babd045f402fca5f164f3cce355707db4cc70605f6fed695bc28932f344",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "b56c57603aeabda0ef96f67421955f5852b00d4908987e57da769749b45d7a64",
+   "result_sha256": "6a991970fa873d90cba6fb5484d83f6443c519c100612765ac46c1d5b44a7fc7",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakemount2/drakemount2.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "4e357a41913e28c9c6d770a7ac2fcc9870983c3838aeeb84c863874fa350f8ed",
+   "result_sha256": "5851d8f6fc7806b126266428b402f6cdf985ea7884b561ed3e72222e82b03129",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "14f6bb7670925147183a43796ce8a26b6d9b3cd48c6974f5ceadacbe7fc7dcc1",
+   "result_sha256": "d77a6cd046f967721077fc7ce2f6c316f7ecd3bd45c77bf18c9bc5045157d817",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakemount2/drakemount2armored.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "ace87c5bd5f99856a19c99b41b39926608e1f111d2129cb816c9e90f45bcbc2d",
+   "result_sha256": "9942e95190ff2f28da79c3633833e8c3e2da18114c5306280ff258bfecb47579",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "5f280bb6914796956e4933a764a03da7468645c94753c09fb3b5e3ab99700026",
+   "result_sha256": "b5feba9cbb664c2e0a6af88368143c1c0f3f5626205f4ca468d46490b7ba2709",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakemount2/drakemount2azure.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "ace87c5bd5f99856a19c99b41b39926608e1f111d2129cb816c9e90f45bcbc2d",
+   "result_sha256": "9942e95190ff2f28da79c3633833e8c3e2da18114c5306280ff258bfecb47579",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "5f280bb6914796956e4933a764a03da7468645c94753c09fb3b5e3ab99700026",
+   "result_sha256": "b5feba9cbb664c2e0a6af88368143c1c0f3f5626205f4ca468d46490b7ba2709",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakemount2/drakemount2elite.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "15e33071238934d70ce1ad97d68b23e0000446807f2b1155ca07059fc439531e",
+   "result_sha256": "deb7f24a508c56c0670d045475aee4804c004d6c79285e9776ba5fa9b7ca9300",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "708f7112c7d47b06ca026e7440a21f179f1eccc4db6dacb46d8b87741919096b",
+   "result_sha256": "c8326c6d3ce4aef12b756f2157c536bde18590ee09951f7eeead8b7d3d22acbc",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakonid2/drakonid2.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "0b0364d184eda8321ca28f6ab5f215c2a51901bc707fc2148065a1a22e80c0c9",
+   "result_sha256": "3c7b423ba16e2050b357e03b19c2d9fca427aedc341f907155b40a0da9e2e927",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakonid2/drakonid2boss.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "33bd54d912ac82faea05cd7446624d6cb7119c9c2d39f46060efaeca77d96113",
+   "result_sha256": "d51ee749860ece8760fbf8e65de1519c8db4332f22ea594842da68518507a66a",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/drakonid2/drakonid2nether.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "1b95f24ae0005f42385e42c763efcaf8478f1afcab18f1abf7748ca2781710d0",
+   "result_sha256": "1b1877c72b07f28f89379a668d466add545c2406fe4d65ee02096918a4e98d6b",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/ent2/ent2.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 6 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "7713bb66dc058b276cd7fecc85e169f9371965b0a074252772d4fe74d219da03",
+   "result_sha256": "880eba42489927ba4aeb249ca30ccf4b075c0f8fd867d108820be64d1ef6b2b4",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 6,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/felorc/felorc.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 11) names felorcmalehd_melee.blp; display skin felorc_red.blp looks different (corr -0.01) -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "5cf4e19cc1a197d859de1ffc4886966d352d52fb7762a6df74a5f1c2c599932a",
+   "result_sha256": "fb4c3f7040330d2886e011bf5e984914579808be008c704909ef53431d5d5cee",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/felorcmalehd/felorcmalehd_melee.blp"
+   ]
+  }
+ ],
+ "creature/felorc/felorc_axe.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 11) names felorcmalehd_melee.blp; display skin felorc_red.blp looks different (corr -0.01) -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "b8c2c3bcfcae3944868e6cc9fbaf58b941efaaee5257e2c58aba41e4032e5ebf",
+   "result_sha256": "a4bcad17dbca6eac0193c07f21ae06b0fc2e952f80256785144a4755a5b98287",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/felorcmalehd/felorcmalehd_melee.blp"
+   ]
+  }
+ ],
+ "creature/felorc/felorc_sword.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 11) names felorcmalehd_melee.blp; display skin felorc_red.blp looks different (corr -0.01) -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "558158bd90a87714378cdfe0778ead1338612faeea40e2d877b1f80206f0913a",
+   "result_sha256": "841e0677c77c09adab92932a2eebc42a8606083d0c44bfc33e3971dd881b2083",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/felorcmalehd/felorcmalehd_melee.blp"
+   ]
+  }
+ ],
+ "creature/ghoul/ghoul.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 4 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "60cbffc1dcf212a67f425455e73a855f7f31da6371431bd403d7a169194941f7",
+   "result_sha256": "8287535b2e78629af14b55bd2405e28904b00466df611106973536f263e93416",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 4,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/ghoul/ghoulnobirth.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 4 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "60cbffc1dcf212a67f425455e73a855f7f31da6371431bd403d7a169194941f7",
+   "result_sha256": "8287535b2e78629af14b55bd2405e28904b00466df611106973536f263e93416",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 4,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/gnoll2/gnoll2.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "564e5ad667cd57681c512d9dd18be0d29cd63243df1731fc7c64dbf7cc57322a",
+   "result_sha256": "818161a714e5b277b1a08f9973ce874b2bb86da26447d8925c53b681cd0986f3",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/gnollb/gnollb.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "e490d5b135a0227aea6c6182cc9d9609287d6738909d431b1d7ba57c4f3392c2",
+   "result_sha256": "891c260b943e39b4ec6640d984191ece27f6be9d8176b6b1d3a1092f1740ccaf",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/gryphon/gryphonmount.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 11) names elitegryphon.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "006be4b6d11a8062aedb477978be5c8cfb6a56672350ab5b3da14edce816fb4b",
+   "result_sha256": "9b898d33b82ae7fb6c66fe79336be49bbb7fbb263c60cd345cd2fcba320e5014",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitegryphon/elitegryphon.blp"
+   ]
+  }
+ ],
+ "creature/gryphon2/gryphon.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names elitegryphon.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "df77796c6a9dae194b984c093b842c21c68d9157568ba7393e63dff9ddd4dc1a",
+   "result_sha256": "94109c65f1dcd5488801be3d5d009d92205b557e86c260e3a25d117680363db5",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitegryphon/elitegryphon.blp"
+   ]
+  }
+ ],
+ "creature/gryphon2/gryphon_armored.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names elitegryphon.blp; display skin None missing -> fixed texture; slot 2 (type 13) names elitegryphonarmor.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "c7f1d8c15b797411b4bb844de41c5f2ca779ec7df9cd0f9c2040456591a36620",
+   "result_sha256": "4d40df609ea99b1318fe4f969a0f5d266169a2b91bb176ca5e4da1adb8088a03",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    },
+    {
+     "op": "m2.texture.set",
+     "index": 2,
+     "expect_type": 13,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitegryphon/elitegryphon.blp",
+    "creature/elitegryphon/elitegryphonarmor.blp"
+   ]
+  }
+ ],
+ "creature/gryphon2/gryphon_armoredmount.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names elitegryphon.blp; display skin None missing -> fixed texture; slot 2 (type 13) names elitegryphonarmor.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "c7f1d8c15b797411b4bb844de41c5f2ca779ec7df9cd0f9c2040456591a36620",
+   "result_sha256": "4d40df609ea99b1318fe4f969a0f5d266169a2b91bb176ca5e4da1adb8088a03",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    },
+    {
+     "op": "m2.texture.set",
+     "index": 2,
+     "expect_type": 13,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitegryphon/elitegryphon.blp",
+    "creature/elitegryphon/elitegryphonarmor.blp"
+   ]
+  }
+ ],
+ "creature/gryphon2/gryphon_mount.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names elitegryphon.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "cf9ef2fa3ad9ab98687b2735580e2dc3870f9feece2ff32418f5735d05bec344",
+   "result_sha256": "e484631ae64fd064b56a8fdcc4358def6eee893770af7a78d2974dedfac8b84d",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitegryphon/elitegryphon.blp"
+   ]
+  }
+ ],
+ "creature/gryphon2/gryphonmount.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names elitegryphon.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "cb22aaa5d8ed73e1c25b5f87e0f433aadefa7e13d10ef06ec97568661959c43a",
+   "result_sha256": "86936858c4e274671edc9ac8e1657fb6aef4f14e2c3a61e3e8b2223eb10a46c1",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitegryphon/elitegryphon.blp"
+   ]
+  }
+ ],
+ "creature/humanfemalekid2/humanfemalekid2.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 3 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "3c326305ba43f96e75ce9d45fb4f4a88fabaa31aa55ea3cb2cfcd0dfd94cbfdf",
+   "result_sha256": "b51bfa32dd44fc2510c68de7b81429bf84567e0f92f866d3dd3e91311ca67ca5",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 3,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/jaina/jaina.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 4 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "8a8e5b81c090112ba843ccb688870f73b1fc764ba22f120bd4fec4825cf35f75",
+   "result_sha256": "78057e68968f3daa80a9a3b71e2e9d3661f81409cee811543441a2dbb7e2c010",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 4,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/ladyalexstrasza/ladyalexstrasza.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 8 skin profiles, ships 4 (model screen 2026-10-07)",
+   "base_sha256": "a4cc3854a10fb7b960eab11af9e73038dd8098dac64d3e8c40d121910afc7321",
+   "result_sha256": "b8372079124d778ddc10b6310b9571287bf55618f9c3bfad8cf8082db79a18c7",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 8,
+     "value": 4
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/mechastrider/pvpmechastrider.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 12) names viciouswarmechanostrider.blp; display skin pvpmechastriderheadlightglow.blp looks different (corr 0.11) -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "b01a4d1358100086a554a1a714835197afc936aa0b564be5c08b54ae643f3500",
+   "result_sha256": "c9690aa909ca026132803c1f103028506d12317df478d6607b8d1b59132d9383",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 12,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/viciouswarmechanostrider/viciouswarmechanostrider.blp"
+   ]
+  }
+ ],
+ "creature/monkey/monkey_fez.m2": [
+  {
+   "source": "zep-goblin-start",
+   "note": "declares 3 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "2d628095797eb3906615f3192891a61e395adaf473706c510a5a84939dc3d4f5",
+   "result_sha256": "dc51be0ec1992a884c8954d5b38997f6f4f11b52baba97bc8926c9953a4c1259",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 3,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/mountaingiantcrystal/mountaingiantcrystal_gelb.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 11) names crystalfury2.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "643f76224fa0d36d9a9675435e825f9ba836a12b1dc7b27a29e54f5e8c93cdeb",
+   "result_sha256": "e69c6bc3e05cbf7569c81011944a3f09676158dc181a9fb2bc8ef0f61b023bb8",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/crystalfury2/crystalfury2.blp"
+   ]
+  }
+ ],
+ "creature/mountaingiantcrystal/mountaingiantcrystal_red.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 11) names crystalfury2.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "c01746b0f0ac06afefef4437354b68634e4f37d9dcc4e85d352ff7b99010c745",
+   "result_sha256": "4c33d5e656b2c73d2431c8ae2dfb5940f67f7e083678d59665c87bf2f2c82bef",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/crystalfury2/crystalfury2.blp"
+   ]
+  }
+ ],
+ "creature/mountaingiantcrystal/mountaingiantcrystal_white.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 11) names crystalfury2.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "bf9c8c4fe6b3b2f824a403960d75cd8a28749c8ab1e9bede1d89aa3182600d7a",
+   "result_sha256": "e17a20c5084e7d1fd918db53cae3139d924bf2f75c32ecff1f4bc5fe7fb287a8",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/crystalfury2/crystalfury2.blp"
+   ]
+  }
+ ],
+ "creature/netherdrak2/netherdrake2.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "715cd7b924d282b80b9d2a594e4abe65055be4af8d42406e355de35d190fd4a6",
+   "result_sha256": "1857779d6f97593a35c5308a62c4d110a650373399eda60bdf766bf1a7d3cdef",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "7972a166a87ba4b801993f50911e2ededde3862b0ca3b3db59c1395745554bfc",
+   "result_sha256": "4ca650c6f43c60b04ed3096d2d901a5ca17736b099e00e2797eb3dccbdd16fbe",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/netherdrak2/netherdrake_saddle.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "f45559bafdccfa03de872024f42d31f1555ee592d9a402f2ab40214195f1c52d",
+   "result_sha256": "fb1c2a3fdec97e72648c01060a99d889dd1afe2c61a128b199ea3adbb14e89b1",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/netherdrak2/netherdrakenoarmorpreview2.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "715cd7b924d282b80b9d2a594e4abe65055be4af8d42406e355de35d190fd4a6",
+   "result_sha256": "1857779d6f97593a35c5308a62c4d110a650373399eda60bdf766bf1a7d3cdef",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/northrendghoul/northrendghoul.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 4 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "1a3a4528a881ff4cde895a29d0ef0499b3af7dbdf912c53fd65961e66a92a518",
+   "result_sha256": "6bc3b12a559c3c7843d17ccaffd1ed806da741f2c82e5a19bb7df2ae775ec3b2",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 4,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/northrendghoul/northrendghoulspiked.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 4 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "1dbfcb29458c8f82e9f5ae59455571a37563fc1d1468d182cd831f29338000ad",
+   "result_sha256": "56c799d945b33e1042969b55993647cf28d53634c7703c5e7a53152f42ae8ced",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 4,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/ram/braufestram.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 12) names viciouswarram2.blp; display skin braufest1.blp looks different (corr -0.04) -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "d59d27219955bf54a158911e865dda6ce168b578d94404ffe6043604d7b09165",
+   "result_sha256": "246ccb1727f1c0973b5406b93677bf69141f4174aa508076f85e6198fee79e82",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 12,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/viciouswarram/viciouswarram2.blp"
+   ]
+  }
+ ],
+ "creature/ram2/ridingram.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "81219743b78475a6768b468e0e11976e053a1fdd1b7769278c03976326b4a84c",
+   "result_sha256": "e2c81058fd3c05b9cf4d85211173bfce2da045240cf359eab0ae2d106d4474fe",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/ram2/ridingrambrew.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "19052049752aa7ea289732d250d33f20324fe8544a5206d823690abfc053a1b5",
+   "result_sha256": "e4e49acbda942f6f0266161080c8638b4a3632ecb9287025ea9ef285f8088b9a",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "85cd1fe7c0e253cf40da0bdc8f0e3164a4bd3265af05f827e48e2d8be6724a48",
+   "result_sha256": "3cb3d92d9162bdf1236eb5c63c27328aa45019cd60b9ff36e8e29ea9ef4640ab",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/ridingraptor/zulgurubraptor.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names viciouswarraptor1.blp; display skin None missing -> fixed texture; slot 2 (type 12) names viciouswarraptor2.blp; display skin None missing -> fixed texture; slot 4 (type 13) names viciouswarraptor3.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "0e036ba51bbc84119f558cefe09bc9c0c911de612484f74923e61d6ca0015bd1",
+   "result_sha256": "6b9b1446bae20cdea53c45d4fa970a3ebdb19c2d91978b2a8429e293af3f647b",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    },
+    {
+     "op": "m2.texture.set",
+     "index": 2,
+     "expect_type": 12,
+     "type": 0
+    },
+    {
+     "op": "m2.texture.set",
+     "index": 4,
+     "expect_type": 13,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/raptor2/viciouswarraptor1.blp",
+    "creature/raptor2/viciouswarraptor2.blp",
+    "creature/raptor2/viciouswarraptor3.blp"
+   ]
+  }
+ ],
+ "creature/ridingwyver2/ridingwyvern.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names elitewyvernskin.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "f518a65a6e0b4aa9b498f571be019f2ca634cfb3baf7ec04b92d58f20f822f68",
+   "result_sha256": "5e684858cdd36893db98a63296268b9a9a2335c344470f77395f59a318ccd1a5",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitewyvern/elitewyvernskin.blp"
+   ]
+  }
+ ],
+ "creature/ridingwyver2/wyvern.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 2 skin profiles, ships 1; slot 0 (type 11) names elitewyvernskin.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "f518a65a6e0b4aa9b498f571be019f2ca634cfb3baf7ec04b92d58f20f822f68",
+   "result_sha256": "59bb1611d71c724e6fe2df69c877857a8cc3eff6f4daeb073a8d696a0078d272",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    },
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitewyvern/elitewyvernskin.blp"
+   ]
+  }
+ ],
+ "creature/tiger2/tigercub.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 4 (type 11) names siberiantigergodwiskers.blp; display skin tigerskinwhite.blp looks different (corr -0.06) -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "849a44bd10b5574a6f5389fc22c7271c701835c3fe121f0712cc75ced4677ec0",
+   "result_sha256": "a112b1b9b68ab6e214ccaaf450c0263e3201b62d20b5271268cb4c751a70c245",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 4,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/flyingpanther/siberiantigergodwiskers.blp"
+   ]
+  }
+ ],
+ "creature/tiger2/tigernohair.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 1 has no filename; sibling in the folder uses druidtrave.blp (model screen 2026-10-07)",
+   "base_sha256": "c42bab29872c0e447e47847aaf0bf95a67c0a7ee3243a6b2dff764b63fc0968d",
+   "result_sha256": "93c703525e27f964daf6690a3a326883d4d3ba5e68068dc1eb28ddd700ff0623",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 1,
+     "expect_type": 0,
+     "expect_name": "",
+     "name": "creature\\tiger2\\druidtrave.blp"
+    }
+   ],
+   "ship": [
+    "creature/tiger2/druidtrave.blp"
+   ]
+  }
+ ],
+ "creature/trolldire/trolldire.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 3 (type 12) names thundertroll02.blp; display skin deeptrollskiniceblue.blp looks different (corr -0.03) -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "a06db4cacd7c240a72254a660e361ab003fce092a5adca2ed4aab02c785b3754",
+   "result_sha256": "6a82c6334fc28285e8a2ba0050708ff9b1a72913e151088560f5a5eb69844ee0",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 3,
+     "expect_type": 12,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/thundertroll/thundertroll02.blp"
+   ]
+  }
+ ],
+ "creature/warhorse3a/pvpwarhorse.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 3 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "cfc583242e0c25ca5a94d6ea9e8efa5a5e21b08fd552aaa7c1e3f3326a8d5a17",
+   "result_sha256": "c4e678a6fdcb3215664a525b81b5e01b3668753d539b5596c13d853561fd1289",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 3,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/warhorse3a/warhorse.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 3 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "51f3d0c435200f860c418c29c7716017ad7d9f7db418f4096167d969b43e9f5e",
+   "result_sha256": "ab7f9e8312ac5538ca9dbefa64206ae73f11cb4f034d5aeb773d5e140872c38b",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 3,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/warhorse3b/pvpwarhorse.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 3 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "cfc583242e0c25ca5a94d6ea9e8efa5a5e21b08fd552aaa7c1e3f3326a8d5a17",
+   "result_sha256": "c4e678a6fdcb3215664a525b81b5e01b3668753d539b5596c13d853561fd1289",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 3,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/warhorse3b/warhorse.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "declares 3 skin profiles, ships 2 (model screen 2026-10-07)",
+   "base_sha256": "51f3d0c435200f860c418c29c7716017ad7d9f7db418f4096167d969b43e9f5e",
+   "result_sha256": "ab7f9e8312ac5538ca9dbefa64206ae73f11cb4f034d5aeb773d5e140872c38b",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 3,
+     "value": 2
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "creature/wyver2/wyvern.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "slot 0 (type 11) names elitewyvernskin.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "667a1f421860c9842f4a2f563fb4a661e8562345a346fa99fb20798d96a1cbe0",
+   "result_sha256": "54b2e1fd734b611282bb99403ebbb1e72dbc2dcb3342346dbec9c94943ab593b",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitewyvern/elitewyvernskin.blp"
+   ]
+  }
+ ],
+ "creature/wyvern/wyvern_mount.m2": [
+  {
+   "source": "patch-hd-everything",
+   "note": "slot 0 (type 11) names elitewyvern.blp; display skin None missing -> fixed texture; slot 2 (type 13) names elitewyvernarmor.blp; display skin None missing -> fixed texture (model screen 2026-10-07)",
+   "base_sha256": "f8fc7fbb88c92497c6f390413224d6a2c5073eb8cfbf85b896d92f69da8d7df8",
+   "result_sha256": "95b77be2ccc78b04d2b6d742601a87a4154a52b5145d50b24629011824c975be",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 0,
+     "expect_type": 11,
+     "type": 0
+    },
+    {
+     "op": "m2.texture.set",
+     "index": 2,
+     "expect_type": 13,
+     "type": 0
+    }
+   ],
+   "ship": [
+    "creature/elitewyvern/elitewyvern.blp",
+    "creature/elitewyvern/elitewyvernarmor.blp"
+   ]
+  }
+ ],
+ "environments/stars/lostislegloomyskybox.m2": [
+  {
+   "source": "patch-open-azeroth",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "e1dfe06d7c48ade228c158c73b653db799e0f545b5a081c701eeac6cfbf92c2d",
+   "result_sha256": "d88af2812fdcab03f92de61c8f0d0fa8ec1aa291bba8510d4accae2ddd4e3899",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "interface/glues/models/ui_highmountaintauren/ui_highmountaintauren.m2": [
+  {
+   "source": "patch-modern-login",
+   "note": "declares 2 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "7c63a07a68931d8b7ad5a15f22c96c30de12e68ddc5e17501e2d5542c4c2c218",
+   "result_sha256": "aa92fd54559b756dc818adbf2d0dff5e045067e5f85ee77b38888b0428aa58fd",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 2,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ],
+ "world/generic/centaur/passive doodads/centaurtents/centaurtent02.m2": [
+  {
+   "source": "appletrey-2026-07",
+   "note": "slot 2 has no filename; sibling in the folder uses 10ct_centaur_hut02_4005634.blp (model screen 2026-10-07)",
+   "base_sha256": "e1928d98fe6083702bc4b572b3141fd163f89ee42e688e89044ace185589aac0",
+   "result_sha256": "da59439d83a741f1bb4eac3bb3f7423b101726899c913b0439cb79a9ac5776c4",
+   "ops": [
+    {
+     "op": "m2.texture.set",
+     "index": 2,
+     "expect_type": 0,
+     "expect_name": "",
+     "name": "world\\wmo\\expansion09\\centaur\\10ct_centaur_hut02_4005634.blp"
+    }
+   ],
+   "ship": [
+    "world/wmo/expansion09/centaur/10ct_centaur_hut02_4005634.blp"
+   ]
+  }
+ ],
+ "world/generic/human/passive doodads/stormwind/stormwindfountain_04.m2": [
+  {
+   "source": "patch-modern-login",
+   "note": "declares 4 skin profiles, ships 1 (model screen 2026-10-07)",
+   "base_sha256": "26e2219dade5a4b203b96248f86353080f7bf183c233ed6a97848dc093ee05a6",
+   "result_sha256": "e0073a40f96359e705a6a6dcdd9d9c31cc44e637518e72e80eb86468eaaaa3b5",
+   "ops": [
+    {
+     "op": "m2.views.count",
+     "expect": 4,
+     "value": 1
+    }
+   ],
+   "ship": []
+  }
+ ]
+}

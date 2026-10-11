@@ -1513,13 +1513,20 @@ def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> D
     # the pack models each stock model's displays are moved to: their retail originals are leads too
     stock_paths = {ms.norm(str(r.get('model_path') or '')).replace('.mdx', '.m2') for r in scmd.values()}
     pack_to: Dict[str, set] = {}
+    moved_n: Dict[Tuple[str, str], int] = {}
     for did_, d_ in dep.result['displays'].items():
         st_ = d_.get('stock') if isinstance(did_, int) else None
         if st_ is None or not st_.model_path:
             continue
-        for r_ in (d_.get('sources') or {}).values():
-            if r_ is not None and r_.model_path and r_.model_path != st_.model_path and r_.model_path not in stock_paths:
-                pack_to.setdefault(st_.model_path, set()).add(r_.model_path)
+        for r_ in {r_.model_path: r_ for r_ in (d_.get('sources') or {}).values() if r_ is not None and r_.model_path}.values():
+            if r_.model_path != st_.model_path:
+                moved_n[(st_.model_path, r_.model_path)] = moved_n.get((st_.model_path, r_.model_path), 0) + 1
+    for (sp_, tp_), n_ in moved_n.items():
+        # a lead only when a pack moves at least half the model's named displays there: one peasant display
+        # moved onto medivh.m2 must not offer medivh2 as hufmcitizenlow's remaster
+        # (and the two must be the same creature by name: a pack REUSING display 13 for Medivh is not a remaster)
+        if tp_ not in stock_paths or (2 * n_ >= max(1, len(by_stock.get(sp_, []))) and retail._related(sp_, tp_)):
+            pack_to.setdefault(sp_, set()).add(tp_)
     out: Dict[str, dict] = {}
     for path, dids in sorted(by_stock.items()):
         if not path.startswith('creature/'):
@@ -1529,7 +1536,11 @@ def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> D
         if not rule:
             targets = list(retail.named_remasters(path))
         for pp in sorted(pack_to.get(path, ())):
-            for t_ in retail.folder_remasters(pp, stock_paths):
+            # a pack model at a NEW path: the retail models of its folder; a pack that moves the displays
+            # onto ANOTHER STOCK model (patch-hd-creatures-mounts: basilisk_outland -> basilisk) points at
+            # that model's own by-name remasters (basilisk2)
+            leads = retail.named_remasters(pp) if pp in stock_paths else retail.folder_remasters(pp, stock_paths)
+            for t_ in leads:
                 if t_[0] not in {x[0] for x in targets} and t_[0] != path:
                     targets.append(t_)
         if not targets:
@@ -1538,6 +1549,8 @@ def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> D
         rows = []
         for tp, fd in targets:
             sets_g, groups_g = retail.skin_sets_geo(fd)
+            for g_, vs_ in retail.mesh_geosets(fd).items():      # every variant the mesh has, not only the used ones
+                groups_g[g_] = sorted(set(groups_g.get(g_, [])) | set(vs_))
             # [path, fdid, retail displays, [[skins, displays, geoset nibbles]], anims, {group: values}]
             rows.append([tp, fd, retail.retail_displays(fd), sets_g[:40], retail.retail_anim_ids(fd), groups_g])
         dids.sort(key=lambda d: (-len(dep.names.get(d, [])), d))
