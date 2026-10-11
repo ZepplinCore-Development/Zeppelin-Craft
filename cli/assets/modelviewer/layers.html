@@ -79,7 +79,7 @@
   .pane > .actions .row { display: flex; gap: 6px; flex: 1 1 100%; }
   .grpbox { font-size: 12px; color: var(--muted); display: flex; gap: 5px; align-items: center; }
   #grpbar, #modelbar { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
-  #modelbar a { color: var(--accent, #6cf); }
+  #modelbar a, .custctl .note a { color: var(--good); }
   .pane > .ptitle .dettog { margin-left: auto; font-size: 11px; padding: 2px 8px; background: none; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); cursor: pointer; }
   .pane.nodet > .info { display: none; }
   .pane > .info { overflow-y: auto; overflow-x: hidden; }
@@ -2456,11 +2456,11 @@ function relevantModels(did, cur) {
   const d = assets.find(a => a.tab === 'display' && a.display === +did);
   const out = [];
   (d ? d.panes : []).forEach(p => out.push({ kind: 'pane', pane: p, label: `${p.model.split('/').pop()} · ${label(p.sources)}${p.remaster ? ' · community remaster' : ''}` }));
+  (leadOf(did).models || []).forEach(p => { const m = creator && creator.by.get(p);
+    if (m && !out.some(x => x.kind === 'pane' && x.pane.model === p)) out.push({ kind: 'pane', pane: leadPane(m), label: `${p.split('/').pop()} · ${m[1]} · linked` }); });
   if (cur && cur.base && !out.some(x => x.pane.option === cur.base.option && x.pane.model === cur.base.model))
     out.unshift({ kind: 'pane', pane: cur.base, label: `${String(cur.base.model).split('/').pop()} · ${label(cur.base.sources || [])}` });
   const sm = stockModelOf(did), nm = namedFor(sm);
-  (leadOf(did).models || []).forEach(p => { const m = creator && creator.by.get(p);
-    if (m && !out.some(x => x.kind === 'pane' && x.pane.model === p)) out.push({ kind: 'pane', pane: leadPane(m), label: `${p.split('/').pop()} · ${m[1]} · linked` }); });
   if (nm) nm.targets.forEach((t, ti) => { if (targetFor(t, did)) out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (${(t[7] || []).includes(+did) ? 'linked' : t[6] ? 'creature name' : 'by name'}) · ${t[2]} retail displays` }); });
   return out;
 }

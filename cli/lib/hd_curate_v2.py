@@ -386,6 +386,14 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         # a customisation is its own option on the display: it ships only once the display's pick is it
         elif (display_picks.get(did_s) or {}).get('option') != 'custom':
             continue
+        else:
+            # an edit on ANOTHER model (Display editor "Search all models": a stock / pack model the display
+            # never wore): the display is repointed to that model's CreatureModelData row, its files shipped
+            why = _repoint_model(did, cu, layers, srcs, want, wanted_rows, ix)
+            if why is not None:
+                report.setdefault('repointed' if not why else 'repoint_failed', []).append(f'{did}: {why}' if why else did)
+                if why:
+                    continue
         if cu.get('geosets'):
             row = dict(wanted_rows.get(('creaturedisplayinfo', (did,))) or
                        layers.state('creaturedisplayinfo', 'base').get((did,)) or {})
@@ -517,6 +525,49 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     report.update({'files': len(manifest), 'dropped': dropped, 'stock_copies': stock_copies,
                    'rows': len(wanted_rows)})
     return {'manifest': manifest, 'wanted_rows': wanted_rows, 'report': report}
+
+
+def _repoint_model(did: int, cu: dict, layers: 'hd.Layers', srcs: dict, want: dict, wanted_rows: dict, ix):
+    """An existing display's edit made on a model at another path (cu['path']): repoint the row the display
+    ships to a CreatureModelData row naming that path (base / stock first, else the edit's source pack, whose
+    row and files then ship too). None when the edit keeps the display's own model (or is a retail edit,
+    which _retail_display handles), '' when repointed, else why not."""
+    path = ms.norm(str(cu.get('path') or '')).replace('.mdx', '.m2')
+    b = cu.get('base') or {}
+    if not path or 'retail' in (b.get('sources') or []):
+        return None
+    row = wanted_rows.get(('creaturedisplayinfo', (did,))) or layers.state('creaturedisplayinfo', 'base').get((did,))
+    if not row:
+        return None
+    mid = int(row.get('model_id') or 0)
+    cur = next((r_ for r_ in [wanted_rows.get(('creaturemodeldata', (mid,)))] +
+                [layers.state('creaturemodeldata', x).get((mid,)) for x in ['base', 'stock'] + list(srcs)] if r_), None)
+    if cur and ms.norm(str(cur.get('model_path') or '')).replace('.mdx', '.m2') == path:
+        return None
+    sources = [x for x in (b.get('sources') or ['stock']) if x != 'retail'] or ['stock']
+    mrow, msrc = None, None
+    for x in ['base', 'stock'] + sources:
+        mrow = next((r_ for r_ in layers.state('creaturemodeldata', x).values()
+                     if ms.norm(str(r_.get('model_path') or '')).replace('.mdx', '.m2') == path), None)
+        if mrow:
+            msrc = x
+            break
+    if mrow is None:
+        return f'no CreatureModelData row names {path}'
+    if msrc not in ('base', 'stock'):
+        wanted_rows[('creaturemodeldata', (int(mrow['id']),))] = dict(mrow)
+    if path not in ix.stock and want.get(path) is None:
+        files = next((ix._src_files(x) for x in sources if x != 'stock' and path in ix._src_files(x)), None)
+        if files is None:
+            return f'no source ships {path}'
+        stem = path[:-3]
+        for k, f in files.items():
+            if k == path or (k.startswith(stem) and k.endswith(('.skin', '.anim'))):
+                want.setdefault(k, f)
+    row = dict(row)
+    row['model_id'] = int(mrow['id'])
+    wanted_rows[('creaturedisplayinfo', (did,))] = row
+    return ''
 
 
 def _new_display(did: int, cu: dict, layers: 'hd.Layers', result: dict, srcs: dict, want: dict,
