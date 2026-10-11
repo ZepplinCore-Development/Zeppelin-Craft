@@ -1,0 +1,102 @@
+From f7ce9774a6c069698a521a7f7db9eb3c28679fa5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 11 Oct 2026 19:40:10 +0000
+Subject: [PATCH] fix: casters close in on line of sight; repair only at live
+ NPCs (F-219)
+
+- combat: the cast-bar reset of the stuck clock applies in melee only; at
+  range it hid "nothing lands from here" and casters cast into walls for
+  hours (Tirisfal: 519 pulls, 0 kills). A LINE_OF_SIGHT failure now closes
+  in at once; stale ones are cleared per fight
+- runner: repairers/vendors exclude game-event-only spawns (Arena Tournament
+  event 31 TAR pedestals were the "nearest repairer": 6 repairs in 82 trips)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/main.go | 29 ++++++++++++++++++++++++++---
+ zeppelin/tests/start_area.py    | 12 ++++++++++--
+ 2 files changed, 36 insertions(+), 5 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 2cdd5b7..1d35c37 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -364,6 +364,11 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	s.target, s.notInRange, s.badFacing, s.deadTarget, s.cantAttack = guid, false, false, false, false
+ 	swings0, done0, taken0 := s.swings, s.dmgDone, s.dmgTaken
+ 	s.castFails = map[string]uint32{}
++	for sp, r := range s.castFailed {
++		if r == 47 { // a LINE_OF_SIGHT from an earlier fight says nothing about this one
++			delete(s.castFailed, sp)
++		}
++	}
+ 	s.mu.Unlock()
+ 	res := &combatv1.KillResult{Guid: guid}
+ 	finish := func(reason string, killed bool) (*combatv1.KillResult, error) {
+@@ -557,15 +562,33 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		busy := time.Now().Before(s.selfCastUntil)
+ 		s.mu.Unlock()
+ 		if busy { // our own cast bar: moving would cancel it - just keep facing
+-			// ...and it is not "nothing lands": a paladin healing twice in a row (Holy Light 2.5 s) passed
+-			// the 6 s no-damage test and walked out of fights it was winning (5 in one fleet run)
+-			stuckSince = time.Time{}
++			// ...and in melee it is not "nothing lands": a paladin healing twice in a row (Holy Light 2.5 s)
++			// passed the 6 s no-damage test and walked out of fights it was winning. NOT at range: there
++			// the same clock is "nothing lands from here - go to it", and resetting it on every cast left
++			// a mage and a shaman casting into a wall for hours (LINE_OF_SIGHT x50 a pull)
++			if rng == 0 {
++				stuckSince = time.Time{}
++			}
+ 			var face movev1.Position
+ 			_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face)
+ 			time.Sleep(tick)
+ 			continue
+ 		}
+ 		if rng > 0 && d <= rng {
++			// a cast blocked by line of sight will never land from here: close in now, not in 5 s
++			s.mu.Lock()
++			los := false
++			for sp, r := range s.castFailed {
++				if r == 47 { // SPELL_FAILED_LINE_OF_SIGHT
++					los = true
++					delete(s.castFailed, sp)
++				}
++			}
++			s.mu.Unlock()
++			if los && d > meleeTrigger {
++				rng, stuckSince = 0, time.Now()
++				continue
++			}
+ 			// in cast range: stay put and cast; melee only once it has come to us
+ 			if hp := t.GetHealth(); hp != lastHP {
+ 				lastHP, stuckSince = hp, time.Now()
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 849c5ac..bafcf54 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -767,11 +767,19 @@ class World:
+             f"WHERE {where} AND t.flags_extra & 32768")]
+         # repair NPCs (UNIT_NPC_FLAG_REPAIR 0x1000): deaths wear gear to 0 - broken weapons fail every
+         # weapon ability and broken armour has none (the melee bots' late-run death spiral)
++        # Never a spawn that only exists during a game event: every starting area has the Arena
++        # Tournament's (event 31, never active) "[DND] TAR Pedestal" and "Weapons Vendor" with the
++        # repair flag - the nearest "repairer" for most bots. They walked there, found nobody and
++        # fought on at 0 % durability (one fleet run: 6 repairs in 82 trips; the hunter's Raptor
++        # Strike failed MAINHAND 162 times)
++        live_spawn = "c.guid NOT IN (SELECT guid FROM game_event_creature WHERE eventEntry > 0)"
+         self.repairers = sorted({int(r["id"]) for r in sql(
+-            f"SELECT DISTINCT c.id FROM creature c JOIN creature_template t ON t.entry=c.id WHERE {where} AND t.npcflag & 4096")})
++            f"SELECT DISTINCT c.id FROM creature c JOIN creature_template t ON t.entry=c.id WHERE {where} "
++            f"AND t.npcflag & 4096 AND {live_spawn}")})
+         # any vendor (npcflag 0x80) spawned here: where loot is sold for training money
+         self.vendors = sorted({int(r["id"]) for r in sql(
+-            f"SELECT DISTINCT c.id FROM creature c JOIN creature_template t ON t.entry=c.id WHERE {where} AND t.npcflag & 128")})
++            f"SELECT DISTINCT c.id FROM creature c JOIN creature_template t ON t.entry=c.id WHERE {where} "
++            f"AND t.npcflag & 128 AND {live_spawn}")})
+         self.vendor_items = {}  # item -> vendor entries spawned here (npc_vendor)
+         for r in sql(f"SELECT entry,item FROM npc_vendor WHERE item IN ({il}) AND entry IN ({ce})"):
+             self.vendor_items.setdefault(int(r["item"]), set()).add(int(r["entry"]))
+-- 
+2.34.1
+
