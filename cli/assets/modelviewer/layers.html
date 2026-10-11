@@ -2327,6 +2327,18 @@ addEventListener('popstate', () => { const u = new URLSearchParams(location.sear
 $('menu').onclick = () => showHome();
 $('listtoggle').onclick = () => { $('side').classList.toggle('open'); };
 if (innerWidth <= 760) $('side').classList.add('open');              // phones start on the list
+// the filter each tab was last left on (All, Review...): coming back to a tab - e.g. a saved display edit
+// reopening the Displays page - keeps it instead of falling back to Undecided. Per browser.
+const lastFilter = (() => { try { return JSON.parse(localStorage.getItem('mv.filters') || '{}'); } catch (e) { return {}; } })();
+function tabFilter(t) {
+  const fk = t === 'texture' ? 'texture' : t === 'custom' ? 'custom' : 'asset';
+  const keep = lastFilter[t];
+  return FILTERS[fk].some(([k]) => k === keep) ? keep : FILTERS[fk][0][0];
+}
+function rememberFilter() {
+  lastFilter[tab] = filter;
+  try { localStorage.setItem('mv.filters', JSON.stringify(lastFilter)); } catch (e) {}
+}
 $('tabs').onclick = (ev) => {
   const b = ev.target.closest('button'); if (!b) return;
   $('layername').textContent = b.textContent;
@@ -2334,12 +2346,12 @@ $('tabs').onclick = (ev) => {
   if (innerWidth <= 760) $('side').classList.add('open');
   tab = b.dataset.tab;
   [...$('tabs').children].forEach(x => x.classList.toggle('on', x === b));
-  filter = tab === 'texture' ? 'decide' : tab === 'custom' ? 'all' : 'todo';
+  filter = tabFilter(tab);
   render(); openItem(view[0]);
 };
 $('filters').onclick = (ev) => {
   const b = ev.target.closest('button'); if (!b || !b.dataset.f) return;
-  filter = b.dataset.f; render(); openItem(view[0]);
+  filter = b.dataset.f; rememberFilter(); render(); openItem(view[0]);
 };
 $('search').oninput = (ev) => { search = ev.target.value.trim().toLowerCase(); render(); };
 $('simw').onchange = (ev) => { similar = ev.target.checked; render(); };
