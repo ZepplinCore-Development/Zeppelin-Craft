@@ -1,0 +1,217 @@
+From 074f12d72f41bfd1e268237facd8c498c087a66a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 11 Oct 2026 21:59:29 +0000
+Subject: [PATCH] feat: DoTs only on targets that outlive them; shield is
+ defensive (F-219)
+
+- Ability dot_ms (runner fills it from SpellDuration for aura-3 spells): not
+  applied or refreshed when the target's time-to-kill (from damage done so
+  far) is under half the DoT's duration
+- offenseLeft counts a spell only if castable within 2 s (timers, thrift,
+  DoT test), so a ticking DoT never keeps a caster idle at range
+- priest Power Word: Shield below 50 % health only (mana-hungry)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 13 +++++-
+ zeppelin/modules/combat/combat.proto     |  2 +
+ zeppelin/modules/combat/main.go          | 51 +++++++++++++++++++++---
+ zeppelin/tests/start_area.py             | 11 ++++-
+ 4 files changed, 68 insertions(+), 9 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 29314ba..84e2dca 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -43,6 +43,7 @@ type Ability struct {
+ 	// fight (our health % under 50 and under the target's, or 2+ attackers): then both limits lift
+ 	MaxPerTarget  uint32 `protobuf:"varint,14,opt,name=max_per_target,json=maxPerTarget,proto3" json:"max_per_target,omitempty"` // cast at most this many times on one target; 0 = no cap
+ 	MinPowerPct   uint32 `protobuf:"varint,15,opt,name=min_power_pct,json=minPowerPct,proto3" json:"min_power_pct,omitempty"`    // skip below this % of our max mana; 0 = no floor
++	DotMs         uint32 `protobuf:"varint,16,opt,name=dot_ms,json=dotMs,proto3" json:"dot_ms,omitempty"`                        // a DoT's duration: not applied (or refreshed) on a target expected to die
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -182,6 +183,13 @@ func (x *Ability) GetMinPowerPct() uint32 {
+ 	return 0
+ }
+ 
++func (x *Ability) GetDotMs() uint32 {
++	if x != nil {
++		return x.DotMs
++	}
++	return 0
++}
++
+ type KillRequest struct {
+ 	state       protoimpl.MessageState `protogen:"open.v1"`
+ 	Guid        uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+@@ -871,7 +879,7 @@ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+-	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xcf\x03\n" +
++	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xe6\x03\n" +
+ 	"\aAbility\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x19\n" +
+ 	"\bevery_ms\x18\x02 \x01(\rR\aeveryMs\x12\x1b\n" +
+@@ -889,7 +897,8 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\tmin_range\x18\f \x01(\x02R\bminRange\x12\x1b\n" +
+ 	"\tmax_range\x18\r \x01(\x02R\bmaxRange\x12$\n" +
+ 	"\x0emax_per_target\x18\x0e \x01(\rR\fmaxPerTarget\x12\"\n" +
+-	"\rmin_power_pct\x18\x0f \x01(\rR\vminPowerPct\"\xac\x03\n" +
++	"\rmin_power_pct\x18\x0f \x01(\rR\vminPowerPct\x12\x15\n" +
++	"\x06dot_ms\x18\x10 \x01(\rR\x05dotMs\"\xac\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 0b089ef..f715afb 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -24,6 +24,8 @@ message Ability {
+   // fight (our health % under 50 and under the target's, or 2+ attackers): then both limits lift
+   uint32 max_per_target = 14; // cast at most this many times on one target; 0 = no cap
+   uint32 min_power_pct = 15;  // skip below this % of our max mana; 0 = no floor
++  uint32 dot_ms = 16;         // a DoT's duration: not applied (or refreshed) on a target expected to die
++                              // within half of it - a 15 s DoT on a mob with 5 s left is wasted mana
+ }
+ 
+ message KillRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index c21e894..dbeb976 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -67,6 +67,7 @@ type service struct {
+ 	castFails                                     map[string]uint32    // "spell:result" -> count, this fight
+ 	castsOn                                       map[[2]uint64]uint32 // (spell, target) -> casts, for max_per_target
+ 	maxSeen                                       map[uint64]uint32    // target -> highest health seen (its max: no field for it)
++	firstHit                                      map[uint64]time.Time // target -> when it first lost health (time-to-kill estimate)
+ }
+ 
+ func main() {
+@@ -433,11 +434,14 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		}
+ 		res.Entry, res.TargetHealth = t.GetEntry(), t.GetHealth()
+ 		if s.maxSeen == nil || len(s.maxSeen) > 500 {
+-			s.maxSeen, s.castsOn = map[uint64]uint32{}, map[[2]uint64]uint32{}
++			s.maxSeen, s.castsOn, s.firstHit = map[uint64]uint32{}, map[[2]uint64]uint32{}, map[uint64]time.Time{}
+ 		}
+ 		if t.GetHealth() > s.maxSeen[guid] {
+ 			s.maxSeen[guid] = t.GetHealth()
+ 		}
++		if _, ok := s.firstHit[guid]; !ok && t.GetHealth() < s.maxSeen[guid] {
++			s.firstHit[guid] = time.Now()
++		}
+ 		losing := len(live) >= 2
+ 		if m := s.maxSeen[guid]; !losing && m > 0 && st.GetMaxHealth() > 0 {
+ 			ours, theirs := st.GetHealth()*100/st.GetMaxHealth(), t.GetHealth()*100/m
+@@ -622,7 +626,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 				attacking = true
+ 			}
+ 			s.castAbilities(ctx, req, st, me, t, guid, live, lastCast, lastOn, res, losing)
+-			if !s.offenseLeft(req, st, guid, losing) {
++			if !s.offenseLeft(req, st, guid, t.GetHealth(), losing, lastCast, lastOn) {
+ 				// the thrift-limited spells are spent: wand it from here, or walk in and melee
+ 				if w := req.GetWandSpell(); w != 0 && d > meleeTrigger {
+ 					if time.Since(lastCast[w]) > 5*time.Second { // Shoot repeats on its own; re-arm after other casts
+@@ -724,6 +728,9 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 				if time.Since(lastOn[key]) < every {
+ 					continue
+ 				}
++				if g == guid && !s.dotWorth(a, guid, t.GetHealth()) {
++					continue
++				}
+ 				if g != guid {
+ 					u, err := s.unit(ctx, g)
+ 					if err != nil || u == nil || u.GetHealth() == 0 || distance(me, u.GetX(), u.GetY(), u.GetZ()) > 5 {
+@@ -745,6 +752,9 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 		if time.Since(lastCast[a.GetSpellId()]) < every {
+ 			continue
+ 		}
++		if !a.GetOnSelf() && !s.dotWorth(a, guid, t.GetHealth()) {
++			continue
++		}
+ 		if a.GetOnWeapon() {
+ 			// a temporary weapon enchant (Rockbiter): only when the main hand has none, cast AT the
+ 			// weapon - cast at ourselves it failed ITEM_NOT_FOUND every time
+@@ -812,14 +822,43 @@ func (s *service) thriftOK(a *combatv1.Ability, st *interactv1.SelfState, guid u
+ 	return true
+ }
+ 
+-// offenseLeft: is any attack spell (not a self cast, item, weapon enchant or interrupt) still allowed
+-// on this target by power and thrift? None left = a ranged fighter switches to wand or melee.
+-func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfState, guid uint64, losing bool) bool {
++// timeLeft estimates how long the target has to live from the damage done to it so far
++// (0 = unknown: no damage yet, or under 2 s of data).
++func (s *service) timeLeft(guid uint64, hp uint32) time.Duration {
++	t0, ok := s.firstHit[guid]
++	lost := s.maxSeen[guid] - hp
++	if !ok || lost == 0 || time.Since(t0) < 2*time.Second {
++		return 0
++	}
++	return time.Duration(float64(time.Since(t0)) * float64(hp) / float64(lost))
++}
++
++// dotWorth: a DoT only goes on (or is refreshed) when the target should outlive half its duration.
++func (s *service) dotWorth(a *combatv1.Ability, guid uint64, hp uint32) bool {
++	if a.GetDotMs() == 0 {
++		return true
++	}
++	left := s.timeLeft(guid, hp)
++	return left == 0 || left*2 >= time.Duration(a.GetDotMs())*time.Millisecond
++}
++
++// offenseLeft: is any attack spell (not a self cast, item, weapon enchant, interrupt or buff) castable
++// on this target now or within 2 s - power, thrift, its own timer and the DoT test all allow it? None
++// = a ranged fighter switches to wand or melee (a DoT ticking for 18 s is no reason to stand idle).
++func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfState, guid uint64, hp uint32,
++	losing bool, lastCast map[uint32]time.Time, lastOn map[[2]uint64]time.Time) bool {
+ 	for _, a := range req.GetAbilities() {
+ 		if a.GetOnSelf() || a.GetItemId() != 0 || a.GetOnWeapon() || a.GetInterrupt() || a.GetBuff() {
+ 			continue
+ 		}
+-		if st.GetPower() >= a.GetMinPower() && s.thriftOK(a, st, guid, losing) {
++		if st.GetPower() < a.GetMinPower() || !s.thriftOK(a, st, guid, losing) || !s.dotWorth(a, guid, hp) {
++			continue
++		}
++		last := lastCast[a.GetSpellId()]
++		if a.GetPerTarget() {
++			last = lastOn[[2]uint64{uint64(a.GetSpellId()), guid}]
++		}
++		if time.Since(last)+2*time.Second >= time.Duration(a.GetEveryMs())*time.Millisecond {
+ 			return true
+ 		}
+ 	}
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index e51fb44..f219568 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -76,7 +76,7 @@ CLASS_ABILITIES = {
+     # attackers): then every spell goes. Heals and buffs are never limited.
+     5: [  # priest - shield, heal, Pain on each attacker, Smite
+         {"spell_id": 2050, "every_ms": 3000, "min_power": 30, "on_self": True, "below_health_pct": 40},  # Lesser Heal
+-        {"spell_id": 17, "every_ms": 16000, "min_power": 45, "on_self": True, "below_health_pct": 90},   # Power Word: Shield (16 s: Weakened Soul lasts 15 - recast at 15 failed TARGET_AURASTATE 111x a run)
++        {"spell_id": 17, "every_ms": 16000, "min_power": 45, "on_self": True, "below_health_pct": 50},   # Power Word: Shield - defensive only (mana-hungry): below half health. 16 s: Weakened Soul lasts 15
+         {"spell_id": 1243, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Power Word: Fortitude
+         # open with Smite while it runs in (the cast is never pushed back), then Pain for the whole fight,
+         # then the stick - Pain is the mana-efficient part, so its floor is lower
+@@ -1099,6 +1099,15 @@ class Runner:
+                 a["max_range"] = 5.0
+             elif mx > 0:
+                 a["max_range"] = mx
++        # DoTs (an effect applying aura 3 PERIODIC_DAMAGE) carry their duration: the module skips one on a
++        # target that will die inside half of it - a 15 s DoT on a mob with 5 s left is wasted mana
++        dur = {int(r["id"]): int(r["d"]) for r in dbc(
++            "SELECT s.id,d.base_duration d FROM spell s JOIN spellduration d ON d.id=s.duration_index "
++            f"WHERE s.id IN ({inlist(ids)}) AND 3 IN (s.effect_apply_aura_name_1,s.effect_apply_aura_name_2,"
++            "s.effect_apply_aura_name_3)")} if ids else {}
++        for a in out:
++            if dur.get(a["spell_id"], 0) > 0:
++                a["dot_ms"] = dur[a["spell_id"]]
+         self.abilities = out
+ 
+     def item_rows(self, entries):
+-- 
+2.34.1
+
