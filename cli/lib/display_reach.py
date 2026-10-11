@@ -44,20 +44,21 @@ def _ints(rows, col: int = 0) -> Set[int]:
     return {int(r[col]) for r in rows if int(r[col]) > 0}
 
 
-def _source_numbers() -> Set[int]:
-    """NPC_ constants and literal summons anywhere in core + modules (C++ and Lua), plus
-    every raw 3-6 digit literal in battleground, outdoor-pvp and script sources."""
+def _source_numbers():
+    """NPC_ constants and literal summons anywhere in core + modules (C++ and Lua); and,
+    separately, every raw 3-6 digit literal in battleground, outdoor-pvp and script sources."""
     out: Set[int] = set()
     for root in (CORE / 'src' / 'server' / 'scripts', CORE / 'modules'):
         for f in root.rglob('*'):
             if f.suffix in ('.cpp', '.h', '.lua') and f.is_file():
                 out |= {int(next(g for g in m.groups() if g)) for m in _CONST.finditer(f.read_text(errors='ignore'))}
+    raw: Set[int] = set()
     for root in (CORE / 'src' / 'server' / 'game' / 'Battlegrounds', CORE / 'src' / 'server' / 'game' / 'OutdoorPvP',
                  CORE / 'src' / 'server' / 'scripts'):
         for f in root.rglob('*'):
             if f.suffix in ('.cpp', '.h') and f.is_file():
-                out |= {int(x) for x in _RAW.findall(f.read_text(errors='ignore'))}
-    return out
+                raw |= {int(x) for x in _RAW.findall(f.read_text(errors='ignore'))}
+    return out, raw
 
 
 def reachable_displays(log: Callable = print) -> Set[int]:
@@ -76,7 +77,12 @@ def reachable_displays(log: Callable = print) -> Set[int]:
     for t in ('event_scripts', 'waypoint_scripts'):
         entries |= _ints(_q(f'SELECT datalong FROM {t} WHERE command = 10'))
     templates = _ints(_q('SELECT entry FROM creature_template'))
-    entries |= _source_numbers() & templates
+    named, raw = _source_numbers()
+    # a raw literal is only a guess: it does not keep a placeholder template ((PH) DEPRECATED 25366
+    # matches a model id in a chapter1.cpp switch)
+    placeholder = _ints(_q("SELECT entry FROM creature_template WHERE name LIKE '%DEPRECATED%' "
+                           "OR name LIKE '%[UNUSED]%' OR name LIKE '(PH)%' OR name LIKE '%[PH]%'"))
+    entries |= (named & templates) | ((raw & templates) - placeholder)
     for r in _q('SELECT entry, difficulty_entry_1, difficulty_entry_2, difficulty_entry_3 FROM creature_template '
                 'WHERE difficulty_entry_1 > 0 OR difficulty_entry_2 > 0 OR difficulty_entry_3 > 0'):
         if int(r[0]) in entries:

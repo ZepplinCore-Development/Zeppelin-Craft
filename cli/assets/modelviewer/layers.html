@@ -555,6 +555,12 @@ function perDisplayTarget(e) {
 // a pack-only model every display reaches through its stock model's full swap (wendigo -> wendigo2):
 // not a listing of its own - it is an option card on the stock model, where the displays are moved
 // a model with no model-level pick whose every display was picked on its own (Displays page / Display editor)
+// a model card with no pick whose displays are already being picked one by one (impoutland: 16888 has its own
+// edit): its other displays join the Displays queue, so that work can be finished there
+function startedPerDisplay(d) {
+  if (d.tab !== 'display' || !d.panes.length || choices.mesh[d.panes[0].model]) return false;
+  return repEntries(d.panes[0].model).some(x => x !== d && choices.display[String(x.display)]);
+}
 function decidedPerDisplay(e) {
   if (e.tab !== 'creature' || e.retailOnly || pickOf(e)) return false;
   const ds = repEntries(e.path);
@@ -1049,7 +1055,7 @@ function assetMatches(e) {
   if ((filter === 'todo' || filter === 'review') && (e.single || e.retailOnly)) return false;
   if (filter === 'todo' && e.tab !== 'display' && (nOptions(e) < 2 ||
       (e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)))) return false;   // decided per display / nothing to decide
-  if (filter === 'todo' && e.tab === 'display' && modelDecides(e)) return false;   // the model pick decides it
+  if (filter === 'todo' && e.tab === 'display' && modelDecides(e) && !startedPerDisplay(e)) return false;   // the model pick decides it
   if (filter === 'todo' && e.tab === 'display' && nOptions(e) < 2 && !(e.standin && search)) return false;     // compare-only (a creature-level SQL edit): nothing to decide
   if (filter === 'todo' && unusedModel(e)) return false;                            // nothing in game uses it yet
   // same-look displays are ONE row (the group's first id) in every list, so each unique look is worked once;
@@ -1409,7 +1415,7 @@ function openAsset(e) {
       ${repHtml}
       ${outfitBox(sp)}
       ${provBox(p)}
-      ${p.remaster ? `<div class="stats"><span class="chip warn" title="The pack moved most of ${esc(p.remaster.of)}'s displays to this model (a remaster under a new name) but not this one; offered here with the skins of a moved sibling">community remaster</span> ${esc(label(p.sources))} moved ${p.remaster.moved} other displays of ${esc(String(p.remaster.of).split('/').pop())} here</div>` : ''}
+      ${p.remaster && p.remaster.modular ? `<div class="stats"><span class="chip" title="A pack model named &lt;parent&gt;_modular: ${esc(p.remaster.modular)} rebuilt for part-by-part dressing (split armour geosets), offered wherever that model is. Shown in the pack's template look; pick parts and skins in the Display editor">modular</span> ${esc(label(p.sources))} · ${esc(String(p.remaster.modular).split('/').pop())} split into parts</div>` : p.remaster ? `<div class="stats"><span class="chip warn" title="The pack moved most of ${esc(p.remaster.of)}'s displays to this model (a remaster under a new name) but not this one; offered here with the skins of a moved sibling">community remaster</span> ${esc(label(p.sources))} moved ${p.remaster.moved} other displays of ${esc(String(p.remaster.of).split('/').pop())} here</div>` : ''}
       ${e.single ? '' : `<button class="use" data-k="${k}">${chosen ? (c ? 'Chosen' : 'Chosen via model · override here') : e.tab === 'display' && implied ? 'Override for this display' : 'Use this'}</button>`}
       ${e.tab === 'display' && p.cust ? `<button class="usecust" data-k="${k}" title="Tune display ${e.display}'s geosets and skins on this model; saving the customisation also picks this model">Edit</button>` : ''}</div></div>`;
   }).join('') + (e.compare || []).map(p => `<div class="pane"><iframe src="${paneUrl(p)}" loading="lazy"></iframe>
@@ -2443,7 +2449,7 @@ function stockModelOf(did) {
 function relevantModels(did, cur) {
   const d = assets.find(a => a.tab === 'display' && a.display === +did);
   const out = [];
-  (d ? d.panes : []).forEach(p => out.push({ kind: 'pane', pane: p, label: `${p.model.split('/').pop()} · ${label(p.sources)}${p.remaster ? ' · community remaster' : ''}` }));
+  (d ? d.panes : []).forEach(p => out.push({ kind: 'pane', pane: p, label: `${p.model.split('/').pop()} · ${label(p.sources)}${p.remaster ? (p.remaster.modular ? ' · modular' : ' · community remaster') : ''}` }));
   (leadOf(did).models || []).forEach(p => { const m = creator && creator.by.get(p);
     if (m && !out.some(x => x.kind === 'pane' && x.pane.model === p)) out.push({ kind: 'pane', pane: leadPane(m), label: `${p.split('/').pop()} · ${m[1]} · searched` }); });
   if (cur && cur.base && !out.some(x => x.pane.option === cur.base.option && x.pane.model === cur.base.model))

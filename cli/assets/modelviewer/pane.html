@@ -191,6 +191,9 @@ function upgradeM2(buf) {
   }
   for (let i = 0; i < nPar; i++) {
     out.set(src.subarray(oPar + i * 476, oPar + i * 476 + 476), parAt + i * 492);
+    // downports keep retail's multi-texture bit (0x10000000: texture = three 5-bit indices + the
+    // multiTextureParam UVs, zero here); 3.3.5 predates it and reads texture as one index (pack imp3)
+    if (!q.has('keepmultitex')) { const fd = new DataView(out.buffer, parAt + i * 492 + 4, 4); fd.setUint32(0, fd.getUint32(0, true) & ~0x10000000, true); }
   }
   const odv = new DataView(out.buffer);
   if (nCam) odv.setUint32(0x114, camAt, true);
@@ -747,6 +750,13 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
       const dv = new DataView(this.response);
       geoM2 = this.response;
       const b = dv.byteLength > 0xC8 && dv.getUint32(0, true) === 0x3132444D ? 8 : 0;
+      // drawn as it ships: the WXL downport keeps the emitters but 3.3.5 has no multi-texture particles
+      // (0x10000000), so the client draws the first texture only - as upgradeM2 does for v264 files
+      if (!q.has('keepmultitex') && dv.byteLength > b + 0x130) {
+        const nP = dv.getUint32(b + 0x128, true), oP = dv.getUint32(b + 0x12C, true);
+        for (let i = 0; i < nP && b + oP + 492 * i + 8 <= dv.byteLength; i++)
+          dv.setUint32(b + oP + 492 * i + 4, dv.getUint32(b + oP + 492 * i + 4, true) & ~0x10000000, true);
+      }
       if (dv.byteLength > b + 0x130) {
         const f = (o) => dv.getFloat32(b + o, true);
         // the mesh's own extent: a retail header box spans every animation (a drake's raised

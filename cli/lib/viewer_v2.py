@@ -1294,7 +1294,7 @@ def display_entries(dep: 'Deployer', edits: Optional[dict], cnames: Dict[int, st
     stock_paths = {ms.norm(str(r.get('model_path') or '')) for r in dep.result['stock_dbc'][1].values()}
     # the remaster lookup's community half: a model a pack moved MOST of a stock model's displays onto
     # is offered to that model's other displays (lib/repoint_complete.community_remasters)
-    remasters = rc.community_remasters(dep.result)
+    remasters = rc.remaster_options(dep.result)       # + modular rebuilds (rc.modular_variants)
     geo_l = None
     cust_c: Dict[str, dict] = {}
     def cust_of(path: str, o) -> Optional[dict]:
@@ -1398,6 +1398,8 @@ def display_entries(dep: 'Deployer', edits: Optional[dict], cnames: Dict[int, st
                     pn['option'] = b
                     pn['sources'] = [sn]
                     pn['remaster'] = {'of': d['stock'].model_path if d.get('stock') else '', 'moved': row.get('_moved', 0)}
+                    if row.get('_modular'):
+                        pn['remaster']['modular'] = row['_modular']   # a modular rebuild of that model (I-392)
                     pn['cust'] = cust_of(b, o)
                     pn['tex_key'] = tex_key(b, [sn])
                     pn['skin_names'] = [str(row.get(f'texture_variation_{k}') or '') for k in (1, 2, 3)]
@@ -2130,6 +2132,7 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     # I-390: a display no in-game creature can show needs no decision (picker drops it from Undecided).
     # Only models some creature template uses are judged; a model with none may still be a spell or
     # doodad asset.
+    reach = None
     try:
         from lib.display_reach import reachable_displays
         reach = reachable_displays(log)
@@ -2189,6 +2192,8 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
             e['repoint_source'] = True
             e['used_ids'] = [x for x in dep.displays_of(e['path']) if dep.names.get(x)][:400]
             e['displays_used'] = len(e['used_ids'])
+            if reach is not None and e['displays_used']:          # I-390, as for the cards above
+                e['ingame'] = any(x in reach for x in dep.displays_of(e['path']))
         assets += moved
         (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
         log(f'  repoint sources: {len(moved):,} stock models packs move displays off join the chooser')
