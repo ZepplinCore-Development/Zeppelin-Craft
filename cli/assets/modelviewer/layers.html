@@ -756,7 +756,8 @@ function reviewReason(kind, key, entry) {
   const renamed = (k) => { const [base] = String(k).split('#'); return k.includes('#') && base in c.options &&
     (now[k] || []).every(z => (c.options[base] || []).includes(z)); };
   const added = Object.keys(now).filter(k => !was(k, c.options) && !renamed(k));
-  const gone = Object.keys(c.options).filter(k => !(k in now) && !Object.keys(now).some(n => n.startsWith(k + '#')));
+  const gone = Object.keys(c.options).filter(k => !(k in now) && !Object.keys(now).some(n => n.startsWith(k + '#')) &&
+    !((c.options[k] || []).includes('retail') && ('retail:' + k) in now));
   if (gone.includes(c.option)) return 'picked option no longer offered';
   const nm = (k) => (now[k] || []).includes('retail') ? String(k).split('/').pop() + ' (retail)' : label(now[k]);
   if (added.length) return `new option: ${added.map(nm).join(', ')}`;
@@ -1322,6 +1323,11 @@ function openAsset(e) {
   $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
     e.members.length > 1 ? `${e.members.length} model files in this group` : '', rv ? 'REVIEW: ' + rv : '',
     e.tab === 'creature' && isFusedRider(e.path) ? F220 : ''].filter(Boolean).join(' · ');
+  // F-220: a fused model's display already split into mount + DB-linked rider: the Rider toggle lives on that display
+  const split = e.tab === 'creature' && isFusedRider(e.path)
+    ? [...new Set([e.display, ...(e.panes || []).map(p => p.display)].filter(d => d && (mountRiders.links || {})[d]))] : [];
+  if (split.length) $('subtitle').innerHTML = esc($('subtitle').textContent) + ' · split into mount + rider (Rider toggle): '
+    + split.map(d => `<a href="?layer=display&display=${d}">display ${d}</a>`).join(', ');
   const isItem = e.tab === 'item' && e.variants && Object.keys(bodies).length;
   if (isItem) {
     const codes = e.codes && e.codes.length ? e.codes.filter(x => bodies[x]) : Object.keys(bodies);
@@ -1576,9 +1582,12 @@ function openAsset(e) {
   }
   if (e.tab === 'display' && e.panes.length && modelDecides(e)) {
     // the model bar: this display follows its model's card (Creatures / Characters tab) unless overridden here
-    const mp = e.panes[0].model, mt = (byPath[mp] || {}).tab || 'creature', vm = viaModel(e);
-    $('panes').insertAdjacentHTML('afterbegin', `<div id="modelbar">${vm ? '<span class="chip ok">via model pick</span>' : '<span class="chip warn">model not picked yet</span>'}
-      <span>${vm ? 'Decided by the pick' : 'Decided by the pick, still to make,'} on <a href="?layer=${mt}&path=${encodeURIComponent(mp)}">${esc(mp)}</a>${vm ? ` (green box: ${esc(label(vm.sources || []))})` : ''}. Use this on a card here to override it for this display only.</span></div>`);
+    const mp = e.panes[0].model, mt = (byPath[mp] || {}).tab || 'creature', vm = viaModel(e), own = pickOf(e);
+    const ml = `<a href="?layer=${mt}&path=${encodeURIComponent(mp)}">${esc(mp)}</a>`;
+    $('panes').insertAdjacentHTML('afterbegin', own
+      ? `<div id="modelbar"><span class="chip ok">picked here</span><span>This display's own pick (${own.option === 'custom' ? 'our edit' : esc(label(own.sources || []))}) overrides the card on ${ml}.</span></div>`
+      : `<div id="modelbar">${vm ? '<span class="chip ok">via model pick</span>' : '<span class="chip warn">model not picked yet</span>'}
+      <span>${vm ? 'Decided by the pick' : 'Decided by the pick, still to make,'} on ${ml}${vm ? ` (green box: ${esc(label(vm.sources || []))})` : ''}. Use this on a card here to override it for this display only.</span></div>`);
   }
   if (e.tab === 'display' && e.look_group) {
     // the group bar: who shares this exact look and options, and whether a pick applies to all of them
