@@ -1,0 +1,341 @@
+From 789d8f50800e58cf5cabfbe96cb627107ca3dd10 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 11 Oct 2026 09:10:11 +0000
+Subject: [PATCH] fix: fleet-run fixes - reclaim spot, range bands, grind
+ phase, equip (F-219, I-394)
+
+- revive: park the ghost up to 28 yd from the body, away from live hostiles
+  and spawn points, before reclaiming (module reclaims within 34 yd)
+- abilities carry min/max range from SpellRange: no ranged shots in melee
+  (TOO_CLOSE), no melee strikes from range
+- combat: our own cast bar no longer counts toward "no damage" (paladin
+  walked out of fights while healing)
+- equip cancels Auto Shot first (EQUIP_ERR_CANT_DO_RIGHT_NOW 39)
+- I-394: walk_to_grind only takes in-phase spawns, never the spot we stand on,
+  never one tried in the last 5 min; training dummies are not grind targets
+- quest item use re-closes on a wandering target, retries OUT_OF_RANGE once
+- a death in a defend loop stops it (no extra "fight 0: we died" lines)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go |  22 ++++-
+ zeppelin/modules/combat/combat.proto     |   2 +
+ zeppelin/modules/combat/main.go          |  18 +++-
+ zeppelin/modules/interact/main.go        |   5 ++
+ zeppelin/tests/start_area.py             | 108 +++++++++++++++++++++--
+ 5 files changed, 144 insertions(+), 11 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index e087d7e..4be0a0c 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -37,6 +37,8 @@ type Ability struct {
+ 	Buff           bool                   `protobuf:"varint,9,opt,name=buff,proto3" json:"buff,omitempty"`                                             // a self buff (shout, seal, blessing, aura): cast only while it is NOT on us
+ 	Interrupt      bool                   `protobuf:"varint,10,opt,name=interrupt,proto3" json:"interrupt,omitempty"`                                  // only while the target is casting (Pummel, Rebuke; with on_self: Arcane Torrent)
+ 	OnWeapon       bool                   `protobuf:"varint,11,opt,name=on_weapon,json=onWeapon,proto3" json:"on_weapon,omitempty"`                    // a weapon enchant spell (Rockbiter): cast at our main hand, only while it has none
++	MinRange       float32                `protobuf:"fixed32,12,opt,name=min_range,json=minRange,proto3" json:"min_range,omitempty"`                   // skip while the target is closer than this (yd): ranged shots fail TOO_CLOSE in melee
++	MaxRange       float32                `protobuf:"fixed32,13,opt,name=max_range,json=maxRange,proto3" json:"max_range,omitempty"`                   // skip while the target is further than this (yd); 0 = no limit
+ 	unknownFields  protoimpl.UnknownFields
+ 	sizeCache      protoimpl.SizeCache
+ }
+@@ -148,6 +150,20 @@ func (x *Ability) GetOnWeapon() bool {
+ 	return false
+ }
+ 
++func (x *Ability) GetMinRange() float32 {
++	if x != nil {
++		return x.MinRange
++	}
++	return 0
++}
++
++func (x *Ability) GetMaxRange() float32 {
++	if x != nil {
++		return x.MaxRange
++	}
++	return 0
++}
++
+ type KillRequest struct {
+ 	state       protoimpl.MessageState `protogen:"open.v1"`
+ 	Guid        uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+@@ -829,7 +845,7 @@ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+-	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xcb\x02\n" +
++	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x85\x03\n" +
+ 	"\aAbility\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x19\n" +
+ 	"\bevery_ms\x18\x02 \x01(\rR\aeveryMs\x12\x1b\n" +
+@@ -843,7 +859,9 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x04buff\x18\t \x01(\bR\x04buff\x12\x1c\n" +
+ 	"\tinterrupt\x18\n" +
+ 	" \x01(\bR\tinterrupt\x12\x1b\n" +
+-	"\ton_weapon\x18\v \x01(\bR\bonWeapon\"\x8d\x03\n" +
++	"\ton_weapon\x18\v \x01(\bR\bonWeapon\x12\x1b\n" +
++	"\tmin_range\x18\f \x01(\x02R\bminRange\x12\x1b\n" +
++	"\tmax_range\x18\r \x01(\x02R\bmaxRange\"\x8d\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 676b820..d41a4af 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -18,6 +18,8 @@ message Ability {
+   bool buff = 9;         // a self buff (shout, seal, blessing, aura): cast only while it is NOT on us
+   bool interrupt = 10;   // only while the target is casting (Pummel, Rebuke; with on_self: Arcane Torrent)
+   bool on_weapon = 11;   // a weapon enchant spell (Rockbiter): cast at our main hand, only while it has none
++  float min_range = 12;  // skip while the target is closer than this (yd): ranged shots fail TOO_CLOSE in melee
++  float max_range = 13;  // skip while the target is further than this (yd); 0 = no limit
+ }
+ 
+ message KillRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 2b81500..2cdd5b7 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -557,6 +557,9 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		busy := time.Now().Before(s.selfCastUntil)
+ 		s.mu.Unlock()
+ 		if busy { // our own cast bar: moving would cancel it - just keep facing
++			// ...and it is not "nothing lands": a paladin healing twice in a row (Holy Light 2.5 s) passed
++			// the 6 s no-damage test and walked out of fights it was winning (5 in one fleet run)
++			stuckSince = time.Time{}
+ 			var face movev1.Position
+ 			_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face)
+ 			time.Sleep(tick)
+@@ -631,8 +634,19 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest, st *interactv1.SelfState,
+ 	me *movev1.Position, t *interactv1.WorldObject, guid uint64, live []uint64,
+ 	lastCast map[uint32]time.Time, lastOn map[[2]uint64]time.Time, res *combatv1.KillResult) error {
++	d := distance(me, t.GetX(), t.GetY(), t.GetZ())
+ 	for _, a := range req.GetAbilities() {
+ 		every := time.Duration(a.GetEveryMs()) * time.Millisecond
++		if !a.GetOnSelf() && a.GetItemId() == 0 && !a.GetOnWeapon() {
++			// out of the spell's range band: the hunter's Serpent Sting failed TOO_CLOSE in melee and
++			// Raptor Strike fired from range - the cast only cost the tick
++			if mn := float64(a.GetMinRange()); mn > 0 && d < mn {
++				continue
++			}
++			if mx := float64(a.GetMaxRange()); mx > 0 && d > mx {
++				continue
++			}
++		}
+ 		if n := a.GetMinAttackers(); n > 0 && uint32(len(live)) < n {
+ 			continue
+ 		}
+@@ -940,7 +954,9 @@ func (s *service) Revive(ctx context.Context, _ *emptypb.Empty) (*combatv1.Reviv
+ 		return nil, err
+ 	}
+ 	d := distance(me, corpse.GetX(), corpse.GetY(), corpse.GetZ())
+-	if d > 20 {
++	// the server reclaims within 39 yd (CORPSE_RECLAIM_RADIUS, 3D) and we come back where the GHOST
++	// stands: the caller may park it up to ~30 yd off the body, away from whatever killed us
++	if d > 34 {
+ 		var r movev1.PathToResult
+ 		if err := s.invoke(ctx, "move", "path_to", &movev1.PathRequest{X: corpse.GetX(), Y: corpse.GetY(), Z: corpse.GetZ()}, &r); err != nil {
+ 			return nil, err
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index c432bba..d82b601 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -1068,6 +1068,11 @@ func (s *service) QuestAbandon(ctx context.Context, req *interactv1.QuestRequest
+ // Equip sends CMSG_AUTOEQUIP_ITEM (u8 bag, u8 slot): the server picks the slot, and a container
+ // goes into a free bag slot. Errors come back as SMSG_INVENTORY_CHANGE_FAILURE (u8 result first).
+ func (s *service) Equip(ctx context.Context, req *interactv1.ItemSlot) (*interactv1.CastResult, error) {
++	// a running Auto Shot counts as a spell being cast: the server answers every gear swap with
++	// EQUIP_ERR_CANT_DO_RIGHT_NOW (39) until it stops (a hunter's swaps failed 8 of 8 in a fleet run)
++	if err := s.send(ctx, opcode.CMSGCancelAutoRepeatSpell, nil); err != nil {
++		return nil, err
++	}
+ 	var w wow.Writer
+ 	w.U8(uint8(req.GetBag()))
+ 	w.U8(uint8(req.GetSlot()))
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index aa842a6..849c5ac 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -117,6 +117,9 @@ CLASS_ABILITIES = {
+ 
+ 
+ # classes that fight from range (yd): they stand off and cast, and melee only what reaches them
++# creatures worth grinding: XP-giving (CREATURE_FLAG_EXTRA_NO_XP 0x40) and not a training dummy (Kezan's
++# 48304 has flags_extra 0 and never dies - it is the Charge quest's target, a script heals it)
++GRINDABLE = "(flags_extra & 64)=0 AND ScriptName NOT LIKE '%dummy%' AND name NOT LIKE '%Training Dummy%'"
+ CLASS_RANGE = {3: 28, 5: 28, 7: 26, 8: 28, 9: 28, 11: 28}
+ MANA_CLASSES = {2, 3, 5, 7, 8, 9, 11}
+ 
+@@ -1061,6 +1064,24 @@ class Runner:
+             have = [s for s in chain if s in known]
+             if have:
+                 out.append(dict(a, spell_id=have[-1]))
++        # the server's range band (Spell::CheckRange): a RANGED spell (SpellRange flags 2) fails
++        # TOO_CLOSE inside its min range + melee range (>= 5 yd) - the hunter's Serpent Sting and Auto
++        # Shot in melee; a MELEE one (flags 1) needs melee reach - Raptor Strike fired from 20 yd
++        ids = [a["spell_id"] for a in out if not a.get("on_self") and not a.get("item_id") and not a.get("on_weapon")]
++        rows = {int(r["id"]): r for r in dbc(
++            "SELECT s.id,r.min_range_hostile mn,r.max_range_hostile mx,r.type FROM spell s "
++            f"JOIN spellrange r ON r.id=s.range_index WHERE s.id IN ({inlist(ids)})")} if ids else {}
++        for a in out:
++            r = rows.get(a["spell_id"])
++            if not r or int(r["type"]) == 0 and int(r["mx"]) == 0:
++                continue  # self range (index 1): no band
++            mn, mx = (struct.unpack("<f", struct.pack("<I", int(r[k])))[0] for k in ("mn", "mx"))
++            if int(r["type"]) & 2:
++                a["min_range"] = mn + 5.5
++            if int(r["type"]) & 1:
++                a["max_range"] = 5.0
++            elif mx > 0:
++                a["max_range"] = mx
+         self.abilities = out
+ 
+     def item_rows(self, entries):
+@@ -1472,16 +1493,30 @@ class Runner:
+         me = self.me()
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+             f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(self.w.objective_creatures)}) "
+-            "AND (flags_extra & 64)=0")}
++            f"AND {GRINDABLE}")}
+         lv = {e: m for e, m in lv.items() if e not in self.grind_skip}
++        # I-394: the spawn table holds every phase's copies, and the spot we stand on is where grind()
++        # just found nothing easy - "walking" there moved nothing yet returned True, and Kezan's bot
++        # spun on it silently for an hour (out-of-phase Rebellious Trolls, a Training Dummy). Only
++        # spawns our phase can see, never the spot we are on, never one tried in the last 5 min
++        mask = self.phase_mask()
++        now = time.time()
++        tried = self.__dict__.setdefault("_grind_spots", {})
++        for p, t in list(tried.items()):
++            if now - t > 300:
++                del tried[p]
++        # strict, unlike in_phase(): its "nothing matches - take them all" fallback is the very bug here
++        pts_of = {e: [p for p in self.w.cspawn.get(e, []) if (not mask or self.w.spawn_phase.get(p, 1) & mask)
++                      and p not in self.w.beyond and p not in tried
++                      and math.dist(p[:2], (me["x"], me["y"])) > 25] for e in lv}
+         # never across the whole map: Camp Narache walked 1243 yd to grind (and died on the way)
+         for top, reach in ((cap, 400), (cap, 700), (level, 1000)):
+             # the toughest allowed mob pays the most XP (Deathknell: level-1 zombies gave a level-4
+             # almost nothing while level-3/4 spiders stood nearby)
+             spots = sorted(((-lv[e], math.dist(p[:2], (me["x"], me["y"])), p) for e in lv if lv[e] <= top
+-                            for p in self.w.cspawn.get(e, []) if p not in self.w.beyond
+-                            and math.dist(p[:2], (me["x"], me["y"])) < reach), key=lambda t: t[:2])
++                            for p in pts_of[e] if math.dist(p[:2], (me["x"], me["y"])) < reach), key=lambda t: t[:2])
+             if spots:
++                tried[spots[0][2]] = now
+                 self.travel(*spots[0][2], within=15)
+                 return True
+         return False
+@@ -1626,7 +1661,7 @@ class Runner:
+         # no XP to be had from a training dummy (Kezan 48304, the Charge quest's target: 25 pulls that
+         # never ended) - CREATURE_FLAG_EXTRA_NO_XP 0x40 marks those
+         lv = {int(r["entry"]): int(r["minlevel"]) for r in sql(
+-            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)}) AND (flags_extra & 64)=0")}
++            f"SELECT entry,minlevel FROM creature_template WHERE entry IN ({inlist(ents)}) AND {GRINDABLE}")}
+         # an even fight is a coin flip in starting gear (three grind deaths at level == level in one
+         # fleet run): once a grind pull has killed us, only take mobs a level below us
+         easy = [o for o in mobs if o["entry"] in ents and lv.get(o["entry"], 99) <= cap
+@@ -1988,6 +2023,8 @@ class Runner:
+                 continue
+             self.fight_log(r.get("entry", 0), r, "defend")
+             self.kills += r.get("killed", False)
++            if r.get("reason") == "we died":
++                return  # the other attackers' kill calls would each log a "fight 0: we died" of their own
+         s = call("interact.self")
+         low_mana = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
+                     and s.get("power", 0) * 100 < s["maxPower"] * 40)  # a dry caster loses its next fight
+@@ -1997,7 +2034,7 @@ class Runner:
+     def _revive_loop(self, corpse):
+         """Revive on a clock (release, walk back, wait out the reclaim delay, reclaim); fall back to the
+         spirit healer when the server keeps ignoring the reclaim."""
+-        t0, stage, failed_reclaims = time.time(), "", 0
++        t0, stage, failed_reclaims, placed = time.time(), "", 0, 0
+         if True:
+             while time.time() - t0 < 600:
+                 try:
+@@ -2016,6 +2053,8 @@ class Runner:
+                     r = {"stage": f"retry ({str(e)[:60]})"}
+                 if r.get("alive"):
+                     break
++                if corpse and placed < 2 and r.get("stage") in ("walking to corpse", "waiting reclaim delay"):
++                    placed += self._place_ghost(corpse, placed)
+                 if r.get("stage") != stage:
+                     stage = r.get("stage", "")
+                     print(f"    revive: {stage}", flush=True)
+@@ -2033,6 +2072,47 @@ class Runner:
+                 raise SystemExit("RESULT: FAIL - still a ghost after 10 min of revive attempts")
+             self.rest(90)
+ 
++    def _place_ghost(self, corpse, placed):
++        """Park the ghost where it will come back to life: we revive where the GHOST stands, anywhere
++        within the 39 yd reclaim radius - not on the body, next to whatever killed us (Teldrassil: a
++        hunter revived beside the same Timberling 6 times running and died each time before it could
++        sit down). Picks the spot within 28 yd of the corpse farthest from live hostiles and from
++        hostile spawn points (a respawn on top of a half-health bot is the next death). Returns 1 when
++        it settled on a spot (moved or not), 0 when the ghost is not near the body yet. Called between
++        revive polls (3 s apart): a ghost covers ~30 yd in that time and the module reclaims as soon as
++        it is within 34 yd with the delay over - so take over from 70 yd out."""
++        me = self.me()
++        far = math.dist((me["x"], me["y"]), (corpse["x"], corpse["y"]))
++        if far > 70:
++            return 0
++        live = [(o["x"], o.get("y", 0)) for o in call("interact.find", type=3, radius=90, limit=80).get("objects", [])
++                if o.get("health", 0) > 0 and not o.get("npcFlags") and self.hostile(o["entry"])]
++        spawns = [t[:2] for t in self.threats() if math.dist(t[:2], (corpse["x"], corpse["y"])) < 90]
++        if placed and not any(math.dist(m, (me["x"], me["y"])) < 20 for m in live):
++            return 1  # second look during the reclaim delay: nothing has wandered up - stay
++
++        def score(x, y):
++            near_live = min((math.dist(m, (x, y)) for m in live), default=90)
++            near_spawn = min((math.dist(m, (x, y)) for m in spawns), default=90)
++            return min(near_live, near_spawn + 10)  # a mob standing there beats a spawn point
++        pts = [(corpse["x"], corpse["y"])] + [
++            (corpse["x"] + r * math.cos(a * math.pi / 6), corpse["y"] + r * math.sin(a * math.pi / 6))
++            for r in (16, 28) for a in range(12)]
++        best = max(pts, key=lambda p: score(*p))
++        if far <= 30 and score(*best) - score(me["x"], me["y"]) < 8:
++            return 1  # in reach and about as quiet as it gets
++        z = ground(best[0], best[1], corpse.get("z", me.get("z", 0)))
++        if abs(z - corpse.get("z", z)) > 12:
++            best, z = (corpse["x"], corpse["y"]), corpse.get("z", z)  # a ledge: the radius is 3D - the body
++        print(f"    revive: reclaiming from ({best[0]:.0f},{best[1]:.0f}), {score(*best):.0f} yd from the "
++              f"nearest threat (the body lies {score(corpse['x'], corpse['y']):.0f} yd from one)", flush=True)
++        try:
++            call("move.stop")  # the module's corpse walk may still be running ("already moving")
++            call("move.to", x=best[0], y=best[1], z=z, timeout_ms=15000)
++        except StepFailed as e:
++            print(f"    revive: {str(e)[:80]}", flush=True)
++        return 1
++
+     def threats(self):
+         """Spawn points of creatures that attack us on sight: [(x, y, level, entry)], over the area
+         box plus 500 yd - objectives and corpse runs leave the box, and a threat list limited to it
+@@ -3187,9 +3267,21 @@ class Runner:
+                 o = self.go_near("c", entry, offset=2.0, usable_only=True, has_aura=self.w.spell_target_aura.get(spell, 0))
+                 if o:
+                     self.used[int(o["guid"])] = time.time()
+-                    r = call("interact.use_item", entry=item, spell_id=spell, target={"guid": int(o["guid"])})
+-                    print(f"  use item {item} on {entry}: {r.get('detail')}", flush=True)
+-                    time.sleep(2)
++                    for attempt in range(2):
++                        # the target wanders while we walk up (Azuremyst: Inoculation on Nestlewood
++                        # Owlkin failed OUT_OF_RANGE 11x) - close in on where it stands NOW, retry once
++                        now = next((x for x in call("interact.find", entry=entry, radius=60, limit=20).get("objects", [])
++                                    if int(x["guid"]) == int(o["guid"])), None)
++                        if now and now.get("distance", 0) > 4:
++                            try:
++                                call("move.to", x=now["x"], y=now.get("y", 0), z=now.get("z", 0), timeout_ms=5000)
++                            except StepFailed:
++                                pass
++                        r = call("interact.use_item", entry=item, spell_id=spell, target={"guid": int(o["guid"])})
++                        print(f"  use item {item} on {entry}: {r.get('detail')}", flush=True)
++                        time.sleep(2)
++                        if "result 97" not in str(r.get("detail", "")):  # 97 = SPELL_FAILED_OUT_OF_RANGE
++                            break
+                 return True
+         return False
+ 
+-- 
+2.34.1
+
