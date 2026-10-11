@@ -1,0 +1,34 @@
+-- I-392: split-armour HD dragonspawn (Creature\dragonspawn2split, built by model_transforms.json).
+-- Values from stock dragonspawn model 47, which zep-hd-curated points at retail dragonspawn2
+-- (model_scale 0.95 as curated sets it).
+
+DELETE FROM creaturemodeldata WHERE id = 900205;
+INSERT INTO creaturemodeldata SET
+    id = 900205,
+    flags = 0,
+    model_path = 'Creature\\dragonspawn2split\\dragonspawn2split.mdx',
+    size_class = 1,
+    model_scale = 0.95,
+    blood_id = 1,
+    footprint_texture_id = 5,
+    footprint_texture_length = 18.0,
+    footprint_texture_width = 12.0,
+    footprint_particle_scale = 1.0,
+    foley_material_id = 0,
+    footstep_shake_size = 0,
+    death_thud_shake_size = 0,
+    sound_data = 47,
+    collision_width = 0.6111,
+    collision_height = 2.031,
+    mount_height = 1.5477,
+    geo_box_min_x = -3.2209,
+    geo_box_min_y = -2.3925,
+    geo_box_min_z = -0.0354,
+    geo_box_max_x = 1.9722,
+    geo_box_max_y = 1.7792,
+    geo_box_max_z = 2.5802,
+    world_effect_scale = 1.0,
+    attached_effect_scale = 1.0,
+    missile_collision_radius = 0.0,
+    missile_collision_push = 0.0,
+    missile_collision_raise = 0.0;

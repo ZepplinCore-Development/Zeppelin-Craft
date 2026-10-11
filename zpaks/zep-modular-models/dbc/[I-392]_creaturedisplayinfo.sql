@@ -1,0 +1,24 @@
+-- I-392: template display for the split-armour dragonspawn: red body, red armour, full heavy set.
+-- Copy it in the Display editor (Save as new display) for each look.
+-- creature_geoset_data: nibble k = group k+1. Groups: 1 chest, 2 waist, 3 horns, 4 ears/jaw,
+-- 5 helmet, 6 left shoulder, 7 right shoulder, 8 bracers/gauntlets/boots.
+-- 2004291879 (0x77771127) = chest 107, waist 202, horns 301, ears 401, helmet 507, shoulders 607 / 707, limbs 807.
+
+DELETE FROM creaturedisplayinfo WHERE id = 900402;
+INSERT INTO creaturedisplayinfo SET
+    id = 900402,
+    model_id = 900205,
+    sound_id = 0,
+    extended_display_info_id = 0,
+    creature_model_scale = 1.0,
+    creature_model_alpha = 255,
+    texture_variation_1 = 'dragonspawn2_body_red',
+    texture_variation_2 = 'dragonspawn2_armor_red',
+    texture_variation_3 = '',
+    portrait_texture_name = '',
+    blood_level = -1,
+    blood_id = 0,
+    npc_sound_id = 0,
+    praticle_color_id = 0,
+    creature_geoset_data = 2004291879,
+    obj_effect_package_id = 0;

@@ -409,7 +409,21 @@ def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
             if dx or dy or dz or scale != 1.0:
                 n = transform_vertices(m2_parsed, dx, dy, dz, scale=scale, backup=False)
                 changes.append(f"{n} verts, scale={scale}, dz={dz:+.3f}, dx={dx:+.3f}")
-            if ops:
+            if ops and rel_path.upper().endswith('.SKIN'):
+                # skin ops need the model the skin belongs to (`model`, default: the skin's
+                # stem minus the two-digit view number)
+                from lib.skin_ops import apply_ops_bytes as apply_skin_ops
+                model_rel = cfg.get('model') or rel_path[:-7] + '.M2'
+                model_file = parsed_dir / model_rel.upper()
+                if not model_file.exists():
+                    model_file = _find_source_file(source_dir, model_rel)
+                if not model_file or not model_file.exists():
+                    print(f"  \033[31mERR\033[0m   {rel_path}  (model {model_rel} not found)")
+                    return False
+                out, log = apply_skin_ops(m2_parsed.read_bytes(), model_file.read_bytes(), ops)
+                m2_parsed.write_bytes(out)
+                changes.extend(log)
+            elif ops:
                 changes.extend(apply_ops(m2_parsed, ops))
 
             if not changes:

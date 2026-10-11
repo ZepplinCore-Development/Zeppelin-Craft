@@ -1,0 +1,51 @@
+{
+  "CREATURE/DRAGONSPAWN2SPLIT/DRAGONSPAWN2SPLIT00.SKIN": {
+    "note": "I-392: retail dragonspawn2 with every group-1 armour set split into parts. Donor files are retail creature/dragonspawn2 (model FDID 4183015, build 12.1.0.69933) as converted by cli/lib/retail.py (WXL downport + m2_skin_rebuild, logs/retail_cache/out/creature/dragonspawn2), renamed to the distinct stem dragonspawn2split (the client caches models by stem). The base is LOD1 (55,824 indices): retail skin00 (71,283 indices) overflows WotLK's u16 submesh starts and loses horns 304-306 and ears/jaw 401-405. Groups: 1 chest/collar (key bones 53 spine, 4 SpineLow, 26 Root), 2 waist, 3 horns/crest, 4 ears/jaw (2-4 unchanged), 5 helmet (6 Head, 49), 6 left shoulder (2 ShoulderL, 0 ArmL), 7 right shoulder (3 ShoulderR, 1 ArmR), 8 bracers/gauntlets/boots (61 62 64 65 forearms, 78 79 84 85 feet). Variant = source set (102-107), so a nibble naming a set with no such piece hides the group.",
+    "copy_from": "CREATURE/DRAGONSPAWN2SPLIT/DRAGONSPAWN2SPLIT01.SKIN",
+    "base_sha256": "c0bbe9dda6b3c3b0ccdf92ecf6c51261c2a81a5276063cedadbdcaa541ce48f1",
+    "result_sha256": "caa2607ad144c0caeb88b7df8e60a7b01181e3a4a6898ede047b950b66609547",
+    "ops": [
+      {
+        "op": "skin.lod_rebase"
+      },
+      {
+        "op": "skin.geoset.split",
+        "group": 1,
+        "majority": 0.75,
+        "parts": {
+          "1": [
+            53,
+            4,
+            26
+          ],
+          "5": [
+            6,
+            49
+          ],
+          "6": [
+            2,
+            0
+          ],
+          "7": [
+            3,
+            1
+          ],
+          "8": [
+            61,
+            62,
+            64,
+            65,
+            78,
+            79,
+            84,
+            85
+          ]
+        }
+      }
+    ]
+  },
+  "CREATURE/DRAGONSPAWN2SPLIT/DRAGONSPAWN2SPLIT.M2": {
+    "note": "I-392: retail dragonspawn2.m2 unchanged (1 view, so the client loads only DRAGONSPAWN2SPLIT00.SKIN). Pinned so a changed donor fails the build.",
+    "base_sha256": "2553cdbd295c52555bf74d8e8fd97a9f36c8a540455fd9c1e0790e1ca101ca49"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-modular-models",
+  "version": "0.1.0",
+  "description": "Custom creature models rebuilt for part-by-part dressing (split armour geosets), I-392",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-X",
+  "enabled": true,
+  "priority": 100
+}
