@@ -228,6 +228,7 @@ class Deployer:
         self.result, self.ix, self.out = result, ix, out_root
         self.store = Store(out_root, ix.hash)
         self.picks = Picks(ix, result, choices)
+        self.choices = choices
         self.names, self.equipment, self.log = names, equipment, log
         self.maps_dir = out_root / 'data' / 'maps'
         self.maps_dir.mkdir(parents=True, exist_ok=True)   # kept between runs; stale maps pruned at the end
@@ -1505,10 +1506,15 @@ def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> D
               targets: [[path, fdid, retail displays, [[skins x3, displays]], anims]]}}"""
     from lib import retail
     scdi, scmd = dep.result['stock_dbc']
+    # models linked to a display by hand (picker's Display editor "search all models": choices `lead`)
+    linked: Dict[int, List[str]] = {}
+    for k_, v_ in ((getattr(dep, 'choices', None) or {}).get('lead') or {}).items():
+        if str(k_).isdigit():
+            linked[int(k_)] = [ms.norm(str(x)) for x in (v_ or {}).get('paths', [])]
     by_stock: Dict[str, List[int]] = {}
     for did, row in scdi.items():
         mrow = scmd.get(int(row.get('model_id') or 0))
-        if mrow and dep.names.get(did):
+        if mrow and (dep.names.get(did) or did in linked):
             by_stock.setdefault(ms.norm(str(mrow.get('model_path') or '')), []).append(did)
     # the pack models each stock model's displays are moved to: their retail originals are leads too
     stock_paths = {ms.norm(str(r.get('model_path') or '')).replace('.mdx', '.m2') for r in scmd.values()}
@@ -1548,8 +1554,9 @@ def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> D
         only: Dict[str, List[int]] = {}
         for did_ in dids:
             skins_ = [str((scdi.get(did_) or {}).get(f'texture_variation_{k}') or '') for k in (1, 2, 3)]
-            for t_ in retail.name_remasters(list(dep.names.get(did_, [])) + skins_):
-                if t_[0] != path and t_[0] not in stock_paths and t_[0] not in {x[0] for x in targets}:
+            by_path0 = retail.listfile()[0]
+            for t_ in retail.name_remasters(list(dep.names.get(did_, [])) + skins_) + [(x, by_path0[x]) for x in linked.get(did_, []) if x in by_path0]:
+                if t_[0] != path and (t_[0] not in stock_paths or t_[0] in linked.get(did_, [])) and t_[0] not in {x[0] for x in targets}:
                     only.setdefault(t_[0], [])
                     if did_ not in only[t_[0]]:
                         only[t_[0]].append(did_)
@@ -1565,7 +1572,8 @@ def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> D
                 groups_g[g_] = sorted(set(groups_g.get(g_, [])) | set(vs_))
             # [path, fdid, retail displays, [[skins, displays, geoset nibbles]], anims, {group: values}]
             rows.append([tp, fd, retail.retail_displays(fd), sets_g[:40], retail.retail_anim_ids(fd), groups_g]
-                        + ([sorted(only[tp])] if tp in only else []))
+                        + ([sorted(only[tp])] if tp in only else [])
+                        + ([[x for x in sorted(only[tp]) if tp in linked.get(x, [])]] if tp in only else []))   # 7: displays linked by hand
         dids.sort(key=lambda d: (-len(dep.names.get(d, [])), d))
         out[path] = {'rule': rule, 'stock_anims': retail.anim_ids(sf.read_bytes()) if sf else [],
                      'displays': [[d, dep.names.get(d, [])[:3],

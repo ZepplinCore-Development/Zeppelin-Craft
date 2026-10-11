@@ -78,7 +78,8 @@
   .pane > .actions { flex: none; display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 10px; border-top: 1px solid var(--line); }
   .pane > .actions .row { display: flex; gap: 6px; flex: 1 1 100%; }
   .grpbox { font-size: 12px; color: var(--muted); display: flex; gap: 5px; align-items: center; }
-  #grpbar { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
+  #grpbar, #modelbar { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
+  #modelbar a { color: var(--accent, #6cf); }
   .pane > .ptitle .dettog { margin-left: auto; font-size: 11px; padding: 2px 8px; background: none; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); cursor: pointer; }
   .pane.nodet > .info { display: none; }
   .pane > .info { overflow-y: auto; overflow-x: hidden; }
@@ -383,7 +384,7 @@ async function o335Bake(ch, outfit, hairStyle, facialHair, pane = null) {
     items.push({ a, m, t }); add(m); add(m.replace(/\.m2$/, '00.skin')); if (t) add(t); });
   return { url: _bakeUrl, mesh, items, ovr, failed };
 }
-let assets = [], texIndex = [], choices = { version: 2, mesh: {}, texture: {}, custom: {}, fit: {}, display: {}, wish: {} };
+let assets = [], texIndex = [], choices = { version: 2, mesh: {}, texture: {}, custom: {}, fit: {}, display: {}, wish: {}, lead: {} };
 // All view: every other model (data/v2/catalog.json, loaded the first time All / Shortlist opens)
 let catalog = null, catalogLoading = null;
 let bodies = {}, fitBody = null;           // item fitting: race/sex bodies ('hum', 'orf', ...)
@@ -684,7 +685,7 @@ function retailNamedPanel(path, only, scale) {
     const box = document.createElement('div');
     box.className = 'pane';
     box.innerHTML = `<iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
-      <div class="info"><div class="h"><b>Retail remaster · ${esc(t[0].split('/').pop())}</b><span class="chip" title="Retail model, loaded live; converted to v264 the WarcraftXL way when picked">live from wago.tools</span>${t[6] ? `<span class="chip" title="Named after the creature or skin of display ${t[6].join(', ')}, not after this model: offered on ${t[6].length > 1 ? 'those displays' : 'that display'} only">creature name · ${t[6].length > 3 ? t[6].length + ' displays' : 'display ' + t[6].join(', ')}</span>` : ''}<span class="chip warn" title="${nm.rule ? 'Retail moved these displays to this model' : 'Found by name'}: shown in ${t[2] ? `retail's commonest look (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'own textures')}, ${look[1]} of ${t[2]} retail displays)` : `a skin from its folder (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'none')}): no retail display uses this model`}. Pick skins and geosets in the Display editor.">${nm.rule ? 'remaster' : 'by name'}</span></div>
+      <div class="info"><div class="h"><b>Retail remaster · ${esc(t[0].split('/').pop())}</b><span class="chip" title="Retail model, loaded live; converted to v264 the WarcraftXL way when picked">live from wago.tools</span>${t[6] ? `<span class="chip" title="Named after the creature or skin of display ${t[6].join(', ')}, not after this model: offered on ${t[6].length > 1 ? 'those displays' : 'that display'} only">${only && (t[7] || []).includes(+only) ? 'linked by you' : 'creature name'} · ${t[6].length > 3 ? t[6].length + ' displays' : 'display ' + t[6].join(', ')}</span>` : ''}<span class="chip warn" title="${nm.rule ? 'Retail moved these displays to this model' : 'Found by name'}: shown in ${t[2] ? `retail's commonest look (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'own textures')}, ${look[1]} of ${t[2]} retail displays)` : `a skin from its folder (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'none')}): no retail display uses this model`}. Pick skins and geosets in the Display editor.">${nm.rule ? 'remaster' : 'by name'}</span></div>
       <div class="stats" data-live>loading…</div>
       <div class="stats">model: ${esc(t[0])}</div>
       <div class="stats">${missing.length ? `<span class="chip bad" title="Animations the classic model has and this one lacks: creatures using them play nothing">missing ${missing.length}: ${esc(missing.map(animName).join(', '))}</span>` : '<span class="chip ok">no classic animation missing</span>'}
@@ -752,7 +753,7 @@ async function save(kind, key, entry, optionKey, extra = {}, nav = true) {
     const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
                      display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
     merged[kind][key] = pick;
     if (kind === 'display') groupTargets(key).forEach(od => {
       const oe = assets.find(a => a.tab === 'display' && a.display === od);
@@ -808,7 +809,7 @@ async function saveDisplays(items) {
     const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
     const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
     const at = new Date().toISOString();
     items.forEach(([d, opt]) => {
       const o = optionsOf(d);
@@ -823,6 +824,67 @@ async function saveDisplays(items) {
   } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
   render(); openItem(cur);
 }
+// a retail model linked to one display by hand (choices `lead` {display: {paths, at}}): the viewer deploy
+// turns each into a per-display retail option with retail's skin sets and geosets, like a creature-name lead
+async function saveLead(did, path, on) {
+  const status = $('save');
+  status.className = ''; status.textContent = on ? 'linking model…' : 'unlinking model…';
+  try {
+    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+    const lead = { ...(latest.lead || {}), ...(choices.lead || {}) };
+    const k = String(did), ps = ((lead[k] || {}).paths || []).filter(x => x !== path);
+    if (on) ps.push(path);
+    if (ps.length) lead[k] = { paths: ps, at: new Date().toISOString() }; else delete lead[k];
+    const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
+                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
+                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead };
+    const headers = { 'Content-Type': 'application/json' };
+    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
+    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
+    choices = merged;
+    status.className = 'ok'; status.textContent = on ? `linked ${path.split('/').pop()} to display ${did} · offered after the next viewer deploy` : 'unlinked';
+    return true;
+  } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return false; }
+}
+// every retail creature model: the retail-only catalogue plus retail's files at 3.3.5 paths
+function retailCreatureModels() {
+  const out = new Map();
+  Object.entries(retailIdx.models || {}).forEach(([p, fd]) => { if (p.startsWith('creature/')) out.set(p, { path: p, fdid: fd, kw: '' }); });
+  Object.values(retailIdx.named || {}).forEach(n => (n.targets || []).forEach(t => { if (t[0].startsWith('creature/')) out.set(t[0], { path: t[0], fdid: t[1], kw: '' }); }));
+  (catalog || []).forEach(e => { if (e.retailOnly && e.path.startsWith('creature/')) out.set(e.path, { path: e.path, fdid: e.retailOnly, kw: e.kw || '' }); });
+  return [...out.values()].sort((a, b) => a.path.localeCompare(b.path));
+}
+function openModelSearch(c) {
+  ensureCatalog();
+  let q = '';
+  const ov = document.createElement('div'); ov.className = 'wardov';
+  ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b>Link a retail model to display ${c.display}</b><input placeholder="search retail creature models (path or keyword)" data-cq>
+    <button data-cx>close</button></div><div class="creatorlist"></div><div class="wardmore"></div></div>`;
+  document.body.append(ov);
+  const list = ov.querySelector('.creatorlist'), more = ov.querySelector('.wardmore');
+  const linked = new Set(((choices.lead || {})[String(c.display)] || {}).paths || []);
+  const draw = () => {
+    const all = retailCreatureModels(), ws = q.split(/\s+/).filter(Boolean);
+    const hit = all.filter(m => !ws.length || ws.every(w => (m.path + ' ' + m.kw).toLowerCase().includes(w)));
+    list.innerHTML = hit.slice(0, 300).map(m => `<button class="crow" data-lp="${esc(m.path)}"><b>${esc(m.path.split('/').pop())}${linked.has(m.path) ? ' · linked' : ''}</b>
+      <span>${esc(m.path)} · fdid ${m.fdid}</span><span><a href="?layer=creature&path=${encodeURIComponent(m.path)}" target="_blank" data-pv>preview in a new tab</a></span></button>`).join('');
+    more.textContent = (catalog ? '' : 'loading the retail catalogue… · ') + (hit.length > 300 ? `300 of ${hit.length.toLocaleString()} - narrow the search` : `${hit.length.toLocaleString()} models`);
+  };
+  if (catalogLoading) catalogLoading.then(draw);
+  let tq = null;
+  ov.querySelector('[data-cq]').oninput = (ev) => { clearTimeout(tq); tq = setTimeout(() => { q = ev.target.value.trim().toLowerCase(); draw(); }, 150); };
+  const close = () => ov.remove();
+  ov.querySelector('[data-cx]').onclick = close;
+  ov.addEventListener('click', async (ev) => {
+    if (ev.target === ov) return close();
+    if (ev.target.closest('[data-pv]')) return;                  // the preview link opens its own tab
+    const b = ev.target.closest('[data-lp]'); if (!b) return;
+    if (await saveLead(c.display, b.dataset.lp, true)) { close(); openCustom(c); }
+  });
+  draw();
+  ov.querySelector('[data-cq]').focus();
+}
 async function saveWish(e, on) {
   const status = $('save');
   status.className = ''; status.textContent = 'saving shortlist…';
@@ -834,7 +896,7 @@ async function saveWish(e, on) {
     else delete wish[e.path];
     const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish };
+                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
     const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
@@ -981,7 +1043,7 @@ function render() {
         : c ? `<span class="chip ok">✓ ${c.option === 'custom' ? 'our edit' : esc(label(c.sources))}</span>`
         : viaModel(e) ? `<span class="chip ok">✓ via model pick</span>`
         : decidedPerDisplay(e) ? `<span class="chip ok" title="No model-level pick: every display of this model has its own pick">✓ decided per display</span>`
-        : e.tab === 'display' && modelDecides(e) ? `<span class="chip">decided by the model pick</span>`
+        : e.tab === 'display' && modelDecides(e) ? `<span class="chip warn" title="Decided on ${esc(e.panes[0].model)}'s card in the Creatures tab, which has no pick yet">model not picked yet</span>`
         : unusedModel(e) ? '<span class="chip">not used by any creature</span>'
         : notInGame(e) ? '<span class="chip" title="Creature templates use it, but none is spawned, summoned, ridden or scripted, so nothing shows it in game">not in game</span>'
         : perDisplayTarget(e) ? '<span class="chip" title="Only per-display repoints reach this model; each display option in the Displays tab ships its pack\'s file">chosen per display</span>'
@@ -1382,6 +1444,12 @@ function openAsset(e) {
       save(kindOf(e), keyOf(e), e, 'retail', { file_option: 'retail', file_sources: ['retail'], displays });
     };
   }
+  if (e.tab === 'display' && e.panes.length && modelDecides(e)) {
+    // the model bar: this display follows its model's card (Creatures / Characters tab) unless overridden here
+    const mp = e.panes[0].model, mt = (byPath[mp] || {}).tab || 'creature', vm = viaModel(e);
+    $('panes').insertAdjacentHTML('afterbegin', `<div id="modelbar">${vm ? '<span class="chip ok">via model pick</span>' : '<span class="chip warn">model not picked yet</span>'}
+      <span>${vm ? 'Decided by the pick' : 'Decided by the pick, still to make,'} on <a href="?layer=${mt}&path=${encodeURIComponent(mp)}">${esc(mp)}</a>${vm ? ` (green box: ${esc(label(vm.sources || []))})` : ''}. Use this on a card here to override it for this display only.</span></div>`);
+  }
   if (e.tab === 'display' && e.look_group) {
     // the group bar: who shares this exact look and options, and whether a pick applies to all of them
     const others = e.look_group.filter(x => x !== e.display);
@@ -1645,7 +1713,7 @@ async function saveFit(path, fit) {
     const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
                      display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
     if (fit) merged.fit[path] = { ...fit, at: new Date().toISOString() }; else delete merged.fit[path];
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
@@ -1916,6 +1984,13 @@ function openCustom(c) {
   const mi = c.retail ? models.findIndex(m => m.kind === 'retail' && m.ti === c.retail.ti)
     : Math.max(0, models.findIndex(m => m.kind === 'pane' && base && m.pane.option === base.option && m.pane.model === base.model));
   ctl += `<label>Model<select id="cs-model">${models.map((m, i) => `<option value="${i}"${i === mi ? ' selected' : ''}>${esc(m.label)}</option>`).join('')}</select></label>`;
+  if (!c.isNew) {
+    // retail models linked by hand: the next viewer deploy builds their skin sets and adds them to the list above
+    const lk = ((choices.lead || {})[String(c.display)] || {}).paths || [];
+    const ready = new Set(models.filter(m => m.kind === 'retail').map(m => namedFor(m.model).targets[m.ti][0]));
+    ctl += `<div class="row"><button id="cs-msearch" title="Search every retail creature model and link one to this display">Search all retail models…</button></div>` +
+      (lk.length ? `<div class="note">Linked: ${lk.map(x => `<b>${esc(x.split('/').pop())}</b> ${ready.has(x) ? '(in the Model list)' : '(added to the Model list by the next viewer deploy)'} <a href="#" data-unlink="${esc(x)}">unlink</a>`).join(' · ')}</div>` : '');
+  }
   if (c.retail) {
     const t = namedFor(c.retail.model).targets[c.retail.ti], sets = t[3] || [], groupsR = t[5] || {};
     const skinName = (fd) => fd ? String(((retailIdx.names || {})[String(fd)]) || fd).split('/').pop().replace(/\.blp$/, '') : '(none)';
@@ -2059,6 +2134,9 @@ function openCustom(c) {
     document.querySelectorAll('#panes select[data-psk]').forEach(sl => { const v = String(x[0][+sl.dataset.psk] || ''); if ([...sl.options].some(o => o.value === v)) sl.value = v; });
     preview();
   };
+  if ($('cs-msearch')) $('cs-msearch').onclick = () => openModelSearch(c);
+  document.querySelectorAll('#panes [data-unlink]').forEach(a => { a.onclick = async (ev) => { ev.preventDefault();
+    if (await saveLead(c.display, a.dataset.unlink, false)) openCustom(c); }; });
   // a different model = a different editor (its own groups, slots, skin sets)
   $('cs-model').onchange = (ev) => {
     const m = models[+ev.target.value];
@@ -2146,7 +2224,7 @@ async function saveCustom(did, pick) {
     const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
                      display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
     [did, ...groupTargets(did)].forEach(d => { if (pick) merged.custom[String(d)] = { ...pick, ...(d !== +did ? { group_of: +did } : {}) }; else delete merged.custom[String(d)]; });
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
@@ -2238,7 +2316,7 @@ function relevantModels(did, cur) {
   if (cur && cur.base && !out.some(x => x.pane.option === cur.base.option && x.pane.model === cur.base.model))
     out.unshift({ kind: 'pane', pane: cur.base, label: `${String(cur.base.model).split('/').pop()} · ${label(cur.base.sources || [])}` });
   const sm = stockModelOf(did), nm = namedFor(sm);
-  if (nm) nm.targets.forEach((t, ti) => { if (targetFor(t, did)) out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (${t[6] ? 'creature name' : 'by name'}) · ${t[2]} retail displays` }); });
+  if (nm) nm.targets.forEach((t, ti) => { if (targetFor(t, did)) out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (${(t[7] || []).includes(+did) ? 'linked' : t[6] ? 'creature name' : 'by name'}) · ${t[2]} retail displays` }); });
   return out;
 }
 // look groups (deploy: same stock look AND same options): one decision for every member
@@ -2435,7 +2513,7 @@ window.addEventListener('message', (e) => {
     fetch('data/v2/mounts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
   ]);
   assets = a.assets; texIndex = t; customList = cu.displays;
-  if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {} };
+  if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {}, lead: c.lead || {} };
   repairRetailCollisions();
   const startLayer = new URLSearchParams(location.search).get('layer');
   if (Object.values(choices.custom || {}).some(v => v && v.new)) { await loadCreator(); addNewDisplays(); }
