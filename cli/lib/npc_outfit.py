@@ -10,6 +10,10 @@ Two sources:
            where the item texture is opaque; a near-exact match names an ItemDisplayInfo. Regions
            that no single texture matches (layered chest + belt + tabard, retextured items) stay
            unmatched rather than guessed. Helmets baked into the mesh cannot be found this way.
+  fused()  F-220 fused riders (batrider: the rider is one merged submesh of the mount model). The
+           rider's skin is a hard-coded texture in the same classic layout, matched as guess();
+           the model's other textures name 3D pieces exactly (ItemDisplayInfo left_model_texture:
+           shoulders, weapons) and the hair (Character/<race>/Hair00_NN = hair colour NN).
 """
 from typing import Callable, Dict, List, Optional, Tuple
 
@@ -33,6 +37,30 @@ LOOSE = 30.0        # an item's OTHER regions must still be at least this close 
 CORR = 0.85         # and an exact region must share the pattern: dark textures differ little in colour
                     # even when unrelated (Calico Shoes "matched" a dark plate boot at 9.2)
 CHAR_GROUPS = {4, 5, 7, 8, 9, 10, 11, 12, 13}   # character geoset groups (gloves .. robe)
+# F-220 scope list (rider / driver baked into the mount mesh) - the same list as FUSED in layers.html
+FUSED = {'batrider.m2', 'alliancerider.m2', 'alliancerider2.m2', 'horderider.m2', 'goblinrocketcar.m2',
+         'gnomerocketcar.m2', 'headlesshorsemanmount.m2', 'mounteddeathknight.m2', 'mounteddeathknight_blaumeux.m2',
+         'mounteddeathknight_korthazz.m2', 'mounteddeathknight_mograine.m2', 'mounteddeathknight_zeliek.m2',
+         'mountedknight.m2', 'mounteddemonknight.m2', 'terongorefiend_mounted.m2', 'felorcnetherdrakemounted.m2',
+         'orcdrakerider.m2', 'tauren_mountedcanoe.m2', 'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2'}
+# their rider's skin (classic character layout): an M2 texture stem, or a display slot index
+# (0..2 = texture_variation_1..3) when the display skins the rider; race, sex
+RIDERS = {'batrider.m2': ('trollbatriderskin', 'Troll', 'male'),
+          'alliancerider.m2': ('wildhammerheavy', 'Dwarf', 'male'),
+          'horderider.m2': ('leather_horde_a_02', 'Orc', 'male'),
+          'orcdrakerider.m2': ('orcdrakeriderskin', 'Orc', 'male'),
+          'felorcnetherdrakemounted.m2': ('felorcmaledrakeriderskin', 'Fel orc', 'male'),
+          'terongorefiend_mounted.m2': ('terongorefiend1', 'Teron Gorefiend (race not checked)', 'male'),
+          'gnomerocketcar.m2': ('gnomepounderpilotskin_yellow_01', 'Gnome', 'male'),
+          'gnomespidertank.m2': (1, 'Gnome', 'male'), 'gnomepounder.m2': (1, 'Gnome', 'male'),
+          'mountedknight.m2': (1, 'Human', 'male'), 'mounteddemonknight.m2': (1, 'Human', 'male'),
+          'mounteddeathknight.m2': (2, 'Human', 'male'), 'mounteddeathknight_korthazz.m2': (2, 'Human', 'male'),
+          'mounteddeathknight_mograine.m2': (2, 'Human', 'male'), 'mounteddeathknight_zeliek.m2': (2, 'Human', 'male'),
+          'mounteddeathknight_blaumeux.m2': (2, 'Human', 'female'),
+          'tauren_mountedcanoe.m2': ('taurenmaleskin', 'Tauren', 'male')}
+# 3D pieces named by a fused model's textures: InventoryType -> slot
+INV_3D = {1: 'Helm', 3: 'Shoulders', 13: 'Weapon', 17: 'Weapon', 21: 'Weapon', 22: 'Off hand', 14: 'Shield',
+          23: 'Off hand', 15: 'Ranged', 26: 'Ranged', 25: 'Ranged', 16: 'Cape'}
 INV_SLOT = {1: 'Helm', 3: 'Shoulders', 4: 'Shirt', 5: 'Chest', 20: 'Chest', 6: 'Belt', 7: 'Legs', 8: 'Boots',
             9: 'Wrists', 10: 'Gloves', 19: 'Tabard', 16: 'Cape'}
 
@@ -56,7 +84,7 @@ class Outfits:
                 cfg = DBCConfig.from_env(ENV_PATH)
                 with DBCConnection(cfg) as conn:
                     cur = conn.get_connection(cfg.live).cursor(dictionary=True)
-                    cur.execute('SELECT id, left_model, ' + ', '.join(f for _, _, f in REGIONS.values()) + ' FROM itemdisplayinfo')
+                    cur.execute('SELECT id, left_model, left_model_texture, ' + ', '.join(f for _, _, f in REGIONS.values()) + ' FROM itemdisplayinfo')
                     for r in cur.fetchall():
                         self._idi[int(r['id'])] = r
             except Exception as ex:                        # optional: no outfit data without the DBC
@@ -200,4 +228,65 @@ class Outfits:
         unmatched = [r for r in REGIONS if r not in matched]
         if unmatched:
             out.append(['(unmatched)', 0, ', '.join(unmatched), [], 'none'])
+        return out
+
+    # ---- fused: the rider baked into a mount model (F-220) ---------------------------------
+    def fused(self, model: str, table: List[Tuple[int, str]], slots: List[str]) -> List[list]:
+        """Outfit rows for a fused rider model. table = the M2 texture table [(type, path)], slots =
+        the display's texture_variation_1..3 as model-folder paths. The rider's skin (RIDERS) is a
+        classic-layout composite: matched against item textures like guess(), and named as a skin
+        a rider bake can copy (these skins are mostly bespoke art no item uses)."""
+        from PIL import Image
+        rider = RIDERS.get(model.rsplit('/', 1)[-1])
+        out: List[list] = []
+        if rider:
+            src, race, sex = rider
+            path = slots[src] if isinstance(src, int) and src < len(slots) else \
+                next((n for t, n in table if n.rsplit('/', 1)[-1] == f'{src}.blp'), '')
+            f = self.stock.get(path) if path else None
+            try:
+                ok = f is not None and Image.open(f).size == (256, 256)
+            except Exception:
+                ok = False
+            if ok:
+                rows = self.guess(f, sex[0])
+                hits = [r for r in rows if r[1]]
+                stem = path.rsplit('/', 1)[-1][:-4]
+                out.append(['Rider', 0, f'{race} {sex}, skin {stem}: character layout, '
+                            + (f'{len(hits)} slot(s) are stock items' if hits else 'bespoke art (no item uses it)')
+                            + ' - a rider bake copies it as is', [], 'skin'])
+                out += hits
+        # 3D pieces: a texture an item display names exactly. The mesh is merged, so among displays
+        # sharing the texture the one whose model file is the texture's stem is preferred.
+        by_tex: Dict[str, List[int]] = {}
+        for idi, r in self.idi().items():
+            t = str(r.get('left_model_texture') or '').lower()
+            if t:
+                by_tex.setdefault(t, []).append(idi)
+        seen = set()
+        for t, n in table:
+            stem = n.rsplit('/', 1)[-1][:-4] if n.endswith('.blp') else ''
+            if t != 0 or not stem:
+                continue
+            if n.startswith('character/') and '/hair' in n:
+                col = ''.join(c for c in stem.rsplit('_', 1)[-1] if c.isdigit())
+                out.append(['Hair', 0, f'{n.split("/")[1]} hair colour {int(col) if col else "?"} ({stem})', [], 'skin'])
+                continue
+            cands = [i for i in by_tex.get(stem, []) if self.items().get(i)]
+            if not cands:
+                continue
+
+            def rank(i, low=stem.lower()):
+                lm = str(self.idi()[i].get('left_model') or '').lower().rsplit('.', 1)[0]
+                lm = lm[1:] if lm[:1] in ('l', 'r') and lm[1:9] == 'shoulder' else lm
+                return (0 if lm and low.startswith(lm) else 1, i)
+            idi = min(cands, key=rank)
+            invs = {inv for _, _, inv in self.items()[idi]}
+            slot = next((INV_3D[i] for i in sorted(invs) if i in INV_3D), None)
+            if slot and slot not in seen:
+                seen.add(slot)
+                row = self._row(slot, idi, 'texture')
+                if len(cands) > 1:
+                    row[2] += f' (1 of {len(cands)} displays with this texture)'
+                out.append(row)
         return out

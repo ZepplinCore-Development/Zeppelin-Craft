@@ -1240,12 +1240,13 @@ function paneUrl(p, extra = {}) {
   return 'pane.html?' + prm.toString();
 }
 // ---- Sources panel (provenance), data/prov/<id>.json fetched when opened -----------------
-// a display's outfit (deploy: lib/npc_outfit): from its bake row, or matched from a character clone's skin
+// a display's outfit (deploy: lib/npc_outfit): from its bake row, matched from a character clone's skin, or a fused rider's
 const slotRank = (s) => { const i = OUTFIT_SLOTS.indexOf(String(s).toLowerCase()); return i < 0 ? 99 : i; };
 const outfitBox = (p) => !(p && p.outfit && p.outfit.length) ? '' : `<div class="outfit">${p.outfit.slice().sort((a, b) => slotRank(a[0]) - slotRank(b[0])).map(([slot, idi, name, items, how, score]) =>
   how === 'none' ? `<div class="ofrow none"><span>not matched</span><span>${esc(name)}</span></div>`
-  : `<div class="ofrow"><span>${esc(slot)}</span><span><b>${esc(name)}</b>${items.length ? ` · item${items.length > 1 ? 's' : ''} ${items.join(', ')}` : ''} · display ${idi}${how === 'matched' ? (score <= 5 ? ` · <span class="ok">exact match</span>` : ` · <span class="warn" title="Same texture art, but the colours differ (difference ${score}): likely a recolour of this item">same art, maybe a recolour</span>`) : ''}</span></div>`).join('')}
-  ${p.outfit.some(r => r[4] === 'matched') ? '<div class="ofnote">matched from the baked skin; unmatched regions are listed, never guessed</div>' : ''}</div>`;
+  : `<div class="ofrow"><span>${esc(slot)}</span><span><b>${esc(name)}</b>${items.length ? ` · item${items.length > 1 ? 's' : ''} ${items.join(', ')}` : ''}${idi ? ` · display ${idi}` : ''}${how === 'matched' ? (score <= 5 ? ` · <span class="ok">exact match</span>` : ` · <span class="warn" title="Same texture art, but the colours differ (difference ${score}): likely a recolour of this item">same art, maybe a recolour</span>`) : ''}</span></div>`).join('')}
+  ${p.outfit.some(r => r[4] === 'matched') ? '<div class="ofnote">matched from the baked skin; unmatched regions are listed, never guessed</div>' : ''}
+  ${p.outfit.some(r => r[4] === 'skin' || r[4] === 'texture') ? '<div class="ofnote">F-220: rider baked into the mount model. Its skin is named; shoulders / weapons are the item displays using the same texture (the mesh is merged, so the shape is not checked)</div>' : ''}</div>`;
 const provBox = (p) => p.prov ? `<details class="prov" data-prov="${p.prov}"><summary>Sources</summary><div class="pb">loading…</div></details>` : '';
 const ownChip = (o) => `<span class="chip${o === 'missing' ? ' bad' : ''}">${esc(o)}</span>`;
 const fileRows = (files) => files.map(([path, o]) => `<div class="row" style="flex-wrap:nowrap;gap:6px">${ownChip(o)}<span style="overflow-wrap:anywhere;font-family:ui-monospace,monospace">${esc(path)}</span></div>`).join('');
