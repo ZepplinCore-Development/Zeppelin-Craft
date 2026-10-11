@@ -1543,6 +1543,18 @@ def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> D
             for t_ in leads:
                 if t_[0] not in {x[0] for x in targets} and t_[0] != path:
                     targets.append(t_)
+        # leads from a DISPLAY's own creature / skin name (8269 Molten Giant on mountaingiant.m2 ->
+        # creature/moltengiant/moltengiant.m2): offered on those displays only (target field 6 = `only`)
+        only: Dict[str, List[int]] = {}
+        for did_ in dids:
+            skins_ = [str((scdi.get(did_) or {}).get(f'texture_variation_{k}') or '') for k in (1, 2, 3)]
+            for t_ in retail.name_remasters(list(dep.names.get(did_, [])) + skins_):
+                if t_[0] != path and t_[0] not in stock_paths and t_[0] not in {x[0] for x in targets}:
+                    only.setdefault(t_[0], [])
+                    if did_ not in only[t_[0]]:
+                        only[t_[0]].append(did_)
+        by_path_ = retail.listfile()[0]
+        targets = targets + [(t_, by_path_[t_]) for t_ in sorted(only)]
         if not targets:
             continue
         sf = ms.stock_asset(path)
@@ -1552,7 +1564,8 @@ def named_remaster_index(dep: 'Deployer', skip: set, log: Callable = print) -> D
             for g_, vs_ in retail.mesh_geosets(fd).items():      # every variant the mesh has, not only the used ones
                 groups_g[g_] = sorted(set(groups_g.get(g_, [])) | set(vs_))
             # [path, fdid, retail displays, [[skins, displays, geoset nibbles]], anims, {group: values}]
-            rows.append([tp, fd, retail.retail_displays(fd), sets_g[:40], retail.retail_anim_ids(fd), groups_g])
+            rows.append([tp, fd, retail.retail_displays(fd), sets_g[:40], retail.retail_anim_ids(fd), groups_g]
+                        + ([sorted(only[tp])] if tp in only else []))
         dids.sort(key=lambda d: (-len(dep.names.get(d, [])), d))
         out[path] = {'rule': rule, 'stock_anims': retail.anim_ids(sf.read_bytes()) if sf else [],
                      'displays': [[d, dep.names.get(d, [])[:3],

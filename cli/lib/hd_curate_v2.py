@@ -259,6 +259,8 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
                 name = f'retail_{fd}'
                 want[f'{mdir}/{name}.blp'] = f
                 new[f'texture_variation_{i + 1}'] = name
+            # the classic row's geoset data means nothing on the retail mesh: use retail's for this skin set
+            new['creature_geoset_data'] = retail.pack_nibbles(retail.set_nibbles(rfd, fds))
             wanted_rows[('creaturedisplayinfo', (did,))] = new
 
     # ---- display-level picks: the chosen pack's display rows + its model files -------------
@@ -651,7 +653,9 @@ def _retail_display(did: int, dp: dict, layers: hd.Layers, result: dict, srcs: d
             name = f'retail_{skins[i]}'
             want[f'{mdir}/{name}.blp'] = f
         row[f'texture_variation_{i + 1}'] = name
-    row['creature_geoset_data'] = int(dp.get('geosets') or 0)
+    # no explicit geosets: what retail's displays wearing this skin set draw (retail hides an unset group,
+    # 3.3.5 would draw every variant - retail.to_335_nibbles)
+    row['creature_geoset_data'] = int(dp.get('geosets') or 0) or retail.pack_nibbles(retail.set_nibbles(fd, skins[:3]))
     if dp.get('scale'):
         row['creature_model_scale'] = float(dp['scale'])
     wanted_rows[('creaturedisplayinfo', (did,))] = row

@@ -513,7 +513,7 @@ const nOptions = (e) => (e.tab === 'display' ? Math.max(1, e.panes.length) + (ch
     + (namedFor((e.panes[0] || {}).model || e.named_of) ? 1 : 0)
   : e.tab === 'item' ? e.panes.length : modelOptions(e).length) +
   (retailIdx.models && retailIdx.models[e.path] ? 1 : 0) +
-  (e.tab === 'creature' && namedFor(e.path) ? namedFor(e.path).targets.length : 0);
+  (e.tab === 'creature' && namedFor(e.path) ? namedFor(e.path).targets.filter(t => !t[6]).length : 0);
 // a pack-only model reached only by per-display repoints (tiger2: packs move 15 of tiger.m2's 58
 // displays onto it): each Displays-tab option already carries its pack's file, so the file is
 // chosen there too - nothing to decide at model level
@@ -593,7 +593,13 @@ function modelDecides(d) {
 function viaModel(d) {
   if (d.tab !== 'display' || !d.panes.length) return null;
   const m = choices.mesh[d.panes[0].model];
-  if (!m || !m.displays) return null;
+  if (!m) return null;
+  if (!m.displays) {
+    // a FILE pick (option = a content hash: which file ships at this path, doomguard.m2 -> patch-hd-everything's):
+    // it decides the card that keeps the display on this same path from the same source
+    const p = d.panes.find(x => x.model === d.panes[0].model && (m.sources || []).some(z => x.sources.includes(z)));
+    return p ? { option: p.option, sources: p.sources } : null;
+  }
   // a model pick saved before the per-file split: what its card (modelSplitKey) gives this display
   if (!byPath) { byPath = {}; assets.forEach(x => { if (x.tab !== 'display') byPath[x.path] = x; }); }
   const M = byPath[d.panes[0].model];
@@ -635,7 +641,7 @@ function optionsOf(entry) {
   if (entry.tab === 'display' && entry.panes && entry.panes.length) {
     const nm = namedFor(entry.panes[0].model);
     // keyed apart: a pack's card can have the SAME path (bogbeast2.m2) and must keep its sources
-    if (nm) nm.targets.forEach(t => { o['retail:' + t[0]] = ['retail']; });
+    if (nm) nm.targets.forEach(t => { if (targetFor(t, entry.display)) o['retail:' + t[0]] = ['retail']; });
   }
   return o;
 }
@@ -644,6 +650,9 @@ function optionsOf(entry) {
 // retail skin for our display ids: each display gets its target model + a retail skin set here.
 // Saved as a display pick { option: <retail path>, sources: ['retail'], fdid, skins, remaster_of }.
 const namedFor = (path) => (retailIdx.named || {})[path] || null;
+// a target found by a DISPLAY's own creature / skin name (8269 Molten Giant -> moltengiant.m2) carries
+// t[6] = the displays it is for; the rest are for every display of the stock model
+const targetFor = (t, did) => !t[6] || t[6].includes(+did);
 const isRetailPick = (pk) => pk && (pk.sources || [])[0] === 'retail';
 // list chip: the model has a retail remaster (model-level) or remasters by name (n of its displays use one)
 function remasterChip(path) {
@@ -667,6 +676,7 @@ function retailNamedPanel(path, only, scale) {
   const animName = (id) => animNames[id] || `anim ${id}`;
   const skinName = (fd) => fd ? String(((retailIdx.names || {})[String(fd)]) || fd).split('/').pop().replace(/\.blp$/, '') : '';
   nm.targets.forEach((t, ti) => {
+    if (only && !targetFor(t, only)) return;
     const look = (t[3] || [])[0] || [[0, 0, 0], 0, [0, 0, 0, 0, 0, 0, 0, 0]];
     const prm = new URLSearchParams({ src: 'v2', model: t[0], retail: t[1], build: retailIdx.build, skins: look[0].join(','), scale: scale || 1, pv: PANE_V });
     if ((look[2] || []).some(Boolean)) { prm.set('mesh', [0, ...look[2]].join(',')); prm.set('g0all', '1'); }
@@ -674,14 +684,14 @@ function retailNamedPanel(path, only, scale) {
     const box = document.createElement('div');
     box.className = 'pane';
     box.innerHTML = `<iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
-      <div class="info"><div class="h"><b>Retail remaster · ${esc(t[0].split('/').pop())}</b><span class="chip" title="Retail model, loaded live; converted to v264 the WarcraftXL way when picked">live from wago.tools</span><span class="chip warn" title="${nm.rule ? 'Retail moved these displays to this model' : 'Found by name'}: shown in ${t[2] ? `retail's commonest look (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'own textures')}, ${look[1]} of ${t[2]} retail displays)` : `a skin from its folder (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'none')}): no retail display uses this model`}. Pick skins and geosets in the Display editor.">${nm.rule ? 'remaster' : 'by name'}</span></div>
+      <div class="info"><div class="h"><b>Retail remaster · ${esc(t[0].split('/').pop())}</b><span class="chip" title="Retail model, loaded live; converted to v264 the WarcraftXL way when picked">live from wago.tools</span>${t[6] ? `<span class="chip" title="Named after the creature or skin of display ${t[6].join(', ')}, not after this model: offered on ${t[6].length > 1 ? 'those displays' : 'that display'} only">creature name · ${t[6].length > 3 ? t[6].length + ' displays' : 'display ' + t[6].join(', ')}</span>` : ''}<span class="chip warn" title="${nm.rule ? 'Retail moved these displays to this model' : 'Found by name'}: shown in ${t[2] ? `retail's commonest look (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'own textures')}, ${look[1]} of ${t[2]} retail displays)` : `a skin from its folder (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'none')}): no retail display uses this model`}. Pick skins and geosets in the Display editor.">${nm.rule ? 'remaster' : 'by name'}</span></div>
       <div class="stats" data-live>loading…</div>
       <div class="stats">model: ${esc(t[0])}</div>
       <div class="stats">${missing.length ? `<span class="chip bad" title="Animations the classic model has and this one lacks: creatures using them play nothing">missing ${missing.length}: ${esc(missing.map(animName).join(', '))}</span>` : '<span class="chip ok">no classic animation missing</span>'}
         ${added.length ? ` <span class="chip" title="${esc(added.map(animName).join(', '))}">+${added.length} new animations</span>` : ''}</div>
       ${only ? `<button class="usecust" data-rt="${ti}">Edit</button>` : `<div class="stats"><span class="chip warn" title="Retail never moved these displays onto it, so no retail skin maps to them: each display gets its model + skin set in the Display editor">decided per display</span></div>
-      <button class="usecust" data-rt="${ti}">Open display ${nm.displays[0][0]}</button>`}</div>`;
-    box.querySelector('[data-rt]').onclick = () => only ? openCustom_(only, true, { retail: { model: path, ti, si: 0 } }) : openDisplay(nm.displays[0][0]);
+      <button class="usecust" data-rt="${ti}">Open display ${t[6] ? t[6][0] : nm.displays[0][0]}</button>`}</div>`;
+    box.querySelector('[data-rt]').onclick = () => only ? openCustom_(only, true, { retail: { model: path, ti, si: 0 } }) : openDisplay(t[6] ? t[6][0] : nm.displays[0][0]);
     $('panes').appendChild(box);
   });
 }
@@ -2228,7 +2238,7 @@ function relevantModels(did, cur) {
   if (cur && cur.base && !out.some(x => x.pane.option === cur.base.option && x.pane.model === cur.base.model))
     out.unshift({ kind: 'pane', pane: cur.base, label: `${String(cur.base.model).split('/').pop()} · ${label(cur.base.sources || [])}` });
   const sm = stockModelOf(did), nm = namedFor(sm);
-  if (nm) nm.targets.forEach((t, ti) => out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (by name) · ${t[2]} retail displays` }));
+  if (nm) nm.targets.forEach((t, ti) => { if (targetFor(t, did)) out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (${t[6] ? 'creature name' : 'by name'}) · ${t[2]} retail displays` }); });
   return out;
 }
 // look groups (deploy: same stock look AND same options): one decision for every member

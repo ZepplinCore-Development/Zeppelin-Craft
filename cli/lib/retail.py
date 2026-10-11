@@ -348,6 +348,43 @@ def named_remasters(path: str) -> List[Tuple[str, int]]:
 _named_index: Optional[List[str]] = None
 
 
+_by_name: Optional[Dict[str, List[str]]] = None
+
+
+def name_key(text: str) -> str:
+    """'Molten Giant' / 'MoltenGiant' -> 'moltengiant' (lowercase letters and digits only)."""
+    import re
+    return re.sub(r'[^a-z0-9]', '', str(text or '').lower())
+
+
+def name_remasters(names) -> List[Tuple[str, int]]:
+    """Retail creature models named after a DISPLAY's creature or skin, not its model: display 8269 Molten
+    Giant is stock mountaingiant.m2 wearing MoltenGiant, and retail has creature/moltengiant/moltengiant.m2.
+    A name matches creature/<name>*/<name>[_]<digits>.m2 exactly (keys under 6 letters are skipped:
+    'ogre' would sweep in every ogre model)."""
+    import re
+    global _by_name, _named_index
+    by_path, _ = listfile()
+    if _by_name is None:
+        if _named_index is None:
+            _named_index = sorted(p for p in by_path if p.startswith('creature/') and p.endswith('.m2'))
+        _by_name = {}
+        for p in _named_index:
+            d, f = p.rsplit('/', 1)
+            k = re.sub(r'_?\d+$', '', f[:-3])
+            if d.rsplit('/', 1)[-1].startswith(k):
+                _by_name.setdefault(k, []).append(p)
+    out: List[Tuple[str, int]] = []
+    for n in names:
+        k = name_key(n)
+        if len(k) < 6:
+            continue
+        for p in sorted(_by_name.get(k, []), key=lambda x: (len(x), x)):
+            if (p, by_path[p]) not in out:
+                out.append((p, by_path[p]))
+    return out
+
+
 def skin_sets(fdid: int) -> List[Tuple[List[int], int]]:
     """Distinct retail skin sets the displays of model `fdid` wear: [([fdid x3], displays)],
     commonest first."""
@@ -439,22 +476,56 @@ def geo_nibbles(pairs) -> List[int]:
     return out
 
 
+def to_335_nibbles(pairs, mesh: Dict[int, List[int]]) -> List[int]:
+    """Retail geoset data -> 3.3.5 creature_geoset_data nibbles FOR THIS MESH. The two clients read an unset
+    group differently: retail draws geoset group*100 + value, so a group with no data (value 0) draws NOTHING;
+    3.3.5 reads a 0 nibble as "every variant". mountaingiant2's grass-tuft group 1 (101) is set only on the
+    mossy skins (106014); the bare-rock displays (100214) carry no data and show no tufts - copied as 0 they
+    drew the tufts as dark plates. So every group the mesh has gets retail's value when the mesh has it, else
+    the lowest variant it lacks ("none (hidden)"). Groups past 8 can't be expressed; groups the mesh lacks stay 0."""
+    vals = dict((i + 1, v) for i, v in pairs)
+    out = [0] * 8
+    for g, vs in mesh.items():
+        if not 1 <= g <= 8:
+            continue
+        v = vals.get(g, 0)
+        if v in vs:
+            out[g - 1] = v
+        else:
+            out[g - 1] = next((x for x in range(1, 16) if x not in vs), 0)
+    return out
+
+
+def pack_nibbles(nibbles) -> int:
+    return sum((int(v) & 0xF) << (4 * k) for k, v in enumerate(list(nibbles)[:8]))
+
+
+def set_nibbles(fdid: int, skins) -> List[int]:
+    """The 3.3.5 nibbles retail's displays of this model wearing `skins` use (commonest); a set no retail
+    display wears gets retail's no-data default (every optional group hidden)."""
+    want = [int(x or 0) for x in list(skins)[:3]] + [0] * (3 - len(list(skins)[:3]))
+    sets, _ = skin_sets_geo(fdid)
+    hit = next((x for x in sets if [int(y or 0) for y in x[0]] == want), None)
+    return list(hit[2]) if hit else to_335_nibbles([], mesh_geosets(fdid))
+
+
 def skin_sets_geo(fdid: int):
     """skin_sets() plus, per set, the commonest geoset choice of the displays wearing it, and the
     geoset values retail uses per group on this model: ([[skins x3, displays, nibbles x8]], {group: [values]})."""
     from collections import Counter
     display_row(0)
     by_set: Dict[tuple, Counter] = {}
+    mesh = mesh_geosets(fdid)
     groups: Dict[int, set] = {}
     for did, (m, t) in _cdi.items():
         if m != fdid:
             continue
-        g = tuple(geo_nibbles(geoset_data(did)))
-        for k, v in enumerate(g):
+        raw = geoset_data(did)
+        for k, v in enumerate(geo_nibbles(raw)):
             if v:
                 groups.setdefault(k + 1, set()).add(v)
         if any(t[:3]):
-            by_set.setdefault(tuple(t[:3]), Counter())[g] += 1
+            by_set.setdefault(tuple(t[:3]), Counter())[tuple(to_335_nibbles(raw, mesh))] += 1
     sets = [[list(k), sum(c.values()), list(c.most_common(1)[0][0])] for k, c in by_set.items()]
     sets.sort(key=lambda x: (-x[1], x[0]))
     if not sets:

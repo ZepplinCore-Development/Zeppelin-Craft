@@ -454,12 +454,19 @@ def model_curate(ctx, do_apply, choices_path):
     click.echo(f'  done ({time.time() - t0:.0f}s). The zpak stays DISABLED until the switch-over.')
 
 
+# a creature_template_model row the game can actually show: Probability is a weight among the creature's
+# rows, so a 0 next to a weighted sibling never appears (Underbog Lord 17734: 17758 at 1, 12293 at 0 - he
+# is not a Landslide-display creature). A single row, or a creature with no weights at all, still counts.
+_SHOWN_CTM = ("(ctm.Probability > 0 OR NOT EXISTS (SELECT 1 FROM creature_template_model x "
+              "WHERE x.CreatureID = ctm.CreatureID AND x.Idx <> ctm.Idx AND x.Probability > 0))")
+
+
 def _world_context():
     """Creature names per display and the weapons the most-spawned creature carries."""
     from commands.sql import run_mysql_query
     ok, rows = run_mysql_query(
         "SELECT ctm.CreatureDisplayID, ct.name FROM creature_template_model ctm "
-        "JOIN creature_template ct ON ct.entry = ctm.CreatureID")
+        "JOIN creature_template ct ON ct.entry = ctm.CreatureID WHERE " + _SHOWN_CTM)
     if not ok:
         raise click.ClickException(f'creature lookup failed: {rows}')
     names: Dict = {}
@@ -473,7 +480,7 @@ def _world_context():
         "FROM creature_template_model ctm JOIN creature_template ct ON ct.entry = ctm.CreatureID "
         "JOIN creature_equip_template e ON e.CreatureID = ct.entry AND e.ID = 1 "
         "LEFT JOIN item_template i1 ON i1.entry = e.ItemID1 LEFT JOIN item_template i2 ON i2.entry = e.ItemID2 "
-        "WHERE e.ItemID1 <> 0 OR e.ItemID2 <> 0")
+        "WHERE (e.ItemID1 <> 0 OR e.ItemID2 <> 0) AND " + _SHOWN_CTM)
     equipment, best = {}, {}
     if ok:
         for line in eq_rows.splitlines()[1:]:
