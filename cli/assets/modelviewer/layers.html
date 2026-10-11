@@ -79,7 +79,7 @@
   .pane > .actions .row { display: flex; gap: 6px; flex: 1 1 100%; }
   .grpbox { font-size: 12px; color: var(--muted); display: flex; gap: 5px; align-items: center; }
   #grpbar, #modelbar { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
-  #modelbar a, .custctl .note a { color: var(--good); }
+  #modelbar a { color: var(--good); }
   .pane > .ptitle .dettog { margin-left: auto; font-size: 11px; padding: 2px 8px; background: none; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); cursor: pointer; }
   .pane.nodet > .info { display: none; }
   .pane > .info { overflow-y: auto; overflow-x: hidden; }
@@ -385,7 +385,7 @@ async function o335Bake(ch, outfit, hairStyle, facialHair, pane = null) {
     items.push({ a, m, t }); add(m); add(m.replace(/\.m2$/, '00.skin')); if (t) add(t); });
   return { url: _bakeUrl, mesh, items, ovr, failed };
 }
-let assets = [], texIndex = [], choices = { version: 2, mesh: {}, texture: {}, custom: {}, fit: {}, display: {}, wish: {}, lead: {} };
+let assets = [], texIndex = [], choices = { version: 2, mesh: {}, texture: {}, custom: {}, fit: {}, display: {}, wish: {} };
 // All view: every other model (data/v2/catalog.json, loaded the first time All / Shortlist opens)
 let catalog = null, catalogLoading = null;
 let bodies = {}, fitBody = null;           // item fitting: race/sex bodies ('hum', 'orf', ...)
@@ -704,7 +704,7 @@ function retailNamedPanel(path, only, scale) {
     const box = document.createElement('div');
     box.className = 'pane';
     box.innerHTML = `<iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
-      <div class="info"><div class="h"><b>Retail remaster · ${esc(t[0].split('/').pop())}</b><span class="chip" title="Retail model, loaded live; converted to v264 the WarcraftXL way when picked">live from wago.tools</span>${t[6] ? `<span class="chip" title="Named after the creature or skin of display ${t[6].join(', ')}, not after this model: offered on ${t[6].length > 1 ? 'those displays' : 'that display'} only">${only && (t[7] || []).includes(+only) ? 'linked by you' : 'creature name'} · ${t[6].length > 3 ? t[6].length + ' displays' : 'display ' + t[6].join(', ')}</span>` : ''}<span class="chip warn" title="${nm.rule ? 'Retail moved these displays to this model' : 'Found by name'}: shown in ${t[2] ? `retail's commonest look (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'own textures')}, ${look[1]} of ${t[2]} retail displays)` : `a skin from its folder (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'none')}): no retail display uses this model`}. Pick skins and geosets in the Display editor.">${nm.rule ? 'remaster' : 'by name'}</span></div>
+      <div class="info"><div class="h"><b>Retail remaster · ${esc(t[0].split('/').pop())}</b><span class="chip" title="Retail model, loaded live; converted to v264 the WarcraftXL way when picked">live from wago.tools</span>${t[6] ? `<span class="chip" title="Named after the creature or skin of display ${t[6].join(', ')}, not after this model: offered on ${t[6].length > 1 ? 'those displays' : 'that display'} only">${only && (t[7] || []).includes(+only) ? 'picked in search' : 'creature name'} · ${t[6].length > 3 ? t[6].length + ' displays' : 'display ' + t[6].join(', ')}</span>` : ''}<span class="chip warn" title="${nm.rule ? 'Retail moved these displays to this model' : 'Found by name'}: shown in ${t[2] ? `retail's commonest look (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'own textures')}, ${look[1]} of ${t[2]} retail displays)` : `a skin from its folder (${esc(look[0].filter(Boolean).map(skinName).join(' + ') || 'none')}): no retail display uses this model`}. Pick skins and geosets in the Display editor.">${nm.rule ? 'remaster' : 'by name'}</span></div>
       <div class="stats" data-live>loading…</div>
       <div class="stats">model: ${esc(t[0])}</div>
       <div class="stats">${missing.length ? `<span class="chip bad" title="Animations the classic model has and this one lacks: creatures using them play nothing">missing ${missing.length}: ${esc(missing.map(animName).join(', '))}</span>` : '<span class="chip ok">no classic animation missing</span>'}
@@ -772,7 +772,7 @@ async function save(kind, key, entry, optionKey, extra = {}, nav = true) {
     const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
                      display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
     merged[kind][key] = pick;
     if (kind === 'display') groupTargets(key).forEach(od => {
       const oe = assets.find(a => a.tab === 'display' && a.display === od);
@@ -828,7 +828,7 @@ async function saveDisplays(items) {
     const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
     const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
+                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
     const at = new Date().toISOString();
     items.forEach(([d, opt]) => {
       const o = optionsOf(d);
@@ -843,33 +843,17 @@ async function saveDisplays(items) {
   } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
   render(); openItem(cur);
 }
-// models linked to one display from "Search all models" (choices `lead` {display: {paths: [retail], models: [3.3.5], at}}).
-// Usable at once: a retail model is dressed in the browser (retail_sets.json + its own file from wago.tools), a
-// stock / pack model from the creator catalogue; the viewer deploy later bakes the retail ones into retail.json too
-async function saveLead(did, path, kind, on) {
-  const status = $('save');
-  status.className = ''; status.textContent = on ? 'linking model…' : 'unlinking model…';
-  try {
-    const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
-    const lead = { ...(latest.lead || {}), ...(choices.lead || {}) };
-    const k = String(did), cur = lead[k] || {};
-    const ps = (cur.paths || []).filter(x => !(kind === 'retail' && x === path)), md = (cur.models || []).filter(x => !(kind !== 'retail' && x === path));
-    if (on) (kind === 'retail' ? ps : md).push(path);
-    if (ps.length || md.length) lead[k] = { paths: ps, ...(md.length ? { models: md } : {}), at: new Date().toISOString() }; else delete lead[k];
-    const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
-                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead };
-    const headers = { 'Content-Type': 'application/json' };
-    if (pickerKey) headers['X-Picker-Key'] = pickerKey;
-    const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
-    if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
-    choices = merged;
-    status.className = 'ok'; status.textContent = on ? `${path.split('/').pop()} linked to display ${did}` : 'unlinked';
-    return true;
-  } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return false; }
-}
+// "Search all models": the model picked is the editor's model, nothing is saved until Save edit. A retail model is
+// dressed in the browser (retail_sets.json + its own file from wago.tools); a stock / pack model comes from the creator
+// catalogue. A saved retail edit on a model the deploy does not offer is rebuilt the same way when it reopens.
+const _picked = {};                                   // this session's picks per display: {paths: [retail], models: [3.3.5 / pack]}
 const _leadTried = new Set();
-const leadOf = (did) => (choices.lead || {})[String(did)] || {};
+function leadOf(did) {
+  const k = String(did), sp = _picked[k] || {}, b = ((choices.custom || {})[k] || {}).base || {};
+  const paths = [...(sp.paths || [])], fdids = { ...(sp.fdids || {}) };
+  if ((b.sources || []).includes('retail') && b.option) { if (!paths.includes(b.option)) paths.push(b.option); if (b.fdid) fdids[b.option] = b.fdid; }
+  return { paths, models: sp.models || [], fdids };
+}
 let rsets = null, rsetsLoading = null;
 function loadRsets() {
   if (!rsetsLoading) rsetsLoading = fetch('data/v2/retail_sets.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
@@ -951,7 +935,7 @@ async function ensureLeads(did) {
   for (const p of leadOf(did).paths || []) {
     let nm = namedFor(sm);
     if (nm && nm.targets.some(t => t[0] === p && targetFor(t, did))) continue;
-    const fd = retailFdOf(p) || await allModelsPool().then(pool => (pool.find(m => m.kind === 'retail' && m.path === p) || {}).fdid || 0);
+    const fd = leadOf(did).fdids[p] || retailFdOf(p) || await allModelsPool().then(pool => (pool.find(m => m.kind === 'retail' && m.path === p) || {}).fdid || 0);
     if (!fd) continue;
     if (!nm) nm = (retailIdx.named = retailIdx.named || {})[sm] = { rule: false, stock_anims: [], displays: [[+did, [], ['', '', '']]], targets: [] };
     const t = nm.targets.find(x => x[0] === p);
@@ -1017,7 +1001,9 @@ function openModelSearch(c) {
     const b = ev.target.closest('[data-mi]'); if (!b) return;
     const m = all[+b.dataset.mi]; if (!m) return;
     more.textContent = `loading ${m.path.split('/').pop()}…`;
-    if (!await saveLead(c.display, m.path, m.kind, true)) return;
+    const sp = _picked[String(c.display)] = _picked[String(c.display)] || { paths: [], models: [], fdids: {} };
+    if (m.kind === 'retail') { if (!sp.paths.includes(m.path)) sp.paths.push(m.path); sp.fdids[m.path] = m.fdid; }
+    else if (!sp.models.includes(m.path)) sp.models.push(m.path);
     _leadTried.delete(+c.display);
     close();
     if (m.kind === 'retail') {
@@ -1027,7 +1013,7 @@ function openModelSearch(c) {
       return openCustom_(c.display, false, { retail: { model: sm, ti, si: 0 } });
     }
     const pn = leadPane(m.m);
-    openCustom_(c.display, false, viaOf(pn, `${m.label} · linked`));
+    openCustom_(c.display, false, viaOf(pn, `${m.label} · searched`));
   });
   ov.querySelector('[data-cq]').focus();
 }
@@ -1042,7 +1028,7 @@ async function saveWish(e, on) {
     else delete wish[e.path];
     const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
+                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish };
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
     const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
@@ -1857,7 +1843,7 @@ async function saveFit(path, fit) {
     const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
                      display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
     if (fit) merged.fit[path] = { ...fit, at: new Date().toISOString() }; else delete merged.fit[path];
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
@@ -2128,12 +2114,7 @@ function openCustom(c) {
   const mi = c.retail ? models.findIndex(m => m.kind === 'retail' && m.ti === c.retail.ti)
     : Math.max(0, models.findIndex(m => m.kind === 'pane' && base && m.pane.option === base.option && m.pane.model === base.model));
   ctl += `<label>Model<select id="cs-model">${models.map((m, i) => `<option value="${i}"${i === mi ? ' selected' : ''}>${esc(m.label)}</option>`).join('')}</select></label>`;
-  if (!c.isNew) {
-    // models linked from Search all models: each is in the Model list above, usable at once
-    const lk = [...(leadOf(c.display).paths || []).map(x => [x, 'retail']), ...(leadOf(c.display).models || []).map(x => [x, 'model'])];
-    ctl += `<div class="row"><button id="cs-msearch" title="Search every creature model (3.3.5, packs and retail) by path, creature name or keyword, with thumbnails, and put this display on it">Search all models…</button></div>` +
-      (lk.length ? `<div class="note">Linked: ${lk.map(([x, k]) => `<b>${esc(x.split('/').pop())}</b> (${k === 'retail' ? 'retail' : '3.3.5 / pack'}) <a href="#" data-unlink="${esc(x)}" data-uk="${k}">unlink</a>`).join(' · ')}</div>` : '');
-  }
+  if (!c.isNew) ctl += `<div class="row"><button id="cs-msearch" title="Search every creature model (3.3.5, packs and retail) by path, creature name or keyword, with thumbnails; the one picked becomes this editor's model, saved with Save edit">Search all models…</button></div>`;
   if (c.retail) {
     const t = namedFor(c.retail.model).targets[c.retail.ti], sets = t[3] || [], groupsR = t[5] || {};
     const skinName = (fd) => fd ? String(((retailIdx.names || {})[String(fd)]) || fd).split('/').pop().replace(/\.blp$/, '') : '(none)';
@@ -2278,8 +2259,6 @@ function openCustom(c) {
     preview();
   };
   if ($('cs-msearch')) $('cs-msearch').onclick = () => openModelSearch(c);
-  document.querySelectorAll('#panes [data-unlink]').forEach(a => { a.onclick = async (ev) => { ev.preventDefault();
-    if (await saveLead(c.display, a.dataset.unlink, a.dataset.uk, false)) openCustom_(c.display, false); }; });
   // a different model = a different editor (its own groups, slots, skin sets)
   $('cs-model').onchange = (ev) => {
     const m = models[+ev.target.value];
@@ -2367,7 +2346,7 @@ async function saveCustom(did, pick) {
     const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
                      display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead: { ...(latest.lead || {}), ...(choices.lead || {}) } };
+                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
     [did, ...groupTargets(did)].forEach(d => { if (pick) merged.custom[String(d)] = { ...pick, ...(d !== +did ? { group_of: +did } : {}) }; else delete merged.custom[String(d)]; });
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
@@ -2457,11 +2436,11 @@ function relevantModels(did, cur) {
   const out = [];
   (d ? d.panes : []).forEach(p => out.push({ kind: 'pane', pane: p, label: `${p.model.split('/').pop()} · ${label(p.sources)}${p.remaster ? ' · community remaster' : ''}` }));
   (leadOf(did).models || []).forEach(p => { const m = creator && creator.by.get(p);
-    if (m && !out.some(x => x.kind === 'pane' && x.pane.model === p)) out.push({ kind: 'pane', pane: leadPane(m), label: `${p.split('/').pop()} · ${m[1]} · linked` }); });
+    if (m && !out.some(x => x.kind === 'pane' && x.pane.model === p)) out.push({ kind: 'pane', pane: leadPane(m), label: `${p.split('/').pop()} · ${m[1]} · searched` }); });
   if (cur && cur.base && !out.some(x => x.pane.option === cur.base.option && x.pane.model === cur.base.model))
     out.unshift({ kind: 'pane', pane: cur.base, label: `${String(cur.base.model).split('/').pop()} · ${label(cur.base.sources || [])}` });
   const sm = stockModelOf(did), nm = namedFor(sm);
-  if (nm) nm.targets.forEach((t, ti) => { if (targetFor(t, did)) out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (${(t[7] || []).includes(+did) ? 'linked' : t[6] ? 'creature name' : 'by name'}) · ${t[2]} retail displays` }); });
+  if (nm) nm.targets.forEach((t, ti) => { if (targetFor(t, did)) out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (${(t[7] || []).includes(+did) ? 'searched' : t[6] ? 'creature name' : 'by name'}) · ${t[2]} retail displays` }); });
   return out;
 }
 // look groups (deploy: same stock look AND same options): one decision for every member
@@ -2666,7 +2645,7 @@ window.addEventListener('message', (e) => {
     fetch('data/v2/mounts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
   ]);
   assets = a.assets; texIndex = t; customList = cu.displays;
-  if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {}, lead: c.lead || {} };
+  if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {} };
   repairRetailCollisions();
   const startLayer = new URLSearchParams(location.search).get('layer');
   if (Object.values(choices.custom || {}).some(v => v && v.new)) { await loadCreator(); addNewDisplays(); }
