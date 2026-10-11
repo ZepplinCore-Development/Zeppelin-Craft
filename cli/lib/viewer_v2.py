@@ -1121,6 +1121,47 @@ def riders(dep: 'Deployer', bd: Dict[str, dict], log: Callable = print) -> None:
     log(f'  riders: {sum(1 for b in bd.values() if b.get("rider"))} seated bodies ({n_new} baked)')
 
 
+def linked_riders(dep: 'Deployer', links: Dict[int, List[Tuple[str, int]]], log: Callable = print) -> dict:
+    """F-220: the riders the world DB puts on each mount display (creature X shows rider display R
+    and rides mount M), each seated in its Mount pose like the race bodies (lib/rider). The picker's
+    Rider toggle on M offers them first. -> {'bodies': {'d<R>': pane}, 'links': {M: [{code, creature,
+    display}]}}. The rider's weapons and helm/shoulder attachments are not seated (bare body)."""
+    cdi, cmd = dep.result['effective_dbc']
+    bd: Dict[str, dict] = {}
+    for rdid in sorted({r for rows in links.values() for _, r in rows}):
+        row = cdi.get(rdid)
+        mrow = cmd.get(int(row.get('model_id') or 0)) if row else None
+        path = ms.norm(str(mrow.get('model_path') or '')) if mrow else ''
+        if not path:
+            continue
+        o = dep.picks.mesh(path) or (dep.ix.meshes[path].options[0] if path in dep.ix.meshes else None)
+        if o is None:
+            stock = ms.stock_asset(path)
+            if stock is None:
+                continue
+            o = ai.Option('stock', ['stock'], {path: stock})
+        saved = dep.equipment.pop(rdid, None)
+        try:
+            pn = dep.pane(path, o, rdid)
+        finally:
+            if saved is not None:
+                dep.equipment[rdid] = saved
+        if pn:
+            pn.pop('items', None)
+            mvd._pane_cameras([pn])
+            pn['code'] = f'd{rdid}'
+            bd[pn['code']] = pn
+    riders(dep, bd, log)
+    bd = {k: v for k, v in bd.items() if v.get('rider')}
+    out: Dict[str, List[dict]] = {}
+    for mdid, rows in sorted(links.items()):
+        for cname, rdid in rows:
+            if f'd{rdid}' in bd:
+                out.setdefault(str(mdid), []).append({'code': f'd{rdid}', 'creature': cname, 'display': rdid})
+    log(f'  mount riders: {len(bd)} rider displays seated on {len(out)} mount displays')
+    return {'bodies': bd, 'links': out}
+
+
 def bodies(dep: 'Deployer') -> Dict[str, dict]:
     """One body pane per playable race/sex code ('hum', 'orf', ...): the most used NPC display
     of that race/sex with no helm and no shoulders, wearing the current body pick, no items."""
@@ -1455,6 +1496,59 @@ def retail_only(dep: 'Deployer', entries: List[dict], offered=()) -> List[list]:
         tab = tab_of(p)
         out.append([p, tab, fd, skins.get(fd, [0, 0, 0]) if tab == 'creature' else [0, 0, 0]])
     return out
+
+
+def publish_retail_sets(v2: Path, log: Callable = print) -> int:
+    """data/v2/retail_sets.json: what the Display editor needs to dress ANY retail creature model the moment it
+    is picked from "Search all models" (no deploy in between). DB2 only, no model downloads (~2 s):
+      {sets: {fdid: [[skins x3, displays, [[[[geoset index, value]], displays]]]]},   up to 40 sets, commonest first
+       thumb: {fdid: retail display id}  (Wowhead's webthumbs/npc render of that display),
+       folder: {fdid: [blp fdid]}         (models no retail display uses: their folder's textures),
+       names: {texture fdid: file stem}}
+    The browser reads the model's own geosets / animations / texture types straight from wago.tools and
+    translates the geoset pairs to 3.3.5 nibbles for that mesh (retail.to_335_nibbles, ported)."""
+    from collections import Counter
+    from lib import retail
+    by_path, by_id = retail.listfile()
+    retail.display_row(0)
+    by_m: Dict[int, List[int]] = {}
+    for did, (mf, _) in retail._cdi.items():
+        by_m.setdefault(mf, []).append(did)
+    cre = sorted({fd for p_, fd in by_path.items() if p_.startswith('creature/') and p_.endswith('.m2')})
+    blps: Dict[str, List[int]] = {}
+    for p_, fd in by_path.items():
+        if p_.startswith('creature/') and p_.endswith('.blp'):
+            blps.setdefault(p_.rsplit('/', 1)[0], []).append(fd)
+    sets, thumb, folder, tex = {}, {}, {}, set()
+    for fd in cre:
+        dids = sorted(by_m.get(fd, []))
+        if not dids:
+            fl = sorted(blps.get(by_id.get(fd, '').rsplit('/', 1)[0], []))[:60]
+            if fl:
+                folder[fd] = fl
+                tex.update(fl)
+            continue
+        by_set: Dict[tuple, Counter] = {}
+        first: Dict[tuple, int] = {}
+        for did in by_m[fd]:                           # retail's row order, as skin_sets_geo counts (ties)
+            t_ = tuple(retail._cdi[did][1][:3])
+            if not any(t_):
+                continue
+            by_set.setdefault(t_, Counter())[tuple(retail.geoset_data(did))] += 1
+            first.setdefault(t_, did)
+        # every raw geoset choice with its count: the browser translates them for the mesh FIRST, then takes the
+        # commonest (two raw choices can be one 3.3.5 look - wendigo2's 1604204 set)
+        rows = sorted(([list(k), sum(c.values()), [[[list(x) for x in g], n] for g, n in c.items()]] for k, c in by_set.items()),
+                      key=lambda x: (-x[1], x[0]))[:40]
+        sets[fd] = rows
+        thumb[fd] = first[tuple(rows[0][0])] if rows else dids[0]
+        for r_ in rows:
+            tex.update(x for x in r_[0] if x)
+    names = {f: by_id[f].rsplit('/', 1)[-1][:-4] for f in tex if f in by_id}
+    (v2 / 'retail_sets.json').write_text(json.dumps({'sets': sets, 'thumb': thumb, 'folder': folder, 'names': names},
+                                                    separators=(',', ':')))
+    log(f'  retail sets: {len(sets):,} retail creature models dressed, {len(folder):,} by folder (Search all models)')
+    return len(sets)
 
 
 def publish_retail_index(out_root: Path, assets: List[dict], log: Callable = print, dep_displays=None, dep=None) -> int:
@@ -2031,7 +2125,8 @@ def swap_v2(out_root: Path) -> None:
 
 def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, names: Dict,
               equipment: Dict, log: Callable = print, edits: Optional[dict] = None,
-              cnames: Optional[Dict[int, str]] = None) -> dict:
+              cnames: Optional[Dict[int, str]] = None,
+              mount_riders: Optional[Dict[int, List[Tuple[str, int]]]] = None) -> dict:
     dep = Deployer(result, ix, out_root, choices, names, equipment, log)
     global _SLOT_IX
     _SLOT_IX = ix                                     # _skin_slots reads through ix's MetaCache
@@ -2075,6 +2170,7 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     riders(dep, bd, log)
     (v2 / 'bodies.json').write_text(json.dumps(bd, separators=(',', ':')))
     log(f'  bodies: {len(bd)} race/sex bodies for item fitting')
+    (v2 / 'mountriders.json').write_text(json.dumps(linked_riders(dep, mount_riders or {}, log), separators=(',', ':')))
     (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
     cat = dep.catalog()
     try:
@@ -2109,6 +2205,10 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         publish_retail_index(out_root, assets + cat, log, dep.displays_of, dep)
     except Exception as ex:                                  # live retail is optional
         log(f'  retail (live): skipped - {ex}')
+    try:
+        publish_retail_sets(v2, log)
+    except Exception as ex:
+        log(f'  retail sets: skipped - {ex}')
     try:
         named_ = json.loads((v2 / 'retail.json').read_text()).get('named', {}) if (v2 / 'retail.json').exists() else {}
         ronly = retail_only(dep, assets + cat, {t[0] for n in named_.values() for t in n.get('targets', [])})

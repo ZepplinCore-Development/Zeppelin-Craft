@@ -1,16 +1,11 @@
--- F-220 prototype: Gurubashi Bat Rider as a troll NPC on a bat mount, replacing the
--- fused rider model (display 15303, Creature\FelBat\BatRider).
+-- F-220 test entry: 902201 "F-220 Test Bat Rider" = GM-spawn clone of Gurubashi Bat Rider
+-- 14750 (same ScriptName npc_batrider, trash mode for any entry not summoned by Jeklik).
+-- Unspawned; spawn with `.npc add 902201`. It is also the live DB link the F-216 picker
+-- reads to seat the real rider on the mount: creature 902201 = rider 900401 on mount 15303.
 --
--- TEST ENTRY ONLY: 902201 is a GM-spawn clone of 14750 (same ScriptName npc_batrider,
--- which runs in trash mode for any entry that is not Jeklik's summon). The live 14750
--- stays stock until the F-216 viewer shows rider-on-mount properly. To ship, move the
--- model/addon/type_flags rows below onto 14750 and set mount on its 8 spawn addons
--- (guids 49129 49130 49147 49154 49155 49167 49185 49189 have creature_addon rows,
--- which replace the template addon whole).
---
--- Rider = 4609 (Lau'Tiki): Character\Troll\Male, blue skin, bare chest, dark leather
---   legs, _HD bake shipped. Shipped TrollMale.m2 has the Mount anim (91) embedded.
--- Mount = 900401 (ZG brown taxi bat, zep-models dbc/[F-220]_creaturedisplayinfo.sql).
+-- Rider 900401 (zep-models dbc) ships now; mount 15303's bat repoint lives in the DISABLED
+-- zpak zep-mounted-npcs, so in game until that ships this troll sits on the fused BatRider.
+-- The ship-time 14750 rows are zep-mounted-npcs/sql/zz_[F-220]_gurubashi_bat_rider.sql.
 -- type_flags 8 (DO_NOT_PLAY_WOUND_ANIM) + 0x800 ALLOW_MOUNTED_COMBAT: without it
 --   Creature::AtEngage dismounts on pull.
 -- creature_template_model is read at startup only: worldserver restart.
@@ -77,7 +72,7 @@ DELETE FROM creature_template_model WHERE CreatureID = 902201;
 INSERT INTO creature_template_model SET
   CreatureID = 902201,
   Idx = 0,
-  CreatureDisplayID = 4609,
+  CreatureDisplayID = 900401,
   DisplayScale = 1,
   Probability = 1,
   VerifiedBuild = 0;
@@ -86,9 +81,18 @@ DELETE FROM creature_template_addon WHERE entry = 902201;
 INSERT INTO creature_template_addon SET
   entry = 902201,
   path_id = 0,
-  mount = 900401,
+  mount = 15303,
   bytes1 = 0,
   bytes2 = 1,
   emote = 0,
   visibilityDistanceType = 0,
   auras = NULL;
+
+-- rider display 900401 = copy of 4609's model info
+DELETE FROM creature_model_info WHERE DisplayID = 900401;
+INSERT INTO creature_model_info SET
+  DisplayID = 900401,
+  BoundingRadius = 0.306,
+  CombatReach = 1.5,
+  Gender = 0,
+  DisplayID_Other_Gender = 0;

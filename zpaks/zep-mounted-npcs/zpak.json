@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-mounted-npcs",
+  "version": "0.1.0",
+  "description": "F-220 mounted NPCs: fused rider models replaced by an NPC rider display on a mount display",
+  "author": "Zeppelin Team",
+  "type": "hybrid",
+  "contents": {
+    "patches": [
+      "patches/*.patch"
+    ],
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ]
+  },
+  "client_patch": "PATCH-Z",
+  "enabled": false,
+  "priority": 505
+}

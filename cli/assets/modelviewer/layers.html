@@ -120,6 +120,7 @@
   .wardhd { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 10px; border-bottom: 1px solid var(--line); }
   .wardhd input { flex: 1 1 200px; min-width: 0; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; }
   .wardarm { display: flex; gap: 4px; flex-wrap: wrap; } .wardarm button.on { background: var(--accent, #4c7dff); color: #fff; }
+  .nothumb { width: 96px; height: 96px; background: #111; border-radius: 4px; display: grid; place-items: center; color: var(--muted); font-size: 11px; }
   .wardgrid { flex: 1; overflow: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 6px; padding: 10px; align-content: start; }
   .wardtile { display: grid; justify-items: center; gap: 4px; padding: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; font-size: 10px; color: var(--muted); }
   .wardtile:hover { border-color: var(--good); } .wardtile canvas { width: 56px; height: 56px; image-rendering: auto; background: #111; border-radius: 4px; }
@@ -388,7 +389,25 @@ let assets = [], texIndex = [], choices = { version: 2, mesh: {}, texture: {}, c
 // All view: every other model (data/v2/catalog.json, loaded the first time All / Shortlist opens)
 let catalog = null, catalogLoading = null;
 let bodies = {}, fitBody = null;           // item fitting: race/sex bodies ('hum', 'orf', ...)
-let riderOn = false, riderCode = 'hum';
+let riderOn = false, riderCode = 'hum', raceRider = 'hum';
+// F-220: riders the world DB seats on a mount display (creature X = rider display R on mount M):
+// data/v2/mountriders.json {bodies: {'d<R>': body}, links: {M: [{code, creature, display}]}}
+let mountRiders = { bodies: {}, links: {} };
+const riderBody = (code) => ((mountRiders.bodies || {})[code] || bodies[code] || {}).rider;
+function linkedRiders(displays) {
+  const seen = new Set(), out = [];
+  displays.forEach(d => ((mountRiders.links || {})[d] || []).forEach(l => { if (!seen.has(l.code)) { seen.add(l.code); out.push(l); } }));
+  return out;
+}
+// the rider menu: the mount's own riders (from the DB) first and picked by default, then the race bodies
+function setRiderOptions(displays) {
+  const linked = linkedRiders(displays), rcodes = Object.keys(bodies).filter(k => bodies[k].rider);
+  if (linked.length) riderCode = linked.some(l => l.code === riderCode) ? riderCode : linked[0].code;
+  else if (!bodies[riderCode]) riderCode = raceRider;
+  $('ridercode').innerHTML = linked.map(l => `<option value="${l.code}"${l.code === riderCode ? ' selected' : ''}>${esc(`${l.creature} (rider ${l.display})`)}</option>`).join('')
+    + rcodes.map(k => `<option value="${k}"${k === riderCode ? ' selected' : ''}>${esc(codeName(k))}</option>`).join('');
+  return linked.length + rcodes.length;
+}
 let mountSet = new Map();                   // model -> [seat attachment, dx, dy, dz] (data/v2/mounts.json)
 let tab = 'creature', filter = 'todo', search = '', cur = null, view = [], texMode = '2d';
 const texChunks = {};
@@ -824,17 +843,19 @@ async function saveDisplays(items) {
   } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
   render(); openItem(cur);
 }
-// a retail model linked to one display by hand (choices `lead` {display: {paths, at}}): the viewer deploy
-// turns each into a per-display retail option with retail's skin sets and geosets, like a creature-name lead
-async function saveLead(did, path, on) {
+// models linked to one display from "Search all models" (choices `lead` {display: {paths: [retail], models: [3.3.5], at}}).
+// Usable at once: a retail model is dressed in the browser (retail_sets.json + its own file from wago.tools), a
+// stock / pack model from the creator catalogue; the viewer deploy later bakes the retail ones into retail.json too
+async function saveLead(did, path, kind, on) {
   const status = $('save');
   status.className = ''; status.textContent = on ? 'linking model…' : 'unlinking model…';
   try {
     const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
     const lead = { ...(latest.lead || {}), ...(choices.lead || {}) };
-    const k = String(did), ps = ((lead[k] || {}).paths || []).filter(x => x !== path);
-    if (on) ps.push(path);
-    if (ps.length) lead[k] = { paths: ps, at: new Date().toISOString() }; else delete lead[k];
+    const k = String(did), cur = lead[k] || {};
+    const ps = (cur.paths || []).filter(x => !(kind === 'retail' && x === path)), md = (cur.models || []).filter(x => !(kind !== 'retail' && x === path));
+    if (on) (kind === 'retail' ? ps : md).push(path);
+    if (ps.length || md.length) lead[k] = { paths: ps, ...(md.length ? { models: md } : {}), at: new Date().toISOString() }; else delete lead[k];
     const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
                      custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
                      display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) }, lead };
@@ -843,46 +864,171 @@ async function saveLead(did, path, on) {
     const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
     if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
     choices = merged;
-    status.className = 'ok'; status.textContent = on ? `linked ${path.split('/').pop()} to display ${did} · offered after the next viewer deploy` : 'unlinked';
+    status.className = 'ok'; status.textContent = on ? `${path.split('/').pop()} linked to display ${did}` : 'unlinked';
     return true;
   } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return false; }
 }
-// every retail creature model: the retail-only catalogue plus retail's files at 3.3.5 paths
-function retailCreatureModels() {
-  const out = new Map();
-  Object.entries(retailIdx.models || {}).forEach(([p, fd]) => { if (p.startsWith('creature/')) out.set(p, { path: p, fdid: fd, kw: '' }); });
-  Object.values(retailIdx.named || {}).forEach(n => (n.targets || []).forEach(t => { if (t[0].startsWith('creature/')) out.set(t[0], { path: t[0], fdid: t[1], kw: '' }); }));
-  (catalog || []).forEach(e => { if (e.retailOnly && e.path.startsWith('creature/')) out.set(e.path, { path: e.path, fdid: e.retailOnly, kw: e.kw || '' }); });
-  return [...out.values()].sort((a, b) => a.path.localeCompare(b.path));
+const _leadTried = new Set();
+const leadOf = (did) => (choices.lead || {})[String(did)] || {};
+let rsets = null, rsetsLoading = null;
+function loadRsets() {
+  if (!rsetsLoading) rsetsLoading = fetch('data/v2/retail_sets.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
+    .then(d => { rsets = { sets: d.sets || {}, thumb: d.thumb || {}, folder: d.folder || {}, names: d.names || {} };
+                 retailIdx.names = { ...(d.names || {}), ...(retailIdx.names || {}) }; return rsets; });
+  return rsetsLoading;
+}
+// a retail model's own file from wago.tools: {groups: {group: [variants]} of its first .skin, anims, texture types, TXID}
+// (retail.mesh_geosets / anim_ids / folder_skin_sets, ported)
+const _rmesh = {};
+function retailMesh(fd) {
+  const get = (id) => fetch(`https://wago.tools/api/casc/${id}?version=${encodeURIComponent(retailIdx.build || '')}`).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null);
+  return _rmesh[fd] = _rmesh[fd] || (async () => {
+    const out = { groups: {}, anims: [], types: [], txid: [] };
+    try {
+      const buf = await get(fd); if (!buf) return out;
+      const dv = new DataView(buf), tag = (o) => String.fromCharCode(...new Uint8Array(buf, o, 4));
+      let md = null, sfid = 0;
+      if (tag(0) === 'MD21') {
+        for (let o = 0; o + 8 <= buf.byteLength;) {
+          const t = tag(o), n = dv.getUint32(o + 4, true);
+          if (t === 'MD21') md = new DataView(buf, o + 8, n);
+          else if (t === 'SFID') sfid = dv.getUint32(o + 8, true);
+          else if (t === 'TXID') for (let k = 0; k < n / 4; k++) out.txid.push(dv.getUint32(o + 8 + 4 * k, true));
+          o += 8 + n;
+        }
+      } else md = dv;
+      if (md) {
+        const n = md.getUint32(0x1C, true), o = md.getUint32(0x20, true), ids = new Set();
+        for (let i = 0; i < n; i++) ids.add(md.getUint16(o + 0x40 * i, true));
+        out.anims = [...ids].sort((a, b) => a - b);
+        const tn = md.getUint32(0x50, true), to = md.getUint32(0x54, true);
+        for (let i = 0; i < tn; i++) out.types.push(md.getUint32(to + 16 * i, true));
+      }
+      const sk = sfid ? await get(sfid) : null;
+      if (sk && String.fromCharCode(...new Uint8Array(sk, 0, 4)) === 'SKIN') {
+        const sv = new DataView(sk), n = sv.getUint32(28, true), o = sv.getUint32(32, true), g = {};
+        for (let j = 0; j < n; j++) { const id = sv.getUint16(o + 48 * j, true); if (id >= 100 && id % 100) (g[Math.floor(id / 100)] = g[Math.floor(id / 100)] || new Set()).add(id % 100); }
+        Object.entries(g).forEach(([k, v]) => { out.groups[k] = [...v].sort((a, b) => a - b); });
+      }
+    } catch (e) { /* a model wago cannot serve: no geosets / anims */ }
+    return out;
+  })();
+}
+// retail geoset pairs -> 3.3.5 nibbles for this mesh (retail.to_335_nibbles): a group retail leaves unset is hidden
+function to335(pairs, mesh) {
+  const vals = {}; (pairs || []).forEach(([i, v]) => { vals[i + 1] = v; });
+  const out = [0, 0, 0, 0, 0, 0, 0, 0];
+  Object.entries(mesh || {}).forEach(([g, vs]) => { g = +g; if (g < 1 || g > 8) return;
+    const v = vals[g] || 0; out[g - 1] = vs.includes(v) ? v : ([...Array(15).keys()].map(x => x + 1).find(x => !vs.includes(x)) || 0); });
+  return out;
+}
+// the retail.json target row of a linked retail model (viewer_v2.named_remaster_index's layout)
+async function buildRetailTarget(path, fd, did) {
+  const R = await loadRsets(), mm = await retailMesh(fd), raw = R.sets[fd] || [];
+  // per set: retail's geoset choices translated for this mesh, then the commonest (Python's Counter order on ties)
+  const pick = (vs) => { const c = new Map(); vs.forEach(([pairs, n]) => { const k = to335(pairs, mm.groups).join(); c.set(k, (c.get(k) || 0) + n); });
+    let best = null; c.forEach((n, k) => { if (!best || n > best[1]) best = [k, n]; }); return best ? best[0].split(',').map(Number) : to335([], mm.groups); };
+  let sets = raw.map(([sk, n, vs]) => [sk, n, pick(vs)]);
+  if (!sets.length) {
+    const slot = mm.types.map(t => t - 11).find(t => t >= 0 && t <= 2);
+    if (slot !== undefined) sets = (R.folder[fd] || []).filter(f => !mm.txid.includes(f)).map(f => { const sk = [0, 0, 0]; sk[slot] = f; return [sk, 0, to335([], mm.groups)]; });
+  }
+  const groups = {};
+  const add = (g, v) => { (groups[g] = groups[g] || new Set()).add(v); };
+  raw.forEach(([, , vs]) => vs.forEach(([pairs]) => pairs.forEach(([i, v]) => { if (v && i < 8 && v < 16) add(i + 1, v); })));
+  Object.entries(mm.groups).forEach(([g, vs]) => vs.forEach(v => add(+g, v)));
+  Object.keys(groups).forEach(g => { groups[g] = [...groups[g]].sort((a, b) => a - b); });
+  return [path, fd, raw.reduce((a, x) => a + x[1], 0), sets, mm.anims, groups, [+did], [+did]];
+}
+// retail links not in retail.json yet (linked since the last deploy): built here and joined to the display's targets
+const retailFdOf = (p) => (retailIdx.models || {})[p] || (rsets && rsets.paths ? rsets.paths[p] : 0) || ((catalog || []).find(e => e.retailOnly && e.path === p) || {}).retailOnly || 0;
+function leadsMissing(did) {
+  const sm = stockModelOf(did), nm = namedFor(sm);
+  return (leadOf(did).paths || []).some(p => !(nm && nm.targets.some(t => t[0] === p && targetFor(t, did))));
+}
+async function ensureLeads(did) {
+  const sm = stockModelOf(did) || `display:${+did}`;
+  for (const p of leadOf(did).paths || []) {
+    let nm = namedFor(sm);
+    if (nm && nm.targets.some(t => t[0] === p && targetFor(t, did))) continue;
+    const fd = retailFdOf(p) || await allModelsPool().then(pool => (pool.find(m => m.kind === 'retail' && m.path === p) || {}).fdid || 0);
+    if (!fd) continue;
+    if (!nm) nm = (retailIdx.named = retailIdx.named || {})[sm] = { rule: false, stock_anims: [], displays: [[+did, [], ['', '', '']]], targets: [] };
+    const t = nm.targets.find(x => x[0] === p);
+    if (t) { t[6].push(+did); t[7] = [...(t[7] || []), +did]; continue; }
+    nm.targets.push(await buildRetailTarget(p, fd, did));
+  }
+}
+// a stock / pack model from the creator catalogue as an option card of this display
+function leadPane(m) {
+  const [path, , pane, groups, slots, tk] = m;
+  const dflt = ((((custSets || {})[tk] || [])[0] || [])[0] || ['', '', '']).slice();
+  return { ...pane, model: pane.model || path, cust: { groups: groups || {}, slots: slots || [] }, tex_key: tk, skin_names: dflt, linked: true };
+}
+// every model a display can be put on: the creator catalogue (stock + pack creature models) and every retail creature model
+let _pool = null;
+function allModelsPool() {
+  if (!_pool) _pool = Promise.all([loadCreator(), loadRsets(), (ensureCatalog(), catalogLoading || Promise.resolve()), loadCustTex()]).then(() => {
+    const kw = {}; assets.forEach(a => { if (a.tab === 'creature' && a.kw) kw[a.path] = a.kw; });
+    const out = creator.models.map(m => ({ kind: 'model', path: m[0], label: m[1], names: m[6] || [], kw: (kw[m[0]] || '') + ' ' + (m[6] || []).join(' '),
+                                           thumb: (m[2] || {}).display || 0, m }));
+    const seen = new Set();
+    const addR = (p, fd, k) => { if (seen.has(p) || !p.startsWith('creature/')) return; seen.add(p);
+      out.push({ kind: 'retail', path: p, label: 'retail', names: [], kw: k || '', fdid: fd, thumb: rsets.thumb[fd] || 0 }); };
+    (catalog || []).forEach(e => { if (e.retailOnly) addR(e.path, e.retailOnly, e.kw); });
+    Object.values(retailIdx.named || {}).forEach(n => (n.targets || []).forEach(t => addR(t[0], t[1], '')));
+    Object.entries(retailIdx.models || {}).forEach(([p, fd]) => addR(p, fd, kw[p] || ''));
+    rsets.paths = Object.fromEntries(out.filter(x => x.kind === 'retail').map(x => [x.path, x.fdid]));
+    return out;
+  });
+  return _pool;
 }
 function openModelSearch(c) {
-  ensureCatalog();
-  let q = '';
+  let q = '', shown = 0, all = [];
   const ov = document.createElement('div'); ov.className = 'wardov';
-  ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b>Link a retail model to display ${c.display}</b><input placeholder="search retail creature models (path or keyword)" data-cq>
-    <button data-cx>close</button></div><div class="creatorlist"></div><div class="wardmore"></div></div>`;
+  ov.innerHTML = `<div class="wardbox"><div class="wardhd"><b>Model for display ${c.display}</b><span class="wardarm"><button class="on" data-mk="">All</button><button data-mk="model">3.3.5 + packs</button><button data-mk="retail">Retail</button></span>
+    <input placeholder="search every creature model (path, creature name, keyword)" data-cq><button data-cx>close</button></div>
+    <div class="wardgrid"></div><div class="wardmore">loading every model…</div></div>`;
   document.body.append(ov);
-  const list = ov.querySelector('.creatorlist'), more = ov.querySelector('.wardmore');
-  const linked = new Set(((choices.lead || {})[String(c.display)] || {}).paths || []);
-  const draw = () => {
-    const all = retailCreatureModels(), ws = q.split(/\s+/).filter(Boolean);
-    const hit = all.filter(m => !ws.length || ws.every(w => (m.path + ' ' + m.kw).toLowerCase().includes(w)));
-    list.innerHTML = hit.slice(0, 300).map(m => `<button class="crow" data-lp="${esc(m.path)}"><b>${esc(m.path.split('/').pop())}${linked.has(m.path) ? ' · linked' : ''}</b>
-      <span>${esc(m.path)} · fdid ${m.fdid}</span><span><a href="?layer=creature&path=${encodeURIComponent(m.path)}" target="_blank" data-pv>preview in a new tab</a></span></button>`).join('');
-    more.textContent = (catalog ? '' : 'loading the retail catalogue… · ') + (hit.length > 300 ? `300 of ${hit.length.toLocaleString()} - narrow the search` : `${hit.length.toLocaleString()} models`);
+  const grid = ov.querySelector('.wardgrid'), more = ov.querySelector('.wardmore');
+  let kind = '';
+  const draw = (reset) => {
+    if (reset) {
+      const ws = q.split(/\s+/).filter(Boolean);
+      all = (window._allPool || []).filter(m => (!kind || m.kind === kind) && (!ws.length || ws.every(w => (m.path + ' ' + m.kw).toLowerCase().includes(w))));
+      grid.innerHTML = ''; shown = 0; grid.scrollTop = 0;
+    }
+    const add = all.slice(shown, shown + 240); shown += add.length;
+    // Wowhead's 3D snapshot of a display wearing the model (retail's render: a 3.3.5 model shows its retail look)
+    grid.insertAdjacentHTML('beforeend', add.map((m, i) => `<button class="wardtile" data-mi="${shown - add.length + i}" title="${esc(m.path)}${m.names.length ? ' · ' + esc(m.names.join(', ')) : ''}${m.thumb ? ` · thumbnail: Wowhead's retail render of display ${m.thumb}` : ''}">
+      ${m.thumb ? `<img loading="lazy" src="https://wow.zamimg.com/modelviewer/live/webthumbs/npc/${m.thumb % 256}/${m.thumb}.webp" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'nothumb',textContent:'no thumbnail'}))">` : '<div class="nothumb">no thumbnail</div>'}
+      <span><b>${esc(m.path.split('/').pop())}</b><br>${esc(m.kind === 'retail' ? 'retail' : m.label)}${m.names.length ? ' · ' + esc(m.names[0]) : ''}</span></button>`).join(''));
+    more.textContent = shown < all.length ? `${shown.toLocaleString()} of ${all.length.toLocaleString()} - scroll for more` : `${all.length.toLocaleString()} models`;
   };
-  if (catalogLoading) catalogLoading.then(draw);
+  allModelsPool().then(pool => { window._allPool = pool; draw(true); });
+  grid.addEventListener('scroll', () => { if (grid.scrollTop + grid.clientHeight > grid.scrollHeight - 300) draw(false); });
   let tq = null;
-  ov.querySelector('[data-cq]').oninput = (ev) => { clearTimeout(tq); tq = setTimeout(() => { q = ev.target.value.trim().toLowerCase(); draw(); }, 150); };
+  ov.querySelector('[data-cq]').oninput = (ev) => { clearTimeout(tq); tq = setTimeout(() => { q = ev.target.value.trim().toLowerCase(); draw(true); }, 200); };
+  ov.querySelectorAll('[data-mk]').forEach(b => { b.onclick = () => { kind = b.dataset.mk; ov.querySelectorAll('[data-mk]').forEach(x => x.classList.toggle('on', x === b)); draw(true); }; });
   const close = () => ov.remove();
   ov.querySelector('[data-cx]').onclick = close;
   ov.addEventListener('click', async (ev) => {
     if (ev.target === ov) return close();
-    if (ev.target.closest('[data-pv]')) return;                  // the preview link opens its own tab
-    const b = ev.target.closest('[data-lp]'); if (!b) return;
-    if (await saveLead(c.display, b.dataset.lp, true)) { close(); openCustom(c); }
+    const b = ev.target.closest('[data-mi]'); if (!b) return;
+    const m = all[+b.dataset.mi]; if (!m) return;
+    more.textContent = `loading ${m.path.split('/').pop()}…`;
+    if (!await saveLead(c.display, m.path, m.kind, true)) return;
+    _leadTried.delete(+c.display);
+    close();
+    if (m.kind === 'retail') {
+      await ensureLeads(c.display);
+      const sm = stockModelOf(c.display) || `display:${c.display}`, nm = namedFor(sm);
+      const ti = nm.targets.findIndex(t => t[0] === m.path && targetFor(t, c.display));
+      return openCustom_(c.display, false, { retail: { model: sm, ti, si: 0 } });
+    }
+    const pn = leadPane(m.m);
+    openCustom_(c.display, false, viaOf(pn, `${m.label} · linked`));
   });
-  draw();
   ov.querySelector('[data-cq]').focus();
 }
 async function saveWish(e, on) {
@@ -1087,7 +1233,7 @@ function paneUrl(p, extra = {}) {
   // fused rider models (batrider, alliancerider: the rider is part of the mesh) get no second rider
   const fused = isFusedRider(p.model);   // rider already in the mesh (not mechastrider / tallstrider)
   // only models used as mounts: attachment 0 on a humanoid is its shield, not a saddle
-  const rb = riderOn && !fused && mountSet.has(p.model) && bodies[riderCode] && bodies[riderCode].rider;
+  const rb = riderOn && !fused && mountSet.has(p.model) && riderBody(riderCode);
   if (rb) {
     const [sa, sx, sy, sz] = mountSet.get(p.model);
     items.push({ a: sa, m: `rider/${riderCode}.m2`, t: '', fit: sx || sy || sz ? { dx: sx, dy: sy, dz: sz, scale: 1 } : undefined });
@@ -1182,11 +1328,9 @@ function fitPanel(e) {
 function openAsset(e) {
   cur = e;
   resetAnims();
-  const rcodes = Object.keys(bodies).filter(k => bodies[k].rider);
-  $('riderbox').hidden = (e.tab !== 'creature' && e.tab !== 'display') || !rcodes.length
+  const nRiders = setRiderOptions([e.display, ...(e.panes || []).map(p => p.display)].filter(Boolean));
+  $('riderbox').hidden = (e.tab !== 'creature' && e.tab !== 'display') || !nRiders
     || !(e.panes || []).some(p => mountSet.has(p.model) && !isFusedRider(p.model)) || isFusedRider(e.path);
-  if (rcodes.length && !$('ridercode').options.length)
-    $('ridercode').innerHTML = rcodes.map(k => `<option value="${k}"${k === riderCode ? ' selected' : ''}>${esc(codeName(k))}</option>`).join('');
   const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
   $('title').textContent = e.id;          // shortlist: the star on the list row; edits: each card's Edit
   $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
@@ -1960,7 +2104,7 @@ function openCustom(c) {
   editViewFor = c.display;
   cur = c;
   { const bm = (c.base || {}).model || c.path || '';
-    $('riderbox').hidden = !mountSet.has(bm) || isFusedRider(bm) || !Object.keys(bodies).some(k => bodies[k].rider); }
+    $('riderbox').hidden = !mountSet.has(bm) || isFusedRider(bm) || !setRiderOptions([c.display].filter(Boolean)); }
   const base = c.base || meshPaneOf(c.path);
   if (!base && !catalog) {                           // load the catalogue once, then draw the preview
     ensureCatalog();
@@ -1985,11 +2129,10 @@ function openCustom(c) {
     : Math.max(0, models.findIndex(m => m.kind === 'pane' && base && m.pane.option === base.option && m.pane.model === base.model));
   ctl += `<label>Model<select id="cs-model">${models.map((m, i) => `<option value="${i}"${i === mi ? ' selected' : ''}>${esc(m.label)}</option>`).join('')}</select></label>`;
   if (!c.isNew) {
-    // retail models linked by hand: the next viewer deploy builds their skin sets and adds them to the list above
-    const lk = ((choices.lead || {})[String(c.display)] || {}).paths || [];
-    const ready = new Set(models.filter(m => m.kind === 'retail').map(m => namedFor(m.model).targets[m.ti][0]));
-    ctl += `<div class="row"><button id="cs-msearch" title="Search every retail creature model and link one to this display">Search all retail models…</button></div>` +
-      (lk.length ? `<div class="note">Linked: ${lk.map(x => `<b>${esc(x.split('/').pop())}</b> ${ready.has(x) ? '(in the Model list)' : '(added to the Model list by the next viewer deploy)'} <a href="#" data-unlink="${esc(x)}">unlink</a>`).join(' · ')}</div>` : '');
+    // models linked from Search all models: each is in the Model list above, usable at once
+    const lk = [...(leadOf(c.display).paths || []).map(x => [x, 'retail']), ...(leadOf(c.display).models || []).map(x => [x, 'model'])];
+    ctl += `<div class="row"><button id="cs-msearch" title="Search every creature model (3.3.5, packs and retail) by path, creature name or keyword, with thumbnails, and put this display on it">Search all models…</button></div>` +
+      (lk.length ? `<div class="note">Linked: ${lk.map(([x, k]) => `<b>${esc(x.split('/').pop())}</b> (${k === 'retail' ? 'retail' : '3.3.5 / pack'}) <a href="#" data-unlink="${esc(x)}" data-uk="${k}">unlink</a>`).join(' · ')}</div>` : '');
   }
   if (c.retail) {
     const t = namedFor(c.retail.model).targets[c.retail.ti], sets = t[3] || [], groupsR = t[5] || {};
@@ -2136,7 +2279,7 @@ function openCustom(c) {
   };
   if ($('cs-msearch')) $('cs-msearch').onclick = () => openModelSearch(c);
   document.querySelectorAll('#panes [data-unlink]').forEach(a => { a.onclick = async (ev) => { ev.preventDefault();
-    if (await saveLead(c.display, a.dataset.unlink, false)) openCustom(c); }; });
+    if (await saveLead(c.display, a.dataset.unlink, a.dataset.uk, false)) openCustom_(c.display, false); }; });
   // a different model = a different editor (its own groups, slots, skin sets)
   $('cs-model').onchange = (ev) => {
     const m = models[+ev.target.value];
@@ -2316,6 +2459,8 @@ function relevantModels(did, cur) {
   if (cur && cur.base && !out.some(x => x.pane.option === cur.base.option && x.pane.model === cur.base.model))
     out.unshift({ kind: 'pane', pane: cur.base, label: `${String(cur.base.model).split('/').pop()} · ${label(cur.base.sources || [])}` });
   const sm = stockModelOf(did), nm = namedFor(sm);
+  (leadOf(did).models || []).forEach(p => { const m = creator && creator.by.get(p);
+    if (m && !out.some(x => x.kind === 'pane' && x.pane.model === p)) out.push({ kind: 'pane', pane: leadPane(m), label: `${p.split('/').pop()} · ${m[1]} · linked` }); });
   if (nm) nm.targets.forEach((t, ti) => { if (targetFor(t, did)) out.push({ kind: 'retail', ti, model: sm, label: `${t[0].split('/').pop()} · retail (${(t[7] || []).includes(+did) ? 'linked' : t[6] ? 'creature name' : 'by name'}) · ${t[2]} retail displays` }); });
   return out;
 }
@@ -2349,6 +2494,7 @@ function displayEntry(did) {
 }
 const closeDrawer = () => $('side').classList.remove('open');      // phones: a jump lands on the item, not the list
 async function openDisplay(did, push = true) {
+  if (leadsMissing(did)) await ensureLeads(did);
   const d = displayEntry(did);
   if (d.standin && !d.panes.length && !d.looked) {
     const sp = await loadCustStock(+did);
@@ -2360,6 +2506,12 @@ async function openDisplay(did, push = true) {
   openItem(d); render(); closeDrawer();
 }
 function openCustom_(did, push = true, via = null) {
+  // links made since the last deploy: dress them first (retail from wago, 3.3.5 / pack from the creator catalogue)
+  if (!_leadTried.has(+did) && (leadsMissing(did) || ((leadOf(did).models || []).length && (!creator || !custSets)))) {
+    _leadTried.add(+did);                            // once: a link wago cannot serve must not loop
+    $('panes').innerHTML = '<div class="empty">loading the linked models…</div>';
+    return Promise.all([ensureLeads(did), loadCreator(), loadCustTex()]).then(() => openCustom_(did, push, via));
+  }
   const saved_ = choices.custom[String(+did)];
   if (!via && saved_ && saved_.base && (saved_.base.sources || []).includes('retail')) {
     const sm = stockModelOf(+did), nm = namedFor(sm);
@@ -2444,7 +2596,7 @@ $('filters').onclick = (ev) => {
 $('search').oninput = (ev) => { search = ev.target.value.trim().toLowerCase(); render(); };
 $('simw').onchange = (ev) => { similar = ev.target.checked; render(); };
 $('rider').onchange = (ev) => { riderOn = ev.target.checked; if (cur && !Array.isArray(cur)) openItem(cur); };
-$('ridercode').onchange = (ev) => { riderCode = ev.target.value; if (riderOn && cur && !Array.isArray(cur)) openItem(cur); };
+$('ridercode').onchange = (ev) => { riderCode = ev.target.value; if (bodies[riderCode]) raceRider = riderCode; if (riderOn && cur && !Array.isArray(cur)) openItem(cur); };
 $('list').onclick = (ev) => {
   const q = ev.target.closest('.q'); if (!q) return;
   if (ev.target.closest('[data-star]')) {                // the shortlist star: toggle, don't open
@@ -2510,6 +2662,7 @@ window.addEventListener('message', (e) => {
     fetch('data/v2/customise.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : { displays: [] }).catch(() => ({ displays: [] })),
     fetch('data/v2/bodies.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(b => { bodies = b; }),
     fetch('data/v2/retail.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(r => { retailIdx = r || {}; }),
+    fetch('data/v2/mountriders.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) mountRiders = m; }),
     fetch('data/v2/mounts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
   ]);
   assets = a.assets; texIndex = t; customList = cu.displays;

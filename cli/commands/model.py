@@ -7,7 +7,7 @@ Commands:
     zep model shift <dir> --race DR --scale 0.9 --dz -0.1  Scale + shift
 """
 
-from typing import Dict, List
+from typing import Dict, List, Tuple
 import re
 from pathlib import Path
 
@@ -461,6 +461,26 @@ _SHOWN_CTM = ("(ctm.Probability > 0 OR NOT EXISTS (SELECT 1 FROM creature_templa
               "WHERE x.CreatureID = ctm.CreatureID AND x.Idx <> ctm.Idx AND x.Probability > 0))")
 
 
+def _mount_riders() -> Dict[int, List[Tuple[str, int]]]:
+    """F-220: {mount display: [(creature name, rider display)]} - creature X shows display R and rides
+    mount M (creature_template_addon.mount, or a spawn's creature_addon.mount), so the picker's Rider
+    toggle on M can seat R itself instead of a generic race body."""
+    from commands.sql import run_mysql_query
+    ok, rows = run_mysql_query(
+        "SELECT a.mount, ct.name, ctm.CreatureDisplayID FROM creature_template_addon a "
+        "JOIN creature_template ct ON ct.entry = a.entry JOIN creature_template_model ctm ON ctm.CreatureID = a.entry "
+        "WHERE a.mount > 0 AND " + _SHOWN_CTM + " UNION "
+        "SELECT a.mount, ct.name, ctm.CreatureDisplayID FROM creature_addon a JOIN creature c ON c.guid = a.guid "
+        "JOIN creature_template ct ON ct.entry = c.id JOIN creature_template_model ctm ON ctm.CreatureID = c.id "
+        "WHERE a.mount > 0 AND " + _SHOWN_CTM)
+    out: Dict[int, List[Tuple[str, int]]] = {}
+    for line in (rows.splitlines()[1:] if ok else []):
+        mount, name, rider = line.split('\t')
+        if (name, int(rider)) not in out.setdefault(int(mount), []):
+            out[int(mount)].append((name, int(rider)))
+    return out
+
+
 def _world_context():
     """Creature names per display and the weapons the most-spawned creature carries."""
     from commands.sql import run_mysql_query
@@ -663,7 +683,8 @@ def _model_viewer_run(ctx, rebuild_index, reuse_index):
         live.append((int(cid), int(idx), int(did), float(sc)))
         cnames[int(cid)] = cname
     edits = creature_edits(live, craft_root) if live else {}
-    stats = deploy_v2(result, ix, out, choices, names, equipment, log=click.echo, edits=edits, cnames=cnames)
+    stats = deploy_v2(result, ix, out, choices, names, equipment, log=click.echo, edits=edits, cnames=cnames,
+                      mount_riders=_mount_riders())
     from lib.model_viewer_deploy import publish_page
     # ONE picker: the layered page is /modelviewer/ itself (the old display-based page is retired)
     for f in ('layers.html', 'pane.html', 'blp.js'):
