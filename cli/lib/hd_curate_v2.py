@@ -273,7 +273,7 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     report['display_picks'] = len(display_picks)
     from lib import repoint_complete as rc
     comp = rc.completions(result)
-    rem = rc.community_remasters(result)               # remaster options picked per display
+    rem = rc.remaster_options(result)                  # remaster options picked per display (+ modular)
     report.setdefault('retail_displays', [])
     report.setdefault('retail_display_failed', [])
     customs = choices.get('custom') or {}

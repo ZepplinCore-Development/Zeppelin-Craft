@@ -1,4 +1,4 @@
--- I-392: split-armour HD dragonspawn (Creature\dragonspawn2split, built by model_transforms.json).
+-- I-392: split-armour HD dragonspawn (Creature\dragonspawn2_modular, built by model_transforms.json).
 -- Values from stock dragonspawn model 47, which zep-hd-curated points at retail dragonspawn2
 -- (model_scale 0.95 as curated sets it).
 
@@ -6,7 +6,7 @@ DELETE FROM creaturemodeldata WHERE id = 900205;
 INSERT INTO creaturemodeldata SET
     id = 900205,
     flags = 0,
-    model_path = 'Creature\\dragonspawn2split\\dragonspawn2split.mdx',
+    model_path = 'Creature\\dragonspawn2_modular\\dragonspawn2_modular.mdx',
     size_class = 1,
     model_scale = 0.95,
     blood_id = 1,

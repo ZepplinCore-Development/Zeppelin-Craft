@@ -145,3 +145,75 @@ def community_remasters(result: dict) -> Dict[str, Dict[int, Dict[str, dict]]]:
                     '_moved': len(sibs),
                 }
     return out
+
+
+MODULAR = '_modular'
+GEO = 'creature_geoset_data'
+
+
+def modular_parent(path: str) -> str:
+    """creature/<dir>_modular/<name>_modular.m2 -> creature/<dir>/<name>.m2 (I-392), else ''."""
+    m = re.fullmatch(r'(creature/[^/]+)' + MODULAR + r'/([^/]+)' + MODULAR + r'\.m2', path)
+    return f'{m.group(1)}/{m.group(2)}.m2' if m else ''
+
+
+def modular_variants(result: dict) -> Dict[str, Dict[int, Dict[str, dict]]]:
+    """Modular rebuilds of a model (I-392, zep-modular-models): a pack model named
+    creature/<dir>_modular/<name>_modular.m2 is the parent creature/<dir>/<name>.m2 rebuilt for
+    part-by-part dressing (split armour geosets), offered on every named display that has the
+    parent as an option: a source points the display at it or at another model in its folder, or
+    retail's remaster of the display's stock model is it (retail.named_remasters: dragonspawn ->
+    dragonspawn2).
+        {source: {display id: {modular path: row}}}, the shape of community_remasters().
+    The row comes from the pack's own template display on the model (its model row, skins,
+    geoset data); a skin colour named in the display's own skins (DragonSpawnSkinBlue) swaps in
+    the folder's skin of that colour. The display keeps its own scale. An option only."""
+    from lib import retail
+    stock_cdi, stock_cmd = result['stock_dbc']
+    out: Dict[str, Dict[int, Dict[str, dict]]] = {}
+    for s in result['sources']:
+        cdi, cmd = getattr(s, 'cdi', None) or {}, getattr(s, 'cmd', None) or {}
+        for path in sorted(p for p in (getattr(s, 'assets', None) or {}) if modular_parent(p)):
+            parent = modular_parent(path)
+            mids = [mid for mid, m in cmd.items() if ms.norm(str(m.get('model_path') or '')) == path]
+            tmpl = next((r for did, r in sorted(cdi.items()) if did not in stock_cdi
+                         and int(r.get('model_id') or 0) in mids), None)
+            if tmpl is None:
+                continue                                   # no display of its own to copy a look from
+            folder = path.rsplit('/', 1)[0]
+            skins = {p.rsplit('/', 1)[1][:-4] for p in s.assets if p.startswith(folder + '/') and p.endswith('.blp')}
+            colours = sorted({n.rsplit('_', 1)[1] for n in skins if '_' in n}, key=lambda c: -len(c))
+            stock_on = {p for p in {_path(stock_cmd, r) for r in stock_cdi.values()} if p}
+            pd, pn = parent.rsplit('/', 1)                 # by-name remasters extend the stock dir and stem
+            hit = {p for p in stock_on if pd.startswith(p.rsplit('/', 1)[0]) and pn.startswith(p.rsplit('/', 1)[1][:-3])
+                   and parent in [t for t, _ in retail.named_remasters(p)]}
+            for did, base in stock_cdi.items():
+                rows = [base] + [getattr(x, 'cdi', {}).get(did) for x in result['sources']]
+                rows = [r for r in rows if r]
+                # a source moving the display into the parent's folder counts too: packs keep retail's
+                # folder (dragonspawnarmored -> creature/dragonspawn2/dragonspawn2armored.m2), as
+                # retail.folder_remasters reads it
+                if _path(stock_cmd, base) not in hit and not any(
+                        (_path(getattr(x, 'cmd', None) or {}, r) or _path(stock_cmd, r)).rsplit('/', 1)[0] == pd
+                        for x in result['sources'] for r in [getattr(x, 'cdi', {}).get(did)] if r):
+                    continue
+                words = ' '.join(str(r.get(k) or '') for r in rows for k in TEX).lower()
+                c = next((c for c in colours if c in words), None)
+                row = {'model_id': int(tmpl.get('model_id') or 0), GEO: int(tmpl.get(GEO) or 0),
+                       SCALE: float(base.get(SCALE) or 1), '_moved': 0, '_modular': parent}
+                for k in TEX:
+                    n = str(tmpl.get(k) or '')
+                    if c and '_' in n and f'{n.rsplit("_", 1)[0]}_{c}' in skins:
+                        n = f'{n.rsplit("_", 1)[0]}_{c}'
+                    row[k] = n
+                out.setdefault(s.name, {}).setdefault(did, {})[path] = row
+    return out
+
+
+def remaster_options(result: dict) -> Dict[str, Dict[int, Dict[str, dict]]]:
+    """community_remasters() plus modular_variants(): every per-display remaster option."""
+    out = community_remasters(result)
+    for sn, by in modular_variants(result).items():
+        for did, opts in by.items():
+            out.setdefault(sn, {}).setdefault(did, {}).update(opts)
+    return out
