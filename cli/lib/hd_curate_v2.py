@@ -148,8 +148,9 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         if 'retail' in o.sources:
             continue
         for did in by_mesh.get(mesh, []):
-            base = layers.state('creaturedisplayinfo', 'base').get((did,))
-            if not base:
+            # brow, not base: `base` is today's winner manifest, which the manifest step below starts from
+            brow = layers.state('creaturedisplayinfo', 'base').get((did,))
+            if not brow:
                 continue
             # the first of the option's packs whose row names skins that exist (a broken row is skipped)
             fold = mesh.rsplit('/', 1)[0] + '/'
@@ -167,10 +168,10 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
                 continue
             # skins AND geosets (wendigo2: patch-hd-everything's 801 hides Spaceslam's face parts)
             ks = [f'texture_variation_{i}' for i in (1, 2, 3)]
-            if [str(orow.get(k) or '').lower() for k in ks] == [str(base.get(k) or '').lower() for k in ks] and \
-                    int(orow.get('creature_geoset_data') or 0) == int(base.get('creature_geoset_data') or 0):
+            if [str(orow.get(k) or '').lower() for k in ks] == [str(brow.get(k) or '').lower() for k in ks] and \
+                    int(orow.get('creature_geoset_data') or 0) == int(brow.get('creature_geoset_data') or 0):
                 continue
-            new = dict(wanted_rows.get(('creaturedisplayinfo', (did,))) or base)
+            new = dict(wanted_rows.get(('creaturedisplayinfo', (did,))) or brow)
             for k in ks:
                 new[k] = orow.get(k) or ''
             new['creature_geoset_data'] = int(orow.get('creature_geoset_data') or 0)
