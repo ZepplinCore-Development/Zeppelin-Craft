@@ -1,0 +1,36 @@
+From 0ecd07e6ab226c817ad43844e92ccdf4c6c48ec8 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 11 Oct 2026 00:42:34 +0000
+Subject: [PATCH] fix: hold the cast lock until SPELL_GO/FAILURE, not the
+ announced cast time (F-219)
+
+Pushback from being hit lengthens the cast bar; the lock ran out at the announced time and the mage's
+next cast hit SPELL_IN_PROGRESS ~200 times a run. A 3 s safety net covers a lost packet.
+(The priest's Smite BAD_TARGETS is one per kill - the last Smite landing on a dead target - harmless.)
+Queued for the next fleet restart.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01SQmFdwZBdZ1kNkYTTF4JNJ
+---
+ zeppelin/modules/combat/main.go | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 195aea2..2b81500 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -235,7 +235,10 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		r.U32()
+ 		if ms := r.U32(); r.Err() == nil && ms > 0 {
+ 			if unit == me {
+-				s.selfCastUntil = time.Now().Add(time.Duration(ms)*time.Millisecond + 150*time.Millisecond)
++				// held until SPELL_GO / FAILURE ends it: being hit pushes the cast bar back, so the
++				// announced time ran out early and the next cast hit SPELL_IN_PROGRESS (mage: ~200 a run).
++				// 3 s on top is only a safety net for a lost packet
++				s.selfCastUntil = time.Now().Add(time.Duration(ms)*time.Millisecond + 3*time.Second)
+ 			} else {
+ 				s.casting[unit] = time.Now().Add(time.Duration(ms) * time.Millisecond)
+ 			}
+-- 
+2.34.1
+
