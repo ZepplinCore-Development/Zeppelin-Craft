@@ -473,6 +473,15 @@ def _world_context():
     for line in rows.splitlines()[1:]:
         did, name = line.split('\t')
         names.setdefault(int(did), []).append(name)
+    # displays NPCs ride (addon mount, F-220): named after the rider, so a search for the creature finds its mount
+    ok, m_rows = run_mysql_query(
+        "SELECT a.mount, ct.name FROM creature_template_addon a JOIN creature_template ct ON ct.entry = a.entry "
+        "WHERE a.mount > 0 UNION SELECT a.mount, ct.name FROM creature_addon a JOIN creature c ON c.guid = a.guid "
+        "JOIN creature_template ct ON ct.entry = c.id WHERE a.mount > 0")
+    for line in (m_rows.splitlines()[1:] if ok else []):
+        did, name = line.split('\t')
+        if f'{name} (mount)' not in names.setdefault(int(did), []):
+            names[int(did)].append(f'{name} (mount)')
     ok, eq_rows = run_mysql_query(
         "SELECT ctm.CreatureDisplayID, ct.name, (SELECT COUNT(*) FROM creature c WHERE c.id = ct.entry) AS n, "
         "COALESCE(i1.displayid, 0), COALESCE(i1.class, 0), COALESCE(i1.subclass, 0), "
