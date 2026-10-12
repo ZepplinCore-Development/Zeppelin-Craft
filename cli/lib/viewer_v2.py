@@ -306,7 +306,7 @@ class Deployer:
         if hit is not None and stock_only:
             self._publish(key, hit)                            # stock files never change: no re-resolve
             self.reused += 1
-            return copy.deepcopy(hit['pane'])
+            return _sized(copy.deepcopy(hit['pane']), opt)
         if hit is not None:
             f = Finder(self.picks, {path: opt})
             ok = True
@@ -318,7 +318,7 @@ class Deployer:
             if ok:
                 self._publish(key, hit)
                 self.reused += 1
-                return copy.deepcopy(hit['pane'])
+                return _sized(copy.deepcopy(hit['pane']), opt)
         return self._build_pane(path, opt, did, tex_override, dbc_source, key, skins, row_over, stock_only)
 
     def _geosets_of(self, sk) -> set:
@@ -1261,6 +1261,17 @@ def reuses_display(stock_path: str, path: str, ext, stock_paths: set) -> bool:
     return not (a in b or b in a or len(os.path.commonprefix([a, b])) >= 4)
 
 
+def _sized(pn: dict, opt) -> dict:
+    """A cached pane from before its option had a size (stock fallback cards) gets it now."""
+    if opt.size and not pn.get('size'):
+        pn['size'] = opt.size
+        if isinstance(pn.get('stats'), dict):
+            pn['stats']['mb'] = round(opt.size / 1048576, 2)
+            if opt.meta.get('version') and not pn['stats'].get('version'):
+                pn['stats']['version'] = opt.meta['version']
+    return pn
+
+
 def _m2_size(f) -> int:
     """A fallback option's size the way the index counts it: the .m2 plus its .skin and .anim
     files beside it (a single-option stock model has no index option, so its card showed none)."""
@@ -2091,16 +2102,22 @@ def customise_extras(dep: 'Deployer', custom: List[dict], v2: Path, log: Callabl
     stock_cdi, stock_cmd = dep.result['stock_dbc']
     chunks: Dict[int, Dict[str, dict]] = {}
     n = 0
+    eff_cdi, eff_cmd = dep.result['effective_dbc']
     for e in custom:
         did = e['display']
         row = stock_cdi.get(did)
-        mrow = stock_cmd.get(int(row.get('model_id') or 0)) if row else None
+        own = row is None                             # our own display (9xxxxx): no stock row, so its own row
+        if own:                                       # on the stock model file is its reference look
+            row = eff_cdi.get(did)
+        mrow = (eff_cmd.get(int(row.get('model_id') or 0)) or stock_cmd.get(int(row.get('model_id') or 0)) if own
+                else stock_cmd.get(int(row.get('model_id') or 0))) if row else None
         sp = ms.norm(str((mrow or {}).get('model_path') or '')).replace('.mdx', '.m2')
         f = ms.stock_asset(sp) if sp else None
         if f is None:
             continue
         try:
-            pn = dep.pane(sp, ai.Option('stock:' + sp[-24:], ['stock'], {sp: f}), did, dbc_source='stock', stock_only=True)
+            pn = dep.pane(sp, ai.Option('stock:' + sp[-24:], ['stock'], {sp: f}), did,
+                          dbc_source=None if own else 'stock', stock_only=True)
         except Exception:
             pn = None
         if pn:
