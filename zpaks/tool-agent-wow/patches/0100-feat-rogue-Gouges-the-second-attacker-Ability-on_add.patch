@@ -1,0 +1,142 @@
+From 71532e9fa79344efdc2fa5e34a5458994937c610 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 19:36:54 +0000
+Subject: [PATCH] feat: rogue Gouges the second attacker (Ability on_add)
+ (F-219)
+
+- Ability on_add: cast on another live attacker in melee reach, never the
+  kill target, only when one exists (faces it for the cast)
+- rogue: Gouge (1776) on the add every 10 s - 4 s out of the fight
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 16 +++++++++++---
+ zeppelin/modules/combat/combat.proto     |  2 ++
+ zeppelin/modules/combat/main.go          | 27 +++++++++++++++++++++++-
+ zeppelin/tests/start_area.py             |  3 +++
+ 4 files changed, 44 insertions(+), 4 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 817d2d5..5205164 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -45,7 +45,9 @@ type Ability struct {
+ 	MinPowerPct  uint32 `protobuf:"varint,15,opt,name=min_power_pct,json=minPowerPct,proto3" json:"min_power_pct,omitempty"`    // skip below this % of our max mana; 0 = no floor
+ 	DotMs        uint32 `protobuf:"varint,16,opt,name=dot_ms,json=dotMs,proto3" json:"dot_ms,omitempty"`                        // a DoT's duration: not applied (or refreshed) on a target expected to die
+ 	// within half of it - a 15 s DoT on a mob with 5 s left is wasted mana
+-	MinCombo      uint32 `protobuf:"varint,17,opt,name=min_combo,json=minCombo,proto3" json:"min_combo,omitempty"` // a finisher (Eviscerate): only with this many combo points on the target -
++	MinCombo uint32 `protobuf:"varint,17,opt,name=min_combo,json=minCombo,proto3" json:"min_combo,omitempty"` // a finisher (Eviscerate): only with this many combo points on the target -
++	// or with any once the target is about to die (< 4 s) or we are losing
++	OnAdd         bool `protobuf:"varint,18,opt,name=on_add,json=onAdd,proto3" json:"on_add,omitempty"` // cast on ANOTHER live attacker in melee reach, never the kill target (Gouge:
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -199,6 +201,13 @@ func (x *Ability) GetMinCombo() uint32 {
+ 	return 0
+ }
+ 
++func (x *Ability) GetOnAdd() bool {
++	if x != nil {
++		return x.OnAdd
++	}
++	return false
++}
++
+ type KillRequest struct {
+ 	state       protoimpl.MessageState `protogen:"open.v1"`
+ 	Guid        uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+@@ -913,7 +922,7 @@ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+-	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x83\x04\n" +
++	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x9a\x04\n" +
+ 	"\aAbility\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x19\n" +
+ 	"\bevery_ms\x18\x02 \x01(\rR\aeveryMs\x12\x1b\n" +
+@@ -933,7 +942,8 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x0emax_per_target\x18\x0e \x01(\rR\fmaxPerTarget\x12\"\n" +
+ 	"\rmin_power_pct\x18\x0f \x01(\rR\vminPowerPct\x12\x15\n" +
+ 	"\x06dot_ms\x18\x10 \x01(\rR\x05dotMs\x12\x1b\n" +
+-	"\tmin_combo\x18\x11 \x01(\rR\bminCombo\"\xcb\x03\n" +
++	"\tmin_combo\x18\x11 \x01(\rR\bminCombo\x12\x15\n" +
++	"\x06on_add\x18\x12 \x01(\bR\x05onAdd\"\xcb\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 74ee9a9..c1c87a4 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -28,6 +28,8 @@ message Ability {
+                               // within half of it - a 15 s DoT on a mob with 5 s left is wasted mana
+   uint32 min_combo = 17;      // a finisher (Eviscerate): only with this many combo points on the target -
+                               // or with any once the target is about to die (< 4 s) or we are losing
++  bool on_add = 18;           // cast on ANOTHER live attacker in melee reach, never the kill target (Gouge:
++                              // incapacitate the second mob while we kill the first); skipped with none
+ }
+ 
+ message KillRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 2ad2c61..10d3cbe 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -788,6 +788,31 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 		if p := a.GetBelowHealthPct(); p > 0 && st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() >= p {
+ 			continue
+ 		}
++		if a.GetOnAdd() {
++			// a second attacker in melee reach (not the one we are killing): Gouge it out of the fight
++			if time.Since(lastCast[a.GetSpellId()]) < every {
++				continue
++			}
++			for _, g := range live {
++				if g == guid {
++					continue
++				}
++				u, err := s.unit(ctx, g)
++				if err != nil || u == nil || u.GetHealth() == 0 || distance(me, u.GetX(), u.GetY(), u.GetZ()) > 5 {
++					continue
++				}
++				var face movev1.Position // Gouge needs it in front of us; the next tick faces the target again
++				_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: u.GetX(), Y: u.GetY()}, &face)
++				if err := s.castAt(ctx, a.GetSpellId(), g); err != nil {
++					return err
++				}
++				lastCast[a.GetSpellId()] = time.Now()
++				res.Casts++
++				res.Spells = append(res.Spells, a.GetSpellId())
++				return nil
++			}
++			continue
++		}
+ 		if a.GetPerTarget() {
+ 			// the target first, then every other attacker in melee reach - one cast a tick
+ 			for _, g := range append([]uint64{guid}, live...) {
+@@ -939,7 +964,7 @@ func (s *service) comboOK(a *combatv1.Ability, guid uint64, hp uint32, losing bo
+ func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfState, guid uint64, hp uint32,
+ 	losing bool, lastCast map[uint32]time.Time, lastOn map[[2]uint64]time.Time) bool {
+ 	for _, a := range req.GetAbilities() {
+-		if a.GetOnSelf() || a.GetItemId() != 0 || a.GetOnWeapon() || a.GetInterrupt() || a.GetBuff() {
++		if a.GetOnSelf() || a.GetItemId() != 0 || a.GetOnWeapon() || a.GetInterrupt() || a.GetBuff() || a.GetOnAdd() {
+ 			continue
+ 		}
+ 		if st.GetPower() < a.GetMinPower() || !s.thriftOK(a, st, guid, losing) || !s.dotWorth(a, guid, hp) {
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index d096b5b..cd61e2a 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -132,6 +132,9 @@ CLASS_ABILITIES = {
+         {"spell_id": 5277, "every_ms": 300000, "on_self": True, "min_attackers": 2},          # Evasion (pack)
+         {"spell_id": 5277, "every_ms": 300000, "on_self": True, "below_health_pct": 50},      # Evasion (losing)
+         {"spell_id": 1766, "every_ms": 10000, "min_power": 25, "interrupt": True},            # Kick
++        # Gouge (level 6) the SECOND mob: 4 s out of the fight while we kill the first (it breaks on
++        # damage - nothing of ours hits it; it rejoins and Gouge is up again 10 s later)
++        {"spell_id": 1776, "every_ms": 10000, "min_power": 45, "on_add": True},               # Gouge
+         # the finisher first, gated on combo points (SMSG_UPDATE_COMBO_POINTS): 3 on the target, or any
+         # once it is about to die / we are losing - on a 10 s timer it failed NO_COMBO_POINTS 45x a run
+         {"spell_id": 2098, "every_ms": 1000, "min_power": 35, "min_combo": 3},                # Eviscerate
+-- 
+2.34.1
+
