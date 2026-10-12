@@ -78,8 +78,10 @@
   .pane > .actions { flex: none; display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 10px; border-top: 1px solid var(--line); }
   .pane > .actions .row { display: flex; gap: 6px; flex: 1 1 100%; }
   .grpbox { font-size: 12px; color: var(--muted); display: flex; gap: 5px; align-items: center; }
-  #grpbar, #modelbar { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
-  #modelbar a { color: var(--good); }
+  #ctxbar .sep { opacity: .5; }
+  #ctxbar { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); padding: 2px 2px 0; }
+  #ctxbar a { color: var(--good); }
+  body:not(.showhelp) #help { display: none; }
   .pane > .ptitle .dettog { margin-left: auto; font-size: 11px; padding: 2px 8px; background: none; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); cursor: pointer; }
   .pane.nodet > .info { display: none; }
   .pane > .info { overflow-y: auto; overflow-x: hidden; }
@@ -204,6 +206,7 @@
       <label id="riderbox" class="simw" hidden title="Seat a character on mounts (attachment 0) to compare seat positions"><input type="checkbox" id="rider"> rider <select id="ridercode"></select></label>
       <select id="anim" title="Animation (all panes)"><option value="0">Stand (0)</option></select>
       <button id="resetcam" title="Reset all views">Reset views</button>
+      <button id="helptog" title="Show or hide this layer's explanation">?</button>
       <span id="save"></span>
     </div>
     <div class="help" id="help"></div>
@@ -1133,6 +1136,7 @@ function render() {
     (isCust ? '<button data-newdisp title="Wire up a new display id (highest + 1) on any creature model, then dress it here">+ New display</button>' : '');
   const nb = $('filters').querySelector('[data-newdisp]'); if (nb) nb.onclick = (ev) => { ev.stopPropagation(); openCreator(); };
   $('help').textContent = tab === 'display' ? HELP.display : HELP[fk];
+  $('title').title = $('help').textContent;
   $('mode').hidden = !isTex;
   if (isCust) {
     const num = /^\d+$/.test(search);
@@ -1587,21 +1591,22 @@ function openAsset(e) {
       save(kindOf(e), keyOf(e), e, 'retail', { file_option: 'retail', file_sources: ['retail'], displays });
     };
   }
+  // the context bar, one row: whose pick decides this display (its model's card unless picked here) and
+  // who shares its look; the long explanations are tooltips
+  const ctx = [];
   if (e.tab === 'display' && e.panes.length && modelDecides(e)) {
-    // the model bar: this display follows its model's card (Creatures / Characters tab) unless overridden here
     const mp = e.panes[0].model, mt = (byPath[mp] || {}).tab || 'creature', vm = viaModel(e), own = pickOf(e);
-    const ml = `<a href="?layer=${mt}&path=${encodeURIComponent(mp)}">${esc(mp)}</a>`;
-    $('panes').insertAdjacentHTML('afterbegin', own
-      ? `<div id="modelbar"><span class="chip ok">picked here</span><span>This display's own pick (${own.option === 'custom' ? 'our edit' : esc(label(own.sources || []))}) overrides the card on ${ml}.</span></div>`
-      : `<div id="modelbar">${vm ? '<span class="chip ok">via model pick</span>' : '<span class="chip warn">model not picked yet</span>'}
-      <span>${vm ? 'Decided by the pick' : 'Decided by the pick, still to make,'} on ${ml}${vm ? ` (green box: ${esc(label(vm.sources || []))})` : ''}. Use this on a card here to override it for this display only.</span></div>`);
+    const ml = `<a href="?layer=${mt}&path=${encodeURIComponent(mp)}" title="${esc(mp)}">${esc(mp.split('/').pop())}</a>`;
+    ctx.push(own
+      ? `<span class="chip ok" title="This display's own pick (${own.option === 'custom' ? 'our edit' : esc(label(own.sources || []))}) overrides the card on ${esc(mp)}">picked here</span><span>overrides ${ml}</span>`
+      : vm ? `<span class="chip ok" title="Decided by the pick on ${esc(mp)} (green box: ${esc(label(vm.sources || []))}). Use this on a card here to override it for this display only.">via model pick</span><span>${ml}</span>`
+      : `<span class="chip warn" title="Decided by the pick, still to make, on ${esc(mp)}. Use this on a card here to override it for this display only.">model not picked yet</span><span>${ml}</span>`);
   }
   if (e.tab === 'display' && e.look_group) {
-    // the group bar: who shares this exact look and options, and whether a pick applies to all of them
     const others = e.look_group.filter(x => x !== e.display);
-    $('panes').insertAdjacentHTML('afterbegin', `<div id="grpbar"><span class="chip warn">same look ×${e.look_group.length}</span>
-      <span>same stock look and options as display${others.length > 1 ? 's' : ''} ${others.slice(0, 12).join(', ')}${others.length > 12 ? '…' : ''}</span>${groupBox(e.display)}</div>`);
+    ctx.push(`<span class="chip warn" title="Same stock look and options as display${others.length > 1 ? 's' : ''} ${others.slice(0, 40).join(', ')}${others.length > 40 ? '…' : ''}">same look ×${e.look_group.length}</span>${groupBox(e.display)}`);
   }
+  if (ctx.length) $('panes').insertAdjacentHTML('afterbegin', `<div id="ctxbar">${ctx.join('<span class="sep">·</span>')}</div>`);
   render();
   fitPanes();
 }
@@ -1681,7 +1686,7 @@ function sectionise(c) {
 function groupBox(did) {
   const g = groupOf(did);
   if (!g) return '';
-  return `<label class="grpbox"><input type="checkbox" data-grp${groupApply ? ' checked' : ''}> apply to all ${g.length} same-look displays</label>`;
+  return `<label class="grpbox" title="A pick here is saved on all ${g.length} same-look displays"><input type="checkbox" data-grp${groupApply ? ' checked' : ''}> apply to all ${g.length}</label>`;
 }
 document.addEventListener('change', (ev) => { if (ev.target.matches && ev.target.matches('input[data-grp]')) {
   groupApply = ev.target.checked; document.querySelectorAll('input[data-grp]').forEach(x => { x.checked = groupApply; }); } });
@@ -2607,6 +2612,9 @@ $('list').onclick = (ev) => {
   if (innerWidth <= 760) { $('side').classList.remove('open'); scrollTo({ top: 0 }); }   // phones: the model, full screen
 };
 $('mode').onclick = () => { texMode = texMode === '3d' ? '2d' : '3d'; if (Array.isArray(cur)) openTexture(cur); };
+// the layer's explanation line: hidden unless asked for (the title's tooltip carries it too)
+try { if (localStorage.getItem('mv.help') === '1') document.body.classList.add('showhelp'); } catch (e) {}
+$('helptog').onclick = () => { const on = document.body.classList.toggle('showhelp'); try { localStorage.setItem('mv.help', on ? '1' : '0'); } catch (e) {} fitPanes(); };
 $('resetcam').onclick = () => document.querySelectorAll('.pane iframe').forEach(f => f.contentWindow && f.contentWindow.postMessage({ type: 'resetcam' }, '*'));
 // animation menu: the union of every open pane's animations, applied to all panes
 let animNames = {}, animSets = new Map();   // pane window -> its animation ids
