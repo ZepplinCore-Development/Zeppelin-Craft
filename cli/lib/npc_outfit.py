@@ -44,30 +44,140 @@ FUSED = {'batrider.m2', 'alliancerider.m2', 'alliancerider2.m2', 'horderider.m2'
          'mountedknight.m2', 'mounteddemonknight.m2', 'terongorefiend_mounted.m2', 'felorcnetherdrakemounted.m2',
          'orcdrakerider.m2', 'tauren_mountedcanoe.m2', 'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2'}
 # their rider's skin (classic character layout): an M2 texture stem, or a display slot index
-# (0..2 = texture_variation_1..3) when the display skins the rider; race, sex
-RIDERS = {'batrider.m2': ('trollbatriderskin', 'Troll', 'male'),
-          'alliancerider.m2': ('wildhammerheavy', 'Dwarf', 'male'),
-          'horderider.m2': ('leather_horde_a_02', 'Orc', 'male'),
-          'orcdrakerider.m2': ('orcdrakeriderskin', 'Orc', 'male'),
-          'felorcnetherdrakemounted.m2': ('felorcmaledrakeriderskin', 'Fel orc', 'male'),
-          'terongorefiend_mounted.m2': ('terongorefiend1', 'Teron Gorefiend (race not checked)', 'male'),
-          'gnomerocketcar.m2': ('gnomepounderpilotskin_yellow_01', 'Gnome', 'male'),
-          'gnomespidertank.m2': (1, 'Gnome', 'male'), 'gnomepounder.m2': (1, 'Gnome', 'male'),
-          'mountedknight.m2': (1, 'Human', 'male'), 'mounteddemonknight.m2': (1, 'Human', 'male'),
-          'mounteddeathknight.m2': (2, 'Human', 'male'), 'mounteddeathknight_korthazz.m2': (2, 'Human', 'male'),
-          'mounteddeathknight_mograine.m2': (2, 'Human', 'male'), 'mounteddeathknight_zeliek.m2': (2, 'Human', 'male'),
-          'mounteddeathknight_blaumeux.m2': (2, 'Human', 'female'),
-          'tauren_mountedcanoe.m2': ('taurenmaleskin', 'Tauren', 'male')}
+# (0..2 = texture_variation_1..3) when the display skins the rider; race (Character/ folder), sex
+RIDERS = {'batrider.m2': ('trollbatriderskin', 'troll', 'male'),
+          'alliancerider.m2': ('wildhammerheavy', 'dwarf', 'male'),
+          'horderider.m2': ('leather_horde_a_02', 'orc', 'male'),
+          'orcdrakerider.m2': ('orcdrakeriderskin', 'orc', 'male'),
+          'felorcnetherdrakemounted.m2': ('felorcmaledrakeriderskin', 'orc', 'male'),
+          'terongorefiend_mounted.m2': ('terongorefiend1', 'human', 'male'),
+          'gnomerocketcar.m2': ('gnomepounderpilotskin_yellow_01', 'gnome', 'male'),
+          'gnomespidertank.m2': (1, 'gnome', 'male'), 'gnomepounder.m2': (1, 'gnome', 'male'),
+          'mountedknight.m2': (1, 'human', 'male'), 'mounteddemonknight.m2': (1, 'human', 'male'),
+          'mounteddeathknight.m2': (2, 'human', 'male'), 'mounteddeathknight_korthazz.m2': (2, 'human', 'male'),
+          'mounteddeathknight_mograine.m2': (2, 'human', 'male'), 'mounteddeathknight_zeliek.m2': (2, 'human', 'male'),
+          'mounteddeathknight_blaumeux.m2': (2, 'human', 'female'),
+          'tauren_mountedcanoe.m2': ('taurenmaleskin', 'tauren', 'male')}
 # 3D pieces named by a fused model's textures: InventoryType -> slot
 INV_3D = {1: 'Helm', 3: 'Shoulders', 13: 'Weapon', 17: 'Weapon', 21: 'Weapon', 22: 'Off hand', 14: 'Shield',
           23: 'Off hand', 15: 'Ranged', 26: 'Ranged', 25: 'Ranged', 16: 'Cape'}
+RACES = ['bloodelf', 'draenei', 'dwarf', 'gnome', 'goblin', 'human', 'nightelf', 'orc', 'scourge', 'tauren', 'troll',
+         'worgen', 'naga_', 'broken', 'skeleton', 'vrykul', 'tuskarr', 'foresttroll', 'taunka', 'northrendskeleton',
+         'icetroll']
+ORDER = ['Shirt', 'Chest', 'Legs', 'Belt', 'Boots', 'Wrists', 'Gloves', 'Tabard']   # bake order (belt after legs)
+
+
+def race_sex(path: str) -> Optional[Tuple[str, str]]:
+    """A character clone's race / sex from its file name (humanfemalewarriorheavy.m2 -> human, female)."""
+    n = path.rsplit('/', 1)[-1].lower()
+    for r in sorted(RACES, key=len, reverse=True):
+        if n.startswith(r):
+            rest = n[len(r):]
+            return r, 'female' if rest.startswith('female') else 'male'
+    return None
+
+
+def _lab(rgb):
+    """sRGB 0..255 -> CIE Lab (D65): distances in it follow what the eye sees."""
+    import numpy as np
+    c = rgb / 255.0
+    c = np.where(c > 0.04045, ((c + 0.055) / 1.055) ** 2.4, c / 12.92)
+    xyz = c @ np.array([[0.4124, 0.2126, 0.0193], [0.3576, 0.7152, 0.1192], [0.1805, 0.0722, 0.9505]])
+    xyz = xyz / np.array([0.95047, 1.0, 1.08883])
+    f = np.where(xyz > 0.008856, np.cbrt(xyz), 7.787 * xyz + 16 / 116)
+    return np.stack([116 * f[..., 1] - 16, 500 * (f[..., 0] - f[..., 1]), 200 * (f[..., 1] - f[..., 2])], -1)
+
+
+# retail items (data/v2/wardrobe/<slot>.json, lib/retail_wardrobe) in the look-alike pool: slot files and
+# their region names. Textures come only from the local retail store (lib.retail.texture_file offline):
+# items whose textures are not stored yet are left out until they are.
+RETAIL_SLOTS = {'shirt': 'Shirt', 'chest': 'Chest', 'legs': 'Legs', 'belt': 'Belt', 'boots': 'Boots', 'gloves': 'Gloves',
+                'tabard': 'Tabard'}
+RETAIL_REGION = {'ArmUpper': 'upper_arm_texture', 'ArmLower': 'lower_arm_texture', 'Hand': 'hands_texture',
+                 'TorsoUpper': 'upper_torso_texture', 'TorsoLower': 'lower_torso_texture', 'LegUpper': 'upper_leg_texture',
+                 'LegLower': 'lower_leg_texture', 'Foot': 'foot_texture'}
+RETAIL_THUMBS = '/workspace/project/logs/retail_cache/outfit_thumbs.pkl'
+
+
+def rgba_small(f, w: int, h: int):
+    """A BLP2's smallest mip still >= w x h, decoded with numpy (PIL's DXT decoder is pure Python and
+    takes seconds on a retail texture), resized to w x h RGBA uint8; None if it can't be read."""
+    import struct
+    import numpy as np
+    from PIL import Image
+    try:
+        b = open(f, 'rb').read()
+        if b[:4] != b'BLP2' or len(b) < 148:
+            return np.asarray(Image.open(f).convert('RGBA').resize((w, h), Image.BOX), dtype=np.uint8)
+        comp, atype, mips = b[8], b[10], b[11]
+        W, H = struct.unpack_from('<II', b, 12)
+        offs, sizes = struct.unpack_from('<16I', b, 20), struct.unpack_from('<16I', b, 84)
+        lvl = 0
+        while mips and lvl + 1 < 16 and offs[lvl + 1] and sizes[lvl + 1] and (W >> (lvl + 1)) >= w and (H >> (lvl + 1)) >= h:
+            lvl += 1
+        mw, mh = max(1, W >> lvl), max(1, H >> lvl)
+        data = b[offs[lvl]:offs[lvl] + sizes[lvl]]
+        if comp == 3:
+            img = np.frombuffer(data[:mw * mh * 4], np.uint8).reshape(mh, mw, 4)[:, :, [2, 1, 0, 3]]
+        elif comp == 2:
+            bpb = 8 if atype == 0 else 16
+            bw, bh = max(1, (mw + 3) // 4), max(1, (mh + 3) // 4)
+            blk = np.frombuffer(data[:bw * bh * bpb], np.uint8).reshape(bw * bh, bpb)
+            cb = blk[:, bpb - 8:]
+            c = cb[:, :4].copy().view('<u2').astype(np.int32)
+            bits = cb[:, 4:].copy().view('<u4')[:, 0]
+
+            def rgb(v):
+                return np.stack([((v >> 11) & 31) * 255 // 31, ((v >> 5) & 63) * 255 // 63, (v & 31) * 255 // 31], -1)
+            c0, c1 = rgb(c[:, 0]), rgb(c[:, 1])
+            four = (c[:, 0] > c[:, 1]) | (atype != 0)
+            p2 = np.where(four[:, None], (2 * c0 + c1) // 3, (c0 + c1) // 2)
+            p3 = np.where(four[:, None], (c0 + 2 * c1) // 3, 0)
+            pal = np.stack([c0, c1, p2, p3], 1)
+            ix = ((bits[:, None] >> (2 * np.arange(16, dtype=np.uint32))) & 3).astype(np.int64)
+            px = np.take_along_axis(pal, ix[:, :, None].repeat(3, 2), 1)
+            if atype == 0:                                  # DXT1: index 3 of a 3-colour block is clear
+                al = np.where((~four[:, None]) & (ix == 3), 0, 255)
+            elif atype == 1:                                # DXT3: 4-bit explicit alpha
+                a4 = blk[:, :8].copy().view('<u8')[:, 0]
+                al = ((a4[:, None] >> (4 * np.arange(16, dtype=np.uint64))) & 15).astype(np.int64) * 17
+            else:                                           # DXT5: interpolated alpha
+                a0, a1 = blk[:, 0].astype(np.int64), blk[:, 1].astype(np.int64)
+                ab = np.zeros(len(blk), np.uint64)
+                for k in range(6):
+                    ab |= blk[:, 2 + k].astype(np.uint64) << np.uint64(8 * k)
+                ai = ((ab[:, None] >> (3 * np.arange(16, dtype=np.uint64))) & 7).astype(np.int64)
+                eight = a0 > a1
+                tab = np.stack([a0, a1] + [np.where(eight, ((7 - k) * a0 + k * a1) // 7, ((5 - k) * a0 + k * a1) // 5)
+                                           for k in range(1, 5)]
+                               + [np.where(eight, (2 * a0 + 5 * a1) // 7, 0), np.where(eight, (a0 + 6 * a1) // 7, 255)], 1)
+                al = np.take_along_axis(tab, ai, 1)
+            px = np.concatenate([px, al[:, :, None]], 2)
+            img = px.reshape(bh, bw, 4, 4, 4).transpose(0, 2, 1, 3, 4).reshape(bh * 4, bw * 4, 4)[:mh, :mw]
+        elif comp == 1:
+            pal = np.frombuffer(b[148:148 + 1024], np.uint8).reshape(256, 4)
+            idx = np.frombuffer(data[:mw * mh], np.uint8)
+            al = np.frombuffer(data[mw * mh:mw * mh + mw * mh], np.uint8) if b[9] == 8 else np.full(mw * mh, 255, np.uint8)
+            img = np.concatenate([pal[idx][:, [2, 1, 0]], al[:, None]], 1).reshape(mh, mw, 4)
+        else:
+            return None
+        return np.asarray(Image.fromarray(np.ascontiguousarray(img).astype(np.uint8), 'RGBA').resize((w, h), Image.BOX),
+                          dtype=np.uint8)
+    except Exception:
+        return None
+
+
 INV_SLOT = {1: 'Helm', 3: 'Shoulders', 4: 'Shirt', 5: 'Chest', 20: 'Chest', 6: 'Belt', 7: 'Legs', 8: 'Boots',
             9: 'Wrists', 10: 'Gloves', 19: 'Tabard', 16: 'Cape'}
 
 
 class Outfits:
-    def __init__(self, stock_files: Dict[str, object], meta, log: Callable = print):
+    def __init__(self, stock_files: Dict[str, object], meta, log: Callable = print,
+                 extra_items: Optional[Dict[str, object]] = None):
+        """extra_items: item texture files the zpaks / packs add (item/texturecomponents/...), searched
+        with stock's"""
         self.stock, self.meta, self.log = stock_files, meta, log
+        self.extra = extra_items or {}
         self._idi = None
         self._items = None
         self._stacks: Dict[str, tuple] = {}
@@ -138,7 +248,7 @@ class Outfits:
             w, h = w // 2, h // 2                         # matched at half size: memory, not accuracy
             pre = f'item/texturecomponents/{folder}/'
             stems, rgb, alpha = [], [], []
-            for p, f in self.stock.items():
+            for p, f in list(self.stock.items()) + [(k, v) for k, v in self.extra.items() if k not in self.stock]:
                 if not (p.startswith(pre) and p.endswith('.blp')):
                     continue
                 base = p[len(pre):-4]
@@ -249,7 +359,7 @@ class Outfits:
             except Exception:
                 ok = False
             if ok:
-                out += [r for r in self.guess(f, sex[0]) if r[1]]
+                out += self.with_lookalike([r for r in self.guess(f, sex[0]) if r[1]], f, race, sex)
         # 3D pieces: a texture an item display names exactly. The mesh is merged, so among displays
         # sharing the texture the one whose model file is the texture's stem is preferred.
         by_tex: Dict[str, List[int]] = {}
@@ -276,4 +386,207 @@ class Outfits:
             if slot and slot not in seen:
                 seen.add(slot)
                 out.append(self._row(slot, idi, 'texture'))
+        return out
+
+    # ---- look-alike: the closest item outfit when nothing matches exactly ------------------
+    def with_lookalike(self, rows: List[list], skin_file, race: str, sex: str) -> List[list]:
+        """Exact rows + look-alike rows for the slots no exact row fills (the '(unmatched)' note
+        goes: the look-alike covers those regions)."""
+        have = {r[0] for r in rows if r[1]}
+        look = [r for r in self.lookalike(skin_file, race, sex) if r[0] not in have]
+        return [r for r in rows if r[1] or not look] + look
+
+    LOOK_VERSION = 1         # bump when the rules change: cached results are recomputed
+
+    def lookalike(self, skin_file, race: str, sex: str) -> List[list]:
+        """The item outfit that looks most like a baked character skin (classic layout, any size):
+        the race's closest bare skin, then per slot in bake order the item that brings the composite
+        closest to the skin (CIE Lab, compared blurred: the colour and tone of each body part, not
+        its pixels); an item is kept only if it clearly beats what is under it. Two passes, so a
+        slot is re-chosen once the others are on. Rows [slot, idi, name, items, 'closest', gain %]."""
+        nr = len(self.retail_pool(sex)[0]) // 1000          # the pool grows as the retail store fills
+        k = f'look{self.LOOK_VERSION}{race}{sex}r{nr}'
+        return self.meta.get(k, skin_file, lambda f: self._look_now(f, race, sex))
+
+    def retail_pool(self, sex: str):
+        """Retail armour usable as a look-alike: [(slot, item id, name, {field: fdid})] whose region
+        textures are all in the local retail store, + their 64-scale RGBA thumbnails {(field, fdid): a}
+        (persistent: RETAIL_THUMBS, so each texture is decoded once)."""
+        if getattr(self, '_rpool', {}).get(sex) is not None:
+            return self._rpool[sex]
+        import json
+        import pickle
+        from pathlib import Path
+        self._rpool = getattr(self, '_rpool', {})
+        try:
+            from lib import retail
+            from lib.retail_wardrobe import WARDROBE_DIR
+        except Exception:
+            self._rpool[sex] = ([], {})
+            return self._rpool[sex]
+        gi = 1 if sex.startswith('f') else 0
+        size = {fld: (w // 4, h // 4) for (_x, _y, w, h), _, fld in REGIONS.values()}
+        tp = Path(RETAIL_THUMBS)
+        if not hasattr(self, '_rthumbs'):
+            try:
+                self._rthumbs = pickle.loads(tp.read_bytes())
+            except Exception:
+                self._rthumbs = {}
+        th, new = self._rthumbs, 0
+        items = []
+        for fn, slot in RETAIL_SLOTS.items():
+            try:
+                rows = json.loads((WARDROBE_DIR / f'{fn}.json').read_text()).get('items', [])
+            except Exception:
+                continue
+            for it in rows:
+                regs = {RETAIL_REGION[k]: int(v[gi] or v[1 - gi]) for k, v in (it[7] or {}).items()
+                        if k in RETAIL_REGION and (v[gi] or v[1 - gi])}
+                if not regs:
+                    continue
+                ok = True
+                for fld, fd in regs.items():
+                    key = (fld, fd)
+                    if key not in th:
+                        f = retail.texture_file(fd, offline=True)
+                        if f is None:
+                            ok = False
+                            continue                       # not downloaded yet: scored once it is
+                        th[key] = rgba_small(f, *size[fld])
+                        new += 1
+                    if th.get(key) is None:
+                        ok = False
+                if ok:
+                    items.append((slot, int(it[0]), str(it[1]), regs))
+        if new:
+            try:
+                tmp = tp.with_suffix('.tmp')
+                tmp.write_bytes(pickle.dumps(th))
+                tmp.replace(tp)
+            except Exception:
+                pass
+            self.log(f'    outfit: {new:,} retail item textures thumbnailed')
+        self._rpool[sex] = (items, th)
+        return self._rpool[sex]
+
+    def _look_pool(self, sex: str):
+        """The look-alike search pool for one sex, built once per run: {field: (box, {stem: i}, Lab,
+        coverage)} at 64 scale (stock + zpak + stored retail textures) and {slot: [(key, [(field, i)])]}
+        (key = ItemDisplayInfo id, or ('r', retail item id, name))."""
+        if sex in getattr(self, '_lpool', {}):
+            return self._lpool[sex]
+        import numpy as np
+        stk = {}
+        for r, ((x, y, w, h), _, fld) in REGIONS.items():
+            stems, rgb, al = self._stack(r, sex[0])
+            if rgb is None:
+                continue
+            n = len(stems)
+            lab = _lab(rgb.reshape(n, h // 4, 2, w // 4, 2, 3).astype(np.float32).mean((2, 4)))
+            cov = al.reshape(n, h // 4, 2, w // 4, 2).astype(np.float32).mean((2, 4))
+            stk[fld] = ((x // 4, y // 4, w // 4, h // 4), {st.lower(): i for i, st in enumerate(stems)}, lab, cov)
+        by_slot: Dict[str, list] = {}
+        for idi, row in self.idi().items():
+            its = self.items().get(idi)
+            if not its:
+                continue
+            slot = next((INV_SLOT[i] for _, _, i in its if i in INV_SLOT), None)
+            regs = [(f, str(row.get(f) or '').lower()) for f in stk if row.get(f)]
+            if slot in ORDER and regs and all(v in stk[f][1] for f, v in regs):
+                by_slot.setdefault(slot, []).append((idi, [(f, stk[f][1][v]) for f, v in regs]))
+        # retail armour from the local store: appended to the same stacks, keyed 'r<fdid>'
+        ritems, rth = self.retail_pool(sex)
+        add: Dict[str, list] = {}
+        for _slot, _iid, _nm, regs in ritems:
+            for fld, fd in regs.items():
+                if fld in stk and f'r{fd}' not in stk[fld][1]:
+                    stk[fld][1][f'r{fd}'] = -1                # placeholder: indexed below
+                    add.setdefault(fld, []).append(fd)
+        for fld, fds in add.items():
+            box, keys, lab, cov = stk[fld]
+            a = np.asarray([rth[(fld, fd)] for fd in fds], dtype=np.float32)
+            n0 = len(lab)
+            for j, fd in enumerate(fds):
+                keys[f'r{fd}'] = n0 + j
+            stk[fld] = (box, keys, np.concatenate([lab, _lab(a[..., :3])]),
+                        np.concatenate([cov, np.clip((a[..., 3] - 96) / 128, 0, 1)]))
+        for slot, iid, nm, regs in ritems:
+            if all(fld in stk for fld in regs):
+                by_slot.setdefault(slot, []).append((('r', iid, nm), [(fld, stk[fld][1][f'r{fd}']) for fld, fd in regs.items()]))
+
+        self._lpool = getattr(self, '_lpool', {})
+        self._lpool[sex] = (stk, by_slot)
+        return stk, by_slot
+
+    def _look_now(self, skin_file, race: str, sex: str) -> List[list]:
+        import numpy as np
+        from PIL import Image
+
+        def lab64(a):                                  # 128-scale RGB(A) -> 64-scale Lab (2x2 average)
+            a = a.reshape(a.shape[0] // 2, 2, a.shape[1] // 2, 2, -1).mean((1, 3))
+            return _lab(a[..., :3])
+        try:
+            tgt = lab64(np.asarray(Image.open(skin_file).convert('RGB').resize((128, 128), Image.BOX), dtype=np.float32))
+        except Exception:
+            return []
+        body = np.ones((64, 64), bool); body[40:64, 0:32] = False      # the face rectangles are never scored
+        face = ~body
+        # 1. bare skin: the race skin whose face colour is closest (the face is always bare skin)
+        skins = []
+        pre = f'character/{race}/{sex}/{race}{sex}skin00_'
+        for p, f in self.stock.items():
+            if p.startswith(pre) and p.endswith('.blp'):
+                a = self.meta.get('lookskin128', f, lambda x: np.asarray(
+                    Image.open(x).convert('RGB').resize((128, 128), Image.BOX), dtype=np.uint8))
+                skins.append((p, lab64(a.astype(np.float32))))
+        if not skins:
+            return []
+        tf = tgt[face].mean(0)
+        cur = min(skins, key=lambda x: float(np.linalg.norm(x[1][face].mean(0) - tf)))[1].copy()
+        # 2. the search pool (cached per sex)
+        stk, by_slot = self._look_pool(sex)
+        def err(img):
+            return float(np.linalg.norm(img - tgt, axis=-1)[body].sum())
+
+        def paint(img, regs):
+            img = img.copy()
+            for f, i in regs:
+                (x, y, w, h), _, lab, cov = stk[f]
+                c = cov[i][..., None]
+                img[y:y + h, x:x + w] = img[y:y + h, x:x + w] * (1 - c) + lab[i] * c
+            return img
+        bare = cur.copy()
+        chosen: Dict[str, Tuple[int, list]] = {}
+        for _pass in range(2):
+            for slot in ORDER:
+                base = bare
+                for sl in ORDER:                       # everything else on, in bake order
+                    if sl != slot and sl in chosen:
+                        base = paint(base, chosen[sl][1])
+                # error change of each region texture painted over base, vectorised per region
+                dl = {}
+                for f, ((x, y, w, h), _, lab, cov) in stk.items():
+                    t, b = tgt[y:y + h, x:x + w], base[y:y + h, x:x + w]
+                    new = np.linalg.norm(b[None] * (1 - cov[..., None]) + lab * cov[..., None] - t[None], axis=-1)
+                    m = body[y:y + h, x:x + w][None]
+                    dl[f] = ((new - np.linalg.norm(b - t, axis=-1)[None]) * m).reshape(len(lab), -1).sum(1)
+                cands = by_slot.get(slot, [])
+                if not cands:
+                    continue
+                d = np.array([sum(dl[f][i] for f, i in regs) for _, regs in cands])
+                j = int(d.argmin())
+                # kept only if it removes at least 2% of the slot-free composite's error
+                if d[j] < -0.02 * err(base):
+                    chosen[slot] = (cands[j][0], cands[j][1], float(-d[j]))
+                else:
+                    chosen.pop(slot, None)
+        e0 = err(bare)
+        out = []
+        for sl in ORDER:
+            if sl in chosen:
+                key, _, gain = chosen[sl]
+                if isinstance(key, tuple):                # retail: r:<item id>, as the Display editor takes it
+                    out.append([sl, 0, key[2] + ' (retail)', [f'r:{key[1]}'], 'closest', round(100.0 * gain / e0, 1)])
+                else:
+                    out.append(self._row(sl, key, 'closest', 100.0 * gain / e0))
         return out

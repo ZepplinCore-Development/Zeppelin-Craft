@@ -1863,13 +1863,16 @@ def merge_resaves(dep: 'Deployer', assets: List[dict], log: Callable = print) ->
 def add_outfits(dep: 'Deployer', assets: List[dict], cat: List[dict], log: Callable = print) -> None:
     """pane['outfit'] (lib/npc_outfit): a character-model display's items from its bake row (exact),
     or, on a STOCK pane of a character clone baked into a creature model, the items its skin matches."""
-    from lib.npc_outfit import Outfits, FUSED
+    from lib.npc_outfit import Outfits, FUSED, race_sex
     from lib.skin_fill import texture_table
     from lib.geoset_fix import mesh_geosets
     from PIL import Image
     import time as _t
     t0 = _t.time()
-    out = Outfits(dep.ix.stock, dep.ix._meta_cache(), log)
+    # item textures the zpaks / packs add (goblin, worgen, wardrobe sets): searched with stock's
+    extra = {k: f for s_ in dep.ix.sources for k, f in dep.ix._src_files(s_.name).items()
+             if k.startswith('item/texturecomponents/') and k not in dep.ix.stock}
+    out = Outfits(dep.ix.stock, dep.ix._meta_cache(), log, extra)
     out.idi(); log(f'    outfit: item displays loaded ({_t.time() - t0:.0f}s)')
     out.items(); log(f'    outfit: items loaded ({_t.time() - t0:.0f}s)')
     cdi_e = dep.result['effective_dbc'][0]
@@ -1936,6 +1939,9 @@ def add_outfits(dep: 'Deployer', assets: List[dict], cat: List[dict], log: Calla
                 except Exception:
                     continue
                 rows = out.guess(f, 'f' if 'female' in path else 'm')
+                rs = race_sex(path)
+                if rs:
+                    rows = out.with_lookalike(rows, f, *rs)
                 if any(r[1] for r in rows):
                     p['outfit'] = rows; n_guess += 1
     log(f'  outfit: {n_exact:,} panes from bake rows, {n_guess:,} matched from character-clone skins, '
