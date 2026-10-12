@@ -774,16 +774,28 @@ function reviewReason(kind, key, entry) {
   if (gone.length) return 'an option was removed';
   return null;
 }
+// a save merges the file on the server with this tab's picks: per key the NEWER pick wins (picks carry `at`),
+// so a tab opened earlier cannot put back its stale copies of picks saved since (I-392: an old tab's
+// save reverted display 177 and 13 cloned displays). Keys without a time: this tab's copy, as before.
+function mergeChoices(latest) {
+  const out = { ...latest, version: 2 };
+  ['mesh', 'texture', 'custom', 'fit', 'display', 'wish'].forEach(sec => {
+    const a = latest[sec] || {}, b = choices[sec] || {}, m = { ...a };
+    Object.entries(b).forEach(([k, v]) => {
+      const t1 = a[k] && a[k].at, t2 = v && v.at;
+      if (!(k in a) || !(t1 && t2) || t2 >= t1) m[k] = v;
+    });
+    out[sec] = m;
+  });
+  return out;
+}
 async function save(kind, key, entry, optionKey, extra = {}, nav = true) {
   const status = $('save');
   status.className = ''; status.textContent = 'saving…';
   const pick = { option: optionKey, sources: optionsOf(entry)[optionKey], options: optionsOf(entry), at: new Date().toISOString(), ...extra };
   try {
     const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
-    const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
-                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    const merged = mergeChoices(latest);
     merged[kind][key] = pick;
     if (kind === 'display') groupTargets(key).forEach(od => {
       const oe = assets.find(a => a.tab === 'display' && a.display === od);
@@ -837,9 +849,7 @@ async function saveDisplays(items) {
   status.className = ''; status.textContent = `saving ${items.length} display choices…`;
   try {
     const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
-    const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
-                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    const merged = mergeChoices(latest);
     const at = new Date().toISOString();
     items.forEach(([d, opt]) => {
       const o = optionsOf(d);
@@ -1037,9 +1047,7 @@ async function saveWish(e, on) {
     if (on) wish[e.path] = { tab: e.tab, fdid: e.retailOnly || (retailIdx.models || {})[e.path] || undefined,
                              sources: e.retailOnly ? ['retail'] : (e.panes[0] || {}).sources, at: new Date().toISOString() };
     else delete wish[e.path];
-    const merged = { ...latest, version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
-                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) }, wish };
+    const merged = { ...mergeChoices(latest), wish };
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
     const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
@@ -1887,10 +1895,7 @@ async function saveFit(path, fit) {
   status.className = ''; status.textContent = 'saving fit…';
   try {
     const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
-    const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
-                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    const merged = mergeChoices(latest);
     if (fit) merged.fit[path] = { ...fit, at: new Date().toISOString() }; else delete merged.fit[path];
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
@@ -2391,10 +2396,7 @@ async function saveCustom(did, pick) {
   status.className = ''; status.textContent = 'saving…';
   try {
     const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
-    const merged = { version: 2, mesh: { ...(latest.mesh || {}), ...choices.mesh }, texture: { ...(latest.texture || {}), ...choices.texture },
-                     custom: { ...(latest.custom || {}), ...choices.custom }, fit: { ...(latest.fit || {}), ...(choices.fit || {}) },
-                     display: { ...(latest.display || {}), ...(choices.display || {}) },
-                     wish: { ...(latest.wish || {}), ...(choices.wish || {}) } };
+    const merged = mergeChoices(latest);
     [did, ...groupTargets(did)].forEach(d => { if (pick) merged.custom[String(d)] = { ...pick, ...(d !== +did ? { group_of: +did } : {}) }; else delete merged.custom[String(d)]; });
     const headers = { 'Content-Type': 'application/json' };
     if (pickerKey) headers['X-Picker-Key'] = pickerKey;
