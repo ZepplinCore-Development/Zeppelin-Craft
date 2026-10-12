@@ -417,10 +417,13 @@ let tab = 'creature', filter = 'todo', search = '', cur = null, view = [], texMo
 const texChunks = {};
 
 const FILTERS = {
-  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['wish', 'Favourites']],
+  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['retail', 'Retail'], ['wish', 'Favourites']],
   texture: [['decide', 'Needs decision'], ['review', 'Review'], ['all', 'All']],
   custom: [['all', 'All'], ['done', 'Edited'], ['new', 'New displays']],
 };
+// a tab's filter buttons: Retail only where the catalogue has retail-only models (creatures, objects)
+const filtersOf = (t) => (FILTERS[t === 'texture' ? 'texture' : t === 'custom' ? 'custom' : 'asset'])
+  .filter(([k]) => k !== 'retail' || t === 'creature' || t === 'object');
 const HELP = {
   display: 'Display-level 3D choice: packs that point this display at a DIFFERENT model. Each option is drawn with that ' +
            'pack\'s own display rows. Compare panes show our own creature-level edits (read-only).',
@@ -819,7 +822,7 @@ async function save(kind, key, entry, optionKey, extra = {}, nav = true) {
 // ---- list -------------------------------------------------------------------------------
 // Undecided / Review: real choices only. All / Favourites: also every single-source model and
 // the retail-only ones (live panes), for shopping new content.
-const shopping = () => filter === 'all' || filter === 'wish' || filter === 'remaster';
+const shopping = () => filter === 'all' || filter === 'wish' || filter === 'remaster' || filter === 'retail';
 function pool() { return shopping() && catalog ? assets.concat(catalog) : assets; }
 function ensureCatalog() {
   if (catalog || catalogLoading) return;
@@ -1085,6 +1088,7 @@ function assetMatches(e) {
   if (filter === 'todo' && decidedPerDisplay(e)) return false;    // every display it shows picked one by one (bogbeast: 36 of 36)
   if (filter === 'review' && !rv) return false;
   if (filter === 'wish' && !(choices.wish || {})[e.path]) return false;
+  if (filter === 'retail' && !e.retailOnly) return false;                          // shopping: models only retail has
   if (filter === 'remaster' && !(e.tab === 'creature' && !e.retailOnly && (namedFor(e.path) || (retailIdx.models || {})[e.path]))) return false;
   if (search) {
     // every word must match the path, display, names or keywords (a word also matches its synonyms)
@@ -1153,7 +1157,7 @@ function texMatches(t) {
 function render() {
   const isTex = tab === 'texture', isCust = tab === 'custom';
   const fk = isTex ? 'texture' : isCust ? 'custom' : 'asset';
-  $('filters').innerHTML = FILTERS[fk].map(([k, l]) =>
+  $('filters').innerHTML = filtersOf(tab).map(([k, l]) =>
     `<button data-f="${k}" class="${k === filter ? 'on' : ''}">${l}</button>`).join('') +
     (isCust ? '<button data-newdisp title="Wire up a new display id (highest + 1) on any creature model, then dress it here">+ New display</button>' : '');
   const nb = $('filters').querySelector('[data-newdisp]'); if (nb) nb.onclick = (ev) => { ev.stopPropagation(); openCreator(); };
@@ -2611,7 +2615,7 @@ const lastFilter = (() => { try { return JSON.parse(localStorage.getItem('mv.fil
 function tabFilter(t) {
   const fk = t === 'texture' ? 'texture' : t === 'custom' ? 'custom' : 'asset';
   const keep = lastFilter[t];
-  return FILTERS[fk].some(([k]) => k === keep) ? keep : FILTERS[fk][0][0];
+  return filtersOf(t).some(([k]) => k === keep) ? keep : FILTERS[fk][0][0];
 }
 function rememberFilter() {
   lastFilter[tab] = filter;
