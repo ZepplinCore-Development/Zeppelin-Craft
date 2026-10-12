@@ -1530,8 +1530,8 @@ function openAsset(e) {
     const cb = cu.base || {};
     const ent = customList.find(x => x.display === e.display) || {};
     // a created display has no card of its own: it is drawn from its saved snapshot
-    const bp = (cu.entry && cu.entry.base && cu.entry.base.model ? { ...cu.entry.base, display: e.display } : null)
-      || e.panes.find(x => x.option === cb.option && (cb.sources || []).some(z => x.sources.includes(z)))
+    const bp = livePane(e.display, cb)
+      || (cu.entry && cu.entry.base && cu.entry.base.model ? { ...cu.entry.base, display: e.display } : null)
       || e.panes.find(x => x.model === (cb.model || cu.path)) || e.panes[0];
     const ctx = { display: e.display, char: String(bp.model).startsWith('character/') ? (bp.char || ent.char || (cu.entry || {}).char || null) : null,
                   cgd: cb.cgd || ent.cgd || [0, 0, 0, 0, 0, 0, 0, 0], slots: cb.slots || ent.slots || [], skins: cb.skins || ent.skins || [],
@@ -2509,6 +2509,14 @@ function shippingVia(did) {
 }
 // the Displays page of one display; a display no pack offers a choice for gets a stand-in page
 // (stock + our customisation) so a customisation can be reviewed and activated the same way
+// a saved edit's preview: the CURRENT deploy's pane for the option it was made on, when the display still
+// has it; the saved snapshot only otherwise (created displays, models the display does not offer). A
+// snapshot's file map is gone once a deploy rebuilds that model (I-392: every edit drew blank).
+function livePane(did, base) {
+  if (!base || !base.option) return null;
+  const d = assets.find(a => a.tab === 'display' && a.display === +did);
+  return d ? d.panes.find(x => x.option === base.option && (base.sources || []).some(z => (x.sources || []).includes(z))) || null : null;
+}
 function displayEntry(did) {
   let d = assets.find(a => a.tab === 'display' && a.display === +did);
   if (!d) {
@@ -2555,7 +2563,8 @@ function openCustom_(did, push = true, via = null) {
     // an edit reopens on what it was made from (its own snapshot), not on the display's stock model
     const x = saved_.entry;
     c = { ...(c || { display: +did, names: [] }), path: x.path, groups: x.groups || {}, slots: x.slots || [], skins: x.skins || ['', '', ''],
-          cgd: x.cgd || [0, 0, 0, 0, 0, 0, 0, 0], char: x.char || null, tex_key: x.tex_key, via: x.via, base: { ...x.base, display: +did } };
+          cgd: x.cgd || [0, 0, 0, 0, 0, 0, 0, 0], char: x.char || null, tex_key: x.tex_key, via: x.via,
+          base: { ...(livePane(did, saved_.base) || x.base), display: +did } };
     if (!c.char) delete c.char;
   }
   if (via && via.retail) {
