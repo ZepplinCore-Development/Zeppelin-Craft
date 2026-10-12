@@ -13,7 +13,7 @@ Two sources:
   fused()  F-220 fused riders (batrider: the rider is one merged submesh of the mount model). The
            rider's skin is a hard-coded texture in the same classic layout, matched as guess();
            the model's other textures name 3D pieces exactly (ItemDisplayInfo left_model_texture:
-           shoulders, weapons) and the hair (Character/<race>/Hair00_NN = hair colour NN).
+           shoulders, weapons). Only items are listed.
 """
 from typing import Callable, Dict, List, Optional, Tuple
 
@@ -234,8 +234,8 @@ class Outfits:
     def fused(self, model: str, table: List[Tuple[int, str]], slots: List[str]) -> List[list]:
         """Outfit rows for a fused rider model. table = the M2 texture table [(type, path)], slots =
         the display's texture_variation_1..3 as model-folder paths. The rider's skin (RIDERS) is a
-        classic-layout composite: matched against item textures like guess(), and named as a skin
-        a rider bake can copy (these skins are mostly bespoke art no item uses)."""
+        classic-layout composite matched against item textures like guess(); only matched items
+        are returned (these skins are mostly bespoke art no item uses)."""
         from PIL import Image
         rider = RIDERS.get(model.rsplit('/', 1)[-1])
         out: List[list] = []
@@ -249,13 +249,7 @@ class Outfits:
             except Exception:
                 ok = False
             if ok:
-                rows = self.guess(f, sex[0])
-                hits = [r for r in rows if r[1]]
-                stem = path.rsplit('/', 1)[-1][:-4]
-                out.append(['Rider', 0, f'{race} {sex}, skin {stem}: character layout, '
-                            + (f'{len(hits)} slot(s) are stock items' if hits else 'bespoke art (no item uses it)')
-                            + ' - a rider bake copies it as is', [], 'skin'])
-                out += hits
+                out += [r for r in self.guess(f, sex[0]) if r[1]]
         # 3D pieces: a texture an item display names exactly. The mesh is merged, so among displays
         # sharing the texture the one whose model file is the texture's stem is preferred.
         by_tex: Dict[str, List[int]] = {}
@@ -267,10 +261,6 @@ class Outfits:
         for t, n in table:
             stem = n.rsplit('/', 1)[-1][:-4] if n.endswith('.blp') else ''
             if t != 0 or not stem:
-                continue
-            if n.startswith('character/') and '/hair' in n:
-                col = ''.join(c for c in stem.rsplit('_', 1)[-1] if c.isdigit())
-                out.append(['Hair', 0, f'{n.split("/")[1]} hair colour {int(col) if col else "?"} ({stem})', [], 'skin'])
                 continue
             cands = [i for i in by_tex.get(stem, []) if self.items().get(i)]
             if not cands:
@@ -285,8 +275,5 @@ class Outfits:
             slot = next((INV_3D[i] for i in sorted(invs) if i in INV_3D), None)
             if slot and slot not in seen:
                 seen.add(slot)
-                row = self._row(slot, idi, 'texture')
-                if len(cands) > 1:
-                    row[2] += f' (1 of {len(cands)} displays with this texture)'
-                out.append(row)
+                out.append(self._row(slot, idi, 'texture'))
         return out
