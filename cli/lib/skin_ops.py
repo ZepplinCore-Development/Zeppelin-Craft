@@ -17,8 +17,10 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       id = part_group * 100 + the source variant (102 -> 502, 602, ...). Each part keeps
       the source submesh's vertex range and bone combo; its batches are copied per part.
       Optional "mixed": {"102": 1}: in those source variants a mixed island goes whole to that part
-      instead of being split per triangle (dragonspawn2 sets 102/103: the sash across the chest has
-      its ends on the shoulder bones; cut by bone they became fake shoulder pads).
+      instead of being split per triangle (dragonspawn2 102/103/106/107: the sash and the straps over
+      the shoulders ride on the shoulder bones; cut by bone they became fake pads).
+      Optional "fold": {"105": {"6": 1, "7": 1}}: after the split, a source variant's parts merged
+      into another (105: its pads only make sense with its robe; the helmet still comes out).
 """
 import collections
 import struct
@@ -119,6 +121,7 @@ def _op_geoset_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
             owner[int(k)] = int(g)
     majority = float(cfg.get('majority', 0.75))
     mixed_to = {int(k): int(g) for k, g in (cfg.get('mixed') or {}).items()}
+    fold = {int(k): {int(a): int(b) for a, b in m_.items()} for k, m_ in (cfg.get('fold') or {}).items()}
 
     def vpart(v: int) -> int:
         k = m.key_of(m.dom[sk.lookup[v]])
@@ -182,6 +185,9 @@ def _op_geoset_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
             else:
                 for t in isl:
                     parts[collections.Counter(vpart(v) for v in t).most_common(1)[0][0]].append(t)
+        for a, b in (fold.get(s['id']) or {}).items():
+            if a in parts:
+                parts[b] += parts.pop(a)
         for g in sorted(parts):
             gid = g * 100 + s['id'] % 100
             emit(sk.subs[j], gid, parts[g], j)
