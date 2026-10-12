@@ -1,0 +1,191 @@
+From 0724cc1dc49790a39978a930cadf33ade28ced98 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 04:38:56 +0000
+Subject: [PATCH] feat: ranged classes open from their max range; hunter shots;
+ cast lock per cast (F-219)
+
+- range = the opener's max range (Serpent Sting 35, Frostbolt/Smite/Wrath 30);
+  planned pulls stand 2 yd inside it (was 20 yd) and grinding stops at range
+  (it walked to 4 yd)
+- hunter: Serpent Sting, Arcane Shot, Concussive Shot, Auto Shot from range;
+  Raptor Strike on cooldown in melee; Hunter's Mark only with spare mana
+- mage: Frostbolt opener (the slow buys a second cast), Fire Blast as it closes
+- cast lock ends only on SPELL_GO/FAILURE carrying OUR cast count: triggered
+  spells (Frost Armor's Chill on every hit) released it mid-cast
+- NOT_READY retries in 0.4 s (Raptor Strike's cooldown runs from the swing)
+- dot_ms only where the periodic part outweighs the direct hit (Fireball's
+  burn no longer makes it a DoT)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/main.go | 18 +++++++++--
+ zeppelin/tests/start_area.py    | 56 +++++++++++++++++++++++++--------
+ 2 files changed, 59 insertions(+), 15 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 8978d81..a1e936e 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -257,16 +257,20 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 	case opcode.SMSGSpellGo: // packed caster (item or unit), packed caster unit, ...
+ 		r.PackedGUID()
+ 		u := r.PackedGUID()
++		count := r.U8()
+ 		delete(s.casting, u)
+-		if u == me {
++		// only OUR cast ends the lock: triggered spells carry castCount 0 - Frost Armor's Chill on
++		// every hit taken released it mid-Frostbolt (SPELL_IN_PROGRESS ~120 a mage run)
++		if u == me && count == s.castCount {
+ 			// the cast is done but the global cooldown (1.5 s from the cast) is not: casting into
+ 			// it failed ~70 % of a mage's Frostbolts (SMSG_CAST_FAILED 1930 of 2743)
+ 			s.selfCastUntil = s.lastCastSent.Add(1500 * time.Millisecond)
+ 		}
+ 	case opcode.SMSGSpellFailure, opcode.SMSGSpellFailedOther: // packed caster, ...
+ 		u := r.PackedGUID()
++		count := r.U8()
+ 		delete(s.casting, u)
+-		if u == me {
++		if u == me && count == s.castCount {
+ 			s.selfCastUntil = time.Time{}
+ 		}
+ 	case opcode.SMSGCorpseReclaimDelay: // u32 ms
+@@ -302,6 +306,9 @@ func (s *service) attack(ctx context.Context, guid uint64) error {
+ func (s *service) castAt(ctx context.Context, spell uint32, guid uint64) error {
+ 	s.mu.Lock()
+ 	s.castCount++
++	if s.castCount == 0 { // 0 is what TRIGGERED spells carry: never use it for ours
++		s.castCount = 1
++	}
+ 	c := s.castCount
+ 	s.mu.Unlock()
+ 	var w wow.Writer
+@@ -704,6 +711,13 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 		if !s.thriftOK(a, st, guid, losing) {
+ 			continue
+ 		}
++		s.mu.Lock()
++		if s.castFailed[a.GetSpellId()] == 67 { // NOT_READY: its cooldown runs from the hit (Raptor
++			// Strike lands on the next swing), not from our send - retry in 0.4 s, not a whole timer
++			delete(s.castFailed, a.GetSpellId())
++			lastCast[a.GetSpellId()] = time.Now().Add(400*time.Millisecond - every)
++		}
++		s.mu.Unlock()
+ 		if !a.GetOnSelf() && a.GetItemId() == 0 && !a.GetOnWeapon() {
+ 			// out of the spell's range band: the hunter's Serpent Sting failed TOO_CLOSE in melee and
+ 			// Raptor Strike fired from range - the cast only cost the tick
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 1efe3e3..aef7844 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -64,11 +64,16 @@ CLASS_ABILITIES = {
+         {"spell_id": 19740, "every_ms": 3000, "min_power": 30, "on_self": True, "buff": True},  # Blessing of Might
+     ],
+     3: [  # hunter - from range: Auto Shot repeats on its own; stings per target; Raptor Strike in melee
++        # open at max range (35 yd) with every instant shot before it closes: Serpent Sting for the whole
++        # fight, Arcane Shot, Concussive Shot (the slow buys more Auto Shots), Auto Shot repeating; in
++        # melee, Raptor Strike on its cooldown. Monkey's dodge is always up (a buff: recast if missing)
+         {"spell_id": 13163, "every_ms": 3000, "min_power": 20, "on_self": True, "buff": True},  # Aspect of the Monkey
+-        {"spell_id": 1130, "every_ms": 30000, "min_power": 15},                              # Hunter's Mark
+-        {"spell_id": 1978, "every_ms": 15000, "min_power": 15, "per_target": True},          # Serpent Sting
++        {"spell_id": 1978, "every_ms": 15000, "min_power": 15, "per_target": True, "min_power_pct": 20},  # Serpent Sting
++        {"spell_id": 3044, "every_ms": 6000, "min_power": 15, "min_power_pct": 30},          # Arcane Shot (level 6)
++        {"spell_id": 5116, "every_ms": 12000, "min_power": 15, "min_power_pct": 25},         # Concussive Shot (level 8)
+         {"spell_id": 75, "every_ms": 2500},                                                  # Auto Shot
+-        {"spell_id": 2973, "every_ms": 6000, "min_power": 15},                               # Raptor Strike (melee)
++        {"spell_id": 2973, "every_ms": 6000, "min_power": 15},                               # Raptor Strike (melee, on cooldown)
++        {"spell_id": 1130, "every_ms": 30000, "min_power": 15, "min_power_pct": 50},         # Hunter's Mark (spare mana only)
+     ],
+     # Mana thrift (casters): max_per_target / min_power_pct keep a level-5 caster from emptying its
+     # mana into one mob and resting after every fight - a couple of nukes, then wand (if one is worn)
+@@ -95,9 +100,11 @@ CLASS_ABILITIES = {
+     8: [  # mage
+         {"spell_id": 168, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Frost Armor
+         {"spell_id": 1459, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Arcane Intellect
+-        {"spell_id": 2136, "every_ms": 8000, "min_power": 40, "max_per_target": 1, "min_power_pct": 35},  # Fire Blast
+-        {"spell_id": 116, "every_ms": 0, "min_power": 25, "max_per_target": 2, "min_power_pct": 30},     # Frostbolt (slows: fewer hits taken)
++        # Frostbolt from max range (its slow halves the mob's run-in: a second bolt lands before it
++        # arrives), Fire Blast (instant, 20 yd) as it closes, then wand or staff
++        {"spell_id": 116, "every_ms": 0, "min_power": 25, "max_per_target": 2, "min_power_pct": 30},     # Frostbolt
+         {"spell_id": 133, "every_ms": 0, "min_power": 30, "max_per_target": 2, "min_power_pct": 30},     # Fireball (before Frostbolt is known)
++        {"spell_id": 2136, "every_ms": 8000, "min_power": 40, "max_per_target": 1, "min_power_pct": 35},  # Fire Blast
+     ],
+     9: [  # warlock
+         {"spell_id": 687, "every_ms": 3000, "min_power": 50, "on_self": True, "buff": True},  # Demon Skin
+@@ -1101,10 +1108,20 @@ class Runner:
+                 a["max_range"] = mx
+         # DoTs (an effect applying aura 3 PERIODIC_DAMAGE) carry their duration: the module skips one on a
+         # target that will die inside half of it - a 15 s DoT on a mob with 5 s left is wasted mana
+-        dur = {int(r["id"]): int(r["d"]) for r in dbc(
+-            "SELECT s.id,d.base_duration d FROM spell s JOIN spellduration d ON d.id=s.duration_index "
+-            f"WHERE s.id IN ({inlist(ids)}) AND 3 IN (s.effect_apply_aura_name_1,s.effect_apply_aura_name_2,"
+-            "s.effect_apply_aura_name_3)")} if ids else {}
++        # ...but only when the periodic part is the point: Fireball's 4 s burn is a sliver of its impact
++        # and must never make it "not worth casting" (Immolate's DoT outweighs its hit - that one counts)
++        dur = {}
++        for r in (dbc("SELECT s.*,d.base_duration dur FROM spell s JOIN spellduration d ON d.id=s.duration_index "
++                      f"WHERE s.id IN ({inlist(ids)})") if ids else []):
++            direct = periodic = 0.0
++            for i in (1, 2, 3):
++                bp = int(r[f"effect_base_points_{i}"]) + 1 + max(int(r[f"effect_die_sides_{i}"]), 0) / 2
++                if int(r[f"effect_{i}"]) == 2:  # SCHOOL_DAMAGE
++                    direct += bp
++                elif int(r[f"effect_apply_aura_name_{i}"]) == 3 and int(r[f"effect_amplitude_{i}"]) > 0:
++                    periodic += bp * int(r["dur"]) / int(r[f"effect_amplitude_{i}"])
++            if periodic > 0 and periodic >= direct:
++                dur[int(r["id"])] = int(r["dur"])
+         for a in out:
+             if dur.get(a["spell_id"], 0) > 0:
+                 a["dot_ms"] = dur[a["spell_id"]]
+@@ -1245,7 +1262,7 @@ class Runner:
+         if any(math.dist(g[:2], (me["x"], me["y"])) < 80 for g in self.w.guards):
+             a["flee_pct"] = 20  # a guard is in reach: a pack at 20 % runs to him instead of dying
+         if CLASS_RANGE.get(self.w.cls):
+-            a["range"] = CLASS_RANGE[self.w.cls]
++            a["range"] = self.fight_range()
+         charge = next((x["spell_id"] for x in self.abilities if x.get("charge")), 0)
+         if solo and charge:
+             a["charge_spell"] = charge
+@@ -1255,6 +1272,16 @@ class Runner:
+             a["wand_spell"] = self._wand
+         return a
+ 
++    def fight_range(self):
++        """How far a ranged class opens from: its opener's max range (the first known attack spell
++        with one - Serpent Sting 35, Frostbolt/Smite/Wrath 30). The module stands 3 yd inside it."""
++        if not CLASS_RANGE.get(self.w.cls):
++            return 0
++        for a in getattr(self, "abilities", []):
++            if not a.get("on_self") and not a.get("interrupt") and a.get("max_range", 0) > 8:
++                return a["max_range"]
++        return CLASS_RANGE[self.w.cls]
++
+     def weapon_consumable(self):
+         """A sharpening stone / weightstone / oil in the bags and a bare main hand: put it on before the
+         pull. Any item whose on-use spell is a temporary weapon enchant (spell effect 54) - the same
+@@ -1717,8 +1744,11 @@ class Runner:
+             if spots:
+                 self.travel(*spots[0][2], within=15)
+                 return True
+-        if t.get("distance", 0) > 5:  # the kill RPC will not chase far ("too far") - close in first
+-            self.travel(t["x"], t.get("y", 0), t.get("z", 0), within=4)
++        # the kill RPC will not chase far ("too far") - close in first; a ranged class only to its range
++        # (it walked to 4 yd and gave its whole range advantage away)
++        stand = self.fight_range() - 2 if CLASS_RANGE.get(self.w.cls) else 4
++        if t.get("distance", 0) > stand + 1:
++            self.travel(t["x"], t.get("y", 0), t.get("z", 0), within=stand)
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
+         self.fight_log(t["entry"], r)
+         self.kills += r.get("killed", False)
+@@ -1852,7 +1882,7 @@ class Runner:
+             else:
+                 ux, uy = out["x"] - cx, out.get("y", 0) - cy
+                 n = max(math.hypot(ux, uy), 0.01)
+-                off = 20 if pull else 6  # a ranged opener stands well back
++                off = max(self.fight_range() - 2, 20) if pull else 6  # a ranged opener stands at its range
+                 ax, ay = out["x"] + ux / n * off, out.get("y", 0) + uy / n * off
+             me = self.me()
+             if ax is not None and math.dist((me["x"], me["y"]), (ax, ay)) > 8:
+-- 
+2.34.1
+
