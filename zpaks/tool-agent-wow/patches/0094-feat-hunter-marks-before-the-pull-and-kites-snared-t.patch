@@ -1,0 +1,234 @@
+From b4606388467b9ca10815aa8e9e4712426392b9a2 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 04:48:50 +0000
+Subject: [PATCH] feat: hunter marks before the pull and kites snared targets
+ (F-219)
+
+- Hunter's Mark first, once per target, before any shot
+- KillRequest kite_auras: when the only attacker is within 8.5 yd and wears
+  one of these snares (Concussive Shot, Wing Clip), step back 10 yd (at most
+  every 2 s) instead of trading melee; KillResult reports kites
+- Wing Clip in the melee rotation (level 12) to re-snare
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 36 ++++++++++++++++++------
+ zeppelin/modules/combat/combat.proto     |  4 +++
+ zeppelin/modules/combat/main.go          | 25 ++++++++++++++++
+ zeppelin/tests/start_area.py             | 10 +++++--
+ 4 files changed, 65 insertions(+), 10 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 258c0e4..16a1c81 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -212,10 +212,12 @@ type KillRequest struct {
+ 	ChargeSpell uint32                 `protobuf:"varint,9,opt,name=charge_spell,json=chargeSpell,proto3" json:"charge_spell,omitempty"` // gap closer (Charge) cast once from 8-25 yd while nothing attacks us
+ 	BodyPull    bool                   `protobuf:"varint,10,opt,name=body_pull,json=bodyPull,proto3" json:"body_pull,omitempty"`         // no opener: inch up 2 yd at a time until the target alone aggroes, then back
+ 	// off `retreat` yd so it follows us out of its camp
+-	Retreat       float32 `protobuf:"fixed32,11,opt,name=retreat,proto3" json:"retreat,omitempty"`                     // 0 = 15
+-	Range         float32 `protobuf:"fixed32,12,opt,name=range,proto3" json:"range,omitempty"`                         // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
+-	FleePct       uint32  `protobuf:"varint,13,opt,name=flee_pct,json=fleePct,proto3" json:"flee_pct,omitempty"`       // break off (reason "flee") below this health % while 2+ attack us; 0 = never
+-	WandSpell     uint32  `protobuf:"varint,14,opt,name=wand_spell,json=wandSpell,proto3" json:"wand_spell,omitempty"` // Shoot (5019) with a wand equipped: what a ranged fighter does once its
++	Retreat   float32 `protobuf:"fixed32,11,opt,name=retreat,proto3" json:"retreat,omitempty"`                     // 0 = 15
++	Range     float32 `protobuf:"fixed32,12,opt,name=range,proto3" json:"range,omitempty"`                         // casters / hunters: fight from this far (yd), melee only when it reaches us; 0 = melee
++	FleePct   uint32  `protobuf:"varint,13,opt,name=flee_pct,json=fleePct,proto3" json:"flee_pct,omitempty"`       // break off (reason "flee") below this health % while 2+ attack us; 0 = never
++	WandSpell uint32  `protobuf:"varint,14,opt,name=wand_spell,json=wandSpell,proto3" json:"wand_spell,omitempty"` // Shoot (5019) with a wand equipped: what a ranged fighter does once its
++	// thrift-limited spells are spent; 0 = close in and melee instead
++	KiteAuras     []uint32 `protobuf:"varint,15,rep,packed,name=kite_auras,json=kiteAuras,proto3" json:"kite_auras,omitempty"` // hunter kiting: when the target wears one of these snares (Concussive
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -348,6 +350,13 @@ func (x *KillRequest) GetWandSpell() uint32 {
+ 	return 0
+ }
+ 
++func (x *KillRequest) GetKiteAuras() []uint32 {
++	if x != nil {
++		return x.KiteAuras
++	}
++	return nil
++}
++
+ type LootItem struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	ItemId        uint32                 `protobuf:"varint,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+@@ -418,6 +427,7 @@ type KillResult struct {
+ 	Spells        []uint32               `protobuf:"varint,15,rep,packed,name=spells,proto3" json:"spells,omitempty"`                             // every spell we cast this fight, in order (proof the rotation fires)
+ 	CastFails     []string               `protobuf:"bytes,16,rep,name=cast_fails,json=castFails,proto3" json:"cast_fails,omitempty"`              // "spell:result xN" from SMSG_CAST_FAILED this fight
+ 	Pull          string                 `protobuf:"bytes,14,opt,name=pull,proto3" json:"pull,omitempty"`                                         // "" no opener, "pulled", "came" (target walked in), "failed N" (cast result)
++	Kites         uint32                 `protobuf:"varint,17,opt,name=kites,proto3" json:"kites,omitempty"`                                      // times we stepped back from a snared target (kite_auras)
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -564,6 +574,13 @@ func (x *KillResult) GetPull() string {
+ 	return ""
+ }
+ 
++func (x *KillResult) GetKites() uint32 {
++	if x != nil {
++		return x.Kites
++	}
++	return 0
++}
++
+ type RestRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	UntilPct      uint32                 `protobuf:"varint,1,opt,name=until_pct,json=untilPct,proto3" json:"until_pct,omitempty"` // 0 = 90
+@@ -908,7 +925,7 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x0emax_per_target\x18\x0e \x01(\rR\fmaxPerTarget\x12\"\n" +
+ 	"\rmin_power_pct\x18\x0f \x01(\rR\vminPowerPct\x12\x15\n" +
+ 	"\x06dot_ms\x18\x10 \x01(\rR\x05dotMs\x12\x1b\n" +
+-	"\tmin_combo\x18\x11 \x01(\rR\bminCombo\"\xac\x03\n" +
++	"\tmin_combo\x18\x11 \x01(\rR\bminCombo\"\xcb\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+@@ -928,10 +945,12 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x05range\x18\f \x01(\x02R\x05range\x12\x19\n" +
+ 	"\bflee_pct\x18\r \x01(\rR\afleePct\x12\x1d\n" +
+ 	"\n" +
+-	"wand_spell\x18\x0e \x01(\rR\twandSpell\"9\n" +
++	"wand_spell\x18\x0e \x01(\rR\twandSpell\x12\x1d\n" +
++	"\n" +
++	"kite_auras\x18\x0f \x03(\rR\tkiteAuras\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+ 	"\aitem_id\x18\x01 \x01(\rR\x06itemId\x12\x14\n" +
+-	"\x05count\x18\x02 \x01(\rR\x05count\"\xe6\x03\n" +
++	"\x05count\x18\x02 \x01(\rR\x05count\"\xfc\x03\n" +
+ 	"\n" +
+ 	"KillResult\x12\x16\n" +
+ 	"\x06killed\x18\x01 \x01(\bR\x06killed\x12\x16\n" +
+@@ -953,7 +972,8 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x06spells\x18\x0f \x03(\rR\x06spells\x12\x1d\n" +
+ 	"\n" +
+ 	"cast_fails\x18\x10 \x03(\tR\tcastFails\x12\x12\n" +
+-	"\x04pull\x18\x0e \x01(\tR\x04pull\"\xac\x02\n" +
++	"\x04pull\x18\x0e \x01(\tR\x04pull\x12\x14\n" +
++	"\x05kites\x18\x11 \x01(\rR\x05kites\"\xac\x02\n" +
+ 	"\vRestRequest\x12\x1b\n" +
+ 	"\tuntil_pct\x18\x01 \x01(\rR\buntilPct\x12\x1b\n" +
+ 	"\tbudget_ms\x18\x02 \x01(\rR\bbudgetMs\x12\x1b\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 26fc7df..2e84f3e 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -47,6 +47,9 @@ message KillRequest {
+   uint32 flee_pct = 13;  // break off (reason "flee") below this health % while 2+ attack us; 0 = never
+   uint32 wand_spell = 14; // Shoot (5019) with a wand equipped: what a ranged fighter does once its
+                           // thrift-limited spells are spent; 0 = close in and melee instead
++  repeated uint32 kite_auras = 15; // hunter kiting: when the target wears one of these snares (Concussive
++                                   // Shot) and reaches us while it is our only attacker, step back ~10 yd
++                                   // between shots instead of trading blows with it
+ }
+ 
+ message LootItem {
+@@ -71,6 +74,7 @@ message KillResult {
+   repeated uint32 spells = 15; // every spell we cast this fight, in order (proof the rotation fires)
+   repeated string cast_fails = 16; // "spell:result xN" from SMSG_CAST_FAILED this fight
+   string pull = 14;      // "" no opener, "pulled", "came" (target walked in), "failed N" (cast result)
++  uint32 kites = 17;     // times we stepped back from a snared target (kite_auras)
+ }
+ 
+ message RestRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index a1e936e..dd892a0 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -423,6 +423,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	bodyDone := !req.GetBodyPull()
+ 	rng := float64(req.GetRange()) // > 0: a caster/hunter fighting from range until it must melee
+ 	attacking := false
++	var lastKite time.Time
+ 	var lastHP uint32
+ 	var stuckSince time.Time
+ 	deadline := time.Now().Add(budget)
+@@ -606,6 +607,19 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			time.Sleep(tick)
+ 			continue
+ 		}
++		if rng > 0 && d <= rng && d < 8.5 && len(live) <= 1 && hasAnyAura(t.GetAuras(), req.GetKiteAuras()) &&
++			time.Since(lastKite) > 2*time.Second {
++			// kite: it is slowed and on top of us - back off out of melee (and past the ranged dead zone)
++			// so the next Auto Shot and shots land instead of a melee exchange
++			lastKite = time.Now()
++			dx, dy := float64(me.GetX()-t.GetX()), float64(me.GetY()-t.GetY())
++			h := math.Max(math.Hypot(dx, dy), 0.01)
++			var mv movev1.MoveToResult
++			_ = s.invoke(ctx, "move", "to", &movev1.MoveToRequest{X: me.GetX() + float32(dx/h*10),
++				Y: me.GetY() + float32(dy/h*10), Z: me.GetZ(), TimeoutMs: 2500}, &mv)
++			res.Kites++
++			continue
++		}
+ 		if rng > 0 && d <= rng {
+ 			// a cast blocked by line of sight will never land from here: close in now, not in 5 s
+ 			s.mu.Lock()
+@@ -911,6 +925,17 @@ func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfStat
+ 	return false
+ }
+ 
++func hasAnyAura(have, want []uint32) bool {
++	for _, a := range have {
++		for _, w := range want {
++			if a == w {
++				return true
++			}
++		}
++	}
++	return false
++}
++
+ func (s *service) hasAura(spell uint32) bool {
+ 	s.mu.Lock()
+ 	defer s.mu.Unlock()
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index aef7844..2e8d0f5 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -68,12 +68,13 @@ CLASS_ABILITIES = {
+         # fight, Arcane Shot, Concussive Shot (the slow buys more Auto Shots), Auto Shot repeating; in
+         # melee, Raptor Strike on its cooldown. Monkey's dodge is always up (a buff: recast if missing)
+         {"spell_id": 13163, "every_ms": 3000, "min_power": 20, "on_self": True, "buff": True},  # Aspect of the Monkey
++        {"spell_id": 1130, "every_ms": 30000, "min_power": 15, "max_per_target": 1},         # Hunter's Mark - before the pull
+         {"spell_id": 1978, "every_ms": 15000, "min_power": 15, "per_target": True, "min_power_pct": 20},  # Serpent Sting
+         {"spell_id": 3044, "every_ms": 6000, "min_power": 15, "min_power_pct": 30},          # Arcane Shot (level 6)
+         {"spell_id": 5116, "every_ms": 12000, "min_power": 15, "min_power_pct": 25},         # Concussive Shot (level 8)
+         {"spell_id": 75, "every_ms": 2500},                                                  # Auto Shot
+         {"spell_id": 2973, "every_ms": 6000, "min_power": 15},                               # Raptor Strike (melee, on cooldown)
+-        {"spell_id": 1130, "every_ms": 30000, "min_power": 15, "min_power_pct": 50},         # Hunter's Mark (spare mana only)
++        {"spell_id": 2974, "every_ms": 10000, "min_power": 15},                              # Wing Clip (level 12): snare in melee, then kite
+     ],
+     # Mana thrift (casters): max_per_target / min_power_pct keep a level-5 caster from emptying its
+     # mana into one mob and resting after every fight - a couple of nukes, then wand (if one is worn)
+@@ -136,6 +137,8 @@ CLASS_ABILITIES = {
+ # creatures worth grinding: XP-giving (CREATURE_FLAG_EXTRA_NO_XP 0x40) and not a training dummy (Kezan's
+ # 48304 has flags_extra 0 and never dies - it is the Charge quest's target, a script heals it)
+ GRINDABLE = "(flags_extra & 64)=0 AND ScriptName NOT LIKE '%dummy%' AND name NOT LIKE '%Training Dummy%'"
++# hunter snares that make kiting work: Concussive Shot (5116), Wing Clip ranks (2974, 14267, 14268)
++KITE_SNARES = [5116, 2974, 14267, 14268]
+ CLASS_RANGE = {3: 28, 5: 28, 7: 26, 8: 28, 9: 28, 11: 28}
+ MANA_CLASSES = {2, 3, 5, 7, 8, 9, 11}
+ 
+@@ -1270,6 +1273,8 @@ class Runner:
+             a["pull_spell"] = self._pull
+         if getattr(self, "_wand", 0):
+             a["wand_spell"] = self._wand
++        if self.w.cls == 3:
++            a["kite_auras"] = KITE_SNARES  # step back from a snared mob between shots
+         return a
+ 
+     def fight_range(self):
+@@ -1968,7 +1973,8 @@ class Runner:
+         print(f"  fight {entry}: {r.get('reason', 'killed')} [{kind} x{r.get('peakAttackers', 1)}"
+               f"{' ' + r['pull'] if r.get('pull') else ''}] swings {r.get('swings', 0)} dealt {r.get('damageDone', 0)} "
+               f"taken {r.get('damageTaken', 0)} hp {r.get('ourHealth', 0)}/{r.get('ourMaxHealth', 0)} casts {r.get('spells', [])}"
+-              f"{' fails ' + ','.join(r['castFails']) if r.get('castFails') else ''}",
++              f"{' fails ' + ','.join(r['castFails']) if r.get('castFails') else ''}"
++              f"{' kites ' + str(r['kites']) if r.get('kites') else ''}",
+               flush=True)
+         self.check_loot(r)
+         if r.get("reason") == "flee":
+-- 
+2.34.1
+
