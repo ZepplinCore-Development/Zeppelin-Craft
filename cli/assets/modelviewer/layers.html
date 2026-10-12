@@ -1054,6 +1054,8 @@ const keyOf = (e) => e.tab === 'display' ? String(e.display) : e.path;
 const pickOf = (e) => (choices[kindOf(e)] || {})[keyOf(e)];
 function assetMatches(e) {
   if (e.tab !== tab) return false;
+  // 'model:<path>' (a model card's Displays button): every display that shows that model, whatever the filter
+  if (search.startsWith('model:')) return displaysOfModel(search.slice(6)).has(e);
   const c = pickOf(e);
   const rv = reviewReason(kindOf(e), keyOf(e), e);
   if ((filter === 'todo' || filter === 'review') && (e.single || e.retailOnly)) return false;
@@ -1116,6 +1118,18 @@ function searchWords() {
 // 0 = every word in the path or a name, 1 = needed the keywords
 // a Displays-tab entry is found by every model file its options use (skeletonmage.m2 finds the
 // displays a pack moves off it, maldraxxusskeleton.m2 the ones it moves onto it)
+// the displays a model is shown on: its stock displays and every display an option moves onto it
+const _dom = new Map();
+function displaysOfModel(path) {
+  if (!_dom.has(path)) _dom.set(path, new Set(assets.filter(d => d.tab === 'display' &&
+    [...(d.panes || []), ...(d.compare || [])].some(x => (x.model || '').toLowerCase() === path))));
+  return _dom.get(path);
+}
+function showModelDisplays(path) {
+  search = 'model:' + path.toLowerCase(); $('search').value = search;
+  lastFilter.display = 'all';                      // this browse only (not remembered)
+  openLayer('display');
+}
 const dispModels = (e) => e.tab === 'display' ? [...(e.panes || []), ...(e.compare || [])].map(p => p.model || '').join(' ') : '';
 function searchRank(e) {
   const strong = (e.id + ' ' + (e.display || '') + ' ' + (e.names || []).join(' ') + ' ' + dispModels(e) + ' ' + foldedNames(e)).toLowerCase();
@@ -1602,11 +1616,16 @@ function openAsset(e) {
       : vm ? `<span class="chip ok" title="Decided by the pick on ${esc(mp)} (green box: ${esc(label(vm.sources || []))}). Use this on a card here to override it for this display only.">via model pick</span><span>${ml}</span>`
       : `<span class="chip warn" title="Decided by the pick, still to make, on ${esc(mp)}. Use this on a card here to override it for this display only.">model not picked yet</span><span>${ml}</span>`);
   }
+  if ((e.tab === 'creature' || e.tab === 'character') && !e.retailOnly) {
+    const n = displaysOfModel(e.path.toLowerCase()).size;
+    if (n) ctx.push(`<button id="todisplays" title="Open the Displays tab listing every display that shows ${esc(e.path)}">Displays (${n}) →</button>`);
+  }
   if (e.tab === 'display' && e.look_group) {
     const others = e.look_group.filter(x => x !== e.display);
     ctx.push(`<span class="chip warn" title="Same stock look and options as display${others.length > 1 ? 's' : ''} ${others.slice(0, 40).join(', ')}${others.length > 40 ? '…' : ''}">same look ×${e.look_group.length}</span>${groupBox(e.display)}`);
   }
   if (ctx.length) $('panes').insertAdjacentHTML('afterbegin', `<div id="ctxbar">${ctx.join('<span class="sep">·</span>')}</div>`);
+  if ($('todisplays')) $('todisplays').onclick = () => showModelDisplays(e.path);
   render();
   fitPanes();
 }
