@@ -366,7 +366,9 @@ def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
         return True
 
     ok = 0
-    for rel_path, cfg in transforms.items():
+    # models before skins: a skin op reads the model as its own recipe left it (skin.import needs
+    # the vertices m2.import_vertices wrote)
+    for rel_path, cfg in sorted(transforms.items(), key=lambda kv: kv[0].upper().endswith('.SKIN')):
         m2_parsed = parsed_dir / rel_path.upper()
 
         # `copy_from` publishes this path as a copy of a different source
@@ -401,6 +403,18 @@ def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
         dz = cfg.get('dz', 0.0)
         scale = cfg.get('scale', 1.0)
         ops = cfg.get('ops', [])
+        # ops that read another model / skin: `donor_model` / `donor_skin` are zpak-relative paths
+        # (donors/, not shipped) or source-assets paths; their bytes go in as _donor_model / _donor_skin
+        for op in ops:
+            for k in ('donor_model', 'donor_skin'):
+                if k in op:
+                    f = zpak_path / op[k]
+                    if not f.is_file():
+                        f = _find_source_file(source_dir, op[k])
+                    if not f or not f.is_file():
+                        print(f"  \033[31mERR\033[0m   {rel_path}  ({k} {op[k]} not found)")
+                        return False
+                    op['_' + k] = f.read_bytes()
 
         try:
             changes = []

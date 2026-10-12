@@ -24,6 +24,16 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       Optional "drop": {"105": [6, 7]}: a source variant's parts left out (105's circlets, the same
       pieces 604/704 already offer).
 
+  {"op": "skin.import", "donor_model": ..., "donor_skin": ..., "at": 36539, "variant": 8,
+   "parts": {"5": [6, 49], "6": [2, 0], "7": [3, 1]},
+   "submeshes": [{"submesh": 2, "batch": {"material": 2, "texcombo": 4}}, ...]}
+      Pieces of ANOTHER model on the same rig (dragonspawn2boss's pads and helm) as new geosets
+      (part * 100 + variant), on the vertices and bone combos the model op m2.import_vertices
+      wrote (same donor, submeshes and `at`; checked here). Each triangle goes to the part owning
+      its vertices' key bones. Batch fields name this model's tables: material, texcombo, coord,
+      weight, transform (the model ops m2.texture.add / m2.texlookup.set / m2.table.append add
+      what the donor needs).
+
   {"op": "skin.uv_split", "parts": [{"name": "stem", "combo_add": 0, "boxes": [[u0, v0, u1, v1], ...]},
                                     ..., {"name": "flower", "combo_add": 2}]}
       Split every submesh into one submesh per part by TEXTURE REGION, so each part can sample its
@@ -283,10 +293,160 @@ def _op_uv_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     return 'uv_split: ' + ', '.join(f'{k} {v} tris' for k, v in count.items())
 
 
+def _pivots(model: bytes) -> List[tuple]:
+    n, o = _arr(model, 0x2C)
+    return [struct.unpack_from('<3f', model, o + 88 * i + 76) for i in range(n)]
+
+
+def bone_map(donor: bytes, model: bytes) -> List[int]:
+    """donor bone -> model bone, for two models on one rig (dragonspawn2boss on dragonspawn2):
+    the model bone with the same pivot and key-bone ancestor; a donor-only bone (the boss's pad
+    flap bones) takes its nearest ancestor that has a twin, so its vertices ride rigidly."""
+    dm, mm = _Model(donor), _Model(model)
+    dp, mp = _pivots(donor), _pivots(model)
+    twin = {}
+    for b in range(len(dp)):
+        c = [j for j in range(len(mp)) if sum((dp[b][i] - mp[j][i]) ** 2 for i in range(3)) < 1e-8
+             and mm.key_of(j) == dm.key_of(b)]
+        if c:
+            twin[b] = min(c, key=lambda j: abs(j - b))
+    out = []
+    for b in range(len(dp)):
+        a = b
+        while a >= 0 and a not in twin:
+            a = dm.parent[a]
+        out.append(twin.get(a, 0))
+    return out
+
+
+def _import_plan(donor_skin: bytes, subs: List[int]):
+    """The donor vertices the listed submeshes draw (sorted) and each submesh's (raw fields,
+    props reach): shared by m2.import_vertices and skin.import so both lay things out alike."""
+    sk = _Skin(donor_skin)
+    verts, info = set(), []
+    for j in subs:
+        f = struct.unpack_from('<10H', sk.subs[j])
+        vs, vc = f[2] | (f[1] << 16), f[3]
+        verts |= {v + sk.x2c for v in sk.lookup[vs:vs + vc]}
+        info.append((j, f, vs, vc, max(sk.props[4 * vs:4 * (vs + vc)]) + 1))
+    return sk, sorted(verts), info
+
+
+def import_vertices(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """MODEL op m2.import_vertices {"donor_model", "donor_skin", "submeshes": [2, 3], "at": 36539}:
+    the donor vertices those submeshes draw, bones remapped (bone_map), written over this model's
+    vertices from `at` on (vertices no skin of this one-view model draws: past its LOD skin's
+    range; a skin lookup is u16, so they cannot go at the end), and each submesh's bone combo
+    (as far as its props reach) remapped and appended to the bone lookup (0x78, moved to the end).
+    patch_builder passes the donor files' bytes as cfg['_donor_model'] / cfg['_donor_skin']."""
+    from lib.m2_ops import _relocate_array
+    if bytes(data[:4]) != b'MD20' or struct.unpack_from('<I', data, 4)[0] != 264:
+        raise ValueError('m2.import_vertices: model is not a WotLK MD20 v264')
+    donor = cfg['_donor_model']
+    bmap = bone_map(donor, bytes(data))
+    sk, verts, info = _import_plan(cfg['_donor_skin'], [int(j) for j in cfg['submeshes']])
+    at = int(cfg['at'])
+    nv, ov = _arr(data, 0x3C)
+    if at + len(verts) > min(nv, 0x10000):
+        raise ValueError(f'm2.import_vertices: no room for {len(verts)} vertices at {at} ({nv} in the model)')
+    dn, do = _arr(donor, 0x3C)
+    out = bytearray()
+    for v in verts:
+        r = bytearray(donor[do + 48 * v:do + 48 * v + 48])
+        r[16:20] = bytes(bmap[b] for b in r[16:20])
+        out += r
+    data[ov + 48 * at:ov + 48 * (at + len(verts))] = out
+    dl, dlo = _arr(donor, 0x78)
+    dlook = struct.unpack_from('<%dH' % dl, donor, dlo)
+    nl, ol = _arr(data, 0x78)
+    look = list(struct.unpack_from('<%dH' % nl, data, ol))
+    for j, f, vs, vc, reach in info:
+        look += [bmap[b] for b in dlook[f[7]:f[7] + reach]]
+    _relocate_array(data, 0, 0x78, struct.pack('<%dH' % len(look), *look), len(look))
+    flap = sorted({b for b in range(len(bmap)) if _pivots(donor)[b] != _pivots(bytes(data))[bmap[b]]} &
+                  {b for j, f, vs, vc, r in info for b in dlook[f[7]:f[7] + r]})
+    return (f"import_vertices: donor submeshes {cfg['submeshes']}: {len(verts)} vertices -> {at}..{at + len(verts) - 1}, "
+            f"bone combos -> {nl}..{len(look) - 1}" + (f", donor-only bones {flap} ride their parents" if flap else ''))
+
+
+_TABLES = {'materials': (0x70, '<HH'), 'texunit_lookup': (0x88, '<h')}
+
+
+def table_append(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """MODEL op m2.table.append {"table": "materials" | "texunit_lookup", "values": [...],
+    "expect_count": n}: entries added at the end of the table (it moves to the end of the file).
+    materials values are [flags, blend] pairs."""
+    from lib.m2_ops import _relocate_array
+    at, fmt = _TABLES[cfg['table']]
+    size = struct.calcsize(fmt)
+    n, o = _arr(data, at)
+    if 'expect_count' in cfg and n != int(cfg['expect_count']):
+        raise ValueError(f"{cfg['table']} has {n} entries, expected {cfg['expect_count']} - refusing")
+    blob = bytes(data[o:o + size * n]) + b''.join(
+        struct.pack(fmt, *(v if isinstance(v, (list, tuple)) else [v])) for v in cfg['values'])
+    _relocate_array(data, 0, at, blob, n + len(cfg['values']))
+    return f"{cfg['table']}: {n} -> {n + len(cfg['values'])} entries"
+
+
+def _op_import(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    """skin.import: see the module doc."""
+    donor = cfg['_donor_model']
+    dm = _Model(donor)
+    bmap = bone_map(donor, model)
+    items = cfg['submeshes']
+    dsk, verts, info = _import_plan(cfg['_donor_skin'], [int(x['submesh']) for x in items])
+    rank = {v: i for i, v in enumerate(verts)}
+    at = int(cfg['at'])
+    owner = {int(k): int(g) for g, keys in cfg['parts'].items() for k in keys}
+    nl, ol = _arr(model, 0x78)
+    look = struct.unpack_from('<%dH' % nl, model, ol)
+    dl, dlo = _arr(donor, 0x78)
+    dlook = struct.unpack_from('<%dH' % dl, donor, dlo)
+    combo = nl - sum(r for *_, r in info)
+    nv, ov = _arr(model, 0x3C)
+    dn, do = _arr(donor, 0x3C)
+    for v in verts[::max(1, len(verts) // 16)]:          # the model must carry m2.import_vertices
+        if model[ov + 48 * (at + rank[v]):ov + 48 * (at + rank[v]) + 12] != donor[do + 48 * v:do + 48 * v + 12]:
+            raise ValueError('skin.import: model vertices differ from the donor (the .M2 recipe needs m2.import_vertices)')
+    made = []
+    for item, (j, f, vs, vc, reach) in zip(items, info):
+        if list(look[combo:combo + reach]) != [bmap[b] for b in dlook[f[7]:f[7] + reach]]:
+            raise ValueError('skin.import: bone combo mismatch (the .M2 recipe needs m2.import_vertices)')
+        nstart = len(sk.lookup)
+        sk.lookup += [at + rank[v + dsk.x2c] for v in dsk.lookup[vs:vs + vc]]
+        sk.props += dsk.props[4 * vs:4 * (vs + vc)]
+        ds = dsk.sub(j)
+        parts = collections.defaultdict(list)
+        for t in range(ds['istart'], ds['istart'] + ds['icount'], 3):
+            tri = dsk.idx[t:t + 3]
+            g = collections.Counter(owner.get(dm.key_of(dm.dom[dsk.lookup[x] + dsk.x2c]), -1) for x in tri).most_common(1)[0][0]
+            if g < 0:
+                raise ValueError(f'skin.import: donor submesh {j} has a triangle on no part')
+            parts[g] += [x - vs + nstart for x in tri]
+        for g in sorted(parts):
+            raw = bytearray(dsk.subs[j])
+            fl = list(f)
+            fl[0], fl[1], fl[2], fl[4], fl[5], fl[7], fl[9] = (g * 100 + int(cfg['variant']), 0, nstart, len(sk.idx),
+                                                               len(parts[g]), combo, bmap[f[9]])
+            struct.pack_into('<10H', raw, 0, *fl)
+            sk.idx += parts[g]
+            sk.subs.append(raw)
+            b = item['batch']
+            si = len(sk.subs) - 1
+            sk.batches.append(bytearray(struct.pack('<BbHHHhHHHHHHH', int(b.get('flags', 16)), 0, int(b.get('shader', 32769)),
+                                                    si, si, -1, int(b['material']), 0, int(b.get('textures', 2)),
+                                                    int(b['texcombo']), int(b.get('coord', 0)), int(b.get('weight', 0)),
+                                                    int(b.get('transform', 0)))))
+            made.append(f'{j}->{g * 100 + int(cfg["variant"])}:{len(parts[g]) // 3}')
+        combo += reach
+    return f'import: {" ".join(made)}'
+
+
 OPS = {
     'skin.lod_rebase': _op_lod_rebase,
     'skin.geoset.split': _op_geoset_split,
     'skin.uv_split': _op_uv_split,
+    'skin.import': _op_import,
 }
 
 
