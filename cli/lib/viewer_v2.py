@@ -2131,6 +2131,24 @@ def swap_v2(out_root: Path) -> None:
     shutil.rmtree(old, ignore_errors=True)
 
 
+def geoset_labels(v2: Path, log: Callable = print) -> int:
+    """data/v2/geoset_labels.json {model path: {group: label}}: the names a pack gives its own
+    model's geoset groups (model_transforms.json, "geoset_labels" on the .M2 recipe; I-392
+    dragonspawn2_modular). The Display editor shows them in place of the bone-region guess."""
+    out: Dict[str, Dict[str, str]] = {}
+    for f in sorted((Path(__file__).resolve().parents[2] / 'zpaks').glob('*/model_transforms.json')):
+        try:
+            recipes = json.loads(f.read_text(encoding='utf-8-sig'))
+        except (OSError, ValueError):
+            continue
+        for key, cfg in recipes.items():
+            if isinstance(cfg, dict) and cfg.get('geoset_labels') and key.upper().endswith('.M2'):
+                out[ms.norm(key)] = {str(g): str(t) for g, t in cfg['geoset_labels'].items()}
+    (v2 / 'geoset_labels.json').write_text(json.dumps(out, separators=(',', ':')))
+    log(f'  geoset labels: {len(out)} model(s) name their groups')
+    return len(out)
+
+
 def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, names: Dict,
               equipment: Dict, log: Callable = print, edits: Optional[dict] = None,
               cnames: Optional[Dict[int, str]] = None,
@@ -2257,6 +2275,10 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     customise_extras(dep, custom, v2, log, [e for e in assets if e.get('tab') == 'display'],
                      [e for e in assets if e.get('tab') == 'creature' and len(e.get('panes') or []) > 1], more)
     log(f'  customise: {len(custom):,} named displays')
+    try:
+        geoset_labels(v2, log)
+    except Exception as ex:
+        log(f'  geoset labels: skipped - {ex}')
     # textures: a light index for the list (filters/search) + detail shards loaded on demand
     CH = 400
     index = []

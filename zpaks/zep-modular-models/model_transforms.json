@@ -46,6 +46,16 @@
   },
   "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR.M2": {
     "note": "I-392: retail dragonspawn2.m2 unchanged (1 view, so the client loads only DRAGONSPAWN2_MODULAR00.SKIN). Pinned so a changed donor fails the build.",
-    "base_sha256": "2553cdbd295c52555bf74d8e8fd97a9f36c8a540455fd9c1e0790e1ca101ca49"
+    "base_sha256": "2553cdbd295c52555bf74d8e8fd97a9f36c8a540455fd9c1e0790e1ca101ca49",
+    "geoset_labels": {
+      "1": "chest / collar",
+      "2": "waist",
+      "3": "horns / crest",
+      "4": "face (jaw / ears)",
+      "5": "helmet",
+      "6": "left shoulder",
+      "7": "right shoulder",
+      "8": "bracers / gauntlets / boots"
+    }
   }
 }

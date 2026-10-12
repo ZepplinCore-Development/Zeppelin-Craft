@@ -697,10 +697,15 @@ function geoRegions(m2buf, skbuf) {
   } catch (e) { return null; }
 }
 let geoM2 = null, geoSent = false;
+// a pack that names its own model's groups (data/v2/geoset_labels.json, from model_transforms.json) beats the guess
+const geoNamed = fetch('data/v2/geoset_labels.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
+  .then(j => j[String(MODEL || '').toLowerCase()] || null);
 function sendRegions(skbuf) {
   if (geoSent || !geoM2) return;
+  geoSent = true;
   const r = geoRegions(geoM2, skbuf);
-  if (r && Object.keys(r).length) { geoSent = true; parent.postMessage({ type: 'pane-georegions', regions: r }, '*'); }
+  geoNamed.then(n => { const out = { ...(r || {}), ...(n || {}) };
+    if (Object.keys(out).length) parent.postMessage({ type: 'pane-georegions', regions: out }, '*'); else geoSent = false; });
 }
 // Retail particles with a TXAC value and no material flag 0x20 make this engine build throw "Incompatible
 // situation" (particleEmitter::selectShaderId; newer engine source only logs it) - arcanegolem2 crashed the pane.
