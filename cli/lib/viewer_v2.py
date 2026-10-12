@@ -1261,6 +1261,26 @@ def reuses_display(stock_path: str, path: str, ext, stock_paths: set) -> bool:
     return not (a in b or b in a or len(os.path.commonprefix([a, b])) >= 4)
 
 
+def _m2_size(f) -> int:
+    """A fallback option's size the way the index counts it: the .m2 plus its .skin and .anim
+    files beside it (a single-option stock model has no index option, so its card showed none)."""
+    try:
+        f = Path(f)
+        stem = re.compile(re.escape(f.stem) + r'(\d\d\.skin|\d{4}-\d\d\.anim)$', re.I)
+        return f.stat().st_size + sum(x.stat().st_size for x in f.parent.iterdir() if stem.match(x.name))
+    except OSError:
+        return 0
+
+
+def _m2_meta(f) -> dict:
+    try:
+        with open(f, 'rb') as fh:
+            h = fh.read(8)
+        return {'version': int.from_bytes(h[4:8], 'little')} if h[:4] in (b'MD20', b'MD21') else {}
+    except OSError:
+        return {}
+
+
 def display_entries(dep: 'Deployer', edits: Optional[dict], cnames: Dict[int, str]) -> List[dict]:
     """Displays tab: (1) REPOINTS - displays whose packs point them at different models; each
     distinct model is an option, drawn with that pack's own display rows; (2) creature-level
@@ -1351,7 +1371,7 @@ def display_entries(dep: 'Deployer', edits: Optional[dict], cnames: Dict[int, st
                     f = ms.stock_asset(path) if names[0] == 'stock' else srcs[names[0]].assets.get(path)
                     if f is None:
                         continue
-                    o = ai.Option('d' + path[-11:], [names[0]], {path: f})
+                    o = ai.Option('d' + path[-11:], [names[0]], {path: f}, _m2_size(f), _m2_meta(f))
                 pn = dep.pane(path, o, did, dbc_source=names[0])
                 if pn:
                     # a path split by file gets a key per file (the model path stays pn['model'])
@@ -1392,7 +1412,7 @@ def display_entries(dep: 'Deployer', edits: Optional[dict], cnames: Dict[int, st
                     f = srcs[sn].assets.get(b)
                     if f is None:
                         continue
-                    o = ai.Option('r' + b[-11:], [sn], {b: f})
+                    o = ai.Option('r' + b[-11:], [sn], {b: f}, _m2_size(f), _m2_meta(f))
                 pn = dep.pane(b, o, did, dbc_source=sn, row_over={k: v for k, v in row.items() if not k.startswith('_')})
                 if pn:
                     pn['option'] = b
