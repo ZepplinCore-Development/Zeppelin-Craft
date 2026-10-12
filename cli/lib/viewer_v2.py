@@ -1942,7 +1942,7 @@ def add_outfits(dep: 'Deployer', assets: List[dict], cat: List[dict], log: Calla
                 rs = race_sex(path)
                 if rs:
                     rows = out.with_lookalike(rows, f, *rs)
-                if any(r[1] for r in rows):
+                if any(r[1] or r[3] for r in rows):         # retail rows: no display id, an r:<item> item
                     p['outfit'] = rows; n_guess += 1
     log(f'  outfit: {n_exact:,} panes from bake rows, {n_guess:,} matched from character-clone skins, '
         f'{n_fused:,} fused riders (F-220)')
