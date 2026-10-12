@@ -390,7 +390,7 @@ async function o335Bake(ch, outfit, hairStyle, facialHair, pane = null) {
   return { url: _bakeUrl, mesh, items, ovr, failed };
 }
 let assets = [], texIndex = [], choices = { version: 2, mesh: {}, texture: {}, custom: {}, fit: {}, display: {}, wish: {} };
-// All view: every other model (data/v2/catalog.json, loaded the first time All / Shortlist opens)
+// All view: every other model (data/v2/catalog.json, loaded the first time All / Favourites opens)
 let catalog = null, catalogLoading = null;
 let bodies = {}, fitBody = null;           // item fitting: race/sex bodies ('hum', 'orf', ...)
 let riderOn = false, riderCode = 'hum', raceRider = 'hum';
@@ -417,7 +417,7 @@ let tab = 'creature', filter = 'todo', search = '', cur = null, view = [], texMo
 const texChunks = {};
 
 const FILTERS = {
-  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['wish', 'Shortlist']],
+  asset: [['todo', 'Undecided'], ['review', 'Review'], ['all', 'All'], ['wish', 'Favourites']],
   texture: [['decide', 'Needs decision'], ['review', 'Review'], ['all', 'All']],
   custom: [['all', 'All'], ['done', 'Edited'], ['new', 'New displays']],
 };
@@ -817,7 +817,7 @@ async function save(kind, key, entry, optionKey, extra = {}, nav = true) {
 }
 
 // ---- list -------------------------------------------------------------------------------
-// Undecided / Review: real choices only. All / Shortlist: also every single-source model and
+// Undecided / Review: real choices only. All / Favourites: also every single-source model and
 // the retail-only ones (live panes), for shopping new content.
 const shopping = () => filter === 'all' || filter === 'wish' || filter === 'remaster';
 function pool() { return shopping() && catalog ? assets.concat(catalog) : assets; }
@@ -1040,7 +1040,7 @@ function openModelSearch(c) {
 }
 async function saveWish(e, on) {
   const status = $('save');
-  status.className = ''; status.textContent = 'saving shortlist…';
+  status.className = ''; status.textContent = 'saving favourites…';
   try {
     const latest = await fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
     const wish = { ...(latest.wish || {}), ...(choices.wish || {}) };
@@ -1053,7 +1053,7 @@ async function saveWish(e, on) {
     const r = await fetch(CHOICES_URL, { method: 'PUT', headers, body: JSON.stringify(merged, null, 1) });
     if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ' (open the page once with its #key= link)' : ''}`);
     choices = merged;
-    status.className = 'ok'; status.textContent = on ? 'added to the shortlist' : 'removed from the shortlist';
+    status.className = 'ok'; status.textContent = on ? 'added to favourites' : 'removed from favourites';
   } catch (ex) { status.className = 'err'; status.textContent = 'save failed: ' + ex.message; return; }
   render();
 }
@@ -1224,7 +1224,7 @@ function render() {
       const what = (e.retailOnly ? `retail · FileDataID ${e.retailOnly}` : `${nOpt} option${nOpt === 1 ? '' : 's'}`) +
         (e.tab === 'display' && e.look_group ? ` · +${e.look_group.length - 1} same look` : '');
       const on = !!(choices.wish || {})[e.path];
-      return `<div class="q${cur === e ? ' cur' : ''}" data-id="${esc(e.id)}"><div class="t"><button class="star${on ? ' on' : ''}" data-star title="${on ? 'On the shortlist: click to remove' : 'Add to the shortlist'}">${on ? '★' : '☆'}</button><b>${esc(e.id.split('/').pop())}</b>${tag}</div>
+      return `<div class="q${cur === e ? ' cur' : ''}" data-id="${esc(e.id)}"><div class="t"><button class="star${on ? ' on' : ''}" data-star title="${on ? 'A favourite: click to remove' : 'Add to favourites'}">${on ? '★' : '☆'}</button><b>${esc(e.id.split('/').pop())}</b>${tag}</div>
         <div class="n">${what}${e.displays ? ` · ${e.displays} displays` : ''}${e.names.length ? ' · ' + esc(e.names.slice(0, 3).join(', ')) : ''}</div></div>`;
     }).join('') + (view.length > 400 ? `<div class="more">${(view.length - 400).toLocaleString()} more — refine the search</div>` : '');
   }
@@ -1271,7 +1271,7 @@ function paneUrl(p, extra = {}) {
 const slotRank = (s) => { const i = OUTFIT_SLOTS.indexOf(String(s).toLowerCase()); return i < 0 ? 99 : i; };
 const outfitBox = (p) => !(p && p.outfit && p.outfit.length) ? '' : `<div class="outfit">${p.outfit.slice().sort((a, b) => slotRank(a[0]) - slotRank(b[0])).map(([slot, idi, name, items, how, score]) =>
   how === 'none' ? `<div class="ofrow none"><span>not matched</span><span>${esc(name)}</span></div>`
-  : `<div class="ofrow"><span>${esc(slot)}</span><span><b>${esc(name)}</b>${items.length ? ` · item${items.length > 1 ? 's' : ''} ${items.join(', ')}` : ''}${idi ? ` · display ${idi}` : ''}${how === 'matched' ? (score <= 5 ? ` · <span class="ok">exact match</span>` : ` · <span class="warn" title="Same texture art, but the colours differ (difference ${score}): likely a recolour of this item">same art, maybe a recolour</span>`) : ''}</span></div>`).join('')}
+  : `<div class="ofrow"><span>${esc(slot)}</span><span><b>${esc(name)}</b>${items.length ? ` · item${items.length > 1 ? 's' : ''} ${items.join(', ')}` : ''}${idi ? ` · display ${idi}` : ''}${how === 'closest' ? ` · <span class="warn" title="No exact match: the item that looks closest (${score}% nearer than bare skin)">closest</span>` : ''}${how === 'matched' ? (score <= 5 ? ` · <span class="ok">exact match</span>` : ` · <span class="warn" title="Same texture art, but the colours differ (difference ${score}): likely a recolour of this item">same art, maybe a recolour</span>`) : ''}</span></div>`).join('')}
   ${p.outfit.some(r => r[4] === 'matched') ? '<div class="ofnote">matched from the baked skin; unmatched regions are listed, never guessed</div>' : ''}</div>`;
 const provBox = (p) => p.prov ? `<details class="prov" data-prov="${p.prov}"><summary>Sources</summary><div class="pb">loading…</div></details>` : '';
 const ownChip = (o) => `<span class="chip${o === 'missing' ? ' bad' : ''}">${esc(o)}</span>`;
@@ -1352,7 +1352,7 @@ function openAsset(e) {
   $('riderbox').hidden = (e.tab !== 'creature' && e.tab !== 'display') || !nRiders
     || !(e.panes || []).some(p => mountSet.has(p.model) && !isFusedRider(p.model)) || isFusedRider(e.path);
   const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
-  $('title').textContent = e.id;          // shortlist: the star on the list row; edits: each card's Edit
+  $('title').textContent = e.id;          // favourites: the star on the list row; edits: each card's Edit
   $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
     e.members.length > 1 ? `${e.members.length} model files in this group` : '', rv ? 'REVIEW: ' + rv : '',
     e.tab === 'creature' && isFusedRider(e.path) ? F220 : ''].filter(Boolean).join(' · ');
@@ -1494,7 +1494,7 @@ function openAsset(e) {
     const prm = new URLSearchParams({ src: 'v2', model: e.path, retail: e.retailOnly, build: retailIdx.build,
       skins: (e.rskins || [0, 0, 0]).join(','), pv: PANE_V });
     $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="pane.html?${prm}" loading="lazy" title="Retail"></iframe>
-      <div class="info"><div class="h"><b>Retail</b><span class="chip" title="Retail model, loaded live (FileDataID ${e.retailOnly})">live from wago.tools</span><span class="chip" title="A candidate for new content: shortlist it; shipping it needs a new display (F-197 / F-216 curate)">not in the 3.3.5 client</span></div>
+      <div class="info"><div class="h"><b>Retail</b><span class="chip" title="Retail model, loaded live (FileDataID ${e.retailOnly})">live from wago.tools</span><span class="chip" title="A candidate for new content: star it as a favourite; shipping it needs a new display (F-197 / F-216 curate)">not in the 3.3.5 client</span></div>
       <div class="stats" data-live>loading…</div>
       <div class="stats">model: ${esc(e.path)}</div></div></div>`);
     render();
@@ -2637,7 +2637,7 @@ $('rider').onchange = (ev) => { riderOn = ev.target.checked; if (cur && !Array.i
 $('ridercode').onchange = (ev) => { riderCode = ev.target.value; if (bodies[riderCode]) raceRider = riderCode; if (riderOn && cur && !Array.isArray(cur)) openItem(cur); };
 $('list').onclick = (ev) => {
   const q = ev.target.closest('.q'); if (!q) return;
-  if (ev.target.closest('[data-star]')) {                // the shortlist star: toggle, don't open
+  if (ev.target.closest('[data-star]')) {                // favourites star: toggle, don't open
     const e = pool().find(x => x.id === q.dataset.id);
     if (e) saveWish(e, !(choices.wish || {})[e.path]);
     return;
