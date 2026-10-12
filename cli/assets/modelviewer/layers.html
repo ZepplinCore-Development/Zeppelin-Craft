@@ -140,6 +140,7 @@
   .custctl .glab { display: block; font-size: 11px; color: var(--muted); opacity: .85; }
   .custctl .thumbs { display: flex; gap: 6px; } .custctl .thumbs canvas { width: 64px; height: 64px; aspect-ratio: auto; }
   .custctl .ctl { display: grid; gap: 8px; align-content: start; }
+  #cs-back { margin-left: auto; }
   @media (max-width: 760px) { .pane.cs-ref { order: 9; } }      /* phones: preview, controls, then the original */
   .custctl label { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
   .custctl select { width: 100%; min-width: 0; }
@@ -2184,7 +2185,7 @@ function openCustom(c) {
       <div class="stats">model: ${esc(c.path)}</div>
       ${base && base.display && base.display !== c.display ? `<div class="stats">textures previewed from display ${base.display}</div>` : ''}
       ${!c.retail && base ? outfitBox(base) + provBox(base) : ''}</div></div>
-    <div class="pane custctl"><div class="info"><div class="h"><b>Edit display ${c.display}</b></div><div class="ctl">${ctl}</div></div></div>`;
+    <div class="pane custctl"><div class="info"><div class="h"><b>Edit display ${c.display}</b>${c.isNew ? '' : `<button id="cs-back" title="Open display ${c.display} in the Displays tab (unsaved changes here are dropped)">← Back to display</button>`}</div><div class="ctl">${ctl}</div></div></div>`;
   loadCustStock(c.display).then(sp => {
     if (cur !== c) return;
     if (sp && !$('cs-stockinfo')) return;            // already filled by an earlier load of this card
@@ -2348,6 +2349,7 @@ function openCustom(c) {
       $('save').className = 'ok'; $('save').textContent = `saved as new display ${nid} (display ${c.display} unchanged)`;
     }
   };
+  if ($('cs-back')) $('cs-back').onclick = () => openDisplay(c.display);
   $('cs-clear').onclick = () => saveCustom(c.display, null).then(ok => { if (ok && c.isNew) { addNewDisplays(); render(); openItem(view[0]); } });
   preview();
   fitPanes();
