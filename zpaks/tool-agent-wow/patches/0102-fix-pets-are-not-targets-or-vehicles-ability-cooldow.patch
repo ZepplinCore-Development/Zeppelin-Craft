@@ -1,0 +1,135 @@
+From be608ab06fbc61b34f211bb9b504f02979f82d4c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 20:04:07 +0000
+Subject: [PATCH] fix: pets are not targets or vehicles; ability cooldowns
+ outlive one kill call (F-219)
+
+- interact.find skips pets (HighGuid 0xF140): the warlock's imp has a hostile
+  demon faction in its template and was "cleared" out of a camp
+- vehicle ignores a pet's SMSG_PET_SPELLS bar: the runner took the imp's
+  Firebolt bar for a vehicle and bombarded with it
+- combat takes a pet only from a pet guid
+- lastCast/lastOn persist across Kill calls: 2 min racials (Rocket Barrage,
+  Blood Fury) fired at every fight start - 28 Rocket Barrages in 15 min
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/main.go   | 55 ++++++++++++++++++-------------
+ zeppelin/modules/interact/main.go |  4 +++
+ zeppelin/modules/vehicle/main.go  |  4 +++
+ 3 files changed, 41 insertions(+), 22 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 0a5d077..5a1b041 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -57,23 +57,25 @@ type service struct {
+ 	dmgTaken                                      uint32
+ 	notInRange, badFacing, deadTarget, cantAttack bool
+ 	castCount                                     uint8
+-	corpse                                        *movev1.Position     // where we died
+-	reclaimAt                                     time.Time            // SMSG_CORPSE_RECLAIM_DELAY
+-	castFailed                                    map[uint32]uint8     // spell -> last SMSG_CAST_FAILED result
+-	auras                                         map[uint8]uint32     // our visible aura slots -> spell
+-	casting                                       map[uint64]time.Time // unit -> when its current cast ends
+-	selfCastUntil                                 time.Time            // our own cast bar
+-	lastCastSent                                  time.Time            // GCD runs from here
+-	castFails                                     map[string]uint32    // "spell:result" -> count, this fight
+-	castsOn                                       map[[2]uint64]uint32 // (spell, target) -> casts, for max_per_target
+-	maxSeen                                       map[uint64]uint32    // target -> highest health seen (its max: no field for it)
+-	firstHit                                      map[uint64]time.Time // target -> when it first lost health (time-to-kill estimate)
+-	meleeStopped                                  bool                 // SMSG_ATTACKSTOP for our own swing
+-	pet                                           uint64               // SMSG_PET_SPELLS: our pet, 0 = none
+-	defenseUntil                                  time.Time            // we dodged/parried/blocked: AURA_STATE_DEFENSE strikes open
+-	ccd                                           map[uint64]time.Time // add -> until when our crowd control holds it
+-	comboTarget                                   uint64               // SMSG_UPDATE_COMBO_POINTS: whose they are...
+-	combo                                         uint8                // ...and how many
++	corpse                                        *movev1.Position        // where we died
++	reclaimAt                                     time.Time               // SMSG_CORPSE_RECLAIM_DELAY
++	castFailed                                    map[uint32]uint8        // spell -> last SMSG_CAST_FAILED result
++	auras                                         map[uint8]uint32        // our visible aura slots -> spell
++	casting                                       map[uint64]time.Time    // unit -> when its current cast ends
++	selfCastUntil                                 time.Time               // our own cast bar
++	lastCastSent                                  time.Time               // GCD runs from here
++	castFails                                     map[string]uint32       // "spell:result" -> count, this fight
++	castsOn                                       map[[2]uint64]uint32    // (spell, target) -> casts, for max_per_target
++	maxSeen                                       map[uint64]uint32       // target -> highest health seen (its max: no field for it)
++	firstHit                                      map[uint64]time.Time    // target -> when it first lost health (time-to-kill estimate)
++	meleeStopped                                  bool                    // SMSG_ATTACKSTOP for our own swing
++	pet                                           uint64                  // SMSG_PET_SPELLS: our pet, 0 = none
++	defenseUntil                                  time.Time               // we dodged/parried/blocked: AURA_STATE_DEFENSE strikes open
++	ccd                                           map[uint64]time.Time    // add -> until when our crowd control holds it
++	lastCast                                      map[uint32]time.Time    // ability -> last cast, across Kill calls
++	lastOn                                        map[[2]uint64]time.Time // {spell, unit} -> last cast (DoTs)
++	comboTarget                                   uint64                  // SMSG_UPDATE_COMBO_POINTS: whose they are...
++	combo                                         uint8                   // ...and how many
+ }
+ 
+ func main() {
+@@ -240,8 +242,8 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 	case opcode.SMSGAttackswingCantAttack:
+ 		s.cantAttack = true
+ 	case opcode.SMSGPetSpells: // u64 pet guid (0 = the pet is gone), then its action bar
+-		if g := r.U64(); r.Err() == nil {
+-			s.pet = g
++		if g := r.U64(); r.Err() == nil && (g == 0 || g>>48 == 0xF140) {
++			s.pet = g // 0 = gone; a vehicle's bar (HighGuid Vehicle) is not a pet
+ 		}
+ 	case opcode.SMSGUpdateComboPoints: // packed target guid, u8 points
+ 		target := r.PackedGUID()
+@@ -455,9 +457,18 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		}
+ 		return res, nil
+ 	}
+-	lastCast := map[uint32]time.Time{}
+-	lastOn := map[[2]uint64]time.Time{} // per-target timers (DoTs): {spell, unit}
+-	var live []uint64                   // units attacking us now, refreshed once a second
++	// ability timers outlive one Kill call: a racial with a 2 min cooldown (Rocket Barrage, Blood Fury)
++	// fired at every fight start and the NOT_READY retry hammered it - 28 casts in 15 min
++	s.mu.Lock()
++	if s.lastCast == nil {
++		s.lastCast, s.lastOn = map[uint32]time.Time{}, map[[2]uint64]time.Time{}
++	}
++	if len(s.lastOn) > 2000 {
++		s.lastOn = map[[2]uint64]time.Time{}
++	}
++	lastCast, lastOn := s.lastCast, s.lastOn // only this call's goroutine touches them
++	s.mu.Unlock()
++	var live []uint64 // units attacking us now, refreshed once a second
+ 	var counted time.Time
+ 	pullRange := float64(req.GetPullRange())
+ 	if pullRange <= 0 {
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index d82b601..c0a1bbc 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -409,6 +409,10 @@ func (s *service) Find(ctx context.Context, req *interactv1.FindRequest) (*inter
+ 	}
+ 	out := &interactv1.FindResult{}
+ 	for _, h := range s.store.Find(q) {
++		if h.Object.GUID>>48 == 0xF140 {
++			continue // a pet (HighGuid Pet): ours never a target - a warlock's imp has a hostile demon
++			// faction in its template and the bot "cleared" it out of a camp
++		}
+ 		out.Objects = append(out.Objects, toWorldObject(h))
+ 	}
+ 	return out, nil
+diff --git a/zeppelin/modules/vehicle/main.go b/zeppelin/modules/vehicle/main.go
+index 9a6bb9b..04de40d 100644
+--- a/zeppelin/modules/vehicle/main.go
++++ b/zeppelin/modules/vehicle/main.go
+@@ -181,6 +181,10 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 			break
+ 		}
+ 		g := r.U64()
++		if g>>48 == 0xF140 {
++			break // a pet's bar (HighGuid Pet), not a vehicle's: the imp's Firebolt bar sent the runner
++			// "bombarding" with it
++		}
+ 		r.U16() // family
+ 		r.U32() // duration
+ 		r.U8()  // react
+-- 
+2.34.1
+
