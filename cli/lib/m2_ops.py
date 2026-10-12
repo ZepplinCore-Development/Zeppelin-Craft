@@ -586,6 +586,78 @@ def _op_texture_set(data: bytearray, cfg: Dict[str, Any]) -> str:
     return f"texture[{index}] type {typ} -> {new_type}, name {old_name!r} -> {new_name!r}"
 
 
+OFS_N_REPLACEABLE_LOOKUP = 0x68
+OFS_N_TEXTURE_LOOKUP = 0x80
+
+
+def _relocate_array(data: bytearray, base: int, header_at: int, blob: bytes, count: int) -> None:
+    """Write an array at the end of the file (16-aligned) and repoint its header (count, offset)."""
+    while (len(data) - base) % 16:
+        data.append(0)
+    struct.pack_into('<II', data, base + header_at, count, len(data) - base)
+    data += blob
+
+
+def _op_texture_add(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Append one texture record: the texture table moves to the end of the file (append-only).
+
+    I-396: the HD lasher samples one creature skin (type 11) on its single submesh; the
+    per-region split adds types 12/13 so a display's texture_variation_2/3 colour the other
+    parts. A replaceable type (> 0) is also entered in the replaceable-texture lookup (header
+    0x68, indexed by type), which grows to cover it. `expect_count` guards the current count.
+    """
+    if 'type' not in cfg:
+        raise M2OpError("m2.texture.add requires 'type'")
+    typ, flags = int(cfg['type']), int(cfg.get('flags', 0))
+    base = read_m2_header(data)['base_offset']
+    _require_wotlk(data, base)
+    n, ofs = struct.unpack_from('<II', data, base + OFS_N_TEXTURES)
+    if 'expect_count' in cfg and n != int(cfg['expect_count']):
+        raise M2OpError(f"model has {n} texture(s), expected {cfg['expect_count']} — refusing")
+    ln = no = 0
+    if cfg.get('name'):
+        raw = str(cfg['name']).encode('latin1') + b'\0'
+        while (len(data) - base) % 16:
+            data.append(0)
+        ln, no = len(raw), len(data) - base
+        data += raw
+    table = bytes(data[base + ofs:base + ofs + TEXTURE_STRIDE * n]) + struct.pack('<4I', typ, flags, ln, no)
+    _relocate_array(data, base, OFS_N_TEXTURES, table, n + 1)
+    note = ''
+    if typ > 0:
+        rn, ro = struct.unpack_from('<II', data, base + OFS_N_REPLACEABLE_LOOKUP)
+        look = list(struct.unpack_from('<%dh' % rn, data, base + ro))
+        if typ < rn and look[typ] != -1:
+            raise M2OpError(f"replaceable type {typ} already maps to texture {look[typ]} — refusing")
+        look += [-1] * (typ + 1 - rn)
+        look[typ] = n
+        _relocate_array(data, base, OFS_N_REPLACEABLE_LOOKUP, struct.pack('<%dh' % len(look), *look), len(look))
+        note = f", replaceable lookup[{typ}] = {n}"
+    return f"texture[{n}] added: type {typ}, flags {flags}, name {cfg.get('name', '')!r}{note}"
+
+
+def _op_texlookup_set(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Replace the texture lookup table (batch textureComboIndex -> texture index), append-only.
+
+    I-396: each split part's batches point their combo at their own (skin N, env layer) pair.
+    `expect` guards the current table.
+    """
+    if 'values' not in cfg:
+        raise M2OpError("m2.texlookup.set requires 'values'")
+    values = [int(v) for v in cfg['values']]
+    base = read_m2_header(data)['base_offset']
+    _require_wotlk(data, base)
+    n, ofs = struct.unpack_from('<II', data, base + OFS_N_TEXTURE_LOOKUP)
+    before = list(struct.unpack_from('<%dH' % n, data, base + ofs))
+    if 'expect' in cfg and before != [int(v) for v in cfg['expect']]:
+        raise M2OpError(f"texture lookup is {before}, expected {cfg['expect']} — refusing")
+    ntex = struct.unpack_from('<I', data, base + OFS_N_TEXTURES)[0]
+    if any(v >= ntex for v in values):
+        raise M2OpError(f"texture lookup {values} names a texture past the {ntex} in the model")
+    _relocate_array(data, base, OFS_N_TEXTURE_LOOKUP, struct.pack('<%dH' % len(values), *values), len(values))
+    return f"texture lookup {before} -> {values}"
+
+
 OFS_N_VIEWS = 0x44
 
 
@@ -611,10 +683,12 @@ def _op_views_count(data: bytearray, cfg: Dict[str, Any]) -> str:
 
 
 # ops that only ever APPEND to the file (allowed to grow it)
-APPEND_ONLY = {'m2.texture.set'}
+APPEND_ONLY = {'m2.texture.set', 'm2.texture.add', 'm2.texlookup.set', 'm2.views.count'}
 
 OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
     'm2.texture.set': _op_texture_set,
+    'm2.texture.add': _op_texture_add,
+    'm2.texlookup.set': _op_texlookup_set,
     'm2.views.count': _op_views_count,
     'm2.camera.fov': _op_camera_fov,
     'm2.camera.pan': _op_camera_pan,

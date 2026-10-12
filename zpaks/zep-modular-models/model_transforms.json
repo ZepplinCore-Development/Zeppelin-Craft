@@ -73,5 +73,107 @@
       "7": "right shoulder",
       "8": "bracers / gauntlets / boots"
     }
+  },
+  "CREATURE/DESERTLASHERORCHID_MODULAR/DESERTLASHERORCHID_MODULAR00.SKIN": {
+    "note": "I-396: the HD desert lasher orchid (patch-hd-creatures-mounts creature/desertlasherorchid, view 00) split by texture region so each part samples its own creature skin: stem/roots/vine arms on skin 1 (texture_variation_1), petals/leaves on skin 2, beak/jaw/teeth on skin 3. The donor is one submesh (geoset 0) whose 143 UV islands sit in separate texture areas; boxes test each island's UV centroid (checked against a 3D render: 0 misassigned islands). combo_add points each part's two batches (skin+oldglass3 env, skin alpha layer) at its pair in the texture lookup set by the .M2 recipe.",
+    "base_sha256": "f63bffcff194e0298473a9e226f5080b1fb8a7d520a8b237ade4a79c1604beb8",
+    "ops": [
+      {
+        "op": "skin.uv_split",
+        "parts": [
+          {
+            "name": "stem",
+            "combo_add": 0,
+            "boxes": [
+              [
+                0.6,
+                0.0,
+                1.0,
+                0.14
+              ],
+              [
+                0.7,
+                0.14,
+                1.0,
+                1.0
+              ],
+              [
+                0.6,
+                0.14,
+                0.7,
+                0.4
+              ]
+            ]
+          },
+          {
+            "name": "beak",
+            "combo_add": 4,
+            "boxes": [
+              [
+                0.0,
+                0.0,
+                0.7,
+                0.62
+              ],
+              [
+                0.0,
+                0.62,
+                0.48,
+                0.75
+              ]
+            ]
+          },
+          {
+            "name": "flower",
+            "combo_add": 2
+          }
+        ]
+      }
+    ]
+  },
+  "CREATURE/DESERTLASHERORCHID_MODULAR/DESERTLASHERORCHID_MODULAR.M2": {
+    "note": "I-396: patch-hd-creatures-mounts creature/desertlasherorchid/desertlasherorchid.m2 renamed (the client caches models by stem). Its 19 skins are copied next to it as lasher_<colour> / orchid_<colour> (LasherSkin = lasher_natural) so the picker's colour swap works, and oldglass3.blp moves into this folder. Adds creature skin 2/3 textures (types 12/13) and a texture lookup of one (skin N, glass) pair per split part; declares 1 skin profile (only 00 ships).",
+    "base_sha256": "2d05ed2563bf2ef8a293da39426ca1c80a826b1fe65c2006296963600d8e04df",
+    "ops": [
+      {
+        "op": "m2.texture.set",
+        "index": 1,
+        "expect_type": 0,
+        "expect_name": "creature/desertlasherorchid/oldglass3.blp",
+        "name": "creature/desertlasherorchid_modular/oldglass3.blp"
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 12,
+        "flags": 2,
+        "expect_count": 2
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 13,
+        "flags": 2,
+        "expect_count": 3
+      },
+      {
+        "op": "m2.texlookup.set",
+        "expect": [
+          0,
+          1
+        ],
+        "values": [
+          0,
+          1,
+          2,
+          1,
+          3,
+          1
+        ]
+      },
+      {
+        "op": "m2.views.count",
+        "expect": 3,
+        "value": 1
+      }
+    ]
   }
 }

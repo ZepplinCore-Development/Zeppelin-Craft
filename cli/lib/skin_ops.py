@@ -23,6 +23,18 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       welded to the helmet, collar and shoulders; only the helmet comes out of it).
       Optional "drop": {"105": [6, 7]}: a source variant's parts left out (105's circlets, the same
       pieces 604/704 already offer).
+
+  {"op": "skin.uv_split", "parts": [{"name": "stem", "combo_add": 0, "boxes": [[u0, v0, u1, v1], ...]},
+                                    ..., {"name": "flower", "combo_add": 2}]}
+      Split every submesh into one submesh per part by TEXTURE REGION, so each part can sample its
+      own creature skin slot (I-396 lasher: stem/roots, flower, beak on skins 1/2/3). Triangles are
+      grouped into UV islands (joined through shared vertex indices); an island goes to the first
+      part with a box containing its UV centroid (wrapped to 0..1), or to the first part with no
+      boxes. Part submeshes keep the source's geoset id, vertex range and bone combo (they all
+      show together); the source's batches are copied per part with textureComboIndex +=
+      combo_add, so the model's texture lookup must hold each part's (skin, layer...) run at that
+      offset (m2.texlookup.set).
+
 """
 import collections
 import struct
@@ -201,9 +213,80 @@ def _op_geoset_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     return f'geoset.split group {group}: {len(made)} parts ({" ".join(made)})'
 
 
+def _op_uv_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    parts = cfg['parts']
+    default = [i for i, p in enumerate(parts) if not p.get('boxes')]
+    if len(default) != 1:
+        raise ValueError('skin.uv_split needs exactly one part without boxes (the default)')
+    if model[:4] != b'MD20':
+        raise ValueError('skin.uv_split: model is not an MD20')
+    n, o = _arr(model, 0x3C)
+    if max(sk.lookup, default=0) >= n:
+        raise ValueError('skin.uv_split: skin indexes past the model\'s vertices (wrong model?)')
+    uv = [struct.unpack_from('<2f', model, o + 48 * i + 32) for i in range(n)]
+
+    def part_of(island: List[tuple]) -> int:
+        pts = [uv[sk.lookup[v]] for t in island for v in t]
+        cu = sum(p[0] for p in pts) / len(pts) % 1.0
+        cv = sum(p[1] for p in pts) / len(pts) % 1.0
+        for i, p in enumerate(parts):
+            if any(b[0] <= cu < b[2] and b[1] <= cv < b[3] for b in p.get('boxes') or []):
+                return i
+        return default[0]
+
+    by_sub = collections.defaultdict(list)
+    for b in sk.batches:
+        by_sub[struct.unpack_from('<H', b, 4)[0]].append(b)
+    subs, idx, batches = [], [], []
+    count = collections.Counter()
+    for j in range(len(sk.subs)):
+        s = sk.sub(j)
+        tris = [tuple(sk.idx[t:t + 3]) for t in range(s['istart'], s['istart'] + s['icount'], 3)]
+        par: Dict[int, int] = {}
+
+        def find(x):
+            while par.setdefault(x, x) != x:
+                par[x] = par[par[x]]
+                x = par[x]
+            return x
+        for t in tris:
+            a = find(t[0])
+            for v in t[1:]:
+                par[find(v)] = a
+        islands = collections.defaultdict(list)
+        for t in tris:
+            islands[find(t[0])].append(t)
+        split = collections.defaultdict(list)
+        for isl in islands.values():
+            split[part_of(isl)] += isl
+        for i in sorted(split):
+            start = len(idx)
+            if start > 0xFFFF:
+                raise ValueError('index start past 65535')
+            f = list(struct.unpack_from('<10H', sk.subs[j]))
+            f[1], f[4], f[5] = 0, start, 3 * len(split[i])
+            for t in split[i]:
+                idx.extend(t)
+            nr = bytearray(sk.subs[j])
+            struct.pack_into('<10H', nr, 0, *f)
+            subs.append(nr)
+            for b in by_sub[j]:
+                nb = bytearray(b)
+                combo = struct.unpack_from('<H', nb, 16)[0] + int(parts[i].get('combo_add', 0))
+                struct.pack_into('<H', nb, 4, len(subs) - 1)
+                if struct.unpack_from('<H', b, 6)[0] == j:       # geosetIndex mirrors the submesh
+                    struct.pack_into('<H', nb, 6, len(subs) - 1)
+                struct.pack_into('<H', nb, 16, combo)
+                batches.append(nb)
+            count[parts[i].get('name', str(i))] += len(split[i])
+    sk.subs, sk.idx, sk.batches = subs, idx, batches
+    return 'uv_split: ' + ', '.join(f'{k} {v} tris' for k, v in count.items())
+
+
 OPS = {
     'skin.lod_rebase': _op_lod_rebase,
     'skin.geoset.split': _op_geoset_split,
+    'skin.uv_split': _op_uv_split,
 }
 
 
