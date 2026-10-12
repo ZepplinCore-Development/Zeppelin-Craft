@@ -13,13 +13,16 @@ Files: logs/retail_cache/raw/<fdid>        downloaded originals
        logs/retail_cache/out/<model path>  converted model + skins/anims, textures at their paths
 """
 import json
+import os
 import pickle
+import shutil
 import struct
 import subprocess
+import threading
 import time
 import urllib.request
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 LISTFILE = Path('/workspace/project/Zeppelin-Tools/Retroport/retroport_tools/MultiConverter2/listfile.csv')
 CACHE = Path('/workspace/project/logs/retail_cache')
@@ -87,7 +90,9 @@ def fetch(fdid: int) -> Optional[bytes]:
             data = r.read()
     except Exception:
         return None                                    # a network failure (wago.tools stalls) is retried next time, never cached
-    f.write_bytes(data)
+    tmp = f.with_name(f'.{fdid}.{threading.get_ident()}')
+    tmp.write_bytes(data)
+    tmp.replace(f)                                     # atomic: a killed run never leaves a short file behind
     time.sleep(0.05)                                   # be polite to wago.tools
     return data or None
 
@@ -303,8 +308,10 @@ def remasters(cdi: dict, cmd: dict, paths) -> Dict[str, int]:
     return out
 
 
-def texture_file(fdid: int) -> Optional[Path]:
-    """A retail texture by FileDataID, stored under its listfile path."""
+def texture_file(fdid: int, offline: bool = False) -> Optional[Path]:
+    """A retail texture by FileDataID, stored under its listfile path (a hard link to the raw store).
+    offline=True never touches the network: None when the file is not in the local store yet
+    (fill it with prefetch() / `zep model retail-store`)."""
     if not fdid:
         return None
     _, by_id = listfile()
@@ -312,12 +319,42 @@ def texture_file(fdid: int) -> Optional[Path]:
     dst = CACHE / 'out' / tp
     if dst.exists() and dst.stat().st_size:
         return dst
-    blob = fetch(fdid)
-    if not blob:
-        return None
+    raw = CACHE / 'raw' / str(fdid)
+    if not (raw.exists() and raw.stat().st_size):
+        if offline or not fetch(fdid):
+            return None
     dst.parent.mkdir(parents=True, exist_ok=True)
-    dst.write_bytes(blob)
+    try:
+        os.link(raw, dst)                              # one copy on disk
+    except OSError:
+        shutil.copyfile(raw, dst)
     return dst
+
+
+def prefetch(fdids, workers: int = 6, log: Callable = print) -> Tuple[int, int, int]:
+    """Download FileDataIDs into the local store (logs/retail_cache/raw/<fdid>) so texture_file /
+    fetch never stream them. Resumable: files already stored are skipped. -> (had, got, failed)."""
+    want = sorted({int(x) for x in fdids if x})
+    todo = [x for x in want if not (CACHE / 'raw' / str(x)).exists()]
+    had, got, bad = len(want) - len(todo), 0, 0
+    log(f'  retail store: {len(want):,} wanted, {had:,} stored, {len(todo):,} to download ({workers} workers)')
+    if not todo:
+        return had, 0, 0
+    build()                                            # resolve the build once, not per thread
+    t0 = time.time()
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    with ThreadPoolExecutor(workers) as ex:
+        futs = [ex.submit(fetch, x) for x in todo]
+        for i, fu in enumerate(as_completed(futs), 1):
+            if fu.result():
+                got += 1
+            else:
+                bad += 1
+            if i % 500 == 0 or i == len(todo):
+                el = time.time() - t0
+                log(f'  retail store: {i:,}/{len(todo):,} ({bad:,} failed) - {el / 60:.0f} min, '
+                    f'~{el / i * (len(todo) - i) / 60:.0f} min left')
+    return had, got, bad
 
 
 def named_remasters(path: str) -> List[Tuple[str, int]]:

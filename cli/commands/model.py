@@ -563,6 +563,25 @@ def migrate_v1_choices(result: dict, ix, v1: Dict[str, dict]) -> Dict[str, dict]
     return out
 
 
+@model.command('retail-store')
+@click.option('--gender', type=click.Choice(['male', 'female', 'both']), default='male', show_default=True,
+              help='Which wardrobe region textures to store')
+@click.option('--workers', default=6, show_default=True, help='Parallel downloads from wago.tools')
+@click.option('--fdid', 'fdids', multiple=True, type=int, help='Store these FileDataIDs instead of the wardrobe')
+def model_retail_store(gender, workers, fdids):
+    """F-216: download retail files from wago.tools into the local store (logs/retail_cache/raw).
+
+    \b
+    Default: every armour region texture of the published wardrobe (data/v2/wardrobe/*.json).
+    Resumable - stored files are skipped. Afterwards lib.retail.texture_file(fdid, offline=True)
+    returns a local path with no network call.
+    """
+    from lib import retail, retail_wardrobe
+    want = set(fdids) or retail_wardrobe.region_fdids(gender)
+    had, got, bad = retail.prefetch(want, workers=workers, log=click.echo)
+    click.echo(f'retail store: {had + got:,}/{len(want):,} stored ({got:,} new, {bad:,} failed - re-run to retry)')
+
+
 @model.command('viewer')
 @click.option('--rebuild-index', is_flag=True, help='Re-hash everything (otherwise hashes are cached)')
 @click.option('--reuse-index', is_flag=True, help='Load logs/asset_index.pkl instead of re-indexing')

@@ -139,3 +139,17 @@ def build(out_dir: Path, log: Callable = print) -> int:
     n = sum(len(v) for v in data.values())
     log(f'  wardrobe: {n:,} retail appearances in {len(data)} slots')
     return n
+
+
+WARDROBE_DIR = Path('/workspace/project/nginx/wow/modelviewer/data/v2/wardrobe')
+
+
+def region_fdids(gender: str = 'male', wardrobe_dir: Path = WARDROBE_DIR) -> set:
+    """Every region texture FileDataID the published wardrobe uses (gender 'male', 'female' or 'both')."""
+    idx = {'male': (0,), 'female': (1,), 'both': (0, 1)}[gender]
+    out = set()
+    for f in sorted(wardrobe_dir.glob('*.json')):
+        for it in json.loads(f.read_text()).get('items', []):
+            for pair in (it[7] or {}).values():
+                out |= {int(pair[i]) for i in idx if pair[i]}
+    return out
