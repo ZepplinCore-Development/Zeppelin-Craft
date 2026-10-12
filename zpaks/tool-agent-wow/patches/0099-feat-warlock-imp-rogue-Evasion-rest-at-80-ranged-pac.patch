@@ -1,0 +1,221 @@
+From cb6359e53d539a59c8f054653a9fa1646916e964 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 19:34:59 +0000
+Subject: [PATCH] feat: warlock imp, rogue Evasion, rest at 80 %, ranged pack
+ check (F-219)
+
+- combat: track our pet from SMSG_PET_SPELLS (CombatState.pet) and send it
+  at the kill target (CMSG_PET_ACTION ACT_COMMAND|COMMAND_ATTACK) - a
+  defensive pet never answers what WE attack
+- runner: a warlock summons its imp (688) out of combat when it has none;
+  it never had, and tanked every mob in cloth
+- rogue: Evasion at 2+ attackers or below 50 % (in the spellbook, never cast)
+- rest before moving on below 80 % (was 70): most deaths were the next mob
+  arriving while still low (rogue: 23 of 33 defend deaths)
+- kill(): ranged pulls of a target with 3+ hostiles in reach are parked too
+  (a mage's Frostbolt into Night Web's Hollow drew six spiders)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 13 +++++++++--
+ zeppelin/modules/combat/combat.proto     |  1 +
+ zeppelin/modules/combat/main.go          | 20 +++++++++++++++-
+ zeppelin/modules/combat/module.yaml      |  1 +
+ zeppelin/tests/start_area.py             | 29 ++++++++++++++++++++++--
+ 5 files changed, 59 insertions(+), 5 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 16a1c81..817d2d5 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -832,6 +832,7 @@ type CombatState struct {
+ 	Target        uint64                 `protobuf:"varint,3,opt,name=target,proto3" json:"target,omitempty"`
+ 	Dead          bool                   `protobuf:"varint,4,opt,name=dead,proto3" json:"dead,omitempty"`
+ 	Ghost         bool                   `protobuf:"varint,5,opt,name=ghost,proto3" json:"ghost,omitempty"`
++	Pet           uint64                 `protobuf:"varint,6,opt,name=pet,proto3" json:"pet,omitempty"` // our pet (SMSG_PET_SPELLS; 0 = none) - the warlock's imp, a hunter's pet
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -901,6 +902,13 @@ func (x *CombatState) GetGhost() bool {
+ 	return false
+ }
+ 
++func (x *CombatState) GetPet() uint64 {
++	if x != nil {
++		return x.Pet
++	}
++	return 0
++}
++
+ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+@@ -998,13 +1006,14 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\fReviveResult\x12\x14\n" +
+ 	"\x05alive\x18\x01 \x01(\bR\x05alive\x12\x14\n" +
+ 	"\x05stage\x18\x02 \x01(\tR\x05stage\x12'\n" +
+-	"\x0fcorpse_distance\x18\x03 \x01(\x02R\x0ecorpseDistance\"\x8a\x01\n" +
++	"\x0fcorpse_distance\x18\x03 \x01(\x02R\x0ecorpseDistance\"\x9c\x01\n" +
+ 	"\vCombatState\x12\x1b\n" +
+ 	"\tin_combat\x18\x01 \x01(\bR\binCombat\x12\x1c\n" +
+ 	"\tattackers\x18\x02 \x03(\x04R\tattackers\x12\x16\n" +
+ 	"\x06target\x18\x03 \x01(\x04R\x06target\x12\x12\n" +
+ 	"\x04dead\x18\x04 \x01(\bR\x04dead\x12\x14\n" +
+-	"\x05ghost\x18\x05 \x01(\bR\x05ghost2\xa8\x03\n" +
++	"\x05ghost\x18\x05 \x01(\bR\x05ghost\x12\x10\n" +
++	"\x03pet\x18\x06 \x01(\x04R\x03pet2\xa8\x03\n" +
+ 	"\x06Combat\x12G\n" +
+ 	"\x04Kill\x12\x1f.zeppelin.combat.v1.KillRequest\x1a\x1e.zeppelin.combat.v1.KillResult\x12G\n" +
+ 	"\x04Rest\x12\x1f.zeppelin.combat.v1.RestRequest\x1a\x1e.zeppelin.combat.v1.RestResult\x12B\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 2e84f3e..74ee9a9 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -108,6 +108,7 @@ message CombatState {
+   uint64 target = 3;
+   bool dead = 4;
+   bool ghost = 5;
++  uint64 pet = 6;        // our pet (SMSG_PET_SPELLS; 0 = none) - the warlock's imp, a hunter's pet
+ }
+ 
+ service Combat {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 5df6f01..2ad2c61 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -69,6 +69,7 @@ type service struct {
+ 	maxSeen                                       map[uint64]uint32    // target -> highest health seen (its max: no field for it)
+ 	firstHit                                      map[uint64]time.Time // target -> when it first lost health (time-to-kill estimate)
+ 	meleeStopped                                  bool                 // SMSG_ATTACKSTOP for our own swing
++	pet                                           uint64               // SMSG_PET_SPELLS: our pet, 0 = none
+ 	comboTarget                                   uint64               // SMSG_UPDATE_COMBO_POINTS: whose they are...
+ 	combo                                         uint8                // ...and how many
+ }
+@@ -207,6 +208,10 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		s.deadTarget = true
+ 	case opcode.SMSGAttackswingCantAttack:
+ 		s.cantAttack = true
++	case opcode.SMSGPetSpells: // u64 pet guid (0 = the pet is gone), then its action bar
++		if g := r.U64(); r.Err() == nil {
++			s.pet = g
++		}
+ 	case opcode.SMSGUpdateComboPoints: // packed target guid, u8 points
+ 		target := r.PackedGUID()
+ 		n := r.U8()
+@@ -385,6 +390,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	s.mu.Lock()
+ 	s.target, s.notInRange, s.badFacing, s.deadTarget, s.cantAttack = guid, false, false, false, false
+ 	swings0, done0, taken0 := s.swings, s.dmgDone, s.dmgTaken
++	pet := s.pet
+ 	s.castFails = map[string]uint32{}
+ 	for sp, r := range s.castFailed {
+ 		if r == 47 { // a LINE_OF_SIGHT from an earlier fight says nothing about this one
+@@ -392,6 +398,15 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		}
+ 	}
+ 	s.mu.Unlock()
++	if pet != 0 {
++		// send the pet in: a defensive pet only answers what hits us or it, never what WE attack
++		// (CMSG_PET_ACTION: pet guid, ACT_COMMAND 0x07 << 24 | COMMAND_ATTACK 2, target guid)
++		var pw wow.Writer
++		pw.U64(pet)
++		pw.U32(0x07000002)
++		pw.U64(guid)
++		_ = s.send(ctx, opcode.CMSGPetAction, &pw)
++	}
+ 	res := &combatv1.KillResult{Guid: guid}
+ 	finish := func(reason string, killed bool) (*combatv1.KillResult, error) {
+ 		_ = s.send(context.Background(), opcode.CMSGAttackstop, nil)
+@@ -1042,8 +1057,11 @@ func (s *service) GetState(ctx context.Context, _ *emptypb.Empty) (*combatv1.Com
+ 	s.mu.Lock()
+ 	target := s.target
+ 	s.mu.Unlock()
++	s.mu.Lock()
++	pet := s.pet
++	s.mu.Unlock()
+ 	return &combatv1.CombatState{InCombat: len(att) > 0 || target != 0, Attackers: att, Target: target,
+-		Dead: st.GetDead(), Ghost: st.GetGhost()}, nil
++		Dead: st.GetDead(), Ghost: st.GetGhost(), Pet: pet}, nil
+ }
+ 
+ func (s *service) stand(ctx context.Context, state uint32) error {
+diff --git a/zeppelin/modules/combat/module.yaml b/zeppelin/modules/combat/module.yaml
+index 59e4e0d..d41f24d 100644
+--- a/zeppelin/modules/combat/module.yaml
++++ b/zeppelin/modules/combat/module.yaml
+@@ -29,6 +29,7 @@ packets:
+   SMSG_CORPSE_RECLAIM_DELAY: /zeppelin.combat.v1.Combat/OnPacket
+   SMSG_CAST_FAILED: /zeppelin.combat.v1.Combat/OnPacket
+   SMSG_UPDATE_COMBO_POINTS: /zeppelin.combat.v1.Combat/OnPacket  # rogue finishers
++  SMSG_PET_SPELLS: /zeppelin.combat.v1.Combat/OnPacket   # our pet (guid 0 = gone)
+   MSG_CORPSE_QUERY: /zeppelin.combat.v1.Combat/OnPacket
+ lifecycle:
+   before_logout: /zeppelin.combat.v1.Combat/BeforeLogout
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 3eca87e..d096b5b 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -126,6 +126,11 @@ CLASS_ABILITIES = {
+         {"spell_id": 8921, "every_ms": 12000, "min_power": 25, "per_target": True, "min_power_pct": 20},  # Moonfire
+     ],
+     4: [  # rogue
++        # Evasion (level 8, 5 min): when a second mob joins or we drop below half - the rogue's deaths
++        # were chained 2-3 mob fights with it in the spellbook and never cast. Both rows share the
++        # spell's own timer
++        {"spell_id": 5277, "every_ms": 300000, "on_self": True, "min_attackers": 2},          # Evasion (pack)
++        {"spell_id": 5277, "every_ms": 300000, "on_self": True, "below_health_pct": 50},      # Evasion (losing)
+         {"spell_id": 1766, "every_ms": 10000, "min_power": 25, "interrupt": True},            # Kick
+         # the finisher first, gated on combo points (SMSG_UPDATE_COMBO_POINTS): 3 on the target, or any
+         # once it is about to die / we are losing - on a 10 s timer it failed NO_COMBO_POINTS 45x a run
+@@ -1293,6 +1298,21 @@ class Runner:
+             a["kite_auras"] = KITE_SNARES[self.w.cls]  # step back from a snared mob between shots/casts
+         return a
+ 
++    def ensure_pet(self):
++        """A warlock fights with its imp out (Summon Imp 688, no reagent): the bot never summoned it and
++        tanked every mob in cloth - Durotar was the one area getting worse. Out of combat only, at most
++        every 30 s (a 10 s cast)."""
++        if self.w.cls != 9 or time.time() - getattr(self, "_pet_try", 0) < 30:
++            return
++        st = call("combat.state")
++        if st.get("pet") or st.get("dead") or st.get("attackers"):
++            return
++        if 688 not in set(call("interact.spells").get("spells", [])):
++            return
++        self._pet_try = time.time()
++        r = call("interact.cast", spell_id=688, target_kind="self", timeout_ms=13000)
++        print(f"  pet: Summon Imp - {r.get('detail')}", flush=True)
++
+     def fight_range(self):
+         """How far a ranged class opens from: its opener's max range (the first known attack spell
+         with one - Serpent Sting 35, Frostbolt/Smite/Wrath 30). The module stands 3 yd inside it."""
+@@ -1897,7 +1917,9 @@ class Runner:
+             if body:
+                 ax, ay = body
+                 print(f"  body-pulling {out['entry']} out of a group of {len(group)} from ({ax:.0f},{ay:.0f})", flush=True)
+-            elif crowd(t) >= 2 and not pull and level < max(lv(m) for m in group) + 3:
++            elif crowd(t) >= (3 if pull else 2) and level < max(lv(m) for m in group) + 3:
++                # ranged too, from 4 a pack: an opener draws one of a pair, but a mage's Frostbolt into
++                # Night Web's Hollow brought six spiders at once (pull x6 deaths)
+                 # even the least crowded target stands in a pack and nobody can be body-pulled alone
+                 # (Northshire's vineyard: every pull came 2-3 at once): park the quest a level, never
+                 # past 3 over the mobs or "later" would loop for ever
+@@ -2121,10 +2143,13 @@ class Runner:
+             self.kills += r.get("killed", False)
+             if r.get("reason") == "we died":
+                 return  # the other attackers' kill calls would each log a "fight 0: we died" of their own
++        self.ensure_pet()
+         s = call("interact.self")
+         low_mana = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
+                     and s.get("power", 0) * 100 < s["maxPower"] * 40)  # a dry caster loses its next fight
+-        if low_mana or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 70):  # never start a pull half dead
++        # 80, not 70: most deaths are the NEXT mob arriving while we are still low (rogue: 23 of 33 defend
++        # deaths came straight after a won fight, at 4-47 % health)
++        if low_mana or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 80):  # never start a pull half dead
+             self.rest(90)
+ 
+     def _revive_loop(self, corpse):
+-- 
+2.34.1
+
