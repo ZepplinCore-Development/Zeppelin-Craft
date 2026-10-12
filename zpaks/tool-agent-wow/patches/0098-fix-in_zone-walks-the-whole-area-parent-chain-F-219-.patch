@@ -1,0 +1,42 @@
+From 92b7a1d74292b3f66aaf8d731e2a329258405a61 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 09:15:25 +0000
+Subject: [PATCH] fix: in_zone walks the whole area parent chain (F-219, F-036)
+
+Open Azeroth inserted a valley zone between every starter valley and its zone
+(Aldrassil 256 -> Shadowglen 6450 -> Teldrassil 141; likewise 6170 Northshire,
+6176 Coldridge, 6451 Valley of Trials, 6454 Deathknell, 6455 Sunstrider, 6456
+Ammen Vale). The one-step area -> zone lookup dropped every spawn in those
+sub-areas: six Shadowglen chains and the hunter's class quest never existed
+for the bot, which left the valley at level 3 into level-5/6 mobs.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 25b7ecf..3eca87e 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -226,7 +226,15 @@ class World:
+             return True
+         a = zonemap.area_at(self.map, x, y)
+         if a not in self._area_zone:
+-            self._area_zone[a] = VALLEY_ZONE.get(a) or self._zone_of.get(a) or a
++            # walk the parent chain, not one step: Open Azeroth (F-036) put a valley zone between every
++            # starter valley and its zone (Aldrassil 256 -> Shadowglen 6450 -> Teldrassil 141), and the
++            # one-step lookup dropped every NPC in those sub-areas - six Shadowglen chains (Melithar,
++            # Gilshalan, Tenaron) never existed for the bot, which left the valley at level 3
++            z, seen = a, set()
++            while z and z not in self.zones and z not in seen:
++                seen.add(z)
++                z = VALLEY_ZONE.get(z) or self._zone_of.get(z) or 0
++            self._area_zone[a] = z or a
+         return self._area_zone[a] in self.zones
+ 
+     def __init__(self, mapid, box, char, zone=0):
+-- 
+2.34.1
+
