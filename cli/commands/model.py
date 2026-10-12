@@ -568,7 +568,8 @@ def migrate_v1_choices(result: dict, ix, v1: Dict[str, dict]) -> Dict[str, dict]
               help='Which wardrobe region textures to store')
 @click.option('--workers', default=6, show_default=True, help='Parallel downloads from wago.tools')
 @click.option('--fdid', 'fdids', multiple=True, type=int, help='Store these FileDataIDs instead of the wardrobe')
-def model_retail_store(gender, workers, fdids):
+@click.option('--no-wowhead', is_flag=True, help='Do not fall back to Wowhead for textures wago.tools cannot serve')
+def model_retail_store(gender, workers, fdids, no_wowhead):
     """F-216: download retail files from wago.tools into the local store (logs/retail_cache/raw).
 
     \b
@@ -578,7 +579,7 @@ def model_retail_store(gender, workers, fdids):
     """
     from lib import retail, retail_wardrobe
     want = set(fdids) or retail_wardrobe.region_fdids(gender)
-    had, got, bad = retail.prefetch(want, workers=workers, log=click.echo)
+    had, got, bad = retail.prefetch(want, workers=workers, log=click.echo, wowhead=not no_wowhead and not fdids)
     click.echo(f'retail store: {had + got:,}/{len(want):,} stored ({got:,} new, {bad:,} failed - re-run to retry)')
 
 

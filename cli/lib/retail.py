@@ -321,8 +321,15 @@ def texture_file(fdid: int, offline: bool = False) -> Optional[Path]:
         return dst
     raw = CACHE / 'raw' / str(fdid)
     if not (raw.exists() and raw.stat().st_size):
-        if offline or not fetch(fdid):
+        alt = CACHE / 'raw_wowhead' / str(fdid)
+        if alt.exists() and alt.stat().st_size:
+            raw = alt
+        elif offline:
             return None
+        elif not fetch(fdid):
+            if not wowhead_texture(fdid):
+                return None
+            raw = alt
     dst.parent.mkdir(parents=True, exist_ok=True)
     try:
         os.link(raw, dst)                              # one copy on disk
@@ -331,11 +338,36 @@ def texture_file(fdid: int, offline: bool = False) -> Optional[Path]:
     return dst
 
 
-def prefetch(fdids, workers: int = 6, log: Callable = print) -> Tuple[int, int, int]:
+def wowhead_texture(fdid: int) -> Optional[Path]:
+    """Fallback for a texture wago.tools cannot serve (HTTP 503 on ~3k armour region files, every build):
+    Wowhead's model viewer CDN has it as WebP; re-encoded to BLP (DXT5 with alpha, else DXT1) and kept
+    apart from the raw wago bytes in logs/retail_cache/raw_wowhead/<fdid>. Textures only."""
+    import io
+    from PIL import Image
+    from lib.wardrobe.blp import write_blp_dxt
+    dst = CACHE / 'raw_wowhead' / str(fdid)
+    if dst.exists() and dst.stat().st_size:
+        return dst
+    try:
+        req = urllib.request.Request(f'https://wow.zamimg.com/modelviewer/live/textures/{fdid}.webp',
+                                     headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            im = Image.open(io.BytesIO(r.read())).convert('RGBA')
+    except Exception:
+        return None
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dst.with_name(f'.{fdid}.{threading.get_ident()}')
+    alpha = im.getchannel('A').getextrema()[0] < 255
+    write_blp_dxt(im, tmp, 'DXT5' if alpha else 'DXT1')
+    tmp.replace(dst)
+    return dst
+
+
+def prefetch(fdids, workers: int = 6, log: Callable = print, wowhead: bool = False) -> Tuple[int, int, int]:
     """Download FileDataIDs into the local store (logs/retail_cache/raw/<fdid>) so texture_file /
     fetch never stream them. Resumable: files already stored are skipped. -> (had, got, failed)."""
     want = sorted({int(x) for x in fdids if x})
-    todo = [x for x in want if not (CACHE / 'raw' / str(x)).exists()]
+    todo = [x for x in want if not (CACHE / 'raw' / str(x)).exists() and not (CACHE / 'raw_wowhead' / str(x)).exists()]
     had, got, bad = len(want) - len(todo), 0, 0
     log(f'  retail store: {len(want):,} wanted, {had:,} stored, {len(todo):,} to download ({workers} workers)')
     if not todo:
@@ -344,7 +376,8 @@ def prefetch(fdids, workers: int = 6, log: Callable = print) -> Tuple[int, int, 
     t0 = time.time()
     from concurrent.futures import ThreadPoolExecutor, as_completed
     with ThreadPoolExecutor(workers) as ex:
-        futs = [ex.submit(fetch, x) for x in todo]
+        # wowhead=True (textures only): a file wago.tools cannot serve comes from Wowhead's CDN instead
+        futs = [ex.submit((lambda x: fetch(x) or wowhead_texture(x)) if wowhead else fetch, x) for x in todo]
         for i, fu in enumerate(as_completed(futs), 1):
             if fu.result():
                 got += 1
