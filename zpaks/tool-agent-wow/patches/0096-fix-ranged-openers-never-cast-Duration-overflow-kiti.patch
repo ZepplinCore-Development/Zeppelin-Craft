@@ -1,0 +1,162 @@
+From 7370c2c6b1a6b7338db1ed9aa4392b437745d086 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 07:27:48 +0000
+Subject: [PATCH] fix: ranged openers never cast (Duration overflow); kiting
+ mage; melee re-engage (F-219)
+
+- offenseLeft compared time.Since(last)+2s: for a spell not cast yet Since
+  saturates at max Duration and +2s overflows negative, so every unused spell
+  read "not ready" - the hunter ran into melee from 33 yd with Serpent Sting
+  and Auto Shot never cast (1 Serpent Sting in 41 fights). Now Since >= every-2s
+- SMSG_ATTACKSTOP for our own swing (Auto Shot cancels melee) re-sends attack
+- kiting only while there is still offense to use (or a wand)
+- on_self abilities with max_range: only with the target that close (Frost Nova)
+- mage: Frost Nova at 8 yd, three Frostbolts a target, kites rooted/chilled mobs
+- runner: kill()'s fallback no longer re-picks a just-immune (evading) mob, and
+  logs its fight (Azuremyst: 40 min of silent 6 s no-damage kills)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/main.go | 27 +++++++++++++++++++++++----
+ zeppelin/tests/start_area.py    | 23 +++++++++++++++++------
+ 2 files changed, 40 insertions(+), 10 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index dd892a0..5df6f01 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -68,6 +68,7 @@ type service struct {
+ 	castsOn                                       map[[2]uint64]uint32 // (spell, target) -> casts, for max_per_target
+ 	maxSeen                                       map[uint64]uint32    // target -> highest health seen (its max: no field for it)
+ 	firstHit                                      map[uint64]time.Time // target -> when it first lost health (time-to-kill estimate)
++	meleeStopped                                  bool                 // SMSG_ATTACKSTOP for our own swing
+ 	comboTarget                                   uint64               // SMSG_UPDATE_COMBO_POINTS: whose they are...
+ 	combo                                         uint8                // ...and how many
+ }
+@@ -174,6 +175,9 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 	case opcode.SMSGAttackstop: // packed attacker, packed victim, u32
+ 		attacker := r.PackedGUID()
+ 		delete(s.attackers, attacker)
++		if attacker == me {
++			s.meleeStopped = true // our swing stopped (Auto Shot starting cancels it): swing again
++		}
+ 	case opcode.SMSGAttackerstateupdate: // hitInfo, packed attacker, packed victim, damage
+ 		r.U32()
+ 		attacker, victim, dmg := r.PackedGUID(), r.PackedGUID(), r.U32()
+@@ -608,7 +612,8 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			continue
+ 		}
+ 		if rng > 0 && d <= rng && d < 8.5 && len(live) <= 1 && hasAnyAura(t.GetAuras(), req.GetKiteAuras()) &&
+-			time.Since(lastKite) > 2*time.Second {
++			time.Since(lastKite) > 2*time.Second &&
++			(req.GetWandSpell() != 0 || s.offenseLeft(req, st, guid, t.GetHealth(), losing, lastCast, lastOn)) {
+ 			// kite: it is slowed and on top of us - back off out of melee (and past the ranged dead zone)
+ 			// so the next Auto Shot and shots land instead of a melee exchange
+ 			lastKite = time.Now()
+@@ -648,7 +653,11 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			if err := s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face); err != nil {
+ 				return nil, err
+ 			}
+-			if d <= meleeTrigger && !attacking {
++			s.mu.Lock()
++			stopped := s.meleeStopped
++			s.meleeStopped = false
++			s.mu.Unlock()
++			if d <= meleeTrigger && (!attacking || stopped) {
+ 				if err := s.attack(ctx, guid); err != nil {
+ 					return nil, err
+ 				}
+@@ -702,7 +711,11 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		if err := s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face); err != nil {
+ 			return nil, err
+ 		}
+-		if !attacking || badFacing {
++		s.mu.Lock()
++		stopped := s.meleeStopped
++		s.meleeStopped = false
++		s.mu.Unlock()
++		if !attacking || badFacing || stopped {
+ 			if err := s.attack(ctx, guid); err != nil {
+ 				return nil, err
+ 			}
+@@ -732,6 +745,9 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 			lastCast[a.GetSpellId()] = time.Now().Add(400*time.Millisecond - every)
+ 		}
+ 		s.mu.Unlock()
++		if a.GetOnSelf() && a.GetMaxRange() > 0 && d > float64(a.GetMaxRange()) {
++			continue // a self-centred AoE (Frost Nova): only with the target inside its radius
++		}
+ 		if !a.GetOnSelf() && a.GetItemId() == 0 && !a.GetOnWeapon() {
+ 			// out of the spell's range band: the hunter's Serpent Sting failed TOO_CLOSE in melee and
+ 			// Raptor Strike fired from range - the cast only cost the tick
+@@ -918,7 +934,10 @@ func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfStat
+ 		if a.GetPerTarget() {
+ 			last = lastOn[[2]uint64{uint64(a.GetSpellId()), guid}]
+ 		}
+-		if time.Since(last)+2*time.Second >= time.Duration(a.GetEveryMs())*time.Millisecond {
++		// never time.Since(last)+2s: for a spell not cast yet `last` is the zero time, Since saturates at the
++		// max Duration and +2s overflows negative - every unused spell read "not ready" and the hunter ran
++		// into melee from 33 yd with Serpent Sting and Auto Shot never cast
++		if time.Since(last) >= time.Duration(a.GetEveryMs())*time.Millisecond-2*time.Second {
+ 			return true
+ 		}
+ 	}
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 06a080d..ebefa7d 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -103,7 +103,9 @@ CLASS_ABILITIES = {
+         {"spell_id": 1459, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Arcane Intellect
+         # Frostbolt from max range (its slow halves the mob's run-in: a second bolt lands before it
+         # arrives), Fire Blast (instant, 20 yd) as it closes, then wand or staff
+-        {"spell_id": 116, "every_ms": 0, "min_power": 25, "max_per_target": 2, "min_power_pct": 30},     # Frostbolt
++        # Frost Nova (level 10) when it reaches us: roots it, and the kite steps back out of melee
++        {"spell_id": 122, "every_ms": 25000, "min_power": 30, "on_self": True, "max_range": 8},  # Frost Nova
++        {"spell_id": 116, "every_ms": 0, "min_power": 25, "max_per_target": 3, "min_power_pct": 25},     # Frostbolt (the mage's damage)
+         {"spell_id": 133, "every_ms": 0, "min_power": 30, "max_per_target": 2, "min_power_pct": 30},     # Fireball (before Frostbolt is known)
+         {"spell_id": 2136, "every_ms": 8000, "min_power": 40, "max_per_target": 1, "min_power_pct": 35},  # Fire Blast
+     ],
+@@ -137,8 +139,10 @@ CLASS_ABILITIES = {
+ # creatures worth grinding: XP-giving (CREATURE_FLAG_EXTRA_NO_XP 0x40) and not a training dummy (Kezan's
+ # 48304 has flags_extra 0 and never dies - it is the Charge quest's target, a script heals it)
+ GRINDABLE = "(flags_extra & 64)=0 AND ScriptName NOT LIKE '%dummy%' AND name NOT LIKE '%Training Dummy%'"
+-# hunter snares that make kiting work: Concussive Shot (5116), Wing Clip ranks (2974, 14267, 14268)
+-KITE_SNARES = [5116, 2974, 14267, 14268]
++# snares that make kiting work (the target wears one -> step back instead of trading blows):
++# hunter Concussive Shot, Wing Clip ranks; mage Frost Nova ranks (root) and Frostbolt ranks (chill)
++KITE_SNARES = {3: [5116, 2974, 14267, 14268],
++               8: [122, 865, 6131, 116, 205, 837, 7322, 8406, 8407, 8408]}
+ CLASS_RANGE = {3: 28, 5: 28, 7: 26, 8: 28, 9: 28, 11: 28}
+ MANA_CLASSES = {2, 3, 5, 7, 8, 9, 11}
+ 
+@@ -1273,8 +1277,8 @@ class Runner:
+             a["pull_spell"] = self._pull
+         if getattr(self, "_wand", 0):
+             a["wand_spell"] = self._wand
+-        if self.w.cls == 3:
+-            a["kite_auras"] = KITE_SNARES  # step back from a snared mob between shots
++        if self.w.cls in KITE_SNARES:
++            a["kite_auras"] = KITE_SNARES[self.w.cls]  # step back from a snared mob between shots/casts
+         return a
+ 
+     def fight_range(self):
+@@ -1826,7 +1830,14 @@ class Runner:
+         cands = [o for o in mobs if o.get("entry") == entry and o.get("distance", 999) < 60
+                  and time.time() - self.immune.get(int(o["guid"]), 0) > 120]
+         if not cands:
+-            return call("combat.kill", entry=entry, **self.fight_args(), loot=True)
++            if any(o.get("entry") == entry and time.time() - self.immune.get(int(o["guid"]), 0) <= 120 for o in mobs):
++                # the only ones in sight are the ones that just took no damage: the module's own "nearest
++                # of this entry" pick is exactly that evading mob again (Azuremyst: a Volatile Mutation
++                # stuck evading, 6 s no-damage kills back to back for 40 min, nothing logged)
++                return {"reason": "no target"}
++            r = call("combat.kill", entry=entry, **self.fight_args(), loot=True)
++            self.fight_log(r.get("entry", entry), r)
++            return r
+ 
+         # isolated = no other HOSTILE mob within aggro reach of it (~18 yd at our level): 10 yd let
+         # Sunstrider's Tenders, which stand 12-15 yd apart, come two at a time
+-- 
+2.34.1
+
