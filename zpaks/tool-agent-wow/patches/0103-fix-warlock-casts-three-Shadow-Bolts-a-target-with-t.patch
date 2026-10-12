@@ -1,0 +1,30 @@
+From 25d5d2fe7b48065a6aae7273ba6318d1b9bacd71 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 20:21:39 +0000
+Subject: [PATCH] fix: warlock casts three Shadow Bolts a target with the imp
+ out (F-219)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 81498e8..6dd68b1 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -129,7 +129,9 @@ CLASS_ABILITIES = {
+         {"spell_id": 1454, "every_ms": 3000, "on_self": True, "above_health_pct": 70, "below_power_pct": 50},  # Life Tap (level 6)
+         {"spell_id": 5782, "every_ms": 20000, "min_power": 40, "on_add": True},              # Fear (level 8) the add
+         # Shadow Bolt opener while it runs in, then the DoTs (Corruption instant), then wand/stick
+-        {"spell_id": 686, "every_ms": 0, "min_power": 25, "max_per_target": 1, "min_power_pct": 35},     # Shadow Bolt
++        # three bolts, not one: with the imp tanking, Shadow Bolt IS the warlock's damage (one bolt then a
++        # staff made every level-1 fight run past the 25 s budget)
++        {"spell_id": 686, "every_ms": 0, "min_power": 25, "max_per_target": 3, "min_power_pct": 30},     # Shadow Bolt
+         {"spell_id": 172, "every_ms": 18000, "min_power": 35, "per_target": True, "min_power_pct": 20},  # Corruption
+         {"spell_id": 980, "every_ms": 24000, "min_power": 25, "per_target": True, "min_power_pct": 20},  # Curse of Agony (level 8)
+         {"spell_id": 348, "every_ms": 15000, "min_power": 25, "max_per_target": 1, "min_power_pct": 30},  # Immolate
+-- 
+2.34.1
+
