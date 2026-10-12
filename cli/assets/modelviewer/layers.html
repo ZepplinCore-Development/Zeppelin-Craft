@@ -2059,11 +2059,14 @@ async function bakeCards(e, c) {
   (sp.items || []).forEach(it => [it.m, it.m.replace(/\.m2$/, '00.skin'), it.t].forEach(k => { if (k && smap[k]) base[k] = smap[k]; }));
   document.querySelectorAll('#panes .pane:not([data-opt="custom"])').forEach(x => x.remove());   // these cards ARE the options
   const shipLabel = shipFile ? label(shipFile.sources) : 'stock';
-  sp.bakes.forEach(([src, cas, size, fits]) => {
+  sp.bakes.forEach(([src, cas, size, fits, ctex]) => {
     // each source as it ships: ITS model file wearing ITS bake (stock = the classic model + stock bake)
     const file = src === 'stock' ? null : M && M.panes.find(p => p.sources.includes(src));
-    const p = file ? { ...file, display: e.display, tex: sp.tex, mesh: sp.mesh, items: sp.items, scale: sp.scale, camera: sp.camera,
-                       _ovr: { ...base, ['fdid/' + sp.tex['1']]: cas }, _bake: src }
+    // and ITS hair / extra skin: a pack's mesh is re-UV'd for its own files (I-397 black tusks)
+    const tex = { ...sp.tex }, ovr = { ...base, ['fdid/' + sp.tex['1']]: cas };
+    Object.entries(ctex || {}).forEach(([slot, c]) => { tex[slot] = casFid(c); ovr['fdid/' + tex[slot]] = c; });
+    const p = file ? { ...file, display: e.display, tex, mesh: sp.mesh, items: sp.items, scale: sp.scale, camera: sp.camera,
+                       _ovr: ovr, _bake: src }
                    : { ...sp, display: e.display, _bake: 'stock' };
     // one file of the model ships for every display: a card is choosable when its file is the model pick's
     const usable = file ? !!shipFile && file.option === shipFile.option && fits.includes(key) : !!shipFile && shipFile.sources.includes('stock');

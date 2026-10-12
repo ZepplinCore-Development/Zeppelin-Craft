@@ -2008,7 +2008,8 @@ def creator_models(dep: 'Deployer', entries: List[dict], v2: Path, log: Callable
 def display_bakes(dep: 'Deployer', mesh: str, ext: int) -> List[list]:
     """The NPC bakes a character display can ship - one per source whose bake row (ext) names a bake it
     ships - as curate weighs them (hd_curate_v2: the largest one compatible with the picked mesh, unless
-    the display's pick names a source): [[source, cas, size, [mesh option keys it fits]]].
+    the display's pick names a source): [[source, cas, size, [mesh option keys it fits], {slot: cas}]]
+    (the last: _bake_char_tex - that source's hair / extra skin).
     Packs replace character models IN PLACE and ship their own HD bake per display (5785: both HD packs
     ship creaturedisplayextra-03838_hd.blp), so a character display's real choice is its bake."""
     a = dep.ix.meshes.get(mesh)
@@ -2025,7 +2026,35 @@ def display_bakes(dep: 'Deployer', mesh: str, ext: int) -> List[list]:
             continue
         topt = ai.Option('b', [src], {bp: f}, f.stat().st_size)
         fits = [o.key for o in mopts if dep.ix.compatible(bp, topt, mesh, o)]
-        out.append([src, dep.store.put(f), f.stat().st_size, fits])
+        out.append([src, dep.store.put(f), f.stat().st_size, fits, _bake_char_tex(dep, src, x)])
+    return out
+
+
+def _bake_char_tex(dep: 'Deployer', src: str, x: dict) -> Dict[str, str]:
+    """{slot: cas} for the hair (6) and extra skin (8) the client reads from CharSections for this
+    bake row, as SOURCE ships them. A pack's character model is re-UV'd for its own Hair00_xx /
+    *_Extra.blp, so a pack card wearing the stock pane's files draws black tusks and classic hair
+    on HD UVs (I-397: troll male 900401 - stock 3.3.5 has no TrollMaleSkin00_xx_Extra at all)."""
+    stock_chs = dep.result['stock_char_dbc'][1]
+    sx = None if src == 'stock' else dep._srcs().get(src)
+    chs = {**stock_chs, **sx.chs} if sx is not None and sx.chs else stock_chs
+    files = dep.ix.stock if sx is None else dep.ix._src_files(src)
+    race, sex = int(x.get('race') or 0), int(x.get('gender') or 0)
+    want: Dict[str, str] = {}
+    for r in chs.values():
+        if r.get('race') != race or r.get('gender') != sex:
+            continue
+        if (r.get('base_section') == 3 and r.get('type') == int(x.get('hair_style') or 0)
+                and r.get('color_index') == int(x.get('hair_color') or 0) and r.get('texture_1')):
+            want['6'] = ms.norm(str(r['texture_1']))
+        if (r.get('base_section') == 0 and r.get('type') == 0
+                and r.get('color_index') == int(x.get('skin_color') or 0) and r.get('texture_2')):
+            want['8'] = ms.norm(str(r['texture_2']))
+    out: Dict[str, str] = {}
+    for slot, p in want.items():
+        f = files.get(p) or dep.ix.stock.get(p)       # a pack ships only what it changes
+        if f is not None:
+            out[slot] = dep.store.put(f)
     return out
 
 
