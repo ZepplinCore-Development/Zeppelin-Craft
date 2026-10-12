@@ -16,11 +16,13 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       `majority` of their vertices; mixed islands are split per triangle. Part submesh
       id = part_group * 100 + the source variant (102 -> 502, 602, ...). Each part keeps
       the source submesh's vertex range and bone combo; its batches are copied per part.
-      Optional "mixed": {"102": 1}: in those source variants a mixed island goes whole to that part
-      instead of being split per triangle (dragonspawn2 102/103/106/107: the sash and the straps over
-      the shoulders ride on the shoulder bones; cut by bone they became fake pads).
-      Optional "fold": {"105": {"6": 1, "7": 1}}: after the split, a source variant's parts merged
-      into another (105: its pads only make sense with its robe; the helmet still comes out).
+      Optional "mixed": per source variant, what a mixed island does instead of a plain per-triangle
+      split. A part number sends the whole island there (dragonspawn2 102/103/106/107: the sash and
+      the straps over the shoulders ride on the shoulder bones; cut by bone they became fake pads).
+      A map {"6": 1} still splits per triangle but moves those parts' triangles (105: the hood is
+      welded to the helmet, collar and shoulders; only the helmet comes out of it).
+      Optional "drop": {"105": [6, 7]}: a source variant's parts left out (105's circlets, the same
+      pieces 604/704 already offer).
 """
 import collections
 import struct
@@ -120,8 +122,9 @@ def _op_geoset_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
         for k in keys:
             owner[int(k)] = int(g)
     majority = float(cfg.get('majority', 0.75))
-    mixed_to = {int(k): int(g) for k, g in (cfg.get('mixed') or {}).items()}
-    fold = {int(k): {int(a): int(b) for a, b in m_.items()} for k, m_ in (cfg.get('fold') or {}).items()}
+    mixed_to = {int(k): (int(g) if not isinstance(g, dict) else {int(a): int(b) for a, b in g.items()})
+                for k, g in (cfg.get('mixed') or {}).items()}
+    drop = {int(k): {int(g) for g in v} for k, v in (cfg.get('drop') or {}).items()}
 
     def vpart(v: int) -> int:
         k = m.key_of(m.dom[sk.lookup[v]])
@@ -180,14 +183,16 @@ def _op_geoset_split(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
             top, n = c.most_common(1)[0]
             if n >= majority * sum(c.values()):
                 parts[top] += isl
-            elif s['id'] in mixed_to:
+            elif isinstance(mixed_to.get(s['id']), int):
                 parts[mixed_to[s['id']]] += isl
             else:
+                remap = mixed_to.get(s['id']) or {}
                 for t in isl:
-                    parts[collections.Counter(vpart(v) for v in t).most_common(1)[0][0]].append(t)
-        for a, b in (fold.get(s['id']) or {}).items():
-            if a in parts:
-                parts[b] += parts.pop(a)
+                    g = collections.Counter(vpart(v) for v in t).most_common(1)[0][0]
+                    parts[remap.get(g, g)].append(t)
+        for g in drop.get(s['id'], ()):
+            if parts.pop(g, None):
+                made.append(f'{s["id"]}->{g * 100 + s["id"] % 100}:dropped')
         for g in sorted(parts):
             gid = g * 100 + s['id'] % 100
             emit(sk.subs[j], gid, parts[g], j)
