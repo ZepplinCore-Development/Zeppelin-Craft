@@ -1,0 +1,456 @@
+From dc65d4694ca56154ce2bce64fc82cd41df3dc275 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 19:45:37 +0000
+Subject: [PATCH] feat: spell audit groups 1-6 - CC adds, mana savers, damage,
+ interrupts, defense strikes, racials (F-219)
+
+Module:
+- on_add uses the spell's max range (Polymorph 30, Fear 20, HoJ 10) and
+  records cc_ms; a held add is never re-CC'd nor hit by our per-target DoTs
+- Ability above_health_pct / below_power_pct (Life Tap, Bloodrage)
+- after_defense: our dodge/parry/block (SMSG_ATTACKERSTATEUPDATE victim
+  state 2/3, HITINFO_BLOCK) opens AURA_STATE_DEFENSE strikes for 5 s
+Runner:
+- CC the add: Polymorph, Fear, Hammer of Justice, Entangling Roots; Stoneclaw
+  Totem at 2+ attackers
+- mana: mage conjures water/food out of combat; Life Tap above 70 % health
+  below 50 % mana; Renew below 70 %
+- damage: Mind Blast opener, Flame Shock, Flametongue, Curse of Agony,
+  Slice and Dice at 1-2 points, Bloodrage
+- interrupts: Silencing Shot, Devout Silence, Solar Flare, Wind Shear,
+  Counterspell
+- Counter, Chastise, Earthen Reprisal after a dodge/parry/block
+- racials per race (Blood Fury, Stoneform, War Stomp, Berserking, Rocket
+  Barrage, Arcane Torrent, Gift of the Naaru); Arcane Torrent moved out of
+  the paladin list
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 44 ++++++++++++-
+ zeppelin/modules/combat/combat.proto     | 10 ++-
+ zeppelin/modules/combat/main.go          | 79 ++++++++++++++++++++++--
+ zeppelin/tests/start_area.py             | 64 ++++++++++++++++++-
+ 4 files changed, 185 insertions(+), 12 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 5205164..3b2a0cf 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -47,7 +47,13 @@ type Ability struct {
+ 	// within half of it - a 15 s DoT on a mob with 5 s left is wasted mana
+ 	MinCombo uint32 `protobuf:"varint,17,opt,name=min_combo,json=minCombo,proto3" json:"min_combo,omitempty"` // a finisher (Eviscerate): only with this many combo points on the target -
+ 	// or with any once the target is about to die (< 4 s) or we are losing
+-	OnAdd         bool `protobuf:"varint,18,opt,name=on_add,json=onAdd,proto3" json:"on_add,omitempty"` // cast on ANOTHER live attacker in melee reach, never the kill target (Gouge:
++	OnAdd bool `protobuf:"varint,18,opt,name=on_add,json=onAdd,proto3" json:"on_add,omitempty"` // cast on ANOTHER live attacker in reach (max_range, else melee), never the kill
++	// target (Gouge, Polymorph, Fear: take the second mob out while we kill the first)
++	AboveHealthPct uint32 `protobuf:"varint,19,opt,name=above_health_pct,json=aboveHealthPct,proto3" json:"above_health_pct,omitempty"` // only while our health is at or above this % (Life Tap); 0 = always
++	BelowPowerPct  uint32 `protobuf:"varint,20,opt,name=below_power_pct,json=belowPowerPct,proto3" json:"below_power_pct,omitempty"`    // only while our power is below this % of max (Life Tap, Bloodrage); 0 = always
++	AfterDefense   bool   `protobuf:"varint,21,opt,name=after_defense,json=afterDefense,proto3" json:"after_defense,omitempty"`         // only within 5 s of us dodging, parrying or blocking (Counter, Chastise,
++	// Earthen Reprisal - AURA_STATE_DEFENSE strikes)
++	CcMs          uint32 `protobuf:"varint,22,opt,name=cc_ms,json=ccMs,proto3" json:"cc_ms,omitempty"` // on_add crowd control: how long the add stays out (no DoT or swing on it);
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -208,6 +214,34 @@ func (x *Ability) GetOnAdd() bool {
+ 	return false
+ }
+ 
++func (x *Ability) GetAboveHealthPct() uint32 {
++	if x != nil {
++		return x.AboveHealthPct
++	}
++	return 0
++}
++
++func (x *Ability) GetBelowPowerPct() uint32 {
++	if x != nil {
++		return x.BelowPowerPct
++	}
++	return 0
++}
++
++func (x *Ability) GetAfterDefense() bool {
++	if x != nil {
++		return x.AfterDefense
++	}
++	return false
++}
++
++func (x *Ability) GetCcMs() uint32 {
++	if x != nil {
++		return x.CcMs
++	}
++	return 0
++}
++
+ type KillRequest struct {
+ 	state       protoimpl.MessageState `protogen:"open.v1"`
+ 	Guid        uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+@@ -922,7 +956,7 @@ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+-	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x9a\x04\n" +
++	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xa6\x05\n" +
+ 	"\aAbility\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x19\n" +
+ 	"\bevery_ms\x18\x02 \x01(\rR\aeveryMs\x12\x1b\n" +
+@@ -943,7 +977,11 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\rmin_power_pct\x18\x0f \x01(\rR\vminPowerPct\x12\x15\n" +
+ 	"\x06dot_ms\x18\x10 \x01(\rR\x05dotMs\x12\x1b\n" +
+ 	"\tmin_combo\x18\x11 \x01(\rR\bminCombo\x12\x15\n" +
+-	"\x06on_add\x18\x12 \x01(\bR\x05onAdd\"\xcb\x03\n" +
++	"\x06on_add\x18\x12 \x01(\bR\x05onAdd\x12(\n" +
++	"\x10above_health_pct\x18\x13 \x01(\rR\x0eaboveHealthPct\x12&\n" +
++	"\x0fbelow_power_pct\x18\x14 \x01(\rR\rbelowPowerPct\x12#\n" +
++	"\rafter_defense\x18\x15 \x01(\bR\fafterDefense\x12\x13\n" +
++	"\x05cc_ms\x18\x16 \x01(\rR\x04ccMs\"\xcb\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index c1c87a4..39c8215 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -28,8 +28,14 @@ message Ability {
+                               // within half of it - a 15 s DoT on a mob with 5 s left is wasted mana
+   uint32 min_combo = 17;      // a finisher (Eviscerate): only with this many combo points on the target -
+                               // or with any once the target is about to die (< 4 s) or we are losing
+-  bool on_add = 18;           // cast on ANOTHER live attacker in melee reach, never the kill target (Gouge:
+-                              // incapacitate the second mob while we kill the first); skipped with none
++  bool on_add = 18;           // cast on ANOTHER live attacker in reach (max_range, else melee), never the kill
++                              // target (Gouge, Polymorph, Fear: take the second mob out while we kill the first)
++  uint32 above_health_pct = 19; // only while our health is at or above this % (Life Tap); 0 = always
++  uint32 below_power_pct = 20;  // only while our power is below this % of max (Life Tap, Bloodrage); 0 = always
++  bool after_defense = 21;      // only within 5 s of us dodging, parrying or blocking (Counter, Chastise,
++                                // Earthen Reprisal - AURA_STATE_DEFENSE strikes)
++  uint32 cc_ms = 22;            // on_add crowd control: how long the add stays out (no DoT or swing on it);
++                                // 0 = 4 s
+ }
+ 
+ message KillRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 10d3cbe..0a5d077 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -70,6 +70,8 @@ type service struct {
+ 	firstHit                                      map[uint64]time.Time // target -> when it first lost health (time-to-kill estimate)
+ 	meleeStopped                                  bool                 // SMSG_ATTACKSTOP for our own swing
+ 	pet                                           uint64               // SMSG_PET_SPELLS: our pet, 0 = none
++	defenseUntil                                  time.Time            // we dodged/parried/blocked: AURA_STATE_DEFENSE strikes open
++	ccd                                           map[uint64]time.Time // add -> until when our crowd control holds it
+ 	comboTarget                                   uint64               // SMSG_UPDATE_COMBO_POINTS: whose they are...
+ 	combo                                         uint8                // ...and how many
+ }
+@@ -180,8 +182,37 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 			s.meleeStopped = true // our swing stopped (Auto Shot starting cancels it): swing again
+ 		}
+ 	case opcode.SMSGAttackerstateupdate: // hitInfo, packed attacker, packed victim, damage
+-		r.U32()
++		hit := r.U32()
+ 		attacker, victim, dmg := r.PackedGUID(), r.PackedGUID(), r.U32()
++		if victim == me {
++			// ...overkill u32, n u8, n x (school u32, f32, u32), [absorbs n x u32], [resists n x u32],
++			// victim state u8 (2 dodge, 3 parry); HITINFO_BLOCK 0x2000 = we blocked
++			pr := wow.NewReader(p.GetPayload())
++			pr.U32()
++			pr.PackedGUID()
++			pr.PackedGUID()
++			pr.U32()
++			pr.U32()
++			n := int(pr.U8())
++			for i := 0; i < n; i++ {
++				pr.U32()
++				pr.F32()
++				pr.U32()
++			}
++			if hit&(0x20|0x40) != 0 {
++				for i := 0; i < n; i++ {
++					pr.U32()
++				}
++			}
++			if hit&(0x80|0x100) != 0 {
++				for i := 0; i < n; i++ {
++					pr.U32()
++				}
++			}
++			if state := pr.U8(); pr.Err() == nil && (state == 2 || state == 3 || hit&0x2000 != 0) {
++				s.defenseUntil = time.Now().Add(5 * time.Second)
++			}
++		}
+ 		if attacker == me {
+ 			s.swings++
+ 			s.dmgDone += dmg
+@@ -753,6 +784,20 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 		if !s.thriftOK(a, st, guid, losing) {
+ 			continue
+ 		}
++		if p := a.GetAboveHealthPct(); p > 0 && st.GetMaxHealth() > 0 && st.GetHealth()*100/st.GetMaxHealth() < p {
++			continue
++		}
++		if p := a.GetBelowPowerPct(); p > 0 && st.GetMaxPower() > 0 && st.GetPower()*100/st.GetMaxPower() >= p {
++			continue
++		}
++		if a.GetAfterDefense() {
++			s.mu.Lock()
++			open := time.Now().Before(s.defenseUntil)
++			s.mu.Unlock()
++			if !open {
++				continue
++			}
++		}
+ 		s.mu.Lock()
+ 		if s.castFailed[a.GetSpellId()] == 67 { // NOT_READY: its cooldown runs from the hit (Raptor
+ 			// Strike lands on the next swing), not from our send - retry in 0.4 s, not a whole timer
+@@ -763,7 +808,7 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 		if a.GetOnSelf() && a.GetMaxRange() > 0 && d > float64(a.GetMaxRange()) {
+ 			continue // a self-centred AoE (Frost Nova): only with the target inside its radius
+ 		}
+-		if !a.GetOnSelf() && a.GetItemId() == 0 && !a.GetOnWeapon() {
++		if !a.GetOnSelf() && a.GetItemId() == 0 && !a.GetOnWeapon() && !a.GetOnAdd() {
+ 			// out of the spell's range band: the hunter's Serpent Sting failed TOO_CLOSE in melee and
+ 			// Raptor Strike fired from range - the cast only cost the tick
+ 			if mn := float64(a.GetMinRange()); mn > 0 && d < mn {
+@@ -793,12 +838,16 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 			if time.Since(lastCast[a.GetSpellId()]) < every {
+ 				continue
+ 			}
++			reach := float64(a.GetMaxRange())
++			if reach <= 0 {
++				reach = 5
++			}
+ 			for _, g := range live {
+-				if g == guid {
++				if g == guid || s.held(g) {
+ 					continue
+ 				}
+ 				u, err := s.unit(ctx, g)
+-				if err != nil || u == nil || u.GetHealth() == 0 || distance(me, u.GetX(), u.GetY(), u.GetZ()) > 5 {
++				if err != nil || u == nil || u.GetHealth() == 0 || distance(me, u.GetX(), u.GetY(), u.GetZ()) > reach {
+ 					continue
+ 				}
+ 				var face movev1.Position // Gouge needs it in front of us; the next tick faces the target again
+@@ -807,6 +856,16 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 					return err
+ 				}
+ 				lastCast[a.GetSpellId()] = time.Now()
++				cc := time.Duration(a.GetCcMs()) * time.Millisecond
++				if cc <= 0 {
++					cc = 4 * time.Second
++				}
++				s.mu.Lock()
++				if s.ccd == nil {
++					s.ccd = map[uint64]time.Time{}
++				}
++				s.ccd[g] = time.Now().Add(cc)
++				s.mu.Unlock()
+ 				res.Casts++
+ 				res.Spells = append(res.Spells, a.GetSpellId())
+ 				return nil
+@@ -823,6 +882,9 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 				if g == guid && !s.dotWorth(a, guid, t.GetHealth()) {
+ 					continue
+ 				}
++				if g != guid && s.held(g) {
++					continue // a sheeped / feared / gouged add: a DoT would break it
++				}
+ 				if g != guid {
+ 					u, err := s.unit(ctx, g)
+ 					if err != nil || u == nil || u.GetHealth() == 0 || distance(me, u.GetX(), u.GetY(), u.GetZ()) > 5 {
+@@ -964,7 +1026,7 @@ func (s *service) comboOK(a *combatv1.Ability, guid uint64, hp uint32, losing bo
+ func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfState, guid uint64, hp uint32,
+ 	losing bool, lastCast map[uint32]time.Time, lastOn map[[2]uint64]time.Time) bool {
+ 	for _, a := range req.GetAbilities() {
+-		if a.GetOnSelf() || a.GetItemId() != 0 || a.GetOnWeapon() || a.GetInterrupt() || a.GetBuff() || a.GetOnAdd() {
++		if a.GetOnSelf() || a.GetItemId() != 0 || a.GetOnWeapon() || a.GetInterrupt() || a.GetBuff() || a.GetOnAdd() || a.GetAfterDefense() {
+ 			continue
+ 		}
+ 		if st.GetPower() < a.GetMinPower() || !s.thriftOK(a, st, guid, losing) || !s.dotWorth(a, guid, hp) {
+@@ -984,6 +1046,13 @@ func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfStat
+ 	return false
+ }
+ 
++// held: is this add under our crowd control right now?
++func (s *service) held(g uint64) bool {
++	s.mu.Lock()
++	defer s.mu.Unlock()
++	return time.Now().Before(s.ccd[g])
++}
++
+ func hasAnyAura(have, want []uint32) bool {
+ 	for _, a := range have {
+ 		for _, w := range want {
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index cd61e2a..81498e8 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -41,6 +41,8 @@ CLASS_ABILITIES = {
+     # charge: a gap closer offered for a LONE target only (fight_args(solo=True)).
+     1: [  # warrior
+         {"spell_id": 100, "charge": True},                                                    # Charge
++        {"spell_id": 2687, "every_ms": 60000, "on_self": True, "below_power_pct": 20},        # Bloodrage (level 10): rage to open
++        {"spell_id": 91001, "every_ms": 5000, "after_defense": True},                         # Counter (custom, after a dodge/parry)
+         {"spell_id": 6552, "every_ms": 10000, "min_power": 100, "interrupt": True},           # Pummel
+         {"spell_id": 6673, "every_ms": 3000, "min_power": 100, "on_self": True, "buff": True},  # Battle Shout
+         # a pack: Thunder Clap hits them all; Rend bleeds EVERY attacker (15 s each, own timer)
+@@ -57,7 +59,8 @@ CLASS_ABILITIES = {
+          "min_attackers": 2, "below_health_pct": 50},                                         # Divine Protection
+         {"spell_id": 635, "every_ms": 4000, "min_power": 35, "on_self": True, "below_health_pct": 40},  # Holy Light
+         {"spell_id": 103247, "every_ms": 10000, "min_power": 20, "interrupt": True},          # Rebuke
+-        {"spell_id": 28730, "every_ms": 120000, "on_self": True, "interrupt": True},          # Arcane Torrent (blood elf)
++        {"spell_id": 853, "every_ms": 60000, "min_power": 20, "on_add": True},                # Hammer of Justice (level 8) on the add
++        {"spell_id": 91002, "every_ms": 5000, "after_defense": True},                         # Chastise (custom, after a dodge/parry)
+         {"spell_id": 465, "every_ms": 3000, "on_self": True, "buff": True},                   # Devotion Aura
+         {"spell_id": 21084, "every_ms": 3000, "min_power": 30, "on_self": True, "buff": True},  # Seal of Righteousness
+         {"spell_id": 20271, "every_ms": 10000, "min_power": 30, "min_power_pct": 30},         # Judgement of Light (needs the seal)
+@@ -68,6 +71,7 @@ CLASS_ABILITIES = {
+         # fight, Arcane Shot, Concussive Shot (the slow buys more Auto Shots), Auto Shot repeating; in
+         # melee, Raptor Strike on its cooldown. Monkey's dodge is always up (a buff: recast if missing)
+         {"spell_id": 13163, "every_ms": 3000, "min_power": 20, "on_self": True, "buff": True},  # Aspect of the Monkey
++        {"spell_id": 91119, "every_ms": 20000, "interrupt": True},                           # Silencing Shot (custom, level 4)
+         {"spell_id": 1130, "every_ms": 30000, "min_power": 15, "max_per_target": 1},         # Hunter's Mark - before the pull
+         {"spell_id": 1978, "every_ms": 15000, "min_power": 15, "per_target": True, "min_power_pct": 20},  # Serpent Sting
+         {"spell_id": 3044, "every_ms": 6000, "min_power": 15, "min_power_pct": 30},          # Arcane Shot (level 6)
+@@ -82,23 +86,34 @@ CLASS_ABILITIES = {
+     # attackers): then every spell goes. Heals and buffs are never limited.
+     5: [  # priest - shield, heal, Pain on each attacker, Smite
+         {"spell_id": 2050, "every_ms": 3000, "min_power": 30, "on_self": True, "below_health_pct": 40},  # Lesser Heal
++        {"spell_id": 139, "every_ms": 3000, "min_power": 30, "on_self": True, "buff": True,
++         "below_health_pct": 70},                                                             # Renew (level 8): cheaper than a heal
++        {"spell_id": 103246, "every_ms": 15000, "interrupt": True},                          # Devout Silence (custom interrupt)
+         {"spell_id": 17, "every_ms": 16000, "min_power": 45, "on_self": True, "below_health_pct": 50},   # Power Word: Shield - defensive only (mana-hungry): below half health. 16 s: Weakened Soul lasts 15
+         {"spell_id": 1243, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Power Word: Fortitude
+         # open with Smite while it runs in (the cast is never pushed back), then Pain for the whole fight,
+         # then the stick - Pain is the mana-efficient part, so its floor is lower
++        {"spell_id": 8092, "every_ms": 8000, "min_power": 50, "max_per_target": 1, "min_power_pct": 35},  # Mind Blast (level 10) opener
+         {"spell_id": 585, "every_ms": 0, "min_power": 20, "max_per_target": 1, "min_power_pct": 35},     # Smite
+         {"spell_id": 589, "every_ms": 18000, "min_power": 25, "per_target": True, "min_power_pct": 20},  # Shadow Word: Pain
+     ],
+     7: [  # shaman - Earth Shock doubles as the interrupt
+         {"spell_id": 331, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Wave
++        {"spell_id": 57994, "every_ms": 6000, "interrupt": True},                            # Wind Shear (level 4)
+         {"spell_id": 8042, "every_ms": 6000, "min_power": 30, "interrupt": True},            # Earth Shock (interrupt)
++        {"spell_id": 5730, "every_ms": 30000, "min_power": 30, "on_self": True, "min_attackers": 2},  # Stoneclaw Totem (level 8)
++        {"spell_id": 900114, "every_ms": 5000, "after_defense": True},                       # Earthen Reprisal (custom)
+         {"spell_id": 324, "every_ms": 3000, "min_power": 45, "on_self": True, "buff": True},  # Lightning Shield
++        {"spell_id": 8024, "every_ms": 10000, "min_power": 20, "on_weapon": True},          # Flametongue Weapon (level 10) first
+         {"spell_id": 8017, "every_ms": 10000, "min_power": 20, "on_weapon": True},          # Rockbiter Weapon (on the weapon)
+         # Lightning Bolt opener while it runs in, one Earth Shock, then the mace (Rockbiter does the work)
+         {"spell_id": 403, "every_ms": 0, "min_power": 15, "max_per_target": 1, "min_power_pct": 35},     # Lightning Bolt
++        {"spell_id": 8050, "every_ms": 6000, "min_power": 30, "max_per_target": 1, "min_power_pct": 30},  # Flame Shock (level 10)
+         {"spell_id": 8042, "every_ms": 6000, "min_power": 30, "max_per_target": 1, "min_power_pct": 40},  # Earth Shock
+     ],
+     8: [  # mage
++        {"spell_id": 2139, "every_ms": 24000, "interrupt": True},                            # Counterspell (level 4)
++        {"spell_id": 118, "every_ms": 30000, "min_power": 40, "on_add": True},               # Polymorph (level 8) the add
+         {"spell_id": 168, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Frost Armor
+         {"spell_id": 1459, "every_ms": 3000, "min_power": 60, "on_self": True, "buff": True},  # Arcane Intellect
+         # Frostbolt from max range (its slow halves the mob's run-in: a second bolt lands before it
+@@ -111,14 +126,19 @@ CLASS_ABILITIES = {
+     ],
+     9: [  # warlock
+         {"spell_id": 687, "every_ms": 3000, "min_power": 50, "on_self": True, "buff": True},  # Demon Skin
++        {"spell_id": 1454, "every_ms": 3000, "on_self": True, "above_health_pct": 70, "below_power_pct": 50},  # Life Tap (level 6)
++        {"spell_id": 5782, "every_ms": 20000, "min_power": 40, "on_add": True},              # Fear (level 8) the add
+         # Shadow Bolt opener while it runs in, then the DoTs (Corruption instant), then wand/stick
+         {"spell_id": 686, "every_ms": 0, "min_power": 25, "max_per_target": 1, "min_power_pct": 35},     # Shadow Bolt
+         {"spell_id": 172, "every_ms": 18000, "min_power": 35, "per_target": True, "min_power_pct": 20},  # Corruption
++        {"spell_id": 980, "every_ms": 24000, "min_power": 25, "per_target": True, "min_power_pct": 20},  # Curse of Agony (level 8)
+         {"spell_id": 348, "every_ms": 15000, "min_power": 25, "max_per_target": 1, "min_power_pct": 30},  # Immolate
+     ],
+     11: [  # druid (caster form)
+         {"spell_id": 5185, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Touch
+         {"spell_id": 774, "every_ms": 12000, "min_power": 25, "on_self": True, "below_health_pct": 70},  # Rejuvenation
++        {"spell_id": 103248, "every_ms": 15000, "interrupt": True},                          # Solar Flare (custom interrupt)
++        {"spell_id": 339, "every_ms": 15000, "min_power": 25, "on_add": True},               # Entangling Roots (level 8) the add
+         {"spell_id": 1126, "every_ms": 3000, "min_power": 20, "on_self": True, "buff": True},  # Mark of the Wild
+         {"spell_id": 467, "every_ms": 3000, "min_power": 35, "on_self": True, "buff": True},  # Thorns
+         # Wrath opener while it runs in, then Moonfire for the fight, then the staff
+@@ -138,6 +158,8 @@ CLASS_ABILITIES = {
+         # the finisher first, gated on combo points (SMSG_UPDATE_COMBO_POINTS): 3 on the target, or any
+         # once it is about to die / we are losing - on a 10 s timer it failed NO_COMBO_POINTS 45x a run
+         {"spell_id": 2098, "every_ms": 1000, "min_power": 35, "min_combo": 3},                # Eviscerate
++        {"spell_id": 5171, "every_ms": 1000, "min_power": 25, "on_self": True, "buff": True,
++         "min_combo": 1},                                                                     # Slice and Dice (level 10) at 1-2 points
+         {"spell_id": 1752, "every_ms": 1000, "min_power": 45},                                # Sinister Strike
+     ],
+ }
+@@ -147,6 +169,19 @@ CLASS_ABILITIES = {
+ # creatures worth grinding: XP-giving (CREATURE_FLAG_EXTRA_NO_XP 0x40) and not a training dummy (Kezan's
+ # 48304 has flags_extra 0 and never dies - it is the Charge quest's target, a script heals it)
+ GRINDABLE = "(flags_extra & 64)=0 AND ScriptName NOT LIKE '%dummy%' AND name NOT LIKE '%Training Dummy%'"
++# racials, first in the list (only known ones are kept: refresh_abilities filters by the spellbook)
++RACE_ABILITIES = {
++    2: [{"spell_id": s, "every_ms": 120000, "on_self": True} for s in (20572, 33697, 33702)],   # Blood Fury (orc)
++    3: [{"spell_id": 20594, "every_ms": 120000, "on_self": True, "below_health_pct": 50}],      # Stoneform (dwarf)
++    6: [{"spell_id": 20549, "every_ms": 120000, "on_self": True, "min_attackers": 2,
++         "max_range": 8}],                                                                     # War Stomp (tauren)
++    8: [{"spell_id": 26297, "every_ms": 180000, "on_self": True}],                             # Berserking (troll)
++    9: [{"spell_id": 69041, "every_ms": 120000}],                                              # Rocket Barrage (goblin)
++    10: [{"spell_id": s, "every_ms": 120000, "on_self": True, "interrupt": True}
++         for s in (28730, 25046)],                                                             # Arcane Torrent (blood elf)
++    11: [{"spell_id": s, "every_ms": 180000, "on_self": True, "below_health_pct": 50}
++         for s in (28880, 59542, 59543, 59544, 59547, 59548)],                                 # Gift of the Naaru (draenei)
++}
+ # snares that make kiting work (the target wears one -> step back instead of trading blows):
+ # hunter Concussive Shot, Wing Clip ranks; mage Frost Nova ranks (root) and Frostbolt ranks (chill)
+ KITE_SNARES = {3: [5116, 2974, 14267, 14268],
+@@ -1149,6 +1184,9 @@ class Runner:
+                     periodic += bp * int(r["dur"]) / int(r[f"effect_amplitude_{i}"])
+             if periodic > 0 and periodic >= direct:
+                 dur[int(r["id"])] = int(r["dur"])
++            for a in out:
++                if a["spell_id"] == int(r["id"]) and a.get("on_add") and int(r["dur"]) > 0:
++                    a["cc_ms"] = int(r["dur"])  # how long the add stays out (no DoT/swing on it)
+         for a in out:
+             if dur.get(a["spell_id"], 0) > 0:
+                 a["dot_ms"] = dur[a["spell_id"]]
+@@ -1316,6 +1354,27 @@ class Runner:
+         r = call("interact.cast", spell_id=688, target_kind="self", timeout_ms=13000)
+         print(f"  pet: Summon Imp - {r.get('detail')}", flush=True)
+ 
++    def ensure_conjured(self):
++        """A mage conjures its own water and food (Conjure Water 5504 level 4, Food 587 level 6) instead
++        of resting to full on nothing: rest() drinks/eats whatever class-0/5 item it carries."""
++        if self.w.cls != 8 or time.time() - getattr(self, "_conj_t", 0) < 60:
++            return
++        if call("combat.state").get("attackers"):
++            return
++        self._conj_t = time.time()
++        have, _ = self.bags()
++        cats = {inf[3] for i, inf in self.items(list(have)).items() if inf and inf[0] == 0 and inf[1] == 5}
++        known = set(call("interact.spells").get("spells", []))
++        for first, cat, name in ((5504, 59, "water"), (587, 11, "food")):
++            if cat in cats:
++                continue
++            ranks = [r for r in self.w.ranks.get(first, [first]) if r in known]
++            if ranks:
++                for _ in range(2):
++                    r = call("interact.cast", spell_id=ranks[-1], target_kind="self", timeout_ms=5000)
++                print(f"  conjure {name}: {r.get('detail')}", flush=True)
++                self._kit_t = 0  # re-read the bags for the drink/food pick
++
+     def fight_range(self):
+         """How far a ranged class opens from: its opener's max range (the first known attack spell
+         with one - Serpent Sting 35, Frostbolt/Smite/Wrath 30). The module stands 3 yd inside it."""
+@@ -2147,6 +2206,7 @@ class Runner:
+             if r.get("reason") == "we died":
+                 return  # the other attackers' kill calls would each log a "fight 0: we died" of their own
+         self.ensure_pet()
++        self.ensure_conjured()
+         s = call("interact.self")
+         low_mana = (self.w.cls in MANA_CLASSES and s.get("powerType", 0) == 0 and s.get("maxPower")
+                     and s.get("power", 0) * 100 < s["maxPower"] * 40)  # a dry caster loses its next fight
+@@ -4037,7 +4097,7 @@ def main():
+     print(f"area: {sum(map(len, w.cspawn.values()))} creature + {sum(map(len, w.gspawn.values()))} GO spawns, "
+           f"{len(w.starters)} quests started here ({w.objective_spawns_outside} objective spawns beyond the box); "
+           f"char race {w.race} class {w.cls}", flush=True)
+-    r = Runner(w, CLASS_ABILITIES.get(w.cls, []))
++    r = Runner(w, RACE_ABILITIES.get(w.race, []) + CLASS_ABILITIES.get(w.cls, []))
+     rpc.nav_map = r.nav_map  # path/ground queries plan on the phase's swapped terrain
+     try:
+         secs = r.run(a.minutes)
+-- 
+2.34.1
+
