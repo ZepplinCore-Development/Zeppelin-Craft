@@ -1,0 +1,183 @@
+From 3c48fadf6f45e098fc44e3ea23a73dfd80df81b1 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 00:52:19 +0000
+Subject: [PATCH] feat: rogue finishers wait for combo points (F-219)
+
+- combat tracks SMSG_UPDATE_COMBO_POINTS (target, points)
+- Ability min_combo: a finisher needs that many points on the target, or any
+  once it is about to die (< 4 s) or we are losing
+- rogue: Eviscerate first at 3 points, then Sinister Strike (Eviscerate on a
+  10 s timer failed NO_COMBO_POINTS 45x a run)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 20 +++++++++++----
+ zeppelin/modules/combat/combat.proto     |  2 ++
+ zeppelin/modules/combat/main.go          | 32 ++++++++++++++++++++++++
+ zeppelin/modules/combat/module.yaml      |  1 +
+ zeppelin/tests/start_area.py             |  6 ++---
+ 5 files changed, 53 insertions(+), 8 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 84e2dca..258c0e4 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -41,9 +41,11 @@ type Ability struct {
+ 	MaxRange       float32                `protobuf:"fixed32,13,opt,name=max_range,json=maxRange,proto3" json:"max_range,omitempty"`                   // skip while the target is further than this (yd); 0 = no limit
+ 	// mana thrift (low-level casters): a couple of nukes, then wand or melee - unless we are LOSING the
+ 	// fight (our health % under 50 and under the target's, or 2+ attackers): then both limits lift
+-	MaxPerTarget  uint32 `protobuf:"varint,14,opt,name=max_per_target,json=maxPerTarget,proto3" json:"max_per_target,omitempty"` // cast at most this many times on one target; 0 = no cap
+-	MinPowerPct   uint32 `protobuf:"varint,15,opt,name=min_power_pct,json=minPowerPct,proto3" json:"min_power_pct,omitempty"`    // skip below this % of our max mana; 0 = no floor
+-	DotMs         uint32 `protobuf:"varint,16,opt,name=dot_ms,json=dotMs,proto3" json:"dot_ms,omitempty"`                        // a DoT's duration: not applied (or refreshed) on a target expected to die
++	MaxPerTarget uint32 `protobuf:"varint,14,opt,name=max_per_target,json=maxPerTarget,proto3" json:"max_per_target,omitempty"` // cast at most this many times on one target; 0 = no cap
++	MinPowerPct  uint32 `protobuf:"varint,15,opt,name=min_power_pct,json=minPowerPct,proto3" json:"min_power_pct,omitempty"`    // skip below this % of our max mana; 0 = no floor
++	DotMs        uint32 `protobuf:"varint,16,opt,name=dot_ms,json=dotMs,proto3" json:"dot_ms,omitempty"`                        // a DoT's duration: not applied (or refreshed) on a target expected to die
++	// within half of it - a 15 s DoT on a mob with 5 s left is wasted mana
++	MinCombo      uint32 `protobuf:"varint,17,opt,name=min_combo,json=minCombo,proto3" json:"min_combo,omitempty"` // a finisher (Eviscerate): only with this many combo points on the target -
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -190,6 +192,13 @@ func (x *Ability) GetDotMs() uint32 {
+ 	return 0
+ }
+ 
++func (x *Ability) GetMinCombo() uint32 {
++	if x != nil {
++		return x.MinCombo
++	}
++	return 0
++}
++
+ type KillRequest struct {
+ 	state       protoimpl.MessageState `protogen:"open.v1"`
+ 	Guid        uint64                 `protobuf:"varint,1,opt,name=guid,proto3" json:"guid,omitempty"`   // target guid, or
+@@ -879,7 +888,7 @@ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\n" +
+-	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\xe6\x03\n" +
++	"$zeppelin/modules/combat/combat.proto\x12\x12zeppelin.combat.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x83\x04\n" +
+ 	"\aAbility\x12\x19\n" +
+ 	"\bspell_id\x18\x01 \x01(\rR\aspellId\x12\x19\n" +
+ 	"\bevery_ms\x18\x02 \x01(\rR\aeveryMs\x12\x1b\n" +
+@@ -898,7 +907,8 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\tmax_range\x18\r \x01(\x02R\bmaxRange\x12$\n" +
+ 	"\x0emax_per_target\x18\x0e \x01(\rR\fmaxPerTarget\x12\"\n" +
+ 	"\rmin_power_pct\x18\x0f \x01(\rR\vminPowerPct\x12\x15\n" +
+-	"\x06dot_ms\x18\x10 \x01(\rR\x05dotMs\"\xac\x03\n" +
++	"\x06dot_ms\x18\x10 \x01(\rR\x05dotMs\x12\x1b\n" +
++	"\tmin_combo\x18\x11 \x01(\rR\bminCombo\"\xac\x03\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index f715afb..26fc7df 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -26,6 +26,8 @@ message Ability {
+   uint32 min_power_pct = 15;  // skip below this % of our max mana; 0 = no floor
+   uint32 dot_ms = 16;         // a DoT's duration: not applied (or refreshed) on a target expected to die
+                               // within half of it - a 15 s DoT on a mob with 5 s left is wasted mana
++  uint32 min_combo = 17;      // a finisher (Eviscerate): only with this many combo points on the target -
++                              // or with any once the target is about to die (< 4 s) or we are losing
+ }
+ 
+ message KillRequest {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index dbeb976..8978d81 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -68,6 +68,8 @@ type service struct {
+ 	castsOn                                       map[[2]uint64]uint32 // (spell, target) -> casts, for max_per_target
+ 	maxSeen                                       map[uint64]uint32    // target -> highest health seen (its max: no field for it)
+ 	firstHit                                      map[uint64]time.Time // target -> when it first lost health (time-to-kill estimate)
++	comboTarget                                   uint64               // SMSG_UPDATE_COMBO_POINTS: whose they are...
++	combo                                         uint8                // ...and how many
+ }
+ 
+ func main() {
+@@ -201,6 +203,12 @@ func (s *service) OnPacket(ctx context.Context, p *modv1.WorldPacket) (*emptypb.
+ 		s.deadTarget = true
+ 	case opcode.SMSGAttackswingCantAttack:
+ 		s.cantAttack = true
++	case opcode.SMSGUpdateComboPoints: // packed target guid, u8 points
++		target := r.PackedGUID()
++		n := r.U8()
++		if r.Err() == nil {
++			s.comboTarget, s.combo = target, n
++		}
+ 	case opcode.SMSGCastFailed: // castCount u8, spell u32, result u8
+ 		r.U8()
+ 		spell, result := r.U32(), r.U8()
+@@ -755,6 +763,9 @@ func (s *service) castAbilities(ctx context.Context, req *combatv1.KillRequest,
+ 		if !a.GetOnSelf() && !s.dotWorth(a, guid, t.GetHealth()) {
+ 			continue
+ 		}
++		if !s.comboOK(a, guid, t.GetHealth(), losing) {
++			continue
++		}
+ 		if a.GetOnWeapon() {
+ 			// a temporary weapon enchant (Rockbiter): only when the main hand has none, cast AT the
+ 			// weapon - cast at ourselves it failed ITEM_NOT_FOUND every time
+@@ -842,6 +853,27 @@ func (s *service) dotWorth(a *combatv1.Ability, guid uint64, hp uint32) bool {
+ 	return left == 0 || left*2 >= time.Duration(a.GetDotMs())*time.Millisecond
+ }
+ 
++// comboOK: a finisher waits for min_combo points on this target; any point will do once the target is
++// about to die (under 4 s at the current rate) or we are losing. Eviscerate used to fire on a 10 s
++// timer and failed NO_COMBO_POINTS 45 times a run.
++func (s *service) comboOK(a *combatv1.Ability, guid uint64, hp uint32, losing bool) bool {
++	n := a.GetMinCombo()
++	if n == 0 {
++		return true
++	}
++	s.mu.Lock()
++	have := uint32(0)
++	if s.comboTarget == guid {
++		have = uint32(s.combo)
++	}
++	s.mu.Unlock()
++	if have >= n {
++		return true
++	}
++	left := s.timeLeft(guid, hp)
++	return have >= 1 && (losing || (left > 0 && left < 4*time.Second))
++}
++
+ // offenseLeft: is any attack spell (not a self cast, item, weapon enchant, interrupt or buff) castable
+ // on this target now or within 2 s - power, thrift, its own timer and the DoT test all allow it? None
+ // = a ranged fighter switches to wand or melee (a DoT ticking for 18 s is no reason to stand idle).
+diff --git a/zeppelin/modules/combat/module.yaml b/zeppelin/modules/combat/module.yaml
+index 06c9fb6..59e4e0d 100644
+--- a/zeppelin/modules/combat/module.yaml
++++ b/zeppelin/modules/combat/module.yaml
+@@ -28,6 +28,7 @@ packets:
+   SMSG_ATTACKSWING_CANT_ATTACK: /zeppelin.combat.v1.Combat/OnPacket
+   SMSG_CORPSE_RECLAIM_DELAY: /zeppelin.combat.v1.Combat/OnPacket
+   SMSG_CAST_FAILED: /zeppelin.combat.v1.Combat/OnPacket
++  SMSG_UPDATE_COMBO_POINTS: /zeppelin.combat.v1.Combat/OnPacket  # rogue finishers
+   MSG_CORPSE_QUERY: /zeppelin.combat.v1.Combat/OnPacket
+ lifecycle:
+   before_logout: /zeppelin.combat.v1.Combat/BeforeLogout
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index f219568..1efe3e3 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -117,10 +117,10 @@ CLASS_ABILITIES = {
+     ],
+     4: [  # rogue
+         {"spell_id": 1766, "every_ms": 10000, "min_power": 25, "interrupt": True},            # Kick
++        # the finisher first, gated on combo points (SMSG_UPDATE_COMBO_POINTS): 3 on the target, or any
++        # once it is about to die / we are losing - on a 10 s timer it failed NO_COMBO_POINTS 45x a run
++        {"spell_id": 2098, "every_ms": 1000, "min_power": 35, "min_combo": 3},                # Eviscerate
+         {"spell_id": 1752, "every_ms": 1000, "min_power": 45},                                # Sinister Strike
+-        # no combo-point tracking yet: space Eviscerate so 3+ Sinister Strikes land first (it failed
+-        # with NO_COMBO_POINTS when fired every 6 s)
+-        {"spell_id": 2098, "every_ms": 10000, "min_power": 35},                               # Eviscerate
+     ],
+ }
+ 
+-- 
+2.34.1
+
