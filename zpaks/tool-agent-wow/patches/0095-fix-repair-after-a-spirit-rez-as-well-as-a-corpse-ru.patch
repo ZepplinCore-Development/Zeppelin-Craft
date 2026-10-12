@@ -1,0 +1,37 @@
+From d0133f350031fddab13070155c66552e462a2583 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 06:30:11 +0000
+Subject: [PATCH] fix: repair after a spirit rez as well as a corpse run
+ (F-219)
+
+The died-twice-on-a-spot path took the spirit healer and returned before the
+repair check; spirit rezes cost durability, so a few in a row broke the gear
+(rogue: Sinister Strike failed MAINHAND 29x; paladin: 85 deaths at a camp).
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 2e8d0f5..06a080d 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2070,6 +2070,13 @@ class Runner:
+                         pass
+                     if self.spirit_rez():
+                         self.rest(90)
++                        # a spirit rez costs durability too, and this path skipped the repair: four in a
++                        # row left a rogue's weapon broken (Sinister Strike failed MAINHAND, max health
++                        # 194 -> 164 from broken armour) and it died on that spot until the run ended
++                        try:
++                            self.maybe_repair(0.3, 800)
++                        except StepFailed as e:
++                            print(f"  ~ repair: {str(e)[:80]}", flush=True)
+                         return
+             self.reviving = True
+             try:
+-- 
+2.34.1
+
