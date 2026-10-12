@@ -197,8 +197,9 @@ def modular_variants(result: dict) -> Dict[str, Dict[int, Dict[str, dict]]]:
                         (_path(getattr(x, 'cmd', None) or {}, r) or _path(stock_cmd, r)).rsplit('/', 1)[0] == pd
                         for x in result['sources'] for r in [getattr(x, 'cdi', {}).get(did)] if r):
                     continue
-                words = ' '.join(str(r.get(k) or '') for r in rows for k in TEX).lower()
-                c = next((c for c in colours if c in words), None)
+                # the display's own (stock) skins name its colour first; a pack row's only if they don't
+                c = next((c for r in rows for c in colours
+                          if c in ' '.join(str(r.get(k) or '') for k in TEX).lower()), None)
                 row = {'model_id': int(tmpl.get('model_id') or 0), GEO: int(tmpl.get(GEO) or 0),
                        SCALE: float(base.get(SCALE) or 1), '_moved': 0, '_modular': parent}
                 for k in TEX:
