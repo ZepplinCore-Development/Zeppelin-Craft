@@ -1616,6 +1616,13 @@ function openAsset(e) {
       : vm ? `<span class="chip ok" title="Decided by the pick on ${esc(mp)} (green box: ${esc(label(vm.sources || []))}). Use this on a card here to override it for this display only.">via model pick</span><span>${ml}</span>`
       : `<span class="chip warn" title="Decided by the pick, still to make, on ${esc(mp)}. Use this on a card here to override it for this display only.">model not picked yet</span><span>${ml}</span>`);
   }
+  else if (e.tab === 'display' && e.panes.length) {
+    // not decided by a model card (its options move it to OTHER models): still link the cards of the models it shows
+    if (!byPath) { byPath = {}; assets.forEach(x => { if (x.tab !== 'display') byPath[x.path] = x; }); }
+    const ms = [...new Set(e.panes.map(p => p.model))].filter(p => byPath[p]);
+    if (ms.length) ctx.push(`<span title="This display's options move it between models, so it is picked here, not on a model card">models</span>` +
+      ms.map(p => `<a href="?layer=${byPath[p].tab}&path=${encodeURIComponent(p)}" title="${esc(p)}">${esc(p.split('/').pop())}</a>`).join(' '));
+  }
   if ((e.tab === 'creature' || e.tab === 'character') && !e.retailOnly) {
     const n = displaysOfModel(e.path.toLowerCase()).size;
     if (n) ctx.push(`<button id="todisplays" title="Open the Displays tab listing every display that shows ${esc(e.path)}">Displays (${n}) →</button>`);
