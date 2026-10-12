@@ -1,0 +1,105 @@
+From c07532c40ea5128b8cdc31229292ddd14518d492 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 23:55:12 +0000
+Subject: [PATCH] fix: a giver near our deaths is retried, not blocked for the
+ run (F-219)
+
+Kezan's warrior trainer stands in the pirate party: two deaths there made
+accept() block Charge for good and the linear zone ended at level 4 after
+67 min. A death-guarded giver is retried after 10 min (the run waits for
+it); a level-guarded one waits for that level; both stay out of the
+accept lists meanwhile.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 31 +++++++++++++++++++++++++++----
+ 1 file changed, 27 insertions(+), 4 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 6dd68b1..4599f09 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -13,6 +13,7 @@ Prints a PASS/FAIL line per step and a summary; exit 0 when every eligible quest
+ import argparse
+ import json
+ import math
++import re
+ import struct
+ import subprocess
+ import sys
+@@ -1131,6 +1132,7 @@ class Runner:
+         self.last_death_on = {}  # quest -> time it last killed us
+         self.visited = {}  # spawn point -> when we last went to look for a living one
+         self.refused = set()  # accept answered QUESTGIVER_QUEST_INVALID
++        self.retry_at = {}  # quest -> when to try its giver again (deaths near the giver)
+ 
+     @property
+     def death_spots(self):
+@@ -2747,15 +2749,30 @@ class Runner:
+         # ...but fall through to the next one when the nearest cannot be reached: Fourth and Goal's
+         # starters include 37203 "Fourth And Goal Target", a marker on a rooftop, nearer than the coach
+         kind, entry = givers[0]
+-        reached = False
++        reached, why = False, ""
+         for k, e in givers:
+             try:
+                 if self.reach_npc(k, e):
+                     kind, entry, reached = k, e, True
+                     break
+-            except StepFailed:
++            except StepFailed as ex:
++                why = str(ex)
+                 continue
+         if not reached:
++            if why.startswith("died "):
++                # two deaths near the giver (a party, a respawning pack): try again in 10 min, not at a
++                # level a linear zone may never give us without this very quest
++                self.retry_at[qid] = time.time() + 600
++                print(f"[WAIT] accept {qid}: giver {kind}{entry} - {why[:90]} - retry in 10 min", flush=True)
++                return
++            m = re.search(r"back at level (\d+)", why)
++            if m:
++                # a guarded spot, not an unreachable giver: wait for the level (Kezan's warrior trainer
++                # stands in the pirate party - two deaths there blocked Charge for the rest of the run,
++                # and the linear zone ended at level 4)
++                self.defer_until[qid] = max(self.defer_until.get(qid, 0), int(m.group(1)))
++                print(f"[WAIT] accept {qid}: giver {kind}{entry} - {why[:90]}", flush=True)
++                return
+             print(f"[SKIP] accept {qid}: cannot reach giver {kind}{entry}", flush=True)
+             self.blocked.add(qid)
+             return
+@@ -3939,7 +3956,8 @@ class Runner:
+             self.w.inventory = self.inventory()
+             me = self.me()
+             near_avail = [q for q in sorted(self.w.starters) if q not in self.blocked and q not in log
+-                          and self.w.eligible(q, level, log) and self.giver_distance(q, me) < 100]
++                          and self.w.eligible(q, level, log) and self.giver_distance(q, me) < 100
++                          and level >= self.defer_until.get(q, 0) and time.time() >= self.retry_at.get(q, 0)]
+             if near_avail:
+                 try:
+                     self.accept(near_avail[0])
+@@ -3987,7 +4005,8 @@ class Runner:
+                 idle = 0
+                 continue
+             self.w.inventory = self.inventory()
+-            avail = [q for q in sorted(self.w.starters) if q not in self.blocked and self.w.eligible(q, level, log)]
++            avail = [q for q in sorted(self.w.starters) if q not in self.blocked and self.w.eligible(q, level, log)
++                     and level >= self.defer_until.get(q, 0) and time.time() >= self.retry_at.get(q, 0)]
+             # nearest givers first, then the easiest: quest-id order sent Elwynn's level-1 priest
+             # 1090 yd past level-6 wolves to a far giver, with Northshire's givers beside it
+             me = self.me()
+@@ -4039,6 +4058,10 @@ class Runner:
+                     hard = []
+                 if idle == 0:
+                     continue
++            if any(t > time.time() for t in self.retry_at.values()):
++                time.sleep(30)  # a giver we died near gets another try soon: not the end of the run
++                idle = 0
++                continue
+             if active and idle <= 24:
+                 time.sleep(10)
+                 continue
+-- 
+2.34.1
+
