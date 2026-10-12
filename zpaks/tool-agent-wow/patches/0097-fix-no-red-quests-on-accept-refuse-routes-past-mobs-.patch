@@ -1,0 +1,113 @@
+From aef5b47d06589629e12affdcd57cee3c8119184f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 12 Oct 2026 08:10:31 +0000
+Subject: [PATCH] fix: no red quests on accept; refuse routes past mobs 3+
+ levels up (F-219)
+
+- eligible(): a quest more than 2 levels above us waits (MinLevel 1 let a
+  level-1 hunter take Dolanaar Delivery, a level-5 "done on accept" walk)
+- travel(): route_guard scans the planned navmesh path (not only the end
+  point) for mobs 3+ levels above us within aggro + wander reach and parks
+  the quest until 2 below their level (Shadowglen -> Dolanaar passes nine
+  level-5/6 Webwood Lurkers: 2 deaths at level 1)
+- a turn-in refused for a guarded route waits for the level instead of
+  being blocked
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 51 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 48 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index ebefa7d..25b7ecf 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1022,6 +1022,10 @@ class World:
+             return False
+         if int(q["MinLevel"]) > level:
+             return False
++        if self.eff_level(qid) > level + 2:
++            # a red quest (3+ above us) waits like a player would: MinLevel 1 let a level-1 hunter take
++            # Dolanaar Delivery (level 5) - a "done on accept" walk past Webwood Lurkers (5-6): 2 deaths
++            return False
+         # Player::SatisfyQuestPreviousQuest: prevQuests = PrevQuestID + every quest whose
+         # NextQuestID points here; ANY one rewarded satisfies it (792 or the warlock 1499 -> 794)
+         prev = int(q["PrevQuestID"])
+@@ -2232,6 +2236,38 @@ class Runner:
+                         self._threats.append((float(w["x"]), float(w["y"]), int(r["l"]), int(r["e"]), 3.0))
+         return self._threats
+ 
++    def route_guard(self, x, y, z, level):
++        """Raise StepFailed (and park the current quest) when the planned path passes within reach of a
++        mob 3+ levels above us. Reach = its aggro radius at that level gap + its wander radius. The
++        first and last 30 yd are left to the start/destination checks."""
++        red = [t for t in self.threats() if t[2] >= level + 3]
++        if not red:
++            return
++        try:
++            pts = call("move.path", x=x, y=y, z=z).get("points", [])
++        except StepFailed:
++            return
++        if len(pts) < 2:
++            return
++        start, end = (pts[0].get("x", 0), pts[0].get("y", 0)), (x, y)
++
++        def reach(t):
++            return min(28.0, 20.0 + t[2] - level) + t[4]
++        for a, b in zip(pts, pts[1:]):
++            ax, ay, bx, by = a.get("x", 0), a.get("y", 0), b.get("x", 0), b.get("y", 0)
++            n = max(1, int(math.dist((ax, ay), (bx, by)) / 4))
++            for i in range(n + 1):
++                p = (ax + (bx - ax) * i / n, ay + (by - ay) * i / n)
++                if math.dist(p, start) < 30 or math.dist(p, end) < 30:
++                    continue
++                hit = next((t for t in red if math.dist(t[:2], p) < reach(t)), None)
++                if hit:
++                    q = getattr(self, "current_qid", None)
++                    if q:
++                        self.defer_until[q] = max(self.defer_until.get(q, 0), hit[2] - 2)
++                    raise StepFailed(f"route to ({x:.0f},{y:.0f}) passes level-{hit[2]} {hit[3]} at "
++                                     f"({hit[0]:.0f},{hit[1]:.0f}) - back at level {hit[2] - 2}")
++
+     def detour(self, x, y, z):
+         """Waypoints that keep the walk out of hostile camps (a player skirts them; the bot walked the
+         straight navmesh line through them and died on the road - 38 of Shadowglen's 41 deaths).
+@@ -2316,6 +2352,12 @@ class Runner:
+                 if q:
+                     self.defer_until[q] = max(self.defer_until.get(q, 0), level + 1)
+                 raise StepFailed(f"died {died}x near ({x:.0f},{y:.0f}) at level {level} - back at level {level + 1}")
++        # ...nor ALONG the way past mobs 3+ levels above us: the destination check misses a road lined
++        # with them (Shadowglen -> Dolanaar runs past nine level-5/6 Webwood Lurkers wandering 13-33 yd;
++        # a level-1 hunter's detour skirted one and met the next). A player waits for the levels
++        if far > 40 and not self.reviving:
++            level = call("interact.self").get("level", 1)
++            self.route_guard(x, y, z, level)
+         # skirt hostile camps on the way (a ghost walks straight through: nothing sees it). One
+         # detour at a time, re-planned from each waypoint, so camp after camp is avoided
+         if far > 40 and not self.reviving and not getattr(self, "_detouring", False):
+@@ -3781,15 +3823,18 @@ class Runner:
+             log = {q: e for q, e in log.items() if q not in self.w.rewarded}
+             # only quests handed in HERE: one whose ender stands outside the area (Sunstrider's 9704
+             # Slain by the Wretched -> 17849) crashed turn_in with a KeyError and ended the run
++            lv_now = call("interact.self").get("level", 1)
+             ready = [q for q, e in log.items() if q in self.w.quests and e.get("state") == 1 and q not in self.blocked
+-                     and self.w.enders.get(q)]
++                     and self.w.enders.get(q) and lv_now >= self.defer_until.get(q, 0)]
+             if ready:
+                 try:
++                    self.current_qid = ready[0]
+                     self.turn_in(ready[0])
+                 except StepFailed as e:  # cannot reach the ender right now: not a run-ender
+                     print(f"  ~ turn in {ready[0]}: {e}", flush=True)
+-                    self.blocked.add(ready[0])
+-                    self.refused.add(ready[0])
++                    if "back at level" not in str(e):  # a guarded route waits for the level instead
++                        self.blocked.add(ready[0])
++                        self.refused.add(ready[0])
+                 continue
+             # quest hub: take every quest a giver within ~100 yd offers BEFORE walking out - one trip
+             # south for The Battleboars and Break Sharptusk!, not two, the way a player does it
+-- 
+2.34.1
+
