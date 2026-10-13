@@ -1458,16 +1458,3973 @@
    "ship": []
   }
  ],
+ "creature/arcanegolem2/arcanegolem2.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "6d3214d370f63c14aa9ca97c3d7233d9266c3183c96f08f13cab1426e0ec7308",
+  "result_sha256": "bd52cf98132305549b4d96e788a9379526b031c0045ab4faa12106414cd5dc4a",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     3,
+     3,
+     4,
+     3,
+     3,
+     3,
+     3,
+     4,
+     3,
+     4,
+     3,
+     3
+    ]
+   }
+  ]
+ },
+ "creature/babyfireelemental/babyfireelemental.m2": {
+  "source": "patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "28a9d08ba4d99e0118f58a2b3053336110f64b1e2619fec5a0c882ced0efe07b",
+  "result_sha256": "aab99a837179652f343deb5b6e1442fbf6efcd791a3ec0170eaa97b4b5061222",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/bearmountblizzard/bearmountblizzard.m2": {
+  "source": "patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "d25594b0876b0b6027b65c35741ef38d737615e95413a9f4c8c8f673fd8aae23",
+  "result_sha256": "a836bcad7e8479b62e0ce314f6460ea088c32208ef05bfc991a5b2b3d2f59271",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     2,
+     2,
+     2,
+     2,
+     2,
+     4,
+     4,
+     4,
+     2,
+     4,
+     2,
+     2,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     3,
+     4,
+     2,
+     2,
+     2,
+     2,
+     2,
+     4,
+     4,
+     4,
+     2,
+     4,
+     2,
+     2,
+     3,
+     3,
+     3,
+     4,
+     3,
+     3
+    ]
+   }
+  ]
+ },
+ "creature/blackhand/blackhand.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "b0358e0ef7620465dba36dbd74dcb0e5889c0a28d67eca449ff90fd2abed29d9",
+  "result_sha256": "be75d1b6a4bc42364cf658134d0045821b838244a6d869cd544307132f58607d",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     4,
+     3
+    ]
+   }
+  ]
+ },
+ "creature/cryptlord2/cryptlord2.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "623ca74b7a8e051d7f4e969038b0edccea45776e419f72869719de9832cc99bc",
+  "result_sha256": "8079ff908112cf0578560ef1563364ac57b8ecbb1295ba2ecb05ae4e632f358f",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "creature/faeriedragonmount/faeriedragoncreature.m2": {
+  "source": "patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "cbaa8c79f1e063c5fd3cebf78a494813c72e2991c9c2a0bbde77cee76f82e28d",
+  "result_sha256": "0e57b1b4883f2fee736d9b6ee050227c8dd0267fbb5f6238e1bb7dffba874bb8",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     2,
+     4,
+     2,
+     2,
+     2,
+     4,
+     2,
+     4,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/faeriedragonmount/faeriedragonmount.m2": {
+  "source": "patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ec3a2107ab9288112a8fe5510fab64efa7860b67aa6fa6a4cebe5bc728d9846d",
+  "result_sha256": "332c71b338db9a759b2b74f58481df042c8edda9af2be122a4e76f4f0001a790",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     2,
+     4,
+     2,
+     2,
+     2,
+     4,
+     2,
+     4,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/gnomerocketcar/gnomerocketcar.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "705c5f5ff3f814bcaed7bd54634dfd50724dfb99d97e48f30ff0fdac8c3cd151",
+  "result_sha256": "7122ec41013a35b75e71ec04c1f96956621a6eba160f6056fddee327518e00c7",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/goblin/goblinshredder.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "66b1f3e4e3f4b3ce4e94816c6c649e03b52af36dd8fdb37949dc2c9b5600ff6e",
+   "result_sha256": "94efa9f48ff0fb13a7b6f88ad708baedb86274e852088219f05fbf92cafa40c0",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      2,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "61d155b106eb52941e6b77d85d416cf3185af97862a331a57b822fc656c224e8",
+   "result_sha256": "188199ab7db09531fdc7e370d2a7d4551cda4cbb7c1b4a4537eedaacd6630e78",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      2,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ]
+    }
+   ]
+  }
+ ],
+ "creature/headlesshorsemanmount2/headlesshorsemanmount2.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "27a9501a025a98f401f7e5a40a47db1007baa7ea3a1648e135e86e4ea7ac7897",
+  "result_sha256": "b243dd4ae1f26992e0e6298b28e071995555cffca1207de730a8d0105a985bbc",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     3,
+     2,
+     2,
+     3,
+     2,
+     2,
+     2,
+     2,
+     3,
+     3,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/hulkedguldan/hulkedguldan.m2": {
+  "source": "patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "32bef243698a27e43e876ac6bf40acfc5877488e87fa356b28ec70e646a4854f",
+  "result_sha256": "e15ba689bc218cb7489188c1085526d28b3242faa3ee88edce0afc565501413a",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2
+    ],
+    "values": [
+     3,
+     3,
+     3,
+     3,
+     2,
+     3,
+     3,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/infinitedrakonid2/infinitedrakonid2.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "e6d3fa9d454638cd350e80b4c3ce8b2b44a33c1b41195553c72a985edfc81fb1",
+  "result_sha256": "f0008d7968ac91f99c45512b23aad9a5ccf89e1a147d7d8dbd0b684aa0cadf52",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "creature/kiljaeden/kiljaeden.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "8fcda4e5f5d502a4e60ad1aaf42975af52b4f2367d34d93978825801167feb60",
+  "result_sha256": "970c2d45602fafa1d3c09552388dfd2660c0c904bb5aeaeb3afea4e77f9e4bfe",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     2,
+     4,
+     4,
+     4,
+     2,
+     4,
+     2,
+     2,
+     2,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     2,
+     4,
+     4,
+     4,
+     2,
+     2,
+     2,
+     2,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/mawshade/mawshade.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "8fccb4bc6609b4276692915cf636d21d9a6575c85af89a1bb8b8f79c1c1c6f15",
+  "result_sha256": "8402cc414946af476b3c08aa9f4b5ca3edff0cad4edb4ce274a44c355f2f0005",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/mawshadeheavy/mawshadeheavy.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ff01f2da205f9a47d7ba3403542c1c4761d1a16a4dd95b6d91812ceaf708dd77",
+  "result_sha256": "87964ba1a5dad035eb796824c5f371245cde0c88d5f38ef62b527dee62afb12f",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/nightbane2mount/nightbane2mount.m2": {
+  "source": "patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "d692bb9b20df8aa6db7a216b200d181c561046d30d188ea34ef448892a6c2111",
+  "result_sha256": "a96bfbc6fcc760d3540a4852e4893d406bcc1f49ff5cbea9b05c5dbba86d793f",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     3,
+     4,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/nozdormudragon2/nozdormudragon2.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "d41f61c3bd748f7f0ddd169c026963fe869122d611dddd6eff7e9db9a13b97eb",
+  "result_sha256": "8a6688527d6e38848434803ce8e009758ad2ac16bd9c992e7e45b78343f9d1c9",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     2,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/reanimatedmannoroth/reanimatedmannorothhulked.m2": {
+  "source": "patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "3863b4d86fb298b4827a9ab3aab7f5b03341692fda9b6cb7bac74681921ed91b",
+  "result_sha256": "c70badacb774b600eabec9ccfa8f7a7829b44764cc09f6e8003abeaee165ef1c",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3
+    ]
+   }
+  ]
+ },
  "creature/revenant2_earth/revenant2_earth.m2": {
   "source": "patch-hd-creatures-mounts",
-  "note": "A downport of retail revenant2_earth (FileDataID 1709847) with extra skins. Its 4 dust / smoke emitters were written additive (blend 4) where retail and our WXL conversion keep alpha (2), so they glow and wash out. Restore retail's blend; the pack's skins stay usable.",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
   "base_sha256": "2b2c8a9266916c1d6b00f5bf12ca091dd4363abe6abde432db31ce032d2728c4",
   "result_sha256": "36451f83232fa23be9166b19b0f01a7260c7dcc4763770a8316cc760af2e2bbb",
   "ops": [
    {
     "op": "m2.particle.blend",
-    "expect": 4,
-    "value": 2
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/revenant2_fire/revenant2_fire.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "f18b1a960a89e1698f51432acc0602ecf852cbfa8914c8e6044e853335569676",
+  "result_sha256": "a5624aa5b8ac329555880fbddd528af323d54255b9f33f2ea856b4a63a0a5cf1",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     3,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/revenant2_water/revenant2_water.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "490ca96d73e45077b27655129405e18220e48fd174120424b41d9213e74641c4",
+  "result_sha256": "88031c03525128a81a9053f5418887053f720bcc07e6abddecbeb781b4e3fb96",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     2,
+     2,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/revenantair2/revenantair2.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "792d8a7244d7df5c2d559d546b235d242d1a32d144fa346a6b011cc0ff129d6b",
+  "result_sha256": "5409f7780c6d19b56cdcc84e57b9f344e19510c87684fa19b2e0f6df2dcf3988",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     2,
+     2,
+     4,
+     4,
+     2,
+     4,
+     2,
+     2,
+     4,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/shivanpriestessfel/shivanpriestessfel.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "82726dd4ec7420a7de2bb39e214d27864414575f1c5fb5e71ef0150a6b09d5be",
+  "result_sha256": "eeb0b1bb8df8031b24d328a725a147238e99c06f63e91da45142e0628edf0c9a",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4
+    ],
+    "values": [
+     4,
+     3
+    ]
+   }
+  ]
+ },
+ "creature/shivanpriestessfrost/shivanpriestessfrost.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "b4581cf27f0d6d07fdb2fe221e88add5903863d900822057d076c47484fc9c68",
+  "result_sha256": "cd7d1eea35a73e5249694b987adedd7b666a14fb9b6bbf9b9f68122dc8131bf7",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/spells/waterelementaltotem.m2": {
+  "source": "patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "1ff2f904678e597408d9b0e9f3b8fd926d8427a6436481eb54134ab92c0ebeae",
+  "result_sha256": "ba023b8eba6bff415b529cdb9cea18608e3d458d4bc80f9e03576032eef14e57",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     2,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/stag2sleigh/stag2sleigh.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "3a85ded1b0649ccba454c9fd4fed16b6aeab20fb6e023198858ba67bd7a6dc08",
+  "result_sha256": "8f45310b72d2845d7c01af24fb6178f470f08c9eb48b8629d74a39c9ace27f68",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     3,
+     3,
+     3,
+     3
+    ]
+   }
+  ]
+ },
+ "creature/tripod2/tripod2.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "35b0d6096e7cfcf8df8e639a193ce1ff1fa2d547628d24da8468f1f4da9aa230",
+  "result_sha256": "5826f896ba990dc375129b5c6278b98dfe1864dd49bcc9c47461380d49c259b3",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     3,
+     4,
+     3,
+     4,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/viciouswarkodo/viciouswarkodo.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "c18cce42b41cbd5a5b3d578148c406890c3f164056b029f04a5b7b71ed8560a5",
+  "result_sha256": "a0c0408402ce93721238e037df023546b617dbafc21838ec07700d6af3026c15",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     3,
+     4,
+     4,
+     4,
+     4,
+     3,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "creature/voidcaller2/voidcaller2.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "5b307fa095c08206cd5537b05dd3c9c5278c01abcc74c36efe1caf0a050bdbd9",
+  "result_sha256": "488660b4b2cb7d0df715f464cf0c6912f0be568c3b58eb0c1deece17051df3bf",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     2,
+     3,
+     2,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/voidwalker/voidwalker.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "70a8e0d8c4a5ef38a627ad333e0d140120975bf231d7069c298b8b4658e055f9",
+  "result_sha256": "873f6cf9c5b0866bf7081bf9ccc1af1adaa4c03f64dc1e482dbb8e7b4338996f",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     2,
+     2
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "creature/waterelemental/waterelemental.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "be9507b84b08c9cc883863c2eb9e330231a8f6d93e830a4ee4b179a1bd548d32",
+  "result_sha256": "2a02639385e948b554366167f7900553aeca43039d7f20e4155515f67b651ebe",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     2,
+     2,
+     4,
+     2,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_bef.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "9dc44afb914182248555d12d20004050577ce3a2eb932656a48965cea2e8a2c6",
+  "result_sha256": "22a03faf94fc4b4fcf358d63773e87b9d91ac533c54d1cec82f5ac39ea830413",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_bem.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ac47c0c38463060854e83efecdef06f8e0fc31fe8d629cb1c4505be7641f948a",
+  "result_sha256": "5ceecefe71ddecb1c75023108a1d6e801d78428e392efae9f1fdfb4d1877ddbe",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_drf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "bb94b9ac81d65e4f33f90d312168d186906bd637103c105335f2bfb802c8df0c",
+  "result_sha256": "3d7f36ba5e06e581df64fe0d5ae7cc56b983e58b1612de06f251b7c0126f0441",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_drm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "d4272aa77194cccc607ca7c381fb22b4c24f628836f367ae53b52ac9c7676fc5",
+  "result_sha256": "ad5eada0dcd3edc6cf4c7ff0b025ec5ff66a56c24ccbf2f2d5a8cd84ff7b4bf1",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_dwf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "b4a2a1ed87f55fedab42e0da7e221e635aec3c0db2e230ea3c7c0719090f747e",
+  "result_sha256": "c4a90ad46fb30e11b5c27d8669f0d593086d0298c22375290c39f33b322aad1a",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_dwm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "008219cb86542277f35830a74c16f5ef6f88ccadc02182718d70ded9652e22d6",
+  "result_sha256": "6e2ec5df0c82b469eb640ec31a9e29db21b9bb11d179f4fb6a3aee88f82b95c4",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_gnf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "654f9d5fd49b940247569c87f2877af6540d19359b70c77f41fc010face175d5",
+  "result_sha256": "41044aac77293f111e90fb2e5ce2d5424f61de15d07833dfa1b8917dd6a58d3a",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_gnm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "93656d6951896a5a65c8c11f37581094bfa03c30bdbe4cba09ab342d03de5922",
+  "result_sha256": "b91e789ac6778ab5171bab2480c5d23d78c16b0d6752c12391f223c0ccb1c1a8",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_huf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "1605f73371f81b8891dc014eece9bde8a8ff271b440a6b58155e85b1ab296c1e",
+  "result_sha256": "f0d6a4b04cb3770ebac7c0b83f6acebde212ce409be38edfe52aa4240c155b50",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_hum.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "aa3c7b058de4d40f569f8b43169056d35c6ce7ca5001880c7bc3244518aa209c",
+  "result_sha256": "9cf3e411fc414d778d51019d5509cd6b8761a6e37eb352779a95af2c13b1824f",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_nif.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "326fa202d706292b3147a0326f9763cb8062e6d10bdbaa373e995951ffc17b7b",
+  "result_sha256": "e704577a42784afe92b6dc3d797a1edfa3cd3dc2153cb9fc71e65faaa123e32f",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_nim.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "c082188217820fa7caca4b38e857623d2585bd6874f7773267ffc5f15a17363c",
+  "result_sha256": "c86fbdd1a0569e074abe905ae113870ffef68952be4e3bbca8ba4f57138041f7",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_orf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "57f3882719ffd99d1b5aba3f2e308a7a0c375fb710a6e6b37a5e69e73219d046",
+  "result_sha256": "8638231a687422950f975dbf84b5a1e390f12aeba14794eb443fb669109a49d0",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_orm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "458972e1cb63109e29f8fa71d3bdb0e9a9b22c7b462c28eb2eef0192559c3434",
+  "result_sha256": "31fb762a49e8429132684c67c75532ef833dcc3217f7dde55b0c72005a28b6db",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_scf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "1aced057e2c8d8495f860b7159e6d4b3a49ffcaaa15327daca7ecc003993474f",
+  "result_sha256": "1acadfd9e02dde4c84e2ec0d2c2da635d29ba43bab3ddb727192f7f77dc268a6",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_scm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "6b0b9913f9ae3a365ed2ae3e6849fbdbf52b0872a1786693ec2032b4baf9cff6",
+  "result_sha256": "180da56a937fc50431691aa169c020b9af70ed8ffcd8891c294d18b1d942269c",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_taf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "31af604e26c697ff0e7e54d236ac1d9c8f712403b68149725d0b19ebb77d4b89",
+  "result_sha256": "56efffd4fae997b4436c98a9d27b5e2dd0c691f0df05d6cb51a57fb56fbd9247",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_tam.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "dc11c0ce23da48128f1737ca9f7592ce3d31d2a5508e3ccf2b4633fccc3bc0ce",
+  "result_sha256": "23b58cb0cf4279afd7c9356d92092a6e7ea775da30dc38d6cdef74f3c0ba00a0",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_trf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "2c193e5153a7dfb2b7530af86637f7abf3a00152d03e3eb014ced10084cba2ae",
+  "result_sha256": "a079c697c40172b7aca663965baf49e924838a5d0a86c4e23e3eb66e435f44b7",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_plate_zulaman_d_01_trm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "0b9b5d18416a209ed371688d548fa81c08bfeb6af79317d9a213fb2ee94374d8",
+  "result_sha256": "e439dbbf144ee28669626a4c0a15a5e4c1d2cd5ab637604c845bcfe50d7590e4",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_bef.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ae7c1a236a6d65316d70260440fb926f63acc751699d37a5d5e6e39cd0101631",
+  "result_sha256": "f143e0fbf8f35c9084e7447e1bc345eb39c4fbc2827e7d55d4a4d45c234a6594",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_bem.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "b5f6e2122e23b3034e4a91d344ac76e25b9e40fbb034aad3c33db936e940fbb2",
+  "result_sha256": "06661dded30d11cd5c6aef7437af511ec8dc50b0d5fc6b6c944152b686419dac",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_drf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "84387cc47bc00732c1c2da4c27816b88c19f404ce8a9c1c48a9f192177c4263f",
+  "result_sha256": "c78ea067c757462b9a491522bcd59759aa0828c6efd29ed34dd0cbd3fb9701e6",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_drm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "27e902655af529d2cdc2a3b09b4550cd2e88972511769397ad3fbc296be3e917",
+  "result_sha256": "2e020d4a6e4457af5efedac5f6ace34d59567741169524a6a0a679f444f99cb1",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_dwf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "76bb22ee108043803f230db2eb20e2ba3e8c255992a9fcbcef6323e94285b7b9",
+  "result_sha256": "c60a22f5cb239481beb4752a5f22fed348312c6196361f759a52af1acfef63ae",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_dwm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "1e5566d93c7407418757a78c737ec74f5106973e1c7ad82f48f834295162bcec",
+  "result_sha256": "21a70ef75cac7a4e2df9573466c49ea70e80d23974e6167b863fae9cf3d11de2",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_gnf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "7d333827f9698615f51a547a7ae6058278ad811eb298072f17ad357e2f0f0d8a",
+  "result_sha256": "10e2889d457141a8b05a89b032b055d2b9980eb2e21de4d3d904e87fd348a724",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_gnm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "9f949ce7afda419c58b14c072843944dd09b82c85942dbf821898dc01bff08b1",
+  "result_sha256": "a45b4e533096232590e546d37d8f1cfd043072dd893d9de0db7ee3ab7f979a24",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_huf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "d560449a7eebeea1fffe5178588569fb8a8ecc818f40cd387500b1a0da76d217",
+  "result_sha256": "423c90b000bb98b09a91926c710bbc3e45984f6e0623fbd9a302bd73b912a58a",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_hum.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "82df0899d2a202ae14c2d8d672995dad9af9c7df030c2b3632e99d79e62362dd",
+  "result_sha256": "2e80816d8ca10502c4e9c546ef0fbfd1d3625c424ef17de882a9a7a1f5c299f7",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_nif.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "58b9f60bf821c08a98e7ca22b8216e3b3fae412b0a59a9d01588e056178d39c6",
+  "result_sha256": "099263f8cc8faa28787ead1e5a9cc74a58b97c7fd7194314123413ddb6ea0fc8",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_nim.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "683091d79727ec2baa4b8f2081b84923a88c1a63743d0ed7e79a5b1e18f4e961",
+  "result_sha256": "6cdcbda595e5a806eb54aa58b6bb305fa57794f79d20a2c3c8e8ddf3a0e372e5",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_orf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "68cec8bf68eb0110215a1b3f7fb06f937a4372b518646dc4281c4d954a31c878",
+  "result_sha256": "97fa92ac342812b36368f1e126e397bbeb5c4011809964cc8d4b0848e4aaa2be",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_orm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "b1098ac87d8415d4c3c0ec1e1cb44062fe68a889d3803c55d82dae5d5f9a806e",
+  "result_sha256": "7ce2cd3c3fb23f646573710d83d42a2d0e8adb4582c270e8af724ac9767316a0",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_scf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "3f858445aae723f8879b563a0a4b666367dbef73cf5e1334b1874c3d97a8f03e",
+  "result_sha256": "826a216eacf54d0009d91e8092b89702206441fb2715062945407c52cbc6267e",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_scm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "40c0c103bfb5061238bf843940332881017affeba083b1e909cb03b576eff31f",
+  "result_sha256": "23f4c6149460fb5eb64a644bb5e660b84dbe1aa29b82281e241dd888407c95bd",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_taf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "a51d65d6355e42c66ac6642bdc599c690025c5eeeca71655cd672dee6ba98a59",
+  "result_sha256": "37ffedc9b5966c04e2024d71ed6e42b5411ae0690b6a5437f67b891b969a5953",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_tam.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "df017edda9cf491fc08fb71f72bdb08d14b93af3c37107f2a3d7fa7b190068e0",
+  "result_sha256": "8b771d00d86d95ca2212adfeddc8fb43bc499bd43d5fc7a83347ec6887848ce7",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_trf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "38ccf241e5b43b02a04edabf439599c87a15784e2bdb40484c217f8902101cb2",
+  "result_sha256": "263f016a0c7769c392aef21532b1515cce96724b9b6b970dcbadeb46aeb1cc56",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_d_01_trm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "2075c54b79767e01047dc84e40eb7ffa66e947a56872c34554aca36e5252a459",
+  "result_sha256": "66175c31315aa842638c65f35d0ab0161a7a91a40b98ddc27e27559e9c4d3fd0",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_bef.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "63cd061e86ab2dadcb5cb767ca3b7303119d177b4633172ab411898261bde7da",
+   "result_sha256": "b0c81875b781d63cda377b1af0ecc59daeb38411bda741feacf9f6340ce62f37",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "5369b8f163e68f5c947c10bec3f6419839cb658890ceec9bc4e9e024f6a6ece7",
+   "result_sha256": "4c6852c0ab1fcb96e93597172cf8649e80c4eabda93d613da99461caaaff34e3",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_bem.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "284a039ed958970e7b736f5f42fcf70633b5394ef287a6c340b9ed6d1daa24b8",
+   "result_sha256": "33bf97ab6dae9e589ac9945926b7cf3fbd9797fabc204f32e84918a167a9ff36",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "5a2af2f83a0f6a122abf5f59c15b7c38584fb8baef643d3f1341eeca40f0fca9",
+   "result_sha256": "919699614134d351ce0e592946ca418674b7e39942516f564199ce92fd4e8bca",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_drf.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "b667b06dbad4e545e0c8389a00ba837a4b49c5a8ea29f8f4461cb18e1c8010dd",
+   "result_sha256": "e84ce4611685eca69a82da0dbde98343b2079508f8a71ea3b9a1af41565b6bd3",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "3855e1b380b30988bb85a9923cd41255501d92e42fe8fa0cdfc171c0003d5f61",
+   "result_sha256": "a8d980faac8ff5174e5382637bc6990bb7d412e82f39735eb62fc141b0344647",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_drm.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "ee43724ca81e4fc0d481251ee1374377ce199d53f2762c6619148fe6be7e46a8",
+   "result_sha256": "45353253d28ee50d194de0309ecd2923717551ce3d93dd9879a277037dc54756",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "3a862ca9cf5ec308a7760aad11ddd350e59868c6a90bed06408a2446960fbda8",
+   "result_sha256": "be4f1ab5e1ac3dbc11e6d8e545b1bc06c65b376a60ad4a2b89e0aecc16586897",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_dwf.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "45e064749637b8121f67004817da5b7ef96eafb4d8afd406f61ca583f949ee51",
+   "result_sha256": "a664f71ca6ce525c78633f0e742e1256d866b05724cac9b6cd874e53589d9f38",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "82597169a36714ee7ca4ea754666b29e72e49d29787b2dbebcbb2cbf2618da93",
+   "result_sha256": "4a3c240f52be192a9b74d4fbf94d8318e3de2c407db0ea1cea8d727479bece37",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_dwm.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "5478e15ab5bd5555d1cbe6af51175aa8e6f62e1a4218d01a23f4ef0add3e3b04",
+   "result_sha256": "9a19184a333c6371c1d478730b3c4dccff2f5fee15dd46c3af1432be56284973",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "db524b71d5256f7210daaf655a38ccffcf18664a4e374b76fdf81db32ead7791",
+   "result_sha256": "c5e466bbdd9806a7b54991c6a0f83004429963cf4a3ecc18176370535eb4a360",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_gnf.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "17491a3983b22b67e9ae5115c748fd991734736ef81c165817e0680bf16652fc",
+   "result_sha256": "187e982b1946f354b862ba036bff84f8ad8c6cf091f012be75500206d7095450",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "79b0621a73895a64af31f44f40a0b0077592196e4b16691348d9ad7e6186d188",
+   "result_sha256": "74a15e97ae82d88a50d0d72e55d17fde5cb3311d5f2bee83a77703e063b1b476",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_gnm.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "ff50894b2cabd32f70481c7565fd56b7d34b486fbb56157e407575c1c29a0e91",
+   "result_sha256": "ee477f4306278929a19902546e12e48c742f3fd5148aa987e855cdcfbed2fda5",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "49463cfeb1d715649de9bcdf9950244f20b9672874fad4d3fce087a7ca3a89ec",
+   "result_sha256": "d6541843bfca57b06babc6c1a011d3a0a99575b7a51ed043530b4602792210e7",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_huf.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "2949ca25eb66f29ccb0b4c68a747645f2e7423c7f9446487c16193fd52cf2209",
+   "result_sha256": "456ab5f50f24fd6b6eb0b8470320a610f32f23624195728a28b12d8271316b2e",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "5c799a4f244f85773d02d8a5f2f6b3f8b3adfeb554b7eb5985df31df9078498f",
+   "result_sha256": "facf56a46bba1ef6d81c65a32585fc504363c8ead37d7d1ca056f07bf6b7945d",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_hum.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "6530432fb97d09b52019c4bdf6bbaf9f0273faa87c72cd70c81e4ac869b0e76a",
+   "result_sha256": "e1f675a46cc11f4238a238c3a4eecb989440362c9d62d0dec75ede278b4f4057",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "bec4255206a21327cd6d6d295d56ef5551fdd61464889a9eb01c6a90adf61d2e",
+   "result_sha256": "5dc21a9db3ed26e6d323c146980510511f37cab050f2108ad3689fe7a4729cbc",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_nif.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "4111538b603e5e3b6ec4d8435028ce86fc4fe62de3d471c8c6032c7eeaca3beb",
+   "result_sha256": "ff996d627f6c240bb995e504488e253d92af5ccb2f55ccfa3f05449dd755b0b2",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "2b2f96f390c819e08c4149338ab6e000da61cf37e8c4441180a28a1d4d48e750",
+   "result_sha256": "f0fa57687fea919b41a63f4cb95485dc7bb0ffd1eaa4bdb81891035d7a54eb79",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_nim.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "82d305f354ceb4a0768961c139b940c7857d754c4ccd99455d7dc4c1e8ec2587",
+   "result_sha256": "5d53de49265416c9e15585beb526c5b31bb3d4b9e84dc15dd0bab8fd558fca9a",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "181998061366631b341fe37c577791e79c5666fcaddaee43d4b60d1088162e33",
+   "result_sha256": "85cfb5355db0627b4f5ce10bf32a535c0a58247d019b5c26b9524e944a090ceb",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_orf.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "0049c47ccebf4b14aa85f85800b4358ca0509ed8d18046afb0dbfbb30195103d",
+   "result_sha256": "c928329a3955b7298703a523ab0e86e1b7277b9a93d7ee5c7ca1fc2b1a762934",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "9b44654e3188ec55ca13df46d22d232cbb40ddb210241e1cfb37d369c3a1abbb",
+   "result_sha256": "f5626ece21e675b0a070d7ba0fca6faec2e2107cdee6b9dc636edd98b39cc28b",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_orm.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "e8b9c6f11c07860c5a3595c4794dabb9883d7f65f1be49b13ba5ee782afda88d",
+   "result_sha256": "859e0239da5c56cb88447a7d158a5297ae8b1c6e1d43575d901b805541a067ee",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "634608a80f30c5a51d04e903ef3cd5ed55f96d476dc7176da03633e5e8fdeaf0",
+   "result_sha256": "8e636f605d3569b422e87e50b77564ab52347e33a4d24b011a75ba4561e32709",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_scf.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "6dab4add44c1a889acec9306d1335d2579f24bb49326268dc788bbf0f7473d4f",
+   "result_sha256": "fe299c709551f948d97a0156861082e359cf740f8fbd4753588242a176e60356",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "39d5934afab82325e9db043e4240be6cf2c808ea57966b88f882d4bfdd1a2016",
+   "result_sha256": "aa00d502c73be083e1b295c60da083a75ed94b577b45203eef0f109875a7b6c4",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_scm.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "e4a29ac85d7ae1659582b973464425706da7ad2caee4437a17177c13478bf21f",
+   "result_sha256": "efa70a5f73a414374d87b4d97c27bde26cc29b716972de5202385cafe9e96c99",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "90a0af8a16193d419d53a9654af875c657fda59ae30dbe6483a580632e57f78a",
+   "result_sha256": "d1c57f86adb8d837008a99c1f05add82b25b2e5a64ba2ccab1e158729ecc0e18",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_taf.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "e159b453530f4c831b168e6a0ce60720fb0ef2d30536ecbdac08bfa86d5a3199",
+   "result_sha256": "ec8a89b34adce0f42ab15468f55ed94763b1db86e5d538cee55b58b7219b589b",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "e071abb8955e914d6a993bfe6cb925f31b39dd63868cbe69f359b51db8e4a6be",
+   "result_sha256": "982495cd01b1a6b0902d09b2277d5039066fe86dc457b812893d1ef0629ee03a",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_tam.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "42f4c4e9047ff60b98e52725414be09062d2f679b034aa4183f9a5234f65b849",
+   "result_sha256": "6ae666ce0a79c0032650680218b1407eeeb27818cc87551e1bbc1944eca885cb",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "f884961f4d7eef642081eb68ba8bca32351c5928095410795d877213c02effea",
+   "result_sha256": "bf46fb97d1c746952c4928758aaca08fb6eb0c9c8fb89aa34b75143548a68ff9",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_trf.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "3d04554dc4ae9f2c8b1b816be16b5cc4c309d1e77325e813fe819be22abb34df",
+   "result_sha256": "1e9c89b2c30feae8bfc50abc696b0f40dfe173d9125c6f60301d2e7802bedd66",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "7a87b05eeec62cd2c59b8b551e2324d402f57b672eba49612a0cb489baf6fe06",
+   "result_sha256": "1c818772ba12a9b00d4ff103255312c8993797d2ef9073e0f49101d5be4ea752",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_f_01_trm.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "86fc7a2dbd799c69dbc4b3a96106c536d5334b7aa7b2d04a74933e89e3cc77a9",
+   "result_sha256": "a1ed2b6947b55aa2a870c658c2fc8f9275c943750661218a26a0229d5aef29b9",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "source": "patch-hd-everything",
+   "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+   "base_sha256": "48e633d8ba5da6c47d02a7e1c907a7d18a10797fbfa0fa0ed188e8770d2f6b09",
+   "result_sha256": "600e5a2ba653c21dbc3bf0a9f8f5a186c5aca55df0abbc6838aee6f125b5d6ca",
+   "ops": [
+    {
+     "op": "m2.particle.blend",
+     "expect": [
+      4,
+      4,
+      4,
+      4
+     ],
+     "values": [
+      4,
+      4,
+      2,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_bef.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "0f72958ebb9347772c5d6f5d4e431b9b3ee707dfed9d0706c08f2b3aa884c083",
+  "result_sha256": "fee58e622c7a5f07318ff6746432e719a8fec6581117a8e100c1beb3ce6ec459",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_bem.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "b88363a522a0d268c96f827059c4fa524ff151a4db638877f33cd17b2f90be10",
+  "result_sha256": "e5be9d8691ba2931f356371f6744acc5f08db6278372f518a65d3747884d4fb8",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_drf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "c9326f60c50c0057e05be82d3772afa8213e65c0b3303f5732e8e47550125096",
+  "result_sha256": "01cc7a57f80214499a2d73a160c056eeb61549fc31392cde092a5a9d4f61cbf2",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_drm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ece8b40ae312c096b37574ca67a55bb44f9c25cdb91308dcf9844df8d334c821",
+  "result_sha256": "254c8381d72d227f5db1bf8e664829f1fe3e9afbdf98a9af2cddc3ed84864b70",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_dwf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "3622725647e638f83cfbc4bef129f210c79c1b608194218fff99a475eb2cc664",
+  "result_sha256": "94e14b5b83593654af84279aa41ee63414d93cb623ef81088dddfe8895cff9d4",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_dwm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ef7341839bada0198999e730d99b78f9b72e481ca091c588e28b0ccd45dafa0d",
+  "result_sha256": "49196c3226ed0242e6e21b1bac47e43d3d3a9bdd6ca9bd9f84f7bf07c46121e6",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_gnf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "66fd74207328a6aab0de68c2223794b1bfa45314be8cde525b4e7862ab560a42",
+  "result_sha256": "c1280e190e9e4ed57f1ec45f0070a0411cc101eb82fb936c0b4c35f917905b43",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_gnm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "dd941035e8b97b11244a049d3ba3b01c5428f33a20c26a85d271f7c413e9b869",
+  "result_sha256": "c925206c51e3774216b138850501893d49826cde89ab1e1fd0dab42a0cfca351",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_huf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ab68a417e089ea2a71028b0a40fdd61bca4ccdc0e8b50ca8a2b2dd478c271f95",
+  "result_sha256": "721e48dd1214cbeeb319264c6efdac420e4ccc3c5a1bd29aadb56e09c49af3c9",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_hum.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "7aacb5ee559dfb423a83b2489b9bb600eece9e2d38df7b9ac56b3bc369239a2c",
+  "result_sha256": "4360550e6f964874a61c306c284fae92cb67ab3bec7764d7cdfe5442e10d5408",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_nif.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "c25cb56767f57e698874b99a4195e883291c362665fff46a498433875007bd1d",
+  "result_sha256": "aa1863fafe2238fd49aa2d79a9d3f63894e153caf6e4bf89baa636a0182aef96",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_nim.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "cc85cb4daa42f174ea3c62c6be8eaea2133ed74160b3cef16f3c7f670c0c58f7",
+  "result_sha256": "54f10df684190e7a85951a62b9caffb5592a162309cc5ece517022d8fbf7f371",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_orf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "0798ab998e7a59df9b5568a4d2de741cccd9148a6e73950e4a689f52f039946c",
+  "result_sha256": "8b0eaac9495eccb24d59149514bf4596dba46bf3d6280bf003f466cd2ca7ae40",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_orm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ba888478e030e46dc9fd9dd34907bec3687eed637e062380d9bb2762ed78c3b8",
+  "result_sha256": "a9da8b6fb00cfb274af5872e506b7e9fa833cc95a7db354fefb2fceb48f8a49b",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_scf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "95d84c7a3cde2ffa84b229e68a181326c8796c250db972bdf51220ab4670ca7b",
+  "result_sha256": "11882be5b0c8468405d162b89b8c013a48660ff6019c7e319f4fc8c4f32e45e1",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_scm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "99e20c488720dc37bd50857f9bfe14b43c861d95f5a915c3f46f5034ffc1333d",
+  "result_sha256": "883157ac5f3526f556821fa51f3489dbe16f32c9065f62f6d69c2c4bdaec8977",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_taf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "c1a22db13a4d9d43de8322aeb0ac61f0b96696ae54a645c413517c4e70e4e319",
+  "result_sha256": "bdc4b4a0024f54e5c8e6de9f32bd58bcbda43aced3e92a5181b3f25bfae83d54",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_tam.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "7c9eac6ecc699fb2506df7248cd2eee0c5109d717261ebb5870a659648c13be6",
+  "result_sha256": "b987edf9095e0c7ca346598ea2982f6e68bafec5510bf4ef7f63026e8181e46d",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_trf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ab3c05de8a7b14a7d345fcf33e36a8b52e0dc8275c2c9e4af232e1815251bd1e",
+  "result_sha256": "e7b056680a8424b18f738f3039f295f3f2bd8bb15b8621358574f0a1571c2969",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_g_01_trm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "22fa09461d2e31695d45d9de33f19ff6b32f35a8edae3b33df9ff305eab80c28",
+  "result_sha256": "a07add8f4d8e83c86d6d259927bbad663e3c5686819e6052ef4caad23a86e665",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_bef.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "ffc6bc82279d8a1b5f3034eeb8c58d64a5029a49e7ba751a70d6548d6cdbb698",
+  "result_sha256": "af76eee6eeb9d44fe9d93c63a7a2494e77ad3beb945a7ede6e25402cb155e73b",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_bem.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "da47b4c97cdc70b75e3689b657a0328565203fd1a038d123ba4e82875debbec4",
+  "result_sha256": "63ebc71bafff167b5a05f9b3ee636a7ddd48cd887bdc2fdd5370f89235661372",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_drf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "a4364af4721fecadfb2a9e71abb59f767142937207ac34f7a4b4a3bd95e40911",
+  "result_sha256": "42563ca32bd8b5a92fa70b071665178f828d037228031f6173e06268b00c3e5b",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_drm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "654dcf943553f74cde057e71d1bdfe890e916954296fd0af481e298230de2272",
+  "result_sha256": "07ae009d736c970a4bef55478dee3b2c41ed47ba5f6127a621763d323747c8bf",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_dwf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "0d3c5d7e61c94f4e0822fdc6846a5d1e52419438168c7ee8450e1f3e2d99e94a",
+  "result_sha256": "05066d659b5e56007708353e2fbb6b38da401a1c8f6407f27cf81d8487d4e95f",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_dwm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "1d7a70dca3369240840417dfba3b8e22f35951a7ca76f2f87258f0e2040dbe6e",
+  "result_sha256": "cc4735090a8dd1b7a7ff84e84e1f7867cd9253d7e140a348bd66b469a6bb0cbf",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_gnf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "24ba423251c2d4dabf003435063d2884b50679aa8c392da79fd91c55dc814fee",
+  "result_sha256": "d1d5e88770dd20966b8e0647ddb4af75638213e68040fb4fda40d34ce7cffc00",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_gnm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "75f5d478bc7297a35a59c7596dcae11393bf7bd38652ad8f39913e82d6be1851",
+  "result_sha256": "8d31910ff738f26621bade0c7f67921b2e3dd7b804f658e0ebbedc9fc02b1a75",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_huf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "a53c396dabde7224d65cf1ebc700299ae9838f81dd4a19c17777735e4a1474e6",
+  "result_sha256": "59a200100cfa160d6be0087784af3d1842a15da04b8c5a9ec9e7c20813cab705",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_hum.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "8cba0bbcf2843d6f8cefc01320e3075caf7978146f4c53ba89d3fb1812c1687e",
+  "result_sha256": "7e35f07decd0245dbad06817dfd11f7ad2061753dd3d369ceee5bb7a1e77ebf7",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_nif.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "9e8a196466617160b36d33c8063e8a9fe7d034d8af929887c28ad16379f14e57",
+  "result_sha256": "31a031f17c7d9fc440b5d4a0657a0ab129225e0d318bffc8979633916eb65596",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_nim.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "4506348228e706f1e5b76bdce7e16f243e4fbb0710c5f44f6f9f378c8c458b49",
+  "result_sha256": "c5a0c5f9d0e84b3a0c1b2c91a90c2b8d6d700d95f4178bfd8be9e8b91d0812f5",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_orf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "d9462c8a80743b0b3c12bed01e05d5b3a0f12a6f81effb616a9882f117f64150",
+  "result_sha256": "e1bfdca752392e36f10a365a9a12abedc57c77b88271c40bd4d2df932589c11d",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_orm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "dc87bbc8881e7cc002b32952f49920b83367907686c480bef0f2c3cc36016011",
+  "result_sha256": "ca2c1ca909a579b7173bc406a0b93e113f12f3a71c5407e608d693fe000cd420",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_scf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "f67c67b0434ef709e7341e67c00532df0f52586f8aa3a2c861bc6763dcba6587",
+  "result_sha256": "93869192146f72bf115c3eb325bd4548fd26d9809fbf5a129912df7cf6a98d4e",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_scm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "5ff9fc5ad8875f19ee4319da71ec54144672a82612f8a5a889ac6a05dd39b5ee",
+  "result_sha256": "b73b7d070cb2eaecd0bff0672ac51ca07fd19e5ea786bf6132fe50b45833ccf7",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     2,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_taf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "9c015ad888b9a8e54a4a0eb4b750ae275a159844668e8f87d7499251d7312e04",
+  "result_sha256": "4dbf96209aba88a92b6da27547212a59e63f168829f853a481e9ac2c64a70a02",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_tam.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "1b8a6f76bac4919cc457128e5ba2579c00ac092888ed1e5de5c5167408016647",
+  "result_sha256": "43941d8a944e56d9c6d5eacad3ef445195d2d3d10f145c5630fefdbbbd59bd38",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_trf.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "727e73ecc972f593d0bc20ddbd94991a29ee209286bee6c73c6b4ba2f7115619",
+  "result_sha256": "59eb1ad8699d22fe806cae006e85b2fdbcbd969e67c12fae21943683d1ed452a",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/head/helm_robe_raidwarlock_h_01_trm.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "43faf252c4e0648bc44fcc43b968fdb3b89fb4c48f939d53febc0708c00d3e83",
+  "result_sha256": "b2980f706b0b2553f04f2408cdae4a22378ab98dbb1072c2fe0999d1db240dfb",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4,
+     4,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/lshoulder_leather_raidrogue_b_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "63f9514af55e0cc804dd634807231066815068daeb102e709096c60781d43caa",
+  "result_sha256": "9f7ac8d502945a53bb3a802afd4d4073e786e70ab9885ac68ee14023f80ded02",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/lshoulder_leather_raidrogue_d_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "0f7530a2785ab3c61b6de4a417c184a7b849cfd6e61174b95ccba7dd064a1e11",
+  "result_sha256": "d4fd019f3bd0429688dfb7278eee420641247fe47ccd9302f872e20d8ae2cdc4",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/lshoulder_mail_raidhunter_h_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "df3173282a3e4b3f4a70e34e910a66688418f73cf0cbaa49384450c9e00bdcc4",
+  "result_sha256": "93b1e6cde7ab478d093fea2ea608d1487e6346dabf7ba91f8edbff10f8173660",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/lshoulder_plate_zulaman_d_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "197272f9fe83a80ca359f05415d1447b8997fb296525ae21c79f8024f13aa49a",
+  "result_sha256": "e6b4ea37be225adc7cee519e6739e1f452e539622974807f5533fc758f17f1bd",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/lshoulder_robe_raidwarlock_g_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "6b5fbf0c052deea12d4ae0a127aa63f189fca97bf4651f3df933ab78b9f5b244",
+  "result_sha256": "993cc796c2e4d37a7af7cdf6ab7873579280b2959d9b1d8b3cfd36ea8beb59bd",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/lshoulder_robe_raidwarlock_h_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "3ee2ae88eddb64b820c27d7167c2871b211ff2c5b8e076ff51de0606dccbdfc2",
+  "result_sha256": "4fed3863d8d0d4cd1a54e6c2cbd2d36af8a09f609f546a6e132ce223f63f5e54",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/rshoulder_leather_raidrogue_b_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "bd458d03a7d84e261a7de73bbce23dac18d5e47ccf45d0c9a8dea134ce2cee39",
+  "result_sha256": "1964394e6b4758abdd05f34acfe40dc535ab6ed46ca712c46997ba16cca5ffa9",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/rshoulder_leather_raidrogue_d_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "4f11ec26322a3f88a37c6513d17e68e8cbb558e2b7145e830f6ba46c7d6deaa2",
+  "result_sha256": "5c4521befa64c07ab1ee31a53d655edffc875b80e762f9e5e3705f45a79239f3",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/rshoulder_mail_raidhunter_h_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "5fab86e6927ef2fbb7ef9071954ee7bd71b5de24d2c06cd6e9c4631b9c976988",
+  "result_sha256": "56d7ff5af2efb5642887e8f52fad843ce8ec07f89830834d3a05d18f8fea98d5",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4
+    ],
+    "values": [
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/rshoulder_plate_zulaman_d_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "9ac96bd48c6f33dc60f0375bd1527b19ddacaf40b36f7bae5592c3800c9daa42",
+  "result_sha256": "44fca2e643a140701ec6f8f384e15194ece65fad2bfc73b7f5ce94315dba8443",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "values": [
+     4,
+     4,
+     4,
+     2,
+     2
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/rshoulder_robe_raidwarlock_g_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "f082047f9c82f9c2073c54218c7cc667a52524f83bbc4b29b1597215e929d6ab",
+  "result_sha256": "a46870a9ed7b54002ddb350c8a215c69662a923ba1b9dcfbc935f94289cbb463",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4
+    ],
+    "values": [
+     2,
+     4
+    ]
+   }
+  ]
+ },
+ "item/objectcomponents/shoulder/rshoulder_robe_raidwarlock_h_01.m2": {
+  "source": "patch-hd-creatures-mounts + patch-hd-everything",
+  "note": "Downport of retail's model with its particle emitters forced additive (4); restore the blend our WXL conversion keeps (retail's, 7 BlendAdd -> 3) so smoke / dust / glow match retail.",
+  "base_sha256": "26385c6208e889232786c2c9c957d3305bafc80324f6713bfc1bcd7d0a9a4373",
+  "result_sha256": "a2f355a8b0e51ddbf321d47000f4e6f299a377e7dc90d12b03bf2953d2bb6aea",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": [
+     4,
+     4
+    ],
+    "values": [
+     2,
+     2
+    ]
    }
   ]
  }

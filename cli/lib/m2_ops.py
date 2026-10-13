@@ -594,26 +594,37 @@ PARTICLE_BLEND_AT = 0x28
 def _op_particle_blend(data: bytearray, cfg: Dict[str, Any]) -> str:
     """Set emitters' blending type (0 opaque, 1 alpha key, 2 alpha, 3 no-alpha add, 4 add).
 
-    F-216: patch-hd-creatures-mounts' revenant2_earth (a downport of retail 1709847) wrote retail's
-    alpha-blended dust and smoke (2) as additive (4), so they glow and wash out; our WXL conversion
-    keeps 2. `indices` (default: every emitter) and `expect` guard the write.
+    F-216: the HD packs' downports of retail models (revenant2_earth / _fire / _water, revenantair2 and
+    ~250 more) wrote retail's alpha-blended emitters (2) as additive (4), so they glow and wash out; our
+    WXL conversion keeps retail's blend (7 BlendAdd -> 3). `values` (one per emitter) or `value` with
+    `indices` (default: every emitter); `expect` (a value or a per-emitter list) guards the write.
     """
-    if 'value' not in cfg:
-        raise M2OpError("m2.particle.blend requires 'value'")
     base = read_m2_header(data)['base_offset']
     _require_wotlk(data, base)
     n, ofs = struct.unpack_from('<II', data, base + OFS_N_PARTICLES)
-    idx = [int(i) for i in cfg.get('indices', range(n))]
+    if 'values' in cfg:                               # one value per emitter (the whole table)
+        vals = [int(v) for v in cfg['values']]
+        if len(vals) != n:
+            raise M2OpError(f"{len(vals)} blend values but model has {n} emitter(s) — wrong file, refusing")
+        idx = list(range(n))
+    elif 'value' in cfg:
+        idx = [int(i) for i in cfg.get('indices', range(n))]
+        vals = [int(cfg['value'])] * len(idx)
+    else:
+        raise M2OpError("m2.particle.blend requires 'value' or 'values'")
+    exp = cfg.get('expect')
+    exp = exp if isinstance(exp, list) else None if exp is None else [int(exp)] * len(idx)
     out = []
-    for i in idx:
+    for k, i in enumerate(idx):
         if i >= n:
             raise M2OpError(f"emitter {i} but model has {n} emitter(s)")
         at = base + ofs + PARTICLE_STRIDE * i + PARTICLE_BLEND_AT
-        if 'expect' in cfg and data[at] != int(cfg['expect']):
-            raise M2OpError(f"emitter {i} blend is {data[at]}, expected {cfg['expect']} — wrong file, refusing")
-        out.append(f'{i}:{data[at]}->{int(cfg["value"])}')
-        data[at] = int(cfg['value'])
-    return 'particle blend ' + ', '.join(out)
+        if exp is not None and data[at] != int(exp[k]):
+            raise M2OpError(f"emitter {i} blend is {data[at]}, expected {exp[k]} — wrong file, refusing")
+        if data[at] != vals[k]:
+            out.append(f'{i}:{data[at]}->{vals[k]}')
+        data[at] = vals[k]
+    return 'particle blend ' + (', '.join(out) or 'unchanged')
 
 
 OFS_N_REPLACEABLE_LOOKUP = 0x68
