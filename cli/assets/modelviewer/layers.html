@@ -463,8 +463,10 @@ function modelOptions(e) {
   const stockPane = e.panes.find(p => p.sources.includes('stock')) || e.panes[0];
   const packs = new Set();
   e.panes.forEach(p => p.sources.forEach(x => packs.add(x)));
-  // remaster panes are OFFERS to displays a pack did not move: never a pack's model-level move
-  ds.forEach(d => d.panes.slice(1).filter(p => !p.remaster).forEach(p => p.sources.forEach(x => packs.add(x))));
+  // remaster panes are OFFERS to displays a pack did not move: never a pack's model-level move. A modular
+  // rebuild (I-392) offered on every used display IS a whole-model swap: it counts like a pack's repoint
+  const asMove = (p) => !p.remaster || p.remaster.modular;
+  ds.forEach(d => d.panes.slice(1).filter(asMove).forEach(p => p.sources.forEach(x => packs.add(x))));
   packs.delete('stock'); packs.delete('retail');
   const groups = new Map();
   const add = (src, file, reps) => {
@@ -484,7 +486,7 @@ function modelOptions(e) {
   [...packs].sort().forEach(x => {
     const file = e.panes.find(p => p.sources.includes(x)) || stockPane;
     let reps = {};
-    ds.forEach(d => { const rp = d.panes.slice(1).find(p => p.sources.includes(x) && !p.remaster); if (rp) reps[d.display] = rp; });
+    ds.forEach(d => { const rp = d.panes.slice(1).find(p => p.sources.includes(x) && asMove(p)); if (rp) reps[d.display] = rp; });
     // a clean swap only: ALL used displays, all to ONE model. Several targets (felbat: 23 to
     // giantvampirebat, 1 to the taxi bat) is not a model swap - decided per display.
     const targets = new Set(Object.values(reps).map(r => r.model));

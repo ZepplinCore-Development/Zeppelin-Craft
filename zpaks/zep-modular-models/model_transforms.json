@@ -443,7 +443,16 @@
         ]
       }
     ],
-    "result_sha256": "d1035165f2c15e8a658f042d90aa8f2895a28a707978d892735093b9e18b497a"
+    "result_sha256": "d1035165f2c15e8a658f042d90aa8f2895a28a707978d892735093b9e18b497a",
+    "offer_on": [
+      "creature/dragonspawn/dragonspawn.m2",
+      "creature/dragonspawn/dragonspawnarmored.m2",
+      "creature/dragonspawn/dragonspawngreater.m2",
+      "creature/dragonspawn/dragonspawnoverlord.m2",
+      "creature/dragonspawn/dragonspawnoverlordnexus.m2",
+      "creature/dragonspawnnexus/dragonspawnarmorednexus.m2",
+      "creature/dragonspawncaster/dragonspawncaster.m2"
+    ]
   },
   "CREATURE/DESERTLASHERORCHID_MODULAR/DESERTLASHERORCHID_MODULAR00.SKIN": {
     "note": "I-396: the HD desert lasher orchid (patch-hd-creatures-mounts creature/desertlasherorchid, view 00) split by texture region so each part samples its own creature skin: stem/roots/vine arms on skin 1 (texture_variation_1), petals/leaves on skin 2, beak/jaw/teeth on skin 3. The donor is one submesh (geoset 0) whose 143 UV islands sit in separate texture areas; boxes test each island's UV centroid (checked against a 3D render: 0 misassigned islands). combo_add points each part's two batches (skin+oldglass3 env, skin alpha layer) at its pair in the texture lookup set by the .M2 recipe. skin.overlay adds the petal pattern group on the flower part (submesh 2): 101 plain (empty), 102 spots, 103 stripes; a display names one in creature_geoset_data (0x1/0x2/0x3).",

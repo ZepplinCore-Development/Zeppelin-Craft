@@ -157,13 +157,29 @@ def modular_parent(path: str) -> str:
     return f'{m.group(1)}/{m.group(2)}.m2' if m else ''
 
 
+def _offer_on(source: str, path: str) -> List[str]:
+    """Stock models a pack declares its modular model replaces: "offer_on" on the model's .M2 recipe
+    in zpaks/<source>/model_transforms.json (I-392: one dragonspawn for the whole family)."""
+    import json
+    from pathlib import Path
+    f = Path(__file__).resolve().parents[2] / 'zpaks' / source / 'model_transforms.json'
+    try:
+        recipes = json.loads(f.read_text(encoding='utf-8-sig'))
+    except (OSError, ValueError):
+        return []
+    for key, cfg in recipes.items():
+        if isinstance(cfg, dict) and ms.norm(key) == path:
+            return [ms.norm(p) for p in cfg.get('offer_on') or []]
+    return []
+
+
 def modular_variants(result: dict) -> Dict[str, Dict[int, Dict[str, dict]]]:
     """Modular rebuilds of a model (I-392, zep-modular-models): a pack model named
     creature/<dir>_modular/<name>_modular.m2 is the parent creature/<dir>/<name>.m2 rebuilt for
     part-by-part dressing (split armour geosets), offered on every named display that has the
     parent as an option: a source points the display at it or at another model in its folder, or
     retail's remaster of the display's stock model is it (retail.named_remasters: dragonspawn ->
-    dragonspawn2).
+    dragonspawn2), or its stock model is in the recipe's "offer_on" list.
         {source: {display id: {modular path: row}}}, the shape of community_remasters().
     The row comes from the pack's own template display on the model (its model row, skins,
     geoset data); a skin colour named in the display's own skins (DragonSpawnSkinBlue) swaps in
@@ -187,6 +203,7 @@ def modular_variants(result: dict) -> Dict[str, Dict[int, Dict[str, dict]]]:
             pd, pn = parent.rsplit('/', 1)                 # by-name remasters extend the stock dir and stem
             hit = {p for p in stock_on if pd.startswith(p.rsplit('/', 1)[0]) and pn.startswith(p.rsplit('/', 1)[1][:-3])
                    and parent in [t for t, _ in retail.named_remasters(p)]}
+            hit |= set(_offer_on(s.name, path))            # stock models the pack declares it replaces
             for did, base in stock_cdi.items():
                 rows = [base] + [getattr(x, 'cdi', {}).get(did) for x in result['sources']]
                 rows = [r for r in rows if r]
