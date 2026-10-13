@@ -1,0 +1,183 @@
+From 67df294bb0ad938d76cf07dd1a93f5e9f3d9c007 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 12:44:33 +0000
+Subject: [PATCH] feat: universal caution - any 2nd mob is a pack, quests <=
+ level+1, rest to 90 % (F-219)
+
+From the five worst bots: over half their deaths were 2-3 mob fights entered
+at 35-50 % health, mostly against mobs 1-2 levels up. For every class now:
+- planned pulls and camp clearing treat ANY second hostile in reach as a pack
+  (park the quest unless a body pull draws the target alone); two pulls that
+  brought 2+ park it too
+- quests at most 1 level above us; routes refused past mobs 2+ levels up
+- rest to 90 % before moving on (was 80)
+Class fixes:
+- Hunter's Mark is pull-only (fight_args(defend=True) drops it; it was the
+  first cast of every ambush)
+- a warlock's defend fights open with its DoTs
+- druid Healing Touch below 55 % (it gets interrupted)
+- combat: a Kill call lets a cast in flight finish (<= 3 s) before returning,
+  unless dying or fleeing - the next walk cancelled it (26 mage Frostbolts
+  INTERRUPTED a run)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/main.go | 13 +++++++++++
+ zeppelin/tests/start_area.py    | 39 ++++++++++++++++++++-------------
+ 2 files changed, 37 insertions(+), 15 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index a1608ec..86f7565 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -442,6 +442,19 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	}
+ 	res := &combatv1.KillResult{Guid: guid}
+ 	finish := func(reason string, killed bool) (*combatv1.KillResult, error) {
++		if reason != "we died" && reason != "flee" {
++			// let a cast already on its way finish (up to 3 s): the caller walks off next and the move
++			// cancelled it - 26 of a mage's Frostbolts a run failed INTERRUPTED, their mana gone
++			for i := 0; i < 30; i++ {
++				s.mu.Lock()
++				busy := time.Now().Before(s.selfCastUntil)
++				s.mu.Unlock()
++				if !busy {
++					break
++				}
++				time.Sleep(100 * time.Millisecond)
++			}
++		}
+ 		_ = s.send(context.Background(), opcode.CMSGAttackstop, nil)
+ 		s.mu.Lock()
+ 		res.Swings, res.DamageDone, res.DamageTaken = s.swings-swings0, s.dmgDone-done0, s.dmgTaken-taken0
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index b4d65c6..5fb86a5 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -73,7 +73,8 @@ CLASS_ABILITIES = {
+         # melee, Raptor Strike on its cooldown. Monkey's dodge is always up (a buff: recast if missing)
+         {"spell_id": 13163, "every_ms": 3000, "min_power": 20, "on_self": True, "buff": True},  # Aspect of the Monkey
+         {"spell_id": 91119, "every_ms": 20000, "interrupt": True},                           # Silencing Shot (custom, level 4)
+-        {"spell_id": 1130, "every_ms": 30000, "min_power": 15, "max_per_target": 1},         # Hunter's Mark - before the pull
++        {"spell_id": 1130, "every_ms": 30000, "min_power": 15, "max_per_target": 1,
++         "pull_only": True},                                                                  # Hunter's Mark - before a planned pull only
+         {"spell_id": 1978, "every_ms": 15000, "min_power": 15, "per_target": True, "min_power_pct": 20},  # Serpent Sting
+         {"spell_id": 3044, "every_ms": 6000, "min_power": 15, "min_power_pct": 30},          # Arcane Shot (level 6)
+         {"spell_id": 5116, "every_ms": 12000, "min_power": 15, "min_power_pct": 25},         # Concussive Shot (level 8)
+@@ -138,7 +139,7 @@ CLASS_ABILITIES = {
+         {"spell_id": 348, "every_ms": 15000, "min_power": 25, "max_per_target": 1, "min_power_pct": 30},  # Immolate
+     ],
+     11: [  # druid (caster form)
+-        {"spell_id": 5185, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 40},  # Healing Touch
++        {"spell_id": 5185, "every_ms": 3000, "min_power": 25, "on_self": True, "below_health_pct": 55},  # Healing Touch (55: it gets interrupted)
+         {"spell_id": 774, "every_ms": 12000, "min_power": 25, "on_self": True, "below_health_pct": 70},  # Rejuvenation
+         {"spell_id": 103248, "every_ms": 15000, "interrupt": True},                          # Solar Flare (custom interrupt)
+         {"spell_id": 339, "every_ms": 15000, "min_power": 25, "on_add": True},               # Entangling Roots (level 8) the add
+@@ -1078,7 +1079,7 @@ class World:
+             return False
+         if int(q["MinLevel"]) > level:
+             return False
+-        if self.eff_level(qid) > level + (2 if CLASS_RANGE.get(self.cls) else 1):
++        if self.eff_level(qid) > level + 1:  # every class: a quest 2+ above sends us among mobs that kill
+             # a red quest (3+ above us) waits like a player would: MinLevel 1 let a level-1 hunter take
+             # Dolanaar Delivery (level 5) - a "done on accept" walk past Webwood Lurkers (5-6): 2 deaths
+             return False
+@@ -1308,7 +1309,7 @@ class Runner:
+         ranged = next((it.get("entry", 0) for it in inv.get("equipped", []) if it.get("slot") == 17), 0)
+         return have, ranged
+ 
+-    def fight_args(self, solo=False):
++    def fight_args(self, solo=False, defend=False):
+         """combat.kill arguments: the rotation, a healing potion when we carry one (below 35 %, the
+         potion cooldown is 2 min) and a ranged opener when we wear something to open with."""
+         if time.time() - getattr(self, "_kit_t", 0) > 60:  # bags change slowly; ask once a minute
+@@ -1342,7 +1343,13 @@ class Runner:
+                 elif sub in (2, 3, 18) and 3018 in known and any(
+                         inf and inf[0] == 6 for inf in self.items(list(have)).values()):
+                     self._pull = 3018  # Shoot: needs ammo in the bags (set_ammo picked it)
+-        a = {"abilities": self._potion + [x for x in self.abilities if not x.get("charge")]}
++        # defend (it came at us): no pull-only openers (Hunter's Mark cast mid-ambush wasted the first
++        # GCD), and a warlock puts its DoTs up first - the mob is already on it, no bolt has time to land
++        abil = [x for x in self.abilities if not x.get("charge") and not (defend and x.get("pull_only"))]
++        if defend and self.w.cls == 9:
++            abil = sorted(abil, key=lambda x: 0 if x.get("per_target") or x.get("dot_ms") else 1)
++        abil = [{k: v for k, v in x.items() if k != "pull_only"} for x in abil]
++        a = {"abilities": self._potion + abil}
+         me = self.me()
+         if any(math.dist(g[:2], (me["x"], me["y"])) < 80 for g in self.w.guards):
+             a["flee_pct"] = 20  # a guard is in reach: a pack at 20 % runs to him instead of dying
+@@ -1844,7 +1851,7 @@ class Runner:
+         # ...ranged too, from 3 joiners: a priest's Smite into Northshire's vineyard drew 4-6 Defias
+         # Thugs a pull (30 deaths for grapes)
+         packs = self.__dict__.setdefault("camp_packs", {})
+-        if level < top + 3 and not body and (len(joins) >= (3 if self.ranged_opener() else 2) or packs.get(key, 0) >= 2):
++        if level < top + 3 and not body and (len(joins) >= 1 or packs.get(key, 0) >= 2):
+             q = getattr(self, "current_qid", None)
+             back = min(level + 1, top + 3)
+             if q:
+@@ -1862,8 +1869,8 @@ class Runner:
+             self.grind_skip.add(t["entry"])  # not hostile after all
+         if "died" in r.get("reason", ""):
+             self.camp_deaths[key] = self.camp_deaths.get(key, 0) + 1
+-        if r.get("peakAttackers", 1) >= 3:
+-            # linked mobs: the pull brought the pack whatever the spacing said - twice and the camp
++        if r.get("peakAttackers", 1) >= 2:
++            # linked mobs: the pull brought a second whatever the spacing said - twice and the camp
+             # waits for a level like a tight one
+             packs[key] = packs.get(key, 0) + 1
+         print(f"  clear camp at ({spot[0]:.0f},{spot[1]:.0f}): {t['entry']} - {r.get('reason', 'killed')} "
+@@ -2059,9 +2066,11 @@ class Runner:
+             if body:
+                 ax, ay = body
+                 print(f"  body-pulling {out['entry']} out of a group of {len(group)} from ({ax:.0f},{ay:.0f})", flush=True)
+-            elif crowd(t) >= (3 if pull else 2) and level < max(lv(m) for m in group) + 3:
+-                # ranged too, from 4 a pack: an opener draws one of a pair, but a mage's Frostbolt into
+-                # Night Web's Hollow brought six spiders at once (pull x6 deaths)
++            elif crowd(t) >= 1 and level < max(lv(m) for m in group) + 3:
++                # ANY second mob in reach, every class: below level 10 almost nobody survives a double
++                # pull short of full health, and a triple is death (the five worst bots: over half their
++                # deaths were 2-3 mob fights entered at 35-50 % health). Only a body pull that draws the
++                # target alone gets past this
+                 # even the least crowded target stands in a pack and nobody can be body-pulled alone
+                 # (Northshire's vineyard: every pull came 2-3 at once): park the quest a level, never
+                 # past 3 over the mobs or "later" would loop for ever
+@@ -2087,7 +2096,7 @@ class Runner:
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(solo=len(group) <= 1), loot=True,
+                  **({"body_pull": True, "retreat": 15} if body else {}))
+         self.fight_log(t["entry"], r)
+-        if r.get("peakAttackers", 1) >= 3 and level < max(lv(m) for m in group) + 3:
++        if r.get("peakAttackers", 1) >= 2 and level < max(lv(m) for m in group) + 3:
+             # a pull that brought a pack (linked mobs ignore our spacing check): the second time for
+             # this kind, park the quest a level - a player would not keep pulling Defias threes
+             pp = self.__dict__.setdefault("pack_pulls", {})
+@@ -2290,7 +2299,7 @@ class Runner:
+             return
+         for g in st.get("attackers", []):
+             try:
+-                r = call("combat.kill", guid=int(g), **self.fight_args(), loot=True)
++                r = call("combat.kill", guid=int(g), **self.fight_args(defend=True), loot=True)
+             except StepFailed as e:  # a long fight can outlast one RPC; the next pass resumes it
+                 print(f"  ~ defending: {str(e)[:80]}", flush=True)
+                 continue
+@@ -2305,7 +2314,7 @@ class Runner:
+                     and s.get("power", 0) * 100 < s["maxPower"] * 40)  # a dry caster loses its next fight
+         # 80, not 70: most deaths are the NEXT mob arriving while we are still low (rogue: 23 of 33 defend
+         # deaths came straight after a won fight, at 4-47 % health)
+-        if low_mana or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 80):  # never start a pull half dead
++        if low_mana or (s.get("maxHealth") and s.get("health", 0) * 100 < s["maxHealth"] * 90):  # never start a pull half dead
+             self.rest(90)
+ 
+     def _revive_loop(self, corpse):
+@@ -2458,7 +2467,7 @@ class Runner:
+         first and last 30 yd are left to the start/destination checks."""
+         # melee classes from 2 levels up: they cannot open from range, and a level-8 rogue died to
+         # level-9/10 Ether Fiends and the Spire's packs on roads the +3 rule let it take
+-        gap = 3 if CLASS_RANGE.get(self.w.cls) else 2
++        gap = 2  # every class (was 3 for ranged: a level-5 druid walked into level-7/8 gnolls)
+         red = [t for t in self.threats() if t[2] >= level + gap]
+         if not red:
+             return
+-- 
+2.34.1
+
