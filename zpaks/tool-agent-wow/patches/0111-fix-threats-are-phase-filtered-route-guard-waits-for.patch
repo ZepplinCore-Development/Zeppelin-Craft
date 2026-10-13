@@ -1,0 +1,72 @@
+From 91ce8e2289338cef5ac3583c79a964861aea4c75 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 04:22:18 +0000
+Subject: [PATCH] fix: threats are phase-filtered; route guard waits for a
+ level that clears it (F-219)
+
+- threats() keeps each spawn's phaseMask and returns only what our phase can
+  see: Kezan's Pirate Party Crashers (phase 4/6144) blocked a level-1
+  goblin's first quests and the run ended after 4.6 min
+- route_guard's "back at level" is hit - gap + 1 (the first level where the
+  mob no longer counts); for melee "hit - 2" was our own level - a busy loop
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 5947684..318e118 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2393,7 +2393,7 @@ class Runner:
+             x1, y1, x2, y2 = self.w.box
+             m = 500
+             rows = sql("SELECT c.guid g,c.id e,c.position_x x,c.position_y y,t.faction f,t.minlevel l,"
+-                       "c.MovementType mt,c.wander_distance wd,a.path_id p FROM creature c "
++                       "c.MovementType mt,c.wander_distance wd,a.path_id p,c.phaseMask pm FROM creature c "
+                        "LEFT JOIN creature_addon a ON a.guid=c.guid "
+                        "JOIN creature_template t ON t.entry=c.id WHERE t.type<>8 AND t.npcflag=0 "
+                        # never script triggers or untouchables: Azuremyst's invisible level-60 Red
+@@ -2409,14 +2409,17 @@ class Runner:
+             # Owlkin patrol 9-71 node paths - nowhere near their spawn point)
+             hot = [r for r in rows if int(r["f"]) in enemy]
+             self._threats = [(float(r["x"]), float(r["y"]), int(r["l"]), int(r["e"]),
+-                              float(r["wd"] or 0) if r["mt"] == "1" else 0.0) for r in hot]
++                              float(r["wd"] or 0) if r["mt"] == "1" else 0.0, int(r["pm"])) for r in hot]
+             paths = {int(r["p"]): r for r in hot if r["mt"] == "2" and r["p"] not in ("NULL", "0", "")}
+             if paths:
+                 for w in sql(f"SELECT id,point,position_x x,position_y y FROM waypoint_data WHERE id IN ({inlist(paths)})"):
+                     if int(w["point"]) % 2 == 0:  # every other node: dense enough at ~20 yd reach
+                         r = paths[int(w["id"])]
+-                        self._threats.append((float(w["x"]), float(w["y"]), int(r["l"]), int(r["e"]), 3.0))
+-        return self._threats
++                        self._threats.append((float(w["x"]), float(w["y"]), int(r["l"]), int(r["e"]), 3.0, int(r["pm"])))
++        # only what our phase can see: Kezan's Pirate Party Crashers (phase 4/6144) blocked a level-1
++        # goblin's first two quests from the start and the run ended after 4.6 min
++        mask = self.phase_mask()
++        return [t for t in self._threats if not mask or t[5] & mask]
+ 
+     def stealth(self, wait=False):
+         """A rogue walks long trips in Stealth: most of its deaths were packs jumping it on the road
+@@ -2471,11 +2474,14 @@ class Runner:
+                     continue
+                 hit = next((t for t in red if math.dist(t[:2], p) < reach(t)), None)
+                 if hit:
++                    # back at the first level where it no longer counts: hit - gap + 1 (melee: one below
++                    # it; "hit - 2" was our own level for melee - a busy loop that ended the run)
++                    back = hit[2] - gap + 1
+                     q = getattr(self, "current_qid", None)
+                     if q:
+-                        self.defer_until[q] = max(self.defer_until.get(q, 0), hit[2] - 2)
++                        self.defer_until[q] = max(self.defer_until.get(q, 0), back)
+                     raise StepFailed(f"route to ({x:.0f},{y:.0f}) passes level-{hit[2]} {hit[3]} at "
+-                                     f"({hit[0]:.0f},{hit[1]:.0f}) - back at level {hit[2] - 2}")
++                                     f"({hit[0]:.0f},{hit[1]:.0f}) - back at level {back}")
+ 
+     def detour(self, x, y, z):
+         """Waypoints that keep the walk out of hostile camps (a player skirts them; the bot walked the
+-- 
+2.34.1
+
