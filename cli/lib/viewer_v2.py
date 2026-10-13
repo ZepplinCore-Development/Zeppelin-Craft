@@ -2026,8 +2026,25 @@ def display_bakes(dep: 'Deployer', mesh: str, ext: int) -> List[list]:
             continue
         topt = ai.Option('b', [src], {bp: f}, f.stat().st_size)
         fits = [o.key for o in mopts if dep.ix.compatible(bp, topt, mesh, o)]
+        classic = not bp.endswith('_hd.blp')
+        # hair / extra skin as the MODEL it is drawn on ships them: a zpak with bakes only
+        # (zep-npc-wardrobe) is drawn on a pack's HD model (or, classic, on stock), so it wears that
+        # pack's files - its own fallback to stock put classic hair and no extra skin on HD UVs
+        ctex = _bake_char_tex(dep, src, x)
+        if src != 'stock' and not any(src in o.sources for o in mopts):
+            ctex = {}
+            if not classic:
+                for o in mopts:
+                    if o.key in fits and o.sources != ['stock']:
+                        for s_ in o.sources:
+                            ctex = _bake_char_tex(dep, s_, x) if s_ != 'stock' else {}
+                            if '8' in ctex:
+                                break
+                        break
+            if not ctex:
+                ctex = _bake_char_tex(dep, 'stock', x)
         # 6th: a classic-layout bake (no _HD in the name) - drawn on the classic model (F-220 fake riders)
-        out.append([src, dep.store.put(f), f.stat().st_size, fits, _bake_char_tex(dep, src, x), not bp.endswith('_hd.blp')])
+        out.append([src, dep.store.put(f), f.stat().st_size, fits, ctex, classic])
     return out
 
 
