@@ -104,7 +104,7 @@
     "result_sha256": "50e5cd251f973233d893a62232d517b68986de78eb4fead2d08ce4537a7a8b65"
   },
   "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR.M2": {
-    "note": "I-392: retail dragonspawn2.m2 (1 view, so the client loads only DRAGONSPAWN2_MODULAR00.SKIN) plus retail dragonspawn2boss's pads and helm crest (donors/, FDID of creature/dragonspawn2boss/dragonspawn2boss.m2, converted by lib/retail.convert): its submesh 2 (armour, boss armour texture + reflect) and 3 (additive glow on UV2, imported static: our model has no UV animation) written over unused lower-LOD vertices from 16509 (sliced numbering), bones remapped onto this rig (same pivots; the boss's 4 pad flap bones ride their parents). Textures 3 = boss armour, 4 = glow; texture lookup 4-5 = (boss armour, reflect), 6-7 = (glow, glow); material 4 = (21, 4) additive; texture unit lookup 2-3 = (0, 1). base_sha256 pins the donor. Vertex array sliced to 20030..39560 (LOD1's run + the boss pieces; m2.vertices.slice): the picker merges weapon/shield meshes into the model as extra vertices, which the u16 skin lookup cannot reach past 65,535 on the full 86k array.",
+    "note": "I-392: retail dragonspawn2.m2 (1 view, so the client loads only DRAGONSPAWN2_MODULAR00.SKIN) plus retail dragonspawn2boss's pads and helm crest (donors/, FDID of creature/dragonspawn2boss/dragonspawn2boss.m2, converted by lib/retail.convert): its submesh 2 (armour, boss armour texture + reflect) and 3 (additive glow on UV2, imported static: our model has no UV animation) written over unused lower-LOD vertices from 16509 (sliced numbering), bones remapped onto this rig (same pivots; the boss's 4 pad flap bones ride their parents). Textures 3 = boss armour as replaceable type 13 (the display's 3rd skin slot: dragonspawn2boss_armor_<colour>, black = the retail gold), 4 = glow (fixed); texture lookup 4-5 = (boss armour, reflect), 6-7 = (glow, glow); material 4 = (21, 4) additive; texture unit lookup 2-3 = (0, 1). base_sha256 pins the donor. Vertex array sliced to 20030..39560 (LOD1's run + the boss pieces; m2.vertices.slice): the picker merges weapon/shield meshes into the model as extra vertices, which the u16 skin lookup cannot reach past 65,535 on the full 86k array.",
     "base_sha256": "2553cdbd295c52555bf74d8e8fd97a9f36c8a540455fd9c1e0790e1ca101ca49",
     "geoset_labels": {
       "1": "chest / collar",
@@ -135,9 +135,8 @@
       },
       {
         "op": "m2.texture.add",
-        "type": 0,
+        "type": 13,
         "flags": 3,
-        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2BOSS_ARMOR.BLP",
         "expect_count": 3
       },
       {
@@ -187,7 +186,7 @@
         ]
       }
     ],
-    "result_sha256": "69aaa6ffa1fff019bd45e6ccca0b3be70f4939accd1c45e5b5e9494503eb6bf8"
+    "result_sha256": "5c763a1285fddf10d94b0baf551c829e9ee05d0c6b46f923a767ee6b664ae389"
   },
   "CREATURE/DESERTLASHERORCHID_MODULAR/DESERTLASHERORCHID_MODULAR00.SKIN": {
     "note": "I-396: the HD desert lasher orchid (patch-hd-creatures-mounts creature/desertlasherorchid, view 00) split by texture region so each part samples its own creature skin: stem/roots/vine arms on skin 1 (texture_variation_1), petals/leaves on skin 2, beak/jaw/teeth on skin 3. The donor is one submesh (geoset 0) whose 143 UV islands sit in separate texture areas; boxes test each island's UV centroid (checked against a 3D render: 0 misassigned islands). combo_add points each part's two batches (skin+oldglass3 env, skin alpha layer) at its pair in the texture lookup set by the .M2 recipe. skin.overlay adds the petal pattern group on the flower part (submesh 2): 101 plain (empty), 102 spots, 103 stripes; a display names one in creature_geoset_data (0x1/0x2/0x3).",
@@ -344,5 +343,315 @@
     "geoset_labels": {
       "1": "petal pattern"
     }
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_RED.BLP": {
+    "note": "I-392: the boss armour (dragonspawn2boss_armor_black: retail gold, the palette of retail dragonspawn2_armor_black) carried to red by the quadratic colour map fitted black -> red on the pixel-aligned dragonspawn2 armour skins (retail). Alpha untouched. The weights are the fit, rounded to 5 places.",
+    "copy_from": "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_BLACK.BLP",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            -0.33959,
+            2.2059,
+            9.53864
+          ],
+          [
+            594.32849,
+            -2.57113,
+            -173.57694
+          ],
+          [
+            -271.47366,
+            544.47857,
+            419.37736
+          ],
+          [
+            -77.94823,
+            -343.42754,
+            -180.27875
+          ],
+          [
+            -544.51356,
+            171.58035,
+            1080.23311
+          ],
+          [
+            2828.39685,
+            -1037.49949,
+            1179.42963
+          ],
+          [
+            3928.52166,
+            -1270.49767,
+            -1400.11357
+          ],
+          [
+            -184.74876,
+            -164.87697,
+            -3174.93006
+          ],
+          [
+            1431.87172,
+            -327.72846,
+            1257.33538
+          ],
+          [
+            -7226.98032,
+            2657.18434,
+            1176.83514
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "d703ee1531b042b01bcf0f97a83c41122f56260694c1da5c00e2859dea74e96d"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_BLUE.BLP": {
+    "note": "I-392: the boss armour (dragonspawn2boss_armor_black: retail gold, the palette of retail dragonspawn2_armor_black) carried to blue by the quadratic colour map fitted black -> blue on the pixel-aligned dragonspawn2 armour skins (retail). Alpha untouched. The weights are the fit, rounded to 5 places.",
+    "copy_from": "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_BLACK.BLP",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            -1.18027,
+            4.75974,
+            11.48276
+          ],
+          [
+            118.78004,
+            65.49532,
+            272.92172
+          ],
+          [
+            -9.38991,
+            157.26366,
+            -531.1326
+          ],
+          [
+            114.80838,
+            -65.96769,
+            613.01888
+          ],
+          [
+            -212.89812,
+            245.43552,
+            -115.75923
+          ],
+          [
+            -1476.5662,
+            3025.06228,
+            4024.14469
+          ],
+          [
+            -823.56606,
+            3880.15722,
+            5557.72316
+          ],
+          [
+            1461.45288,
+            -1201.72247,
+            -406.54195
+          ],
+          [
+            -1010.74757,
+            1284.1994,
+            538.88806
+          ],
+          [
+            1992.79827,
+            -6860.11565,
+            -9374.34105
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "a2624c55264a62d2b0ca362699cd65af8c1cface7503bf3f033c477eb5b42acf"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_BRONZE.BLP": {
+    "note": "I-392: the boss armour (dragonspawn2boss_armor_black: retail gold, the palette of retail dragonspawn2_armor_black) carried to bronze by the quadratic colour map fitted black -> bronze on the pixel-aligned dragonspawn2 armour skins (retail). Alpha untouched. The weights are the fit, rounded to 5 places.",
+    "copy_from": "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_BLACK.BLP",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            19.37939,
+            5.83464,
+            -8.68516
+          ],
+          [
+            -57.83142,
+            44.2259,
+            374.5448
+          ],
+          [
+            -653.4655,
+            -385.99151,
+            -575.65067
+          ],
+          [
+            1554.31638,
+            853.58739,
+            405.37125
+          ],
+          [
+            1527.23254,
+            707.44485,
+            -977.28057
+          ],
+          [
+            3817.04698,
+            3392.63961,
+            -1760.63427
+          ],
+          [
+            -607.02194,
+            1136.11455,
+            -725.06978
+          ],
+          [
+            -4455.07072,
+            -2700.16541,
+            2757.63573
+          ],
+          [
+            1105.98148,
+            1600.25159,
+            -1000.39553
+          ],
+          [
+            -2262.65988,
+            -4422.73517,
+            1700.6034
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "214fb3695cc84a13c6f6823c181c592aae43ed8642d33bff83b28a6f4d002117"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_GREEN.BLP": {
+    "note": "I-392: the boss armour (dragonspawn2boss_armor_black: retail gold, the palette of retail dragonspawn2_armor_black) carried to green by the quadratic colour map fitted black -> green on the pixel-aligned dragonspawn2 armour skins (retail). Alpha untouched. The weights are the fit, rounded to 5 places.",
+    "copy_from": "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_BLACK.BLP",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            -0.36888,
+            -2.38495,
+            -2.4299
+          ],
+          [
+            279.91927,
+            32.4348,
+            14.64018
+          ],
+          [
+            -154.93817,
+            -290.29308,
+            -166.29571
+          ],
+          [
+            182.88499,
+            608.57393,
+            376.43425
+          ],
+          [
+            -530.56901,
+            1471.90704,
+            623.785
+          ],
+          [
+            -4086.08108,
+            4779.79694,
+            1.01777
+          ],
+          [
+            -1928.68326,
+            2654.1427,
+            231.55648
+          ],
+          [
+            3443.74949,
+            -4290.81324,
+            -610.38244
+          ],
+          [
+            -3657.36796,
+            1331.78459,
+            -1307.81043
+          ],
+          [
+            6716.3542,
+            -5881.95663,
+            1253.09026
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "65f76eac59c40f9b055e4e35c9b0659490a64df4a4c7a9c0a7c12029baecd0a5"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_PURPLE.BLP": {
+    "note": "I-392: the boss armour (dragonspawn2boss_armor_black: retail gold, the palette of retail dragonspawn2_armor_black) carried to purple by the quadratic colour map fitted black -> purple on the pixel-aligned dragonspawn2 armour skins (patch-hd-everything (Maribeth) DragonSpawnOverlord2/dragonspawn2_armor_purple). Alpha untouched. The weights are the fit, rounded to 5 places.",
+    "copy_from": "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2BOSS_ARMOR_BLACK.BLP",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            0.02242,
+            -2.12224,
+            8.32807
+          ],
+          [
+            287.02058,
+            83.27667,
+            189.38375
+          ],
+          [
+            -567.50048,
+            8.82229,
+            -374.56492
+          ],
+          [
+            639.48155,
+            87.91756,
+            449.26034
+          ],
+          [
+            -377.27818,
+            -129.07288,
+            -59.24982
+          ],
+          [
+            114.20805,
+            -1102.04597,
+            3134.82816
+          ],
+          [
+            653.81433,
+            -602.16279,
+            4429.93462
+          ],
+          [
+            1195.71132,
+            1061.9605,
+            -303.54718
+          ],
+          [
+            -815.92219,
+            -804.97249,
+            292.89204
+          ],
+          [
+            -985.24246,
+            1514.06623,
+            -7313.51833
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "c0f090d388ed82f72aa3bac5603b029aea2e3986597962df237a6e26bd81b665"
   }
 }

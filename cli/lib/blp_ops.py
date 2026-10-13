@@ -343,6 +343,41 @@ def _op_alpha_bleed(data: bytearray, cfg: Dict[str, Any]) -> str:
             f"across {levels} mip level(s), alpha untouched")
 
 
+def _op_recolour(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """blp.recolour {"weights": [[r, g, b] x 10]}: every texel's RGB through a quadratic colour map,
+    out = [1, r, g, b, r², g², b², rg, rb, gb] . weights (channels 0..1 in, 0..255 out, clipped).
+    Colour halves are re-encoded, DXT3/DXT5 alpha halves copied byte for byte, so alpha is exact.
+    The weights are fitted on two pixel-aligned colours of one texture (I-392: retail dragonspawn2
+    armour black -> red carries the boss armour, whose palette is the black set's, to red)."""
+    w = cfg['weights']
+    if len(w) != 10 or any(len(r) != 3 for r in w):
+        raise BlpOpError("blp.recolour needs 10 x 3 weights")
+    hdr = BlpHeader(data)
+    if hdr.color_type != COLOR_DXT or hdr.alpha_type not in (ALPHA_DXT3, ALPHA_DXT5):
+        raise BlpOpError(f"blp.recolour supports DXT3/DXT5 only (colorType {hdr.color_type}, alphaType {hdr.alpha_type})")
+    cache: Dict[Tuple[int, int, int], Tuple[int, int, int]] = {}
+
+    def remap(c: Tuple[int, int, int]) -> Tuple[int, int, int]:
+        if c not in cache:
+            r, g, b = (v / 255.0 for v in c)
+            f = (1.0, r, g, b, r * r, g * g, b * b, r * g, r * b, g * b)
+            cache[c] = tuple(max(0, min(255, int(round(sum(f[i] * w[i][k] for i in range(10)))))) for k in range(3))
+        return cache[c]
+    blocks = levels = 0
+    for _lvl, offset, size, wd, ht in hdr.levels():
+        nblocks = max(1, wd // 4) * max(1, ht // 4)
+        if nblocks * 16 > size:
+            break
+        levels += 1
+        for bi in range(nblocks):
+            base = offset + bi * 16 + 8
+            texels = [remap(c) for c in _decode_colour_block(bytes(data[base:base + 8]), four_colour_only=True)]
+            data[base:base + 8] = _encode_colour_block(texels)
+            blocks += 1
+    return f"blp.recolour: {blocks} blocks over {levels} mip level(s), alpha untouched"
+
+
 OPS: Dict[str, Any] = {
     'blp.alpha_bleed': _op_alpha_bleed,
+    'blp.recolour': _op_recolour,
 }

@@ -2,6 +2,7 @@
 -- Copy it in the Display editor (Save as new display) for each look.
 -- creature_geoset_data: nibble k = group k+1. Groups: 1 chest, 2 waist, 3 horns, 4 ears/jaw,
 -- 5 helmet, 6 left shoulder, 7 right shoulder, 8 bracers/gauntlets/boots.
+-- Skin 3 colours the boss pieces 508 / 608 / 708 (dragonspawn2boss_armor_<black (retail gold)|red|blue|bronze|green|purple|nexus|dark>).
 -- 2004291879 (0x77771127) = chest 107, waist 202, horns 301, ears 401, helmet 507, shoulders 607 / 707, limbs 807.
 
 DELETE FROM creaturedisplayinfo WHERE id = 900402;
@@ -14,7 +15,7 @@ INSERT INTO creaturedisplayinfo SET
     creature_model_alpha = 255,
     texture_variation_1 = 'dragonspawn2_body_red',
     texture_variation_2 = 'dragonspawn2_armor_red',
-    texture_variation_3 = '',
+    texture_variation_3 = 'dragonspawn2boss_armor_red',
     portrait_texture_name = '',
     blood_level = -1,
     blood_id = 0,
