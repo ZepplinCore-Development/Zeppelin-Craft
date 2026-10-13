@@ -14,6 +14,7 @@ Used by the picker (viewer_v2.display_entries) and the curated build (hd_curate_
 see the same rows.
 """
 import re
+import collections
 from collections import Counter
 from typing import Dict, List, Tuple
 
@@ -198,7 +199,13 @@ def modular_variants(result: dict) -> Dict[str, Dict[int, Dict[str, dict]]]:
                 continue                                   # no display of its own to copy a look from
             folder = path.rsplit('/', 1)[0]
             skins = {p.rsplit('/', 1)[1][:-4] for p in s.assets if p.startswith(folder + '/') and p.endswith('.blp')}
-            colours = sorted({n.rsplit('_', 1)[1] for n in skins if '_' in n}, key=lambda c: -len(c))
+            # a colour word is a last token several skin families share (body_red, armor_red,
+            # boss_armor_red); `body` / `armor` in dragonspawn2darkshade_body are part names, not colours
+            fam = collections.defaultdict(set)
+            for n in skins:
+                if '_' in n:
+                    fam[n.rsplit('_', 1)[1]].add(n.rsplit('_', 1)[0])
+            colours = sorted((c for c, f in fam.items() if len(f) >= 2), key=lambda c: -len(c))
             stock_on = {p for p in {_path(stock_cmd, r) for r in stock_cdi.values()} if p}
             pd, pn = parent.rsplit('/', 1)                 # by-name remasters extend the stock dir and stem
             hit = {p for p in stock_on if pd.startswith(p.rsplit('/', 1)[0]) and pn.startswith(p.rsplit('/', 1)[1][:-3])
