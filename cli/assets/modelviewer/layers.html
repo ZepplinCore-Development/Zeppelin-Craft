@@ -29,7 +29,13 @@
   .tile .d { color: var(--muted); font-size: 12px; }
   .layerbar { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
   .layerbar b { font-size: 15px; }
-  #menu { font-size: 18px; line-height: 1; padding: 6px 10px; }
+  #menu, #homebtn { font-size: 18px; line-height: 1; padding: 6px 10px; }
+  /* desktop: the hamburger folds the list away to a strip holding the two buttons */
+  @media (min-width: 761px) {
+    body.sidefold .app { grid-template-columns: 58px 1fr; }
+    body.sidefold aside .drawer, body.sidefold #layername { display: none; }
+    body.sidefold .layerbar { flex-direction: column; padding: 10px 6px; }
+  }
   #listtoggle { display: none; margin-left: auto; }
   .menu { display: grid; gap: 4px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
   .menu[hidden], [hidden] { display: none !important; }   /* class display rules (.simw flex) must not undo hidden */
@@ -175,7 +181,8 @@
 <div class="app">
   <aside id="side">
     <div class="layerbar">
-      <button id="menu" title="All layers (home)" aria-label="Back to the layer list">☰</button>
+      <button id="menu" title="Hide / show the list" aria-label="Hide or show the list">☰</button>
+      <button id="homebtn" title="All layers (home)" aria-label="Back to the layer list">⌂</button>
       <b id="layername">Creatures</b>
       <button id="listtoggle" title="Show / hide the model list">List</button>
     </div>
@@ -2625,7 +2632,16 @@ $('tiles').onclick = (ev) => { const b = ev.target.closest('.tile'); if (b) open
 addEventListener('popstate', () => { const u = new URLSearchParams(location.search), t = u.get('layer');
   t === 'custom' && u.get('display') ? openCustom_(u.get('display'), false)
     : t === 'display' && u.get('display') ? openDisplay(u.get('display'), false) : t ? openLayer(t, false) : showHome(false); });
-$('menu').onclick = () => showHome();
+$('homebtn').onclick = () => showHome();
+// the hamburger hides / shows the list: phones open the drawer, desktop folds the side bar (remembered)
+const phone = () => matchMedia('(max-width: 760px)').matches;
+try { if (localStorage.getItem('mv.sidefold') === '1') document.body.classList.add('sidefold'); } catch (e) {}
+$('menu').onclick = () => {
+  if (phone()) { $('side').classList.toggle('open'); return; }
+  const on = document.body.classList.toggle('sidefold');
+  try { localStorage.setItem('mv.sidefold', on ? '1' : '0'); } catch (e) {}
+  fitPanes();
+};
 $('listtoggle').onclick = () => { $('side').classList.toggle('open'); };
 if (innerWidth <= 760) $('side').classList.add('open');              // phones start on the list
 // the filter each tab was last left on (All, Review...): coming back to a tab - e.g. a saved display edit
