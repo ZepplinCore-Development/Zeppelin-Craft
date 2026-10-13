@@ -45,6 +45,16 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       combo_add, so the model's texture lookup must hold each part's (skin, layer...) run at that
       offset (m2.texlookup.set).
 
+  {"op": "skin.overlay", "submesh": 2, "expect_id": 0,
+   "variants": [{"id": 101}, {"id": 102, "batch": {"material": 4, "texcombo": 6}}, ...]}
+      Selectable layers drawn over one submesh (I-396 lasher petal spots / stripes): each variant
+      is a new submesh on the SAME index range (same vertices, so the same depth; a blended pass
+      over it draws like a material layer) with one single-texture batch built from the fields
+      given (material, texcombo, coord, weight, transform, priority, flags, shader). A variant
+      without "batch" is an empty submesh: the "no layer" choice a display's
+      creature_geoset_data can name. Variant ids should share one geoset group (101/102/103),
+      so a display picks exactly one.
+
 """
 import collections
 import struct
@@ -442,7 +452,36 @@ def _op_import(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     return f'import: {" ".join(made)}'
 
 
+def _op_overlay(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    """skin.overlay: see the module doc."""
+    j = int(cfg['submesh'])
+    if j >= len(sk.subs):
+        raise ValueError(f'skin.overlay: submesh {j} but the skin has {len(sk.subs)}')
+    src = sk.sub(j)
+    if 'expect_id' in cfg and src['id'] != int(cfg['expect_id']):
+        raise ValueError(f'skin.overlay: submesh {j} is geoset {src["id"]}, expected {cfg["expect_id"]} - refusing')
+    made = []
+    for v in cfg['variants']:
+        f = list(struct.unpack_from('<10H', sk.subs[j]))
+        f[0] = int(v['id'])
+        b = v.get('batch')
+        if not b:                                            # the empty "no layer" choice
+            f[3], f[1], f[4], f[5] = 0, 0, len(sk.idx) & 0xFFFF, 0
+        raw = bytearray(sk.subs[j])
+        struct.pack_into('<10H', raw, 0, *f)
+        sk.subs.append(raw)
+        si = len(sk.subs) - 1
+        if b:
+            sk.batches.append(bytearray(struct.pack(
+                '<BbHHHhHHHHHHH', int(b.get('flags', 16)), int(b.get('priority', 0)), int(b.get('shader', 0)),
+                si, si, -1, int(b['material']), 0, 1, int(b['texcombo']), int(b.get('coord', 0)),
+                int(b.get('weight', 0)), int(b.get('transform', 0)))))
+        made.append(f'{v["id"]}' + (f' (material {b["material"]}, combo {b["texcombo"]})' if b else ' (empty)'))
+    return f'overlay on submesh {j}: ' + ', '.join(made)
+
+
 OPS = {
+    'skin.overlay': _op_overlay,
     'skin.lod_rebase': _op_lod_rebase,
     'skin.geoset.split': _op_geoset_split,
     'skin.uv_split': _op_uv_split,
