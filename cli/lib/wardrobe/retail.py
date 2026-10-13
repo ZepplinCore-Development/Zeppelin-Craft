@@ -120,10 +120,12 @@ class RetailData:
         if not p.exists() or p.stat().st_size == 0:
             # the shared retail store first (lib/retail: zep model retail-store), then wago.tools
             from .. import retail as rstore
-            raw = rstore.CACHE / 'raw' / str(fdid)
-            if raw.exists() and raw.stat().st_size:
-                p.write_bytes(raw.read_bytes())
-                return p
+            from .. import casc_store
+            # the local CASC store first (full quality, models too), then the retail raw store
+            for raw in (casc_store.path(fdid), rstore.CACHE / 'raw' / str(fdid)):
+                if raw is not None and raw.exists() and raw.stat().st_size:
+                    p.write_bytes(raw.read_bytes())
+                    return p
             url = f'https://wago.tools/api/casc/{fdid}?version={self.build}'
             r = subprocess.run(['curl', '-s', '-f', '-m', '300', '-o', str(p), url])
             if r.returncode != 0 or not p.exists() or not p.stat().st_size:
