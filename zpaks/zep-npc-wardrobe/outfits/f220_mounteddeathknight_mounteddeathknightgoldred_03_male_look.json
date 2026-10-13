@@ -13,11 +13,18 @@
         "item": 135732,
         "mod": 0
       },
+      "belt": {
+        "item": 14898,
+        "mod": 0
+      },
       "boots": {
         "item": 207202,
         "mod": 153
       },
-      "wrists": 23537
+      "gloves": {
+        "item": 201589,
+        "mod": 159
+      }
     }
   },
   "appearance": {

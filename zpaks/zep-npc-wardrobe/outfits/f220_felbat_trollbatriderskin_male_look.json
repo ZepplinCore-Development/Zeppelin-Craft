@@ -17,21 +17,14 @@
         "item": 12108,
         "mod": 0
       },
-      "legs": {
-        "item": 14748,
-        "mod": 0
-      },
+      "legs": 38278,
       "belt": {
         "item": 14746,
         "mod": 0
       },
-      "boots": {
-        "item": 14560,
-        "mod": 0
-      },
       "gloves": {
-        "item": 160635,
-        "mod": 3
+        "item": 225126,
+        "mod": 0
       }
     }
   },

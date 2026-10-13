@@ -397,7 +397,7 @@ class Outfits:
         look = [r for r in self.lookalike(skin_file, race, sex) if r[0] not in have]
         return [r for r in rows if r[1] or not look] + look
 
-    LOOK_VERSION = 2         # bump when the rules change: cached results are recomputed
+    LOOK_VERSION = 3         # bump when the rules change: cached results are recomputed
 
     def lookalike(self, skin_file, race: str, sex: str) -> List[list]:
         """The item outfit that looks most like a baked character skin (classic layout, any size):
@@ -581,12 +581,25 @@ class Outfits:
                 skins.append((p, lab64(a.astype(np.float32))))
         if not skins:
             return []
-        tf = tgt[face].mean(0)
-        cur = min(skins, key=lambda x: float(np.linalg.norm(x[1][face].mean(0) - tf)))[1].copy()
+        # median per-pixel distance over the face: a hood or mask over most of it (death knights) must
+        # not drag the mean colour away from the skin that shows
+        cur = min(skins, key=lambda x: float(np.median(np.linalg.norm(x[1][face] - tgt[face], axis=-1))))[1].copy()
         # 2. the search pool (cached per sex)
         stk, by_slot, arr = self._look_pool(sex)
+        G = 0.7                                         # weight of the brightness-gradient (detail) term
+
+        def grad_err(img, m, t):
+            # |d(L) - d(L target)| along x and y: plate edges and rivets vs flat cloth of the same colour
+            L, Lt = img[..., 0], t[..., 0]
+            gx = np.abs((L[..., :, 1:] - L[..., :, :-1]) - (Lt[:, 1:] - Lt[:, :-1])) * m[..., :, 1:]
+            gy = np.abs((L[..., 1:, :] - L[..., :-1, :]) - (Lt[1:, :] - Lt[:-1, :])) * m[..., 1:, :]
+            return gx.reshape(gx.shape[0], -1).sum(1) + gy.reshape(gy.shape[0], -1).sum(1) if L.ndim == 3 else gx.sum() + gy.sum()
+
         def err(img):
-            return float(np.linalg.norm(img - tgt, axis=-1)[body].sum())
+            e = float(np.linalg.norm(img - tgt, axis=-1)[body].sum())
+            for f, ((x, y, w, h), _, _, _) in stk.items():
+                e += G * float(grad_err(img[y:y + h, x:x + w], body[y:y + h, x:x + w], tgt[y:y + h, x:x + w]))
+            return e
 
         def paint(img, regs):
             img = img.copy()
@@ -614,10 +627,13 @@ class Outfits:
                     use = np.unique(idx[idx >= 0])
                     t, b = tgt[y:y + h, x:x + w], base[y:y + h, x:x + w]
                     cv = cov[use][..., None]
-                    new = np.linalg.norm(b[None] * (1 - cv) + lab[use] * cv - t[None], axis=-1)
-                    m = body[y:y + h, x:x + w][None]
+                    comp = b[None] * (1 - cv) + lab[use] * cv
+                    new = np.linalg.norm(comp - t[None], axis=-1)
+                    mb = body[y:y + h, x:x + w]
+                    m = mb[None]
                     dl = np.zeros(len(lab), dtype=np.float64)
-                    dl[use] = ((new - np.linalg.norm(b - t, axis=-1)[None]) * m).reshape(len(use), -1).sum(1)
+                    dl[use] = ((new - np.linalg.norm(b - t, axis=-1)[None]) * m).reshape(len(use), -1).sum(1) \
+                        + G * (grad_err(comp, mb, t) - grad_err(b, mb, t))
                     d += np.where(idx >= 0, dl[np.maximum(idx, 0)], 0.0)
                 j = int(d.argmin())
                 # kept only if it removes at least 2% of the slot-free composite's error; a tabard
@@ -627,6 +643,11 @@ class Outfits:
                 else:
                     chosen.pop(slot, None)
         e0 = err(bare)
+        final = bare
+        for sl in ORDER:
+            if sl in chosen:
+                final = paint(final, chosen[sl][1])
+        self._last_look = (tgt, final)                  # debugging: the target and composite (64-scale Lab)
         out = []
         for sl in ORDER:
             if sl in chosen:

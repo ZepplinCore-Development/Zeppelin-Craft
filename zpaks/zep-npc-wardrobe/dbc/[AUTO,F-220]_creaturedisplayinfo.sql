@@ -160,14 +160,14 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_gnomespidertank_pilotarmor_yellow_01_male_fake: model/sound of stock display 30331
+-- f220_gnomespidertank_pilotarmor_yellow_01_male_fake: model/sound of stock display 1889
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900508;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900508,
   `model_id` = 182,
-  `sound_id` = 3076,
+  `sound_id` = 0,
   `extended_display_info_id` = 900508,
-  `creature_model_scale` = 1.2000000476837158,
+  `creature_model_scale` = 1.0,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
   `texture_variation_2` = '',
@@ -175,19 +175,19 @@ INSERT INTO `creaturedisplayinfo` SET
   `portrait_texture_name` = '',
   `blood_level` = 1,
   `blood_id` = 0,
-  `npc_sound_id` = 44,
+  `npc_sound_id` = 0,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_gnomespidertank_pilotarmor_yellow_01_male_look: model/sound of stock display 30331
+-- f220_gnomespidertank_pilotarmor_yellow_01_male_look: model/sound of stock display 1889
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900509;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900509,
   `model_id` = 182,
-  `sound_id` = 3076,
+  `sound_id` = 0,
   `extended_display_info_id` = 900509,
-  `creature_model_scale` = 1.2000000476837158,
+  `creature_model_scale` = 1.0,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
   `texture_variation_2` = '',
@@ -195,7 +195,7 @@ INSERT INTO `creaturedisplayinfo` SET
   `portrait_texture_name` = '',
   `blood_level` = 1,
   `blood_id` = 0,
-  `npc_sound_id` = 44,
+  `npc_sound_id` = 0,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
@@ -240,7 +240,7 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_horderider_leather_horde_a_02_male_fake: model/sound of stock display 1371
+-- f220_horderider_leather_horde_a_02_male_fake: model/sound of stock display 1314
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900512;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900512,
@@ -255,12 +255,12 @@ INSERT INTO `creaturedisplayinfo` SET
   `portrait_texture_name` = '',
   `blood_level` = 1,
   `blood_id` = 0,
-  `npc_sound_id` = 128,
+  `npc_sound_id` = 126,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_horderider_leather_horde_a_02_male_look: model/sound of stock display 1371
+-- f220_horderider_leather_horde_a_02_male_look: model/sound of stock display 1314
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900513;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900513,
@@ -275,7 +275,7 @@ INSERT INTO `creaturedisplayinfo` SET
   `portrait_texture_name` = '',
   `blood_level` = 1,
   `blood_id` = 0,
-  `npc_sound_id` = 128,
+  `npc_sound_id` = 126,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
@@ -360,14 +360,14 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_mounteddeathknight_mounteddeathknightgoldred_03_female_fake: model/sound of stock display 27809
+-- f220_mounteddeathknight_mounteddeathknightgoldred_03_female_fake: model/sound of stock display 25745
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900518;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900518,
   `model_id` = 50,
   `sound_id` = 0,
   `extended_display_info_id` = 900518,
-  `creature_model_scale` = 1.2000000476837158,
+  `creature_model_scale` = 1.100000023841858,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
   `texture_variation_2` = '',
@@ -375,19 +375,19 @@ INSERT INTO `creaturedisplayinfo` SET
   `portrait_texture_name` = '',
   `blood_level` = 1,
   `blood_id` = 0,
-  `npc_sound_id` = 0,
+  `npc_sound_id` = 296,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_mounteddeathknight_mounteddeathknightgoldred_03_female_look: model/sound of stock display 27809
+-- f220_mounteddeathknight_mounteddeathknightgoldred_03_female_look: model/sound of stock display 25745
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900519;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900519,
   `model_id` = 50,
   `sound_id` = 0,
   `extended_display_info_id` = 900519,
-  `creature_model_scale` = 1.2000000476837158,
+  `creature_model_scale` = 1.100000023841858,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
   `texture_variation_2` = '',
@@ -395,7 +395,7 @@ INSERT INTO `creaturedisplayinfo` SET
   `portrait_texture_name` = '',
   `blood_level` = 1,
   `blood_id` = 0,
-  `npc_sound_id` = 0,
+  `npc_sound_id` = 296,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
@@ -480,42 +480,42 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_mounteddeathknight_mounteddeathknightwhite_03_male_fake: model/sound of stock display 24163
+-- f220_mounteddeathknight_mounteddeathknightwhite_03_male_fake: model/sound of stock display 25500
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900524;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900524,
   `model_id` = 49,
   `sound_id` = 0,
   `extended_display_info_id` = 900524,
-  `creature_model_scale` = 1.350000023841858,
+  `creature_model_scale` = 1.0,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
   `texture_variation_2` = '',
   `texture_variation_3` = '',
   `portrait_texture_name` = '',
-  `blood_level` = -1,
+  `blood_level` = 1,
   `blood_id` = 0,
-  `npc_sound_id` = 279,
+  `npc_sound_id` = 278,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_mounteddeathknight_mounteddeathknightwhite_03_male_look: model/sound of stock display 24163
+-- f220_mounteddeathknight_mounteddeathknightwhite_03_male_look: model/sound of stock display 25500
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900525;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900525,
   `model_id` = 49,
   `sound_id` = 0,
   `extended_display_info_id` = 900525,
-  `creature_model_scale` = 1.350000023841858,
+  `creature_model_scale` = 1.0,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
   `texture_variation_2` = '',
   `texture_variation_3` = '',
   `portrait_texture_name` = '',
-  `blood_level` = -1,
+  `blood_level` = 1,
   `blood_id` = 0,
-  `npc_sound_id` = 279,
+  `npc_sound_id` = 278,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
@@ -560,42 +560,42 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_mountedknight_mountedknightblue_02_male_fake: model/sound of stock display 24163
+-- f220_mountedknight_mountedknightblue_02_male_fake: model/sound of stock display 1664
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900528;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900528,
   `model_id` = 49,
   `sound_id` = 0,
   `extended_display_info_id` = 900528,
-  `creature_model_scale` = 1.350000023841858,
+  `creature_model_scale` = 1.0,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
   `texture_variation_2` = '',
   `texture_variation_3` = '',
   `portrait_texture_name` = '',
-  `blood_level` = -1,
+  `blood_level` = 0,
   `blood_id` = 0,
-  `npc_sound_id` = 279,
+  `npc_sound_id` = 49,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_mountedknight_mountedknightblue_02_male_look: model/sound of stock display 24163
+-- f220_mountedknight_mountedknightblue_02_male_look: model/sound of stock display 1664
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900529;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900529,
   `model_id` = 49,
   `sound_id` = 0,
   `extended_display_info_id` = 900529,
-  `creature_model_scale` = 1.350000023841858,
+  `creature_model_scale` = 1.0,
   `creature_model_alpha` = 255,
   `texture_variation_1` = '',
   `texture_variation_2` = '',
   `texture_variation_3` = '',
   `portrait_texture_name` = '',
-  `blood_level` = -1,
+  `blood_level` = 0,
   `blood_id` = 0,
-  `npc_sound_id` = 279,
+  `npc_sound_id` = 49,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;

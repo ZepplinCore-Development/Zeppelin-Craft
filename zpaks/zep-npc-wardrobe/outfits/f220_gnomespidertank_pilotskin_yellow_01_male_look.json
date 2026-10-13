@@ -9,10 +9,7 @@
   "_comment": "F-220 look-alike rider for creature/gnomespidertank/pilotskin_yellow_01.blp (displays [5926, 6890, 6891, 6915, 6980, 16970, 18638, 21732, 21733, 21734]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "shirt": {
-        "item": 233989,
-        "mod": 0
-      },
+      "shirt": 6096,
       "chest": {
         "item": 2112,
         "mod": 0
@@ -26,7 +23,7 @@
         "mod": 0
       },
       "gloves": {
-        "item": 1944,
+        "item": 24704,
         "mod": 0
       }
     }
