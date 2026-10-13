@@ -23,7 +23,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900500_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900500.blp';
 
 -- f220_band_taurenmaleskin_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900501;
@@ -73,7 +73,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900502_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900502.blp';
 
 -- f220_felbat_trollbatriderskin_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900503;
@@ -123,7 +123,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900504_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900504.blp';
 
 -- f220_felorcnetherdrake_felorcmaledrakeriderskin_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900505;
@@ -173,7 +173,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900506_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900506.blp';
 
 -- f220_gnomerocketcar_gnomepounderpilotskin_yellow_01_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900507;
@@ -223,7 +223,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900508_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900508.blp';
 
 -- f220_gnomespidertank_pilotarmor_yellow_01_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900509;
@@ -273,7 +273,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900510_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900510.blp';
 
 -- f220_gnomespidertank_pilotskin_yellow_01_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900511;
@@ -323,7 +323,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900512_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900512.blp';
 
 -- f220_horderider_leather_horde_a_02_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900513;
@@ -373,7 +373,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900514_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900514.blp';
 
 -- f220_mounteddeathknight_mounteddeathknightblack_03_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900515;
@@ -423,7 +423,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900516_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900516.blp';
 
 -- f220_mounteddeathknight_mounteddeathknightdarkblueblack_03_female_look: female
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900517;
@@ -473,7 +473,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900518_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900518.blp';
 
 -- f220_mounteddeathknight_mounteddeathknightgoldred_03_female_look: female
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900519;
@@ -523,7 +523,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900520_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900520.blp';
 
 -- f220_mounteddeathknight_mounteddeathknightgoldred_03_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900521;
@@ -573,7 +573,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900522_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900522.blp';
 
 -- f220_mounteddeathknight_mounteddeathknightgreengold_03_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900523;
@@ -623,7 +623,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900524_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900524.blp';
 
 -- f220_mounteddeathknight_mounteddeathknightwhite_03_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900525;
@@ -673,7 +673,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900526_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900526.blp';
 
 -- f220_mounteddemonknight_mounteddemonknightblack_02_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900527;
@@ -723,7 +723,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900528_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900528.blp';
 
 -- f220_mountedknight_mountedknightblue_02_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900529;
@@ -773,7 +773,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900530_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900530.blp';
 
 -- f220_orcdrakerider_orcdrakeriderskin_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900531;
@@ -823,7 +823,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `tabard_id` = 0,
   `cape_id` = 0,
   `can_equip` = 0,
-  `texture` = 'CreatureDisplayExtra-900532_HD.blp';
+  `texture` = 'CreatureDisplayExtra-900532.blp';
 
 -- f220_terongorefiend_terongorefiend1_male_look: male
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 900533;

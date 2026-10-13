@@ -2059,11 +2059,12 @@ async function bakeCards(e, c) {
   (sp.items || []).forEach(it => [it.m, it.m.replace(/\.m2$/, '00.skin'), it.t].forEach(k => { if (k && smap[k]) base[k] = smap[k]; }));
   document.querySelectorAll('#panes .pane:not([data-opt="custom"])').forEach(x => x.remove());   // these cards ARE the options
   const shipLabel = shipFile ? label(shipFile.sources) : 'stock';
-  sp.bakes.forEach(([src, cas, size, fits, ctex]) => {
+  sp.bakes.forEach(([src, cas, size, fits, ctex, classic]) => {
     // each source as it ships: ITS model file wearing ITS bake (stock = the classic model + stock bake)
     // a zpak that ships only bakes (zep-npc-wardrobe: no character model of its own) wears them on the
     // model file they fit, the shipped one first (else its card fell back to the classic model, unbaked: black)
-    const file = src === 'stock' ? null : M && (M.panes.find(p => p.sources.includes(src))
+    // a classic-layout bake from a zpak (F-220 fake riders: the old rider skin) goes on the classic model
+    const file = src === 'stock' || classic ? null : M && (M.panes.find(p => p.sources.includes(src))
       || (shipFile && fits.includes(shipFile.option) ? shipFile : null) || M.panes.find(p => fits.includes(p.option)));
     // and ITS hair / extra skin: a pack's mesh is re-UV'd for its own files (I-397 black tusks)
     // slot 1 = the bake; our own displays' bakes ship only in a zpak, so the stock reference pane has none
@@ -2071,7 +2072,8 @@ async function bakeCards(e, c) {
     Object.entries(ctex || {}).forEach(([slot, c]) => { tex[slot] = casFid(c); ovr['fdid/' + tex[slot]] = c; });
     const p = file ? { ...file, display: e.display, tex, mesh: sp.mesh, items: sp.items, scale: sp.scale, camera: sp.camera,
                        _ovr: ovr, _bake: src }
-                   : { ...sp, display: e.display, _bake: 'stock' };
+                   : src === 'stock' ? { ...sp, display: e.display, _bake: 'stock' }
+                   : { ...sp, display: e.display, tex, _ovr: ovr, _bake: src };
     // one file of the model ships for every display: a card is choosable when its file is the model pick's
     const usable = file ? !!shipFile && file.option === shipFile.option && fits.includes(key) : !!shipFile && shipFile.sources.includes('stock');
     // chosen: the explicit pick, else the default - unless another option (our edit) is the pick
@@ -2079,7 +2081,7 @@ async function bakeCards(e, c) {
     const div = document.createElement('div');
     div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.bake = src;
     div.innerHTML = `<iframe src="${paneUrl(p)}" loading="lazy" title="${esc(label([src]))}"></iframe>
-      <div class="info"><div class="h"><b>${esc(label([src]))}</b>${usable && src === def ? '<span class="chip ok" title="What curate ships unless you pick another: the largest bake that fits the model file the model pick ships">default</span>' : ''}${usable ? '' : `<span class="chip warn" title="One file of ${esc(sp.model.split('/').pop())} ships for every display (the model pick: ${esc(shipLabel)}). This card's bake is painted for ${src === 'stock' ? 'the classic model' : esc(label([src])) + '\'s file'}, so it can only ship with that file.">${src === 'stock' ? 'needs the classic model file' : `needs ${esc(label([src]))}'s model file`}</span>`}</div>
+      <div class="info"><div class="h"><b>${esc(label([src]))}</b>${usable && src === def ? '<span class="chip ok" title="What curate ships unless you pick another: the largest bake that fits the model file the model pick ships">default</span>' : ''}${usable ? '' : `<span class="chip warn" title="One file of ${esc(sp.model.split('/').pop())} ships for every display (the model pick: ${esc(shipLabel)}). This card's bake is painted for ${src === 'stock' || classic ? 'the classic model' : esc(label([src])) + '\'s file'}, so it can only ship with that file.">${src === 'stock' || classic ? 'needs the classic model file' : `needs ${esc(label([src]))}'s model file`}</span>`}</div>
       <div class="stats">${paneStatsLine(file || sp)} · ${mb(size)} bake</div>
       <div class="stats">model: ${esc(sp.model)}${file ? '' : ' (classic)'}</div>
       ${outfitBox(sp)}${provBox(file || sp)}

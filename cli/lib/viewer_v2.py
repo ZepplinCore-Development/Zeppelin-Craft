@@ -2026,7 +2026,8 @@ def display_bakes(dep: 'Deployer', mesh: str, ext: int) -> List[list]:
             continue
         topt = ai.Option('b', [src], {bp: f}, f.stat().st_size)
         fits = [o.key for o in mopts if dep.ix.compatible(bp, topt, mesh, o)]
-        out.append([src, dep.store.put(f), f.stat().st_size, fits, _bake_char_tex(dep, src, x)])
+        # 6th: a classic-layout bake (no _HD in the name) - drawn on the classic model (F-220 fake riders)
+        out.append([src, dep.store.put(f), f.stat().st_size, fits, _bake_char_tex(dep, src, x), not bp.endswith('_hd.blp')])
     return out
 
 

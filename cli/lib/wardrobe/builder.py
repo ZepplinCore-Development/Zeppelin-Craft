@@ -7,7 +7,8 @@ regenerated, so the emitted `[AUTO,<task>]` files always reflect the manifests.
 Manifest kinds:
   unique   one appearance, one display (a named one-off NPC). "appearance" may name a
            "skin_texture" (a stock client texture in the classic character layout, e.g. a fused
-           rider's skin, F-220): the bake is that texture scaled to 512 instead of a composite
+           rider's skin, F-220): the bake is that texture itself, under the classic bake name (no
+           _HD) - it is painted for the classic character model, not the HD one
   uniform  up to MAX_VARIANTS appearances of one outfit (a guard force); appearances
            are explicit or drawn from the stock NPC appearances that ship an HD bake
 """
@@ -439,11 +440,13 @@ class WardrobeBuilder:
             f = FileResolver(self.resolver.roots[-1:], subdirs=('creature',)).find(v['skin_texture'])
             if f is None:
                 raise ValueError(f'{name}: skin_texture {v["skin_texture"]} not found')
-            img = Image.open(f).convert('RGBA').resize((512, 512), Image.LANCZOS)
+            # a classic-layout bake for the CLASSIC character model: the classic name (no _HD), native 256
+            img = Image.open(f).convert('RGBA').resize((256, 256), Image.LANCZOS)
+            bake = f'CreatureDisplayExtra-{did}.blp'
         else:
             layers = {s: [(r, p) for (r, p) in i.layers.get(g, [])] for s, i in worn.items() if s in BODY_SLOTS}
             img, log = compose(v, self._charsection(race, g), layers, self.resolver)
-        bake = f'CreatureDisplayExtra-{did}_HD.blp'
+            bake = f'CreatureDisplayExtra-{did}_HD.blp'
         tmp = self.retail.dir / 'out' / bake
         tmp.parent.mkdir(exist_ok=True)
         write_blp_dxt(img, tmp)
