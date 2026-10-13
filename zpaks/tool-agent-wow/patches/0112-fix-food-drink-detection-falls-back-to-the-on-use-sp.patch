@@ -1,0 +1,40 @@
+From 2dbba4e98e7fa32c3f619def2128dedc4a7fb9a7 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 10:00:31 +0000
+Subject: [PATCH] fix: food/drink detection falls back to the on-use spell's
+ category (F-219)
+
+Kezan's hardtack and dew (ported) have spellcategory_1 0; their spells (Food
+433, Drink 430) carry 11/59 - rest() never saw them as food or drink.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 318e118..b4d65c6 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1287,8 +1287,15 @@ class Runner:
+         """(class, subclass, on-use spell, spell category) of item entries, cached."""
+         want = [e for e in set(entries) if e and e not in self.w.item_info]
+         if want:
+-            for r in sql(f"SELECT entry,class,subclass,spellid_1 sp,spellcategory_1 cat FROM item_template WHERE entry IN ({inlist(want)})"):
+-                self.w.item_info[int(r["entry"])] = (int(r["class"]), int(r["subclass"]), int(r["sp"]), int(r["cat"]))
++            rows = sql(f"SELECT entry,class,subclass,spellid_1 sp,spellcategory_1 cat FROM item_template WHERE entry IN ({inlist(want)})")
++            # ported items can lack the category (Kezan's hardtack and dew: 0) - the on-use spell has it
++            # (Food 433 = 11, Drink 430 = 59); without it rest() never saw them as food or drink
++            blank = {int(r["sp"]) for r in rows if int(r["cat"]) == 0 and int(r["sp"]) > 0}
++            spcat = {int(r["id"]): int(r["category"]) for r in dbc(
++                f"SELECT id,category FROM spell WHERE id IN ({inlist(blank)})")} if blank else {}
++            for r in rows:
++                cat = int(r["cat"]) or spcat.get(int(r["sp"]), 0)
++                self.w.item_info[int(r["entry"])] = (int(r["class"]), int(r["subclass"]), int(r["sp"]), cat)
+         return {e: self.w.item_info.get(e) for e in entries}
+ 
+     def bags(self):
+-- 
+2.34.1
+
