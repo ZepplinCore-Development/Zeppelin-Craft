@@ -1,0 +1,201 @@
+From 758c3501c1f06ebefb576a7e477bc9ce706d435f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 12:58:33 +0000
+Subject: [PATCH] feat: scorecard.py - per-bot KPIs from the fleet logs (F-219)
+
+Level, quests, kills, deaths (/h; defend, 2+ mob, entered below 50 %),
+repairs (trips, copper), training spend, money-waits, openers, kites, pack
+parks, reconnects, result. --run N picks a run (split at 'new character'),
+--compare shows the last full run (60+ min) -> latest, --list every run.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/scorecard.py | 175 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 175 insertions(+)
+ create mode 100644 zeppelin/tests/scorecard.py
+
+diff --git a/zeppelin/tests/scorecard.py b/zeppelin/tests/scorecard.py
+new file mode 100644
+index 0000000..d8abc01
+--- /dev/null
++++ b/zeppelin/tests/scorecard.py
+@@ -0,0 +1,175 @@
++#!/usr/bin/env python3
++"""scorecard.py - KPIs per fleet bot, read from each area's fleet.log (F-219).
++
++    scorecard.py                  the latest run of every area
++    scorecard.py --run -2         the run before it (runs are split at each "new character")
++    scorecard.py --compare        last FULL run (60+ min) -> latest, side by side
++    scorecard.py --list           every run in each area's log (start, minutes, level, quests, deaths)
++    scorecard.py elwynn mulgore   only these areas
++
++Columns: level, quests turned in, kills, deaths (and per hour), the share of deaths that were
++defend fights / 2+ mob fights / entered below half health, repairs (trips, copper), training
++(copper spent, spells refused for money), stealth openers, kites, pack parks, reconnects, and
++how the run ended. A death is a "! died" line; the fight line that killed us classifies it.
++"""
++import argparse
++import os
++import re
++import sys
++import time
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++from fleet import AREAS, area_dir  # noqa: E402
++
++FLEET_T = re.compile(r"^\[FLEET (\d\d):(\d\d):(\d\d)\]")
++DIED = re.compile(r"fight \d+: we died \[(\w+) x(\d+)[^\]]*\].*?taken (\d+) hp 0/(\d+)")
++
++
++def runs_of(path):
++    """The log split into runs: each starts at a '[FLEET ...] new character' line."""
++    if not os.path.exists(path):
++        return []
++    lines = open(path, errors="replace").read().splitlines()
++    starts = [i for i, l in enumerate(lines) if "] new character" in l]
++    return [lines[a:b] for a, b in zip(starts, starts[1:] + [len(lines)])]
++
++
++def secs(line):
++    m = FLEET_T.match(line)
++    return int(m[1]) * 3600 + int(m[2]) * 60 + int(m[3]) if m else None
++
++
++def score(run, running_mtime=None):
++    s = {"level": 1, "quests": 0, "kills": 0, "deaths": 0, "d_defend": 0, "d_multi": 0, "d_low": 0,
++         "repairs": 0, "repair_c": 0, "train_c": 0, "money_wait": 0, "openers": 0, "kites": 0,
++         "parks": 0, "reconnects": 0, "result": "running", "char": ""}
++    m = re.search(r"new character (\S+) \(([^)]*)\)", run[0])
++    if m:
++        s["char"] = m[2]
++    stamps = [t for t in (secs(l) for l in run) if t is not None]
++    for line in run:
++        if "[PASS] turn in" in line:
++            s["quests"] += 1
++        elif ": killed [" in line:
++            s["kills"] += 1
++        elif "! died" in line:
++            s["deaths"] += 1
++        elif "repair: now" in line:
++            s["repairs"] += 1
++            c = re.search(r"cost (\d+)c", line)
++            s["repair_c"] += int(c[1]) if c else 0
++        elif "trainer refused" in line and "waiting for money: [" in line and "waiting for money: []" not in line:
++            s["money_wait"] += 1
++        elif "reconnecting" in line:
++            s["reconnects"] += 1
++        if "we died" in line and "swings 0 dealt 0 taken 0" not in line:
++            d = DIED.search(line)
++            if d:
++                s["d_defend"] += d[1] == "defend"
++                s["d_multi"] += int(d[2]) >= 2
++                s["d_low"] += int(d[3]) < int(d[4]) * 0.5
++        t = re.search(r"\[TRAIN\] level (\d+)", line)
++        if t:
++            s["level"] = max(s["level"], int(t[1]))
++            c = re.search(r"\((\d+)c\)", line)
++            s["train_c"] += int(c[1]) if c else 0
++        lv = re.search(r"^SUMMARY: .*level (\d+)", line)
++        if lv:
++            s["level"] = max(s["level"], int(lv[1]))
++        if " opener]" in line:
++            s["openers"] += 1
++        k = re.search(r" kites (\d+)", line)
++        if k:
++            s["kites"] += int(k[1])
++        if "only stands in packs" in line or "at a time - back at level" in line or "too tight:" in line:
++            s["parks"] += 1
++        r = re.search(r"FLEET RESULT: (\w+)", line)
++        if r:
++            s["result"] = r[1]
++        if "leg 1 RESULT: PASS" in line and s["result"] == "running":
++            s["result"] = "leg1 PASS"
++    # elapsed: first to last FLEET stamp (a run still going: to the log's last write)
++    if stamps:
++        end = stamps[-1]
++        if s["result"] == "running" and running_mtime:
++            lt = time.localtime(running_mtime)
++            end = lt.tm_hour * 3600 + lt.tm_min * 60 + lt.tm_sec
++        el = end - stamps[0]
++        s["minutes"] = (el + 86400) % 86400 / 60 if el < 0 else el / 60
++    else:
++        s["minutes"] = 0
++    s["d_per_h"] = s["deaths"] / (s["minutes"] / 60) if s["minutes"] > 5 else 0
++    return s
++
++
++def pct(n, d):
++    return f"{100 * n // d}%" if d else "-"
++
++
++COLS = [("area", 11), ("class", 17), ("min", 4), ("lvl", 3), ("q", 3), ("kills", 5), ("dth", 3), ("d/h", 4),
++        ("defend", 6), ("2+mob", 5), ("<50%", 4), ("rep", 3), ("rep_c", 5), ("train_c", 7), ("$wait", 5),
++        ("open", 4), ("kite", 4), ("park", 4), ("recon", 5), ("result", 9)]
++
++
++def row(area, s):
++    v = [area, s["char"], f"{s['minutes']:.0f}", s["level"], s["quests"], s["kills"], s["deaths"],
++         f"{s['d_per_h']:.1f}", pct(s["d_defend"], s["deaths"]), pct(s["d_multi"], s["deaths"]),
++         pct(s["d_low"], s["deaths"]), s["repairs"], s["repair_c"], s["train_c"], s["money_wait"],
++         s["openers"], s["kites"], s["parks"], s["reconnects"], s["result"]]
++    return " ".join(str(x).ljust(w) for x, (_, w) in zip(v, COLS))
++
++
++def main():
++    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
++    ap.add_argument("areas", nargs="*")
++    ap.add_argument("--run", type=int, default=-1, help="which run: -1 latest, -2 the one before, ...")
++    ap.add_argument("--compare", action="store_true", help="last full run (60+ min) -> latest")
++    ap.add_argument("--list", action="store_true", help="list the runs in each area's log")
++    a = ap.parse_args()
++    names = a.areas or [x[0] for x in AREAS]
++    if a.list:
++        pass
++    elif a.compare:
++        print(f"{'area':11} {'lvl':>8} {'quests':>9} {'deaths':>9} {'d/h':>11} {'repair_c':>11} {'min':>9}")
++    else:
++        print(" ".join(n.ljust(w) for n, w in COLS))
++    tot = {}
++    for n in names:
++        path = os.path.join(area_dir(n), "fleet.log")
++        runs = runs_of(path)
++        if not runs:
++            continue
++        mt = os.path.getmtime(path)
++        if a.list:
++            for i, r in enumerate(runs):
++                s = score(r, mt if i == len(runs) - 1 else None)
++                print(f"{n:11} run {i - len(runs):>3}  start {r[0][7:15]}  {s['minutes']:5.0f} min  level {s['level']:>2}"
++                      f"  quests {s['quests']:>3}  deaths {s['deaths']:>3}  {s['result']}")
++            continue
++        if a.compare:
++            # the baseline is the last run that ran a while: restarts leave 5-20 min stubs behind
++            full = [r for r in runs[:-1] if score(r)["minutes"] >= 60]
++            if not full:
++                continue
++            p, c = score(full[-1]), score(runs[-1], mt)
++            f = lambda k, fmt="{}": f"{fmt.format(p[k])}->{fmt.format(c[k])}"
++            print(f"{n:11} {f('level'):>8} {f('quests'):>9} {f('deaths'):>9} {f('d_per_h', '{:.1f}'):>11} "
++                  f"{f('repair_c'):>11} {f('minutes', '{:.0f}'):>9}")
++            continue
++        try:
++            run = runs[a.run]
++        except IndexError:
++            continue
++        s = score(run, mt if a.run == -1 else None)
++        print(row(n, s))
++        for k in ("quests", "kills", "deaths", "repair_c", "train_c", "money_wait", "openers", "kites", "parks"):
++            tot[k] = tot.get(k, 0) + s[k]
++    if tot:
++        print(f"TOTAL: quests {tot['quests']}  kills {tot['kills']}  deaths {tot['deaths']}  repairs "
++              f"{tot['repair_c']}c  training {tot['train_c']}c  money-waits {tot['money_wait']}  "
++              f"openers {tot['openers']}  kites {tot['kites']}  pack parks {tot['parks']}")
++
++
++if __name__ == "__main__":
++    main()
+-- 
+2.34.1
+
