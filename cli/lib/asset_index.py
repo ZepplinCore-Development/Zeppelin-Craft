@@ -322,7 +322,7 @@ class AssetIndex:
         if f is None or sk is None:
             return None
         ss = stat_of(sk)
-        render = self._meta_cache().get(f'look1|{sk}|{ss[0]}|{ss[1]}', f,
+        render = self._meta_cache().get(f'look2|{sk}|{ss[0]}|{ss[1]}', f,
                                         lambda x: mu.look(x.read_bytes(), sk.read_bytes()))
         if render is None:
             return None

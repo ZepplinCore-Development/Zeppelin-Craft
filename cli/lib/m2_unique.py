@@ -111,15 +111,16 @@ def _derived_shader(m2: bytes, mats, sh: int, mi: int, tc: int, coord: int) -> t
     return ('derived', (i_ | (vals[1] & 0xFFFF) | ((vals[0] << 4) & 0xFFFF)) & 0xFFFF)
 
 
-def _tri_hash(rows, tris) -> str:
+def _tri_hash(rows, tris, distinct: bool = False) -> str:
     """Order-free hash of triangles: rows = per-vertex int arrays, tris = (n, 3) vertex ids. Vertex
-    order, index order and triangle order do not count."""
+    order, index order and triangle order do not count; distinct: a triangle drawn twice (a base pass +
+    a glow pass over the same faces) counts once - how often it is drawn is the layers' business."""
     import numpy as np
     if not len(tris):
         return ''
     _, inv = np.unique(rows, axis=0, return_inverse=True)        # ids in lexicographic row order
     t = np.sort(inv.reshape(-1)[tris], axis=1)
-    t = t[np.lexsort(t.T[::-1])]
+    t = np.unique(t, axis=0) if distinct else t[np.lexsort(t.T[::-1])]
     u = np.unique(rows, axis=0)
     return hashlib.sha1(u.tobytes() + t.astype(np.int64).tobytes()).hexdigest()[:16]
 
@@ -170,9 +171,9 @@ def _components(m2: bytes, skin: Optional[bytes]) -> tuple:
             alltris.append(t)
     full = np.concatenate([pos, nrm, uv], axis=1)
     at = np.concatenate(alltris) if alltris else np.zeros((0, 3), np.int64)
-    c['mesh'] = _tri_hash(pos, at)
-    c['shading'] = _tri_hash(np.concatenate([pos, nrm], axis=1), at)
-    c['uv'] = _tri_hash(np.concatenate([pos, uv], axis=1), at)
+    c['mesh'] = _tri_hash(pos, at, distinct=True)
+    c['shading'] = _tri_hash(np.concatenate([pos, nrm], axis=1), at, distinct=True)
+    c['uv'] = _tri_hash(np.concatenate([pos, uv], axis=1), at, distinct=True)
     c['layers'] = hashlib.sha1(repr(sorted((k, _tri_hash(full, np.concatenate(g))) for k, g in groups.items())).encode()).hexdigest()[:16]
     nseq, oseq = _arr(m2, 0x1C)
     c['anims'] = hashlib.sha1(repr(sorted(struct.unpack_from('<HHI', m2, oseq + 0x40 * i) for i in range(nseq))).encode()).hexdigest()[:16]
@@ -361,7 +362,7 @@ def unique(stock_files: Dict[str, 'Path'], pack_files: Dict[str, 'Path'], path: 
             return fn(f)
         # the cache checks the .m2's size + mtime; an option is the PAIR, so the skin's go in the key
         st = files[sk].stat() if sk in files else None
-        return cache.get(f'unique4|{files.get(sk, "")}|{st.st_size if st else 0}|{st.st_mtime_ns if st else 0}', f, fn)
+        return cache.get(f'unique5|{files.get(sk, "")}|{st.st_size if st else 0}|{st.st_mtime_ns if st else 0}', f, fn)
 
     a, b = summ(stock_files), summ(pack_files)
     if a is None or b is None:
