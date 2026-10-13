@@ -708,11 +708,13 @@ from lib.blp_ops import OPS as _BLP_OPS  # noqa: E402
 OPS.update(_BLP_OPS)
 
 # ops that read another model / skin (patch_builder passes their bytes as cfg['_donor_model'] / ['_donor_skin'])
-from lib.skin_ops import import_vertices as _import_vertices, table_append as _table_append  # noqa: E402
+from lib.skin_ops import import_vertices as _import_vertices, table_append as _table_append, \
+    vertices_slice as _vertices_slice  # noqa: E402
 
 OPS['m2.import_vertices'] = _import_vertices
 OPS['m2.table.append'] = _table_append
-APPEND_ONLY.update({'m2.import_vertices', 'm2.table.append'})
+OPS['m2.vertices.slice'] = _vertices_slice
+APPEND_ONLY.update({'m2.import_vertices', 'm2.table.append', 'm2.vertices.slice'})
 
 
 def apply_ops_bytes(data: bytes, ops: List[Dict[str, Any]]) -> tuple:

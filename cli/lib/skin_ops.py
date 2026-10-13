@@ -6,7 +6,8 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
   {"op": "skin.lod_rebase"}
       Retail LOD skins (01-03) store a global vertex offset at header 0x2C, the slot
       WotLK reads as boneCountMax. Add it to the vertex lookup and zero the slot, so a
-      retail LOD skin can ship as a WotLK skin00.
+      retail LOD skin can ship as a WotLK skin00. With "add": false the slot is only zeroed,
+      for a model whose vertex array m2.vertices.slice cut to start at that offset.
 
   {"op": "skin.geoset.split", "group": 1, "parts": {"5": [6, 49], ...}, "majority": 0.75}
       Split every submesh of geoset group `group` into one submesh per part. A vertex
@@ -141,6 +142,10 @@ def _op_lod_rebase(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     off = sk.x2c
     if not off:
         return 'lod_rebase: offset already 0'
+    if cfg.get('add') is False:
+        # the model's vertex array was cut to start at this offset (m2.vertices.slice): lookups stand
+        sk.x2c = 0
+        return f'lod_rebase: offset {off} dropped (model vertices sliced to start there)'
     sk.lookup = [v + off for v in sk.lookup]
     sk.x2c = 0
     return f'lod_rebase: vertex offset {off} baked into {len(sk.lookup)} lookups'
@@ -340,6 +345,22 @@ def _import_plan(donor_skin: bytes, subs: List[int]):
         verts |= {v + sk.x2c for v in sk.lookup[vs:vs + vc]}
         info.append((j, f, vs, vc, max(sk.props[4 * vs:4 * (vs + vc)]) + 1))
     return sk, sorted(verts), info
+
+
+def vertices_slice(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """MODEL op m2.vertices.slice {"start": 20030, "count": 19531, "expect_vertices": 86091}: the
+    vertex array header repointed at that run (the rest stays in the file, unused). A retail model
+    shipped with one LOD skin carries every LOD's vertices (dragonspawn2: 86k); the picker merges
+    item meshes into the model as extra vertices, which a u16 skin lookup cannot reach past 65,535,
+    so weapons vanished from the previews (I-392). Skins then use lookups relative to `start`."""
+    nv, ov = _arr(data, 0x3C)
+    if 'expect_vertices' in cfg and nv != int(cfg['expect_vertices']):
+        raise ValueError(f"model has {nv} vertices, expected {cfg['expect_vertices']} - refusing")
+    start, count = int(cfg['start']), int(cfg['count'])
+    if start + count > nv:
+        raise ValueError(f'm2.vertices.slice: {start}+{count} is past the {nv} vertices')
+    struct.pack_into('<II', data, 0x3C, count, ov + 48 * start)
+    return f'vertices.slice: {nv} -> {count} (from {start})'
 
 
 def import_vertices(data: bytearray, cfg: Dict[str, Any]) -> str:
