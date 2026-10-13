@@ -1,0 +1,187 @@
+From db7b35e45c641af64058379f3a679522d26f9396 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 01:14:23 +0000
+Subject: [PATCH] feat: rogue stealth travel, melee caution, trainer chosen by
+ what it teaches (F-219)
+
+- CombatState.auras (our visible auras)
+- a rogue stealths before trips over 60 yd (a toggle: never while it is up);
+  its deaths were packs jumping it on the road
+- melee classes: routes refused past mobs 2+ levels up (was 3+), quests at
+  most 1 level above us (was 2)
+- train(): the nearest trainer that has something learnable, not just the
+  nearest (Sunstrider's rogue trainer stops at level 6; Sprint and Slice and
+  Dice are in Falconwing Square / Silvermoon); the far-walk rule uses the
+  chosen trainer's distance
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go | 15 ++++++++--
+ zeppelin/modules/combat/combat.proto     |  1 +
+ zeppelin/modules/combat/main.go          |  6 +++-
+ zeppelin/tests/start_area.py             | 37 ++++++++++++++++++++++--
+ 4 files changed, 52 insertions(+), 7 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 3b2a0cf..9803e26 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -875,7 +875,8 @@ type CombatState struct {
+ 	Target        uint64                 `protobuf:"varint,3,opt,name=target,proto3" json:"target,omitempty"`
+ 	Dead          bool                   `protobuf:"varint,4,opt,name=dead,proto3" json:"dead,omitempty"`
+ 	Ghost         bool                   `protobuf:"varint,5,opt,name=ghost,proto3" json:"ghost,omitempty"`
+-	Pet           uint64                 `protobuf:"varint,6,opt,name=pet,proto3" json:"pet,omitempty"` // our pet (SMSG_PET_SPELLS; 0 = none) - the warlock's imp, a hunter's pet
++	Pet           uint64                 `protobuf:"varint,6,opt,name=pet,proto3" json:"pet,omitempty"`            // our pet (SMSG_PET_SPELLS; 0 = none) - the warlock's imp, a hunter's pet
++	Auras         []uint32               `protobuf:"varint,7,rep,packed,name=auras,proto3" json:"auras,omitempty"` // our visible auras (spell ids): Stealth up or not before a rogue's trip
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -952,6 +953,13 @@ func (x *CombatState) GetPet() uint64 {
+ 	return 0
+ }
+ 
++func (x *CombatState) GetAuras() []uint32 {
++	if x != nil {
++		return x.Auras
++	}
++	return nil
++}
++
+ var File_zeppelin_modules_combat_combat_proto protoreflect.FileDescriptor
+ 
+ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+@@ -1054,14 +1062,15 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\fReviveResult\x12\x14\n" +
+ 	"\x05alive\x18\x01 \x01(\bR\x05alive\x12\x14\n" +
+ 	"\x05stage\x18\x02 \x01(\tR\x05stage\x12'\n" +
+-	"\x0fcorpse_distance\x18\x03 \x01(\x02R\x0ecorpseDistance\"\x9c\x01\n" +
++	"\x0fcorpse_distance\x18\x03 \x01(\x02R\x0ecorpseDistance\"\xb2\x01\n" +
+ 	"\vCombatState\x12\x1b\n" +
+ 	"\tin_combat\x18\x01 \x01(\bR\binCombat\x12\x1c\n" +
+ 	"\tattackers\x18\x02 \x03(\x04R\tattackers\x12\x16\n" +
+ 	"\x06target\x18\x03 \x01(\x04R\x06target\x12\x12\n" +
+ 	"\x04dead\x18\x04 \x01(\bR\x04dead\x12\x14\n" +
+ 	"\x05ghost\x18\x05 \x01(\bR\x05ghost\x12\x10\n" +
+-	"\x03pet\x18\x06 \x01(\x04R\x03pet2\xa8\x03\n" +
++	"\x03pet\x18\x06 \x01(\x04R\x03pet\x12\x14\n" +
++	"\x05auras\x18\a \x03(\rR\x05auras2\xa8\x03\n" +
+ 	"\x06Combat\x12G\n" +
+ 	"\x04Kill\x12\x1f.zeppelin.combat.v1.KillRequest\x1a\x1e.zeppelin.combat.v1.KillResult\x12G\n" +
+ 	"\x04Rest\x12\x1f.zeppelin.combat.v1.RestRequest\x1a\x1e.zeppelin.combat.v1.RestResult\x12B\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 39c8215..13ae927 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -117,6 +117,7 @@ message CombatState {
+   bool dead = 4;
+   bool ghost = 5;
+   uint64 pet = 6;        // our pet (SMSG_PET_SPELLS; 0 = none) - the warlock's imp, a hunter's pet
++  repeated uint32 auras = 7; // our visible auras (spell ids): Stealth up or not before a rogue's trip
+ }
+ 
+ service Combat {
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 5a1b041..f1521e4 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -1164,9 +1164,13 @@ func (s *service) GetState(ctx context.Context, _ *emptypb.Empty) (*combatv1.Com
+ 	s.mu.Unlock()
+ 	s.mu.Lock()
+ 	pet := s.pet
++	var auras []uint32
++	for _, sp := range s.auras {
++		auras = append(auras, sp)
++	}
+ 	s.mu.Unlock()
+ 	return &combatv1.CombatState{InCombat: len(att) > 0 || target != 0, Attackers: att, Target: target,
+-		Dead: st.GetDead(), Ghost: st.GetGhost(), Pet: pet}, nil
++		Dead: st.GetDead(), Ghost: st.GetGhost(), Pet: pet, Auras: auras}, nil
+ }
+ 
+ func (s *service) stand(ctx context.Context, state uint32) error {
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 038b017..216dfaa 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -185,6 +185,7 @@ RACE_ABILITIES = {
+     11: [{"spell_id": s, "every_ms": 180000, "on_self": True, "below_health_pct": 50}
+          for s in (28880, 59542, 59543, 59544, 59547, 59548)],                                 # Gift of the Naaru (draenei)
+ }
++STEALTH = {1784, 1785, 1786, 1787}  # Stealth ranks
+ # snares that make kiting work (the target wears one -> step back instead of trading blows):
+ # hunter Concussive Shot, Wing Clip ranks; mage Frost Nova ranks (root) and Frostbolt ranks (chill)
+ KITE_SNARES = {3: [5116, 2974, 14267, 14268],
+@@ -1076,7 +1077,7 @@ class World:
+             return False
+         if int(q["MinLevel"]) > level:
+             return False
+-        if self.eff_level(qid) > level + 2:
++        if self.eff_level(qid) > level + (2 if CLASS_RANGE.get(self.cls) else 1):
+             # a red quest (3+ above us) waits like a player would: MinLevel 1 let a level-1 hunter take
+             # Dolanaar Delivery (level 5) - a "done on accept" walk past Webwood Lurkers (5-6): 2 deaths
+             return False
+@@ -1602,9 +1603,19 @@ class Runner:
+             near = [(math.dist(p[:2], (me["x"], me["y"])), tr) for tr in self.w.trainers if tr not in absent
+                     for p in [self.w.nearest("c", tr, me, mask)] if p]
+             t = min(near)[1] if near else self.w.trainers[0]
++            # ...the nearest one that has something for us: Sunstrider's rogue trainer teaches only up to
++            # level 6 - at 10 Sprint and Slice and Dice are in Falconwing Square / Silvermoon
++            known0 = set(call("interact.spells").get("spells", [])) | self.untrainable
++            money0 = call("interact.self").get("money", 0)
++            for _, tr in sorted(near):
++                if any(x["spell"] not in known0 and x["level"] <= level and x["cost"] <= money0
++                       and all(q in known0 for q in x["req"]) for x in self.w.trainer_spells.get(tr, [])):
++                    t = tr
++                    break
+             # a long walk at every level-up kills fresh characters (Shadowglen: 8 of 10 deaths on the
+             # way to a trainer 470-550 yd off) - a far trainer waits until we are 3 levels behind
+-            if near and min(near)[0] > 250 and level - self.visited_trainer_level < 3:
++            dist_t = next((d for d, tr in near if tr == t), 0)
++            if near and dist_t > 250 and level - self.visited_trainer_level < 3:
+                 # deferring the WALK must not defer the rotation: this return used to skip
+                 # refresh_abilities - Teldrassil's hunter fought 10 fights with no abilities at all
+                 self.refresh_abilities()
+@@ -2391,11 +2402,29 @@ class Runner:
+                         self._threats.append((float(w["x"]), float(w["y"]), int(r["l"]), int(r["e"]), 3.0))
+         return self._threats
+ 
++    def stealth(self):
++        """A rogue walks long trips in Stealth: most of its deaths were packs jumping it on the road
++        (Sunstrider's Tenders 2-7 at a time; Wretched packs). Stealth is a toggle - never recast it
++        while it is up. Out of combat only; it has a 10 s cooldown after it breaks."""
++        if time.time() - getattr(self, "_stealth_t", 0) < 12:
++            return
++        st = call("combat.state")
++        if st.get("attackers") or st.get("dead") or set(st.get("auras", [])) & STEALTH:
++            return
++        known = set(call("interact.spells").get("spells", []))
++        rank = max((sp for sp in STEALTH if sp in known), default=0)
++        if rank:
++            self._stealth_t = time.time()
++            call("interact.cast", spell_id=rank, target_kind="self", timeout_ms=2000)
++
+     def route_guard(self, x, y, z, level):
+         """Raise StepFailed (and park the current quest) when the planned path passes within reach of a
+         mob 3+ levels above us. Reach = its aggro radius at that level gap + its wander radius. The
+         first and last 30 yd are left to the start/destination checks."""
+-        red = [t for t in self.threats() if t[2] >= level + 3]
++        # melee classes from 2 levels up: they cannot open from range, and a level-8 rogue died to
++        # level-9/10 Ether Fiends and the Spire's packs on roads the +3 rule let it take
++        gap = 3 if CLASS_RANGE.get(self.w.cls) else 2
++        red = [t for t in self.threats() if t[2] >= level + gap]
+         if not red:
+             return
+         try:
+@@ -2513,6 +2542,8 @@ class Runner:
+         if far > 40 and not self.reviving:
+             level = call("interact.self").get("level", 1)
+             self.route_guard(x, y, z, level)
++        if far > 60 and not self.reviving and self.w.cls == 4:
++            self.stealth()
+         # skirt hostile camps on the way (a ghost walks straight through: nothing sees it). One
+         # detour at a time, re-planned from each waypoint, so camp after camp is avoided
+         if far > 40 and not self.reviving and not getattr(self, "_detouring", False):
+-- 
+2.34.1
+
