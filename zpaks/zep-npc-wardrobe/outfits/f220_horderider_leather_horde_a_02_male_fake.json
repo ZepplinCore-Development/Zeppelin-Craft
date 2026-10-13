@@ -8,7 +8,9 @@
   "name": "f220_horderider_leather_horde_a_02_male_fake",
   "_comment": "F-220 fake rider: the fused rider skin creature/horderider/leather_horde_a_02.blp as the bake (displays [17203])",
   "outfit": {
-    "items": {}
+    "items": {
+      "shoulders": 4705
+    }
   },
   "appearance": {
     "skin_color": 1,

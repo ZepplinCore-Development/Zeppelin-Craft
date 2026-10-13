@@ -909,3 +909,69 @@ INSERT INTO creature_template_addon SET
   entry = 902239,
   mount = 6978,
   bytes2 = 1;
+
+-- weapons (creature_equip_template) the fused model names by texture, so the picker draws them
+DELETE FROM creature_equip_template WHERE CreatureID = 902202;
+DELETE FROM creature_equip_template WHERE CreatureID = 902203;
+DELETE FROM creature_equip_template WHERE CreatureID = 902204;
+DELETE FROM creature_equip_template WHERE CreatureID = 902205;
+DELETE FROM creature_equip_template WHERE CreatureID = 902206;
+INSERT INTO creature_equip_template SET
+  CreatureID = 902206,
+  ID = 1,
+  ItemID1 = 24044,
+  ItemID2 = 0,
+  ItemID3 = 0,
+  VerifiedBuild = 0;
+DELETE FROM creature_equip_template WHERE CreatureID = 902207;
+INSERT INTO creature_equip_template SET
+  CreatureID = 902207,
+  ID = 1,
+  ItemID1 = 24044,
+  ItemID2 = 0,
+  ItemID3 = 0,
+  VerifiedBuild = 0;
+DELETE FROM creature_equip_template WHERE CreatureID = 902208;
+DELETE FROM creature_equip_template WHERE CreatureID = 902209;
+DELETE FROM creature_equip_template WHERE CreatureID = 902210;
+DELETE FROM creature_equip_template WHERE CreatureID = 902211;
+DELETE FROM creature_equip_template WHERE CreatureID = 902212;
+DELETE FROM creature_equip_template WHERE CreatureID = 902213;
+DELETE FROM creature_equip_template WHERE CreatureID = 902214;
+INSERT INTO creature_equip_template SET
+  CreatureID = 902214,
+  ID = 1,
+  ItemID1 = 19353,
+  ItemID2 = 0,
+  ItemID3 = 0,
+  VerifiedBuild = 0;
+DELETE FROM creature_equip_template WHERE CreatureID = 902215;
+INSERT INTO creature_equip_template SET
+  CreatureID = 902215,
+  ID = 1,
+  ItemID1 = 19353,
+  ItemID2 = 0,
+  ItemID3 = 0,
+  VerifiedBuild = 0;
+DELETE FROM creature_equip_template WHERE CreatureID = 902216;
+DELETE FROM creature_equip_template WHERE CreatureID = 902217;
+DELETE FROM creature_equip_template WHERE CreatureID = 902218;
+DELETE FROM creature_equip_template WHERE CreatureID = 902219;
+DELETE FROM creature_equip_template WHERE CreatureID = 902220;
+DELETE FROM creature_equip_template WHERE CreatureID = 902221;
+DELETE FROM creature_equip_template WHERE CreatureID = 902222;
+DELETE FROM creature_equip_template WHERE CreatureID = 902223;
+DELETE FROM creature_equip_template WHERE CreatureID = 902224;
+DELETE FROM creature_equip_template WHERE CreatureID = 902225;
+DELETE FROM creature_equip_template WHERE CreatureID = 902226;
+DELETE FROM creature_equip_template WHERE CreatureID = 902227;
+DELETE FROM creature_equip_template WHERE CreatureID = 902228;
+DELETE FROM creature_equip_template WHERE CreatureID = 902229;
+DELETE FROM creature_equip_template WHERE CreatureID = 902230;
+DELETE FROM creature_equip_template WHERE CreatureID = 902231;
+DELETE FROM creature_equip_template WHERE CreatureID = 902232;
+DELETE FROM creature_equip_template WHERE CreatureID = 902233;
+DELETE FROM creature_equip_template WHERE CreatureID = 902236;
+DELETE FROM creature_equip_template WHERE CreatureID = 902237;
+DELETE FROM creature_equip_template WHERE CreatureID = 902238;
+DELETE FROM creature_equip_template WHERE CreatureID = 902239;

@@ -438,6 +438,34 @@
    "sha256": "1c58e68075a711b9b46f2b403919a29f221eaf48d4b8e94ff1a03f384c93760d"
   },
   {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_mail_b_02.m2",
+   "fdid": 143188,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "2943f16ea7c6ea869e5b0de44ca44b024880e4a7c90d51e18a8c01a67f1cdbf9"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_mail_b_0200.skin",
+   "fdid": 490349,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "668540241d8258a25c11b8e7865df02635e199818896b680accaeb47525c1285"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_mail_pvphorde_c_01.m2",
+   "fdid": 143212,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "d7016666000c71392d85faa370260222daf463bda573ae21a147b04e3844406f"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_mail_pvphorde_c_0100.skin",
+   "fdid": 490110,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "dfd7f49315eec28cf9ef5dbc202fcd337131de9c8c4b2378beb0b5e43b05ed18"
+  },
+  {
    "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_hordeuprez_b_03.m2",
    "fdid": 1028407,
    "build": "12.1.0.69875",
@@ -452,11 +480,53 @@
    "sha256": "ac349b8ec2a9d65f10f7569d84dc7220e9bfae25d77068c39821d98dd5f263fa"
   },
   {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_mail_b_02.m2",
+   "fdid": 143491,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "737f8c8923c736551a5447d8d0f486eac6e8fd687819b61161f046bf1b67f2c0"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_mail_b_0200.skin",
+   "fdid": 490344,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "89ce4e34b68788d5f5956b08fecd6829a58dd131e0b38e9844a6fea12a91145b"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_mail_pvphorde_c_01.m2",
+   "fdid": 143515,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "fb5927d3583157926959492393d9a6b49cab1a40aadd76ce70f7f0fd9cd2952c"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_mail_pvphorde_c_0100.skin",
+   "fdid": 490161,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "26b11004368c1250a84c4d68492e1ec5dd4be6eb66dac811edacd9d8efaa6b39"
+  },
+  {
    "path": "Item/ObjectComponents/Shoulder/shoulder_leather_hordeuprez_b_03.blp",
    "fdid": 1031465,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "30537ed2fa69207d70425b5bf60b8624a21f456c73dce90e7acdc8696d5ae282"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/shoulder_mail_b_02green.blp",
+   "fdid": 143843,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "387a9be6d9835ee582fc9fe0dcccdbaa8cbc2f117480e905662e7c27312e4e60"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/shoulder_mail_pvphorde_c_01green.blp",
+   "fdid": 143899,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0d189245faed59631a0c804c4342a83f12571b9b364eb026a61e79d10b083ccb"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_plate_warfrontshorde_d_01_l.m2",
@@ -2204,7 +2274,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900503_HD.blp",
    "kind": "bake",
    "display": 900503,
-   "sha256": "057e8421ca590bd0beadc61eb3e0aa7908e3ad6dadbbb936c6fc06ee09601302"
+   "sha256": "9c07b81e46a86409145428dba0d77c290d2f81c94450d718cd3f830c35708f4c"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900504.blp",
@@ -2216,7 +2286,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900505_HD.blp",
    "kind": "bake",
    "display": 900505,
-   "sha256": "2d303085bd02ad24d9cb58fee681ddf0060a0801c799a5f6f4c1905eb8b4c4c3"
+   "sha256": "253828f5f1e3c6153fb21d57d88e5c5bc9bd25bce7ee837d115f29f6dbd057dc"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900506.blp",
@@ -2276,7 +2346,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900515_HD.blp",
    "kind": "bake",
    "display": 900515,
-   "sha256": "afdb572646998e104e67c2b74f663c37ce882e9be0ba83e194018a643c5cab07"
+   "sha256": "b0f2cb3f7ad7713fe0deb6dc624f7955eb850dece37eab2c1540e5bb583f7ee8"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900516.blp",
@@ -2312,7 +2382,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900521_HD.blp",
    "kind": "bake",
    "display": 900521,
-   "sha256": "dae5651516aceacb5229391049b56ae2f50e1d2faa768275ec64746965681800"
+   "sha256": "74617af6bcf4eca8efc3c1b7c7f1ecf6283fdcf2d4f70cc697cabfff3e356c6a"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900522.blp",
@@ -2324,7 +2394,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900523_HD.blp",
    "kind": "bake",
    "display": 900523,
-   "sha256": "81ae1b1a9e78091051ff8acdf7e1a3bcfd10549f34ac13d8bd102638fa91a306"
+   "sha256": "59588dfd1569a1f91d82e7c9d83df3d149dc3631464c9ddd406fc9a4d7ee0850"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900524.blp",
@@ -2336,7 +2406,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900525_HD.blp",
    "kind": "bake",
    "display": 900525,
-   "sha256": "b6384423c3cfe9fa32efc144a6422917473e783f2559d8843093f7bc72a51bc8"
+   "sha256": "bec0398b72831889940d956e112e6c2bc1b99227d20287354bcef74a3215206f"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900526.blp",
@@ -2360,7 +2430,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900529_HD.blp",
    "kind": "bake",
    "display": 900529,
-   "sha256": "5784ab4b4c8a78e8c067ba763c6fabf27b59f0fca326b06cc2121e0658985724"
+   "sha256": "ec51a092eeddfbe95c1cc53cf615510099ed5486b8244edbaf9fc2984397b00f"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900530.blp",
@@ -2372,7 +2442,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900531_HD.blp",
    "kind": "bake",
    "display": 900531,
-   "sha256": "4728577b463de090833ec428fa6be2314d6efcd24d732e485ff98e0693edfbf2"
+   "sha256": "8eeafecea2398c2b3f5a61961fb9a2fb7cc0d73b84904a97dc69553c6f74e5e4"
   },
   {
    "path": "item/objectcomponents/collections/chest_plate_raiddeathknightdragon_d_01_be_m_5095205.blp",
@@ -2422,6 +2492,13 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "96e3376a8e2ac6a84503c6b4fc1c47f5194db090ecc53c47e83973c49e3b6612"
+  },
+  {
+   "path": "world/lordaeron/scholomance/passivedoodads/brazier/fireswirlpurple.blp",
+   "fdid": 203839,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "88cbed55604f36a48cb30a5172b5abc763c164364f642dd0872ece8f73dbe614"
   }
  ]
 }

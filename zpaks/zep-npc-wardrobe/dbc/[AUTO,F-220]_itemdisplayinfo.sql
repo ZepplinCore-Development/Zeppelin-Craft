@@ -116,6 +116,35 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
+-- Warlord's Chain Shoulders (retail item 16568, display 32125)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210153;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210153,
+  `left_model` = 'lshoulder_mail_pvphorde_c_01.mdx',
+  `right_model` = 'rshoulder_mail_pvphorde_c_01.mdx',
+  `left_model_texture` = 'shoulder_mail_pvphorde_c_01green',
+  `right_model_texture` = 'shoulder_mail_pvphorde_c_01green',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
 -- Warlord's Chain Chestpiece (retail item 16565, display 32122)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210032;
 INSERT INTO `itemdisplayinfo` SET
@@ -543,6 +572,35 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_arm_texture` = '',
   `lower_arm_texture` = 'plate_d_05_gold_glove_al',
   `hands_texture` = 'plate_d_05_gold_glove_ha',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Lambent Scale Pauldrons (retail item 4705, display 25783)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210154;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210154,
+  `left_model` = 'lshoulder_mail_b_02.mdx',
+  `right_model` = 'rshoulder_mail_b_02.mdx',
+  `left_model_texture` = 'shoulder_mail_b_02green',
+  `right_model_texture` = 'shoulder_mail_b_02green',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',

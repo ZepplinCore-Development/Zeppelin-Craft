@@ -25,8 +25,17 @@ RETAIL_BUILD = '12.1.0.69875'
 RETAIL_CACHE = TOOLS_ROOT / 'wago-retail-cache'
 LISTFILE = TOOLS_ROOT / 'Retroport' / 'retroport_tools' / 'MultiConverter2' / 'listfile.csv'
 WXL_CORE = TOOLS_ROOT / 'WarcraftXL' / 'wxl-core-main'
-# client roots below our zpak, highest priority first (character/item art only)
-EXTERNAL_ROOTS = [CRAFT_ROOT / 'zpaks' / 'patch-hd-everything' / 'mpq' / 'source-assets', ASSET_LIBRARY_PATH]
+# client roots below our zpak, highest priority first (character/item art only): every ENABLED zpak's
+# source assets by priority, then the Asset Library. Not just the HD pack: the client loads the custom
+# orc skins' faces from zep-legacy (F-150), and the Asset Library holds an older classic file of the
+# same name (OrcMaleFaceLower00_101) that baked a classic face onto the HD orc.
+def _external_roots():
+    from commands.sql import get_enabled_zpaks_by_priority
+    roots = [CRAFT_ROOT / 'zpaks' / n / 'mpq' / 'source-assets' for n, _m in reversed(get_enabled_zpaks_by_priority(CRAFT_ROOT))]
+    return [r for r in roots if r.is_dir() and r.parent.parent.name != 'zep-npc-wardrobe'] + [ASSET_LIBRARY_PATH]
+
+
+EXTERNAL_ROOTS = _external_roots()
 
 
 def _dbc_query_fn(database_attr: str):
