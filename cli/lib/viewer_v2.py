@@ -27,7 +27,7 @@ TABS = ('creature', 'character', 'object', 'item', 'wmo')
 # the picker reads data/v2 while a deploy runs: build data/v2.new, swap it in when done
 STAGE = 'v2.new'
 CHAR_PANE_VERSION = 2          # 2: each option wears the bake it ships with (bake_for), not the live DBC's
-PANE_CODE_VERSION = 2          # bump when pane building changes: every cached pane is rebuilt (2: geoset 0 nibbles, I-388)
+PANE_CODE_VERSION = 3          # bump when pane building changes: every cached pane is rebuilt (2: geoset 0 nibbles, I-388; 3: item textures follow their item mesh)
 PANE_CACHE = Path('/workspace/project/logs/viewer_pane_cache.pkl')
 
 
@@ -158,6 +158,7 @@ class Finder:
         self.eff = picks.result['effective_assets']
         self.log: Optional[list] = None
         self.conflicts: set = set()       # shared textures no single option fits for every user
+        self.item_tex: Dict[str, str] = {}    # an attached item's texture -> its item mesh (set per pane)
 
     def _mesh_of(self, p: str) -> Optional[str]:
         if p.endswith('.m2') or (p.endswith('.wmo') and not ai._WMO_GROUP.search(p)):
@@ -173,6 +174,19 @@ class Finder:
     def _resolve(self, p: str) -> Optional[Path]:
         if self.stock_only:
             return ms.stock_asset(p)        # the untouched original (Customise's stock reference)
+        if p in self.item_tex:
+            # an attached item (shoulder, helm, weapon) wears a texture painted for ITS mesh as resolved
+            # here: Appletrey's remodelled rshoulder_leather_horde_b_03 with the stock-layout texture drew
+            # stretched. Same source as the mesh first, then any layout-compatible option, largest first.
+            m = self.item_tex[p]
+            ix = self.picks.ix
+            mo = self.override.get(m) or (self.picks.mesh(m) if m in ix.meshes else None)
+            a = ix.textures.get(p)
+            if mo is not None and a is not None:
+                same = [x for x in a.options if set(x.sources) & set(mo.sources)]
+                ok = same or [x for x in a.options if ix.compatible(p, x, m, mo)]
+                if ok:
+                    return max(ok, key=lambda x: (x.size, x.sources[0] == 'stock')).files.get(p)
         if p.endswith('.blp') and self.override:
             # a model card shows what ITS option ships: the textures of that option's own packs, else
             # stock - never the Textures layer's picks (an HD pack's in-place skin, painted for its own
@@ -783,6 +797,7 @@ class Deployer:
                     if d:
                         mvd._item_texture('v2', d, finder, Path('/nonexistent'), alloc, pane)
                 want = mvd._items_for(x, self.equipment.get(did)) if (x or did in self.equipment) else []
+                finder.item_tex = {it['t']: it['m'] for it in want if it.get('t') and it.get('m')}
                 if want:
                     items, miss = mvd._stage_items('v2', want, finder, Path('/nonexistent'), item_prov)
                     if items:

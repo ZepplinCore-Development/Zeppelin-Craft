@@ -586,6 +586,36 @@ def _op_texture_set(data: bytearray, cfg: Dict[str, Any]) -> str:
     return f"texture[{index}] type {typ} -> {new_type}, name {old_name!r} -> {new_name!r}"
 
 
+OFS_N_PARTICLES = 0x128
+PARTICLE_STRIDE = 476            # WotLK M2ParticleOld
+PARTICLE_BLEND_AT = 0x28
+
+
+def _op_particle_blend(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """Set emitters' blending type (0 opaque, 1 alpha key, 2 alpha, 3 no-alpha add, 4 add).
+
+    F-216: patch-hd-creatures-mounts' revenant2_earth (a downport of retail 1709847) wrote retail's
+    alpha-blended dust and smoke (2) as additive (4), so they glow and wash out; our WXL conversion
+    keeps 2. `indices` (default: every emitter) and `expect` guard the write.
+    """
+    if 'value' not in cfg:
+        raise M2OpError("m2.particle.blend requires 'value'")
+    base = read_m2_header(data)['base_offset']
+    _require_wotlk(data, base)
+    n, ofs = struct.unpack_from('<II', data, base + OFS_N_PARTICLES)
+    idx = [int(i) for i in cfg.get('indices', range(n))]
+    out = []
+    for i in idx:
+        if i >= n:
+            raise M2OpError(f"emitter {i} but model has {n} emitter(s)")
+        at = base + ofs + PARTICLE_STRIDE * i + PARTICLE_BLEND_AT
+        if 'expect' in cfg and data[at] != int(cfg['expect']):
+            raise M2OpError(f"emitter {i} blend is {data[at]}, expected {cfg['expect']} — wrong file, refusing")
+        out.append(f'{i}:{data[at]}->{int(cfg["value"])}')
+        data[at] = int(cfg['value'])
+    return 'particle blend ' + ', '.join(out)
+
+
 OFS_N_REPLACEABLE_LOOKUP = 0x68
 OFS_N_TEXTURE_LOOKUP = 0x80
 
@@ -696,6 +726,7 @@ OPS: Dict[str, Callable[[bytearray, Dict[str, Any]], str]] = {
     'm2.global_flags.mask': _op_global_flags_mask,
     'm2.bone.keybone': _op_bone_keybone,
     'm2.sequence.flags': _op_sequence_flags,
+    'm2.particle.blend': _op_particle_blend,
     'wmo.fog.end': _op_wmo_fog_end,
     'wmo.fog.start_scalar': _op_wmo_fog_start_scalar,
     'wmo.group.drop_chunk': _op_wmo_group_drop_chunk,

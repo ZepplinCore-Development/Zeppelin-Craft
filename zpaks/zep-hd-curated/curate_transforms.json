@@ -1457,5 +1457,18 @@
    ],
    "ship": []
   }
- ]
+ ],
+ "creature/revenant2_earth/revenant2_earth.m2": {
+  "source": "patch-hd-creatures-mounts",
+  "note": "A downport of retail revenant2_earth (FileDataID 1709847) with extra skins. Its 4 dust / smoke emitters were written additive (blend 4) where retail and our WXL conversion keep alpha (2), so they glow and wash out. Restore retail's blend; the pack's skins stay usable.",
+  "base_sha256": "2b2c8a9266916c1d6b00f5bf12ca091dd4363abe6abde432db31ce032d2728c4",
+  "result_sha256": "36451f83232fa23be9166b19b0f01a7260c7dcc4763770a8316cc760af2e2bbb",
+  "ops": [
+   {
+    "op": "m2.particle.blend",
+    "expect": 4,
+    "value": 2
+   }
+  ]
+ }
 }
