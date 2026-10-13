@@ -199,6 +199,12 @@
             ]
           },
           "texcombo": 0
+        },
+        "rig": true,
+        "death_fold": {
+          "fold": -60,
+          "sweep": 75,
+          "shrink": 0.02
         }
       },
       {
@@ -216,10 +222,10 @@
         ]
       }
     ],
-    "result_sha256": "27217b8bfb899a9dc1fbc8b46fb50c1833d9ee444600702f77f6181ad61ef8c4"
+    "result_sha256": "e299de1e0f5aac4e19ef1cba94fb7d9076562f93b20d79ca64e2e824d649d23b"
   },
   "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR.M2": {
-    "note": "I-392: retail dragonspawn2.m2 (1 view, so the client loads only DRAGONSPAWN2_MODULAR00.SKIN) plus retail dragonspawn2boss's pads and helm crest (donors/, FDID of creature/dragonspawn2boss/dragonspawn2boss.m2, converted by lib/retail.convert): its submesh 2 (armour, boss armour texture + reflect) and 3 (additive glow on UV2, imported static: our model has no UV animation) written over unused lower-LOD vertices from 16509 (sliced numbering), bones remapped onto this rig (same pivots; the boss's 4 pad flap bones ride their parents). Textures 3 = boss armour as replaceable type 13 (the display's 3rd skin slot: dragonspawn2boss_armor_<colour>, black = the retail gold), 4 = glow (fixed); texture lookup 4-5 = (boss armour, reflect), 6-7 = (glow, glow); material 4 = (21, 4) additive; texture unit lookup 2-3 = (0, 1). base_sha256 pins the donor. Vertex array sliced to 20030..39560 (LOD1's run + the boss pieces; m2.vertices.slice): the picker merges weapon/shield meshes into the model as extra vertices, which the u16 skin lookup cannot reach past 65,535 on the full 86k array. Wings (I-392, 2026-10-13): stock dragonspawngreater's spread (right) wing, bone subtree 27, mirrored, raised 0.4, re-centred 0.28 (the classic model sits 0.28 off the midline) and pulled 0.4 in over the shoulder blades, bound rigidly to key bone 53 (m2.import_rigid, vertices from 19531); textures 5-11 = DRAGONSPAWN2WING_<colour> (texture lookup 8-14); material 5 = (4, 1) two-sided alpha test. The wing arm and claw (strut: within 0.08 of the leading-edge UV line, or the claw box) get their own vertex copies with UVs along the body skin's tail strip, drawn with the body skin (texture lookup 0), so they wear the display's own scales.",
+    "note": "I-392: retail dragonspawn2.m2 (1 view, so the client loads only DRAGONSPAWN2_MODULAR00.SKIN) plus retail dragonspawn2boss's pads and helm crest (donors/, FDID of creature/dragonspawn2boss/dragonspawn2boss.m2, converted by lib/retail.convert): its submesh 2 (armour, boss armour texture + reflect) and 3 (additive glow on UV2, imported static: our model has no UV animation) written over unused lower-LOD vertices from 16509 (sliced numbering), bones remapped onto this rig (same pivots; the boss's 4 pad flap bones ride their parents). Textures 3 = boss armour as replaceable type 13 (the display's 3rd skin slot: dragonspawn2boss_armor_<colour>, black = the retail gold), 4 = glow (fixed); texture lookup 4-5 = (boss armour, reflect), 6-7 = (glow, glow); material 4 = (21, 4) additive; texture unit lookup 2-3 = (0, 1). base_sha256 pins the donor. Vertex array sliced to 20030..39560 (LOD1's run + the boss pieces; m2.vertices.slice): the picker merges weapon/shield meshes into the model as extra vertices, which the u16 skin lookup cannot reach past 65,535 on the full 86k array. Wings (I-392, 2026-10-13): stock dragonspawngreater's spread (right) wing, bone subtree 27, mirrored, raised 0.4, re-centred 0.28 (the classic model sits 0.28 off the midline) and pulled 0.4 in over the shoulder blades, bound rigidly to key bone 53 (m2.import_rigid, vertices from 19531); textures 5-11 = DRAGONSPAWN2WING_<colour> (texture lookup 8-14); material 5 = (4, 1) two-sided alpha test. The wing arm and claw (strut: within 0.08 of the leading-edge UV line, or the claw box) get their own vertex copies with UVs along the body skin's tail strip, drawn with the body skin (texture lookup 0), so they wear the display's own scales. Wing motion: the classic wing's own 12-bone chain (subtree 27) copied per side (left mirrored), root parented to key bone 53; each in-file sequence takes the classic sequence with the same animation id (else stand) stretched to its length, except death: the classic death keys suit the classic body's fall, so in death (id 1) the wing root folds back along the body and shrinks into the back (death_fold), and the corpse lies clean; the wing vertices keep their classic bone weights. .anim-file sequences: wings at rest.",
     "base_sha256": "2553cdbd295c52555bf74d8e8fd97a9f36c8a540455fd9c1e0790e1ca101ca49",
     "geoset_labels": {
       "1": "chest / collar",
@@ -355,6 +361,12 @@
             ]
           },
           "texcombo": 0
+        },
+        "rig": true,
+        "death_fold": {
+          "fold": -60,
+          "sweep": 75,
+          "shrink": 0.02
         }
       },
       {
@@ -465,7 +477,7 @@
       "creature/dragonspawnnexus/dragonspawnarmorednexus.m2",
       "creature/dragonspawncaster/dragonspawncaster.m2"
     ],
-    "result_sha256": "35739ef3383458f9811b1111201cc4d7cc3cd657f44832c035b648c2fc2c8af0"
+    "result_sha256": "012fcdf13e552168b6dfb3fc2db693c4240cf012a14a8c2e7902b89fff89251e"
   },
   "CREATURE/DESERTLASHERORCHID_MODULAR/DESERTLASHERORCHID_MODULAR00.SKIN": {
     "note": "I-396: the HD desert lasher orchid (patch-hd-creatures-mounts creature/desertlasherorchid, view 00) split by texture region so each part samples its own creature skin: stem/roots/vine arms on skin 1 (texture_variation_1), petals/leaves on skin 2, beak/jaw/teeth on skin 3. The donor is one submesh (geoset 0) whose 143 UV islands sit in separate texture areas; boxes test each island's UV centroid (checked against a 3D render: 0 misassigned islands). combo_add points each part's two batches (skin+oldglass3 env, skin alpha layer) at its pair in the texture lookup set by the .M2 recipe. skin.overlay adds the petal pattern group on the flower part (submesh 2): 101 plain (empty), 102 spots, 103 stripes; a display names one in creature_geoset_data (0x1/0x2/0x3).",
@@ -1430,7 +1442,7 @@
     "result_sha256": "63f7279cca76fe1f22bb3b121c5a5d825bef3fde0bb7964d9f6b0a09cae08ee5"
   },
   "CREATURE/DRAGONSPAWN2DARKSHADE_MODULAR/DRAGONSPAWN2DARKSHADE_MODULAR.M2": {
-    "note": "I-392: retail dragonspawn2darkshade (the HD Infinite dragonspawn: same rig and geoset sets as dragonspawn2, plus its FX glow layer DRAGONSPAWN2DARKSHADE_FX on the body batches) given the same modular build as dragonspawn2_modular: LOD1 (offset 21712), the armour split, the boss pieces, the wings. Offered on the classic darkshade models (offer_on). Its tables differ from dragonspawn2's: textures 0 body, 1 reflect, 2 FX, 3 armour; added 4 boss armour (type 13), 5 boss glow, 6-13 wings; lookup 5-6 boss armour, 7-8 glow, 9-16 wings; materials 5 glow (21, 4), 6 wings (4, 1); texture unit lookup 1-2 = (0, -1) for the env-mapped armour, 3-4 = (0, 1) for the glow.",
+    "note": "I-392: retail dragonspawn2darkshade (the HD Infinite dragonspawn: same rig and geoset sets as dragonspawn2, plus its FX glow layer DRAGONSPAWN2DARKSHADE_FX on the body batches) given the same modular build as dragonspawn2_modular: LOD1 (offset 21712), the armour split, the boss pieces, the wings. Offered on the classic darkshade models (offer_on). Its tables differ from dragonspawn2's: textures 0 body, 1 reflect, 2 FX, 3 armour; added 4 boss armour (type 13), 5 boss glow, 6-13 wings; lookup 5-6 boss armour, 7-8 glow, 9-16 wings; materials 5 glow (21, 4), 6 wings (4, 1); texture unit lookup 1-2 = (0, -1) for the env-mapped armour, 3-4 = (0, 1) for the glow. Wing motion: the classic wing's own 12-bone chain (subtree 27) copied per side (left mirrored), root parented to key bone 53; each in-file sequence takes the classic sequence with the same animation id (else stand) stretched to its length, except death: the classic death keys suit the classic body's fall, so in death (id 1) the wing root folds back along the body and shrinks into the back (death_fold), and the corpse lies clean; the wing vertices keep their classic bone weights. .anim-file sequences: wings at rest.",
     "base_sha256": "ecd55a84c043790d8b24ae10059a59d950d84074eb62d526c27aa982d8aad46b",
     "geoset_labels": {
       "1": "chest / collar",
@@ -1638,6 +1650,12 @@
             ]
           },
           "texcombo": 0
+        },
+        "rig": true,
+        "death_fold": {
+          "fold": -60,
+          "sweep": 75,
+          "shrink": 0.02
         }
       }
     ],
@@ -1647,7 +1665,7 @@
       "creature/dragonspawncasterdarkshade/dragonspawncasterdarkshade.m2",
       "creature/dragonspawnoverlorddarkshade/dragonspawnoverlorddarkshade.m2"
     ],
-    "result_sha256": "e9a5e43abd8e9985a7bb7850429229bbef702f8e375442d2a5fd6bd65592911e"
+    "result_sha256": "550866a77723582ad9c6c881bca18a1e278475b0a075dbdefb5ce8c178c3c067"
   },
   "CREATURE/DRAGONSPAWN2DARKSHADE_MODULAR/DRAGONSPAWN2DARKSHADE_MODULAR00.SKIN": {
     "note": "I-392: the Infinite version of DRAGONSPAWN2_MODULAR00.SKIN: the same ops on retail dragonspawn2darkshade01.skin (see that recipe). Its armour batches (modern shader 0x8000, flags 0x90: invisible in 3.3.5) are rewritten to the classic env-armour form (skin.batch.set).",
@@ -1861,6 +1879,12 @@
             ]
           },
           "texcombo": 0
+        },
+        "rig": true,
+        "death_fold": {
+          "fold": -60,
+          "sweep": 75,
+          "shrink": 0.02
         }
       },
       {
@@ -1878,6 +1902,6 @@
         ]
       }
     ],
-    "result_sha256": "960f7fd11e81b5b90e40431abd48d4fa064d63497cc9ee8f47fb9415e5cde44c"
+    "result_sha256": "780db70ffae3c6c39230438a45cfd36f190d6140a967626d4668b3a936cd8aa8"
   }
 }

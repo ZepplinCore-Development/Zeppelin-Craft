@@ -628,6 +628,138 @@ def _strut_split(donor: bytes, tris, cfg: Dict[str, Any]):
     return flags, out
 
 
+def _decomp_quat(raw: bytes):
+    out = []
+    for v in struct.unpack('<4h', raw):
+        out.append((v + 32768) / 32767.0 if v < 0 else (v - 32767) / 32767.0)
+    return out
+
+
+def _comp_quat(q) -> bytes:
+    """A unit quaternion (x, y, z, w) as the WotLK M2CompQuat (int16 x4)."""
+    out = []
+    for f in q:
+        v = int(round(f * 32767))
+        out.append(max(-32768, min(-1, v - 32768)) if f >= 0 else max(0, min(32767, v + 32767)))
+    return struct.pack('<4h', *out)
+
+
+def _wing_quat(ax: float, az: float):
+    """Rotation about x (raise / droop) then about z (sweep back), as (x, y, z, w)."""
+    import math
+    x2, y2, z2, w2 = math.sin(ax / 2), 0.0, 0.0, math.cos(ax / 2)
+    x1, y1, z1, w1 = 0.0, 0.0, math.sin(az / 2), math.cos(az / 2)
+    return (w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2, w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2,
+            w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2, w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2)
+
+
+def _rig_plan(donor: bytes, cfg: Dict[str, Any]):
+    """"rig": the donor's bone subtree under `bones` (parents first) - the bones the piece is
+    re-rigged on, its animation copied from the donor's sequences."""
+    dm = _Model(donor)
+    kids = collections.defaultdict(list)
+    for i in range(len(dm.parent)):
+        kids[dm.parent[i]].append(i)
+    order, todo = [], [int(b) for b in cfg['bones']]
+    while todo:
+        b = todo.pop(0)
+        order.append(b)
+        todo += kids[b]
+    return dm, order
+
+
+def _add_rig_bones(data: bytearray, donor: bytes, order, bind: int, sides: int, place, death=None) -> int:
+    """Copies of the donor bones `order` (one set per side; side 1 mirrored y -> -y), the root's parent
+    = this model's `bind` bone, pivots placed by `place(point, side)`. Rotation tracks only (the
+    classic wing has no translation / scale keys): for each of this model's sequences kept in the file,
+    the donor sequence with the same animation id and variation (else variation 0, else stand) is
+    stretched to this sequence's length; .anim-file sequences get no keys. Returns the first new bone."""
+    from lib.m2_ops import _relocate_array
+    dm = _Model(donor)
+    ns, osq = _arr(data, 0x1C)
+    seqs = [struct.unpack_from('<HHIfI', data, osq + 64 * i) for i in range(ns)]
+    dns, dsq = _arr(donor, 0x1C)
+    dseq = [struct.unpack_from('<HHI', donor, dsq + 64 * i) for i in range(dns)]
+    def pick(aid, var):
+        for want in ((aid, var), (aid, 0), (0, 0)):
+            for i, (a, v, _) in enumerate(dseq):
+                if (a, v) == want:
+                    return i
+        return 0
+    dnb, dob = _arr(donor, 0x2C)
+    nb, ob = _arr(data, 0x2C)
+    first = nb
+    newidx = {(b, side): nb + side * len(order) + i for side in range(sides) for i, b in enumerate(order)}
+
+    def blob(b: bytes) -> int:
+        while len(data) % 16:
+            data.append(0)
+        at = len(data)
+        data.extend(b)
+        return at
+    table = bytes(data[ob:ob + 88 * nb])
+    empty = struct.pack('<HhIIII', 0, -1, 0, 0, 0, 0)
+    for side in range(sides):
+        for b in order:
+            o = dob + 88 * b
+            it, gs, tn, to, vn, vo = struct.unpack_from('<HhIIII', donor, o + 36)
+            ts, vs = [], []
+            for sid, var, dur, _speed, fl in seqs:
+                if not fl & 0x20 or not tn:
+                    ts.append((0, 0)); vs.append((0, 0)); continue
+                j = pick(sid, var)
+                kn, ko = struct.unpack_from('<II', donor, to + 8 * j)
+                _, vo2 = struct.unpack_from('<II', donor, vo + 8 * j)
+                if not kn:
+                    ts.append((0, 0)); vs.append((0, 0)); continue
+                if sid == 1 and death and b == order[0]:
+                    # death: the root folds the wing back along the body and down (the classic death
+                    # keys suit the classic body's fall, not this one); the finger joints keep theirs
+                    import math
+                    sgn = -1.0 if side else 1.0
+                    if place(struct.unpack_from('<3f', donor, o + 76), 0)[1] < 0:
+                        sgn = -sgn
+                    q = _comp_quat(_wing_quat(sgn * math.radians(death['fold']), sgn * math.radians(death['sweep'])))
+                    rest = _comp_quat((0.0, 0.0, 0.0, 1.0))
+                    keys = [(0, rest), (int(dur * 0.5), q), (dur, q)]
+                    ts.append((3, blob(struct.pack('<3I', *(k for k, _ in keys)))))
+                    vs.append((3, blob(b''.join(v for _, v in keys))))
+                    continue
+                scale = dur / max(1, dseq[j][2])
+                times = [int(round(t * scale)) for t in struct.unpack_from('<%dI' % kn, donor, ko)]
+                vals = []
+                for k in range(kn):
+                    raw = donor[vo2 + 8 * k:vo2 + 8 * k + 8]
+                    if side:
+                        x, y, z, w = _decomp_quat(raw)
+                        raw = _comp_quat((-x, y, -z, w))     # mirrored across the y = 0 plane
+                    vals.append(raw)
+                ts.append((kn, blob(struct.pack('<%dI' % kn, *times))))
+                vs.append((kn, blob(b''.join(vals))))
+            tso = blob(b''.join(struct.pack('<II', *x) for x in ts))
+            vso = blob(b''.join(struct.pack('<II', *x) for x in vs))
+            rot = struct.pack('<HhIIII', it, -1, ns, tso, ns, vso)
+            scl = empty
+            if death and death.get('shrink') and b == order[0]:
+                # death: the wing also shrinks into the back while it folds, so the corpse lies clean
+                sts, svs = [], []
+                for sid, var, dur, _speed, fl in seqs:
+                    if sid == 1 and fl & 0x20:
+                        k = float(death['shrink'])
+                        sts.append((3, blob(struct.pack('<3I', 0, int(dur * 0.5), dur))))
+                        svs.append((3, blob(struct.pack('<9f', 1, 1, 1, k, k, k, k, k, k))))
+                    else:
+                        sts.append((0, 0)); svs.append((0, 0))
+                scl = struct.pack('<HhIIII', 1, -1, ns, blob(b''.join(struct.pack('<II', *x) for x in sts)),
+                                  ns, blob(b''.join(struct.pack('<II', *x) for x in svs)))
+            par = dm.parent[b]
+            parent = newidx.get((par, side), bind)
+            piv = place(struct.unpack_from('<3f', donor, o + 76), side)
+            table += struct.pack('<iIhHI', -1, 0x200, parent, 0, 0) + empty + rot + scl + struct.pack('<3f', *piv)
+    _relocate_array(data, 0, 0x2C, table, nb + sides * len(order))
+    return first
+
+
 def import_rigid(data: bytearray, cfg: Dict[str, Any]) -> str:
     """MODEL op m2.import_rigid: donor triangles under `bones` (a bone subtree of donor submesh
     `submesh`), moved by `offset`, each side pulled `inward` toward the midline, and with "mirror"
@@ -665,11 +797,35 @@ def import_rigid(data: bytearray, cfg: Dict[str, Any]) -> str:
             out.append(bytes(r))
     if at + len(out) > 0x10000 or ov + 48 * (at + len(out)) > len(data):
         raise ValueError(f'm2.import_rigid: no room for {len(out)} vertices at {at}')
+    extra = [bind]
+    if cfg.get('rig'):
+        # re-rig on copies of the donor's own bones (both sides), animated from the donor's sequences
+        _, order = _rig_plan(donor, cfg)
+        sides = 2 if cfg.get('mirror') else 1
+        def place(pt, side):
+            x, y, z = pt
+            y += dy
+            y = y + inward if y < 0 else y - inward
+            return (x + dx, -y if side else y, z + dz)
+        first = _add_rig_bones(data, donor, order, bind, sides, place, cfg.get('death_fold'))
+        combo = [bind] + [first + i for i in range(sides * len(order))]
+        half = len(verts) + len(svs)
+        pos = {b: i for i, b in enumerate(order)}
+        for i, r in enumerate(out):
+            side = i // half
+            v = (verts + svs)[i % half]
+            rb = bytearray(r)
+            w = donor[do + 48 * v + 12:do + 48 * v + 16]
+            bi = donor[do + 48 * v + 16:do + 48 * v + 20]
+            rb[12:16] = w
+            rb[16:20] = bytes((first + side * len(order) + pos[x]) if x in pos else bind for x in bi)
+            out[i] = bytes(rb)
+        extra = combo
     data[ov + 48 * at:ov + 48 * (at + len(out))] = b''.join(out)
     if at + len(out) > nv:
         struct.pack_into('<I', data, 0x3C, at + len(out))
     nl, ol = _arr(data, 0x78)
-    look = list(struct.unpack_from('<%dH' % nl, data, ol)) + [bind]
+    look = list(struct.unpack_from('<%dH' % nl, data, ol)) + extra
     _relocate_array(data, 0, 0x78, struct.pack('<%dH' % len(look), *look), len(look))
     return (f'import_rigid: {len(tris)} donor tris ({sum(flags)} strut) x{2 if cfg.get("mirror") else 1}, '
             f'{len(out)} vertices -> {at}.., bound to bone {bind}')
@@ -686,11 +842,31 @@ def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     m = _Model(model)
     bind = m.key.index(int(cfg['bind_key']))
     nl, ol = _arr(model, 0x78)
-    if struct.unpack_from('<H', model, ol + 2 * (nl - 1))[0] != bind:
-        raise ValueError('skin.import_rigid: the bone lookup does not end in the bind bone (the .M2 needs m2.import_rigid)')
+    rig = bool(cfg.get('rig'))
+    if rig:
+        dm_, order = _rig_plan(donor, cfg)
+        first = _arr(model, 0x2C)[0] - sides * len(order)
+        want = [bind] + [first + i for i in range(sides * len(order))]
+    else:
+        want = [bind]
+    nbones = len(want)
+    tail = list(struct.unpack_from('<%dH' % nbones, model, ol + 2 * (nl - nbones)))
+    if tail != want:
+        raise ValueError(f'skin.import_rigid: the bone lookup ends {tail}, not {want} (the .M2 needs m2.import_rigid)')
     nstart = len(sk.lookup)
     sk.lookup += list(range(at, at + n * sides))
-    sk.props += bytes(4 * n * sides)
+    # props index this piece's combo: [bind] + side 0 bones + side 1 bones
+    if rig:
+        dn_, do_ = _arr(donor, 0x3C)
+        pos = {b: i for i, b in enumerate(order)}
+        props = b''
+        for side in range(sides):
+            for v in verts + svs:
+                bi = donor[do_ + 48 * v + 16:do_ + 48 * v + 20]
+                props += bytes((1 + side * len(order) + pos[x]) if x in pos else 0 for x in bi)
+        sk.props += props
+    else:
+        sk.props += bytes(4 * n * sides)
     idx, sidx = [], []
     for t, f in zip(tris, flags):
         a, b, c = (nstart + (srank if f else rank)[v] for v in t)
@@ -707,7 +883,8 @@ def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
 
     def add(gid, start, count, texcombo):
         f = list(struct.unpack_from('<10H', base))
-        f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9] = gid, 0, nstart, n * sides, start, count, 1, nl - 1, 1, bind
+        f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9] = (gid, 0, nstart, n * sides, start, count, nbones,
+                                                                      nl - nbones, 4 if rig else 1, bind)
         raw = bytearray(base)
         struct.pack_into('<10H', raw, 0, *f)
         sk.subs.append(raw)
