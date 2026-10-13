@@ -1672,7 +1672,7 @@
     "result_sha256": "7ce23b54c103130bbd945374465924f7158dc63f841903c9574beea19296a703"
   },
   "CREATURE/DRAGONSPAWN2DARKSHADE_MODULAR/DRAGONSPAWN2DARKSHADE_MODULAR00.SKIN": {
-    "note": "I-392: the Infinite version of DRAGONSPAWN2_MODULAR00.SKIN: the same ops on retail dragonspawn2darkshade01.skin (see that recipe). Its armour batches (modern shader 0x8000, flags 0x90: invisible in 3.3.5) are rewritten to the classic env-armour form (skin.batch.set). Its body batches (modern 3-layer shader 0x8003: orange cast, no belly glow in 3.3.5) become the classic two-pass form patch-hd-creatures-mounts' dragonspawn2darkshade uses: pass 1 material 0 layer 0 (body + reflect), pass 2 material 1 (16, 2) layer 1. A third pass draws the FX glow mask (texture lookup 2, the body UVs) unlit and additive (material 7): retail's glowing belly and veins.",
+    "note": "I-392: the Infinite version of DRAGONSPAWN2_MODULAR00.SKIN: the same ops on retail dragonspawn2darkshade01.skin (see that recipe). Its armour batches (modern shader 0x8000, flags 0x90: invisible in 3.3.5) are rewritten to the classic env-armour form (skin.batch.set). Its body batches (modern 3-layer shader 0x8003: orange cast, no belly glow in 3.3.5) become pass 1 material 0 layer 0 (body + reflect) and pass 2, which draws the FX glow mask (texture lookup 2, the body UVs) unlit and additive (material 7): retail's glowing belly and veins. (A middle alpha pass re-drawing the body, as patch-hd-creatures-mounts does, washed the scales pale pink: dropped.)",
     "copy_from": "CREATURE/DRAGONSPAWN2DARKSHADE_MODULAR/DRAGONSPAWN2DARKSHADE_MODULAR01.SKIN",
     "base_sha256": "e9147dced78e4839198759c2deb6b93b1cc036a5bd641fbd92e4e6c491aefcf2",
     "ops": [
@@ -1710,18 +1710,8 @@
           {
             "flags": 0,
             "shader": 0,
-            "material": 1,
-            "layer": 1,
-            "textures": 1,
-            "texcombo": 0,
-            "coord": 1,
-            "transform": 0
-          },
-          {
-            "flags": 0,
-            "shader": 0,
             "material": 7,
-            "layer": 2,
+            "layer": 1,
             "textures": 1,
             "texcombo": 2,
             "coord": 0,
@@ -1944,6 +1934,6 @@
         ]
       }
     ],
-    "result_sha256": "36a872ee04afd2cbce6a43589e00bc1a97e876c6042b4064f97fd5521b5c9f75"
+    "result_sha256": "0fccab4f3fd2ff887f8df87a66cfa626583f133a0faab89712b85cae8024ced8"
   }
 }
