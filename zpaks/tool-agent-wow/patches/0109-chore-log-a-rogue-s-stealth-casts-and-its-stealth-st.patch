@@ -1,0 +1,36 @@
+From 3b2f31b89ca6245b0abed34200ca40eb43d857b8 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 03:16:04 +0000
+Subject: [PATCH] chore: log a rogue's stealth casts and its stealth state at
+ each pull (F-219)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index abc6f37..5947684 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -2075,6 +2075,8 @@ class Runner:
+             t = out
+         if self.w.cls == 4:
+             self.stealth(wait=True)  # walk the last stretch unseen: the opener comes from behind
++            up = bool(set(call("combat.state").get("auras", [])) & STEALTH)
++            print(f"  pull {t['entry']}: stealth {'up' if up else 'DOWN'}, backstab {getattr(self, '_backstab', 0)}", flush=True)
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(solo=len(group) <= 1), loot=True,
+                  **({"body_pull": True, "retreat": 15} if body else {}))
+         self.fight_log(t["entry"], r)
+@@ -2436,6 +2438,7 @@ class Runner:
+             self._stealth_t = time.time()
+             r = call("interact.cast", spell_id=rank, target_kind="self", timeout_ms=2000)
+             if r.get("ok") or not wait or time.time() - t0 > 12:
++                print(f"  stealth: {r.get('detail')}", flush=True)
+                 return
+             time.sleep(1.5)
+ 
+-- 
+2.34.1
+
