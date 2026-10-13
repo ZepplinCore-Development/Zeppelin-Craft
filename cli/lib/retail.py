@@ -28,7 +28,7 @@ LISTFILE = Path('/workspace/project/Zeppelin-Tools/Retroport/retroport_tools/Mul
 CACHE = Path('/workspace/project/logs/retail_cache')
 DOWNPORT = Path('/workspace/project/Zeppelin-Tools/Retroport/zep_downport/zep_downport')
 WAGO = 'https://wago.tools/api'
-CONVERT_VERSION = 2     # 2: WXL skin rebuild (m2_skin_rebuild) applied after the downport
+CONVERT_VERSION = 3     # 2: WXL skin rebuild (m2_skin_rebuild) applied after the downport; 3: classic animation aliases
 _UA = {'User-Agent': 'Zeppelin-F216-model-viewer/1.0 (+curl compatible)'}
 
 
@@ -194,6 +194,16 @@ def convert(path: str, log=print, fdid: Optional[int] = None) -> Optional[Dict[s
     from lib import m2_skin_rebuild
     skins = sorted(k for k in files if k.startswith(stem) and k.endswith('.skin'))
     m2b, sks = m2_skin_rebuild.rebuild(work.read_bytes(), [files[k].read_bytes() for k in skins], path, log)
+    # classic animations retail's model lacks: alias each to its nearest more-specific stand-in (m2_tracks)
+    try:
+        from lib import m2_tracks
+        pairs = classic_standins(m2_tracks.anim_ids(m2b))
+        if pairs:
+            m2b = m2_tracks.add_aliases(m2b, pairs)
+            log(f'    retail {path}: {len(pairs)} classic animation(s) aliased: '
+                + ', '.join(f'{x}<-{y}' for x, y in pairs[:12]))
+    except Exception as ex:                            # the plain conversion still ships
+        log(f'    retail {path}: animation aliases skipped - {ex}')
     work.write_bytes(m2b)
     for k, b in zip(skins, sks):
         files[k].write_bytes(b)
@@ -202,6 +212,39 @@ def convert(path: str, log=print, fdid: Optional[int] = None) -> Optional[Dict[s
 
 
 _cdi: Optional[Dict[int, Tuple[int, List[int]]]] = None
+_anim_fb: Optional[Dict[int, int]] = None
+CLIENT_MAX_ANIM = 505                                   # the 3.3.5 client resolves ids 0..505
+
+
+def anim_fallbacks() -> Dict[int, int]:
+    """Retail AnimationData: id -> fallback id (cached per build)."""
+    global _anim_fb
+    if _anim_fb is None:
+        f = CACHE / f'animfb_{build()}.pkl'
+        if f.exists():
+            _anim_fb = pickle.loads(f.read_bytes())
+        else:
+            _anim_fb = {int(r['ID']): int(r.get('Fallback') or 0) for r in _csv('AnimationData')}
+            f.write_bytes(pickle.dumps(_anim_fb))
+    return _anim_fb
+
+
+def classic_standins(have) -> List[Tuple[int, int]]:
+    """(missing classic id, stand-in id) pairs for a model with animations `have`: for each classic id
+    (<= 505) the model lacks, the animation it has whose fallback chain reaches that id soonest - a more
+    specific child (SpellCast 32 <- SpellCastArea 33 <- SpellCastOmni 54). The client would otherwise drop
+    to the PARENT (32 -> AttackUnarmed 16). Ids with no such child are left to the client's fallback."""
+    fb = anim_fallbacks()
+    have = set(have)
+    best: Dict[int, Tuple[int, int]] = {}
+    for y in have - {0}:                                # Stand falls back to the door chain (Closed 147 ...)
+        x, d, seen = fb.get(y, 0), 1, {y}
+        while x and x not in seen and d < 12:           # a chain ends at Stand (0)
+            if x <= CLIENT_MAX_ANIM and x not in have and (x not in best or (d, y) < best[x]):
+                best[x] = (d, y)
+            seen.add(x)
+            x, d = fb.get(x, 0), d + 1
+    return sorted((x, y) for x, (d, y) in best.items())
 
 
 def _csv(table: str):

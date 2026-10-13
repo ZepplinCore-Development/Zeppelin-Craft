@@ -705,7 +705,7 @@ def _model_viewer_run(ctx, rebuild_index, reuse_index):
     ixp = logs / 'asset_index.pkl'
     # the index is a pure function of the sources: reuse it when their fingerprint is unchanged
     from lib.model_sources import _scan_fingerprint
-    ix_fp = _scan_fingerprint(result['sources'], craft_root, True)
+    ix_fp = _scan_fingerprint(result['sources'], craft_root, True) + f'|index v{ai.INDEX_VERSION}'   # code changes rebuild too
     fpp = logs / 'asset_index.fingerprint'
     if not rebuild_index and ixp.exists() and fpp.exists() and fpp.read_text() == ix_fp:
         reuse_index = True
@@ -730,7 +730,8 @@ def _model_viewer_run(ctx, rebuild_index, reuse_index):
     # Retail is LIVE in the picker (straight from wago.tools, data/v2/retail.json); the
     # WXL-converted file is made only for models picked as Retail, by `zep model curate`.
     ix.pack_refs(result)                       # orphan pack skins never pass as upscales
-    click.echo(f'  {len(ix.meshes):,} meshes, {len(ix.textures):,} textures ({time.time() - t0:.0f}s)')
+    click.echo(f'  {len(ix.meshes):,} meshes, {len(ix.textures):,} textures ({time.time() - t0:.0f}s)'
+               + (f'; {ix.__dict__.get("same_look_merged", 0):,} same-look options merged' if ix.__dict__.get('same_look_merged') else ''))
     names, equipment, idi_names = _world_context()
     for k, v in items.items():
         names[k] = sorted({n for i in v['idi'] for n in idi_names.get(i, [])}, key=len)[:6]

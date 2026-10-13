@@ -476,6 +476,10 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         manifest[p] = hc.Entry(owner, 'Q', 0, f)
         if owner == 'stock':
             stock_copies += 1
+    # ---- retroports: a pack model that is retail's downported ships OUR conversion of retail's ----------
+    stock_dbc = ({k[0]: v for k, v in layers.state('creaturedisplayinfo', 'stock').items()},
+                 {k[0]: v for k, v in layers.state('creaturemodeldata', 'stock').items()})
+    _retroport_swap(manifest, wanted_rows, base_cdi, base_cmd, ix, report, log, stock_dbc)
     # ---- item fits (F-165 transform; borrow = another race's model for this variant) ---------
     fits_done, fits_skipped = 0, []
     fit_dir = Path('/workspace/project/logs/fit_cache')
@@ -655,6 +659,62 @@ def _new_display(did: int, cu: dict, layers: 'hd.Layers', result: dict, srcs: di
     return ''
 
 
+def _retroport_swap(manifest: dict, wanted_rows: dict, base_cdi: dict, base_cmd: dict, ix, report: dict,
+                    log=print, stock_dbc=None) -> None:
+    """lib/retroport: where the shipped .m2 is a pack's RETROPORT of the current retail model (same vertices,
+    no added animations), ship our WXL conversion of retail's model instead (.m2 / .skin / .anim at the
+    same path: retail's particle blends and gravity, every LOD) and keep the pack's skins and display rows.
+    Each display on that model gets geosets that draw on retail's full mesh what the pack's trimmed mesh
+    drew (retroport.retroport_nibbles)."""
+    from lib import retroport as rp, retail
+    rps = rp.retroports(ix.sources, log, stock_dbc=stock_dbc)
+    report['retroports'], report['retroport_failed'] = [], {}
+    for path, info in sorted(rps.items()):
+        e = manifest.get(path)
+        if e is None or e.zpak.split('+')[0] not in info['sources']:      # '<pack>+fixed': a particle recipe's output
+            continue                                   # the shipped file is stock / another pack / ours
+        stem = path[:-3]
+        old_skin = manifest.get(stem + '00.skin')
+        try:
+            files = retail.convert(path, log=lambda *a: None, fdid=info['fdid'] if info.get('retail_path') else None)
+        except Exception as ex:                        # never lose the pack's working file over it
+            files, why = None, str(ex)[:120]
+        if not files or path not in files:
+            report['retroport_failed'][path] = 'convert failed' if files is None else 'no model in conversion'
+            continue
+        for k in [k for k in manifest if k.startswith(stem) and k.endswith(('.skin', '.anim'))
+                  and k[len(stem):len(stem) + 1].isdigit() and k not in files]:
+            manifest.pop(k)                            # the pack's LOD / anim files retail's conversion replaces
+        for k, f in files.items():
+            if k.endswith(('.m2', '.skin', '.anim')):
+                manifest[k] = hc.Entry('retail-retroport', 'Q', 0, f)
+        # geosets: the pack's rows were written for its trimmed mesh
+        pmesh = rp.mesh_variants(old_skin.file.read_bytes()) if old_skin is not None else {}
+        rmesh = retail.mesh_geosets(info['fdid'])
+        mids = {k for k, r in base_cmd.items() if ms.norm(str(r.get('model_path') or '')).replace('.mdx', '.m2') == path}
+        mids |= {k for (t, k), r in wanted_rows.items() if t == 'creaturemodeldata' and r and
+                 ms.norm(str(r.get('model_path') or '')).replace('.mdx', '.m2') == path}
+        nfix = 0
+        if rmesh:
+            for key in set(base_cdi) | {k for t, k in wanted_rows if t == 'creaturedisplayinfo'}:
+                row = wanted_rows.get(('creaturedisplayinfo', key)) or base_cdi.get(key)
+                if not row or (int(row.get('model_id') or 0),) not in mids:
+                    continue
+                cg = int(row.get('creature_geoset_data') or 0)
+                new_cg = retail.pack_nibbles(rp.retroport_nibbles(cg, pmesh, rmesh))
+                if new_cg != cg:
+                    r2 = dict(row)
+                    r2['creature_geoset_data'] = new_cg
+                    wanted_rows[('creaturedisplayinfo', key)] = r2
+                    nfix += 1
+        src = e.zpak.split('+')[0]
+        report['retroports'].append([path, src, nfix, info.get('extra_verts', {}).get(src, 0),
+                                     info.get('added_anims', {}).get(src, [])])
+    log(f"  retroports: {len(report['retroports']):,} pack models ship retail's conversion "
+        f"({sum(x[2] for x in report['retroports']):,} display geosets translated, "
+        f"{len(report['retroport_failed']):,} kept the pack file)")
+
+
 def _retail_display(did: int, dp: dict, layers: hd.Layers, result: dict, srcs: dict,
                     want: Dict[str, Optional[Path]], wanted_rows: dict, log=print) -> str:
     """Display `did` -> the retail model dp['option'] (converted the WXL way at its OWN path) as
@@ -694,9 +754,21 @@ def _retail_display(did: int, dp: dict, layers: hd.Layers, result: dict, srcs: d
     row = dict(wanted_rows.get(('creaturedisplayinfo', (did,))) or layers.state('creaturedisplayinfo', 'base').get((did,)) or srow)
     row['model_id'] = mid
     mdir = tp.rsplit('/', 1)[0]
-    skins = [int(x or 0) for x in (dp.get('skins') or [])[:3]] + [0, 0, 0]
+    raw = list(dp.get('skins') or [])[:3] + [0, 0, 0]
+    # a retroport pack's skin ('pack:<source>:<path>', lib/retroport): it fits retail's model as it is and
+    # ships under its own name beside the converted model
+    skins = [0 if isinstance(x, str) else int(x or 0) for x in raw]
     for i in range(3):
         name = ''
+        if isinstance(raw[i], str) and raw[i].startswith('pack:'):
+            _, src, ppath = raw[i].split(':', 2)
+            f = srcs[src].assets.get(ppath) if src in srcs else None
+            if f is None:
+                return f'pack skin {raw[i]} not available'
+            name = ppath.rsplit('/', 1)[-1][:-4]
+            want[f'{mdir}/{name}.blp'] = f
+            row[f'texture_variation_{i + 1}'] = name
+            continue
         if skins[i]:
             f = retail.texture_file(skins[i])
             if f is None:

@@ -154,6 +154,9 @@ def _corr(a, b) -> float:
     return float((x * y).sum() / d) if d else 0.0
 
 
+INDEX_VERSION = 2      # bump when how options are built changes (2: same-look options merged, m2_visual)
+
+
 class MetaCache:
     """Per-file derived data (M2 texture names, BLP header) cached on (size, mtime)."""
 
@@ -311,6 +314,41 @@ class AssetIndex:
         opts.sort(key=lambda o: (o.sources[0] != 'stock', o.sources[0]))
         return opts
 
+    def _look(self, p: str, o: 'Option') -> Optional[str]:
+        """An option's look: m2_visual's render + skeleton signatures and its .anim files' contents
+        (LOD skins 01-03 do not count: the close-up look is what is picked)."""
+        from lib import m2_visual as mv
+        f, sk = o.files.get(p), o.files.get(p[:-3] + '00.skin')
+        if f is None or sk is None:
+            return None
+        ss = stat_of(sk)
+        render = self._meta_cache().get(f'vsig1|{sk}|{ss[0]}|{ss[1]}', f,
+                                        lambda x: mv.signature(x.read_bytes(), sk.read_bytes()))
+        bones = self._meta_cache().get('bsig1', f, lambda x: mv.bones_signature(x.read_bytes()))
+        if render is None or bones is None:
+            return None
+        anims = sorted((k, self.hash(v)) for k, v in o.files.items() if k.endswith('.anim'))
+        return hashlib.sha1(repr((render, bones, anims)).encode()).hexdigest()[:16]
+
+    def _merge_same_look(self, p: str, opts: List['Option']) -> List['Option']:
+        """Options whose files differ but draw the same (two packs' gilneas_vines_02.m2: other byte layout,
+        a stored shader id the client ignores) are ONE option: the first's files (stock first), every
+        source. The merged-away keys stay in meta['same_look'] so picks saved under them still resolve."""
+        out: List[Option] = []
+        seen: Dict[str, Option] = {}
+        for o in opts:
+            lk = self._look(p, o)
+            m = seen.get(lk) if lk else None
+            if m is None:
+                if lk:
+                    seen[lk] = o
+                out.append(o)
+                continue
+            m.sources = sorted(set(m.sources) | set(o.sources), key=lambda s: (s != 'stock', s))
+            m.meta.setdefault('same_look', []).append(o.key)
+            self.__dict__['same_look_merged'] = self.__dict__.get('same_look_merged', 0) + 1
+        return out
+
     def _mesh_files(self, src: str, m2: str) -> Dict[str, Path]:
         idx = self._src_files(src)
         f = idx.get(m2)
@@ -363,6 +401,8 @@ class AssetIndex:
             for src in self._source_names():
                 per[src] = self._mesh_files(src, p) if p.endswith('.m2') else self._wmo_files(src, p)
             opts = self._options(per)
+            if p.endswith('.m2') and len(opts) > 1:
+                opts = self._merge_same_look(p, opts)
             if opts:
                 kind = 'm2' if p.endswith('.m2') else 'wmo'
                 a = self.meshes[p] = Asset(kind, p, opts)

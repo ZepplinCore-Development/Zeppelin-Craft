@@ -1,0 +1,10 @@
+{
+ "_doc": "F-216: approved skin donors (lib/retroport.donors). A pack model whose SKINS fit a retail model although the pack's own file must not replace it (not a clean retroport: added animations our conversion cannot rebuild, its own geometry). Keyed by the retail model path; each entry names the pack (source) and its model whose display rows' skins the Display editor may offer on the retail model ('pack:<source>:<path>' refs, shipped beside our conversion of retail's model). Clean retroports need no entry. Skin interoperability stays limited to the models listed here.",
+ "creature/cosmicflyermount/cosmicflyermount.m2": [
+  {
+   "source": "patch-hd-creatures-mounts",
+   "model": "creature/cosmicflyermount/cosmicraynew.m2",
+   "note": "I-400 (2026-10-13): cosmicraynew.m2 is retail cosmicflyermount's mesh renamed (all 2,569 vertices are retail's) but adds 15 animations retail lacks, so it is not a retroport. Its body recolours (slots 1-2) render cleanly on retail's model; slot 3 is retail's saddle, which the pack trimmed out. Approved by the user's direction relayed by the Netherray session."
+  }
+ ]
+}

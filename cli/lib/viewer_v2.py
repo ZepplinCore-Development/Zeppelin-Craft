@@ -121,7 +121,8 @@ class Picks:
         o = None
         if a:
             k = self.mesh_choice.get(path)
-            o = next((x for x in a.options if x.key == k or (k == 'retail' and 'retail' in x.sources)), None) if k else None
+            o = next((x for x in a.options if x.key == k or (k == 'retail' and 'retail' in x.sources)
+                      or k in (x.meta.get('same_look') or [])), None) if k else None
             o = o or a.option_of(self.owner.get(path, 'stock')) or a.option_of('stock') or a.options[0]
         self._mesh_cache[path] = o
         return o
@@ -342,7 +343,8 @@ class Deployer:
                 self._publish(key, hit)
                 self.reused += 1
                 return _sized(copy.deepcopy(hit['pane']), opt)
-        return self._build_pane(path, opt, did, tex_override, dbc_source, key, skins, row_over, stock_only)
+        pn = self._build_pane(path, opt, did, tex_override, dbc_source, key, skins, row_over, stock_only)
+        return _sized(pn, opt) if pn else pn
 
     def _geosets_of(self, sk) -> set:
         # submesh ids of a .skin, read once per deploy (pane keys ask for every pane with geoset data)
@@ -1285,8 +1287,91 @@ def reuses_display(stock_path: str, path: str, ext, stock_paths: set) -> bool:
     return not (a in b or b in a or len(os.path.commonprefix([a, b])) >= 4)
 
 
+def annotate_retroports(dep, assets: list, v2: Path, log=print) -> None:
+    """lib/retroport: a pack pane whose model is a retroport of the current retail model is drawn as what
+    curate ships - retail's model (pane 'retroport': its FileDataID; the pane fetches it as a retail pane and
+    keeps the pack's skins from its own file map) with geosets translated for retail's full mesh."""
+    from lib import retroport as rp, retail
+    rps = rp.retroports([s for s in dep.result['sources']], log, stock_dbc=dep.result['stock_dbc'][:2])
+    srcs = {s.name: s for s in dep.result['sources']}
+    stock_cdi, stock_cmd = dep.result['stock_dbc'][0], dep.result['stock_dbc'][1]
+    pm_cache: Dict[Tuple[str, str], dict] = {}
+    # skin sets per (source, model): the distinct texture_variation triples its display rows use there
+    sets_of: Dict[Tuple[str, str], Dict[tuple, int]] = {}
+
+    def skin_sets(src: str, path: str) -> Dict[tuple, int]:
+        k = (src, path)
+        if k not in sets_of:
+            cdi, cmd = (stock_cdi, stock_cmd) if src == 'stock' or src not in srcs else (srcs[src].cdi, srcs[src].cmd)
+            mids = {m for m, r in cmd.items() if ms.norm(str(r.get('model_path') or '')).replace('.mdx', '.m2') == path}
+            out: Dict[tuple, int] = {}
+            for r in cdi.values():
+                if int(r.get('model_id') or 0) in mids:
+                    t = tuple(str(r.get(f'texture_variation_{i}') or '') for i in (1, 2, 3))
+                    if any(t):
+                        out[t] = out.get(t, 0) + 1
+            sets_of[k] = out
+        return sets_of[k]
+
+    n = 0
+    for e in assets:
+        for p in e.get('panes') or []:
+            if p.get('model') and (p.get('sources') or [None])[0]:
+                p['skin_sets'] = len(skin_sets(p['sources'][0], p['model']))
+            info = rps.get(p.get('model') or '')
+            src = next((x for x in p.get('sources') or [] if info and x in info['sources']), None)
+            if not src:
+                continue
+            path = p['model']
+            if (src, path) not in pm_cache:
+                sk = srcs[src].assets.get(path[:-3] + '00.skin') if src in srcs else None
+                pm_cache[(src, path)] = rp.mesh_variants(Path(sk).read_bytes()) if sk else {}
+            row = srcs[src].cdi.get(p.get('display')) if p.get('display') is not None and src in srcs else None
+            cg = int((row or {}).get('creature_geoset_data') or 0)
+            nib = rp.retroport_nibbles(cg, pm_cache[(src, path)], retail.mesh_geosets(info['fdid']))
+            p['retroport'] = {'fdid': info['fdid']}
+            if info.get('extra_verts', {}).get(src):
+                p['retroport']['extra_verts'] = info['extra_verts'][src]     # a small piece the pack added (not shipped)
+            if info.get('added_anims', {}).get(src):
+                p['retroport']['added_anims'] = info['added_anims'][src]     # the pack's own, covered by our aliases
+            if any(nib):
+                p['retroport']['mesh'] = [0] + nib
+            n += 1
+    # the Display editor's skin union for a retail model: every retroport pack's skin sets, staged
+    # keyed by the RETAIL model's path (a renamed retroport's retail_path); approved donors (retroport.donors:
+    # skins that fit retail's model though the pack's file is not a clean retroport) join them
+    pub: Dict[str, dict] = {}
+    by_path_, _ = retail.listfile()
+
+    def add_sets(rpath: str, fdid: int, src: str, model: str, how: str):
+        folder = model.rsplit('/', 1)[0]
+        e_ = pub.setdefault(rpath, {'fdid': fdid, 'sets': []})
+        for t, nd in sorted(skin_sets(src, model).items(), key=lambda kv: -kv[1]):
+            cas = []
+            for name in t:
+                f = srcs[src].assets.get(f'{folder}/{name.lower()}.blp') if name and src in srcs else None
+                cas.append(dep.store.put(Path(f)) if f else '')
+            if any(cas):
+                e_['sets'].append([list(t), cas, src, nd, model, how])
+
+    for path, info in rps.items():
+        for src in info['sources']:
+            add_sets(info.get('retail_path', path), info['fdid'], src, path, 'retroport')
+    for rpath, lst in rp.donors().items():
+        if rpath in by_path_:
+            for d_ in lst:
+                add_sets(rpath, by_path_[rpath], d_['source'], d_['model'].lower(), 'approved')
+    pub = {k: v for k, v in pub.items() if v['sets']}
+    (v2 / 'retroports.json').write_text(json.dumps(pub, separators=(',', ':')))
+    log(f'  retroports: {n:,} pack panes drawn as retail\'s model ({len(rps):,} retroport models, '
+        f'{sum(len(v["sets"]) for v in pub.values()):,} pack skin sets offered on retail)')
+
+
 def _sized(pn: dict, opt) -> dict:
-    """A cached pane from before its option had a size (stock fallback cards) gets it now."""
+    """A cached pane from before its option had a size (stock fallback cards) gets it now; and the option
+    keys merged into it as the same look (asset_index._merge_same_look)."""
+    if opt.meta.get('same_look'):
+        pn['same_look'] = list(opt.meta['same_look'])
     if opt.size and not pn.get('size'):
         pn['size'] = opt.size
         if isinstance(pn.get('stats'), dict):
@@ -2406,6 +2491,11 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         assets += moved
         (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
         log(f'  repoint sources: {len(moved):,} stock models packs move displays off join the chooser')
+    try:
+        annotate_retroports(dep, assets, v2, log)
+        (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
+    except Exception as ex:                                  # a preview nicety: never block a deploy
+        log(f'  retroports: skipped - {ex}')
     log(f'  catalogue: {len(cat):,} more models with a single option (All view)')
     try:
         publish_retail_index(out_root, assets + cat, log, dep.displays_of, dep)

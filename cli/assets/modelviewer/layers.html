@@ -259,11 +259,21 @@ function packSkinId(cas, ref, name, src) {
   packSkin[id] = { cas, ref, name, src };
   return (packSkinByRef[ref] = id);
 }
+// saved skins (retail fdids and 'pack:<src>:<path>' refs) -> pane ids + the ovr serving the pack ones; a ref
+// no published donor has stays 0 here (and is kept as it is by the Display editor)
+function skinIds(skins) {
+  const ids = (skins || [0, 0, 0]).map(v => typeof v === 'string' ? (packSkinByRef[v] || 0) : (+v || 0)), ovr = {};
+  ids.forEach(v => { if (packSkin[v]) ovr['fdid/' + v] = packSkin[v].cas; });
+  return { ids, ovr };
+}
 // a retail model's pack skin sets as [[ids x3], displays, pack, names x3]
+// (a set's own pack model gives the skins' folder: a renamed retroport or an approved donor lives elsewhere)
 function retroSets(path) {
-  const rx = retroIdx[path], folder = path.split('/').slice(0, -1).join('/');
-  return !rx ? [] : rx.sets.map(([names, cas, src, nd]) => [names.map((n, k) => n && cas[k]
-    ? packSkinId(cas[k], `pack:${src}:${folder}/${n.toLowerCase()}.blp`, n, src) : 0), nd, src, names]);
+  const rx = retroIdx[path];
+  return !rx ? [] : rx.sets.map(([names, cas, src, nd, model, how]) => {
+    const folder = (model || path).split('/').slice(0, -1).join('/');
+    return [names.map((n, k) => n && cas[k] ? packSkinId(cas[k], `pack:${src}:${folder}/${n.toLowerCase()}.blp`, n, src) : 0), nd, src, names, how];
+  });
 }
 const OUTFIT_SLOTS = ['helm', 'shoulders', 'cape', 'chest', 'shirt', 'tabard', 'wrists', 'gloves', 'belt', 'legs', 'boots'];
 // ---- 3.3.5 outfitter: item displays per slot (data/v2/outfit335) + a live bake composited here, the
@@ -788,7 +798,11 @@ function modelSplitKey(c, e) {
 function reviewReason(kind, key, entry) {
   const c0 = choices[kind][key];
   if (!c0 || !c0.options || !entry) return null;
-  const c = { ...c0, option: splitKey(c0, entry) };
+  // options merged as the same look (different bytes, the same draw): a key saved before the merge is the
+  // option it was merged into, and is not "removed"
+  const merged = new Map();
+  (entry.panes || []).forEach(p => (p.same_look || []).forEach(k => merged.set(k, p.option)));
+  const c = { ...c0, option: merged.get(c0.option) || splitKey(c0, entry) };
   const now = optionsOf(entry);
   // picks saved before retail remasters got their own key ('retail:<path>') recorded them under the bare path
   const was = (k, opts) => k in opts || (String(k).startsWith('retail:') && k.slice(7) in opts);
@@ -802,7 +816,7 @@ function reviewReason(kind, key, entry) {
   const renamed = (k) => { const [base] = String(k).split('#'); return k.includes('#') && base in c.options &&
     (now[k] || []).every(z => (c.options[base] || []).includes(z)); };
   const added = Object.keys(now).filter(k => !was(k, c.options) && !renamed(k));
-  const gone = Object.keys(c.options).filter(k => !(k in now) && !Object.keys(now).some(n => n.startsWith(k + '#')) &&
+  const gone = Object.keys(c.options).filter(k => !(k in now) && !merged.has(k) && !Object.keys(now).some(n => n.startsWith(k + '#')) &&
     !((c.options[k] || []).includes('retail') && ('retail:' + k) in now));
   if (gone.includes(c.option)) return 'picked option no longer offered';
   const nm = (k) => (now[k] || []).includes('retail') ? String(k).split('/').pop() + ' (retail)' : label(now[k]);
@@ -1310,9 +1324,21 @@ function openMount(c = cur) {
 // a retail pane (live from wago.tools, no deploy map): its URL, with the seated rider of mount (I-400)
 function retailPaneSrc(prm, mount) {
   const rd = riderParts(mountSet.has(mount) ? mount : openMount(), prm.get('model'));
-  if (rd) { prm.set('items', JSON.stringify([rd.item])); prm.set('ovr', JSON.stringify(rd.ovr)); }
+  if (rd) {
+    let o = {}; try { o = JSON.parse(prm.get('ovr') || '{}') || {}; } catch (e) {}
+    prm.set('items', JSON.stringify([rd.item])); prm.set('ovr', JSON.stringify({ ...o, ...rd.ovr }));   // keeps pack skins
+  }
   return 'pane.html?' + prm;
 }
+// packs whose files differ but draw the same (asset_index._merge_same_look): one option, every pack named
+const lookChip = (p) => !(p.same_look && p.same_look.length) ? '' : `<span class="chip ok" title="${esc(
+  'These packs ship different files that draw the same: the same triangles, textures, materials, the shader the client derives, the same skeleton and animations (only byte layout or ignored fields differ). One option; the first pack\'s file ships.')}">same look ×${p.sources.length}</span>`;
+// a pack model that is a retroport of retail's (lib/retroport): what ships is our conversion of retail's model
+const rpChip = (p) => !p.retroport ? '' : `<span class="chip ${p.retroport.extra_verts ? 'warn' : 'ok'}" title="${esc(
+  'This pack\'s model is a retroport of the current retail model: the curated build ships our conversion of retail\'s model ' +
+  '(retail particles, every LOD, missing classic animations aliased to retail stand-ins) wearing this pack\'s skins. Shown that way here.' +
+  (p.retroport.added_anims ? ` The pack's own added animation${p.retroport.added_anims.length > 1 ? 's' : ''} (${p.retroport.added_anims.join(', ')}) ${p.retroport.added_anims.length > 1 ? 'are' : 'is'} covered by those aliases.` : '') +
+  (p.retroport.extra_verts ? ` The pack also added ${p.retroport.extra_verts} vertices of its own; they do not ship.` : ''))}">retail model${p.retroport.extra_verts ? ` · −${p.retroport.extra_verts} verts` : ''}</span>`;
 function paneUrl(p, extra = {}) {
   const cam = p.camera ? [...p.camera.target, p.camera.dist].join(',') : '';
   const prm = new URLSearchParams({ src: 'v2', model: p.model, map: p.map, skins: (p.skins || [0, 0, 0]).join(','), cam,
@@ -1488,7 +1514,7 @@ function openAsset(e) {
     const repHtml = ids.length ? `<div class="stats"><b>Moves all ${ids.length} displays to ${esc(looks[0].model)}</b> (a different model; ${esc(e.path.split('/').pop())} itself is unchanged)${g.swap ? ` · this pack's ${esc(looks[0].model)} file` : ''}</div>` : '';
     const src = (isItem && bodyPaneUrl(e, p, fitBody)) || paneUrl(sp);
     return `<div class="pane${chosen ? ' chosen' : ''}" data-opt="${p.option}"><iframe src="${src}" loading="lazy" title="${esc(label(g.sources))}"></iframe>
-      <div class="info"><div class="h"><b>${esc(label(g.sources))}</b>${(p.completed || []).length ? '<span class="chip warn" title="The pack left this display on the old model while upgrading its siblings; we complete the repoint (sibling skins, scaled to match)">completed by us</span>' : ''}${p.reused ? '<span class="chip bad" title="I-390: the pack reused this stock display id for a different creature (another stock model, no bake, unrelated file name) - not an HD version of it">another creature</span>' : ''}${p.option === e.current && !ids.length ? '<span class="chip">current file</span>' : ''}${p.retroport ? '<span class="chip ok" title="This pack\'s model is a retroport of the current retail model (same vertices, no added animations): the curated build ships our conversion of retail\'s model (retail particles, every LOD) wearing this pack\'s skins. Shown that way here.">retail model</span>' : ''}${implied && implied.option === g.key && !c ? '<span class="chip ok">via model pick</span>' : ''}</div>
+      <div class="info"><div class="h"><b>${esc(label(g.sources))}</b>${(p.completed || []).length ? '<span class="chip warn" title="The pack left this display on the old model while upgrading its siblings; we complete the repoint (sibling skins, scaled to match)">completed by us</span>' : ''}${p.reused ? '<span class="chip bad" title="I-390: the pack reused this stock display id for a different creature (another stock model, no bake, unrelated file name) - not an HD version of it">another creature</span>' : ''}${p.option === e.current && !ids.length ? '<span class="chip">current file</span>' : ''}${rpChip(p)}${lookChip(p)}${implied && implied.option === g.key && !c ? '<span class="chip ok">via model pick</span>' : ''}</div>
       ${p.borrowed ? `<div class="stats"><span class="chip warn">no display uses this model</span> skins borrowed from display ${p.borrowed} (a sibling model in this folder)</div>` : ''}
       ${(p.broken_rows || []).length ? `<div class="stats"><span class="chip bad" title="This pack's display row names skins no source ships; the picker (and the curated build) use another pack's row for this option">pack defect: ${esc(p.broken_rows.join('; '))} (skin not shipped)</span></div>` : ''}
       ${uniqueBox(p)}
@@ -1588,7 +1614,7 @@ function openAsset(e) {
         const div = document.createElement('div');
         div.className = 'pane' + (chosenM ? ' chosen' : '');
         div.innerHTML = `<iframe src="${paneUrl(pp, Object.keys(ovr).length ? { ovr } : {})}" loading="lazy"></iframe>
-          <div class="info"><div class="h"><b>${esc(label(g.sources))}</b><span class="chip" title="Which file of ${esc(M.path)} ships: one file for every display of that model">model-level</span>${p.option === M.current ? '<span class="chip">current file</span>' : ''}${p.retroport ? '<span class="chip ok" title="This pack\'s model is a retroport of the current retail model (same vertices, no added animations): the curated build ships our conversion of retail\'s model (retail particles, every LOD) wearing this pack\'s skins. Shown that way here.">retail model</span>' : ''}</div>
+          <div class="info"><div class="h"><b>${esc(label(g.sources))}</b><span class="chip" title="Which file of ${esc(M.path)} ships: one file for every display of that model">model-level</span>${p.option === M.current ? '<span class="chip">current file</span>' : ''}${rpChip(p)}${lookChip(p)}</div>
           <div class="stats">${paneStatsLine(p)}</div><div class="stats">model: ${esc(M.path)}</div>
           ${provBox(p)}<button class="use">${chosenM ? 'Chosen (model)' : 'Use this for the model'}</button></div>`;
         div.querySelector('.use').onclick = () => saveModel(M, g);
@@ -1640,8 +1666,10 @@ function openAsset(e) {
     if ((cb.sources || []).includes('retail')) {
       // a retail model picked in the Display editor: drawn live, retail's own skin set
       const f = $('panes').querySelector('#cu-pf');
+      const sk_ = skinIds(cb.skins);
       const prm_ = new URLSearchParams({ src: 'v2', model: cb.model, retail: cb.fdid, build: retailIdx.build,
-        skins: (cb.skins || [0, 0, 0]).join(','), scale: (e.panes[0] || {}).scale || 1, pv: PANE_V });
+        skins: sk_.ids.join(','), scale: (e.panes[0] || {}).scale || 1, pv: PANE_V });
+      if (Object.keys(sk_.ovr).length) prm_.set('ovr', JSON.stringify(sk_.ovr));
       if ((cb.geosets || []).some(Boolean)) { prm_.set('mesh', [0, ...cb.geosets].join(',')); prm_.set('g0all', '1'); }
       if (f) f.src = retailPaneSrc(prm_, e.path);
       const st = $('panes').querySelector('.pane[data-opt="custom"] .stats');
@@ -1790,17 +1818,20 @@ function sectionise(c) {
     info.append(d);
   });
 }
-// F-216: what a pack option changes from the stock option (lib/m2_unique) - the chip counts what to look
-// for on the model, the list under Model names it. Re-export noise ('minor') is listed, not counted.
-const UNIQUE_KIND = { geometry: 'mesh', uv: 'UVs', geosets: 'geosets', layer: 'render layer', texture: 'textures',
-  effects: 'effects', rig: 'rig', anims: 'animations', size: 'size', minor: 'minor' };
+// F-216: what a pack option changes from the stock option (lib/m2_unique): one chip per kind of change
+// ("layers unique", "mesh unique") says what to look for on the model; the list under Model names it.
+// Re-export noise ('minor') is listed, not chipped.
+const UNIQUE_KIND = { geometry: 'mesh', size: 'mesh', geosets: 'geosets', uv: 'UV', layer: 'layers', texture: 'texture',
+  effects: 'effects', rig: 'rig', anims: 'animation', minor: 'minor' };
 function uniqueBox(p) {
   if (!p.unique) return '';
-  const real = p.unique.filter(u => u[0] !== 'minor'), line = (u) => `${UNIQUE_KIND[u[0]] || u[0]}: ${u[1]}`;
   const vs = p.unique_vs ? `vs ${p.unique_vs}` : 'vs stock', like = p.unique_vs ? `like ${p.unique_vs}` : 'like stock';
-  const chip = real.length
-    ? `<span class="chip warn" title="${esc(`Different (${vs}) - what to look for on this model:\n` + real.map(line).join('\n'))}">${real.length} unique${p.unique_vs ? ' ' + esc(vs) : ''}</span>`
-    : `<span class="chip ok" title="${esc(`No visible difference found ${vs} (mesh, layers, textures, effects, rig, size)` + (p.unique.length ? ':\n' + p.unique.map(line).join('\n') : ''))}">0 unique · ${esc(like)}</span>`;
+  const kind = (u) => UNIQUE_KIND[u[0]] || u[0], line = (u) => `${kind(u)}: ${u[1]}`;
+  const byKind = {};
+  p.unique.filter(u => u[0] !== 'minor').forEach(u => (byKind[kind(u)] = byKind[kind(u)] || []).push(u[1]));
+  const chips = Object.entries(byKind).map(([k, xs]) =>
+    `<span class="chip warn" title="${esc(`${k} differs (${vs}):\n` + xs.join('\n'))}">${esc(k)} unique</span>`).join('');
+  const chip = chips || `<span class="chip ok" title="${esc(`No visible difference found ${vs}` + (p.unique.length ? ':\n' + p.unique.map(line).join('\n') : ''))}">${esc(like)}</span>`;
   return `<div class="stats">${chip}</div>` + (p.unique.length ? `<div class="stats uniq"><b>${esc(vs)}</b>${p.unique.map(u =>
     `<div${u[0] === 'minor' ? ' style="opacity:.6"' : ''}>${esc(line(u))}</div>`).join('')}</div>` : '');
 }
@@ -2271,13 +2302,15 @@ function openCustom(c) {
       : String(((retailIdx.names || {})[String(fd)]) || fd).split('/').pop().replace(/\.blp$/, '');
     const sv = saved.base && saved.base.option === t[0] ? saved.base : null;
     const pre = sets[c.retail.si] || sets[0] || [[0, 0, 0], 0, [0, 0, 0, 0, 0, 0, 0, 0]];
-    const curSk = ((sv && sv.skins) || pre[0]).map(v => typeof v === 'string' ? (packSkinByRef[v] || 0) : v),
+    const curSk = ((sv && sv.skins) || pre[0]).map(v => typeof v === 'string' ? (packSkinByRef[v] || v) : v),   // an unresolvable ref stays
       curG = (sv && sv.geosets) || pre[2] || [0, 0, 0, 0, 0, 0, 0, 0];
     c._rsk = curSk.slice(); c._rgeo = curG.slice();
     ctl += `<label>Start from<select id="cs-rset">${sets.map((x, i) => `<option value="${i}"${!sv && i === c.retail.si ? ' selected' : ''}>${esc(x[0].filter(Boolean).map(skinName).join(' + '))} · ${x[1] ? `${x[1]} retail display${x[1] === 1 ? '' : 's'}` : 'in its folder (no retail display uses it)'}</option>`).join('')}${psets.map((x, i) => `<option value="p${i}">${esc(x[3].filter(Boolean).join(' + '))} · ${esc(x[2])} (${x[1]} display${x[1] === 1 ? '' : 's'})</option>`).join('')}${sv ? '<option value="-1" selected>(this edit)</option>' : ''}</select></label>`;
-    if (psets.length) ctl += `<div class="note">${psets.length} skin set${psets.length === 1 ? '' : 's'} from ${esc([...new Set(psets.map(x => x[2]))].join(', '))}: ${psets.length === 1 ? 'its' : 'their'} model is a retroport of this one, so the skins fit retail's model as they are.</div>`;
+    if (psets.length) ctl += `<div class="note">${psets.length} skin set${psets.length === 1 ? '' : 's'} from ${esc([...new Set(psets.map(x => x[2]))].join(', '))}: ${psets.every(x => x[4] === 'approved')
+      ? 'an approved skin donor (zep-hd-curated/retail_skin_donors.json) - its skins fit retail\'s model, though its own file does not replace it'
+      : 'its model is a retroport of this one, so the skins fit retail\'s model as they are'}.</div>`;
     ctl += '<h3>Skins (each slot: what retail uses there on this model, then retroport packs\' skins)</h3>' + slotChoices(sets.map(x => [x[0], x[1]]).concat(psets.map(x => [x[0], x[1]]))).map((vals, k) =>
-      vals.length ? `<label>Skin ${k + 1}<select data-rsk="${k}">${vals.map(([v, n]) => `<option value="${v}"${String(v) === String(curSk[k] || 0) ? ' selected' : ''}>${esc(skinName(v))} · ${n}</option>`).join('')}</select></label>` : '').join('');
+      vals.length || typeof curSk[k] === 'string' ? `<label>Skin ${k + 1}<select data-rsk="${k}">${vals.map(([v, n]) => `<option value="${v}"${String(v) === String(curSk[k] || 0) ? ' selected' : ''}>${esc(skinName(v))} · ${n}</option>`).join('')}${typeof curSk[k] === 'string' ? `<option value="${esc(curSk[k])}" selected>(unavailable pack skin) ${esc(curSk[k].split('/').pop())}</option>` : ''}</select></label>` : '').join('');
     ctl += '<h3>Geosets (retail\'s CreatureDisplayInfoGeosetData values on this model)</h3>' + Object.entries(groupsR).filter(([g]) => +g <= 8).map(([g, vals]) =>
       `<label><span>Group ${g}<span class="glab" data-glab="${g}"></span></span><select data-rg="${g}"><option value="0"${!curG[g - 1] ? ' selected' : ''}>unset (all variants)</option>${(hv => hv ? `<option value="${hv}"${+curG[g - 1] === hv ? ' selected' : ''}>none (hidden)</option>` : '')(hiddenVariant(vals))}${vals.map(v => `<option value="${v}"${+curG[g - 1] === v ? ' selected' : ''}>${g * 100 + v}</option>`).join('')}</select></label>`).join('') +
       (Object.keys(groupsR).some(g => +g > 8) ? '<div class="note">Groups past 8 cannot be set in 3.3.5 (8 nibbles).</div>' : '');
@@ -2344,7 +2377,7 @@ function openCustom(c) {
   });
   if (!custTex && (c.slots || []).length) loadCustTex().then(() => { if (cur === c) openCustom(c); });
   const skinPick = () => [...document.querySelectorAll('#panes select[data-psk]')].reduce((a, sl) => (a[+sl.dataset.psk] = sl.value, a), (saved.skins || c.skins || ['', '', '']).slice());
-  const rPick = () => ({ skins: [...document.querySelectorAll('#panes select[data-rsk]')].reduce((a, sl) => (a[+sl.dataset.rsk] = +sl.value, a), (c._rsk || [0, 0, 0]).slice()),
+  const rPick = () => ({ skins: [...document.querySelectorAll('#panes select[data-rsk]')].reduce((a, sl) => (a[+sl.dataset.rsk] = /^\d+$/.test(sl.value) ? +sl.value : sl.value, a), (c._rsk || [0, 0, 0]).slice()),
                          geosets: [...document.querySelectorAll('#panes select[data-rg]')].reduce((a, sl) => (a[+sl.dataset.rg - 1] = +sl.value, a), (c._rgeo || [0, 0, 0, 0, 0, 0, 0, 0]).slice()) });
   const casOf = (stem) => { const hit = ((custTex || {})[c.tex_key || c.path] || []).find(([n]) => n.toLowerCase() === String(stem).toLowerCase()); return hit ? hit[1] : null; };
   const thumbs = () => document.querySelectorAll('#panes canvas[data-thumb]').forEach(async cv => {
@@ -2363,7 +2396,7 @@ function openCustom(c) {
   const retailUrl = () => {
     const t = namedFor(c.retail.model).targets[c.retail.ti], rp = rPick();
     const sp = (assets.find(a => a.tab === 'display' && a.display === c.display) || {}).panes || [];
-    const prm = new URLSearchParams({ src: 'v2', model: t[0], retail: t[1], build: retailIdx.build, skins: rp.skins.join(','),
+    const prm = new URLSearchParams({ src: 'v2', model: t[0], retail: t[1], build: retailIdx.build, skins: rp.skins.map(v => typeof v === 'string' ? 0 : v).join(','),
       scale: (sp[0] || {}).scale || 1, pv: PANE_V });
     const ovr = {};
     rp.skins.forEach(v => { if (packSkin[v]) ovr['fdid/' + v] = packSkin[v].cas; });   // a retroport pack's skin
@@ -2819,7 +2852,8 @@ window.addEventListener('message', (e) => {
     fetch('data/v2/customise.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : { displays: [] }).catch(() => ({ displays: [] })),
     fetch('data/v2/bodies.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(b => { bodies = b; }),
     fetch('data/v2/retail.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(r => { retailIdx = r || {}; }),
-    fetch('data/v2/retroports.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(r => { retroIdx = r || {}; }),
+    fetch('data/v2/retroports.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
+      .then(r => { retroIdx = r || {}; Object.keys(retroIdx).forEach(retroSets); }),   // every pack skin ref resolvable anywhere
     fetch('data/v2/mountriders.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) mountRiders = m; }),
     fetch('data/v2/mounts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
   ]);
