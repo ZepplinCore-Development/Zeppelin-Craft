@@ -63,11 +63,14 @@ function fixUrl(u) {
 // files/cas/<name>, so one staged copy of a file serves every pane and option.
 let FILEMAP = null;
 async function fetchMap() {
-  const id = q.get('map');
-  if (!id) return;
-  FILEMAP = await xfetch('data/maps/' + encodeURIComponent(id) + '.json').then(r => r.ok ? r.json() : null).catch(() => null);
   // ?ovr={key: cas name}: the texture viewer's 3D mode swaps one texture option in
-  try { Object.assign(FILEMAP || {}, JSON.parse(q.get('ovr') || '{}')); } catch (e) {}
+  let ovr = {};
+  try { ovr = JSON.parse(q.get('ovr') || '{}') || {}; } catch (e) {}
+  const id = q.get('map');
+  // no map (a retail pane): the overrides alone are the map, so a seated rider's files resolve (I-400)
+  if (!id) { if (Object.keys(ovr).length) FILEMAP = ovr; return; }
+  FILEMAP = await xfetch('data/maps/' + encodeURIComponent(id) + '.json').then(r => r.ok ? r.json() : null).catch(() => null);
+  Object.assign(FILEMAP || {}, ovr);
 }
 // ?retail=<fdid>&build=<retail build>: every file the engine asks for by id comes from wago.tools
 const RETAIL_FDID = +(q.get('retail') || 0);
@@ -579,6 +582,36 @@ function mergeItemsM2(buf) {
   return out.buffer;
 }
 
+// A retail model (MD21 chunks): the items merge into the MD20 payload (its offsets are relative to
+// the payload, so it grows in place and the chunks after it shift); the LOD 0 .skin it names in SFID
+// gets the matching batches (mergeItemsSkin). Appended textures carry filenames, which the engine
+// reads before TXID. -> the new file, or null when nothing merged.
+let retailSkin0 = -1;
+function mergeItemsMD21(buf) {
+  const dv = new DataView(buf), tag = (o) => String.fromCharCode(...new Uint8Array(buf, o, 4));
+  if (buf.byteLength < 8 || tag(0) !== 'MD21') return null;
+  const chunks = [];
+  for (let o = 0; o + 8 <= buf.byteLength;) {
+    const t = tag(o), n = dv.getUint32(o + 4, true);
+    if (o + 8 + n > buf.byteLength) break;
+    if (t === 'SFID' && n >= 4) retailSkin0 = dv.getUint32(o + 8, true);
+    chunks.push([t, buf.slice(o + 8, o + 8 + n)]);
+    o += 8 + n;
+  }
+  const md = chunks.find(c => c[0] === 'MD21');
+  if (!md || !itemData.length) return null;
+  const merged = mergeItemsM2(md[1]);
+  if (merged === md[1]) return null;
+  md[1] = merged;
+  const out = new Uint8Array(chunks.reduce((n, c) => n + 8 + c[1].byteLength, 0)), od = new DataView(out.buffer);
+  let o = 0;
+  for (const [t, b] of chunks) {
+    for (let k = 0; k < 4; k++) out[o + k] = t.charCodeAt(k);
+    od.setUint32(o + 4, b.byteLength, true); out.set(new Uint8Array(b), o + 8); o += 8 + b.byteLength;
+  }
+  return out.buffer;
+}
+
 // CharHairGeosets.show_scalp: the scalp (geoset 1) is drawn under the hair style
 // as well. The engine shows one geoset per group, so relabel it to 0 (always on).
 function promoteScalp(buf) {
@@ -801,12 +834,17 @@ XMLHttpRequest.prototype.open = function (method, url, ...rest) {
           if (VIEW.length >= 3) { cam.yaw = VIEW[0]; cam.pitch = VIEW[1]; cam.dist = VIEW[2]; }
         }
       }
+      const withItems = mergeItemsMD21(this.response);                    // after the stats: the rider is not the model's size (I-400)
+      if (withItems) Object.defineProperty(this, 'response', { value: withItems, configurable: true });
+      if (ITEMS.length) parent.postMessage({ type: 'pane-items', src: SRC, merged: itemsMerged, wanted: ITEMS.length }, '*');
     } else if (/\/fdid\/\d+$/.test(path) && this.response.byteLength > 48 && new DataView(this.response).getUint32(0, true) === 0x4E494B53) {
       sendRegions(this.response);                                         // a retail .skin (by FileDataID)
       if (q.has('g0all')) {                                               // the client's geoset rules here too
         const sk = this.response.slice(0); cgdFold(new DataView(sk));
         Object.defineProperty(this, 'response', { value: sk, configurable: true });
       }
+      if (path.endsWith('/fdid/' + retailSkin0))                          // the retail model's LOD 0: its merged items
+        Object.defineProperty(this, 'response', { value: mergeItemsSkin(this.response.slice(0)), configurable: true });
     } else if (/\.blp$/i.test(path) || /\/fdid\/\d+$/.test(path)) {
       const fixedBlp = sanitizeBlp(this.response);
       if (fixedBlp !== this.response) Object.defineProperty(this, 'response', { value: fixedBlp, configurable: true });
