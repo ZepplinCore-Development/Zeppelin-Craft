@@ -315,6 +315,15 @@ class Deployer:
             own = skins                                       # guessed from the folder (no display)
         if stock_only:
             base = base + (('stock_only',),)
+        if did is not None and path.startswith('character/'):
+            # a character display's attached helm / shoulders come from its bake row, not from files the
+            # cache checks: a row that gains a shoulder piece (F-220 riders) must rebuild its pane
+            cdi_r = (self.result['stock_dbc'][0] if dbc_source == 'stock' else self.result['effective_dbc'][0]).get(did) or {}
+            cdx_r = (self.result['stock_char_dbc'][0] if dbc_source == 'stock' else self.result['effective_char_dbc'][0]).get(
+                int(cdi_r.get('extended_display_info_id') or 0)) or {}
+            hs_ = (int(cdx_r.get('helm_id') or 0), int(cdx_r.get('shoulders_id') or 0))
+            if any(hs_):
+                base = base + (('items', hs_),)
         key = hashlib.sha1(repr(base + (('skins', own),) if own else base).encode()).hexdigest()[:16]
         hit = self.cache.get(key)
         if hit is not None and stock_only:

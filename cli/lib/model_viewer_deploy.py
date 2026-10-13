@@ -370,6 +370,20 @@ def _load_item_lookups():
                 out[r[0]] = r
             return out
         idi = table('ItemDisplayInfo.dbc', (1, 2, 3, 4, 5, 6))
+        # rows the DBC database has and the built binary does not yet (a wardrobe import before the
+        # next PATCH-Z build): left/right model, left/right texture at the binary's columns 1-4
+        try:
+            from commands.dbc import ENV_PATH
+            from lib.dbc_utils import DBCConfig, DBCConnection
+            cfg = DBCConfig.from_env(ENV_PATH)
+            with DBCConnection(cfg) as conn:
+                cur = conn.get_connection(cfg.live).cursor()
+                cur.execute('SELECT id, left_model, right_model, left_model_texture, right_model_texture FROM itemdisplayinfo')
+                for rid, lm, rm, lt, rt in cur.fetchall():
+                    if int(rid) not in idi:
+                        idi[int(rid)] = [int(rid), lm or '', rm or '', lt or '', rt or '', '', '']
+        except Exception:
+            pass
         races = {k: v[6] for k, v in table('ChrRaces.dbc', (6,)).items()}
         hgvd = {k: [x if x < 2**31 else x - 2**32 for x in v[1:8]] for k, v in table('HelmetGeosetVisData.dbc', ()).items()}
         _item_lookups = (idi, races, hgvd)
