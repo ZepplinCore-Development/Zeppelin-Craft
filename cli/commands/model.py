@@ -660,6 +660,13 @@ def _model_viewer_run(ctx, rebuild_index, reuse_index):
     craft_root = ctx.obj['craft_root']
     logs = craft_root.parent / 'logs'
     out = craft_root.parent / 'nginx' / 'wow' / 'modelviewer'
+    # a new retail build: fetch only its new / changed files into the local CASC store first
+    try:
+        from lib import casc_store, retail_wardrobe
+        if casc_store.store_build() and casc_store.store_build() != casc_store.CDN().version:
+            casc_store.sync(extra=retail_wardrobe.region_fdids('both'), log=click.echo)
+    except Exception as ex:                              # never block a deploy on it
+        click.echo(f'  casc: build check skipped - {ex}')
     cache = logs / 'model_sources_cache.pkl'
     click.echo('  Scanning sources ...')
     result = run_scan(craft_root, cache, include_disabled=True)
