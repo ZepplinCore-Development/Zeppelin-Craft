@@ -1887,7 +1887,8 @@ def merge_resaves(dep: 'Deployer', assets: List[dict], log: Callable = print) ->
 def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
     """pane['unique'] (lib/m2_unique): on a model card, what a pack option changes from the stock
     option - [[kind, text]], kind 'minor' for re-export noise - so the card says what to look for
-    (zangarmushroomtreesmall01: the additive glow layer removed). Cached per option file."""
+    (zangarmushroomtreesmall01: the additive glow layer removed). A model with no stock file is
+    compared with its current pick (pane['unique_vs'] names it). Cached per option file."""
     from lib.m2_unique import unique
     meta = dep.ix._meta_cache()
     n = 0
@@ -1895,10 +1896,12 @@ def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> N
         if e.get('tab') == 'display' or not e['path'].endswith('.m2'):
             continue
         a = dep.ix.meshes.get(e['path'])
-        so = a.option_of('stock') if a else None
-        if so is None:
+        if a is None:
             continue
         by_key = {o.key: o for o in a.options}
+        # no stock file (a pack-only model: Cata doodads): compare with the current pick, else the first
+        so = a.option_of('stock') or by_key.get(e.get('current')) or a.options[0]
+        vs = None if 'stock' in so.sources else ' + '.join(so.sources)
         for p in e.get('panes') or []:
             o = by_key.get(p.get('option'))
             if o is None or o is so or p.get('model') not in (None, e['path']):
@@ -1906,6 +1909,8 @@ def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> N
             u = unique(so.files, o.files, e['path'], meta)
             if u is not None:
                 p['unique'] = u
+                if vs:
+                    p['unique_vs'] = vs
                 n += 1
     meta.save()
     log(f'  unique vs stock: {n:,} pack options described')

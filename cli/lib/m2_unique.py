@@ -98,9 +98,10 @@ def _summary(m2: bytes, skin: Optional[bytes]) -> dict:
         s['tris'] = ni // 3
         subs = [struct.unpack_from('<H', skin, os_ + 48 * j)[0] for j in range(ns)]
         s['geosets'] = sorted(set(subs))
-        layers = set()
+        layers, shaders = set(), []
         for j in range(nb):
-            (_, _, _, sec, _, _, mat, _, tc, _, _, _, uvcombo) = struct.unpack_from('<BbHHHhHHHHHHH', skin, ob + 24 * j)
+            (_, _, shader, sec, _, _, mat, _, tc, _, _, _, uvcombo) = struct.unpack_from('<BbHHHhHHHHHHH', skin, ob + 24 * j)
+            shaders.append(shader)
             flags, blend = mats[mat] if mat < len(mats) else (0, 0)
             gid = subs[sec] if sec < len(subs) else -1
             scroll = uvcombo < len(uvl) and uvl[uvcombo] >= 0
@@ -110,6 +111,7 @@ def _summary(m2: bytes, skin: Optional[bytes]) -> dict:
             if tc > 1:
                 layers.add((gid, 'modulate', 0, False))
         s['layers'] = sorted(layers)
+        s['shaders'] = shaders
     return s
 
 
@@ -166,6 +168,9 @@ def diff(stock: dict, pack: dict, m2s: Optional[tuple] = None) -> List[List[str]
         out.append(['texture', 'uses ' + ', '.join(sorted(tb - ta))])
     if ta - tb:
         out.append(['texture', 'no longer uses ' + ', '.join(sorted(ta - tb))])
+    sha, shb = stock.get('shaders', []), pack.get('shaders', [])
+    if len(sha) == len(shb) and sha != shb:
+        out.append(['minor', f"shader id differs on {sum(1 for x, y in zip(sha, shb) if x != y)} of {len(sha)} batches (same layers)"])
     for k, word in (('particles', 'particle emitters'), ('ribbons', 'ribbon emitters'), ('lights', 'lights')):
         if stock[k] != pack[k]:
             out.append(['effects', f"{word} {stock[k]} → {pack[k]}"])
@@ -199,7 +204,7 @@ def unique(stock_files: Dict[str, 'Path'], pack_files: Dict[str, 'Path'], path: 
             return fn(f)
         # the cache checks the .m2's size + mtime; an option is the PAIR, so the skin's go in the key
         st = files[sk].stat() if sk in files else None
-        return cache.get(f'unique2|{files.get(sk, "")}|{st.st_size if st else 0}|{st.st_mtime_ns if st else 0}', f, fn)
+        return cache.get(f'unique3|{files.get(sk, "")}|{st.st_size if st else 0}|{st.st_mtime_ns if st else 0}', f, fn)
 
     a, b = summ(stock_files), summ(pack_files)
     if a is None or b is None:

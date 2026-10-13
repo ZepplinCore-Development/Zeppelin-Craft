@@ -1797,10 +1797,11 @@ const UNIQUE_KIND = { geometry: 'mesh', uv: 'UVs', geosets: 'geosets', layer: 'r
 function uniqueBox(p) {
   if (!p.unique) return '';
   const real = p.unique.filter(u => u[0] !== 'minor'), line = (u) => `${UNIQUE_KIND[u[0]] || u[0]}: ${u[1]}`;
+  const vs = p.unique_vs ? `vs ${p.unique_vs}` : 'vs stock', like = p.unique_vs ? `like ${p.unique_vs}` : 'like stock';
   const chip = real.length
-    ? `<span class="chip warn" title="${esc('Different from stock - what to look for on this model:\n' + real.map(line).join('\n'))}">${real.length} unique</span>`
-    : `<span class="chip ok" title="${esc('No visible difference from stock found (mesh, layers, textures, effects, rig, size)' + (p.unique.length ? ':\n' + p.unique.map(line).join('\n') : ''))}">0 unique · like stock</span>`;
-  return `<div class="stats">${chip}</div>` + (p.unique.length ? `<div class="stats uniq"><b>vs stock</b>${p.unique.map(u =>
+    ? `<span class="chip warn" title="${esc(`Different (${vs}) - what to look for on this model:\n` + real.map(line).join('\n'))}">${real.length} unique${p.unique_vs ? ' ' + esc(vs) : ''}</span>`
+    : `<span class="chip ok" title="${esc(`No visible difference found ${vs} (mesh, layers, textures, effects, rig, size)` + (p.unique.length ? ':\n' + p.unique.map(line).join('\n') : ''))}">0 unique · ${esc(like)}</span>`;
+  return `<div class="stats">${chip}</div>` + (p.unique.length ? `<div class="stats uniq"><b>${esc(vs)}</b>${p.unique.map(u =>
     `<div${u[0] === 'minor' ? ' style="opacity:.6"' : ''}>${esc(line(u))}</div>`).join('')}</div>` : '');
 }
 function groupBox(did) {
