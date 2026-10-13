@@ -577,6 +577,9 @@ class Outfits:
                 by_slot.setdefault(slot, []).append((('r', iid, nm, app, sub), [(fld, stk[fld][1][f'r{fd}']) for fld, fd in regs.items()]))
 
         self._lpool = getattr(self, '_lpool', {})
+        for f in list(stk):                             # float32: half the memory of the pool
+            box_, keys_, lab_, cov_ = stk[f]
+            stk[f] = (box_, keys_, lab_.astype(np.float32), cov_.astype(np.float32))
         # per slot: the candidates as index arrays per region field (-1 = the item does not paint it),
         # so a slot's whole candidate list is scored with one gather per field
         arr = {}
@@ -669,15 +672,19 @@ class Outfits:
                     for f, idx in arr[slot].items():
                         (x, y, w, h), _, lab, cov = stk[f]
                         use = np.unique(idx[idx >= 0])
-                        t, b = tgt[y:y + h, x:x + w], base[y:y + h, x:x + w]
-                        cv = cov[use][..., None]
-                        comp = b[None] * (1 - cv) + lab[use] * cv
-                        new = np.linalg.norm(comp - t[None], axis=-1)
+                        t, b = tgt[y:y + h, x:x + w].astype(np.float32), base[y:y + h, x:x + w].astype(np.float32)
                         mb = body[y:y + h, x:x + w]
                         m = mb[None]
+                        b_err = np.linalg.norm(b - t, axis=-1)
+                        b_g = grad_err(b, mb, t)
                         dl = np.zeros(len(lab), dtype=np.float64)
-                        dl[use] = ((new - np.linalg.norm(b - t, axis=-1)[None]) * m).reshape(len(use), -1).sum(1) \
-                            + G * (grad_err(comp, mb, t) - grad_err(b, mb, t))
+                        # in chunks, float32: the whole candidate set at once was gigabytes per region (a deploy was killed)
+                        for c0 in range(0, len(use), 2048):
+                            u_ = use[c0:c0 + 2048]
+                            cv = cov[u_][..., None].astype(np.float32)
+                            comp = b[None] * (1 - cv) + lab[u_].astype(np.float32) * cv
+                            new = np.linalg.norm(comp - t[None], axis=-1)
+                            dl[u_] = ((new - b_err[None]) * m).reshape(len(u_), -1).sum(1) + G * (grad_err(comp, mb, t) - b_g)
                         d += np.where(idx >= 0, dl[np.maximum(idx, 0)], 0.0)
                     # one armour class per outfit: other classes' armour is out (shirts / tabards / cosmetic stay)
                     c_ = cls[slot]
