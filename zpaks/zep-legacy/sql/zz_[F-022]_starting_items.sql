@@ -20,9 +20,10 @@ INSERT INTO `playercreateinfo_item` SET
 
 -- F-168: starting food and drink. Stock 3.3.5 start outfits carry none (only the death knight's
 -- Black Mushrooms and the dwarf mage's bread/water), so every new character bought them with coin
--- it did not have. The food is what its starting area's vendors sell (Kezan's own hardtack and dew
--- for goblins); 10 food for every class but the death knight, 20 drinks for the mana classes only
--- (no drink for warriors or rogues).
+-- it did not have. The food is what its starting area's vendors sell; goblins get the Horde staples
+-- (Kezan has no starter food of its own - the hardtack and dew are Lost Isles shipwreck supplies).
+-- 10 food for every class but the death knight, 20 drinks for the mana classes only (no drink for
+-- warriors or rogues).
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 1,
@@ -482,86 +483,86 @@ INSERT INTO `playercreateinfo_item` SET
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 1,
-    `itemid` = 84436,
+    `itemid` = 117,
     `amount` = 10,
-    `Note` = 'Slightly Worm-Eaten Hardtack - Goblin Warrior (F-168)';
+    `Note` = 'Tough Jerky - Goblin Warrior (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 3,
-    `itemid` = 84436,
+    `itemid` = 117,
     `amount` = 10,
-    `Note` = 'Slightly Worm-Eaten Hardtack - Goblin Hunter (F-168)';
+    `Note` = 'Tough Jerky - Goblin Hunter (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 3,
-    `itemid` = 84437,
+    `itemid` = 159,
     `amount` = 20,
-    `Note` = 'Tarp Collected Dew - Goblin Hunter (F-168)';
+    `Note` = 'Refreshing Spring Water - Goblin Hunter (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 4,
-    `itemid` = 84436,
+    `itemid` = 117,
     `amount` = 10,
-    `Note` = 'Slightly Worm-Eaten Hardtack - Goblin Rogue (F-168)';
+    `Note` = 'Tough Jerky - Goblin Rogue (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 5,
-    `itemid` = 84436,
+    `itemid` = 117,
     `amount` = 10,
-    `Note` = 'Slightly Worm-Eaten Hardtack - Goblin Priest (F-168)';
+    `Note` = 'Tough Jerky - Goblin Priest (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 5,
-    `itemid` = 84437,
+    `itemid` = 159,
     `amount` = 20,
-    `Note` = 'Tarp Collected Dew - Goblin Priest (F-168)';
+    `Note` = 'Refreshing Spring Water - Goblin Priest (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 7,
-    `itemid` = 84436,
+    `itemid` = 117,
     `amount` = 10,
-    `Note` = 'Slightly Worm-Eaten Hardtack - Goblin Shaman (F-168)';
+    `Note` = 'Tough Jerky - Goblin Shaman (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 7,
-    `itemid` = 84437,
+    `itemid` = 159,
     `amount` = 20,
-    `Note` = 'Tarp Collected Dew - Goblin Shaman (F-168)';
+    `Note` = 'Refreshing Spring Water - Goblin Shaman (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 8,
-    `itemid` = 84436,
+    `itemid` = 117,
     `amount` = 10,
-    `Note` = 'Slightly Worm-Eaten Hardtack - Goblin Mage (F-168)';
+    `Note` = 'Tough Jerky - Goblin Mage (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 8,
-    `itemid` = 84437,
+    `itemid` = 159,
     `amount` = 20,
-    `Note` = 'Tarp Collected Dew - Goblin Mage (F-168)';
+    `Note` = 'Refreshing Spring Water - Goblin Mage (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 9,
-    `itemid` = 84436,
+    `itemid` = 117,
     `amount` = 10,
-    `Note` = 'Slightly Worm-Eaten Hardtack - Goblin Warlock (F-168)';
+    `Note` = 'Tough Jerky - Goblin Warlock (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 9,
     `class` = 9,
-    `itemid` = 84437,
+    `itemid` = 159,
     `amount` = 20,
-    `Note` = 'Tarp Collected Dew - Goblin Warlock (F-168)';
+    `Note` = 'Refreshing Spring Water - Goblin Warlock (F-168)';
 
 INSERT INTO `playercreateinfo_item` SET
     `race` = 10,
