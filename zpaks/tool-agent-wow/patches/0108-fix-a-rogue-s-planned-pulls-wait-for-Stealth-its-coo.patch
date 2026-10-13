@@ -1,0 +1,78 @@
+From 5394f8dbabdcd5d84a4a669d839fffa1735c7d3a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 02:23:18 +0000
+Subject: [PATCH] fix: a rogue's planned pulls wait for Stealth (its cooldown)
+ so Backstab can open (F-219)
+
+One failed Stealth try (the 10 s cooldown after a fight) sent every pull in
+unstealthed: 0 Backstab openers in 61 fights. Planned kills and grind pulls
+now retry Stealth for up to 12 s.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index edd125f..abc6f37 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1923,6 +1923,8 @@ class Runner:
+         stand = self.fight_range() - 2 if CLASS_RANGE.get(self.w.cls) else 4
+         if t.get("distance", 0) > stand + 1:
+             self.travel(t["x"], t.get("y", 0), t.get("z", 0), within=stand)
++        if self.w.cls == 4:
++            self.stealth(wait=True)  # the Backstab opener needs us unseen
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(), loot=True)
+         self.fight_log(t["entry"], r)
+         self.kills += r.get("killed", False)
+@@ -2072,7 +2074,7 @@ class Runner:
+                 self.travel(ax, ay, ground(ax, ay, out.get("z", 0)), within=4)
+             t = out
+         if self.w.cls == 4:
+-            self.stealth()  # walk the last stretch unseen: the opener comes from behind
++            self.stealth(wait=True)  # walk the last stretch unseen: the opener comes from behind
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(solo=len(group) <= 1), loot=True,
+                  **({"body_pull": True, "retreat": 15} if body else {}))
+         self.fight_log(t["entry"], r)
+@@ -2414,20 +2416,28 @@ class Runner:
+                         self._threats.append((float(w["x"]), float(w["y"]), int(r["l"]), int(r["e"]), 3.0))
+         return self._threats
+ 
+-    def stealth(self):
++    def stealth(self, wait=False):
+         """A rogue walks long trips in Stealth: most of its deaths were packs jumping it on the road
+         (Sunstrider's Tenders 2-7 at a time; Wretched packs). Stealth is a toggle - never recast it
+-        while it is up. Out of combat only; it has a 10 s cooldown after it breaks."""
+-        if time.time() - getattr(self, "_stealth_t", 0) < 12:
+-            return
+-        st = call("combat.state")
+-        if st.get("attackers") or st.get("dead") or set(st.get("auras", [])) & STEALTH:
++        while it is up. Out of combat only; it has a 10 s cooldown after it breaks. wait=True (a planned
++        pull, for the Backstab opener): keep trying through that cooldown, up to 12 s - one failed try
++        sent every pull in unstealthed and the opener never fired (0 of 61 fights)."""
++        if not wait and time.time() - getattr(self, "_stealth_t", 0) < 12:
+             return
+         known = set(call("interact.spells").get("spells", []))
+         rank = max((sp for sp in STEALTH if sp in known), default=0)
+-        if rank:
++        if not rank:
++            return
++        t0 = time.time()
++        while True:
++            st = call("combat.state")
++            if st.get("attackers") or st.get("dead") or set(st.get("auras", [])) & STEALTH:
++                return
+             self._stealth_t = time.time()
+-            call("interact.cast", spell_id=rank, target_kind="self", timeout_ms=2000)
++            r = call("interact.cast", spell_id=rank, target_kind="self", timeout_ms=2000)
++            if r.get("ok") or not wait or time.time() - t0 > 12:
++                return
++            time.sleep(1.5)
+ 
+     def route_guard(self, x, y, z, level):
+         """Raise StepFailed (and park the current quest) when the planned path passes within reach of a
+-- 
+2.34.1
+
