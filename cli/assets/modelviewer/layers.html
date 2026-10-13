@@ -2172,6 +2172,9 @@ async function bakeCards(e, c) {
   const base = {};
   Object.values(sp.tex || {}).forEach(fd => { const v = smap['fdid/' + fd]; if (v) base['fdid/' + fd] = v; });
   (sp.items || []).forEach(it => [it.m, it.m.replace(/\.m2$/, '00.skin'), it.t].forEach(k => { if (k && smap[k]) base[k] = smap[k]; }));
+  // and the textures named inside those item models (Hellfire polearm: hellfire.blp, its glow): resolved
+  // for the item's own mesh at deploy; the card's model file would look them up in its own pack
+  Object.keys(smap).forEach(k => { if (k.startsWith('item/objectcomponents/') && k.endsWith('.blp')) base[k] = smap[k]; });
   document.querySelectorAll('#panes .pane:not([data-opt="custom"])').forEach(x => x.remove());   // these cards ARE the options
   const shipLabel = shipFile ? label(shipFile.sources) : 'stock';
   sp.bakes.forEach(([src, cas, size, fits, ctex, classic]) => {

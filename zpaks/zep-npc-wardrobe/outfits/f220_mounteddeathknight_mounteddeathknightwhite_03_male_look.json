@@ -10,25 +10,21 @@
   "outfit": {
     "items": {
       "chest": {
-        "item": 207203,
-        "mod": 155
+        "display": 3413
       },
       "legs": {
-        "item": 14900,
+        "item": 218373,
         "mod": 0
       },
       "belt": {
-        "item": 14898,
-        "mod": 0
+        "item": 211990,
+        "mod": 156
       },
       "boots": {
-        "item": 207202,
+        "item": 229246,
         "mod": 153
       },
-      "gloves": {
-        "item": 39609,
-        "mod": 0
-      },
+      "gloves": 13162,
       "shoulders": {
         "display": 19724
       }

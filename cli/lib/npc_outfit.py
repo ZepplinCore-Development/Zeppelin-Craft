@@ -693,13 +693,19 @@ class Outfits:
                         free = free and not forced                # a forced class: no cosmetic shirt standing in for the chest
                         d = np.where(((c_ == 0) & free) | (c_ == klass), d, np.inf)
                     if only_items:
-                        d = np.where(np.isin(ids_[slot], list(only_items)), d, np.inf)
+                        # the shared set first; a slot where even its closest appearance makes this rider
+                        # look worse (Zeliek's white: the set has no white variant) takes the best piece
+                        # of the class instead
+                        d_set = np.where(np.isin(ids_[slot], list(only_items)), d, np.inf)
+                        if np.isfinite(d_set).any() and d_set.min() < 0:
+                            d = d_set
                     j = int(d.argmin())
                     # kept only if it removes at least 2% of the slot-free composite's error; a tabard
                     # 10%: it covers the chest, so a near-tie would hide a chest piece under cloth
                     need = 0.0 if (forced and slot == 'Chest') else (0.10 if slot == 'Tabard' else 0.02)
-                    # a shared set (only_items) is always worn, in its closest appearance
-                    if np.isfinite(d[j]) and (only_items or d[j] < -need * err(base)):
+                    need = 0.0 if only_items else need             # a shared-set piece needs only to help
+                    must = forced and slot == 'Chest'              # a plate rider always wears a chest piece
+                    if np.isfinite(d[j]) and (must or d[j] < -need * err(base)):
                         chosen[slot] = (cands[j][0], cands[j][1], float(-d[j]))
                     else:
                         chosen.pop(slot, None)

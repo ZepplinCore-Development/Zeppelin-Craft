@@ -10,12 +10,12 @@
   "outfit": {
     "items": {
       "chest": {
-        "item": 207203,
-        "mod": 155
+        "item": 8080,
+        "mod": 0
       },
       "legs": {
-        "item": 14900,
-        "mod": 0
+        "item": 142425,
+        "mod": 3
       },
       "belt": {
         "item": 14898,
@@ -26,8 +26,7 @@
         "mod": 153
       },
       "gloves": {
-        "item": 39609,
-        "mod": 0
+        "display": 26753
       },
       "shoulders": {
         "display": 13512

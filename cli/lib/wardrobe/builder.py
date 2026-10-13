@@ -390,8 +390,22 @@ class WardrobeBuilder:
                 spec = spec if isinstance(spec, dict) else {'item': spec}
                 if 'display' in spec:
                     # a stock 3.3.5 ItemDisplayInfo worn as it is (helm / shoulders the client attaches
-                    # itself, e.g. an NPC-only display no item uses): nothing imported or baked
-                    items[slot] = StockDisplay(int(spec['display']))
+                    # itself, an NPC-only body piece no retail item has): nothing imported; a body
+                    # piece's region textures are baked from the client files it names
+                    sd = StockDisplay(int(spec['display']))
+                    row = self.dbc(f'SELECT * FROM itemdisplayinfo WHERE id = {sd.display_id}')
+                    if row and slot in BODY_SLOTS:
+                        for region, col in IDI_REGION_COLS.items():
+                            v = str(row[0].get(col) or '')
+                            if not v:
+                                continue
+                            for g, sfx in ((0, 'M'), (1, 'F')):
+                                cp = next((c for c in (f'Item\\TextureComponents\\{region}Texture\\{v}_{x}.blp' for x in ('U', sfx))
+                                           if self.resolver.find(c)), None)
+                                if cp:
+                                    sd.layers.setdefault(g, []).append((region, cp))
+                        sd.idi = dict(row[0])
+                    items[slot] = sd
                     self.echo(f'   {slot:<10} stock ItemDisplayInfo {spec["display"]}')
                     continue
                 imp = self.import_item(spec['item'], spec.get('mod'), [race], spec.get('helmet_geoset'))

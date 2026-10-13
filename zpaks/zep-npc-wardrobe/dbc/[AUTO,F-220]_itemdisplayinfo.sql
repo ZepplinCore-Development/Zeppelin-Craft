@@ -29,39 +29,39 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Basaltscale Armor (retail item 12108, display 23187)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210026;
+-- Gilnean Neophyte's Robe (retail item 49403, display 62557)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210161;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210026,
+  `id` = 210161,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 0,
+  `geoset_group_1` = 2,
   `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
+  `geoset_group_3` = 1,
   `flags` = 0,
   `spell_visual_id` = 0,
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
+  `upper_arm_texture` = 'robe_worgen_b_01brown_sleeve_au',
+  `lower_arm_texture` = 'robe_worgen_b_01brown_sleeve_al',
   `hands_texture` = '',
-  `upper_torso_texture` = 'mail_horde_b_01black_chest_tu',
-  `lower_torso_texture` = 'mail_horde_b_01black_chest_tl',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
+  `upper_torso_texture` = 'robe_worgen_b_01brown_chest_tu',
+  `lower_torso_texture` = 'robe_worgen_b_01brown_chest_tl',
+  `upper_leg_texture` = 'robe_worgen_b_01brown_robe_lu',
+  `lower_leg_texture` = 'robe_worgen_b_01brown_robe_ll',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Haliscan Pantaloons (retail item 38278, display 50173)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210099;
+-- Hulking Leggings (retail item 14748, display 22936)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210027;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210099,
+  `id` = 210027,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -81,8 +81,8 @@ INSERT INTO `itemdisplayinfo` SET
   `hands_texture` = '',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
-  `upper_leg_texture` = 'cloth_b_05mexa_pant_lu',
-  `lower_leg_texture` = 'cloth_b_05mexa_pant_ll',
+  `upper_leg_texture` = 'mail_horde_b_01black_pant_lu',
+  `lower_leg_texture` = 'mail_horde_b_01black_pant_ll',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
@@ -1041,6 +1041,180 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_leg_texture` = '',
   `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u',
   `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Light Plate Chestpiece (retail item 8080, display 28398)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210162;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210162,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'plate_a_01copper_sleeve_au',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'plate_a_01copper_chest_tu',
+  `lower_torso_texture` = 'plate_a_01copper_chest_tl',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Goldrune Legplates (retail item 142425, display 158305)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210163;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210163,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_legionraid_d_01gold_pant_lu',
+  `lower_leg_texture` = 'plate_legionraid_d_01gold_pant_ll',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Forged Aspirant's Plate Legguards (retail item 218373, display 682378)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210164;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210164,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '5645757_be_m_lu_u',
+  `lower_leg_texture` = '5645757_be_m_ll_u',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Entombed Seraph's Waistguard (retail item 211990, display 685910)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210096;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210096,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = 'plate_raidpaladinnerubian_d_01_belt_tl_u',
+  `upper_leg_texture` = 'plate_raidpaladinnerubian_d_01_belt_lu_u',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Aureate Sentry's Greaves (retail item 229246, display 690636)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210165;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210165,
+  `left_model` = 'plate_raidpaladingoblin_d_01_chest.mdx:501,2001',
+  `right_model` = '',
+  `left_model_texture` = 'plate_raidpaladingoblin_d_01_chest_yellow',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '19::64',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'plate_raidpaladingoblin_d_01_chest_be_m_ll_u',
+  `foot_texture` = 'plate_raidpaladingoblin_d_01_chest_be_m_fo_u',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Reiver Claws (retail item 13162, display 23675)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210114;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210114,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 1,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'plate_horde_a_05white_glove_al',
+  `hands_texture` = 'plate_horde_a_05white_glove_ha',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 

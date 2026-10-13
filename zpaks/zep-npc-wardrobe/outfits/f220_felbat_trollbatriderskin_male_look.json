@@ -13,11 +13,11 @@
         "item": 167222,
         "mod": 0
       },
-      "chest": {
-        "item": 12108,
+      "chest": 49403,
+      "legs": {
+        "item": 14748,
         "mod": 0
       },
-      "legs": 38278,
       "belt": {
         "item": 14746,
         "mod": 0
