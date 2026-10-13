@@ -2246,7 +2246,11 @@ def customise_extras(dep: 'Deployer', custom: List[dict], v2: Path, log: Callabl
         if f is None:
             continue
         try:
-            pn = dep.pane(sp, ai.Option('stock:' + sp[-24:], ['stock'], {sp: f}), did,
+            # our own display's reference resolves its other files normally, so its mesh option must
+            # carry the WHOLE stock file set (.skin, .anim): a bare {.m2} let the HD pack's .skin in
+            m_ = dep.ix.meshes.get(sp)
+            so_ = next((o for o in (m_.options if m_ else []) if 'stock' in o.sources), None) if own else None
+            pn = dep.pane(sp, so_ or ai.Option('stock:' + sp[-24:], ['stock'], {sp: f}), did,
                           dbc_source=None if own else 'stock', stock_only=not own)
             # our own display: the classic model as its reference, but its bake / item models /
             # item textures resolve normally - they ship in our zpaks (F-220 rider shoulders)
