@@ -25,6 +25,19 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       Optional "drop": {"105": [6, 7]}: a source variant's parts left out (105's circlets, the same
       pieces 604/704 already offer).
 
+  {"op": "skin.geoset.remap", "map": {"402": -1, "105": 100}}
+      Submesh ids renamed; -1 drops the submesh and its batches.
+
+  {"op": "skin.geoset.copy", "from": 401, "to": [402, 403]}
+      Every submesh with id `from` (and its batches) copied under each id in `to`: a piece that
+      shows with every variant of the group (I-392: the one ear set kept on each wing variant).
+
+  {"op": "skin.import_rigid", "donor_model", "donor_skin", "submesh": 1, "bones": [27], ...}
+      Triangles of a donor submesh whose dominant bone is under `bones`, as rigid pieces bound to
+      this model's key bone `bind_key`, on the vertices the model op m2.import_rigid wrote (same
+      cfg). One submesh per entry of "variants" ({"id": 402, "texcombo": 9}), all sharing those
+      vertices; "material" names this model's material. See import_rigid for the placement.
+
   {"op": "skin.import", "donor_model": ..., "donor_skin": ..., "at": 36539, "variant": 8,
    "parts": {"5": [6, 49], "6": [2, 0], "7": [3, 1]},
    "submeshes": [{"submesh": 2, "batch": {"material": 2, "texcombo": 4}}, ...]}
@@ -433,7 +446,11 @@ def _op_import(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     look = struct.unpack_from('<%dH' % nl, model, ol)
     dl, dlo = _arr(donor, 0x78)
     dlook = struct.unpack_from('<%dH' % dl, donor, dlo)
-    combo = nl - sum(r for *_, r in info)
+    # this import's combos sit together in the bone lookup (later ops may append after them): find them
+    want = [bmap[b] for j, f, vs, vc, r in info for b in dlook[f[7]:f[7] + r]]
+    combo = next((i for i in range(nl - len(want), -1, -1) if list(look[i:i + len(want)]) == want), None)
+    if combo is None:
+        raise ValueError('skin.import: bone combos not found (the .M2 recipe needs m2.import_vertices)')
     nv, ov = _arr(model, 0x3C)
     dn, do = _arr(donor, 0x3C)
     for v in verts[::max(1, len(verts) // 16)]:          # the model must carry m2.import_vertices
@@ -501,12 +518,212 @@ def _op_overlay(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     return f'overlay on submesh {j}: ' + ', '.join(made)
 
 
+def _op_geoset_remap(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    m = {int(k): int(v) for k, v in cfg['map'].items()}
+    keep, renamed, dropped = [], 0, 0
+    for j in range(len(sk.subs)):
+        sid = sk.sub(j)['id']
+        if m.get(sid, sid) < 0:
+            dropped += 1
+            continue
+        if sid in m:
+            struct.pack_into('<H', sk.subs[j], 0, m[sid])
+            renamed += 1
+        keep.append(j)
+    idx_of = {j: n for n, j in enumerate(keep)}
+    batches = []
+    for b in sk.batches:
+        j = struct.unpack_from('<H', b, 4)[0]
+        if j in idx_of:
+            nb = bytearray(b)
+            struct.pack_into('<HH', nb, 4, idx_of[j], idx_of[j])
+            batches.append(nb)
+    sk.subs, sk.batches = [sk.subs[j] for j in keep], batches
+    return f'geoset.remap: {renamed} renamed, {dropped} dropped'
+
+
+def _op_geoset_copy(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    src, to = int(cfg['from']), [int(x) for x in cfg['to']]
+    js = [j for j in range(len(sk.subs)) if sk.sub(j)['id'] == src]
+    if not js:
+        raise ValueError(f'geoset.copy: no submesh {src}')
+    by_sub = collections.defaultdict(list)
+    for b in sk.batches:
+        by_sub[struct.unpack_from('<H', b, 4)[0]].append(b)
+    for t in to:
+        for j in js:
+            raw = bytearray(sk.subs[j])
+            struct.pack_into('<H', raw, 0, t)
+            sk.subs.append(raw)
+            si = len(sk.subs) - 1
+            for b in by_sub[j]:
+                nb = bytearray(b)
+                struct.pack_into('<HH', nb, 4, si, si)
+                sk.batches.append(nb)
+    return f'geoset.copy: {src} ({len(js)} submesh) -> {to}'
+
+
+def _rigid_plan(cfg: Dict[str, Any]):
+    """The donor triangles and vertices import_rigid places (shared by the model and skin ops)."""
+    donor = cfg['_donor_model']
+    dm, dsk = _Model(donor), _Skin(cfg['_donor_skin'])
+    kids = collections.defaultdict(list)
+    for i in range(len(dm.parent)):
+        kids[dm.parent[i]].append(i)
+    under, todo = set(), [int(b) for b in cfg['bones']]
+    while todo:
+        b = todo.pop()
+        under.add(b)
+        todo += kids[b]
+    s = dsk.sub(int(cfg['submesh']))
+    # a classic donor's header 0x2C is its boneCountMax, not a retail LOD vertex offset: lookups as they are
+    tris = [tuple(dsk.lookup[x] for x in dsk.idx[t:t + 3]) for t in range(s['istart'], s['istart'] + s['icount'], 3)]
+    tris = [t for t in tris if collections.Counter(dm.dom[v] for v in t).most_common(1)[0][0] in under]
+    verts = sorted({v for t in tris for v in t})
+    return donor, tris, verts
+
+
+def _strut_split(donor: bytes, tris, cfg: Dict[str, Any]):
+    """cfg "strut": the donor triangles that are wing arm / claw (not membrane), found by their UVs:
+    within `width` of the leading-edge `line` (`above` on the far side) or inside `box`; each such
+    vertex gets a UV on this model's body skin along a tapering strip ("to": u range, centre v and
+    half-width at both ends), so the strut takes the display's own body skin (I-392: the tail
+    scales). -> (strut triangle flags, {donor vertex: (u, v)})"""
+    st = cfg.get('strut')
+    if not st:
+        return [False] * len(tris), {}
+    dn, do = _arr(donor, 0x3C)
+    uv = lambda v: struct.unpack_from('<2f', donor, do + 48 * v + 32)
+    (ax, ay), (bx, by) = st['line']
+    L = ((bx - ax) ** 2 + (by - ay) ** 2) ** 0.5
+    dx, dy = (bx - ax) / L, (by - ay) / L
+    nx, ny = -dy, dx
+    w, above = float(st['width']), float(st.get('above', st['width']))
+    (x0, y0), (x1, y1) = st['box']
+    def side(u):
+        return (u[0] - ax) * nx + (u[1] - ay) * ny
+    flags = []
+    for t in tris:
+        us = [uv(v) for v in t]
+        flags.append(all(x0 <= u[0] <= x1 and y0 <= u[1] <= y1 for u in us) or all(-w < side(u) < above for u in us))
+    to = st['to']
+    out = {}
+    for t, f in zip(tris, flags):
+        if not f:
+            continue
+        for v in t:
+            u = uv(v)
+            a = min(1.0, max(0.0, ((u[0] - ax) * dx + (u[1] - ay) * dy) / L))
+            sd = max(-1.0, min(1.0, side(u) / w))
+            cu = to['u'][0] + a * (to['u'][1] - to['u'][0])
+            cv = to['centre'][0] + a * (to['centre'][1] - to['centre'][0])
+            hw = to['half'][0] + a * (to['half'][1] - to['half'][0])
+            out[v] = (cu, cv + sd * hw)
+    return flags, out
+
+
+def import_rigid(data: bytearray, cfg: Dict[str, Any]) -> str:
+    """MODEL op m2.import_rigid: donor triangles under `bones` (a bone subtree of donor submesh
+    `submesh`), moved by `offset`, each side pulled `inward` toward the midline, and with "mirror"
+    a mirrored copy (y -> -y) of the same piece, all bound 100% to this model's key bone
+    `bind_key`. Written over this model's vertices from `at` (the vertex count grows to cover them:
+    the run past a sliced LOD skin is unused) and the bone appended to the bone lookup (0x78).
+    I-392: the classic dragonspawngreater's spread wing, mirrored, on dragonspawn2's upper spine."""
+    from lib.m2_ops import _relocate_array
+    donor, tris, verts = _rigid_plan(cfg)
+    m = _Model(bytes(data))
+    bind = m.key.index(int(cfg['bind_key']))
+    dx, dy, dz = (float(v) for v in cfg.get('offset', (0, 0, 0)))
+    inward = float(cfg.get('inward', 0))
+    dn, do = _arr(donor, 0x3C)
+    nv, ov = _arr(data, 0x3C)
+    at = int(cfg['at'])
+    flags, suv = _strut_split(donor, tris, cfg)
+    svs = sorted(suv)
+    out = []
+    for mirror in ((False, True) if cfg.get('mirror') else (False,)):
+        for v in verts + svs:
+            r = bytearray(donor[do + 48 * v:do + 48 * v + 48])
+            if len(out) % (len(verts) + len(svs)) >= len(verts):
+                struct.pack_into('<2f', r, 32, *suv[v])         # strut copy: a UV on the body skin
+            x, y, z = struct.unpack_from('<3f', r, 0)
+            y += dy
+            y = y + inward if y < 0 else y - inward
+            if mirror:
+                y = -y
+                nx, ny, nz = struct.unpack_from('<3f', r, 20)
+                struct.pack_into('<3f', r, 20, nx, -ny, nz)
+            struct.pack_into('<3f', r, 0, x + dx, y, z + dz)
+            r[12:16] = bytes([255, 0, 0, 0])
+            r[16:20] = bytes([bind, 0, 0, 0])
+            out.append(bytes(r))
+    if at + len(out) > 0x10000 or ov + 48 * (at + len(out)) > len(data):
+        raise ValueError(f'm2.import_rigid: no room for {len(out)} vertices at {at}')
+    data[ov + 48 * at:ov + 48 * (at + len(out))] = b''.join(out)
+    if at + len(out) > nv:
+        struct.pack_into('<I', data, 0x3C, at + len(out))
+    nl, ol = _arr(data, 0x78)
+    look = list(struct.unpack_from('<%dH' % nl, data, ol)) + [bind]
+    _relocate_array(data, 0, 0x78, struct.pack('<%dH' % len(look), *look), len(look))
+    return (f'import_rigid: {len(tris)} donor tris ({sum(flags)} strut) x{2 if cfg.get("mirror") else 1}, '
+            f'{len(out)} vertices -> {at}.., bound to bone {bind}')
+
+
+def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    donor, tris, verts = _rigid_plan(cfg)
+    flags, suv = _strut_split(donor, tris, cfg)
+    svs = sorted(suv)
+    rank = {v: i for i, v in enumerate(verts)}
+    srank = {v: len(verts) + i for i, v in enumerate(svs)}
+    n, at = len(verts) + len(svs), int(cfg['at'])
+    sides = 2 if cfg.get('mirror') else 1
+    m = _Model(model)
+    bind = m.key.index(int(cfg['bind_key']))
+    nl, ol = _arr(model, 0x78)
+    if struct.unpack_from('<H', model, ol + 2 * (nl - 1))[0] != bind:
+        raise ValueError('skin.import_rigid: the bone lookup does not end in the bind bone (the .M2 needs m2.import_rigid)')
+    nstart = len(sk.lookup)
+    sk.lookup += list(range(at, at + n * sides))
+    sk.props += bytes(4 * n * sides)
+    idx, sidx = [], []
+    for t, f in zip(tris, flags):
+        a, b, c = (nstart + (srank if f else rank)[v] for v in t)
+        dst = sidx if f else idx
+        dst += [a, b, c]
+        if sides == 2:
+            dst += [a + n, c + n, b + n]          # mirrored copy: winding flipped
+    base = bytearray(sk.subs[0])
+    istart = len(sk.idx)                          # one index range shared by every variant (submesh starts are u16)
+    if istart + len(idx) > 0xFFFF:
+        raise ValueError('skin.import_rigid: index start past 65535')
+    sk.idx += idx + sidx
+    st = cfg.get('strut') or {}
+
+    def add(gid, start, count, texcombo):
+        f = list(struct.unpack_from('<10H', base))
+        f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9] = gid, 0, nstart, n * sides, start, count, 1, nl - 1, 1, bind
+        raw = bytearray(base)
+        struct.pack_into('<10H', raw, 0, *f)
+        sk.subs.append(raw)
+        si = len(sk.subs) - 1
+        sk.batches.append(bytearray(struct.pack('<BbHHHhHHHHHHH', 16, 0, 0, si, si, -1, int(cfg['material']), 0, 1,
+                                                int(texcombo), 0, 0, 0)))
+    for var in cfg['variants']:
+        add(int(var['id']), istart, len(idx), var['texcombo'])
+        if sidx:
+            add(int(var['id']), istart + len(idx), len(sidx), st.get('texcombo', 0))   # strut: the body skin
+    return f'import_rigid: {len(idx) // 3} membrane + {len(sidx) // 3} strut tris as {[v["id"] for v in cfg["variants"]]}'
+
+
 OPS = {
     'skin.overlay': _op_overlay,
     'skin.lod_rebase': _op_lod_rebase,
     'skin.geoset.split': _op_geoset_split,
     'skin.uv_split': _op_uv_split,
     'skin.import': _op_import,
+    'skin.import_rigid': _op_import_rigid,
+    'skin.geoset.remap': _op_geoset_remap,
+    'skin.geoset.copy': _op_geoset_copy,
 }
 
 

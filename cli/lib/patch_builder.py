@@ -378,6 +378,8 @@ def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
         # Always re-copy from source-assets to ensure a clean baseline
         # (staging may have skipped the file if it already existed)
         m2_source = _find_source_file(source_dir, donor_rel)
+        if (not m2_source or not m2_source.exists()) and (zpak_path / donor_rel).is_file():
+            m2_source = zpak_path / donor_rel        # a donor kept in the zpak (donors/), not shipped
         if m2_source and m2_source.exists():
             m2_parsed.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(m2_source, m2_parsed)

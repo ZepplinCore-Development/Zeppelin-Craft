@@ -1,6 +1,6 @@
 {
   "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR00.SKIN": {
-    "note": "I-392: retail dragonspawn2 with every group-1 armour set split into parts. Donor files are retail creature/dragonspawn2 (model FDID 4183015, build 12.1.0.69933) as converted by cli/lib/retail.py (WXL downport + m2_skin_rebuild, logs/retail_cache/out/creature/dragonspawn2), renamed to dragonspawn2_modular: the client caches models by stem, and the picker offers <parent>_modular wherever <parent> (creature/dragonspawn2/dragonspawn2.m2) is offered (lib/repoint_complete.modular_variants). The base is LOD1 (55,824 indices): retail skin00 (71,283 indices) overflows WotLK's u16 submesh starts and loses horns 304-306 and ears/jaw 401-405. Groups: 1 chest/collar (key bones 53 spine, 4 SpineLow, 26 Root), 2 waist, 3 horns/crest, 4 ears/jaw (2-4 unchanged), 5 helmet (6 Head, 49), 6 left shoulder (2 ShoulderL, 0 ArmL), 7 right shoulder (3 ShoulderR, 1 ArmR), 8 bracers/gauntlets/boots (61 62 64 65 forearms, 78 79 84 85 feet). Variant = source set (102-107), so a nibble naming a set with no such piece hides the group. Only pure pad islands stay in the shoulder parts: welded pieces spanning chest and shoulder bones (the 102/103 sash, the 106/107 chest plate rim and the straps over the shoulders) are \"mixed\" islands sent whole to the chest. Set 105: the hood is cut per triangle with its shoulder triangles sent to the robe (the helmet 505 still comes out) and the circlets dropped (604/704 offer the same pieces), so 105 = robe + helmet. 603 (retail's big pauldron) stays left-only (the user's call). Boss pieces (skin.import, variant 8): 508 helm crest, 608 / 708 boss pads, each armour + glow; fixed boss textures, so they keep the boss colours on every skin.",
+    "note": "I-392: retail dragonspawn2 with every group-1 armour set split into parts. Donor files are retail creature/dragonspawn2 (model FDID 4183015, build 12.1.0.69933) as converted by cli/lib/retail.py (WXL downport + m2_skin_rebuild, logs/retail_cache/out/creature/dragonspawn2), renamed to dragonspawn2_modular: the client caches models by stem, and the picker offers <parent>_modular wherever <parent> (creature/dragonspawn2/dragonspawn2.m2) is offered (lib/repoint_complete.modular_variants). The base is LOD1 (55,824 indices): retail skin00 (71,283 indices) overflows WotLK's u16 submesh starts and loses horns 304-306 and ears/jaw 401-405. Groups: 1 chest/collar (key bones 53 spine, 4 SpineLow, 26 Root), 2 waist, 3 horns/crest, 4 ears/jaw (2-4 unchanged), 5 helmet (6 Head, 49), 6 left shoulder (2 ShoulderL, 0 ArmL), 7 right shoulder (3 ShoulderR, 1 ArmR), 8 bracers/gauntlets/boots (61 62 64 65 forearms, 78 79 84 85 feet). Variant = source set (102-107), so a nibble naming a set with no such piece hides the group. Only pure pad islands stay in the shoulder parts: welded pieces spanning chest and shoulder bones (the 102/103 sash, the 106/107 chest plate rim and the straps over the shoulders) are \"mixed\" islands sent whole to the chest. Set 105: the hood is cut per triangle with its shoulder triangles sent to the robe (the helmet 505 still comes out) and the circlets dropped (604/704 offer the same pieces), so 105 = robe + helmet. 603 (retail's big pauldron) stays left-only (the user's call). Boss pieces (skin.import, variant 8): 508 helm crest, 608 / 708 boss pads, each armour + glow; fixed boss textures, so they keep the boss colours on every skin. Group 4 is ears / wings: one ear set (401) on every variant; 401 = no wings, 402-408 = wings in black, red, blue, bronze, green, purple, white (retail ear sets 402-405 dropped, so the old ear choices fall back to 401 / no wings).",
     "copy_from": "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR01.SKIN",
     "base_sha256": "c0bbe9dda6b3c3b0ccdf92ecf6c51261c2a81a5276063cedadbdcaa541ce48f1",
     "ops": [
@@ -99,18 +99,128 @@
             }
           }
         ]
+      },
+      {
+        "op": "skin.geoset.remap",
+        "map": {
+          "402": -1,
+          "403": -1,
+          "404": -1,
+          "405": -1
+        }
+      },
+      {
+        "op": "skin.import_rigid",
+        "donor_model": "donors/dragonspawngreater.m2",
+        "donor_skin": "donors/dragonspawngreater00.skin",
+        "submesh": 1,
+        "bones": [
+          27
+        ],
+        "offset": [
+          0.0,
+          0.28,
+          0.4
+        ],
+        "inward": 0.4,
+        "mirror": true,
+        "bind_key": 53,
+        "at": 19531,
+        "material": 5,
+        "variants": [
+          {
+            "id": 402,
+            "texcombo": 8
+          },
+          {
+            "id": 403,
+            "texcombo": 9
+          },
+          {
+            "id": 404,
+            "texcombo": 10
+          },
+          {
+            "id": 405,
+            "texcombo": 11
+          },
+          {
+            "id": 406,
+            "texcombo": 12
+          },
+          {
+            "id": 407,
+            "texcombo": 13
+          },
+          {
+            "id": 408,
+            "texcombo": 14
+          }
+        ],
+        "strut": {
+          "line": [
+            [
+              0.015,
+              0.507
+            ],
+            [
+              0.9,
+              0.885
+            ]
+          ],
+          "width": 0.08,
+          "above": 0.048,
+          "box": [
+            [
+              0.86,
+              0.78
+            ],
+            [
+              1.0,
+              1.0
+            ]
+          ],
+          "to": {
+            "u": [
+              0.43,
+              0.95
+            ],
+            "centre": [
+              0.76,
+              0.87
+            ],
+            "half": [
+              0.13,
+              0.015
+            ]
+          },
+          "texcombo": 0
+        }
+      },
+      {
+        "op": "skin.geoset.copy",
+        "from": 401,
+        "to": [
+          402,
+          403,
+          404,
+          405,
+          406,
+          407,
+          408
+        ]
       }
     ],
-    "result_sha256": "50e5cd251f973233d893a62232d517b68986de78eb4fead2d08ce4537a7a8b65"
+    "result_sha256": "b4c632363468dd202a0cb57e31665ddaed9d648b809f93d7b1d8bf0a1eaed7b5"
   },
   "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR.M2": {
-    "note": "I-392: retail dragonspawn2.m2 (1 view, so the client loads only DRAGONSPAWN2_MODULAR00.SKIN) plus retail dragonspawn2boss's pads and helm crest (donors/, FDID of creature/dragonspawn2boss/dragonspawn2boss.m2, converted by lib/retail.convert): its submesh 2 (armour, boss armour texture + reflect) and 3 (additive glow on UV2, imported static: our model has no UV animation) written over unused lower-LOD vertices from 16509 (sliced numbering), bones remapped onto this rig (same pivots; the boss's 4 pad flap bones ride their parents). Textures 3 = boss armour as replaceable type 13 (the display's 3rd skin slot: dragonspawn2boss_armor_<colour>, black = the retail gold), 4 = glow (fixed); texture lookup 4-5 = (boss armour, reflect), 6-7 = (glow, glow); material 4 = (21, 4) additive; texture unit lookup 2-3 = (0, 1). base_sha256 pins the donor. Vertex array sliced to 20030..39560 (LOD1's run + the boss pieces; m2.vertices.slice): the picker merges weapon/shield meshes into the model as extra vertices, which the u16 skin lookup cannot reach past 65,535 on the full 86k array.",
+    "note": "I-392: retail dragonspawn2.m2 (1 view, so the client loads only DRAGONSPAWN2_MODULAR00.SKIN) plus retail dragonspawn2boss's pads and helm crest (donors/, FDID of creature/dragonspawn2boss/dragonspawn2boss.m2, converted by lib/retail.convert): its submesh 2 (armour, boss armour texture + reflect) and 3 (additive glow on UV2, imported static: our model has no UV animation) written over unused lower-LOD vertices from 16509 (sliced numbering), bones remapped onto this rig (same pivots; the boss's 4 pad flap bones ride their parents). Textures 3 = boss armour as replaceable type 13 (the display's 3rd skin slot: dragonspawn2boss_armor_<colour>, black = the retail gold), 4 = glow (fixed); texture lookup 4-5 = (boss armour, reflect), 6-7 = (glow, glow); material 4 = (21, 4) additive; texture unit lookup 2-3 = (0, 1). base_sha256 pins the donor. Vertex array sliced to 20030..39560 (LOD1's run + the boss pieces; m2.vertices.slice): the picker merges weapon/shield meshes into the model as extra vertices, which the u16 skin lookup cannot reach past 65,535 on the full 86k array. Wings (I-392, 2026-10-13): stock dragonspawngreater's spread (right) wing, bone subtree 27, mirrored, raised 0.4, re-centred 0.28 (the classic model sits 0.28 off the midline) and pulled 0.4 in over the shoulder blades, bound rigidly to key bone 53 (m2.import_rigid, vertices from 19531); textures 5-11 = DRAGONSPAWN2WING_<colour> (texture lookup 8-14); material 5 = (4, 1) two-sided alpha test. The wing arm and claw (strut: within 0.08 of the leading-edge UV line, or the claw box) get their own vertex copies with UVs along the body skin's tail strip, drawn with the body skin (texture lookup 0), so they wear the display's own scales.",
     "base_sha256": "2553cdbd295c52555bf74d8e8fd97a9f36c8a540455fd9c1e0790e1ca101ca49",
     "geoset_labels": {
       "1": "chest / collar",
       "2": "waist",
       "3": "horns / crest",
-      "4": "face (jaw / ears)",
+      "4": "ears / wings",
       "5": "helmet",
       "6": "left shoulder",
       "7": "right shoulder",
@@ -184,9 +294,156 @@
           0,
           1
         ]
+      },
+      {
+        "op": "m2.import_rigid",
+        "donor_model": "donors/dragonspawngreater.m2",
+        "donor_skin": "donors/dragonspawngreater00.skin",
+        "submesh": 1,
+        "bones": [
+          27
+        ],
+        "offset": [
+          0.0,
+          0.28,
+          0.4
+        ],
+        "inward": 0.4,
+        "mirror": true,
+        "bind_key": 53,
+        "at": 19531,
+        "strut": {
+          "line": [
+            [
+              0.015,
+              0.507
+            ],
+            [
+              0.9,
+              0.885
+            ]
+          ],
+          "width": 0.08,
+          "above": 0.048,
+          "box": [
+            [
+              0.86,
+              0.78
+            ],
+            [
+              1.0,
+              1.0
+            ]
+          ],
+          "to": {
+            "u": [
+              0.43,
+              0.95
+            ],
+            "centre": [
+              0.76,
+              0.87
+            ],
+            "half": [
+              0.13,
+              0.015
+            ]
+          },
+          "texcombo": 0
+        }
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_BLACK.BLP",
+        "expect_count": 5
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_RED.BLP",
+        "expect_count": 6
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_BLUE.BLP",
+        "expect_count": 7
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_BRONZE.BLP",
+        "expect_count": 8
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_GREEN.BLP",
+        "expect_count": 9
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_PURPLE.BLP",
+        "expect_count": 10
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_WHITE.BLP",
+        "expect_count": 11
+      },
+      {
+        "op": "m2.texlookup.set",
+        "expect": [
+          0,
+          1,
+          2,
+          1,
+          3,
+          1,
+          4,
+          4
+        ],
+        "values": [
+          0,
+          1,
+          2,
+          1,
+          3,
+          1,
+          4,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      {
+        "op": "m2.table.append",
+        "table": "materials",
+        "expect_count": 5,
+        "values": [
+          [
+            4,
+            1
+          ]
+        ]
       }
     ],
-    "result_sha256": "5c763a1285fddf10d94b0baf551c829e9ee05d0c6b46f923a767ee6b664ae389"
+    "result_sha256": "d1035165f2c15e8a658f042d90aa8f2895a28a707978d892735093b9e18b497a"
   },
   "CREATURE/DESERTLASHERORCHID_MODULAR/DESERTLASHERORCHID_MODULAR00.SKIN": {
     "note": "I-396: the HD desert lasher orchid (patch-hd-creatures-mounts creature/desertlasherorchid, view 00) split by texture region so each part samples its own creature skin: stem/roots/vine arms on skin 1 (texture_variation_1), petals/leaves on skin 2, beak/jaw/teeth on skin 3. The donor is one submesh (geoset 0) whose 143 UV islands sit in separate texture areas; boxes test each island's UV centroid (checked against a 3D render: 0 misassigned islands). combo_add points each part's two batches (skin+oldglass3 env, skin alpha layer) at its pair in the texture lookup set by the .M2 recipe. skin.overlay adds the petal pattern group on the flower part (submesh 2): 101 plain (empty), 102 spots, 103 stripes; a display names one in creature_geoset_data (0x1/0x2/0x3).",
@@ -653,5 +910,439 @@
       }
     ],
     "result_sha256": "c0f090d388ed82f72aa3bac5603b029aea2e3986597962df237a6e26bd81b665"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2WING_BLACK.BLP": {
+    "note": "I-392: wing membrane for dragonspawn2_body_black: the HD classic overlord wing skin (patch-hd-everything DRAGONSPAWNOVERLORDSKIN_BLACK_2, kept in donors/) carried in two zones: light membrane pixels to the body skin's BELLY tone (the user's call), the dark painted finger struts to its tail-scale tone: Lab mean/std transfer from the wing's UV region onto the belly strip of the body skin (u 0.04-0.10, v 0.34-0.69), fitted as a quadratic colour map so blp.recolour keeps the alpha exact.",
+    "copy_from": "donors/dragonspawnoverlordskin_black_2_hd.blp",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            10.06735,
+            5.98225,
+            13.242
+          ],
+          [
+            287.74896,
+            191.10122,
+            104.76549
+          ],
+          [
+            116.51755,
+            146.10788,
+            65.10088
+          ],
+          [
+            58.81909,
+            52.34403,
+            123.4533
+          ],
+          [
+            -79.485,
+            -53.15201,
+            -40.25173
+          ],
+          [
+            271.43362,
+            249.19405,
+            94.16742
+          ],
+          [
+            115.31438,
+            124.07022,
+            88.67891
+          ],
+          [
+            -258.82966,
+            -233.6795,
+            -62.25306
+          ],
+          [
+            100.7541,
+            85.92664,
+            -4.68602
+          ],
+          [
+            -361.10738,
+            -305.61491,
+            -128.32737
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "a411f6ca23ba27d448042aa3c614d0671414b228c481f32aed5a4be1800d3748"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2WING_RED.BLP": {
+    "note": "I-392: wing membrane for dragonspawn2_body_red: the HD classic overlord wing skin (patch-hd-everything DRAGONSPAWNOVERLORDSKIN_BLACK_2, kept in donors/) carried in two zones: light membrane pixels to the body skin's BELLY tone (the user's call), the dark painted finger struts to its tail-scale tone: Lab mean/std transfer from the wing's UV region onto the belly strip of the body skin (u 0.04-0.10, v 0.34-0.69), fitted as a quadratic colour map so blp.recolour keeps the alpha exact.",
+    "copy_from": "donors/dragonspawnoverlordskin_black_2_hd.blp",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            20.46178,
+            9.7003,
+            8.41841
+          ],
+          [
+            371.58695,
+            236.86166,
+            138.83959
+          ],
+          [
+            -40.76658,
+            158.57946,
+            72.52718
+          ],
+          [
+            64.02285,
+            85.55738,
+            100.54253
+          ],
+          [
+            -109.40963,
+            -164.12853,
+            -43.0653
+          ],
+          [
+            144.27827,
+            255.69075,
+            144.37541
+          ],
+          [
+            167.40313,
+            173.90608,
+            103.11455
+          ],
+          [
+            -107.02343,
+            -157.825,
+            -118.06377
+          ],
+          [
+            40.69438,
+            94.5197,
+            8.60173
+          ],
+          [
+            -287.93403,
+            -430.81524,
+            -186.67308
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "6e236eb5f54235d0a0222747800ebbe8b6e73d2d38079ee1006603e6882eea1c"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2WING_BLUE.BLP": {
+    "note": "I-392: wing membrane for dragonspawn2_body_blue: the HD classic overlord wing skin (patch-hd-everything DRAGONSPAWNOVERLORDSKIN_BLACK_2, kept in donors/) carried in two zones: light membrane pixels to the body skin's BELLY tone (the user's call), the dark painted finger struts to its tail-scale tone: Lab mean/std transfer from the wing's UV region onto the belly strip of the body skin (u 0.04-0.10, v 0.34-0.69), fitted as a quadratic colour map so blp.recolour keeps the alpha exact.",
+    "copy_from": "donors/dragonspawnoverlordskin_black_2_hd.blp",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            -13.87149,
+            16.24306,
+            61.57368
+          ],
+          [
+            386.99717,
+            267.559,
+            131.31624
+          ],
+          [
+            134.75994,
+            139.75855,
+            56.40608
+          ],
+          [
+            -2.3479,
+            109.74781,
+            186.11895
+          ],
+          [
+            -109.3041,
+            -125.45242,
+            -72.64297
+          ],
+          [
+            408.48799,
+            270.63376,
+            15.84156
+          ],
+          [
+            190.25115,
+            109.75321,
+            -85.75233
+          ],
+          [
+            -430.44644,
+            -217.83111,
+            6.17247
+          ],
+          [
+            277.49905,
+            82.36774,
+            -125.99497
+          ],
+          [
+            -580.61526,
+            -394.93408,
+            93.71079
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "b1f2fcc0c66e1b91b3cdcab825bccf325923e06f851cbed9381dc2fc3741144c"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2WING_BRONZE.BLP": {
+    "note": "I-392: wing membrane for dragonspawn2_body_bronze: the HD classic overlord wing skin (patch-hd-everything DRAGONSPAWNOVERLORDSKIN_BLACK_2, kept in donors/) carried in two zones: light membrane pixels to the body skin's BELLY tone (the user's call), the dark painted finger struts to its tail-scale tone: Lab mean/std transfer from the wing's UV region onto the belly strip of the body skin (u 0.04-0.10, v 0.34-0.69), fitted as a quadratic colour map so blp.recolour keeps the alpha exact.",
+    "copy_from": "donors/dragonspawnoverlordskin_black_2_hd.blp",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            24.80611,
+            14.19217,
+            6.85208
+          ],
+          [
+            471.51241,
+            434.81492,
+            276.97133
+          ],
+          [
+            12.85176,
+            68.61327,
+            3.06251
+          ],
+          [
+            147.3997,
+            197.98046,
+            203.60272
+          ],
+          [
+            -266.35774,
+            -329.67769,
+            -214.94345
+          ],
+          [
+            210.57849,
+            314.76926,
+            167.09507
+          ],
+          [
+            204.92559,
+            267.72046,
+            217.73978
+          ],
+          [
+            -112.55733,
+            -104.98507,
+            -0.6896
+          ],
+          [
+            30.62506,
+            91.65965,
+            -27.81471
+          ],
+          [
+            -471.29888,
+            -705.58397,
+            -381.57538
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "f0454876521a3e62ecee7b51cbed02eb568b058488849e898537aba2afc96829"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2WING_GREEN.BLP": {
+    "note": "I-392: wing membrane for dragonspawn2_body_green: the HD classic overlord wing skin (patch-hd-everything DRAGONSPAWNOVERLORDSKIN_BLACK_2, kept in donors/) carried in two zones: light membrane pixels to the body skin's BELLY tone (the user's call), the dark painted finger struts to its tail-scale tone: Lab mean/std transfer from the wing's UV region onto the belly strip of the body skin (u 0.04-0.10, v 0.34-0.69), fitted as a quadratic colour map so blp.recolour keeps the alpha exact.",
+    "copy_from": "donors/dragonspawnoverlordskin_black_2_hd.blp",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            -14.50265,
+            26.76508,
+            13.65761
+          ],
+          [
+            473.57021,
+            227.82614,
+            198.00138
+          ],
+          [
+            -43.64783,
+            154.60866,
+            53.25169
+          ],
+          [
+            47.90532,
+            90.18565,
+            141.67716
+          ],
+          [
+            -181.70276,
+            -138.90483,
+            -110.07163
+          ],
+          [
+            261.5256,
+            242.78751,
+            163.16385
+          ],
+          [
+            233.35032,
+            115.92115,
+            153.61777
+          ],
+          [
+            -195.18864,
+            -169.46604,
+            -87.65076
+          ],
+          [
+            164.75916,
+            81.46932,
+            5.15601
+          ],
+          [
+            -496.40683,
+            -370.97917,
+            -275.30744
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "6e74e6c1664e20a43db046801092e33d3db232c90f4388ab78c61767e2eefe79"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2WING_PURPLE.BLP": {
+    "note": "I-392: wing membrane for dragonspawn2_body_purple: the HD classic overlord wing skin (patch-hd-everything DRAGONSPAWNOVERLORDSKIN_BLACK_2, kept in donors/) carried in two zones: light membrane pixels to the body skin's BELLY tone (the user's call), the dark painted finger struts to its tail-scale tone: Lab mean/std transfer from the wing's UV region onto the belly strip of the body skin (u 0.04-0.10, v 0.34-0.69), fitted as a quadratic colour map so blp.recolour keeps the alpha exact.",
+    "copy_from": "donors/dragonspawnoverlordskin_black_2_hd.blp",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            17.74421,
+            8.22519,
+            12.41588
+          ],
+          [
+            360.13092,
+            201.36655,
+            152.77914
+          ],
+          [
+            -31.45606,
+            175.53408,
+            78.94273
+          ],
+          [
+            53.14137,
+            69.40804,
+            96.48686
+          ],
+          [
+            -87.6423,
+            -135.08245,
+            -52.77372
+          ],
+          [
+            144.10465,
+            236.4533,
+            155.4296
+          ],
+          [
+            159.88545,
+            157.26074,
+            109.55067
+          ],
+          [
+            -127.27009,
+            -157.20461,
+            -126.81936
+          ],
+          [
+            50.50831,
+            97.023,
+            24.04688
+          ],
+          [
+            -276.35723,
+            -391.71122,
+            -206.09641
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "fedca7263cd5ce489e680437cd3090950c8027db8fe498ac5e7f6025a3aacd86"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2WING_WHITE.BLP": {
+    "note": "I-392: wing membrane for dragonspawn2_body_white: the HD classic overlord wing skin (patch-hd-everything DRAGONSPAWNOVERLORDSKIN_BLACK_2, kept in donors/) carried in two zones: light membrane pixels to the body skin's BELLY tone (the user's call), the dark painted finger struts to its tail-scale tone: Lab mean/std transfer from the wing's UV region onto the belly strip of the body skin (u 0.04-0.10, v 0.34-0.69), fitted as a quadratic colour map so blp.recolour keeps the alpha exact.",
+    "copy_from": "donors/dragonspawnoverlordskin_black_2_hd.blp",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            3.19589,
+            8.57206,
+            8.55506
+          ],
+          [
+            494.32142,
+            465.58062,
+            464.51655
+          ],
+          [
+            24.95638,
+            63.04513,
+            45.54319
+          ],
+          [
+            211.32447,
+            209.90205,
+            217.25046
+          ],
+          [
+            -344.82939,
+            -333.44652,
+            -332.79085
+          ],
+          [
+            292.24109,
+            306.95228,
+            306.66255
+          ],
+          [
+            278.70536,
+            290.07893,
+            270.64159
+          ],
+          [
+            -76.19881,
+            -108.62087,
+            -97.53562
+          ],
+          [
+            52.89184,
+            96.00083,
+            75.69927
+          ],
+          [
+            -686.5205,
+            -749.91435,
+            -709.87424
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "213ff3471564acba3979e457022117818acdaf5b46b916601dc976a2b44f6125"
   }
 }
