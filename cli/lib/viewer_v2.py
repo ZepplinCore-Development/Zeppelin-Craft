@@ -1884,6 +1884,33 @@ def merge_resaves(dep: 'Deployer', assets: List[dict], log: Callable = print) ->
     log(f'  re-saves: {n:,} pack options render the same as stock (merged into the stock card on {models:,} models)')
 
 
+def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
+    """pane['unique'] (lib/m2_unique): on a model card, what a pack option changes from the stock
+    option - [[kind, text]], kind 'minor' for re-export noise - so the card says what to look for
+    (zangarmushroomtreesmall01: the additive glow layer removed). Cached per option file."""
+    from lib.m2_unique import unique
+    meta = dep.ix._meta_cache()
+    n = 0
+    for e in assets:
+        if e.get('tab') == 'display' or not e['path'].endswith('.m2'):
+            continue
+        a = dep.ix.meshes.get(e['path'])
+        so = a.option_of('stock') if a else None
+        if so is None:
+            continue
+        by_key = {o.key: o for o in a.options}
+        for p in e.get('panes') or []:
+            o = by_key.get(p.get('option'))
+            if o is None or o is so or p.get('model') not in (None, e['path']):
+                continue
+            u = unique(so.files, o.files, e['path'], meta)
+            if u is not None:
+                p['unique'] = u
+                n += 1
+    meta.save()
+    log(f'  unique vs stock: {n:,} pack options described')
+
+
 def add_outfits(dep: 'Deployer', assets: List[dict], cat: List[dict], log: Callable = print) -> None:
     """pane['outfit'] (lib/npc_outfit): a character-model display's items from its bake row (exact),
     or, on a STOCK pane of a character clone baked into a creature model, the items its skin matches."""
@@ -2341,6 +2368,10 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         merge_resaves(dep, assets, log)
     except Exception as ex:
         log(f'  re-saves: skipped - {ex}')
+    try:
+        flag_unique(dep, assets, log)
+    except Exception as ex:                            # optional: cards just lack the "N unique" tag
+        log(f'  unique vs stock: skipped - {ex}')
     try:
         add_outfits(dep, assets, cat, log)
     except Exception as ex:                            # optional: cards just lack the Outfit section
