@@ -15,15 +15,15 @@
       },
       "legs": 33258,
       "belt": {
-        "item": 10067,
+        "item": 73555,
         "mod": 0
       },
       "boots": {
-        "item": 233158,
+        "item": 179917,
         "mod": 0
       },
       "gloves": {
-        "item": 23082,
+        "item": 85317,
         "mod": 0
       }
     }
@@ -33,7 +33,7 @@
     "face_type": 3,
     "hair_style": 3,
     "hair_color": 0,
-    "facial_hair": 7,
+    "facial_hair": 0,
     "gender": 0
   },
   "display_ids": [

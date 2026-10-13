@@ -14,14 +14,14 @@
         "mod": 0
       },
       "legs": {
-        "item": 210854,
-        "mod": 0
+        "item": 229333,
+        "mod": 157
       },
       "boots": {
-        "item": 202472,
-        "mod": 4
+        "item": 186879,
+        "mod": 0
       },
-      "gloves": 13162
+      "gloves": 4331
     }
   },
   "appearance": {
@@ -29,7 +29,7 @@
     "face_type": 2,
     "hair_style": 6,
     "hair_color": 12,
-    "facial_hair": 2,
+    "facial_hair": 0,
     "gender": 0
   },
   "display_ids": [

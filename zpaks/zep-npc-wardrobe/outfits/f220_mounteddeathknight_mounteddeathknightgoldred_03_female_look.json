@@ -13,26 +13,16 @@
         "item": 6097,
         "mod": 0
       },
-      "chest": {
-        "item": 135732,
-        "mod": 0
-      },
+      "chest": 35905,
       "legs": {
-        "item": 14900,
-        "mod": 0
-      },
-      "belt": {
-        "item": 14898,
-        "mod": 0
+        "item": 229288,
+        "mod": 156
       },
       "boots": {
-        "item": 207202,
-        "mod": 153
+        "item": 190222,
+        "mod": 0
       },
-      "gloves": {
-        "item": 201589,
-        "mod": 159
-      }
+      "gloves": 1944
     }
   },
   "appearance": {

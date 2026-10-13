@@ -207,12 +207,15 @@ class Outfits:
         if self._items is None:
             self._items = {}
             from commands.sql import run_mysql_query
-            ok, rows = run_mysql_query('SELECT displayid, entry, name, InventoryType FROM item_template WHERE displayid <> 0')
+            self._armour = {}                          # displayid -> armour subclass (1 cloth .. 4 plate)
+            ok, rows = run_mysql_query('SELECT displayid, entry, name, InventoryType, class, subclass FROM item_template WHERE displayid <> 0')
             if ok:
                 for line in rows.splitlines()[1:]:
                     p = line.split('\t')
-                    if len(p) == 4 and p[0].isdigit():
+                    if len(p) == 6 and p[0].isdigit():
                         self._items.setdefault(int(p[0]), []).append((int(p[1]), p[2], int(p[3] or 0)))
+                        if p[4] == '4' and p[5] in ('1', '2', '3', '4'):
+                            self._armour.setdefault(int(p[0]), int(p[5]))
         return self._items
 
     def _row(self, slot: str, idi: int, how: str, score: Optional[float] = None) -> list:
@@ -397,7 +400,7 @@ class Outfits:
         look = [r for r in self.lookalike(skin_file, race, sex) if r[0] not in have]
         return [r for r in rows if r[1] or not look] + look
 
-    LOOK_VERSION = 3         # bump when the rules change: cached results are recomputed
+    LOOK_VERSION = 4         # bump when the rules change: cached results are recomputed
 
     def lookalike(self, skin_file, race: str, sex: str) -> List[list]:
         """The item outfit that looks most like a baked character skin (classic layout, any size):
@@ -430,8 +433,21 @@ class Outfits:
             self._look_pool(sex)
         global _LOOK_SELF
         _LOOK_SELF = self
-        with mp.get_context('fork').Pool(workers) as pool:
-            res = pool.map(_look_job, [(f, r, s) for f, r, s, _ in jobs], chunksize=1)
+        # ProcessPoolExecutor, not Pool: a worker that dies (killed, out of memory) raises
+        # BrokenProcessPool instead of hanging map() forever; the rest are then done here, serially
+        from concurrent.futures import ProcessPoolExecutor
+        from concurrent.futures.process import BrokenProcessPool
+        args = [(f, r, s) for f, r, s, _ in jobs]
+        res = [None] * len(args)
+        try:
+            with ProcessPoolExecutor(workers, mp_context=mp.get_context('fork')) as ex:
+                for i, rows in enumerate(ex.map(_look_job, args, chunksize=1)):
+                    res[i] = rows
+        except BrokenProcessPool as e:
+            log(f'    outfit: a look-alike worker died ({e}); finishing serially')
+        for i, a in enumerate(args):
+            if res[i] is None:
+                res[i] = _look_job(a)
         for (f, r, s, k), rows in zip(jobs, res):
             size, mtime = stat_of(Path(f))
             self.meta.data[(k, f)] = (size, mtime, rows)
@@ -486,8 +502,8 @@ class Outfits:
                         new += 1
                     if th.get(key) is None:
                         ok = False
-                if ok:                                     # it[4] = the retail ItemAppearance id
-                    items.append((slot, int(it[0]), str(it[1]), regs, int(it[4])))
+                if ok:                                     # it[4] = the retail ItemAppearance id, it[3] subclass
+                    items.append((slot, int(it[0]), str(it[1]), regs, int(it[4]), int(it[3] or 0)))
         if new:
             try:
                 tmp = tp.with_suffix('.tmp')
@@ -527,7 +543,7 @@ class Outfits:
         # retail armour from the local store: appended to the same stacks, keyed 'r<fdid>'
         ritems, rth = self.retail_pool(sex)
         add: Dict[str, list] = {}
-        for _slot, _iid, _nm, regs, _app in ritems:
+        for _slot, _iid, _nm, regs, _app, _sub in ritems:
             for fld, fd in regs.items():
                 if fld in stk and f'r{fd}' not in stk[fld][1]:
                     stk[fld][1][f'r{fd}'] = -1                # placeholder: indexed below
@@ -540,9 +556,9 @@ class Outfits:
                 keys[f'r{fd}'] = n0 + j
             stk[fld] = (box, keys, np.concatenate([lab, _lab(a[..., :3])]),
                         np.concatenate([cov, np.clip((a[..., 3] - 96) / 128, 0, 1)]))
-        for slot, iid, nm, regs, app in ritems:
+        for slot, iid, nm, regs, app, sub in ritems:
             if all(fld in stk for fld in regs):
-                by_slot.setdefault(slot, []).append((('r', iid, nm, app), [(fld, stk[fld][1][f'r{fd}']) for fld, fd in regs.items()]))
+                by_slot.setdefault(slot, []).append((('r', iid, nm, app, sub), [(fld, stk[fld][1][f'r{fd}']) for fld, fd in regs.items()]))
 
         self._lpool = getattr(self, '_lpool', {})
         # per slot: the candidates as index arrays per region field (-1 = the item does not paint it),
@@ -555,8 +571,12 @@ class Outfits:
                 for f, i in regs:
                     idx[f][j] = i
             arr[slot] = idx
-        self._lpool[sex] = (stk, by_slot, arr)
-        return stk, by_slot, arr
+        self.items()
+        # per slot: each candidate's armour class (0 = none: shirts, tabards, cosmetic)
+        cls = {slot: np.array([(k[4] if k[4] in (1, 2, 3, 4) else 0) if isinstance(k, tuple) else self._armour.get(k, 0)
+                               for k, _ in cands]) for slot, cands in by_slot.items()}
+        self._lpool[sex] = (stk, by_slot, arr, cls)
+        return stk, by_slot, arr, cls
 
     def _look_now(self, skin_file, race: str, sex: str) -> List[list]:
         import numpy as np
@@ -585,7 +605,7 @@ class Outfits:
         # not drag the mean colour away from the skin that shows
         cur = min(skins, key=lambda x: float(np.median(np.linalg.norm(x[1][face] - tgt[face], axis=-1))))[1].copy()
         # 2. the search pool (cached per sex)
-        stk, by_slot, arr = self._look_pool(sex)
+        stk, by_slot, arr, cls = self._look_pool(sex)
         G = 0.7                                         # weight of the brightness-gradient (detail) term
 
         def grad_err(img, m, t):
@@ -609,39 +629,58 @@ class Outfits:
                 img[y:y + h, x:x + w] = img[y:y + h, x:x + w] * (1 - c) + lab[i] * c
             return img
         bare = cur.copy()
-        chosen: Dict[str, Tuple[int, list]] = {}
-        for _pass in range(2):
-            for slot in ORDER:
-                base = bare
-                for sl in ORDER:                       # everything else on, in bake order
-                    if sl != slot and sl in chosen:
-                        base = paint(base, chosen[sl][1])
-                # error change of each region texture painted over base, vectorised per region
-                cands = by_slot.get(slot, [])
-                if not cands:
-                    continue
-                # only the region fields this slot's items paint
-                d = np.zeros(len(cands), dtype=np.float64)
-                for f, idx in arr[slot].items():
-                    (x, y, w, h), _, lab, cov = stk[f]
-                    use = np.unique(idx[idx >= 0])
-                    t, b = tgt[y:y + h, x:x + w], base[y:y + h, x:x + w]
-                    cv = cov[use][..., None]
-                    comp = b[None] * (1 - cv) + lab[use] * cv
-                    new = np.linalg.norm(comp - t[None], axis=-1)
-                    mb = body[y:y + h, x:x + w]
-                    m = mb[None]
-                    dl = np.zeros(len(lab), dtype=np.float64)
-                    dl[use] = ((new - np.linalg.norm(b - t, axis=-1)[None]) * m).reshape(len(use), -1).sum(1) \
-                        + G * (grad_err(comp, mb, t) - grad_err(b, mb, t))
-                    d += np.where(idx >= 0, dl[np.maximum(idx, 0)], 0.0)
-                j = int(d.argmin())
-                # kept only if it removes at least 2% of the slot-free composite's error; a tabard
-                # 10%: it covers the chest, so a near-tie would hide a chest piece under cloth
-                if d[j] < -(0.10 if slot == 'Tabard' else 0.02) * err(base):
-                    chosen[slot] = (cands[j][0], cands[j][1], float(-d[j]))
-                else:
-                    chosen.pop(slot, None)
+
+        def greedy(klass):
+            chosen: Dict[str, Tuple[int, list]] = {}
+            for _pass in range(2):
+                for slot in ORDER:
+                    base = bare
+                    for sl in ORDER:                       # everything else on, in bake order
+                        if sl != slot and sl in chosen:
+                            base = paint(base, chosen[sl][1])
+                    # error change of each region texture painted over base, vectorised per region
+                    cands = by_slot.get(slot, [])
+                    if not cands:
+                        continue
+                    # only the region fields this slot's items paint
+                    d = np.zeros(len(cands), dtype=np.float64)
+                    for f, idx in arr[slot].items():
+                        (x, y, w, h), _, lab, cov = stk[f]
+                        use = np.unique(idx[idx >= 0])
+                        t, b = tgt[y:y + h, x:x + w], base[y:y + h, x:x + w]
+                        cv = cov[use][..., None]
+                        comp = b[None] * (1 - cv) + lab[use] * cv
+                        new = np.linalg.norm(comp - t[None], axis=-1)
+                        mb = body[y:y + h, x:x + w]
+                        m = mb[None]
+                        dl = np.zeros(len(lab), dtype=np.float64)
+                        dl[use] = ((new - np.linalg.norm(b - t, axis=-1)[None]) * m).reshape(len(use), -1).sum(1) \
+                            + G * (grad_err(comp, mb, t) - grad_err(b, mb, t))
+                        d += np.where(idx >= 0, dl[np.maximum(idx, 0)], 0.0)
+                    # one armour class per outfit: other classes' armour is out (shirts / tabards / cosmetic stay)
+                    c_ = cls[slot]
+                    free = slot in ('Shirt', 'Tabard')        # cosmetic / classless only there
+                    d = np.where(((c_ == 0) & free) | (c_ == klass), d, np.inf)
+                    j = int(d.argmin())
+                    # kept only if it removes at least 2% of the slot-free composite's error; a tabard
+                    # 10%: it covers the chest, so a near-tie would hide a chest piece under cloth
+                    if d[j] < -(0.10 if slot == 'Tabard' else 0.02) * err(base):
+                        chosen[slot] = (cands[j][0], cands[j][1], float(-d[j]))
+                    else:
+                        chosen.pop(slot, None)
+            return chosen
+
+        def total(chosen):
+            img = bare
+            for sl in ORDER:
+                if sl in chosen:
+                    img = paint(img, chosen[sl][1])
+            return err(img)
+        # the rider's armour class = the class whose outfit comes closest (cloth, leather, mail, plate)
+        runs = {k: greedy(k) for k in (1, 2, 3, 4)}
+        best_k = min(runs, key=lambda k: total(runs[k]))
+        chosen = runs[best_k]
+        self._last_class = best_k
         e0 = err(bare)
         final = bare
         for sl in ORDER:

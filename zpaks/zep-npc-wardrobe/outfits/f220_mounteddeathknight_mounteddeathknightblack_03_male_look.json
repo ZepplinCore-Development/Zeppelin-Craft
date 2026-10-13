@@ -14,12 +14,12 @@
         "mod": 0
       },
       "chest": {
-        "item": 200333,
-        "mod": 3
+        "item": 209259,
+        "mod": 157
       },
-      "belt": {
-        "item": 14898,
-        "mod": 0
+      "legs": {
+        "item": 211983,
+        "mod": 154
       },
       "boots": {
         "item": 202463,
@@ -33,7 +33,7 @@
     "face_type": 0,
     "hair_style": 6,
     "hair_color": 9,
-    "facial_hair": 8,
+    "facial_hair": 0,
     "gender": 0
   },
   "display_ids": [

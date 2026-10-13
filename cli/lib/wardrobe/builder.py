@@ -153,13 +153,15 @@ class WardrobeBuilder:
             # 3.3.5 names one base per region and adds _M / _F / _U itself. Retail sometimes names the
             # gendered files with different bases (shirt_duelist_a_01_blue_tu_m / _tu_f, no suffix):
             # those ship renamed to one base + the client's gender suffix.
-            raw = {t.path.split('/')[-1].rsplit('_', 1)[0] for t in texs}
+            def pname(t):                                   # a texture with no listfile name: by FileDataID
+                return t.path or f'unnamed/{t.fdid}_{ {0: "m", 1: "f"}.get(t.gender, "u") }.blp'
+            raw = {pname(t).split('/')[-1].rsplit('_', 1)[0] for t in texs}
             canon = None
             if len(raw) > 1:
                 canon = sorted(raw)[0]
                 canon = canon[:-2] if canon.lower().endswith(('_m', '_f')) else canon
             for t in texs:
-                name = t.path.split('/')[-1]
+                name = pname(t).split('/')[-1]
                 if canon:
                     name = f'{canon}_{ {0: "M", 1: "F"}.get(t.gender, "U") }.blp'
                 client = f'Item\\TextureComponents\\{region}Texture\\{name}'

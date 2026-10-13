@@ -14,8 +14,8 @@
         "mod": 0
       },
       "legs": {
-        "item": 270217,
-        "mod": 0
+        "item": 207271,
+        "mod": 158
       },
       "boots": {
         "item": 228879,
@@ -32,7 +32,7 @@
     "face_type": 8,
     "hair_style": 0,
     "hair_color": 0,
-    "facial_hair": 2,
+    "facial_hair": 0,
     "gender": 0
   },
   "display_ids": [

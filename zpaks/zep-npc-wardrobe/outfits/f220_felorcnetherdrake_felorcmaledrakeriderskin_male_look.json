@@ -9,10 +9,6 @@
   "_comment": "F-220 look-alike rider for creature/felorcnetherdrake/felorcmaledrakeriderskin.blp (displays [18813, 18944, 22409]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "shirt": {
-        "item": 89191,
-        "mod": 0
-      },
       "chest": {
         "item": 16565,
         "mod": 0
