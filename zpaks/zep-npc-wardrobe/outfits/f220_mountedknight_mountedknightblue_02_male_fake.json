@@ -3,7 +3,7 @@
   "kind": "unique",
   "race": 1,
   "base_display": {
-    "0": 25500
+    "0": 24163
   },
   "name": "f220_mountedknight_mountedknightblue_02_male_fake",
   "_comment": "F-220 fake rider: the fused rider skin creature/mountedknight/mountedknightblue_02.blp as the bake (displays [1545, 10952, 16277, 17323, 17389, 18088, 26537])",
@@ -11,11 +11,11 @@
     "items": {}
   },
   "appearance": {
-    "skin_color": 12,
-    "face_type": 2,
+    "skin_color": 14,
+    "face_type": 0,
     "hair_style": 6,
-    "hair_color": 12,
-    "facial_hair": 2,
+    "hair_color": 9,
+    "facial_hair": 8,
     "gender": 0,
     "skin_texture": "creature\\mountedknight\\mountedknightblue_02.blp"
   },

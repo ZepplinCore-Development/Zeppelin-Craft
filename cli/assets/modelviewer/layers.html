@@ -1067,6 +1067,7 @@ function assetMatches(e) {
   if (e.tab !== tab) return false;
   // 'model:<path>' (a model card's Displays button): every display that shows that model, whatever the filter
   if (search.startsWith('model:')) return displaysOfModel(search.slice(6)).has(e);
+  if (search.startsWith('riders:')) return ridersOfModel(search.slice(7)).has(e.display);
   const c = pickOf(e);
   const rv = reviewReason(kindOf(e), keyOf(e), e);
   if ((filter === 'todo' || filter === 'review') && (e.single || e.retailOnly)) return false;
@@ -1136,6 +1137,18 @@ function displaysOfModel(path) {
   if (!_dom.has(path)) _dom.set(path, new Set(assets.filter(d => d.tab === 'display' &&
     [...(d.panes || []), ...(d.compare || [])].some(x => (x.model || '').toLowerCase() === path))));
   return _dom.get(path);
+}
+// F-220: the rider displays the world DB seats on this model's displays (mountriders.json links)
+function ridersOfModel(path) {
+  const out = new Set();
+  displaysOfModel(path).forEach(d => ((mountRiders.links || {})[d.display] || []).forEach(l => out.add(l.display)));
+  return out;
+}
+function showModelRiders(path) {
+  ridersOfModel(path.toLowerCase()).forEach(did => displayEntry(did));   // rider displays may have no card yet
+  search = 'riders:' + path.toLowerCase(); $('search').value = search;
+  lastFilter.display = 'all';
+  openLayer('display');
 }
 function showModelDisplays(path) {
   search = 'model:' + path.toLowerCase(); $('search').value = search;
@@ -1358,13 +1371,7 @@ function openAsset(e) {
   const c = pickOf(e), rv = reviewReason(kindOf(e), keyOf(e), e);
   $('title').textContent = e.id;          // favourites: the star on the list row; edits: each card's Edit
   $('subtitle').textContent = [e.display ? `shown on display ${e.display}` : '', e.names.slice(0, 3).join(', '),
-    e.members.length > 1 ? `${e.members.length} model files in this group` : '', rv ? 'REVIEW: ' + rv : '',
-    e.tab === 'creature' && isFusedRider(e.path) ? F220 : ''].filter(Boolean).join(' · ');
-  // F-220: a fused model's display already split into mount + DB-linked rider: the Rider toggle lives on that display
-  const split = e.tab === 'creature' && isFusedRider(e.path)
-    ? [...new Set([e.display, ...(e.panes || []).map(p => p.display)].filter(d => d && (mountRiders.links || {})[d]))] : [];
-  if (split.length) $('subtitle').innerHTML = esc($('subtitle').textContent) + ' · split into mount + rider (Rider toggle): '
-    + split.map(d => `<a href="?layer=display&display=${d}">display ${d}</a>`).join(', ');
+    e.members.length > 1 ? `${e.members.length} model files in this group` : '', rv ? 'REVIEW: ' + rv : ''].filter(Boolean).join(' · ');
   const isItem = e.tab === 'item' && e.variants && Object.keys(bodies).length;
   if (isItem) {
     const codes = e.codes && e.codes.length ? e.codes.filter(x => bodies[x]) : Object.keys(bodies);
@@ -1638,6 +1645,8 @@ function openAsset(e) {
   if ((e.tab === 'creature' || e.tab === 'character') && !e.retailOnly) {
     const n = displaysOfModel(e.path.toLowerCase()).size;
     if (n) ctx.push(`<button id="todisplays" title="Open the Displays tab listing every display that shows ${esc(e.path)}">Displays (${n}) →</button>`);
+    const nr = ridersOfModel(e.path.toLowerCase()).size;
+    if (nr) ctx.push(`<button id="toriders" title="Open the Displays tab listing the rider displays seated on this model's displays (F-220)">Riders (${nr}) →</button>`);
   }
   if (e.tab === 'display' && e.look_group) {
     const others = e.look_group.filter(x => x !== e.display);
@@ -1645,6 +1654,7 @@ function openAsset(e) {
   }
   if (ctx.length) $('panes').insertAdjacentHTML('afterbegin', `<div id="ctxbar">${ctx.join('<span class="sep">·</span>')}</div>`);
   if ($('todisplays')) $('todisplays').onclick = () => showModelDisplays(e.path);
+  if ($('toriders')) $('toriders').onclick = () => showModelRiders(e.path);
   render();
   fitPanes();
 }

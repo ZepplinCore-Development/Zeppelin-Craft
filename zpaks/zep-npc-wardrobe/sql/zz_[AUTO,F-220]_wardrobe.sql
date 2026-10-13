@@ -39,8 +39,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900504;
 INSERT INTO creature_model_info SET
   DisplayID = 900504,
-  BoundingRadius = 0.372,
-  CombatReach = 1.5,
+  BoundingRadius = 0.0,
+  CombatReach = 0.0,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -48,8 +48,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900505;
 INSERT INTO creature_model_info SET
   DisplayID = 900505,
-  BoundingRadius = 0.372,
-  CombatReach = 1.5,
+  BoundingRadius = 0.0,
+  CombatReach = 0.0,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -57,8 +57,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900506;
 INSERT INTO creature_model_info SET
   DisplayID = 900506,
-  BoundingRadius = 0.3519,
-  CombatReach = 1.725,
+  BoundingRadius = 0.0,
+  CombatReach = 0.0,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -66,8 +66,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900507;
 INSERT INTO creature_model_info SET
   DisplayID = 900507,
-  BoundingRadius = 0.3519,
-  CombatReach = 1.725,
+  BoundingRadius = 0.0,
+  CombatReach = 0.0,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -75,8 +75,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900508;
 INSERT INTO creature_model_info SET
   DisplayID = 900508,
-  BoundingRadius = 0.3519,
-  CombatReach = 1.725,
+  BoundingRadius = 0.42228,
+  CombatReach = 2.07,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -84,8 +84,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900509;
 INSERT INTO creature_model_info SET
   DisplayID = 900509,
-  BoundingRadius = 0.3519,
-  CombatReach = 1.725,
+  BoundingRadius = 0.42228,
+  CombatReach = 2.07,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -129,8 +129,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900514;
 INSERT INTO creature_model_info SET
   DisplayID = 900514,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
+  BoundingRadius = 0.4131,
+  CombatReach = 2.025,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -138,8 +138,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900515;
 INSERT INTO creature_model_info SET
   DisplayID = 900515,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
+  BoundingRadius = 0.4131,
+  CombatReach = 2.025,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -147,8 +147,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900516;
 INSERT INTO creature_model_info SET
   DisplayID = 900516,
-  BoundingRadius = 0.2288,
-  CombatReach = 1.65,
+  BoundingRadius = 0.2496,
+  CombatReach = 1.8,
   Gender = 1,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -156,8 +156,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900517;
 INSERT INTO creature_model_info SET
   DisplayID = 900517,
-  BoundingRadius = 0.2288,
-  CombatReach = 1.65,
+  BoundingRadius = 0.2496,
+  CombatReach = 1.8,
   Gender = 1,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -165,8 +165,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900518;
 INSERT INTO creature_model_info SET
   DisplayID = 900518,
-  BoundingRadius = 0.2288,
-  CombatReach = 1.65,
+  BoundingRadius = 0.2496,
+  CombatReach = 1.8,
   Gender = 1,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -174,8 +174,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900519;
 INSERT INTO creature_model_info SET
   DisplayID = 900519,
-  BoundingRadius = 0.2288,
-  CombatReach = 1.65,
+  BoundingRadius = 0.2496,
+  CombatReach = 1.8,
   Gender = 1,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -201,8 +201,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900522;
 INSERT INTO creature_model_info SET
   DisplayID = 900522,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
+  BoundingRadius = 0.4131,
+  CombatReach = 2.025,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -210,8 +210,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900523;
 INSERT INTO creature_model_info SET
   DisplayID = 900523,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
+  BoundingRadius = 0.4131,
+  CombatReach = 2.025,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -219,8 +219,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900524;
 INSERT INTO creature_model_info SET
   DisplayID = 900524,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
+  BoundingRadius = 0.4131,
+  CombatReach = 2.025,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -228,8 +228,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900525;
 INSERT INTO creature_model_info SET
   DisplayID = 900525,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
+  BoundingRadius = 0.4131,
+  CombatReach = 2.025,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -255,8 +255,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900528;
 INSERT INTO creature_model_info SET
   DisplayID = 900528,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
+  BoundingRadius = 0.4131,
+  CombatReach = 2.025,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;
@@ -264,8 +264,8 @@ INSERT INTO creature_model_info SET
 DELETE FROM creature_model_info WHERE DisplayID = 900529;
 INSERT INTO creature_model_info SET
   DisplayID = 900529,
-  BoundingRadius = 0.306,
-  CombatReach = 1.5,
+  BoundingRadius = 0.4131,
+  CombatReach = 2.025,
   Gender = 0,
   DisplayID_Other_Gender = 0,
   VerifiedBuild = 0;

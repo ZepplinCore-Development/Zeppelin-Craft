@@ -396,7 +396,7 @@ class Outfits:
         look = [r for r in self.lookalike(skin_file, race, sex) if r[0] not in have]
         return [r for r in rows if r[1] or not look] + look
 
-    LOOK_VERSION = 1         # bump when the rules change: cached results are recomputed
+    LOOK_VERSION = 2         # bump when the rules change: cached results are recomputed
 
     def lookalike(self, skin_file, race: str, sex: str) -> List[list]:
         """The item outfit that looks most like a baked character skin (classic layout, any size):
@@ -456,8 +456,8 @@ class Outfits:
                         new += 1
                     if th.get(key) is None:
                         ok = False
-                if ok:
-                    items.append((slot, int(it[0]), str(it[1]), regs))
+                if ok:                                     # it[4] = the retail ItemAppearance id
+                    items.append((slot, int(it[0]), str(it[1]), regs, int(it[4])))
         if new:
             try:
                 tmp = tp.with_suffix('.tmp')
@@ -497,7 +497,7 @@ class Outfits:
         # retail armour from the local store: appended to the same stacks, keyed 'r<fdid>'
         ritems, rth = self.retail_pool(sex)
         add: Dict[str, list] = {}
-        for _slot, _iid, _nm, regs in ritems:
+        for _slot, _iid, _nm, regs, _app in ritems:
             for fld, fd in regs.items():
                 if fld in stk and f'r{fd}' not in stk[fld][1]:
                     stk[fld][1][f'r{fd}'] = -1                # placeholder: indexed below
@@ -510,9 +510,9 @@ class Outfits:
                 keys[f'r{fd}'] = n0 + j
             stk[fld] = (box, keys, np.concatenate([lab, _lab(a[..., :3])]),
                         np.concatenate([cov, np.clip((a[..., 3] - 96) / 128, 0, 1)]))
-        for slot, iid, nm, regs in ritems:
+        for slot, iid, nm, regs, app in ritems:
             if all(fld in stk for fld in regs):
-                by_slot.setdefault(slot, []).append((('r', iid, nm), [(fld, stk[fld][1][f'r{fd}']) for fld, fd in regs.items()]))
+                by_slot.setdefault(slot, []).append((('r', iid, nm, app), [(fld, stk[fld][1][f'r{fd}']) for fld, fd in regs.items()]))
 
         self._lpool = getattr(self, '_lpool', {})
         self._lpool[sex] = (stk, by_slot)
@@ -575,8 +575,9 @@ class Outfits:
                     continue
                 d = np.array([sum(dl[f][i] for f, i in regs) for _, regs in cands])
                 j = int(d.argmin())
-                # kept only if it removes at least 2% of the slot-free composite's error
-                if d[j] < -0.02 * err(base):
+                # kept only if it removes at least 2% of the slot-free composite's error; a tabard
+                # 10%: it covers the chest, so a near-tie would hide a chest piece under cloth
+                if d[j] < -(0.10 if slot == 'Tabard' else 0.02) * err(base):
                     chosen[slot] = (cands[j][0], cands[j][1], float(-d[j]))
                 else:
                     chosen.pop(slot, None)
@@ -585,8 +586,9 @@ class Outfits:
         for sl in ORDER:
             if sl in chosen:
                 key, _, gain = chosen[sl]
-                if isinstance(key, tuple):                # retail: r:<item id>, as the Display editor takes it
-                    out.append([sl, 0, key[2] + ' (retail)', [f'r:{key[1]}'], 'closest', round(100.0 * gain / e0, 1)])
+                if isinstance(key, tuple):                # retail: r:<item id>, as the Display editor takes it;
+                    # 7th = the ItemAppearance scored (an item has several - the build must import this one)
+                    out.append([sl, 0, key[2] + ' (retail)', [f'r:{key[1]}'], 'closest', round(100.0 * gain / e0, 1), key[3]])
                 else:
                     out.append(self._row(sl, key, 'closest', 100.0 * gain / e0))
         return out

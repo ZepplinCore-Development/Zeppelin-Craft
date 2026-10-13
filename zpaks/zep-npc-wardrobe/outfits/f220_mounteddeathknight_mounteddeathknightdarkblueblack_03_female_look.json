@@ -3,23 +3,41 @@
   "kind": "unique",
   "race": 1,
   "base_display": {
-    "1": 25745
+    "1": 27809
   },
   "name": "f220_mounteddeathknight_mounteddeathknightdarkblueblack_03_female_look",
   "_comment": "F-220 look-alike rider for creature/mounteddeathknight/mounteddeathknightdarkblueblack_03.blp (displays [16153, 16327, 24794]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "shirt": 190807,
-      "chest": 182269,
-      "legs": 14900,
-      "belt": 115084,
-      "boots": 32981,
+      "shirt": {
+        "item": 190807,
+        "mod": 0
+      },
+      "chest": {
+        "item": 182269,
+        "mod": 0
+      },
+      "legs": {
+        "item": 14900,
+        "mod": 0
+      },
+      "belt": {
+        "item": 115084,
+        "mod": 0
+      },
+      "boots": {
+        "item": 32981,
+        "mod": 0
+      },
       "wrists": 23537,
-      "gloves": 39519
+      "gloves": {
+        "item": 39519,
+        "mod": 0
+      }
     }
   },
   "appearance": {
-    "skin_color": 12,
+    "skin_color": 14,
     "face_type": 0,
     "hair_style": 0,
     "hair_color": 0,

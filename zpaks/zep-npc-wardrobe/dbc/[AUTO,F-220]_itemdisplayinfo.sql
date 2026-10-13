@@ -174,13 +174,13 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Waste Disposal Crushers (retail item 160635, display 172441)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210030;
+-- Waste Disposal Crushers (retail item 160635, display 172452)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210089;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210030,
-  `left_model` = 'collections_plate_nazmirraid_d_01.mdx:401',
+  `id` = 210089,
+  `left_model` = 'collections_plate_nazmirraidmythic_d_01.mdx:401',
   `right_model` = '',
-  `left_model_texture` = 'collections_plate_nazmirraid_d_01_red',
+  `left_model_texture` = 'collections_plate_nazmirraidmythic_d_01',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '19::64',
@@ -193,8 +193,8 @@ INSERT INTO `itemdisplayinfo` SET
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
   `upper_arm_texture` = '',
-  `lower_arm_texture` = 'plate_nazmirraid_d_01_red_glove_al',
-  `hands_texture` = 'plate_nazmirraid_d_01_red_glove_ha',
+  `lower_arm_texture` = 'plate_nazmirraidmythic_d_01_glove_al',
+  `hands_texture` = 'plate_nazmirraidmythic_d_01_glove_ha',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
@@ -551,10 +551,10 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Conqueror's Breastplate (retail item 25008, display 687704)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210043;
+-- Brick Dunecloth Vest (retail item 262862, display 720106)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210090;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210043,
+  `id` = 210090,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -569,11 +569,11 @@ INSERT INTO `itemdisplayinfo` SET
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'plate_a_05_gold_sleeve_au',
-  `lower_arm_texture` = '',
+  `upper_arm_texture` = 'chest_armor_desertcloth_a_01_au_u',
+  `lower_arm_texture` = 'chest_armor_desertcloth_a_01_al_u',
   `hands_texture` = '',
-  `upper_torso_texture` = 'plate_a_05_gold_chest_tu',
-  `lower_torso_texture` = 'plate_a_05_gold_chest_tl',
+  `upper_torso_texture` = 'chest_armor_desertcloth_a_01_tu_u',
+  `lower_torso_texture` = 'chest_armor_desertcloth_a_01_tl_u',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
@@ -696,17 +696,17 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Loremaster's Colors (retail item 43300, display 54556)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210048;
+-- Sun-Soaked Beach Shirt (retail item 233989, display 696468)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210091;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210048,
+  `id` = 210091,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 1,
+  `geoset_group_1` = 0,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -717,8 +717,8 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_arm_texture` = '',
   `lower_arm_texture` = '',
   `hands_texture` = '',
-  `upper_torso_texture` = 'tabard_a_01achievementquest01_chest_tu',
-  `lower_torso_texture` = 'tabard_a_01achievementquest01_chest_tl',
+  `upper_torso_texture` = 'cloth_kezanslave_a_01 _chest_tu',
+  `lower_torso_texture` = 'cloth_kezanslave_a_01 _chest_tl',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
@@ -899,13 +899,13 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Scalesworn Cultist's Frock (retail item 200333, display 658849)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210055;
+-- Scalesworn Cultist's Frock (retail item 200333, display 658836)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210092;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210055,
+  `id` = 210092,
   `left_model` = 'chest_cloth_raidwarlockprimalist_d_01.mdx:2201',
   `right_model` = '',
-  `left_model_texture` = 'chest_cloth_raidwarlockprimalist_d_01_be_m_earth',
+  `left_model_texture` = 'chest_cloth_raidwarlockprimalist_d_01_be_m_air',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '19::64',
@@ -1160,6 +1160,35 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
+-- Acolyte's Shirt (retail item 6097, display 2470)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210093;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210093,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'cloth_a_01red_chest_tu',
+  `lower_torso_texture` = 'cloth_a_01red_chest_tl',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
 -- Vindictive Gladiator's Silk Robe (retail item 135732, display 153792)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 210064;
 INSERT INTO `itemdisplayinfo` SET
@@ -1189,13 +1218,13 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Graveboots of the Risen Nightmare (retail item 207202, display 672549)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210065;
+-- Graveboots of the Risen Nightmare (retail item 207202, display 672543)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210094;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210065,
+  `id` = 210094,
   `left_model` = 'plate_raiddeathknightemerald_d_01_glove.mdx:501,2001',
   `right_model` = '',
-  `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_shadow',
+  `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_red',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '19::64',
@@ -1218,17 +1247,17 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Tattered Iron Horde Tabard (retail item 234907, display 132894)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210066;
+-- Jade's Lovely Shirt (retail item 167207, display 687458)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210095;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210066,
+  `id` = 210095,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 1,
+  `geoset_group_1` = 0,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -1236,11 +1265,11 @@ INSERT INTO `itemdisplayinfo` SET
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
+  `upper_arm_texture` = 'cloth_a_03crewmanolive_sleeve_au',
   `lower_arm_texture` = '',
   `hands_texture` = '',
-  `upper_torso_texture` = 'tabard_a_01ironhorde_chest_tu',
-  `lower_torso_texture` = 'tabard_a_01ironhorde_chest_tl',
+  `upper_torso_texture` = 'cloth_a_05green_chest_tu',
+  `lower_torso_texture` = 'cloth_a_05green_chest_tl',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
@@ -1301,35 +1330,6 @@ INSERT INTO `itemdisplayinfo` SET
   `lower_torso_texture` = '',
   `upper_leg_texture` = 'leather_raiddruid_g_01green_pant_lu',
   `lower_leg_texture` = 'leather_raiddruid_g_01green_pant_ll',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Ornate Teal Lunar Belt (retail item 234044, display 695625)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210069;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210069,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = '6212225_tl_u',
-  `upper_leg_texture` = '6212225_lu_u',
-  `lower_leg_texture` = '',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
@@ -1450,10 +1450,10 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Entombed Seraph's Waistguard (retail item 211990, display 685911)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210074;
+-- Entombed Seraph's Waistguard (retail item 211990, display 685910)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210096;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210074,
+  `id` = 210096,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -1566,13 +1566,13 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Theurgic Starspeaker's Runebindings (retail item 188925, display 193549)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210078;
+-- Theurgic Starspeaker's Runebindings (retail item 188925, display 193567)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210097;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210078,
+  `id` = 210097,
   `left_model` = 'collections_mail_raidshamanprogenitor_d_01.mdx:401,402',
   `right_model` = '',
-  `left_model_texture` = 'collections_mail_raidshamanprogenitor_d_01_blue',
+  `left_model_texture` = 'collections_mail_raidshamanprogenitor_d_01_gold',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '19::64',
@@ -1885,10 +1885,10 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Cemented Murloc-Swimmers (retail item 228879, display 704249)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210087;
+-- Cemented Murloc-Swimmers (retail item 228879, display 704252)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210098;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210087,
+  `id` = 210098,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',

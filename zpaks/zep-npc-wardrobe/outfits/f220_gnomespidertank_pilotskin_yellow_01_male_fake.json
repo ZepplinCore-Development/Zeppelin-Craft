@@ -3,7 +3,7 @@
   "kind": "unique",
   "race": 7,
   "base_display": {
-    "0": 2184
+    "0": 1832
   },
   "name": "f220_gnomespidertank_pilotskin_yellow_01_male_fake",
   "_comment": "F-220 fake rider: the fused rider skin creature/gnomespidertank/pilotskin_yellow_01.blp as the bake (displays [5926, 6890, 6891, 6915, 6980, 16970, 18638, 21732, 21733, 21734])",
@@ -11,11 +11,11 @@
     "items": {}
   },
   "appearance": {
-    "skin_color": 3,
+    "skin_color": 8,
     "face_type": 0,
-    "hair_style": 1,
+    "hair_style": 0,
     "hair_color": 0,
-    "facial_hair": 5,
+    "facial_hair": 0,
     "gender": 0,
     "skin_texture": "creature\\gnomespidertank\\pilotskin_yellow_01.blp"
   },

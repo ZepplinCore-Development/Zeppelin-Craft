@@ -3,7 +3,7 @@
   "kind": "unique",
   "race": 7,
   "base_display": {
-    "0": 1930
+    "0": 1889
   },
   "name": "f220_gnomerocketcar_gnomepounderpilotskin_yellow_01_male_fake",
   "_comment": "F-220 fake rider: the fused rider skin creature/gnomerocketcar/gnomepounderpilotskin_yellow_01.blp as the bake (displays [2490])",
@@ -11,11 +11,11 @@
     "items": {}
   },
   "appearance": {
-    "skin_color": 2,
-    "face_type": 2,
-    "hair_style": 3,
-    "hair_color": 4,
-    "facial_hair": 5,
+    "skin_color": 0,
+    "face_type": 0,
+    "hair_style": 0,
+    "hair_color": 0,
+    "facial_hair": 0,
     "gender": 0,
     "skin_texture": "creature\\gnomerocketcar\\gnomepounderpilotskin_yellow_01.blp"
   },

@@ -109,6 +109,11 @@ def compose(appearance: Dict[str, int], charsection: Callable[[int, int, int], O
             continue
         for col, region in parts:
             if row.get(col):
+                if what == 'underwear' and not resolver.find(row[col]):
+                    # NPC-only skins (fel orc red, colour 10) name underwear no client ships: the item
+                    # layers cover it, so the bake goes ahead without it
+                    log.append(f'{what} {region:<12} {row[col]} missing - skipped')
+                    continue
                 _blit(canvas, need(row[col], f'{what} {region}'), region)
     for slot in SLOT_ORDER:
         for region, path in item_layers.get(slot, []):

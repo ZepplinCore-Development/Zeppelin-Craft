@@ -11,11 +11,11 @@
     "items": {}
   },
   "appearance": {
-    "skin_color": 3,
-    "face_type": 3,
-    "hair_style": 10,
-    "hair_color": 4,
-    "facial_hair": 6,
+    "skin_color": 0,
+    "face_type": 8,
+    "hair_style": 0,
+    "hair_color": 0,
+    "facial_hair": 2,
     "gender": 0,
     "skin_texture": "creature\\terongorefiend\\terongorefiend1.blp"
   },

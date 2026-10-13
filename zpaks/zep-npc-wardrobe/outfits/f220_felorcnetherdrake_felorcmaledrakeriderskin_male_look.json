@@ -3,26 +3,41 @@
   "kind": "unique",
   "race": 2,
   "base_display": {
-    "0": 1313
+    "0": 1139
   },
   "name": "f220_felorcnetherdrake_felorcmaledrakeriderskin_male_look",
   "_comment": "F-220 look-alike rider for creature/felorcnetherdrake/felorcmaledrakeriderskin.blp (displays [18813, 18944, 22409]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "shirt": 190807,
-      "chest": 16565,
-      "legs": 16567,
-      "belt": 195524,
-      "boots": 16569,
+      "shirt": {
+        "item": 190807,
+        "mod": 0
+      },
+      "chest": {
+        "item": 16565,
+        "mod": 0
+      },
+      "legs": {
+        "item": 16567,
+        "mod": 0
+      },
+      "belt": {
+        "item": 195524,
+        "mod": 0
+      },
+      "boots": {
+        "item": 16569,
+        "mod": 0
+      },
       "gloves": 16571
     }
   },
   "appearance": {
-    "skin_color": 3,
-    "face_type": 8,
-    "hair_style": 4,
-    "hair_color": 1,
-    "facial_hair": 1,
+    "skin_color": 10,
+    "face_type": 1,
+    "hair_style": 0,
+    "hair_color": 0,
+    "facial_hair": 0,
     "gender": 0
   },
   "display_ids": [

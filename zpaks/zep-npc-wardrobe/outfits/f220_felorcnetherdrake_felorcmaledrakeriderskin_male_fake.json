@@ -3,7 +3,7 @@
   "kind": "unique",
   "race": 2,
   "base_display": {
-    "0": 1313
+    "0": 1139
   },
   "name": "f220_felorcnetherdrake_felorcmaledrakeriderskin_male_fake",
   "_comment": "F-220 fake rider: the fused rider skin creature/felorcnetherdrake/felorcmaledrakeriderskin.blp as the bake (displays [18813, 18944, 22409])",
@@ -11,11 +11,11 @@
     "items": {}
   },
   "appearance": {
-    "skin_color": 3,
-    "face_type": 8,
-    "hair_style": 4,
-    "hair_color": 1,
-    "facial_hair": 1,
+    "skin_color": 10,
+    "face_type": 1,
+    "hair_style": 0,
+    "hair_color": 0,
+    "facial_hair": 0,
     "gender": 0,
     "skin_texture": "creature\\felorcnetherdrake\\felorcmaledrakeriderskin.blp"
   },

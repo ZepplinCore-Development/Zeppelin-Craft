@@ -3,21 +3,24 @@
   "kind": "unique",
   "race": 6,
   "base_display": {
-    "0": 3778
+    "0": 2087
   },
   "name": "f220_band_taurenmaleskin_male_look",
   "_comment": "F-220 look-alike rider for creature/band/taurenmaleskin.blp (displays [21602]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "boots": 64560
+      "boots": {
+        "item": 64560,
+        "mod": 0
+      }
     }
   },
   "appearance": {
-    "skin_color": 17,
-    "face_type": 1,
-    "hair_style": 1,
+    "skin_color": 18,
+    "face_type": 3,
+    "hair_style": 4,
     "hair_color": 0,
-    "facial_hair": 5,
+    "facial_hair": 3,
     "gender": 0
   },
   "display_ids": [

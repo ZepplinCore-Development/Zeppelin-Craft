@@ -3,7 +3,7 @@
   "kind": "unique",
   "race": 2,
   "base_display": {
-    "0": 1314
+    "0": 1371
   },
   "name": "f220_horderider_leather_horde_a_02_male_fake",
   "_comment": "F-220 fake rider: the fused rider skin creature/horderider/leather_horde_a_02.blp as the bake (displays [17203])",
@@ -11,10 +11,10 @@
     "items": {}
   },
   "appearance": {
-    "skin_color": 1,
-    "face_type": 0,
+    "skin_color": 8,
+    "face_type": 1,
     "hair_style": 3,
-    "hair_color": 3,
+    "hair_color": 0,
     "facial_hair": 0,
     "gender": 0,
     "skin_texture": "creature\\horderider\\leather_horde_a_02.blp"

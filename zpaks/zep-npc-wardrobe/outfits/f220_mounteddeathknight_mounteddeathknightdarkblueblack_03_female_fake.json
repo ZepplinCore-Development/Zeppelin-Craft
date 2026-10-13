@@ -3,7 +3,7 @@
   "kind": "unique",
   "race": 1,
   "base_display": {
-    "1": 25745
+    "1": 27809
   },
   "name": "f220_mounteddeathknight_mounteddeathknightdarkblueblack_03_female_fake",
   "_comment": "F-220 fake rider: the fused rider skin creature/mounteddeathknight/mounteddeathknightdarkblueblack_03.blp as the bake (displays [16153, 16327, 24794])",
@@ -11,7 +11,7 @@
     "items": {}
   },
   "appearance": {
-    "skin_color": 12,
+    "skin_color": 14,
     "face_type": 0,
     "hair_style": 0,
     "hair_color": 0,

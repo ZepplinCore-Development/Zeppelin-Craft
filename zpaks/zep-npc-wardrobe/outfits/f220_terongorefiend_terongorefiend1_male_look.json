@@ -9,18 +9,30 @@
   "_comment": "F-220 look-alike rider for creature/terongorefiend/terongorefiend1.blp (displays [21263]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "chest": 30214,
-      "legs": 270217,
-      "boots": 228879,
-      "gloves": 30211
+      "chest": {
+        "item": 30214,
+        "mod": 0
+      },
+      "legs": {
+        "item": 270217,
+        "mod": 0
+      },
+      "boots": {
+        "item": 228879,
+        "mod": 156
+      },
+      "gloves": {
+        "item": 30211,
+        "mod": 0
+      }
     }
   },
   "appearance": {
-    "skin_color": 3,
-    "face_type": 3,
-    "hair_style": 10,
-    "hair_color": 4,
-    "facial_hair": 6,
+    "skin_color": 0,
+    "face_type": 8,
+    "hair_style": 0,
+    "hair_color": 0,
+    "facial_hair": 2,
     "gender": 0
   },
   "display_ids": [

@@ -9,12 +9,20 @@
   "_comment": "F-220 look-alike rider for creature/mounteddemonknight/mounteddemonknightblack_02.blp (displays [15649, 16040, 20465, 25762]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "chest": 36133,
-      "legs": 248315,
+      "chest": {
+        "item": 36133,
+        "mod": 0
+      },
+      "legs": {
+        "item": 248315,
+        "mod": 0
+      },
       "boots": 16494,
       "wrists": 23537,
-      "gloves": 188925,
-      "tabard": 234907
+      "gloves": {
+        "item": 188925,
+        "mod": 156
+      }
     }
   },
   "appearance": {
