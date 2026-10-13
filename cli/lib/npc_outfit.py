@@ -449,12 +449,18 @@ class Outfits:
         from concurrent.futures.process import BrokenProcessPool
         args = [(f, r, s, c, oi) for f, r, s, _, c, oi in jobs]
         res = [None] * len(args)
+        # a few jobs: no fork (each worker copies the parent's touched pages - a 7 GB deploy forked six
+        # workers for one look-alike and was killed); otherwise no more workers than jobs
+        workers = min(workers, len(args)) if len(args) > 3 else 0
         try:
+            if not workers:
+                raise BrokenProcessPool('serial')
             with ProcessPoolExecutor(workers, mp_context=mp.get_context('fork')) as ex:
                 for i, rows in enumerate(ex.map(_look_job, args, chunksize=1)):
                     res[i] = rows
         except BrokenProcessPool as e:
-            log(f'    outfit: a look-alike worker died ({e}); finishing serially')
+            if str(e) != 'serial':
+                log(f'    outfit: a look-alike worker died ({e}); finishing serially')
         for i, a in enumerate(args):
             if res[i] is None:
                 res[i] = _look_job(a)
