@@ -1,0 +1,77 @@
+From 638d7a09db1e84e1b45b5c8fae400418167f378a Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 04:20:56 +0000
+Subject: [PATCH] fix: "already on us" expires after 15 s and clears on kill -
+ respawns keep their guid (F-219)
+
+The attackers map never expired and a respawned creature keeps its guid, so
+every mob killed once read "engaged" when it came back: the rogue's stealth
+Backstab opener never fired (0 openers with Stealth up and Backstab known),
+and ranged pulls (Shoot/Throw) and body pulls were skipped on respawns too.
+Verified by hand: same request on a never-fought mob opened with Backstab.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/main.go | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index 90fd2f3..a1608ec 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -526,6 +526,9 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			losing = ours < 50 && ours < theirs // it would outlast us: spend the mana now
+ 		}
+ 		if t.GetHealth() == 0 {
++			s.mu.Lock()
++			delete(s.attackers, guid) // a respawn keeps the guid: it must not read "already on us" next time
++			s.mu.Unlock()
+ 			_, _ = finish("killed", true)
+ 			if req.GetLoot() {
+ 				s.lootCorpse(ctx, guid, res)
+@@ -555,7 +558,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		if !openerDone {
+ 			// a stealth opener (Backstab): only unseen - from behind, before it has noticed us
+ 			s.mu.Lock()
+-			_, engaged := s.attackers[guid]
++			engaged := s.engagedRecently(guid)
+ 			stealthed := false
+ 			for _, sp := range s.auras {
+ 				for _, w := range req.GetOpenerAuras() {
+@@ -591,7 +594,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 			// open from range and let the target walk to us: it leaves its camp mates behind
+ 			// instead of us walking into their aggro radius
+ 			s.mu.Lock()
+-			_, engaged := s.attackers[guid]
++			engaged := s.engagedRecently(guid)
+ 			failed, hasFail := s.castFailed[req.GetPullSpell()]
+ 			s.mu.Unlock()
+ 			switch {
+@@ -643,7 +646,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 		}
+ 		if !bodyDone {
+ 			s.mu.Lock()
+-			_, engaged := s.attackers[guid]
++			engaged := s.engagedRecently(guid)
+ 			s.mu.Unlock()
+ 			switch {
+ 			case engaged && d > meleeTrigger:
+@@ -1093,6 +1096,14 @@ func (s *service) offenseLeft(req *combatv1.KillRequest, st *interactv1.SelfStat
+ 	return false
+ }
+ 
++// engagedRecently: has this unit attacked us in the last 15 s? Caller holds s.mu. The attackers map
++// never expired, and a respawned creature keeps its guid - every Tender a rogue had killed once read
++// "already on us" when it came back, so the stealth opener (and the ranged pull) never fired
++func (s *service) engagedRecently(g uint64) bool {
++	t, ok := s.attackers[g]
++	return ok && time.Since(t) < 15*time.Second
++}
++
+ // held: is this add under our crowd control right now?
+ func (s *service) held(g uint64) bool {
+ 	s.mu.Lock()
+-- 
+2.34.1
+
