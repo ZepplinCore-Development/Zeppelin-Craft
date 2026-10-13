@@ -16,3 +16,11 @@ UPDATE creaturedisplayinfo SET
   texture_variation_2 = 'BatSkinBrown02',
   texture_variation_3 = 'Taxi3'
 WHERE id = 15303;
+
+-- 21263 (Creature\TeronGorefiend_Mounted, Teron fused on his horse) -> the horse alone
+-- (model 900220, cut out by cli/lib/strip_rider.py: the rider's skeleton branch dropped from
+-- every LOD skin, attachment 0 moved onto the horse as the seat). The rider is Teron's own
+-- standalone display 21262 (TeronGorefiend.m2 has the Mount anim).
+UPDATE creaturedisplayinfo SET
+  model_id = 900220
+WHERE id = 21263;

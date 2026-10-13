@@ -563,6 +563,34 @@ def migrate_v1_choices(result: dict, ix, v1: Dict[str, dict]) -> Dict[str, dict]
     return out
 
 
+@model.command('strip-rider')
+@click.argument('model_path')
+@click.argument('out_path')
+@click.option('--rider-texture', '-t', multiple=True, required=True,
+              help="The rider's skin texture stem (e.g. terongorefiend1): finds the rider's skeleton branch")
+@click.option('--zpak', default='zep-mounted-npcs', show_default=True)
+def model_strip_rider(model_path, out_path, rider_texture, zpak):
+    """F-220: cut the riderless mount out of a fused rider model.
+
+    MODEL_PATH is the stock client path (creature/terongorefiend_mounted/terongorefiend_mounted.m2),
+    OUT_PATH the new model's client path (Creature/TeronGorefiend_Mounted/TeronGorefiend_Horse.m2),
+    written to <zpak>/mpq/source-assets with its NN.skin files. Ship it with a creaturemodeldata row.
+    """
+    import pickle
+    from pathlib import Path
+    from lib.strip_rider import strip_files
+    from lib.asset_index import AssetIndex  # noqa: F401  (unpickling)
+    craft = Path(__file__).resolve().parent.parent.parent
+    ix = pickle.loads((craft.parent / 'logs' / 'asset_index.pkl').read_bytes())
+    src = ix.stock.get(model_path.lower())
+    if src is None:
+        raise click.ClickException(f'{model_path}: not a stock client file')
+    out = craft / 'zpaks' / zpak / 'mpq' / 'source-assets' / out_path
+    rep = strip_files(Path(src), out, {t.lower() for t in rider_texture})
+    click.echo(f'  {out_path}: rider branch {rep["rider_branch"]}, batches removed per LOD {rep["removed"]}, '
+               f'seat on bone {rep["seat_bone"]} at {tuple(round(v, 3) for v in rep["seat"])}')
+
+
 @model.command('retail-casc')
 @click.option('--workers', default=16, show_default=True, help='Parallel CDN requests')
 @click.option('--fdid', 'fdids', multiple=True, type=int, help='Only these FileDataIDs (a test)')

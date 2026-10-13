@@ -158,41 +158,6 @@
    "sha256": "0ea17c2ee054b92588d249f19f2ed338471bf6fc31eec111ea8fec685cd364a6"
   },
   {
-   "path": "Item/ObjectComponents/Collections/cloth_raidwarlockemerald_d_01_chest_hu_f.m2",
-   "fdid": 4994983,
-   "build": "12.1.0.69875",
-   "kind": "downport+6 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "444dee5e0d00c5895e6d2670ff6cca88262af791731b38b31e83b01685a53d3e"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/cloth_raidwarlockemerald_d_01_chest_hu_f00.skin",
-   "fdid": 5202442,
-   "build": "12.1.0.69875",
-   "kind": "downport+6 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "79aad781c653ea8826e8e9c725a0fafabca78cebddee3fa4732f41b6687ca9cc"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/cloth_raidwarlockemerald_d_01_chest_hu_m.m2",
-   "fdid": 4994982,
-   "build": "12.1.0.69875",
-   "kind": "downport+6 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "9ed3ce7e74c23b335737060945745fe00a303afa0527e87a897387c74312f326"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/cloth_raidwarlockemerald_d_01_chest_hu_m00.skin",
-   "fdid": 5202515,
-   "build": "12.1.0.69875",
-   "kind": "downport+6 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "c25725a40fa625a130ff3a66107bd690336be7d5d6f71eb77cc79810c1ff35f3"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/cloth_raidwarlockemerald_d_01_chest_red.blp",
-   "fdid": 5202189,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "6b582aaae64b5f3e4f355ce90a9cbace136069bc690fbc201a1d014dee55bdba"
-  },
-  {
    "path": "Item/ObjectComponents/Collections/collections_armor_orcclan_d_01_or_f.m2",
    "fdid": 1623637,
    "build": "12.1.0.69875",
@@ -767,20 +732,6 @@
    "sha256": "b9e24eb0a2be07de2754d68790d2c5bd223466a29e15300bfb6c17699c0fa485"
   },
   {
-   "path": "Item/TextureComponents/ArmLowerTexture/robe_raidwarlock_e_01_glove_al_u.blp",
-   "fdid": 151081,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "4c0c1ec07657a1e409e808e10ad04b593ef754ffc2e8c3f729e2f9d38951355b"
-  },
-  {
-   "path": "Item/TextureComponents/ArmLowerTexture/robe_raidwarlock_e_01_sleeve_al_u.blp",
-   "fdid": 151082,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "b636b0ad4ba7cd7101eeb8597f34d48fb13c36318dba4632e64b92d637c9ae56"
-  },
-  {
    "path": "Item/TextureComponents/ArmLowerTexture/shirt_duelist_a_01_blue_al_u_5519291.blp",
    "fdid": 5519291,
    "build": "12.1.0.69875",
@@ -893,13 +844,6 @@
    "sha256": "129e0b8d736cb035449e6daa9d37e8d8c6ab248fd6735ffbfc6d23b9f190ae30"
   },
   {
-   "path": "Item/TextureComponents/ArmUpperTexture/robe_raidwarlock_e_01_sleeve_au_u.blp",
-   "fdid": 152624,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "35e812dbf48d62913b570e0a1e8f6d432fd7ca19e0beae3f2b421911571d84ca"
-  },
-  {
    "path": "Item/TextureComponents/ArmUpperTexture/shirt_duelist_a_01_blue_au_u_5519299.blp",
    "fdid": 5519299,
    "build": "12.1.0.69875",
@@ -926,13 +870,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "c8c603e5788696c91b613b3749200c6f5c64c827ace9b1089cfd9adbfc5f55ee"
-  },
-  {
-   "path": "Item/TextureComponents/FootTexture/boot_cloth_raidwarlockgoblin_d_01_fo_u_5766941.blp",
-   "fdid": 5766941,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "b79994dd50b97089c4ebaf52e07ba84fc36e22343b65f24c5c7ce5f46952b33e"
   },
   {
    "path": "Item/TextureComponents/FootTexture/cloth_broker_c_01_boot_fo_u_4076069.blp",
@@ -1131,13 +1068,6 @@
    "sha256": "539294cf58fbe830ac0596ddf3d77b7c5910ff3f18fce752e71681ca0a79951e"
   },
   {
-   "path": "Item/TextureComponents/HandTexture/robe_raidwarlock_e_01_glove_ha_u.blp",
-   "fdid": 154717,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "160859a3aeb5eea2fc5e48e137f112b0d3feb202276742e0938510a1e06ca6cd"
-  },
-  {
    "path": "Item/TextureComponents/LegLowerTexture/4691726_ll_u_5094703.blp",
    "fdid": 5094703,
    "build": "12.1.0.69875",
@@ -1192,13 +1122,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "c5b4a87f221d114c2c74bc6ed3c37a1fdd8f9bdd43a9c90747ec9537d3fb5cb7"
-  },
-  {
-   "path": "Item/TextureComponents/LegLowerTexture/cloth_raidwarlockemerald_d_01_chest_be_m_ll_u_5202150.blp",
-   "fdid": 5202150,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "cab6170101c4c4b29a28620a229c64b56fa0a62b03eb909903e61f479b552e47"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/leather_a_04black_pant_ll_u.blp",
@@ -1369,13 +1292,6 @@
    "sha256": "8f64ac188617ca990f5737a0b749ae776c5b329ee57efef389c0502d093de03f"
   },
   {
-   "path": "Item/TextureComponents/LegLowerTexture/robe_raidwarlock_e_01_robe_ll_u.blp",
-   "fdid": 157300,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "2b49b5292a4ed6379ca23e85a8b26c1776074ea886d3fc584a7cd20eb079d7df"
-  },
-  {
    "path": "Item/TextureComponents/LegUpperTexture/armor_orcclan_d_01_pant_lu_u.blp",
    "fdid": 1623839,
    "build": "12.1.0.69875",
@@ -1402,13 +1318,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "c99ad5b635f84968d268578776a60fba5051628d1dec69f9235591951b48133f"
-  },
-  {
-   "path": "Item/TextureComponents/LegUpperTexture/cloth_raidwarlockemerald_d_01_chest_be_m_lu_u_5202151.blp",
-   "fdid": 5202151,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "493ae8746ee95d979b53b0b047fa4542183c2ffd93efe75bc5bc70f09fdf0ef5"
   },
   {
    "path": "Item/TextureComponents/LegUpperTexture/leather_a_04black_pant_lu_u.blp",
@@ -1577,13 +1486,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "9a3a9e14f0fa083e89053e78b4b1c0adbe7b91cb54b7857ddc9a358163489e23"
-  },
-  {
-   "path": "Item/TextureComponents/LegUpperTexture/robe_raidwarlock_e_01_robe_lu_u.blp",
-   "fdid": 159993,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "a2edffddc39429330ebfa571cf209e57acfb368838a6efd366628164ce567e9f"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/7865363_u.blp",
@@ -1871,20 +1773,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "6ec0169ed989cc6b1fee56a505311c0211acf3d24c7844bf9ed37198ddcd8148"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoLowerTexture/robe_raidwarlock_e_01_chest_tl_f.blp",
-   "fdid": 162544,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "01b6a099ca9d677ab763eabf2270a7af0fec76f653eed0ce21569b138f0b37ca"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoLowerTexture/robe_raidwarlock_e_01_chest_tl_m.blp",
-   "fdid": 162545,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "417ee97cecc799b4e9070413427b3b7123991eecf6130a7b145f8ed90fa5de22"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/shirt_duelist_a_01_blue_tl_F.blp",
@@ -2195,20 +2083,6 @@
    "sha256": "bf1b6ba857b531b1cb97f98448fadb8da6761c9cc830a54310b7d0cc2b3adb78"
   },
   {
-   "path": "Item/TextureComponents/TorsoUpperTexture/robe_raidwarlock_e_01_chest_tu_f.blp",
-   "fdid": 165238,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "93d6bffce025c4ee5a803f8a74e4338751126934e319f1f19fa2311c9956c7da"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoUpperTexture/robe_raidwarlock_e_01_chest_tu_m.blp",
-   "fdid": 165239,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "5d88ca4c4112be07e9cc69ed335b5a396e416a7d07fa5f6a975f540e5caf53e6"
-  },
-  {
    "path": "Item/TextureComponents/TorsoUpperTexture/shirt_duelist_a_01_blue_tu_F.blp",
    "fdid": 5519276,
    "build": "12.1.0.69875",
@@ -2499,18 +2373,6 @@
    "kind": "bake",
    "display": 900531,
    "sha256": "4728577b463de090833ec428fa6be2314d6efcd24d732e485ff98e0693edfbf2"
-  },
-  {
-   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900532.blp",
-   "kind": "bake",
-   "display": 900532,
-   "sha256": "cffd71ce9cb798344e6ada3140e256852347f02df0808b7982112d744b29e7b2"
-  },
-  {
-   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900533_HD.blp",
-   "kind": "bake",
-   "display": 900533,
-   "sha256": "bf4cde3cd4e051db2bd4d00f14deba61cce98a90547c1d1d4ca8cd4db97c7b98"
   },
   {
    "path": "item/objectcomponents/collections/chest_plate_raiddeathknightdragon_d_01_be_m_5095205.blp",

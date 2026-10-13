@@ -1,7 +1,9 @@
 -- F-220 rider previews (generated with the zep-npc-wardrobe f220_* manifests): one unspawned creature
 -- per rider display 900500-900533, so the F-216 picker has a card for it and lists it in the Rider menu of
 -- the fused display it replaces (creature_template_addon.mount). "Fake" = the fused rider skin itself as the
--- bake; "Look" = the look-alike items (lib/npc_outfit lookalike). Never spawned; ids 902202-902235.
+-- bake; "Look" = the look-alike items (lib/npc_outfit lookalike). Never spawned; ids 902202-902233.
+-- 902236+ = riders that already exist as their own HD model (no rider built): the existing display on
+-- the riderless mount.
 
 DELETE FROM creature_template WHERE entry = 902202;
 INSERT INTO creature_template SET
@@ -803,52 +805,57 @@ INSERT INTO creature_template_addon SET
   mount = 9723,
   bytes2 = 1;
 
-DELETE FROM creature_template WHERE entry = 902234;
+DELETE FROM creature_template WHERE entry = 902236;
 INSERT INTO creature_template SET
-  `entry` = 902234,
-  `name` = 'F-220 Fake Teron Gorefiend',
-  `subname` = 'rider preview, display 900532',
+  `entry` = 902236,
+  `name` = 'F-220 HD Rider Teron Gorefiend',
+  `subname` = 'rider preview, display 21262',
   `minlevel` = 60,
   `maxlevel` = 60,
   `faction` = 35,
   `unit_class` = 1,
   `type` = 7,
   `type_flags` = 2048;
-DELETE FROM creature_template_model WHERE CreatureID = 902234;
+DELETE FROM creature_template_model WHERE CreatureID = 902236;
 INSERT INTO creature_template_model SET
-  CreatureID = 902234,
+  CreatureID = 902236,
   Idx = 0,
-  CreatureDisplayID = 900532,
+  CreatureDisplayID = 21262,
   DisplayScale = 1,
   Probability = 1,
   VerifiedBuild = 0;
-DELETE FROM creature_template_addon WHERE entry = 902234;
+DELETE FROM creature_template_addon WHERE entry = 902236;
 INSERT INTO creature_template_addon SET
-  entry = 902234,
+  entry = 902236,
   mount = 21263,
   bytes2 = 1;
 
-DELETE FROM creature_template WHERE entry = 902235;
+DELETE FROM creature_template WHERE entry = 902237;
 INSERT INTO creature_template SET
-  `entry` = 902235,
-  `name` = 'F-220 Look Teron Gorefiend',
-  `subname` = 'rider preview, display 900533',
+  `entry` = 902237,
+  `name` = 'F-220 HD Rider Headless Horseman',
+  `subname` = 'rider preview, display 22352',
   `minlevel` = 60,
   `maxlevel` = 60,
   `faction` = 35,
   `unit_class` = 1,
   `type` = 7,
   `type_flags` = 2048;
-DELETE FROM creature_template_model WHERE CreatureID = 902235;
+DELETE FROM creature_template_model WHERE CreatureID = 902237;
 INSERT INTO creature_template_model SET
-  CreatureID = 902235,
+  CreatureID = 902237,
   Idx = 0,
-  CreatureDisplayID = 900533,
+  CreatureDisplayID = 22352,
   DisplayScale = 1,
   Probability = 1,
   VerifiedBuild = 0;
-DELETE FROM creature_template_addon WHERE entry = 902235;
+DELETE FROM creature_template_addon WHERE entry = 902237;
 INSERT INTO creature_template_addon SET
-  entry = 902235,
-  mount = 21263,
+  entry = 902237,
+  mount = 22653,
   bytes2 = 1;
+
+-- retired: Teron's built fake / look pair (an HD rider exists)
+DELETE FROM creature_template WHERE entry IN (902234, 902235);
+DELETE FROM creature_template_model WHERE CreatureID IN (902234, 902235);
+DELETE FROM creature_template_addon WHERE entry IN (902234, 902235);
