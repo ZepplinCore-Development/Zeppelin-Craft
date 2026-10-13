@@ -1661,7 +1661,8 @@ function openAsset(e) {
       ${cu.outfit ? outfitBox({ outfit: OUTFIT_SLOTS.filter(sl => cu.outfit[sl]).map(sl => [sl[0].toUpperCase() + sl.slice(1), cu.outfit[sl], String(cu.outfit[sl]).startsWith('r:') ? 'retail item ' + String(cu.outfit[sl]).slice(2) : 'item display ' + cu.outfit[sl], [], 'edit']) }) : outfitBox(bp)}${provBox(bp)}
       <button class="use" id="cu-use">${chosenC ? 'Chosen' : 'Use this'}</button><button class="usecust" id="cu-edit">Edit</button></div></div>`);
     $('cu-use').onclick = () => save('display', String(e.display), e, 'custom');
-    $('cu-edit').onclick = () => cu.new ? openCustom_(e.display, true, null) : openCustom_(e.display, true, Object.assign(viaOf({ ...bp, cust: bp.cust || { groups: ent.groups || {}, slots: ctx.slots },
+    // a retail edit reopens in retail mode: openCustom_ rebuilds it from the saved base when given no via
+    $('cu-edit').onclick = () => cu.new || (cb.sources || []).includes('retail') ? openCustom_(e.display, true, null) : openCustom_(e.display, true, Object.assign(viaOf({ ...bp, cust: bp.cust || { groups: ent.groups || {}, slots: ctx.slots },
       skin_names: ctx.skins, tex_key: ctx.tex_key }, label(bp.sources)) || {}, {}));
     if ((cb.sources || []).includes('retail')) {
       // a retail model picked in the Display editor: drawn live, retail's own skin set
