@@ -39,7 +39,8 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       vertices; "material" names this model's material. See import_rigid for the placement.
 
   {"op": "skin.batch.set", "match": {"shader": 32768}, "set": {"shader": 32769, "flags": 16, "coord": 1}}
-      Batch fields rewritten on every batch matching `match` (fields: flags, priority, shader, color,
+      Batch fields rewritten on every batch matching `match` ("replace": [{...}, {...}] makes each
+      matching batch one batch per entry: the classic two-pass form of a modern multi-layer batch) (fields: flags, priority, shader, color,
       material, layer, textures, texcombo, coord, weight, transform). I-392: retail
       dragonspawn2darkshade's armour kept the modern runtime shader 0x8000 + flags 0x90, which 3.3.5
       draws invisibly (memory: offline downport 0x8000); the classic env-armour pattern renders.
@@ -903,15 +904,21 @@ _BATCH = ('flags', 'priority', 'shader', 'skin', 'geoset', 'color', 'material', 
 
 
 def _op_batch_set(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
-    match, new = cfg.get('match') or {}, cfg['set']
-    n = 0
-    for i, b in enumerate(sk.batches):
+    # "set": fields changed in place; "replace": each matching batch becomes one batch per entry
+    match = cfg.get('match') or {}
+    news = cfg['replace'] if 'replace' in cfg else [cfg['set']]
+    out, n = [], 0
+    for b in sk.batches:
         f = dict(zip(_BATCH, struct.unpack_from('<BbHHHhHHHHHHH', b, 0)))
-        if all(f[k] == v for k, v in match.items()):
-            f.update(new)
-            sk.batches[i] = bytearray(struct.pack('<BbHHHhHHHHHHH', *(f[k] for k in _BATCH))) + b[24:]
-            n += 1
-    return f'batch.set: {n} batches {match} -> {new}'
+        if not all(f[k] == v for k, v in match.items()):
+            out.append(b)
+            continue
+        n += 1
+        for new in news:
+            g = dict(f, **new)
+            out.append(bytearray(struct.pack('<BbHHHhHHHHHHH', *(g[k] for k in _BATCH))) + b[24:])
+    sk.batches = out
+    return f'batch.set: {n} batches {match} -> {news}'
 
 
 OPS = {
