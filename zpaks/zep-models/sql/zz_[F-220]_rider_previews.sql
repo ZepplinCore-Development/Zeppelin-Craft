@@ -859,3 +859,53 @@ INSERT INTO creature_template_addon SET
 DELETE FROM creature_template WHERE entry IN (902234, 902235);
 DELETE FROM creature_template_model WHERE CreatureID IN (902234, 902235);
 DELETE FROM creature_template_addon WHERE entry IN (902234, 902235);
+
+DELETE FROM creature_template WHERE entry = 902238;
+INSERT INTO creature_template SET
+  `entry` = 902238,
+  `name` = 'F-220 Fake Gnome Mechastrider Pilot',
+  `subname` = 'rider preview, display 900508',
+  `minlevel` = 60,
+  `maxlevel` = 60,
+  `faction` = 35,
+  `unit_class` = 1,
+  `type` = 7,
+  `type_flags` = 2048;
+DELETE FROM creature_template_model WHERE CreatureID = 902238;
+INSERT INTO creature_template_model SET
+  CreatureID = 902238,
+  Idx = 0,
+  CreatureDisplayID = 900508,
+  DisplayScale = 1,
+  Probability = 1,
+  VerifiedBuild = 0;
+DELETE FROM creature_template_addon WHERE entry = 902238;
+INSERT INTO creature_template_addon SET
+  entry = 902238,
+  mount = 6978,
+  bytes2 = 1;
+
+DELETE FROM creature_template WHERE entry = 902239;
+INSERT INTO creature_template SET
+  `entry` = 902239,
+  `name` = 'F-220 Look Gnome Mechastrider Pilot',
+  `subname` = 'rider preview, display 900509',
+  `minlevel` = 60,
+  `maxlevel` = 60,
+  `faction` = 35,
+  `unit_class` = 1,
+  `type` = 7,
+  `type_flags` = 2048;
+DELETE FROM creature_template_model WHERE CreatureID = 902239;
+INSERT INTO creature_template_model SET
+  CreatureID = 902239,
+  Idx = 0,
+  CreatureDisplayID = 900509,
+  DisplayScale = 1,
+  Probability = 1,
+  VerifiedBuild = 0;
+DELETE FROM creature_template_addon WHERE entry = 902239;
+INSERT INTO creature_template_addon SET
+  entry = 902239,
+  mount = 6978,
+  bytes2 = 1;

@@ -24,3 +24,13 @@ WHERE id = 15303;
 UPDATE creaturedisplayinfo SET
   model_id = 900220
 WHERE id = 21263;
+
+-- 6978 / 6979 (Creature\MechaStrider\GnomeMechaStrider, the pilot fused in; Mechanized Sentry 6233 /
+-- Guardian 6234 + their heroic / mythic clones) -> the riderless red mechanostrider (model 751,
+-- as stock display 9473). The pilot is the armoured tank pilot (same skin pilotarmor_yellow_01):
+-- rider displays 900508 (fake) / 900509 (look). SHIP with those creatures' rider rows.
+UPDATE creaturedisplayinfo SET
+  model_id = 751,
+  texture_variation_1 = 'GnomeMechaStriderSkinRed',
+  texture_variation_2 = 'GnomeMechaStriderSkinRed2'
+WHERE id IN (6978, 6979);

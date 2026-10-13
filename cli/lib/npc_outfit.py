@@ -42,7 +42,8 @@ FUSED = {'batrider.m2', 'alliancerider.m2', 'alliancerider2.m2', 'horderider.m2'
          'gnomerocketcar.m2', 'headlesshorsemanmount.m2', 'mounteddeathknight.m2', 'mounteddeathknight_blaumeux.m2',
          'mounteddeathknight_korthazz.m2', 'mounteddeathknight_mograine.m2', 'mounteddeathknight_zeliek.m2',
          'mountedknight.m2', 'mounteddemonknight.m2', 'terongorefiend_mounted.m2', 'felorcnetherdrakemounted.m2',
-         'orcdrakerider.m2', 'tauren_mountedcanoe.m2', 'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2'}
+         'orcdrakerider.m2', 'tauren_mountedcanoe.m2', 'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2',
+         'gnomemechastrider.m2'}
 # their rider's skin (classic character layout): an M2 texture stem, or a display slot index
 # (0..2 = texture_variation_1..3) when the display skins the rider; race (Character/ folder), sex
 RIDERS = {'batrider.m2': ('trollbatriderskin', 'troll', 'male'),
@@ -53,6 +54,7 @@ RIDERS = {'batrider.m2': ('trollbatriderskin', 'troll', 'male'),
           'terongorefiend_mounted.m2': ('terongorefiend1', 'human', 'male'),
           'gnomerocketcar.m2': ('gnomepounderpilotskin_yellow_01', 'gnome', 'male'),
           'gnomespidertank.m2': (1, 'gnome', 'male'), 'gnomepounder.m2': (1, 'gnome', 'male'),
+          'gnomemechastrider.m2': ('pilotarmor_yellow_01', 'gnome', 'male'),
           'mountedknight.m2': (1, 'human', 'male'), 'mounteddemonknight.m2': (1, 'human', 'male'),
           'mounteddeathknight.m2': (2, 'human', 'male'), 'mounteddeathknight_korthazz.m2': (2, 'human', 'male'),
           'mounteddeathknight_mograine.m2': (2, 'human', 'male'), 'mounteddeathknight_zeliek.m2': (2, 'human', 'male'),
