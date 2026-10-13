@@ -217,6 +217,8 @@ def modular_variants(result: dict) -> Dict[str, Dict[int, Dict[str, dict]]]:
                 # the display's own (stock) skins name its colour first; a pack row's only if they don't
                 c = next((c for r in rows for c in colours
                           if c in ' '.join(str(r.get(k) or '') for k in TEX).lower()), None)
+                if c is None:                              # no skins (darkshade bakes its own): the stock model's name
+                    c = next((c for c in colours if c in _path(stock_cmd, base).rsplit('/', 1)[-1]), None)
                 row = {'model_id': int(tmpl.get('model_id') or 0), GEO: int(tmpl.get(GEO) or 0),
                        SCALE: float(base.get(SCALE) or 1), '_moved': 0, '_modular': parent}
                 for k in TEX:

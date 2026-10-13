@@ -1,6 +1,6 @@
 {
   "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR00.SKIN": {
-    "note": "I-392: retail dragonspawn2 with every group-1 armour set split into parts. Donor files are retail creature/dragonspawn2 (model FDID 4183015, build 12.1.0.69933) as converted by cli/lib/retail.py (WXL downport + m2_skin_rebuild, logs/retail_cache/out/creature/dragonspawn2), renamed to dragonspawn2_modular: the client caches models by stem, and the picker offers <parent>_modular wherever <parent> (creature/dragonspawn2/dragonspawn2.m2) is offered (lib/repoint_complete.modular_variants). The base is LOD1 (55,824 indices): retail skin00 (71,283 indices) overflows WotLK's u16 submesh starts and loses horns 304-306 and ears/jaw 401-405. Groups: 1 chest/collar (key bones 53 spine, 4 SpineLow, 26 Root), 2 waist, 3 horns/crest, 4 ears/jaw (2-4 unchanged), 5 helmet (6 Head, 49), 6 left shoulder (2 ShoulderL, 0 ArmL), 7 right shoulder (3 ShoulderR, 1 ArmR), 8 bracers/gauntlets/boots (61 62 64 65 forearms, 78 79 84 85 feet). Variant = source set (102-107), so a nibble naming a set with no such piece hides the group. Only pure pad islands stay in the shoulder parts: welded pieces spanning chest and shoulder bones (the 102/103 sash, the 106/107 chest plate rim and the straps over the shoulders) are \"mixed\" islands sent whole to the chest. Set 105: the hood is cut per triangle with its shoulder triangles sent to the robe (the helmet 505 still comes out) and the circlets dropped (604/704 offer the same pieces), so 105 = robe + helmet. 603 (retail's big pauldron) stays left-only (the user's call). Boss pieces (skin.import, variant 8): 508 helm crest, 608 / 708 boss pads, each armour + glow; fixed boss textures, so they keep the boss colours on every skin. Group 4 is ears / wings: one ear set (401) on every variant; 401 = no wings, 402-408 = wings in black, red, blue, bronze, green, purple, white (retail ear sets 402-405 dropped, so the old ear choices fall back to 401 / no wings).",
+    "note": "I-392: retail dragonspawn2 with every group-1 armour set split into parts. Donor files are retail creature/dragonspawn2 (model FDID 4183015, build 12.1.0.69933) as converted by cli/lib/retail.py (WXL downport + m2_skin_rebuild, logs/retail_cache/out/creature/dragonspawn2), renamed to dragonspawn2_modular: the client caches models by stem, and the picker offers <parent>_modular wherever <parent> (creature/dragonspawn2/dragonspawn2.m2) is offered (lib/repoint_complete.modular_variants). The base is LOD1 (55,824 indices): retail skin00 (71,283 indices) overflows WotLK's u16 submesh starts and loses horns 304-306 and ears/jaw 401-405. Groups: 1 chest/collar (key bones 53 spine, 4 SpineLow, 26 Root), 2 waist, 3 horns/crest, 4 ears/jaw (2-4 unchanged), 5 helmet (6 Head, 49), 6 left shoulder (2 ShoulderL, 0 ArmL), 7 right shoulder (3 ShoulderR, 1 ArmR), 8 bracers/gauntlets/boots (61 62 64 65 forearms, 78 79 84 85 feet). Variant = source set (102-107), so a nibble naming a set with no such piece hides the group. Only pure pad islands stay in the shoulder parts: welded pieces spanning chest and shoulder bones (the 102/103 sash, the 106/107 chest plate rim and the straps over the shoulders) are \"mixed\" islands sent whole to the chest. Set 105: the hood is cut per triangle with its shoulder triangles sent to the robe (the helmet 505 still comes out) and the circlets dropped (604/704 offer the same pieces), so 105 = robe + helmet. 603 (retail's big pauldron) stays left-only (the user's call). Boss pieces (skin.import, variant 8): 508 helm crest, 608 / 708 boss pads, each armour + glow; fixed boss textures, so they keep the boss colours on every skin. Group 4 is ears / wings: one ear set (401) on every variant; 401 = no wings, 402-409 = wings in black, red, blue, bronze, green, purple, white, dark (retail ear sets 402-405 dropped, so the old ear choices fall back to 401 / no wings).",
     "copy_from": "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR01.SKIN",
     "base_sha256": "c0bbe9dda6b3c3b0ccdf92ecf6c51261c2a81a5276063cedadbdcaa541ce48f1",
     "ops": [
@@ -155,6 +155,10 @@
           {
             "id": 408,
             "texcombo": 14
+          },
+          {
+            "id": 409,
+            "texcombo": 15
           }
         ],
         "strut": {
@@ -207,11 +211,12 @@
           405,
           406,
           407,
-          408
+          408,
+          409
         ]
       }
     ],
-    "result_sha256": "b4c632363468dd202a0cb57e31665ddaed9d648b809f93d7b1d8bf0a1eaed7b5"
+    "result_sha256": "27217b8bfb899a9dc1fbc8b46fb50c1833d9ee444600702f77f6181ad61ef8c4"
   },
   "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2_MODULAR.M2": {
     "note": "I-392: retail dragonspawn2.m2 (1 view, so the client loads only DRAGONSPAWN2_MODULAR00.SKIN) plus retail dragonspawn2boss's pads and helm crest (donors/, FDID of creature/dragonspawn2boss/dragonspawn2boss.m2, converted by lib/retail.convert): its submesh 2 (armour, boss armour texture + reflect) and 3 (additive glow on UV2, imported static: our model has no UV animation) written over unused lower-LOD vertices from 16509 (sliced numbering), bones remapped onto this rig (same pivots; the boss's 4 pad flap bones ride their parents). Textures 3 = boss armour as replaceable type 13 (the display's 3rd skin slot: dragonspawn2boss_armor_<colour>, black = the retail gold), 4 = glow (fixed); texture lookup 4-5 = (boss armour, reflect), 6-7 = (glow, glow); material 4 = (21, 4) additive; texture unit lookup 2-3 = (0, 1). base_sha256 pins the donor. Vertex array sliced to 20030..39560 (LOD1's run + the boss pieces; m2.vertices.slice): the picker merges weapon/shield meshes into the model as extra vertices, which the u16 skin lookup cannot reach past 65,535 on the full 86k array. Wings (I-392, 2026-10-13): stock dragonspawngreater's spread (right) wing, bone subtree 27, mirrored, raised 0.4, re-centred 0.28 (the classic model sits 0.28 off the midline) and pulled 0.4 in over the shoulder blades, bound rigidly to key bone 53 (m2.import_rigid, vertices from 19531); textures 5-11 = DRAGONSPAWN2WING_<colour> (texture lookup 8-14); material 5 = (4, 1) two-sided alpha test. The wing arm and claw (strut: within 0.08 of the leading-edge UV line, or the claw box) get their own vertex copies with UVs along the body skin's tail strip, drawn with the body skin (texture lookup 0), so they wear the display's own scales.",
@@ -402,6 +407,13 @@
         "expect_count": 11
       },
       {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_DARK.BLP",
+        "expect_count": 12
+      },
+      {
         "op": "m2.texlookup.set",
         "expect": [
           0,
@@ -428,7 +440,8 @@
           8,
           9,
           10,
-          11
+          11,
+          12
         ]
       },
       {
@@ -443,7 +456,6 @@
         ]
       }
     ],
-    "result_sha256": "d1035165f2c15e8a658f042d90aa8f2895a28a707978d892735093b9e18b497a",
     "offer_on": [
       "creature/dragonspawn/dragonspawn.m2",
       "creature/dragonspawn/dragonspawnarmored.m2",
@@ -452,7 +464,8 @@
       "creature/dragonspawn/dragonspawnoverlordnexus.m2",
       "creature/dragonspawnnexus/dragonspawnarmorednexus.m2",
       "creature/dragonspawncaster/dragonspawncaster.m2"
-    ]
+    ],
+    "result_sha256": "35739ef3383458f9811b1111201cc4d7cc3cd657f44832c035b648c2fc2c8af0"
   },
   "CREATURE/DESERTLASHERORCHID_MODULAR/DESERTLASHERORCHID_MODULAR00.SKIN": {
     "note": "I-396: the HD desert lasher orchid (patch-hd-creatures-mounts creature/desertlasherorchid, view 00) split by texture region so each part samples its own creature skin: stem/roots/vine arms on skin 1 (texture_variation_1), petals/leaves on skin 2, beak/jaw/teeth on skin 3. The donor is one submesh (geoset 0) whose 143 UV islands sit in separate texture areas; boxes test each island's UV centroid (checked against a 3D render: 0 misassigned islands). combo_add points each part's two batches (skin+oldglass3 env, skin alpha layer) at its pair in the texture lookup set by the .M2 recipe. skin.overlay adds the petal pattern group on the flower part (submesh 2): 101 plain (empty), 102 spots, 103 stripes; a display names one in creature_geoset_data (0x1/0x2/0x3).",
@@ -1353,5 +1366,518 @@
       }
     ],
     "result_sha256": "213ff3471564acba3979e457022117818acdaf5b46b916601dc976a2b44f6125"
+  },
+  "CREATURE/DRAGONSPAWN2_MODULAR/DRAGONSPAWN2WING_DARK.BLP": {
+    "note": "I-392: wing membrane for the Infinite (darkshade) bodies: two-zone belly / scale recolour fitted on retail dragonspawn2darkshade_body (as the other DRAGONSPAWN2WING_<colour>).",
+    "copy_from": "donors/dragonspawnoverlordskin_black_2_hd.blp",
+    "ops": [
+      {
+        "op": "blp.recolour",
+        "weights": [
+          [
+            5.73023,
+            10.71524,
+            14.18215
+          ],
+          [
+            266.81108,
+            327.45005,
+            350.1122
+          ],
+          [
+            50.80034,
+            95.72971,
+            53.85758
+          ],
+          [
+            31.88435,
+            122.0401,
+            164.24037
+          ],
+          [
+            -61.6608,
+            -204.79763,
+            -231.72911
+          ],
+          [
+            208.47102,
+            284.46376,
+            246.16263
+          ],
+          [
+            122.08014,
+            183.63344,
+            171.2267
+          ],
+          [
+            -202.0344,
+            -164.98605,
+            -110.38078
+          ],
+          [
+            73.78908,
+            67.74806,
+            19.33235
+          ],
+          [
+            -263.65298,
+            -461.28642,
+            -414.86104
+          ]
+        ]
+      }
+    ],
+    "result_sha256": "63f7279cca76fe1f22bb3b121c5a5d825bef3fde0bb7964d9f6b0a09cae08ee5"
+  },
+  "CREATURE/DRAGONSPAWN2DARKSHADE_MODULAR/DRAGONSPAWN2DARKSHADE_MODULAR.M2": {
+    "note": "I-392: retail dragonspawn2darkshade (the HD Infinite dragonspawn: same rig and geoset sets as dragonspawn2, plus its FX glow layer DRAGONSPAWN2DARKSHADE_FX on the body batches) given the same modular build as dragonspawn2_modular: LOD1 (offset 21712), the armour split, the boss pieces, the wings. Offered on the classic darkshade models (offer_on). Its tables differ from dragonspawn2's: textures 0 body, 1 reflect, 2 FX, 3 armour; added 4 boss armour (type 13), 5 boss glow, 6-13 wings; lookup 5-6 boss armour, 7-8 glow, 9-16 wings; materials 5 glow (21, 4), 6 wings (4, 1); texture unit lookup 1-2 = (0, -1) for the env-mapped armour, 3-4 = (0, 1) for the glow.",
+    "base_sha256": "ecd55a84c043790d8b24ae10059a59d950d84074eb62d526c27aa982d8aad46b",
+    "geoset_labels": {
+      "1": "chest / collar",
+      "2": "waist",
+      "3": "horns / crest",
+      "4": "ears / wings",
+      "5": "helmet",
+      "6": "left shoulder",
+      "7": "right shoulder",
+      "8": "bracers / gauntlets / boots"
+    },
+    "ops": [
+      {
+        "op": "m2.vertices.slice",
+        "start": 21712,
+        "count": 18117,
+        "expect_vertices": 55374
+      },
+      {
+        "op": "m2.import_vertices",
+        "donor_model": "donors/dragonspawn2boss.m2",
+        "donor_skin": "donors/dragonspawn2boss00.skin",
+        "submeshes": [
+          2,
+          3
+        ],
+        "at": 15095
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 13,
+        "flags": 3,
+        "expect_count": 4
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2BOSS_4892420.BLP",
+        "expect_count": 5
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_BLACK.BLP",
+        "expect_count": 6
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_RED.BLP",
+        "expect_count": 7
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_BLUE.BLP",
+        "expect_count": 8
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_BRONZE.BLP",
+        "expect_count": 9
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_GREEN.BLP",
+        "expect_count": 10
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_PURPLE.BLP",
+        "expect_count": 11
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_WHITE.BLP",
+        "expect_count": 12
+      },
+      {
+        "op": "m2.texture.add",
+        "type": 0,
+        "flags": 3,
+        "name": "CREATURE\\DRAGONSPAWN2_MODULAR\\DRAGONSPAWN2WING_DARK.BLP",
+        "expect_count": 13
+      },
+      {
+        "op": "m2.texlookup.set",
+        "expect": [
+          0,
+          1,
+          2,
+          3,
+          1
+        ],
+        "values": [
+          0,
+          1,
+          2,
+          3,
+          1,
+          4,
+          1,
+          5,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      },
+      {
+        "op": "m2.table.append",
+        "table": "materials",
+        "expect_count": 5,
+        "values": [
+          [
+            21,
+            4
+          ],
+          [
+            4,
+            1
+          ]
+        ]
+      },
+      {
+        "op": "m2.table.append",
+        "table": "texunit_lookup",
+        "expect_count": 1,
+        "values": [
+          0,
+          -1,
+          0,
+          1
+        ]
+      },
+      {
+        "op": "m2.import_rigid",
+        "donor_model": "donors/dragonspawngreater.m2",
+        "donor_skin": "donors/dragonspawngreater00.skin",
+        "submesh": 1,
+        "bones": [
+          27
+        ],
+        "offset": [
+          0.0,
+          0.28,
+          0.4
+        ],
+        "inward": 0.4,
+        "mirror": true,
+        "bind_key": 53,
+        "at": 18117,
+        "strut": {
+          "line": [
+            [
+              0.015,
+              0.507
+            ],
+            [
+              0.9,
+              0.885
+            ]
+          ],
+          "width": 0.08,
+          "above": 0.048,
+          "box": [
+            [
+              0.86,
+              0.78
+            ],
+            [
+              1.0,
+              1.0
+            ]
+          ],
+          "to": {
+            "u": [
+              0.43,
+              0.95
+            ],
+            "centre": [
+              0.76,
+              0.87
+            ],
+            "half": [
+              0.13,
+              0.015
+            ]
+          },
+          "texcombo": 0
+        }
+      }
+    ],
+    "offer_on": [
+      "creature/dragonspawndarkshade/dragonspawndarkshade.m2",
+      "creature/dragonspawnarmoreddarkshade/dragonspawnarmoreddarkshade.m2",
+      "creature/dragonspawncasterdarkshade/dragonspawncasterdarkshade.m2",
+      "creature/dragonspawnoverlorddarkshade/dragonspawnoverlorddarkshade.m2"
+    ],
+    "result_sha256": "e9a5e43abd8e9985a7bb7850429229bbef702f8e375442d2a5fd6bd65592911e"
+  },
+  "CREATURE/DRAGONSPAWN2DARKSHADE_MODULAR/DRAGONSPAWN2DARKSHADE_MODULAR00.SKIN": {
+    "note": "I-392: the Infinite version of DRAGONSPAWN2_MODULAR00.SKIN: the same ops on retail dragonspawn2darkshade01.skin (see that recipe). Its armour batches (modern shader 0x8000, flags 0x90: invisible in 3.3.5) are rewritten to the classic env-armour form (skin.batch.set).",
+    "copy_from": "CREATURE/DRAGONSPAWN2DARKSHADE_MODULAR/DRAGONSPAWN2DARKSHADE_MODULAR01.SKIN",
+    "base_sha256": "e9147dced78e4839198759c2deb6b93b1cc036a5bd641fbd92e4e6c491aefcf2",
+    "ops": [
+      {
+        "op": "skin.lod_rebase",
+        "add": false
+      },
+      {
+        "op": "skin.batch.set",
+        "match": {
+          "shader": 32768
+        },
+        "set": {
+          "shader": 32769,
+          "flags": 16,
+          "coord": 1
+        }
+      },
+      {
+        "op": "skin.geoset.split",
+        "group": 1,
+        "majority": 0.75,
+        "parts": {
+          "1": [
+            53,
+            4,
+            26
+          ],
+          "5": [
+            6,
+            49
+          ],
+          "6": [
+            2,
+            0
+          ],
+          "7": [
+            3,
+            1
+          ],
+          "8": [
+            61,
+            62,
+            64,
+            65,
+            78,
+            79,
+            84,
+            85
+          ]
+        },
+        "mixed": {
+          "102": 1,
+          "103": 1,
+          "105": {
+            "6": 1,
+            "7": 1
+          },
+          "106": 1,
+          "107": 1
+        },
+        "drop": {
+          "105": [
+            6,
+            7
+          ]
+        }
+      },
+      {
+        "op": "skin.import",
+        "donor_model": "donors/dragonspawn2boss.m2",
+        "donor_skin": "donors/dragonspawn2boss00.skin",
+        "at": 15095,
+        "variant": 8,
+        "parts": {
+          "5": [
+            6,
+            49,
+            53,
+            4
+          ],
+          "6": [
+            2,
+            0
+          ],
+          "7": [
+            3,
+            1
+          ]
+        },
+        "submeshes": [
+          {
+            "submesh": 2,
+            "batch": {
+              "material": 0,
+              "texcombo": 5,
+              "coord": 1
+            }
+          },
+          {
+            "submesh": 3,
+            "batch": {
+              "flags": 0,
+              "shader": 0,
+              "material": 5,
+              "texcombo": 7,
+              "coord": 3
+            }
+          }
+        ]
+      },
+      {
+        "op": "skin.geoset.remap",
+        "map": {
+          "402": -1,
+          "403": -1,
+          "404": -1,
+          "405": -1
+        }
+      },
+      {
+        "op": "skin.import_rigid",
+        "donor_model": "donors/dragonspawngreater.m2",
+        "donor_skin": "donors/dragonspawngreater00.skin",
+        "submesh": 1,
+        "bones": [
+          27
+        ],
+        "offset": [
+          0.0,
+          0.28,
+          0.4
+        ],
+        "inward": 0.4,
+        "mirror": true,
+        "bind_key": 53,
+        "at": 18117,
+        "material": 6,
+        "variants": [
+          {
+            "id": 402,
+            "texcombo": 9
+          },
+          {
+            "id": 403,
+            "texcombo": 10
+          },
+          {
+            "id": 404,
+            "texcombo": 11
+          },
+          {
+            "id": 405,
+            "texcombo": 12
+          },
+          {
+            "id": 406,
+            "texcombo": 13
+          },
+          {
+            "id": 407,
+            "texcombo": 14
+          },
+          {
+            "id": 408,
+            "texcombo": 15
+          },
+          {
+            "id": 409,
+            "texcombo": 16
+          }
+        ],
+        "strut": {
+          "line": [
+            [
+              0.015,
+              0.507
+            ],
+            [
+              0.9,
+              0.885
+            ]
+          ],
+          "width": 0.08,
+          "above": 0.048,
+          "box": [
+            [
+              0.86,
+              0.78
+            ],
+            [
+              1.0,
+              1.0
+            ]
+          ],
+          "to": {
+            "u": [
+              0.43,
+              0.95
+            ],
+            "centre": [
+              0.76,
+              0.87
+            ],
+            "half": [
+              0.13,
+              0.015
+            ]
+          },
+          "texcombo": 0
+        }
+      },
+      {
+        "op": "skin.geoset.copy",
+        "from": 401,
+        "to": [
+          402,
+          403,
+          404,
+          405,
+          406,
+          407,
+          408,
+          409
+        ]
+      }
+    ],
+    "result_sha256": "960f7fd11e81b5b90e40431abd48d4fa064d63497cc9ee8f47fb9415e5cde44c"
   }
 }

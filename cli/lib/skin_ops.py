@@ -38,6 +38,12 @@ the bytes of the model it belongs to (vertex positions and bone weights live the
       cfg). One submesh per entry of "variants" ({"id": 402, "texcombo": 9}), all sharing those
       vertices; "material" names this model's material. See import_rigid for the placement.
 
+  {"op": "skin.batch.set", "match": {"shader": 32768}, "set": {"shader": 32769, "flags": 16, "coord": 1}}
+      Batch fields rewritten on every batch matching `match` (fields: flags, priority, shader, color,
+      material, layer, textures, texcombo, coord, weight, transform). I-392: retail
+      dragonspawn2darkshade's armour kept the modern runtime shader 0x8000 + flags 0x90, which 3.3.5
+      draws invisibly (memory: offline downport 0x8000); the classic env-armour pattern renders.
+
   {"op": "skin.import", "donor_model": ..., "donor_skin": ..., "at": 36539, "variant": 8,
    "parts": {"5": [6, 49], "6": [2, 0], "7": [3, 1]},
    "submeshes": [{"submesh": 2, "batch": {"material": 2, "texcombo": 4}}, ...]}
@@ -715,6 +721,22 @@ def _op_import_rigid(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
     return f'import_rigid: {len(idx) // 3} membrane + {len(sidx) // 3} strut tris as {[v["id"] for v in cfg["variants"]]}'
 
 
+_BATCH = ('flags', 'priority', 'shader', 'skin', 'geoset', 'color', 'material', 'layer', 'textures', 'texcombo',
+          'coord', 'weight', 'transform')
+
+
+def _op_batch_set(sk: _Skin, model: bytes, cfg: Dict[str, Any]) -> str:
+    match, new = cfg.get('match') or {}, cfg['set']
+    n = 0
+    for i, b in enumerate(sk.batches):
+        f = dict(zip(_BATCH, struct.unpack_from('<BbHHHhHHHHHHH', b, 0)))
+        if all(f[k] == v for k, v in match.items()):
+            f.update(new)
+            sk.batches[i] = bytearray(struct.pack('<BbHHHhHHHHHHH', *(f[k] for k in _BATCH))) + b[24:]
+            n += 1
+    return f'batch.set: {n} batches {match} -> {new}'
+
+
 OPS = {
     'skin.overlay': _op_overlay,
     'skin.lod_rebase': _op_lod_rebase,
@@ -724,6 +746,7 @@ OPS = {
     'skin.import_rigid': _op_import_rigid,
     'skin.geoset.remap': _op_geoset_remap,
     'skin.geoset.copy': _op_geoset_copy,
+    'skin.batch.set': _op_batch_set,
 }
 
 

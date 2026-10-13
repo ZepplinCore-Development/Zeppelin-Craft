@@ -23,3 +23,23 @@ INSERT INTO creaturedisplayinfo SET
     praticle_color_id = 0,
     creature_geoset_data = 2004291879,
     obj_effect_package_id = 0;
+
+-- I-392: template display for the Infinite modular dragonspawn (model 900207): retail darkshade body + armour, dark boss armour.
+DELETE FROM creaturedisplayinfo WHERE id = 900534;
+INSERT INTO creaturedisplayinfo SET
+    id = 900534,
+    model_id = 900207,
+    sound_id = 0,
+    extended_display_info_id = 0,
+    creature_model_scale = 1.0,
+    creature_model_alpha = 255,
+    texture_variation_1 = 'dragonspawn2darkshade_body',
+    texture_variation_2 = 'dragonspawn2darkshade_armor',
+    texture_variation_3 = 'dragonspawn2boss_armor_dark',
+    portrait_texture_name = '',
+    blood_level = -1,
+    blood_id = 0,
+    npc_sound_id = 0,
+    praticle_color_id = 0,
+    creature_geoset_data = 2004291879,
+    obj_effect_package_id = 0;
