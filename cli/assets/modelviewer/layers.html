@@ -2061,9 +2061,13 @@ async function bakeCards(e, c) {
   const shipLabel = shipFile ? label(shipFile.sources) : 'stock';
   sp.bakes.forEach(([src, cas, size, fits, ctex]) => {
     // each source as it ships: ITS model file wearing ITS bake (stock = the classic model + stock bake)
-    const file = src === 'stock' ? null : M && M.panes.find(p => p.sources.includes(src));
+    // a zpak that ships only bakes (zep-npc-wardrobe: no character model of its own) wears them on the
+    // model file they fit, the shipped one first (else its card fell back to the classic model, unbaked: black)
+    const file = src === 'stock' ? null : M && (M.panes.find(p => p.sources.includes(src))
+      || (shipFile && fits.includes(shipFile.option) ? shipFile : null) || M.panes.find(p => fits.includes(p.option)));
     // and ITS hair / extra skin: a pack's mesh is re-UV'd for its own files (I-397 black tusks)
-    const tex = { ...sp.tex }, ovr = { ...base, ['fdid/' + sp.tex['1']]: cas };
+    // slot 1 = the bake; our own displays' bakes ship only in a zpak, so the stock reference pane has none
+    const tex = { ...sp.tex, 1: sp.tex['1'] || casFid(cas) }, ovr = { ...base, ['fdid/' + tex['1']]: cas };
     Object.entries(ctex || {}).forEach(([slot, c]) => { tex[slot] = casFid(c); ovr['fdid/' + tex[slot]] = c; });
     const p = file ? { ...file, display: e.display, tex, mesh: sp.mesh, items: sp.items, scale: sp.scale, camera: sp.camera,
                        _ovr: ovr, _bake: src }
