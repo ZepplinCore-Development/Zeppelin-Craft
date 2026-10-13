@@ -1,0 +1,152 @@
+From 8b4d6966cf036f73a8907949ca4e0c386e17c00f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 00:01:43 +0000
+Subject: [PATCH] fix: training buys rotation spells first and waits for money;
+ pack-aware camp pulls (F-219)
+
+- train(): rotation spells (any rank) and the mage's conjures are bought one
+  at a time before learn_all (which buys cheapest first - a level-6 mage spent
+  its money on Fireball rank 2); a spell refused for MONEY waits for it and the
+  trainer is revisited when affordable (was filed untrainable for good: the
+  mage never had Fire Blast, Conjure Water or Conjure Food)
+- clear_camp: ranged classes park a camp of 3+ joiners too, and any camp whose
+  pulls brought 3+ twice (linked Defias Thugs: 30 priest deaths for grapes)
+- kill(): two pack pulls (3+) of one kind park the quest a level
+- mage: four Frostbolts a target, floor 20 % (it drinks conjured water now)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 71 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 63 insertions(+), 8 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 4599f09..038b017 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -121,7 +121,7 @@ CLASS_ABILITIES = {
+         # arrives), Fire Blast (instant, 20 yd) as it closes, then wand or staff
+         # Frost Nova (level 10) when it reaches us: roots it, and the kite steps back out of melee
+         {"spell_id": 122, "every_ms": 25000, "min_power": 30, "on_self": True, "max_range": 8},  # Frost Nova
+-        {"spell_id": 116, "every_ms": 0, "min_power": 25, "max_per_target": 3, "min_power_pct": 25},     # Frostbolt (the mage's damage)
++        {"spell_id": 116, "every_ms": 0, "min_power": 25, "max_per_target": 4, "min_power_pct": 20},     # Frostbolt (the mage's damage; it drinks conjured water)
+         {"spell_id": 133, "every_ms": 0, "min_power": 30, "max_per_target": 2, "min_power_pct": 30},     # Fireball (before Frostbolt is known)
+         {"spell_id": 2136, "every_ms": 8000, "min_power": 40, "max_per_target": 1, "min_power_pct": 35},  # Fire Blast
+     ],
+@@ -1583,9 +1583,15 @@ class Runner:
+         return o
+ 
+     def train(self, level):
+-        """Visit the class trainer after every level-up (and once at the start)."""
++        """Visit the class trainer after every level-up (and once at the start) - and again when a
++        spell we could not afford then is affordable now (at most every 10 min)."""
+         if level <= self.trained_level:
+-            return
++            wait = self.__dict__.setdefault("money_wait", {})
++            if not wait or time.time() - getattr(self, "_money_try", 0) < 600 \
++                    or call("interact.self").get("money", 0) < min(wait.values()):
++                return
++            self._money_try = time.time()
++            self.trained_level = level - 1  # a revisit: same walk rules as a level-up
+         if self.w.trainers:
+             # a trainer whose spawn is in our phase (the Lost Isles move him per phase; the first
+             # row's copy may be invisible from here - a 1600 yd walk for nothing)
+@@ -1620,12 +1626,33 @@ class Runner:
+                     self.trained_level = level - 1
+                     return self.train(level)
+             else:
++                # what we fight with first, one at a time: learn_all buys cheapest first, and a level-6
++                # mage spent its 95c on Fireball rank 2 - Fire Blast, Conjure Water and Conjure Food
++                # (all 100c) went unbought for the rest of the run
++                first = self.training_priority(todo)
++                bought = []
++                for sp in first:
++                    b = call("interact.trainer_buy", target={"entry": t}, spell_id=sp)
++                    if b.get("ok"):
++                        bought.append(sp)
+                 r = call("interact.trainer_learn_all", entry=t)
++                r["learned"] = bought + list(r.get("learned", []))
+                 self.learned += r.get("learned", [])
+-                # anything the DB said was learnable but the trainer refused: never travel for it again
+-                self.untrainable |= set(todo) - set(r.get("learned", []))
+-                if set(todo) - set(r.get("learned", [])):
+-                    print(f"  trainer refused {sorted(set(todo) - set(r.get('learned', [])))}", flush=True)
++                refused = set(todo) - set(r.get("learned", []))
++                # refused for MONEY: wait for it (they were filed "untrainable" for good - the mage never
++                # got Fire Blast or its conjures); anything else the trainer refused: never travel for it
++                money_left = call("interact.self").get("money", 0)
++                cost = {x["spell"]: x["cost"] for x in self.w.trainer_spells.get(t, [])}
++                wait = self.__dict__.setdefault("money_wait", {})
++                for sp in refused:
++                    if cost.get(sp, 0) > money_left:
++                        wait[sp] = cost.get(sp, 0)
++                    else:
++                        self.untrainable.add(sp)
++                for sp in r.get("learned", []):
++                    wait.pop(sp, None)
++                if refused:
++                    print(f"  trainer refused {sorted(refused)} (waiting for money: {sorted(set(refused) & set(wait))})", flush=True)
+                 with open(self.untrainable_file, "w") as f:
+                     json.dump(sorted(self.untrainable), f)
+                 print(f"[TRAIN] level {level} at trainer {t}: learned {r.get('learned', [])} "
+@@ -1633,6 +1660,18 @@ class Runner:
+         self.refresh_abilities()
+         print(f"  abilities: {[a['spell_id'] for a in self.abilities]}", flush=True)
+ 
++    def training_priority(self, todo):
++        """The trainer spells to buy before anything else, in rotation order: any rank of a spell in our
++        ability lists, then the conjures (a mage's water and food)."""
++        if not todo:
++            return []
++        want = [a["spell_id"] for a in self.base_abilities]
++        names = {int(r["id"]): r["n"] for r in dbc(
++            f"SELECT id,spell_name_enus n FROM spell WHERE id IN ({inlist(set(todo) | set(want))})")}
++        order = [names.get(i) for i in want if names.get(i)] + ["Conjure Water", "Conjure Food"]
++        rank = {n: k for k, n in reversed(list(enumerate(order)))}
++        return sorted((sp for sp in todo if names.get(sp) in rank), key=lambda sp: rank[names[sp]])
++
+     def is_combat_quest(self, qid):
+         """Does the quest send us at hostile creatures (a kill target, or a creature that drops a
+         required item)? Rescue the Survivors / Inoculation do not - deaths there were incidental."""
+@@ -1774,7 +1813,10 @@ class Runner:
+                 print(f"  camp at ({spot[0]:.0f},{spot[1]:.0f}): body-pulling {t['entry']} from ({ax:.0f},{ay:.0f})", flush=True)
+         # (3 levels over the camp, take it: green mobs in a pack are a fight we win, and parking
+         # past that level would loop on "later" like the old 5886-pass busy loop)
+-        if len(joins) >= 2 and not body and level < top + 3 and not self.ranged_opener():
++        # ...ranged too, from 3 joiners: a priest's Smite into Northshire's vineyard drew 4-6 Defias
++        # Thugs a pull (30 deaths for grapes)
++        packs = self.__dict__.setdefault("camp_packs", {})
++        if level < top + 3 and not body and (len(joins) >= (3 if self.ranged_opener() else 2) or packs.get(key, 0) >= 2):
+             q = getattr(self, "current_qid", None)
+             back = min(level + 1, top + 3)
+             if q:
+@@ -1792,6 +1834,10 @@ class Runner:
+             self.grind_skip.add(t["entry"])  # not hostile after all
+         if "died" in r.get("reason", ""):
+             self.camp_deaths[key] = self.camp_deaths.get(key, 0) + 1
++        if r.get("peakAttackers", 1) >= 3:
++            # linked mobs: the pull brought the pack whatever the spacing said - twice and the camp
++            # waits for a level like a tight one
++            packs[key] = packs.get(key, 0) + 1
+         print(f"  clear camp at ({spot[0]:.0f},{spot[1]:.0f}): {t['entry']} - {r.get('reason', 'killed')} "
+               f"({len(mobs) - 1} left)", flush=True)
+         s = call("interact.self")
+@@ -2007,6 +2053,15 @@ class Runner:
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(solo=len(group) <= 1), loot=True,
+                  **({"body_pull": True, "retreat": 15} if body else {}))
+         self.fight_log(t["entry"], r)
++        if r.get("peakAttackers", 1) >= 3 and level < max(lv(m) for m in group) + 3:
++            # a pull that brought a pack (linked mobs ignore our spacing check): the second time for
++            # this kind, park the quest a level - a player would not keep pulling Defias threes
++            pp = self.__dict__.setdefault("pack_pulls", {})
++            pp[entry] = pp.get(entry, 0) + 1
++            q = getattr(self, "current_qid", None)
++            if pp[entry] >= 2 and q:
++                self.defer_until[q] = max(self.defer_until.get(q, 0), level + 1)
++                print(f"  {entry} comes {r['peakAttackers']} at a time - back at level {level + 1}", flush=True)
+         if len(group) > 1:
+             self.rest(90)
+         return r
+-- 
+2.34.1
+
