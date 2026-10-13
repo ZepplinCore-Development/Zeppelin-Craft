@@ -154,7 +154,7 @@ def _corr(a, b) -> float:
     return float((x * y).sum() / d) if d else 0.0
 
 
-INDEX_VERSION = 2      # bump when how options are built changes (2: same-look options merged, m2_visual)
+INDEX_VERSION = 2      # bump when how options are built changes (2: same-look options merged, lib/m2_unique)
 
 
 class MetaCache:
@@ -315,20 +315,19 @@ class AssetIndex:
         return opts
 
     def _look(self, p: str, o: 'Option') -> Optional[str]:
-        """An option's look: m2_visual's render + skeleton signatures and its .anim files' contents
-        (LOD skins 01-03 do not count: the close-up look is what is picked)."""
-        from lib import m2_visual as mv
+        """An option's look: lib/m2_unique's components (the same parts the picker's "unique" tags name)
+        and its .anim files' contents (LOD skins 01-03 do not count: the close-up look is what is picked)."""
+        from lib import m2_unique as mu
         f, sk = o.files.get(p), o.files.get(p[:-3] + '00.skin')
         if f is None or sk is None:
             return None
         ss = stat_of(sk)
-        render = self._meta_cache().get(f'vsig1|{sk}|{ss[0]}|{ss[1]}', f,
-                                        lambda x: mv.signature(x.read_bytes(), sk.read_bytes()))
-        bones = self._meta_cache().get('bsig1', f, lambda x: mv.bones_signature(x.read_bytes()))
-        if render is None or bones is None:
+        render = self._meta_cache().get(f'look1|{sk}|{ss[0]}|{ss[1]}', f,
+                                        lambda x: mu.look(x.read_bytes(), sk.read_bytes()))
+        if render is None:
             return None
         anims = sorted((k, self.hash(v)) for k, v in o.files.items() if k.endswith('.anim'))
-        return hashlib.sha1(repr((render, bones, anims)).encode()).hexdigest()[:16]
+        return hashlib.sha1(repr((render, anims)).encode()).hexdigest()[:16]
 
     def _merge_same_look(self, p: str, opts: List['Option']) -> List['Option']:
         """Options whose files differ but draw the same (two packs' gilneas_vines_02.m2: other byte layout,

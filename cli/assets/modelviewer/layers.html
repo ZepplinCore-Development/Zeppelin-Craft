@@ -1469,7 +1469,8 @@ function openAsset(e) {
   $('panes').innerHTML = groups.map((g, k) => {
     const p = g.file, st = p.stats || {};
     const vs = g.variants || null;
-    const isKey = (x) => vs ? vs.some(v => v.key === x) : x === g.key;
+    // a key merged into this card (same look, or another retroport of the same retail model) is this card
+    const isKey = (x) => (vs ? vs.some(v => v.key === x) : x === g.key) || ((g.file || {}).same_look || []).includes(x);
     const swapOk = !g.swap || ((choices.mesh[g.swap.entry.path] || {}).option || g.swap.entry.current) === g.swap.pane.option;
     const chosen = swapOk && (c ? isKey(splitKey(c, e)) : implied ? isKey(splitKey(implied, e)) : false);
     const ids = Object.keys(g.reps);
@@ -1518,7 +1519,6 @@ function openAsset(e) {
       ${p.borrowed ? `<div class="stats"><span class="chip warn">no display uses this model</span> skins borrowed from display ${p.borrowed} (a sibling model in this folder)</div>` : ''}
       ${(p.broken_rows || []).length ? `<div class="stats"><span class="chip bad" title="This pack's display row names skins no source ships; the picker (and the curated build) use another pack's row for this option">pack defect: ${esc(p.broken_rows.join('; '))} (skin not shipped)</span></div>` : ''}
       ${uniqueBox(p)}
-      ${p.resaves ? `<div class="stats"><span class="chip" title="${esc(p.resaves.join(', '))} ship${p.resaves.length > 1 ? '' : 's'} this model re-saved by a model tool: offsets, padding, texture-name case or metadata only - it renders the same as stock">same as stock: ${esc(p.resaves.join(', '))} (re-save)</span></div>` : ''}
       ${p.misfit ? `<div class="stats"><span class="chip bad" title="${esc('Your texture pick for ' + p.misfit.join(', ') + ' is painted for another mesh; this mesh draws it scrambled (as it would in game). Change it on the Textures page.')}">texture pick doesn't fit this mesh</span></div>` : ''}
       ${p.file_pick ? `<div class="stats"><span class="chip" title="These sources all keep this display on ${esc(p.option)}; which file ships is picked on that model's card">file: ${esc(label(p.file_pick))} (model card pick)</span></div>` : ''}
       ${p.own_display ? `<div class="stats"><span class="chip">shown on display ${p.own_display}</span> this pack's own display for this model (it keeps display ${e.display} on another model)</div>` : ''}
@@ -1822,8 +1822,8 @@ function sectionise(c) {
 // F-216: what a pack option changes from the stock option (lib/m2_unique): one chip per kind of change
 // ("layers unique", "mesh unique") says what to look for on the model; the list under Model names it.
 // Re-export noise ('minor') is listed, not chipped.
-const UNIQUE_KIND = { geometry: 'mesh', size: 'mesh', geosets: 'geosets', uv: 'UV', layer: 'layers', texture: 'texture',
-  effects: 'effects', rig: 'rig', anims: 'animation', minor: 'minor' };
+// kinds arrive as display names: mesh, texture, shader, particles, lights, animation, rig (+ minor)
+const UNIQUE_KIND = {};
 function uniqueBox(p) {
   if (!p.unique) return '';
   const vs = p.unique_vs ? `vs ${p.unique_vs}` : 'vs stock', like = p.unique_vs ? `like ${p.unique_vs}` : 'like stock';

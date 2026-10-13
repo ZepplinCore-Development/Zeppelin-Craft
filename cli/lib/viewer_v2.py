@@ -1927,53 +1927,43 @@ def flag_texture_misfits(dep: 'Deployer', assets: List[dict], log: Callable = pr
     log(f'  texture misfits: {n:,} cards where an explicit texture pick does not fit the mesh')
 
 
-def merge_resaves(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
-    """A pack option that RENDERS the same as stock (lib/m2_same: a tool re-save - padding, offsets,
-    re-cased texture names, flag 0x80) is not a choice: its sources join the stock card (resaves) and
-    the card goes. A model left with one card has nothing to decide. Cached per pack file."""
-    from lib.m2_same import same_render
-    meta = dep.ix._meta_cache()
-    n = models = 0
+def merge_retroports(assets: List[dict], log: Callable = print) -> None:
+    """A model card's options are retroports, duplicates or uniques. Duplicates were merged by the index
+    (lib/m2_unique look); retroport options of the same retail model all ship OUR conversion of retail's
+    model, so choosing between them at model level means nothing: one card, every pack listed. The
+    merged-away keys join pane['same_look'] so picks saved under them resolve (Picks.mesh, reviewReason).
+    Display cards keep them apart: there each pack's skins differ."""
+    n = 0
     for e in assets:
         if e.get('tab') == 'display' or len(e.get('panes') or []) < 2:
             continue
-        path = e['path']
-        a = dep.ix.meshes.get(path)
-        st = next((p for p in e['panes'] if 'stock' in p.get('sources', [])), None)
-        so = a.option_of('stock') if a else None
-        if a is None or st is None or so is None or not path.endswith('.m2'):
-            continue
-        sk = path[:-3] + '00.skin'
-        if path not in so.files or sk not in so.files:
-            continue
-        keep = []
+        keep, first = [], {}
         for p in e['panes']:
-            if p is st:
-                keep.append(p); continue
-            o = next((a.option_of(x) for x in p.get('sources', []) if a.option_of(x)), None)
-            if o is None or path not in o.files or sk not in o.files:
-                keep.append(p); continue
-            same = meta.get('resave1|' + str(so.files[path]), o.files[path], lambda f, o=o: same_render(
-                so.files[path].read_bytes(), so.files[sk].read_bytes(), f.read_bytes(), o.files[sk].read_bytes()))
-            if same:
-                st['sources'] = st['sources'] + [x for x in p['sources'] if x not in st['sources']]
-                st.setdefault('resaves', []).extend(p['sources'])
-                n += 1
-            else:
+            fd = (p.get('retroport') or {}).get('fdid')
+            m = first.get(fd) if fd else None
+            if m is None:
+                if fd:
+                    first[fd] = p
                 keep.append(p)
+                continue
+            m['sources'] = m['sources'] + [x for x in p['sources'] if x not in m['sources']]
+            m['same_look'] = list(dict.fromkeys((m.get('same_look') or []) + [p['option']] + (p.get('same_look') or [])))
+            if e.get('current') == p['option']:
+                e['current'] = m['option']
+            n += 1
         if len(keep) != len(e['panes']):
             e['panes'] = keep
-            models += 1
             if len(keep) == 1:
                 e['single'] = True
-    log(f'  re-saves: {n:,} pack options render the same as stock (merged into the stock card on {models:,} models)')
+    log(f'  retroports: {n:,} retroport options merged into their retail model card')
 
 
 def flag_unique(dep: 'Deployer', assets: List[dict], log: Callable = print) -> None:
     """pane['unique'] (lib/m2_unique): on a model card, what a pack option changes from the stock
-    option - [[kind, text]], kind 'minor' for re-export noise - so the card says what to look for
-    (zangarmushroomtreesmall01: the additive glow layer removed). A model with no stock file is
-    compared with its current pick (pane['unique_vs'] names it). Cached per option file."""
+    option - [[kind, text]], kind 'minor' for context - so the card says what to look for
+    (zangarmushroomtreesmall01: the additive glow layer removed). Options that LOOK the same were
+    already merged by the index with the same comparison, so every card here names at least one
+    difference. A model with no stock file is compared with its current pick (pane['unique_vs'])."""
     from lib.m2_unique import unique
     meta = dep.ix._meta_cache()
     n = 0
@@ -2459,10 +2449,6 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
     cat = dep.catalog()
     try:
-        merge_resaves(dep, assets, log)
-    except Exception as ex:
-        log(f'  re-saves: skipped - {ex}')
-    try:
         flag_unique(dep, assets, log)
     except Exception as ex:                            # optional: cards just lack the "N unique" tag
         log(f'  unique vs stock: skipped - {ex}')
@@ -2493,6 +2479,7 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         log(f'  repoint sources: {len(moved):,} stock models packs move displays off join the chooser')
     try:
         annotate_retroports(dep, assets, v2, log)
+        merge_retroports(assets, log)
         (v2 / 'assets.json').write_text(json.dumps({'assets': assets}, separators=(',', ':')))
     except Exception as ex:                                  # a preview nicety: never block a deploy
         log(f'  retroports: skipped - {ex}')
