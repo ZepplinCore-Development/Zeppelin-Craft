@@ -1,0 +1,267 @@
+From 65a8c2d6c7d2e606b6b0fc34f01228b2388c002c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 13 Oct 2026 01:24:09 +0000
+Subject: [PATCH] feat: rogue opens with Backstab from stealth, from behind
+ (F-219)
+
+- WorldObject.o: the unit's facing
+- KillRequest opener_spell/opener_auras: while one of the auras (Stealth)
+  is on us and the target has not noticed us, walk to 2 yd behind it
+  (opposite its facing), face it and open with the spell; else skipped
+- runner: a rogue with a dagger in the main hand opens with its best
+  Backstab rank; it stealths before planned kills as well as trips
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/modules/combat/api/combat.pb.go     | 24 +++++++++++--
+ zeppelin/modules/combat/combat.proto         |  2 ++
+ zeppelin/modules/combat/main.go              | 36 ++++++++++++++++++++
+ zeppelin/modules/interact/api/interact.pb.go | 13 +++++--
+ zeppelin/modules/interact/interact.proto     |  1 +
+ zeppelin/modules/interact/main.go            |  2 +-
+ zeppelin/tests/start_area.py                 | 14 +++++++-
+ 7 files changed, 85 insertions(+), 7 deletions(-)
+
+diff --git a/zeppelin/modules/combat/api/combat.pb.go b/zeppelin/modules/combat/api/combat.pb.go
+index 9803e26..6e53539 100644
+--- a/zeppelin/modules/combat/api/combat.pb.go
++++ b/zeppelin/modules/combat/api/combat.pb.go
+@@ -260,7 +260,9 @@ type KillRequest struct {
+ 	FleePct   uint32  `protobuf:"varint,13,opt,name=flee_pct,json=fleePct,proto3" json:"flee_pct,omitempty"`       // break off (reason "flee") below this health % while 2+ attack us; 0 = never
+ 	WandSpell uint32  `protobuf:"varint,14,opt,name=wand_spell,json=wandSpell,proto3" json:"wand_spell,omitempty"` // Shoot (5019) with a wand equipped: what a ranged fighter does once its
+ 	// thrift-limited spells are spent; 0 = close in and melee instead
+-	KiteAuras     []uint32 `protobuf:"varint,15,rep,packed,name=kite_auras,json=kiteAuras,proto3" json:"kite_auras,omitempty"` // hunter kiting: when the target wears one of these snares (Concussive
++	OpenerSpell   uint32   `protobuf:"varint,16,opt,name=opener_spell,json=openerSpell,proto3" json:"opener_spell,omitempty"`        // from stealth (one of opener_auras on us) and unnoticed: walk BEHIND the
++	OpenerAuras   []uint32 `protobuf:"varint,17,rep,packed,name=opener_auras,json=openerAuras,proto3" json:"opener_auras,omitempty"` // target and open with this (Backstab); otherwise skipped
++	KiteAuras     []uint32 `protobuf:"varint,15,rep,packed,name=kite_auras,json=kiteAuras,proto3" json:"kite_auras,omitempty"`       // hunter kiting: when the target wears one of these snares (Concussive
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -393,6 +395,20 @@ func (x *KillRequest) GetWandSpell() uint32 {
+ 	return 0
+ }
+ 
++func (x *KillRequest) GetOpenerSpell() uint32 {
++	if x != nil {
++		return x.OpenerSpell
++	}
++	return 0
++}
++
++func (x *KillRequest) GetOpenerAuras() []uint32 {
++	if x != nil {
++		return x.OpenerAuras
++	}
++	return nil
++}
++
+ func (x *KillRequest) GetKiteAuras() []uint32 {
+ 	if x != nil {
+ 		return x.KiteAuras
+@@ -989,7 +1005,7 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x10above_health_pct\x18\x13 \x01(\rR\x0eaboveHealthPct\x12&\n" +
+ 	"\x0fbelow_power_pct\x18\x14 \x01(\rR\rbelowPowerPct\x12#\n" +
+ 	"\rafter_defense\x18\x15 \x01(\bR\fafterDefense\x12\x13\n" +
+-	"\x05cc_ms\x18\x16 \x01(\rR\x04ccMs\"\xcb\x03\n" +
++	"\x05cc_ms\x18\x16 \x01(\rR\x04ccMs\"\x91\x04\n" +
+ 	"\vKillRequest\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x129\n" +
+@@ -1009,7 +1025,9 @@ const file_zeppelin_modules_combat_combat_proto_rawDesc = "" +
+ 	"\x05range\x18\f \x01(\x02R\x05range\x12\x19\n" +
+ 	"\bflee_pct\x18\r \x01(\rR\afleePct\x12\x1d\n" +
+ 	"\n" +
+-	"wand_spell\x18\x0e \x01(\rR\twandSpell\x12\x1d\n" +
++	"wand_spell\x18\x0e \x01(\rR\twandSpell\x12!\n" +
++	"\fopener_spell\x18\x10 \x01(\rR\vopenerSpell\x12!\n" +
++	"\fopener_auras\x18\x11 \x03(\rR\vopenerAuras\x12\x1d\n" +
+ 	"\n" +
+ 	"kite_auras\x18\x0f \x03(\rR\tkiteAuras\"9\n" +
+ 	"\bLootItem\x12\x17\n" +
+diff --git a/zeppelin/modules/combat/combat.proto b/zeppelin/modules/combat/combat.proto
+index 13ae927..ae565b9 100644
+--- a/zeppelin/modules/combat/combat.proto
++++ b/zeppelin/modules/combat/combat.proto
+@@ -55,6 +55,8 @@ message KillRequest {
+   uint32 flee_pct = 13;  // break off (reason "flee") below this health % while 2+ attack us; 0 = never
+   uint32 wand_spell = 14; // Shoot (5019) with a wand equipped: what a ranged fighter does once its
+                           // thrift-limited spells are spent; 0 = close in and melee instead
++  uint32 opener_spell = 16;          // from stealth (one of opener_auras on us) and unnoticed: walk BEHIND the
++  repeated uint32 opener_auras = 17; // target and open with this (Backstab); otherwise skipped
+   repeated uint32 kite_auras = 15; // hunter kiting: when the target wears one of these snares (Concussive
+                                    // Shot) and reaches us while it is our only attacker, step back ~10 yd
+                                    // between shots instead of trading blows with it
+diff --git a/zeppelin/modules/combat/main.go b/zeppelin/modules/combat/main.go
+index f1521e4..90fd2f3 100644
+--- a/zeppelin/modules/combat/main.go
++++ b/zeppelin/modules/combat/main.go
+@@ -485,6 +485,7 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 	rng := float64(req.GetRange()) // > 0: a caster/hunter fighting from range until it must melee
+ 	attacking := false
+ 	var lastKite time.Time
++	openerDone := req.GetOpenerSpell() == 0
+ 	var lastHP uint32
+ 	var stuckSince time.Time
+ 	deadline := time.Now().Add(budget)
+@@ -551,6 +552,41 @@ func (s *service) Kill(ctx context.Context, req *combatv1.KillRequest) (*combatv
+ 				res.PeakAttackers = n
+ 			}
+ 		}
++		if !openerDone {
++			// a stealth opener (Backstab): only unseen - from behind, before it has noticed us
++			s.mu.Lock()
++			_, engaged := s.attackers[guid]
++			stealthed := false
++			for _, sp := range s.auras {
++				for _, w := range req.GetOpenerAuras() {
++					if sp == w {
++						stealthed = true
++					}
++				}
++			}
++			s.mu.Unlock()
++			if engaged || !stealthed || d > 40 {
++				openerDone = true
++			} else {
++				o := float64(t.GetO())
++				bx, by := float64(t.GetX())-math.Cos(o)*2, float64(t.GetY())-math.Sin(o)*2
++				if math.Hypot(float64(me.GetX())-bx, float64(me.GetY())-by) > 1.5 {
++					var mv movev1.MoveToResult
++					_ = s.invoke(ctx, "move", "to", &movev1.MoveToRequest{X: float32(bx), Y: float32(by), Z: t.GetZ(), TimeoutMs: 6000}, &mv)
++					continue
++				}
++				var face movev1.Position
++				_ = s.invoke(ctx, "move", "face", &movev1.FaceRequest{X: t.GetX(), Y: t.GetY()}, &face)
++				if err := s.castAt(ctx, req.GetOpenerSpell(), guid); err != nil {
++					return nil, err
++				}
++				openerDone, res.Pull = true, "opener"
++				res.Casts++
++				res.Spells = append(res.Spells, req.GetOpenerSpell())
++				time.Sleep(tick)
++				continue
++			}
++		}
+ 		if pullState != "done" {
+ 			// open from range and let the target walk to us: it leaves its camp mates behind
+ 			// instead of us walking into their aggro radius
+diff --git a/zeppelin/modules/interact/api/interact.pb.go b/zeppelin/modules/interact/api/interact.pb.go
+index b443c5c..895c0f0 100644
+--- a/zeppelin/modules/interact/api/interact.pb.go
++++ b/zeppelin/modules/interact/api/interact.pb.go
+@@ -92,6 +92,7 @@ type WorldObject struct {
+ 	GoType        uint32                 `protobuf:"varint,12,opt,name=go_type,json=goType,proto3" json:"go_type,omitempty"`        // GO: GAMEOBJECT_BYTES_1 byte 1
+ 	Auras         []uint32               `protobuf:"varint,13,rep,packed,name=auras,proto3" json:"auras,omitempty"`                 // visible aura spell ids (units)
+ 	RunSpeed      float32                `protobuf:"fixed32,14,opt,name=run_speed,json=runSpeed,proto3" json:"run_speed,omitempty"` // units: from the create block
++	O             float32                `protobuf:"fixed32,15,opt,name=o,proto3" json:"o,omitempty"`                               // facing (radians): where "behind it" is for a Backstab opener
+ 	unknownFields protoimpl.UnknownFields
+ 	sizeCache     protoimpl.SizeCache
+ }
+@@ -224,6 +225,13 @@ func (x *WorldObject) GetRunSpeed() float32 {
+ 	return 0
+ }
+ 
++func (x *WorldObject) GetO() float32 {
++	if x != nil {
++		return x.O
++	}
++	return 0
++}
++
+ type FindRequest struct {
+ 	state         protoimpl.MessageState `protogen:"open.v1"`
+ 	Entry         uint32                 `protobuf:"varint,1,opt,name=entry,proto3" json:"entry,omitempty"`
+@@ -2659,7 +2667,7 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"(zeppelin/modules/interact/interact.proto\x12\x14zeppelin.interact.v1\x1a\x1bapi/module/v1/session.proto\x1a\x1bgoogle/protobuf/empty.proto\"2\n" +
+ 	"\x06Target\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+-	"\x05entry\x18\x02 \x01(\rR\x05entry\"\xca\x02\n" +
++	"\x05entry\x18\x02 \x01(\rR\x05entry\"\xd8\x02\n" +
+ 	"\vWorldObject\x12\x12\n" +
+ 	"\x04guid\x18\x01 \x01(\x04R\x04guid\x12\x14\n" +
+ 	"\x05entry\x18\x02 \x01(\rR\x05entry\x12\x12\n" +
+@@ -2675,7 +2683,8 @@ const file_zeppelin_modules_interact_interact_proto_rawDesc = "" +
+ 	"\bgo_state\x18\v \x01(\rR\agoState\x12\x17\n" +
+ 	"\ago_type\x18\f \x01(\rR\x06goType\x12\x14\n" +
+ 	"\x05auras\x18\r \x03(\rR\x05auras\x12\x1b\n" +
+-	"\trun_speed\x18\x0e \x01(\x02R\brunSpeed\"\x94\x01\n" +
++	"\trun_speed\x18\x0e \x01(\x02R\brunSpeed\x12\f\n" +
++	"\x01o\x18\x0f \x01(\x02R\x01o\"\x94\x01\n" +
+ 	"\vFindRequest\x12\x14\n" +
+ 	"\x05entry\x18\x01 \x01(\rR\x05entry\x12\x12\n" +
+ 	"\x04type\x18\x02 \x01(\rR\x04type\x12\x16\n" +
+diff --git a/zeppelin/modules/interact/interact.proto b/zeppelin/modules/interact/interact.proto
+index 6e4a4aa..b250415 100644
+--- a/zeppelin/modules/interact/interact.proto
++++ b/zeppelin/modules/interact/interact.proto
+@@ -26,6 +26,7 @@ message WorldObject {
+   uint32 go_type = 12;   // GO: GAMEOBJECT_BYTES_1 byte 1
+   repeated uint32 auras = 13; // visible aura spell ids (units)
+   float run_speed = 14;  // units: from the create block
++  float o = 15;          // facing (radians): where "behind it" is for a Backstab opener
+ }
+ 
+ message FindRequest {
+diff --git a/zeppelin/modules/interact/main.go b/zeppelin/modules/interact/main.go
+index c0a1bbc..b31bef5 100644
+--- a/zeppelin/modules/interact/main.go
++++ b/zeppelin/modules/interact/main.go
+@@ -373,7 +373,7 @@ func (s *service) applyUpdate(payload []byte) {
+ // -- RPCs: objects --------------------------------------------------------------------------------
+ 
+ func toWorldObject(h wow.Hit) *interactv1.WorldObject {
+-	o := &interactv1.WorldObject{Guid: h.GUID, Entry: h.Entry(), Type: uint32(h.Type), X: h.X, Y: h.Y, Z: h.Z, Distance: h.Distance, RunSpeed: h.RunSpeed}
++	o := &interactv1.WorldObject{Guid: h.GUID, Entry: h.Entry(), Type: uint32(h.Type), X: h.X, Y: h.Y, Z: h.Z, O: h.O, Distance: h.Distance, RunSpeed: h.RunSpeed}
+ 	for _, a := range h.Auras {
+ 		o.Auras = append(o.Auras, a)
+ 	}
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 216dfaa..edd125f 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -186,6 +186,7 @@ RACE_ABILITIES = {
+          for s in (28880, 59542, 59543, 59544, 59547, 59548)],                                 # Gift of the Naaru (draenei)
+ }
+ STEALTH = {1784, 1785, 1786, 1787}  # Stealth ranks
++BACKSTAB = {53, 2589, 2590, 2591, 8721, 11279, 11280, 11281, 25300, 26863, 48656, 48657}  # Backstab ranks
+ # snares that make kiting work (the target wears one -> step back instead of trading blows):
+ # hunter Concussive Shot, Wing Clip ranks; mage Frost Nova ranks (root) and Frostbolt ranks (chill)
+ KITE_SNARES = {3: [5116, 2974, 14267, 14268],
+@@ -1316,7 +1317,14 @@ class Runner:
+                 if water:
+                     self._food.update(drink_item=water[0], drink_spell=self.items(water)[water[0]][2])
+                 self._food["mana_pct"] = 80  # a caster with no mana is a bad melee fighter
+-            self._pull, self._wand = 0, 0
++            self._pull, self._wand, self._backstab = 0, 0, 0
++            if self.w.cls == 4:
++                # Backstab needs a dagger in the main hand (and to be behind it: the stealth opener)
++                main = next((it.get("entry", 0) for it in call("interact.inventory").get("equipped", [])
++                             if it.get("slot") == 15), 0)
++                known = set(call("interact.spells").get("spells", []))
++                if main and (self.items([main]).get(main) or (0, 0))[1] == 15:
++                    self._backstab = max((sp for sp in BACKSTAB if sp in known), default=0)
+             if ranged:
+                 sub = self.items([ranged])[ranged][1]
+                 if sub == 19 and 5019 in set(call("interact.spells").get("spells", [])):
+@@ -1342,6 +1350,8 @@ class Runner:
+             a["wand_spell"] = self._wand
+         if self.w.cls in KITE_SNARES:
+             a["kite_auras"] = KITE_SNARES[self.w.cls]  # step back from a snared mob between shots/casts
++        if self.w.cls == 4 and getattr(self, "_backstab", 0):
++            a["opener_spell"], a["opener_auras"] = self._backstab, sorted(STEALTH)  # from stealth, from behind
+         return a
+ 
+     def ensure_pet(self):
+@@ -2061,6 +2071,8 @@ class Runner:
+             if ax is not None and math.dist((me["x"], me["y"]), (ax, ay)) > 8:
+                 self.travel(ax, ay, ground(ax, ay, out.get("z", 0)), within=4)
+             t = out
++        if self.w.cls == 4:
++            self.stealth()  # walk the last stretch unseen: the opener comes from behind
+         r = call("combat.kill", guid=int(t["guid"]), **self.fight_args(solo=len(group) <= 1), loot=True,
+                  **({"body_pull": True, "retreat": 15} if body else {}))
+         self.fight_log(t["entry"], r)
+-- 
+2.34.1
+
