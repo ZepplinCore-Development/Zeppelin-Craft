@@ -182,6 +182,7 @@ class Outfits:
         self._items = None
         self._stacks: Dict[str, tuple] = {}
         self._guess: Dict[str, list] = {}
+        self.look_jobs = set()
 
     # ---- data ------------------------------------------------------------------------------
     def idi(self) -> Dict[int, dict]:
@@ -406,7 +407,36 @@ class Outfits:
         slot is re-chosen once the others are on. Rows [slot, idi, name, items, 'closest', gain %]."""
         nr = len(self.retail_pool(sex)[0]) // 1000          # the pool grows as the retail store fills
         k = f'look{self.LOOK_VERSION}{race}{sex}r{nr}'
+        if getattr(self, 'collecting', False):
+            from lib.asset_index import stat_of
+            hit = self.meta.data.get((k, str(skin_file)))
+            if hit and tuple(hit[:2]) == tuple(stat_of(skin_file)):
+                return hit[2]
+            self.look_jobs.add((str(skin_file), race, sex, k))
+            return []
         return self.meta.get(k, skin_file, lambda f: self._look_now(f, race, sex))
+
+    look_jobs: set = set()
+
+    def prefetch_lookalikes(self, workers: int = 6, log: Callable = print) -> None:
+        """Compute the look-alikes collected by a collecting pass, in parallel (fork: the search pools
+        are built once here and shared copy-on-write), into the MetaCache."""
+        import multiprocessing as mp
+        from pathlib import Path
+        from lib.asset_index import stat_of
+        jobs = sorted(self.look_jobs)
+        self.look_jobs = set()
+        for sex in {j[2] for j in jobs}:
+            self._look_pool(sex)
+        global _LOOK_SELF
+        _LOOK_SELF = self
+        with mp.get_context('fork').Pool(workers) as pool:
+            res = pool.map(_look_job, [(f, r, s) for f, r, s, _ in jobs], chunksize=1)
+        for (f, r, s, k), rows in zip(jobs, res):
+            size, mtime = stat_of(Path(f))
+            self.meta.data[(k, f)] = (size, mtime, rows)
+            self.meta.dirty = True
+        log(f'    outfit: {len(jobs):,} look-alikes computed ({workers} workers)')
 
     def retail_pool(self, sex: str):
         """Retail armour usable as a look-alike: [(slot, item id, name, {field: fdid})] whose region
@@ -515,8 +545,18 @@ class Outfits:
                 by_slot.setdefault(slot, []).append((('r', iid, nm, app), [(fld, stk[fld][1][f'r{fd}']) for fld, fd in regs.items()]))
 
         self._lpool = getattr(self, '_lpool', {})
-        self._lpool[sex] = (stk, by_slot)
-        return stk, by_slot
+        # per slot: the candidates as index arrays per region field (-1 = the item does not paint it),
+        # so a slot's whole candidate list is scored with one gather per field
+        arr = {}
+        for slot, cands in by_slot.items():
+            flds = sorted({f for _, regs in cands for f, _ in regs})
+            idx = {f: np.full(len(cands), -1, dtype=np.int64) for f in flds}
+            for j, (_, regs) in enumerate(cands):
+                for f, i in regs:
+                    idx[f][j] = i
+            arr[slot] = idx
+        self._lpool[sex] = (stk, by_slot, arr)
+        return stk, by_slot, arr
 
     def _look_now(self, skin_file, race: str, sex: str) -> List[list]:
         import numpy as np
@@ -544,7 +584,7 @@ class Outfits:
         tf = tgt[face].mean(0)
         cur = min(skins, key=lambda x: float(np.linalg.norm(x[1][face].mean(0) - tf)))[1].copy()
         # 2. the search pool (cached per sex)
-        stk, by_slot = self._look_pool(sex)
+        stk, by_slot, arr = self._look_pool(sex)
         def err(img):
             return float(np.linalg.norm(img - tgt, axis=-1)[body].sum())
 
@@ -564,16 +604,21 @@ class Outfits:
                     if sl != slot and sl in chosen:
                         base = paint(base, chosen[sl][1])
                 # error change of each region texture painted over base, vectorised per region
-                dl = {}
-                for f, ((x, y, w, h), _, lab, cov) in stk.items():
-                    t, b = tgt[y:y + h, x:x + w], base[y:y + h, x:x + w]
-                    new = np.linalg.norm(b[None] * (1 - cov[..., None]) + lab * cov[..., None] - t[None], axis=-1)
-                    m = body[y:y + h, x:x + w][None]
-                    dl[f] = ((new - np.linalg.norm(b - t, axis=-1)[None]) * m).reshape(len(lab), -1).sum(1)
                 cands = by_slot.get(slot, [])
                 if not cands:
                     continue
-                d = np.array([sum(dl[f][i] for f, i in regs) for _, regs in cands])
+                # only the region fields this slot's items paint
+                d = np.zeros(len(cands), dtype=np.float64)
+                for f, idx in arr[slot].items():
+                    (x, y, w, h), _, lab, cov = stk[f]
+                    use = np.unique(idx[idx >= 0])
+                    t, b = tgt[y:y + h, x:x + w], base[y:y + h, x:x + w]
+                    cv = cov[use][..., None]
+                    new = np.linalg.norm(b[None] * (1 - cv) + lab[use] * cv - t[None], axis=-1)
+                    m = body[y:y + h, x:x + w][None]
+                    dl = np.zeros(len(lab), dtype=np.float64)
+                    dl[use] = ((new - np.linalg.norm(b - t, axis=-1)[None]) * m).reshape(len(use), -1).sum(1)
+                    d += np.where(idx >= 0, dl[np.maximum(idx, 0)], 0.0)
                 j = int(d.argmin())
                 # kept only if it removes at least 2% of the slot-free composite's error; a tabard
                 # 10%: it covers the chest, so a near-tie would hide a chest piece under cloth
@@ -592,3 +637,16 @@ class Outfits:
                 else:
                     out.append(self._row(sl, key, 'closest', 100.0 * gain / e0))
         return out
+
+
+_LOOK_SELF = None
+
+
+def _look_job(job):
+    """A forked worker: one look-alike from the parent's Outfits (pools already built)."""
+    from pathlib import Path
+    f, race, sex = job
+    try:
+        return _LOOK_SELF._look_now(Path(f), race, sex)
+    except Exception:
+        return []

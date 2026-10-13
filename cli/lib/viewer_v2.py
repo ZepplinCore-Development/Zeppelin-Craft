@@ -1879,71 +1879,92 @@ def add_outfits(dep: 'Deployer', assets: List[dict], cat: List[dict], log: Calla
     cdx_e = dep.result['effective_char_dbc'][0]
     srcs = dep._srcs()
     clone: Dict[str, bool] = {}
-    n_exact = n_guess = n_fused = 0
-    for i_, e in enumerate(assets + cat):
-        if i_ % 5000 == 0:
-            log(f'    outfit: {i_:,} entries, {n_exact:,} exact, {n_guess:,} matched ({_t.time() - t0:.0f}s)')
-        for p in e.get('panes') or []:
-            did, path = p.get('display'), p.get('model') or ''
-            if did is None or 'outfit' in p:
-                continue
-            row = cdi_e.get(did) or {}
-            if path.startswith('character/'):
-                # the option's OWN display row and bake (display 213: patch-hd-creatures-mounts' humanfemale
-                # bake 1567, while the live row is still the stock peasant)
-                x = None
-                for sn in p.get('sources') or []:
-                    sx = srcs.get(sn)
-                    r_ = sx.cdi.get(did) if sx is not None else None
-                    e_ = int((r_ or {}).get('extended_display_info_id') or 0)
-                    if e_:
-                        x = (sx.cdx or {}).get(e_) or cdx_e.get(e_)
-                        if x:
-                            break
-                if x is None and 'stock' in (p.get('sources') or []):
-                    # a STOCK pane (the Display editor's reference): the stock row and stock bake
-                    sr_ = dep.result['stock_dbc'][0].get(did) or {}
-                    x = dep.result['stock_char_dbc'][0].get(int(sr_.get('extended_display_info_id') or 0))
-                if x is None:
-                    x = cdx_e.get(int(row.get('extended_display_info_id') or 0))
-                if x:
-                    rows = out.exact(x)
-                    if rows:
-                        p['outfit'] = rows; n_exact += 1
-            elif path.rsplit('/', 1)[-1] in FUSED and 'stock' in (p.get('sources') or []):
-                # F-220: the rider baked into a mount model - its skin, hair and 3D pieces
-                f = dep.ix.stock.get(path)
-                if f is None:
+    def walk():
+        nonlocal n_exact, n_guess, n_fused
+        n_exact = n_guess = n_fused = 0
+        for i_, e in enumerate(assets + cat):
+            if i_ % 5000 == 0:
+                log(f'    outfit: {i_:,} entries, {n_exact:,} exact, {n_guess:,} matched ({_t.time() - t0:.0f}s)')
+            for p in e.get('panes') or []:
+                did, path = p.get('display'), p.get('model') or ''
+                if did is None or 'outfit' in p:
                     continue
-                sr_ = dep.result['stock_dbc'][0].get(did) or row
-                folder = path.rsplit('/', 1)[0] + '/'
-                slots = [folder + str(sr_.get(f'texture_variation_{k}') or '').lower() + '.blp'
-                         if sr_.get(f'texture_variation_{k}') else '' for k in (1, 2, 3)]
-                rows = out.fused(path, dep.ix._meta_cache().get('textab', f, lambda x: texture_table(x.read_bytes())), slots)
-                if rows:
-                    p['outfit'] = rows; n_fused += 1
-            elif path.startswith('creature/') and 'stock' in (p.get('sources') or []):
-                if path not in clone:
-                    sk = dep.ix.stock.get(path[:-3] + '00.skin')
-                    clone[path] = bool(sk) and out.is_char_clone(dep.ix._meta_cache().get(
-                        'geoids', sk, lambda f: sorted(mesh_geosets(f.read_bytes()))), (256, 256))
-                if not clone[path]:
-                    continue
-                stem = str(row.get('texture_variation_1') or '').lower()
-                f = dep.ix.stock.get(path.rsplit('/', 1)[0] + '/' + stem + '.blp') if stem else None
-                if f is None:
-                    continue
-                try:
-                    if Image.open(f).size != (256, 256):
+                row = cdi_e.get(did) or {}
+                if path.startswith('character/'):
+                    # the option's OWN display row and bake (display 213: patch-hd-creatures-mounts' humanfemale
+                    # bake 1567, while the live row is still the stock peasant)
+                    x = None
+                    for sn in p.get('sources') or []:
+                        sx = srcs.get(sn)
+                        r_ = sx.cdi.get(did) if sx is not None else None
+                        e_ = int((r_ or {}).get('extended_display_info_id') or 0)
+                        if e_:
+                            x = (sx.cdx or {}).get(e_) or cdx_e.get(e_)
+                            if x:
+                                break
+                    if x is None and 'stock' in (p.get('sources') or []):
+                        # a STOCK pane (the Display editor's reference): the stock row and stock bake
+                        sr_ = dep.result['stock_dbc'][0].get(did) or {}
+                        x = dep.result['stock_char_dbc'][0].get(int(sr_.get('extended_display_info_id') or 0))
+                    if x is None:
+                        x = cdx_e.get(int(row.get('extended_display_info_id') or 0))
+                    if x:
+                        rows = out.exact(x)
+                        if rows:
+                            put(p, rows); n_exact += 1
+                elif path.rsplit('/', 1)[-1] in FUSED and 'stock' in (p.get('sources') or []):
+                    # F-220: the rider baked into a mount model - its skin, hair and 3D pieces
+                    f = dep.ix.stock.get(path)
+                    if f is None:
                         continue
-                except Exception:
-                    continue
-                rows = out.guess(f, 'f' if 'female' in path else 'm')
-                rs = race_sex(path)
-                if rs:
-                    rows = out.with_lookalike(rows, f, *rs)
-                if any(r[1] or r[3] for r in rows):         # retail rows: no display id, an r:<item> item
-                    p['outfit'] = rows; n_guess += 1
+                    sr_ = dep.result['stock_dbc'][0].get(did) or row
+                    folder = path.rsplit('/', 1)[0] + '/'
+                    slots = [folder + str(sr_.get(f'texture_variation_{k}') or '').lower() + '.blp'
+                             if sr_.get(f'texture_variation_{k}') else '' for k in (1, 2, 3)]
+                    rows = out.fused(path, dep.ix._meta_cache().get('textab', f, lambda x: texture_table(x.read_bytes())), slots)
+                    if rows:
+                        put(p, rows); n_fused += 1
+                elif path.startswith('creature/') and 'stock' in (p.get('sources') or []):
+                    if path not in clone:
+                        sk = dep.ix.stock.get(path[:-3] + '00.skin')
+                        clone[path] = bool(sk) and out.is_char_clone(dep.ix._meta_cache().get(
+                            'geoids', sk, lambda f: sorted(mesh_geosets(f.read_bytes()))), (256, 256))
+                    if not clone[path]:
+                        continue
+                    stem = str(row.get('texture_variation_1') or '').lower()
+                    f = dep.ix.stock.get(path.rsplit('/', 1)[0] + '/' + stem + '.blp') if stem else None
+                    if f is None:
+                        continue
+                    try:
+                        if Image.open(f).size != (256, 256):
+                            continue
+                    except Exception:
+                        continue
+                    rows = out.guess(f, 'f' if 'female' in path else 'm')
+                    rs = race_sex(path)
+                    if rs:
+                        rows = out.with_lookalike(rows, f, *rs)
+                    if any(r[1] or r[3] for r in rows):         # retail rows: no display id, an r:<item> item
+                        put(p, rows); n_guess += 1
+
+    put_done: List[dict] = []
+
+    def put(p, rows):
+        p['outfit'] = rows
+        put_done.append(p)
+    n_exact = n_guess = n_fused = 0
+    # pass 1 only collects the look-alikes not cached yet; they are computed in parallel, then the
+    # outfits are walked again from the cache (a cached deploy does one quick pass)
+    out.collecting = True
+    walk()
+    out.collecting = False
+    if out.look_jobs:
+        log(f'    outfit: {len(out.look_jobs):,} look-alikes to compute ({_t.time() - t0:.0f}s)')
+        out.prefetch_lookalikes(log=log)
+        for p in put_done:
+            p.pop('outfit', None)
+        put_done.clear()
+        walk()
     log(f'  outfit: {n_exact:,} panes from bake rows, {n_guess:,} matched from character-clone skins, '
         f'{n_fused:,} fused riders (F-220)')
 
