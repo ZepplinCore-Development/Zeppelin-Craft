@@ -80,7 +80,11 @@ def build() -> str:
 
 
 def fetch(fdid: int) -> Optional[bytes]:
-    """One file by FileDataID from wago.tools (cached)."""
+    """One file by FileDataID: the local CASC store (lib/casc_store, full build), else wago.tools (cached)."""
+    from lib import casc_store
+    cp = casc_store.path(fdid)
+    if cp is not None:
+        return cp.read_bytes()
     f = CACHE / 'raw' / str(fdid)
     if f.exists():
         return f.read_bytes() or None
@@ -317,6 +321,19 @@ def texture_file(fdid: int, offline: bool = False) -> Optional[Path]:
     _, by_id = listfile()
     tp = by_id.get(fdid, f'textures/retail/{fdid}.blp')
     dst = CACHE / 'out' / tp
+    from lib import casc_store
+    cp = casc_store.path(fdid)                         # the CASC store first: full quality, current build
+    if cp is not None:
+        if dst.exists() and os.path.samefile(dst, cp):
+            return dst
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        tmp = dst.with_name(f'.{dst.name}.{threading.get_ident()}')
+        try:
+            os.link(cp, tmp)
+        except OSError:
+            shutil.copyfile(cp, tmp)
+        tmp.replace(dst)                               # replaces an older wago / Wowhead copy
+        return dst
     if dst.exists() and dst.stat().st_size:
         return dst
     raw = CACHE / 'raw' / str(fdid)

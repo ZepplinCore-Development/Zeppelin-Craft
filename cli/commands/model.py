@@ -563,6 +563,25 @@ def migrate_v1_choices(result: dict, ix, v1: Dict[str, dict]) -> Dict[str, dict]
     return out
 
 
+@model.command('retail-casc')
+@click.option('--workers', default=16, show_default=True, help='Parallel CDN requests')
+@click.option('--fdid', 'fdids', multiple=True, type=int, help='Only these FileDataIDs (a test)')
+def model_retail_casc(workers, fdids):
+    """F-216: sync the local retail store from Blizzard's CDN (full quality, current retail build).
+
+    \b
+    Stores every listfile file under creature/ item/ character/ spells/ textures/ (plus the
+    outfitter wardrobe's region textures) in logs/retail_cache/casc, content-addressed: a new
+    build downloads only content not stored yet. lib.retail.fetch / texture_file read it first
+    and stream from wago.tools only for files outside it.
+    """
+    from lib import casc_store, retail_wardrobe
+    extra = set() if fdids else retail_wardrobe.region_fdids('both')
+    st = casc_store.sync(fdids=set(fdids) or None, extra=extra, workers=workers, log=click.echo)
+    if st.get('encrypted_keys'):
+        click.echo('  unknown TACT keys: ' + ', '.join(f'{k} ({n})' for k, n in st['encrypted_keys']))
+
+
 @model.command('retail-store')
 @click.option('--gender', type=click.Choice(['male', 'female', 'both']), default='male', show_default=True,
               help='Which wardrobe region textures to store')
