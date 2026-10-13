@@ -2206,7 +2206,9 @@ def customise_extras(dep: 'Deployer', custom: List[dict], v2: Path, log: Callabl
             continue
         try:
             pn = dep.pane(sp, ai.Option('stock:' + sp[-24:], ['stock'], {sp: f}), did,
-                          dbc_source=None if own else 'stock', stock_only=True)
+                          dbc_source=None if own else 'stock', stock_only=not own)
+            # our own display: the classic model as its reference, but its bake / item models /
+            # item textures resolve normally - they ship in our zpaks (F-220 rider shoulders)
         except Exception:
             pn = None
         if pn:
