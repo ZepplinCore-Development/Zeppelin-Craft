@@ -9,8 +9,8 @@
   "_comment": "F-220 look-alike rider for creature/mountedknight/mountedknightblue_02.blp (displays [1545, 10952, 16277, 17323, 17389, 18088, 26537]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "shirt": {
-        "item": 167226,
+      "chest": {
+        "item": 43946,
         "mod": 0
       },
       "legs": 33258,

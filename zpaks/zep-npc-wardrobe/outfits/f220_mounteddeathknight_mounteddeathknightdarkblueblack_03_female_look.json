@@ -9,20 +9,29 @@
   "_comment": "F-220 look-alike rider for creature/mounteddeathknight/mounteddeathknightdarkblueblack_03.blp (displays [16153, 16327, 24794]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
-      "shirt": {
-        "item": 98093,
-        "mod": 0
-      },
       "chest": {
-        "item": 272239,
+        "item": 207203,
+        "mod": 155
+      },
+      "legs": {
+        "item": 14900,
         "mod": 0
       },
-      "legs": 5961,
+      "belt": {
+        "item": 14898,
+        "mod": 0
+      },
       "boots": {
-        "item": 225070,
+        "item": 207202,
+        "mod": 155
+      },
+      "gloves": {
+        "item": 39609,
         "mod": 0
       },
-      "gloves": 1944
+      "shoulders": {
+        "display": 20991
+      }
     }
   },
   "appearance": {

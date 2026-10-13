@@ -9,20 +9,21 @@
   "_comment": "F-220 look-alike rider for creature/felbat/trollbatriderskin.blp (displays [15303, 24652]): closest items from lib/npc_outfit lookalike",
   "outfit": {
     "items": {
+      "shirt": {
+        "item": 167222,
+        "mod": 0
+      },
       "chest": {
         "item": 12108,
         "mod": 0
       },
-      "legs": {
-        "item": 186307,
-        "mod": 4
-      },
+      "legs": 38278,
       "belt": {
         "item": 14746,
         "mod": 0
       },
       "gloves": {
-        "item": 106417,
+        "item": 225126,
         "mod": 0
       }
     }

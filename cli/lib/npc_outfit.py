@@ -59,7 +59,12 @@ RIDERS = {'batrider.m2': ('trollbatriderskin', 'troll', 'male'),
           'mounteddeathknight.m2': (2, 'human', 'male'), 'mounteddeathknight_korthazz.m2': (2, 'human', 'male'),
           'mounteddeathknight_mograine.m2': (2, 'human', 'male'), 'mounteddeathknight_zeliek.m2': (2, 'human', 'male'),
           'mounteddeathknight_blaumeux.m2': (2, 'human', 'female'),
+          # 4th, optional: the armour class the look-alike keeps to (1 cloth .. 4 plate; 0 = any class).
+          # Without it the class whose outfit comes closest wins (the knights came out cloth that way)
           'tauren_mountedcanoe.m2': ('taurenmaleskin', 'tauren', 'male')}
+RIDER_CLASS = {'mounteddeathknight.m2': 4, 'mounteddeathknight_korthazz.m2': 4, 'mounteddeathknight_mograine.m2': 4,
+               'mounteddeathknight_zeliek.m2': 4, 'mounteddeathknight_blaumeux.m2': 4, 'mounteddemonknight.m2': 4,
+               'mountedknight.m2': 4, 'batrider.m2': 0}
 # 3D pieces named by a fused model's textures: InventoryType -> slot
 INV_3D = {1: 'Helm', 3: 'Shoulders', 13: 'Weapon', 17: 'Weapon', 21: 'Weapon', 22: 'Off hand', 14: 'Shield',
           23: 'Off hand', 15: 'Ranged', 26: 'Ranged', 25: 'Ranged', 16: 'Cape'}
@@ -356,7 +361,8 @@ class Outfits:
         rider = RIDERS.get(model.rsplit('/', 1)[-1])
         out: List[list] = []
         if rider:
-            src, race, sex = rider
+            src, race, sex = rider[:3]
+            klass = RIDER_CLASS.get(model.rsplit('/', 1)[-1])
             path = slots[src] if isinstance(src, int) and src < len(slots) else \
                 next((n for t, n in table if n.rsplit('/', 1)[-1] == f'{src}.blp'), '')
             f = self.stock.get(path) if path else None
@@ -365,7 +371,7 @@ class Outfits:
             except Exception:
                 ok = False
             if ok:
-                out += self.with_lookalike([r for r in self.guess(f, sex[0]) if r[1]], f, race, sex)
+                out += self.with_lookalike([r for r in self.guess(f, sex[0]) if r[1]], f, race, sex, klass)
         # 3D pieces: a texture an item display names exactly. The mesh is merged, so among displays
         # sharing the texture the one whose model file is the texture's stem is preferred.
         by_tex: Dict[str, List[int]] = {}
@@ -395,31 +401,33 @@ class Outfits:
         return out
 
     # ---- look-alike: the closest item outfit when nothing matches exactly ------------------
-    def with_lookalike(self, rows: List[list], skin_file, race: str, sex: str) -> List[list]:
+    def with_lookalike(self, rows: List[list], skin_file, race: str, sex: str, klass: Optional[int] = None) -> List[list]:
         """Exact rows + look-alike rows for the slots no exact row fills (the '(unmatched)' note
         goes: the look-alike covers those regions)."""
         have = {r[0] for r in rows if r[1]}
-        look = [r for r in self.lookalike(skin_file, race, sex) if r[0] not in have]
+        look = [r for r in self.lookalike(skin_file, race, sex, klass) if r[0] not in have]
         return [r for r in rows if r[1] or not look] + look
 
     LOOK_VERSION = 4         # bump when the rules change: cached results are recomputed
 
-    def lookalike(self, skin_file, race: str, sex: str) -> List[list]:
+    def lookalike(self, skin_file, race: str, sex: str, klass: Optional[int] = None,
+                  only_items: Optional[frozenset] = None) -> List[list]:
         """The item outfit that looks most like a baked character skin (classic layout, any size):
         the race's closest bare skin, then per slot in bake order the item that brings the composite
         closest to the skin (CIE Lab, compared blurred: the colour and tone of each body part, not
         its pixels); an item is kept only if it clearly beats what is under it. Two passes, so a
         slot is re-chosen once the others are on. Rows [slot, idi, name, items, 'closest', gain %]."""
         nr = len(self.retail_pool(sex)[0]) // 1000          # the pool grows as the retail store fills
-        k = f'look{self.LOOK_VERSION}{race}{sex}r{nr}'
+        k = f'look{self.LOOK_VERSION}{race}{sex}r{nr}' + (f'c{klass}' if klass is not None else '') \
+            + (f'i{hash(tuple(sorted(only_items))) & 0xffffffff:x}' if only_items else '')
         if getattr(self, 'collecting', False):
             from lib.asset_index import stat_of
             hit = self.meta.data.get((k, str(skin_file)))
             if hit and tuple(hit[:2]) == tuple(stat_of(skin_file)):
                 return hit[2]
-            self.look_jobs.add((str(skin_file), race, sex, k))
+            self.look_jobs.add((str(skin_file), race, sex, k, klass, only_items))
             return []
-        return self.meta.get(k, skin_file, lambda f: self._look_now(f, race, sex))
+        return self.meta.get(k, skin_file, lambda f: self._look_now(f, race, sex, klass, only_items))
 
     look_jobs: set = set()
 
@@ -439,7 +447,7 @@ class Outfits:
         # BrokenProcessPool instead of hanging map() forever; the rest are then done here, serially
         from concurrent.futures import ProcessPoolExecutor
         from concurrent.futures.process import BrokenProcessPool
-        args = [(f, r, s) for f, r, s, _ in jobs]
+        args = [(f, r, s, c, oi) for f, r, s, _, c, oi in jobs]
         res = [None] * len(args)
         try:
             with ProcessPoolExecutor(workers, mp_context=mp.get_context('fork')) as ex:
@@ -450,7 +458,7 @@ class Outfits:
         for i, a in enumerate(args):
             if res[i] is None:
                 res[i] = _look_job(a)
-        for (f, r, s, k), rows in zip(jobs, res):
+        for (f, r, s, k, _c, _oi), rows in zip(jobs, res):
             size, mtime = stat_of(Path(f))
             self.meta.data[(k, f)] = (size, mtime, rows)
             self.meta.dirty = True
@@ -580,7 +588,11 @@ class Outfits:
         self._lpool[sex] = (stk, by_slot, arr, cls)
         return stk, by_slot, arr, cls
 
-    def _look_now(self, skin_file, race: str, sex: str) -> List[list]:
+    def _look_now(self, skin_file, race: str, sex: str, klass: Optional[int] = None,
+                  only_items: Optional[frozenset] = None) -> List[list]:
+        """klass: one armour class (1-4), 0 any, None = the closest class wins. only_items: keep to these
+        items (retail item ids; stock ItemDisplayInfo ids negative) - e.g. a group of riders sharing one
+        set, each wearing the item appearances closest to its own colours."""
         import numpy as np
         from PIL import Image
 
@@ -608,6 +620,8 @@ class Outfits:
         cur = min(skins, key=lambda x: float(np.median(np.linalg.norm(x[1][face] - tgt[face], axis=-1))))[1].copy()
         # 2. the search pool (cached per sex)
         stk, by_slot, arr, cls = self._look_pool(sex)
+        forced = bool(klass)
+        ids_ = {slot: np.array([k[1] if isinstance(k, tuple) else -k for k, _ in cands]) for slot, cands in by_slot.items()}
         G = 0.7                                         # weight of the brightness-gradient (detail) term
 
         def grad_err(img, m, t):
@@ -662,11 +676,17 @@ class Outfits:
                     # one armour class per outfit: other classes' armour is out (shirts / tabards / cosmetic stay)
                     c_ = cls[slot]
                     free = slot in ('Shirt', 'Tabard')        # cosmetic / classless only there
-                    d = np.where(((c_ == 0) & free) | (c_ == klass), d, np.inf)
+                    if klass:
+                        free = free and not forced                # a forced class: no cosmetic shirt standing in for the chest
+                        d = np.where(((c_ == 0) & free) | (c_ == klass), d, np.inf)
+                    if only_items:
+                        d = np.where(np.isin(ids_[slot], list(only_items)), d, np.inf)
                     j = int(d.argmin())
                     # kept only if it removes at least 2% of the slot-free composite's error; a tabard
                     # 10%: it covers the chest, so a near-tie would hide a chest piece under cloth
-                    if d[j] < -(0.10 if slot == 'Tabard' else 0.02) * err(base):
+                    need = 0.0 if (forced and slot == 'Chest') else (0.10 if slot == 'Tabard' else 0.02)
+                    # a shared set (only_items) is always worn, in its closest appearance
+                    if np.isfinite(d[j]) and (only_items or d[j] < -need * err(base)):
                         chosen[slot] = (cands[j][0], cands[j][1], float(-d[j]))
                     else:
                         chosen.pop(slot, None)
@@ -679,7 +699,7 @@ class Outfits:
                     img = paint(img, chosen[sl][1])
             return err(img)
         # the rider's armour class = the class whose outfit comes closest (cloth, leather, mail, plate)
-        runs = {k: greedy(k) for k in (1, 2, 3, 4)}
+        runs = {k: greedy(k) for k in ((1, 2, 3, 4) if klass is None else (klass,))}
         best_k = min(runs, key=lambda k: total(runs[k]))
         chosen = runs[best_k]
         self._last_class = best_k
@@ -707,8 +727,8 @@ _LOOK_SELF = None
 def _look_job(job):
     """A forked worker: one look-alike from the parent's Outfits (pools already built)."""
     from pathlib import Path
-    f, race, sex = job
+    f, race, sex, klass, only_items = job
     try:
-        return _LOOK_SELF._look_now(Path(f), race, sex)
+        return _LOOK_SELF._look_now(Path(f), race, sex, klass, only_items)
     except Exception:
         return []

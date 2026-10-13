@@ -538,6 +538,10 @@ def _stage_items(name: str, want: List[dict], files: 'SourceFiles', out_root: Pa
                 _copy(sk, dest / (it['m'][:-3] + '00.skin'))
             for tn in ms.decode_m2(m).hardcoded_textures():   # textures named inside the item model
                 tp = ms.norm(tn)
+                if isinstance(getattr(files, 'item_tex', None), dict):
+                    # same pairing as the display texture: the item mesh's own source first (the stock
+                    # Polearm_2H_Hellfire_D_01 lost its handle wearing patch-hd-everything's hellfire.blp)
+                    files.item_tex.setdefault(tp, it['m'])
                 tf = files.find(tp)
                 if tf:
                     _copy(tf, dest / tp)

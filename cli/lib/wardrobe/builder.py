@@ -69,6 +69,14 @@ def insert_set(table: str, key: str, row: Dict, comment: str = '', backtick: boo
 
 
 @dataclass
+class StockDisplay:
+    """A manifest slot naming a stock ItemDisplayInfo directly ({"display": id})."""
+    display_id: int
+    layers: Dict[int, List[Tuple[str, str]]] = field(default_factory=dict)
+    idi: Dict = field(default_factory=lambda: {'geoset_group_1': 0})
+
+
+@dataclass
 class ImportedItem:
     retail: RetailItem
     display_id: int
@@ -380,6 +388,12 @@ class WardrobeBuilder:
             items = {}
             for slot, spec in outfit['items'].items():
                 spec = spec if isinstance(spec, dict) else {'item': spec}
+                if 'display' in spec:
+                    # a stock 3.3.5 ItemDisplayInfo worn as it is (helm / shoulders the client attaches
+                    # itself, e.g. an NPC-only display no item uses): nothing imported or baked
+                    items[slot] = StockDisplay(int(spec['display']))
+                    self.echo(f'   {slot:<10} stock ItemDisplayInfo {spec["display"]}')
+                    continue
                 imp = self.import_item(spec['item'], spec.get('mod'), [race], spec.get('helmet_geoset'))
                 if imp.retail.slot != slot:
                     raise ValueError(f'{name}: item {spec["item"]} ({imp.retail.name}) is a {imp.retail.slot}, listed as {slot}')
@@ -400,7 +414,8 @@ class WardrobeBuilder:
             self._emit_weapons(out[task], m)
             deferred.append((task, m, ids[:len(variants)]))
             for s, i in items.items():
-                out[task]['idi'].append(i)
+                if not isinstance(i, StockDisplay):
+                    out[task]['idi'].append(i)
         for task, m, ids in deferred:
             self._emit_creatures(out[task], m, ids, claimed)
         return self._render(out)
