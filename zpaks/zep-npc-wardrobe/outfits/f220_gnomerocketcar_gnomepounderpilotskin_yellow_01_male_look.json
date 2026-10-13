@@ -1,0 +1,30 @@
+{
+  "task": "F-220",
+  "kind": "unique",
+  "race": 7,
+  "base_display": {
+    "0": 1930
+  },
+  "name": "f220_gnomerocketcar_gnomepounderpilotskin_yellow_01_male_look",
+  "_comment": "F-220 look-alike rider for creature/gnomerocketcar/gnomepounderpilotskin_yellow_01.blp (displays [2490]): closest items from lib/npc_outfit lookalike",
+  "outfit": {
+    "items": {
+      "shirt": 6096,
+      "chest": 2112,
+      "legs": 39,
+      "boots": 40,
+      "gloves": 1944
+    }
+  },
+  "appearance": {
+    "skin_color": 2,
+    "face_type": 2,
+    "hair_style": 3,
+    "hair_color": 4,
+    "facial_hair": 5,
+    "gender": 0
+  },
+  "display_ids": [
+    900507
+  ]
+}

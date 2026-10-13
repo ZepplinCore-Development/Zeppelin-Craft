@@ -1,0 +1,31 @@
+{
+  "task": "F-220",
+  "kind": "unique",
+  "race": 8,
+  "base_display": {
+    "0": 4083
+  },
+  "name": "f220_felbat_trollbatriderskin_male_look",
+  "_comment": "F-220 look-alike rider for creature/felbat/trollbatriderskin.blp (displays [15303, 24652]): closest items from lib/npc_outfit lookalike",
+  "outfit": {
+    "items": {
+      "shirt": 167222,
+      "chest": 12108,
+      "legs": 14748,
+      "belt": 14746,
+      "boots": 14560,
+      "gloves": 160635
+    }
+  },
+  "appearance": {
+    "skin_color": 0,
+    "face_type": 0,
+    "hair_style": 1,
+    "hair_color": 7,
+    "facial_hair": 1,
+    "gender": 0
+  },
+  "display_ids": [
+    900503
+  ]
+}

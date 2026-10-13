@@ -179,6 +179,13 @@
    "sha256": "75a952003c05d8418f8101f748bc82b9483c01edeb30701ebe5dec878756b0d2"
   },
   {
+   "path": "Item/ObjectComponents/Waist/buckle_mail_draenorhonor_c_01_alliance.blp",
+   "fdid": 1017573,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2a253d3b3dbb9deff80218326d43dc4507562b607546faa45037b7ec7fabcc6c"
+  },
+  {
    "path": "Item/ObjectComponents/Waist/buckle_plate_warfrontshorde_d_01.m2",
    "fdid": 1781686,
    "build": "12.1.0.69875",
@@ -221,6 +228,13 @@
    "sha256": "09a3227728b225ae4a96b9eba5b5f8d92f74adc92e04d080b5149b5a60d9c7a7"
   },
   {
+   "path": "Item/TextureComponents/ArmLowerTexture/4544416_al_u_4544732.blp",
+   "fdid": 4544732,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "650814c3798da4ec6edb8be2830d1e8ecc06aa91fde53c50620ff2cd5c1203af"
+  },
+  {
    "path": "Item/TextureComponents/ArmLowerTexture/armor_orcclan_d_01_bracer_al_u.blp",
    "fdid": 1623818,
    "build": "12.1.0.69875",
@@ -235,11 +249,102 @@
    "sha256": "8134b5f3d0f2a43b1bb8628415d9dfc32ab0a7df7e52370447dd4573c9d5e48b"
   },
   {
+   "path": "Item/TextureComponents/ArmLowerTexture/cloth_a_08white_sleeve_al_u.blp",
+   "fdid": 148797,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d9bfc02752645e7a2c7692c0e35ddeba04a96b148c18a44421f7876f7cf9ca9f"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/cloth_raidmage_q_01_horde_sleeve_al_u.blp",
+   "fdid": 1346024,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c8a6e20500b6b413fac08a879010286ee45ab2b3cfd3873d9bbe231a44f5d8fd"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/collections_mail_raidshamanprogenitor_d_01_al_u_3919124.blp",
+   "fdid": 3919124,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "8f551b3efbfbb36a81eb83d8a9f6d5eb6dc5fb797d5e0fbe2a0857b99a258e35"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/leather_a_05black_glove_al_u.blp",
+   "fdid": 149034,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9a6e00e90f8576d1ec17dffbc43a5ef7fa9e835a66634809630d0e4a09f93ce8"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/leather_c_03brown_glove_al_u.blp",
+   "fdid": 149134,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "461a8fc4cbc6242344665e07896cf0868799160679448c751132887ce5d498b9"
+  },
+  {
    "path": "Item/TextureComponents/ArmLowerTexture/leather_hordeuprez_b_03_glove_al_u.blp",
    "fdid": 1028530,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "cbf30aee07a90d286e8bc5d1d3edd045641de73f0408c2558148e4c96c62971d"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/leather_northrend_b_02_sleeve_al_u.blp",
+   "fdid": 149366,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "dc9e8a7e5b635c6d638fb12b48a5b4e73f9e2a1ef79e89c75d82e274769403c2"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/mail_a_02_glove_al_u.blp",
+   "fdid": 149550,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e2520817f9e609d631c0dc35cbe4f0d516a9fc7d7aac164cfe7f7d4668e1fe3d"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/mail_c_03green_sleeve_al_u.blp",
+   "fdid": 149712,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "641d488210156951466153e229e5eef20fc43c7469b6589984c343db5449dbf6"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/mail_pvphorde_c_01green_glove_al_u.blp",
+   "fdid": 149944,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "371882d4e4cfbc3af51f3a8ca666fe48ea775198daa5038f88cdfc4897d950ae"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_b_01silver_glove_al_u.blp",
+   "fdid": 150103,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "f1930ac01a50bcbf40e6ed7f859db3b5138ab3e6f1a0fc545d653ea16d7b120c"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_d_05_gold_glove_al_u.blp",
+   "fdid": 150222,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c62ede16672b2b5f07ce8d78dd9cdd65b873670b7335fc2cc6b9005bdc19c13a"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_horde_c_05silver_bracer_al_u.blp",
+   "fdid": 150411,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "3472b0f436b0d69def808463e04717b6535ca7d5ec1ac888a67cda35769e21b4"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_nazmirraid_d_01_red_glove_al_u.blp",
+   "fdid": 2054687,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "cd05fbd75b367d1e88af39237c9b1d66437a841027cf294d077625830494044c"
   },
   {
    "path": "Item/TextureComponents/ArmLowerTexture/plate_warfrontshorde_d_01maroon_bracer_al_u.blp",
@@ -256,11 +361,81 @@
    "sha256": "76f2255526e52aeab010357c09a047988cf7ea17346f96c7a0c9836178303dbb"
   },
   {
+   "path": "Item/TextureComponents/ArmLowerTexture/robe_raidpriest_c_02red_glove_al_u.blp",
+   "fdid": 239237,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "01579f51fd8f1416428d60eb7103ec43b4558f4d36de99511127caa061ee63eb"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/robe_raidwarlock_e_01_glove_al_u.blp",
+   "fdid": 151081,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4c0c1ec07657a1e409e808e10ad04b593ef754ffc2e8c3f729e2f9d38951355b"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/robe_raidwarlock_e_01_sleeve_al_u.blp",
+   "fdid": 151082,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b636b0ad4ba7cd7101eeb8597f34d48fb13c36318dba4632e64b92d637c9ae56"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/shirt_duelist_a_01_blue_al_u_5519291.blp",
+   "fdid": 5519291,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4144e1906d5d815b7ddf2a9dceefa095298955a9010341b1ae320d217c88174b"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/4544416_au_u_4544733.blp",
+   "fdid": 4544733,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0fcfe6ea00d0b30b594fd2fc6b6f3c61e3639bf9b9e620a25989ba76a385331f"
+  },
+  {
    "path": "Item/TextureComponents/ArmUpperTexture/armor_orcclan_d_01_sleeve_au_u.blp",
    "fdid": 1623863,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "77fa6e8dc9306d9a149c392e5da30079c9f93687deda7e1ce679d4c233f09692"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/cloth_a_08white_sleeve_au_u.blp",
+   "fdid": 151217,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "11a171b676613f593d469b98d63ed8f7d9dc85e05de495cdf47fa6e89a28d98f"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/cloth_blood_a_02orange_sleeve_au_u.blp",
+   "fdid": 151272,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "bdfd5e0873d1d1186be082f9e842c717971fac393047fbd0c8a63dcfa2ada9f6"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/cloth_maldraxxus_d_01_campaign_sleeve_au_u.blp",
+   "fdid": 3512384,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b222e01aab4b51196c6e8bca07756d2f995f0c5b5993bdddfd597b17bec524c0"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/cloth_raidmage_q_01_horde_sleeve_au_u.blp",
+   "fdid": 1346034,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "65dab49e9aeb73d24ab29b5d10d84ea2be9d8f2f1ee31deeb7ac86eb69c1fa99"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/leather_horde_a_02brown_sleeve_au_u.blp",
+   "fdid": 151561,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d20ac7df7163b7106dafd965d51f0862c54d86dcfa7945703f6b974ad225cd80"
   },
   {
    "path": "Item/TextureComponents/ArmUpperTexture/leather_hordeuprez_b_03_sleeve_au_f.blp",
@@ -277,11 +452,67 @@
    "sha256": "2899f4d0c5b4467ac6982a02e5a75dd6adbd49a600f6afc4902aaf7932fdc028"
   },
   {
+   "path": "Item/TextureComponents/ArmUpperTexture/leather_northrend_b_02_sleeve_au_u.blp",
+   "fdid": 151592,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2037cc8b9548eec6cd69a09cdb8bf069b90904857eabad6f91e83fefa5b6026f"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/mail_c_03green_sleeve_au_u.blp",
+   "fdid": 151791,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2a21c70107ee68541c0c8abb632ed26b9fa82536ba29aedcafa4c8a14b8e31af"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/mail_pvphorde_c_01green_sleeve_au_u.blp",
+   "fdid": 151913,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "1e399b1c5fa1649d76d8af8624a1998ffc55ea65db7b0ad6bad96faccf7580e4"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/plate_a_05_gold_sleeve_au_u.blp",
+   "fdid": 151986,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "883a9d66ee8958c738503cd490f62a86f3f23e6c40a8d31fdbb872cfb9b589cc"
+  },
+  {
    "path": "Item/TextureComponents/ArmUpperTexture/plate_warfrontshorde_d_01maroon_sleeve_au_u.blp",
    "fdid": 1780828,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "519b95043366f13169957b47ff5da8c5f12679fa61bcd25b11bfa5a625d3018e"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/robe_raidwarlock_e_01_sleeve_au_u.blp",
+   "fdid": 152624,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "35e812dbf48d62913b570e0a1e8f6d432fd7ca19e0beae3f2b421911571d84ca"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/shirt_basic_a_02_dark_au_u_4279059.blp",
+   "fdid": 4279059,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "731b18ed7424dfb50bc253443b0d201f3099a62dbe4b1b0aae2ff117f1a6b20b"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/shirt_duelist_a_01_blue_au_u_5519299.blp",
+   "fdid": 5519299,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b9483dbf70f9aa2db6c992487defe2202b602184278d68c216b421b708fdceb4"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/4691726_fo_u_5094691.blp",
+   "fdid": 5094691,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "7ec76390fac3497aea2f4d2109438363edbd42e67cbe454b1867eb0f901d765f"
   },
   {
    "path": "Item/TextureComponents/FootTexture/armor_orcclan_d_01_boot_fo_u.blp",
@@ -291,11 +522,88 @@
    "sha256": "c8c603e5788696c91b613b3749200c6f5c64c827ace9b1089cfd9adbfc5f55ee"
   },
   {
+   "path": "Item/TextureComponents/FootTexture/boot_cloth_raidwarlockgoblin_d_01_fo_u_5766902.blp",
+   "fdid": 5766902,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "7b122ed117452cebad6170faaa5b9e19511fe515cc7b23f2a84be966ddb03ec9"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/leather_a_05yellow_boot_fo_f.blp",
+   "fdid": 152800,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "8379d793096717d9c415f01dcb56e9d0fc7ad99dc16523c7c63b73235354fef7"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/leather_a_05yellow_boot_fo_m.blp",
+   "fdid": 152801,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "19fab3a02d43790afff35e7d8d4a14119e65462280f8723ad9c46a6d65a301c2"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/leather_horde_a_01black_boot_fo_f.blp",
+   "fdid": 152906,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "72de22dfa718326f79e0d6259e968b0b0267845acc125600563d3c1837a62dab"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/leather_horde_a_01black_boot_fo_m.blp",
+   "fdid": 152907,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "64f34fc3f1d800b1305a962089dd207a7b0e9972f3f528bdd418b2fe57acf7c4"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/leather_horde_a_02brown_boot_fo_u.blp",
+   "fdid": 152915,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "1cd7927595edb311779934a472bfc4591bcb4fd26d06be622f79891ae21d407c"
+  },
+  {
    "path": "Item/TextureComponents/FootTexture/leather_hordeuprez_b_03_boot_fo_u.blp",
    "fdid": 1028535,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "4dabed3380db63be7ffe2d990a2d3def9a5fc8add44c42d0ef5a9c9bfecb3ebe"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/leather_pvphorde_a_01brown_boot_fo_u.blp",
+   "fdid": 152977,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4a8e71f472560a5f9e96ef33aa3d36a0b606d403a7b9b4cd781191eabc003901"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/leather_raiddruid_o_01_boot_fo_u.blp",
+   "fdid": 1004160,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d24df1d4370de378ca72bfc474589630010878bc76be22fb9f1e89dcc91f1d2d"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/mail_pvphorde_c_01green_boot_fo_u.blp",
+   "fdid": 153217,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9ea7971b6efa861d92d5e03ae8efb27ab2c288611dbbf8c0459d27b97801e555"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/plate_d_05_gold_boot_fo_u.blp",
+   "fdid": 153347,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "aa51af23ce6ba121ff4cbddfddd18195d8b078f19a64b917c44286386ac8f719"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343294.blp",
+   "fdid": 5343294,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "5b3243ab583d3916201e049b98e1e9e914c899c389e876a7c190d6b078cf327c"
   },
   {
    "path": "Item/TextureComponents/FootTexture/plate_warfrontshorde_d_01maroon_boot_fo_u.blp",
@@ -305,11 +613,46 @@
    "sha256": "8ac6e968aa7ff13662da45f76a62f76fb18b89e3eaf3c74fee39d682aa89e172"
   },
   {
+   "path": "Item/TextureComponents/FootTexture/robe_common_b_03brown_boot_fo_u.blp",
+   "fdid": 361424,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "307e92c5f4cbb5feff7de04bcf38f6421229a590631f2a92149ee8dda5407d50"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/robe_raidwarlock_e_01blue_boot_fo_u.blp",
+   "fdid": 153741,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ad9afd23051446fb75d5d5eea057c7f80f6f04a2498148c19557c7c372efc98e"
+  },
+  {
    "path": "Item/TextureComponents/HandTexture/armor_orcclan_d_01_glove_ha_u.blp",
    "fdid": 1623862,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "34fd3d1875d9ca6b8b5427c932efe19365d69a059b25c3be6d61186b74a78d70"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/collections_mail_raidshamanprogenitor_d_01_ha_u_3919127.blp",
+   "fdid": 3919127,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "928a5a24520a22560d77c6b61ee34ece00988f698d8eb52e82a9718903ebc573"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/leather_a_05black_glove_ha_u.blp",
+   "fdid": 153879,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "00e4f357420f0fd302f61c976f53d3324c99bb031692c7842686d5631f78cc2d"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/leather_c_03brown_glove_ha_u.blp",
+   "fdid": 153931,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "bf53936f3fa5170b6fda5fb6de2eed946253464b7cd6554008fec1e394c9225b"
   },
   {
    "path": "Item/TextureComponents/HandTexture/leather_hordeuprez_b_03_glove_ha_u.blp",
@@ -319,11 +662,88 @@
    "sha256": "1796b68d849a6ce8c7947bca702a70991da517484639f0c79fb02723b771994f"
   },
   {
+   "path": "Item/TextureComponents/HandTexture/mail_a_02_glove_ha_u.blp",
+   "fdid": 154114,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "067060a0b72b92417f0c0f2dea969eb9ddf146060dddf67e45d14daaca3b95b5"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/mail_pvphorde_c_01green_glove_ha_u.blp",
+   "fdid": 154275,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "be7bd6d4a2731c8b2fc0f3e7c012ad841648c400a96a031c1bfe3392e0fe14cd"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/plate_b_01silver_glove_ha_u.blp",
+   "fdid": 154350,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "de662dbf3216c22fc31f0167797357be0d3453cd1da4d6f78b57346a4f492d85"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/plate_d_05_gold_glove_ha_u.blp",
+   "fdid": 154406,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4b602ae1db18ba0a3597f35827029169fb718ce3680e668c5d18e15097312e23"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/plate_nazmirraid_d_01_red_glove_ha_u.blp",
+   "fdid": 2054688,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "37c0f5989a15f10db96eacba096dc4f63bf287547f78d353d3ef6934fa8e0057"
+  },
+  {
    "path": "Item/TextureComponents/HandTexture/plate_warfrontshorde_d_01maroon_glove_ha_u.blp",
    "fdid": 1780825,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "539294cf58fbe830ac0596ddf3d77b7c5910ff3f18fce752e71681ca0a79951e"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/robe_raidpriest_c_02red_glove_ha_u.blp",
+   "fdid": 239620,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "157e903658c2bdbdb87dd6f8cfa8acd4d3c5cd2e59909cd19514d9b93fe0b4ee"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/robe_raidwarlock_e_01_glove_ha_u.blp",
+   "fdid": 154717,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "160859a3aeb5eea2fc5e48e137f112b0d3feb202276742e0938510a1e06ca6cd"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/4544416_ll_u_4544730.blp",
+   "fdid": 4544730,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "70ceaba1a5431423ef8e2bc72ae7fbbb8b1b26310c2ca408f91a95c35d8d9776"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/4691726_ll_u_5094703.blp",
+   "fdid": 5094703,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2b79bbf00dfd4977ca0d485ff3d9e49d7a3419444ff2f0d52d162e9bdc75e419"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/7135116_be_m_ll_u_7134840.blp",
+   "fdid": 7134840,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b6ecf50e4d955c1f5c5675900fa31cec5177f41f4677832c448e229f8cb3860c"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/7634524_ll_u_7722258.blp",
+   "fdid": 7722258,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ecd2be6fddf8103abdbec84810444154cf6ffa256c171fbbc6e8e16bb187bd82"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/armor_orcclan_d_01_boot_ll_u.blp",
@@ -340,6 +760,90 @@
    "sha256": "1cad04098ccb4d7fd8b905900c2c46ba2237a3e342c514b3e2d96805ef9976bc"
   },
   {
+   "path": "Item/TextureComponents/LegLowerTexture/armor_sarong_a_01_ll_u_5331126.blp",
+   "fdid": 5331126,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "68308ced66f3a4ef024f627b5a4730973e56770e46368161335c630683b21dab"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/cloth_raidmage_q_01_horde_robe_ll_u.blp",
+   "fdid": 1346056,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d73e9849e88567024a791f5e5e6a4f9e2c05c64e02af3a951f683a3be634abba"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_a_02blue_pant_ll_m.blp",
+   "fdid": 155049,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9f09062ae8861177e3be6da2618373fb7f7c9858cdc0458253fe4489fe6af125"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_a_02blue_pant_ll_u.blp",
+   "fdid": 155050,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "5a918f9089f0a8d7b5dea221a0ac645c360ace6d97f5fa8048130ea9a564e33e"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_a_05yellow_boot_ll_f.blp",
+   "fdid": 155101,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9df3bf630ffb295163015e1b6ed60a5f9ca4ad8389925c22cac18093ba9f5ca2"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_a_05yellow_boot_ll_m.blp",
+   "fdid": 155102,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e4e26aa91ac651c8fa3ce80077a168bb1d6ecc95f42f805b29113f74e542adcc"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_a_05yellow_pant_ll_f.blp",
+   "fdid": 155103,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2051127d76ba74f2f3c76d62277965a4d119a3c7641c02322ae263ef99303850"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_a_05yellow_pant_ll_m.blp",
+   "fdid": 155104,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "05024363d82534d7588e4cac00608df45e94cb4302419f3a0aff6e050b231f81"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_horde_a_01black_boot_ll_f.blp",
+   "fdid": 155325,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "39daadee4d7f8378b42f553bee12ea25e0d866786d96147b5a19384c435ed80f"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_horde_a_01black_boot_ll_m.blp",
+   "fdid": 155326,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "7e475cf778ea8d136e9e84f20fb8fb22ba85ea00f226fe76a516d624e977c60e"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_horde_a_02brown_boot_ll_u.blp",
+   "fdid": 155341,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a6aa74ac546481f8396c03579a6be3d75d1247886ff25dd9a4edd6918d24b564"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_horde_a_02brown_pant_ll_u.blp",
+   "fdid": 155342,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b8508857fce4699bb71936da6d7aafc82681e6aeddd71f4d25c833acd9995a65"
+  },
+  {
    "path": "Item/TextureComponents/LegLowerTexture/leather_hordeuprez_b_03_boot_ll_u.blp",
    "fdid": 1028540,
    "build": "12.1.0.69875",
@@ -352,6 +856,97 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "03e19d90ab19bda84868377e0ce724879ee300f648ed73984c5af2b896e7d46a"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_pvphorde_a_01brown_boot_ll_u.blp",
+   "fdid": 155456,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "164f66a26fc60205f75bbd9728e6e3a0a95543a6eeed68128153af3fd50b302e"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/leather_raiddruid_g_01green_pant_ll_u.blp",
+   "fdid": 249351,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ffcec99ba750c73ad076573750918da8753439817cb9d5e2ff640a58291cbb83"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/mail_horde_a_01_red_pant_ll_u.blp",
+   "fdid": 155901,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ed960611d161e65d4cb15de84faec67f7aeb2cec0709352e50bbb39e694310d4"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/mail_horde_b_01black_pant_ll_u.blp",
+   "fdid": 155908,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "66d6e51c10b002dc0ed1c94a2428b466415fde358afbf6be5150b0d9083e2a44"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/mail_pvphorde_c_01green_boot_ll_u.blp",
+   "fdid": 155978,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "fdb8a4bcdb74947c33e9e34912b4a81fa063c098dfc6fc92ff4c978f261339cc"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/mail_pvphorde_c_01green_pant_ll_u.blp",
+   "fdid": 155979,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "cd9aedbd76c1a246f13b4de8de5e77d2c88062226a80468472ec343102e32dab"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_b_03silver_pant_ll_u.blp",
+   "fdid": 156184,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b23bad9e432fbd2d152a0aa855c9667bfa7b7194dc6bf06d341aa9c6ffb8d1a7"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_d_05_gold_boot_ll_u.blp",
+   "fdid": 156290,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2430b5522b9b4ffb8df11b96ca21165fc02b612ebe196f74c865df633ce0d779"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_d_05_gold_pant_ll_f.blp",
+   "fdid": 156291,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c662040fa13e8ba190f5506d5284b31b71ec9cf93ce43d046bc2c9977f235f44"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_d_05_gold_pant_ll_m.blp",
+   "fdid": 156292,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4922ca058671fc9654488ad221be191002ff8f0bd41676aae5697f9226af7801"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_f.blp",
+   "fdid": 156443,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "51ee46e8f6cec2f10d00fa322989de807d1bb77392135b5b4723cca18926465a"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_m.blp",
+   "fdid": 156444,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0b4d0ec67f004526a80e4d1946348ad50127d6cb6d561496db2fc99fbfa33068"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343305.blp",
+   "fdid": 5343305,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ed838d41520c87b7dfde3013003f0aa177984694cbf70e7459856484b26cf407"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/plate_warfrontshorde_d_01maroon_boot_ll_u.blp",
@@ -368,11 +963,137 @@
    "sha256": "8ebb6cd744d8059c277c707ba375e968449e0ae901e0458ca3025217fe054658"
   },
   {
+   "path": "Item/TextureComponents/LegLowerTexture/robe_common_b_03brown_boot_ll_u.blp",
+   "fdid": 361437,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "66f3757c1d82d55668cd4f1d0a020ea93d4a3b636821d59d4cc73a997fee466b"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/robe_raidwarlock_e_01_robe_ll_u.blp",
+   "fdid": 157300,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2b49b5292a4ed6379ca23e85a8b26c1776074ea886d3fc584a7cd20eb079d7df"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/robe_raidwarlock_e_01blue_boot_ll_u.blp",
+   "fdid": 157301,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a3fbc1838cf445f9eb2b713ea69467544b9b52c3279a3b4c6a0650da33e69bd6"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/4544416_lu_u_4544731.blp",
+   "fdid": 4544731,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4159e367d96bef0193bf2193c65424a75d4debdff7a6fb61139b2ff33f97ca2e"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/4548847_lu_u_4554640.blp",
+   "fdid": 4554640,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "62c1f637bb664f7b07f473110cb25b44c35a61ee11978c9e70f9226513387dfb"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/6212225_lu_u_6251553.blp",
+   "fdid": 6251553,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "30c1048a5fcf75eb8b7df13c9930ed35e197287b2461c7aae2894a6f718128e3"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/7135116_be_m_lu_u_7134828.blp",
+   "fdid": 7134828,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "eb408f1b21031b3d00fe9eefcfbe463de7906915888280ddf7f18b4f594794f8"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/7634524_lu_u_7722279.blp",
+   "fdid": 7722279,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0c1b9f7b8ef12b87d92f993f0d51c0a5d867ded907c15c2fb92afe83d2615ab1"
+  },
+  {
    "path": "Item/TextureComponents/LegUpperTexture/armor_orcclan_d_01_pant_lu_u.blp",
    "fdid": 1623839,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "48d609c8b473649e728ab7e2c96b105f09b4acfb37fb88b3c7286a45320bf77f"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/armor_sarong_a_01_lu_u_5331131.blp",
+   "fdid": 5331131,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e3aba67ba75263ccf24e14bd3459ebcb86630ef6018a024fca16bb5a22980c26"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/cloth_raidmage_q_01_horde_robe_lu_u.blp",
+   "fdid": 1346072,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9106f77cbad6ccb91ced01311c6a3bd64f94550cb6f7daa9cc60be7ec5323d1e"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_a_02blue_pant_lu_f.blp",
+   "fdid": 157659,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4f1f779f4b20d119e6de696c2c2c8785f2d774c22e105afc10ce3a29ebf48753"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_a_02blue_pant_lu_m.blp",
+   "fdid": 157660,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "1ba34d78e6d060d4714e444e4686e3f30288f6aa792b9804916e4fe91060c095"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_a_02blue_pant_lu_u.blp",
+   "fdid": 157661,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "095ec6434f83c1a5acd28022475cc255ea0b430ace45e2f271081a61f73af345"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_a_05yellow_pant_lu_f.blp",
+   "fdid": 157712,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9a7d9a3601dd8d2406f97cee5f02d752384bb32e9589ba014fd8fb5f90515bbb"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_a_05yellow_pant_lu_m.blp",
+   "fdid": 157713,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b634e77038be0f3791dbf70a21983d583ea9bec332a813f9977dd8547770442f"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_c_02white_belt_lu_u.blp",
+   "fdid": 157796,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c76037c2129bed60ad03e1dfb468065a0fd40c004204a93cbff975a48a478a81"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_horde_a_02brown_belt_lu_u.blp",
+   "fdid": 157933,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "aa90e64bb0d6a8772bd4691d2cabde2ee346813bc22e73106701df600f6e07ae"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_horde_a_02brown_pant_lu_u.blp",
+   "fdid": 157934,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "1353b46754a22007703d34dbea72c0ad2a96247e820328e1618d2da053d3c0a7"
   },
   {
    "path": "Item/TextureComponents/LegUpperTexture/leather_hordeuprez_b_03_belt_lu_u.blp",
@@ -389,6 +1110,97 @@
    "sha256": "69cf931dd91bf75d9c6da5f19842227e233ae4e5615bd4b006d14c63f522b780"
   },
   {
+   "path": "Item/TextureComponents/LegUpperTexture/leather_raiddruid_g_01green_pant_lu_u.blp",
+   "fdid": 249384,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "671449f7df279e4c4400019ab228c752211c90c408c289f2bcc6fd7ac2e7300f"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/mail_draenorhonor_c_01_alliance_belt_lu_u.blp",
+   "fdid": 1017918,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "522feff85dc24d95cc2e456061924ddfc173c528d87abae145962b6c64ed1ebc"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/mail_horde_a_01_red_pant_lu_u.blp",
+   "fdid": 158484,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9eb7cc80fa868c7e3f963dee1949ceaaefd22e07ab18b7056c70f07be430f531"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/mail_horde_b_01black_belt_lu_u.blp",
+   "fdid": 158495,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "55b2c377c55ea98c448d1bd817e39053c93a24d5c548cc9fd92226d0785ca7d0"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/mail_horde_b_01black_pant_lu_u.blp",
+   "fdid": 158496,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0f52cb991a799b8106e50220c56f2ec864b26861eb024321fcac8ca5f04efb1d"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/mail_pvphorde_c_01green_pant_lu_u.blp",
+   "fdid": 158565,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "641fe1626914ba80fecefa7574f8bce5003bb6b98f962f3b7af792ad1550110a"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_b_03silver_pant_lu_u.blp",
+   "fdid": 158774,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "546eda416a2a5d24a2acf4406aa1785a2e9ac6c70c3817d7210c2cdbfa24ba54"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_d_05_gold_belt_lu_u.blp",
+   "fdid": 158875,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "da25955d46a711dd249b293dc38c7fd52b1375b655808a1802ac450b229e7fda"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_d_05_gold_pant_lu_f.blp",
+   "fdid": 158876,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4051ea11fe33a371ff994bc55181e0a27b30eeed6b2b58943946f9db6c058553"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_d_05_gold_pant_lu_m.blp",
+   "fdid": 158877,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "1d9052925e04153d6b4ef748580d6769a3aeda7028f5e9829680086e7bc19eaf"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_f.blp",
+   "fdid": 159029,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a2daf472710202653087121e234a450891f6f2791d47cb5808a3d83f52b0af50"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_m.blp",
+   "fdid": 159030,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "560bc141c38de28194484bc261acd1edea6816969cfa41222ea241e6a549dc95"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_raidpaladinnerubian_d_01_belt_lu_u_5567651.blp",
+   "fdid": 5567651,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "f0c66e5b75a8bfce6dd6c9554a73eb232b05eb690f9a54c59e753f50a42281f4"
+  },
+  {
    "path": "Item/TextureComponents/LegUpperTexture/plate_warfrontshorde_d_01maroon_belt_lu_u.blp",
    "fdid": 1780816,
    "build": "12.1.0.69875",
@@ -403,6 +1215,27 @@
    "sha256": "481e6045c252f6776a6facf95f4a88469dd50cfc9ffa6df52568a0de521286a9"
   },
   {
+   "path": "Item/TextureComponents/LegUpperTexture/robe_raidwarlock_e_01_robe_lu_u.blp",
+   "fdid": 159993,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a2edffddc39429330ebfa571cf209e57acfb368838a6efd366628164ce567e9f"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/4544416_tl_u_4544724.blp",
+   "fdid": 4544724,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c192970ea0160f98fe75213e6a72f2502516cc538ae91117a1c24fb84d40e6a2"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/6212225_tl_u_6251561.blp",
+   "fdid": 6251561,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b9a5f00a085610bc0076b0d32212c4c53150cf0fc1a10e207b08f3a4c5c43852"
+  },
+  {
    "path": "Item/TextureComponents/TorsoLowerTexture/armor_orcclan_d_01_chest_tl_f.blp",
    "fdid": 1623833,
    "build": "12.1.0.69875",
@@ -415,6 +1248,118 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "f2a78c365313cb5ea339ba77c05dd3372784cf9d0589cb25069db3ec3b90889a"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_a_01brown_chest_tl_f.blp",
+   "fdid": 160061,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "f3e9530d443df4e75b0750e910259f91932ae75fef3855e7678c5ae0e9274cfb"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_a_01brown_chest_tl_m.blp",
+   "fdid": 160062,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d29057946f3d67ae06f814e26f21bfa8b6f98d39309661a0dbe62a5d92d92dd3"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_a_03crewmanblue_chest_tl_f.blp",
+   "fdid": 160097,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "bee9ae4a1c13de35131293b09245a2a5536009214ba28f623b6ca2b981769f2b"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_a_03crewmanblue_chest_tl_m.blp",
+   "fdid": 160098,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "11a356d3b9b3722a6c2fe629a3a0c5504cf5535284816c3e6fa1dc3874bd5c19"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_a_06black_chest_tl_f.blp",
+   "fdid": 160131,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2f59a8a1123950dde3e7610127bf7c0dcc89e4fae7d685ba59826d5507e174f7"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_a_06black_chest_tl_m.blp",
+   "fdid": 160132,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e13d5c454a0089061d56b15f6f3971d94b9a4bca0c1aa3be6e4f0434cd05ca3a"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_a_08white_chest_tl_f.blp",
+   "fdid": 160179,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b9a2927bf543885871d9cdfab6936e5cb1c6f368c164d09da402259fe0bf5d12"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_a_08white_chest_tl_m.blp",
+   "fdid": 160180,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "6b3bab7f791fe26c7e98dd46a40f0c28aff930c3079de2550838d0a2bb146df8"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_maldraxxus_d_01_campaign_chest_tl_f.blp",
+   "fdid": 3512375,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "875fd346bd139499501b6bbde3ead9c63aab5af102dc530acc40cfb40d88a0a7"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_maldraxxus_d_01_campaign_chest_tl_m.blp",
+   "fdid": 3512376,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ffc6d7a44893c063c1a95ceb3e6120732f0d560364b9bf0d26c5114489578820"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_raidmage_q_01_horde_chest_tl_f.blp",
+   "fdid": 1346085,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "68cca1fa33e172054dda7820438479d5d91d4c7a51f3a90c397c3e6eba881b1a"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/cloth_raidmage_q_01_horde_chest_tl_m.blp",
+   "fdid": 1346086,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "89af95a50aeb52597dd35f66b108637dff332b16e4c3a6297fb94c8916863749"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_a_05green_chest_tl_f.blp",
+   "fdid": 160514,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "16f5ffe4e9b54c5a3b8346c02694b78761c7d1323b599c34908ebbd4796411f6"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_a_05green_chest_tl_m.blp",
+   "fdid": 160515,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d3161a335a469baff6d23baf64c138623ec543bf7dd86e6b4ca823b8883fffc8"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_horde_a_02brown_chest_tl_f.blp",
+   "fdid": 160719,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "9e17d3f7ed29456ff8a64fbcfdc1a27f98817d0e4a237ff97cff714a378fe443"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_horde_a_02brown_chest_tl_m.blp",
+   "fdid": 160720,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "10a598986f54687bcb7d2ae3b695dbbe19a21131e3bffa4e9fab5ad9272618a7"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/leather_hordeuprez_b_03_belt_tl_u.blp",
@@ -438,6 +1383,104 @@
    "sha256": "bff9dfb8d4a8b8c4063186acca354f80c3930754de4a46cbd91d6286d6b25058"
   },
   {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_northrend_b_02_chest_tl_f.blp",
+   "fdid": 160783,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "77af6d5db570a9796dc06fbefcde9b6422de05905e052626b244027b5aeb35f3"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/leather_northrend_b_02_chest_tl_m.blp",
+   "fdid": 160784,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "14829069b96d4d54b79dd64698434f04af1f8d9aea1cc63268a470a3521fe03c"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_c_03green_chest_tl_f.blp",
+   "fdid": 161085,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "04b17eea3e6e0cd91b9f057de356ba4a1e18681c5473d21fe0bb58f1aac5fd5d"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_c_03green_chest_tl_m.blp",
+   "fdid": 161086,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0fa66794f88bb95fa86d03e2cb87003d0893ba65a7fdd73bb3e7d4aa2152ec02"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_draenorhonor_c_01_alliance_belt_tl_u.blp",
+   "fdid": 1017922,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d78682ae1a65b6972ed6b9b03a1ab8e743134ea908a257a59d467388641eeeca"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_horde_a_01_red_chest_tl_f.blp",
+   "fdid": 161192,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "966bfcf0706bfc21a87010b0cbdc3cfbb1b76e13144328a79b51d97adb9b7355"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_horde_a_01_red_chest_tl_m.blp",
+   "fdid": 161193,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a6ed7d8fd93eb822a9a1739006fa7f5bb64b28a6b5a674cfe7b2d11d7f1da247"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_horde_b_01black_chest_tl_f.blp",
+   "fdid": 161204,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "053e766505a7c2ec22d42fc4d174c8b080c86f64161ff206f0b452ee49d843ad"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_horde_b_01black_chest_tl_m.blp",
+   "fdid": 161205,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "3c1cba92ad466e449ed269e681525f96fb25519f6bb5d7333ec4914bde6ceef7"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_pvphorde_c_01green_chest_tl_f.blp",
+   "fdid": 161285,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d193e7aa3e0e0ec539af7c9a314b38a69482fa57a87250c82e0ea597ca4c5f64"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/mail_pvphorde_c_01green_chest_tl_m.blp",
+   "fdid": 161286,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "6fe3afb3fc7e5dead3a6cbe7f83b111fe6956cd477e875416fd519db4565da8e"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_a_05_gold_chest_tl_f.blp",
+   "fdid": 161417,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0e395a404e94e69c0ada60fb6db42d7a60e307d16adbaf742834c83e9286baf6"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_a_05_gold_chest_tl_m.blp",
+   "fdid": 161418,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "b431b5de1ed9b7a8d8c8205d41a6dbd6f9b5b9b7cd9c09c017b9ed473f96817a"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raidpaladinnerubian_d_01_belt_tl_u_5567588.blp",
+   "fdid": 5567588,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "8f62cdf2db388838cb4bc3242a421ce06a35da3c9edb847fa230fbe888cf919c"
+  },
+  {
    "path": "Item/TextureComponents/TorsoLowerTexture/plate_warfrontshorde_d_01maroon_chest_tl_f.blp",
    "fdid": 1780820,
    "build": "12.1.0.69875",
@@ -450,6 +1493,83 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "bec128c5e0bb7ba4de2d2a06c14dd160741b24d30aa2e7cec81b967933202c14"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/robe_raidwarlock_e_01_chest_tl_f.blp",
+   "fdid": 162544,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "01b6a099ca9d677ab763eabf2270a7af0fec76f653eed0ce21569b138f0b37ca"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/robe_raidwarlock_e_01_chest_tl_m.blp",
+   "fdid": 162545,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "417ee97cecc799b4e9070413427b3b7123991eecf6130a7b145f8ed90fa5de22"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/shirt_basic_a_02_dark_tl_u_4279057.blp",
+   "fdid": 4279057,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c08a0a62476c1a56f9fabae997d0a0ca850d15c1c298453a3d6505afba9292c8"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/shirt_duelist_a_01_blue_tl_F.blp",
+   "fdid": 5519260,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e7959238251f57424bd1df9cb7f676743cd0a62b989bb4c4f0c42221f5e3dbf2"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/shirt_duelist_a_01_blue_tl_M.blp",
+   "fdid": 5519261,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "3d95810d7ab0c81b8d9e4c30c975df87776805865677ac31178b71d1e61847fe"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_01achievementquest01_chest_tl_f.blp",
+   "fdid": 240498,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "3f29f9b27a179c92608102dadb2aae9335dbc253ab8df172bafc48bfe19d4741"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_01achievementquest01_chest_tl_m.blp",
+   "fdid": 240499,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "6980e14d51afed2945cae85d69ee1fff85dc7a60d1286e1d70ab2d8ea776514e"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_01ironhorde_chest_tl_f.blp",
+   "fdid": 975336,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "98de92ba0ff89fe2862c5040a11cbe35b7d5e12e482e5da26683ac7d58a6bc93"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_01ironhorde_chest_tl_m.blp",
+   "fdid": 975337,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e4c7bd3a56b54bd05321afe568bac7deb4a4bd74d286b4fd52b70ff2eaba58f1"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_37ironforge_chest_tl_f.blp",
+   "fdid": 254202,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c117cda5ee50d21fe2a158d8f87ee89c65429e80d4875f353f5b839156a8338a"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_37ironforge_chest_tl_m.blp",
+   "fdid": 254203,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2684f46c09e3200afcd06fff9fd58d7f786654dd4d516cd5b938dea2f42579e8"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/tabard_a_43orgrimmaruprez_chest_tl_f.blp",
@@ -466,6 +1586,13 @@
    "sha256": "599239454561f2e1e5468c38dfb78e392b4c528f596a8c1d0d83139605a78f08"
   },
   {
+   "path": "Item/TextureComponents/TorsoUpperTexture/4544416_tu_u_4544725.blp",
+   "fdid": 4544725,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c9a69ad82325dc939ba3ee40ab77ea8eda29d7574ed566e5f15399ed5a62167a"
+  },
+  {
    "path": "Item/TextureComponents/TorsoUpperTexture/armor_orcclan_d_01_chest_tu_f.blp",
    "fdid": 1623864,
    "build": "12.1.0.69875",
@@ -478,6 +1605,118 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "fe3e05802c90b9dc250400d9fbfd535ad5bb2c979be449ae9157b50b56a63373"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_a_01brown_chest_tu_f.blp",
+   "fdid": 162712,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ae9f61dfedfafe2c1a08bf60972a5b790e604e72668d347cdcd9003ce37bc0ea"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_a_01brown_chest_tu_m.blp",
+   "fdid": 162713,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ea419f9283d95d70b0e207c74ccca1ae779523ab1d2bd02aa5d5653dccfa1f08"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_a_03crewmanblue_chest_tu_f.blp",
+   "fdid": 162748,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "4d2bfc296d3fab4c23acc8202f55f470ff57e46b081014c0c4c55521715f544d"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_a_03crewmanblue_chest_tu_m.blp",
+   "fdid": 162749,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "6cca376095bcf925320e66a95fb91424286c22f3e034a6ac5eab1b795c7f32b4"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_a_06black_chest_tu_f.blp",
+   "fdid": 162782,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "ba678d391578e666c6d9dc7994aadcfaa30e45f106c14536f5ba4ee9105a184a"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_a_06black_chest_tu_m.blp",
+   "fdid": 162783,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2641cedb2277ad56c62c75b93778d9cdcd6cf254b04b2b3eef25537040b12572"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_a_08white_chest_tu_f.blp",
+   "fdid": 162830,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "48c4f383250e2356aa2040fa982be5986f048f13fce4294e1f9575c84d8f9fe7"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_a_08white_chest_tu_m.blp",
+   "fdid": 162831,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c299e7ff5d99e90417e8b03652773086579a4063cec87ec6891223eaa6aa615b"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_maldraxxus_d_01_campaign_chest_tu_f.blp",
+   "fdid": 3512377,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d742c193fbe3ab7b59440e07c6d901a9f9ff9dd9424066282b23b992f603b7ee"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_maldraxxus_d_01_campaign_chest_tu_m.blp",
+   "fdid": 3512378,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0415f33bd7ef17f9148098333a12fa20704cc540ac223a8deb0909d11dab1423"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_raidmage_q_01_horde_chest_tu_f.blp",
+   "fdid": 1346097,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "28fb44c411e8f585514fb6bf99e5e99fe1dc16a795e660cd7421cacb0112cf2a"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/cloth_raidmage_q_01_horde_chest_tu_m.blp",
+   "fdid": 1346098,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2d37f236b5d1423144eb6e88b9934d2ebbab787158e726c2eddafabeb295ed3c"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/leather_a_05green_chest_tu_f.blp",
+   "fdid": 163180,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "f88563b03122114ed806fd915f76b38bb0388c56fc9c6d2684e5e088542742b9"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/leather_a_05green_chest_tu_m.blp",
+   "fdid": 163181,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "43a7bad95d71cdf30236970d291d535062ac0d9ac98b80b5e028e3743f85ca04"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/leather_horde_a_02brown_chest_tu_f.blp",
+   "fdid": 163387,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "688be4b2036f86c77462191dbc222502459f3f7a5906a5a802b7b4bd1ad4ec4b"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/leather_horde_a_02brown_chest_tu_m.blp",
+   "fdid": 163388,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c13e506c63f175aa2be13757aa86946fef7f341274555068a2536f93c787ed7c"
   },
   {
    "path": "Item/TextureComponents/TorsoUpperTexture/leather_hordeuprez_b_03_chest_tu_f.blp",
@@ -494,6 +1733,90 @@
    "sha256": "a428a7892a1f66670c5a2d6783970cf56d6428dc29782c27d86dcf72befa2e84"
   },
   {
+   "path": "Item/TextureComponents/TorsoUpperTexture/leather_northrend_b_02_chest_tu_f.blp",
+   "fdid": 163461,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "dbf703f84d9bba57c65f174c33606fe3c315e288965c1369cb08112aa1201d8f"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/leather_northrend_b_02_chest_tu_m.blp",
+   "fdid": 163462,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d157a825c85b23bbfc757a6fe124c1d63cfb4e10dd3592b587b8de50fa92ec6d"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/mail_c_03green_chest_tu_f.blp",
+   "fdid": 163761,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "323cc2c2f03b71474f46456db9f1ee969c9ff4f553eb15748cfe633cfc9f9cd6"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/mail_c_03green_chest_tu_m.blp",
+   "fdid": 163762,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c316422fd23ab62d0311cf9b4868e63ff30a34dd83ac9f91b2d398b53e83e247"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/mail_horde_a_01_red_chest_tu_f.blp",
+   "fdid": 163872,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "e3d96968f65898d14e4d6051751ce9e1a28506e058240c059593013d3e30c8e1"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/mail_horde_a_01_red_chest_tu_m.blp",
+   "fdid": 163873,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "f15862220275b7c63b63758369c191f265ea7bcfc83fb6fa25e456ed36781708"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/mail_horde_b_01black_chest_tu_f.blp",
+   "fdid": 163884,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "7ce82d5229c7bf72bf1804c9e7be5a13fbfb01295cc99d4df542ecf92d51b855"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/mail_horde_b_01black_chest_tu_m.blp",
+   "fdid": 163885,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "3023ea49119d4b4078ebb2ea51efa91b561e4b94c081171053d26d73a1d753b6"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/mail_pvphorde_c_01green_chest_tu_f.blp",
+   "fdid": 163964,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "c561531ac2dd7b5f225f31371e83da1170a62f6a39c38e8dc967d62dfcf6373d"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/mail_pvphorde_c_01green_chest_tu_m.blp",
+   "fdid": 163965,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2ddc7cf022ae51553c2bb07a9843e68d238260d66afae5f80702490ae94904fa"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/plate_a_05_gold_chest_tu_f.blp",
+   "fdid": 164097,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "3473237c5004b086fa5df2ec12a87b0e1eaab63abe121d19442ab5c29bfa6281"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/plate_a_05_gold_chest_tu_m.blp",
+   "fdid": 164098,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "fb10762c41aecd254073298c394605d9c734da33b116955e89a2083a295c70fd"
+  },
+  {
    "path": "Item/TextureComponents/TorsoUpperTexture/plate_warfrontshorde_d_01maroon_chest_tu_f.blp",
    "fdid": 1780822,
    "build": "12.1.0.69875",
@@ -506,6 +1829,83 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "b3e0612254a359919254e12fbfe779f8d9bf949c2ee3d80c04a9f1fc0282d81c"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/robe_raidwarlock_e_01_chest_tu_f.blp",
+   "fdid": 165238,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "93d6bffce025c4ee5a803f8a74e4338751126934e319f1f19fa2311c9956c7da"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/robe_raidwarlock_e_01_chest_tu_m.blp",
+   "fdid": 165239,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "5d88ca4c4112be07e9cc69ed335b5a396e416a7d07fa5f6a975f540e5caf53e6"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/shirt_basic_a_02_dark_tu_u_4279058.blp",
+   "fdid": 4279058,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "1d2099e558559dad9dc92a0813e5c5e5179bf7c86182b01c66265d0ae59e0e04"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/shirt_duelist_a_01_blue_tu_F.blp",
+   "fdid": 5519276,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a4ad707c9c3e8e6965c2dedd20de5f67a98f77cbfb9c47f4deaf72bee0ad30fb"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/shirt_duelist_a_01_blue_tu_M.blp",
+   "fdid": 5519277,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d82e276c3b97717e331cb2c11048acf747299eaac9f2cf7d1708096dedc6b2b0"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_01achievementquest01_chest_tu_f.blp",
+   "fdid": 240759,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "7f2e892c5d4ef70913a33597f88eb512bc837f418b2656089652c910cc3bbae3"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_01achievementquest01_chest_tu_m.blp",
+   "fdid": 240760,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "2c38125dc4027eaf7187097aecc946d788e1223be522d4ca24ee45dd61f33c52"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_01ironhorde_chest_tu_f.blp",
+   "fdid": 982356,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "a4b39e20ff15cd8d34c0865cad7aac6e1dc8a9175dfcb431ac88f6a40deacad2"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_01ironhorde_chest_tu_m.blp",
+   "fdid": 982357,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "137f43f4b504f46ae8c1a9683a380fc9c562fec361a117d5f54eb2a3624d7839"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_37ironforge_chest_tu_f.blp",
+   "fdid": 254234,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "d6b99633f453c59b407b05fccadfc651f6ac386163e73d8b69ad2d108544f3c8"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_37ironforge_chest_tu_m.blp",
+   "fdid": 254235,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "aba89ac68bc62cefa042f9d383b5af804be3ccf391178ac4120abb4f378c8eee"
   },
   {
    "path": "Item/TextureComponents/TorsoUpperTexture/tabard_a_43orgrimmaruprez_chest_tu_f.blp",
@@ -592,6 +1992,210 @@
    "kind": "bake",
    "display": 900332,
    "sha256": "227445d19b976b488532173e4416becbc447bf8a8153723449108146d671fcb5"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900500_HD.blp",
+   "kind": "bake",
+   "display": 900500,
+   "sha256": "6f6229738caefa30806227ea3007cf11fa87b8a8b27fe4df4d047c25ca0357e9"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900501_HD.blp",
+   "kind": "bake",
+   "display": 900501,
+   "sha256": "4dd954da0efbf8b9612d1e6cd593dddd5aa42cba4b3086bba79c6a64ba566012"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900502_HD.blp",
+   "kind": "bake",
+   "display": 900502,
+   "sha256": "449c7bd083ba70df9574411c34a2877d661824de3d0a9c2c507f29d8285adba7"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900503_HD.blp",
+   "kind": "bake",
+   "display": 900503,
+   "sha256": "2d1c19978e516026c37f44720bf9bc54f20a82ea493c57eb650b0f1b9c0506c8"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900504_HD.blp",
+   "kind": "bake",
+   "display": 900504,
+   "sha256": "83e9ee09b14e50ad298cac7fe488d36f3a683e48ee421831756cb393bd16dd71"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900505_HD.blp",
+   "kind": "bake",
+   "display": 900505,
+   "sha256": "c8a6379e13051d3d3fa498575073825fe693e35af400879736fcaec42aa9727a"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900506_HD.blp",
+   "kind": "bake",
+   "display": 900506,
+   "sha256": "1a0db4494b59a0998161f8f4f2d3325e6c86144cd67146e90b2aa2a5bc708f0d"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900507_HD.blp",
+   "kind": "bake",
+   "display": 900507,
+   "sha256": "80141105246ba97f4ccc95879e811cca6da24733a99045c12721ea07fe317ce1"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900508_HD.blp",
+   "kind": "bake",
+   "display": 900508,
+   "sha256": "e6bb8dfb1268d9bc873ab46c71ebc1845197c314f1220283263c5b05b7483fdc"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900509_HD.blp",
+   "kind": "bake",
+   "display": 900509,
+   "sha256": "a38ac4a7ab1a8c2e6516857365d1c8ec2ebd5b998bf855af0d0edaf841953008"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900510_HD.blp",
+   "kind": "bake",
+   "display": 900510,
+   "sha256": "0e0eda933d0e4dbd4e9373d03808ab498a5fed89357d057a59169c2ace506e22"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900511_HD.blp",
+   "kind": "bake",
+   "display": 900511,
+   "sha256": "a6a387ac4cb9fda6a7d31a8d239eab11c4cff1ed9322a52deaba4d0be52b268e"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900512_HD.blp",
+   "kind": "bake",
+   "display": 900512,
+   "sha256": "2761a8a90bfbd152501fba6cff0eb60cc3d546f050b7874fe215e802162abeaa"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900513_HD.blp",
+   "kind": "bake",
+   "display": 900513,
+   "sha256": "f6cfd5652ad86a1e85b2044d9e4dd1e49324db3ab71c6b9876725426b2d9541f"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900514_HD.blp",
+   "kind": "bake",
+   "display": 900514,
+   "sha256": "a6c44d1000b67d0b1da0b6beab0eeb68bf3b6bd0d73b8c32352107ea7282efe7"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900515_HD.blp",
+   "kind": "bake",
+   "display": 900515,
+   "sha256": "cfec2838fadec7d11650476bd3ae4addcb11d0aab3f74de9c2218d2738ba64c0"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900516_HD.blp",
+   "kind": "bake",
+   "display": 900516,
+   "sha256": "126705e622806700dc47a8e66f618d72807d4824e0691939842d28dd02601c51"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900517_HD.blp",
+   "kind": "bake",
+   "display": 900517,
+   "sha256": "989f6d30b55cdd6edbeaa5b45f883f3b3f6d55bc814370c263903d851f24a47a"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900518_HD.blp",
+   "kind": "bake",
+   "display": 900518,
+   "sha256": "93589458e4abe19d516bcb2aaed26949cc77e2d76633796b68988a2f1b087742"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900519_HD.blp",
+   "kind": "bake",
+   "display": 900519,
+   "sha256": "8c853f8476af65884ed287bec28fdae09c6656b4fff8a126e33394269e2b9358"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900520_HD.blp",
+   "kind": "bake",
+   "display": 900520,
+   "sha256": "93589458e4abe19d516bcb2aaed26949cc77e2d76633796b68988a2f1b087742"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900521_HD.blp",
+   "kind": "bake",
+   "display": 900521,
+   "sha256": "5ae599682f8bb00957db6ff618d759a12dbebf6273eeb0a0008fc3b6a3975aca"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900522_HD.blp",
+   "kind": "bake",
+   "display": 900522,
+   "sha256": "0b07f277bbc6d78ac7823bc9c0ad64f54b803d1e2af56e9777b6c994014ddb2b"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900523_HD.blp",
+   "kind": "bake",
+   "display": 900523,
+   "sha256": "40b8501c97b704cb66cadcdaf86a5dc4ad86a3f41e656999bdb7830eb1d7ecac"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900524_HD.blp",
+   "kind": "bake",
+   "display": 900524,
+   "sha256": "e859005049de02a56f7d5bbbc9a84992122de152972bb732f9a09fe255e4652c"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900525_HD.blp",
+   "kind": "bake",
+   "display": 900525,
+   "sha256": "dc0a92dcd2e2f0edcd913620846a970e6173f48279374ce91091e281ff012488"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900526_HD.blp",
+   "kind": "bake",
+   "display": 900526,
+   "sha256": "affcc130ff42430d25238fed5bacd11e77511aa28e866422fff79732a3b6b1e1"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900527_HD.blp",
+   "kind": "bake",
+   "display": 900527,
+   "sha256": "d6dd2490d9d84369ccdb748104cff9cd2675237f8539b7bf4a98ca0cf24bb6c3"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900528_HD.blp",
+   "kind": "bake",
+   "display": 900528,
+   "sha256": "2c5bee3fd2b64b39a01cb62fc18a0844e9f6aa1f899d5b590eadb92ed37b1693"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900529_HD.blp",
+   "kind": "bake",
+   "display": 900529,
+   "sha256": "3c81d25ff79ddbdb07d668a2967bd0a2f1b9ba229a646e1f58d6a3c044513a8c"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900530_HD.blp",
+   "kind": "bake",
+   "display": 900530,
+   "sha256": "10dd62141cb792724b7963b7db460a3282b9ca629751580ecf2d56a49ec0a761"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900531_HD.blp",
+   "kind": "bake",
+   "display": 900531,
+   "sha256": "172933b7e378c7ba9b77607727dd04f0b81255f8f8fcec0d685fb6a87215b559"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900532_HD.blp",
+   "kind": "bake",
+   "display": 900532,
+   "sha256": "2f6ba5e757aacc7e6ed084d5e3aa53330e70b1d327ae485b25cfb7eada195e2f"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900533_HD.blp",
+   "kind": "bake",
+   "display": 900533,
+   "sha256": "8622e5888131798c2fb92f5277f2a2e0c045f160727c4b76a97c1063bde548cc"
   }
  ]
 }

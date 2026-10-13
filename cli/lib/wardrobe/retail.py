@@ -118,8 +118,23 @@ class RetailData:
         """Download one CASC file by FDID (cached)."""
         p = self.dir / 'casc' / str(fdid)
         if not p.exists() or p.stat().st_size == 0:
+            # the shared retail store first (lib/retail: zep model retail-store), then wago.tools
+            from .. import retail as rstore
+            raw = rstore.CACHE / 'raw' / str(fdid)
+            if raw.exists() and raw.stat().st_size:
+                p.write_bytes(raw.read_bytes())
+                return p
             url = f'https://wago.tools/api/casc/{fdid}?version={self.build}'
-            subprocess.run(['curl', '-s', '-f', '-m', '300', '-o', str(p), url], check=True)
+            r = subprocess.run(['curl', '-s', '-f', '-m', '300', '-o', str(p), url])
+            if r.returncode != 0 or not p.exists() or not p.stat().st_size:
+                # wago.tools cannot serve some files (HTTP 503): the store's Wowhead copy, re-encoded
+                # from WebP - lossy, so it is reported, never silent
+                f = rstore.texture_file(fdid)
+                if f is None:
+                    raise RuntimeError(f'retail file {fdid}: not on wago.tools and no Wowhead copy')
+                p.write_bytes(Path(f).read_bytes())
+                lossy = (rstore.CACHE / 'raw_wowhead' / str(fdid)).exists()
+                print(f'              ! file {fdid}: {"Wowhead copy (lossy WebP -> BLP)" if lossy else "from the retail store"}')
         return p
 
     # -- items ------------------------------------------------------------------

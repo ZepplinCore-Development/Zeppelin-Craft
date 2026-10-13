@@ -1,0 +1,29 @@
+{
+  "task": "F-220",
+  "kind": "unique",
+  "race": 2,
+  "base_display": {
+    "0": 1313
+  },
+  "name": "f220_orcdrakerider_orcdrakeriderskin_male_look",
+  "_comment": "F-220 look-alike rider for creature/orcdrakerider/orcdrakeriderskin.blp (displays [9723]): closest items from lib/npc_outfit lookalike",
+  "outfit": {
+    "items": {
+      "chest": 15487,
+      "legs": 10635,
+      "boots": 118371,
+      "gloves": 118368
+    }
+  },
+  "appearance": {
+    "skin_color": 3,
+    "face_type": 8,
+    "hair_style": 4,
+    "hair_color": 1,
+    "facial_hair": 1,
+    "gender": 0
+  },
+  "display_ids": [
+    900531
+  ]
+}

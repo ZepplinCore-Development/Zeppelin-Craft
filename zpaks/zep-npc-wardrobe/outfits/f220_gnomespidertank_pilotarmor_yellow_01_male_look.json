@@ -1,0 +1,32 @@
+{
+  "task": "F-220",
+  "kind": "unique",
+  "race": 7,
+  "base_display": {
+    "0": 1832
+  },
+  "name": "f220_gnomespidertank_pilotarmor_yellow_01_male_look",
+  "_comment": "F-220 look-alike rider for creature/gnomespidertank/pilotarmor_yellow_01.blp (displays [22700, 23363, 23382, 23383, 23405, 23406]): closest items from lib/npc_outfit lookalike",
+  "outfit": {
+    "items": {
+      "shirt": 45666,
+      "chest": 25008,
+      "legs": 21667,
+      "belt": 10387,
+      "boots": 18824,
+      "gloves": 19143,
+      "tabard": 43300
+    }
+  },
+  "appearance": {
+    "skin_color": 7,
+    "face_type": 2,
+    "hair_style": 10,
+    "hair_color": 11,
+    "facial_hair": 0,
+    "gender": 0
+  },
+  "display_ids": [
+    900509
+  ]
+}

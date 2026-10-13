@@ -1,0 +1,29 @@
+{
+  "task": "F-220",
+  "kind": "unique",
+  "race": 1,
+  "base_display": {
+    "0": 25500
+  },
+  "name": "f220_mountedknight_mountedknightblue_02_male_look",
+  "_comment": "F-220 look-alike rider for creature/mountedknight/mountedknightblue_02.blp (displays [1545, 10952, 16277, 17323, 17389, 18088, 26537]): closest items from lib/npc_outfit lookalike",
+  "outfit": {
+    "items": {
+      "shirt": 167226,
+      "legs": 9291,
+      "belt": 10067,
+      "gloves": 23082
+    }
+  },
+  "appearance": {
+    "skin_color": 12,
+    "face_type": 2,
+    "hair_style": 6,
+    "hair_color": 12,
+    "facial_hair": 2,
+    "gender": 0
+  },
+  "display_ids": [
+    900529
+  ]
+}

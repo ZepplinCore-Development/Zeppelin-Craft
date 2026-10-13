@@ -5,7 +5,9 @@ Every manifest in <zpak>/outfits/*.json is built on each run and all outputs are
 regenerated, so the emitted `[AUTO,<task>]` files always reflect the manifests.
 
 Manifest kinds:
-  unique   one appearance, one display (a named one-off NPC)
+  unique   one appearance, one display (a named one-off NPC). "appearance" may name a
+           "skin_texture" (a stock client texture in the classic character layout, e.g. a fused
+           rider's skin, F-220): the bake is that texture scaled to 512 instead of a composite
   uniform  up to MAX_VARIANTS appearances of one outfit (a guard force); appearances
            are explicit or drawn from the stock NPC appearances that ship an HD bake
 """
@@ -147,8 +149,18 @@ class WardrobeBuilder:
             by_region[t.region].append(t)
         for region, texs in by_region.items():
             bases = set()
+            # 3.3.5 names one base per region and adds _M / _F / _U itself. Retail sometimes names the
+            # gendered files with different bases (shirt_duelist_a_01_blue_tu_m / _tu_f, no suffix):
+            # those ship renamed to one base + the client's gender suffix.
+            raw = {t.path.split('/')[-1].rsplit('_', 1)[0] for t in texs}
+            canon = None
+            if len(raw) > 1:
+                canon = sorted(raw)[0]
+                canon = canon[:-2] if canon.lower().endswith(('_m', '_f')) else canon
             for t in texs:
                 name = t.path.split('/')[-1]
+                if canon:
+                    name = f'{canon}_{ {0: "M", 1: "F"}.get(t.gender, "U") }.blp'
                 client = f'Item\\TextureComponents\\{region}Texture\\{name}'
                 self._write(client.replace('\\', '/'), self.retail.fetch(t.fdid).read_bytes(),
                             dict(fdid=t.fdid, build=self.retail.build, kind='copy'))
@@ -161,7 +173,10 @@ class WardrobeBuilder:
             row[IDI_REGION_COLS[region]] = bases.pop()
         # 3D parts
         if it.models:
-            self._import_models(it, row, races, imp)
+            try:
+                self._import_models(it, row, races, imp)
+            except RuntimeError as ex:                     # retail cannot serve the mesh: texture only
+                imp.notes.append(f'3D part skipped, texture only: {ex}')
         if it.slot == 'cape':
             raise ValueError(f'{it.name}: capes are not supported yet')
         if it.slot == 'helm':
@@ -174,7 +189,12 @@ class WardrobeBuilder:
     def _import_models(self, it: RetailItem, row: Dict, races: List[int], imp: ImportedItem) -> None:
         folders = {(m.path or '?/?/?').split('/')[2].lower() for m in it.models if m.path}
         if 'collections' in folders:
-            self._import_collection(it, row, races, imp)
+            # collection meshes only draw with the WXL equip extension: a file retail cannot serve is a
+            # skipped mesh (texture only), never a failed build
+            try:
+                self._import_collection(it, row, races, imp)
+            except RuntimeError as ex:
+                imp.notes.append(f'collection mesh skipped, texture only: {ex}')
             return
         if it.slot not in OBJ_FOLDER:
             imp.notes.append(f'3D part(s) not supported in 3.3.5, texture only: {", ".join(sorted(folders))}')
@@ -413,8 +433,16 @@ class WardrobeBuilder:
 
     def _emit_variant(self, out, did, race, v, worn, base_display, name) -> None:
         g = int(v['gender'])
-        layers = {s: [(r, p) for (r, p) in i.layers.get(g, [])] for s, i in worn.items() if s in BODY_SLOTS}
-        img, log = compose(v, self._charsection(race, g), layers, self.resolver)
+        if v.get('skin_texture'):
+            # F-220 fake rider: the fused model's own skin is already a bake in the classic layout
+            from PIL import Image
+            f = FileResolver(self.resolver.roots[-1:], subdirs=('creature',)).find(v['skin_texture'])
+            if f is None:
+                raise ValueError(f'{name}: skin_texture {v["skin_texture"]} not found')
+            img = Image.open(f).convert('RGBA').resize((512, 512), Image.LANCZOS)
+        else:
+            layers = {s: [(r, p) for (r, p) in i.layers.get(g, [])] for s, i in worn.items() if s in BODY_SLOTS}
+            img, log = compose(v, self._charsection(race, g), layers, self.resolver)
         bake = f'CreatureDisplayExtra-{did}_HD.blp'
         tmp = self.retail.dir / 'out' / bake
         tmp.parent.mkdir(exist_ok=True)

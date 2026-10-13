@@ -1,0 +1,29 @@
+{
+  "task": "F-220",
+  "kind": "unique",
+  "race": 1,
+  "base_display": {
+    "0": 1276
+  },
+  "name": "f220_terongorefiend_terongorefiend1_male_look",
+  "_comment": "F-220 look-alike rider for creature/terongorefiend/terongorefiend1.blp (displays [21263]): closest items from lib/npc_outfit lookalike",
+  "outfit": {
+    "items": {
+      "chest": 30214,
+      "legs": 270217,
+      "boots": 228879,
+      "gloves": 30211
+    }
+  },
+  "appearance": {
+    "skin_color": 3,
+    "face_type": 3,
+    "hair_style": 10,
+    "hair_color": 4,
+    "facial_hair": 6,
+    "gender": 0
+  },
+  "display_ids": [
+    900533
+  ]
+}

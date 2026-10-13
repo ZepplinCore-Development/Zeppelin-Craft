@@ -1,0 +1,28 @@
+{
+  "task": "F-220",
+  "kind": "unique",
+  "race": 1,
+  "base_display": {
+    "0": 25500
+  },
+  "name": "f220_mounteddeathknight_mounteddeathknightwhite_03_male_look",
+  "_comment": "F-220 look-alike rider for creature/mounteddeathknight/mounteddeathknightwhite_03.blp (displays [16154, 16328, 24800]): closest items from lib/npc_outfit lookalike",
+  "outfit": {
+    "items": {
+      "shirt": 2576,
+      "legs": 210854,
+      "belt": 211990
+    }
+  },
+  "appearance": {
+    "skin_color": 12,
+    "face_type": 2,
+    "hair_style": 6,
+    "hair_color": 12,
+    "facial_hair": 2,
+    "gender": 0
+  },
+  "display_ids": [
+    900525
+  ]
+}
