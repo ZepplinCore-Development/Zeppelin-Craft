@@ -1735,6 +1735,11 @@ function openAsset(e) {
     const nr = ridersOfModel(e.path.toLowerCase()).size;
     if (nr) ctx.push(`<button id="toriders" title="Open the Displays tab listing the rider displays seated on this model's displays (F-220)">Riders (${nr}) →</button>`);
   }
+  if (e.tab === 'display' && ((mountRiders.links || {})[e.display] || []).length) {
+    // F-220: the riders the world DB seats on this mount display - direct links (a phone has no hover)
+    ctx.push(`<span title="Rider displays seated on this mount (creature_template_addon / creature_addon mount)">riders</span>` +
+      mountRiders.links[e.display].map(l => `<a href="?layer=display&display=${l.display}">${esc(l.creature)}</a>`).join(' · '));
+  }
   if (e.tab === 'display' && e.look_group) {
     const others = e.look_group.filter(x => x !== e.display);
     ctx.push(`<span class="chip warn" title="Same stock look and options as display${others.length > 1 ? 's' : ''} ${others.slice(0, 40).join(', ')}${others.length > 40 ? '…' : ''}">same look ×${e.look_group.length}</span>${groupBox(e.display)}`);
