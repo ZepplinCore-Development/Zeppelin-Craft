@@ -1754,6 +1754,13 @@ function openAsset(e) {
     ctx.push(`<span class="chip warn" title="Same stock look and options as display${others.length > 1 ? 's' : ''} ${others.slice(0, 40).join(', ')}${others.length > 40 ? '…' : ''}">same look ×${e.look_group.length}</span>${groupBox(e.display)}`);
   }
   if (ctx.length) $('panes').insertAdjacentHTML('afterbegin', `<div id="ctxbar">${ctx.join('<span class="sep">·</span>')}</div>`);
+  if (e.tab === 'display') {
+    // F-220: a RIDER display's page compares it with what it replaces: the fused stock rider (its mount's
+    // stock card) and the other riders built for that mount (fake / look-alike). The mount page only links.
+    const links = mountRiders.links || {};
+    const mount = Object.keys(links).find(m => links[m].some(l => l.display === e.display));
+    if (mount) riderCards(e, links[mount].filter(l => l.display !== e.display && l.display >= 900000).map(l => [l.display, l.creature]), +mount);
+  }
   if ($('todisplays')) $('todisplays').onclick = () => showModelDisplays(e.path);
   if ($('toriders')) $('toriders').onclick = () => showModelRiders(e.path);
   render();
@@ -2171,6 +2178,56 @@ function bakeDefault(bakes, key) {
   const fit = bakes.filter(b => b[3].includes(key));
   return fit.length ? fit.reduce((a, b) => (b[2] > a[2] ? b : a))[0] : null;
 }
+// F-220: a rider display drawn as its default bake card would draw it - for the rider cards appended to its
+// mount's model / display page, so the fused stock, the fake and the look-alike sit on one screen
+async function riderPane(did) {
+  const sp = await loadCustStock(did);
+  if (!sp || !(sp.bakes || []).length) return null;
+  const M = assets.find(a => a.tab === 'character' && a.path === sp.model);
+  const key = (choices.mesh[sp.model] || {}).option || (M ? M.current : null);
+  const shipFile = M && M.panes.find(p => p.option === key);
+  const smap = await mapOf(sp.map);
+  const base = {};
+  Object.values(sp.tex || {}).forEach(fd => { const v = smap['fdid/' + fd]; if (v) base['fdid/' + fd] = v; });
+  (sp.items || []).forEach(it => [it.m, it.m.replace(/\.m2$/, '00.skin'), it.t].forEach(k => { if (k && smap[k]) base[k] = smap[k]; }));
+  Object.keys(smap).forEach(k => { if (k.startsWith('item/objectcomponents/') && k.endsWith('.blp')) base[k] = smap[k]; });
+  const [src, cas, size, fits, ctex, classic] = sp.bakes[0];
+  const file = src === 'stock' || classic ? null : M && (M.panes.find(p => p.sources.includes(src))
+    || (shipFile && fits.includes(shipFile.option) ? shipFile : null) || M.panes.find(p => fits.includes(p.option)));
+  const tex = { ...sp.tex, 1: sp.tex['1'] || casFid(cas) }, ovr = { ...base, ['fdid/' + tex['1']]: cas };
+  Object.entries(ctex || {}).forEach(([slot, c]) => { tex[slot] = casFid(c); ovr['fdid/' + tex[slot]] = c; });
+  const p = file ? { ...file, display: did, tex, mesh: sp.mesh, items: sp.items, scale: sp.scale, camera: sp.camera, _ovr: ovr, _bake: src }
+                 : { ...sp, display: did, tex, _ovr: ovr, _bake: src };
+  return { p, sp, file, classic };
+}
+let _riderRun = 0;
+async function riderCards(e, riders, mount) {
+  const run = ++_riderRun;                      // the page can draw twice: only the latest run adds cards
+  document.querySelectorAll('#panes .pane[data-rider]').forEach(x => x.remove());
+  if (mount) {                                  // the fused stock rider it replaces, first
+    const sp = await loadCustStock(mount);
+    if (sp && cur === e && run === _riderRun) {
+      const div = document.createElement('div');
+      div.className = 'pane'; div.dataset.rider = mount;
+      div.innerHTML = `<iframe src="${paneUrl({ ...sp, display: mount })}" loading="lazy" title="stock fused"></iframe>
+        <div class="info"><div class="h"><b>Stock fused rider</b><span class="chip">display ${mount}</span></div>
+        <div class="stats">model: ${esc(sp.model)} · <a href="?layer=display&display=${mount}">mount display ${mount}</a></div></div>`;
+      $('panes').prepend(div);
+    }
+  }
+  for (const [did, name] of riders) {
+    const r = await riderPane(did);
+    if (!r || cur !== e || run !== _riderRun) continue;
+    const div = document.createElement('div');
+    div.className = 'pane'; div.dataset.rider = did;
+    div.innerHTML = `<iframe src="${paneUrl(r.p)}" loading="lazy" title="${esc(name)}"></iframe>
+      <div class="info"><div class="h"><b>${esc(name)}</b><span class="chip" title="A rider the world DB seats on this mount (F-220)">rider</span></div>
+      <div class="stats">model: ${esc(r.sp.model)}${r.file ? '' : ' (classic)'} · <a href="?layer=display&display=${did}">display ${did}</a></div>
+      ${outfitBox(r.sp)}</div>`;
+    $('panes').append(div);
+  }
+  if (typeof fitPanes === 'function') fitPanes();
+}
 async function bakeCards(e, c) {
   const sp = await loadCustStock(e.display);
   if (!sp || !(sp.bakes || []).length || !String(sp.model).startsWith('character/') || cur !== e) return;
@@ -2189,7 +2246,7 @@ async function bakeCards(e, c) {
   // and the textures named inside those item models (Hellfire polearm: hellfire.blp, its glow): resolved
   // for the item's own mesh at deploy; the card's model file would look them up in its own pack
   Object.keys(smap).forEach(k => { if (k.startsWith('item/objectcomponents/') && k.endsWith('.blp')) base[k] = smap[k]; });
-  document.querySelectorAll('#panes .pane:not([data-opt="custom"])').forEach(x => x.remove());   // these cards ARE the options
+  document.querySelectorAll('#panes .pane:not([data-opt="custom"]):not([data-rider])').forEach(x => x.remove());   // these cards ARE the options (F-220 comparison cards stay)
   const shipLabel = shipFile ? label(shipFile.sources) : 'stock';
   sp.bakes.forEach(([src, cas, size, fits, ctex, classic]) => {
     // each source as it ships: ITS model file wearing ITS bake (stock = the classic model + stock bake)
