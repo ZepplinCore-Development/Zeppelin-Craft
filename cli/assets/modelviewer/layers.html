@@ -1187,8 +1187,12 @@ function displaysOfModel(path) {
 }
 // F-220: the rider displays the world DB seats on this model's displays (mountriders.json links)
 function ridersOfModel(path) {
-  const out = new Set();
-  displaysOfModel(path).forEach(d => ((mountRiders.links || {})[d.display] || []).forEach(l => out.add(l.display)));
+  const out = new Set(), links = mountRiders.links || {};
+  const add = (did) => (links[did] || []).forEach(l => out.add(l.display));
+  displaysOfModel(path).forEach(d => add(d.display));
+  // the model's own entry knows its displays too (a model whose displays have no Displays-list entry)
+  const m = (byPath || {})[path] || assets.find(a => a.tab === 'creature' && (a.path || '').toLowerCase() === path);
+  if (m) [m.display, ...(m.panes || []).map(p => p.display)].forEach(add);
   return out;
 }
 function showModelRiders(path) {
@@ -1732,8 +1736,13 @@ function openAsset(e) {
   if ((e.tab === 'creature' || e.tab === 'character') && !e.retailOnly) {
     const n = displaysOfModel(e.path.toLowerCase()).size;
     if (n) ctx.push(`<button id="todisplays" title="Open the Displays tab listing every display that shows ${esc(e.path)}">Displays (${n}) →</button>`);
-    const nr = ridersOfModel(e.path.toLowerCase()).size;
-    if (nr) ctx.push(`<button id="toriders" title="Open the Displays tab listing the rider displays seated on this model's displays (F-220)">Riders (${nr}) →</button>`);
+    const rset = ridersOfModel(e.path.toLowerCase()), nr = rset.size;
+    if (nr) {
+      const names = {};
+      Object.values(mountRiders.links || {}).forEach(ls => ls.forEach(l => { if (rset.has(l.display)) names[l.display] = l.creature; }));
+      ctx.push(`<button id="toriders" title="Open the Displays tab listing the rider displays seated on this model's displays (F-220)">Riders (${nr}) →</button>` +
+        `<span>${[...rset].map(d => `<a href="?layer=display&display=${d}">${esc(names[d] || 'display ' + d)}</a>`).join(' · ')}</span>`);
+    }
   }
   if (e.tab === 'display' && ((mountRiders.links || {})[e.display] || []).length) {
     // F-220: the riders the world DB seats on this mount display - direct links (a phone has no hover)
