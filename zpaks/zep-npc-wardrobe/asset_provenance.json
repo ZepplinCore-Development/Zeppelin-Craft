@@ -137,34 +137,6 @@
    "sha256": "cd022841aa5bb8e6f9d0830d966be820a6218226637310b640dabed5282297cb"
   },
   {
-   "path": "Item/ObjectComponents/Collections/collections_plate_legionraid_d_01_hu_f.m2",
-   "fdid": 1509553,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 8 env pair(s), overlay mat 1",
-   "sha256": "329c7b794658b190e2739ee6fb88701362b54e5492dc6f3bdc4c6675d0ef875c"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/collections_plate_legionraid_d_01_hu_f00.skin",
-   "fdid": 1509776,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 8 env pair(s), overlay mat 1",
-   "sha256": "bc1c5674c947399f9e5d22a58120e9b095f75698c045edf1f89c62def77d53ba"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/collections_plate_legionraid_d_01_hu_m.m2",
-   "fdid": 1509554,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 8 env pair(s), overlay mat 1",
-   "sha256": "7284f49d6d9291de98d43931aa07a1f95230713c46f29f660895d5fdeda696a6"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/collections_plate_legionraid_d_01_hu_m00.skin",
-   "fdid": 1509777,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 8 env pair(s), overlay mat 1",
-   "sha256": "d4e552caca5f2625c4c2b820ec69fd1abcc24ad8521a8b6e30f3a21bc2ff45a1"
-  },
-  {
    "path": "Item/ObjectComponents/Collections/collections_plate_warfrontshorde_d_01_or_f.m2",
    "fdid": 1781569,
    "build": "12.1.0.69875",
@@ -228,41 +200,6 @@
    "sha256": "0a864c842cfc31a2df9bd6a3731f345495f46051e842a218703036af3da5896e"
   },
   {
-   "path": "Item/ObjectComponents/Collections/plate_outdoorarathor_d_01_robe_hu_f.m2",
-   "fdid": 5645768,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "f077ceadaef94cd5c0b9e439923695a9652471929018b8c8e2805fa2b0d91d27"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_outdoorarathor_d_01_robe_hu_f00.skin",
-   "fdid": 5646730,
-   "build": "12.1.0.69875",
-   "kind": "downport+8 batch(es) classicised, 6 env pair(s), overlay mat 1",
-   "sha256": "8e2e909f82a80f964da982e416c71230fd5533b82a948fb43fcc4624ec6f7a7e"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_outdoorarathor_d_01_robe_hu_m.m2",
-   "fdid": 5645767,
-   "build": "12.1.0.69875",
-   "kind": "downport+9 batch(es) classicised, 7 env pair(s), overlay mat 2",
-   "sha256": "a45e34b3ea401b9c5cf17f7b5f159fdde00e5b87a99756cd0d1c46de81bc0aef"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_outdoorarathor_d_01_robe_hu_m00.skin",
-   "fdid": 5646682,
-   "build": "12.1.0.69875",
-   "kind": "downport+9 batch(es) classicised, 7 env pair(s), overlay mat 2",
-   "sha256": "edcb1b0bc3bccde7b712f01c04be769c45380fa840054be8db0e04e780a81e38"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_raiddeathknightemerald_d_01_glove_green.blp",
-   "fdid": 5343261,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "5cd54812c5d77502c102cd08ae07778f0d4b17cce5b36ff6f5192251c5e35150"
-  },
-  {
    "path": "Item/ObjectComponents/Collections/plate_raiddeathknightemerald_d_01_glove_hu_f.m2",
    "fdid": 4994004,
    "build": "12.1.0.69875",
@@ -291,53 +228,11 @@
    "sha256": "58c9abaf3ae9d10ed8dbff3468e2113c627f8e6d6235ca62e7a74bd7f0c05889"
   },
   {
-   "path": "Item/ObjectComponents/Collections/plate_raiddeathknightemerald_d_01_glove_purple.blp",
-   "fdid": 5343262,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "b796d427e0ad3fd2eda0d367a90fe846af3dd34b7911fe5f56587592a89aa4f3"
-  },
-  {
    "path": "Item/ObjectComponents/Collections/plate_raiddeathknightemerald_d_01_glove_red.blp",
    "fdid": 5343263,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "afbe7cfd062a8d85ec2b6ff5f87b86f99882794a108d98ad6680038366efbd3e"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_raidpaladingoblin_d_01_chest_hu_f.m2",
-   "fdid": 5653316,
-   "build": "12.1.0.69875",
-   "kind": "downport+7 batch(es) classicised, 0 env pair(s), overlay mat 1",
-   "sha256": "3ab8d2e9f03926d1a89a0aaeb54b612d749e6ff3edecc7433bd281f735be5dd5"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_raidpaladingoblin_d_01_chest_hu_f00.skin",
-   "fdid": 5753831,
-   "build": "12.1.0.69875",
-   "kind": "downport+7 batch(es) classicised, 0 env pair(s), overlay mat 1",
-   "sha256": "c3064ba48c2d6cd285f687141cf05dec1113d954b8b15044fd7cf79f6dea8924"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_raidpaladingoblin_d_01_chest_hu_m.m2",
-   "fdid": 5653315,
-   "build": "12.1.0.69875",
-   "kind": "downport+7 batch(es) classicised, 0 env pair(s), overlay mat 1",
-   "sha256": "159f225abfab3167e63202a05c535fea1e505cdaa3b99d281020f5b1f1a21e33"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_raidpaladingoblin_d_01_chest_hu_m00.skin",
-   "fdid": 5753756,
-   "build": "12.1.0.69875",
-   "kind": "downport+7 batch(es) classicised, 0 env pair(s), overlay mat 1",
-   "sha256": "617a5fa48cf59588f383e8e11d79541934719cf6805374c41353ddfa5f607f24"
-  },
-  {
-   "path": "Item/ObjectComponents/Collections/plate_raidpaladingoblin_d_01_chest_yellow.blp",
-   "fdid": 5753509,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "1a479fa526b6ac60c50f250b49f546484759e5316f53b9f4fe6039db9f996683"
   },
   {
    "path": "Item/ObjectComponents/Head/helm_plate_warfrontshorde_d_01_OrF.m2",
@@ -648,13 +543,6 @@
    "sha256": "f646fe06811013af36387c7f684d2d8f1a0f0bdec8f6d3f5ef12578837b54c74"
   },
   {
-   "path": "Item/TextureComponents/ArmLowerTexture/plate_horde_a_05white_glove_al_u.blp",
-   "fdid": 150324,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "bc8fd42b69d7b2b29b861833e2e6118e592954e638fd32c421d429187cf46d32"
-  },
-  {
    "path": "Item/TextureComponents/ArmLowerTexture/plate_horde_c_02black_glove_al_u.blp",
    "fdid": 150368,
    "build": "12.1.0.69875",
@@ -676,25 +564,81 @@
    "sha256": "055f46d7431e68c5d96546516ad6ebb9fe00056140b382b2b5da0758190cc8cd"
   },
   {
-   "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_5343315.blp",
-   "fdid": 5343315,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "32c1a64e1375849967b3a8c0f67f682c6211b7d80a355db71d4b0716dc8a3550"
-  },
-  {
-   "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_5343318.blp",
-   "fdid": 5343318,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "95acc476b4b7003535353ed2764b5c4729e2f6151277f816aea5500643afd7ef"
-  },
-  {
    "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_5343321.blp",
    "fdid": 5343321,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "952ee09146b40e061beb0d1eaf1ee55188d476f1cefc2001be24f063ae5f6f37"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_rc020f3e_5343321.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_5343321.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "f6f78ee7dc3e07eeaa7558968a40353ba5fbdd76f897e9503d6c24b1bfeb85a4"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_rc1bb481_5343321.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_5343321.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "bcfd2126d1c9343d03d166c4bd30f9e2803db5fe068c6bb588bd822d59ff4360"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_rc63abf4_5343321.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_5343321.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "34f98cc8f69348ccddb83237cb8e80fb89789af263c4b555a7cb078bc324afe4"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_rc741fb5_5343321.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_5343321.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "205722d0cdccef95037f47b06d7a7a1eaf489851ed729f361a52a32808cf4008"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_rcaff5d5_5343321.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raiddeathknightemerald_d_01_chest_al_u_5343321.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "839e51ed6a496a41c0e4f28611b466bb27edb931122e1e2f42357f77dac661a6"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_rc020f3e_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "0cb4f0a46d4221496bdfd42010ec7c92e908ed3926d6df8b7516ca87d2b03eb7"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_rc1bb481_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "eb64f4748140d74a5de8e17fe2d0d8d53cd46d1c3cc73c2df35843e9691b48e5"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_rc63abf4_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "d854f61ba96b7cbc43abd1f163874f35834aed2ba5092609c9f2a992ecd5709b"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_rc741fb5_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "205ac27b79fc99fa2040aa74317c0877fb06c49317d9d5749f543e6bfa614b26"
+  },
+  {
+   "path": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_rcaff5d5_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "fc4b6de3b79fb4066fa5a45d9feafb68ec69e614cfc528e57a8d6a60bb5cf75f"
   },
   {
    "path": "Item/TextureComponents/ArmLowerTexture/plate_raidwarrior_c_02brown_glove_al_u.blp",
@@ -760,13 +704,6 @@
    "sha256": "1e399b1c5fa1649d76d8af8624a1998ffc55ea65db7b0ad6bad96faccf7580e4"
   },
   {
-   "path": "Item/TextureComponents/ArmUpperTexture/plate_a_01copper_sleeve_au_u.blp",
-   "fdid": 151963,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "438d31905cffac38f8bbcbfde9328b8e9ff6eba7f9958162a571cdf087b4418b"
-  },
-  {
    "path": "Item/TextureComponents/ArmUpperTexture/plate_a_05_gold_sleeve_au_u.blp",
    "fdid": 151986,
    "build": "12.1.0.69875",
@@ -781,25 +718,46 @@
    "sha256": "4a8651d24cf7b32619932a8f61290f351898497648a1d47a4490c66c7fe2da8a"
   },
   {
-   "path": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_5343339.blp",
-   "fdid": 5343339,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "aa980b7d870510d5fceb31ffda38db70fe64f7df4ac8dfa21825f9091a840812"
-  },
-  {
-   "path": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_5343340.blp",
-   "fdid": 5343340,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "9c8a6a44e846ee6b62a3583a167847e8d253bd3f56d201fec8e554a414f712bf"
-  },
-  {
    "path": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_5343341.blp",
    "fdid": 5343341,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "abf4ee57495258f31b747d330bccbe500c1246573c89620beb66e4953d0042ea"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_rc020f3e_5343341.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_5343341.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "2e701b61a6571b81d033a39b52e6423f223ef9431a923bd2c3a6d3d922bf3427"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_rc1bb481_5343341.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_5343341.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "4b99e6caeaf027b6aeca2dc815d779afd5d6c6c79dc732b2fe2b8b91b1ae58e9"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_rc63abf4_5343341.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_5343341.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "beefe6e456a199040f9efd21d4adb2041f95cac188419884321c15c822257662"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_rc741fb5_5343341.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_5343341.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "169470eaceb5c409cf68a84a873d769a310eb2043affe15b37f7c0763a1ab086"
+  },
+  {
+   "path": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_rcaff5d5_5343341.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/ArmUpperTexture/plate_raiddeathknightemerald_d_01_chest_au_u_5343341.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "a97b7cd760458416d54de4b8e23a9914eb3c17c8d760b5b8a563daa572f4335f"
   },
   {
    "path": "Item/TextureComponents/ArmUpperTexture/plate_warfrontshorde_d_01maroon_sleeve_au_u.blp",
@@ -879,20 +837,6 @@
    "sha256": "be9b6731a20d479d7659838b3789462f626eaa174997a2b9714b9b87cafae8d0"
   },
   {
-   "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343291.blp",
-   "fdid": 5343291,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "242c8231d0a76ef5d01235ed485d1fd753ffd7b77d367283ce8b8ec7d09f04fe"
-  },
-  {
-   "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343292.blp",
-   "fdid": 5343292,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "c706af72a61ab22e0ba5d727ddb14afff7ab427d5fcae30bb0e0147a121f79a8"
-  },
-  {
    "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343293.blp",
    "fdid": 5343293,
    "build": "12.1.0.69875",
@@ -900,11 +844,39 @@
    "sha256": "edd203500c20602156d3f631b748b13d699ef7c5524dfbbf2a54a12054603d79"
   },
   {
-   "path": "Item/TextureComponents/FootTexture/plate_raidpaladingoblin_d_01_chest_be_m_fo_u_5753632.blp",
-   "fdid": 5753632,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "c67d422cd16908d2afd9b0f349bac471a50e8683678ed06f0248fa4655f0478e"
+   "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rc020f3e_5343293.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343293.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "019366ec99dfdc8d579960dd6d3706431829b9e8384550bd3fb29bb69e4be2d9"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rc1bb481_5343293.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343293.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "f9db18453e31ae7aea73f4c029fea7bc353e1d0cdeb567e858102b5600149966"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rc63abf4_5343293.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343293.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "9e28795ec46e9de985ae506d08d7511cc186159723c9a44bbd175c6b3ec9e5db"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rc741fb5_5343293.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343293.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "34efd9559e27db48caa517d47e635f39ed34bf4077bf036deaf5aff2dd0931ba"
+  },
+  {
+   "path": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rcaff5d5_5343293.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/FootTexture/plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_5343293.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "65456d2f6007cea1da9ed8aeae44088f061b42150b8264365f67c2fb48e74d3d"
   },
   {
    "path": "Item/TextureComponents/FootTexture/plate_warfrontshorde_d_01maroon_boot_fo_u.blp",
@@ -970,13 +942,6 @@
    "sha256": "4b602ae1db18ba0a3597f35827029169fb718ce3680e668c5d18e15097312e23"
   },
   {
-   "path": "Item/TextureComponents/HandTexture/plate_horde_a_05white_glove_ha_u.blp",
-   "fdid": 154453,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "33ced97660bc1dcb1ab434568c05b86e435af557baac62f689ad728c703d6515"
-  },
-  {
    "path": "Item/TextureComponents/HandTexture/plate_horde_c_02black_glove_ha_u.blp",
    "fdid": 154477,
    "build": "12.1.0.69875",
@@ -991,6 +956,41 @@
    "sha256": "e8d046f7c18ff0f57c6c793b2114419fc32101029cb41b085e83ffc3224ad96d"
   },
   {
+   "path": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_rc020f3e_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "4bbfa117116ec7dda1b619d91ffd1b5516f29821c99d94f2ffa2f09a0f50d3de"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_rc1bb481_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "8330a51165d6341b06b9007d2394d08bcdcec5a2a24b802b5be7f0adb39cd81f"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_rc63abf4_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "3c6ae5c1d5e3754da956598b32906d07b6e696f16cc6181a058a9711a7915490"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_rc741fb5_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "8637df60d0ad0a63d45821416baa6af001e439b888bf8e02dce31636e89264b8"
+  },
+  {
+   "path": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_rcaff5d5_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "1808942b65a5961855fe28aa3c57cdd8a8c3c55df66c3384ff58d2d605f3e240"
+  },
+  {
    "path": "Item/TextureComponents/HandTexture/plate_raidwarrior_c_02brown_glove_ha_u.blp",
    "fdid": 239590,
    "build": "12.1.0.69875",
@@ -1003,13 +1003,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "539294cf58fbe830ac0596ddf3d77b7c5910ff3f18fce752e71681ca0a79951e"
-  },
-  {
-   "path": "Item/TextureComponents/LegLowerTexture/5645757_be_m_ll_u_5648210.blp",
-   "fdid": 5648210,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "547557c1d31de696dfc6269a00589f61c69663ea3d5e6c1d6af75a8a421ad403"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/armor_orcclan_d_01_boot_ll_u.blp",
@@ -1152,32 +1145,81 @@
    "sha256": "0b4d0ec67f004526a80e4d1946348ad50127d6cb6d561496db2fc99fbfa33068"
   },
   {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rc020f3e_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "d9f547483b2adee7ffc56523cc5398b3e30c6f002d7a49c17f86604b4e3b91a1"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rc020f3e_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "57e4e4f07d21e15a900b51848babea8856d64876bdd6abd4383939144bba05d4"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rc1bb481_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "cda9c5cc3eb907d7ceb9008d0e5b1a7d68f7b134ca4ac7e3f8b3bc8b82ad2a61"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rc1bb481_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "2c0c6e3e32baa7b270006b9e9c2a57c82cb6d988e994b9109961a5ef0e046e4b"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rc63abf4_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "7d253d23debbd5d57ab28ad8bb712867b854f62198b75bf96e9be3b437b4f9b6"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rc63abf4_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "bdfc726b2d58daa5a980a4b450fc32271b0b1edfd87be9327fe6fa2be7e5b403"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rc741fb5_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "cc9e90d3c58165c4d0be83968aaf41af71c3c25bf2f351662f13436119de133e"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rc741fb5_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "52819fcef63d65fc264227d6f453feaafee43498ad522d65268a6318c8032233"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rcaff5d5_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "bc693774f7733c032e6cd356c7efcd6ced942c2d4a2a7eb1158541aea7fef79a"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_rcaff5d5_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02black_pant_ll_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "556874fd17778e9acd8727ccda9bbe08166fa1215af791a99b3f2eadd3a4faa3"
+  },
+  {
    "path": "Item/TextureComponents/LegLowerTexture/plate_horde_c_02brown_boot_ll_u.blp",
    "fdid": 156445,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "adb5c5322e15b6854e7393e15b7a8f2322f2b832a7bd2e693368e043db7df6ec"
-  },
-  {
-   "path": "Item/TextureComponents/LegLowerTexture/plate_legionraid_d_01gold_pant_ll_u.blp",
-   "fdid": 1509710,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "00b37f5f9eb3cd96f89a21598cd61214320fc12a62f2c3b7161d14ef6f2ede37"
-  },
-  {
-   "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343299.blp",
-   "fdid": 5343299,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "97d2873c0c39297773e58bc9a4f33dd1eff01b2a59c857c1a8956402530420ba"
-  },
-  {
-   "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343301.blp",
-   "fdid": 5343301,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "50fc9b107d37c6cd83e599a6fd46680e144e04be0fe638d84a5dfc74ab2b8939"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343303.blp",
@@ -1187,11 +1229,39 @@
    "sha256": "904373c6ac442a04f015aeefe47eec080904216d5a9c0760342e656e52478612"
   },
   {
-   "path": "Item/TextureComponents/LegLowerTexture/plate_raidpaladingoblin_d_01_chest_be_m_ll_u_5753633.blp",
-   "fdid": 5753633,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "a6b410db27aa82d41e144beff89165f8531ee97da371e898348a04c00c855f15"
+   "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rc020f3e_5343303.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343303.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "d76821a7a84ef42811ef84fc73bfe2c8e450a0ecb14f6eba794c5d9892e8a5ba"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rc1bb481_5343303.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343303.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "cde305216c1ecf2a32fab6a5ae687daee2c9e90e6ec6fdf58506d18f34081d75"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rc63abf4_5343303.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343303.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "6f6495791d63d079c8e05037da7c683d13cc17d18ab903a65a85bda02fdbddc7"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rc741fb5_5343303.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343303.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "3a493684054630a49c78ee25a876471e415059fcaa6abd623f2a156be7139f1e"
+  },
+  {
+   "path": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rcaff5d5_5343303.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegLowerTexture/plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_5343303.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "a0353ae25c5a65d983b2d9272a8c4672b8042ebd85bdfd6e244fd8a53926f272"
   },
   {
    "path": "Item/TextureComponents/LegLowerTexture/plate_warfrontshorde_d_01maroon_boot_ll_u.blp",
@@ -1213,13 +1283,6 @@
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "99ca4d6c10ab232b0afce527f48333a81373bd3e3a72f263148190adf138f173"
-  },
-  {
-   "path": "Item/TextureComponents/LegUpperTexture/5645757_be_m_lu_u_5648211.blp",
-   "fdid": 5648211,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "e68d19d0ea30425398a46687d3dc8beb4e8d60f95f019845cc56fc92d58549ce"
   },
   {
    "path": "Item/TextureComponents/LegUpperTexture/armor_orcclan_d_01_pant_lu_u.blp",
@@ -1327,6 +1390,41 @@
    "sha256": "1d9052925e04153d6b4ef748580d6769a3aeda7028f5e9829680086e7bc19eaf"
   },
   {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_rc020f3e_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "1431d1585d4506ad19cb61f60baad166638479a4656963c898939740251b1a27"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_rc1bb481_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "a1065e9d9833aff998278228d4116e73864c75c5004bec0f19443caab9aa9108"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_rc63abf4_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "512d3a30784bbd62f65cfd44b1fd2acef31095ff2a7cb08ddc64b7f5ecf9eb91"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_rc741fb5_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "26fcbbbad35d0ea3541834096356961ca5b6d8bbd341924970688beee79bae75"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_rcaff5d5_u.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_u.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "0811e2e7204f795340916e660c0990114cebd14db2896d4221b8db9d7a7cf5e6"
+  },
+  {
    "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_belt_lu_u.blp",
    "fdid": 159028,
    "build": "12.1.0.69875",
@@ -1348,6 +1446,76 @@
    "sha256": "560bc141c38de28194484bc261acd1edea6816969cfa41222ea241e6a549dc95"
   },
   {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rc020f3e_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "0a63d8086b30698280b47c2ffc1aef381fb2e1556d03031be750c55ce16c880c"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rc020f3e_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "0f010f8055113e4f37f6ca6e9281dbbdc692d279e917ac00dcadddc2558d7050"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rc1bb481_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "20cd43464ef915275057ff931b03f48ca6703a5932174baec62eb1d4074e3f7d"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rc1bb481_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "72196da4a19fbf8fdfbdfb6f89cdbfb909fe16aca26b5a7f15ed8ea18e5feb75"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rc63abf4_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "437d7a0b06d479b35b945aeac8b93c3a5dd601972048040dd513c0c37a6b3bad"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rc63abf4_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "e83424da1b711f9ebca488bf38e6f1338f31792edc26ce75611e67838ab6361e"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rc741fb5_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "45dbefc27e7569df88f15c31d39afde7e7869daa72ef893f6ba438e4cad39f84"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rc741fb5_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "fa58dd39cdf6853f9efe81014bcb22c0bcaf2e9ecb9b1f612492212849ddd26c"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rcaff5d5_f.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_f.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "bac6b3101325e65fbb27e1453e18c59cc9f0b42428331b393cfaf0bbbd999cd9"
+  },
+  {
+   "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_rcaff5d5_m.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02black_pant_lu_m.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "871e829afe59ee7e3ea2b81d3fdf4e7b42a50dd817eaa380b3ad2aa2d56481a7"
+  },
+  {
    "path": "Item/TextureComponents/LegUpperTexture/plate_horde_c_02brown_belt_lu_u.blp",
    "fdid": 159031,
    "build": "12.1.0.69875",
@@ -1355,25 +1523,11 @@
    "sha256": "b4afaecc9ad2231f99bec2789a2572e06f4cbce27be5a4dcee0f4ee6fd73afbf"
   },
   {
-   "path": "Item/TextureComponents/LegUpperTexture/plate_legionraid_d_01gold_pant_lu_u.blp",
-   "fdid": 1509716,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "4c3900c9e13da52fc7b7655469be06d390643d2b39fb5198b038c97ed2b56e3c"
-  },
-  {
    "path": "Item/TextureComponents/LegUpperTexture/plate_pvpdeathknight_d_01frost_belt_lu_u.blp",
    "fdid": 532229,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "2a9594dea3b5c1faae901fa433955bba4a49c3b6a58d5f162c7eaf772a94035d"
-  },
-  {
-   "path": "Item/TextureComponents/LegUpperTexture/plate_raidpaladinnerubian_d_01_belt_lu_u_5567653.blp",
-   "fdid": 5567653,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "e5f1e3d5767242bcbe01973630c7afdb09712c3ac8b4b025b1c5725a90c137d5"
   },
   {
    "path": "Item/TextureComponents/LegUpperTexture/plate_warfrontshorde_d_01maroon_belt_lu_u.blp",
@@ -1523,13 +1677,6 @@
    "sha256": "6fe3afb3fc7e5dead3a6cbe7f83b111fe6956cd477e875416fd519db4565da8e"
   },
   {
-   "path": "Item/TextureComponents/TorsoLowerTexture/plate_a_01copper_chest_tl_u.blp",
-   "fdid": 161382,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "10c157c6adb821206fe5876a1500a99ef37ec21431cb49c1865300f2603d8837"
-  },
-  {
    "path": "Item/TextureComponents/TorsoLowerTexture/plate_a_05_gold_chest_tl_f.blp",
    "fdid": 161417,
    "build": "12.1.0.69875",
@@ -1572,20 +1719,6 @@
    "sha256": "e100e3f24bbdc86aceff4ceec50ee46dfcdcbe0c2a9f24b38b716d80f97da729"
   },
   {
-   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_5343282.blp",
-   "fdid": 5343282,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "c7cb1e60603c49739f00a9ce862c4b07e9ca5733fd41a3b8d1f1e403f34544d4"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_5343284.blp",
-   "fdid": 5343284,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "d443ced4a9ea73f4619f6d03643aaa58c735c52ff565c46a21f012eb9e176103"
-  },
-  {
    "path": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_5343286.blp",
    "fdid": 5343286,
    "build": "12.1.0.69875",
@@ -1593,11 +1726,39 @@
    "sha256": "38236c0426df519522c32d5ccedd546598473c485868d096624ce8f0adcf0b3d"
   },
   {
-   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raidpaladinnerubian_d_01_belt_tl_u_5567590.blp",
-   "fdid": 5567590,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "601ce2d8a583945a926d319057184fb26b1c8bc3e60a560f23913215cfb6d25e"
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_rc020f3e_5343286.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_5343286.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "ac26272e4016d87bec08c0afbd71649ed3d28bbc6f7fdd6304cdfc8f1146ec8f"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_rc1bb481_5343286.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_5343286.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "214051f51aa240c95741c28b6e20949dceaafcd051c3f9b5573cbb20eaccabee"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_rc63abf4_5343286.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_5343286.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "befb92d75621ecf243e339bb6490650a1cf06ea0a6101b4bf073169d031dd007"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_rc741fb5_5343286.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_5343286.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "8ee4a3d0af4df1a9a363b17290ef5336fe8a57dbd8e6c5488260ed53d9004558"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_rcaff5d5_5343286.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoLowerTexture/plate_raiddeathknightemerald_d_01_chest_tl_u_5343286.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "88dbe84132eab8adbbb55da24adbb78f7a3979707f847e3f5149ffe3ffd32fff"
   },
   {
    "path": "Item/TextureComponents/TorsoLowerTexture/plate_warfrontshorde_d_01maroon_chest_tl_f.blp",
@@ -1754,13 +1915,6 @@
    "sha256": "2ddc7cf022ae51553c2bb07a9843e68d238260d66afae5f80702490ae94904fa"
   },
   {
-   "path": "Item/TextureComponents/TorsoUpperTexture/plate_a_01copper_chest_tu_u.blp",
-   "fdid": 164062,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "5693a1c0d2a81caaec32641aad8fba9a067f813c270e19856aabf6857e906b5a"
-  },
-  {
    "path": "Item/TextureComponents/TorsoUpperTexture/plate_a_05_gold_chest_tu_f.blp",
    "fdid": 164097,
    "build": "12.1.0.69875",
@@ -1803,25 +1957,46 @@
    "sha256": "1cf714af2aae23ba03bbea171f27bfd8ac02115d464bf79d248fe8fd28d02a09"
   },
   {
-   "path": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_5343327.blp",
-   "fdid": 5343327,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "dbb04ce2e21bf5cc11486e1ca1aef4d19cf7d99925a4c8efa347f254c5baaa51"
-  },
-  {
-   "path": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_5343328.blp",
-   "fdid": 5343328,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "a33b39baba165b9cfb17baa8b1e8a51d1ddc2fd7616359032ecb119240cfb055"
-  },
-  {
    "path": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_5343329.blp",
    "fdid": 5343329,
    "build": "12.1.0.69875",
    "kind": "copy",
    "sha256": "ddca1cd2c9866f532242c6af299884e9b161f2927f23545f29f2642ebd609bb4"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_rc020f3e_5343329.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_5343329.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgoldred_03.blp",
+   "sha256": "eca06353e07a3a5dc0ad86ee5bee9d8ea245b45e00aabbe8b458229535a17a1e"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_rc1bb481_5343329.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_5343329.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightdarkblueblack_03.blp",
+   "sha256": "b80e045b4fdff81c59584eb40ce4a385ea58351ae5bc29d03648a55ad065e7d4"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_rc63abf4_5343329.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_5343329.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp",
+   "sha256": "e8b7f7c9b4d350192aa8c9ac28a78708c2a22a8e44c2cbb4f4d69257a013ddce"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_rc741fb5_5343329.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_5343329.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightblack_03.blp",
+   "sha256": "5ac3bec4f0b62c61eb7815d967577547792dbb895566cdb88a298c5434ffe581"
+  },
+  {
+   "path": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_rcaff5d5_5343329.blp",
+   "kind": "recolour",
+   "of": "Item/TextureComponents/TorsoUpperTexture/plate_raiddeathknightemerald_d_01_chest_tu_u_5343329.blp",
+   "target": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp",
+   "sha256": "b793ac5401d5af1d3df929962aae22d68b71abf25652f947ab2c4ef29224a546"
   },
   {
    "path": "Item/TextureComponents/TorsoUpperTexture/plate_warfrontshorde_d_01maroon_chest_tu_f.blp",
@@ -2031,7 +2206,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900515_HD.blp",
    "kind": "bake",
    "display": 900515,
-   "sha256": "0ca9af60da9ada083456be07d2abaac51cfcb9120d8db64e512c6704dc76ed40"
+   "sha256": "ddb050f03ca847a7219ab1a751b079b795e870b42a1a33f76d380a0b773d6732"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900516.blp",
@@ -2043,7 +2218,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900517_HD.blp",
    "kind": "bake",
    "display": 900517,
-   "sha256": "5f0dba369458a773601abc4f5c2bdb31ef0cb67c7fecd7fbffd43235d992593b"
+   "sha256": "c26717c5768731542293b85d3fe5bbf2be7873bce0b9a20db928c4db9fc35c82"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900518.blp",
@@ -2055,7 +2230,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900519_HD.blp",
    "kind": "bake",
    "display": 900519,
-   "sha256": "5c61b6c060835a69bcb475a03919a3187c8996b9fc3784009d2332a4ba12e175"
+   "sha256": "bfce24ecd63ed8dc030c931fa8af1002d1bf721226be94e0a98df43295bb802c"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900520.blp",
@@ -2067,7 +2242,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900521_HD.blp",
    "kind": "bake",
    "display": 900521,
-   "sha256": "a0743d37213e76856a3f0c773186ec4d31c5eee195cfa0b6f9bf749b8ea1bd45"
+   "sha256": "72b59cae231abad089b002895a2c2b386e595b331ad1ce92d50ceae338866aaf"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900522.blp",
@@ -2079,7 +2254,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900523_HD.blp",
    "kind": "bake",
    "display": 900523,
-   "sha256": "898e513c8c7d861b9f010bd58d888f7de23454fcd7e55649fb5e10ec90317d0b"
+   "sha256": "28ad3d276f2036cece025bddd23579d2bd1209eb24cad0b80f360f244d869e2f"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900524.blp",
@@ -2091,7 +2266,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900525_HD.blp",
    "kind": "bake",
    "display": 900525,
-   "sha256": "bf4736f44f4273f711abf0850c6c4170da4a99752e399cedee4e7f5da3d824ad"
+   "sha256": "747b3a0aaec9bf72fd8c04374b6acd7291f19e4814faa2b06c66a91815c4827a"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900526.blp",
@@ -2128,13 +2303,6 @@
    "kind": "bake",
    "display": 900531,
    "sha256": "8eeafecea2398c2b3f5a61961fb9a2fb7cc0d73b84904a97dc69553c6f74e5e4"
-  },
-  {
-   "path": "item/objectcomponents/collections/armorreflect_organic01.blp",
-   "fdid": 1509762,
-   "build": "12.1.0.69875",
-   "kind": "copy",
-   "sha256": "0aad0d448218992ba7468a49969a459bd4910b09c1797c0c7558d4ef6c794a35"
   },
   {
    "path": "item/objectcomponents/collections/chest_plate_raiddeathknightdragon_d_01_be_m_5095205.blp",

@@ -783,10 +783,10 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Casket of the Risen Nightmare (retail item 207203, display 672484)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210155;
+-- Casket of the Risen Nightmare (retail item 207203, display 672495)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210166;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210155,
+  `id` = 210166,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -801,11 +801,11 @@ INSERT INTO `itemdisplayinfo` SET
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_au_u',
-  `lower_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_al_u',
+  `upper_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_au_u_rc741fb5',
+  `lower_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_al_u_rc741fb5',
   `hands_texture` = '',
-  `upper_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tu_u',
-  `lower_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tl_u',
+  `upper_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tu_u_rc741fb5',
+  `lower_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tl_u_rc741fb5',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
@@ -813,9 +813,9 @@ INSERT INTO `itemdisplayinfo` SET
   `particle_colour_id` = 0;
 
 -- Saltstone LegChains (retail item 14900, display 26651)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210060;
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210167;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210060,
+  `id` = 210167,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -835,16 +835,16 @@ INSERT INTO `itemdisplayinfo` SET
   `hands_texture` = '',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
-  `upper_leg_texture` = 'plate_horde_c_02black_pant_lu',
-  `lower_leg_texture` = 'plate_horde_c_02black_pant_ll',
+  `upper_leg_texture` = 'plate_horde_c_02black_pant_lu_rc741fb5',
+  `lower_leg_texture` = 'plate_horde_c_02black_pant_ll_rc741fb5',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
 -- Saltstone Girdle (retail item 14898, display 26650)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210104;
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210168;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210104,
+  `id` = 210168,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -864,161 +864,16 @@ INSERT INTO `itemdisplayinfo` SET
   `hands_texture` = '',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
-  `upper_leg_texture` = 'plate_horde_c_02black_belt_lu',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Graveboots of the Risen Nightmare (retail item 207202, display 672534)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210156;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210156,
-  `left_model` = 'plate_raiddeathknightemerald_d_01_glove.mdx:501,2001',
-  `right_model` = '',
-  `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_purple',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '19::64',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = '',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u',
-  `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Heroes' Dreadnaught Gauntlets (retail item 39609, display 57863)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210139;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210139,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 3,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = 'plate_raidwarrior_c_02brown_glove_al',
-  `hands_texture` = 'plate_raidwarrior_c_02brown_glove_ha',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = '',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Casket of the Risen Nightmare (retail item 207203, display 672473)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210157;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210157,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_au_u',
-  `lower_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_al_u',
-  `hands_texture` = '',
-  `upper_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tu_u',
-  `lower_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tl_u',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Graveboots of the Risen Nightmare (retail item 207202, display 672529)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210158;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210158,
-  `left_model` = 'plate_raiddeathknightemerald_d_01_glove.mdx:501,2001',
-  `right_model` = '',
-  `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_green',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '19::64',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = '',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u',
-  `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Casket of the Risen Nightmare (retail item 207203, display 672495)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210159;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210159,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_au_u',
-  `lower_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_al_u',
-  `hands_texture` = '',
-  `upper_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tu_u',
-  `lower_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tl_u',
-  `upper_leg_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_belt_lu_rc741fb5',
   `lower_leg_texture` = '',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
 -- Graveboots of the Risen Nightmare (retail item 207202, display 672543)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210094;
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210169;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210094,
+  `id` = 210169,
   `left_model` = 'plate_raiddeathknightemerald_d_01_glove.mdx:501,2001',
   `right_model` = '',
   `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_red',
@@ -1039,22 +894,22 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
-  `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u',
-  `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u',
+  `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rc741fb5',
+  `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rc741fb5',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Light Plate Chestpiece (retail item 8080, display 28398)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210162;
+-- Heroes' Dreadnaught Gauntlets (retail item 39609, display 57863)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210170;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210162,
+  `id` = 210170,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 0,
+  `geoset_group_1` = 3,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -1062,21 +917,21 @@ INSERT INTO `itemdisplayinfo` SET
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'plate_a_01copper_sleeve_au',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = 'plate_a_01copper_chest_tu',
-  `lower_torso_texture` = 'plate_a_01copper_chest_tl',
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'plate_raidwarrior_c_02brown_glove_al_rc741fb5',
+  `hands_texture` = 'plate_raidwarrior_c_02brown_glove_ha_rc741fb5',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Goldrune Legplates (retail item 142425, display 158305)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210163;
+-- Casket of the Risen Nightmare (retail item 207203, display 672495)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210172;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210163,
+  `id` = 210172,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -1091,82 +946,82 @@ INSERT INTO `itemdisplayinfo` SET
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
+  `upper_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_au_u_rc1bb481',
+  `lower_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_al_u_rc1bb481',
   `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = '',
-  `upper_leg_texture` = 'plate_legionraid_d_01gold_pant_lu',
-  `lower_leg_texture` = 'plate_legionraid_d_01gold_pant_ll',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Forged Aspirant's Plate Legguards (retail item 218373, display 682378)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210164;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210164,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = '',
-  `upper_leg_texture` = '5645757_be_m_lu_u',
-  `lower_leg_texture` = '5645757_be_m_ll_u',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Entombed Seraph's Waistguard (retail item 211990, display 685910)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210096;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210096,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = '',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = '',
-  `lower_torso_texture` = 'plate_raidpaladinnerubian_d_01_belt_tl_u',
-  `upper_leg_texture` = 'plate_raidpaladinnerubian_d_01_belt_lu_u',
+  `upper_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tu_u_rc1bb481',
+  `lower_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tl_u_rc1bb481',
+  `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Aureate Sentry's Greaves (retail item 229246, display 690636)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210165;
+-- Saltstone LegChains (retail item 14900, display 26651)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210173;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210165,
-  `left_model` = 'plate_raidpaladingoblin_d_01_chest.mdx:501,2001',
+  `id` = 210173,
+  `left_model` = '',
   `right_model` = '',
-  `left_model_texture` = 'plate_raidpaladingoblin_d_01_chest_yellow',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_pant_lu_rc1bb481',
+  `lower_leg_texture` = 'plate_horde_c_02black_pant_ll_rc1bb481',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Saltstone Girdle (retail item 14898, display 26650)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210174;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210174,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_belt_lu_rc1bb481',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Graveboots of the Risen Nightmare (retail item 207202, display 672543)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210175;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210175,
+  `left_model` = 'plate_raiddeathknightemerald_d_01_glove.mdx:501,2001',
+  `right_model` = '',
+  `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_red',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '19::64',
@@ -1184,22 +1039,22 @@ INSERT INTO `itemdisplayinfo` SET
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
-  `lower_leg_texture` = 'plate_raidpaladingoblin_d_01_chest_be_m_ll_u',
-  `foot_texture` = 'plate_raidpaladingoblin_d_01_chest_be_m_fo_u',
+  `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rc1bb481',
+  `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rc1bb481',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Reiver Claws (retail item 13162, display 23675)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210114;
+-- Heroes' Dreadnaught Gauntlets (retail item 39609, display 57863)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210176;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210114,
+  `id` = 210176,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 1,
+  `geoset_group_1` = 3,
   `geoset_group_2` = 0,
   `geoset_group_3` = 0,
   `flags` = 0,
@@ -1208,8 +1063,443 @@ INSERT INTO `itemdisplayinfo` SET
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
   `upper_arm_texture` = '',
-  `lower_arm_texture` = 'plate_horde_a_05white_glove_al',
-  `hands_texture` = 'plate_horde_a_05white_glove_ha',
+  `lower_arm_texture` = 'plate_raidwarrior_c_02brown_glove_al_rc1bb481',
+  `hands_texture` = 'plate_raidwarrior_c_02brown_glove_ha_rc1bb481',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Casket of the Risen Nightmare (retail item 207203, display 672495)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210177;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210177,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_au_u_rc020f3e',
+  `lower_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_al_u_rc020f3e',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tu_u_rc020f3e',
+  `lower_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tl_u_rc020f3e',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Saltstone LegChains (retail item 14900, display 26651)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210178;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210178,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_pant_lu_rc020f3e',
+  `lower_leg_texture` = 'plate_horde_c_02black_pant_ll_rc020f3e',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Saltstone Girdle (retail item 14898, display 26650)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210179;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210179,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_belt_lu_rc020f3e',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Graveboots of the Risen Nightmare (retail item 207202, display 672543)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210180;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210180,
+  `left_model` = 'plate_raiddeathknightemerald_d_01_glove.mdx:501,2001',
+  `right_model` = '',
+  `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_red',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '19::64',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rc020f3e',
+  `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rc020f3e',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Heroes' Dreadnaught Gauntlets (retail item 39609, display 57863)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210181;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210181,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 3,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'plate_raidwarrior_c_02brown_glove_al_rc020f3e',
+  `hands_texture` = 'plate_raidwarrior_c_02brown_glove_ha_rc020f3e',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Casket of the Risen Nightmare (retail item 207203, display 672495)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210183;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210183,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_au_u_rcaff5d5',
+  `lower_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_al_u_rcaff5d5',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tu_u_rcaff5d5',
+  `lower_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tl_u_rcaff5d5',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Saltstone LegChains (retail item 14900, display 26651)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210184;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210184,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_pant_lu_rcaff5d5',
+  `lower_leg_texture` = 'plate_horde_c_02black_pant_ll_rcaff5d5',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Saltstone Girdle (retail item 14898, display 26650)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210185;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210185,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_belt_lu_rcaff5d5',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Graveboots of the Risen Nightmare (retail item 207202, display 672543)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210186;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210186,
+  `left_model` = 'plate_raiddeathknightemerald_d_01_glove.mdx:501,2001',
+  `right_model` = '',
+  `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_red',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '19::64',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rcaff5d5',
+  `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rcaff5d5',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Heroes' Dreadnaught Gauntlets (retail item 39609, display 57863)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210187;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210187,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 3,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'plate_raidwarrior_c_02brown_glove_al_rcaff5d5',
+  `hands_texture` = 'plate_raidwarrior_c_02brown_glove_ha_rcaff5d5',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Casket of the Risen Nightmare (retail item 207203, display 672495)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210189;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210189,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_au_u_rc63abf4',
+  `lower_arm_texture` = 'plate_raiddeathknightemerald_d_01_chest_al_u_rc63abf4',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tu_u_rc63abf4',
+  `lower_torso_texture` = 'plate_raiddeathknightemerald_d_01_chest_tl_u_rc63abf4',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Saltstone LegChains (retail item 14900, display 26651)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210190;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210190,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_pant_lu_rc63abf4',
+  `lower_leg_texture` = 'plate_horde_c_02black_pant_ll_rc63abf4',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Saltstone Girdle (retail item 14898, display 26650)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210191;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210191,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_belt_lu_rc63abf4',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Graveboots of the Risen Nightmare (retail item 207202, display 672543)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210192;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210192,
+  `left_model` = 'plate_raiddeathknightemerald_d_01_glove.mdx:501,2001',
+  `right_model` = '',
+  `left_model_texture` = 'plate_raiddeathknightemerald_d_01_glove_red',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '19::64',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_ll_u_rc63abf4',
+  `foot_texture` = 'plate_raiddeathknightemerald_d_01_glove_be_m_fo_u_rc63abf4',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Heroes' Dreadnaught Gauntlets (retail item 39609, display 57863)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210193;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210193,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 3,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = 'plate_raidwarrior_c_02brown_glove_al_rc63abf4',
+  `hands_texture` = 'plate_raidwarrior_c_02brown_glove_ha_rc63abf4',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
   `upper_leg_texture` = '',
@@ -1243,6 +1533,35 @@ INSERT INTO `itemdisplayinfo` SET
   `lower_torso_texture` = 'plate_horde_c_02brown_chest_tl',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Saltstone LegChains (retail item 14900, display 26651)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210060;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210060,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = '',
+  `lower_torso_texture` = '',
+  `upper_leg_texture` = 'plate_horde_c_02black_pant_lu',
+  `lower_leg_texture` = 'plate_horde_c_02black_pant_ll',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;

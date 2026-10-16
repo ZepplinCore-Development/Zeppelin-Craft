@@ -10,23 +10,32 @@
   "outfit": {
     "items": {
       "chest": {
-        "item": 8080,
-        "mod": 0
+        "item": 207203,
+        "mod": 153,
+        "recolour": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp"
       },
       "legs": {
-        "item": 142425,
-        "mod": 3
+        "item": 14900,
+        "mod": 0,
+        "recolour": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp"
       },
       "belt": {
         "item": 14898,
-        "mod": 0
+        "mod": 0,
+        "recolour": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp"
       },
       "boots": {
         "item": 207202,
-        "mod": 153
+        "mod": 153,
+        "recolour": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp"
       },
       "gloves": {
-        "display": 26753
+        "item": 39609,
+        "mod": 0,
+        "recolour": "creature\\mounteddeathknight\\mounteddeathknightgreengold_03.blp"
+      },
+      "helm": {
+        "display": 58231
       },
       "shoulders": {
         "display": 13512

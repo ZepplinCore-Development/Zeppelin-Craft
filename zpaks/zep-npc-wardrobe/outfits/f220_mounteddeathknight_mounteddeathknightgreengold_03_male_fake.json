@@ -11,6 +11,9 @@
     "items": {
       "shoulders": {
         "display": 13512
+      },
+      "helm": {
+        "display": 58231
       }
     }
   },

@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 from . import m2 as m2lib
-from .blp import write_blp_dxt
+from .blp import write_blp_dxt, read_blp
 from .compositor import FileResolver, compose
 from .retail import RetailData, RetailItem
 from ..m2_vertex_shifter import transform_vertices
@@ -196,6 +196,43 @@ class WardrobeBuilder:
         imp.idi = row
         self.items[key] = imp
         return imp
+
+    def _recolour(self, imp: 'ImportedItem', target_cp: str) -> 'ImportedItem':
+        """F-220: the item's body textures colour-swapped to a rider skin (lib/wardrobe/recolour.py),
+        shipped under new names on a new ItemDisplayInfo: the item's pattern in the rider's colours."""
+        import hashlib
+        from .recolour import recolour
+        tag = 'rc' + hashlib.md5(target_cp.lower().encode()).hexdigest()[:6]
+        key = (imp.retail.item_id, imp.display_id, tag)
+        if key in self.items:
+            return self.items[key]
+        if not hasattr(self, '_cres'):
+            self._cres = FileResolver(self.resolver.roots[-1:], subdirs=('creature',))
+        tf = self._cres.find(target_cp)
+        if tf is None:
+            raise ValueError(f'recolour target {target_cp} not found')
+        from PIL import Image
+        target = Image.open(tf).convert('RGB')
+        new = ImportedItem(retail=imp.retail, display_id=self._alloc_display(f'{imp.retail.display_id}:{tag}'),
+                           idi=dict(imp.idi), notes=list(imp.notes) + [f'recoloured to {target_cp}'])
+        done = {}
+        for g, lays in imp.layers.items():
+            for region, cp in lays:
+                if cp not in done:
+                    rel = cp.replace('\\', '/')
+                    src = self.assets / self._case.get(rel.lower(), rel)
+                    name = cp.split('\\')[-1]
+                    base, sfx = name[:-4].rsplit('_', 1)
+                    ncp = cp[:-len(name)] + f'{base}_{tag}_{sfx}.blp'
+                    tmp = self.retail.dir / 'out' / f'{base}_{tag}_{sfx}.blp'
+                    tmp.parent.mkdir(exist_ok=True)
+                    write_blp_dxt(recolour(read_blp(src), target, region), tmp, 'DXT5')
+                    self._write(ncp.replace('\\', '/'), tmp.read_bytes(), dict(kind='recolour', of=rel, target=target_cp))
+                    done[cp] = ncp
+                    new.idi[IDI_REGION_COLS[region]] = f'{base}_{tag}'
+                new.layers.setdefault(g, []).append((region, done[cp]))
+        self.items[key] = new
+        return new
 
     def _import_models(self, it: RetailItem, row: Dict, races: List[int], imp: ImportedItem) -> None:
         folders = {(m.path or '?/?/?').split('/')[2].lower() for m in it.models if m.path}
@@ -409,6 +446,8 @@ class WardrobeBuilder:
                     self.echo(f'   {slot:<10} stock ItemDisplayInfo {spec["display"]}')
                     continue
                 imp = self.import_item(spec['item'], spec.get('mod'), [race], spec.get('helmet_geoset'))
+                if spec.get('recolour'):
+                    imp = self._recolour(imp, spec['recolour'])
                 if imp.retail.slot != slot:
                     raise ValueError(f'{name}: item {spec["item"]} ({imp.retail.name}) is a {imp.retail.slot}, listed as {slot}')
                 items[slot] = imp
