@@ -389,13 +389,19 @@ def _build_stock_index() -> Dict[str, Path]:
     idx: Dict[str, Path] = {}
     if STOCK_FILES.is_dir():
         cache = Path('/workspace/project/logs/stock_index.pkl')
-        key = [STOCK_SUFFIXES] + [(m, (STOCK_FILES / m).stat().st_mtime) for m in STOCK_MPQ_ORDER
-                                  if (STOCK_FILES / m).is_dir()]   # the suffix list too: a new type re-indexes
+        key = ['stat1', STOCK_SUFFIXES] + [(m, (STOCK_FILES / m).stat().st_mtime) for m in STOCK_MPQ_ORDER
+                                           if (STOCK_FILES / m).is_dir()]   # the suffix list too: a new type re-indexes
         if cache.exists():
             try:
                 k, data = pickle.loads(cache.read_bytes())
                 if k == key:
-                    return {p: Path(f) for p, f in data.items()}
+                    # each file's (size, mtime) too: without them in FILE_STAT every hash / MetaCache
+                    # lookup on a stock file was a stat on the share (~220k, ~150 s a deploy, I-401)
+                    out = {}
+                    for p, (f, size, mt) in data.items():
+                        out[p] = Path(f)
+                        FILE_STAT[f] = (size, mt)
+                    return out
             except Exception:
                 pass
         for m in STOCK_MPQ_ORDER:
@@ -405,7 +411,7 @@ def _build_stock_index() -> Dict[str, Path]:
                     idx[k] = f                                             # later MPQ wins
         try:
             cache.parent.mkdir(parents=True, exist_ok=True)
-            cache.write_bytes(pickle.dumps((key, {p: str(f) for p, f in idx.items()})))
+            cache.write_bytes(pickle.dumps((key, {p: (str(f), *FILE_STAT[str(f)]) for p, f in idx.items()})))
         except OSError:
             pass
         return idx

@@ -327,7 +327,7 @@ async function bakeCasOf(pane) {
 const RW = {};
 async function retailSlot(sl) {
   if (!RW[sl]) {
-    if (!wardrobe[sl]) wardrobe[sl] = await fetch(`data/v2/wardrobe/${sl}.json`, { cache: 'no-store' }).then(r => r.json()).catch(() => null);
+    if (!wardrobe[sl]) wardrobe[sl] = await fetch(`data/v2/wardrobe/${sl}.json`, { cache: 'no-cache' }).then(r => r.json()).catch(() => null);
     RW[sl] = new Map(((wardrobe[sl] || {}).items || []).map(e => [e[0], e]));
     RW[sl].build = (wardrobe[sl] || {}).build;
   }
@@ -878,7 +878,7 @@ const shopping = () => filter === 'all' || filter === 'wish' || filter === 'rema
 function pool() { return shopping() && catalog ? assets.concat(catalog) : assets; }
 function ensureCatalog() {
   if (catalog || catalogLoading) return;
-  catalogLoading = fetch('data/v2/catalog.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : { stock: [], retail: [] })
+  catalogLoading = fetch('data/v2/catalog.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : { stock: [], retail: [] })
     .catch(() => ({ stock: [], retail: [] })).then(d => {
       catalog = (d.stock || []).concat((d.retail || []).map(([p, t, fd, sk, kw]) => ({ id: p, tab: t, path: p, members: [p],
         display: null, displays: 0, names: [], current: null, retailOnly: fd, rskins: sk, kw: kw || '', panes: [] })));
@@ -932,7 +932,7 @@ function leadOf(did) {
 }
 let rsets = null, rsetsLoading = null;
 function loadRsets() {
-  if (!rsetsLoading) rsetsLoading = fetch('data/v2/retail_sets.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
+  if (!rsetsLoading) rsetsLoading = fetch('data/v2/retail_sets.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
     .then(d => { rsets = { sets: d.sets || {}, thumb: d.thumb || {}, folder: d.folder || {}, names: d.names || {} };
                  retailIdx.names = { ...(d.names || {}), ...(retailIdx.names || {}) }; return rsets; });
   return rsetsLoading;
@@ -1906,7 +1906,7 @@ async function browse335(slot, input) {
   ov.querySelector('[data-wq]').focus();
 }
 async function browseSlot(slot, input) {
-  if (!wardrobe[slot]) wardrobe[slot] = await fetch(`data/v2/wardrobe/${slot}.json`, { cache: 'no-store' }).then(r => r.json()).catch(() => null);
+  if (!wardrobe[slot]) wardrobe[slot] = await fetch(`data/v2/wardrobe/${slot}.json`, { cache: 'no-cache' }).then(r => r.json()).catch(() => null);
   const w = wardrobe[slot];
   if (!w) { $('save').className = 'err'; $('save').textContent = 'no wardrobe data for ' + slot; return; }
   let q = '', armour = -1, shown = 0;
@@ -2110,7 +2110,7 @@ const custStock = {};
 // ---- display creator: a new display id on any creature model (data/v2/creator.json) -----------
 let creator = null, creatorLoading = null;
 function loadCreator() {
-  if (!creatorLoading) creatorLoading = fetch('data/v2/creator.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : { max_display: 0, models: [] })
+  if (!creatorLoading) creatorLoading = fetch('data/v2/creator.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : { max_display: 0, models: [] })
     .catch(() => ({ max_display: 0, models: [] })).then(d => { creator = d; creator.by = new Map(d.models.map(m => [m[0], m])); return d; });
   return creatorLoading;
 }
@@ -2169,7 +2169,7 @@ function openCreator() {
   });
 }
 function loadCustTex() {
-  if (!custTexLoading) custTexLoading = fetch('data/v2/customise_tex.json', { cache: 'no-store' })
+  if (!custTexLoading) custTexLoading = fetch('data/v2/customise_tex.json', { cache: 'no-cache' })
     .then(r => r.ok ? r.json() : {}).catch(() => ({})).then(d => { custTex = d.tex || d; custSets = d.sets || {}; });
   return custTexLoading;
 }
@@ -2311,7 +2311,7 @@ async function bakeCards(e, c) {
 }
 function loadCustStock(did) {
   const k = Math.floor(did / 1000);
-  if (!custStock[k]) custStock[k] = fetch(`data/v2/custom_stock/${k}.json`, { cache: 'no-store' })
+  if (!custStock[k]) custStock[k] = fetch(`data/v2/custom_stock/${k}.json`, { cache: 'no-cache' })
     .then(r => r.ok ? r.json() : {}).catch(() => ({}));
   return custStock[k].then(d => d[String(did)] || null);
 }
@@ -2905,7 +2905,7 @@ $('helptog').onclick = () => { const on = document.body.classList.toggle('showhe
 $('resetcam').onclick = () => document.querySelectorAll('.pane iframe').forEach(f => f.contentWindow && f.contentWindow.postMessage({ type: 'resetcam' }, '*'));
 // animation menu: the union of every open pane's animations, applied to all panes
 let animNames = {}, animSets = new Map();   // pane window -> its animation ids
-fetch('data/v2/anims.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(a => { animNames = a || {}; });
+fetch('data/v2/anims.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(a => { animNames = a || {}; });
 function resetAnims() { animSets = new Map(); $('anim').innerHTML = '<option value="0">Stand (0)</option>'; }
 $('anim').addEventListener('change', () => {
   const id = +$('anim').value;
@@ -2945,21 +2945,31 @@ window.addEventListener('message', (e) => {
   });
 });
 
+// customise.json stores each repeated groups / char table once in `shared` ({"$s": i}, I-401)
+function unshare(cu) {
+  const S = cu.shared || [], r = (v) => v && v.$s !== undefined && !Array.isArray(v) ? S[v.$s] : v;
+  (cu.displays || []).forEach(c => {
+    if (c.groups) c.groups = r(c.groups);
+    const ch = c.char;
+    if (ch) Object.keys(ch).forEach(k => { ch[k] = r(ch[k]); if (k === 'cs' && ch.cs) Object.keys(ch.cs).forEach(kk => { ch.cs[kk] = r(ch.cs[kk]); }); });
+  });
+  return cu.displays || [];
+}
 (async () => {
   const [a, t, c, cu] = await Promise.all([
-    fetch('data/v2/assets.json', { cache: 'no-store' }).then(r => r.json()),
-    fetch('data/v2/textures_index.json', { cache: 'no-store' }).then(r => r.json()),
+    fetch('data/v2/assets.json', { cache: 'no-cache' }).then(r => r.json()),
+    fetch('data/v2/textures_index.json', { cache: 'no-cache' }).then(r => r.json()),
     fetch(CHOICES_URL, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
-    fetch('data/v2/customise.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : { displays: [] }).catch(() => ({ displays: [] })),
-    fetch('data/v2/bodies.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(b => { bodies = b; }),
-    fetch('data/v2/retail.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(r => { retailIdx = r || {}; }),
-    fetch('data/v2/retroports.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
+    fetch('data/v2/customise.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : { displays: [] }).catch(() => ({ displays: [] })),
+    fetch('data/v2/bodies.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(b => { bodies = b; }),
+    fetch('data/v2/retail.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(r => { retailIdx = r || {}; }),
+    fetch('data/v2/retroports.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
       .then(r => { retroIdx = r || {}; Object.keys(retroIdx).forEach(retroSets); }),   // every pack skin ref resolvable anywhere
-    fetch('data/v2/mountriders.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) mountRiders = m; }),
-    fetch('data/v2/display_options.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) dispOpts = m; }),
-    fetch('data/v2/mounts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
+    fetch('data/v2/mountriders.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) mountRiders = m; }),
+    fetch('data/v2/display_options.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) dispOpts = m; }),
+    fetch('data/v2/mounts.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
   ]);
-  assets = a.assets; texIndex = t; customList = cu.displays;
+  assets = a.assets; texIndex = t; customList = unshare(cu);
   if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {} };
   repairRetailCollisions();
   const startLayer = new URLSearchParams(location.search).get('layer');

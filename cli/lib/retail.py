@@ -12,6 +12,7 @@ they are not offered.
 Files: logs/retail_cache/raw/<fdid>        downloaded originals
        logs/retail_cache/out/<model path>  converted model + skins/anims, textures at their paths
 """
+import bisect
 import json
 import os
 import pickle
@@ -725,6 +726,14 @@ def folder_skin_sets(fdid: int) -> List[list]:
     return out
 
 
+_FOLDER_KEYS: dict = {}
+
+
+def _first_prefixed(keys: List[str], prefix: str) -> Optional[str]:
+    i = bisect.bisect_left(keys, prefix)
+    return keys[i] if i < len(keys) and keys[i].startswith(prefix) else None
+
+
 def folder_remasters(pack_path: str, stock_paths) -> List[Tuple[str, int]]:
     """Retail models a community pack's model points at: the same path in retail (a straight
     retroport) and the creature models in its folder - packs keep retail's folder, renaming the file
@@ -734,8 +743,20 @@ def folder_remasters(pack_path: str, stock_paths) -> List[Tuple[str, int]]:
         return []
     by_path, _ = listfile()
     folder = pack_path.rsplit('/', 1)[0] + '/'
-    if any(str(p).startswith(folder) for p in stock_paths):
+    # sorted key lists built once, then bisect: a scan of the stock paths and the whole listfile per pack
+    # model was ~85 s a deploy (I-401)
+    c = _FOLDER_KEYS
+    if c.get('by') is not by_path:
+        c['by'], c['by_keys'] = by_path, sorted(by_path)
+    if c.get('stock') is not stock_paths or c.get('stock_n') != len(stock_paths):
+        c['stock'], c['stock_n'], c['stock_keys'] = stock_paths, len(stock_paths), sorted(str(p) for p in stock_paths)
+    if _first_prefixed(c['stock_keys'], folder) is not None:
         return []
-    hits = sorted(p for p in by_path if p.startswith(folder) and p.endswith('.m2') and '/' not in p[len(folder):])
+    hits = []
+    i = bisect.bisect_left(c['by_keys'], folder)
+    while i < len(c['by_keys']) and c['by_keys'][i].startswith(folder):
+        p = c['by_keys'][i]; i += 1
+        if p.endswith('.m2') and '/' not in p[len(folder):]:
+            hits.append(p)
     hits.sort(key=lambda p: (p != pack_path, p))
     return [(p, by_path[p]) for p in hits]

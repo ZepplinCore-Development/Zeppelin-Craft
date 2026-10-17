@@ -17,6 +17,16 @@ import struct
 from pathlib import Path
 from typing import Callable, Dict, List
 
+
+def _prefixed(keys: List[str], prefix: str) -> List[str]:
+    """The entries of a SORTED list that start with prefix (bisect, not a scan)."""
+    import bisect
+    i = bisect.bisect_left(keys, prefix)
+    out = []
+    while i < len(keys) and keys[i].startswith(prefix):
+        out.append(keys[i]); i += 1
+    return out
+
 SLOT_INV = {'helm': (1,), 'shoulders': (3,), 'shirt': (4,), 'chest': (5, 20), 'belt': (6,), 'legs': (7,),
             'boots': (8,), 'wrists': (9,), 'gloves': (10,), 'tabard': (19,), 'cape': (16,)}
 CDX_COL = {'helm': 'helm_id', 'shoulders': 'shoulders_id', 'shirt': 'shirt_id', 'chest': 'chest_id', 'belt': 'belt_id',
@@ -64,6 +74,7 @@ def build(dep, v2: Path, log: Callable = print) -> Dict[str, dict]:
                     r = idi[v]
                     by_slot[s][v] = next((t for t in r[15:23] if t), '') or (r[1].rsplit('.', 1)[0] if r[1] else f'display {v}')
     files: Dict[str, str] = {}
+    heads = sorted(k for k in idx if k.startswith('item/objectcomponents/head/'))   # a scan of idx per helm was ~70 s (I-401)
 
     def put(path: str):
         if path in files:
@@ -95,7 +106,7 @@ def build(dep, v2: Path, log: Callable = print) -> Dict[str, dict]:
                     if t:
                         put(f'item/objectcomponents/shoulder/{t}.blp')
             if s == 'helm' and lm:
-                for p in [k for k in idx if k.startswith(f'item/objectcomponents/head/{lm}_')]:
+                for p in _prefixed(heads, f'item/objectcomponents/head/{lm}_'):
                     put(p)
                 if lt:
                     put(f'item/objectcomponents/head/{lt}.blp')

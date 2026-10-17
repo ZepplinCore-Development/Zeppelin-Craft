@@ -306,7 +306,7 @@ class AssetIndex:
             key = hashlib.sha1('\n'.join(parts).encode()).hexdigest()[:12]
             o = by_key.get(key)
             if o is None:
-                o = by_key[key] = Option(key, [], dict(files), sum(f.stat().st_size for f in files.values()))
+                o = by_key[key] = Option(key, [], dict(files), sum(stat_of(f)[0] for f in files.values()))
             o.sources.append(src)
         opts = list(by_key.values())
         for o in opts:

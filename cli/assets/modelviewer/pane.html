@@ -745,7 +745,7 @@ function geoRegions(m2buf, skbuf) {
 }
 let geoM2 = null, geoSent = false;
 // a pack that names its own model's groups (data/v2/geoset_labels.json, from model_transforms.json) beats the guess
-const geoNamed = fetch('data/v2/geoset_labels.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
+const geoNamed = fetch('data/v2/geoset_labels.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
   .then(j => j[String(MODEL || '').toLowerCase()] || null);
 function sendRegions(skbuf) {
   if (geoSent || !geoM2) return;

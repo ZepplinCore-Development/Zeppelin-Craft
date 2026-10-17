@@ -358,8 +358,11 @@ class Deployer:
     def _publish(self, key: str, rec: dict) -> None:
         mid = rec['pane']['map']
         mp = self.maps_dir / f'{mid}.json'
-        if not mp.exists():
+        if getattr(self, '_maps_have', None) is None:
+            self._maps_have = set(os.listdir(self.maps_dir)) if self.maps_dir.is_dir() else set()   # an exists() per pane was ~45 s (I-401)
+        if mp.name not in self._maps_have:
             mp.write_text(json.dumps(rec['map'], separators=(',', ':')))
+            self._maps_have.add(mp.name)
         if rec.get('prov') is not None:
             pp = self.prov_dir / f'{mid}.json'
             if not getattr(self, '_prov_have', None):
@@ -1828,6 +1831,37 @@ def skin_geosets(m2: Path) -> Dict[int, List[int]]:
     return {g: sorted(v) for g, v in sorted(out.items())}
 
 
+def shared_customise(custom: List[dict]) -> dict:
+    """customise.json with its repeats stored once (I-401): a display's `groups` and the big parts of its
+    `char` (CharSections tables, hair/facial geosets and options) repeat per race / model across ~15k
+    displays (49 MB -> 13 MB). Each repeat becomes {"$s": i} into `shared`; layers.html puts them back."""
+    shared: List = []
+    seen: Dict[str, int] = {}
+
+    def ref(v):
+        if not isinstance(v, (dict, list)):
+            return v
+        k = json.dumps(v, separators=(',', ':'), sort_keys=True)
+        if len(k) < 48:
+            return v
+        if k not in seen:
+            seen[k] = len(shared)
+            shared.append(v)
+        return {'$s': seen[k]}
+
+    out = []
+    for c in custom:
+        c = dict(c)                                   # `custom` is used again after the write
+        if 'groups' in c:
+            c['groups'] = ref(c['groups'])
+        ch = c.get('char')
+        if isinstance(ch, dict):
+            ch = {k: ({kk: ref(vv) for kk, vv in v.items()} if k == 'cs' and isinstance(v, dict) else ref(v)) for k, v in ch.items()}
+            c['char'] = ch
+        out.append(c)
+    return {'displays': out, 'shared': shared}
+
+
 def customise_entries(dep: 'Deployer', assets: List[dict]) -> List[dict]:
     """Layer 3 (per display): creature geoset groups / character hair + facial hair.
     Each entry previews on its mesh's current pane (geosets via the pane's mesh param)."""
@@ -2221,7 +2255,7 @@ def display_bakes(dep: 'Deployer', mesh: str, ext: int) -> List[list]:
         f = (dep.ix.stock if src == 'stock' else dep.ix._src_files(src)).get(bp)
         if f is None:
             continue
-        topt = ai.Option('b', [src], {bp: f}, f.stat().st_size)
+        topt = ai.Option('b', [src], {bp: f}, ai.stat_of(f)[0])
         fits = [o.key for o in mopts if dep.ix.compatible(bp, topt, mesh, o)]
         classic = not bp.endswith('_hd.blp')
         # hair / extra skin as the MODEL it is drawn on ships them: a zpak with bakes only
@@ -2241,7 +2275,7 @@ def display_bakes(dep: 'Deployer', mesh: str, ext: int) -> List[list]:
             if not ctex:
                 ctex = _bake_char_tex(dep, 'stock', x)
         # 6th: a classic-layout bake (no _HD in the name) - drawn on the classic model (F-220 fake riders)
-        out.append([src, dep.store.put(f), f.stat().st_size, fits, ctex, classic])
+        out.append([src, dep.store.put(f), ai.stat_of(f)[0], fits, ctex, classic])
     return out
 
 
@@ -2252,13 +2286,19 @@ def _bake_char_tex(dep: 'Deployer', src: str, x: dict) -> Dict[str, str]:
     on HD UVs (I-397: troll male 900401 - stock 3.3.5 has no TrollMaleSkin00_xx_Extra at all)."""
     stock_chs = dep.result['stock_char_dbc'][1]
     sx = None if src == 'stock' else dep._srcs().get(src)
-    chs = {**stock_chs, **sx.chs} if sx is not None and sx.chs else stock_chs
     files = dep.ix.stock if sx is None else dep.ix._src_files(src)
     race, sex = int(x.get('race') or 0), int(x.get('gender') or 0)
+    # the source's CharSections rows by (race, sex), built once per source: walking every row per bake
+    # row was ~60 s a deploy (I-401)
+    by_rs = dep.__dict__.setdefault('_chs_by_rs', {})
+    if src not in by_rs:
+        chs = {**stock_chs, **sx.chs} if sx is not None and sx.chs else stock_chs
+        g: Dict[tuple, list] = {}
+        for r in chs.values():
+            g.setdefault((r.get('race'), r.get('gender')), []).append(r)
+        by_rs[src] = g
     want: Dict[str, str] = {}
-    for r in chs.values():
-        if r.get('race') != race or r.get('gender') != sex:
-            continue
+    for r in by_rs[src].get((race, sex), ()):
         if (r.get('base_section') == 3 and r.get('type') == int(x.get('hair_style') or 0)
                 and r.get('color_index') == int(x.get('hair_color') or 0) and r.get('texture_1')):
             want['6'] = ms.norm(str(r['texture_1']))
@@ -2566,7 +2606,7 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
     except Exception as ex:
         log(f'  outfitter 3.3.5: skipped - {ex}')
     custom = customise_entries(dep, assets + cat)   # every used display, not only models with choices
-    (v2 / 'customise.json').write_text(json.dumps({'displays': custom}, separators=(',', ':')))
+    (v2 / 'customise.json').write_text(json.dumps(shared_customise(custom), separators=(',', ':')))
     try:
         more = creator_models(dep, assets + cat, v2, log)
     except Exception as ex:
