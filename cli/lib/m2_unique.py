@@ -70,8 +70,12 @@ def _summary(m2: bytes, skin: Optional[bytes]) -> dict:
     na, oa = _arr(m2, 0xF0)
     s['attach'] = sorted(struct.unpack_from('<I', m2, oa + 40 * i)[0] for i in range(na))
     s['particles'], s['ribbons'], s['lights'] = _arr(m2, 0x128)[0], _arr(m2, 0x120)[0], _arr(m2, 0x108)[0]
-    box = struct.unpack_from('<6f', m2, 0xA0)
-    s['height'] = round(box[5] - box[2], 2)
+    # rest-pose vertex extents, the measure the card's stats line uses (model_viewer_deploy._mesh_bbox):
+    # the header box at 0xA0 is the visibility bound and covers animation / particle reach
+    import numpy as np
+    with np.errstate(all='ignore'):
+        z = np.nan_to_num(_pos(_verts(m2))[:, 2])
+    s['height'] = round(float(z.max() - z.min()), 2) if len(z) else 0.0
     s['geosets'], s['tris'] = [], 0
     if skin and skin[:4] == b'SKIN' and len(skin) >= 0x30:
         ns, os_ = _arr(skin, 28)
@@ -279,7 +283,7 @@ def diff(stock: dict, pack: dict, m2s=None) -> List[List[str]]:
             out.append(['mesh', f"reshaped: same {stock['tris']:,} triangles, different vertices"])
         h1, h2 = stock['height'], pack['height']
         if h1 > 0 and abs(h2 - h1) / h1 > 0.03:
-            out.append(['mesh', f"height {h1:g} → {h2:g} yd"])
+            out.append(['mesh', f"{abs(h2 / h1 - 1):.0%} {'taller' if h2 > h1 else 'shorter'} (rest pose, before display scale)"])
     elif stock['verts'] != pack['verts']:
         out.append(['minor', f"re-indexed: {stock['verts']:,} → {pack['verts']:,} vertices, same triangles"])
     if 'shading' in dif and 'mesh' not in dif:
@@ -362,7 +366,7 @@ def unique(stock_files: Dict[str, 'Path'], pack_files: Dict[str, 'Path'], path: 
             return fn(f)
         # the cache checks the .m2's size + mtime; an option is the PAIR, so the skin's go in the key
         st = files[sk].stat() if sk in files else None
-        return cache.get(f'unique5|{files.get(sk, "")}|{st.st_size if st else 0}|{st.st_mtime_ns if st else 0}', f, fn)
+        return cache.get(f'unique6|{files.get(sk, "")}|{st.st_size if st else 0}|{st.st_mtime_ns if st else 0}', f, fn)
 
     a, b = summ(stock_files), summ(pack_files)
     if a is None or b is None:
