@@ -228,7 +228,9 @@ names = {}
 KEEP_FUSED = ('creature/mounteddeathknight/',
               # riders that exist as their own character display: not built (Rend Blackhand = display 16664)
               'creature/orcdrakerider/')
-for path, race, sex, displays in riders:
+for path, race, sex, displays, *fixed in riders:
+    if fixed:                                       # a rider added later keeps a reserved id of its own
+        did = int(fixed[0])
     if path not in ix.stock: continue
     if path.startswith(KEEP_FUSED):
         did += 2

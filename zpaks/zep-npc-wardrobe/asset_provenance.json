@@ -144,6 +144,20 @@
    "sha256": "42e18fcd15096d20947ddbb0b80e7ffe840c7253214ae3ba3597a017323c2faf"
   },
   {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_leather_horde_b_03.m2",
+   "fdid": 143157,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "829c209199e813cabe762efdb83ed24b54d1aeaa6db4f3120a1b8a602338aef1"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/lshoulder_leather_horde_b_0300.skin",
+   "fdid": 489857,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "f2c544bdf703620afd2405497fd60629bfa99d895ea3e381c3426d1357826814"
+  },
+  {
    "path": "Item/ObjectComponents/Shoulder/lshoulder_leather_hordeuprez_b_03.m2",
    "fdid": 1060797,
    "build": "12.1.0.69875",
@@ -186,6 +200,20 @@
    "sha256": "dfd7f49315eec28cf9ef5dbc202fcd337131de9c8c4b2378beb0b5e43b05ed18"
   },
   {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_horde_b_03.m2",
+   "fdid": 143460,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "f620b99a2959f011373d00546b0d9a3ef37bf26110e8e1b810f16b90fe8ed5fe"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_horde_b_0300.skin",
+   "fdid": 490220,
+   "build": "12.1.0.69875",
+   "kind": "downport+classic already",
+   "sha256": "421344dfa266fff72372e2c6d11a28dd665cfae672b3086d59733f352c3cf5c2"
+  },
+  {
    "path": "Item/ObjectComponents/Shoulder/rshoulder_leather_hordeuprez_b_03.m2",
    "fdid": 1028407,
    "build": "12.1.0.69875",
@@ -226,6 +254,13 @@
    "build": "12.1.0.69875",
    "kind": "downport+classic already",
    "sha256": "26b11004368c1250a84c4d68492e1ec5dd4be6eb66dac811edacd9d8efaa6b39"
+  },
+  {
+   "path": "Item/ObjectComponents/Shoulder/shoulder_leather_horde_b_03red.blp",
+   "fdid": 143764,
+   "build": "12.1.0.69875",
+   "kind": "copy",
+   "sha256": "0f4a85c4842c2d255754f6d26dd2b2a868995b898d03bfa823a3dd71cfc2035f"
   },
   {
    "path": "Item/ObjectComponents/Shoulder/shoulder_leather_hordeuprez_b_03.blp",
@@ -1449,6 +1484,18 @@
    "kind": "bake",
    "display": 900529,
    "sha256": "d190b479d80c46cfb7c01da1805164e87e83366a28393993c30be55c40393ccd"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900541_HD.blp",
+   "kind": "bake",
+   "display": 900541,
+   "sha256": "9548e6a4bf5752da4eb19e9ebecbc1d338fd768a83765747d02cea4ccbab7950"
+  },
+  {
+   "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900541_fake.blp",
+   "kind": "bake",
+   "display": 900541,
+   "sha256": "180f0ca5fef27b281560c8e01b93cca448f6ac6aba706391eeb79ef624943636"
   },
   {
    "path": "item/objectcomponents/collections/collections_plate_ardenweald_d_01_plate_ardenweald_d_01_fx1.blp",

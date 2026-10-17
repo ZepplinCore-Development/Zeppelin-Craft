@@ -224,3 +224,35 @@ INSERT INTO creaturemodeldata SET
   missile_collision_radius = 0.0,
   missile_collision_push = 0.0,
   missile_collision_raise = 0.0;
+
+-- 900228 = AllianceRider_Gryphon: creature/alliancerider/alliancerider.m2 (model 5069) without its rider; removed batches per skin [6, 6]
+DELETE FROM creaturemodeldata WHERE id = 900228;
+INSERT INTO creaturemodeldata SET
+  id = 900228,
+  flags = 1,
+  model_path = 'Creature\\AllianceRider\\AllianceRider_Gryphon.mdx',
+  size_class = 0,
+  model_scale = 1.0,
+  blood_id = 4294967295,
+  footprint_texture_id = 4294967295,
+  footprint_texture_length = 18.0,
+  footprint_texture_width = 12.0,
+  footprint_particle_scale = 1.0,
+  foley_material_id = 0,
+  footstep_shake_size = 0,
+  death_thud_shake_size = 0,
+  sound_data = 2201,
+  collision_width = 0.6111000180244446,
+  collision_height = 2.0309998989105225,
+  mount_height = 0.0,
+  geo_box_min_x = -2.5410149097442627,
+  geo_box_min_y = -4.041358947753906,
+  geo_box_min_z = 0.0331790000200272,
+  geo_box_max_x = 1.9344550371170044,
+  geo_box_max_y = 4.030257225036621,
+  geo_box_max_z = 5.404322147369385,
+  world_effect_scale = 1.0,
+  attached_effect_scale = 1.0,
+  missile_collision_radius = 0.0,
+  missile_collision_push = 0.0,
+  missile_collision_raise = 0.0;

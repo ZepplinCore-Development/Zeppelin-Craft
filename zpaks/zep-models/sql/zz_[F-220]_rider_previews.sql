@@ -431,6 +431,31 @@ INSERT INTO creature_template_addon SET
   mount = 6978,
   bytes2 = 1;
 
+DELETE FROM creature_template WHERE entry = 902240;
+INSERT INTO creature_template SET
+  `entry` = 902240,
+  `name` = 'F-220 Gryphon Rider',
+  `subname` = 'rider preview, display 900541',
+  `minlevel` = 60,
+  `maxlevel` = 60,
+  `faction` = 35,
+  `unit_class` = 1,
+  `type` = 7,
+  `type_flags` = 2048;
+DELETE FROM creature_template_model WHERE CreatureID = 902240;
+INSERT INTO creature_template_model SET
+  CreatureID = 902240,
+  Idx = 0,
+  CreatureDisplayID = 900541,
+  DisplayScale = 1,
+  Probability = 1,
+  VerifiedBuild = 0;
+DELETE FROM creature_template_addon WHERE entry = 902240;
+INSERT INTO creature_template_addon SET
+  entry = 902240,
+  mount = 17202,
+  bytes2 = 1;
+
 -- weapons (creature_equip_template) the fused model names by texture, so the picker draws them
 DELETE FROM creature_equip_template WHERE CreatureID = 902203;
 DELETE FROM creature_equip_template WHERE CreatureID = 902205;
@@ -459,3 +484,11 @@ DELETE FROM creature_equip_template WHERE CreatureID = 902233;
 DELETE FROM creature_equip_template WHERE CreatureID = 902236;
 DELETE FROM creature_equip_template WHERE CreatureID = 902237;
 DELETE FROM creature_equip_template WHERE CreatureID = 902239;
+DELETE FROM creature_equip_template WHERE CreatureID = 902240;
+INSERT INTO creature_equip_template SET
+  CreatureID = 902240,
+  ID = 1,
+  ItemID1 = 18867,
+  ItemID2 = 0,
+  ItemID3 = 0,
+  VerifiedBuild = 0;

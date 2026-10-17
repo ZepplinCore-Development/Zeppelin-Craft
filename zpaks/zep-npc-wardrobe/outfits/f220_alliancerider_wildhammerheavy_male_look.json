@@ -1,0 +1,27 @@
+{
+  "task": "F-220",
+  "kind": "unique",
+  "race": 3,
+  "base_display": {
+    "0": 1355
+  },
+  "name": "f220_alliancerider_wildhammerheavy_male_look",
+  "_comment": "F-220 look-alike rider for creature/alliancerider/wildhammerheavy.blp (displays [17202]): closest items from lib/npc_outfit lookalike",
+  "outfit": {
+    "items": {
+      "shoulders": 7532
+    }
+  },
+  "appearance": {
+    "skin_color": 1,
+    "face_type": 2,
+    "hair_style": 5,
+    "hair_color": 0,
+    "facial_hair": 6,
+    "gender": 0
+  },
+  "option": "look",
+  "display_ids": [
+    900541
+  ]
+}

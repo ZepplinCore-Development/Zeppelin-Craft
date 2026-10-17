@@ -69,3 +69,7 @@ UPDATE creaturedisplayinfo SET model_id = 2788, texture_variation_1 = 'GnomeSpid
 -- Creature\Drake\Drake, unused by any display) in the same DrakeSkin1-3: the riderless chromatic drake,
 -- so remasters / pack drakes compete for it in the mount chooser. The rider is Rend's own display 16664.
 UPDATE creaturedisplayinfo SET model_id = 571 WHERE id = 9723;
+
+-- 17202 (Creature\AllianceRider2 - stock AllianceRider - the Wildhammer dwarf fused on his gryphon) -> the
+-- gryphon cut from the stock AllianceRider (model 900228). The rider is display 900541 (zep-npc-wardrobe).
+UPDATE creaturedisplayinfo SET model_id = 900228 WHERE id = 17202;

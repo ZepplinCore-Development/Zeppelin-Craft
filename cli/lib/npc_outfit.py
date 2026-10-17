@@ -433,7 +433,7 @@ class Outfits:
         look = [r for r in self.lookalike(skin_file, race, sex, klass) if r[0] not in have]
         return [r for r in rows if r[1] or not look] + look
 
-    LOOK_VERSION = 11         # bump when the rules change: cached results are recomputed
+    LOOK_VERSION = 12         # bump when the rules change: cached results are recomputed
 
     def lookalike(self, skin_file, race: str, sex: str, klass: Optional[int] = None,
                   only_items: Optional[frozenset] = None) -> List[list]:
@@ -766,6 +766,7 @@ class Outfits:
                         continue
                     # only the region fields this slot's items paint
                     d = np.zeros(len(cands), dtype=np.float64)
+                    reg_err = 0.0                                  # the base's error in the regions this slot paints
                     for f, idx in arr[slot].items():
                         (x, y, w, h), _, lab, cov = stk[f]
                         use = np.unique(idx[idx >= 0])
@@ -774,6 +775,7 @@ class Outfits:
                         m = mb[None]
                         b_err = np.linalg.norm(b - t, axis=-1)
                         b_g = grad_err(b, mb, t)
+                        reg_err += float((b_err * mb).sum()) + G * float(b_g)
                         dl = np.zeros(len(lab), dtype=np.float64)
                         # in chunks, float32: the whole candidate set at once was gigabytes per region (a deploy was killed)
                         for c0 in range(0, len(use), 2048):
@@ -815,7 +817,9 @@ class Outfits:
                     need = 0.0 if (forced and slot == 'Chest') else (0.10 if slot == 'Tabard' else 0.02)
                     need = 0.0 if only_items else need             # a shared-set piece needs only to help
                     must = (forced and slot == 'Chest') or slot in anchors   # a plate rider always wears a chest; an anchor always
-                    if np.isfinite(d[j]) and (must or d[j] < -need * err(base)):
+                    # the gain is judged on the slot's OWN regions: 2% of the whole body let no belt, bracer
+                    # or sandal onto a mostly bare rider (the Wildhammer gryphon rider came out naked)
+                    if np.isfinite(d[j]) and (must or d[j] < -need * reg_err):
                         chosen[slot] = (cands[j][0], cands[j][1], float(-d[j]))
                     else:
                         chosen.pop(slot, None)
