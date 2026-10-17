@@ -1,0 +1,149 @@
+From 535cb9f2c94f83c4d47952ea9f7c339a83525736 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 09:32:18 +0000
+Subject: [PATCH] Zeppelin F-223: ModelScript file/skin/sequence read seams,
+ GetEffect guard
+
+- OnModelFileRead / OnModelSkinRead / OnModelSequenceRead fire on the raw bytes before M2Init
+- CM2Shared::GetEffect returns no effect for unknown 0x8000 shader ids instead of strcpy(null)
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Engine/Source/Model2/M2Shared.cpp             | 13 ++++++++++++-
+ WoW/Source/Extension/ExtensionMgr.h           |  5 +++++
+ .../Extension/ScriptDefines/ModelScript.cpp   | 12 ++++++++++++
+ .../Extension/ScriptDefines/ModelScript.h     | 19 +++++++++++++++++++
+ 4 files changed, 48 insertions(+), 1 deletion(-)
+
+diff --git a/Engine/Source/Model2/M2Shared.cpp b/Engine/Source/Model2/M2Shared.cpp
+index df84de6..957e83f 100644
+--- a/Engine/Source/Model2/M2Shared.cpp
++++ b/Engine/Source/Model2/M2Shared.cpp
+@@ -742,7 +742,9 @@ CShaderEffect* CM2Shared::GetEffect(M2Batch* batch) {
+                 alphaOp = static_cast<EGxTexOp>(3);
+                 break;
+             default:
+-                break;
++                // Not in the original: the stock switch falls through with no shader names and
++                // strcpy faults on a null source. Newer skins carry such ids; treat them like 0.
++                return nullptr;
+         }
+ 
+         char effectName[256];
+@@ -1307,6 +1309,9 @@ int32_t CM2Shared::FinishLoadingSkinProfile(uint32_t size) {
+         return 1;
+     }
+ 
++    // Not in the original: the raw .skin bytes are read, nothing has parsed them yet.
++    sExtensionMgr->OnModelSkinRead(this, this->m_skinData, size);
++
+     M2Data* data = this->m_data;
+     M2SkinProfile* skinData = this->m_skinData;
+     uint8_t* base = reinterpret_cast<uint8_t*>(skinData);
+@@ -1581,6 +1586,9 @@ int32_t CM2Shared::FinishLoadingLowPrioritySequence(uint32_t sequenceIndex, uint
+ int32_t CM2Shared::FinishLoadingLowPrioritySequence(uint32_t sequenceIndex, CAsyncObject* object) {
+     M2Sequence* sequence = &this->m_data->m_sequences[sequenceIndex];
+ 
++    // Not in the original: the raw .anim bytes are read, nothing has relocated them yet.
++    sExtensionMgr->OnModelSequenceRead(this, sequenceIndex, object->m_buffer, object->m_size);
++
+     if (!this->FinishLoadingLowPrioritySequence(sequenceIndex, static_cast<uint8_t*>(object->m_buffer), object->m_size)) {
+         return 0;
+     }
+@@ -1741,6 +1749,9 @@ int32_t CM2Shared::FinishLoading() {
+         return 1;
+     }
+ 
++    // Not in the original: the raw .m2 bytes are read, nothing has parsed them yet.
++    sExtensionMgr->OnModelFileRead(this, this->m_data, this->m_fileSize);
++
+     if (!M2Init(reinterpret_cast<uint8_t*>(this->m_data), this->m_fileSize, *this->m_data)) {
+         DebugLog("Corrupt model data: %s", this->m_fileName);
+         return 0;
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 7f88fe8..679c478 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -13,6 +13,8 @@ class CGUnit_C;
+ class CM2Model;
+ class CM2Shared;
+ class CMapArea;
++class M2Data;
++class M2SkinProfile;
+ class CMapChunk;
+ class CMapObj;
+ class CMapObjGroup;
+@@ -122,6 +124,9 @@ class ExtensionMgr {
+     void OnMessageSent(CDataStore* msg);
+ 
+     public: /* ModelScript */
++    void OnModelFileRead(CM2Shared* shared, M2Data*& data, uint32_t& size);
++    void OnModelSkinRead(CM2Shared* shared, M2SkinProfile*& skin, uint32_t& size);
++    void OnModelSequenceRead(CM2Shared* shared, uint32_t sequenceIndex, void* buffer, uint32_t& size);
+     void OnModelSharedLoaded(CM2Shared* shared);
+     void OnModelSkinLoaded(CM2Shared* shared);
+     void OnModelTexturesCreated(CM2Shared* shared);
+diff --git a/WoW/Source/Extension/ScriptDefines/ModelScript.cpp b/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+index 625a079..bbb194c 100644
+--- a/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+@@ -2,6 +2,18 @@
+ #include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "WoW/Source/Extension/ExtensionMgrMacros.h"
+ 
++void ExtensionMgr::OnModelFileRead(CM2Shared* shared, M2Data*& data, uint32_t& size) {
++    CALL_HOOKS(ModelScript, script->OnModelFileRead(*shared, data, size));
++}
++
++void ExtensionMgr::OnModelSkinRead(CM2Shared* shared, M2SkinProfile*& skin, uint32_t& size) {
++    CALL_HOOKS(ModelScript, script->OnModelSkinRead(*shared, skin, size));
++}
++
++void ExtensionMgr::OnModelSequenceRead(CM2Shared* shared, uint32_t sequenceIndex, void* buffer, uint32_t& size) {
++    CALL_HOOKS(ModelScript, script->OnModelSequenceRead(*shared, sequenceIndex, buffer, size));
++}
++
+ void ExtensionMgr::OnModelSharedLoaded(CM2Shared* shared) {
+     CALL_HOOKS(ModelScript, script->OnModelSharedLoaded(*shared));
+ }
+diff --git a/WoW/Source/Extension/ScriptDefines/ModelScript.h b/WoW/Source/Extension/ScriptDefines/ModelScript.h
+index 5296baf..108b821 100644
+--- a/WoW/Source/Extension/ScriptDefines/ModelScript.h
++++ b/WoW/Source/Extension/ScriptDefines/ModelScript.h
+@@ -6,6 +6,8 @@
+ 
+ class CM2Model;
+ class CM2Shared;
++class M2Data;
++class M2SkinProfile;
+ 
+ // The M2 model pipeline (Engine/Source/Model2). One CM2Shared holds a model file: the relocated
+ // M2Data (m_data), the chosen .skin profile (m_skinData), textures, GPU buffers and effects; it is
+@@ -20,6 +22,23 @@ class ModelScript : public ScriptObject {
+     explicit ModelScript(const char* name);
+ 
+     public:
++    // CM2Shared::FinishLoading before the .m2 bytes are validated and relocated (M2Init): data
++    // holds the raw file as read (array offsets are still file offsets), size bytes. A script may
++    // rewrite it in place or hand back another SIMD::AllocA16 buffer (freeing the old one with
++    // SIMD::FreeA16), e.g. to turn a newer file format into the version-264 layout the parser
++    // accepts. shared.m_fileName is the model path.
++    virtual void OnModelFileRead(CM2Shared& shared, M2Data*& data, uint32_t& size) {}
++
++    // CM2Shared::FinishLoadingSkinProfile before the .skin bytes are validated and relocated:
++    // skin holds the raw file (file offsets), size bytes, while shared.m_data is already relocated.
++    // Same buffer contract as OnModelFileRead.
++    virtual void OnModelSkinRead(CM2Shared& shared, M2SkinProfile*& skin, uint32_t& size) {}
++
++    // CM2Shared::FinishLoadingLowPrioritySequence before a streamed .anim file is relocated into
++    // the sequence and its aliases: buffer holds the raw file, size bytes. A script may rewrite it
++    // in place and shorten size.
++    virtual void OnModelSequenceRead(CM2Shared& shared, uint32_t sequenceIndex, void* buffer, uint32_t& size) {}
++
+     // End of CM2Shared::FinishLoading: the .m2 file is in memory and relocated (every M2Array of
+     // shared.m_data points into the buffer, shared.m_fileSize bytes), the materials are flagged,
+     // the textures created, the skin profile chosen and its read issued. shared.m_skinData is not
+-- 
+2.34.1
+

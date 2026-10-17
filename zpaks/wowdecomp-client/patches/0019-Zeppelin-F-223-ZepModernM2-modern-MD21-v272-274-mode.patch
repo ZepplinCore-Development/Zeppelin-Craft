@@ -1,0 +1,1143 @@
+From b2e31354d5815a6b1655f156e766bb50b66027fb Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 09:32:18 +0000
+Subject: [PATCH] Zeppelin F-223: ZepModernM2 - modern MD21/v272-274 models in
+ the 3.3.5 model runtime
+
+Port of WarcraftXL wxl-modern-m2's downport + v1.1 skin contract rebuild onto the
+decomp's read seams: container demux, TXID names via Zeppelin\FileDataPaths.txt,
+camera/particle compaction, sequence/material fixes, skin batch rebuild, AFM2 unwrap,
+shadow-animate gate. Verified: retail Shadowlands boar2 (v274) renders and animates.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Extensions/ZepModernM2/src/ZepModernM2.cpp | 1116 ++++++++++++++++++++
+ 1 file changed, 1116 insertions(+)
+ create mode 100644 Extensions/ZepModernM2/src/ZepModernM2.cpp
+
+diff --git a/Extensions/ZepModernM2/src/ZepModernM2.cpp b/Extensions/ZepModernM2/src/ZepModernM2.cpp
+new file mode 100644
+index 0000000..218e4c7
+--- /dev/null
++++ b/Extensions/ZepModernM2/src/ZepModernM2.cpp
+@@ -0,0 +1,1116 @@
++// ZepModernM2: loads modern M2 models (MD21 chunked containers and bare MD20 bodies, inner version
++// 272-274) in the 3.3.5 model runtime (Zeppelin F-223). Source counterpart of WarcraftXL's
++// wxl-modern-m2; the transform follows WXL's downport (cameras, particles, ribbons, animations,
++// texture-coordinate combos) and its v1.1 skin contract rebuild (Skin.cpp), with the steps placed on
++// the decomp's own load phases instead of detours:
++//
++//   OnModelFileRead     raw .m2 bytes, file offsets. The MD20 body is lifted out of the container,
++//                       TXID texture FileDataIDs are inlined as names, the wider records are slid down
++//                       to the 264 strides, source-only encodings are decoded, the version becomes 264.
++//                       The stock M2Init then validates and relocates it like any 264 file.
++//   OnModelSkinRead     raw .skin bytes, model already relocated. The modern batch encoding (packed
++//                       blend bits, shader-effect indices) is rebuilt into 264 batches plus the
++//                       texture-coordinate / combiner lookups they index; the model's lookups are
++//                       appended to its buffer the way ConvertTextureValuesToCombos grows it.
++//   OnModelSequenceRead streamed .anim bytes: a modern file wraps the flat track blob in one AFM2
++//                       chunk, which is unwrapped in place.
++//   OnModelSharedLoaded the shadow-animate gate (m_billboardBoneCount, WXL's +0x198) is lifted to 1
++//                       when a modern rig ships every bone flag empty, so the shadow pass rebuilds the
++//                       pose instead of rotating with the camera.
++//
++// FileDataIDs resolve through Zeppelin\FileDataPaths.txt ("fdid;path" lines) read from the archive
++// set; an unresolved texture stays a solid white like any nameless slot.
++//
++// Not handled: external skeletons (SKID: the load is refused, the model is not drawn), LOD skins
++// (LDV1: profile 0 only, LOD submeshes parked), bone-budget splitting (a submesh over 75 bones is
++// clamped), the additive-overlay combiner (WXL CombinerPatch) and per-emitter blend states past the
++// stock table (mapped to the nearest stock mode).
++
++#include <cmath>
++#include <cstdio>
++#include <cstdlib>
++#include <cstring>
++#include <mutex>
++#include <string>
++#include <unordered_map>
++#include <unordered_set>
++#include <vector>
++#include "Engine/Source/Base/SIMD.h"
++#include "Engine/Source/BlizzardCore/SFile2-Core.h"
++#include "Engine/Source/Model2/M2Data.h"
++#include "Engine/Source/Model2/M2Shared.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
++
++namespace {
++
++constexpr uint32_t kMagicMD20 = 0x3032444D;
++constexpr uint32_t kMagicMD21 = 0x3132444D;
++constexpr uint32_t kClientVersion = 0x108;
++constexpr uint32_t kSourceVersionMin = 272;
++constexpr uint32_t kSourceVersionMax = 274;
++
++// Auxiliary chunk tags, little-endian as stored.
++constexpr uint32_t Magic(const char (&s)[5]) {
++    return uint32_t(uint8_t(s[0])) | (uint32_t(uint8_t(s[1])) << 8) | (uint32_t(uint8_t(s[2])) << 16) | (uint32_t(uint8_t(s[3])) << 24);
++}
++
++constexpr uint32_t kTXID = Magic("TXID");
++constexpr uint32_t kSKID = Magic("SKID");
++constexpr uint32_t kAFID = Magic("AFID");
++constexpr uint32_t kLDV1 = Magic("LDV1");
++constexpr uint32_t kTXAC = Magic("TXAC");
++constexpr uint32_t kSFID = Magic("SFID");
++constexpr uint32_t kAFM2 = Magic("AFM2");
++
++// Header fields (MD20-relative).
++constexpr uint32_t kHdrVersion = 0x04;
++constexpr uint32_t kHdrFlags = 0x10;
++constexpr uint32_t kHdrSequences = 0x1C;
++constexpr uint32_t kHdrSequenceLookup = 0x24;
++constexpr uint32_t kHdrBones = 0x2C;
++constexpr uint32_t kHdrNumSkinProfiles = 0x44;
++constexpr uint32_t kHdrTextures = 0x50;
++constexpr uint32_t kHdrMaterials = 0x70;
++constexpr uint32_t kHdrBoneCombos = 0x78;
++constexpr uint32_t kHdrTextureCoordCombos = 0x88;
++constexpr uint32_t kHdrCameras = 0x110;
++constexpr uint32_t kHdrCameraLookup = 0x118;
++constexpr uint32_t kHdrRibbons = 0x120;
++constexpr uint32_t kHdrParticles = 0x128;
++constexpr uint32_t kHeaderSize = 0x130;
++
++constexpr uint32_t kSequenceStride = 0x40;
++constexpr uint32_t kBoneStride = 0x58;
++constexpr uint32_t kTextureStride = 0x10;
++constexpr uint32_t kCameraStrideClient = 0x64;
++constexpr uint32_t kCameraStrideSource = 0x74;
++constexpr uint32_t kParticleStrideClient = 0x1DC;
++constexpr uint32_t kParticleStrideSource = 0x1EC;
++constexpr uint32_t kRibbonStride = 0xB0;
++
++// The client resolves animation ids up to this; WXL's curated remap brings a few newer ones down.
++constexpr uint16_t kClientMaxAnimId = 505;
++// Per-draw bone ceiling WXL budgets against.
++constexpr uint16_t kMaxBonesPerDraw = 75;
++constexpr uint32_t kMaxBatches = 0x4000;
++// Material render flags the client reads: the classic five, plus 0x40/0x80 (shadow exclude/force).
++constexpr uint16_t kMaterialFlagMask = 0x1F | 0x40 | 0x80;
++
++uint32_t Rd32(const uint8_t* p) {
++    uint32_t v;
++    std::memcpy(&v, p, 4);
++    return v;
++}
++
++void Wr32(uint8_t* p, uint32_t v) {
++    std::memcpy(p, &v, 4);
++}
++
++uint16_t Rd16(const uint8_t* p) {
++    uint16_t v;
++    std::memcpy(&v, p, 2);
++    return v;
++}
++
++void Wr16(uint8_t* p, uint16_t v) {
++    std::memcpy(p, &v, 2);
++}
++
++bool Fits(uint32_t size, uint32_t offset, uint32_t count, uint32_t stride) {
++    return offset <= size && uint64_t(count) * stride <= size - offset;
++}
++
++// ---------------------------------------------------------------- FileDataID -> path
++
++std::mutex s_lock;
++std::unordered_map<uint32_t, std::string> s_paths;
++bool s_pathsLoaded = false;
++std::unordered_set<const CM2Shared*> s_modern;
++uint32_t s_models = 0;
++uint32_t s_refused = 0;
++
++void LoadPaths() {
++    if (s_pathsLoaded) {
++        return;
++    }
++
++    s_pathsLoaded = true;
++    SFileImpl* file = nullptr;
++
++    if (!SFileOpenFile("Zeppelin\\FileDataPaths.txt", &file) || !file) {
++        sExtensionMgr->Log("ZepModernM2: no Zeppelin\\FileDataPaths.txt, TXID textures stay unresolved");
++        return;
++    }
++
++    std::string text(SFileGetFileSize(file, nullptr), '\0');
++    uint32_t read = 0;
++
++    if (!text.empty()) {
++        SFileReadFile(file, text.data(), static_cast<uint32_t>(text.size()), &read, nullptr, 0);
++    }
++
++    SFileCloseFile(file);
++    text.resize(read);
++
++    for (size_t at = 0; at < text.size();) {
++        size_t end = text.find('\n', at);
++
++        if (end == std::string::npos) {
++            end = text.size();
++        }
++
++        size_t semi = text.find(';', at);
++
++        if (semi != std::string::npos && semi < end) {
++            uint32_t fdid = static_cast<uint32_t>(std::strtoul(text.c_str() + at, nullptr, 10));
++            std::string path = text.substr(semi + 1, end - semi - 1);
++
++            while (!path.empty() && (path.back() == '\r' || path.back() == ' ')) {
++                path.pop_back();
++            }
++
++            for (char& c : path) {
++                if (c == '/') {
++                    c = '\\';
++                }
++            }
++
++            if (fdid && !path.empty()) {
++                s_paths[fdid] = path;
++            }
++        }
++
++        at = end + 1;
++    }
++
++    sExtensionMgr->Log("ZepModernM2: %u FileDataID path(s) loaded", static_cast<uint32_t>(s_paths.size()));
++}
++
++const std::string* ResolvePath(uint32_t fdid) {
++    LoadPaths();
++    auto it = s_paths.find(fdid);
++    return it == s_paths.end() ? nullptr : &it->second;
++}
++
++// ---------------------------------------------------------------- .m2 body (raw offsets)
++
++struct Body {
++    std::vector<uint8_t> bytes;
++
++    uint8_t* At(uint32_t offset) { return bytes.data() + offset; }
++    uint32_t Size() const { return static_cast<uint32_t>(bytes.size()); }
++    uint32_t Count(uint32_t field) { return Rd32(At(field)); }
++    uint32_t Offset(uint32_t field) { return Rd32(At(field + 4)); }
++
++    // Appends n bytes at a 4-aligned tail and returns their offset.
++    uint32_t Append(const void* data, uint32_t n) {
++        while (bytes.size() & 3) {
++            bytes.push_back(0);
++        }
++
++        uint32_t offset = Size();
++        const uint8_t* p = static_cast<const uint8_t*>(data);
++        bytes.insert(bytes.end(), p, p + n);
++        return offset;
++    }
++};
++
++struct Outcome {
++    uint32_t texResolved = 0;
++    uint32_t texUnresolved = 0;
++    uint32_t cameras = 0;
++    uint32_t particles = 0;
++    uint32_t externalSequences = 0;
++    std::string skipped;
++};
++
++void InlineTextureNames(Body& body, const std::vector<uint32_t>& txid, Outcome& out) {
++    uint32_t count = body.Count(kHdrTextures);
++    uint32_t offset = body.Offset(kHdrTextures);
++
++    if (!Fits(body.Size(), offset, count, kTextureStride)) {
++        return;
++    }
++
++    for (uint32_t i = 0; i < count; i++) {
++        uint32_t rec = offset + i * kTextureStride;
++
++        // Only a hardcoded (type 0) slot without an inline name takes its TXID.
++        if (Rd32(body.At(rec)) != 0 || Rd32(body.At(rec + 8)) > 1) {
++            continue;
++        }
++
++        uint32_t fdid = i < txid.size() ? txid[i] : 0;
++
++        if (!fdid) {
++            continue;
++        }
++
++        const std::string* path = ResolvePath(fdid);
++
++        if (!path) {
++            out.texUnresolved++;
++            sExtensionMgr->Log("ZepModernM2:   TXID %u (texture %u) unresolved", fdid, i);
++            continue;
++        }
++
++        uint32_t nameOffset = body.Append(path->c_str(), static_cast<uint32_t>(path->size()) + 1);
++        rec = offset + i * kTextureStride;
++        Wr32(body.At(rec + 8), static_cast<uint32_t>(path->size()) + 1);
++        Wr32(body.At(rec + 12), nameOffset);
++        out.texResolved++;
++    }
++}
++
++// Source cameras drop the explicit fov float and append a fov track (16 bytes wider); slide each down
++// to the client stride with the 45-degree default WXL substitutes.
++void CompactCameras(Body& body, Outcome& out) {
++    uint32_t count = body.Count(kHdrCameras);
++    uint32_t offset = body.Offset(kHdrCameras);
++
++    if (!count || !Fits(body.Size(), offset, count, kCameraStrideSource)) {
++        return;
++    }
++
++    for (uint32_t i = 0; i < count; i++) {
++        uint8_t* src = body.At(offset + i * kCameraStrideSource);
++        uint8_t* dst = body.At(offset + i * kCameraStrideClient);
++        uint32_t type = Rd32(src);
++        uint32_t farClip = Rd32(src + 4);
++        uint32_t nearClip = Rd32(src + 8);
++        std::memmove(dst + 0x10, src + 0x0C, 0x54);
++        float fov = 0.7853982f;
++        Wr32(dst, type);
++        std::memcpy(dst + 4, &fov, 4);
++        Wr32(dst + 8, farClip);
++        Wr32(dst + 12, nearClip);
++        out.cameras++;
++    }
++
++    // A camera lookup entry past the compacted table selects nothing.
++    uint32_t lookupCount = body.Count(kHdrCameraLookup);
++    uint32_t lookupOffset = body.Offset(kHdrCameraLookup);
++
++    if (Fits(body.Size(), lookupOffset, lookupCount, 2)) {
++        for (uint32_t i = 0; i < lookupCount; i++) {
++            if (static_cast<int16_t>(Rd16(body.At(lookupOffset + i * 2))) >= static_cast<int32_t>(count)) {
++                Wr16(body.At(lookupOffset + i * 2), 0xFFFF);
++            }
++        }
++    }
++}
++
++// Compressed gravity keys {int8 x, int8 y, int16 magnitude} become the client's downward scalar.
++void ExpandGravity(Body& body, uint8_t* rec) {
++    constexpr uint32_t kGravityTrack = 0x84;
++    int16_t globalLoop = static_cast<int16_t>(Rd16(rec + kGravityTrack + 2));
++    uint32_t slots = Rd32(rec + kGravityTrack + 0x0C);
++    uint32_t slotOffset = Rd32(rec + kGravityTrack + 0x10);
++    uint32_t seqCount = body.Count(kHdrSequences);
++    uint32_t seqOffset = body.Offset(kHdrSequences);
++
++    if (!slots || !Fits(body.Size(), slotOffset, slots, 8)) {
++        return;
++    }
++
++    for (uint32_t s = 0; s < slots; s++) {
++        // Keys of a sequence streamed from a .anim file are not in this body.
++        if (globalLoop == -1 && s < seqCount && Fits(body.Size(), seqOffset, seqCount, kSequenceStride) && !(Rd32(body.At(seqOffset + s * kSequenceStride + 0x0C)) & 0x20)) {
++            continue;
++        }
++
++        uint32_t keyCount = Rd32(body.At(slotOffset + s * 8));
++        uint32_t keyOffset = Rd32(body.At(slotOffset + s * 8 + 4));
++
++        if (!keyCount || !Fits(body.Size(), keyOffset, keyCount, 4)) {
++            continue;
++        }
++
++        for (uint32_t k = 0; k < keyCount; k++) {
++            uint8_t* key = body.At(keyOffset + k * 4);
++            float dx = static_cast<int8_t>(key[0]) / 128.0f;
++            float dy = static_cast<int8_t>(key[1]) / 128.0f;
++            float planar = dx * dx + dy * dy;
++            float z = std::sqrt(planar < 1.0f ? 1.0f - planar : 0.0f);
++            float magnitude = static_cast<int16_t>(Rd16(key + 2)) * 0.04238648f;
++
++            if (magnitude < 0.0f) {
++                z = -z;
++                magnitude = -magnitude;
++            }
++
++            float scalar = -(z * magnitude);
++            std::memcpy(key, &scalar, 4);
++        }
++    }
++}
++
++// Source emitters append the multi-texture scroll parameters (16 bytes); slide each down to the
++// client stride and decode the encodings the client reads differently.
++void CompactParticles(Body& body, Outcome& out) {
++    uint32_t count = body.Count(kHdrParticles);
++    uint32_t offset = body.Offset(kHdrParticles);
++    uint32_t textures = body.Count(kHdrTextures);
++
++    if (!count || !Fits(body.Size(), offset, count, kParticleStrideSource)) {
++        return;
++    }
++
++    for (uint32_t i = 0; i < count; i++) {
++        uint8_t* rec = body.At(offset + i * kParticleStrideClient);
++        std::memmove(rec, body.At(offset + i * kParticleStrideSource), kParticleStrideClient);
++        uint32_t flags = Rd32(rec + 4);
++
++        // Multi-texture packs three 5-bit ids; only the first has a home in a single-texture emitter.
++        uint16_t texture = Rd16(rec + 0x16);
++
++        if (flags & 0x10000) {
++            texture &= 0x1F;
++        }
++
++        if (textures && texture >= textures) {
++            texture = 0;
++        }
++
++        Wr16(rec + 0x16, texture);
++
++        // The stock emitter blend table has modes 0-6: source BlendAdd (7) is mode 3, anything newer Add.
++        if (rec[0x28] == 7) {
++            rec[0x28] = 3;
++        } else if (rec[0x28] > 7) {
++            rec[0x28] = 4;
++        }
++
++        // multiTextureParamX in newer files; unused by this client (M2Particle::unused_002C).
++        rec[0x2C] = 0;
++        rec[0x2D] = 0;
++
++        if (flags & 0x800000) {
++            ExpandGravity(body, rec);
++            Wr32(rec + 4, flags & ~0x800000u);
++        }
++
++        out.particles++;
++    }
++}
++
++void ClampRibbons(Body& body) {
++    uint32_t count = body.Count(kHdrRibbons);
++    uint32_t offset = body.Offset(kHdrRibbons);
++    uint32_t textures = body.Count(kHdrTextures);
++    uint32_t materials = body.Count(kHdrMaterials);
++
++    if (!count || !Fits(body.Size(), offset, count, kRibbonStride)) {
++        return;
++    }
++
++    for (uint32_t i = 0; i < count; i++) {
++        uint32_t rec = offset + i * kRibbonStride;
++        const uint32_t arrays[2][2] = { { 0x14, textures }, { 0x1C, materials } };
++
++        for (const auto& a : arrays) {
++            uint32_t n = Rd32(body.At(rec + a[0]));
++            uint32_t at = Rd32(body.At(rec + a[0] + 4));
++
++            if (!a[1] || !Fits(body.Size(), at, n, 2)) {
++                continue;
++            }
++
++            for (uint32_t k = 0; k < n; k++) {
++                if (Rd16(body.At(at + k * 2)) >= a[1]) {
++                    Wr16(body.At(at + k * 2), 0);
++                }
++            }
++        }
++    }
++}
++
++int16_t SequenceIndexById(uint8_t* seqs, uint32_t count, uint16_t id) {
++    for (uint32_t i = 0; i < count; i++) {
++        if (Rd16(seqs + i * kSequenceStride) == id) {
++            return static_cast<int16_t>(i);
++        }
++    }
++
++    return -1;
++}
++
++// Masks blendTime to its low half (newer files split it into in|out) and brings WXL's curated set of
++// newer animation ids down to their client equivalents, patching the id lookup to match.
++void FixSequences(Body& body, Outcome& out) {
++    uint32_t count = body.Count(kHdrSequences);
++    uint32_t offset = body.Offset(kHdrSequences);
++
++    if (!count || !Fits(body.Size(), offset, count, kSequenceStride)) {
++        return;
++    }
++
++    uint8_t* seqs = body.At(offset);
++    uint32_t lookupCount = body.Count(kHdrSequenceLookup);
++    uint32_t lookupOffset = body.Offset(kHdrSequenceLookup);
++    uint8_t* lookup = lookupCount && Fits(body.Size(), lookupOffset, lookupCount, 2) ? body.At(lookupOffset) : nullptr;
++
++    for (uint32_t i = 0; i < count; i++) {
++        uint8_t* seq = seqs + i * kSequenceStride;
++        uint16_t id = Rd16(seq);
++
++        if (id > kClientMaxAnimId) {
++            uint16_t anim = id;
++
++            switch (id) {
++                case 564: anim = 37; break;
++                case 548: anim = 41; break;
++                case 556: anim = 42; break;
++                case 552: anim = 43; break;
++                case 554: anim = 44; break;
++                case 562: anim = 45; break;
++                case 572: anim = 39; break;
++                case 574: anim = 187; break;
++                default: break;
++            }
++
++            if (anim != id && lookup) {
++                int16_t oldPos = SequenceIndexById(seqs, count, anim);
++
++                if (anim < lookupCount && static_cast<int16_t>(Rd16(lookup + anim * 2)) == oldPos) {
++                    Wr16(lookup + anim * 2, static_cast<uint16_t>(i));
++                } else {
++                    for (uint32_t k = 0; k < lookupCount; k++) {
++                        if (static_cast<int16_t>(Rd16(lookup + k * 2)) == oldPos) {
++                            Wr16(lookup + k * 2, static_cast<uint16_t>(i));
++                            break;
++                        }
++                    }
++                }
++
++                Wr16(seq, anim);
++            }
++        }
++
++        Wr32(seq + 0x14, Rd32(seq + 0x14) & 0xFFFF);
++
++        if (!(Rd32(seq + 0x0C) & 0x20)) {
++            out.externalSequences++;
++        }
++    }
++}
++
++// The client blend table stops at mode 6; a newer mode is drawn as Add, unlit and unfogged.
++void FixMaterials(uint16_t* materials, uint32_t count) {
++    for (uint32_t i = 0; i < count; i++) {
++        uint16_t& flags = materials[i * 2];
++        uint16_t& blend = materials[i * 2 + 1];
++
++        if (blend > 6) {
++            blend = 4;
++            flags |= 0x5;
++        }
++
++        flags &= kMaterialFlagMask;
++    }
++}
++
++// A static prop (at most four bones, none billboarded) has its bone lookup collapsed to bone 0, the
++// shadow-swing workaround of WXL's downport.
++void CollapsePropBones(Body& body) {
++    uint32_t comboCount = body.Count(kHdrBoneCombos);
++    uint32_t comboOffset = body.Offset(kHdrBoneCombos);
++    uint32_t boneCount = body.Count(kHdrBones);
++    uint32_t boneOffset = body.Offset(kHdrBones);
++
++    if (!comboCount || !Fits(body.Size(), comboOffset, comboCount, 2) || !Fits(body.Size(), boneOffset, boneCount, kBoneStride)) {
++        return;
++    }
++
++    uint16_t distinct[4];
++    uint32_t distinctCount = 0;
++
++    for (uint32_t i = 0; i < comboCount; i++) {
++        uint16_t bone = Rd16(body.At(comboOffset + i * 2));
++        bool seen = false;
++
++        for (uint32_t k = 0; k < distinctCount; k++) {
++            seen |= distinct[k] == bone;
++        }
++
++        if (!seen) {
++            if (distinctCount == 4) {
++                return;
++            }
++
++            distinct[distinctCount++] = bone;
++        }
++
++        if (bone < boneCount && (Rd32(body.At(boneOffset + bone * kBoneStride + 4)) & 0x78)) {
++            return;
++        }
++    }
++
++    for (uint32_t i = 0; i < comboCount; i++) {
++        Wr16(body.At(comboOffset + i * 2), 0);
++    }
++}
++
++// Lifts the MD20 body out of the file and downports it; false leaves the file to the stock parser.
++bool Downport(const char* name, const uint8_t* file, uint32_t size, Body& body, Outcome& out) {
++    if (size < 8) {
++        return false;
++    }
++
++    const uint8_t* src = file;
++    uint32_t srcSize = size;
++    std::vector<uint32_t> txid;
++
++    if (Rd32(file) == kMagicMD21) {
++        srcSize = Rd32(file + 4);
++
++        if (srcSize < kHeaderSize || srcSize > size - 8) {
++            return false;
++        }
++
++        src = file + 8;
++
++        for (uint32_t at = 8 + srcSize; at + 8 <= size;) {
++            uint32_t tag = Rd32(file + at);
++            uint32_t chunkSize = Rd32(file + at + 4);
++
++            if (chunkSize > size - at - 8) {
++                break;
++            }
++
++            if (tag == kTXID) {
++                for (uint32_t k = 0; k + 4 <= chunkSize; k += 4) {
++                    txid.push_back(Rd32(file + at + 8 + k));
++                }
++            } else if (tag == kSKID) {
++                sExtensionMgr->Log("ZepModernM2: %s refused, external skeleton (SKID)", name);
++                s_refused++;
++                return false;
++            } else if (tag == kAFID) {
++                out.skipped += " afid";
++            } else if (tag == kLDV1) {
++                out.skipped += " ldv1";
++            } else if (tag == kTXAC) {
++                out.skipped += " txac";
++            } else if (tag != kSFID) {
++                char text[8];
++                std::snprintf(text, sizeof(text), " %.4s", reinterpret_cast<const char*>(file + at));
++                out.skipped += text;
++            }
++
++            at += 8 + chunkSize;
++        }
++    } else if (size < kHeaderSize || Rd32(file) != kMagicMD20) {
++        return false;
++    }
++
++    if (Rd32(src) != kMagicMD20) {
++        return false;
++    }
++
++    uint32_t version = Rd32(src + kHdrVersion);
++
++    if (version < kSourceVersionMin || version > kSourceVersionMax) {
++        if (Rd32(file) == kMagicMD21) {
++            sExtensionMgr->Log("ZepModernM2: %s refused, inner version %u outside %u-%u", name, version, kSourceVersionMin, kSourceVersionMax);
++            s_refused++;
++        }
++
++        return false;
++    }
++
++    body.bytes.assign(src, src + srcSize);
++
++    if (!body.Count(kHdrBones) && !body.Count(kHdrSequences)) {
++        sExtensionMgr->Log("ZepModernM2: %s refused, no bones or sequences (split skeleton)", name);
++        s_refused++;
++        return false;
++    }
++
++    // The stock skin chooser indexes a four-entry bone-budget table from the end.
++    if (body.Count(kHdrNumSkinProfiles) > 4) {
++        Wr32(body.At(kHdrNumSkinProfiles), 1);
++    }
++
++    CompactCameras(body, out);
++    CompactParticles(body, out);
++    ClampRibbons(body);
++    FixSequences(body, out);
++
++    uint32_t materialCount = body.Count(kHdrMaterials);
++    uint32_t materialOffset = body.Offset(kHdrMaterials);
++
++    if (Fits(body.Size(), materialOffset, materialCount, 4)) {
++        FixMaterials(reinterpret_cast<uint16_t*>(body.At(materialOffset)), materialCount);
++    }
++
++    CollapsePropBones(body);
++    InlineTextureNames(body, txid, out);
++
++    // The skin finalize indexes texture-coordinate combo 0; a file without the table gets one entry.
++    if (!body.Count(kHdrTextureCoordCombos)) {
++        uint16_t zero = 0;
++        uint32_t at = body.Append(&zero, 2);
++        Wr32(body.At(kHdrTextureCoordCombos), 1);
++        Wr32(body.At(kHdrTextureCoordCombos + 4), at);
++    }
++
++    // The runtime would free combo arrays it believes it owns (0x20/0x40); this buffer owns them.
++    Wr32(body.At(kHdrFlags), Rd32(body.At(kHdrFlags)) & ~0x60u);
++    Wr32(body.At(kHdrVersion), kClientVersion);
++    return true;
++}
++
++// ---------------------------------------------------------------- .skin rebuild (WXL Skin.cpp)
++
++uint16_t LookupSingle(std::vector<int16_t>& lookup, int16_t v) {
++    for (size_t n = 0; n < lookup.size(); n++) {
++        if (lookup[n] == v) {
++            return static_cast<uint16_t>(n);
++        }
++    }
++
++    lookup.push_back(v);
++    return static_cast<uint16_t>(lookup.size() - 1);
++}
++
++uint16_t LookupPair(std::vector<int16_t>& lookup, int16_t a, int16_t b) {
++    for (size_t n = 0; n + 1 < lookup.size(); n++) {
++        if (lookup[n] == a && lookup[n + 1] == b) {
++            return static_cast<uint16_t>(n);
++        }
++    }
++
++    size_t size = lookup.size();
++
++    if (size > 1 && lookup[size - 1] == a) {
++        lookup.push_back(b);
++        return static_cast<uint16_t>(size - 1);
++    }
++
++    lookup.push_back(a);
++    lookup.push_back(b);
++    return static_cast<uint16_t>(size);
++}
++
++uint16_t BlendOverride(std::vector<uint16_t>& combos, uint16_t b1, uint16_t b2) {
++    for (size_t n = 0; n + 1 < combos.size(); n += 2) {
++        if (combos[n] == b1 && combos[n + 1] == b2) {
++            return static_cast<uint16_t>(n);
++        }
++    }
++
++    uint16_t base = static_cast<uint16_t>(combos.size());
++    combos.push_back(b1);
++    combos.push_back(b2);
++    return base;
++}
++
++struct SkinRebuild {
++    std::vector<M2Batch> batches;
++    std::vector<int16_t> texUnitLookup;
++    std::vector<uint16_t> blendOverride;
++    uint32_t transparencyLookups = 0;
++    uint32_t transformLookups = 0;
++};
++
++// A packed blend-bit shader id (< 0x8000) becomes a combiner pair plus its coordinate lookup.
++void DecodeBlendBits(M2Batch& b, uint16_t shader, uint16_t textureCount, SkinRebuild& r) {
++    uint16_t blend1 = (shader >> 4) & 0x7;
++    uint16_t blend2 = shader & 0x7;
++    bool twoTextures = textureCount > 1 && (shader & 0x4000) && blend1 && blend2;
++    uint16_t saved = 0;
++
++    if (twoTextures) {
++        saved = BlendOverride(r.blendOverride, blend1, blend2);
++    } else {
++        textureCount = 1;
++    }
++
++    b.m_flags &= 0x10;
++    b.m_shader = saved;
++
++    if (textureCount == 1) {
++        b.m_textureCoordComboIndex = LookupSingle(r.texUnitLookup, (shader & 0x80) ? -1 : 0);
++    } else {
++        int16_t t0;
++        int16_t t1;
++
++        if (shader & 0x80) {
++            t0 = -1;
++            t1 = (shader & 0x8) ? -1 : 0;
++        } else {
++            t0 = 0;
++            t1 = (shader & 0x8) ? -1 : ((shader & 0x4000) ? 1 : 0);
++        }
++
++        b.m_textureCoordComboIndex = LookupPair(r.texUnitLookup, t0, t1);
++    }
++
++    b.m_textureCount = textureCount < 2 ? textureCount : 2;
++}
++
++// A source env batch becomes a primary plus a follower pass over the same geometry.
++bool EnvSplit(uint16_t low, uint16_t shader, M2Batch primary, SkinRebuild& r) {
++    M2Batch follower = primary;
++    follower.m_materialIndex = static_cast<uint16_t>(primary.m_materialIndex + 1);
++    follower.m_materialLayer = 1;
++    follower.m_textureCount = 1;
++
++    switch (low) {
++        case 0:
++        case 3:
++        case 9:
++        case 17:
++        case 24: {
++            primary.m_textureCount = 2;
++            uint16_t blend = BlendOverride(r.blendOverride, 1, 4);
++            uint16_t coord = LookupPair(r.texUnitLookup, 0, -1);
++            primary.m_shader = follower.m_shader = blend;
++            primary.m_textureCoordComboIndex = follower.m_textureCoordComboIndex = coord;
++            break;
++        }
++        case 1:
++        case 15: {
++            primary.m_textureCount = 1;
++            primary.m_shader = follower.m_shader = 0;
++            follower.m_textureComboIndex = static_cast<uint16_t>(primary.m_textureComboIndex + 1);
++
++            if (static_cast<uint32_t>(primary.m_textureWeightComboIndex) + 1 < r.transparencyLookups) {
++                follower.m_textureWeightComboIndex = static_cast<uint16_t>(primary.m_textureWeightComboIndex + 1);
++            }
++
++            uint32_t next = static_cast<uint32_t>(primary.m_textureTransformComboIndex) + 1;
++            follower.m_textureTransformComboIndex = next < r.transformLookups ? static_cast<uint16_t>(next) : primary.m_textureTransformComboIndex;
++            uint16_t coord = LookupPair(r.texUnitLookup, 0, shader == 0x8001 ? -1 : 1);
++            primary.m_textureCoordComboIndex = coord;
++            follower.m_textureCoordComboIndex = static_cast<uint16_t>(coord + 1);
++            break;
++        }
++        case 2: {
++            uint16_t blend = BlendOverride(r.blendOverride, 1, 3);
++            uint16_t coord = LookupPair(r.texUnitLookup, 0, -1);
++            primary.m_shader = follower.m_shader = blend;
++            primary.m_textureCoordComboIndex = follower.m_textureCoordComboIndex = coord;
++            break;
++        }
++        default:
++            return false;
++    }
++
++    r.batches.push_back(primary);
++    r.batches.push_back(follower);
++    return true;
++}
++
++void DownConvertBatch(M2Batch b, bool bad, SkinRebuild& r) {
++    size_t first = r.batches.size();
++    uint16_t shader = b.m_shader;
++    uint16_t textureCount = b.m_textureCount;
++    b.m_flags &= 0x10;
++
++    if (shader >= 0x8000) {
++        uint16_t effect = shader & 0x7FFF;
++
++        // Effects 0-2 are the Diffuse_T1_Env combiners the client draws natively as ids 1-3.
++        if (effect <= 2) {
++            b.m_shader = static_cast<uint16_t>(0x8000 | (effect + 1));
++            b.m_textureCount = 2;
++            b.m_textureCoordComboIndex = LookupPair(r.texUnitLookup, 0, -1);
++            r.batches.push_back(b);
++        } else if (!EnvSplit(shader & 0xFF, shader, b, r)) {
++            switch (shader & 0xFF) {
++                case 5:
++                case 8:
++                case 10:
++                case 12:
++                case 16:
++                case 23:
++                    shader = 0;
++                    textureCount = 1;
++                    break;
++                case 21:
++                case 33:
++                case 35:
++                    // WXL substitutes an additive-overlay combiner at draw; drawn as its base pair here.
++                    shader = 0x4011;
++                    textureCount = 2;
++                    break;
++                default:
++                    shader = 0x0010;
++                    textureCount = 1;
++                    break;
++            }
++
++            DecodeBlendBits(b, shader, textureCount, r);
++            r.batches.push_back(b);
++        }
++    } else {
++        DecodeBlendBits(b, shader, textureCount, r);
++        r.batches.push_back(b);
++    }
++
++    // A batch on a parked section draws nothing (GetEffect id 0).
++    if (bad) {
++        for (size_t i = first; i < r.batches.size(); i++) {
++            r.batches[i].m_shader = 0x8000;
++        }
++    }
++}
++
++// Grows shared.m_data by the given arrays (the ConvertTextureValuesToCombos pattern: the buffer is
++// copied whole, so every self-relative array inside it stays valid) and points the fields at them.
++void AppendModelArrays(CM2Shared& shared, const std::vector<int16_t>& texUnitLookup, const std::vector<uint16_t>& blendOverride, const std::vector<int16_t>& transformLookup) {
++    uint32_t base = (shared.m_fileSize + 15) & ~15u;
++    uint32_t texBytes = static_cast<uint32_t>(texUnitLookup.size() * 2);
++    uint32_t blendBytes = static_cast<uint32_t>(blendOverride.size() * 2);
++    uint32_t transformBytes = static_cast<uint32_t>(transformLookup.size() * 2);
++    uint32_t total = base + ((texBytes + 3) & ~3u) + ((blendBytes + 3) & ~3u) + transformBytes;
++
++    if (total == base) {
++        return;
++    }
++
++    M2Data* data = static_cast<M2Data*>(SIMD::AllocA16(total, __FILE__, __LINE__));
++    std::memcpy(data, shared.m_data, shared.m_fileSize);
++    SIMD::FreeA16(shared.m_data);
++    shared.m_data = data;
++    shared.m_fileSize = total;
++    uint8_t* tail = reinterpret_cast<uint8_t*>(data) + base;
++
++    if (texBytes) {
++        std::memcpy(tail, texUnitLookup.data(), texBytes);
++        data->m_textureCoordCombos.m_count = static_cast<uint32_t>(texUnitLookup.size());
++        data->m_textureCoordCombos.Set(reinterpret_cast<uint16_t*>(tail));
++        tail += (texBytes + 3) & ~3u;
++    }
++
++    if (blendBytes) {
++        std::memcpy(tail, blendOverride.data(), blendBytes);
++        data->m_textureCombinerCombos.m_count = static_cast<uint32_t>(blendOverride.size());
++        data->m_textureCombinerCombos.Set(reinterpret_cast<uint16_t*>(tail));
++        data->m_flags |= 8;
++        tail += (blendBytes + 3) & ~3u;
++    }
++
++    if (transformBytes) {
++        std::memcpy(tail, transformLookup.data(), transformBytes);
++        data->m_textureTransformCombos.m_count = static_cast<uint32_t>(transformLookup.size());
++        data->m_textureTransformCombos.Set(reinterpret_cast<uint16_t*>(tail));
++    }
++}
++
++bool RebuildSkin(CM2Shared& shared, M2SkinProfile*& skin, uint32_t& size) {
++    uint8_t* raw = reinterpret_cast<uint8_t*>(skin);
++
++    if (size < 0x30) {
++        return false;
++    }
++
++    uint32_t sectionCount = Rd32(raw + 0x1C);
++    uint32_t sectionOffset = Rd32(raw + 0x20);
++    uint32_t batchCount = Rd32(raw + 0x24);
++    uint32_t batchOffset = Rd32(raw + 0x28);
++    uint32_t indexCount = Rd32(raw + 0x0C);
++
++    if (!Fits(size, sectionOffset, sectionCount, sizeof(M2SkinSection)) || !Fits(size, batchOffset, batchCount, sizeof(M2Batch))) {
++        return false;
++    }
++
++    if (batchCount > kMaxBatches) {
++        batchCount = kMaxBatches;
++    }
++
++    M2Data* data = shared.m_data;
++    SkinRebuild r;
++    r.transparencyLookups = data->m_textureWeightCombos.m_count;
++
++    // A model with texture transforms but no transform lookup gets an identity one sized to the
++    // highest index a batch reads.
++    std::vector<int16_t> transformLookup;
++
++    if (data->m_textureTransforms.m_count && !data->m_textureTransformCombos.m_count) {
++        uint32_t needed = data->m_textureTransforms.m_count;
++
++        for (uint32_t i = 0; i < batchCount; i++) {
++            M2Batch b;
++            std::memcpy(&b, raw + batchOffset + i * sizeof(M2Batch), sizeof(M2Batch));
++
++            if (b.m_textureTransformComboIndex == 0xFFFF) {
++                continue;
++            }
++
++            uint32_t n = b.m_textureCount ? b.m_textureCount : 1;
++
++            if (b.m_textureTransformComboIndex <= 0xFFFF - n && needed < b.m_textureTransformComboIndex + n) {
++                needed = b.m_textureTransformComboIndex + n;
++            }
++        }
++
++        for (uint32_t i = 0; i < needed; i++) {
++            transformLookup.push_back(i < data->m_textureTransforms.m_count ? static_cast<int16_t>(i) : -1);
++        }
++    }
++
++    r.transformLookups = transformLookup.empty() ? data->m_textureTransformCombos.m_count : static_cast<uint32_t>(transformLookup.size());
++
++    // Sections: LOD (level > 0) submeshes need the 32-bit index start this client lacks, so they are
++    // parked; drawn ones are clamped to the per-draw bone ceiling.
++    std::vector<uint8_t> bad(sectionCount, 0);
++    uint32_t boneCombos = data->m_boneCombos.m_count;
++
++    for (uint32_t i = 0; i < sectionCount; i++) {
++        M2SkinSection* s = reinterpret_cast<M2SkinSection*>(raw + sectionOffset + i * sizeof(M2SkinSection));
++        uint16_t level = static_cast<uint16_t>(s->m_skinSectionId >> 16);
++
++        if (level > 0 || (s->m_indexCount && (s->m_indexStart > indexCount || s->m_indexCount > indexCount - s->m_indexStart))) {
++            s->m_skinSectionId &= 0xFFFF;
++            s->m_vertexStart = s->m_vertexCount = s->m_indexStart = s->m_indexCount = 0;
++            s->m_boneComboIndex = s->m_centerBoneIndex = 0;
++        }
++
++        if (s->m_indexCount == 0) {
++            if (s->m_boneCount < 1) {
++                s->m_boneCount = 1;
++            }
++
++            bad[i] = 1;
++        } else {
++            uint16_t cap = kMaxBonesPerDraw;
++            uint16_t byCombo = boneCombos > s->m_boneComboIndex ? static_cast<uint16_t>(boneCombos - s->m_boneComboIndex) : 1;
++
++            if (byCombo < cap) {
++                cap = byCombo;
++            }
++
++            if (cap < 1) {
++                cap = 1;
++            }
++
++            if (s->m_boneCount > cap) {
++                s->m_boneCount = cap;
++            }
++
++            if (s->m_boneCount < 1) {
++                s->m_boneCount = 1;
++            }
++
++            if (s->m_boneInfluences == 0) {
++                s->m_boneInfluences = 1;
++            }
++        }
++
++        s->m_boneInfluences &= 0xFF;
++    }
++
++    for (uint32_t i = 0; i < batchCount; i++) {
++        M2Batch b;
++        std::memcpy(&b, raw + batchOffset + i * sizeof(M2Batch), sizeof(M2Batch));
++        DownConvertBatch(b, b.m_skinSectionIndex < sectionCount && bad[b.m_skinSectionIndex], r);
++    }
++
++    // The rebuilt batch array goes past the end of a copy of the skin; the stock M2Init relocates it
++    // from the raw offset like the rest.
++    uint32_t base = (size + 15) & ~15u;
++    uint32_t batchBytes = static_cast<uint32_t>(r.batches.size() * sizeof(M2Batch));
++    uint8_t* copy = static_cast<uint8_t*>(SIMD::AllocA16(base + batchBytes, __FILE__, __LINE__));
++    std::memcpy(copy, raw, size);
++    std::memset(copy + size, 0, base - size);
++    std::memcpy(copy + base, r.batches.data(), batchBytes);
++    Wr32(copy + 0x24, static_cast<uint32_t>(r.batches.size()));
++    Wr32(copy + 0x28, base);
++    SIMD::FreeA16(skin);
++    skin = reinterpret_cast<M2SkinProfile*>(copy);
++    size = base + batchBytes;
++
++    // shared.m_data may be a new buffer after this; data is stale.
++    AppendModelArrays(shared, r.texUnitLookup, r.blendOverride, transformLookup);
++
++    sExtensionMgr->Log("ZepModernM2:   skin: %u batch(es) -> %u, %u texunit lookup(s), %u combiner pair(s)", batchCount, static_cast<uint32_t>(r.batches.size()), static_cast<uint32_t>(r.texUnitLookup.size()), static_cast<uint32_t>(r.blendOverride.size() / 2));
++    return true;
++}
++
++class ZepModernM2ModelScript : public ModelScript {
++    public:
++    ZepModernM2ModelScript() : ModelScript("ZepModernM2ModelScript") {}
++
++    void OnModelFileRead(CM2Shared& shared, M2Data*& data, uint32_t& size) override {
++        const uint8_t* file = reinterpret_cast<const uint8_t*>(data);
++
++        if (!file || size < 8 || (Rd32(file) != kMagicMD21 && (Rd32(file) != kMagicMD20 || Rd32(file + 4) == kClientVersion))) {
++            return;
++        }
++
++        std::lock_guard<std::mutex> guard(s_lock);
++        const char* container = Rd32(file) == kMagicMD21 ? "MD21" : "MD20";
++        Body body;
++        Outcome out;
++
++        if (!Downport(shared.m_fileName, file, size, body, out)) {
++            return;
++        }
++
++        M2Data* bytes = static_cast<M2Data*>(SIMD::AllocA16(body.Size(), __FILE__, __LINE__));
++
++        if (!bytes) {
++            return;
++        }
++
++        std::memcpy(bytes, body.bytes.data(), body.Size());
++        SIMD::FreeA16(data);
++        data = bytes;
++        size = body.Size();
++        s_modern.insert(&shared);
++        s_models++;
++
++        sExtensionMgr->Log("ZepModernM2: %s downported (%s, %u bytes, tex %u/%u, cameras %u, emitters %u, streamed seq %u, skipped:%s)", shared.m_fileName, container, size, out.texResolved, out.texResolved + out.texUnresolved, out.cameras, out.particles, out.externalSequences, out.skipped.empty() ? " none" : out.skipped.c_str());
++    }
++
++    void OnModelSkinRead(CM2Shared& shared, M2SkinProfile*& skin, uint32_t& size) override {
++        std::lock_guard<std::mutex> guard(s_lock);
++
++        if (!s_modern.count(&shared) || !skin) {
++            return;
++        }
++
++        if (!RebuildSkin(shared, skin, size)) {
++            sExtensionMgr->Log("ZepModernM2: %s skin left as read (malformed header)", shared.m_fileName);
++        }
++    }
++
++    void OnModelSequenceRead(CM2Shared& shared, uint32_t sequenceIndex, void* buffer, uint32_t& size) override {
++        uint8_t* bytes = static_cast<uint8_t*>(buffer);
++
++        if (!bytes || size < 8 || Rd32(bytes) != kAFM2) {
++            return;
++        }
++
++        uint32_t payload = Rd32(bytes + 4);
++
++        if (payload > size - 8) {
++            return;
++        }
++
++        std::memmove(bytes, bytes + 8, payload);
++        size = payload;
++    }
++
++    void OnModelSharedLoaded(CM2Shared& shared) override {
++        std::lock_guard<std::mutex> guard(s_lock);
++
++        if (s_modern.count(&shared) && shared.m_billboardBoneCount == 0) {
++            shared.m_billboardBoneCount = 1;
++        }
++    }
++
++    void OnModelSharedDestroy(CM2Shared& shared) override {
++        std::lock_guard<std::mutex> guard(s_lock);
++        s_modern.erase(&shared);
++    }
++};
++
++}
++
++void AddZepModernM2Extension() {
++    new ZepModernM2ModelScript();
++}
+-- 
+2.34.1
+
