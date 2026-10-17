@@ -237,6 +237,25 @@ class Finder:
         return out
 
 
+# zpaks whose files our tools rewrite IN PLACE under the same name (zep model strip-rider, zep wardrobe
+# build): a pane cache entry depending on one checks size + mtime too, not only which file resolves
+# (F-220: a re-cut GnomeRocketCar_Empty kept drawing the old cut's pilot legs)
+STAT_DEPS = ('/zpaks/zep-mounted-npcs/', '/zpaks/zep-npc-wardrobe/')
+
+
+def _dep_sig(f) -> Optional[str]:
+    if f is None:
+        return None
+    s_ = str(f)
+    if any(r in s_ for r in STAT_DEPS):
+        try:
+            st = Path(s_).stat()
+            return f'{s_}|{st.st_size}|{st.st_mtime_ns}'
+        except OSError:
+            return s_
+    return s_
+
+
 class Deployer:
     def __init__(self, result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict,
                  names: Dict, equipment: Dict, log: Callable = print):
@@ -342,7 +361,7 @@ class Deployer:
             ok = True
             for p, fs in hit['deps']:
                 r = f._resolve(p)
-                if (str(r) if r is not None else None) != fs:
+                if _dep_sig(r) != fs:
                     ok = False
                     break
             if ok:
@@ -898,7 +917,7 @@ class Deployer:
             pane['skins_filled'] = [x for x in own_sk if x]
         import copy
         self.used[key] = {'pane': copy.deepcopy(pane), 'map': fmap, 'prov': pv_saved,
-                          'deps': [(p, str(f) if f is not None else None) for p, f in finder.log]}
+                          'deps': [(p, _dep_sig(f)) for p, f in finder.log]}
         return pane
 
     def _item_group(self, path: str) -> Optional[str]:

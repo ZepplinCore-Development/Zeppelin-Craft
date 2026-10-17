@@ -43,7 +43,7 @@ FUSED = {'batrider.m2', 'alliancerider.m2', 'alliancerider2.m2', 'horderider.m2'
          'mounteddeathknight_korthazz.m2', 'mounteddeathknight_mograine.m2', 'mounteddeathknight_zeliek.m2',
          'mountedknight.m2', 'mounteddemonknight.m2', 'terongorefiend_mounted.m2', 'felorcnetherdrakemounted.m2',
          'orcdrakerider.m2', 'tauren_mountedcanoe.m2', 'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2',
-         'gnomemechastrider.m2'}
+         'gnomemechastrider.m2', 'batrider2.m2', 'horderider2.m2', 'gnomefixmechastrider.m2'}   # + the HD pack's copies
 # their rider's skin (classic character layout): an M2 texture stem, or a display slot index
 # (0..2 = texture_variation_1..3) when the display skins the rider; race (Character/ folder), sex
 RIDERS = {'batrider.m2': ('trollbatriderskin', 'troll', 'male'),

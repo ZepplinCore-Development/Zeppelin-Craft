@@ -225,6 +225,14 @@
 <script>
 // stamped at deploy: a new pane.html is fetched after every deploy (no stale browser copy)
 const PANE_V = '__PANE_V__';
+// ?diag (I-401): every pane times where it holds the main thread; a panel shows it per card
+window.MV_DIAG = /[?&]diag\b/.test(location.search);
+// Panes from another site (I-401): ?panehost=<host:port> loads every pane from that name for
+// this same server. A different site runs in its own browser process, so the panes' shader
+// compiles stop freezing this page (list scrolling, hover).
+const PANE_BASE = (() => { const h = new URLSearchParams(location.search).get('panehost');
+  return h ? `${location.protocol}//${h}${location.pathname.replace(/[^/]*$/, '')}` : ''; })();
+const paneSrc = (prm) => PANE_BASE + 'pane.html?' + prm + (MV_DIAG ? '&diag' : '');
 // Layered asset selection (F-216): 1. 3D asset (mesh) -> 2. 2D asset (texture) -> 3. customise.
 // Choices: choices/layers.json {version: 2, mesh: {path: pick}, texture: {path: pick}, custom: {}}
 // Every pick is logged against the options it was made between ({option key: sources}); a new,
@@ -576,7 +584,9 @@ const FUSED = new Set(['batrider.m2', 'alliancerider.m2', 'alliancerider2.m2', '
   'mounteddemonknight.m2', 'terongorefiend_mounted.m2', 'felorcnetherdrakemounted.m2', 'orcdrakerider.m2', 'tauren_mountedcanoe.m2',
   // pilot baked in (its own display-skin slot 12/13): Mechano-Tank, Thermaplugg's pounder; the empty
   // vehicles gnomespidertank02 / gnomepoundervehicle (Assault Bot) have no pilot slot and are not here
-  'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2', 'gnomemechastrider.m2']);
+  'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2', 'gnomemechastrider.m2',
+  // the HD pack's own copies of fused models (patch-hd-creatures-mounts repoints the fused displays to them)
+  'batrider2.m2', 'horderider2.m2', 'gnomefixmechastrider.m2']);
 const isFusedRider = (path) => FUSED.has((path || '').split('/').pop());
 // fused, but dropped from F-220 (kept fused): no F-220 tag; still never given a second rider. The death
 // knights match no character model; the goblin rocket car's driver (creature goblin, no Mount anim)
@@ -1357,7 +1367,7 @@ function retailPaneSrc(prm, mount) {
     let o = {}; try { o = JSON.parse(prm.get('ovr') || '{}') || {}; } catch (e) {}
     prm.set('items', JSON.stringify(rd.items)); prm.set('ovr', JSON.stringify({ ...o, ...rd.ovr }));   // keeps pack skins
   }
-  return 'pane.html?' + prm;
+  return paneSrc(prm);
 }
 // packs whose files differ but draw the same (asset_index._merge_same_look): one option, every pack named
 const lookChip = (p) => !(p.same_look && p.same_look.length) ? '' : `<span class="chip ok" title="${esc(
@@ -1393,7 +1403,7 @@ function paneUrl(p, extra = {}) {
   if (p.scene) prm.set('scene', p.scene);
   if (ovr) prm.set('ovr', JSON.stringify(ovr));
   prm.set('pv', PANE_V);
-  return 'pane.html?' + prm.toString();
+  return paneSrc(prm);
 }
 // ---- Sources panel (provenance), data/prov/<id>.json fetched when opened -----------------
 // a display's outfit (deploy: lib/npc_outfit): from its bake row, matched from a character clone's skin, or a fused rider's
@@ -1718,7 +1728,7 @@ function openAsset(e) {
     const prm = new URLSearchParams({ src: 'v2', model: sm, retail: rf, build: retailIdx.build,
       cam: b0.camera ? [...b0.camera.target, b0.camera.dist].join(',') : '', scale: b0.scale || 1,
       skins: ((retailIdx.skins || {})[String(e.display)] || [0, 0, 0]).join(','), pv: PANE_V });
-    $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
+    $('panes').insertAdjacentHTML('beforeend', `<div class="pane"><iframe src="${paneSrc(prm)}" loading="lazy" title="Retail remaster"></iframe>
       <div class="info"><div class="h"><b>Retail remaster</b><span class="chip" title="Retail model, loaded live (FileDataID ${rf})">live from wago.tools</span><span class="chip" title="To ship it, pick Retail on the model card for ${esc(sm.split('/').pop())}: it replaces that file for every display">view only here</span></div>
       <div class="stats" data-live>loading…</div>
       <div class="stats">model: ${esc((retailIdx.names || {})[String(rf)] || sm)}</div></div></div>`);
@@ -1734,7 +1744,7 @@ function openAsset(e) {
       skins: ((retailIdx.skins || {})[String(e.display)] || [0, 0, 0]).join(','), pv: PANE_V });
     const chosen = c && c.option === 'retail';
     const rname = ((retailIdx.names || {})[String(rfd)] || '').split('/').pop();
-    $('panes').insertAdjacentHTML('beforeend', `<div class="pane${chosen ? ' chosen' : ''}"><iframe src="pane.html?${prm}" loading="lazy" title="Retail remaster"></iframe>
+    $('panes').insertAdjacentHTML('beforeend', `<div class="pane${chosen ? ' chosen' : ''}"><iframe src="${paneSrc(prm)}" loading="lazy" title="Retail remaster"></iframe>
       <div class="info"><div class="h"><b>Retail remaster</b><span class="chip" title="The newer model retail moved these displays to (FileDataID ${rfd}), wearing their retail skins. Picked, it ships converted the WarcraftXL way in place of ${esc(e.path.split('/').pop())}.">live from wago.tools</span></div>
       <div class="stats" data-live>loading…</div>
       <div class="stats">model: ${esc((retailIdx.names || {})[String(rfd)] || rname)}</div>
@@ -2943,7 +2953,29 @@ $('resetcam').onclick = () => document.querySelectorAll('.pane iframe').forEach(
 // animation menu: the union of every open pane's animations, applied to all panes
 let animNames = {}, animSets = new Map();   // pane window -> its animation ids
 fetch('data/v2/anims.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(a => { animNames = a || {}; });
-function resetAnims() { animSets = new Map(); $('anim').innerHTML = '<option value="0">Stand (0)</option>'; }
+function resetAnims() { animSets = new Map(); $('anim').innerHTML = '<option value="0">Stand (0)</option>'; if (MV_DIAG) diagReset(); }
+// ?diag panel (I-401): this page's longest main-thread block and total time blocked since the
+// card opened, plus each pane's own share (shader compile waits, uploads, frames, fix-ups)
+let diagT0 = 0, diagBlocks = [], diagPanes = new Map();
+function diagReset() { diagT0 = performance.now(); diagBlocks = []; diagPanes = new Map(); diagShow(); }
+function diagShow() {
+  let el = document.getElementById('mvdiag');
+  if (!el) { el = document.createElement('pre'); el.id = 'mvdiag'; el.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:9999;margin:0;padding:8px 10px;max-width:760px;'
+    + 'background:rgba(0,0,0,.85);color:#e8e8e8;font:12px/1.35 ui-monospace,monospace;border-radius:6px;white-space:pre;user-select:text;pointer-events:auto'; document.body.append(el); }
+  const f = (n) => Math.round(n).toLocaleString(), sum = diagBlocks.reduce((a, b) => a + b, 0);
+  const rows = [...diagPanes.values()].map((d, i) => `pane ${i + 1}: init ${f(d.init)} | shaders ${f(d.shader)} (${d.links} links) | uploads ${f(d.upload)} | frames ${f(d.frame)} (max ${f(d.frameMax)}) | fix-ups ${f(d.fix)} (max ${f(d.fixMax)}) | ${d.files} files ${(d.bytes / 1e6).toFixed(1)} MB${d.done ? '' : ' ...'}`);
+  const tot = (k) => f([...diagPanes.values()].reduce((a, d) => a + d[k], 0));
+  el.textContent = `diag (ms) since card opened ${f(performance.now() - diagT0)} - ${navigator.userAgent.replace(/^.*(Firefox|Chrome)\/(\d+).*$/, '$1 $2')}\n`
+    + `page blocked ${f(sum)} in ${diagBlocks.length} blocks >50, longest ${f(Math.max(0, ...diagBlocks))}\n`
+    + `all panes: init ${tot('init')} | shaders ${tot('shader')} | uploads ${tot('upload')} | frames ${tot('frame')} | fix-ups ${tot('fix')}\n`
+    + `outside the panes' JS (browser layout / compositing / GPU waits / GC): ~${f(Math.max(0, sum - [...diagPanes.values()].reduce((a, d) => a + d.init + d.shader + d.upload + d.frame + d.fix, 0)))}\n` + rows.join('\n');
+}
+if (MV_DIAG) {
+  let t = performance.now();
+  setInterval(() => { const n = performance.now(); if (n - t > 60) diagBlocks.push(n - t - 10); t = n; }, 10);
+  setInterval(() => { if (diagT0) diagShow(); }, 1000);
+  addEventListener('message', (e) => { const m = e.data || {}; if (m.type === 'pane-diag') diagPanes.set(m.src + '|' + [...document.querySelectorAll('#panes iframe')].findIndex(x => x.contentWindow === e.source), m.d); });
+}
 $('anim').addEventListener('change', () => {
   const id = +$('anim').value;
   document.querySelectorAll('.pane iframe').forEach(f => f.contentWindow && f.contentWindow.postMessage({ type: 'anim', id }, '*'));

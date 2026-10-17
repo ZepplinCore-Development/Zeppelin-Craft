@@ -97,38 +97,6 @@ INSERT INTO creaturemodeldata SET
   missile_collision_push = 0.0,
   missile_collision_raise = 0.0;
 
--- 900223 = OrcDrakeRider_Mount: creature/drake/orcdrakerider.m2 (model 1291) without its rider; removed batches per skin [2, 2, 2, 2]
-DELETE FROM creaturemodeldata WHERE id = 900223;
-INSERT INTO creaturemodeldata SET
-  id = 900223,
-  flags = 1,
-  model_path = 'Creature\\Drake\\OrcDrakeRider_Mount.mdx',
-  size_class = 3,
-  model_scale = 1.0,
-  blood_id = 1,
-  footprint_texture_id = 4294967295,
-  footprint_texture_length = 18.0,
-  footprint_texture_width = 12.0,
-  footprint_particle_scale = 1.0,
-  foley_material_id = 0,
-  footstep_shake_size = 0,
-  death_thud_shake_size = 11,
-  sound_data = 1188,
-  collision_width = 0.6111000180244446,
-  collision_height = 2.0309998989105225,
-  mount_height = 2.5346601009368896,
-  geo_box_min_x = -6.451478958129883,
-  geo_box_min_y = -10.211520195007324,
-  geo_box_min_z = -0.5512170195579529,
-  geo_box_max_x = 2.7495229244232178,
-  geo_box_max_y = 10.210949897766113,
-  geo_box_max_z = 11.51261043548584,
-  world_effect_scale = 1.0,
-  attached_effect_scale = 1.0,
-  missile_collision_radius = 0.0,
-  missile_collision_push = 0.0,
-  missile_collision_raise = 0.0;
-
 -- 900224 = Tauren_Canoe: creature/tauren_mountedcanoe/tauren_mountedcanoe.m2 (model 2589) without its rider; removed batches per skin [3, 3, 6]
 DELETE FROM creaturemodeldata WHERE id = 900224;
 INSERT INTO creaturemodeldata SET
