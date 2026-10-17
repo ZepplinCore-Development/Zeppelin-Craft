@@ -227,11 +227,24 @@
 const PANE_V = '__PANE_V__';
 // ?diag (I-401): every pane times where it holds the main thread; a panel shows it per card
 window.MV_DIAG = /[?&]diag\b/.test(location.search);
-// Panes from another site (I-401): ?panehost=<host:port> loads every pane from that name for
-// this same server. A different site runs in its own browser process, so the panes' shader
-// compiles stop freezing this page (list scrolling, hover).
-const PANE_BASE = (() => { const h = new URLSearchParams(location.search).get('panehost');
-  return h ? `${location.protocol}//${h}${location.pathname.replace(/[^/]*$/, '')}` : ''; })();
+// Panes from another site (I-401): each pane's engine compiles its shaders and waits for them
+// on the main thread (5-10 s per card on Windows). Same-site iframes share this page's thread, so
+// the list stopped scrolling and hover froze; a pane from another name for this same server runs
+// in its own browser process. At startup every other name is probed at once (1.5 s) and the
+// first that answers, in this order, serves the panes; none = this site, as before.
+// ?panehost=<host:port> forces one, ?panehost=same turns it off.
+const PANE_HOSTS = ['192.168.0.55:8111', 'tower:8111', '100.118.226.124:8111', '159.196.84.172:8111'];
+let PANE_BASE = '';
+const paneHostReady = (async () => {
+  const dir = location.pathname.replace(/[^/]*$/, ''), asked = new URLSearchParams(location.search).get('panehost');
+  if (asked === 'same') return;
+  const cand = asked ? [asked] : PANE_HOSTS.filter(h => h.split(':')[0] !== location.hostname);
+  const probe = (h) => { const ac = new AbortController(), t = setTimeout(() => ac.abort(), 1500);
+    return fetch(`${location.protocol}//${h}${dir}blp.js`, { mode: 'no-cors', cache: 'no-store', signal: ac.signal }).then(() => h).finally(() => clearTimeout(t)); };
+  const ok = await Promise.allSettled(cand.map(probe));
+  const h = (ok.find(r => r.status === 'fulfilled') || {}).value;
+  if (h) PANE_BASE = `${location.protocol}//${h}${dir}`;
+})();
 const paneSrc = (prm) => PANE_BASE + 'pane.html?' + prm + (MV_DIAG ? '&diag' : '');
 // Layered asset selection (F-216): 1. 3D asset (mesh) -> 2. 2D asset (texture) -> 3. customise.
 // Choices: choices/layers.json {version: 2, mesh: {path: pick}, texture: {path: pick}, custom: {}}
@@ -2966,6 +2979,7 @@ function diagShow() {
   const rows = [...diagPanes.values()].map((d, i) => `pane ${i + 1}: init ${f(d.init)} | shaders ${f(d.shader)} (${d.links} links) | uploads ${f(d.upload)} | frames ${f(d.frame)} (max ${f(d.frameMax)}) | fix-ups ${f(d.fix)} (max ${f(d.fixMax)}) | ${d.files} files ${(d.bytes / 1e6).toFixed(1)} MB${d.done ? '' : ' ...'}`);
   const tot = (k) => f([...diagPanes.values()].reduce((a, d) => a + d[k], 0));
   el.textContent = `diag (ms) since card opened ${f(performance.now() - diagT0)} - ${navigator.userAgent.replace(/^.*(Firefox|Chrome)\/(\d+).*$/, '$1 $2')}\n`
+    + `panes from ${PANE_BASE || 'this site (same thread as this page)'}\n`
     + `page blocked ${f(sum)} in ${diagBlocks.length} blocks >50, longest ${f(Math.max(0, ...diagBlocks))}\n`
     + `all panes: init ${tot('init')} | shaders ${tot('shader')} | uploads ${tot('upload')} | frames ${tot('frame')} | fix-ups ${tot('fix')}\n`
     + `outside the panes' JS (browser layout / compositing / GPU waits / GC): ~${f(Math.max(0, sum - [...diagPanes.values()].reduce((a, d) => a + d.init + d.shader + d.upload + d.frame + d.fix, 0)))}\n` + rows.join('\n');
@@ -3038,6 +3052,7 @@ function unshare(cu) {
     fetch('data/v2/display_options.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) dispOpts = m; }),
     fetch('data/v2/mounts.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
   ]);
+  await paneHostReady;
   assets = a.assets; texIndex = t; customList = unshare(cu);
   if (c) choices = { version: 2, mesh: c.mesh || {}, texture: c.texture || {}, custom: c.custom || {}, fit: c.fit || {}, display: c.display || {}, wish: c.wish || {} };
   repairRetailCollisions();
