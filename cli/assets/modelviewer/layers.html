@@ -245,11 +245,14 @@ const paneHostReady = (async () => {
       .then(() => { paneProbes.push(`${h} ok ${Math.round(performance.now() - t0)} ms`); return h; },
         (e) => { paneProbes.push(`${h} ${ac.signal.aborted ? 'no answer in 1.5 s' : 'failed (' + (e && e.message || e) + ')'}`); throw e; })
       .finally(() => clearTimeout(t)); };
-  const ok = await Promise.allSettled(cand.map(probe));
-  const h = (ok.find(r => r.status === 'fulfilled') || {}).value;
-  if (h) PANE_BASE = `${location.protocol}//${h}${dir}`;
+  const ok = (await Promise.allSettled(cand.map(probe))).filter(r => r.status === 'fulfilled').map(r => `${location.protocol}//${r.value}${dir}`);
+  if (ok.length) PANE_BASE = ok[0];
+  // ?panesplit: deal the panes out over every name that answered (a process each), to test
+  // whether the browser runs their GPU work in parallel
+  if (/[?&]panesplit\b/.test(location.search)) PANE_BASES = ok;
 })();
-const paneSrc = (prm) => PANE_BASE + 'pane.html?' + prm + (MV_DIAG ? '&diag' : '');
+let PANE_BASES = [], paneDeal = 0;
+const paneSrc = (prm) => (PANE_BASES.length > 1 ? PANE_BASES[paneDeal++ % PANE_BASES.length] : PANE_BASE) + 'pane.html?' + prm + (MV_DIAG ? '&diag' : '') + (/[?&]noprogcache\b/.test(location.search) ? '&noprogcache' : '');
 // Layered asset selection (F-216): 1. 3D asset (mesh) -> 2. 2D asset (texture) -> 3. customise.
 // Choices: choices/layers.json {version: 2, mesh: {path: pick}, texture: {path: pick}, custom: {}}
 // Every pick is logged against the options it was made between ({option key: sources}); a new,
@@ -3042,20 +3045,20 @@ fetch('data/v2/anims.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {
 function resetAnims() { animSets = new Map(); $('anim').innerHTML = '<option value="0">Stand (0)</option>'; if (MV_DIAG) diagReset(); }
 // ?diag panel (I-401): this page's longest main-thread block and total time blocked since the
 // card opened, plus each pane's own share (shader compile waits, uploads, frames, fix-ups)
-let diagT0 = 0, diagBlocks = [], diagPanes = new Map();
-function diagReset() { diagT0 = performance.now(); diagBlocks = []; diagPanes = new Map(); diagShow(); }
+let diagT0 = 0, diagE0 = 0, diagBlocks = [], diagPanes = new Map();
+function diagReset() { diagT0 = performance.now(); diagE0 = Date.now(); diagBlocks = []; diagPanes = new Map(); diagShow(); }
 function diagShow() {
   let el = document.getElementById('mvdiag');
   if (!el) { el = document.createElement('pre'); el.id = 'mvdiag'; el.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:9999;margin:0;padding:8px 10px;max-width:760px;'
     + 'background:rgba(0,0,0,.85);color:#e8e8e8;font:12px/1.35 ui-monospace,monospace;border-radius:6px;white-space:pre;user-select:text;pointer-events:auto'; document.body.append(el); }
   const f = (n) => Math.round(n).toLocaleString(), sum = diagBlocks.reduce((a, b) => a + b, 0);
-  const rows = [...diagPanes.values()].map((d, i) => `pane ${i + 1}: init ${f(d.init)} | shaders ${f(d.shader)} (${d.links} links) | uploads ${f(d.upload)} | frames ${f(d.frame)} (max ${f(d.frameMax)}) | fix-ups ${f(d.fix)} (max ${f(d.fixMax)}) | ${d.files} files ${(d.bytes / 1e6).toFixed(1)} MB${d.done ? '' : ' ...'}`);
+  const rows = [...diagPanes.values()].map((d, i) => `pane ${i + 1}: init ${f(d.init)} | shaders ${f(d.shader)} (${d.links} links${d.shared ? `, ${d.shared} from cache` : ''}${d.lastLink ? `, last at ${f(d.lastLink - diagE0)}` : ''}) | uploads ${f(d.upload)} | frames ${f(d.frame)} (max ${f(d.frameMax)}) | fix-ups ${f(d.fix)} (max ${f(d.fixMax)}) | ${d.files} files ${(d.bytes / 1e6).toFixed(1)} MB${d.done ? '' : ' ...'}`);
   const tot = (k) => f([...diagPanes.values()].reduce((a, d) => a + d[k], 0));
   el.textContent = `diag (ms) since card opened ${f(performance.now() - diagT0)} - ${navigator.userAgent.replace(/^.*(Firefox|Chrome)\/(\d+).*$/, '$1 $2')}\n`
-    + `page at ${location.protocol}//${location.host} - panes from ${PANE_BASE || 'this site (same thread as this page)'}\n`
+    + `page at ${location.protocol}//${location.host} - panes from ${PANE_BASES.length > 1 ? 'split over ' + PANE_BASES.join(' + ') : PANE_BASE || 'this site (same thread as this page)'}\n`
     + `probes: ${paneProbes.join(' | ') || 'none'}\n`
     + `page blocked ${f(sum)} in ${diagBlocks.length} blocks >50, longest ${f(Math.max(0, ...diagBlocks))}\n`
-    + `all panes: init ${tot('init')} | shaders ${tot('shader')} | uploads ${tot('upload')} | frames ${tot('frame')} | fix-ups ${tot('fix')}\n`
+    + `all panes: init ${tot('init')} | shaders ${tot('shader')} (${tot('links')} links, ${tot('shared')} from cache, last at ${f(Math.max(0, ...[...diagPanes.values()].map(d => (d.lastLink || diagE0) - diagE0)))}) | uploads ${tot('upload')} | frames ${tot('frame')} | fix-ups ${tot('fix')}\n`
     + `outside the panes' JS (browser layout / compositing / GPU waits / GC): ~${f(Math.max(0, sum - [...diagPanes.values()].reduce((a, d) => a + d.init + d.shader + d.upload + d.frame + d.fix, 0)))}\n` + rows.join('\n');
 }
 if (MV_DIAG) {
