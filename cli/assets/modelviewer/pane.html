@@ -1132,6 +1132,7 @@ function startScene() {
     syncSize();
     let last;
     const loop = (now) => {
+      if (gone) return;
       camStep();
       Module._gameloop(last === undefined ? 0 : (now - last) / 1000);
       last = now;
@@ -1141,6 +1142,18 @@ function startScene() {
     parent.postMessage({ type: 'pane-ready', src: SRC }, '*');
   }
 }
+// A pane the card drops frees its GL context at once (I-401). Firefox otherwise keeps every
+// dropped pane's textures and buffers alive in its main process until a later GC: ~300 MB
+// per card opened, 1.4 -> 4.3 GB over ten cards, until it idles ~30 s.
+let gone = false;
+addEventListener('pagehide', () => {
+  gone = true;
+  try {
+    const c = Module.canvas, gl = c.getContext('webgl2') || c.getContext('webgl');
+    const x = gl && gl.getExtension('WEBGL_lose_context');
+    if (x) x.loseContext();
+  } catch (e) {}
+});
 
 // Keep the engine's viewport and aspect in step with the pane's real size
 // (the grid can lay the iframe out after the engine has started).
