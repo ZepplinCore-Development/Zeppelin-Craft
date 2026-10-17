@@ -2237,7 +2237,8 @@ async function riderCards(e, riders, mount) {
         <button class="use" title="Keep the stock fused rider + mount model: this rider is not split off">${pk.option === 'fused' ? 'Chosen' : 'Use this'}</button></div>`;
       if (pk.option === 'fused') div.classList.add('chosen');
       div.querySelector('.use').onclick = () => save('display', String(e.display), e, 'fused');
-      $('panes').prepend(div);
+      const bar = $('ctxbar');                  // first card, after the context bar (before it, it took a row of its own)
+      if (bar) bar.after(div); else $('panes').prepend(div);
     }
   }
   for (const [did, name] of riders) {
