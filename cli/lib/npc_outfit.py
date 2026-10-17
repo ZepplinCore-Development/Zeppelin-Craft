@@ -80,6 +80,7 @@ RACES = ['bloodelf', 'draenei', 'dwarf', 'gnome', 'goblin', 'human', 'nightelf',
 # shirt / chest / tabard may cover at most SKIN_COVER_MAX of them
 UPPER_64 = (0, 32)
 SKIN_DIST, SKIN_MIN_PX, SKIN_COVER_MAX = 16.0, 200, 0.25   # 200 px: real bare skin (bat rider 576), not armour pixels of a skin tone (armoured gnome 79)
+LOOK_WORKER_GB = 5.0     # memory one look-alike worker needs (its own search pool)
 ANCHOR_ABS, ANCHOR_GAP = 6.0, 2.0       # lookalike anchors: an exact region match fixes its slot
 ORDER = ['Shirt', 'Chest', 'Legs', 'Belt', 'Boots', 'Wrists', 'Gloves', 'Tabard']   # bake order (belt after legs)
 
@@ -481,6 +482,13 @@ class Outfits:
         # a few jobs: no fork (each worker copies the parent's touched pages - a 7 GB deploy forked six
         # workers for one look-alike and was killed); otherwise no more workers than jobs
         workers = min(workers, len(args)) if len(args) > 3 else 0
+        # each worker builds the ~4 GB search pool: never more than the free memory holds (the host shares
+        # 62 GB with MySQL / worldserver; 6 workers on 10 GB free got the deploy OOM-killed after the catalogue)
+        try:
+            avail_gb = int(next(l for l in open('/proc/meminfo') if l.startswith('MemAvailable')).split()[1]) / 1048576
+            workers = min(workers, max(0, int((avail_gb - 4) // LOOK_WORKER_GB)))
+        except Exception:
+            pass
         try:
             if not workers:
                 raise BrokenProcessPool('serial')
