@@ -1811,6 +1811,12 @@ function openAsset(e) {
     }
   }
   if (e.tab === 'display' && ((mountRiders.links || {})[e.display] || []).length) {
+    // F-220: our riderless mount model (zep-mounted-npcs) and its versions - the stock cut and each pack's
+    // cut (zep-mounted-npcs-packs) are options of THAT model, picked on its page
+    const own = (e.panes || []).find(p => (p.sources || []).includes('zep-mounted-npcs'));
+    const M = own && assets.find(a => a.tab === 'creature' && a.path === own.model);
+    if (M && (M.panes || []).length > 1)
+      ctx.push(`<span title="Our riderless mount model: the stock fused model and each community pack's copy with the rider cut out">riderless</span><a href="?layer=creature&path=${encodeURIComponent(M.path)}">${esc(M.path.split('/').pop())} (${M.panes.length} versions) →</a>`);
     // F-220: the riders the world DB seats on this mount display - direct links (a phone has no hover)
     ctx.push(`<span title="Rider displays seated on this mount (creature_template_addon / creature_addon mount)">riders</span>` +
       mountRiders.links[e.display].map(l => `<a href="?layer=display&display=${l.display}">${esc(l.creature)}</a>`).join(' · '));

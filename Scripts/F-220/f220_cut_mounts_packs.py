@@ -40,3 +40,14 @@ for src, out, tex, slots in JOBS:
             (d / Path(out).name).write_bytes(m2)
             for f, data in zip(sk, nsk):
                 (d / (Path(out).stem + f.name[-7:].lower())).write_bytes(data)
+            # the pack's own textures the cut uses (renamed / added ones stock lacks) ship with it: the pack
+            # may not be picked or enabled, and the picker resolves this source's files + stock only
+            from lib import skin_fill as sf_
+            for t_, n_ in sf_.texture_table(m2):
+                if n_ and n_ not in ix.stock:
+                    srcf = next((ix._src_files(x).get(n_) for x in o.sources if ix._src_files(x).get(n_)), None)
+                    if srcf is None:
+                        print('   texture not found in the pack:', n_); continue
+                    dst = OUT / srcf.relative_to(next(r for r in srcf.parents if r.name == 'source-assets'))
+                    dst.parent.mkdir(parents=True, exist_ok=True); dst.write_bytes(srcf.read_bytes())
+                    print('   texture', n_)
