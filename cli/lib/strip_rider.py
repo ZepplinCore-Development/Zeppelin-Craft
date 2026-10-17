@@ -170,7 +170,40 @@ def strip(m2: bytes, skins: List[bytes], rider_textures: Set[str], slots: Set[in
         if struct.unpack_from('<I', m, ao + 40 * i)[0] == 0:
             struct.pack_into('<H', m, ao + 40 * i + 4, near)
             struct.pack_into('<3f', m, ao + 40 * i + 8, *seat)
-    return bytes(m), out_skins, dict(rider_branch=pelvis if shared else rb, shared=shared, removed=removed, seat=seat, seat_bone=near)
+    bones = sorted(sub_bones) if shared else [i for i in range(len(parent)) if parent[i] >= 0 and _branch(parent, i) == rb]
+    return bytes(m), out_skins, dict(rider_branch=pelvis if shared else rb, shared=shared, removed=removed, seat=seat,
+                                     seat_bone=near, rider_bones=bones, pelvis=pelvis, parents=parent)
+
+
+def strip_like(m2: bytes, skins: List[bytes], ref: Dict) -> Tuple[bytes, List[bytes], Dict]:
+    """A community pack's copy of a fused model cut the way its stock model was (ref = strip()'s report):
+    pack copies keep the stock skeleton but rename textures (the HD rocket car's pilot is gnome11 / gnome13),
+    so the rider is found by BONES - a submesh mostly weighted onto the stock cut's rider bones - not by name.
+    Raises when the skeleton differs."""
+    parent, pivot = _bones(m2)
+    if parent != ref['parents']:
+        raise ValueError(f'skeleton differs from the stock model ({len(parent)} vs {len(ref["parents"])} bones)')
+    rider = set(ref['rider_bones'])
+    out_skins, removed = [], []
+    for sk in skins:
+        rider_sub = {i for i, c in enumerate(_submesh_bones(m2, sk)) if c and sum(w for b, w in c.items() if b in rider) * 2 > sum(c.values())}
+        n, o, bs = _batches(sk)
+        keep = [b for b in bs if struct.unpack_from('<H', b, 4)[0] not in rider_sub]
+        new = bytearray(sk)
+        new[o:o + 24 * n] = b''.join(keep) + b'\0' * (24 * (n - len(keep)))
+        struct.pack_into('<I', new, 0x24, len(keep))
+        out_skins.append(bytes(new))
+        removed.append(n - len(keep))
+    seat = pivot[ref['pelvis']]
+    mount_bones = [i for i in range(len(parent)) if i not in rider and parent[i] >= 0]
+    near = min(mount_bones, key=lambda i: sum((a - b) ** 2 for a, b in zip(pivot[i], seat)))
+    m = bytearray(m2)
+    an, ao = struct.unpack_from('<II', m, 0xF0)
+    for i in range(an):
+        if struct.unpack_from('<I', m, ao + 40 * i)[0] == 0:
+            struct.pack_into('<H', m, ao + 40 * i + 4, near)
+            struct.pack_into('<3f', m, ao + 40 * i + 8, *seat)
+    return bytes(m), out_skins, dict(removed=removed, seat=seat, seat_bone=near)
 
 
 def strip_files(src_m2: Path, out_m2: Path, rider_textures: Set[str], slots: Set[int] = frozenset()) -> Dict:

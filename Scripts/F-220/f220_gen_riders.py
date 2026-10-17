@@ -1,4 +1,4 @@
-# Run from Zeppelin-Craft/cli: python3 '../Scripts/Character Skins/f220_gen_riders.py'
+# Run from Zeppelin-Craft/cli: python3 '../Scripts/F-220/f220_gen_riders.py'
 # Inputs: zpaks/zep-npc-wardrobe/f220_riders.json (fused rider skins -> displays).
 # Then: zep wardrobe build; zep dbc db apply --changed; zep model viewer.
 # F-220: two wardrobe manifests per fused rider skin - "fake" (its own skin as the bake) and "look" (look-alike items)

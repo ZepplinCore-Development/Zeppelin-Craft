@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-mounted-npcs-packs",
+  "version": "0.1.0",
+  "description": "F-220: riderless mounts cut from community-pack copies of fused rider models (patch-hd-creatures-mounts); same client paths as zep-mounted-npcs' stock cuts, so the F-216 picker offers both",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-Z",
+  "enabled": false,
+  "priority": 506,
+  "features": [
+    "F-220"
+  ],
+  "contents": {
+    "mpq": [
+      "mpq/**/*"
+    ]
+  }
+}
