@@ -111,7 +111,7 @@ INSERT INTO `creaturedisplayinfoextra` SET
   `hair_style` = 0,
   `hair_color` = 0,
   `facial_hair` = 0,
-  `helm_id` = 0,
+  `helm_id` = 48573,
   `shoulders_id` = 0,
   `shirt_id` = 7849,
   `chest_id` = 210043,

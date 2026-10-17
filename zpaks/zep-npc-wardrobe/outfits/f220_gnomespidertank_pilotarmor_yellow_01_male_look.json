@@ -28,7 +28,10 @@
         "item": 18824,
         "mod": 0
       },
-      "gloves": 19143
+      "gloves": 19143,
+      "helm": {
+        "display": 48573
+      }
     }
   },
   "appearance": {

@@ -98,6 +98,76 @@ def hair_colour(hair_tex, race, g):
         if best is None or dlt < best[0]:
             best = (dlt, int(r['color_index']))
     return best[1] if best else None
+
+RACE_CODE = {'human': 'hu', 'orc': 'or', 'dwarf': 'dw', 'nightelf': 'ni', 'scourge': 'sc', 'tauren': 'ta', 'gnome': 'gn',
+             'troll': 'tr', 'goblin': 'go', 'bloodelf': 'be', 'draenei': 'dr'}
+
+
+def _tex_subs(m2p, word):
+    """Vertices of the submeshes of m2p drawn with a texture whose file name contains word."""
+    d = ix.stock[m2p].read_bytes(); sk = ix.stock[m2p[:-3] + '00.skin'].read_bytes(); V = _verts(d)
+    pts = [V[idx] for gid, idx, tx in _subs(d, sk) if any(word in x.rsplit('/', 1)[-1] for x in tx)]
+    return np.concatenate(pts) if pts else None
+
+
+def _shape_score(P, Q):
+    """Scale- and translation-free chamfer of two point sets (best of four yaw turns) + a size term."""
+    def norm(X):
+        c = X - X.mean(0); r = np.sqrt((c ** 2).sum(1).mean()); return c / r, r
+    Pn, pr = norm(P); Qn, qr = norm(Q)
+    best = 9.0
+    for a in (0, np.pi / 2, np.pi, -np.pi / 2):
+        c_, s_ = np.cos(a), np.sin(a)
+        R = Qn @ np.array([[c_, -s_, 0], [s_, c_, 0], [0, 0, 1]]).T
+        dd = np.sqrt(((Pn[:, None] - R[None]) ** 2).sum(-1))
+        best = min(best, (dd.min(1).mean() + dd.min(0).mean()) / 2)
+    return best + 0.3 * abs(np.log(qr / pr))
+
+
+def rider_helm(mp, race, sex):
+    """The stock ItemDisplayInfo for the helm a fused rider wears as its own mesh (a texture named
+    *helm*, the mechastrider pilot's pilothelm_yellow_01): the head model closest in SHAPE among the
+    race / sex helm files, then of its displays the one whose texture is closest in colour (and that
+    hides the hair, on a tie). None when the rider has no helm mesh or nothing is clearly close."""
+    if mp is None or race not in RACE_CODE:
+        return None
+    H = _tex_subs(mp, 'helm')
+    if H is None or len(H) < 20:
+        return None
+    sfx = f'_{RACE_CODE[race]}{sex[0]}.m2'
+    res = []
+    for k, f in ix.stock.items():
+        if k.startswith('item/objectcomponents/head/') and k.endswith(sfx):
+            try:
+                V = _verts(f.read_bytes())
+            except Exception:
+                continue
+            if len(V) >= 10:
+                res.append((_shape_score(H, V), k))
+    res.sort()
+    if not res or res[0][0] > HELM_MAX:
+        print('   helm: no head model close enough', res[:1])
+        return None
+    stem = res[0][1].rsplit('/', 1)[-1][:-len(sfx)]
+    d = ix.stock[mp].read_bytes()
+    htex = next((n for _, n in sf.texture_table(d) if 'helm' in n.rsplit('/', 1)[-1]), None)
+    t = _lab(np.asarray(Image.open(ix.stock[htex]).convert('RGB').resize((32, 32), Image.BOX), dtype=np.float32)).reshape(-1, 3)
+    best = None
+    for r in q(f"SELECT id, left_model_texture, helmet_geoset_male, helmet_geoset_female FROM itemdisplayinfo WHERE left_model = '{stem}.mdx' AND id < 200000"):
+        cf = ix.stock.get(f"item/objectcomponents/head/{r['left_model_texture'].lower()}.blp")
+        if cf is None:
+            continue
+        c = _lab(np.asarray(Image.open(cf).convert('RGB').resize((32, 32), Image.BOX), dtype=np.float32)).reshape(-1, 3)
+        key = (round(float(np.linalg.norm(np.median(t, 0) - np.median(c, 0))), 1),
+               int(r['helmet_geoset_male' if sex == 'male' else 'helmet_geoset_female'] or 0) == 0, int(r['id']))
+        if best is None or key < best[0]:
+            best = (key, int(r['id']))
+    print('   helm:', stem, 'shape', round(res[0][0], 3), '(next', round(res[1][0], 3) if len(res) > 1 else '-', ') display', best)
+    return best[1] if best else None
+
+
+HELM_MAX = 0.2      # shape score: the diver helm matched the mechastrider pilot's at 0.175, unrelated helms 0.21+
+
 from lib.npc_outfit import RIDER_CLASS as _RC
 _mog = o.lookalike(ix.stock['creature/mounteddeathknight/mounteddeathknightgoldred_03.blp'], 'human', 'male', 4)
 DK_SET = frozenset(int(str(r[3][0])[2:]) if str(r[3][0]).startswith('r:') else -int(r[1]) for r in _mog if r[3] or r[1])
@@ -279,6 +349,15 @@ for path, race, sex, displays in riders:
         if best_v:
             pieces['shoulders'] = {'display': best_v[1]}
             print('   shoulders: D_02 variant', best_v[2], best_v[1])
+    # every fused model wearing this rider skin (the armoured pilot: the Mechano-Tank AND the mechastrider,
+    # whose pilot wears a helm mesh)
+    from lib.npc_outfit import RIDERS as _R
+    hv_ = None
+    for m_ in sorted(k for k in ix.stock if k.endswith('.m2') and k.rsplit('/', 1)[-1] in _R):
+        if m_ == mp or any(n == path for _, n in sf.texture_table(ix.stock[m_].read_bytes())):
+            hv_ = hv_ or rider_helm(m_, race, sex)
+    if hv_:
+        pieces['helm'] = {'display': hv_}             # the fake wears it too: compare like with like
     if did in DK_HELM:
         pieces['helm'] = {'display': DK_HELM[did]}          # the fake wears it too: compare like with like
     for k, v in pieces.items():
