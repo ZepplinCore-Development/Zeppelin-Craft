@@ -42,11 +42,13 @@ type PatchRegister struct {
 	LastUpdated    string                `json:"last_updated"`
 	ServerMetadata ServerMetadata        `json:"server_metadata"`
 	Patches        map[string]PatchEntry `json:"patches"`
+	Launcher       *LauncherRelease      `json:"launcher,omitempty"` // F-224: self-update; older launchers ignore it
 }
 
 type PatchRegisterClient struct {
-	Register PatchRegister
-	fetched  bool
+	Register   PatchRegister
+	fetched    bool
+	modeLogged bool
 }
 
 func NewPatchRegisterClient() *PatchRegisterClient {
@@ -76,6 +78,11 @@ func (c *PatchRegisterClient) Fetch() bool {
 
 	c.Register = reg
 	c.fetched = true
+	_, source := reg.Patches[SourceClientBundle] // F-224: the register decides which client this install runs
+	if sourceClientMode.Swap(source) != source || !c.modeLogged {
+		c.modeLogged = true
+		logInfo("Client: " + gameExecutable())
+	}
 	return true
 }
 
@@ -106,6 +113,9 @@ func hexVersion(version string) string {
 func (c *PatchRegisterClient) GetAllFiles() map[string]string {
 	result := make(map[string]string)
 	for filename, entry := range c.Register.Patches {
+		if isSourceClientMode() && legacyEntry(filename) { // F-224: the x64 client replaces Wow.exe + WarcraftXL
+			continue
+		}
 		result[filename] = fmt.Sprintf("%d", entry.Version)
 	}
 	return result

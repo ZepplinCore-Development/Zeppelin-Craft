@@ -63,6 +63,8 @@ type MainUI struct {
 	statusLabel *widget.Label
 
 	state AppState
+
+	selfUpdateOnce sync.Once
 }
 
 func buildMainWindow(app fyne.App, engine *LauncherEngine) *MainUI {
@@ -256,6 +258,10 @@ func (ui *MainUI) refreshServerStatus() {
 			ui.buildText.Refresh()
 		}
 
+		ui.selfUpdateOnce.Do(func() { // F-224: before anything is downloaded
+			selfUpdate(ui.engine.PatchRegister.Register.Launcher, ui.statusLabel.SetText)
+		})
+
 		allFiles := ui.engine.PatchRegister.GetAllFiles()
 		ui.patchCountText.Text = fmt.Sprintf("%d patches", len(allFiles))
 		ui.patchCountText.Refresh()
@@ -278,6 +284,10 @@ func (ui *MainUI) refreshServerStatus() {
 // ================================================================
 
 func (ui *MainUI) populateTable() {
+	if isSourceClientMode() && !isWowRunning() { // F-224: the x64 client replaces WarcraftXL
+		removeWarcraftXL(getAppDirectory())
+	}
+
 	pr := ui.engine.PatchRegister
 	allFiles := pr.GetAllFiles()
 	var toDownload []string
@@ -379,8 +389,14 @@ func (ui *MainUI) determineState(filename string, needsUpdate, exists bool) stri
 
 	exclude := ui.state.currentDL
 	pending := getPendingPatches(exclude)
+	members := map[string]bool{filename: true}
+	if files, ok := ui.engine.PatchRegister.BundleFiles(filename); ok { // a bundle is pending when a member is staged
+		for _, f := range files {
+			members[f.Name] = true
+		}
+	}
 	for _, p := range pending {
-		if p == filename {
+		if members[p] {
 			return "pending"
 		}
 	}
@@ -591,17 +607,14 @@ func (ui *MainUI) updateLaunchButton() {
 
 func (ui *MainUI) onLaunchGame() {
 	ui.statusLabel.SetText("Launching game...")
-	if ui.engine.LaunchGame() {
-		ui.statusLabel.SetText("Game launched successfully")
-		if MinimizeOnLaunch {
-			ui.window.Hide()
-		}
-	} else {
+	if err := ui.engine.LaunchGame(); err != nil {
 		ui.statusLabel.SetText("Failed to launch game")
-		dialog.ShowError(
-			fmt.Errorf("could not launch the game — check that %s exists in the game directory", WowExecutable),
-			ui.window,
-		)
+		dialog.ShowError(fmt.Errorf("could not launch the game: %v", err), ui.window)
+		return
+	}
+	ui.statusLabel.SetText("Game launched successfully")
+	if MinimizeOnLaunch {
+		ui.window.Hide()
 	}
 }
 
@@ -733,12 +746,37 @@ func (ui *MainUI) updateVersionsForInstalled(pending, failed []string) {
 		failedSet[f] = true
 	}
 
+	installed := make(map[string]bool)
 	for _, filename := range pending {
-		if !failedSet[filename] {
-			if ver, ok := allFiles[filename]; ok {
-				ui.engine.VersionManager.SetVersion(filename, ver)
-				logInfo(fmt.Sprintf("Updated version tracking for %s", filename))
-			}
+		if failedSet[filename] {
+			continue
+		}
+		installed[filename] = true
+		if ver, ok := allFiles[filename]; ok {
+			ui.engine.VersionManager.SetVersion(filename, ver)
+			logInfo(fmt.Sprintf("Updated version tracking for %s", filename))
+		}
+	}
+
+	// A staged file is a bundle member (WarcraftXL, WowClient64), not a register key: the bundle is
+	// current once every member is installed and none is still staged.
+	staged := make(map[string]bool)
+	for _, p := range getPendingPatches("") {
+		staged[p] = true
+	}
+	for bundle, ver := range allFiles {
+		files, ok := ui.engine.PatchRegister.BundleFiles(bundle)
+		if !ok {
+			continue
+		}
+		touched, complete := false, true
+		for _, f := range files {
+			touched = touched || installed[f.Name]
+			complete = complete && !staged[f.Name] && fileExists(wxlFilePath(f.Name))
+		}
+		if touched && complete {
+			ui.engine.VersionManager.SetVersion(bundle, ver)
+			logInfo(fmt.Sprintf("Updated version tracking for bundle %s", bundle))
 		}
 	}
 }

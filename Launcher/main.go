@@ -24,6 +24,7 @@ func main() {
 	}()
 
 	logInfo(fmt.Sprintf("Zeppelin Launcher v%s starting", AppVersion))
+	cleanupSelfUpdate() // F-224: the previous binary a self-update left behind
 
 	a := app.New()
 	a.Settings().SetTheme(&zeppelinTheme{})

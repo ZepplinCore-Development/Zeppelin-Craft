@@ -18,7 +18,7 @@ func isWowRunning() bool {
 		return false
 	}
 	for _, p := range processes {
-		if strings.EqualFold(p.Executable(), "Wow.exe") {
+		if strings.EqualFold(p.Executable(), LegacyWowExe) || strings.EqualFold(p.Executable(), SourceClientExe) {
 			return true
 		}
 	}
@@ -57,7 +57,7 @@ func getPendingPatches(excludeDownloading string) []string {
 	var pending []string
 	for _, name := range stagedNames(tempDir) {
 		lower := strings.ToLower(name)
-		_, isWxl := wxlSubdir(name)
+		_, isWxl := appBinarySubdir(name)
 		if strings.HasSuffix(lower, ".mpq") || strings.HasSuffix(lower, ".exe") || isWxl {
 			if excludeDownloading != "" && name == excludeDownloading {
 				continue
@@ -83,7 +83,7 @@ func installPendingPatches() InstallResult {
 
 	for _, name := range stagedNames(tempDir) {
 		lower := strings.ToLower(name)
-		wxlSub, isWxl := wxlSubdir(name)
+		wxlSub, isWxl := appBinarySubdir(name) // WarcraftXL or source-client (F-224) binary
 		if !strings.HasSuffix(lower, ".mpq") && !strings.HasSuffix(lower, ".exe") && !isWxl {
 			continue
 		}
@@ -127,14 +127,7 @@ func installPendingPatches() InstallResult {
 }
 
 func validatePendingPatchFile(filename, tempFile string) bool {
-	var expectedSize int64
-	if _, isWxl := wxlSubdir(filename); isWxl {
-		expectedSize = getServerFileSize(WXLDownloadURL + filepath.ToSlash(filename))
-	} else if strings.HasSuffix(strings.ToLower(filename), ".exe") {
-		expectedSize = getServerFileSize(EXEDownloadURL + filename)
-	} else {
-		expectedSize = getServerFileSize(MPQDownloadURL + filename)
-	}
+	expectedSize := getServerFileSize(downloadBaseURL(filename) + filepath.ToSlash(filename))
 
 	if expectedSize < 0 {
 		logWarning(fmt.Sprintf("Could not get server file size for %s - skipping validation", filename))

@@ -58,10 +58,11 @@ func isStagedPath(localPath string) bool {
 	return err == nil && rel != "." && !strings.HasPrefix(rel, "..")
 }
 
-// wxlFilePath is the installed path of a WarcraftXL binary next to Wow.exe (host under Utils/).
+// wxlFilePath is the installed path of a bundle member: a WarcraftXL binary next to Wow.exe (host under
+// Utils/) or a source-client binary next to the launcher (F-224).
 func wxlFilePath(filename string) string {
 	dir := getAppDirectory()
-	if sub, ok := wxlSubdir(filename); ok && sub != "" {
+	if sub, ok := appBinarySubdir(filename); ok && sub != "" {
 		dir = filepath.Join(dir, sub)
 	}
 	return filepath.Join(dir, filename)
@@ -116,16 +117,7 @@ func downloadOne(
 	progressCh chan<- DownloadProgress,
 	cancelCh <-chan struct{},
 ) DownloadResult {
-	// Determine URL from file type
-	var baseURL string
-	if _, ok := wxlSubdir(filename); ok {
-		baseURL = WXLDownloadURL
-	} else if strings.HasSuffix(strings.ToLower(filename), ".exe") {
-		baseURL = EXEDownloadURL
-	} else {
-		baseURL = MPQDownloadURL
-	}
-	fileURL := baseURL + filepath.ToSlash(filename)
+	fileURL := downloadBaseURL(filename) + filepath.ToSlash(filename)
 
 	localPath := resolveDownloadPath(filename)
 
@@ -206,7 +198,7 @@ func resolveDownloadPath(filename string) string {
 	if strings.HasSuffix(lower, ".mpq") {
 		return filepath.Join(getTempDownloadDir(), filename)
 	}
-	if sub, ok := wxlSubdir(filename); ok {
+	if sub, ok := appBinarySubdir(filename); ok { // WarcraftXL or source-client (F-224) binary
 		if isWowRunning() { // in use while the game runs; stage and install on the next check
 			logInfo("WoW running - staging " + filename + " to temp")
 			return filepath.Join(getTempDownloadDir(), filename)
@@ -244,7 +236,7 @@ func installOrStage(filename, localPath string) string {
 		return "pending"
 	}
 
-	if _, ok := wxlSubdir(filename); ok {
+	if _, ok := appBinarySubdir(filename); ok {
 		if isStagedPath(localPath) {
 			return "pending" // WoW running; installed on the next check
 		}

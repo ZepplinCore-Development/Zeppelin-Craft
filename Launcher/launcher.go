@@ -40,7 +40,7 @@ func (le *LauncherEngine) CheckFileExists(filename string) bool {
 	}
 	lower := strings.ToLower(filename)
 	var filePath string
-	if _, ok := wxlSubdir(filename); ok { // F-195: app dir, host under Utils/
+	if _, ok := appBinarySubdir(filename); ok { // F-195/F-224: app dir, WXL host under Utils/
 		filePath = wxlFilePath(filename)
 	} else if strings.HasSuffix(lower, ".mpq") {
 		filePath = filepath.Join(getAppDirectory(), DataDirectory, filename)
@@ -51,10 +51,13 @@ func (le *LauncherEngine) CheckFileExists(filename string) bool {
 }
 
 func (le *LauncherEngine) FindWowInstallation() string {
+	exe := gameExecutable()
 	appDir := getAppDirectory()
-	wowExe := filepath.Join(appDir, WowExecutable)
-	if fileExists(wowExe) {
+	if fileExists(filepath.Join(appDir, exe)) {
 		return appDir
+	}
+	if isSourceClientMode() { // F-224: the x64 client is only ever installed next to the launcher
+		return ""
 	}
 
 	commonPaths := []string{
@@ -71,32 +74,37 @@ func (le *LauncherEngine) FindWowInstallation() string {
 	}
 
 	for _, p := range commonPaths {
-		if fileExists(filepath.Join(p, WowExecutable)) {
+		if fileExists(filepath.Join(p, exe)) {
 			return p
 		}
 	}
 	return ""
 }
 
-func (le *LauncherEngine) LaunchGame() bool {
+// LaunchGame starts the client. The error says why it could not.
+func (le *LauncherEngine) LaunchGame() error {
+	exe := gameExecutable()
 	wowPath := le.FindWowInstallation()
 	if wowPath == "" {
-		wowExe := filepath.Join(getAppDirectory(), WowExecutable)
-		if !fileExists(wowExe) {
-			logError("WoW executable not found")
-			return false
+		logError("WoW executable not found: " + exe)
+		return fmt.Errorf("%s was not found in the game directory", exe)
+	}
+
+	if isSourceClientMode() { // F-224
+		if err := checkWine64(); err != nil {
+			logError(err.Error())
+			return err
 		}
-		wowPath = getAppDirectory()
+		removeWarcraftXL(wowPath)
+		if d3d9 := filepath.Join(wowPath, "d3d9.dll"); is32BitPE(d3d9) {
+			logError("32-bit d3d9.dll still present: " + d3d9)
+			return fmt.Errorf("the old WarcraftXL d3d9.dll could not be removed from %s; delete it and launch again", wowPath)
+		}
 	}
 
 	le.updateRealmlist(wowPath)
 
-	wowExe := filepath.Join(wowPath, WowExecutable)
-	if !fileExists(wowExe) {
-		logError(fmt.Sprintf("WoW executable not found: %s", wowExe))
-		return false
-	}
-
+	wowExe := filepath.Join(wowPath, exe)
 	logInfo(fmt.Sprintf("Launching game: %s", wowExe))
 
 	var cmd *exec.Cmd
@@ -110,10 +118,13 @@ func (le *LauncherEngine) LaunchGame() bool {
 
 	if err := cmd.Start(); err != nil {
 		logError(fmt.Sprintf("Failed to launch game: %v", err))
-		return false
+		return fmt.Errorf("could not start %s: %v", exe, err)
 	}
+	// Reap the game when it exits. Unreaped, it stays a zombie whose name still matches in the process
+	// list, so isWowRunning reported it running until the launcher closed and staged patches never installed.
+	go cmd.Wait()
 
-	return true
+	return nil
 }
 
 func (le *LauncherEngine) updateRealmlist(wowPath string) {

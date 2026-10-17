@@ -1100,9 +1100,11 @@ def zpak_delete(ctx, name, force):
 # -- build: patch-mpq, patch-register, exe, mpq-tools -----------------------
 from commands.build import build
 from commands.exe import exe
+from commands.launcher import launcher
 from commands.mpq import mpq
 cli.add_command(build)
 build.add_command(exe)
+build.add_command(launcher)
 build.add_command(mpq, 'mpq-tools')
 
 # -- model: M2 model tools ---------------------------------------------------
