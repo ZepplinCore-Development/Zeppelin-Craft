@@ -1,0 +1,105 @@
+From 6fc073e68016043218b8673b15a5df25614c6ef2 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 17 Oct 2026 14:19:00 +0000
+Subject: [PATCH] fix: safer spirit healer, trainer retried, grind tries more
+ spots, missing class spell trains (F-219)
+
+From the first universal-caution run:
+- hunter: 47 "same spot" deaths rising beside Gnarlpine packs at its own
+  level; a healer is unsafe with 2+ hostile spawns at/above our level within
+  60 yd, or 2 deaths within 100 yd (was: only +2 mobs, 60 yd)
+- goblin: the trainer walk into the pirate party was refused and the level
+  was marked trained - no Charge, Kezan stalled at 4; a refused trainer visit
+  is retried after 10 min, and a quest needing an unknown class spell sends
+  us to train instead of casting the first known spell (Holy Smite)
+- paladin: one refused grind walk ended the run at level 7 with 0 deaths;
+  walk_to_grind tries the nearest six spots
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019SSuH6gpqY4Kn5Rk9sd149
+---
+ zeppelin/tests/start_area.py | 39 +++++++++++++++++++++++++++---------
+ 1 file changed, 30 insertions(+), 9 deletions(-)
+
+diff --git a/zeppelin/tests/start_area.py b/zeppelin/tests/start_area.py
+index 5fb86a5..df89bf7 100644
+--- a/zeppelin/tests/start_area.py
++++ b/zeppelin/tests/start_area.py
+@@ -1610,6 +1610,8 @@ class Runner:
+     def train(self, level):
+         """Visit the class trainer after every level-up (and once at the start) - and again when a
+         spell we could not afford then is affordable now (at most every 10 min)."""
++        if time.time() < getattr(self, "_train_retry", 0):
++            return
+         if level <= self.trained_level:
+             wait = self.__dict__.setdefault("money_wait", {})
+             if not wait or time.time() - getattr(self, "_money_try", 0) < 600 \
+@@ -1753,10 +1755,16 @@ class Runner:
+             # almost nothing while level-3/4 spiders stood nearby)
+             spots = sorted(((-lv[e], math.dist(p[:2], (me["x"], me["y"])), p) for e in lv if lv[e] <= top
+                             for p in pts_of[e] if math.dist(p[:2], (me["x"], me["y"])) < reach), key=lambda t: t[:2])
+-            if spots:
+-                tried[spots[0][2]] = now
+-                self.travel(*spots[0][2], within=15)
+-                return True
++            # the nearest few, not just the first: the route guard refuses the walk past level+2 mobs, and
++            # one refusal ended a paladin's run at level 7 with nothing parked it could still do
++            for _, _, p in spots[:6]:
++                tried[p] = now
++                try:
++                    self.travel(*p, within=15)
++                    return True
++                except StepFailed as e:
++                    if "back at level" not in str(e):
++                        raise
+         return False
+ 
+     def clear_camp(self, spot, radius=25.0):
+@@ -2206,8 +2214,11 @@ class Runner:
+         def unsafe(p):  # mobs 2+ levels above us within 60 yd: they jump us as we rise (Narache: 60
+             # deaths) - or two deaths there already at this level (Shadowglen: even-level Nightsabers
+             # and Sprites killed it on every rise at the same healer)
+-            return any(t[2] >= level + 2 and math.dist(t[:2], p[:2]) < 60 for t in self.threats()) or \
+-                sum(1 for dx, dy, dl in self.death_spots if dl == level and math.dist((dx, dy), p[:2]) < 60) >= 2
++            # ...or a PACK at our level or above (the universal 2+ rule: Teldrassil's hunter rose 36 times
++            # beside Gnarlpine Defenders/Shamans, level 7-8 at its 7, and died on its first walk away)
++            near = [t for t in self.threats() if math.dist(t[:2], p[:2]) < 60]
++            return any(t[2] >= level + 2 for t in near) or sum(1 for t in near if t[2] >= level) >= 2 or \
++                sum(1 for dx, dy, dl in self.death_spots if dl == level and math.dist((dx, dy), p[:2]) < 100) >= 2
+         # the nearest healer, unless mobs above our level stand around it - then the nearest quiet one
+         # (a ghost walks there unseen; Mulgore's (-2727,-1115) healer sits among level-7 harpies)
+         safe_spots = [p for p in spots if not unsafe(p) and math.dist(p[:2], (me["x"], me["y"])) < 2500]
+@@ -3861,8 +3872,13 @@ class Runner:
+                 # several classes share one target: use the spell this character knows
+                 known = set(call("interact.spells").get("spells", []))
+                 spell = next((sp for sp in self.w.spellhit_all.get(target, []) if sp in known), spell)
+-                self.ensure_stance(spell, known)
+                 need = next((i for i, sp in self.w.item_spell.items() if sp == spell), 0)
++                if spell not in known and not need:
++                    # a class spell we never learned (the goblin's Charge: its trainer walk was refused)
++                    # - casting whatever comes first (Holy Smite at a dummy) only timed out; train first
++                    self.trained_level = min(self.trained_level, call("interact.self").get("level", 1) - 1)
++                    raise StepFailed(f"{target} needs spell {spell} we do not know - training first")
++                self.ensure_stance(spell, known)
+                 if need and spell not in known and self.fetch_item(need):
+                     return True
+                 mn, mx = self.w.spell_range.get(spell, (0.0, 30.0))
+@@ -4065,8 +4081,13 @@ class Runner:
+                 print(f"  ~ supplies: {e}", flush=True)
+             try:
+                 self.train(level)
+-            except StepFailed as e:  # trainer out of reach: train later
+-                print(f"  ~ trainer: {e}", flush=True)
++            except StepFailed as e:  # trainer out of reach: train later - THIS level, in 10 min
++                print(f"  ~ trainer: {e} - retry in 10 min", flush=True)
++                # train() had already marked the level trained, so a refused walk skipped it for good:
++                # Kezan's warrior trainer stands in the pirate party, the goblin never learned Charge and
++                # its class quest (Charge on a dummy) could not be done - the run stalled at level 4
++                self.trained_level = min(self.trained_level, level - 1)
++                self._train_retry = time.time() + 600
+             # the quest log update that removes a turned-in quest can lag the reward packet
+             log = {q: e for q, e in log.items() if q not in self.w.rewarded}
+             # only quests handed in HERE: one whose ender stands outside the area (Sunstrider's 9704
+-- 
+2.34.1
+
