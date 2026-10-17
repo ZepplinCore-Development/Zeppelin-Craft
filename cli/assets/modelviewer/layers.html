@@ -578,6 +578,12 @@ const FUSED = new Set(['batrider.m2', 'alliancerider.m2', 'alliancerider2.m2', '
   // vehicles gnomespidertank02 / gnomepoundervehicle (Assault Bot) have no pilot slot and are not here
   'orcdrakerider2.m2', 'gnomespidertank.m2', 'gnomepounder.m2', 'gnomemechastrider.m2']);
 const isFusedRider = (path) => FUSED.has((path || '').split('/').pop());
+// fused, but dropped from F-220 (kept fused): no F-220 tag; still never given a second rider. The death
+// knights match no character model; the goblin rocket car's driver (creature goblin, no Mount anim)
+// cannot be cut out and dressed
+const F220_DROPPED = new Set(['mounteddeathknight.m2', 'mounteddeathknight_blaumeux.m2', 'mounteddeathknight_korthazz.m2',
+  'mounteddeathknight_mograine.m2', 'mounteddeathknight_zeliek.m2', 'goblinrocketcar.m2']);
+const inF220 = (path) => isFusedRider(path) && !F220_DROPPED.has((path || '').split('/').pop());
 const F220 = 'Fused rider/driver: the rider is part of the mount model. F-220 replaces these with an NPC on a mount or vehicle.';
 // a creature/character model no creature shows (no display, or only unused displays)
 const unusedModel = (e) => (e.tab === 'creature' || e.tab === 'character') && !e.retailOnly &&
@@ -1291,7 +1297,7 @@ function render() {
         : e.single ? `<span class="chip">${esc(label(e.panes[0].sources))} only</span>` : '') +
 
         (e.tab === 'creature' && !e.retailOnly ? remasterChip(e.path) : '') +
-        (e.tab === 'creature' && isFusedRider(e.path) ? `<span class="chip warn" title="${F220}">fused rider · F-220</span>` : '') +
+        (e.tab === 'creature' && inF220(e.path) ? `<span class="chip warn" title="${F220}">fused rider · F-220</span>` : '') +
         (e.tab !== 'display' && e.tab !== 'item' && !e.retailOnly && (modelOptions(e), e._partial && e._partial.size)
           ? `<span class="chip warn" title="A pack moves this model's displays in more than a simple swap (only some of them, or to several models); those are decided one by one in the Displays tab">split · ${e._partial.size} display${e._partial.size > 1 ? 's' : ''} per display</span>` : '');
       const nOpt = nOptions(e);

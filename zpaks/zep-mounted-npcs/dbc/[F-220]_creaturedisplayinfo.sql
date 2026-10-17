@@ -43,3 +43,26 @@ UPDATE creaturedisplayinfo SET
   creature_model_scale = 1,
   blood_id = 3
 WHERE id = 22351;
+
+-- Riderless mounts cut from their fused models (zep model strip-rider; models 900221-900227 in
+-- [F-220]_creaturemodeldata.sql): each fused display becomes its own mount, the rider is the F-220 rider
+-- display (zep-npc-wardrobe) seated via the creature addon mount. SHIP with those creatures' rider rows.
+-- 17203: creature/horderider/horderider.m2 -> 900221
+UPDATE creaturedisplayinfo SET model_id = 900221 WHERE id = 17203;
+-- 18813: creature/felorcnetherdrake/felorcnetherdrakemounted.m2 -> 900222
+UPDATE creaturedisplayinfo SET model_id = 900222 WHERE id = 18813;
+-- 9723: creature/drake/orcdrakerider.m2 -> 900223
+UPDATE creaturedisplayinfo SET model_id = 900223 WHERE id = 9723;
+-- 21602: creature/tauren_mountedcanoe/tauren_mountedcanoe.m2 -> 900224
+UPDATE creaturedisplayinfo SET model_id = 900224 WHERE id = 21602;
+-- 2490: creature/gnomerocketcar/gnomerocketcar.m2 -> 900225
+UPDATE creaturedisplayinfo SET model_id = 900225 WHERE id = 2490;
+-- 15649: creature/mounteddemonknight/mounteddemonknight.m2 -> 900226
+UPDATE creaturedisplayinfo SET model_id = 900226 WHERE id = 15649;
+-- 1545: creature/mountedknight/mountedknight.m2 -> 900227
+UPDATE creaturedisplayinfo SET model_id = 900227 WHERE id = 1545;
+
+-- 5926 / 22700 (Creature\GnomeSpidertank\GnomeSpiderTank, the pilot fused in) -> the empty Mechano-Tank
+-- (model 2788 GnomeSpiderTank02, stock: Disassembled / Ejector Mechano-Tank) in the same tank skin.
+UPDATE creaturedisplayinfo SET model_id = 2788, texture_variation_1 = 'GnomeSpiderTankSkinGreen', texture_variation_2 = '' WHERE id = 5926;
+UPDATE creaturedisplayinfo SET model_id = 2788, texture_variation_1 = 'GnomeSpiderTankSkinBlue', texture_variation_2 = '' WHERE id = 22700;

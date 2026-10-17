@@ -1,7 +1,10 @@
 """F-220: a riderless mount cut out of a fused rider model (TeronGorefiend_Mounted -> the horse alone).
 
-The rider and the mount are one mesh but two skeleton branches: every submesh mostly weighted to the
-branch that carries the rider's own skin texture is the rider. Those batches are dropped from every
+The rider and the mount are one mesh but (usually) two skeleton branches: every submesh mostly weighted
+to the branch that carries the rider's own skin texture is the rider. When the mount hangs from that same
+branch (the fel orc and his netherdrake share one root child), a bone is the rider's when the
+rider-textured submeshes weigh more on it than the rest, and a submesh is the rider's when most of its
+weight lies on rider bones. Pass every rider texture (skin, hair, shoulders, weapon) in that case. Those batches are dropped from every
 LOD .skin; the .m2 keeps its bones and animations. Attachment 0 (the seat a rider is placed on) is
 moved onto the mount: the fused model's attachment 0 is the rider's hand. The seat goes on the mount
 bone nearest the old rider's pelvis, at the pelvis position.
@@ -77,15 +80,61 @@ def rider_branch(m2: bytes, skin: bytes, rider_textures: Set[str], slots: Set[in
     return votes.most_common(1)[0][0]
 
 
+def _submesh_bones(m2: bytes, skin: bytes) -> List[Counter]:
+    """Per submesh: total vertex weight per bone."""
+    vn, vo = struct.unpack_from('<II', m2, 0x3C)
+    svn, svo = struct.unpack_from('<II', skin, 0x04)
+    sverts = struct.unpack_from(f'<{svn}H', skin, svo)
+    sm_n, sm_o = struct.unpack_from('<II', skin, 0x1C)
+    out = []
+    for i in range(sm_n):
+        _sid, _lvl, vst, vcnt = struct.unpack_from('<HHHH', skin, sm_o + 48 * i)
+        c = Counter()
+        for k in range(vst, vst + vcnt):
+            v = sverts[k]
+            for w, b in zip(struct.unpack_from('<4B', m2, vo + 48 * v + 12), struct.unpack_from('<4B', m2, vo + 48 * v + 16)):
+                if w:
+                    c[b] += w
+        out.append(c)
+    return out
+
+
+def _rider_bones(m2: bytes, skin: bytes, rider_textures: Set[str], slots: Set[int]) -> Tuple[Set[int], int]:
+    """(rider bones, heaviest rider bone) when the mount shares the rider's branch: a bone is the rider's
+    when the rider-textured submeshes weigh more on it than the others (the fel orc is rigidly bound to
+    one netherdrake bone, 22, his polearm to 33 - there is no rider skeleton to cut at)."""
+    tex = _textures(m2)
+    tl_n, tl_o = struct.unpack_from('<II', m2, 0x80)
+    tl = struct.unpack_from(f'<{tl_n}H', m2, tl_o)
+    sb = _submesh_bones(m2, skin)
+    rider_subs = set()
+    for b in _batches(skin)[2]:
+        sub, combo = struct.unpack_from('<H', b, 4)[0], struct.unpack_from('<H', b, 16)[0]
+        typ, name = tex[tl[combo]]
+        if name.rsplit('/', 1)[-1][:-4] in rider_textures or typ in slots:
+            rider_subs.add(sub)
+    rw, mw = Counter(), Counter()
+    for i, c in enumerate(sb):
+        (rw if i in rider_subs else mw).update(c)
+    bones = {b for b in rw if rw[b] > mw[b]}
+    return bones, max(bones, key=lambda b: rw[b])
+
 def strip(m2: bytes, skins: List[bytes], rider_textures: Set[str], slots: Set[int] = frozenset()
           ) -> Tuple[bytes, List[bytes], Dict]:
     """-> (m2 with attachment 0 on the mount, skins without the rider's batches, report)."""
     parent, pivot = _bones(m2)
     rb = rider_branch(m2, skins[0], rider_textures, slots)
+    br0 = [c for c in _submesh_branches(m2, skins[0], parent) if c]
+    shared = all(c.most_common(1)[0][0] == rb for c in br0)    # the mount hangs from the rider's branch too
+    sub_bones, heavy = _rider_bones(m2, skins[0], rider_textures, slots) if shared else (None, None)
     out_skins, removed = [], []
     for sk in skins:
-        br = _submesh_branches(m2, sk, parent)
-        rider_sub = {i for i, c in enumerate(br) if c and c.most_common(1)[0][0] == rb}
+        if shared:
+            rider_sub = {i for i, c in enumerate(_submesh_bones(m2, sk))
+                         if c and sum(w for b, w in c.items() if b in sub_bones) * 2 > sum(c.values())}
+        else:
+            br = _submesh_branches(m2, sk, parent)
+            rider_sub = {i for i, c in enumerate(br) if c and c.most_common(1)[0][0] == rb}
         n, o, bs = _batches(sk)
         keep = [b for b in bs if struct.unpack_from('<H', b, 4)[0] not in rider_sub]
         new = bytearray(sk)
@@ -94,10 +143,14 @@ def strip(m2: bytes, skins: List[bytes], rider_textures: Set[str], slots: Set[in
         out_skins.append(bytes(new))
         removed.append(n - len(keep))
     # the seat: the rider branch's first bone below its root = the pelvis
-    kids = [i for i, p in enumerate(parent) if p == rb]
-    pelvis = kids[0] if kids else rb
+    if shared:
+        pelvis = heavy                                  # where the rider's weight sits
+        mount_bones = [i for i in range(len(parent)) if i not in sub_bones and parent[i] >= 0]
+    else:
+        kids = [i for i, p in enumerate(parent) if p == rb]
+        pelvis = kids[0] if kids else rb
+        mount_bones = [i for i in range(len(parent)) if _branch(parent, i) != rb and parent[i] >= 0]
     seat = pivot[pelvis]
-    mount_bones = [i for i in range(len(parent)) if _branch(parent, i) != rb and parent[i] >= 0]
     near = min(mount_bones, key=lambda i: sum((a - b) ** 2 for a, b in zip(pivot[i], seat)))
     m = bytearray(m2)
     an, ao = struct.unpack_from('<II', m, 0xF0)
@@ -105,7 +158,7 @@ def strip(m2: bytes, skins: List[bytes], rider_textures: Set[str], slots: Set[in
         if struct.unpack_from('<I', m, ao + 40 * i)[0] == 0:
             struct.pack_into('<H', m, ao + 40 * i + 4, near)
             struct.pack_into('<3f', m, ao + 40 * i + 8, *seat)
-    return bytes(m), out_skins, dict(rider_branch=rb, removed=removed, seat=seat, seat_bone=near)
+    return bytes(m), out_skins, dict(rider_branch=pelvis if shared else rb, shared=shared, removed=removed, seat=seat, seat_bone=near)
 
 
 def strip_files(src_m2: Path, out_m2: Path, rider_textures: Set[str], slots: Set[int] = frozenset()) -> Dict:
