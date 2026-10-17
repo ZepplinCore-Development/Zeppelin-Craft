@@ -308,6 +308,12 @@ class Deployer:
         import copy
         base = (PANE_CODE_VERSION, path, opt.key, did, dbc_source, sorted(opt.sources),
                 CHAR_PANE_VERSION if path.startswith('character/') else 0)
+        # the option's own model / skin files when a tool rewrites them in place (STAT_DEPS): the pane
+        # takes them straight from the option, so the dependency check never sees them
+        own_sig = tuple(_dep_sig(f) for k, f in sorted(opt.files.items()) if k.endswith(('.m2', '.skin'))
+                        and any(r in str(f) for r in STAT_DEPS))
+        if own_sig:
+            base = base + (('files', own_sig),)
         own = self.own_skins(did, opt, dbc_source, path)    # only the panes it changes get a new key
         if row_over:
             own = (own or ()) + (('row', tuple(sorted((k, str(v)) for k, v in row_over.items()))),)

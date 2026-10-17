@@ -130,6 +130,11 @@ def _drop_rider_attachments(m: bytearray) -> None:
     for aid in RIDER_ATTACH:
         if aid < n:
             struct.pack_into('<h', m, o + 2 * aid, -1)
+    # and renumber them in the attachment list itself (the picker's renderer scans the list by id)
+    an, ao = struct.unpack_from('<II', m, 0xF0)
+    for i in range(an):
+        if struct.unpack_from('<I', m, ao + 40 * i)[0] in RIDER_ATTACH:
+            struct.pack_into('<I', m, ao + 40 * i, 0xFFFF)
 
 
 def strip(m2: bytes, skins: List[bytes], rider_textures: Set[str], slots: Set[int] = frozenset()
