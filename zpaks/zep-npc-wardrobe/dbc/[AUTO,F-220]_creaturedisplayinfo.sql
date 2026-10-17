@@ -120,7 +120,7 @@ INSERT INTO `creaturedisplayinfo` SET
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;
 
--- f220_horderider_leather_horde_a_02_male_look: model/sound of stock display 1314
+-- f220_horderider_leather_horde_a_02_male_look: model/sound of stock display 3606
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 900513;
 INSERT INTO `creaturedisplayinfo` SET
   `id` = 900513,
@@ -133,9 +133,9 @@ INSERT INTO `creaturedisplayinfo` SET
   `texture_variation_2` = '',
   `texture_variation_3` = '',
   `portrait_texture_name` = '',
-  `blood_level` = 1,
+  `blood_level` = 0,
   `blood_id` = 0,
-  `npc_sound_id` = 126,
+  `npc_sound_id` = 127,
   `praticle_color_id` = 0,
   `creature_geoset_data` = 0,
   `obj_effect_package_id` = 0;

@@ -1488,7 +1488,7 @@
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900513_HD.blp",
    "kind": "bake",
    "display": 900513,
-   "sha256": "0582970bb437122e4cfb9f9772fc48b913b35e84e3d07d1a953b5df738733876"
+   "sha256": "bd821a87990d3cc8f603398d93b96b4bdb4988506be2401a2047b057b4507510"
   },
   {
    "path": "Textures/BakedNpcTextures/CreatureDisplayExtra-900513_fake.blp",

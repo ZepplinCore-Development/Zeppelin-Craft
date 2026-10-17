@@ -49,7 +49,10 @@ def _subs(d, s_):
         f = _st.unpack_from('<BbHHHhHHHHH', s_, b_o + 24 * i); tex.setdefault(f[3], set()).add(t[tl[f[9]]][1])
     return [(S[i][0], sv[S[i][2]:S[i][2] + S[i][3]], tex.get(i, set())) for i in range(sm_n)]
 def rider_hair_geoset(mp, race, sex):
-    """The classic hair geoset the fused rider wears (None = no hair mesh: helmeted or bald)."""
+    """(hair geoset, beard geoset or None) the fused rider wears, matched by SHAPE: the fused mesh's
+    hair-textured submeshes (scalp hair AND beard) against each classic hair geoset alone and with each
+    facial-hair geoset (group 1, 101-199) - the wyvern rider's black top-knot + beard came out a bare
+    mohawk when only the scalp was tried. None = no hair mesh (helmeted or bald)."""
     if sex != 'male' or race not in CHAR_M2:
         return None
     d = ix.stock[mp].read_bytes(); s_ = ix.stock[mp[:-3] + '00.skin'].read_bytes(); V = _verts(d)
@@ -58,20 +61,43 @@ def rider_hair_geoset(mp, race, sex):
         return None
     hv = np.concatenate(parts)
     cd = ix.stock[CHAR_M2[race] + '.m2'].read_bytes(); cs = ix.stock[CHAR_M2[race] + '00.skin'].read_bytes(); CV = _verts(cd)
-    best = None
-    for gid, idx, tx in _subs(cd, cs):
-        if not 1 <= gid < 100:
-            continue
-        g_ = CV[idx]; t_ = hv.mean(0) - g_.mean(0)
+    subs = [(gid, CV[idx]) for gid, idx, tx in _subs(cd, cs)]
+    hair = [(g, v) for g, v in subs if 1 <= g < 100]
+    beards = [(None, None)] + [(g, v) for g, v in subs if 101 < g < 200]     # 101 = the bare chin
+    def score(g_):
+        t_ = hv.mean(0) - g_.mean(0)
         for _ in range(5):                     # translation-only nearest-point refinement
             dd = np.sqrt(((hv[:, None, :] - (g_ + t_)[None]) ** 2).sum(-1))
             t_ = t_ + (hv - (g_ + t_)[dd.argmin(1)]).mean(0)
         dd = np.sqrt(((hv[:, None, :] - (g_ + t_)[None]) ** 2).sum(-1))
-        sc = (dd.min(1).mean() + dd.min(0).mean()) / 2 + 0.05 * abs(np.log(len(hv) / max(1, len(g_))))
-        if best is None or sc < best[0]:
-            best = (sc, gid)
-    print('   hair: fused hair matches classic geoset', best[1], 'score', round(float(best[0]), 3))
-    return best[1]
+        return (dd.min(1).mean() + dd.min(0).mean()) / 2 + 0.05 * abs(np.log(len(hv) / max(1, len(g_))))
+    best = None
+    for gid, hvv in hair:
+        for bg, bv in beards:
+            sc = score(hvv if bv is None else np.concatenate([hvv, bv]))
+            if best is None or sc < best[0]:
+                best = (sc, gid, bg)
+    print('   hair: fused hair matches classic geoset', best[1], 'beard', best[2], 'score', round(float(best[0]), 3))
+    return best[1], best[2]
+
+
+def hair_colour(hair_tex, race, g):
+    """The stock hair colour whose texture is closest (median Lab) to the fused model's own hair texture
+    (orcmalehairskin.blp names no colour)."""
+    f = ix.stock.get(hair_tex)
+    if f is None:
+        return None
+    t = _lab(np.asarray(Image.open(f).convert('RGB').resize((32, 32), Image.BOX), dtype=np.float32)).reshape(-1, 3)
+    best = None
+    for r in q(f"SELECT DISTINCT color_index, texture_1 FROM charsections WHERE race = {RACE[race]} AND gender = {g} AND base_section = 3 AND texture_1 <> ''"):
+        cf = ix.stock.get(re.sub(r'[\\\\/]+', '/', r['texture_1']).lower())
+        if cf is None:
+            continue
+        c = _lab(np.asarray(Image.open(cf).convert('RGB').resize((32, 32), Image.BOX), dtype=np.float32)).reshape(-1, 3)
+        dlt = float(np.linalg.norm(np.median(t, 0) - np.median(c, 0)))
+        if best is None or dlt < best[0]:
+            best = (dlt, int(r['color_index']))
+    return best[1] if best else None
 from lib.npc_outfit import RIDER_CLASS as _RC
 _mog = o.lookalike(ix.stock['creature/mounteddeathknight/mounteddeathknightgoldred_03.blp'], 'human', 'male', 4)
 DK_SET = frozenset(int(str(r[3][0])[2:]) if str(r[3][0]).startswith('r:') else -int(r[1]) for r in _mog if r[3] or r[1])
@@ -125,6 +151,7 @@ for path, race, sex, displays in riders:
     ms = [m for m in ix.stock if m.startswith('creature/' + folder + '/') and m.rsplit('/', 1)[-1] in RIDERS]
     mp = next((m for m in ms if any(n.endswith('/' + stem + '.blp') for _, n in sf.texture_table(ix.stock[m].read_bytes()))), ms[0] if ms else None)
     hc = hs = None
+    beard_geo = None
     bald = True
     if mp:
         import struct as _st
@@ -132,9 +159,15 @@ for path, race, sex, displays in riders:
         for t, n in tt:
             mm = re.search(r'character/.*/hair\d+_(\d+)\.blp$', n)
             if mm: hc = int(mm.group(1))
+        if hc is None:                                   # a hair texture of its own: the closest stock colour
+            ht = next((n for _, n in tt if 'hair' in n.rsplit('/', 1)[-1]), None)
+            if ht:
+                hc = hair_colour(ht, race, g)
+                print('   hair colour from', ht, '->', hc)
         # the rider's hair = the fused mesh's hair-textured submeshes, matched by SHAPE against the
         # classic character model's hair geosets (translation-free, a few nearest-point steps)
-        hair_geo = rider_hair_geoset(mp, race, sex)
+        hb_ = rider_hair_geoset(mp, race, sex)
+        hair_geo, beard_geo = hb_ if hb_ else (None, None)
         bald = hair_geo is None
         if hair_geo is not None:
             r_ = qo(f"SELECT variation FROM charhairgeosets WHERE race = {RACE[race]} AND gender = {g} AND geoset = {hair_geo} ORDER BY variation LIMIT 1")
@@ -159,8 +192,15 @@ for path, race, sex, displays in riders:
         app['hair_style'], app['hair_color'] = 0, 0
     # facial hair only where the race has it as a look (dwarves); a borrowed beard on a painted face
     # read as a dark patch (fel orc)
-    if race != 'dwarf':
-        app['facial_hair'] = 0
+    # facial hair: the beard the fused mesh itself wears (matched by shape above), as the race's facial-hair
+    # style whose group-1 geoset it is; none when the rider has no beard mesh (a borrowed beard on a
+    # painted face read as a dark patch - fel orc)
+    app['facial_hair'] = 0
+    if mp and not bald and beard_geo:
+        fh_ = qo(f"SELECT variation_id FROM characterfacialhairstyles WHERE race = {RACE[race]} AND gender = {g} AND geoset_1 = {beard_geo - 100} ORDER BY variation_id LIMIT 1")
+        if fh_:
+            app['facial_hair'] = int(fh_[0]['variation_id'])
+        print('   beard geoset', beard_geo, '-> facial hair', app['facial_hair'])
     app['gender'] = g
     base = q(f'SELECT id FROM creaturedisplayinfo WHERE extended_display_info_id = {int(best["id"])} AND id < 900000 LIMIT 1')
     if not base:      # any stock display of this race / sex character model (model + sound only)
