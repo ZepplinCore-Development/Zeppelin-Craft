@@ -6,9 +6,9 @@ from pathlib import Path
 from lib import strip_rider as sr
 ix = pickle.loads(Path('../../logs/asset_index.pkl').read_bytes())
 # stock model, our cut's client path, rider textures, slots (as the stock cuts)
+# (the wyvern is not here: the HD packs' horderider.m2 names wyvernskin11/12, which no pack ships - it drew black)
 JOBS = [
     ('creature/gnomerocketcar/gnomerocketcar.m2', 'Creature/GnomeRocketCar/GnomeRocketCar_Empty.m2', {'gnomepounderpilotskin_yellow_01'}, set()),
-    ('creature/horderider/horderider.m2', 'Creature/HordeRider/HordeRider_Mount.m2', {'leather_horde_a_02', 'orcmalehairskin', 'axe_2h_blackwing_a_01', 'shoulder_mail_b_02green'}, set()),
     ('creature/mountedknight/mountedknight.m2', 'Creature/MountedKnight/MountedKnight_Horse.m2', set(), {12}),
     ('creature/alliancerider/alliancerider.m2', 'Creature/AllianceRider/AllianceRider_Gryphon.m2', {'wildhammerheavy', 'dwarfmalehairskin', 'shoulder_leather_horde_b_03red', 'hammer_2h_pvpalliance_a_01'}, set()),
     ('creature/terongorefiend_mounted/terongorefiend_mounted.m2', 'Creature/TeronGorefiend_Mounted/TeronGorefiend_Horse.m2', {'terongorefiend1'}, set()),

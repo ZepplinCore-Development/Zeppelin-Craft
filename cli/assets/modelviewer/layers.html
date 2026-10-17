@@ -2373,6 +2373,8 @@ async function mountCards(e, showAll = false, targets = null) {
     // the family, or a riderless model in the fused model's own folder (our cuts: horderider_mount.m2)
     const ownFolder = a.path.slice(0, a.path.lastIndexOf('/')) === fused.slice(0, fused.lastIndexOf('/'));
     if (!ownFolder && !words.some(w => stem.includes(w))) return;
+    // a model no display uses has no skins to show (pack-only HD horses drew black): ours only
+    if (!ownFolder && !a.displays) return;
     const pn = (a.panes || []).find(x => x.option === a.current) || (a.panes || [])[0];
     if (!pn) return;
     seen.add(a.path);

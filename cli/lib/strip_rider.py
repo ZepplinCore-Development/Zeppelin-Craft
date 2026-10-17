@@ -119,6 +119,19 @@ def _rider_bones(m2: bytes, skin: bytes, rider_textures: Set[str], slots: Set[in
     bones = {b for b in rw if rw[b] > mw[b]}
     return bones, max(bones, key=lambda b: rw[b])
 
+RIDER_ATTACH = (1, 2)       # the hands: a riderless mount holds no weapon
+
+
+def _drop_rider_attachments(m: bytearray) -> None:
+    """Unlink the rider's hand attachments in the attachment lookup table (0xF8): the cut mount keeps the
+    dead rider's hand bones, so the creature's weapon (creature_equip_template, drawn by the picker - the
+    Alliance Knight's sword) hung in the air where the knight's hand was. In game the weapon is the rider's."""
+    n, o = struct.unpack_from('<II', m, 0xF8)
+    for aid in RIDER_ATTACH:
+        if aid < n:
+            struct.pack_into('<h', m, o + 2 * aid, -1)
+
+
 def strip(m2: bytes, skins: List[bytes], rider_textures: Set[str], slots: Set[int] = frozenset()
           ) -> Tuple[bytes, List[bytes], Dict]:
     """-> (m2 with attachment 0 on the mount, skins without the rider's batches, report)."""
@@ -170,6 +183,7 @@ def strip(m2: bytes, skins: List[bytes], rider_textures: Set[str], slots: Set[in
         if struct.unpack_from('<I', m, ao + 40 * i)[0] == 0:
             struct.pack_into('<H', m, ao + 40 * i + 4, near)
             struct.pack_into('<3f', m, ao + 40 * i + 8, *seat)
+    _drop_rider_attachments(m)
     bones = sorted(sub_bones) if shared else [i for i in range(len(parent)) if parent[i] >= 0 and _branch(parent, i) == rb]
     return bytes(m), out_skins, dict(rider_branch=pelvis if shared else rb, shared=shared, removed=removed, seat=seat,
                                      seat_bone=near, rider_bones=bones, pelvis=pelvis, parents=parent)
@@ -203,6 +217,7 @@ def strip_like(m2: bytes, skins: List[bytes], ref: Dict) -> Tuple[bytes, List[by
         if struct.unpack_from('<I', m, ao + 40 * i)[0] == 0:
             struct.pack_into('<H', m, ao + 40 * i + 4, near)
             struct.pack_into('<3f', m, ao + 40 * i + 8, *seat)
+    _drop_rider_attachments(m)
     return bytes(m), out_skins, dict(removed=removed, seat=seat, seat_bone=near)
 
 
