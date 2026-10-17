@@ -235,12 +235,16 @@ window.MV_DIAG = /[?&]diag\b/.test(location.search);
 // ?panehost=<host:port> forces one, ?panehost=same turns it off.
 const PANE_HOSTS = ['192.168.0.55:8111', 'tower:8111', '100.118.226.124:8111', '159.196.84.172:8111'];
 let PANE_BASE = '';
+const paneProbes = [];   // ?diag: what each pane-host probe returned
 const paneHostReady = (async () => {
   const dir = location.pathname.replace(/[^/]*$/, ''), asked = new URLSearchParams(location.search).get('panehost');
   if (asked === 'same') return;
   const cand = asked ? [asked] : PANE_HOSTS.filter(h => h.split(':')[0] !== location.hostname);
-  const probe = (h) => { const ac = new AbortController(), t = setTimeout(() => ac.abort(), 1500);
-    return fetch(`${location.protocol}//${h}${dir}blp.js`, { mode: 'no-cors', cache: 'no-store', signal: ac.signal }).then(() => h).finally(() => clearTimeout(t)); };
+  const probe = (h) => { const ac = new AbortController(), t = setTimeout(() => ac.abort(), 1500), t0 = performance.now();
+    return fetch(`${location.protocol}//${h}${dir}blp.js`, { mode: 'no-cors', cache: 'no-store', signal: ac.signal })
+      .then(() => { paneProbes.push(`${h} ok ${Math.round(performance.now() - t0)} ms`); return h; },
+        (e) => { paneProbes.push(`${h} ${ac.signal.aborted ? 'no answer in 1.5 s' : 'failed (' + (e && e.message || e) + ')'}`); throw e; })
+      .finally(() => clearTimeout(t)); };
   const ok = await Promise.allSettled(cand.map(probe));
   const h = (ok.find(r => r.status === 'fulfilled') || {}).value;
   if (h) PANE_BASE = `${location.protocol}//${h}${dir}`;
@@ -2979,7 +2983,8 @@ function diagShow() {
   const rows = [...diagPanes.values()].map((d, i) => `pane ${i + 1}: init ${f(d.init)} | shaders ${f(d.shader)} (${d.links} links) | uploads ${f(d.upload)} | frames ${f(d.frame)} (max ${f(d.frameMax)}) | fix-ups ${f(d.fix)} (max ${f(d.fixMax)}) | ${d.files} files ${(d.bytes / 1e6).toFixed(1)} MB${d.done ? '' : ' ...'}`);
   const tot = (k) => f([...diagPanes.values()].reduce((a, d) => a + d[k], 0));
   el.textContent = `diag (ms) since card opened ${f(performance.now() - diagT0)} - ${navigator.userAgent.replace(/^.*(Firefox|Chrome)\/(\d+).*$/, '$1 $2')}\n`
-    + `panes from ${PANE_BASE || 'this site (same thread as this page)'}\n`
+    + `page at ${location.protocol}//${location.host} - panes from ${PANE_BASE || 'this site (same thread as this page)'}\n`
+    + `probes: ${paneProbes.join(' | ') || 'none'}\n`
     + `page blocked ${f(sum)} in ${diagBlocks.length} blocks >50, longest ${f(Math.max(0, ...diagBlocks))}\n`
     + `all panes: init ${tot('init')} | shaders ${tot('shader')} | uploads ${tot('upload')} | frames ${tot('frame')} | fix-ups ${tot('fix')}\n`
     + `outside the panes' JS (browser layout / compositing / GPU waits / GC): ~${f(Math.max(0, sum - [...diagPanes.values()].reduce((a, d) => a + d.init + d.shader + d.upload + d.frame + d.fix, 0)))}\n` + rows.join('\n');
