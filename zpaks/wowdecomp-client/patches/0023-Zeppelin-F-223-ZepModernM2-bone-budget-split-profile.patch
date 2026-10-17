@@ -1,0 +1,646 @@
+From dd9a3b3b6b3bdab9d2a401d89d4e74ed51910414 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 11:10:34 +0000
+Subject: [PATCH] Zeppelin F-223: ZepModernM2 bone-budget split, profile clamp,
+ index start repair
+
+- every skin with a section over 75 bones is split into sub-sections that fit the vertex
+  shader bone palette (constant 31 + 3 per bone); batches repeated per sub-section
+- 3.3.5 files declaring more than 4 skin profiles use profile 0 (stock reads before the table)
+- skins over 65535 indices with dropped level halves get their wrapped starts restored
+- modern sections past 65535 are drawn instead of parked
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Extensions/ZepModernM2/src/ZepModernM2.cpp | 522 ++++++++++++++++-----
+ 1 file changed, 414 insertions(+), 108 deletions(-)
+
+diff --git a/Extensions/ZepModernM2/src/ZepModernM2.cpp b/Extensions/ZepModernM2/src/ZepModernM2.cpp
+index 218e4c7..713058f 100644
+--- a/Extensions/ZepModernM2/src/ZepModernM2.cpp
++++ b/Extensions/ZepModernM2/src/ZepModernM2.cpp
+@@ -21,9 +21,11 @@
+ // FileDataIDs resolve through Zeppelin\FileDataPaths.txt ("fdid;path" lines) read from the archive
+ // set; an unresolved texture stays a solid white like any nameless slot.
+ //
++// Every skin, 3.3.5 ones included, also gets the bone-budget split: a section drawing more than 75
++// bones is partitioned into sub-sections that fit the vertex shader bone palette.
++//
+ // Not handled: external skeletons (SKID: the load is refused, the model is not drawn), LOD skins
+-// (LDV1: profile 0 only, LOD submeshes parked), bone-budget splitting (a submesh over 75 bones is
+-// clamped), the additive-overlay combiner (WXL CombinerPatch) and per-emitter blend states past the
++// (LDV1: profile 0, the full-detail skin, is always used), the additive-overlay combiner (WXL CombinerPatch) and per-emitter blend states past the
+ // stock table (mapped to the nearest stock mode).
+ 
+ #include <cmath>
+@@ -34,6 +36,8 @@
+ #include <string>
+ #include <unordered_map>
+ #include <unordered_set>
++#include <type_traits>
++#include <algorithm>
+ #include <vector>
+ #include "Engine/Source/Base/SIMD.h"
+ #include "Engine/Source/BlizzardCore/SFile2-Core.h"
+@@ -860,12 +864,27 @@ void DownConvertBatch(M2Batch b, bool bad, SkinRebuild& r) {
+ 
+ // Grows shared.m_data by the given arrays (the ConvertTextureValuesToCombos pattern: the buffer is
+ // copied whole, so every self-relative array inside it stays valid) and points the fields at them.
+-void AppendModelArrays(CM2Shared& shared, const std::vector<int16_t>& texUnitLookup, const std::vector<uint16_t>& blendOverride, const std::vector<int16_t>& transformLookup) {
++// An empty vector leaves its field alone.
++struct ModelArrays {
++    std::vector<int16_t> texUnitLookup;
++    std::vector<uint16_t> blendOverride;
++    std::vector<int16_t> transformLookup;
++    std::vector<uint16_t> boneCombos; // the whole replacement table
++};
++
++void AppendModelArrays(CM2Shared& shared, const ModelArrays& arrays) {
++    const std::vector<uint16_t>* parts[4] = {
++        reinterpret_cast<const std::vector<uint16_t>*>(&arrays.texUnitLookup),
++        &arrays.blendOverride,
++        reinterpret_cast<const std::vector<uint16_t>*>(&arrays.transformLookup),
++        &arrays.boneCombos,
++    };
+     uint32_t base = (shared.m_fileSize + 15) & ~15u;
+-    uint32_t texBytes = static_cast<uint32_t>(texUnitLookup.size() * 2);
+-    uint32_t blendBytes = static_cast<uint32_t>(blendOverride.size() * 2);
+-    uint32_t transformBytes = static_cast<uint32_t>(transformLookup.size() * 2);
+-    uint32_t total = base + ((texBytes + 3) & ~3u) + ((blendBytes + 3) & ~3u) + transformBytes;
++    uint32_t total = base;
++
++    for (const auto* part : parts) {
++        total += (static_cast<uint32_t>(part->size() * 2) + 3) & ~3u;
++    }
+ 
+     if (total == base) {
+         return;
+@@ -877,156 +896,424 @@ void AppendModelArrays(CM2Shared& shared, const std::vector<int16_t>& texUnitLoo
+     shared.m_data = data;
+     shared.m_fileSize = total;
+     uint8_t* tail = reinterpret_cast<uint8_t*>(data) + base;
++    M2Array<uint16_t>* fields[4] = { &data->m_textureCoordCombos, &data->m_textureCombinerCombos, &data->m_textureTransformCombos, &data->m_boneCombos };
+ 
+-    if (texBytes) {
+-        std::memcpy(tail, texUnitLookup.data(), texBytes);
+-        data->m_textureCoordCombos.m_count = static_cast<uint32_t>(texUnitLookup.size());
+-        data->m_textureCoordCombos.Set(reinterpret_cast<uint16_t*>(tail));
+-        tail += (texBytes + 3) & ~3u;
+-    }
++    for (int32_t i = 0; i < 4; i++) {
++        if (parts[i]->empty()) {
++            continue;
++        }
+ 
+-    if (blendBytes) {
+-        std::memcpy(tail, blendOverride.data(), blendBytes);
+-        data->m_textureCombinerCombos.m_count = static_cast<uint32_t>(blendOverride.size());
+-        data->m_textureCombinerCombos.Set(reinterpret_cast<uint16_t*>(tail));
+-        data->m_flags |= 8;
+-        tail += (blendBytes + 3) & ~3u;
++        std::memcpy(tail, parts[i]->data(), parts[i]->size() * 2);
++        fields[i]->m_count = static_cast<uint32_t>(parts[i]->size());
++        fields[i]->Set(reinterpret_cast<uint16_t*>(tail));
++        tail += (static_cast<uint32_t>(parts[i]->size() * 2) + 3) & ~3u;
+     }
+ 
+-    if (transformBytes) {
+-        std::memcpy(tail, transformLookup.data(), transformBytes);
+-        data->m_textureTransformCombos.m_count = static_cast<uint32_t>(transformLookup.size());
+-        data->m_textureTransformCombos.Set(reinterpret_cast<uint16_t*>(tail));
++    if (!arrays.blendOverride.empty()) {
++        data->m_flags |= 8;
+     }
+ }
+ 
+-bool RebuildSkin(CM2Shared& shared, M2SkinProfile*& skin, uint32_t& size) {
+-    uint8_t* raw = reinterpret_cast<uint8_t*>(skin);
++// A .skin as arrays, read from the raw file and written back as a fresh one.
++struct Skin {
++    std::vector<uint16_t> vertices;
++    std::vector<uint16_t> indices;
++    std::vector<uint32_t> bones;
++    std::vector<M2SkinSection> sections;
++    std::vector<M2Batch> batches;
++    uint32_t boneCountMax = 0;
+ 
+-    if (size < 0x30) {
+-        return false;
+-    }
++    bool Read(const uint8_t* raw, uint32_t size) {
++        if (size < 0x30 || Rd32(raw) != 0x4E494B53) {
++            return false;
++        }
+ 
+-    uint32_t sectionCount = Rd32(raw + 0x1C);
+-    uint32_t sectionOffset = Rd32(raw + 0x20);
+-    uint32_t batchCount = Rd32(raw + 0x24);
+-    uint32_t batchOffset = Rd32(raw + 0x28);
+-    uint32_t indexCount = Rd32(raw + 0x0C);
++        auto load = [&](uint32_t field, auto& out, uint32_t limit) {
++            using T = typename std::remove_reference_t<decltype(out)>::value_type;
++            uint32_t count = Rd32(raw + field);
++            uint32_t offset = Rd32(raw + field + 4);
+ 
+-    if (!Fits(size, sectionOffset, sectionCount, sizeof(M2SkinSection)) || !Fits(size, batchOffset, batchCount, sizeof(M2Batch))) {
+-        return false;
+-    }
++            if (count > limit || !Fits(size, offset, count, sizeof(T))) {
++                return false;
++            }
+ 
+-    if (batchCount > kMaxBatches) {
+-        batchCount = kMaxBatches;
+-    }
++            out.resize(count);
++            std::memcpy(out.data(), raw + offset, count * sizeof(T));
++            return true;
++        };
+ 
+-    M2Data* data = shared.m_data;
+-    SkinRebuild r;
+-    r.transparencyLookups = data->m_textureWeightCombos.m_count;
++        boneCountMax = Rd32(raw + 0x2C);
++        return load(0x04, vertices, 0x10000) && load(0x0C, indices, 0x1000000) && load(0x14, bones, 0x10000) && load(0x1C, sections, 0x10000) && load(0x24, batches, kMaxBatches);
++    }
+ 
+-    // A model with texture transforms but no transform lookup gets an identity one sized to the
+-    // highest index a batch reads.
+-    std::vector<int16_t> transformLookup;
++    // A file with more than 65535 indices whose converter dropped the high halves of its section
++    // starts (every m_level 0): sections are stored in index order, so a start that falls below the
++    // previous one has wrapped and gains 0x10000. Returns the sections moved.
++    uint32_t RepairIndexStarts() {
++        if (indices.size() <= 0xFFFF) {
++            return 0;
++        }
+ 
+-    if (data->m_textureTransforms.m_count && !data->m_textureTransformCombos.m_count) {
+-        uint32_t needed = data->m_textureTransforms.m_count;
++        for (const M2SkinSection& s : sections) {
++            if (s.m_level) {
++                return 0;
++            }
++        }
+ 
+-        for (uint32_t i = 0; i < batchCount; i++) {
+-            M2Batch b;
+-            std::memcpy(&b, raw + batchOffset + i * sizeof(M2Batch), sizeof(M2Batch));
++        uint32_t high = 0;
++        uint32_t previous = 0;
++        uint32_t moved = 0;
+ 
+-            if (b.m_textureTransformComboIndex == 0xFFFF) {
++        for (M2SkinSection& s : sections) {
++            if (!s.m_indexCount) {
+                 continue;
+             }
+ 
+-            uint32_t n = b.m_textureCount ? b.m_textureCount : 1;
++            uint32_t start = s.m_indexStart + high;
++
++            if (start < previous) {
++                high += 0x10000;
++                start += 0x10000;
++            }
+ 
+-            if (b.m_textureTransformComboIndex <= 0xFFFF - n && needed < b.m_textureTransformComboIndex + n) {
+-                needed = b.m_textureTransformComboIndex + n;
++            if (start + s.m_indexCount > indices.size()) {
++                return moved; // not the layout this repair assumes: leave the rest as read
+             }
++
++            if (start != s.m_indexStart) {
++                s.SetIndexStart(start);
++                moved++;
++            }
++
++            previous = start;
+         }
+ 
+-        for (uint32_t i = 0; i < needed; i++) {
+-            transformLookup.push_back(i < data->m_textureTransforms.m_count ? static_cast<int16_t>(i) : -1);
++        return moved;
++    }
++
++    // Header then the five arrays, 16-byte aligned, as raw file offsets for the stock M2Init.
++    uint8_t* Write(uint32_t& size) const {
++        uint32_t at = 0x30;
++        uint32_t offsets[5];
++        const void* data[5] = { vertices.data(), indices.data(), bones.data(), sections.data(), batches.data() };
++        uint32_t bytes[5] = {
++            static_cast<uint32_t>(vertices.size() * 2), static_cast<uint32_t>(indices.size() * 2), static_cast<uint32_t>(bones.size() * 4),
++            static_cast<uint32_t>(sections.size() * sizeof(M2SkinSection)), static_cast<uint32_t>(batches.size() * sizeof(M2Batch)),
++        };
++        uint32_t counts[5] = { static_cast<uint32_t>(vertices.size()), static_cast<uint32_t>(indices.size()), static_cast<uint32_t>(bones.size()), static_cast<uint32_t>(sections.size()), static_cast<uint32_t>(batches.size()) };
++
++        for (int32_t i = 0; i < 5; i++) {
++            offsets[i] = at;
++            at = (at + bytes[i] + 15) & ~15u;
+         }
++
++        uint8_t* out = static_cast<uint8_t*>(SIMD::AllocA16(at, __FILE__, __LINE__));
++        std::memset(out, 0, at);
++        Wr32(out, 0x4E494B53);
++
++        for (int32_t i = 0; i < 5; i++) {
++            Wr32(out + 4 + i * 8, counts[i]);
++            Wr32(out + 8 + i * 8, offsets[i]);
++
++            if (bytes[i]) {
++                std::memcpy(out + offsets[i], data[i], bytes[i]);
++            }
++        }
++
++        Wr32(out + 0x2C, boneCountMax);
++        size = at;
++        return out;
+     }
++};
++
++// Partitions every section drawing more than kMaxBonesPerDraw bones (the vertex shader bone palette
++// starts at constant 31, three constants a bone: 31 + 3 * 75 = 256) into sub-sections that each fit,
++// WXL's bone-budget split. A triangle joins the current sub-section while the union of the bones its
++// three vertices weigh on still fits; its vertices are copied into the sub-section's own vertex range
++// with their bone slots renumbered into its own bone list, appended to the model's bone combos.
++// Batches on a split section are repeated for every sub-section. Returns the sections rebuilt (a
++// section whose weighted bones already fit becomes one sub-section with a compact bone list).
++uint32_t SplitBoneBudget(const M2Data& data, Skin& skin, std::vector<uint16_t>& boneCombos) {
++    uint32_t split = 0;
++    uint32_t originalSections = static_cast<uint32_t>(skin.sections.size());
++    std::vector<std::vector<uint16_t>> runs(originalSections);
++
++    for (uint32_t si = 0; si < originalSections; si++) {
++        runs[si].push_back(static_cast<uint16_t>(si));
++        M2SkinSection source = skin.sections[si];
++
++        if (source.m_boneCount <= kMaxBonesPerDraw || !source.m_indexCount) {
++            continue;
++        }
++
++        uint32_t start = source.IndexStart();
+ 
+-    r.transformLookups = transformLookup.empty() ? data->m_textureTransformCombos.m_count : static_cast<uint32_t>(transformLookup.size());
++        if (start + source.m_indexCount > skin.indices.size()) {
++            continue;
++        }
+ 
+-    // Sections: LOD (level > 0) submeshes need the 32-bit index start this client lacks, so they are
+-    // parked; drawn ones are clamped to the per-draw bone ceiling.
+-    std::vector<uint8_t> bad(sectionCount, 0);
+-    uint32_t boneCombos = data->m_boneCombos.m_count;
++        struct Group {
++            std::vector<uint16_t> bones;
++            std::unordered_map<uint16_t, uint16_t> vertexMap;
++            std::vector<uint16_t> vertices;
++            std::vector<uint16_t> triangles;
++        };
+ 
+-    for (uint32_t i = 0; i < sectionCount; i++) {
+-        M2SkinSection* s = reinterpret_cast<M2SkinSection*>(raw + sectionOffset + i * sizeof(M2SkinSection));
+-        uint16_t level = static_cast<uint16_t>(s->m_skinSectionId >> 16);
++        std::vector<Group> groups(1);
++        auto globalBones = [&](uint16_t v, uint16_t* out) {
++            uint32_t n = 0;
++            const M2Vertex& vertex = data.m_vertices[skin.vertices[v]];
++
++            for (uint32_t k = 0; k < 4; k++) {
++                uint8_t local = static_cast<uint8_t>(skin.bones[v] >> (8 * k));
++
++                if (vertex.m_weights.b[k] && source.m_boneComboIndex + local < boneCombos.size()) {
++                    out[n++] = boneCombos[source.m_boneComboIndex + local];
++                }
++            }
++
++            return n;
++        };
++
++        for (uint32_t t = 0; t + 2 < source.m_indexCount; t += 3) {
++            uint16_t needed[12];
++            uint32_t n = 0;
++
++            for (uint32_t c = 0; c < 3; c++) {
++                n += globalBones(skin.indices[start + t + c], needed + n);
++            }
++
++            Group* g = &groups.back();
++            uint32_t extra = 0;
++
++            for (uint32_t k = 0; k < n; k++) {
++                bool have = std::find(g->bones.begin(), g->bones.end(), needed[k]) != g->bones.end() || std::find(needed, needed + k, needed[k]) != needed + k;
++                extra += !have;
++            }
++
++            if (g->bones.size() + extra > kMaxBonesPerDraw) {
++                groups.emplace_back();
++                g = &groups.back();
++            }
++
++            for (uint32_t k = 0; k < n; k++) {
++                if (std::find(g->bones.begin(), g->bones.end(), needed[k]) == g->bones.end()) {
++                    g->bones.push_back(needed[k]);
++                }
++            }
++
++            for (uint32_t c = 0; c < 3; c++) {
++                uint16_t v = skin.indices[start + t + c];
++                auto it = g->vertexMap.find(v);
++
++                if (it == g->vertexMap.end()) {
++                    it = g->vertexMap.emplace(v, static_cast<uint16_t>(g->vertices.size())).first;
++                    g->vertices.push_back(v);
++                }
+ 
+-        if (level > 0 || (s->m_indexCount && (s->m_indexStart > indexCount || s->m_indexCount > indexCount - s->m_indexStart))) {
+-            s->m_skinSectionId &= 0xFFFF;
+-            s->m_vertexStart = s->m_vertexCount = s->m_indexStart = s->m_indexCount = 0;
+-            s->m_boneComboIndex = s->m_centerBoneIndex = 0;
++                g->triangles.push_back(it->second);
++            }
+         }
+ 
+-        if (s->m_indexCount == 0) {
+-            if (s->m_boneCount < 1) {
+-                s->m_boneCount = 1;
++        uint32_t newVertices = 0;
++
++        for (const Group& g : groups) {
++            newVertices += static_cast<uint32_t>(g.vertices.size());
++        }
++
++        if (skin.vertices.size() + newVertices > 0xFFFF || boneCombos.size() + groups.size() * kMaxBonesPerDraw > 0xFFFF) {
++            continue; // the 16-bit vertex indices or bone combo indices would overflow: leave it clamped
++        }
++
++        runs[si].clear();
++
++        for (size_t gi = 0; gi < groups.size(); gi++) {
++            const Group& g = groups[gi];
++            M2SkinSection section = source;
++            section.m_vertexStart = static_cast<uint16_t>(skin.vertices.size());
++            section.m_vertexCount = static_cast<uint16_t>(g.vertices.size());
++            section.SetIndexStart(static_cast<uint32_t>(skin.indices.size()));
++            section.m_indexCount = static_cast<uint16_t>(g.triangles.size());
++            section.m_boneComboIndex = static_cast<uint16_t>(boneCombos.size());
++            section.m_boneCount = static_cast<uint16_t>(g.bones.size() ? g.bones.size() : 1);
++            boneCombos.insert(boneCombos.end(), g.bones.begin(), g.bones.end());
++
++            if (g.bones.empty()) {
++                boneCombos.push_back(0);
+             }
+ 
+-            bad[i] = 1;
+-        } else {
+-            uint16_t cap = kMaxBonesPerDraw;
+-            uint16_t byCombo = boneCombos > s->m_boneComboIndex ? static_cast<uint16_t>(boneCombos - s->m_boneComboIndex) : 1;
++            for (uint16_t v : g.vertices) {
++                const M2Vertex& vertex = data.m_vertices[skin.vertices[v]];
++                uint32_t packed = 0;
++
++                for (uint32_t k = 0; k < 4; k++) {
++                    uint8_t local = static_cast<uint8_t>(skin.bones[v] >> (8 * k));
++                    uint8_t mapped = 0;
++
++                    if (vertex.m_weights.b[k] && source.m_boneComboIndex + local < source.m_boneComboIndex + source.m_boneCount) {
++                        uint16_t global = boneCombos[source.m_boneComboIndex + local];
++                        mapped = static_cast<uint8_t>(std::find(g.bones.begin(), g.bones.end(), global) - g.bones.begin());
++                    }
++
++                    packed |= static_cast<uint32_t>(mapped) << (8 * k);
++                }
+ 
+-            if (byCombo < cap) {
+-                cap = byCombo;
++                skin.vertices.push_back(skin.vertices[v]);
++                skin.bones.push_back(packed);
+             }
+ 
+-            if (cap < 1) {
+-                cap = 1;
++            for (uint16_t t : g.triangles) {
++                skin.indices.push_back(static_cast<uint16_t>(section.m_vertexStart + t));
+             }
+ 
+-            if (s->m_boneCount > cap) {
+-                s->m_boneCount = cap;
++            if (gi == 0) {
++                skin.sections[si] = section;
++                runs[si].push_back(static_cast<uint16_t>(si));
++            } else {
++                runs[si].push_back(static_cast<uint16_t>(skin.sections.size()));
++                skin.sections.push_back(section);
+             }
++        }
+ 
+-            if (s->m_boneCount < 1) {
+-                s->m_boneCount = 1;
++        split++;
++    }
++
++    if (split) {
++        std::vector<M2Batch> batches;
++
++        for (const M2Batch& b : skin.batches) {
++            if (b.m_skinSectionIndex >= originalSections) {
++                batches.push_back(b);
++                continue;
+             }
+ 
+-            if (s->m_boneInfluences == 0) {
+-                s->m_boneInfluences = 1;
++            for (uint16_t section : runs[b.m_skinSectionIndex]) {
++                M2Batch copy = b;
++                copy.m_skinSectionIndex = section;
++                batches.push_back(copy);
+             }
+         }
+ 
+-        s->m_boneInfluences &= 0xFF;
++        skin.batches = std::move(batches);
++        skin.boneCountMax = std::max<uint32_t>(skin.boneCountMax, kMaxBonesPerDraw);
++    }
++
++    return split;
++}
++
++bool RebuildSkin(CM2Shared& shared, M2SkinProfile*& raw, uint32_t& size, bool modern) {
++    if (!modern) {
++        // The common case, a 3.3.5 skin: only its index count and section bone counts are read.
++        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(raw);
++        uint32_t count = size >= 0x30 ? Rd32(bytes + 0x1C) : 0;
++        uint32_t offset = size >= 0x30 ? Rd32(bytes + 0x20) : 0;
++        bool work = size >= 0x30 && Rd32(bytes + 0x0C) > 0xFFFF;
++
++        for (uint32_t i = 0; Fits(size, offset, count, sizeof(M2SkinSection)) && i < count && !work; i++) {
++            work = Rd16(bytes + offset + i * sizeof(M2SkinSection) + 0x0C) > kMaxBonesPerDraw;
++        }
++
++        if (!work) {
++            return false;
++        }
++    }
++
++    Skin skin;
++
++    if (!skin.Read(reinterpret_cast<const uint8_t*>(raw), size)) {
++        return false;
++    }
++
++    M2Data* data = shared.m_data;
++    ModelArrays arrays;
++    std::vector<uint16_t> boneCombos(data->m_boneCombos.m_count);
++
++    for (uint32_t i = 0; i < boneCombos.size(); i++) {
++        boneCombos[i] = data->m_boneCombos[i];
++    }
++
++    uint32_t batchesIn = static_cast<uint32_t>(skin.batches.size());
++    uint32_t repaired = skin.RepairIndexStarts();
++    uint32_t split = SplitBoneBudget(*data, skin, boneCombos);
++
++    if (split) {
++        arrays.boneCombos = boneCombos;
++    } else if (!modern && !repaired) {
++        return false; // a 3.3.5 skin within budget: nothing to do
+     }
+ 
+-    for (uint32_t i = 0; i < batchCount; i++) {
+-        M2Batch b;
+-        std::memcpy(&b, raw + batchOffset + i * sizeof(M2Batch), sizeof(M2Batch));
+-        DownConvertBatch(b, b.m_skinSectionIndex < sectionCount && bad[b.m_skinSectionIndex], r);
++    SkinRebuild r;
++
++    if (modern) {
++        r.transparencyLookups = data->m_textureWeightCombos.m_count;
++
++        // A model with texture transforms but no transform lookup gets an identity one sized to the
++        // highest index a batch reads.
++        if (data->m_textureTransforms.m_count && !data->m_textureTransformCombos.m_count) {
++            uint32_t needed = data->m_textureTransforms.m_count;
++
++            for (const M2Batch& b : skin.batches) {
++                if (b.m_textureTransformComboIndex == 0xFFFF) {
++                    continue;
++                }
++
++                uint32_t n = b.m_textureCount ? b.m_textureCount : 1;
++
++                if (b.m_textureTransformComboIndex <= 0xFFFF - n && needed < b.m_textureTransformComboIndex + n) {
++                    needed = b.m_textureTransformComboIndex + n;
++                }
++            }
++
++            for (uint32_t i = 0; i < needed; i++) {
++                arrays.transformLookup.push_back(i < data->m_textureTransforms.m_count ? static_cast<int16_t>(i) : -1);
++            }
++        }
++
++        r.transformLookups = arrays.transformLookup.empty() ? data->m_textureTransformCombos.m_count : static_cast<uint32_t>(arrays.transformLookup.size());
++
++        // Sections: a window past the index array is parked (draws nothing); drawn ones are clamped to
++        // the bone ceiling the split could not bring them under.
++        std::vector<uint8_t> bad(skin.sections.size(), 0);
++
++        for (size_t i = 0; i < skin.sections.size(); i++) {
++            M2SkinSection& s = skin.sections[i];
++
++            if (s.m_indexCount && (s.IndexStart() > skin.indices.size() || s.m_indexCount > skin.indices.size() - s.IndexStart())) {
++                s.m_vertexStart = s.m_vertexCount = s.m_indexCount = 0;
++                s.SetIndexStart(0);
++                s.m_boneComboIndex = s.m_centerBoneIndex = 0;
++            }
++
++            if (s.m_indexCount == 0) {
++                s.m_boneCount = std::max<uint16_t>(s.m_boneCount, 1);
++                bad[i] = 1;
++            } else {
++                uint32_t byCombo = boneCombos.size() > s.m_boneComboIndex ? static_cast<uint32_t>(boneCombos.size() - s.m_boneComboIndex) : 1;
++                uint32_t cap = std::max<uint32_t>(1, std::min<uint32_t>(kMaxBonesPerDraw, byCombo));
++                s.m_boneCount = static_cast<uint16_t>(std::max<uint32_t>(1, std::min<uint32_t>(s.m_boneCount, cap)));
++                s.m_boneInfluences = std::max<uint16_t>(s.m_boneInfluences, 1);
++            }
++
++            s.m_boneInfluences &= 0xFF;
++        }
++
++        for (const M2Batch& b : skin.batches) {
++            DownConvertBatch(b, b.m_skinSectionIndex < bad.size() && bad[b.m_skinSectionIndex], r);
++        }
++
++        skin.batches = std::move(r.batches);
++        arrays.texUnitLookup = r.texUnitLookup;
++        arrays.blendOverride = r.blendOverride;
+     }
+ 
+-    // The rebuilt batch array goes past the end of a copy of the skin; the stock M2Init relocates it
+-    // from the raw offset like the rest.
+-    uint32_t base = (size + 15) & ~15u;
+-    uint32_t batchBytes = static_cast<uint32_t>(r.batches.size() * sizeof(M2Batch));
+-    uint8_t* copy = static_cast<uint8_t*>(SIMD::AllocA16(base + batchBytes, __FILE__, __LINE__));
+-    std::memcpy(copy, raw, size);
+-    std::memset(copy + size, 0, base - size);
+-    std::memcpy(copy + base, r.batches.data(), batchBytes);
+-    Wr32(copy + 0x24, static_cast<uint32_t>(r.batches.size()));
+-    Wr32(copy + 0x28, base);
+-    SIMD::FreeA16(skin);
+-    skin = reinterpret_cast<M2SkinProfile*>(copy);
+-    size = base + batchBytes;
++    uint8_t* copy = skin.Write(size);
++    SIMD::FreeA16(raw);
++    raw = reinterpret_cast<M2SkinProfile*>(copy);
+ 
+     // shared.m_data may be a new buffer after this; data is stale.
+-    AppendModelArrays(shared, r.texUnitLookup, r.blendOverride, transformLookup);
++    AppendModelArrays(shared, arrays);
+ 
+-    sExtensionMgr->Log("ZepModernM2:   skin: %u batch(es) -> %u, %u texunit lookup(s), %u combiner pair(s)", batchCount, static_cast<uint32_t>(r.batches.size()), static_cast<uint32_t>(r.texUnitLookup.size()), static_cast<uint32_t>(r.blendOverride.size() / 2));
++    sExtensionMgr->Log("ZepModernM2:   %s skin: %u batch(es) -> %u, %u section(s) rebuilt for the 75-bone budget, %u index start(s) past 65535 restored, %u texunit lookup(s), %u combiner pair(s)", shared.m_fileName, batchesIn, static_cast<uint32_t>(skin.batches.size()), split, repaired, static_cast<uint32_t>(arrays.texUnitLookup.size()), static_cast<uint32_t>(arrays.blendOverride.size() / 2));
+     return true;
+ }
+ 
+@@ -1037,7 +1324,23 @@ class ZepModernM2ModelScript : public ModelScript {
+     void OnModelFileRead(CM2Shared& shared, M2Data*& data, uint32_t& size) override {
+         const uint8_t* file = reinterpret_cast<const uint8_t*>(data);
+ 
+-        if (!file || size < 8 || (Rd32(file) != kMagicMD21 && (Rd32(file) != kMagicMD20 || Rd32(file + 4) == kClientVersion))) {
++        if (!file || size < 8) {
++            return;
++        }
++
++        if (Rd32(file) == kMagicMD20 && Rd32(file + 4) == kClientVersion) {
++            // A 3.3.5 file. Retroports that kept their LOD skin count declare more profiles than the
++            // four-entry bone budget table GetSkinProfileIndex walks from the end (it would read before
++            // the table); they get the one full-detail profile.
++            if (size >= kHeaderSize && Rd32(file + kHdrNumSkinProfiles) > 4) {
++                Wr32(reinterpret_cast<uint8_t*>(data) + kHdrNumSkinProfiles, 1);
++                sExtensionMgr->Log("ZepModernM2: %s declared more than 4 skin profiles, using profile 0", shared.m_fileName);
++            }
++
++            return;
++        }
++
++        if (Rd32(file) != kMagicMD21 && Rd32(file) != kMagicMD20) {
+             return;
+         }
+ 
+@@ -1069,11 +1372,14 @@ class ZepModernM2ModelScript : public ModelScript {
+     void OnModelSkinRead(CM2Shared& shared, M2SkinProfile*& skin, uint32_t& size) override {
+         std::lock_guard<std::mutex> guard(s_lock);
+ 
+-        if (!s_modern.count(&shared) || !skin) {
++        if (!skin) {
+             return;
+         }
+ 
+-        if (!RebuildSkin(shared, skin, size)) {
++        // Every model gets the bone-budget split; a downported one also its batch rebuild.
++        bool modern = s_modern.count(&shared) != 0;
++
++        if (!RebuildSkin(shared, skin, size, modern) && modern) {
+             sExtensionMgr->Log("ZepModernM2: %s skin left as read (malformed header)", shared.m_fileName);
+         }
+     }
+-- 
+2.34.1
+

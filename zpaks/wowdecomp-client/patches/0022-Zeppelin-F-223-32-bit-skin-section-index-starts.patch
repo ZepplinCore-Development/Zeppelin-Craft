@@ -1,0 +1,170 @@
+From acc4c6af79bb254e85a74cf6d7e5c0b1d35897b7 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 11:10:34 +0000
+Subject: [PATCH] Zeppelin F-223: 32-bit skin section index starts
+
+- M2SkinSection splits into the 16-bit geoset id and m_level (the file's high half of the start)
+- IndexStart()/SetIndexStart() at every draw and index-copy site; the shared and optimised index
+  buffers keep 32-bit starts instead of truncating past 65535 indices
+- no 3.3.5 skin sets m_level (27,104 stock skins checked), so stock content reads as before
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Engine/Source/Model2/CM2SceneRender.cpp |  4 ++--
+ Engine/Source/Model2/M2Data.h           | 13 ++++++++++++-
+ Engine/Source/Model2/M2Model.cpp        | 15 ++++++++-------
+ Engine/Source/Model2/M2Scene.cpp        |  2 +-
+ Engine/Source/Model2/M2Shared.cpp       |  4 ++--
+ 5 files changed, 25 insertions(+), 13 deletions(-)
+
+diff --git a/Engine/Source/Model2/CM2SceneRender.cpp b/Engine/Source/Model2/CM2SceneRender.cpp
+index 648003e..338e8d1 100644
+--- a/Engine/Source/Model2/CM2SceneRender.cpp
++++ b/Engine/Source/Model2/CM2SceneRender.cpp
+@@ -463,7 +463,7 @@ void CM2SceneRender::DrawBatch() {
+ 
+     CGxBatch batch;
+     batch.m_primType = GxPrim_Triangles;
+-    batch.m_start = this->m_curSkinSection->m_indexStart;
++    batch.m_start = this->m_curSkinSection->IndexStart(); // Not in the original: 32-bit start
+     batch.m_count = this->m_curSkinSection->m_indexCount;
+ 
+     if (CShaderEffect::s_enableShaders) {
+@@ -609,7 +609,7 @@ void CM2SceneRender::DrawBatchDoodad(M2Element* elements, uint32_t* indices) {
+ 
+     CGxBatch batch;
+     batch.m_primType = GxPrim_Triangles;
+-    batch.m_start = this->m_curSkinSection->m_indexStart;
++    batch.m_start = this->m_curSkinSection->IndexStart(); // Not in the original: 32-bit start
+     batch.m_count = 0;
+     batch.m_minIndex = 0;
+     batch.m_maxIndex = 0;
+diff --git a/Engine/Source/Model2/M2Data.h b/Engine/Source/Model2/M2Data.h
+index d233b01..2ba772c 100644
+--- a/Engine/Source/Model2/M2Data.h
++++ b/Engine/Source/Model2/M2Data.h
+@@ -299,7 +299,10 @@ class M2Batch {
+ 
+ class M2SkinSection {
+     public:
+-    /* 0000 */ uint32_t m_skinSectionId;
++    /* 0000 */ uint16_t m_skinSectionId;
++    // Not in the original as a field of its own: the high half of the 32-bit index start of
++    // newer files (and of a packed index buffer past 65535 indices); see IndexStart().
++    /* 0002 */ uint16_t m_level;
+     /* 0004 */ uint16_t m_vertexStart;
+     /* 0006 */ uint16_t m_vertexCount;
+     /* 0008 */ uint16_t m_indexStart;
+@@ -311,6 +314,14 @@ class M2SkinSection {
+     /* 0014 */ C3Vector m_centerPosition;
+     /* 0020 */ C3Vector m_sortCenterPosition;
+     /* 002C */ float m_sortRadius;
++
++    // Not in the original: the full index start, (m_level << 16) | m_indexStart. No 3.3.5 skin sets
++    // m_level, so stock content reads exactly as before.
++    uint32_t IndexStart() const { return static_cast<uint32_t>(this->m_indexStart) | (static_cast<uint32_t>(this->m_level) << 16); }
++    void SetIndexStart(uint32_t start) {
++        this->m_indexStart = static_cast<uint16_t>(start);
++        this->m_level = static_cast<uint16_t>(start >> 16);
++    }
+ };
+ 
+ class M2Data {
+diff --git a/Engine/Source/Model2/M2Model.cpp b/Engine/Source/Model2/M2Model.cpp
+index 7c17869..7208409 100644
+--- a/Engine/Source/Model2/M2Model.cpp
++++ b/Engine/Source/Model2/M2Model.cpp
+@@ -2670,10 +2670,10 @@ int32_t CM2Model::SetIndices() {
+                 M2SkinSection* section = &skin->m_skinSections[sectionIndex];
+ 
+                 if (copyIndices || singleBone) {
+-                    memcpy(indices, &skin->m_indices[section->m_indexStart], section->m_indexCount * sizeof(uint16_t));
++                    memcpy(indices, &skin->m_indices[section->IndexStart()], section->m_indexCount * sizeof(uint16_t));
+                 } else {
+                     for (uint32_t j = 0; j < section->m_indexCount; j++) {
+-                        indices[j] = vertexBase + skin->m_indices[j + section->m_indexStart] - section->m_vertexStart;
++                        indices[j] = vertexBase + skin->m_indices[j + section->IndexStart()] - section->m_vertexStart;
+                     }
+                 }
+ 
+@@ -2889,7 +2889,7 @@ void CM2Model::RenderModelBatchesForProjectedTexture() {
+ 
+             CGxBatch gxBatch;
+             gxBatch.m_primType = GxPrim_Triangles;
+-            gxBatch.m_start = section->m_indexStart;
++            gxBatch.m_start = section->IndexStart(); // Not in the original: 32-bit start
+             gxBatch.m_count = section->m_indexCount;
+             gxBatch.m_minIndex = 0;
+             gxBatch.m_maxIndex = this->m_shared->m_skinData->m_vertices.m_count - 1;
+@@ -2938,7 +2938,7 @@ void CM2Model::RenderBatchShadowMap(int32_t untextured, M2Batch* batch, const CM
+ 
+     CGxBatch gxBatch;
+     gxBatch.m_primType = GxPrim_Triangles;
+-    gxBatch.m_start = section->m_indexStart;
++    gxBatch.m_start = section->IndexStart(); // Not in the original: 32-bit start
+     gxBatch.m_count = 0;
+     gxBatch.m_minIndex = 0;
+     gxBatch.m_maxIndex = 0;
+@@ -4033,7 +4033,7 @@ void CM2Model::SetGeometryVisible(uint32_t first, uint32_t last, int32_t visible
+         int32_t changed = 0;
+ 
+         for (uint32_t i = 0; i < skin->m_skinSections.m_count; i++) {
+-            uint32_t id = skin->m_skinSections[i].m_skinSectionId;
++            uint32_t id = skin->m_skinSections[i].m_skinSectionId; // the geoset id, without m_level
+ 
+             if (first <= id && id <= last) {
+                 uint32_t* section = &this->m_skinSections[i];
+@@ -4243,11 +4243,12 @@ void CM2Model::OptimizeVisibleGeometry() {
+             int32_t indexStart = indexStarts[batch->m_skinSectionIndex];
+ 
+             if (indexStart < 0) {
+-                indexStart = static_cast<uint16_t>(indexCount);
++                // Not in the original: kept 32-bit (the stock cast truncated past 65535 indices).
++                indexStart = static_cast<int32_t>(indexCount);
+                 indexStarts[batch->m_skinSectionIndex] = indexCount;
+             }
+ 
+-            target->m_indexStart = indexStart;
++            target->SetIndexStart(static_cast<uint32_t>(indexStart));
+ 
+             if (!keepVertices) {
+                 target->m_vertexStart = 0;
+diff --git a/Engine/Source/Model2/M2Scene.cpp b/Engine/Source/Model2/M2Scene.cpp
+index 922b118..3ce1b45 100644
+--- a/Engine/Source/Model2/M2Scene.cpp
++++ b/Engine/Source/Model2/M2Scene.cpp
+@@ -654,7 +654,7 @@ M2HitRec* CM2Scene::HitTestGeometry(const CM2Model* model, uint32_t pass, const
+             this->TransformHitTestVerticesBlend(model, skinData, section, pass, dir, d);
+         }
+ 
+-        const uint16_t* indices = &skinData->m_indices[section->m_indexStart];
++        const uint16_t* indices = &skinData->m_indices[section->IndexStart()];
+         best = this->IntersectHitTestTriangles(indices, indices + section->m_indexCount, section->m_vertexStart, start, pass, rec, t, best);
+     }
+ 
+diff --git a/Engine/Source/Model2/M2Shared.cpp b/Engine/Source/Model2/M2Shared.cpp
+index 957e83f..1c5599a 100644
+--- a/Engine/Source/Model2/M2Shared.cpp
++++ b/Engine/Source/Model2/M2Shared.cpp
+@@ -358,7 +358,7 @@ int32_t CM2Shared::SetIndices() {
+ 
+         for (uint32_t i = 0; i < this->m_skinData->m_skinSections.m_count; i++) {
+             M2SkinSection* section = &this->m_skinSections[i];
+-            uint32_t start = this->m_skinData->m_skinSections[i].m_indexStart;
++            uint32_t start = this->m_skinData->m_skinSections[i].IndexStart(); // Not in the original: 32-bit start
+             uint16_t offset = sharedVertices ? 0 : static_cast<uint16_t>(-section->m_vertexStart);
+ 
+             for (uint32_t instance = 0; instance < this->m_instances; instance++) {
+@@ -370,7 +370,7 @@ int32_t CM2Shared::SetIndices() {
+                 offset += sharedVertices ? static_cast<uint16_t>(this->m_skinData->m_vertices.m_count) : section->m_vertexCount;
+             }
+ 
+-            section->m_indexStart = static_cast<uint16_t>(indexStart);
++            section->SetIndexStart(indexStart); // Not in the original: kept 32-bit
+             indexStart += this->m_instances * section->m_indexCount;
+         }
+ 
+-- 
+2.34.1
+

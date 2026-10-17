@@ -1,0 +1,117 @@
+From 19c0197a92d5d50cf7637a508c6409cfcdc06bdc Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 12:02:22 +0000
+Subject: [PATCH] Zeppelin F-223: ModelScript::OnModelBatchShaders seam
+
+Fires in both CM2SceneRender batch paths right after CShaderEffect::SetShaders, so a
+script can rebind the shader pair for one draw.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Engine/Source/Model2/CM2SceneRender.cpp            | 7 +++++++
+ WoW/Source/Extension/ExtensionMgr.h                | 3 +++
+ WoW/Source/Extension/ScriptDefines/ModelScript.cpp | 4 ++++
+ WoW/Source/Extension/ScriptDefines/ModelScript.h   | 7 +++++++
+ 4 files changed, 21 insertions(+)
+
+diff --git a/Engine/Source/Model2/CM2SceneRender.cpp b/Engine/Source/Model2/CM2SceneRender.cpp
+index 338e8d1..2944409 100644
+--- a/Engine/Source/Model2/CM2SceneRender.cpp
++++ b/Engine/Source/Model2/CM2SceneRender.cpp
+@@ -8,6 +8,7 @@
+ #include "Engine/Source/Model2/M2Light.h"
+ #include "Engine/Source/Model2/M2Model.h"
+ #include "Engine/Source/Model2/M2Scene.h"
++#include "WoW/Source/Extension/ExtensionMgr.h"
+ #include "Engine/Source/Model2/M2Shared.h"
+ #include "Engine/Source/Services/ParticleSystem2.h"
+ #include "Engine/Source/Services/RibbonEmitter.h"
+@@ -461,6 +462,9 @@ void CM2SceneRender::DrawBatch() {
+     this->SetBatchVertices(sharedVertices);
+     CShaderEffect::SetShaders(this->m_curElement->m_vertexPermute, this->m_curElement->m_pixelPermute);
+ 
++    // Not in the original: a script may rebind this batch's shaders.
++    sExtensionMgr->OnModelBatchShaders(this->m_curModel, this->m_curBatch, this->m_curSkinSection);
++
+     CGxBatch batch;
+     batch.m_primType = GxPrim_Triangles;
+     batch.m_start = this->m_curSkinSection->IndexStart(); // Not in the original: 32-bit start
+@@ -650,6 +654,9 @@ void CM2SceneRender::DrawBatchDoodad(M2Element* elements, uint32_t* indices) {
+             g_theGxDevicePtr->ShaderConstantsUnlock(GxSh_Vertex, 31, 3 * registers);
+             CShaderEffect::SetShaders(this->m_curElement->m_vertexPermute, this->m_curElement->m_pixelPermute);
+ 
++    // Not in the original: a script may rebind this batch's shaders.
++    sExtensionMgr->OnModelBatchShaders(this->m_curModel, this->m_curBatch, this->m_curSkinSection);
++
+             batch.m_count = instances * this->m_curSkinSection->m_indexCount;
+             batch.m_maxIndex = static_cast<uint16_t>(instances * this->m_curShared->m_skinData->m_vertices.m_count - 1);
+             g_theGxDevicePtr->Draw(&batch, 1);
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 2c5c912..82b9350 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -15,8 +15,10 @@ class CM2Model;
+ class CM2Shared;
+ class CMapArea;
+ class ItemDisplayInfoRec;
++class M2Batch;
+ class M2Data;
+ class M2SkinProfile;
++class M2SkinSection;
+ class CMapChunk;
+ class CMapObj;
+ class CMapObjGroup;
+@@ -131,6 +133,7 @@ class ExtensionMgr {
+ 
+     public: /* ModelScript */
+     void OnModelFileRead(CM2Shared* shared, M2Data*& data, uint32_t& size);
++    void OnModelBatchShaders(CM2Model* model, const M2Batch* batch, const M2SkinSection* section);
+     void OnModelSkinRead(CM2Shared* shared, M2SkinProfile*& skin, uint32_t& size);
+     void OnModelSequenceRead(CM2Shared* shared, uint32_t sequenceIndex, void* buffer, uint32_t& size);
+     void OnModelSharedLoaded(CM2Shared* shared);
+diff --git a/WoW/Source/Extension/ScriptDefines/ModelScript.cpp b/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+index bbb194c..42123d7 100644
+--- a/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/ModelScript.cpp
+@@ -14,6 +14,10 @@ void ExtensionMgr::OnModelSequenceRead(CM2Shared* shared, uint32_t sequenceIndex
+     CALL_HOOKS(ModelScript, script->OnModelSequenceRead(*shared, sequenceIndex, buffer, size));
+ }
+ 
++void ExtensionMgr::OnModelBatchShaders(CM2Model* model, const M2Batch* batch, const M2SkinSection* section) {
++    CALL_HOOKS(ModelScript, script->OnModelBatchShaders(*model, *batch, *section));
++}
++
+ void ExtensionMgr::OnModelSharedLoaded(CM2Shared* shared) {
+     CALL_HOOKS(ModelScript, script->OnModelSharedLoaded(*shared));
+ }
+diff --git a/WoW/Source/Extension/ScriptDefines/ModelScript.h b/WoW/Source/Extension/ScriptDefines/ModelScript.h
+index 108b821..9877cab 100644
+--- a/WoW/Source/Extension/ScriptDefines/ModelScript.h
++++ b/WoW/Source/Extension/ScriptDefines/ModelScript.h
+@@ -6,8 +6,10 @@
+ 
+ class CM2Model;
+ class CM2Shared;
++class M2Batch;
+ class M2Data;
+ class M2SkinProfile;
++class M2SkinSection;
+ 
+ // The M2 model pipeline (Engine/Source/Model2). One CM2Shared holds a model file: the relocated
+ // M2Data (m_data), the chosen .skin profile (m_skinData), textures, GPU buffers and effects; it is
+@@ -29,6 +31,11 @@ class ModelScript : public ScriptObject {
+     // accepts. shared.m_fileName is the model path.
+     virtual void OnModelFileRead(CM2Shared& shared, M2Data*& data, uint32_t& size) {}
+ 
++    // CM2SceneRender, right after a batch's shader pair is bound (CShaderEffect::SetShaders) and
++    // before its draw: a script may bind other shaders (GxRs_VertexShader / GxRs_PixelShader) for
++    // this one draw. Every drawn batch of every model, every frame: keep it cheap.
++    virtual void OnModelBatchShaders(CM2Model& model, const M2Batch& batch, const M2SkinSection& section) {}
++
+     // CM2Shared::FinishLoadingSkinProfile before the .skin bytes are validated and relocated:
+     // skin holds the raw file (file offsets), size bytes, while shared.m_data is already relocated.
+     // Same buffer contract as OnModelFileRead.
+-- 
+2.34.1
+

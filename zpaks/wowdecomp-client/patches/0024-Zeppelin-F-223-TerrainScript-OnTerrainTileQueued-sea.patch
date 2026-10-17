@@ -1,0 +1,78 @@
+From da5024f77ba33531c6dcf83d800a91f59092aa3e Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 11:41:53 +0000
+Subject: [PATCH] Zeppelin F-223: TerrainScript::OnTerrainTileQueued seam
+
+Fires in CMapArea::Load just before the tile's async read is queued, so a script can
+queue companion-file reads ahead of it.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ WoW/Source/Extension/ExtensionMgr.h                  | 1 +
+ WoW/Source/Extension/ScriptDefines/TerrainScript.cpp | 4 ++++
+ WoW/Source/Extension/ScriptDefines/TerrainScript.h   | 5 +++++
+ WoW/Source/WorldClient/MapArea.cpp                   | 4 ++++
+ 4 files changed, 14 insertions(+)
+
+diff --git a/WoW/Source/Extension/ExtensionMgr.h b/WoW/Source/Extension/ExtensionMgr.h
+index 76927de..2c5c912 100644
+--- a/WoW/Source/Extension/ExtensionMgr.h
++++ b/WoW/Source/Extension/ExtensionMgr.h
+@@ -181,6 +181,7 @@ class ExtensionMgr {
+     void OnTerrainChunkPurge(CMapChunk* chunk);
+     void OnTerrainTileFile(CMapArea* area, char* fileName, uint32_t fileNameSize);
+     void OnTerrainTileRead(CMapArea* area, void*& buffer, int32_t& size);
++    void OnTerrainTileQueued(CMapArea* area);
+ 
+     public: /* MapObjectScript */
+     void OnMapObjLoaded(CMapObj* mapObj);
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+index 9d9c4e7..8e42172 100644
+--- a/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.cpp
+@@ -18,6 +18,10 @@ void ExtensionMgr::OnTerrainTileFile(CMapArea* area, char* fileName, uint32_t fi
+     CALL_HOOKS(TerrainScript, script->OnTerrainTileFile(*area, fileName, fileNameSize));
+ }
+ 
++void ExtensionMgr::OnTerrainTileQueued(CMapArea* area) {
++    CALL_HOOKS(TerrainScript, script->OnTerrainTileQueued(*area));
++}
++
+ void ExtensionMgr::OnTerrainTileRead(CMapArea* area, void*& buffer, int32_t& size) {
+     CALL_HOOKS(TerrainScript, script->OnTerrainTileRead(*area, buffer, size));
+ }
+diff --git a/WoW/Source/Extension/ScriptDefines/TerrainScript.h b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+index eda0e11..a92a5ba 100644
+--- a/WoW/Source/Extension/ScriptDefines/TerrainScript.h
++++ b/WoW/Source/Extension/ScriptDefines/TerrainScript.h
+@@ -55,6 +55,11 @@ class TerrainScript : public ScriptObject {
+     // buffer and size; the parse, chunk build and the purge's free then use the new buffer. Runs on
+     // the main thread, in registration order, each script seeing the previous one's result.
+     virtual void OnTerrainTileRead(CMapArea& area, void*& buffer, int32_t& size) {}
++
++    // CMapArea::Load just before the tile's own async read is queued: area.m_file is open on the
++    // (possibly rewritten) tile path and area.m_asyncObject is set up. A script may queue reads of
++    // companion files here so they complete before OnTerrainTileRead runs for this area.
++    virtual void OnTerrainTileQueued(CMapArea& area) {}
+ };
+ 
+ #endif
+diff --git a/WoW/Source/WorldClient/MapArea.cpp b/WoW/Source/WorldClient/MapArea.cpp
+index f0ac04d..314bae2 100644
+--- a/WoW/Source/WorldClient/MapArea.cpp
++++ b/WoW/Source/WorldClient/MapArea.cpp
+@@ -403,6 +403,10 @@ void CMapArea::Load(const char* fileName) {
+     this->m_asyncObject->m_size = this->m_fileSize;
+     this->m_asyncObject->m_userArg = this;
+     this->m_asyncObject->m_userPostloadCallback = reinterpret_cast<void*>(&CMapArea::AsyncCallback);
++
++    // Not in the original: companion reads queued here complete ahead of this one.
++    sExtensionMgr->OnTerrainTileQueued(this);
++
+     AsyncFileReadObject(this->m_asyncObject, 0);
+ }
+ 
+-- 
+2.34.1
+

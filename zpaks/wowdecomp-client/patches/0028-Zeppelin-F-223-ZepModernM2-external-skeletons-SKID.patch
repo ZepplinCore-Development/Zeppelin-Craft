@@ -1,0 +1,354 @@
+From 50ab8ce7c6b52f4656361a9d63d3e9cd526387cf Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sat, 17 Oct 2026 12:12:05 +0000
+Subject: [PATCH] Zeppelin F-223: ZepModernM2 external skeletons (SKID)
+
+- the .skel (FileDataPaths, else <model stem>.skel) has SKS1/SKB1/SKA1 spliced into the
+  body; every track array rebased (inline keys to the body, streamed ones left to the .anim)
+- skeleton .anim files: AFM2 slides down as before, the sequence's bone (AFSB) and
+  attachment (AFSA) inner arrays are rebased onto those chunks before relocation
+- a parent skeleton's (SKPD) streamed animations are not loaded (parent bone layout)
+Verified: retail bloodtick (3149134 skel, 104 bones) renders and animates.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01ByrZ7GxoHC9wfGdkRwtqCX
+---
+ Extensions/ZepModernM2/src/ZepModernM2.cpp | 250 ++++++++++++++++++++-
+ 1 file changed, 244 insertions(+), 6 deletions(-)
+
+diff --git a/Extensions/ZepModernM2/src/ZepModernM2.cpp b/Extensions/ZepModernM2/src/ZepModernM2.cpp
+index 9be9f76..19c4d92 100644
+--- a/Extensions/ZepModernM2/src/ZepModernM2.cpp
++++ b/Extensions/ZepModernM2/src/ZepModernM2.cpp
+@@ -28,8 +28,12 @@
+ // shader pair on a rigid (one-bone) section; a skinned section keeps the base pair, since that vertex
+ // shader reads no bone weights. ZEP_M2_OVERLAY_OFF in the environment disables it for comparisons.
+ //
+-// Not handled: external skeletons (SKID: the load is refused, the model is not drawn), LOD skins
+-// (LDV1: profile 0, the full-detail skin, is always used) and per-emitter blend states past the
++// External skeletons (SKID): the .skel (resolved by FileDataID, else <model stem>.skel) has its SKS1,
++// SKB1 and SKA1 chunks spliced into the body; streamed sequences of such a model take their bone and
++// attachment keys from the .anim file's AFSB / AFSA chunks. A skeleton with a parent (SKPD) shares
++// the parent's streamed animations, which are laid out for the parent's bones: those are not loaded.
++//
++// Not handled: LOD skins (LDV1: profile 0, the full-detail skin, is always used) and per-emitter blend states past the
+ // stock table (mapped to the nearest stock mode).
+ 
+ #include <cmath>
+@@ -80,7 +84,12 @@ constexpr uint32_t kHdrVersion = 0x04;
+ constexpr uint32_t kHdrFlags = 0x10;
+ constexpr uint32_t kHdrSequences = 0x1C;
+ constexpr uint32_t kHdrSequenceLookup = 0x24;
++constexpr uint32_t kHdrLoops = 0x14;
+ constexpr uint32_t kHdrBones = 0x2C;
++constexpr uint32_t kHdrKeyBoneLookup = 0x34;
++constexpr uint32_t kHdrAttachments = 0xF0;
++constexpr uint32_t kHdrAttachmentLookup = 0xF8;
++constexpr uint32_t kAttachmentStride = 0x28;
+ constexpr uint32_t kHdrNumSkinProfiles = 0x44;
+ constexpr uint32_t kHdrTextures = 0x50;
+ constexpr uint32_t kHdrMaterials = 0x70;
+@@ -139,6 +148,7 @@ std::mutex s_lock;
+ std::unordered_map<uint32_t, std::string> s_paths;
+ bool s_pathsLoaded = false;
+ std::unordered_set<const CM2Shared*> s_modern;
++std::unordered_set<const CM2Shared*> s_skeletal;  // bones and attachments came from a .skel
+ uint32_t s_models = 0;
+ uint32_t s_refused = 0;
+ 
+@@ -229,6 +239,8 @@ struct Body {
+ };
+ 
+ struct Outcome {
++    bool skeleton = false;
++    bool parentSkeleton = false;
+     uint32_t texResolved = 0;
+     uint32_t texUnresolved = 0;
+     uint32_t cameras = 0;
+@@ -564,6 +576,154 @@ void CollapsePropBones(Body& body) {
+     }
+ }
+ 
++// ---------------------------------------------------------------- external skeleton (.skel)
++
++bool ReadArchiveFile(const char* name, std::vector<uint8_t>& out) {
++    SFileImpl* file = nullptr;
++
++    if (!SFileOpenFile(name, &file) || !file) {
++        return false;
++    }
++
++    out.resize(SFileGetFileSize(file, nullptr));
++    uint32_t read = 0;
++
++    if (!out.empty()) {
++        SFileReadFile(file, out.data(), static_cast<uint32_t>(out.size()), &read, nullptr, 0);
++    }
++
++    SFileCloseFile(file);
++    out.resize(read);
++    return read != 0;
++}
++
++// Rebases one animated track of a skeleton record appended at `base`: the per-sequence outer arrays
++// always, an inner array when its keys live in the skeleton (a global loop, or a sequence that keeps
++// its keys inline, flag 0x20). A streamed sequence's inner arrays stay relative to its .anim file.
++void RebaseTrack(Body& body, uint32_t track, uint32_t base, const uint8_t* seqs, uint32_t seqCount) {
++    bool global = Rd16(body.At(track + 2)) != 0xFFFF;
++
++    for (uint32_t pair = 0; pair < 2; pair++) {
++        uint32_t field = track + 4 + pair * 8;
++        uint32_t count = Rd32(body.At(field));
++
++        if (!count) {
++            continue;
++        }
++
++        uint32_t outer = Rd32(body.At(field + 4)) + base;
++        Wr32(body.At(field + 4), outer);
++
++        for (uint32_t i = 0; i < count && Fits(body.Size(), outer, i + 1, 8); i++) {
++            bool inlineKeys = global || (i < seqCount && (Rd32(seqs + i * kSequenceStride + 0x0C) & 0x20));
++
++            if (inlineKeys && Rd32(body.At(outer + i * 8))) {
++                Wr32(body.At(outer + i * 8 + 4), Rd32(body.At(outer + i * 8 + 4)) + base);
++            }
++        }
++    }
++}
++
++// Splices an external skeleton into the body: SKS1 (global loops, sequences, sequence lookup), SKB1
++// (bones, key-bone lookup) and SKA1 (attachments, attachment lookup) are appended whole and the
++// header pointed at them, every array inside rebased from chunk-relative to body offsets.
++bool MergeSkeleton(const char* name, uint32_t skid, Body& body, Outcome& out) {
++    std::string path;
++
++    if (const std::string* resolved = ResolvePath(skid)) {
++        path = *resolved;
++    } else {
++        // Retail keeps the skeleton beside the model under the same stem.
++        path = name;
++        size_t dot = path.find_last_of('.');
++        path = (dot == std::string::npos ? path : path.substr(0, dot)) + ".skel";
++    }
++
++    std::vector<uint8_t> skel;
++
++    if (!ReadArchiveFile(path.c_str(), skel)) {
++        sExtensionMgr->Log("ZepModernM2: %s refused, skeleton %u (%s) not found", name, skid, path.c_str());
++        return false;
++    }
++
++    const uint8_t* sks1 = nullptr;
++    const uint8_t* skb1 = nullptr;
++    const uint8_t* ska1 = nullptr;
++    uint32_t sks1Size = 0, skb1Size = 0, ska1Size = 0;
++
++    for (uint32_t at = 0; at + 8 <= skel.size();) {
++        uint32_t tag = Rd32(skel.data() + at);
++        uint32_t chunkSize = Rd32(skel.data() + at + 4);
++
++        if (chunkSize > skel.size() - at - 8) {
++            break;
++        }
++
++        const uint8_t* data = skel.data() + at + 8;
++
++        if (tag == Magic("SKS1")) { sks1 = data; sks1Size = chunkSize; }
++        else if (tag == Magic("SKB1")) { skb1 = data; skb1Size = chunkSize; }
++        else if (tag == Magic("SKA1")) { ska1 = data; ska1Size = chunkSize; }
++        else if (tag == Magic("SKPD")) { out.parentSkeleton = true; }
++
++        at += 8 + chunkSize;
++    }
++
++    if (!sks1 || !skb1 || sks1Size < 0x18 || skb1Size < 0x10) {
++        sExtensionMgr->Log("ZepModernM2: %s refused, skeleton %s has no SKS1/SKB1", name, path.c_str());
++        return false;
++    }
++
++    uint32_t sksBase = body.Append(sks1, sks1Size);
++    uint32_t skbBase = body.Append(skb1, skb1Size);
++    uint32_t skaBase = ska1 && ska1Size >= 0x10 ? body.Append(ska1, ska1Size) : 0;
++
++    auto point = [&](uint32_t field, uint32_t base, uint32_t chunkField) {
++        Wr32(body.At(field), Rd32(body.At(base + chunkField)));
++        Wr32(body.At(field + 4), Rd32(body.At(base + chunkField)) ? Rd32(body.At(base + chunkField + 4)) + base : 0);
++    };
++
++    point(kHdrLoops, sksBase, 0x00);
++    point(kHdrSequences, sksBase, 0x08);
++    point(kHdrSequenceLookup, sksBase, 0x10);
++    point(kHdrBones, skbBase, 0x00);
++    point(kHdrKeyBoneLookup, skbBase, 0x08);
++
++    if (skaBase) {
++        point(kHdrAttachments, skaBase, 0x00);
++        point(kHdrAttachmentLookup, skaBase, 0x08);
++    }
++
++    uint32_t seqCount = body.Count(kHdrSequences);
++    uint32_t seqOffset = body.Offset(kHdrSequences);
++    uint32_t boneCount = body.Count(kHdrBones);
++    uint32_t boneOffset = body.Offset(kHdrBones);
++    uint32_t attCount = skaBase ? body.Count(kHdrAttachments) : 0;
++    uint32_t attOffset = skaBase ? body.Offset(kHdrAttachments) : 0;
++
++    if (!Fits(body.Size(), seqOffset, seqCount, kSequenceStride) || !Fits(body.Size(), boneOffset, boneCount, kBoneStride) || !Fits(body.Size(), attOffset, attCount, kAttachmentStride)) {
++        sExtensionMgr->Log("ZepModernM2: %s refused, skeleton %s arrays out of range", name, path.c_str());
++        return false;
++    }
++
++    // Copied: body.At() may move as nothing appends below, but keep the sequence flags stable anyway.
++    std::vector<uint8_t> seqs(body.At(seqOffset), body.At(seqOffset) + seqCount * kSequenceStride);
++
++    for (uint32_t i = 0; i < boneCount; i++) {
++        for (uint32_t track : { 0x10u, 0x24u, 0x38u }) {
++            RebaseTrack(body, boneOffset + i * kBoneStride + track, skbBase, seqs.data(), seqCount);
++        }
++    }
++
++    for (uint32_t i = 0; i < attCount; i++) {
++        RebaseTrack(body, attOffset + i * kAttachmentStride + 0x14, skaBase, seqs.data(), seqCount);
++    }
++
++    out.skeleton = true;
++    sExtensionMgr->Log("ZepModernM2: %s skeleton %s: %u bone(s), %u sequence(s), %u attachment(s)%s", name, path.c_str(), boneCount, seqCount, attCount, out.parentSkeleton ? "; parent skeleton (SKPD): its streamed animations are not loaded" : "");
++    return true;
++}
++
+ // Lifts the MD20 body out of the file and downports it; false leaves the file to the stock parser.
+ bool Downport(const char* name, const uint8_t* file, uint32_t size, Body& body, Outcome& out) {
+     if (size < 8) {
+@@ -573,6 +733,7 @@ bool Downport(const char* name, const uint8_t* file, uint32_t size, Body& body,
+     const uint8_t* src = file;
+     uint32_t srcSize = size;
+     std::vector<uint32_t> txid;
++    uint32_t skid = 0;
+ 
+     if (Rd32(file) == kMagicMD21) {
+         srcSize = Rd32(file + 4);
+@@ -596,9 +757,7 @@ bool Downport(const char* name, const uint8_t* file, uint32_t size, Body& body,
+                     txid.push_back(Rd32(file + at + 8 + k));
+                 }
+             } else if (tag == kSKID) {
+-                sExtensionMgr->Log("ZepModernM2: %s refused, external skeleton (SKID)", name);
+-                s_refused++;
+-                return false;
++                skid = chunkSize >= 4 ? Rd32(file + at + 8) : 0;
+             } else if (tag == kAFID) {
+                 out.skipped += " afid";
+             } else if (tag == kLDV1) {
+@@ -634,6 +793,11 @@ bool Downport(const char* name, const uint8_t* file, uint32_t size, Body& body,
+ 
+     body.bytes.assign(src, src + srcSize);
+ 
++    if (skid && !MergeSkeleton(name, skid, body, out)) {
++        s_refused++;
++        return false;
++    }
++
+     if (!body.Count(kHdrBones) && !body.Count(kHdrSequences)) {
+         sExtensionMgr->Log("ZepModernM2: %s refused, no bones or sequences (split skeleton)", name);
+         s_refused++;
+@@ -1421,6 +1585,11 @@ class ZepModernM2ModelScript : public ModelScript {
+         data = bytes;
+         size = body.Size();
+         s_modern.insert(&shared);
++
++        if (out.skeleton) {
++            s_skeletal.insert(&shared);
++        }
++
+         s_models++;
+ 
+         sExtensionMgr->Log("ZepModernM2: %s downported (%s, %u bytes, tex %u/%u, cameras %u, emitters %u, streamed seq %u, skipped:%s)", shared.m_fileName, container, size, out.texResolved, out.texResolved + out.texUnresolved, out.cameras, out.particles, out.externalSequences, out.skipped.empty() ? " none" : out.skipped.c_str());
+@@ -1454,8 +1623,76 @@ class ZepModernM2ModelScript : public ModelScript {
+             return;
+         }
+ 
++        // A skeleton model's file carries the bone keys (AFSB) and attachment keys (AFSA) in chunks of
++        // their own after AFM2, each relative to its chunk. They stay in place; the sequence's bone and
++        // attachment inner arrays are rebased onto them before the engine relocates the sequence.
++        uint32_t afsb = 0, afsa = 0;
++
++        for (uint32_t at = 8 + payload; at + 8 <= size;) {
++            uint32_t chunkSize = Rd32(bytes + at + 4);
++
++            if (chunkSize > size - at - 8) {
++                break;
++            }
++
++            if (Rd32(bytes + at) == Magic("AFSB")) afsb = at + 8;
++            else if (Rd32(bytes + at) == Magic("AFSA")) afsa = at + 8;
++
++            at += 8 + chunkSize;
++        }
++
+         std::memmove(bytes, bytes + 8, payload);
+-        size = payload;
++
++        if (!afsb && !afsa) {
++            size = payload;
++            return;
++        }
++
++        std::lock_guard<std::mutex> guard(s_lock);
++
++        if (!s_skeletal.count(&shared)) {
++            return;
++        }
++
++        M2Data* data = shared.m_data;
++        uint32_t index = sequenceIndex;
++
++        // The sequence and its aliases share this file.
++        for (uint32_t guardCount = 0; guardCount < data->m_sequences.m_count; guardCount++) {
++            for (uint32_t i = 0; afsb && i < data->m_bones.m_count; i++) {
++                M2CompBone& bone = data->m_bones[i];
++                RebaseSequence(bone.m_translationTrack, index, afsb);
++                RebaseSequence(bone.m_rotationTrack, index, afsb);
++                RebaseSequence(bone.m_scaleTrack, index, afsb);
++            }
++
++            for (uint32_t i = 0; afsa && i < data->m_attachments.m_count; i++) {
++                RebaseSequence(data->m_attachments[i].m_animateAttached, index, afsa);
++            }
++
++            index = data->m_sequences[index].m_aliasNext;
++
++            if (index == sequenceIndex || index >= data->m_sequences.m_count) {
++                break;
++            }
++        }
++    }
++
++    // A streamed sequence's inner arrays are still file offsets here (the engine relocates them right
++    // after this hook); add the position of the chunk they are relative to.
++    template <class T>
++    static void RebaseSequence(M2Track<T>& track, uint32_t sequence, uint32_t chunk) {
++        if (track.m_loopIndex != 0xFFFF) {
++            return;  // global loop: keys are in the model
++        }
++
++        if (sequence < track.m_sequenceTimes.m_count && track.m_sequenceTimes[sequence].m_count) {
++            track.m_sequenceTimes[sequence].m_offset += chunk;
++        }
++
++        if (sequence < track.m_sequenceKeys.m_count && track.m_sequenceKeys[sequence].m_count) {
++            track.m_sequenceKeys[sequence].m_offset += chunk;
++        }
+     }
+ 
+     void OnModelSharedLoaded(CM2Shared& shared) override {
+@@ -1469,6 +1706,7 @@ class ZepModernM2ModelScript : public ModelScript {
+     void OnModelSharedDestroy(CM2Shared& shared) override {
+         std::lock_guard<std::mutex> guard(s_lock);
+         s_modern.erase(&shared);
++        s_skeletal.erase(&shared);
+     }
+ };
+ 
+-- 
+2.34.1
+
