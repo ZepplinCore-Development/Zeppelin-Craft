@@ -26,7 +26,6 @@
     "gender": 0,
     "skin_texture": "creature\\mounteddeathknight\\mounteddeathknightwhite_03.blp"
   },
-  "display_ids": [
-    900524
-  ]
+  "option_of": 900525,
+  "option": "fake"
 }

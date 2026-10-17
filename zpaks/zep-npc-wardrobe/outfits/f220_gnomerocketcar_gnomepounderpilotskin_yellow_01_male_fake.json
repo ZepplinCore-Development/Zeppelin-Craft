@@ -19,7 +19,6 @@
     "gender": 0,
     "skin_texture": "creature\\gnomerocketcar\\gnomepounderpilotskin_yellow_01.blp"
   },
-  "display_ids": [
-    900506
-  ]
+  "option_of": 900507,
+  "option": "fake"
 }

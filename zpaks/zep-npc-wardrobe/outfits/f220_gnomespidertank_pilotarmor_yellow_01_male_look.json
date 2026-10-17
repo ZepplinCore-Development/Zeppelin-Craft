@@ -12,10 +12,6 @@
       "shirt": {
         "display": 7849
       },
-      "chest": {
-        "item": 25008,
-        "mod": 0
-      },
       "legs": {
         "item": 21667,
         "mod": 0
@@ -39,6 +35,7 @@
     "facial_hair": 0,
     "gender": 0
   },
+  "option": "look",
   "display_ids": [
     900509
   ]

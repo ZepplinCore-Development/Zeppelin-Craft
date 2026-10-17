@@ -21,7 +21,6 @@
     "gender": 0,
     "skin_texture": "creature\\horderider\\leather_horde_a_02.blp"
   },
-  "display_ids": [
-    900512
-  ]
+  "option_of": 900513,
+  "option": "fake"
 }

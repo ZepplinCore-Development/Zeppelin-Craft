@@ -19,7 +19,6 @@
     "gender": 0,
     "skin_texture": "creature\\mounteddemonknight\\mounteddemonknightblack_02.blp"
   },
-  "display_ids": [
-    900526
-  ]
+  "option_of": 900527,
+  "option": "fake"
 }

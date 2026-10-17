@@ -11,6 +11,13 @@ Manifest kinds:
            _HD) - it is painted for the classic character model, not the HD one
   uniform  up to MAX_VARIANTS appearances of one outfit (a guard force); appearances
            are explicit or drawn from the stock NPC appearances that ship an HD bake
+
+Display options (F-220): a unique manifest with "option_of": <display id> and "option": <name> is
+another LOOK of a display another manifest builds, not a display of its own. Its bake and items
+ship, its CreatureDisplayInfoExtra row does not: it goes to <zpak>/display_options.json
+({display: {ship: name, options: {name: row}}}), where the F-216 picker offers it as a card on that
+display and hd_curate ships the row of the picked option. The display's own manifest names its
+option with "option" (the default that ships).
 """
 
 import hashlib
@@ -104,6 +111,7 @@ class WardrobeBuilder:
         self.ids = json.loads(self.ids_path.read_text()) if self.ids_path.exists() else {'item_displays': {}}
         self.prov_path = self.zpak / 'asset_provenance.json'
         self.produced: Dict[str, Dict] = {}
+        self.options: Dict[int, Dict] = {}          # display -> {ship, options: {name: CDIExtra row}}
         self._case: Dict[str, str] = {}
         self.items: Dict[Tuple[int, int], ImportedItem] = {}
         self.char_model: Dict[int, str] = {}   # gender -> our character model path, per manifest
@@ -454,6 +462,15 @@ class WardrobeBuilder:
                 self.echo(f'   {slot:<10} {imp.retail.item_id} {imp.retail.name} -> ItemDisplayInfo {imp.display_id}'
                           + ''.join(f'\n              ! {n}' for n in imp.notes))
             variants = self._variants(m, race)
+            if m.get('option_of'):
+                # another look of a display another manifest builds: its bake + items, no row
+                did = int(m['option_of'])
+                self._emit_variant(out[task], did, race, variants[0], items, int(m['base_display'][str(variants[0]['gender'])]),
+                                   name, option=str(m['option']), ships=False)
+                for s, i in items.items():
+                    if not isinstance(i, StockDisplay):
+                        out[task]['idi'].append(i)
+                continue
             ids = m['display_ids']
             if len(ids) < len(variants):
                 raise ValueError(f'{name}: {len(variants)} variants but only {len(ids)} display_ids reserved')
@@ -463,7 +480,8 @@ class WardrobeBuilder:
                     raise ValueError(f'display {did} claimed by both {claimed[did]} and {name}')
                 claimed[did] = name
                 worn = {s: i for s, i in items.items() if s not in v.get('omit', [])}
-                self._emit_variant(out[task], did, race, v, worn, base[v['gender']], name)
+                self._emit_variant(out[task], did, race, v, worn, base[v['gender']], name,
+                                   option=m.get('option'), ships=True)
             self._emit_weapons(out[task], m)
             deferred.append((task, m, ids[:len(variants)]))
             for s, i in items.items():
@@ -471,6 +489,15 @@ class WardrobeBuilder:
                     out[task]['idi'].append(i)
         for task, m, ids in deferred:
             self._emit_creatures(out[task], m, ids, claimed)
+        lost = [d for d, o in self.options.items() if d not in claimed]
+        if lost:
+            raise ValueError(f'option_of names display(s) {lost} that no manifest builds')
+        op = self.zpak / 'display_options.json'
+        multi = {str(d): o for d, o in sorted(self.options.items()) if len(o['options']) > 1}
+        if multi:
+            op.write_text(json.dumps(multi, indent=1, sort_keys=True) + '\n')
+        elif op.exists():
+            op.unlink()
         return self._render(out)
 
     def _variants(self, m: Dict, race: int) -> List[Dict]:
@@ -502,8 +529,11 @@ class WardrobeBuilder:
             raise ValueError(f'{m["name"]}: {len(vs)} variants exceeds the cap of {MAX_VARIANTS}')
         return vs
 
-    def _emit_variant(self, out, did, race, v, worn, base_display, name) -> None:
+    def _emit_variant(self, out, did, race, v, worn, base_display, name, option: Optional[str] = None,
+                      ships: bool = True) -> None:
         g = int(v['gender'])
+        # an option that is not the display's own manifest: its bake gets the option in its name
+        sfx = '' if ships or option is None else '_' + option
         if v.get('skin_texture'):
             # F-220 fake rider: the fused model's own skin is already a bake in the classic layout
             from PIL import Image
@@ -512,11 +542,11 @@ class WardrobeBuilder:
                 raise ValueError(f'{name}: skin_texture {v["skin_texture"]} not found')
             # a classic-layout bake for the CLASSIC character model: the classic name (no _HD), native 256
             img = Image.open(f).convert('RGBA').resize((256, 256), Image.LANCZOS)
-            bake = f'CreatureDisplayExtra-{did}.blp'
+            bake = f'CreatureDisplayExtra-{did}{sfx}.blp'
         else:
             layers = {s: [(r, p) for (r, p) in i.layers.get(g, [])] for s, i in worn.items() if s in BODY_SLOTS}
             img, log = compose(v, self._charsection(race, g), layers, self.resolver)
-            bake = f'CreatureDisplayExtra-{did}_HD.blp'
+            bake = f'CreatureDisplayExtra-{did}{sfx}_HD.blp'
         tmp = self.retail.dir / 'out' / bake
         tmp.parent.mkdir(exist_ok=True)
         write_blp_dxt(img, tmp)
@@ -526,6 +556,14 @@ class WardrobeBuilder:
         for slot, col in EXTRA_SLOT_COLS.items():
             extra[col] = worn[slot].display_id if slot in worn else 0
         extra.update(can_equip=0, texture=bake)
+        if option is not None:
+            o_ = self.options.setdefault(did, {'ship': None, 'options': {}})
+            o_['options'][option] = dict(extra)
+            if ships:
+                o_['ship'] = option
+        if not ships:
+            self.echo(f'   display {did}: option "{option}" (bake {bake}; its row goes to display_options.json)')
+            return
         src = f' from stock extra {v["source_extra"]}' if 'source_extra' in v else ''
         omit = f', without {"/".join(v["omit"])}' if v.get('omit') else ''
         out['extra'].append(insert_set('creaturedisplayinfoextra', 'id', extra,

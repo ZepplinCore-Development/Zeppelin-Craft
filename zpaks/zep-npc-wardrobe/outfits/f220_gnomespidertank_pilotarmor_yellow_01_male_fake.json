@@ -19,7 +19,6 @@
     "gender": 0,
     "skin_texture": "creature\\gnomespidertank\\pilotarmor_yellow_01.blp"
   },
-  "display_ids": [
-    900508
-  ]
+  "option_of": 900509,
+  "option": "fake"
 }

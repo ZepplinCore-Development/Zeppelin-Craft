@@ -50,6 +50,7 @@
     "facial_hair": 0,
     "gender": 1
   },
+  "option": "look",
   "display_ids": [
     900517
   ]

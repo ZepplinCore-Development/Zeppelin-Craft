@@ -21,7 +21,6 @@
     "gender": 0,
     "skin_texture": "creature\\felorcnetherdrake\\felorcmaledrakeriderskin.blp"
   },
-  "display_ids": [
-    900504
-  ]
+  "option_of": 900505,
+  "option": "fake"
 }

@@ -431,6 +431,11 @@ let riderOn = false, riderCode = 'hum', raceRider = 'hum';
 // F-220: riders the world DB seats on a mount display (creature X = rider display R on mount M):
 // data/v2/mountriders.json {bodies: {'d<R>': body}, links: {M: [{code, creature, display}]}}
 let mountRiders = { bodies: {}, links: {} };
+// data/v2/display_options.json {display: {ship, options: [[name, viewer id]]}}: a display's other LOOKS
+// (F-220: the fake rider) - option cards on that display's page; picked as 'opt:<name>'
+let dispOpts = {};
+const OPT_LABEL = { fake: 'Fake stock rider', look: 'Proposed rider' };
+const OPT_TIP = { fake: 'The fused rider\'s own skin as the bake, on the classic character model', look: 'Look-alike retail items on the HD character model' };
 const riderBody = (code) => ((mountRiders.bodies || {})[code] || bodies[code] || {}).rider;
 function linkedRiders(displays) {
   const seen = new Set(), out = [];
@@ -2204,6 +2209,23 @@ let _riderRun = 0;
 async function riderCards(e, riders, mount) {
   const run = ++_riderRun;                      // the page can draw twice: only the latest run adds cards
   document.querySelectorAll('#panes .pane[data-rider]').forEach(x => x.remove());
+  const pk = pickOf(e) || {};
+  // this display's other looks (the fake rider): option cards, after the fused one
+  const opts = ((dispOpts[e.display] || {}).options || []).filter(([n, vid]) => vid !== e.display);
+  for (const [name, vid] of opts) {
+    const r = await riderPane(vid);
+    if (!r || cur !== e || run !== _riderRun) continue;
+    const chosen = pk.option === 'opt:' + name;
+    const div = document.createElement('div');
+    div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.rider = vid;
+    div.innerHTML = `<iframe src="${paneUrl({ ...r.p, display: e.display })}" loading="lazy" title="${esc(name)}"></iframe>
+      <div class="info"><div class="h"><b>${esc(OPT_LABEL[name] || name)}</b><span class="chip" title="${esc(OPT_TIP[name] || '')}">option of ${e.display}</span>${r.classic ? '<span class="chip warn" title="Its bake is painted for the classic character model: it ships only with the classic model file">classic model</span>' : ''}</div>
+      <div class="stats">model: ${esc(r.sp.model)}${r.file ? '' : ' (classic)'}</div>
+      ${outfitBox(r.sp)}
+      <button class="use">${chosen ? 'Chosen' : 'Use this'}</button></div>`;
+    div.querySelector('.use').onclick = () => save('display', String(e.display), e, 'opt:' + name);
+    $('panes').append(div);
+  }
   if (mount) {                                  // the fused stock rider it replaces, first
     const sp = await loadCustStock(mount);
     if (sp && cur === e && run === _riderRun) {
@@ -2211,7 +2233,10 @@ async function riderCards(e, riders, mount) {
       div.className = 'pane'; div.dataset.rider = mount;
       div.innerHTML = `<iframe src="${paneUrl({ ...sp, display: mount })}" loading="lazy" title="stock fused"></iframe>
         <div class="info"><div class="h"><b>Stock fused rider</b><span class="chip">display ${mount}</span></div>
-        <div class="stats">model: ${esc(sp.model)} · <a href="?layer=display&display=${mount}">mount display ${mount}</a></div></div>`;
+        <div class="stats">model: ${esc(sp.model)} · <a href="?layer=display&display=${mount}">mount display ${mount}</a></div>
+        <button class="use" title="Keep the stock fused rider + mount model: this rider is not split off">${pk.option === 'fused' ? 'Chosen' : 'Use this'}</button></div>`;
+      if (pk.option === 'fused') div.classList.add('chosen');
+      div.querySelector('.use').onclick = () => save('display', String(e.display), e, 'fused');
       $('panes').prepend(div);
     }
   }
@@ -2270,7 +2295,7 @@ async function bakeCards(e, c) {
     const div = document.createElement('div');
     div.className = 'pane' + (chosen ? ' chosen' : ''); div.dataset.bake = src;
     div.innerHTML = `<iframe src="${paneUrl(p)}" loading="lazy" title="${esc(label([src]))}"></iframe>
-      <div class="info"><div class="h"><b>${esc(label([src]))}</b>${usable && src === def ? '<span class="chip ok" title="What curate ships unless you pick another: the largest bake that fits the model file the model pick ships">default</span>' : ''}${usable ? '' : `<span class="chip warn" title="One file of ${esc(sp.model.split('/').pop())} ships for every display (the model pick: ${esc(shipLabel)}). This card's bake is painted for ${src === 'stock' || classic ? 'the classic model' : esc(label([src])) + '\'s file'}, so it can only ship with that file.">${src === 'stock' || classic ? 'needs the classic model file' : `needs ${esc(label([src]))}'s model file`}</span>`}</div>
+      <div class="info"><div class="h"><b>${esc(dispOpts[e.display] && src !== 'stock' ? (OPT_LABEL[dispOpts[e.display].ship] || label([src])) : label([src]))}</b>${usable && src === def ? '<span class="chip ok" title="What curate ships unless you pick another: the largest bake that fits the model file the model pick ships">default</span>' : ''}${usable ? '' : `<span class="chip warn" title="One file of ${esc(sp.model.split('/').pop())} ships for every display (the model pick: ${esc(shipLabel)}). This card's bake is painted for ${src === 'stock' || classic ? 'the classic model' : esc(label([src])) + '\'s file'}, so it can only ship with that file.">${src === 'stock' || classic ? 'needs the classic model file' : `needs ${esc(label([src]))}'s model file`}</span>`}</div>
       <div class="stats">${paneStatsLine(file || sp)} · ${mb(size)} bake</div>
       <div class="stats">model: ${esc(sp.model)}${file ? '' : ' (classic)'}</div>
       ${outfitBox(sp)}${provBox(file || sp)}
@@ -2930,6 +2955,7 @@ window.addEventListener('message', (e) => {
     fetch('data/v2/retroports.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
       .then(r => { retroIdx = r || {}; Object.keys(retroIdx).forEach(retroSets); }),   // every pack skin ref resolvable anywhere
     fetch('data/v2/mountriders.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) mountRiders = m; }),
+    fetch('data/v2/display_options.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null).then(m => { if (m) dispOpts = m; }),
     fetch('data/v2/mounts.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []).then(m => { mountSet = new Map(Array.isArray(m) ? m.map(x => [x, [0, 0, 0, 0]]) : Object.entries(m || {})); }),
   ]);
   assets = a.assets; texIndex = t; customList = cu.displays;

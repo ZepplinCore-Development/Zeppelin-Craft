@@ -19,7 +19,6 @@
     "gender": 0,
     "skin_texture": "creature\\mountedknight\\mountedknightblue_02.blp"
   },
-  "display_ids": [
-    900528
-  ]
+  "option_of": 900529,
+  "option": "fake"
 }

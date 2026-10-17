@@ -71,6 +71,11 @@ INV_3D = {1: 'Helm', 3: 'Shoulders', 13: 'Weapon', 17: 'Weapon', 21: 'Weapon', 2
 RACES = ['bloodelf', 'draenei', 'dwarf', 'gnome', 'goblin', 'human', 'nightelf', 'orc', 'scourge', 'tauren', 'troll',
          'worgen', 'naga_', 'broken', 'skeleton', 'vrykul', 'tuskarr', 'foresttroll', 'taunka', 'northrendskeleton',
          'icetroll']
+# lookalike's bare-skin rule: the upper body (64-scale bake rows: ArmUpper/ArmLower/TorsoUpper/TorsoLower);
+# a pixel within SKIN_DIST (Lab) of the matched bare skin is skin; with at least SKIN_MIN_PX of them, a
+# shirt / chest / tabard may cover at most SKIN_COVER_MAX of them
+UPPER_64 = (0, 32)
+SKIN_DIST, SKIN_MIN_PX, SKIN_COVER_MAX = 16.0, 48, 0.25
 ORDER = ['Shirt', 'Chest', 'Legs', 'Belt', 'Boots', 'Wrists', 'Gloves', 'Tabard']   # bake order (belt after legs)
 
 
@@ -408,7 +413,7 @@ class Outfits:
         look = [r for r in self.lookalike(skin_file, race, sex, klass) if r[0] not in have]
         return [r for r in rows if r[1] or not look] + look
 
-    LOOK_VERSION = 4         # bump when the rules change: cached results are recomputed
+    LOOK_VERSION = 6         # bump when the rules change: cached results are recomputed
 
     def lookalike(self, skin_file, race: str, sex: str, klass: Optional[int] = None,
                   only_items: Optional[frozenset] = None) -> List[list]:
@@ -632,6 +637,29 @@ class Outfits:
         forced = bool(klass)
         ids_ = {slot: np.array([k[1] if isinstance(k, tuple) else -k for k, _ in cands]) for slot, cands in by_slot.items()}
         G = 0.7                                         # weight of the brightness-gradient (detail) term
+        # where the rider shows SKIN the outfit shows skin: a shirt or chest piece whose sleeves / body cover
+        # the rider's bare upper arms or chest reads as the wrong garment however close its colour (the troll
+        # bat rider: bare arms under a sleeveless studded vest drew a shirt + a long-sleeved jacket). Over the
+        # upper body (64-scale rows 0-32: arms, torso), a Shirt / Chest / Tabard may cover at most
+        # SKIN_COVER_MAX of the pixels within SKIN_DIST (Lab) of the matched bare skin
+        y0_, y1_ = UPPER_64
+        skin_m = np.zeros((64, 64), bool)
+        skin_m[y0_:y1_] = np.linalg.norm(tgt[y0_:y1_] - cur[y0_:y1_], axis=-1) < SKIN_DIST
+        skin_m &= body
+        n_skin = int(skin_m.sum())
+        self._last_skin = n_skin
+        skin_cov: Dict[str, np.ndarray] = {}
+        if n_skin >= SKIN_MIN_PX and not forced:         # an armour-class rider (plate DKs) is covered anyway
+            for slot in ('Shirt', 'Chest', 'Tabard'):
+                c_ = np.zeros(len(by_slot.get(slot, [])), dtype=np.float64)
+                for f, idx in arr.get(slot, {}).items():
+                    (x, y, w, h), _, _, cov = stk[f]
+                    m_ = skin_m[y:y + h, x:x + w]
+                    if not m_.any():
+                        continue
+                    cs = (cov * m_[None]).reshape(len(cov), -1).sum(1)
+                    c_ += np.where(idx >= 0, cs[np.maximum(idx, 0)], 0.0)
+                skin_cov[slot] = c_ / n_skin
 
         def grad_err(img, m, t):
             # |d(L) - d(L target)| along x and y: plate edges and rivets vs flat cloth of the same colour
@@ -692,6 +720,8 @@ class Outfits:
                     if klass:
                         free = free and not forced                # a forced class: no cosmetic shirt standing in for the chest
                         d = np.where(((c_ == 0) & free) | (c_ == klass), d, np.inf)
+                    if slot in skin_cov:
+                        d = np.where(skin_cov[slot] <= SKIN_COVER_MAX, d, np.inf)
                     if only_items:
                         # the shared set first; a slot where even its closest appearance makes this rider
                         # look worse (Zeliek's white: the set has no white variant) takes the best piece

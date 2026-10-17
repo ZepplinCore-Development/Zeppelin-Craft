@@ -19,7 +19,6 @@
     "gender": 0,
     "skin_texture": "creature\\felbat\\trollbatriderskin.blp"
   },
-  "display_ids": [
-    900502
-  ]
+  "option_of": 900503,
+  "option": "fake"
 }

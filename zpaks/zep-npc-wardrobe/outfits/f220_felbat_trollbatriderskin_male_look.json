@@ -13,11 +13,11 @@
         "item": 167222,
         "mod": 0
       },
-      "chest": 49403,
-      "legs": {
-        "item": 14748,
+      "chest": {
+        "item": 12108,
         "mod": 0
       },
+      "legs": 38278,
       "belt": {
         "item": 14746,
         "mod": 0
@@ -36,6 +36,7 @@
     "facial_hair": 0,
     "gender": 0
   },
+  "option": "look",
   "display_ids": [
     900503
   ]

@@ -29,39 +29,39 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Gilnean Neophyte's Robe (retail item 49403, display 62557)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210161;
+-- Basaltscale Armor (retail item 12108, display 23187)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210026;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210161,
+  `id` = 210026,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
   `right_model_texture` = '',
   `icon_1` = '',
   `icon_2` = '',
-  `geoset_group_1` = 2,
+  `geoset_group_1` = 0,
   `geoset_group_2` = 0,
-  `geoset_group_3` = 1,
+  `geoset_group_3` = 0,
   `flags` = 0,
   `spell_visual_id` = 0,
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'robe_worgen_b_01brown_sleeve_au',
-  `lower_arm_texture` = 'robe_worgen_b_01brown_sleeve_al',
+  `upper_arm_texture` = '',
+  `lower_arm_texture` = '',
   `hands_texture` = '',
-  `upper_torso_texture` = 'robe_worgen_b_01brown_chest_tu',
-  `lower_torso_texture` = 'robe_worgen_b_01brown_chest_tl',
-  `upper_leg_texture` = 'robe_worgen_b_01brown_robe_lu',
-  `lower_leg_texture` = 'robe_worgen_b_01brown_robe_ll',
+  `upper_torso_texture` = 'mail_horde_b_01black_chest_tu',
+  `lower_torso_texture` = 'mail_horde_b_01black_chest_tl',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Hulking Leggings (retail item 14748, display 22936)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210027;
+-- Haliscan Pantaloons (retail item 38278, display 50173)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210099;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210027,
+  `id` = 210099,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -81,8 +81,8 @@ INSERT INTO `itemdisplayinfo` SET
   `hands_texture` = '',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
-  `upper_leg_texture` = 'mail_horde_b_01black_pant_lu',
-  `lower_leg_texture` = 'mail_horde_b_01black_pant_ll',
+  `upper_leg_texture` = 'cloth_b_05mexa_pant_lu',
+  `lower_leg_texture` = 'cloth_b_05mexa_pant_ll',
   `foot_texture` = '',
   `item_visual` = 0,
   `particle_colour_id` = 0;
@@ -174,10 +174,10 @@ INSERT INTO `itemdisplayinfo` SET
   `item_visual` = 0,
   `particle_colour_id` = 0;
 
--- Warlord's Chain Chestpiece (retail item 16565, display 32122)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210032;
+-- Artisan Member's Shirt (retail item 89193, display 113816)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210194;
 INSERT INTO `itemdisplayinfo` SET
-  `id` = 210032,
+  `id` = 210194,
   `left_model` = '',
   `right_model` = '',
   `left_model_texture` = '',
@@ -192,11 +192,40 @@ INSERT INTO `itemdisplayinfo` SET
   `group_sound_index` = 0,
   `helmet_geoset_male` = 0,
   `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'mail_pvphorde_c_01green_sleeve_au',
+  `upper_arm_texture` = 'cloth_gilneasclothes_a_01peasent_sleeve_au',
   `lower_arm_texture` = '',
   `hands_texture` = '',
-  `upper_torso_texture` = 'mail_pvphorde_c_01green_chest_tu',
-  `lower_torso_texture` = 'mail_pvphorde_c_01green_chest_tl',
+  `upper_torso_texture` = 'cloth_gilneasclothes_a_01peasent_chest_tu',
+  `lower_torso_texture` = 'cloth_gilneasclothes_a_01peasent_chest_tl',
+  `upper_leg_texture` = '',
+  `lower_leg_texture` = '',
+  `foot_texture` = '',
+  `item_visual` = 0,
+  `particle_colour_id` = 0;
+
+-- Soldier's Armor (retail item 6545, display 12165)
+DELETE FROM `itemdisplayinfo` WHERE `id` = 210195;
+INSERT INTO `itemdisplayinfo` SET
+  `id` = 210195,
+  `left_model` = '',
+  `right_model` = '',
+  `left_model_texture` = '',
+  `right_model_texture` = '',
+  `icon_1` = '',
+  `icon_2` = '',
+  `geoset_group_1` = 0,
+  `geoset_group_2` = 0,
+  `geoset_group_3` = 0,
+  `flags` = 0,
+  `spell_visual_id` = 0,
+  `group_sound_index` = 0,
+  `helmet_geoset_male` = 0,
+  `helmet_geoset_female` = 0,
+  `upper_arm_texture` = 'mail_a_02gold_sleeve_au',
+  `lower_arm_texture` = '',
+  `hands_texture` = '',
+  `upper_torso_texture` = 'mail_a_02gold_chest_tu',
+  `lower_torso_texture` = 'mail_a_02gold_chest_tl',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',
@@ -458,35 +487,6 @@ INSERT INTO `itemdisplayinfo` SET
   `hands_texture` = 'leather_a_05green_glove_ha',
   `upper_torso_texture` = '',
   `lower_torso_texture` = '',
-  `upper_leg_texture` = '',
-  `lower_leg_texture` = '',
-  `foot_texture` = '',
-  `item_visual` = 0,
-  `particle_colour_id` = 0;
-
--- Conqueror's Breastplate (retail item 25008, display 687704)
-DELETE FROM `itemdisplayinfo` WHERE `id` = 210043;
-INSERT INTO `itemdisplayinfo` SET
-  `id` = 210043,
-  `left_model` = '',
-  `right_model` = '',
-  `left_model_texture` = '',
-  `right_model_texture` = '',
-  `icon_1` = '',
-  `icon_2` = '',
-  `geoset_group_1` = 0,
-  `geoset_group_2` = 0,
-  `geoset_group_3` = 0,
-  `flags` = 0,
-  `spell_visual_id` = 0,
-  `group_sound_index` = 0,
-  `helmet_geoset_male` = 0,
-  `helmet_geoset_female` = 0,
-  `upper_arm_texture` = 'plate_a_05_gold_sleeve_au',
-  `lower_arm_texture` = '',
-  `hands_texture` = '',
-  `upper_torso_texture` = 'plate_a_05_gold_chest_tu',
-  `lower_torso_texture` = 'plate_a_05_gold_chest_tl',
   `upper_leg_texture` = '',
   `lower_leg_texture` = '',
   `foot_texture` = '',

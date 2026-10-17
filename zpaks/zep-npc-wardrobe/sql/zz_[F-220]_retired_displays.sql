@@ -1,0 +1,18 @@
+-- [F-220] Retired rider displays (see dbc/[F-220]_retired_displays.sql): their creature_model_info rows.
+
+DELETE FROM creature_model_info WHERE DisplayID = 900500;
+DELETE FROM creature_model_info WHERE DisplayID = 900502;
+DELETE FROM creature_model_info WHERE DisplayID = 900504;
+DELETE FROM creature_model_info WHERE DisplayID = 900506;
+DELETE FROM creature_model_info WHERE DisplayID = 900508;
+DELETE FROM creature_model_info WHERE DisplayID = 900510;
+DELETE FROM creature_model_info WHERE DisplayID = 900512;
+DELETE FROM creature_model_info WHERE DisplayID = 900514;
+DELETE FROM creature_model_info WHERE DisplayID = 900516;
+DELETE FROM creature_model_info WHERE DisplayID = 900518;
+DELETE FROM creature_model_info WHERE DisplayID = 900520;
+DELETE FROM creature_model_info WHERE DisplayID = 900522;
+DELETE FROM creature_model_info WHERE DisplayID = 900524;
+DELETE FROM creature_model_info WHERE DisplayID = 900526;
+DELETE FROM creature_model_info WHERE DisplayID = 900528;
+DELETE FROM creature_model_info WHERE DisplayID = 900530;

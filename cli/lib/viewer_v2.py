@@ -2157,6 +2157,51 @@ def creator_models(dep: 'Deployer', entries: List[dict], v2: Path, log: Callable
     return extra
 
 
+OPTION_ID = 10          # an option's viewer-only display id: display * OPTION_ID + its index (never a DBC id)
+
+
+def display_options(dep: 'Deployer', v2: Path, log: Callable = print) -> List[dict]:
+    """F-220: a display's other LOOKS (<zpak>/display_options.json, lib/wardrobe builder "option_of"):
+    each gets a viewer-only display id (display * OPTION_ID + n) whose rows are injected into the
+    effective tables and its zpak's, so its stock-look pane (custom_stock) is built like any own
+    display's. -> rows for customise_extras; writes data/v2/display_options.json
+    {display: {ship, options: [[name, viewer id]]}} for the display page's option cards."""
+    cdi, _ = dep.result['effective_dbc']
+    cdx = dep.result['effective_char_dbc'][0]
+    out, rows = {}, []
+    for sx in dep.ix.sources:
+        f = Path('/workspace/project/Zeppelin-Craft/zpaks') / sx.name / 'display_options.json'
+        if not f.exists():
+            continue
+        for did_s, o in json.loads(f.read_text()).items():
+            did = int(did_s)
+            row = cdi.get(did)
+            if not row:
+                continue
+            opts = []
+            for n, (name, x) in enumerate(sorted(o['options'].items())):
+                if name == o.get('ship'):
+                    opts.append([name, did])
+                    continue
+                vid = did * OPTION_ID + n
+                cdi[vid] = dict(row, id=vid, extended_display_info_id=vid)
+                cdx[vid] = dict(x, id=vid)
+                src = dep._srcs().get(sx.name)
+                if src is not None and src.cdx is not None:
+                    src.cdx[vid] = cdx[vid]
+                    if src.cdi is not None:
+                        src.cdi[vid] = cdi[vid]
+                if did in dep.equipment:
+                    dep.equipment[vid] = dep.equipment[did]
+                opts.append([name, vid])
+                mrow = dep.result['effective_dbc'][1].get(int(row.get('model_id') or 0)) or {}
+                rows.append({'display': vid, 'path': ms.norm(str(mrow.get('model_path') or '')).replace('.mdx', '.m2')})
+            out[did_s] = {'ship': o.get('ship'), 'options': opts}
+    (v2 / 'display_options.json').write_text(json.dumps(out, separators=(',', ':')))
+    log(f'  display options: {len(out):,} displays with {len(rows):,} other looks (F-220)')
+    return rows
+
+
 def display_bakes(dep: 'Deployer', mesh: str, ext: int) -> List[list]:
     """The NPC bakes a character display can ship - one per source whose bake row (ext) names a bake it
     ships - as curate weighs them (hd_curate_v2: the largest one compatible with the picked mesh, unless
@@ -2526,7 +2571,8 @@ def deploy_v2(result: dict, ix: ai.AssetIndex, out_root: Path, choices: dict, na
         more = creator_models(dep, assets + cat, v2, log)
     except Exception as ex:
         log(f'  display creator: skipped - {ex}'); more = []
-    customise_extras(dep, custom, v2, log, [e for e in assets if e.get('tab') == 'display'],
+    opt_rows = display_options(dep, v2, log)       # F-220: other looks of one display (own cards, not displays)
+    customise_extras(dep, custom + opt_rows, v2, log, [e for e in assets if e.get('tab') == 'display'],
                      [e for e in assets if e.get('tab') == 'creature' and len(e.get('panes') or []) > 1], more)
     log(f'  customise: {len(custom):,} named displays')
     try:

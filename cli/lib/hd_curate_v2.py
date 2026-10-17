@@ -24,6 +24,18 @@ RACE_DIRS = {'human': 1, 'orc': 2, 'dwarf': 3, 'nightelf': 4, 'scourge': 5, 'tau
              'troll': 8, 'goblin': 9, 'bloodelf': 10, 'draenei': 11}
 
 
+
+def _display_option(srcs: dict, did: int, name: str):
+    """F-220: (zpak, CreatureDisplayInfoExtra row) of display did's option `name` (lib/wardrobe builder)."""
+    import json as _json
+    for zp in srcs:
+        f = Path('/workspace/project/Zeppelin-Craft/zpaks') / zp / 'display_options.json'
+        if f.exists():
+            o = (_json.loads(f.read_text()).get(str(did)) or {}).get('options') or {}
+            if name in o:
+                return zp, o[name]
+    return None
+
 def _race_of(path: str) -> Optional[Tuple[int, int]]:
     """character/<race>/<male|female>/... -> (race id, gender)."""
     parts = path.split('/')
@@ -92,6 +104,20 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
         dpk = str(((choices.get('display') or {}).get(str(did)) or {}).get('option') or '')
         if dpk.startswith('bake:'):
             explicit = dpk[5:]
+        if dpk.startswith('opt:'):
+            # F-220: another LOOK of this display (<zpak>/display_options.json): its row and its bake
+            hit = _display_option(srcs, did, dpk[4:])
+            if hit is not None:
+                zp, x = hit
+                bp = 'textures/bakednpctextures/' + str(x['texture']).lower()
+                f = srcs[zp].assets.get(bp)
+                if f is not None:
+                    want[bp] = f
+                    wanted_rows[('creaturedisplayinfoextra', (ext,))] = dict(x, id=ext)
+                    report['bakes'] += 1
+                    report.setdefault('display_options', []).append(f'{did}: {dpk[4:]}')
+                    continue
+            report.setdefault('display_option_missing', []).append(f'{did}: {dpk[4:]}')
         cands = []
         for src in char_sources:
             cdx = result['stock_char_dbc'][0] if src == 'stock' else srcs[src].cdx
@@ -281,8 +307,10 @@ def resolve(result: dict, ix: ai.AssetIndex, choices: dict, zpaks: List[dict], l
     for did_s, dp in display_picks.items():
         if not did_s.isdigit() or not dp:
             continue
-        if str(dp.get('option') or '').startswith('bake:'):
+        if str(dp.get('option') or '').startswith(('bake:', 'opt:')):
             continue                                   # a character display's bake pick: the NPC bakes pass above
+        if dp.get('option') == 'fused':
+            continue                                   # F-220: keep the fused rider (the mount ship step reads it)
         if dp.get('option') == 'custom' and (customs.get(did_s) or {}).get('new'):
             continue                                   # a display we created: layer 3 builds its row
         if dp.get('option') == 'custom':

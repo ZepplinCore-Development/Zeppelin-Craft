@@ -19,7 +19,6 @@
     "gender": 0,
     "skin_texture": "creature\\orcdrakerider\\orcdrakeriderskin.blp"
   },
-  "display_ids": [
-    900530
-  ]
+  "option_of": 900531,
+  "option": "fake"
 }

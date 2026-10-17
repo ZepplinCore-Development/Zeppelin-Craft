@@ -1,4 +1,4 @@
--- F-220 ship-time: Gurubashi Bat Rider (14750) = rider 900401 (zep-models dbc) on
+-- F-220 ship-time: Gurubashi Bat Rider (14750) = rider 900503 (zep-npc-wardrobe) on
 -- mount 15303 (this zpak's dbc: the fused BatRider display turned into the riderless bat).
 -- Applies only when zep-mounted-npcs is enabled, together with that DBC row.
 --
@@ -13,7 +13,7 @@
 UPDATE creature_template SET type_flags = 2056 WHERE entry = 14750;
 
 -- CreatureDisplayID was 15303 (fused BatRider; 15303 is now the mount)
-UPDATE creature_template_model SET CreatureDisplayID = 900401 WHERE CreatureID = 14750 AND Idx = 0;
+UPDATE creature_template_model SET CreatureDisplayID = 900503 WHERE CreatureID = 14750 AND Idx = 0;
 
 DELETE FROM creature_template_addon WHERE entry = 14750;
 INSERT INTO creature_template_addon SET
