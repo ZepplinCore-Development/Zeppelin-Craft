@@ -470,10 +470,12 @@ class Outfits:
         for i, a in enumerate(args):
             if res[i] is None:
                 res[i] = _look_job(a)
+        _LOOK_SELF = None        # the global pinned this Outfits and its search pools for the rest of the deploy (I-401)
         for (f, r, s, k, _c, _oi), rows in zip(jobs, res):
             size, mtime = stat_of(Path(f))
             self.meta.data[(k, f)] = (size, mtime, rows)
             self.meta.dirty = True
+        self.meta.save()         # minutes of work: kept even if a later step of the deploy is killed (I-401)
         log(f'    outfit: {len(jobs):,} look-alikes computed ({workers} workers)')
 
     def retail_pool(self, sex: str):
@@ -658,7 +660,8 @@ class Outfits:
                     m_ = skin_m[y:y + h, x:x + w]
                     if not m_.any():
                         continue
-                    cs = (cov * m_[None]).reshape(len(cov), -1).sum(1)
+                    cs = np.concatenate([(cov[c0:c0 + 2048] * m_[None]).reshape(-1, m_.size).sum(1)
+                                         for c0 in range(0, len(cov), 2048)]) if len(cov) else np.zeros(0)
                     c_ += np.where(idx >= 0, cs[np.maximum(idx, 0)], 0.0)
                 skin_cov[slot] = c_ / n_skin
 
@@ -692,11 +695,19 @@ class Outfits:
         anchors: Dict[str, np.ndarray] = {}
         self._last_anchors = {}
         for f, ((x, y, w, h), keys, lab, cov) in stk.items():
-            t = tgt[y:y + h, x:x + w]
-            full = (cov > 0.5) & body[y:y + h, x:x + w][None]
-            npx = full.reshape(len(cov), -1).sum(1)
-            share = npx / max(int(body[y:y + h, x:x + w].sum()), 1)
-            e = (np.linalg.norm(lab - t[None], axis=-1) * full).reshape(len(cov), -1).sum(1) / np.maximum(npx, 1)
+            # in float32 chunks, like the scoring: the whole field at once in float64 was GBs inside a
+            # deploy process and got it OOM-killed (exit 137, 2026-10-17)
+            t = tgt[y:y + h, x:x + w].astype(np.float32)
+            mb_ = body[y:y + h, x:x + w]
+            n_ = len(cov)
+            npx = np.zeros(n_, dtype=np.float64)
+            esum = np.zeros(n_, dtype=np.float64)
+            for c0 in range(0, n_, 2048):
+                full = (cov[c0:c0 + 2048] > 0.5) & mb_[None]
+                npx[c0:c0 + 2048] = full.reshape(len(full), -1).sum(1)
+                esum[c0:c0 + 2048] = (np.linalg.norm(lab[c0:c0 + 2048] - t[None], axis=-1) * full).reshape(len(full), -1).sum(1)
+            share = npx / max(int(mb_.sum()), 1)
+            e = esum / np.maximum(npx, 1)
             e = np.where(share > 0.6, e, np.inf)
             i0 = int(e.argmin())
             if not np.isfinite(e[i0]) or e[i0] > ANCHOR_ABS:
