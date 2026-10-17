@@ -370,18 +370,20 @@ def _load_item_lookups():
                 out[r[0]] = r
             return out
         idi = table('ItemDisplayInfo.dbc', (1, 2, 3, 4, 5, 6))
-        # rows the DBC database has and the built binary does not yet (a wardrobe import before the
-        # next PATCH-Z build): left/right model, left/right texture at the binary's columns 1-4
+        # the DBC database is the live truth and wins over the built binary for EVERY row: the binary
+        # lags until the next PATCH-Z build, and a wardrobe rebuild reuses ids (F-220: 210198 was the
+        # DK raid chest in the binary, the Horde leather chest in the database - the picker drew the
+        # stale dragon tabard, black). Columns as the binary's: 1-2 models, 3-4 textures, 5-6 icons
         try:
             from commands.dbc import ENV_PATH
             from lib.dbc_utils import DBCConfig, DBCConnection
             cfg = DBCConfig.from_env(ENV_PATH)
             with DBCConnection(cfg) as conn:
                 cur = conn.get_connection(cfg.live).cursor()
-                cur.execute('SELECT id, left_model, right_model, left_model_texture, right_model_texture FROM itemdisplayinfo')
-                for rid, lm, rm, lt, rt in cur.fetchall():
-                    if int(rid) not in idi:
-                        idi[int(rid)] = [int(rid), lm or '', rm or '', lt or '', rt or '', '', '']
+                cur.execute('SELECT id, left_model, right_model, left_model_texture, right_model_texture, icon_1, icon_2 '
+                            'FROM itemdisplayinfo')
+                for rid, lm, rm, lt, rt, i1, i2 in cur.fetchall():
+                    idi[int(rid)] = [int(rid), lm or '', rm or '', lt or '', rt or '', i1 or '', i2 or '']
         except Exception:
             pass
         races = {k: v[6] for k, v in table('ChrRaces.dbc', (6,)).items()}
